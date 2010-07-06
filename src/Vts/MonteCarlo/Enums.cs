@@ -1,6 +1,8 @@
 namespace Vts.MonteCarlo
 {
-    // PhotonData enums
+    /// <summary>
+    /// All Monte Carlo enums.
+    /// </summary>
     public enum PhotonStateType : byte
     {
         NotSet,
