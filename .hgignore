@@ -1,0 +1,38 @@
+#Ignore file for Visual Studio Projects
+
+#use glob syntax
+syntax: glob
+
+#Ignore VS 2008 files
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.nlb
+*.clw
+*.pdb
+*.tlb
+*.tlh
+*.bak
+*.Cache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.scc
+*.sig
+[Bb]in
+[Dd]ebug*/
+obj/
+[Rr]elease*/
+[Tt]est[Rr]esult*
+[Bb]uild[Ll]og.*
+*.[Pp]ublish.xml
+_ReSharper*\*

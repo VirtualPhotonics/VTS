@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="2559f2b7-c36d-401f-8eb0-260d58bd9f06" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8731/Design_Time_Addresses/Vts.MonteCarlo.WCF/MonteCarloService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="d0645e2f-4eaf-499b-b257-a9198c85d416" SourceId="1" SourceUrl="http://localhost:8731/Design_Time_Addresses/Vts.MonteCarlo.WCF/MonteCarloService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="61a8b09f-56a8-4517-9447-d61773fa6c86" SourceId="1" SourceUrl="http://localhost:8731/Design_Time_Addresses/Vts.MonteCarlo.WCF/MonteCarloService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="ab7f358c-284c-491c-83e7-32fe4b5ea596" SourceId="1" SourceUrl="http://localhost:8731/Design_Time_Addresses/Vts.MonteCarlo.WCF/MonteCarloService/mex" />
+    <MetadataFile FileName="Vts.MonteCarlo.xsd" MetadataType="Schema" ID="98c41f6e-8727-443a-99d1-a60790008048" SourceId="1" SourceUrl="http://localhost:8731/Design_Time_Addresses/Vts.MonteCarlo.WCF/MonteCarloService/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="0f2c3574-27e7-4fa7-ad49-bcbbe4a080f9" SourceId="1" SourceUrl="http://localhost:8731/Design_Time_Addresses/Vts.MonteCarlo.WCF/MonteCarloService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

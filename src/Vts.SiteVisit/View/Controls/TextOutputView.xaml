@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="Vts.SiteVisit.View.TextOutputView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:Vts.SiteVisit.ViewModel"
+             VerticalAlignment="Top">
+    <!--<UserControl.DataContext>
+        <vm:TextOutputViewModel/>
+    </UserControl.DataContext>-->
+    <!--<Border BorderBrush="Yellow" BorderThickness="10">-->
+        <Grid Background="White">
+            <ScrollViewer VerticalScrollBarVisibility="Visible" Height="100" >
+                <TextBlock Text="{Binding Text}" Height="10000" />
+            </ScrollViewer>
+        </Grid>
+
+    <!--</Border>-->
+</UserControl>

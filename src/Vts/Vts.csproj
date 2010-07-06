@@ -1,0 +1,380 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{92381E9C-57F9-4391-A3C6-A5FAA99E823B}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Vts</RootNamespace>
+    <AssemblyName>Vts</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Debug\Vts.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Release\Vts.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release %28White List Gui Deployment%29|AnyCPU' ">
+    <OutputPath>bin\Release %28White List Gui Deployment%29\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <DocumentationFile>Bin\Release\Vts.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Cuccia.ArrayMath.Silverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Cuccia\Cuccia.ArrayMath.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics.Silverlight, Version=2010.1.26.439, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Math.NET\Math.Net.Numerics.Silverlight\MathNet.Numerics.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="Meta.Numerics.Silverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Meta.Numerics\build\Silverlight\Meta.Numerics.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="MPFitLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\mpfit\build\Silverlight\MPFitLib.dll</HintPath>
+    </Reference>
+    <Reference Include="SLExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SilverlightExtensions\SLExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.CoreEx, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Silverlight\System.CoreEx.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Interactive, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Silverlight\System.Interactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Observable, Version=1.0.0.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Silverlight\System.Observable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Silverlight\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+    <Reference Include="System.Xml.Linq, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\BindableObject.cs" />
+    <Compile Include="Common\BindableObjectWithChangeTracking.cs" />
+    <Compile Include="Common\DependsOnAttribute.cs" />
+    <Compile Include="Common\Direction.cs" />
+    <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\Extension Methods\ArrayExtensions.cs" />
+    <Compile Include="Common\Extension Methods\DataExtensions.cs" />
+    <Compile Include="Common\Extension Methods\EnumerableExtensions.cs" />
+    <Compile Include="Common\Extension Methods\EnumExtensions.cs" />
+    <Compile Include="Common\Extension Methods\IEnumerableArrayExtensions.cs" />
+    <Compile Include="Common\GlobalConstants.cs" />
+    <Compile Include="Common\Helpers\EnumHelper.cs" />
+    <Compile Include="Common\Helpers\FuncOfT.cs" />
+    <Compile Include="Common\Helpers\Range\DoubleRange.cs" />
+    <Compile Include="Common\Helpers\Range\FloatRange.cs" />
+    <Compile Include="Common\Helpers\Range\IntRange.cs" />
+    <Compile Include="Common\Helpers\Range\LongRange.cs" />
+    <Compile Include="Common\Helpers\Range\RangeOfT.cs" />
+    <Compile Include="Common\Helpers\Range\UintRange.cs" />
+    <Compile Include="Common\Helpers\Tuple.cs" />
+    <Compile Include="Common\Interfaces\IChangeTracking.cs" />
+    <Compile Include="Common\Interfaces\IForwardSolver.cs" />
+    <Compile Include="Common\Interfaces\INotifyPropertyChangedPlus.cs" />
+    <Compile Include="Common\Interfaces\IOldForwardSolver.cs" />
+    <Compile Include="Common\Interfaces\IOptimizer.cs" />
+    <Compile Include="Common\Math\Convolution2D.cs" />
+    <Compile Include="Common\Math\Integration.cs" />
+    <Compile Include="Common\Math\Interpolation.cs" />
+    <Compile Include="Common\Math\Statistics.cs" />
+    <Compile Include="Common\OpticalProperties.cs" />
+    <Compile Include="Common\Position.cs" />
+    <Compile Include="Common\PropertyDependencyManager.cs" />
+    <Compile Include="Common\Resources\Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Factories\ComputationFactory.cs" />
+    <Compile Include="Factories\Extensions\EnumExtensions.cs" />
+    <Compile Include="Factories\SolverFactory.cs" />
+    <Compile Include="IO\ArrayCustomBinaryReader.cs" />
+    <Compile Include="IO\ArrayCustomBinaryWriter.cs" />
+    <Compile Include="IO\CustomBinaryStreamWriterOfT.cs" />
+    <Compile Include="IO\FileIO.cs" />
+    <Compile Include="IO\ICustomBinaryReaderOfT.cs" />
+    <Compile Include="IO\ICustomBinaryWriterOfT.cs" />
+    <Compile Include="IO\MetaData.cs" />
+    <Compile Include="IO\StreamFinder.cs" />
+    <Compile Include="Modeling\Analyzers\NumericalDerivativeExtensions.cs" />
+    <Compile Include="Modeling\ForwardSolvers\BSplinesCoefficients.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DeltaPOneForwardSolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\ForwardSolvers\DiffusionForwardSolverBase.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DiffusionGreensFunctions.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DiffusionParameters.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DistributedGaussianSourceDiffusionForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DistributedPointSourceDiffusionForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\ForwardSolverBase.cs" />
+    <Compile Include="Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs" />
+    <Compile Include="Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MonteCarloLoader.cs" />
+    <Compile Include="Modeling\ForwardSolvers\NurbsForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\NurbsGenerator.cs" />
+    <Compile Include="Modeling\ForwardSolvers\NurbsValues.cs" />
+    <Compile Include="Modeling\ForwardSolvers\PhotonHittingDensity.cs" />
+    <Compile Include="Modeling\ForwardSolvers\pMCForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\pMCLoader.cs" />
+    <Compile Include="Modeling\ForwardSolvers\PointSourceDiffusionForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs" />
+    <Compile Include="Modeling\Input\Commands.cs" />
+    <Compile Include="Modeling\Optimizers\MPFitLevenbergMarquardtOptimizer.cs" />
+    <Compile Include="Modeling\ProblemDefinition\Enums.cs" />
+    <Compile Include="Modeling\ProblemDefinition\IBoundaryCondition.cs" />
+    <Compile Include="Modeling\ProblemDefinition\IMeasurement.cs" />
+    <Compile Include="Modeling\ProblemDefinition\ISource.cs" />
+    <Compile Include="Modeling\Spectroscopy\ChromophoreAbsorber.cs" />
+    <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrum.cs" />
+    <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumUnitConverter.cs" />
+    <Compile Include="Modeling\Spectroscopy\Enums.cs" />
+    <Compile Include="Modeling\Spectroscopy\IAbsorber.cs" />
+    <Compile Include="Modeling\Spectroscopy\IChromophoreAbsorber.cs" />
+    <Compile Include="Modeling\Spectroscopy\IntralipidScatterer.cs" />
+    <Compile Include="Modeling\Spectroscopy\IScatterer.cs" />
+    <Compile Include="Modeling\Spectroscopy\ISpectrum.cs" />
+    <Compile Include="Modeling\Spectroscopy\MieScatterer.cs" />
+    <Compile Include="Modeling\Spectroscopy\PowerLawScatterer.cs" />
+    <Compile Include="Modeling\Spectroscopy\SpectralDatabase.cs" />
+    <Compile Include="Modeling\Spectroscopy\SpectralDatabaseLoader.cs" />
+    <Compile Include="Modeling\Spectroscopy\Tissue.cs" />
+    <Compile Include="Modeling\Tools\CalculatorToolbox.cs" />
+    <Compile Include="Modeling\Tools\HankelTransform.cs" />
+    <Compile Include="MonteCarlo\Banana.cs" />
+    <Compile Include="MonteCarlo\bvolume.cs" />
+    <Compile Include="MonteCarlo\DataStructures\Output.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SimulationInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensions.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SimulationOptions.cs" />
+    <Compile Include="MonteCarlo\Detectors\Detector.cs" />
+    <Compile Include="MonteCarlo\Detectors\DetectorBinning.cs" />
+    <Compile Include="MonteCarlo\Detectors\DetectorInput.cs" />
+    <Compile Include="MonteCarlo\Detectors\pMCDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\pMCDetectorInput.cs" />
+    <Compile Include="MonteCarlo\Enums.cs" />
+    <Compile Include="MonteCarlo\Factories\DetectorFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\RandomNumberGeneratorFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\ScatterLengthFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\SourceFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\TallyActionFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\TissueFactory.cs" />
+    <Compile Include="MonteCarlo\Helpers\Optics.cs" />
+    <Compile Include="MonteCarlo\PhotonHistory.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IDetector.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IDetectorInput.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ISimulationOptions.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ISource.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ISourceInput.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ITally.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ITallyOfT.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ITissue.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ITissueInput.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ITissueRegion.cs" />
+    <Compile Include="MonteCarlo\mc_allvox.cs" />
+    <Compile Include="MonteCarlo\MonteCarloSimulation.cs" />
+    <Compile Include="MonteCarlo\Photon.cs" />
+    <Compile Include="MonteCarlo\PhotonData\PhotonDataPoint.cs" />
+    <Compile Include="MonteCarlo\PhotonData\PhotonTerminationDatabase.cs" />
+    <Compile Include="MonteCarlo\PhotonData\PhotonTerminationDatabaseWriter.cs" />
+    <Compile Include="MonteCarlo\PhotonData\PhotonTerminationDataPointCustomBinarySerializer.cs" />
+    <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfo.cs" />
+    <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfoCustomBinarySerializer.cs" />
+    <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
+    <Compile Include="MonteCarlo\RNG\RNGExtensions.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSource.cs" />
+    <Compile Include="MonteCarlo\Sources\PlanarSource.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSource.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSourceInput.cs" />
+    <Compile Include="MonteCarlo\Sources\SourceInputProvider.cs" />
+    <Compile Include="MonteCarlo\Sources\SourceToolbox.cs" />
+    <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\pMuaMusInROfRhoAndTimeTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\pMuaMusInROfRhoTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\RDiffuseTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\ROfAngleTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\ROfRhoAndAngleTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\ROfRhoAndOmegaTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\ROfRhoAndTimeTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\ROfRhoTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\ROfXAndYTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\TallyExtensionMethods.cs" />
+    <Compile Include="MonteCarlo\TallyActions\TDiffuseTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\TOfAngleTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\TOfRhoAndAngleTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\TOfRhoTally.cs" />
+    <Compile Include="MonteCarlo\Tissues\CylinderRegion.cs" />
+    <Compile Include="MonteCarlo\Tissues\EllipsoidRegion.cs" />
+    <Compile Include="MonteCarlo\Tissues\LayerRegion.cs" />
+    <Compile Include="MonteCarlo\Tissues\MultiLayerTissue.cs" />
+    <Compile Include="MonteCarlo\Tissues\MultiLayerTissueInput.cs" />
+    <Compile Include="MonteCarlo\Tissues\MultiLayerTissueProvider.cs" />
+    <Compile Include="MonteCarlo\Tissues\SingleEllipsoidTissue.cs" />
+    <Compile Include="MonteCarlo\Tissues\VoxelRegion.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Common\Resources\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\HankelData\basepoints.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\HankelData\hankelweights.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\controlPointsEXAMPLE" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\controlPointsEXAMPLE.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\templateNurbsValues.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\testControlPoints" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\testControlPoints.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\testSpaceNurbsValues.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\testTimeNurbsValues.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\timeValuesEXAMPLE.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\timeValues1EXAMPLE.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Spectroscopy\Resources\SpectraData1.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\A_rz" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\A_rz.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt_layer" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt_layer.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\Flu_rz" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\Flu_rz.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\output.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_ra" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_ra.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt2" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt2.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rw" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rw.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_xy" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_xy.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\T_ra" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\T_ra.xml" />
+    <Resource Include="Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml" />
+    <Content Include="Modeling\Spectroscopy\ChromophoreList.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\controlPoints" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\degrees" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\dims" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\maxValues" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceKnots" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeKnots" />
+    <None Include="Modeling\Spectroscopy\Fat.csv" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT EXIST "$(SolutionDir)..\build\core\Silverlight\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\core\Silverlight\$(ConfigurationName)"
+copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\core\Silverlight\$(ConfigurationName)" /y</PostBuildEvent>
+  </PropertyGroup>
+</Project>

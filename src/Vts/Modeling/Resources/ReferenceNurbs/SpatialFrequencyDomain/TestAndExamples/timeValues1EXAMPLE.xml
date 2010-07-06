@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NurbsValues>
+  <MinValue xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+    <a:double>0</a:double>
+  </MinValue>
+  <MaxValue xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+    <a:double>10</a:double>
+  </MaxValue>
+  <Degree xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+    <a:int>3</a:int>
+  </Degree>
+</NurbsValues>

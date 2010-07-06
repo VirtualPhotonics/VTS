@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="FJExample.Page"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" >
+    <Grid x:Name="LayoutRoot" Background="White">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <Button Click="Button_Click" Grid.ColumnSpan="2" Content="Open..."/>
+
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="#bbbbbb" Text="Input"/>
+        <TextBlock x:Name="OutputText" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Foreground="#bbbbbb" Grid.Column="1" Text="Output"/>
+        
+        <Image HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Stretch="Uniform" Grid.Row="1" Grid.Column="0" x:Name="InputImage"/>
+        
+        <Image HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Stretch="None" Grid.Row="1" Grid.Column="2" x:Name="OutputImage"/>
+
+    </Grid>
+</UserControl>

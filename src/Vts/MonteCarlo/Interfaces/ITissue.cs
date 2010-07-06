@@ -1,0 +1,18 @@
+using System.Collections.Generic;
+using Vts.Common;
+
+namespace Vts.MonteCarlo
+{
+    /// <summary>
+    /// Defines a contract for Tissue classes in Monte Carlo simulation.
+    /// </summary>
+    public interface ITissue
+    {
+        IList<ITissueRegion> Regions { get; }
+        int GetRegionIndex(Position position);
+        double GetDistanceToBoundary(Photon photon);  
+        double GetAngleRelativeToBoundaryNormal(Photon photon);
+        int GetNeighborRegionIndex(Photon photon);  
+        bool OnDomainBoundary(Photon photon);  // no boundaries, possibly Tissue kills photons per situation
+    }
+}

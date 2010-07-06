@@ -1,0 +1,178 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{318D3187-1082-49E7-9EDC-2881365501F8}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Meta.Numerics</RootNamespace>
+    <AssemblyName>Meta.Numerics.Silverlight</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT,SHO</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT,SHO</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Release\Meta.Numerics.Silverlight.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Core\Core\Complex.cs">
+      <Link>Core\Complex.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Core\Exceptions.cs">
+      <Link>Core\Exceptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Core\Functions.cs">
+      <Link>Core\Functions.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Core\Global.cs">
+      <Link>Core\Global.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Core\Interval.cs">
+      <Link>Core\Interval.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\AdvancedIntegerMath.cs">
+      <Link>Functions\AdvancedIntegerMath.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\AdvancedMath.cs">
+      <Link>Functions\AdvancedMath.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\AdvancedMath_Bessel.cs">
+      <Link>Functions\AdvancedMath_Bessel.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\AdvancedMath_Error.cs">
+      <Link>Functions\AdvancedMath_Error.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\AdvancedMath_Exponential.cs">
+      <Link>Functions\AdvancedMath_Exponential.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\AdvancedMath_Gamma.cs">
+      <Link>Functions\AdvancedMath_Gamma.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\AdvancedMath_Harmonic.cs">
+      <Link>Functions\AdvancedMath_Harmonic.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\AdvancedMath_Lambert.cs">
+      <Link>Functions\AdvancedMath_Lambert.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\AdvancedMath_ModifiedBessel.cs">
+      <Link>Functions\AdvancedMath_ModifiedBessel.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\AdvancedMath_Riemann.cs">
+      <Link>Functions\AdvancedMath_Riemann.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\FunctionMath.cs">
+      <Link>Functions\FunctionMath.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\FunctionMath_Extrema.cs">
+      <Link>Functions\FunctionMath_Extrema.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\FunctionMath_Integrate.cs">
+      <Link>Functions\FunctionMath_Integrate.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\FunctionMath_Roots.cs">
+      <Link>Functions\FunctionMath_Roots.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\OrthogonalPolynomials.cs">
+      <Link>Functions\OrthogonalPolynomials.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Functions\Spin.cs">
+      <Link>Functions\Spin.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Matrices\ComplexVector.cs">
+      <Link>Matrices\ComplexVector.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Matrices\Interfaces.cs">
+      <Link>Matrices\Interfaces.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Matrices\Matrix.cs">
+      <Link>Matrices\Matrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Matrices\MatrixBase.cs">
+      <Link>Matrices\MatrixBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Matrices\SquareMatrix.cs">
+      <Link>Matrices\SquareMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Matrices\SymmetricMatrix.cs">
+      <Link>Matrices\SymmetricMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Matrices\TridiagonalMatrix.cs">
+      <Link>Matrices\TridiagonalMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Matrices\Vectors.cs">
+      <Link>Matrices\Vectors.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Statistics\ContingencyTable.cs">
+      <Link>Statistics\ContingencyTable.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Statistics\DataSet.cs">
+      <Link>Statistics\DataSet.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Statistics\Distributions.cs">
+      <Link>Statistics\Distributions.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Statistics\FitResult.cs">
+      <Link>Statistics\FitResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Statistics\MultivariateSample.cs">
+      <Link>Statistics\MultivariateSample.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Statistics\Sample.cs">
+      <Link>Statistics\Sample.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Statistics\TestResult.cs">
+      <Link>Statistics\TestResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\Statistics\UncertainValue.cs">
+      <Link>Statistics\UncertainValue.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT EXIST "$(SolutionDir)..\build\Silverlight\" (mkdir "$(SolutionDir)..\build\Silverlight\")
+copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\Silverlight\"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

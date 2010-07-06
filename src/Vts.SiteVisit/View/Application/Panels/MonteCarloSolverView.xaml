@@ -1,0 +1,57 @@
+﻿<UserControl 
+    x:Class="Vts.SiteVisit.View.MonteCarloSolverView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:v="clr-namespace:Vts.SiteVisit.View"
+    xmlns:vm="clr-namespace:Vts.SiteVisit.ViewModel"
+    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
+
+    <!--<UserControl.DataContext>
+        <vm:MonteCarloSolverViewModel/>
+    </UserControl.DataContext>-->
+
+    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+
+        <TextBlock Text="EXECUTE A SIMULATION:" FontSize="16" />
+
+        <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}"/>
+
+        <TextBlock Text="Todo: added other user inputs and choice of output plot"/>
+        <StackPanel Orientation="Horizontal">
+            
+            <!--<v:OptionControlView DataContext="{Binding ForwardAnalysisTypeViewModel}" HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
+            <Button VerticalAlignment="Bottom"
+                input:CommandService.Command="MC_ExecuteMonteCarloSolver"
+                input:CommandService.CommandParameter="{Binding}"
+                Background="{Binding StackPanel.Background}" Content="Run Monte Carlo"  
+                Width="100" Height="30" />
+        </StackPanel>
+
+        <TextBlock Text="PLOT SAVED RESULTS:" FontSize="16" />
+        <TextBlock Text="Todo: choice of file"/>
+
+        <v:SolutionDomainOptionView DataContext="{Binding SolutionDomainTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <!--<v:RangeControlView DataContext="{Binding RangeControlViewModel}"/>-->
+        <!--<v:OptionControlView DataContext="{Binding OptionControlTypeViewModel}"/>-->
+        <StackPanel>
+            <StackPanel>
+                <Button VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                    input:CommandService.Command="MC_PlotDataInResources"
+                    input:CommandService.CommandParameter="{Binding}"
+                    Background="{Binding StackPanel.Background}" Content="Plot Saved Data"  
+                    Width="100" Height="30" />
+                <v:RadioButtonOptionView 
+                    DataContext="{Binding ValidationTypeViewModel}" 
+                    VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Left"/>
+            </StackPanel>
+
+            <Button VerticalAlignment="Bottom" HorizontalAlignment="Left"
+            input:CommandService.Command="MC_PlotScaledMC"
+            input:CommandService.CommandParameter="{Binding}"
+            Background="{Binding StackPanel.Background}" Content="Plot Scaled MC"  
+            Width="100" Height="30" />
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>

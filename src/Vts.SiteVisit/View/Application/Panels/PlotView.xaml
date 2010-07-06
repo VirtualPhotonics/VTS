@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="Vts.SiteVisit.View.PlotView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:v="clr-namespace:Vts.SiteVisit.View;assembly=Vts.SiteVisit"
+    xmlns:vm="clr-namespace:Vts.SiteVisit.ViewModel;assembly=Vts.SiteVisit"
+    xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" 
+    xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+    HorizontalAlignment="Left" VerticalAlignment="Top">
+
+    <StackPanel>
+        <charting:Chart x:Name="myChart" Width="550"  Height="400" Background="White"
+                vm:ChartHelper.DependentValueBinding="Y"
+                vm:ChartHelper.IndependentValueBinding="X"
+                vm:ChartHelper.Title="TitlePropertyOnCollection"
+                vm:ChartHelper.SeriesType="Line"
+                vm:ChartHelper.SeriesSource="{Binding Path=PlotSeriesCollection}"
+                vm:ChartHelper.DataPointSeriesStyle="{StaticResource MyLineDataPointStyle}"
+                vm:ChartHelper.SeriesStyle="{StaticResource MyLineSeriesStyle}">
+            <charting:Chart.Axes>
+                <charting:LinearAxis Orientation="X" ShowGridLines="False" AxisLabelStyle="{StaticResource MyAxisLabelStyle}" Visibility="{Binding ShowAxes, Converter={StaticResource myBooleanToVisibilityConverter}}" />
+                <charting:LinearAxis Orientation="Y" ShowGridLines="False" AxisLabelStyle="{StaticResource MyScientificAxisLabelStyle}" Visibility="{Binding ShowAxes, Converter={StaticResource myBooleanToVisibilityConverter}}" />
+            </charting:Chart.Axes>
+        </charting:Chart>
+
+        <StackPanel Orientation="Horizontal" Background="White">
+            
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="2,0,10,0">
+                <CheckBox Content="Hold On" IsChecked="{Binding HoldOn, Mode=TwoWay}" Margin="0,5,0,0"/>
+                <Button 
+                        input:CommandService.Command="Plot_ClearPlot"
+                        input:CommandService.CommandParameter="{Binding}"
+                        Content="Clear All"  
+                        Width="80" Height="20" Margin="0,5,0,0"/>
+                <Button 
+                        input:CommandService.Command="Plot_ClearPlotSingle"
+                        input:CommandService.CommandParameter="{Binding}"
+                        Content="Clear Newest"  
+                        Width="80" Height="20" Margin="0,5,0,0"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" Margin="2,0,10,0">
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <TextBlock Text="X Axis Spacing: " VerticalAlignment="Center"/>
+                    <v:RadioButtonOptionView DataContext="{Binding XAxisSpacingOptionVM}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <TextBlock Text="Y Axis Spacing: " VerticalAlignment="Center"/>
+                    <v:RadioButtonOptionView DataContext="{Binding YAxisSpacingOptionVM}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <TextBlock Text="Normalization:" VerticalAlignment="Center" Margin="0,2"/>
+                    <v:RadioButtonOptionView DataContext="{Binding PlotNormalizationTypeOptionVM}" />
+                </StackPanel>
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" Margin="2,0,10,0">
+                
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Plot Label:" VerticalAlignment="Center"/>
+                    <TextBox Width="100" Text="{Binding CustomPlotLabel, Mode=TwoWay}"/>
+                </StackPanel>
+                
+                <Button Content="Export As Image" 
+                        Click="Button_Click"
+                        Margin="0,5,0,0"/>
+                
+                <Button 
+                        input:CommandService.Command="Plot_ExportDataToText"
+                        input:CommandService.CommandParameter="{Binding}"
+                        Content="Export Data"  
+                        Margin="0,5,0,0"/>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{92CBFC34-C2C8-4DA5-B1A1-0701AE69F252}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>PropertiesWin</AppDesignerFolder>
+    <RootNamespace>FluxJpeg.Core</RootNamespace>
+    <AssemblyName>FJ.CoreWin</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>WIN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release %28dMSIL%29|AnyCPU' ">
+    <OutputPath>bin\Release %28dMSIL%29\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <DefineConstants>DYNAMIC_IDCT,WIN</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DCT.cs" />
+    <Compile Include="DecodedJpeg.cs" />
+    <Compile Include="Decoder\HuffmanTable.cs" />
+    <Compile Include="Decoder\JpegComponent.cs" />
+    <Compile Include="Decoder\JpegDecoder.cs" />
+    <Compile Include="Decoder\JpegFrame.cs" />
+    <Compile Include="Decoder\JpegHuffmanTable.cs" />
+    <Compile Include="Decoder\JpegQuantizationTable.cs" />
+    <Compile Include="Decoder\JpegScan.cs" />
+    <Compile Include="Encoder\JpegEncoder.cs" />
+    <Compile Include="FDCT.cs" />
+    <Compile Include="Filter\Convolution.cs" />
+    <Compile Include="Filter\FilterLowpassResize.cs" />
+    <Compile Include="Filter\FilterNNResize.cs" />
+    <Compile Include="Filter\FilterBase.cs" />
+    <Compile Include="Filter\GrayImage.cs" />
+    <Compile Include="Image.cs" />
+    <Compile Include="IO\BinaryReader.cs" />
+    <Compile Include="IO\BinaryWriter.cs" />
+    <Compile Include="IO\JpegBinaryReader.cs" />
+    <Compile Include="JpegMarker.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resize\ImageResizer.cs" />
+    <Compile Include="YCbCr.cs" />
+    <Compile Include="ZigZag.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="IJG.txt" />
+    <Content Include="JAI.txt" />
+    <Content Include="License.txt" />
+    <Content Include="README.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

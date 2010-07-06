@@ -1,0 +1,771 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{05B6020A-B646-4BBB-B9A0-B524F5F85023}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Vts</RootNamespace>
+    <AssemblyName>Vts</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Vts.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\Vts.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release %28White List Gui Deployment%29|AnyCPU' ">
+    <OutputPath>bin\Release %28White List Gui Deployment%29\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\Vts.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Cuccia.ArrayMath, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Cuccia\Cuccia.ArrayMath.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=2010.1.26.439, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Math.NET\Math.Net.Numerics\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="Meta.Numerics, Version=1.3.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Meta.Numerics\build\Desktop\Meta.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="MPFitLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\mpfit\build\Desktop\MPFitLib.dll</HintPath>
+    </Reference>
+    <Reference Include="SLExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SilverlightExtensions\SLExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.CoreEx, Version=1.0.2521.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.CoreEx.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Interactive, Version=1.0.2521.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.Interactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Observable, Version=1.0.0.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.Observable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive, Version=1.0.2521.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Threading, Version=1.0.2521.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Vts\Common\BindableObject.cs">
+      <Link>Common\BindableObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\BindableObjectWithChangeTracking.cs">
+      <Link>Common\BindableObjectWithChangeTracking.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\DependsOnAttribute.cs">
+      <Link>Common\DependsOnAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Direction.cs">
+      <Link>Common\Direction.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Enums.cs">
+      <Link>Common\Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Extension Methods\ArrayExtensions.cs">
+      <Link>Common\Extension Methods\ArrayExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Extension Methods\DataExtensions.cs">
+      <Link>Common\Extension Methods\DataExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Extension Methods\EnumerableExtensions.cs">
+      <Link>Common\Extension Methods\EnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Extension Methods\EnumExtensions.cs">
+      <Link>Common\Extension Methods\EnumExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Extension Methods\IEnumerableArrayExtensions.cs">
+      <Link>Common\Extension Methods\IEnumerableArrayExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Extension Methods\OpticalPropertiesExtensions.cs">
+      <Link>Common\Extension Methods\OpticalPropertiesExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\GlobalConstants.cs">
+      <Link>Common\GlobalConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Helpers\EnumHelper.cs">
+      <Link>Common\Helpers\EnumHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Helpers\FuncOfT.cs">
+      <Link>Common\Helpers\FuncOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Helpers\Range\DoubleRange.cs">
+      <Link>Common\Helpers\Range\DoubleRange.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Helpers\Range\FloatRange.cs">
+      <Link>Common\Helpers\Range\FloatRange.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Helpers\Range\IntRange.cs">
+      <Link>Common\Helpers\Range\IntRange.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Helpers\Range\LongRange.cs">
+      <Link>Common\Helpers\Range\LongRange.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Helpers\Range\RangeOfT.cs">
+      <Link>Common\Helpers\Range\RangeOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Helpers\Range\UintRange.cs">
+      <Link>Common\Helpers\Range\UintRange.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Helpers\Tuple.cs">
+      <Link>Common\Helpers\Tuple.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Interfaces\IChangeTracking.cs">
+      <Link>Common\Interfaces\IChangeTracking.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Interfaces\IForwardSolver.cs">
+      <Link>Common\Interfaces\IForwardSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Interfaces\INotifyPropertyChangedPlus.cs">
+      <Link>Common\Interfaces\INotifyPropertyChangedPlus.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Interfaces\IOldForwardSolver.cs">
+      <Link>Common\Interfaces\IOldForwardSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Interfaces\IOldOptimizer.cs">
+      <Link>Common\Interfaces\IOldOptimizer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Interfaces\IOptimizer.cs">
+      <Link>Common\Interfaces\IOptimizer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Math\Convolution2D.cs">
+      <Link>Common\Math\Convolution2D.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Math\Integration.cs">
+      <Link>Common\Math\Integration.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Math\Interpolation.cs">
+      <Link>Common\Math\Interpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Math\Statistics.cs">
+      <Link>Common\Math\Statistics.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\OpticalProperties.cs">
+      <Link>Common\OpticalProperties.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Position.cs">
+      <Link>Common\Position.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\PropertyDependencyManager.cs">
+      <Link>Common\PropertyDependencyManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Resources\Strings.Designer.cs">
+      <Link>Common\Resources\Strings.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Factories\ComputationFactory.cs">
+      <Link>Factories\ComputationFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Factories\Extensions\EnumExtensions.cs">
+      <Link>Factories\Extensions\EnumExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Factories\SolverFactory.cs">
+      <Link>Factories\SolverFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\IO\ArrayCustomBinaryReader.cs">
+      <Link>IO\ArrayCustomBinaryReader.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\IO\ArrayCustomBinaryWriter.cs">
+      <Link>IO\ArrayCustomBinaryWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\IO\CustomBinaryStreamWriterOfT.cs">
+      <Link>IO\CustomBinaryStreamWriterOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\IO\FileIO.cs">
+      <Link>IO\FileIO.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\IO\ICustomBinaryReaderOfT.cs">
+      <Link>IO\ICustomBinaryReaderOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\IO\ICustomBinaryWriterOfT.cs">
+      <Link>IO\ICustomBinaryWriterOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\IO\MetaData.cs">
+      <Link>IO\MetaData.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\IO\StreamFinder.cs">
+      <Link>IO\StreamFinder.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Analyzers\NumericalDerivativeExtensions.cs">
+      <Link>Modeling\Analyzers\NumericalDerivativeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\BSplinesCoefficients.cs">
+      <Link>Modeling\ForwardSolvers\BSplinesCoefficients.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DeltaPOneForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\DeltaPOneForwardSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DiffusionForwardSolverBase.cs">
+      <Link>Modeling\ForwardSolvers\DiffusionForwardSolverBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DiffusionGreensFunctions.cs">
+      <Link>Modeling\ForwardSolvers\DiffusionGreensFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DiffusionParameters.cs">
+      <Link>Modeling\ForwardSolvers\DiffusionParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DistributedGaussianSourceDiffusionForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\DistributedGaussianSourceDiffusionForwardSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DistributedPointSourceDiffusionForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\DistributedPointSourceDiffusionForwardSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\ForwardSolverBase.cs">
+      <Link>Modeling\ForwardSolvers\ForwardSolverBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs">
+      <Link>Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs">
+      <Link>Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MonteCarloForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\MonteCarloForwardSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MonteCarloLoader.cs">
+      <Link>Modeling\ForwardSolvers\MonteCarloLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\NurbsForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\NurbsForwardSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\NurbsGenerator.cs">
+      <Link>Modeling\ForwardSolvers\NurbsGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\NurbsValues.cs">
+      <Link>Modeling\ForwardSolvers\NurbsValues.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\PhotonHittingDensity.cs">
+      <Link>Modeling\ForwardSolvers\PhotonHittingDensity.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\pMCForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\pMCForwardSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\pMCLoader.cs">
+      <Link>Modeling\ForwardSolvers\pMCLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\PointSourceDiffusionForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\PointSourceDiffusionForwardSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs">
+      <Link>Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Input\Commands.cs">
+      <Link>Modeling\Input\Commands.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Optimizers\MPFitLevenbergMarquardtOptimizer.cs">
+      <Link>Modeling\Optimizers\MPFitLevenbergMarquardtOptimizer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ProblemDefinition\Enums.cs">
+      <Link>Modeling\ProblemDefinition\Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ProblemDefinition\IBoundaryCondition.cs">
+      <Link>Modeling\ProblemDefinition\IBoundaryCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ProblemDefinition\IDiffusionProblemDefinition.cs">
+      <Link>Modeling\ProblemDefinition\IDiffusionProblemDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ProblemDefinition\IMeasurement.cs">
+      <Link>Modeling\ProblemDefinition\IMeasurement.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ProblemDefinition\ISource.cs">
+      <Link>Modeling\ProblemDefinition\ISource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\ChromophoreAbsorber.cs">
+      <Link>Modeling\Spectroscopy\ChromophoreAbsorber.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\ChromophoreSpectrum.cs">
+      <Link>Modeling\Spectroscopy\ChromophoreSpectrum.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\ChromophoreSpectrumUnitConverter.cs">
+      <Link>Modeling\Spectroscopy\ChromophoreSpectrumUnitConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\Enums.cs">
+      <Link>Modeling\Spectroscopy\Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\IAbsorber.cs">
+      <Link>Modeling\Spectroscopy\IAbsorber.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\IChromophoreAbsorber.cs">
+      <Link>Modeling\Spectroscopy\IChromophoreAbsorber.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\IntralipidScatterer.cs">
+      <Link>Modeling\Spectroscopy\IntralipidScatterer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\IScatterer.cs">
+      <Link>Modeling\Spectroscopy\IScatterer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\ISpectrum.cs">
+      <Link>Modeling\Spectroscopy\ISpectrum.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\MieScatterer.cs">
+      <Link>Modeling\Spectroscopy\MieScatterer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\PowerLawScatterer.cs">
+      <Link>Modeling\Spectroscopy\PowerLawScatterer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\SpectralDatabase.cs">
+      <Link>Modeling\Spectroscopy\SpectralDatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\SpectralDatabaseLoader.cs">
+      <Link>Modeling\Spectroscopy\SpectralDatabaseLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\Tissue.cs">
+      <Link>Modeling\Spectroscopy\Tissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Tools\CalculatorToolbox.cs">
+      <Link>Modeling\Tools\CalculatorToolbox.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\Tools\HankelTransform.cs">
+      <Link>Modeling\Tools\HankelTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Banana.cs">
+      <Link>MonteCarlo\Banana.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\bvolume.cs">
+      <Link>MonteCarlo\bvolume.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\Output.cs">
+      <Link>MonteCarlo\DataStructures\Output.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInput.cs">
+      <Link>MonteCarlo\DataStructures\SimulationInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInputExtensions.cs">
+      <Link>MonteCarlo\DataStructures\SimulationInputExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInputProvider.cs">
+      <Link>MonteCarlo\DataStructures\SimulationInputProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs">
+      <Link>MonteCarlo\DataStructures\SimulationOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\Detector.cs">
+      <Link>MonteCarlo\Detectors\Detector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\DetectorBinning.cs">
+      <Link>MonteCarlo\Detectors\DetectorBinning.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\DetectorInput.cs">
+      <Link>MonteCarlo\Detectors\DetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCDetector.cs">
+      <Link>MonteCarlo\Detectors\pMCDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCDetectorInput.cs">
+      <Link>MonteCarlo\Detectors\pMCDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Enums.cs">
+      <Link>MonteCarlo\Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\DetectorFactory.cs">
+      <Link>MonteCarlo\Factories\DetectorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\RandomNumberGeneratorFactory.cs">
+      <Link>MonteCarlo\Factories\RandomNumberGeneratorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\ScatterLengthFactory.cs">
+      <Link>MonteCarlo\Factories\ScatterLengthFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\SourceFactory.cs">
+      <Link>MonteCarlo\Factories\SourceFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\TallyActionFactory.cs">
+      <Link>MonteCarlo\Factories\TallyActionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\TissueFactory.cs">
+      <Link>MonteCarlo\Factories\TissueFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\Optics.cs">
+      <Link>MonteCarlo\Helpers\Optics.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetector.cs">
+      <Link>MonteCarlo\Interfaces\IDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetectorInput.cs">
+      <Link>MonteCarlo\Interfaces\IDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISimulationOptions.cs">
+      <Link>MonteCarlo\Interfaces\ISimulationOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISource.cs">
+      <Link>MonteCarlo\Interfaces\ISource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISourceInput.cs">
+      <Link>MonteCarlo\Interfaces\ISourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITally.cs">
+      <Link>MonteCarlo\Interfaces\ITally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITallyOfT.cs">
+      <Link>MonteCarlo\Interfaces\ITallyOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissue.cs">
+      <Link>MonteCarlo\Interfaces\ITissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissueInput.cs">
+      <Link>MonteCarlo\Interfaces\ITissueInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissueRegion.cs">
+      <Link>MonteCarlo\Interfaces\ITissueRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\mc_allvox.cs">
+      <Link>MonteCarlo\mc_allvox.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\MonteCarloSimulation.cs">
+      <Link>MonteCarlo\MonteCarloSimulation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Photon.cs">
+      <Link>MonteCarlo\Photon.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDataPoint.cs">
+      <Link>MonteCarlo\PhotonData\PhotonDataPoint.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonTerminationDatabase.cs">
+      <Link>MonteCarlo\PhotonData\PhotonTerminationDatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonTerminationDatabaseWriter.cs">
+      <Link>MonteCarlo\PhotonData\PhotonTerminationDatabaseWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonTerminationDataPointCustomBinarySerializer.cs">
+      <Link>MonteCarlo\PhotonData\PhotonTerminationDataPointCustomBinarySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\SubRegionCollisionInfo.cs">
+      <Link>MonteCarlo\PhotonData\SubRegionCollisionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\SubRegionCollisionInfoCustomBinarySerializer.cs">
+      <Link>MonteCarlo\PhotonData\SubRegionCollisionInfoCustomBinarySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonHistory.cs">
+      <Link>MonteCarlo\PhotonHistory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs">
+      <Link>MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\RNG\RNGExtensions.cs">
+      <Link>MonteCarlo\RNG\RNGExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSource.cs">
+      <Link>MonteCarlo\Sources\LineSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PlanarSource.cs">
+      <Link>MonteCarlo\Sources\PlanarSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointSource.cs">
+      <Link>MonteCarlo\Sources\PointSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointSourceInput.cs">
+      <Link>MonteCarlo\Sources\PointSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SourceInputProvider.cs">
+      <Link>MonteCarlo\Sources\SourceInputProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SourceToolbox.cs">
+      <Link>MonteCarlo\Sources\SourceToolbox.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs">
+      <Link>MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\pMuaMusInROfRhoAndTimeTally.cs">
+      <Link>MonteCarlo\TallyActions\pMuaMusInROfRhoAndTimeTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\pMuaMusInROfRhoTally.cs">
+      <Link>MonteCarlo\TallyActions\pMuaMusInROfRhoTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\RDiffuseTally.cs">
+      <Link>MonteCarlo\TallyActions\RDiffuseTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfAngleTally.cs">
+      <Link>MonteCarlo\TallyActions\ROfAngleTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfRhoAndAngleTally.cs">
+      <Link>MonteCarlo\TallyActions\ROfRhoAndAngleTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfRhoAndOmegaTally.cs">
+      <Link>MonteCarlo\TallyActions\ROfRhoAndOmegaTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfRhoAndTimeTally.cs">
+      <Link>MonteCarlo\TallyActions\ROfRhoAndTimeTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfRhoTally.cs">
+      <Link>MonteCarlo\TallyActions\ROfRhoTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfXAndYTally.cs">
+      <Link>MonteCarlo\TallyActions\ROfXAndYTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\TallyExtensionMethods.cs">
+      <Link>MonteCarlo\TallyActions\TallyExtensionMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\TDiffuseTally.cs">
+      <Link>MonteCarlo\TallyActions\TDiffuseTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\TOfAngleTally.cs">
+      <Link>MonteCarlo\TallyActions\TOfAngleTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\TOfRhoAndAngleTally.cs">
+      <Link>MonteCarlo\TallyActions\TOfRhoAndAngleTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\TOfRhoTally.cs">
+      <Link>MonteCarlo\TallyActions\TOfRhoTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\CylinderRegion.cs">
+      <Link>MonteCarlo\Tissues\CylinderRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\EllipsoidRegion.cs">
+      <Link>MonteCarlo\Tissues\EllipsoidRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\Enums.cs">
+      <Link>MonteCarlo\Tissues\Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\LayerRegion.cs">
+      <Link>MonteCarlo\Tissues\LayerRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerTissue.cs">
+      <Link>MonteCarlo\Tissues\MultiLayerTissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerTissueInput.cs">
+      <Link>MonteCarlo\Tissues\MultiLayerTissueInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerTissueProvider.cs">
+      <Link>MonteCarlo\Tissues\MultiLayerTissueProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SingleEllipsoidTissue.cs">
+      <Link>MonteCarlo\Tissues\SingleEllipsoidTissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\VoxelRegion.cs">
+      <Link>MonteCarlo\Tissues\VoxelRegion.cs</Link>
+    </Compile>
+    <Compile Include="MonteCarlo\Unmanaged\UnmanagedDetectorDefinition.cs" />
+    <Compile Include="MonteCarlo\Unmanaged\UnmanagedFlags.cs" />
+    <Compile Include="MonteCarlo\Unmanaged\UnmanagedHistory.cs" />
+    <Compile Include="MonteCarlo\Unmanaged\UnmanagedIO.cs" />
+    <Compile Include="MonteCarlo\Unmanaged\UnmanagedLayer.cs" />
+    <Compile Include="MonteCarlo\Unmanaged\UnmanagedMonteCarloSimulation.cs" />
+    <Compile Include="MonteCarlo\Unmanaged\UnmanagedOutput.cs" />
+    <Compile Include="MonteCarlo\Unmanaged\UnmanagedPhoton.cs" />
+    <Compile Include="MonteCarlo\Unmanaged\UnmanagedSimulationOptions.cs" />
+    <Compile Include="MonteCarlo\Unmanaged\UnmanagedSourceDefinition.cs" />
+    <Compile Include="MonteCarlo\Unmanaged\UnmanagedTissue.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectraData1.xml">
+      <Link>Modeling\Spectroscopy\Resources\SpectraData1.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml">
+      <Link>Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml</Link>
+    </EmbeddedResource>
+    <Content Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml">
+      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml</Link>
+    </Content>
+    <Content Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml">
+      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml</Link>
+    </Content>
+    <Content Include="..\Vts\Modeling\Spectroscopy\ChromophoreList.xml">
+      <Link>Modeling\Spectroscopy\ChromophoreList.xml</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Vts\Common\Resources\Strings.resx">
+      <Link>Common\Resources\Strings.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\HankelData\basepoints.dat">
+      <Link>Modeling\Resources\HankelData\basepoints.dat</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\HankelData\hankelweights.dat">
+      <Link>Modeling\Resources\HankelData\hankelweights.dat</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\A_rz">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\A_rz</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\A_rz.xml">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\A_rz.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt.xml">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt_layer">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt_layer</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt_layer.xml">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt_layer.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\Flu_rz">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\Flu_rz</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\Flu_rz.xml">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\Flu_rz.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\output.xml">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\output.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_ra">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_ra</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_ra.xml">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_ra.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt.xml">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt2">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt2</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt2.xml">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt2.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rw">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rw</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rw.xml">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rw.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_xy">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_xy</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_xy.xml">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_xy.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\T_ra">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\T_ra</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\T_ra.xml">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\T_ra.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\controlPoints">
+      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\controlPoints</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\degrees">
+      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\degrees</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\dims">
+      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\dims</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\maxValues">
+      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\maxValues</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceKnots">
+      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceKnots</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeKnots">
+      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeKnots</Link>
+    </EmbeddedResource>
+    <None Include="..\Vts\Modeling\Spectroscopy\Fat.csv">
+      <Link>Modeling\Spectroscopy\Fat.csv</Link>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT EXIST "$(SolutionDir)..\build\core\Desktop\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\core\Desktop\$(ConfigurationName)"
+copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\core\Desktop\$(ConfigurationName)" /y</PostBuildEvent>
+  </PropertyGroup>
+</Project>

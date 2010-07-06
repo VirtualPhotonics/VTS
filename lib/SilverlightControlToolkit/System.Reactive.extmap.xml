@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<manifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <assembly>
+    <name>System.Reactive</name>
+    <version>1.0.0.0</version>
+    <publickeytoken>1b331ac6720247d9</publickeytoken>
+    <relpath>System.Reactive.dll</relpath>
+    <extension downloadUri="System.Reactive.zip" />
+  </assembly>
+
+</manifest>

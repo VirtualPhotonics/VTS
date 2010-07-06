@@ -1,0 +1,295 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using SLExtensions.Input;
+using Vts.Common;
+using Vts.Extensions;
+using Vts.Factories;
+using Vts.SiteVisit.Input;
+using Vts.SiteVisit.Model;
+using Vts.SpectralMapping;
+#if WHITELIST
+using Vts.SiteVisit.ViewModel.Application;
+#endif
+
+namespace Vts.SiteVisit.ViewModel
+{
+    /// <summary>
+    /// View model implementing Spectral panel functionality
+    /// </summary>
+    public partial class SpectralMappingViewModel : BindableObject
+    {
+        private List<Tissue> _Tissues;
+        private Tissue _SelectedTissue;
+        private double _Mua;
+        private double _G;
+        private double _Musp;
+        private double _Wavelength;
+        private BloodConcentrationViewModel _BloodConcentrationVM;
+        private RangeViewModel _WavelengthRangeVM;
+        private OptionViewModel<ScatteringType> _ScatteringTypeVM;
+        private string _ScatteringTypeName;
+        //private IScatterer _Scatterer;
+
+        public SpectralMappingViewModel()
+        {
+#if WHITELIST 
+            ScatteringTypeVM = new OptionViewModel<ScatteringType>("Scatterer Type:", WhiteList.ScatteringTypes);
+#else 
+            ScatteringTypeVM = new OptionViewModel<ScatteringType>("Scatterer Type:");
+#endif
+            ScatteringTypeVM.PropertyChanged += (sender, args) =>
+            {
+                SelectedTissue.Scatterer = SolverFactory.GetScattererType(ScatteringTypeVM.SelectedValue);
+                ScatteringTypeName = SelectedTissue.Scatterer.GetType().FullName;
+            };
+
+            WavelengthRangeVM =
+                new RangeViewModel(
+                    new DoubleRange(650.0, 1000.0, 176),
+                    "nm", "Wavelength Range:");
+
+           Tissues = new List<Tissue>
+            {
+                new Tissue(TissueType.Skin),
+                new Tissue(TissueType.BrainWhiteMatter),
+                new Tissue(TissueType.BrainGrayMatter),
+                new Tissue(TissueType.BreastPreMenopause),
+                new Tissue(TissueType.BreastPostMenopause),
+                new Tissue(TissueType.Liver),
+                new Tissue(TissueType.IntralipidPhantom),
+                //new Tissue(TissueType.PolystyreneSpherePhantom),
+                new Tissue(TissueType.Custom)
+            };
+            
+            BloodConcentrationVM = new BloodConcentrationViewModel();
+            #region DC notes 1
+            // DC NOTES on how to propagate the correct hemoglobin instances into BloodConcentrationVM:
+            // Upon setting SelectedTissue (below), we internally update the BloodConcentrationVM hemoglobin references 
+            // This is the simplest solution, but maybe violates SOC...(see SelectedTissue property for details)
+            // A second alternative way would be to override AfterPropertyChanged (see AfterPropertyChanged method below)
+            #endregion 
+            SelectedTissue = Tissues.First();
+            ScatteringTypeName = SelectedTissue.GetType().FullName;
+            Wavelength = 650;
+
+            UpdateOpticalProperties();
+
+            Commands.PlotMuaSpectra.Executed += PlotMuaSpectra_Executed;
+            Commands.PlotMusprimeSpectra.Executed += PlotMusprimeSpectra_Executed;
+        }
+
+        #region DC notes 2
+        //protected override void AfterPropertyChanged(string propertyName)
+        //{
+        //    if (propertyName == "SelectedTissue")
+        //    {
+        //        // update the BloodConcentrationViewModel to point to the IChromophoreAbsorber instances 
+        //        // specified in the updated SelectedTissue
+        //        var hb = _SelectedTissue.Absorbers.Where(abs => abs.Name == "Hb").FirstOrDefault();
+        //        var hbO2 = _SelectedTissue.Absorbers.Where(abs => abs.Name == "HbO2").FirstOrDefault();
+        //
+        //        // only assign the values if both queries return valid (non-null) instances of IChromophoreAbsorber
+        //        if (hb != null && hbO2 != null)
+        //        {
+        //            BloodConcentrationVM.Hb = hb;
+        //            BloodConcentrationVM.HbO2 = hbO2;
+        //        }
+        //    }
+        //    base.AfterPropertyChanged(propertyName);
+        //}
+        #endregion 
+
+        //public IScatterer Scatterer
+        //{
+        //    get { return _Scatterer; }
+        //    set
+        //    {
+        //        _Scatterer = value;
+        //        this.OnPropertyChanged("Scatterer");
+
+        //    }
+        //}
+
+        public string ScatteringTypeName
+        {
+            get { return _ScatteringTypeName; }
+            set
+            {
+                _ScatteringTypeName = value;
+                OnPropertyChanged("ScatteringTypeName");
+            }
+        }
+
+        public OptionViewModel<ScatteringType> ScatteringTypeVM
+        {
+            get { return _ScatteringTypeVM; }
+            set
+            {
+                _ScatteringTypeVM = value;
+                OnPropertyChanged("ScatteringTypeVM");
+            }
+        }
+
+        public Tissue SelectedTissue
+        {
+            get { return _SelectedTissue; }
+            set
+            {
+                // var realScatterer = value.Scatterer;
+
+                _SelectedTissue = value;
+                OnPropertyChanged("SelectedTissue");
+
+                ScatteringTypeVM.Options.Where(o => o.Key == _SelectedTissue.Scatterer.ScattererType)
+                    .First().Value.IsSelected = true;
+
+                //ScatteringTypeVM.SelectedValue = realScatterer.ScattererType; // todo: how to supress/override VM.OnPropertyChanged?
+                // _SelectedTissue.Scatterer = realScatterer; //overwrite stock value generated as a result of the line above
+                // ScatteringTypeName = realScatterer.GetType().FullName; // todo: need to get rid of strings explicitly
+
+                UpdateOpticalProperties();
+
+                // update the BloodConcentrationViewModel to point to the IChromophoreAbsorber instances 
+                // specified in the updated SelectedTissue
+                var hb = _SelectedTissue.Absorbers.Where(abs => abs.Name == "Hb").FirstOrDefault();
+                var hbO2 = _SelectedTissue.Absorbers.Where(abs => abs.Name == "HbO2").FirstOrDefault();
+
+                // only assign the values if both queries return valid (non-null) instances of IChromophoreAbsorber
+                if (hb != null && hbO2 != null)
+                {
+                    BloodConcentrationVM.Hb = hb;
+                    BloodConcentrationVM.HbO2 = hbO2;
+                    BloodConcentrationVM.DisplayBloodVM = true;
+                }
+                else
+                    BloodConcentrationVM.DisplayBloodVM = false;
+            }
+        }
+
+        public List<Tissue> Tissues
+        {
+            get { return _Tissues; }
+            set
+            {
+                _Tissues = value;
+                this.OnPropertyChanged("Tissues");
+            }
+        }
+
+        public double Wavelength
+        {
+            get { return _Wavelength; }
+            set
+            {
+                _Wavelength = value;
+                UpdateOpticalProperties();
+                this.OnPropertyChanged("Wavelength");
+            }
+        }
+
+        public double Mua
+        {
+            get { return _Mua; }
+            set
+            {
+                _Mua = value;
+                this.OnPropertyChanged("Mua");
+            }
+        }
+
+        public double G
+        {
+            get { return _G; }
+            set
+            {
+                _G = value;
+                this.OnPropertyChanged("G");
+            }
+        }
+
+        public double Musp
+        {
+            get { return _Musp; }
+            set
+            {
+                _Musp = value;
+                this.OnPropertyChanged("Musp");
+                this.OnPropertyChanged("ScatteringTypeVM");
+            }
+        }
+
+        public RangeViewModel WavelengthRangeVM
+        {
+            get { return _WavelengthRangeVM; }
+            set
+            {
+                _WavelengthRangeVM = value;
+                this.OnPropertyChanged("WavelengthRangeVM");
+
+            }
+        }
+
+        public BloodConcentrationViewModel BloodConcentrationVM
+        {
+            get { return _BloodConcentrationVM; }
+            set
+            {
+                _BloodConcentrationVM = value;
+                this.OnPropertyChanged("BloodConcentrationVM");
+                this.OnPropertyChanged("SelectedTissue");
+            }
+        }
+
+        private void UpdateOpticalProperties()
+        {
+            G = SelectedTissue.GetG(Wavelength);
+            Musp = SelectedTissue.GetMusp(Wavelength);
+            Mua = SelectedTissue.GetMua(Wavelength);
+        }
+                
+        void PlotMuaSpectra_Executed(object sender, ExecutedEventArgs e)
+        {
+            PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", "μa'", "mm-1");
+            Commands.Plot_SetAxesLabels.Execute(axesLabels);
+
+            IEnumerable<Point> points = ExecutePlotMuaSpectra();
+            Commands.Plot_PlotValues.Execute(new PlotData(points, "μa spectra"));
+
+            double minWavelength = WavelengthRangeVM.Values.Min();
+            double maxWavelength = WavelengthRangeVM.Values.Max();
+            Commands.TextOutput_PostMessage.Execute("Plotted μa spectrum; wavelength range [nm]: [" + minWavelength + ", " + maxWavelength + "]\r");
+        }
+
+        public IEnumerable<Point> ExecutePlotMuaSpectra()
+        {
+            var independentValues = WavelengthRangeVM.Values;
+            var dependentValues =
+                from w in independentValues
+                select SelectedTissue.GetMua(w);
+
+            return independentValues.Zip(dependentValues, (x, y) => new Point(x, y));
+        }
+
+        void PlotMusprimeSpectra_Executed(object sender, ExecutedEventArgs e)
+        {
+            PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", "μs'", "mm-1");
+            Commands.Plot_SetAxesLabels.Execute(axesLabels);
+
+            IEnumerable<Point> points = ExecutePlotMusprimeSpectra();
+            Commands.Plot_PlotValues.Execute(new PlotData(points, "μs' spectra"));
+
+            double minWavelength = WavelengthRangeVM.Values.Min();
+            double maxWavelength = WavelengthRangeVM.Values.Max();
+            Commands.TextOutput_PostMessage.Execute("Plotted μs' spectrum; wavelength range [nm]: [" + minWavelength + ", " + maxWavelength + "]\r");
+        }
+
+        public IEnumerable<Point> ExecutePlotMusprimeSpectra()
+        {
+            var independentValues = WavelengthRangeVM.Values;
+            var dependentValues = independentValues.Select(w => SelectedTissue.GetMusp(w));
+
+            return independentValues.Zip(dependentValues, (x, y) => new Point(x, y));
+        }
+    }
+}

@@ -1,0 +1,367 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A04010C3-E896-445B-AAA2-8FC12E6471AF}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Vts.SiteVisit</RootNamespace>
+    <AssemblyName>Vts.SiteVisit</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>
+    </SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>Vts.SiteVisit.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>Vts.SiteVisit.App</SilverlightAppEntry>
+    <TestPageFileName>TestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>false</ThrowErrorsInValidation>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <EnableOutOfBrowser>true</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Debug\Vts.SiteVisit.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Bin\Release\Vts.SiteVisit.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release %28White List Gui Deployment%29|AnyCPU' ">
+    <OutputPath>bin\Release %28White List Gui Deployment%29\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT, WHITELIST</DefineConstants>
+    <DocumentationFile>Bin\Release\Vts.SiteVisit.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FJ.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\fjcore\build\Silverlight\FJ.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SLExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SilverlightExtensions\SLExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.CoreEx, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Silverlight\System.CoreEx.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Interactive, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Silverlight\System.Interactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Observable, Version=1.0.0.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Silverlight\System.Observable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RxFramework\Silverlight\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows" />
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SilverlightControlToolkit\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SilverlightControlToolkit\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Layout.Toolkit, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SilverlightControlToolkit\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Theming.Toolkit, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SilverlightControlToolkit\System.Windows.Controls.Theming.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Toolkit, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SilverlightControlToolkit\System.Windows.Controls.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\OptionExtensions.cs" />
+    <Compile Include="Model\MapData.cs" />
+    <Compile Include="ViewModel\Application\Panels\SubPanels\BloodConcentrationViewModel.cs" />
+    <Compile Include="Converters\DoubleToStringConverter.cs" />
+    <Compile Include="ViewModel\Application\Panels\SubPanels\FluenceSolutionDomainOptionViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\FluenceSolverViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\MapViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\MonteCarloSolverViewModel.cs" />
+    <Compile Include="Model\PlotData.cs" />
+    <Compile Include="ViewModel\Application\WhiteList.cs" />
+    <Compile Include="ViewModel\Helpers\PlotAxesLabels.cs" />
+    <Compile Include="ViewModel\Application\Panels\SubPanels\SolutionDomainOptionViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\SpectralMappingViewModel.cs" />
+    <Compile Include="View\Application\Panels\IsolatedStorageView.xaml.cs">
+      <DependentUpon>IsolatedStorageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Application\Panels\SubPanels\BloodConcentrationView.xaml.cs">
+      <DependentUpon>BloodConcentrationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Helpers\Colormap.cs" />
+    <Compile Include="View\Controls\ComboBox.cs" />
+    <Compile Include="View\Controls\ComboBoxOptionView.xaml.cs">
+      <DependentUpon>ComboBoxOptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Application\Panels\SubPanels\AbsorbedEnergySolutionDomainOptionView.xaml.cs">
+      <DependentUpon>AbsorbedEnergySolutionDomainOptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Application\Panels\SubPanels\PhotonHittingDensitySolutionDomainOptionView.xaml.cs">
+      <DependentUpon>PhotonHittingDensitySolutionDomainOptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Application\Panels\SubPanels\FluenceSolutionDomainOptionView.xaml.cs">
+      <DependentUpon>FluenceSolutionDomainOptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Application\Panels\FluenceSolverView.xaml.cs">
+      <DependentUpon>FluenceSolverView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Application\Panels\MapView.xaml.cs">
+      <DependentUpon>MapView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\ListBox.cs" />
+    <Compile Include="View\Controls\ListBoxOptionView.xaml.cs">
+      <DependentUpon>ListBoxOptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Helpers\ImageTools.cs" />
+    <Compile Include="View\Templates\MieScatteringView.xaml.cs">
+      <DependentUpon>MieScatteringView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Application\Panels\MonteCarloSolverView.xaml.cs">
+      <DependentUpon>MonteCarloSolverView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Helpers\PlotExtensions.cs" />
+    <Compile Include="View\Templates\PowerLawScatteringView.xaml.cs">
+      <DependentUpon>PowerLawScatteringView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Templates\ScatteringTemplateSelector.cs" />
+    <Compile Include="View\Application\Panels\SubPanels\SolutionDomainOptionView.xaml.cs">
+      <DependentUpon>SolutionDomainOptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Helpers\ChartHelper.cs" />
+    <Compile Include="Input\Commands.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Application\Panels\ForwardSolverViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\InverseSolverViewModel.cs" />
+    <Compile Include="ViewModel\Controls\OpticalPropertyViewModel.cs" />
+    <Compile Include="ViewModel\Controls\OptionViewModel.cs" />
+    <Compile Include="Model\OptionModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\PlotViewModel.cs" />
+    <Compile Include="ViewModel\Controls\RangeViewModel.cs" />
+    <Compile Include="ViewModel\Application\SolverDemoViewModel.cs" />
+    <Compile Include="ViewModel\Controls\TextOutputViewModel.cs" />
+    <Compile Include="View\Application\Panels\ForwardSolverView.xaml.cs">
+      <DependentUpon>ForwardSolverView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Application\Panels\InverseSolverView.xaml.cs">
+      <DependentUpon>InverseSolverView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\OpticalPropertyView.xaml.cs">
+      <DependentUpon>OpticalPropertyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\RadioButtonOptionView.xaml.cs">
+      <DependentUpon>RadioButtonOptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Application\Panels\PlotView.xaml.cs">
+      <DependentUpon>PlotView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\RangeView.xaml.cs">
+      <DependentUpon>RangeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Application\SolverDemoView.xaml.cs">
+      <DependentUpon>SolverDemoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Application\Panels\SpectralMappingView.xaml.cs">
+      <DependentUpon>SpectralMappingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\TextOutputView.xaml.cs">
+      <DependentUpon>TextOutputView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\Application\Panels\IsolatedStorageView.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Application\Panels\SubPanels\BloodConcentrationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\ComboBoxOptionView.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Application\Panels\SubPanels\AbsorbedEnergySolutionDomainOptionView.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Application\Panels\SubPanels\PhotonHittingDensitySolutionDomainOptionView.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Application\Panels\SubPanels\FluenceSolutionDomainOptionView.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Application\Panels\FluenceSolverView.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Application\Panels\MapView.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Controls\ListBoxOptionView.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Templates\MieScatteringView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Application\Panels\MonteCarloSolverView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Templates\PowerLawScatteringView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Application\Panels\SubPanels\SolutionDomainOptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Application\Panels\ForwardSolverView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Application\Panels\InverseSolverView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Controls\OpticalPropertyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Controls\RadioButtonOptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Application\Panels\PlotView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Controls\RangeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Application\SolverDemoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Application\Panels\SpectralMappingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\TextOutputView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\OutOfBrowserSettings.xml" />
+    <Content Include="Resources\Images\vpbanner.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vts\Vts.csproj">
+      <Project>{92381E9C-57F9-4391-A3C6-A5FAA99E823B}</Project>
+      <Name>Vts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" Condition="" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT EXIST "$(SolutionDir)..\build\apps\gui\Desktop\$(ConfigurationName)\" mkdir "$(SolutionDir)..\build\apps\gui\Desktop\$(ConfigurationName)\"
+copy "$(TargetDir)*.*" "$(SolutionDir)..\build\apps\gui\Desktop\$(ConfigurationName)\" /y</PostBuildEvent>
+  </PropertyGroup>
+</Project>

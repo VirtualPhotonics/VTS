@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ArrayOfSimulationInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SimulationInput" nillable="true" type="tns:SimulationInput" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSimulationInput" nillable="true" type="tns:ArrayOfSimulationInput" />
+  <xs:complexType name="SimulationInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="outputFileName" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pertptr_det_ctr" nillable="true" type="q1:ArrayOfdouble" />
+      <xs:element minOccurs="0" name="pertptr_det_rad" type="xs:double" />
+      <xs:element minOccurs="0" name="pertptr_do_ellip_layer" type="xs:int" />
+      <xs:element minOccurs="0" name="pertptr_ellip_rad_x" type="xs:double" />
+      <xs:element minOccurs="0" name="pertptr_ellip_rad_y" type="xs:double" />
+      <xs:element minOccurs="0" name="pertptr_ellip_rad_z" type="xs:double" />
+      <xs:element minOccurs="0" name="pertptr_ellip_x" type="xs:double" />
+      <xs:element minOccurs="0" name="pertptr_ellip_y" type="xs:double" />
+      <xs:element minOccurs="0" name="pertptr_ellip_z" type="xs:double" />
+      <xs:element minOccurs="0" name="pertptr_layer_z_max" type="xs:double" />
+      <xs:element minOccurs="0" name="pertptr_layer_z_min" type="xs:double" />
+      <xs:element minOccurs="0" name="pertptr_nr" type="xs:int" />
+      <xs:element minOccurs="0" name="pertptr_reflect_flag" type="xs:boolean" />
+      <xs:element minOccurs="0" name="photptr_beam_center_x" type="xs:double" />
+      <xs:element minOccurs="0" name="photptr_beam_radius" type="xs:double" />
+      <xs:element minOccurs="0" name="photptr_beamtype" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Tissue.Regions" nillable="true" type="tns:ArrayOfLayer" />
+      <xs:element minOccurs="0" name="photptr_src_NA" type="xs:double" />
+      <xs:element minOccurs="0" name="tissptr_dr" type="xs:double" />
+      <xs:element minOccurs="0" name="tissptr_dt" type="xs:double" />
+      <xs:element minOccurs="0" name="tissptr_dx" type="xs:double" />
+      <xs:element minOccurs="0" name="tissptr_dy" type="xs:double" />
+      <xs:element minOccurs="0" name="tissptr_dz" type="xs:double" />
+      <xs:element minOccurs="0" name="tissptr_nr" type="xs:short" />
+      <xs:element minOccurs="0" name="tissptr_nt" type="xs:short" />
+      <xs:element minOccurs="0" name="tissptr.num_layers" type="xs:short" />
+      <xs:element minOccurs="0" name="tissptr_num_photons" type="xs:long" />
+      <xs:element minOccurs="0" name="tissptr_nx" type="xs:short" />
+      <xs:element minOccurs="0" name="tissptr_ny" type="xs:short" />
+      <xs:element minOccurs="0" name="tissptr_nz" type="xs:short" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SimulationInput" nillable="true" type="tns:SimulationInput" />
+  <xs:complexType name="ArrayOfLayer">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Layer" type="tns:Layer" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLayer" nillable="true" type="tns:ArrayOfLayer" />
+  <xs:complexType name="Layer">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="albedo" type="xs:double" />
+      <xs:element minOccurs="0" name="d" type="xs:double" />
+      <xs:element minOccurs="0" name="g" type="xs:double" />
+      <xs:element minOccurs="0" name="mua" type="xs:double" />
+      <xs:element minOccurs="0" name="mus" type="xs:double" />
+      <xs:element minOccurs="0" name="n" type="xs:double" />
+      <xs:element minOccurs="0" name="scatter_length" type="xs:double" />
+      <xs:element minOccurs="0" name="zbegin" type="xs:double" />
+      <xs:element minOccurs="0" name="zend" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Layer" nillable="true" type="tns:Layer" />
+</xs:schema>

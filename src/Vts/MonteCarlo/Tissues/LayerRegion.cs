@@ -1,0 +1,56 @@
+using Vts.Common;
+using Vts.MonteCarlo.Factories;
+
+namespace Vts.MonteCarlo.Tissues
+{
+    /// <summary>
+    /// Implements ITissueRegion.  Defines a layer infinite in extent along
+    /// x,y-axes and with extent along z-axis given by ZRange.
+    /// </summary>
+    public class LayerRegion : ITissueRegion
+    {
+        public LayerRegion(DoubleRange zRange, OpticalProperties op, AbsorptionWeightingType weightingType) 
+        {
+            ZRange = zRange;
+            RegionOP = op;
+            ScatterLength = op.GetScatterLength(weightingType);
+        }
+
+        public LayerRegion() : this(
+            new DoubleRange(0.0, 10, 2),
+            new OpticalProperties(0.01, 1.0, 0.8, 1.4), 
+            AbsorptionWeightingType.Discrete) {}  
+
+        public DoubleRange ZRange { get; set; }
+        public OpticalProperties RegionOP { get; set; }
+        public double ScatterLength { get; private set; }
+
+        public bool ContainsPosition(Position position)
+        {
+            return position.Z >= ZRange.Start && position.Z < ZRange.Stop;
+        }
+
+        //public bool RayExitBoundary(Photon photptr, ref double distanceToBoundary)
+        //{
+        //    distanceToBoundary = 0.0;  /* distance to boundary */
+
+        //    if (photptr.DP.Direction.Uz < 0.0)
+        //        distanceToBoundary = ( Z.Start - photptr.DP.Position.Z) /
+        //            photptr.DP.Direction.Uz;
+        //    else if (photptr.DP.Direction.Uz > 0.0)
+        //        distanceToBoundary = ( Z.Stop - photptr.DP.Position.Z) /
+        //            photptr.DP.Direction.Uz;
+
+        //    if ((photptr.DP.Direction.Uz != 0.0) && (photptr.S > distanceToBoundary))
+        //    {
+        //        //photptr.HitBoundary = true;
+        //        ////photptr.SLeft = (photptr.S - distanceToBoundary) * (mua + mus);  // DAW
+        //        //photptr.SLeft = (photptr.S - distanceToBoundary) * photptr._tissue.Regions[photptr.CurrentRegionIndex].ScatterLength;
+        //        //photptr.S = distanceToBoundary;
+        //        return true;
+        //    }
+        //    else
+        //        return false;
+        //}
+    }
+}

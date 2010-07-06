@@ -1,0 +1,73 @@
+﻿<UserControl 
+    x:Class="Vts.SiteVisit.View.FluenceSolverView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:v="clr-namespace:Vts.SiteVisit.View"
+    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
+
+    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+        <v:ComboBoxOptionView  DataContext="{Binding ForwardSolverTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <v:RadioButtonOptionView DataContext="{Binding MapTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+        <StackPanel Orientation="Horizontal" Visibility="{Binding IsGaussianForwardModel, Converter={StaticResource myBooleanToVisibilityConverter}}" Margin="5">
+            <TextBlock Text="Gaussian Beam Diameter:" Margin="3" VerticalAlignment="Bottom"/>
+            <TextBox Width="40" Margin="3" Text="{Binding ForwardSolver.BeamDiameter, Mode=TwoWay}" VerticalAlignment="Bottom"/>
+            <TextBlock Text="mm" Margin="3" VerticalAlignment="Bottom"/>
+        </StackPanel>
+
+        <StackPanel
+            Visibility="{Binding IsFluence, Converter={StaticResource myBooleanToVisibilityConverter}}">
+            <v:FluenceSolutionDomainOptionView 
+                DataContext="{Binding SolutionDomainTypeOptionVM}" 
+                HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+        </StackPanel>
+        
+        <StackPanel
+            Visibility="{Binding IsAbsorbedEnergy, Converter={StaticResource myBooleanToVisibilityConverter}}">
+
+            <v:AbsorbedEnergySolutionDomainOptionView 
+            DataContext="{Binding SolutionDomainTypeOptionVM}" 
+            HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+        </StackPanel>
+
+        <StackPanel
+                Visibility="{Binding IsPhotonHittingDensity, Converter={StaticResource myBooleanToVisibilityConverter}}">
+            <v:PhotonHittingDensitySolutionDomainOptionView
+                DataContext="{Binding SolutionDomainTypeOptionVM}" 
+                HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Visibility="{Binding IsPhotonHittingDensity, Converter={StaticResource myBooleanToVisibilityConverter}}" Margin="5">
+            <TextBlock Text="Source-Detector Separation:" Margin="3" VerticalAlignment="Bottom"/>
+            <TextBox Width="40" Margin="3" Text="{Binding SourceDetectorSeparation, Mode=TwoWay}" VerticalAlignment="Bottom"/>
+            <TextBlock Text="mm" Margin="3" VerticalAlignment="Bottom"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="ρ (Rho) Range:" Margin="5,0,5,0" VerticalAlignment="Center"/>
+            <v:RangeView DataContext="{Binding RhoRangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="z Range:" Margin="5,0,15,0" VerticalAlignment="Center"/>
+            <v:RangeView DataContext="{Binding ZRangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+
+        <v:OpticalPropertyView Mua="1.0" DataContext="{Binding OpticalPropertyVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+
+            <v:RadioButtonOptionView DataContext="{Binding ForwardAnalysisTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Button 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                input:CommandService.Command="FluenceSolver_ExecuteFluenceSolver"
+                input:CommandService.CommandParameter="{Binding}"
+                Content="Generate Fluence/Interrogation Map"  
+                Height="30" Margin="5"/>
+        </StackPanel>
+
+
+    </StackPanel>
+</UserControl>

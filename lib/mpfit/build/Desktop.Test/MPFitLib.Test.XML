@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MPFitLib.Test</name>
+    </assembly>
+    <members>
+        <member name="T:MPFitLib.Test.CustomUserVariable">
+            <summary>
+            This is the a demo user-specific data structure which contains the data points
+            and their uncertainties
+            </summary>
+        </member>
+    </members>
+</doc>

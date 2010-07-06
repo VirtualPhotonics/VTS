@@ -1,0 +1,32 @@
+﻿<UserControl 
+    x:Class="Vts.SiteVisit.View.ForwardSolverView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:v="clr-namespace:Vts.SiteVisit.View"
+    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
+
+    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+        <v:ComboBoxOptionView  DataContext="{Binding ForwardSolverTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <StackPanel Orientation="Horizontal" Visibility="{Binding IsGaussianForwardModel, Converter={StaticResource myBooleanToVisibilityConverter}}" Margin="5">
+            <TextBlock Text="Gaussian Beam Diameter:" Margin="3" VerticalAlignment="Bottom"/>
+            <TextBox Width="40" Margin="3" Text="{Binding ForwardSolver.BeamDiameter, Mode=TwoWay}" VerticalAlignment="Bottom"/>
+            <TextBlock Text="mm" Margin="3" VerticalAlignment="Bottom"/>
+        </StackPanel>
+        <v:SolutionDomainOptionView DataContext="{Binding SolutionDomainTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <v:RangeView DataContext="{Binding RangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <v:OpticalPropertyView Mua="1.0" DataContext="{Binding OpticalPropertyVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+            <v:RadioButtonOptionView DataContext="{Binding ForwardAnalysisTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Button 
+                VerticalAlignment="Bottom"
+                input:CommandService.Command="FS_ExecuteForwardSolver"
+                input:CommandService.CommandParameter="{Binding}"
+                Content="Plot Reflectance"  
+                Width="100" Height="30" />
+
+        </StackPanel>
+
+
+    </StackPanel>
+</UserControl>
