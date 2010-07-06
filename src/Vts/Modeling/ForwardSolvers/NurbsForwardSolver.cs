@@ -582,7 +582,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="generator">NurbsGenerator</param>
         /// <param name="space_ref">spatial coordiante</param>
         /// <param name="op">optical Properties</param>
-        /// <returns></returns>
+        /// <returns>Integral value of the curve extrapolated outside the time range</returns>
         private double ExtrapolateIntegralValueOutOfRange(INurbs generator, double space_ref, OpticalProperties op)
         {
             double area;
