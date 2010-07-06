@@ -703,7 +703,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// limit.
         /// </summary>
         /// <param name="exponentialTerm">exponential term</param>
-        /// <param name="polinomialCoefficients">polynomial coefficients sorted in degree</param>
+        /// <param name="polynomialCoefficients">polynomial coefficients sorted in degree</param>
         /// <param name="lowerLimit">lower integration limit</param>
         /// <param name="upperLimit">upper integration limit</param>
         /// <returns>integral of the polynomial multiplied by an exponential over the specified range</returns>
@@ -1118,8 +1118,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Defines signature for a method used to consider cousality of the photon migration.
         /// </summary>
-        /// <param name="rho"></param>
-        /// <returns></returns>
+        /// <param name="rho">source detector separation</param>
+        /// <returns>minimal valid time</returns>
         double GetMinimumValidTime(double rho);
 
         /// <summary>
@@ -1127,7 +1127,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="point">physical coordinate of the point</param>
         /// <param name="dimension">physical dimension represented by the NURBS curve</param>
-        /// <returns></returns>
+        /// <returns>Value of a point on the curve</returns>
         double ComputeCurvePoint(double point, NurbsValuesDimensions dimension);
 
         /// <summary>
@@ -1135,7 +1135,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="time">time coordinate</param>
         /// <param name="space">space coordinate(rho or fx)</param>
-        /// <returns></returns>
+        /// <returns>Value of a point  on the surface </returns>
         double ComputeSurfacePoint(double time, double space);
 
         /// <summary>
@@ -1144,16 +1144,15 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="time">time coordinate</param>
         /// <param name="space">space coordinate(rho or fx)</param>
         /// <param name="edgeValue">point calculated on a position on the limit of the surface</param>
-        /// <returns></returns>
+        /// <returns>Value of a point outside the surface</returns>
         double ComputePointOutOfSurface(double time, double space, double edgeValue);
 
         /// <summary>
         /// Defines the signature of the method used to calculate the integral value of an
         /// isoparametric NURBS curve multiplied by an exponential function analitically.
         /// </summary>
-        /// <param name="space_ref">radial position or spatial frequency mapped to the reference spatial value</param>
+        /// <param name="space">radial position or spatial frequency mapped to the reference spatial value</param>
         /// <param name="exponentialTerm">exponential decay due to absorption</param>
-        /// <param name="generator">NurbsGenerator, real domain or spatial frequancy domain</param>
         /// <returns>integral value of an isoparametric NURBS curve</returns>
         double EvaluateNurbsCurveIntegral(double space, double exponentialTerm);
 
@@ -1161,7 +1160,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// Defines the signature for the method used to evaluate the FT of an isoparametric curve.
         /// </summary>
         /// <param name="space">spatial coordinate</param>
-        /// <param name="mua">absorption coefficient</param>
+        /// <param name="expTerm">exponential coefficient</param>
         /// <param name="ft">temporal frequency</param>
         /// <returns>R(ft) at  fixed rho</returns>
         Complex EvaluateNurbsCurveFourierTransform(double space, double expTerm, double ft);
@@ -1170,8 +1169,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// Defines the signature of the method used to evaluate the tensor product control points
         /// necessary to evaluate the integral of an isoparametric curve.
         /// </summary>
-        /// <param name="space_ref"></param>
-        /// <returns></returns>
+        /// <param name="space_ref">spatial coordinate mapped to teh reference space</param>
+        /// <returns>Tensor product control points for an isoparametric curve on a surface</returns>
         List<double[]> EvaluateTensorProductControlPoints(double space_ref);
 
         /// <summary>
