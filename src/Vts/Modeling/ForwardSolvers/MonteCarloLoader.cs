@@ -4,6 +4,7 @@ using System.Linq;
 using Vts.Extensions;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.Common;
 
 //using MathNet.Numerics.Interpolation;
 
@@ -11,7 +12,6 @@ namespace Vts.Modeling.ForwardSolvers
 {
     public class MonteCarloLoader
     {
-        # region fields
         public int nrReference; 
         public double drReference; 
         public int ntReference; 
@@ -29,7 +29,6 @@ namespace Vts.Modeling.ForwardSolvers
         /// CKH TODO: automate pointer to reference data 
         /// can't point to N1e7 until writing to isolated storage working for R_fxt code below
         private string folder = "ReferenceData/N1e8mua0musp1g0p8dr0p2dt0p005/";
-        #endregion
 
         public MonteCarloLoader()
         {
@@ -51,9 +50,10 @@ namespace Vts.Modeling.ForwardSolvers
             dtReference = output.input.DetectorInput.Time.Delta;  
             muspReference = output.input.TissueInput.Regions[1].RegionOP.Mus *
                     (1 - output.input.TissueInput.Regions[1].RegionOP.G);
-            RhoReference = (drReference / 2).To(drReference * nrReference - drReference / 2, drReference).ToArray();
-            TimeReference = (dtReference / 2).To(dtReference * ntReference - dtReference / 2, dtReference).ToArray();
-            FxReference = (dfxReference / 2).To(dfxReference * nfxReference - dfxReference / 2, dfxReference).ToArray();
+
+            RhoReference = new DoubleRange(drReference / 2, drReference * nrReference - drReference / 2, nrReference).AsEnumerable().ToArray();
+            TimeReference = new DoubleRange(dtReference / 2, dtReference * ntReference - dtReference / 2, ntReference).AsEnumerable().ToArray();
+            FxReference = new DoubleRange(dfxReference / 2, dfxReference * nfxReference - dfxReference / 2, nfxReference).AsEnumerable().ToArray();
 
             RReferenceOfRhoAndTime = new double[nrReference, ntReference];
             for (int ir = 0; ir < nrReference; ir++)

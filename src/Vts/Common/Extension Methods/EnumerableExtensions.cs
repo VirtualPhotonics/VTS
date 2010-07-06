@@ -4,15 +4,24 @@ using System.Linq;
 
 namespace Vts.Extensions
 {
+    /// <summary>
+    /// Helper group of extension methods for adding LINQ funcitonality
+    /// </summary>
     public static class EnumerableExtensions
     {
+        /// <summary>
+        /// Extension method to turn any single item into an IEnumerable (i.e. "yield-returns" the item)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="singleItem"></param>
+        /// <returns></returns>
         public static IEnumerable<T> AsEnumerable<T>(this T singleItem)
         {
             yield return singleItem;
         }
 
         /// <summary>
-        /// 2D array version of Select with x and y indexers
+        /// 2D array overload of the LINQ Select operator with x and y indexers
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -32,6 +41,14 @@ namespace Vts.Extensions
                 select myFunc(my2DArray[xi, yi], xi, yi);
         }
 
+        /// <summary>
+        /// Converts an IEnumerable into a 2D array given a specified width and height
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="myArray"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
         public static T[,] To2DArray<T>(this IEnumerable<T> myArray, int width, int height)
         {
             T[,] outputArray = new T[width, height];
@@ -47,90 +64,69 @@ namespace Vts.Extensions
             return outputArray;
         }
 
-        public static IEnumerable<double> To(this double from, double to, double every)
-        {
-            if (to >= from && every >= 0 || from >= to && every <= 0)
-            {
-                long numElements = (long)(Math.Floor(Math.Abs((double)(to - from) / every) + 10e-10D) + 1);
-                var value = from;
-                for (long i = 0; i < numElements; i++, value += every)
-                {
-                    yield return value;
-                }
-            }
-        }
-        public static IEnumerable<float> To(this float from, float to, float every)
-        {
-            if (to >= from && every >= 0 || from >= to && every <= 0)
-            {
-                long numElements = (long)(Math.Floor(Math.Abs((double)(to - from) / every) + 10e-10D) + 1);
-                var value = from;
-                for (long i = 0; i < numElements; i++, value += every)
-                {
-                    yield return value;
-                }
-            }
-        }
-        public static IEnumerable<long> To(this long from, long to, long every)
-        {
-            if (to >= from && every >= 0 || from >= to && every <= 0)
-            {
-                long numElements = (long)(Math.Floor(Math.Abs((double)(to - from) / every) + 10e-10D) + 1);
-                var value = from;
-                for (long i = 0; i < numElements; i++, value += every)
-                {
-                    yield return value;
-                }
-            }
-        }
-        public static IEnumerable<int> To(this int from, int to, int every)
-        {
-            if (to >= from && every >= 0 || from >= to && every <= 0)
-            {
-                long numElements = (long)(Math.Floor(Math.Abs((double)(to - from) / every) + 10e-10D) + 1);
-                var value = from;
-                for (long i = 0; i < numElements; i++, value += every)
-                {
-                    yield return value;
-                }
-            }
-        }
-        public static IEnumerable<int> To(this int from, int to) { return To(from, to, from <=to ? 1 : -1); }
-        public static IEnumerable<long> To(this long from, long to) { return To(from, to, from <= to ? 1L : -1L); }
-        public static IEnumerable<float> To(this float from, float to) { return To(from, to, from <= to ? 1F : -1F); }
-        public static IEnumerable<double> To(this double from, double to) { return To(from, to, from <= to ? 1D : -1D); }
-
-        //public static IEnumerable<Tuple<TFirst, TSecond>> Unzip<TInput, TFirst, TSecond>(this IEnumerable<TInput> input, Func<TInput, Tuple<TFirst, TSecond>> func)
+        ///// <summary>
+        ///// (Deprecated) 
+        ///// </summary>
+        ///// <param name="from"></param>
+        ///// <param name="to"></param>
+        ///// <param name="every"></param>
+        ///// <returns></returns>
+        //public static IEnumerable<double> To(this double from, double to, double every)
         //{
-        //    if (input == null)
-        //        throw new ArgumentNullException("input");
-        //    return UnzipInternal(input, func);
-        //}
-        //private static IEnumerable<Tuple<TFirst, TSecond>> UnzipInternal<TInput, TFirst, TSecond>(this IEnumerable<TInput> input, Func<TInput, Tuple<TFirst,TSecond>> func)
-        //{
-        //    foreach (TInput item in input)
-        //        yield return func(item);
+        //    if (to >= from && every >= 0 || from >= to && every <= 0)
+        //    {
+        //        long numElements = (long)(Math.Floor(Math.Abs((double)(to - from) / every) + 10e-10D) + 1);
+        //        var value = from;
+        //        for (long i = 0; i < numElements; i++, value += every)
+        //        {
+        //            yield return value;
+        //        }
+        //    }
         //}
 
-        //public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> func)
+        //public static IEnumerable<float> To(this float from, float to, float every)
         //{
-        //    if (first == null)
-        //        throw new ArgumentNullException("first");
-
-        //    if (second == null)
-        //        throw new ArgumentNullException("second");
-
-        //    return ZipInternal(first, second, func);
+        //    if (to >= from && every >= 0 || from >= to && every <= 0)
+        //    {
+        //        long numElements = (long)(Math.Floor(Math.Abs((double)(to - from) / every) + 10e-10D) + 1);
+        //        var value = from;
+        //        for (long i = 0; i < numElements; i++, value += every)
+        //        {
+        //            yield return value;
+        //        }
+        //    }
         //}
 
-        //private static IEnumerable<TResult> ZipInternal<TFirst, TSecond, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> func)
+        //public static IEnumerable<long> To(this long from, long to, long every)
         //{
-        //    var ie1 = first.GetEnumerator();
-        //    var ie2 = second.GetEnumerator();
-
-        //    while (ie1.MoveNext() && ie2.MoveNext())
-        //        yield return func(ie1.Current, ie2.Current);
+        //    if (to >= from && every >= 0 || from >= to && every <= 0)
+        //    {
+        //        long numElements = (long)(Math.Floor(Math.Abs((double)(to - from) / every) + 10e-10D) + 1);
+        //        var value = from;
+        //        for (long i = 0; i < numElements; i++, value += every)
+        //        {
+        //            yield return value;
+        //        }
+        //    }
         //}
+
+        //public static IEnumerable<int> To(this int from, int to, int every)
+        //{
+        //    if (to >= from && every >= 0 || from >= to && every <= 0)
+        //    {
+        //        long numElements = (long)(Math.Floor(Math.Abs((double)(to - from) / every) + 10e-10D) + 1);
+        //        var value = from;
+        //        for (long i = 0; i < numElements; i++, value += every)
+        //        {
+        //            yield return value;
+        //        }
+        //    }
+        //}
+
+        //public static IEnumerable<int> To(this int from, int to) { return To(from, to, from <=to ? 1 : -1); }
+        //public static IEnumerable<long> To(this long from, long to) { return To(from, to, from <= to ? 1L : -1L); }
+        //public static IEnumerable<float> To(this float from, float to) { return To(from, to, from <= to ? 1F : -1F); }
+        //public static IEnumerable<double> To(this double from, double to) { return To(from, to, from <= to ? 1D : -1D); }
 
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, Func<TFirst, TSecond, TThird, TResult> func)
         {
@@ -155,7 +151,6 @@ namespace Vts.Extensions
             while (ie1.MoveNext() && ie2.MoveNext() && ie3.MoveNext())
                 yield return func(ie1.Current, ie2.Current, ie3.Current);
         }
-
 
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, IEnumerable<TFourth> fourth, Func<TFirst, TSecond, TThird, TFourth, TResult> func)
         {
@@ -185,8 +180,6 @@ namespace Vts.Extensions
             while (ie1.MoveNext() && ie2.MoveNext() && ie3.MoveNext() && ie4.MoveNext())
                 yield return func(ie1.Current, ie2.Current, ie3.Current, ie4.Current);
         }
-
-
 
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TFifth, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, IEnumerable<TFourth> fourth, IEnumerable<TFifth> fifth, Func<TFirst, TSecond, TThird, TFourth, TFifth, TResult> func)
         {
@@ -251,21 +244,5 @@ namespace Vts.Extensions
                 }
             }
         }
-
-        //public static IEnumerable<T> To<T>(this T from, T to, Func<T, T> inc) where T : struct, IComparable<T>
-        //{
-        //    for (T t = from; t.CompareTo(to) <= 0; t = inc(t))
-        //    {
-        //        yield return t;
-        //    }
-        //}
-        //public static IEnumerable<int> To(this int from, int to, int every) { return To(from, to, x => x + every); }
-        //public static IEnumerable<long> To(this long from, long to, long every) { return To(from, to, x => x + every); }
-        //public static IEnumerable<float> To(this float from, float to, float every) { return To(from, to, x => x + every); }
-        //public static IEnumerable<double> To(this double from, double to, double every) { return To(from, to, x => x + every); }
-        //public static IEnumerable<int> To(this int from, int to) { return To(from, to, x => x + 1); }
-        //public static IEnumerable<long> To(this long from, long to) { return To(from, to, x => x + 1L); }
-        //public static IEnumerable<float> To(this float from, float to) { return To(from, to, x => x + 1.0F); }
-        //public static IEnumerable<double> To(this double from, double to) { return To(from, to, x => x + 1.0D); }
     }
 }

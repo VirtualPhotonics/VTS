@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Vts.Extensions;
+using Vts.Common;
 using Vts.Factories;
 using Vts.MonteCarlo;
 
@@ -31,9 +31,9 @@ namespace Vts.Test.Modeling
         Mua1Musp13,
         Mua1Musp15,
     }
+
     public class LoadValidationData
     {
-        # region fields
         public static double drValidation;
         public static double dtValidation;
         public static int nrValidation;
@@ -54,18 +54,19 @@ namespace Vts.Test.Modeling
         private static string project = "Vts.Modeling.Test";
         private static string ValidationFolder;
         private static Output output;
-        # endregion fields
 
         public static void InitializeValidationData(ValidationType selectedType)
         {
             LoadSelectedValidationData(selectedType);
             ConvertDataUnits();
         }
+
         private static void LoadSelectedValidationData(ValidationType selectedType)
         {
             UpdateValidationType(selectedType);
             output = Output.FromFolderInResources(folder + ValidationFolder, project);
         }
+
         private static void ConvertDataUnits()
         {
             // units conversion from MC: mua,musp[/cm] -> mua,musp(1cm/10mm) [/mm]
@@ -76,7 +77,7 @@ namespace Vts.Test.Modeling
             double variance;
             muaValidation = output.input.TissueInput.Regions[1].RegionOP.Mua / 10.0D; // convert to mm-1
             gValidation = output.input.TissueInput.Regions[1].RegionOP.G;
-            N = (long)output.input.N;
+            N = output.input.N;
             muspValidation = output.input.TissueInput.Regions[1].RegionOP.Mus * (1.0D - gValidation) / 10;
             nValidation = output.input.TissueInput.Regions[1].RegionOP.N;
             drValidation = output.input.DetectorInput.Rho.Delta * 10; // convert from cm to mm
@@ -116,6 +117,7 @@ namespace Vts.Test.Modeling
             }
             avgRelError /= nrValidation * ntValidation;
         }
+
         private static void UpdateValidationType(ValidationType selectedType)
         {
             switch (selectedType)
@@ -186,13 +188,11 @@ namespace Vts.Test.Modeling
                     break;
             }
         }
+
         public static double[,] GetScaledMonteCarloRrtAtValidationPoints()
         {
-            var opValidation = new OpticalProperties(muaValidation, muspValidation, gValidation, nValidation);
             double[,] Scaled_R_rt = new double[nrValidation, ntValidation];
-            double[] rho, time;
-            rho = (drValidation / 2).To(drValidation * nrValidation - drValidation / 2, drValidation).ToArray();
-            time = (dtValidation / 2).To(dtValidation * ntValidation - dtValidation / 2, dtValidation).ToArray();
+
             double[] temp = new double[ntValidation];
             // the following seems to not be optimal, not using vectorized code appropriately
             for (int i = 0; i < nrValidation; i++)
@@ -205,16 +205,14 @@ namespace Vts.Test.Modeling
             }
             return Scaled_R_rt;
         }
+
         public static double[] GetScaledMonteCarloRtAtValidationPoints(int rhoIndex)
         {
             OpticalProperties opValidation = new OpticalProperties(muaValidation, muspValidation, gValidation, nValidation); 
-            double[] independentValues = new double[ntValidation];
-            double[] constantValue = new double[1];
-            IEnumerable<double> query;
-            double[] Scaled_R_t = new double[ntValidation];
-            independentValues = (dtValidation / 2).To(dtValidation * ntValidation - dtValidation / 2, dtValidation).ToArray();
-            constantValue[0] = drValidation * rhoIndex + drValidation / 2;
-            query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            double[] independentValues = new DoubleRange(dtValidation / 2, dtValidation * ntValidation - dtValidation / 2, ntValidation).AsEnumerable().ToArray();
+            double[] constantValue = new []{ drValidation * rhoIndex + drValidation / 2};
+            
+            IEnumerable<double> query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                 SolverFactory.GetForwardSolver(ForwardSolverType.MonteCarlo),
                 SolutionDomainType.RofRhoAndT,
                 ForwardAnalysisType.R,
@@ -222,26 +220,27 @@ namespace Vts.Test.Modeling
                 independentValues,
                 opValidation,
                 constantValue);
-            Scaled_R_t = query.ToArray();
+
+            double[] Scaled_R_t = query.ToArray();
+
             return Scaled_R_t;
         }
+
         public static double[] GetScaledMonteCarloRrAtValidationPoints()
         {
             OpticalProperties opValidation = new OpticalProperties(muaValidation, muspValidation, gValidation, nValidation);
-            double[] independentValues = new double[nrValidation];
-            double[] constantValue = new double[1];
-            IEnumerable<double> query;
-            double[] Scaled_R_r = new double[nrValidation];
-            independentValues = (drValidation / 2).To(drValidation * nrValidation - drValidation / 2, drValidation).ToArray();
-            query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            double[] independentValues = new DoubleRange(drValidation / 2, drValidation * nrValidation - drValidation / 2, nrValidation).AsEnumerable().ToArray();
+
+            IEnumerable<double> query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                 SolverFactory.GetForwardSolver(ForwardSolverType.MonteCarlo),
                 SolutionDomainType.RofRho,
                 ForwardAnalysisType.R,
                 IndependentVariableAxis.Rho,
                 independentValues,
-                opValidation,
-                constantValue);
-            Scaled_R_r = query.ToArray();
+                opValidation);
+
+            double[] Scaled_R_r = query.ToArray();
+
             return Scaled_R_r;
         }
     }

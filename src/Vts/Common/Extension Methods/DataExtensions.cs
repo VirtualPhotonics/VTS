@@ -3,13 +3,16 @@ using System.Collections.Generic;
 
 namespace Vts.Extensions
 {
+    /// <summary>
+    /// Helper group of extension methods for manipulating data in arrays (e.g. adding noise, etc.)
+    /// </summary>
     public static class DataExtensions
     {
         /// <summary>
         /// This extension method (static method "add-on" to the double[] class) adds noise to the input double array
         /// </summary>
         /// <param name="myDoubleArray"></param>
-        /// <param name="percentNoise"></param>
+        /// <param name="percentNoise"></param>p
         /// <returns></returns>
         public static void AddNoise(this double[] myDoubleArray, double percentNoise)
         {

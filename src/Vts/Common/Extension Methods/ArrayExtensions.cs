@@ -2,6 +2,9 @@
 
 namespace Vts.Extensions
 {
+    /// <summary>
+    /// Helper group of extension methods for array-based operations
+    /// </summary>
     public static class ArrayExtensions
     {
         public static T[] InitializeTo<T>(this T[] myArray, T value) where T : struct
