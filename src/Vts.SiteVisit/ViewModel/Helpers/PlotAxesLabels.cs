@@ -1,5 +1,8 @@
 namespace Vts.SiteVisit.ViewModel
 {
+    /// <summary>
+    /// Data structure to hold data for plot information
+    /// </summary>
     public class PlotAxesLabels
     {
         public string IndependentAxisUnits { get; set; }
