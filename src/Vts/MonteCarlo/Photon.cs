@@ -42,14 +42,15 @@ namespace Vts.MonteCarlo
                         new SubRegionCollisionInfo(0.0, 0, tallyMomentumTransfer, 0D)).ToArray());
 
             History = new PhotonHistory();
+            // can't set up initial point in constructor
             // set initial point in history
-            History.HistoryData.Add(
-                new PhotonDataPoint(
-                    DP.Position, 
-                    DP.Direction,
-                    DP.Weight,
-                    DP.StateFlag,
-                    null)); // don't carry SubRegionCollisionInfo data in History
+            //History.HistoryData.Add(
+            //    new PhotonDataPoint(
+            //        DP.Position, 
+            //        DP.Direction,
+            //        DP.Weight,
+            //        DP.StateFlag,
+            //        null)); // don't carry SubRegionCollisionInfo data in History
             S = 0.0;
             SLeft = 0.0;
             CurrentRegionIndex = tissue.GetRegionIndex(DP.Position);
