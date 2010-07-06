@@ -907,7 +907,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// Evaluates the Fourier transform of an isoparametric Nurbs curve analitically.
         /// </summary>
         /// <param name="space">spatial coordinate</param>
-        /// <param name="mua">absorption coefficient</param>
+        /// <param name="expTerm">exponential coefficients</param>
         /// <param name="ft">temporal frequency</param>
         /// <returns>R(ft) at fixed rho</returns>
         public Complex EvaluateNurbsCurveFourierTransform(double space, double expTerm, double ft)
