@@ -37,11 +37,8 @@ namespace Vts.Modeling
                 throw new Meta.Numerics.DimensionMismatchException();
             }
             Complex sum = 0.0;
-            //double sum = 0.0;
             for (int i = 0; i < time.Length; i++)
             {
-                //sum += RofTime[i] * (Math.Cos(2 * Math.PI * ft * time[i]) -
-                //    Complex.ImaginaryOne * Math.Sin(2 * Math.PI * ft * time[i])) * dt;
                 sum += EvaluateDiscreteFourierTransform(time[i], RofTime[i], dt, ft);
             }
             return sum;
