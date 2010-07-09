@@ -19,19 +19,22 @@ namespace Vts.IO
             var stream = Application.GetResourceStream(new Uri(projectName + ";component/" + fileName, UriKind.Relative)).Stream;
             return stream;
 #else
-            Assembly assembly = null;
+            string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string fullPath = currentAssemblyDirectoryName + "\\" + projectName;
 
-            if (File.Exists(projectName + ".dll"))
+            Assembly assembly = null;
+            
+            if (File.Exists(fullPath + ".dll"))
             {
-                assembly = Assembly.LoadFrom(projectName + ".dll");
+                assembly = Assembly.LoadFrom(fullPath + ".dll");
             }
-            else if(File.Exists(projectName + ".exe"))
+            else if (File.Exists(fullPath + ".exe"))
             {
-                assembly = Assembly.LoadFrom(projectName + ".exe");
+                assembly = Assembly.LoadFrom(fullPath + ".exe");
             }
             else
             {
-                throw new FileNotFoundException("Requested resource filestream was not found.");
+                throw new FileNotFoundException("Can't locate specified assembly.");
             }
 
             var newFileName = fileName.Replace("/", ".");
@@ -43,32 +46,11 @@ namespace Vts.IO
         public static Stream GetFileStream(string filename, FileMode fileMode)
         {
 #if SILVERLIGHT
-
-//#if SILVERLIGHT_SAVE_TO_LOCAL_FILESTREAM_WITH_SAVEFILEDIALOG // experimental (not currently working)
-//            Stream stream = null;
-//            Button b = new Button { Content = "Yes" };
-//            var window = new FloatableWindow
-//                             {
-//                                 Content = b,
-//                                 Title = "Save " + filename + "?",
-//                             };
-//            b.Click += delegate
-//                           {
-//                               stream = GetFileStreamForLocalStorage(filename, fileMode);
-//                               window.Close();
-//                           };
-            
-//            window.ShowDialog();
-
-//            return stream;
-//#else
             // save to IsolatedStorage with no user interaction
             var userstore = IsolatedStorageFile.GetUserStoreForApplication();
             var locations = userstore.GetDirectoryNames();
             return new IsolatedStorageFileStream(filename, fileMode,
                 IsolatedStorageFile.GetUserStoreForApplication());
-//#endif
-
 #else
             return File.Open(Path.GetFullPath(filename), fileMode);
 #endif
@@ -93,28 +75,5 @@ namespace Vts.IO
             return null;
         }
 #endif
-
-//#if SILVERLIGHT // experimental
-//        public static Stream GetFileStreamForLocalStorage(string filename, FileMode fileMode)
-//        {
-//            SaveFileDialog sfd = new SaveFileDialog()
-//            {
-//                //DefaultExt = "txt",
-//                DefaultExt = "xml",
-//                //Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*",
-//                Filter = "All files (*.*)|*.*",
-//                FilterIndex = 1,
-//            };
-
-//            if (sfd.ShowDialog() == true)
-//            {
-//                return sfd.OpenFile();
-//            }
-//            else
-//            {
-//                return null;
-//            }
-//        }
-//#endif
     }
 }

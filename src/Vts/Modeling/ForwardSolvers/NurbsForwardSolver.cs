@@ -19,21 +19,13 @@ namespace Vts.Modeling.ForwardSolvers
     /// </summary>
     public class NurbsForwardSolver : ForwardSolverBase
     {
-        #region fields
-
+        private readonly double _v;
+        private readonly OpticalProperties _opReference;
         private INurbs _rdGenerator;
         private INurbs _sfdGenerator;
 
-        public static readonly double v =  GlobalConstants.C / 1.4;
-        private static readonly OpticalProperties _opReference =
-                                                 new OpticalProperties(0.0, 1, 0.8, 1.4);
-
-        #endregion fields
-
-        #region constructor
-
         /// <summary>
-        /// Constructor which creates an istance of NurbsForwardSolver setting
+        /// Initializes a new instance of the NurbsForwardSolver class, setting
         /// the NurbsGenerators to the values passed as Input.
         /// </summary>
         /// <param name="rdGenerator">real domain NurbsGenerator</param>
@@ -42,20 +34,22 @@ namespace Vts.Modeling.ForwardSolvers
         {
             _rdGenerator = rdGenerator;
             _sfdGenerator = sfdGenerator;
+            _v = GlobalConstants.C / 1.4;
+            _opReference = new OpticalProperties(0.0, 1, 0.8, 1.4);
         }
 
         /// <summary>
         /// Default class constructor called by solver factory.
         /// </summary>
         public NurbsForwardSolver()
-            : this(new NurbsGenerator(NurbsGeneratorType.RealDomain),
-                   new NurbsGenerator(NurbsGeneratorType.SpatialFrequencyDomain))
+            : this(
+                new NurbsGenerator(NurbsGeneratorType.RealDomain),
+                new NurbsGenerator(NurbsGeneratorType.SpatialFrequencyDomain))
         {
-
         }
         
         /// <summary>
-        /// Constructor used to create an istance of NurbsForwardSolver
+        /// Initializes a new instance of the NurbsForwardSolver class, 
         /// with the same stub NurbsGenerator for all the NurbsGenerators.
         /// Used for Unit Tests of the class.
         /// </summary>
@@ -63,10 +57,7 @@ namespace Vts.Modeling.ForwardSolvers
         public NurbsForwardSolver(INurbs generator)
             : this(generator, generator)
         {
-
         }
-
-        #endregion constructor
 
         #region IForwardSolver methods
 
@@ -111,7 +102,7 @@ namespace Vts.Modeling.ForwardSolvers
                 foreach (var rho in rhos)
                 {
                     rho_ref = rho * op.Musp / _opReference.Musp;
-                    double exponentialTerm = op.Mua * v * _opReference.Musp / op.Musp;
+                    double exponentialTerm = op.Mua * _v * _opReference.Musp / op.Musp;
 
                     if (rho_ref <= _rdGenerator.SpaceValues.MaxValue)
                     {
@@ -196,7 +187,7 @@ namespace Vts.Modeling.ForwardSolvers
 
                         scaledValue = CheckIfValidOutput(scaledValue);
                         
-                        yield return scalingFactor * scaledValue * Math.Exp(-op.Mua * v * t);
+                        yield return scalingFactor * scaledValue * Math.Exp(-op.Mua * _v * t);
                     }
                 }
             }
@@ -228,7 +219,6 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>reflectance intensity</returns>
         public override IEnumerable<Complex> RofRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
         {
-            bool analyticIntegration = false;
             double scalingFactor;
             double rho_ref;
             Complex transformedValue;
@@ -236,59 +226,45 @@ namespace Vts.Modeling.ForwardSolvers
             foreach (var op in ops)
             {
                 scalingFactor = GetScalingFactor(op, 2);
-                
-                if (analyticIntegration)
-                {
-                    foreach (var rho in rhos)
-                    {
-                        rho_ref = rho * op.Musp / _opReference.Musp;
-                        double exponentialTerm = op.Mua * v * _opReference.Musp / op.Musp;
 
-                        if (rho_ref <= _rdGenerator.SpaceValues.MaxValue)
+                foreach (var rho in rhos)
+                {
+                    rho_ref = rho * op.Musp / _opReference.Musp;
+                    double exponentialTerm = op.Mua * _v * _opReference.Musp / op.Musp;
+
+                    if (rho_ref <= _rdGenerator.SpaceValues.MaxValue)
+                    {
+                        foreach (var ft in fts)//lui va scalato?..direi di no perche si tratta di trasformare a posizione scalata.
                         {
-                            foreach (var ft in fts)
-                            {
-                                transformedValue = _rdGenerator.EvaluateNurbsCurveFourierTransform(rho_ref, exponentialTerm, ft * _opReference.Musp / op.Musp);
-                                yield return transformedValue * scalingFactor;
-                            }
-                        }
-                        else
-                        {
-                            foreach (var ft in fts)
-                            {
-                                yield return new Complex(0.0, 0.0);
-                            }
+                            transformedValue = _rdGenerator.EvaluateNurbsCurveFourierTransform(rho_ref, exponentialTerm, ft * _opReference.Musp / op.Musp);
+                            yield return transformedValue * scalingFactor;
                         }
                     }
-                }
-                else
-                {
-                    var time = _rdGenerator.TimeKnotSpanPolynomialCoefficients.Select(span => span.GetKnotSpanMidTime());
-                    var deltaT = _rdGenerator.TimeKnotSpanPolynomialCoefficients.Select(span => span.GetKnotSpanDeltaT());
-
-                    foreach (var rho in rhos)
+                    else
                     {
-                        rho_ref = rho * op.Musp / _opReference.Musp;
-                        if (rho_ref <= _rdGenerator.SpaceValues.MaxValue)
+                        foreach (var ft in fts)
                         {
-                            var RofT = RofRhoAndT(op.AsEnumerable(), rho_ref.AsEnumerable(), time);
-
-                            foreach (var ft in fts)
-                            {
-                                transformedValue = LinearDiscreteFourierTransform.GetFourierTransform(time.ToArray(), RofT.ToArray(), deltaT.ToArray(), ft * _opReference.Musp / op.Musp);
-                                yield return transformedValue * scalingFactor;
-                            }
-                        }
-                        else
-                        {
-                            foreach (var ft in fts)
-                            {
-                                yield return new Complex(0.0, 0.0);
-                            }
+                            yield return new Complex(0.0,0.0); 
                         }
                     }
                 }
             }
+            //foreach (var op in ops)
+            //{
+            //    double maxT = _rdGenerator.TimeValues.MaxValue * _opReference.Musp / op.Musp;
+            //    double maxFt = fts.Last();
+            //    double nPoints = maxT * 2.0 * maxFt;
+            //    var time =  new DoubleRange(0.0, maxT, (Int16)nPoints).AsEnumerable();
+            //    var dTime = time.ElementAt(1) - time.ElementAt(0);
+            //    foreach (var rho in rhos)
+            //    {
+            //        double[] rOfTime = RofRhoAndT(op.AsEnumerable(), rho.AsEnumerable(), time).ToArray();
+            //        foreach (var ft in fts)
+            //        {
+            //            yield return LinearDiscreteFourierTransform.GetFourierTransform(time.ToArray(), rOfTime, dTime, ft);
+            //        }
+            //    }
+            //}
         }
         
         #endregion Real Domain
@@ -307,6 +283,7 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return RofFx(op.AsEnumerable(), fx.AsEnumerable()).FirstOrDefault();
         }
+
         /// <summary>
         /// Returns the spatial frequancy resolved reflectance at fx applying the scaling on
         /// the reference fx-time resolved reflectance.
@@ -327,7 +304,7 @@ namespace Vts.Modeling.ForwardSolvers
                 foreach (var fx in fxs)
                 {
                     fx_ref = fx * _opReference.Musp / op.Musp;
-                    double exponentialterm = op.Mua * v * _opReference.Musp / op.Musp;
+                    double exponentialterm = op.Mua * _v * _opReference.Musp / op.Musp;
 
                     if (fx_ref <= _sfdGenerator.SpaceValues.MaxValue)
                     {
@@ -396,7 +373,7 @@ namespace Vts.Modeling.ForwardSolvers
 
                             scaledValue = CheckIfValidOutput(scaledValue);
 
-                            yield return scalingFactor * scaledValue * Math.Exp(-op.Mua * v * t);
+                            yield return scalingFactor * scaledValue * Math.Exp(-op.Mua * _v * t);
                         }                   
                     } 
                 }
@@ -417,9 +394,8 @@ namespace Vts.Modeling.ForwardSolvers
         }
         /// <summary>
         /// Evaluates the spatial frequency and temporal frequency resolved reflectance
-        /// calculating the Fourier transform of the NURBS curve R(t) at the
+        /// calculating the analitycal Fourier transform of the NURBS curve R(t) at the
         /// required spatial frequency for the specified optical properties. 
-        /// The computed FT is analitycal or discrete according to the boolean value 'analyticIntegration'.
         /// </summary>
         /// <param name="ops">optical properties</param>
         /// <param name="fxs">spatial frequency</param>
@@ -427,63 +403,49 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>spatial frequency and temporal frequancy resolved reflectance</returns>
         public override IEnumerable<Complex> RofFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts)
         {
-            bool analyticIntegration = false;
             double fx_ref;
             Complex transformedValue;
 
             foreach (var op in ops)
             {
-                if (analyticIntegration)
+                foreach (var fx in fxs)
                 {
-                    foreach (var fx in fxs)
-                    {
-                        fx_ref = fx * _opReference.Musp / op.Musp;
-                        double exponentialterm = op.Mua * v * _opReference.Musp / op.Musp;
+                    fx_ref = fx * _opReference.Musp / op.Musp;
+                    double exponentialterm = op.Mua * _v * _opReference.Musp / op.Musp;
 
-                        if (fx_ref <= _sfdGenerator.SpaceValues.MaxValue)
+                    if (fx_ref <= _sfdGenerator.SpaceValues.MaxValue)
+                    {
+                        foreach (var ft in fts)
                         {
-                            foreach (var ft in fts)
-                            {
-                                transformedValue = _sfdGenerator.EvaluateNurbsCurveFourierTransform(fx_ref, exponentialterm, ft * _opReference.Musp / op.Musp);
-                                yield return Math.PI * transformedValue;
-                            }
+                            transformedValue = _sfdGenerator.EvaluateNurbsCurveFourierTransform(fx_ref, exponentialterm, ft * _opReference.Musp / op.Musp);
+                            yield return Math.PI * transformedValue;
                         }
-                        else
+                    }
+                    else
+                    {
+                        foreach (var ft in fts)
                         {
-                            foreach (var ft in fts)
-                            {
-                                yield return new Complex(0.0, 0.0);
-                            }
+                            yield return new Complex(0.0, 0.0);   
                         }
                     }
                 }
-                else
-                {
-                    var time = _sfdGenerator.TimeKnotSpanPolynomialCoefficients.Select(span => span.GetKnotSpanMidTime());
-                    var deltaT = _sfdGenerator.TimeKnotSpanPolynomialCoefficients.Select(span => span.GetKnotSpanDeltaT());
-
-                    foreach (var fx in fxs)
-                    {
-                        fx_ref = fx * op.Musp / _opReference.Musp;
-                        if (fx_ref <= _sfdGenerator.SpaceValues.MaxValue)
-                        {
-                            var RofT = RofFxAndT(op.AsEnumerable(), fx_ref.AsEnumerable(), time);
-
-                            foreach (var ft in fts)
-                            {
-                                yield return LinearDiscreteFourierTransform.GetFourierTransform(time.ToArray(), RofT.ToArray(), deltaT.ToArray(), ft * _opReference.Musp / op.Musp);    
-                            }
-                        }
-                        else
-                        {
-                            foreach (var ft in fts)
-                            {
-                                yield return new Complex(0.0, 0.0);
-                            }
-                        }
-                    }
-                }  
             }
+            //foreach (var op in ops)
+            //{
+            //    double maxT = _sfdGenerator.TimeValues.MaxValue * _opReference.Musp / op.Musp;
+            //    double maxFt = fts.Last();
+            //    double nPoints = maxT * 2.0 * maxFt;
+            //    var time = new DoubleRange(0.0, maxT, (Int16)nPoints).AsEnumerable();
+            //    var dTime = time.ElementAt(1) - time.ElementAt(0);
+            //    foreach (var fx in fxs)
+            //    {
+            //        double[] rOfTime = RofFxAndT(op.AsEnumerable(), fx.AsEnumerable(), time).ToArray();
+            //        foreach (var ft in fts)
+            //        {
+            //            yield return LinearDiscreteFourierTransform.GetFourierTransform(time.ToArray(), rOfTime, dTime, ft);
+            //        }
+            //    }
+            //}
         }
 
         #endregion Spatial Frequency Domain
@@ -574,8 +536,6 @@ namespace Vts.Modeling.ForwardSolvers
 
         #endregion IForwardSolver methods
 
-        #region public methods
-
         /// <summary>
         /// Returns zero if the input value is smaller then zero of if it is NaN.
         /// Negative value are not possible for the measured reflectance.
@@ -585,7 +545,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="value">double precision number</param>
         /// <returns>zero or the input value</returns>
-        public double CheckIfValidOutput(double value)
+        private double CheckIfValidOutput(double value)
         {
             //TODO throw exception if it happens.
             if (value < 0.0 || Double.IsNaN(value))
@@ -624,10 +584,8 @@ namespace Vts.Modeling.ForwardSolvers
             double slope = (lR2 - lR1) / (deltaT);
             double intercept = -slope * generator.TimeValues.MaxValue + lR1;
             area = -Math.Pow(10.0, intercept + slope * generator.TimeValues.MaxValue)
-                   * Math.Exp(-op.Mua * v * generator.TimeValues.MaxValue) / (slope - op.Mua);
+                   * Math.Exp(-op.Mua * _v * generator.TimeValues.MaxValue) / (slope - op.Mua);
             return area;
         }
-        
-        #endregion public methods
     }
 }
