@@ -5,10 +5,19 @@ namespace Vts.Common
     public class UintRange : Range<uint>
     {
         public UintRange(uint start, uint stop, int number)
-            : base(start, stop, number) { }
+            : base(start, stop, number)
+        {
+        }
+
+        public UintRange(uint start, uint stop)
+            : this(start, stop, (int)(stop - start) + 1)
+        {
+        }
 
         public UintRange()
-            : this(0U, 1U, 2) { }
+            : this(0U, 1U, 2)
+        {
+        }
 
         protected override uint GetDelta()
         {

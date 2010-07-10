@@ -5,10 +5,19 @@ namespace Vts.Common
     public class FloatRange : Range<float>
     {
         public FloatRange(float start, float stop, int number)
-            : base(start, stop, number) { }
+            : base(start, stop, number)
+        {
+        }
+
+        public FloatRange(float start, float stop)
+            : this(start, stop, 2)
+        {
+        }
 
         public FloatRange()
-            : this(0F, 1F, 2) { }
+            : this(0F, 1F, 2)
+        {
+        }
 
         protected override float GetDelta()
         {

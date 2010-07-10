@@ -68,14 +68,13 @@ namespace Vts
         /// <summary>
         /// The increment between successive numbers
         /// </summary>
-        /// <remarks>Warning - updating Start, or Stop or Count will NOT update this property!</remarks>
         public T Delta
         {
             get { return _Delta; }
             set
             {
                 _Delta = value;
-                // _Count = GetNewCount();
+                //_Count = GetNewCount();
                 OnPropertyChanged("Delta");
                 //OnPropertyChanged("Count");
             }
