@@ -229,27 +229,21 @@ namespace Vts.Modeling.ForwardSolvers
         public override IEnumerable<Complex> RofRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
         {
             bool analyticIntegration = false;
-            double scalingFactor;
             double rho_ref;
-            Complex transformedValue;
 
             foreach (var op in ops)
-            {
-                scalingFactor = GetScalingFactor(op, 2);
-                
+            {   
                 if (analyticIntegration)
                 {
                     foreach (var rho in rhos)
                     {
-                        rho_ref = rho * op.Musp / _opReference.Musp;
                         double exponentialTerm = op.Mua * v * _opReference.Musp / op.Musp;
-
+                        rho_ref = rho * op.Musp / _opReference.Musp;
                         if (rho_ref <= _rdGenerator.SpaceValues.MaxValue)
                         {
                             foreach (var ft in fts)
                             {
-                                transformedValue = _rdGenerator.EvaluateNurbsCurveFourierTransform(rho_ref, exponentialTerm, ft * _opReference.Musp / op.Musp);
-                                yield return transformedValue * scalingFactor;
+                                yield return GetScalingFactor(op,2) * _rdGenerator.EvaluateNurbsCurveFourierTransform(rho_ref, exponentialTerm, ft * _opReference.Musp / op.Musp);
                             }
                         }
                         else
@@ -263,20 +257,24 @@ namespace Vts.Modeling.ForwardSolvers
                 }
                 else
                 {
-                    var time = _rdGenerator.TimeKnotSpanPolynomialCoefficients.Select(span => span.GetKnotSpanMidTime());
-                    var deltaT = _rdGenerator.TimeKnotSpanPolynomialCoefficients.Select(span => span.GetKnotSpanDeltaT());
-
+                    //var time = _rdGenerator.TimeKnotSpanPolynomialCoefficients.Select(span => span.GetKnotSpanMidTime());
+                    //var deltaT = _rdGenerator.TimeKnotSpanPolynomialCoefficients.Select(span => span.GetKnotSpanDeltaT());
+                    var time = _rdGenerator.NativeTimes;
+                    for (int i = 0; i < time.Length; i++)
+                    {
+                        time[i] = time[i] * _opReference.Musp / op.Musp;
+                    }
+                    var deltaT = GetDeltaT(time);
+                    
                     foreach (var rho in rhos)
                     {
-                        rho_ref = rho * op.Musp / _opReference.Musp;
-                        if (rho_ref <= _rdGenerator.SpaceValues.MaxValue)
+                        if (rho * _opReference.Musp / op.Musp <= _rdGenerator.SpaceValues.MaxValue)
                         {
-                            var RofT = RofRhoAndT(op.AsEnumerable(), rho_ref.AsEnumerable(), time);
+                            var RofT = RofRhoAndT(op.AsEnumerable(), rho.AsEnumerable(), time);
 
                             foreach (var ft in fts)
                             {
-                                transformedValue = LinearDiscreteFourierTransform.GetFourierTransform(time.ToArray(), RofT.ToArray(), deltaT.ToArray(), ft * _opReference.Musp / op.Musp);
-                                yield return transformedValue * scalingFactor;
+                                yield return LinearDiscreteFourierTransform.GetFourierTransform(time.ToArray(), RofT.ToArray(), deltaT.ToArray(), ft);  
                             }
                         }
                         else
@@ -575,6 +573,23 @@ namespace Vts.Modeling.ForwardSolvers
         #endregion IForwardSolver methods
 
         #region public methods
+
+        private double[] GetDeltaT(double[] t)
+        {
+            double[] deltaT = new double[t.Length];
+            double[] T = new double[t.Length + 1];
+            T[0] = t[0];
+            for (int i = 1; i < T.Length - 1; i++)
+            {
+                T[i] = t[i - 1] + (t[i] - t[i - 1]) / 2.0;
+            }
+            T[T.Length - 1] = 2.0 * t[t.Length - 1] - T[T.Length - 2];
+            for (int i = 0; i < deltaT.Length; i++)
+            {
+                deltaT[i] = T[i + 1] - T[i];
+            }
+            return deltaT;
+        }
 
         /// <summary>
         /// Returns zero if the input value is smaller then zero of if it is NaN.

@@ -64,6 +64,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         public List<BSplinesCoefficients> TimeKnotSpanPolynomialCoefficients { get; set; }
 
+        public double[] NativeTimes { get; set; }
+
         private double[] MinValidTimes { get; set; }
 
         private double[] Rhos { get; set; }
@@ -98,6 +100,8 @@ namespace Vts.Modeling.ForwardSolvers
             // Load control points
             ControlPoints = (double[,])FileIO.ReadArrayFromBinaryInResources<double>
                              (_folderPath + generatorType.ToString() + _folder + @"/controlPoints", "Vts", dims);
+            NativeTimes = (double[])FileIO.ReadArrayFromBinaryInResources<double>
+                             (_folderPath + generatorType.ToString() + _folder + @"/nativeTimes", "Vts", dims[1]);
             //calculate polynomial coefficients of the basis functions along the time direction.
             TimeKnotSpanPolynomialCoefficients = new List<BSplinesCoefficients>();
             for (int knotindex = TimeValues.Degree; knotindex <= TimeValues.KnotVector.Length - 2 - TimeValues.Degree; knotindex++)
@@ -565,27 +569,26 @@ namespace Vts.Modeling.ForwardSolvers
                                                                  (polynomialCoefs, controlPoints);
             double deltaT = upperLimit - lowerLimit;
             //analytical integration
-            if (deltaT > 0.001 &&  exponentialTerm >= _minExponentialTerm && GeneratorType == NurbsGeneratorType.RealDomain)
+            if (deltaT > 0.001 &&  exponentialTerm >= _minExponentialTerm && (GeneratorType == NurbsGeneratorType.RealDomain || GeneratorType == NurbsGeneratorType.Stub))
             {
                 integralValue = IntegrateExponentialMultipliedByPolynomial(exponentialTerm,
                                                                        multipliedAndSummedPolynomialCoefs,
                                                                        lowerLimit,
                                                                        upperLimit);
-                if (integralValue < 0.0)
-                {
-                    throw new ArithmeticException("Rounding Error.");
-                }
+                //if (integralValue < 0.0)
+                //{
+                //    throw new ArithmeticException("Rounding Error.");
+                //}
             }
             //discrete integration
             else
             {
                 double t = lowerLimit + deltaT/2.0;
-                integralValue = (multipliedAndSummedPolynomialCoefs[0] +
-                                 multipliedAndSummedPolynomialCoefs[1] * t +
-                                 multipliedAndSummedPolynomialCoefs[2] * t * t +
-                                 multipliedAndSummedPolynomialCoefs[3] * t * t * t) *
-                                 Math.Exp(-exponentialTerm * t) *
-                                 deltaT;
+                for (int i = 0; i < multipliedAndSummedPolynomialCoefs.Length; i++)
+                {
+                    integralValue += multipliedAndSummedPolynomialCoefs[i] * Math.Pow(t, i);
+                }
+                integralValue *= Math.Exp(-exponentialTerm * t) * deltaT;
             }
             
             if (integralValue < 0.0)
@@ -876,6 +879,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         #endregion INurbs Members
+
     }
 
     #region stub class for UnitTest
@@ -1003,6 +1007,11 @@ namespace Vts.Modeling.ForwardSolvers
             throw new NotImplementedException();
         }
 
+        public double[] NativeTimes
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         #endregion
     }
 
@@ -1086,6 +1095,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// Gets or sets the coefficients of the non vanishing B-splines over each knot span.
         /// </summary>
         List<BSplinesCoefficients> TimeKnotSpanPolynomialCoefficients { get; set; }
+
+        double[] NativeTimes { get; }
 
     }
 }

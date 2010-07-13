@@ -356,6 +356,8 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\maxValues" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceKnots" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeKnots" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\nativeTimes" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\nativeTimes" />
     <None Include="Modeling\Spectroscopy\Fat.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
