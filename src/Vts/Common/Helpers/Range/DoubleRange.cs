@@ -5,10 +5,19 @@ namespace Vts.Common
     public class DoubleRange : Range<double>
     {
         public DoubleRange(double start, double stop, int number)
-            : base(start, stop, number){}
+            : base(start, stop, number)
+        {
+        }
+
+        public DoubleRange(double start, double stop)
+            : this(start, stop, 2)
+        {
+        }
 
         public DoubleRange()
-            : this(0D, 1D, 2) { }
+            : this(0D, 1D, 2)
+        {
+        }
 
         protected override double GetDelta()
         {

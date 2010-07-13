@@ -6,6 +6,7 @@ using System.Linq;
 using Vts.Common;
 using MathNet.Numerics;
 
+
 namespace Vts.Modeling.ForwardSolvers
 {
     /// <summary>
@@ -70,6 +71,9 @@ namespace Vts.Modeling.ForwardSolvers
         #endregion properties
 
         #region fields
+
+        private double _minExponentialTerm;
+
         private static string _folderPath = "Modeling/Resources/ReferenceNurbs/";
         
         private static string _folder = "/v0p1";
@@ -102,6 +106,7 @@ namespace Vts.Modeling.ForwardSolvers
             }
             if (GeneratorType == NurbsGeneratorType.RealDomain)
             {
+                _minExponentialTerm = 0.001 * NurbsForwardSolver.v;
                 MinValidTimes = (double[])FileIO.ReadArrayFromBinaryInResources<double>
                              (_folderPath + generatorType.ToString() + _folder + @"/minValidTimes", "Vts", dims[0]);
                 Rhos = (double[])FileIO.ReadArrayFromBinaryInResources<double>
@@ -521,7 +526,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// Returns the integral of a NURBS curve over a single knotspan.
         /// If the integral has to be performed to evaluate RofRho the algorithm checks if the
         /// lower time limit of the knot span is larger then the minimum time 
-        /// of flight necessary to reach the detector.
+        /// of flight necessary to reach the detector. The integration is analytical
+        /// only for the real domain and only if the time span is larger then a threshold value
+        /// and only if the value of the exponential decay due to absorption is larger then a
+        /// threshold value.
         /// </summary>
         /// <param name="exponentialTerm"> exponential decay due to absorption</param>
         /// <param name="polynomialCoefs">polynomial coefficients of the non null B-splines curves over the knot span</param>
@@ -539,6 +547,7 @@ namespace Vts.Modeling.ForwardSolvers
         {
             double integralValue = 0.0;
 
+            //check for causality
             if (GeneratorType == NurbsGeneratorType.RealDomain)
             {
                 double minTimeOfFlight = GetMinimumValidTime(space);
@@ -554,14 +563,33 @@ namespace Vts.Modeling.ForwardSolvers
 
             double[] multipliedAndSummedPolynomialCoefs = MultiplyControlPointsAndPolynomialCoefficients
                                                                  (polynomialCoefs, controlPoints);
-
-            integralValue = IntegrateExponentialMultipliedByPolynomial(exponentialTerm,
+            double deltaT = upperLimit - lowerLimit;
+            //analytical integration
+            if (deltaT > 0.001 &&  exponentialTerm >= _minExponentialTerm && GeneratorType == NurbsGeneratorType.RealDomain)
+            {
+                integralValue = IntegrateExponentialMultipliedByPolynomial(exponentialTerm,
                                                                        multipliedAndSummedPolynomialCoefs,
                                                                        lowerLimit,
                                                                        upperLimit);
+                if (integralValue < 0.0)
+                {
+                    throw new ArithmeticException("Rounding Error.");
+                }
+            }
+            //discrete integration
+            else
+            {
+                double t = lowerLimit + deltaT/2.0;
+                integralValue = (multipliedAndSummedPolynomialCoefs[0] +
+                                 multipliedAndSummedPolynomialCoefs[1] * t +
+                                 multipliedAndSummedPolynomialCoefs[2] * t * t +
+                                 multipliedAndSummedPolynomialCoefs[3] * t * t * t) *
+                                 Math.Exp(-exponentialTerm * t) *
+                                 deltaT;
+            }
+            
             if (integralValue < 0.0)
             {
-                //TODO throw exception if happens
                 integralValue = 0.0;
             }
             return integralValue;
@@ -664,7 +692,7 @@ namespace Vts.Modeling.ForwardSolvers
                     case 3:
                         return nthOrderIntegralFunc = (a, b, x) =>
                         {
-                            return -b * Math.Exp(-a * x) * (a * x * (a * x * (a * x + 3.0) + 6.0) + 6.0) / (a * a * a * a);
+                            return - b * Math.Exp(-a * x) * (a * x * (a * x * (a * x + 3.0) + 6.0) + 6.0) / (a * a * a * a);
                         };
                     default:
                         throw new ArgumentException("Degree is too high.");
@@ -754,7 +782,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Calculates the integral value of an isoparametric NURBS curve analitically.
+        /// Calculates the integral value of an isoparametric NURBS curve.
         /// </summary>
         /// <param name="space">radial position or spatial frequency mapped to the reference spatial value</param>
         /// <param name="exponentialTerm">exponential decay due to absorption</param>

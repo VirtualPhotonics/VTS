@@ -4,6 +4,18 @@
         <name>MPFitLib</name>
     </assembly>
     <members>
+        <member name="T:MPFitLib.DelimitedArray`1">
+            <summary>
+            Class that represents a "sub-array" within a larger array by implementing
+            appropriate indexing using an offset and sub-count. This was implemented in
+            the C# version in order to preserve the existing code semantics while also
+            allowing the code to be compiled w/o use of /unsafe compilation flag. This
+            permits execution of the code in low-trust environments, such as that required
+            by the CoreCLR runtime of Silverlight (Mac/PC) and Moonlight (Linux)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <remarks>Note - modifications to this structure will modify the parent (source) array!</remarks>
+        </member>
         <member name="T:MPFitLib.mp_func">
             <summary>
             User-function delegate structure required by MPFit.Solve
@@ -20,17 +32,5 @@
             <returns></returns>
         </member>
         <!-- Badly formed XML comment ignored for member "M:MPFitLib.MPFit.Solve(MPFitLib.mp_func,System.Int32,System.Int32,System.Double[],MPFitLib.mp_par[],MPFitLib.mp_config,System.Object,MPFitLib.mp_result@)" -->
-        <member name="T:MPFitLib.DelimitedArray`1">
-            <summary>
-            Class that represents a "sub-array" within a larger array by implementing
-            appropriate indexing using an offset and sub-count. This was implemented in
-            the C# version in order to preserve the existing code semantics while also
-            allowing the code to be compiled w/o use of /unsafe compilation flag. This
-            permits execution of the code in low-trust environments, such as that required
-            by the CoreCLR runtime of Silverlight (Mac/PC) and Moonlight (Linux)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <remarks>Note - modifications to this structure will modify the parent (source) array!</remarks>
-        </member>
     </members>
 </doc>

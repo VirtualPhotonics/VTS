@@ -5,10 +5,19 @@ namespace Vts.Common
     public class IntRange : Range<int>
     {
         public IntRange(int start, int stop, int number)
-            : base(start, stop, number) { }
+            : base(start, stop, number)
+        {
+        }
+
+        public IntRange(int start, int stop)
+            : base(start, stop, (stop - start) + 1)
+        {
+        }
 
         public IntRange()
-            : this(0, 1, 2) { }
+            : base(0, 1, 2)
+        {
+        }
 
         protected override int GetDelta()
         {

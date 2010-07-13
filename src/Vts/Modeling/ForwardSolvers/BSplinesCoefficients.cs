@@ -103,6 +103,23 @@ namespace Vts.Modeling.ForwardSolvers
         #endregion constructor
 
         #region methods
+        /// <summary>
+        /// Returns the middle time of a knot span mapped to the reference space.
+        /// </summary>
+        /// <returns>middle time coordinate</returns>
+        public double GetKnotSpanMidTime()
+        {
+            return LowerLimit + (UpperLimit - LowerLimit) / 2.0;
+        }
+
+        /// <summary>
+        /// Returns the time span of a knot span mapped to the reference space.
+        /// </summary>
+        /// <returns>delta time</returns>
+        public double GetKnotSpanDeltaT()
+        {
+            return UpperLimit - LowerLimit;
+        }
 
         /// <summary>
         /// If the input value is NaN or Inf it changes it to zero,as defined in the recursive

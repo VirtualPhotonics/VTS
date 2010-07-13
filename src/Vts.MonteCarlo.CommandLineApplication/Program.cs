@@ -4,11 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cuccia.ArrayMath;
 using Vts.Common;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Sources;
-using Vts.MonteCarlo.Tissues;
+using Vts.Extensions;
 using System.IO;
 
 // ParallelFx June '08 CTP
@@ -157,9 +154,11 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     try
                     {   // batch parameters should come in fours 
                         // eg. /x -4.0 4.0 0.05 /mus1 0.5 1.5 0.1 /mus2 0.5 1.5 0.1 ...
-                        sweep = double.Parse(args[i + 1])
-                            .To(double.Parse(args[i + 2]),
-                                double.Parse(args[i + 3])).ToArray();
+                        var start = double.Parse(args[i + 1]);
+                        var stop = double.Parse(args[i + 2]);
+                        var delta = double.Parse(args[i + 3]);
+
+                        new DoubleRange(start, stop, (int)((stop - start)/delta) + 1);
                     }
                     catch
                     {

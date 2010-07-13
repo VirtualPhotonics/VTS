@@ -14,6 +14,8 @@
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Vts.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,10 +54,6 @@
     <NoConfig>true</NoConfig>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cuccia.ArrayMath.Silverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Cuccia\Cuccia.ArrayMath.Silverlight.dll</HintPath>
-    </Reference>
     <Reference Include="MathNet.Numerics.Silverlight, Version=2010.1.26.439, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Math.NET\Math.Net.Numerics.Silverlight\MathNet.Numerics.Silverlight.dll</HintPath>
@@ -67,10 +65,6 @@
     <Reference Include="MPFitLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\mpfit\build\Silverlight\MPFitLib.dll</HintPath>
-    </Reference>
-    <Reference Include="SLExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SilverlightExtensions\SLExtensions.dll</HintPath>
     </Reference>
     <Reference Include="System.CoreEx, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -357,6 +351,7 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceKnots" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeKnots" />
     <None Include="Modeling\Spectroscopy\Fat.csv" />
+    <None Include="Vts.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

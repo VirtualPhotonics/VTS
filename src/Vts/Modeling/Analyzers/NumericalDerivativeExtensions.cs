@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cuccia.ArrayMath;
+using Vts.Extensions;
+
 namespace Vts.Modeling
 {
     public static class NumericalDerivativeExtensions
@@ -122,7 +123,7 @@ namespace Vts.Modeling
                         less[0] = parameters[0] - delta_mua;
                         more[0] = parameters[0] + delta_mua;
 
-                        return EnumerableExtensions.Zip(
+                        return EnumerableEx.Zip(
                             myFunc(more, constantValues),
                             myFunc(less, constantValues),
                             (left, right) => (left - right) / (2 * delta_mua)).ToArray();
@@ -135,7 +136,7 @@ namespace Vts.Modeling
                         var more = parameters.ToArray();
                         less[1] -= delta_musp;
                         more[1] += delta_musp;
-                        return EnumerableExtensions.Zip(
+                        return EnumerableEx.Zip(
                             myFunc(more, constantValues),
                             myFunc(less, constantValues),
                             (left, right) => (left - right) / (2 * delta_musp)).ToArray();
@@ -148,7 +149,7 @@ namespace Vts.Modeling
                         var more = parameters.ToArray();
                         less[2] -= delta_G;
                         more[2] += delta_G;
-                        return EnumerableExtensions.Zip(
+                        return EnumerableEx.Zip(
                             myFunc(more, constantValues),
                             myFunc(less, constantValues),
                             (left, right) => (left - right) / (2 * delta_G)).ToArray();
@@ -161,7 +162,7 @@ namespace Vts.Modeling
                         var more = parameters.ToArray();
                         less[3] -= delta_N;
                         more[3] += delta_N;
-                        return EnumerableExtensions.Zip(
+                        return EnumerableEx.Zip(
                             myFunc(more, constantValues),
                             myFunc(less, constantValues),
                             (left, right) => (left - right) / (2 * delta_N)).ToArray();
