@@ -70,42 +70,80 @@ namespace Vts.Modeling
         /// numerical integration.
         /// </summary>
         /// <param name="M">Moment Order</param>
-        /// <param name="RIamb">Ambient Refractive Index</param>
-        /// <param name="RItis">Tissue Refractive Index</param>
+        /// <param name="RIinc">Incident Refractive Index</param>
+        /// <param name="RItrans">Transmitted Refractive Index</param>
         /// <returns>Mth Fresnel Reflection Moment</returns>
-        public static double GetFresnelReflectionMomentOfOrderM(int M, double RIamb, double RItis) // need to modify for arbitrary incidence wrt RI's
+        public static double GetFresnelReflectionMomentOfOrderM(int M, double RIinc, double RItrans)
         {
-            var thetaCritical = RIamb / RItis;
+            if (RIinc > RItrans)
+            {
+                return EvaluateFresnelReflectionMomentOfOrderMusingMu(M, RIinc, RItrans);
+            }
+            else
+            {
+                return EvaluateFresnelReflectionMomentOfOrderMusingTheta(M, RIinc, RItrans);
+            }
+        }
+
+        private static double EvaluateFresnelReflectionMomentOfOrderMusingMu(int M, double RIinc, double RItrans)
+        {
+            var muCritical = Math.Sqrt(1 - RItrans * RItrans / (RIinc * RIinc));
+
+            Meta.Numerics.Function<double, double> integrand = mu =>
+            {
+                return
+                EvaluateFresnelReflectionCoefficientForUnpolarizedLightOfMu(mu, RIinc, RItrans) *
+                Math.Pow(mu, M);
+            };
+
+            // equation modification according to S. Prahl thesis wrt the critical angle
+            // in the integral of the Fresnel reflection coef for unpolarized light
+            return
+               FunctionMath.Integrate(integrand, Meta.Numerics.Interval.FromEndpoints(muCritical, 1))
+               * (M + 1) + Math.Pow(muCritical, M + 1);
+        }
+
+
+        private static double EvaluateFresnelReflectionMomentOfOrderMusingTheta(int M, double RIinc, double RItrans)
+        {
+            var thetaCritical = Math.Asin(RItrans / RIinc);
+
+            // equation modification according to S. Prahl thesis wrt the critical angle
+            // in the integral of the Fresnel reflection coef for unpolarized light
+
             Meta.Numerics.Function<double, double> integrand = theta =>
             {
                 return
-                EvaluateFresnelReflectionCoefficientForUnpolarizedLight(theta, RItis, RIamb) *
-                Math.Pow(Math.Cos(theta), M); // *Math.Sin(theta);
+                EvaluateFresnelReflectionCoefficientForUnpolarizedLight(theta, RIinc, RItrans) *
+                Math.Pow(Math.Cos(theta), M) * Math.Sin(theta);
             };
 
             // equation modification according to S. Prahl thesis wrt the critical angle
             // in the integral of the Fresnel reflection coef for unpolarized light
             return
                FunctionMath.Integrate(integrand, Meta.Numerics.Interval.FromEndpoints(0, thetaCritical))
-               * (M + 1) + Math.Pow(thetaCritical, M + 1);
+               * (M + 1) + Math.Pow(Math.Cos(thetaCritical), M + 1);
         }
 
-        /// <summary>
-        /// Fresnel reflection coefficient for unpolarized light
-        /// </summary>
-        /// <param name="thetaIncident">incident angle with respect to the outward surface normal</param>
-        /// <param name="riIncident">refractive index of incident (current) medium</param>
-        /// <param name="riAmbient">refractive index of external ambient medium</param>
-        /// <returns>Fresnel reflection coefficient</returns>
-        private static double EvaluateFresnelReflectionCoefficientForUnpolarizedLight(
-                double thetaIncident, double riIncident, double riAmbient)
+        private static double EvaluateFresnelReflectionCoefficientForUnpolarizedLightOfMu(
+            double mu, double RIinc, double RItrans)
         {
-            var thetaAmbient = Math.Asin(riIncident / riAmbient * Math.Sin(thetaIncident));
-            var ncosTis = riIncident * Math.Cos(thetaIncident);
-            var ncosAmb = riAmbient * Math.Cos(thetaAmbient);
+            var muTrans = Math.Sqrt(1 - RIinc * RIinc / (RItrans * RItrans) * (1 - mu * mu));
+            var rPerp = (RIinc * mu - RItrans * muTrans) / (RIinc * mu + RItrans * muTrans);
+            var rPar = (RIinc * muTrans - RItrans * mu) / (RIinc * muTrans + RItrans * mu);
+
+            return (rPerp * rPerp + rPar * rPar) / 2;
+        }
+        // need to make this so it will work with arbitrary theta and arbitrary RIs
+        private static double EvaluateFresnelReflectionCoefficientForUnpolarizedLight(
+                double thetaIncident, double RIinc, double RItrans)
+        {
+            var thetaTrans = Math.Asin(RIinc / RItrans * Math.Sin(thetaIncident));
             return
-                (((ncosAmb - ncosTis) / (ncosAmb + ncosTis)) * ((ncosAmb - ncosTis) / (ncosAmb + ncosTis)) +
-                ((ncosTis - ncosAmb) / (ncosTis + ncosAmb)) * ((ncosTis - ncosAmb) / (ncosTis + ncosAmb))) / 2;
+                (Math.Pow(Math.Sin(thetaIncident - thetaTrans) / Math.Sin(thetaIncident + thetaTrans), 2) +
+                Math.Pow(Math.Tan(thetaIncident - thetaTrans) / Math.Tan(thetaIncident + thetaTrans), 2)) / 2;
+            //(((ncosAmb - ncosTis) / (ncosAmb + ncosTis)) * ((ncosAmb - ncosTis) / (ncosAmb + ncosTis)) +
+            //((ncosTis - ncosAmb) / (ncosTis + ncosAmb)) * ((ncosTis - ncosAmb) / (ncosTis + ncosAmb))) / 2;
         }
 
         /// <summary>
