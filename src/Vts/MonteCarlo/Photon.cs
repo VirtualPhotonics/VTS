@@ -109,6 +109,16 @@ namespace Vts.MonteCarlo
 
         public void Move(bool hitBoundary)
         {
+            if (History.HistoryData.Count() == 0) // add initial data point
+            {
+                History.HistoryData.Add(
+                    new PhotonDataPoint(
+                        DP.Position,
+                        DP.Direction,
+                        DP.Weight,
+                        DP.StateFlag,
+                        null)); // don't carry SubRegionCollisionInfo data in History
+            }
             DP.Position.X += S * DP.Direction.Ux;
             DP.Position.Y += S * DP.Direction.Uy;
             DP.Position.Z += S * DP.Direction.Uz;
