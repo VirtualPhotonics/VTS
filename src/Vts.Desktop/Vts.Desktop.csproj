@@ -299,6 +299,9 @@
     <Compile Include="..\Vts\Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs">
       <Link>Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\StubNurbsGenerator.cs">
+      <Link>Modeling\ForwardSolvers\StubNurbsGenerator.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs">
       <Link>Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs</Link>
     </Compile>
@@ -587,6 +590,7 @@
     <Compile Include="..\Vts\MonteCarlo\Tissues\VoxelRegion.cs">
       <Link>MonteCarlo\Tissues\VoxelRegion.cs</Link>
     </Compile>
+    <Compile Include="Modeling\ForwardSolvers\INurbs.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedDetectorDefinition.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedFlags.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedHistory.cs" />

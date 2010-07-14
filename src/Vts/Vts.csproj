@@ -164,6 +164,7 @@
     <Compile Include="Modeling\ForwardSolvers\pMCLoader.cs" />
     <Compile Include="Modeling\ForwardSolvers\PointSourceDiffusionForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\StubNurbsGenerator.cs" />
     <Compile Include="Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs" />
     <Compile Include="Modeling\Input\Commands.cs" />
     <Compile Include="Modeling\Optimizers\MPFitLevenbergMarquardtOptimizer.cs" />
