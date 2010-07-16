@@ -66,6 +66,39 @@
   <ItemGroup>
     <Resource Include="photonBiographies1e6.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="output.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="A_rz.xml" />
+    <Resource Include="D_rt.xml" />
+    <Resource Include="Flu_rz.xml" />
+    <Resource Include="R_ra.xml" />
+    <Resource Include="R_rt.xml" />
+    <Resource Include="R_rt2.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="A_rz" />
+    <Resource Include="D_rt" />
+    <Resource Include="Flu_rz" />
+    <Resource Include="R_ra" />
+    <Resource Include="R_rt" />
+    <Resource Include="R_rt2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="R_xy.xml" />
+    <Resource Include="T_ra.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="R_xy" />
+    <Resource Include="T_ra" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="R_rw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="R_rw.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

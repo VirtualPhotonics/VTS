@@ -13,9 +13,16 @@ namespace Vts.Modeling.ForwardSolvers
     // this assumes pMC of homogeneous MultiLayer tissue
     public class pMCForwardSolver : ForwardSolverBase
     {
-        Output postProcessedOutput;
+        private static pMCLoader _pMCLoader;
+        private Output _postProcessedOutput;
 
-        public pMCForwardSolver() : base(SourceConfiguration.Point, 0.0) { }
+        public pMCForwardSolver() : base(SourceConfiguration.Point, 0.0)
+        {
+            if (_pMCLoader == null)
+            {
+                _pMCLoader = new pMCLoader();
+            }
+        }
 
         #region IForwardSolver Members
 
@@ -41,15 +48,15 @@ namespace Vts.Modeling.ForwardSolvers
                 List<OpticalProperties> regionOps = new List<OpticalProperties>() { 
                     new OpticalProperties(), op, new OpticalProperties() };
                 // hard code awt for now, pass in through simulationOptions added to simulationInput?
-                var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(detectorInput,
+                var _postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(detectorInput,
                     AbsorptionWeightingType.Continuous, regionOps, perturbedRegionsIndices, pMCLoader.PhotonTerminationDatabase,
                     pMCLoader.databaseOutput);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
                 for (int r = 0; r < rhos.Count(); r++)
                 {
-                    yield return postProcessedOutput.R_r[r];
+                    yield return _postProcessedOutput.R_r[r];
                 }
-                //yield return (IEnumerable<double>)postProcessedOutput.R_rt.ToEnumerable();
+                //yield return (IEnumerable<double>)_postProcessedOutput.R_rt.ToEnumerable();
             }
         }
 
@@ -75,7 +82,7 @@ namespace Vts.Modeling.ForwardSolvers
                 List<OpticalProperties> regionOps = new List<OpticalProperties>() { 
                     new OpticalProperties(), op, new OpticalProperties() };
                 // hard code awt for now, pass in through simulationOptions added to simulationInput?
-                var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(detectorInput,
+                var _postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(detectorInput,
                     AbsorptionWeightingType.Continuous, regionOps, perturbedRegionsIndices, pMCLoader.PhotonTerminationDatabase,
                     pMCLoader.databaseOutput);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
@@ -83,11 +90,11 @@ namespace Vts.Modeling.ForwardSolvers
                 {
                     for (int t = 0; t < times.Count() - 1; t++) // omit last bin which captures all beyond
                     {
-                        yield return postProcessedOutput.R_rt[r, t];
+                        yield return _postProcessedOutput.R_rt[r, t];
                     }
 
                 }
-                //yield return (IEnumerable<double>)postProcessedOutput.R_rt.ToEnumerable();
+                //yield return (IEnumerable<double>)_postProcessedOutput.R_rt.ToEnumerable();
             }
         }
 
