@@ -1,1 +1,1 @@
-<PhotonDatabase xmlns="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo.PhotonData" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><NumberOfPhotons>1000000</NumberOfPhotons><NumberOfSubRegions>3</NumberOfSubRegions></PhotonDatabase>
+<PhotonTerminationDatabase xmlns="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo.PhotonData" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><NumberOfPhotons>1000000</NumberOfPhotons><NumberOfSubRegions>3</NumberOfSubRegions><TallyMomentumTransfer>false</TallyMomentumTransfer></PhotonTerminationDatabase>

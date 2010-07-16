@@ -69,7 +69,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                 false, 
                 true, 
                 false,
-                0); // turn on photon biog write
+                1); // turn on photon biog write
 
             MonteCarloSimulation managedSimulation = new MonteCarloSimulation(input, options);
 

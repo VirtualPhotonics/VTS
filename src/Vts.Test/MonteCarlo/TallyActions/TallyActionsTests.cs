@@ -104,10 +104,10 @@ namespace Vts.Test.MonteCarlo.TallyActions
         {
             Assert.Less(Math.Abs(_output.R_rt[2,0] - 0.000609121451), 0.00000000001);
         }
-        //[Test]
-        //public void validate_FluenceOfRhoAndZ()
-        //{
-        //    Assert.Less(Math.Abs(_output.Flu_rz[1, 0] - 155.868602), 0.01);
-        //}
+        [Test]
+        public void validate_FluenceOfRhoAndZ()
+        {
+            Assert.Less(Math.Abs(_output.Flu_rz[1, 0] - 155.868602), 0.01);
+        }
     }
 }

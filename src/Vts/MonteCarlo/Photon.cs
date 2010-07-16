@@ -109,6 +109,16 @@ namespace Vts.MonteCarlo
 
         public void Move(bool hitBoundary)
         {
+            if (History.HistoryData.Count() == 0) // add initial data point
+            {
+                History.HistoryData.Add(
+                    new PhotonDataPoint(
+                        new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
+                        new Direction(DP.Direction.Ux, DP.Direction.Uy, DP.Direction.Uz),
+                        DP.Weight,
+                        DP.StateFlag,
+                        null)); // don't carry SubRegionCollisionInfo data in History
+            }
             DP.Position.X += S * DP.Direction.Ux;
             DP.Position.Y += S * DP.Direction.Uy;
             DP.Position.Z += S * DP.Direction.Uz;
@@ -130,8 +140,8 @@ namespace Vts.MonteCarlo
 
             History.HistoryData.Add(
                 new PhotonDataPoint(
-                    DP.Position,
-                    DP.Direction,
+                    new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
+                    new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
                     DP.Weight,
                     DP.StateFlag,
                     null));
@@ -322,7 +332,7 @@ namespace Vts.MonteCarlo
             double x = DP.Position.X;
             double y = DP.Position.Y;
             int index = History.HistoryData.Count() - 1;
-            double d = History.HistoryData[index].SubRegionInfoList[CurrentRegionIndex].PathLength; // CKH verify this
+            double d = DP.SubRegionInfoList[CurrentRegionIndex].PathLength; 
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
             dw = DP.Weight * (1 - Math.Exp(-mua * d));
             DP.Weight -= dw;
