@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             //new SimulationInput().ToFile("infile.xml"); return;
             // program requires the path to have no spaces so that it can be used from the command line
             string path = "";
-            string basename = "test";
+            string basename = "newinfile";
             string filename;
             string outname = "results";
             bool runUnmanagedCode = false;
@@ -105,7 +105,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             else
             {
                 Console.Write("\nNo input file specified. Using input.xml from resources... ");
-                input = LoadDefaultInputFile();
+                input = SimulationInput.FromFile("newinfile.xml");
             }
 
             batchQuery = input.AsEnumerable();
