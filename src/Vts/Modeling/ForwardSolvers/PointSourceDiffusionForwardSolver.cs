@@ -13,8 +13,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="dp">DiffusionParameters object</param>
         /// <param name="rho">radial location</param>
-        /// <param name="fr1">Fresnel Moment 1</param>
-        /// <param name="fr2">Fresnel Moment 2</param>
+        /// <param name="fr1">Fresnel moment 1, R1</param>
+        /// <param name="fr2">Fresnel moment 2, R2</param>
         /// <returns>reflectance</returns>
         public override double StationaryReflectance(DiffusionParameters dp, double rho, double fr1, double fr2)
         {
