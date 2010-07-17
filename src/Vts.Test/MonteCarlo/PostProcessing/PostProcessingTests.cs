@@ -31,7 +31,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var input = GenerateReferenceInput();
             var onTheFlyOutput = GenerateReferenceOutput(input);
 
-            var peh = PhotonTerminationDatabase.FromFile("photonBiographies");
+            var peh = PhotonTerminationDatabase.FromFile("_photonBiographies");
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
                 input.DetectorInput, peh, onTheFlyOutput);
 
@@ -42,7 +42,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         {
             return new SimulationInput(
                 100,
-                "photonBiographies",
+                "",
                 new PointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
