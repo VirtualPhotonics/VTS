@@ -12,7 +12,8 @@ namespace Vts.SiteVisit.ViewModel.Application
                     ForwardSolverType.PointSDA,
                     ForwardSolverType.DistributedPointSDA,
                     ForwardSolverType.DistributedGaussianSDA,
-                    ForwardSolverType.MonteCarlo
+                    ForwardSolverType.MonteCarlo,
+                    ForwardSolverType.Nurbs
                 };
             }
         }
