@@ -62,6 +62,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             TallyType.TOfAngle,
                             TallyType.TOfRho,
                             TallyType.TOfRhoAndAngle,
+                            TallyType.FluenceOfRhoAndZ,
                         },
                     new DoubleRange(0.0, 10, 101), // rho
                     new DoubleRange(0.0, 10, 101),  // z
