@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using Vts.Extensions;
+using System.Collections;
 
 namespace Vts.IO
 {
     public class ArrayCustomBinaryWriter<T>
         : ICustomBinaryWriter<Array> where T : struct
     {
-        public void WriteToBinary(BinaryWriter bw, Array array)
+        public void WriteToBinary(BinaryWriter bw, Array input)
         {
+            IEnumerable<T> array = input.ToEnumerable<T>();
+
             if (array is IEnumerable<float>)
             {
                 (array as IEnumerable<float>).ForEach(bw.Write);

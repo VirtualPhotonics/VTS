@@ -17,9 +17,9 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0"
-                Text="Forward Model Engine:" FontSize="12" FontWeight="Bold" Margin="3,3" />
+                Text="Fwd Model Engine:" FontSize="12" FontWeight="Bold" Margin="3,3" />
             <TextBlock Grid.Row="1" Grid.Column="0"
-                Text="Inverse Model Engine:" FontSize="12" FontWeight="Bold" Margin="3,3" />
+                Text="Inv Model Engine:" FontSize="12" FontWeight="Bold" Margin="3,3" />
             <v:ComboBoxOptionView Grid.Row="0" Grid.Column="1"
                 DataContext="{Binding MeasuredForwardSolverTypeOptionVM}" 
                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3" />
@@ -70,20 +70,20 @@
                 input:CommandService.CommandParameter="{Binding}"
                 VerticalAlignment="Bottom"
                 Content="Plot Measured Data" 
-                Width="120" Height="30" Margin="5,5"/>
+                Width="120" Height="30" Margin="2,2"/>
             
             <Button 
                 input:CommandService.Command="IS_CalculateInitialGuess"
                 input:CommandService.CommandParameter="{Binding}"
                 VerticalAlignment="Bottom"
                 Content="Plot Initial Guess" 
-                Width="120" Height="30" Margin="5,5"/>
+                Width="120" Height="30" Margin="2,2"/>
 
             <Button 
                 input:CommandService.Command="IS_SolveInverse"
                 input:CommandService.CommandParameter="{Binding}"
                 VerticalAlignment="Bottom"
-                Width="120" Height="30" Margin="5,5"
+                Width="120" Height="30" Margin="2,2"
                 Content="Run Inverse Solver"/>
 
         </StackPanel>

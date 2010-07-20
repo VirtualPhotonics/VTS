@@ -322,11 +322,20 @@ namespace Vts.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scaled Monte Carlo (g=0.8, n=1.4).
+        ///   Looks up a localized string similar to Scaled Monte Carlo - Basic (g=0.8, n=1.4).
         /// </summary>
         public static string ForwardSolverType_MonteCarlo {
             get {
                 return ResourceManager.GetString("ForwardSolverType_MonteCarlo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scaled Monte Carlo - NURBS (g=0.8, n=1.4).
+        /// </summary>
+        public static string ForwardSolverType_Nurbs {
+            get {
+                return ResourceManager.GetString("ForwardSolverType_Nurbs", resourceCulture);
             }
         }
         

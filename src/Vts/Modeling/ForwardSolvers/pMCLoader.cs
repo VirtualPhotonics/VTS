@@ -10,7 +10,7 @@ namespace Vts.Modeling.ForwardSolvers
     {
         # region fields
         /// CKH TODO: automate pointer to reference data 
-        public static string folder = "ReferenceData/N1e6mua0musp1g0p8dr0p2dt0p005/";
+        public static string folder = "ReferenceData/N1e8mua0musp1g0p8dr0p2dt0p005/";
         public static OpticalProperties ReferenceOps;
         public static PhotonTerminationDatabase PhotonTerminationDatabase;
         public static Output databaseOutput;
@@ -18,7 +18,7 @@ namespace Vts.Modeling.ForwardSolvers
         public static DoubleRange databaseTimeRange;
         #endregion
 
-        static pMCLoader()
+        public pMCLoader()
         {
             InitializeVectorsAndInterpolators();
         }
@@ -27,7 +27,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         private static void InitializeVectorsAndInterpolators()
         {
-            databaseOutput = Output.FromFolderInResources("Modeling/Resources/" + folder, "Vts");
+            databaseOutput = Output.FromFolderInResources("", "Vts.Database");
             databaseRhoRange = new DoubleRange(
                 databaseOutput.input.DetectorInput.Rho.Start,
                 databaseOutput.input.DetectorInput.Rho.Stop,
@@ -38,7 +38,7 @@ namespace Vts.Modeling.ForwardSolvers
                 databaseOutput.input.DetectorInput.Time.Count);
             ReferenceOps = databaseOutput.input.TissueInput.Regions[1].RegionOP;
    
-            PhotonTerminationDatabase = PhotonTerminationDatabase.FromFileInResources("photonBiographies1e6", "Vts.Resources");
+            PhotonTerminationDatabase = PhotonTerminationDatabase.FromFileInResources("photonBiographies1e6", "Vts.Database");
             //PhotonTerminationDatabase = PhotonTerminationDatabase.FromFileInResources("Resources/photonBiographies1e6", "Vts");
         }
     }
