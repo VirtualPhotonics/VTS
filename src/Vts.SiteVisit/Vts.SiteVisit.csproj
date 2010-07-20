@@ -335,6 +335,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\OutOfBrowserSettings.xml" />
+    <Resource Include="Resources\Images\logo-small.png" />
     <Content Include="Resources\Images\vpbanner.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
