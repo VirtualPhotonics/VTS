@@ -21,6 +21,6 @@ namespace Vts.MonteCarlo
         void TerminationTally(PhotonDataPoint dp);
         void NormalizeTalliesToOutput(long N, Output output);
         void SetOutputArrays(Output output);
-        void HistoryTally(PhotonDataPoint dp);
+        void HistoryTally(PhotonHistory history);
     }
 }
