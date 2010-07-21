@@ -42,15 +42,6 @@ namespace Vts.MonteCarlo
                         new SubRegionCollisionInfo(0.0, 0, tallyMomentumTransfer, 0D)).ToArray());
 
             History = new PhotonHistory();
-            // can't set up initial point in constructor
-            // set initial point in history
-            //History.HistoryData.Add(
-            //    new PhotonDataPoint(
-            //        DP.Position, 
-            //        DP.Direction,
-            //        DP.Weight,
-            //        DP.StateFlag,
-            //        null)); // don't carry SubRegionCollisionInfo data in History
             S = 0.0;
             SLeft = 0.0;
             CurrentRegionIndex = tissue.GetRegionIndex(DP.Position);
@@ -109,6 +100,16 @@ namespace Vts.MonteCarlo
 
         public void Move(bool hitBoundary)
         {
+            if (History.HistoryData.Count() == 0) // add initial data point
+            {
+                History.HistoryData.Add(
+                    new PhotonDataPoint(
+                        new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
+                        new Direction(DP.Direction.Ux, DP.Direction.Uy, DP.Direction.Uz),
+                        DP.Weight,
+                        DP.StateFlag,
+                        null)); // don't carry SubRegionCollisionInfo data in History
+            }
             DP.Position.X += S * DP.Direction.Ux;
             DP.Position.Y += S * DP.Direction.Uy;
             DP.Position.Z += S * DP.Direction.Uz;
@@ -127,8 +128,8 @@ namespace Vts.MonteCarlo
 
             History.HistoryData.Add(
                 new PhotonDataPoint(
-                    DP.Position,
-                    DP.Direction,
+                    new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
+                    new Direction(DP.Direction.Ux, DP.Direction.Uy, DP.Direction.Uz),
                     DP.Weight,
                     DP.StateFlag,
                     null));

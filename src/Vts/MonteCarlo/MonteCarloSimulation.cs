@@ -122,8 +122,8 @@ namespace Vts.MonteCarlo
                 for (long n = 1; n <= numberOfPhotons; n++)
                 {
                     // todo: bug - num photons is assumed to be over 10 :)
-                    //if (n % (numberOfPhotons / 10) == 0)
-                    //    DisplayStatus(n, numberOfPhotons);
+                    if (n % (numberOfPhotons / 10) == 0)
+                        DisplayStatus(n, numberOfPhotons);
 
                     var photon = _source.GetNextPhoton(_tissue, rng);
 

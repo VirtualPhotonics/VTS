@@ -11,6 +11,7 @@ namespace Vts.MonteCarlo.Detectors
     public class Detector : IDetector
     {
         private ITissue _tissue;
+        private IDictionary<TallyType, int> _tallyTypeIndex = new Dictionary<TallyType,int>();
         public Detector(
             List<TallyType> tallyTypeList,
             DoubleRange rho,
@@ -94,10 +95,12 @@ namespace Vts.MonteCarlo.Detectors
                 if (Factories.TallyActionFactory.IsHistoryTally(tally))
                 {
                     HistoryITallyList.Add(Factories.TallyActionFactory.GetTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y));
+                    _tallyTypeIndex.Add(tally, HistoryITallyList.Count() - 1);
                 }
                 else
                 {
                     TerminationITallyList.Add(Factories.TallyActionFactory.GetTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y));
+                    _tallyTypeIndex.Add(tally, TerminationITallyList.Count() - 1);
                 }
             }
         }
@@ -154,46 +157,46 @@ namespace Vts.MonteCarlo.Detectors
                 {
                     default:
                     case TallyType.RDiffuse:
-                        output.Rd = ((ITally<double>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.RDiffuse)]).Mean;
+                        output.Rd = ((ITally<double>)TerminationITallyList[_tallyTypeIndex[TallyType.RDiffuse]]).Mean;
                         // the following is a workaround for now
                         output.Rtot = output.Rd +
                             Helpers.Optics.Specular(_tissue.Regions[0].RegionOP.N, _tissue.Regions[1].RegionOP.N);
                         break;
                     case TallyType.ROfAngle:
-                        output.R_a = ((ITally<double[]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.ROfAngle)]).Mean;
+                        output.R_a = ((ITally<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfAngle]]).Mean;
                         break;
                     case TallyType.ROfRho:
-                        output.R_r = ((ITally<double[]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.ROfRho)]).Mean;
+                        output.R_r = ((ITally<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRho]]).Mean;
                         break;
                     case TallyType.ROfRhoAndAngle:
-                        output.R_ra = ((ITally<double[,]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.ROfRhoAndAngle)]).Mean;
+                        output.R_ra = ((ITally<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndAngle]]).Mean;
                         break;
                     case TallyType.ROfRhoAndTime:
-                        output.R_rt = ((ITally<double[,]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.ROfRhoAndTime)]).Mean;
+                        output.R_rt = ((ITally<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndTime]]).Mean;
                         break;
                     case TallyType.ROfXAndY:
-                        output.R_xy = ((ITally<double[,]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.ROfXAndY)]).Mean;
+                        output.R_xy = ((ITally<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfXAndY]]).Mean;
                         break;
                     case TallyType.ROfRhoAndOmega:
-                        output.R_rw = ((ITally<Complex[,]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.ROfRhoAndOmega)]).Mean;
+                        output.R_rw = ((ITally<Complex[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndOmega]]).Mean;
                         break;
                     case TallyType.FluenceOfRhoAndZ:
-                        output.Flu_rz = ((ITally<double[,]>)HistoryITallyList[TallyTypeList.IndexOf(TallyType.FluenceOfRhoAndZ)]).Mean;
+                        output.Flu_rz = ((ITally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.FluenceOfRhoAndZ]]).Mean;
                         break;
                     case TallyType.AOfRhoAndZ:
                         output.A_rz = ((ITally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.AOfRhoAndZ]]).Mean;
                         break;
                     case TallyType.TDiffuse:
-                        output.Td = ((ITally<double>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.TDiffuse)]).Mean;
+                        output.Td = ((ITally<double>)TerminationITallyList[_tallyTypeIndex[TallyType.TDiffuse]]).Mean;
                         break;
                     case TallyType.TOfAngle:
-                        output.T_a = ((ITally<double[]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.TOfAngle)]).Mean;
+                        output.T_a = ((ITally<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.TOfAngle]]).Mean;
                         break;
                     case TallyType.TOfRho:
-                        output.T_r = ((ITally<double[]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.TOfRho)]).Mean;
+                        output.T_r = ((ITally<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.TOfRho]]).Mean;
                         break;
                     case TallyType.TOfRhoAndAngle:
-                        output.T_ra = ((ITally<double[,]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.TOfRhoAndAngle)]).Mean;
+                        output.T_ra = ((ITally<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.TOfRhoAndAngle]]).Mean;
                         break;
                 }
             }
