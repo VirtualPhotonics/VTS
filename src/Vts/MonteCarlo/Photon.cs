@@ -102,13 +102,7 @@ namespace Vts.MonteCarlo
         {
             if (History.HistoryData.Count() == 0) // add initial data point
             {
-                History.HistoryData.Add(
-                    new PhotonDataPoint(
-                        new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
-                        new Direction(DP.Direction.Ux, DP.Direction.Uy, DP.Direction.Uz),
-                        DP.Weight,
-                        DP.StateFlag,
-                        null)); // don't carry SubRegionCollisionInfo data in History
+                History.AddDPToHistory(DP);
             }
             DP.Position.X += S * DP.Direction.Ux;
             DP.Position.Y += S * DP.Direction.Uy;
@@ -126,13 +120,8 @@ namespace Vts.MonteCarlo
                 DP.SubRegionInfoList[CurrentRegionIndex].NumberOfCollisions++;
             }
 
-            History.HistoryData.Add(
-                new PhotonDataPoint(
-                    new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
-                    new Direction(DP.Direction.Ux, DP.Direction.Uy, DP.Direction.Uz),
-                    DP.Weight,
-                    DP.StateFlag,
-                    null));
+            History.AddDPToHistory(DP);
+
             DP.StateFlag = PhotonStateType.NotSet; // reset state back to not set
         }
 
@@ -206,13 +195,7 @@ namespace Vts.MonteCarlo
             {
                 //Absorb_Discrete(rng);  // CKH don't think this call is needed
                 DP.StateFlag = PhotonStateType.Absorbed;
-                History.HistoryData.Add(
-                    new PhotonDataPoint(
-                        new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
-                        new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
-                        DP.Weight,
-                        DP.StateFlag,
-                        null));
+                History.AddDPToHistory(DP);
             }
         }
 
@@ -375,13 +358,7 @@ namespace Vts.MonteCarlo
             if (History.HistoryData.Count >= MAX_HISTORY_PTS - 4)
             {
                 DP.StateFlag = PhotonStateType.KilledOverMaximumCollisions;
-                History.HistoryData.Add(
-                    new PhotonDataPoint(
-                        new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
-                        new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
-                        DP.Weight,
-                        DP.StateFlag,
-                        null));
+                History.AddDPToHistory(DP);
             }
         }
 
@@ -407,13 +384,7 @@ namespace Vts.MonteCarlo
             if (History.HistoryData[CurrentTrackIndex].SubRegionInfoList.Select((pl, c) => pl.PathLength).Sum()
                 >= MAX_PHOTON_PATHLENGTH)
                 DP.StateFlag = PhotonStateType.KilledOverMaximumPathLength;
-            History.HistoryData.Add(
-                new PhotonDataPoint(
-                    new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
-                    new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
-                    DP.Weight,
-                    DP.StateFlag,
-                    null));
+            History.AddDPToHistory(DP);
         }
 
         /*****************************************************************/
@@ -427,13 +398,7 @@ namespace Vts.MonteCarlo
                 DP.StateFlag = PhotonStateType.KilledRussianRoulette;
             if (DP.StateFlag == PhotonStateType.KilledRussianRoulette)
             {
-                History.HistoryData.Add(
-                    new PhotonDataPoint(
-                        new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
-                        new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
-                        DP.Weight,
-                        DP.StateFlag,
-                        null));
+                History.AddDPToHistory(DP);
             }
         }
 

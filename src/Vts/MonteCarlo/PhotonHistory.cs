@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
+using Vts.Common;
 
 namespace Vts.MonteCarlo
 {
@@ -8,7 +9,7 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class PhotonHistory
     {
-        private IList<PhotonDataPoint> _HistoryData;
+        private static IList<PhotonDataPoint> _HistoryData;
 
         // Constructor for the struct
         public PhotonHistory(IList<PhotonDataPoint> historyData)
@@ -21,6 +22,17 @@ namespace Vts.MonteCarlo
         {
             get { return _HistoryData; }
             set { _HistoryData = value; }
+        }
+
+        public void AddDPToHistory(PhotonDataPoint dp)
+        {
+                _HistoryData.Add(
+                    new PhotonDataPoint(
+                    new Position(dp.Position.X, dp.Position.Y, dp.Position.Z),
+                    new Direction(dp.Direction.Ux, dp.Direction.Uy, dp.Direction.Uz),
+                    dp.Weight,
+                    dp.StateFlag,
+                    null)); // don't carry SubRegionCollisionInfo data in History
         }
     }
 
