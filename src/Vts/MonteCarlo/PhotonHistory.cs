@@ -9,24 +9,21 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class PhotonHistory
     {
-        private static IList<PhotonDataPoint> _HistoryData;
-
-        // Constructor for the struct
         public PhotonHistory(IList<PhotonDataPoint> historyData)
         {
-            _HistoryData = historyData;
+            HistoryData = historyData;
         }
         public PhotonHistory() : this(new List<PhotonDataPoint>()) { }
 
-        public IList<PhotonDataPoint> HistoryData
-        {
-            get { return _HistoryData; }
-            set { _HistoryData = value; }
-        }
+        public IList<PhotonDataPoint> HistoryData{ get; set; }
 
+        /// <summary>
+        /// Method to add PhotonDataPoint to History.  
+        /// </summary>
+        /// <param name="dp"></param>
         public void AddDPToHistory(PhotonDataPoint dp)
         {
-                _HistoryData.Add(
+                HistoryData.Add(
                     new PhotonDataPoint(
                     new Position(dp.Position.X, dp.Position.Y, dp.Position.Z),
                     new Direction(dp.Direction.Ux, dp.Direction.Uy, dp.Direction.Uz),
