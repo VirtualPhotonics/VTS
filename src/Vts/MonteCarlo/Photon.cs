@@ -127,15 +127,12 @@ namespace Vts.MonteCarlo
 
             DP.SubRegionInfoList[CurrentRegionIndex].PathLength += S;
 
-            // only increment number of collision counter if NOT pseudo-collision
-            // i.e. collision at boundary
+            // need to add: only increment number of collision counter if NOT pseudo-collision
+            // i.e. collision at boundary but need to change while check in main
+            // MC loop
             if (!hitBoundary)
             {
                 DP.SubRegionInfoList[CurrentRegionIndex].NumberOfCollisions++;
-            }
-            else
-            {
-                DP.StateFlag = PhotonStateType.PseudoCollision;
             }
 
             History.HistoryData.Add(
@@ -183,6 +180,16 @@ namespace Vts.MonteCarlo
                         DP.StateFlag = PhotonStateType.ExitedOutTop;
                     else
                         DP.StateFlag = PhotonStateType.ExitedOutBottom;
+                    if (DP.StateFlag != PhotonStateType.NotSet)
+                    {
+                        History.HistoryData.Add(
+                            new PhotonDataPoint(
+                                new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
+                                new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
+                                DP.Weight,
+                                DP.StateFlag,
+                                null));
+                    }
                     DP.Direction.Ux *= nCurrent / nNext;
                     DP.Direction.Uy *= nCurrent / nNext;
                     DP.Direction.Uz = uZSnell;
@@ -208,8 +215,14 @@ namespace Vts.MonteCarlo
             {
                 //Absorb_Discrete(rng);  // CKH don't think this call is needed
                 DP.StateFlag = PhotonStateType.Absorbed;
+                History.HistoryData.Add(
+                    new PhotonDataPoint(
+                        new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
+                        new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
+                        DP.Weight,
+                        DP.StateFlag,
+                        null));
             }
-            // might need to add to History here
         }
 
         /*****************************************************************/
@@ -371,6 +384,13 @@ namespace Vts.MonteCarlo
             if (History.HistoryData.Count >= MAX_HISTORY_PTS - 4)
             {
                 DP.StateFlag = PhotonStateType.KilledOverMaximumCollisions;
+                History.HistoryData.Add(
+                    new PhotonDataPoint(
+                        new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
+                        new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
+                        DP.Weight,
+                        DP.StateFlag,
+                        null));
             }
         }
 
@@ -396,6 +416,13 @@ namespace Vts.MonteCarlo
             if (History.HistoryData[CurrentTrackIndex].SubRegionInfoList.Select((pl, c) => pl.PathLength).Sum()
                 >= MAX_PHOTON_PATHLENGTH)
                 DP.StateFlag = PhotonStateType.KilledOverMaximumPathLength;
+            History.HistoryData.Add(
+                new PhotonDataPoint(
+                    new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
+                    new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
+                    DP.Weight,
+                    DP.StateFlag,
+                    null));
         }
 
         /*****************************************************************/
@@ -407,6 +434,16 @@ namespace Vts.MonteCarlo
                 DP.Weight = DP.Weight / CHANCE;
             else
                 DP.StateFlag = PhotonStateType.KilledRussianRoulette;
+            if (DP.StateFlag == PhotonStateType.KilledRussianRoulette)
+            {
+                History.HistoryData.Add(
+                    new PhotonDataPoint(
+                        new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
+                        new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
+                        DP.Weight,
+                        DP.StateFlag,
+                        null));
+            }
         }
 
     }

@@ -7,14 +7,14 @@ using Vts.MonteCarlo.Helpers;
 namespace Vts.MonteCarlo.TallyActions
 {
     /// <summary>
-    /// Implements ITally<double[,]>.  Tally for Fluence(rho,z).
+    /// Implements ITally<double[,]>.  Tally for Absorption(rho,z).
     /// </summary>
-    public class FluenceOfRhoAndZTally : ITally<double[,]>
+    public class AOfRhoAndZTally : ITally<double[,]>
     {
         private DoubleRange _rho;
         private DoubleRange _z;
 
-        public FluenceOfRhoAndZTally(DoubleRange rho, DoubleRange z)
+        public AOfRhoAndZTally(DoubleRange rho, DoubleRange z)
         {
             _rho = rho;
             _z = z;
@@ -41,8 +41,8 @@ namespace Vts.MonteCarlo.TallyActions
                 var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count, _rho.Delta, _rho.Start);
                 var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count, _z.Delta, _z.Start);
                 double dw = _previousDP.Weight * ops[1].Mua / (ops[1].Mua + ops[1].Mus);
-                Mean[ir, iz] += dw / ops[1].Mua; // FIX assume homogeneous for now
-                SecondMoment[ir, iz] += (dw / ops[1].Mua) * (dw / ops[1].Mua);
+                Mean[ir, iz] += dw; // FIX assume homogeneous for now
+                SecondMoment[ir, iz] += dw * dw;
             }
             _previousDP = dp;
             // if last photon in history, reset _firstPoint flag
