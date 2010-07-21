@@ -14,7 +14,7 @@ namespace Vts.WriteNurbsValues.Desktop
         {
             string readPath = "Modeling/Resources/ReferenceNurbs/";
             string writePath = "C:/Users/Virtual Photonics/Documents/Visual Studio 2008/Projects/VtsHg/src/Vts/";
-            string[] domain = { "SpatialFrequencyDomain/" };
+            string[] domain = { "RealDomain/" };
             string folder = "v0p1/";
 
             for (int dInd = 0; dInd < domain.Length; dInd++)

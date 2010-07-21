@@ -871,7 +871,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>first valid time</returns>
         public double GetMinimumValidTime(double rho)
         {
-            return 0.98 * Vts.Common.Math.Interpolation.interp1(Rhos, MinValidTimes, rho);
+            return Vts.Common.Math.Interpolation.interp1(Rhos, MinValidTimes, rho);
         }
 
         #endregion INurbs Members

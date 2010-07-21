@@ -18,10 +18,10 @@ namespace Vts.Modeling.ForwardSolvers
         #region INurbs Members
 
         /// <summary>
-        /// Returns speed of light for n = 1,4.
+        /// Returns minimum physical time of flight based on speed of light for n = 1,4.
         /// </summary>
         /// <param name="rho">source detector separation</param>
-        /// <returns>v</returns>
+        /// <returns>t</returns>
         public double GetMinimumValidTime(double rho)
         {
             return rho / 214.0;
