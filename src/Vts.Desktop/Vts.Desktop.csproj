@@ -710,30 +710,6 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\T_ra.xml">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\T_ra.xml</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\controlPoints">
       <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\controlPoints</Link>
     </EmbeddedResource>
@@ -752,11 +728,35 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeKnots">
       <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeKnots</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\nativeTimes">
+      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\nativeTimes</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\nativeTimes">
       <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\nativeTimes</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\nativeTimes">
-      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\nativeTimes</Link>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots</Link>
     </EmbeddedResource>
     <None Include="..\Vts\Modeling\Spectroscopy\Fat.csv">
       <Link>Modeling\Spectroscopy\Fat.csv</Link>
