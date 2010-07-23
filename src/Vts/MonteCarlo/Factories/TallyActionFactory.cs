@@ -15,8 +15,6 @@ namespace Vts.MonteCarlo.Factories
             {
                 case TallyType.FluenceOfRhoAndZ:
                     return true;
-                case TallyType.AOfRhoAndZ:
-                    return true;
                 default:
                     return false;
             }
@@ -58,8 +56,6 @@ namespace Vts.MonteCarlo.Factories
                     return new TOfRhoAndAngleTally(rho, angle);
                 case TallyType.FluenceOfRhoAndZ:
                     return new FluenceOfRhoAndZTally(rho, z);
-                case TallyType.AOfRhoAndZ:
-                    return new AOfRhoAndZTally(rho, z);
             }
         }
         public static ITally GetTallyAction(

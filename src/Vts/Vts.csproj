@@ -235,7 +235,6 @@
     <Compile Include="MonteCarlo\Sources\PointSourceInput.cs" />
     <Compile Include="MonteCarlo\Sources\SourceInputProvider.cs" />
     <Compile Include="MonteCarlo\Sources\SourceToolbox.cs" />
-    <Compile Include="MonteCarlo\TallyActions\AOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\pMuaMusInROfRhoAndTimeTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\pMuaMusInROfRhoTally.cs" />

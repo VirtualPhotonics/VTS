@@ -515,9 +515,6 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceToolbox.cs">
       <Link>MonteCarlo\Sources\SourceToolbox.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\AOfRhoAndZTally.cs">
-      <Link>MonteCarlo\TallyActions\AOfRhoAndZTally.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs">
       <Link>MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs</Link>
     </Compile>

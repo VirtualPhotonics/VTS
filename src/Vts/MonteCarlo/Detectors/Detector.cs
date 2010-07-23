@@ -113,23 +113,20 @@ namespace Vts.MonteCarlo.Detectors
                         _tissue.Regions.Select(s => s.RegionOP).ToList());
             }
         }
-        //bool _firstPoint = true;
-        public void HistoryTally(PhotonHistory history)
+        bool _firstPoint = true;
+        public void HistoryTally(PhotonDataPoint dp)
         {
-            foreach (PhotonDataPoint dp in history.HistoryData)
+            foreach (var tally in HistoryITallyList)
             {
-                foreach (var tally in HistoryITallyList)
+                if (_firstPoint)
                 {
-                    //if (_firstPoint)
-                    //{
-                    //    _firstPoint = false;
-                    //}
-                    //else
-                    //{
+                    _firstPoint = false;
+                }
+                else
+                {
                     // can history tallies static the previous dp?
                     tally.Tally(dp,
                         _tissue.Regions.Select(s => s.RegionOP).ToList());
-                    //}
                 }
             }
         }
@@ -182,9 +179,6 @@ namespace Vts.MonteCarlo.Detectors
                         break;
                     case TallyType.FluenceOfRhoAndZ:
                         output.Flu_rz = ((ITally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.FluenceOfRhoAndZ]]).Mean;
-                        break;
-                    case TallyType.AOfRhoAndZ:
-                        output.A_rz = ((ITally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.AOfRhoAndZ]]).Mean;
                         break;
                     case TallyType.TDiffuse:
                         output.Td = ((ITally<double>)TerminationITallyList[_tallyTypeIndex[TallyType.TDiffuse]]).Mean;

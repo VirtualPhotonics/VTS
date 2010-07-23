@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo
         KilledOverMaximumPathLength,
         KilledOverMaximumCollisions,
         KilledRussianRoulette,
-        //PseudoCollision, can't add until change while check in main MC
+        PseudoCollision,
     }
     // Source enums
     public enum SourceType
@@ -66,7 +66,6 @@ namespace Vts.MonteCarlo
         TOfAngle,
         TDiffuse,
         FluenceOfRhoAndZ,
-        AOfRhoAndZ,
         pMuaMusInROfRhoAndTime, // maybs these should be in separate enum?
         pMuaMusInROfRho,
         pMuaInROfRhoAndTime, // do I need next two?

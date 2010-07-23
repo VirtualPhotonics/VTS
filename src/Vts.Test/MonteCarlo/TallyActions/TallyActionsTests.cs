@@ -63,7 +63,6 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             TallyType.TOfRho,
                             TallyType.TOfRhoAndAngle,
                             TallyType.FluenceOfRhoAndZ,
-                            TallyType.AOfRhoAndZ,
                         },
                     new DoubleRange(0.0, 10, 101), // rho
                     new DoubleRange(0.0, 10, 101),  // z
@@ -109,12 +108,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
         [Test]
         public void validate_FluenceOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_output.Flu_rz[0, 0] - 33.3348714), 0.0000001);
-        }
-        [Test]
-        public void validate_AOfRhoAndZ()
-        {
-            Assert.Less(Math.Abs(_output.A_rz[0, 0] - 0.333348714), 0.000000001);
+            Assert.Less(Math.Abs(_output.Flu_rz[1, 0] - 155.868602), 0.01);
         }
     }
 }

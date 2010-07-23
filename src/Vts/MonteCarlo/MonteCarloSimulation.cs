@@ -122,8 +122,8 @@ namespace Vts.MonteCarlo
                 for (long n = 1; n <= numberOfPhotons; n++)
                 {
                     // todo: bug - num photons is assumed to be over 10 :)
-                    //if (n % (numberOfPhotons / 10) == 0)
-                    //    DisplayStatus(n, numberOfPhotons);
+                    if (n % (numberOfPhotons / 10) == 0)
+                        DisplayStatus(n, numberOfPhotons);
 
                     var photon = _source.GetNextPhoton(_tissue, rng);
 
@@ -158,7 +158,6 @@ namespace Vts.MonteCarlo
                         //todo: PhotonHistoryDatabaseWriter.AddDataPoint(DP);
 
                         photon.TestWeight();
-
                     } while (photon.DP.StateFlag == PhotonStateType.NotSet); /* end do while */
 
                     _detector.TerminationTally(photon.DP);
@@ -171,7 +170,7 @@ namespace Vts.MonteCarlo
 
                     //if (DO_ALLVOX) Compute_Prob_allvox(source, tissptr, photptr, bananaptr, outptr, detector);  /* DCFIX */
 
-                    _detector.HistoryTally(photon.History);
+                    _detector.HistoryTally(photon.DP);
 
                 } /* end of for n loop */
             } /* end exit history using scope*/

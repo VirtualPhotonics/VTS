@@ -134,9 +134,7 @@
     <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs" />
     <Compile Include="Common\Math\Convolution2DTests.cs" />
     <Compile Include="Common\PositionTests.cs" />
-    <Compile Include="Factories\SolverFactoryTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Factories\SolverFactoryTest.cs" />
     <Compile Include="Modeling\ForwardSolvers\BSplinesCoefficientsTest.cs" />
     <Compile Include="Modeling\LoadValidationData.cs" />
     <Compile Include="Modeling\MetaNumericsZeroOrderBesselFunction.cs" />
