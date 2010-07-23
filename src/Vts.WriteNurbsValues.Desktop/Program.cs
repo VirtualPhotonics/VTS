@@ -13,7 +13,7 @@ namespace Vts.WriteNurbsValues.Desktop
         static void Main(string[] args)
         {
             string readPath = "Modeling/Resources/ReferenceNurbs/";
-            string writePath = "C:/Users/Virtual Photonics/Documents/Visual Studio 2008/Projects/VtsHg/src/Vts/";
+            string writePath = "C:/Users/Virtual Photonics/Documents/Visual Studio 2008/Projects/VtsHg2/src/Vts/";
             string[] domain = { "RealDomain/" };
             string folder = "v0p1/";
 
