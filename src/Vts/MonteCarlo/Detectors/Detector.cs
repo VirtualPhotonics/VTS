@@ -113,20 +113,23 @@ namespace Vts.MonteCarlo.Detectors
                         _tissue.Regions.Select(s => s.RegionOP).ToList());
             }
         }
-        bool _firstPoint = true;
-        public void HistoryTally(PhotonDataPoint dp)
+        //bool _firstPoint = true;
+        public void HistoryTally(PhotonHistory history)
         {
-            foreach (var tally in HistoryITallyList)
+            foreach (PhotonDataPoint dp in history.HistoryData)
             {
-                if (_firstPoint)
+                foreach (var tally in HistoryITallyList)
                 {
-                    _firstPoint = false;
-                }
-                else
-                {
+                    //if (_firstPoint)
+                    //{
+                    //    _firstPoint = false;
+                    //}
+                    //else
+                    //{
                     // can history tallies static the previous dp?
                     tally.Tally(dp,
                         _tissue.Regions.Select(s => s.RegionOP).ToList());
+                    //}
                 }
             }
         }
@@ -154,7 +157,7 @@ namespace Vts.MonteCarlo.Detectors
                 {
                     default:
                     case TallyType.RDiffuse:
-                        output.Rd = ((ITally<double>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.RDiffuse)]).Mean;
+                        output.Rd = ((ITally<double>)TerminationITallyList[_tallyTypeIndex[TallyType.RDiffuse]]).Mean;
                         // the following is a workaround for now
                         output.Rtot = output.Rd +
                             Helpers.Optics.Specular(_tissue.Regions[0].RegionOP.N, _tissue.Regions[1].RegionOP.N);
@@ -179,6 +182,9 @@ namespace Vts.MonteCarlo.Detectors
                         break;
                     case TallyType.FluenceOfRhoAndZ:
                         output.Flu_rz = ((ITally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.FluenceOfRhoAndZ]]).Mean;
+                        break;
+                    case TallyType.AOfRhoAndZ:
+                        output.A_rz = ((ITally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.AOfRhoAndZ]]).Mean;
                         break;
                     case TallyType.TDiffuse:
                         output.Td = ((ITally<double>)TerminationITallyList[_tallyTypeIndex[TallyType.TDiffuse]]).Mean;

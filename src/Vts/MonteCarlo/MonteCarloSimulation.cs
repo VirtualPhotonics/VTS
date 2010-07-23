@@ -158,6 +158,7 @@ namespace Vts.MonteCarlo
                         //todo: PhotonHistoryDatabaseWriter.AddDataPoint(DP);
 
                         photon.TestWeight();
+
                     } while (photon.DP.StateFlag == PhotonStateType.NotSet); /* end do while */
 
                     _detector.TerminationTally(photon.DP);
@@ -170,7 +171,7 @@ namespace Vts.MonteCarlo
 
                     //if (DO_ALLVOX) Compute_Prob_allvox(source, tissptr, photptr, bananaptr, outptr, detector);  /* DCFIX */
 
-                    _detector.HistoryTally(photon.DP);
+                    _detector.HistoryTally(photon.History);
 
                 } /* end of for n loop */
             } /* end exit history using scope*/

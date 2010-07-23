@@ -42,15 +42,6 @@ namespace Vts.MonteCarlo
                         new SubRegionCollisionInfo(0.0, 0, tallyMomentumTransfer, 0D)).ToArray());
 
             History = new PhotonHistory();
-            // can't set up initial point in constructor
-            // set initial point in history
-            //History.HistoryData.Add(
-            //    new PhotonDataPoint(
-            //        DP.Position, 
-            //        DP.Direction,
-            //        DP.Weight,
-            //        DP.StateFlag,
-            //        null)); // don't carry SubRegionCollisionInfo data in History
             S = 0.0;
             SLeft = 0.0;
             CurrentRegionIndex = tissue.GetRegionIndex(DP.Position);
@@ -111,13 +102,7 @@ namespace Vts.MonteCarlo
         {
             if (History.HistoryData.Count() == 0) // add initial data point
             {
-                History.HistoryData.Add(
-                    new PhotonDataPoint(
-                        new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
-                        new Direction(DP.Direction.Ux, DP.Direction.Uy, DP.Direction.Uz),
-                        DP.Weight,
-                        DP.StateFlag,
-                        null)); // don't carry SubRegionCollisionInfo data in History
+                History.AddDPToHistory(DP);
             }
             DP.Position.X += S * DP.Direction.Ux;
             DP.Position.Y += S * DP.Direction.Uy;
@@ -127,24 +112,16 @@ namespace Vts.MonteCarlo
 
             DP.SubRegionInfoList[CurrentRegionIndex].PathLength += S;
 
-            // only increment number of collision counter if NOT pseudo-collision
-            // i.e. collision at boundary
+            // need to add: only increment number of collision counter if NOT pseudo-collision
+            // i.e. collision at boundary but need to change while check in main
+            // MC loop
             if (!hitBoundary)
             {
                 DP.SubRegionInfoList[CurrentRegionIndex].NumberOfCollisions++;
             }
-            else
-            {
-                DP.StateFlag = PhotonStateType.PseudoCollision;
-            }
 
-            History.HistoryData.Add(
-                new PhotonDataPoint(
-                    new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
-                    new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
-                    DP.Weight,
-                    DP.StateFlag,
-                    null));
+            History.AddDPToHistory(DP);
+
             DP.StateFlag = PhotonStateType.NotSet; // reset state back to not set
         }
 
@@ -183,6 +160,16 @@ namespace Vts.MonteCarlo
                         DP.StateFlag = PhotonStateType.ExitedOutTop;
                     else
                         DP.StateFlag = PhotonStateType.ExitedOutBottom;
+                    if (DP.StateFlag != PhotonStateType.NotSet)
+                    {
+                        History.HistoryData.Add(
+                            new PhotonDataPoint(
+                                new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
+                                new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
+                                DP.Weight,
+                                DP.StateFlag,
+                                null));
+                    }
                     DP.Direction.Ux *= nCurrent / nNext;
                     DP.Direction.Uy *= nCurrent / nNext;
                     DP.Direction.Uz = uZSnell;
@@ -208,8 +195,8 @@ namespace Vts.MonteCarlo
             {
                 //Absorb_Discrete(rng);  // CKH don't think this call is needed
                 DP.StateFlag = PhotonStateType.Absorbed;
+                History.AddDPToHistory(DP);
             }
-            // might need to add to History here
         }
 
         /*****************************************************************/
@@ -332,7 +319,7 @@ namespace Vts.MonteCarlo
             double x = DP.Position.X;
             double y = DP.Position.Y;
             int index = History.HistoryData.Count() - 1;
-            double d = DP.SubRegionInfoList[CurrentRegionIndex].PathLength; 
+            double d = History.HistoryData[index].SubRegionInfoList[CurrentRegionIndex].PathLength; // CKH verify this
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
             dw = DP.Weight * (1 - Math.Exp(-mua * d));
             DP.Weight -= dw;
@@ -371,6 +358,7 @@ namespace Vts.MonteCarlo
             if (History.HistoryData.Count >= MAX_HISTORY_PTS - 4)
             {
                 DP.StateFlag = PhotonStateType.KilledOverMaximumCollisions;
+                History.AddDPToHistory(DP);
             }
         }
 
@@ -396,6 +384,7 @@ namespace Vts.MonteCarlo
             if (History.HistoryData[CurrentTrackIndex].SubRegionInfoList.Select((pl, c) => pl.PathLength).Sum()
                 >= MAX_PHOTON_PATHLENGTH)
                 DP.StateFlag = PhotonStateType.KilledOverMaximumPathLength;
+            History.AddDPToHistory(DP);
         }
 
         /*****************************************************************/
@@ -407,6 +396,10 @@ namespace Vts.MonteCarlo
                 DP.Weight = DP.Weight / CHANCE;
             else
                 DP.StateFlag = PhotonStateType.KilledRussianRoulette;
+            if (DP.StateFlag == PhotonStateType.KilledRussianRoulette)
+            {
+                History.AddDPToHistory(DP);
+            }
         }
 
     }
