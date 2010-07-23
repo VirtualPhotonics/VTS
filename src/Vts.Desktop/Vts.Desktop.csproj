@@ -263,6 +263,9 @@
     <Compile Include="..\Vts\Modeling\ForwardSolvers\ForwardSolverBase.cs">
       <Link>Modeling\ForwardSolvers\ForwardSolverBase.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\INurbs.cs">
+      <Link>Modeling\ForwardSolvers\INurbs.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs">
       <Link>Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs</Link>
     </Compile>
@@ -298,6 +301,9 @@
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs">
       <Link>Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\StubNurbsGenerator.cs">
+      <Link>Modeling\ForwardSolvers\StubNurbsGenerator.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs">
       <Link>Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs</Link>
@@ -609,17 +615,17 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml">
       <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml">
       <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml</Link>
     </EmbeddedResource>
     <Content Include="..\Vts\Modeling\Spectroscopy\ChromophoreList.xml">
       <Link>Modeling\Spectroscopy\ChromophoreList.xml</Link>
