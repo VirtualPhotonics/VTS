@@ -495,9 +495,13 @@ namespace Vts.Modeling.ForwardSolvers
                 {
                     return ControlPoints.GetLength(0) - 1;
                 }
-                else
+                else if (nurbsValues.ValuesDimensions == NurbsValuesDimensions.time)
                 {
                     return ControlPoints.GetLength(1) - 1;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid NurbsValuesDimensions.");
                 }
             }
             else

@@ -23,6 +23,30 @@ namespace Vts.Test.Modeling.ForwardSolvers
         /// Test against the NurbsGenerator class.
         /// </summary>
         [Test]
+        public void MultiplyControlPointsAndPolynomialCoefficients_KnownValues_ReturnsExpectedValues()
+        {
+            double[,] polynomialCoefs = { { 1.0, 1.0, 1.0 }, { 2.0, 2.0, 2.0 }, { 3.0, 3.0, 3.0 } };
+            double[] controlPoints = { 1.0, 2.0, 3.0};
+            double[] result = nurbsGenerator.MultiplyControlPointsAndPolynomialCoefficients(polynomialCoefs, controlPoints);
+            double[] expectedResult = {6.0,12.0,18.0};
+            Assert.AreEqual(expectedResult, result, "The multyplied control points should be equal to the expected values.");
+        }
+
+        /// <summary>
+        /// Test against the NurbsGenerator class.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "Negative parametric point not accetable as input.")]
+        public void FindSpan_ParametricPointSmallerThenZero_ThowsException()
+        {
+            NurbsValues nurbsValues = new NurbsValues(1.0);
+            nurbsGenerator.FindSpan(nurbsValues, -1.0);
+        }
+
+        /// <summary>
+        /// Test against the NurbsGenerator class.
+        /// </summary>
+        [Test]
         public void BinarySearch_PointInsideKnotSpan_ReturnsCorrectSpanIndex()
         {
             double[] knots = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0 };

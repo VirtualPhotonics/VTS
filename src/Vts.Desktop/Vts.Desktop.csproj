@@ -624,12 +624,12 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml">
       <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml</Link>
     </EmbeddedResource>
-    <Content Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml">
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml">
       <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml</Link>
-    </Content>
-    <Content Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml">
       <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml</Link>
-    </Content>
+    </EmbeddedResource>
     <Content Include="..\Vts\Modeling\Spectroscopy\ChromophoreList.xml">
       <Link>Modeling\Spectroscopy\ChromophoreList.xml</Link>
     </Content>

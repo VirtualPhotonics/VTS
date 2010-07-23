@@ -6,13 +6,14 @@ using System;
 namespace Vts.WriteNurbsValues.Desktop
 {
     /// <summary>
-    /// This class menages the reading of binary and writing to XML of a NurbsValues class.
+    /// This class menages the reading of binary files and the writing to XML of a NurbsValues class.
     /// </summary>
     class Program
     {
         static void Main(string[] args)
         {
             string readPath = "Modeling/Resources/ReferenceNurbs/";
+            //TODO: relative path
             string writePath = "C:/Users/Virtual Photonics/Documents/Visual Studio 2008/Projects/VtsHg/src/Vts/";
             string[] domain = { "RealDomain/" };
             string folder = "v0p1/";
