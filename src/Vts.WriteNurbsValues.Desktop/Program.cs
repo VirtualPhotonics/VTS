@@ -1,3 +1,5 @@
+using System.IO;
+using System.Reflection;
 using Vts.IO;
 using Vts.Modeling.ForwardSolvers;
 using Vts.Extensions;
@@ -12,11 +14,16 @@ namespace Vts.WriteNurbsValues.Desktop
     {
         static void Main(string[] args)
         {
-            string readPath = "Modeling/Resources/ReferenceNurbs/";
+            string readPath = @"Modeling\Resources\ReferenceNurbs\";
             //TODO: relative path
-            string writePath = "C:/Users/Virtual Photonics/Documents/Visual Studio 2008/Projects/VtsHg/src/Vts/";
-            string[] domain = { "RealDomain/" };
-            string folder = "v0p1/";
+            string writePath = @"..\..\..\Vts\";
+            
+           // string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+           // string fullPath = currentAssemblyDirectoryName + "\\";
+
+            //string writePath = "C:/Users/Virtual Photonics/Documents/Visual Studio 2008/Projects/VtsHg/src/Vts/";
+            string[] domain = { @"RealDomain\" };
+            string folder = @"v0p1\";
 
             for (int dInd = 0; dInd < domain.Length; dInd++)
             {
