@@ -6,15 +6,6 @@ namespace Vts.IO.Desktop.Test
     [TestFixture]
     public class FileIOTestsDesktop
     {
-        public static void Main()
-        {
-            var fileIOTests = new FileIOTestsDesktop();
-            
-            fileIOTests.test_that_a_2D_array_can_be_serialized_to_binary_with_xml_included();
-            
-            Console.ReadKey();
-        }
-
         [Test]
         public void test_that_a_2D_array_can_be_serialized_to_binary_with_xml_included()
         {
