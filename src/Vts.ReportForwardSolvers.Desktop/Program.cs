@@ -6,6 +6,7 @@ using Vts.Modeling.ForwardSolvers;
 using System.IO;
 using System.Linq;
 using Vts.Extensions;
+using System.Reflection;
 
 namespace Vts.ReportForwardSolvers.Desktop
 {
@@ -15,7 +16,11 @@ namespace Vts.ReportForwardSolvers.Desktop
         {
             var projectName = "Vts.ReportForwardSolvers.Desktop";
             // todo: need to make this path relative
-            var inputPath = "C:/Users/Virtual Photonics/Documents/Visual Studio 2008/Projects/VtsHg/src/Vts.ReportForwardSolvers.Desktop/Resources/";
+            //var inputPath = "C:/Users/Virtual Photonics/Documents/Visual Studio 2008/Projects/VtsHg/src/Vts.ReportForwardSolvers.Desktop/Resources/";
+            //var inputPath = @"..\..\..\Vts.ReportForwardSolvers.Desktop\Resources\";
+            var inputPath = @"..\..\Resources\";
+            string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            inputPath = currentAssemblyDirectoryName + "\\" + inputPath;
             var g = 0.8;
             var n = 1.4;
             var muas = new double[] { 0.001, 0.01, 0.03, 0.1, 0.3 };//[mm-1]
