@@ -13,11 +13,13 @@ namespace Vts.MonteCarlo.TallyActions
     {
         private DoubleRange _rho;
         private DoubleRange _z;
+        private ITissue _tissue;
 
-        public FluenceOfRhoAndZTally(DoubleRange rho, DoubleRange z)
+        public FluenceOfRhoAndZTally(DoubleRange rho, DoubleRange z, ITissue tissue)
         {
             _rho = rho;
             _z = z;
+            _tissue = tissue;
             Mean = new double[_rho.Count, _z.Count];
             SecondMoment = new double[_rho.Count, _z.Count];
         }
@@ -40,9 +42,11 @@ namespace Vts.MonteCarlo.TallyActions
             {
                 var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count, _rho.Delta, _rho.Start);
                 var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count, _z.Delta, _z.Start);
-                double dw = _previousDP.Weight * ops[1].Mua / (ops[1].Mua + ops[1].Mus);
-                Mean[ir, iz] += dw / ops[1].Mua; // FIX assume homogeneous for now
-                SecondMoment[ir, iz] += (dw / ops[1].Mua) * (dw / ops[1].Mua);
+                double dw = _previousDP.Weight * ops[_tissue.GetRegionIndex(dp.Position)].Mua / 
+                    (ops[_tissue.GetRegionIndex(dp.Position)].Mua + ops[_tissue.GetRegionIndex(dp.Position)].Mus);
+                Mean[ir, iz] += dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua; 
+                SecondMoment[ir, iz] += (dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua) * 
+                    (dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua);
             }
             _previousDP = dp;
             // if last photon in history, reset _firstPoint flag

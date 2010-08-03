@@ -94,12 +94,12 @@ namespace Vts.MonteCarlo.Detectors
             {
                 if (Factories.TallyActionFactory.IsHistoryTally(tally))
                 {
-                    HistoryITallyList.Add(Factories.TallyActionFactory.GetTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y));
+                    HistoryITallyList.Add(Factories.TallyActionFactory.GetTallyAction(tally, _tissue, Rho, Z, Angle, Time, Omega, X, Y));
                     _tallyTypeIndex.Add(tally, HistoryITallyList.Count() - 1);
                 }
                 else
                 {
-                    TerminationITallyList.Add(Factories.TallyActionFactory.GetTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y));
+                    TerminationITallyList.Add(Factories.TallyActionFactory.GetTallyAction(tally, _tissue, Rho, Z, Angle, Time, Omega, X, Y));
                     _tallyTypeIndex.Add(tally, TerminationITallyList.Count() - 1);
                 }
             }
