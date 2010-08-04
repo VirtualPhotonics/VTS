@@ -209,6 +209,8 @@
     <Compile Include="MonteCarlo\Factories\TallyActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\TissueFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\Optics.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IHistoryTallyOfT.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IHistoryTally.cs" />
     <Compile Include="MonteCarlo\PhotonHistory.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorInput.cs" />
@@ -238,6 +240,8 @@
     <Compile Include="MonteCarlo\Sources\SourceInputProvider.cs" />
     <Compile Include="MonteCarlo\Sources\SourceToolbox.cs" />
     <Compile Include="MonteCarlo\TallyActions\AOfRhoAndZTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\MomentumTransferOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\pMuaMusInROfRhoAndTimeTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\pMuaMusInROfRhoTally.cs" />

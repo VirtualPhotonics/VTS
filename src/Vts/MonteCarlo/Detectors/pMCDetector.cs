@@ -81,7 +81,7 @@ namespace Vts.MonteCarlo.Detectors
 
         //public List<ITally> ITallyList { get; set; }
         public List<ITally> TerminationITallyList { get; set; }
-        public List<ITally> HistoryITallyList { get; set; }
+        public List<IHistoryTally> HistoryITallyList { get; set; }
         public List<TallyType> TallyTypeList { get; set; }
         public DoubleRange Rho { get; set; }
         public DoubleRange Angle { get; set; }
@@ -97,12 +97,12 @@ namespace Vts.MonteCarlo.Detectors
         public void SetTallyActionLists()
         {
             TerminationITallyList = new List<ITally>();
-            HistoryITallyList = new List<ITally>();
+            HistoryITallyList = new List<IHistoryTally>();
             foreach (var tally in TallyTypeList)
             {
                 if (Factories.TallyActionFactory.IsHistoryTally(tally))
                 {
-                    HistoryITallyList.Add(Factories.TallyActionFactory.GetTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y,
+                    HistoryITallyList.Add(Factories.TallyActionFactory.GetHistoryTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y,
                         AWT, ReferenceOps, PerturbedRegionsIndices));
                 }
                 else

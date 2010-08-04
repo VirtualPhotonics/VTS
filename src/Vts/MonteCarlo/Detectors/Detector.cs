@@ -76,7 +76,7 @@ namespace Vts.MonteCarlo.Detectors
                 tissue) { }
 
         public List<ITally> TerminationITallyList { get; set; }
-        public List<ITally> HistoryITallyList { get; set; }
+        public List<IHistoryTally> HistoryITallyList { get; set; }
         public List<TallyType> TallyTypeList { get; set; }
         public DoubleRange Rho { get; set; }
         public DoubleRange Angle { get; set; }
@@ -89,12 +89,12 @@ namespace Vts.MonteCarlo.Detectors
         public virtual void SetTallyActionLists()
         {
             TerminationITallyList = new List<ITally>();
-            HistoryITallyList = new List<ITally>();
+            HistoryITallyList = new List<IHistoryTally>();
             foreach (var tally in TallyTypeList)
             {
                 if (Factories.TallyActionFactory.IsHistoryTally(tally))
                 {
-                    HistoryITallyList.Add(Factories.TallyActionFactory.GetTallyAction(tally, _tissue, Rho, Z, Angle, Time, Omega, X, Y));
+                    HistoryITallyList.Add(Factories.TallyActionFactory.GetHistoryTallyAction(tally, _tissue, Rho, Z, Angle, Time, Omega, X, Y));
                     _tallyTypeIndex.Add(tally, HistoryITallyList.Count() - 1);
                 }
                 else
@@ -113,24 +113,30 @@ namespace Vts.MonteCarlo.Detectors
                         _tissue.Regions.Select(s => s.RegionOP).ToList());
             }
         }
-        //bool _firstPoint = true;
+        bool _firstPoint = true;
+        PhotonDataPoint _previousDP;
         public void HistoryTally(PhotonHistory history)
         {
             foreach (PhotonDataPoint dp in history.HistoryData)
             {
                 foreach (var tally in HistoryITallyList)
                 {
-                    //if (_firstPoint)
-                    //{
-                    //    _firstPoint = false;
-                    //}
-                    //else
-                    //{
-                    // can history tallies static the previous dp?
-                    tally.Tally(dp,
-                        _tissue.Regions.Select(s => s.RegionOP).ToList());
-                    //}
+                    if (_firstPoint)
+                    {
+                        _firstPoint = false;
+                        _previousDP = dp;
+                    }
+                    else
+                    {
+                        tally.Tally(_previousDP, dp,
+                            _tissue.Regions.Select(s => s.RegionOP).ToList());
+                        _previousDP = dp;
+                    }
                 }
+                //if (dp.StateFlag != PhotonStateType.NotSet)
+                //{
+                //    _firstPoint = true;
+                //}
             }
         }
         // pass in Output rather than return because want instance of SimulationInput to be consistent
@@ -181,10 +187,10 @@ namespace Vts.MonteCarlo.Detectors
                         output.R_rw = ((ITally<Complex[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndOmega]]).Mean;
                         break;
                     case TallyType.FluenceOfRhoAndZ:
-                        output.Flu_rz = ((ITally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.FluenceOfRhoAndZ]]).Mean;
+                        output.Flu_rz = ((IHistoryTally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.FluenceOfRhoAndZ]]).Mean;
                         break;
                     case TallyType.AOfRhoAndZ:
-                        output.A_rz = ((ITally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.AOfRhoAndZ]]).Mean;
+                        output.A_rz = ((IHistoryTally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.AOfRhoAndZ]]).Mean;
                         break;
                     case TallyType.TDiffuse:
                         output.Td = ((ITally<double>)TerminationITallyList[_tallyTypeIndex[TallyType.TDiffuse]]).Mean;

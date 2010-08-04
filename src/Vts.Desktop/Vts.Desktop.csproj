@@ -443,6 +443,12 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetectorInput.cs">
       <Link>MonteCarlo\Interfaces\IDetectorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IHistoryTally.cs">
+      <Link>MonteCarlo\Interfaces\IHistoryTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IHistoryTallyOfT.cs">
+      <Link>MonteCarlo\Interfaces\IHistoryTallyOfT.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISimulationOptions.cs">
       <Link>MonteCarlo\Interfaces\ISimulationOptions.cs</Link>
     </Compile>
@@ -524,8 +530,14 @@
     <Compile Include="..\Vts\MonteCarlo\TallyActions\AOfRhoAndZTally.cs">
       <Link>MonteCarlo\TallyActions\AOfRhoAndZTally.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs">
+      <Link>MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs">
       <Link>MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\MomentumTransferOfRhoAndZTally.cs">
+      <Link>MonteCarlo\TallyActions\MomentumTransferOfRhoAndZTally.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\pMuaMusInROfRhoAndTimeTally.cs">
       <Link>MonteCarlo\TallyActions\pMuaMusInROfRhoAndTimeTally.cs</Link>

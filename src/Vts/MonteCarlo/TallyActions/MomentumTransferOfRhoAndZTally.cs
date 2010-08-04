@@ -7,16 +7,15 @@ using Vts.MonteCarlo.Helpers;
 namespace Vts.MonteCarlo.TallyActions
 {
     /// <summary>
-    /// Implements ITally<double[,]>.  Tally for Fluence(rho,z).
-    /// Note: this tally currently only works with discrete absorption weighting
+    /// Implements IHistoryTally<double[,]>.  Tally for MomentumTransfer(rho,z).
     /// </summary>
-    public class FluenceOfRhoAndZTally : IHistoryTally<double[,]>
+    public class MomentumTransferOfRhoAndZTally : IHistoryTally<double[,]>
     {
         private DoubleRange _rho;
         private DoubleRange _z;
         private ITissue _tissue;
 
-        public FluenceOfRhoAndZTally(DoubleRange rho, DoubleRange z, ITissue tissue)
+        public MomentumTransferOfRhoAndZTally(DoubleRange rho, DoubleRange z, ITissue tissue)
         {
             _rho = rho;
             _z = z;
@@ -26,6 +25,7 @@ namespace Vts.MonteCarlo.TallyActions
         }
         //static PhotonDataPoint _previousDP;
         //static bool _firstPoint = true;
+        private double _momentumTransfer;
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp, IList<OpticalProperties> ops)
         {
             //if (_firstPoint)
@@ -43,11 +43,10 @@ namespace Vts.MonteCarlo.TallyActions
             //{
                 var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count, _rho.Delta, _rho.Start);
                 var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count, _z.Delta, _z.Start);
-                double dw = previousDP.Weight * ops[_tissue.GetRegionIndex(dp.Position)].Mua / 
-                    (ops[_tissue.GetRegionIndex(dp.Position)].Mua + ops[_tissue.GetRegionIndex(dp.Position)].Mus);
-                Mean[ir, iz] += dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua; 
-                SecondMoment[ir, iz] += (dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua) * 
-                    (dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua);
+                // calculate momentum transfer
+                _momentumTransfer = 1;
+                Mean[ir, iz] += _momentumTransfer; 
+                SecondMoment[ir, iz] += _momentumTransfer * _momentumTransfer;
             //}
             //_previousDP = dp;
             //// if last photon in history, reset _firstPoint flag
@@ -63,6 +62,7 @@ namespace Vts.MonteCarlo.TallyActions
             {
                 for (int iz = 0; iz < _z.Count; iz++)
                 {
+                    // need to check that this normalization makes sense for momentum transfer
                     Mean[ir, iz] /=
                         2.0 * Math.PI * (ir + 0.5) * _rho.Delta * _rho.Delta * _z.Delta * numPhotons;
                 }
