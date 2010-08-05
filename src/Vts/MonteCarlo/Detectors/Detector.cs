@@ -119,24 +119,20 @@ namespace Vts.MonteCarlo.Detectors
         {
             foreach (PhotonDataPoint dp in history.HistoryData)
             {
-                foreach (var tally in HistoryITallyList)
+                if (_firstPoint)
                 {
-                    if (_firstPoint)
-                    {
-                        _firstPoint = false;
-                        _previousDP = dp;
-                    }
-                    else
+                    _firstPoint = false;
+                    _previousDP = dp;
+                }
+                else
+                {
+                    foreach (var tally in HistoryITallyList)
                     {
                         tally.Tally(_previousDP, dp,
-                            _tissue.Regions.Select(s => s.RegionOP).ToList());
-                        _previousDP = dp;
+                                _tissue.Regions.Select(s => s.RegionOP).ToList());
                     }
+                    _previousDP = dp;
                 }
-                //if (dp.StateFlag != PhotonStateType.NotSet)
-                //{
-                //    _firstPoint = true;
-                //}
             }
         }
         // pass in Output rather than return because want instance of SimulationInput to be consistent
