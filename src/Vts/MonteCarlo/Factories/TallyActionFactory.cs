@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.Factories
                     return false;
             }
         }
-        public static ITally GetTallyAction(
+        public static ITerminationTally GetTallyAction(
             TallyType tallyType,
             ITissue tissue,
             DoubleRange rho,
@@ -88,7 +88,7 @@ namespace Vts.MonteCarlo.Factories
                     return new AOfRhoAndZTally(rho, z, tissue);
             }
         }
-        public static ITally GetTallyAction(
+        public static ITerminationTally GetTallyAction(
             TallyType tallyType,
             DoubleRange rho,
             DoubleRange z,

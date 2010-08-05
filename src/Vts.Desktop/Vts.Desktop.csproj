@@ -458,11 +458,11 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISourceInput.cs">
       <Link>MonteCarlo\Interfaces\ISourceInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITally.cs">
-      <Link>MonteCarlo\Interfaces\ITally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITerminationTally.cs">
+      <Link>MonteCarlo\Interfaces\ITerminationTally.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITallyOfT.cs">
-      <Link>MonteCarlo\Interfaces\ITallyOfT.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITerminationTallyOfT.cs">
+      <Link>MonteCarlo\Interfaces\ITerminationTallyOfT.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissue.cs">
       <Link>MonteCarlo\Interfaces\ITissue.cs</Link>

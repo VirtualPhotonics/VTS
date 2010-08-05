@@ -6,10 +6,10 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.TallyActions
 {
     /// <summary>
-    /// Implements ITally<double[,]>.  Tally for reflectance as a function 
+    /// Implements ITerminationTally<double[,]>.  Tally for reflectance as a function 
     /// of X and Y.
     /// </summary>
-    public class ROfXAndYTally : ITally<double[,]>
+    public class ROfXAndYTally : ITerminationTally<double[,]>
     {
         private DoubleRange _x;
         private DoubleRange _y;

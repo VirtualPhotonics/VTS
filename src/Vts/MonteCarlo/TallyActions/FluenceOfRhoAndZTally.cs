@@ -7,7 +7,7 @@ using Vts.MonteCarlo.Helpers;
 namespace Vts.MonteCarlo.TallyActions
 {
     /// <summary>
-    /// Implements ITally<double[,]>.  Tally for Fluence(rho,z).
+    /// Implements IHistoryTally<double[,]>.  Tally for Fluence(rho,z).
     /// Note: this tally currently only works with discrete absorption weighting
     /// </summary>
     public class FluenceOfRhoAndZTally : IHistoryTally<double[,]>

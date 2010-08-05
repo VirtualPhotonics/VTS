@@ -4,9 +4,9 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.TallyActions
 {
     /// <summary>
-    /// Implements ITally<double>.  Tally for diffuse transmittance.
+    /// Implements ITerminationTally<double>.  Tally for diffuse transmittance.
     /// </summary>
-    public class TDiffuseTally : ITally<double>
+    public class TDiffuseTally : ITerminationTally<double>
     {
         //private double _tDiffuse;
         //private double _tDiffuseSecondMoment;
