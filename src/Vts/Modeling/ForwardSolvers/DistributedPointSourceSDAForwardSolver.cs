@@ -7,14 +7,14 @@ namespace Vts.Modeling.ForwardSolvers
     /// Contains distributed point source solutions for the diffusion point source-image solution in the
     /// semi-infinite domain.
     /// </summary>
-    public class DistributedPointSourceDiffusionForwardSolver : DiffusionForwardSolverBase // : SDAForwardSolver
+    public class DistributedPointSourceSDAForwardSolver : DiffusionForwardSolverBase // : SDAForwardSolver
     {
-        private PointSourceDiffusionForwardSolver _pointSourceForwardSolver;
+        private PointSourceSDAForwardSolver _pointSourceForwardSolver;
 
-        public DistributedPointSourceDiffusionForwardSolver()
+        public DistributedPointSourceSDAForwardSolver()
             : base(SourceConfiguration.Distributed, 0.0)
         {
-            _pointSourceForwardSolver = new PointSourceDiffusionForwardSolver();
+            _pointSourceForwardSolver = new PointSourceSDAForwardSolver();
         }
 
         #region SteadyState

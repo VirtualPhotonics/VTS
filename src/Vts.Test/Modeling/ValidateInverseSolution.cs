@@ -35,7 +35,7 @@ namespace Vts.Test.Modeling
             initialGuess.N = 1.4;
             constantValues = new double[1] { 0 };
             simulatedMeasured = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
-                SolverFactory.GetForwardSolver(ForwardSolverType.DistributedPointSDA),
+                SolverFactory.GetForwardSolver(ForwardSolverType.DistributedPointSourceSDA),
                 SolutionDomainType.RofRho,
                 ForwardAnalysisType.R,
                 IndependentVariableAxis.Rho,
@@ -44,7 +44,7 @@ namespace Vts.Test.Modeling
                 constantValues);
             standardDeviation = simulatedMeasured;
             double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
-                SolverFactory.GetForwardSolver(ForwardSolverType.DistributedPointSDA),
+                SolverFactory.GetForwardSolver(ForwardSolverType.DistributedPointSourceSDA),
                 SolverFactory.GetOptimizer(OptimizerType.MPFitLevenbergMarquardt),
                 SolutionDomainType.RofRho,
                 IndependentVariableAxis.Rho,
@@ -88,7 +88,7 @@ namespace Vts.Test.Modeling
                 constantValues);
             standardDeviation = simulatedMeasured;
             double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
-                SolverFactory.GetForwardSolver(ForwardSolverType.DistributedPointSDA),
+                SolverFactory.GetForwardSolver(ForwardSolverType.DistributedPointSourceSDA),
                 SolverFactory.GetOptimizer(OptimizerType.MPFitLevenbergMarquardt),
                 SolutionDomainType.RofRho,
                 IndependentVariableAxis.Rho,

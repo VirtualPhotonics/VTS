@@ -40,6 +40,56 @@ namespace Vts.SpectralMapping
         {
         }
 
+        public PowerLawScatterer(TissueType tissueType)
+        {
+            switch (tissueType)
+            {
+                case (TissueType.Skin):
+                    A = 1.2;
+                    B = 1.42;
+                    C = 0.0;
+                    D = 0.0;
+                    break;
+                case TissueType.BreastPreMenopause:
+                    A = 0.67;
+                    B = 0.95;
+                    C = 0.0;
+                    D = 0.0;
+                    break;
+                case TissueType.BreastPostMenopause:
+                    A = 0.72;
+                    B = 0.58;
+                    C = 0.0;
+                    D = 0.0;
+                    break;
+                case (TissueType.BrainWhiteMatter):
+                    A = 3.56;
+                    B = 0.84;
+                    D = 0.0;
+                    C = 0.0;
+                    break;
+                case (TissueType.BrainGrayMatter):
+                    A = 0.56;
+                    B = 1.36;
+                    C = 0.0;
+                    D = 0.0;
+                    break;
+                case (TissueType.Liver):
+                    A = 0.84;
+                    B = 0.55;
+                    C = 0.0;
+                    D = 0.0;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("tissueType");
+            }
+        }
+
+        public PowerLawScatterer() 
+            : this(TissueType.Skin)
+        {
+        }
+
         public ScatteringType ScattererType { get { return ScatteringType.PowerLaw; } }
 
         public double A
@@ -80,53 +130,6 @@ namespace Vts.SpectralMapping
                 _D = value;
                 OnPropertyChanged("D");
             }
-        }
-
-        public static PowerLawScatterer Create(TissueType tissueType)
-        {
-            double a, b, c, d;
-            switch (tissueType)
-            {
-                case (TissueType.Skin):
-                default:
-                    a = 1.2;
-                    b = 1.42;
-                    c = 0.0;
-                    d = 0.0;
-                    break;
-                case TissueType.BreastPreMenopause:
-                    a = 0.67;
-                    b = 0.95;
-                    c = 0.0;
-                    d = 0.0;
-                    break;
-                case TissueType.BreastPostMenopause:
-                    a = 0.72;
-                    b = 0.58;
-                    c = 0.0;
-                    d = 0.0;
-                    break;
-                case (TissueType.BrainWhiteMatter):
-                    a = 3.56;
-                    b = 0.84;
-                    d = 0.0;
-                    c = 0.0;
-                    break;
-                case (TissueType.BrainGrayMatter):
-                    a = 0.56;
-                    b = 1.36;
-                    c = 0.0;
-                    d = 0.0;
-                    break;
-                case (TissueType.Liver):
-                    a = 0.84;
-                    b = 0.55;
-                    c = 0.0;
-                    d = 0.0;
-                    break;
-            }
-
-            return new PowerLawScatterer(a, b, c, d);
         }
 
         /// <summary>

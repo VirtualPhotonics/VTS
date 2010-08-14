@@ -30,7 +30,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         [Test]
         public void SteadyStatePointSourceReflectanceTest()
         {
-            var _pointSourceForwardSolver = new PointSourceDiffusionForwardSolver();
+            var _pointSourceForwardSolver = new PointSourceSDAForwardSolver();
             double[] RofRhos = new double[] { 0.0222732, 0.0044358133, 0.0001689322 };
 
             for (int irho = 0; irho < rhos.Length; irho++)
@@ -45,7 +45,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         [Test]
         public void SteadyStateDistributedPointSourceTest()
         {
-            var _distributedPointSourceForwardSolver = new DistributedPointSourceDiffusionForwardSolver();
+            var _distributedPointSourceForwardSolver = new DistributedPointSourceSDAForwardSolver();
             double[] RofRhos = new double[] { 0.02091553763578, 0.00405627898546423, 0.000161842146761328 };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
@@ -59,7 +59,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         [Test]
         public void SteadyStateGaussianBeamSourceTest()
         {
-            var _gaussianSourceForwardSolver = new DistributedGaussianSourceDiffusionForwardSolver(1.0);
+            var _gaussianSourceForwardSolver = new DistributedGaussianSourceSDAForwardSolver(1.0);
             double[] RofRhos = new double[] { 0.0275484377948659, 0.0056759402180221, 0.000216099942550358 };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
@@ -77,7 +77,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         [Test]
         public void TemporalPointSourceReflectanceTest()
         {
-            var _pointSourceForwardSolver = new PointSourceDiffusionForwardSolver();
+            var _pointSourceForwardSolver = new PointSourceSDAForwardSolver();
             double[] RofRhoAndTs = new double[] { 0.0687161839, 0.039016833775, 6.240182423e-5 };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
@@ -91,7 +91,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         [Test]
         public void TemporalDistributedPointSourceTest()
         {
-            var _distributedPointSourceForwardSolver = new DistributedPointSourceDiffusionForwardSolver();
+            var _distributedPointSourceForwardSolver = new DistributedPointSourceSDAForwardSolver();
             double[] RofRhoAndTs = new double[] { 0.062455516676, 0.035462046554, 5.67164524087361e-5 };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
@@ -109,7 +109,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         [Test]
         public void TemporalFrequencyPointSourceTest()
         {
-            var _pointSourceForwardSolver = new PointSourceDiffusionForwardSolver();
+            var _pointSourceForwardSolver = new PointSourceSDAForwardSolver();
             //SDAForwardSolver(SourceConfiguration.Point, 0.0);
             double ft = 0.5; //GHz
             double[] RofRhoAndFts = new double[] { 0.0222676367133622, 0.00434066741026309, 0.000145460413024483 };
@@ -126,7 +126,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         [Test]
         public void TemporalFrequencyDistributedPointSourceTest()
         {
-            var _distributedPointSourceForwardSolver = new DistributedPointSourceDiffusionForwardSolver();
+            var _distributedPointSourceForwardSolver = new DistributedPointSourceSDAForwardSolver();
             //SDAForwardSolver(SourceConfiguration.Distributed, 0.0);
             double ft = 0.5; //GHz
             double[] RofRhoAndFts = new double[] { 0.0206970326199628, 0.00392410286453726, 0.00013761216706729 };

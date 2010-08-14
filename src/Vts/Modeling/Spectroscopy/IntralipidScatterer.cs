@@ -15,6 +15,11 @@ namespace Vts.SpectralMapping
             _volumeFraction = volumeFraction;
         }
 
+        public IntralipidScatterer()
+            : this (0.01)
+        {
+        }
+
         public ScatteringType ScattererType { get { return ScatteringType.Intralipid; } }
 
         public double VolumeFraction

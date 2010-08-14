@@ -131,6 +131,9 @@
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsGeneratorTest.cs">
       <Link>Modeling\ForwardSolvers\NurbsGeneratorTest.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\pMCForwardSolverTests.cs">
+      <Link>Modeling\ForwardSolvers\pMCForwardSolverTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\ValidateDiffusionReflectanceModels.cs">
       <Link>Modeling\ForwardSolvers\ValidateDiffusionReflectanceModels.cs</Link>
     </Compile>

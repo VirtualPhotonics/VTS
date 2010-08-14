@@ -44,9 +44,9 @@ namespace Vts.SiteVisit.ViewModel
 #else 
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model:",false);
 #endif
-            //ForwardSolverType.DistributedPointSDA,
-                //ForwardSolverType.PointSDA,
-                //ForwardSolverType.DistributedGaussianSDA,
+            //ForwardSolverType.DistributedPointSourceSDA,
+                //ForwardSolverType.PointSourceSDA,
+                //ForwardSolverType.DistributedGaussianSourceSDA,
                 //ForwardSolverType.MonteCarlo); // explicitly enabling these for the workshop;
             ForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
             {
@@ -174,9 +174,9 @@ namespace Vts.SiteVisit.ViewModel
             string modelString = null;
             switch (ForwardSolverTypeOptionVM.SelectedValue)
             {
-                case ForwardSolverType.DistributedGaussianSDA:
-                case ForwardSolverType.DistributedPointSDA:
-                case ForwardSolverType.PointSDA:
+                case ForwardSolverType.DistributedGaussianSourceSDA:
+                case ForwardSolverType.DistributedPointSourceSDA:
+                case ForwardSolverType.PointSourceSDA:
                     modelString = "Model - SDA \r";
                     break;
                 case ForwardSolverType.MonteCarlo:

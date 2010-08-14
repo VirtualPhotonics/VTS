@@ -52,9 +52,9 @@ namespace Vts.SiteVisit.ViewModel
             MeasuredForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
                 "Forward Model Engine",
                 false);
-                //ForwardSolverType.DistributedPointSDA,
-                //ForwardSolverType.PointSDA,
-                //ForwardSolverType.DistributedGaussianSDA,
+                //ForwardSolverType.DistributedPointSourceSDA,
+                //ForwardSolverType.PointSourceSDA,
+                //ForwardSolverType.DistributedGaussianSourceSDA,
                 //ForwardSolverType.MonteCarlo); // explicitly enabling these for the workshop
             MeasuredForwardSolverTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
 
@@ -64,9 +64,9 @@ namespace Vts.SiteVisit.ViewModel
             InverseForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
                 "Inverse Model Engine",
                 false);
-                //ForwardSolverType.DistributedPointSDA, 
-                //ForwardSolverType.PointSDA,
-                //ForwardSolverType.DistributedGaussianSDA,
+                //ForwardSolverType.DistributedPointSourceSDA, 
+                //ForwardSolverType.PointSourceSDA,
+                //ForwardSolverType.DistributedGaussianSourceSDA,
                 //ForwardSolverType.MonteCarlo); // explicitly enabling these for the workshop
             InverseForwardSolverTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
 
@@ -325,27 +325,27 @@ namespace Vts.SiteVisit.ViewModel
                 case PlotDataType.Simulated:
                     solverString = "Simulated: \r";
                     modelString =
-                        MeasuredForwardSolverTypeOptionVM.SelectedValue ==ForwardSolverType.DistributedPointSDA ||
-                        MeasuredForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSDA ||
-                        MeasuredForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSDA
+                        MeasuredForwardSolverTypeOptionVM.SelectedValue ==ForwardSolverType.DistributedPointSourceSDA ||
+                        MeasuredForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSourceSDA ||
+                        MeasuredForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSourceSDA
                         ? "Model - SDA \r" : "Model - MC \r";
                     op = MeasuredOpticalPropertyVM;
                     break;
                 case PlotDataType.Calculated:
                     solverString = "Calculated:\r";
                     modelString = 
-                        InverseForwardSolverTypeOptionVM.SelectedValue ==ForwardSolverType.DistributedPointSDA ||
-                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSDA ||
-                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSDA
+                        InverseForwardSolverTypeOptionVM.SelectedValue ==ForwardSolverType.DistributedPointSourceSDA ||
+                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSourceSDA ||
+                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSourceSDA
                         ? "Model - SDA \r" : "Model - MC \r";
                     op = ResultOpticalPropertyVM;
                     break;
                 case PlotDataType.Guess:
                     solverString = "Guess:\r";
                     modelString =
-                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedPointSDA ||
-                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSDA ||
-                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSDA
+                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedPointSourceSDA ||
+                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSourceSDA ||
+                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSourceSDA
                         ? "Model - SDA \r" : "Model - MC \r";
                     op = InitialGuessOpticalPropertyVM;
                     break;
