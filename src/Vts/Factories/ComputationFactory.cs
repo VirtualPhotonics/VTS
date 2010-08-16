@@ -53,6 +53,28 @@ namespace Vts.Factories
         }
 
         public static IEnumerable<double> GetVectorizedIndependentVariableQueryNew(
+            ForwardSolverType forwardSolverType,
+            SolutionDomainType solutionDomainType,
+            ForwardAnalysisType forwardAnalysisType,
+            IndependentVariableAxis independentAxisType,
+            IEnumerable<double> independentValues,
+            OpticalProperties opticalProperties,
+            params double[] constantValues)
+        {
+            // use factory method on each call, as opposed to injecting an instance from the outside
+            // -- still time-efficient if singletons are used
+            // -- potentially memory-inefficient if the user creates lots of large solver instances
+            return GetVectorizedIndependentVariableQueryNew(
+                SolverFactory.GetForwardSolver(forwardSolverType), 
+                solutionDomainType,
+                forwardAnalysisType,
+                independentAxisType,
+                independentValues,
+                opticalProperties,
+                constantValues);
+        }
+
+        public static IEnumerable<double> GetVectorizedIndependentVariableQueryNew(
             IForwardSolver forwardSolver,
             SolutionDomainType solutionDomainType,
             ForwardAnalysisType forwardAnalysisType,
@@ -78,6 +100,26 @@ namespace Vts.Factories
             {
                 return func.GetDerivativeFunc(forwardAnalysisType)(parameters, inputValues.ToArray());
             }
+        }
+
+        public static IEnumerable<double> GetVectorizedMultidimensionalIndependentVariableQueryNew(
+            ForwardSolverType forwardSolverType,
+            FluenceSolutionDomainType solutionDomainType, // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            IndependentVariableAxis[] independentAxesTypes,
+            IEnumerable<double>[] independentValues,
+            OpticalProperties opticalProperties,
+            params double[] constantValues)
+        {
+            // use factory method on each call, as opposed to injecting an instance from the outside
+            // -- still time-efficient if singletons are used
+            // -- potentially memory-inefficient if the user creates lots of large solver instances
+            return GetVectorizedMultidimensionalIndependentVariableQueryNew(
+                SolverFactory.GetForwardSolver(forwardSolverType),
+                solutionDomainType,
+                independentAxesTypes,
+                independentValues,
+                opticalProperties,
+                constantValues);
         }
 
         public static IEnumerable<double> GetVectorizedMultidimensionalIndependentVariableQueryNew(
@@ -115,6 +157,34 @@ namespace Vts.Factories
         public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, double mua)
         {
             return fluence.Select(flu => flu * mua);
+        }
+
+        public static double[] ConstructAndExecuteVectorizedOptimizer(
+            ForwardSolverType forwardSolverType,
+            OptimizerType optimizerType,
+            SolutionDomainType solutionDomainType,
+            IndependentVariableAxis independentAxisType,
+            IEnumerable<double> independentValues,
+            IEnumerable<double> dependentValues,
+            IEnumerable<double> standardDeviationValues,
+            OpticalProperties opticalPropertyGuess,
+            InverseFitType inverseFitType,
+            params double[] constantValues)
+        {
+            // use factory method on each call, as opposed to injecting an instance from the outside
+            // -- still time-efficient if singletons are used
+            // -- potentially memory-inefficient if the user creates lots of large solver instances
+            return ConstructAndExecuteVectorizedOptimizer(
+                SolverFactory.GetForwardSolver(forwardSolverType), 
+                SolverFactory.GetOptimizer(optimizerType),
+                solutionDomainType,
+                independentAxisType,
+                independentValues,
+                dependentValues,
+                standardDeviationValues,
+                opticalPropertyGuess,
+                inverseFitType,
+                constantValues);
         }
 
         public static double[] ConstructAndExecuteVectorizedOptimizer(

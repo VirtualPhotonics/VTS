@@ -19,47 +19,46 @@ namespace Vts.Factories
         {
             _container = new UnityContainer();
 
-            // todo: consolidate the repetition below - base convention on interface type?
-
             // use convention to map fs names (w/o "ForwardSolver") to enum types
             // e.g. ForwardSolverType.Nurbs will register to NurbsForwardSolver 
-            var forwardSolverTypes = EnumHelper.GetValues<ForwardSolverType>();
-            var fsNamespace = typeof(ForwardSolverBase).Namespace;
-            foreach (var forwardSolverType in forwardSolverTypes)
-            {
-                var type = Type.GetType(fsNamespace + @"." + forwardSolverType + "ForwardSolver", false, true);
-                _container.RegisterType(
-                    typeof(IForwardSolver),
-                    type,
-                    forwardSolverType.ToString(), // use the type string to register 
-                    new ContainerControlledLifetimeManager(),
-                    new InjectionMember[] { new InjectionConstructor() });
-            }
+            RegisterClassesToEnumTypesByConvention<ForwardSolverType, IForwardSolver>(
+                typeof(ForwardSolverBase).Namespace, true, true);
 
-            var optimizerTypes = EnumHelper.GetValues<OptimizerType>();
-            var oNamespace = typeof (MPFitLevenbergMarquardtOptimizer).Namespace;
-            foreach (var optimizerType in optimizerTypes)
-            {
-                var type = Type.GetType(oNamespace + @"." + optimizerType + "Optimizer", false, true);
-                _container.RegisterType(
-                     typeof(IOptimizer),
-                     type,
-                     optimizerType.ToString(), // use the type string to register 
-                     new ContainerControlledLifetimeManager(),
-                     new InjectionMember[] { new InjectionConstructor() });
-            }
+            RegisterClassesToEnumTypesByConvention<OptimizerType, IOptimizer>(
+                typeof(MPFitLevenbergMarquardtOptimizer).Namespace, true, true);
+            
+            RegisterClassesToEnumTypesByConvention<ScatteringType, IScatterer>(
+                typeof (IntralipidScatterer).Namespace, true, true);
+        }
 
-            var scatteringTypes = EnumHelper.GetValues<ScatteringType>();
-            var sNamespace = typeof(IntralipidScatterer).Namespace;
-            foreach (var scatteringType in scatteringTypes)
+        /// <summary>
+        /// Uses convention to map classes implementing TInterface to enum types
+        /// e.g. ForwardSolverType.Nurbs will register to NurbsForwardSolver 
+        /// This is done for each enum type that correctly matches the interface name
+        /// </summary>
+        /// <typeparam name="TEnum"></typeparam>
+        /// <typeparam name="TInterface"></typeparam>
+        /// <param name="namespaceString"></param>
+        /// <param name="useSingleton"></param>
+        /// <param name="useDefaultConstructor"></param>
+        private static void RegisterClassesToEnumTypesByConvention<TEnum, TInterface>(
+            string namespaceString, 
+            bool useSingleton,
+            bool useDefaultConstructor)
+        {
+            // todo: is this what AutoMapper is for?
+            var enumValues = EnumHelper.GetValues<TEnum>();
+            foreach (var enumValue in enumValues)
             {
-                var type = Type.GetType(sNamespace + @"." + scatteringType + "Scatterer", false, true);
+                var interfaceType = typeof (TInterface);
+                var interfaceBasename = interfaceType.Name.Substring(1);
+                var classType = Type.GetType(namespaceString + @"." + enumValue + interfaceBasename, false, true);
                 _container.RegisterType(
-                     typeof(IScatterer),
-                     type,
-                     scatteringType.ToString(), // use the type string to register 
-                     new ContainerControlledLifetimeManager(),
-                     new InjectionMember[] { new InjectionConstructor() });
+                     interfaceType,
+                     classType,
+                     enumValue.ToString(), // use the enum string to register each class
+                     useSingleton ? new ContainerControlledLifetimeManager() : null,
+                     useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
             }
         }
 
@@ -85,18 +84,6 @@ namespace Vts.Factories
             {
                 return null;
             }
-
-            //switch (scatteringType)
-            //{
-            //    case ScatteringType.PowerLaw:
-            //        return new PowerLawScatterer();
-            //    case ScatteringType.Mie:
-            //        return new MieScatterer();
-            //    case ScatteringType.Intralipid:
-            //        return new IntralipidScatterer();
-            //    default:
-            //        throw new ArgumentOutOfRangeException("scatteringType");
-            //}
         }
 
         public static IOptimizer GetOptimizer(OptimizerType type)
@@ -109,13 +96,6 @@ namespace Vts.Factories
             {
                 return null;
             }
-
-            //switch (type)
-            //{
-            //    default:
-            //    case OptimizerType.MPFitLevenbergMarquardt:
-            //        return new MPFitLevenbergMarquardtOptimizer();
-            //}
         }
     }
 }
