@@ -39,7 +39,7 @@ namespace Vts.Factories
         private static double[] FlattenRealAndImaginary(this IEnumerable<Complex> values)
         {            
             var real = values.Select(v => v.Real);
-            var imag = values.Select(v => v.Imaginary);
+            var imag = values.Select(v => -v.Imaginary);
             return real.Concat(imag).ToArray();
             //// would have written this with Linq operators, but wasn't sure what was most efficient
             //var tempSize = temp.Length;
