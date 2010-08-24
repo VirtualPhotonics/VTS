@@ -17,18 +17,28 @@ namespace Vts.ReportInverseSolver.Desktop
     {
         static void Main(string[] args)
         {
-            //resources path definition:
+            //resources path definition, common for all the reports:
             var projectName = "Vts.ReportInverseSolver.Desktop";
             var inputPath = @"..\..\Resources\";
             string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             inputPath = currentAssemblyDirectoryName + "\\" + inputPath;
+
+            //R(rho,t)
+            ChooseDataAndReportRofRhoAndT(projectName, inputPath);
             
+        }
+
+        private static void ChooseDataAndReportRofRhoAndT(string projectName,
+                                                          string inputPath)
+        {
             //choose data & run report for R(r,t)
-            double[] dts = { 0.001 };// { 0.005, 0.025 };//ps
+            double[] dts = { 0.001, 0.005, 0.025 };//ps
             double[] riseMarkers = { 80.0, 50.0 };// % peak value
             double[] tailMarkers = { 20.0, 1.0, 0.1 };// % peak value
-            string stDevMode = "A";// U = Uniform, A = Absolute, R = Relative
+            string stDevMode = "A";// U = Uniform, A = Absolute, R = Relative //can be removed
             InverseFitType[] IFTs = { InverseFitType.MuaMusp, InverseFitType.Mua, InverseFitType.Musp };//recovered op
+            bool stepByStep = false;//boolean variable used to proceed 'step by step' during the report, to view the output on the console window
+            
             foreach (var dt in dts)
             {
                 foreach (var riseMarker in riseMarkers)
@@ -37,7 +47,7 @@ namespace Vts.ReportInverseSolver.Desktop
                     {
                         foreach (var IFT in IFTs)
                         {
-                            ReportInverseSolverRofRhoAndT(dt, riseMarker, tailMarker, stDevMode, IFT, projectName, inputPath);  
+                            ReportInverseSolverRofRhoAndT(dt, riseMarker, tailMarker, stDevMode, IFT, projectName, inputPath, stepByStep);
                         }
                     }
                 }
@@ -46,16 +56,15 @@ namespace Vts.ReportInverseSolver.Desktop
             Console.ReadLine();
         }
 
-      
         private static void ReportInverseSolverRofRhoAndT(double dt,
                                                           double riseMarker,
                                                           double tailMarker,
                                                           string stDevMode,
                                                           InverseFitType IFT,
                                                           string projectName,
-                                                          string inputPath)
+                                                          string inputPath,
+                                                          bool stepByStep)
         {
-            bool stepByStep = false;
             Console.WriteLine("#############################################");
             Console.WriteLine("##### REPORT INVERSE SOLVER: RofRhoAndT #####");
             Console.WriteLine("#############################################");
@@ -105,11 +114,11 @@ namespace Vts.ReportInverseSolver.Desktop
             {
                 
                 //initialize forward solver
-                var fs = SolverFactory.GetForwardSolver(fST);
+                //var fs = SolverFactory.GetForwardSolver(fST);
                 Console.WriteLine("Forward Solver Type: {0}", fST.ToString());
                 foreach (var oT in optimizerTypes)
                 {
-                    var optimizer = SolverFactory.GetOptimizer(oT);
+                    //var optimizer = SolverFactory.GetOptimizer(oT);
                     Console.WriteLine("Optimizer Type: {0}", oT.ToString());
                     foreach (var rho in rhos)
                     {
@@ -162,12 +171,12 @@ namespace Vts.ReportInverseSolver.Desktop
                                     if (IFT == InverseFitType.Musp) { gOp.Mua = rOp.Mua; } 
                                     //solve inverse problem
                                     double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
-                                                                   fs, optimizer, SolutionDomainType.RofRhoAndT,
+                                                                   fST, oT, SolutionDomainType.RofRhoAndT,
                                                                    IndependentVariableAxis.T, T, R, S, gOp,
                                                                    IFT, constantVals);
                                     OpticalProperties fOp = new OpticalProperties(fit[0], fit[1], g, n);
                                     //calculate chi squared and change values if it improved
-                                    double chiSquared = EvaluateChiSquared(R.ToArray(), fs.RofRhoAndT(fOp.AsEnumerable(), rho.AsEnumerable(), T).ToArray(), S.ToArray());
+                                    double chiSquared = EvaluateChiSquared(R.ToArray(), SolverFactory.GetForwardSolver(fST).RofRhoAndT(fOp.AsEnumerable(), rho.AsEnumerable(), T).ToArray(), S.ToArray());
                                     if (chiSquared < bestChiSquared)
                                     {
                                         guessBestMua = gOp.Mua;
