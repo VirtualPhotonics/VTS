@@ -31,7 +31,7 @@ namespace Vts.ReportForwardSolvers.Desktop
             var forwardSolverTypes = new ForwardSolverType[]
                       {
                           ForwardSolverType.MonteCarlo,
-                          ForwardSolverType.PointSDA,
+                          ForwardSolverType.PointSourceSDA,
                           //ForwardSolverType.DistributedPointSDA,
                           //ForwardSolverType.DistributedGaussianSDA,
                           //ForwardSolverType.DeltaPOne,
@@ -362,15 +362,16 @@ namespace Vts.ReportForwardSolvers.Desktop
             {
                 return "MonteCarlo";
             }
-            else if (forwardSolver as DistributedPointSourceDiffusionForwardSolver != null)
+            else if (forwardSolver as DistributedPointSourceSDAForwardSolver != null)
             {
                 return "DistributedPointSDA";
             }
-            else if (forwardSolver as DistributedGaussianSourceDiffusionForwardSolver != null)
+            else if (forwardSolver as DistributedGaussianSourceSDAForwardSolver
+                != null)
             {
                 return "DistributedGaussianSDA";
             }
-            else if (forwardSolver as PointSourceDiffusionForwardSolver != null)
+            else if (forwardSolver as PointSourceSDAForwardSolver != null)
             {
                 return "PointSDA";
             }

@@ -8,12 +8,12 @@ namespace Vts.Modeling.ForwardSolvers
     /// Evaluation of the distributed Gaussian diffusion forward solver. This model is a specific
     /// mathematical derivation in the stationary case for semi-infinite media.
     /// </summary>
-    public class DistributedGaussianSourceDiffusionForwardSolver : DiffusionForwardSolverBase // : SDAForwardSolver
+    public class DistributedGaussianSourceSDAForwardSolver : DiffusionForwardSolverBase // : SDAForwardSolver
     {
-        public DistributedGaussianSourceDiffusionForwardSolver()
+        public DistributedGaussianSourceSDAForwardSolver()
             : base(SourceConfiguration.Gaussian, 1.0) { }
 
-        public DistributedGaussianSourceDiffusionForwardSolver(double diameter)
+        public DistributedGaussianSourceSDAForwardSolver(double diameter)
             : base(SourceConfiguration.Gaussian, diameter) { }
 
 
@@ -22,7 +22,7 @@ namespace Vts.Modeling.ForwardSolvers
         //static double[] hankelPoints = new double[dataLength];
         //static double[] hankelWeights = new double[dataLength];
 
-        //static DistributedGaussianSourceDiffusionForwardSolver()
+        //static DistributedGaussianSourceSDAForwardSolver()
         //{
         //    //read input stuff
         //    string projectName = "Vts";

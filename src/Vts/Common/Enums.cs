@@ -15,13 +15,13 @@ namespace Vts
 
     public enum ForwardSolverType
     {
-        PointSDA,
-        DistributedPointSDA,
-        DistributedGaussianSDA,
+        PointSourceSDA,
+        DistributedPointSourceSDA,
+        DistributedGaussianSourceSDA,
         DeltaPOne,
         MonteCarlo,
         Nurbs,
-        pMC
+        //pMC
     }
 
     public enum SpatialDomainType

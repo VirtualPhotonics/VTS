@@ -3,9 +3,9 @@ using MathNet.Numerics;
 
 namespace Vts.Modeling.ForwardSolvers
 {
-    public class PointSourceDiffusionForwardSolver : DiffusionForwardSolverBase
+    public class PointSourceSDAForwardSolver : DiffusionForwardSolverBase
     {
-        public PointSourceDiffusionForwardSolver()
+        public PointSourceSDAForwardSolver()
             : base(SourceConfiguration.Point, 0.0) { }
 
         /// <summary>

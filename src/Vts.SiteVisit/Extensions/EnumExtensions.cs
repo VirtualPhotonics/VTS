@@ -8,13 +8,13 @@ namespace Vts.SiteVisit.Extensions
         {
             switch (forwardSolverType)
             {
-                case ForwardSolverType.PointSDA:
-                case ForwardSolverType.DistributedPointSDA:
+                case ForwardSolverType.PointSourceSDA:
+                case ForwardSolverType.DistributedPointSourceSDA:
                 case ForwardSolverType.DeltaPOne:
                 case ForwardSolverType.MonteCarlo:
                 default:
                     return false;
-                case ForwardSolverType.DistributedGaussianSDA:
+                case ForwardSolverType.DistributedGaussianSourceSDA:
                     return true;
             }
         }
