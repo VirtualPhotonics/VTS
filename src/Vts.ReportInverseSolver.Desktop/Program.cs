@@ -24,7 +24,7 @@ namespace Vts.ReportInverseSolver.Desktop
             inputPath = currentAssemblyDirectoryName + "\\" + inputPath;
             
             //choose data & run report for R(r,t)
-            double[] dts = { 0.005, 0.025 };//ps
+            double[] dts = { 0.001 };// { 0.005, 0.025 };//ps
             double[] riseMarkers = { 80.0, 50.0 };// % peak value
             double[] tailMarkers = { 20.0, 1.0, 0.1 };// % peak value
             string stDevMode = "A";// U = Uniform, A = Absolute, R = Relative
