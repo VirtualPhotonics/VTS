@@ -113,7 +113,7 @@ namespace Vts.Modeling.ForwardSolvers
                     rho_ref = rho * op.Musp / _opReference.Musp;
                     double exponentialTerm = op.Mua * v * _opReference.Musp / op.Musp;
 
-                    if (rho_ref <= _rdGenerator.SpaceValues.MaxValue)
+                    if (rho_ref <= _rdGenerator.SpaceValues.MaxValue && rho_ref >= 0)
                     {
                         integralValue = _rdGenerator.EvaluateNurbsCurveIntegral(rho_ref,exponentialTerm);                   
                         integralValue += ExtrapolateIntegralValueOutOfRange(_rdGenerator, rho_ref,op);
