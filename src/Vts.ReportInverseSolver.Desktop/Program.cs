@@ -24,7 +24,7 @@ namespace Vts.ReportInverseSolver.Desktop
             inputPath = currentAssemblyDirectoryName + "\\" + inputPath;
             
             //R(rho)
-            //ChooseDataAndReportRofRho(projectName, inputPath);
+            ChooseDataAndReportRofRho(projectName, inputPath);
             //R(rho,t)
             ChooseDataAndReportRofRhoAndT(projectName, inputPath);
 
