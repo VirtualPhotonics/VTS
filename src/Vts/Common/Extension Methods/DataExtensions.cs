@@ -14,7 +14,7 @@ namespace Vts.Extensions
         /// <param name="myDoubleArray"></param>
         /// <param name="percentNoise"></param>p
         /// <returns></returns>
-        public static void AddNoise(this double[] myDoubleArray, double percentNoise)
+        public static double[] AddNoise(this double[] myDoubleArray, double percentNoise)
         {
             // todo: make this functional/side-effect-free (return a new array with noise)
             double noiseFraction = percentNoise / 100.0;
@@ -29,6 +29,7 @@ namespace Vts.Extensions
                     Math.Cos(2 * Math.PI * uniformDeviate2);
                 myDoubleArray[i] *= 1 + noiseFraction * gaussDeviate;
             }
+            return myDoubleArray;
         }
 
         public static IEnumerable<double> AddNoise(this IEnumerable<double> myValues, double percentNoise)
