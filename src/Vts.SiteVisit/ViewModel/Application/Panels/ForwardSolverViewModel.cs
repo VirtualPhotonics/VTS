@@ -29,7 +29,7 @@ namespace Vts.SiteVisit.ViewModel
         // to the View - shouldn't have to do any appreciable work/thinking/analysis.
         // Currently, the Factories class is serving this need, but I'm afraid it's 
         // getting too big...
-        public IForwardSolver ForwardSolver { get; set; }
+        // public IForwardSolver ForwardSolver { get; set; }
         //private IAnalyzer Analyzer { get; set; }
 
         public ForwardSolverViewModel()
@@ -44,15 +44,15 @@ namespace Vts.SiteVisit.ViewModel
 #else 
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model:",false);
 #endif
-            //ForwardSolverType.DistributedPointSDA,
-                //ForwardSolverType.PointSDA,
-                //ForwardSolverType.DistributedGaussianSDA,
+            //ForwardSolverType.DistributedPointSourceSDA,
+                //ForwardSolverType.PointSourceSDA,
+                //ForwardSolverType.DistributedGaussianSourceSDA,
                 //ForwardSolverType.MonteCarlo); // explicitly enabling these for the workshop;
             ForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
             {
-                ForwardSolver = SolverFactory.GetForwardSolver(ForwardSolverTypeOptionVM.SelectedValue);
-                this.OnPropertyChanged("IsGaussianForwardModel");
-                this.OnPropertyChanged("ForwardSolver");
+            //    ForwardSolver = SolverFactory.GetForwardSolver(ForwardSolverTypeOptionVM.SelectedValue);
+                  this.OnPropertyChanged("IsGaussianForwardModel");
+            //    this.OnPropertyChanged("ForwardSolver");
             };
 
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.RofRho);
@@ -62,7 +62,7 @@ namespace Vts.SiteVisit.ViewModel
             SolutionDomainTypeOptionVM.SolverType = SolverType.Forward;
 
             // model
-            UpdateModels();
+            //UpdateModels();
 
             Commands.FS_ExecuteForwardSolver.Executed += ExecuteForwardSolver_Executed;
             Commands.FS_SetIndependentVariableRange.Executed += SetIndependentVariableRange_Executed;
@@ -123,10 +123,10 @@ namespace Vts.SiteVisit.ViewModel
 
         #endregion
 
-        private void UpdateModels()
-        {
-            ForwardSolver = SolverFactory.GetForwardSolver(ForwardSolverTypeOptionVM.SelectedValue);
-        }
+        //private void UpdateModels()
+        //{
+        //    ForwardSolver = SolverFactory.GetForwardSolver(ForwardSolverTypeOptionVM.SelectedValue);
+        //}
 
         void SetIndependentVariableRange_Executed(object sender, ExecutedEventArgs e)
         {
@@ -174,17 +174,17 @@ namespace Vts.SiteVisit.ViewModel
             string modelString = null;
             switch (ForwardSolverTypeOptionVM.SelectedValue)
             {
-                case ForwardSolverType.DistributedGaussianSDA:
-                case ForwardSolverType.DistributedPointSDA:
-                case ForwardSolverType.PointSDA:
+                case ForwardSolverType.DistributedGaussianSourceSDA:
+                case ForwardSolverType.DistributedPointSourceSDA:
+                case ForwardSolverType.PointSourceSDA:
                     modelString = "Model - SDA \r";
                     break;
                 case ForwardSolverType.MonteCarlo:
                     modelString = "Model - scaled MC \r";
                     break;
-                case ForwardSolverType.pMC:
-                    modelString = "Model - pMC \r";
-                    break;
+                //case ForwardSolverType.pMC:
+                //    modelString = "Model - pMC \r";
+                //    break;
                 case ForwardSolverType.Nurbs:
                     modelString = "Model - nurbs \r";
                     break;
@@ -203,7 +203,7 @@ namespace Vts.SiteVisit.ViewModel
                     ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
             IEnumerable<double> query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
-                ForwardSolver,
+                ForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,

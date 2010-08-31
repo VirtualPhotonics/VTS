@@ -22,6 +22,7 @@ namespace Vts.SpectralMapping
         private double _MediumRefractiveIndexMismatch;
 
         private MieScatteringParameters MieScattParams;
+
         private class MieScatteringParameters
         {
 
@@ -32,15 +33,31 @@ namespace Vts.SpectralMapping
         }
 
         public MieScatterer(
-            //double wavelength,
             double particleRadius,
             double particleRefractiveIndex,
             double mediumRefractiveIndex)
         {
-            //Wavelength = wavelength;
             ParticleRadius = particleRadius;
             ParticleRefractiveIndexMismatch = particleRefractiveIndex;
             MediumRefractiveIndexMismatch = mediumRefractiveIndex;
+        }
+
+        public MieScatterer(MieScattererType scattererType)
+        {
+            switch (scattererType)
+            {
+                case MieScattererType.PolystyreneSphereSuspension:
+                default:
+                    ParticleRadius = 0.5;
+                    ParticleRefractiveIndexMismatch = 1.4;
+                    MediumRefractiveIndexMismatch = 1.0;
+                    break;
+            }
+        }
+
+        public MieScatterer()
+            : this(MieScattererType.PolystyreneSphereSuspension)
+        {
         }
 
         public ScatteringType ScattererType { get { return ScatteringType.Mie; } }
@@ -77,24 +94,6 @@ namespace Vts.SpectralMapping
             }
         }
 
-        public static MieScatterer Create(MieScattererType scattererType)
-        {
-            // double wavelength, radius, nParticle, nMedium;
-            double Wavelength, ParticleRadius, ParticleRefractiveIndexMismatch, MediumRefractiveIndexMismatch;
-
-            switch (scattererType)
-            {
-                case MieScattererType.PolystyreneSphereSuspension:
-                default:
-                    Wavelength = 600.0;
-                    ParticleRadius = 0.5;
-                    ParticleRefractiveIndexMismatch = 1.4;
-                    MediumRefractiveIndexMismatch = 1.0;
-                    break;
-            }
-
-            return new MieScatterer(ParticleRadius, ParticleRefractiveIndexMismatch, MediumRefractiveIndexMismatch);
-        }
 
         public double GetG(double wavelength)
         {

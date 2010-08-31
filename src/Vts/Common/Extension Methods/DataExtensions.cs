@@ -49,19 +49,5 @@ namespace Vts.Extensions
             }
 
         }
-
-        //private static double AddNoise(double d, double percentNoise)
-        //{
-        //    // todo: make this functional/side-effect-free (return a new array with noise)
-        //    double noiseFraction = percentNoise / 100.0;
-        //    Random RandomNumber = new Random();
-
-        //    // Box Muller to get normal deviates mean=0 SD=1
-        //    double uniformDeviate1 = RandomNumber.NextDouble();
-        //    double uniformDeviate2 = RandomNumber.NextDouble();
-        //    double gaussDeviate = Math.Sqrt(-2 * Math.Log(uniformDeviate1)) *
-        //        Math.Cos(2 * Math.PI * uniformDeviate2);
-        //    return d *= 1 + noiseFraction * gaussDeviate;
-        //}
     }
 }

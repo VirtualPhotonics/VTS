@@ -182,7 +182,6 @@ namespace Vts.Modeling.ForwardSolvers
                         }
                         else
                         {
-                            //TODO: vectorial
                             scaledValue = _rdGenerator.ComputeSurfacePoint(t_ref, rho_ref);
                         }
 
@@ -257,8 +256,6 @@ namespace Vts.Modeling.ForwardSolvers
                 }
                 else
                 {
-                    //var time = _rdGenerator.TimeKnotSpanPolynomialCoefficients.Select(span => span.GetKnotSpanMidTime());
-                    //var deltaT = _rdGenerator.TimeKnotSpanPolynomialCoefficients.Select(span => span.GetKnotSpanDeltaT());
                     var time = _rdGenerator.NativeTimes;
                     for (int i = 0; i < time.Length; i++)
                     {

@@ -6,6 +6,7 @@ using Vts.Modeling.ForwardSolvers;
 using System.IO;
 using System.Linq;
 using Vts.Extensions;
+using System.Reflection;
 
 namespace Vts.ReportForwardSolvers.Desktop
 {
@@ -14,22 +15,23 @@ namespace Vts.ReportForwardSolvers.Desktop
         static void Main(string[] args)
         {
             var projectName = "Vts.ReportForwardSolvers.Desktop";
-            // todo: need to make this path relative
-            var inputPath = "C:/Users/Virtual Photonics/Documents/Visual Studio 2008/Projects/VtsHg/src/Vts.ReportForwardSolvers.Desktop/Resources/";
+            var inputPath = @"..\..\Resources\";
+            string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            inputPath = currentAssemblyDirectoryName + "\\" + inputPath;
             var g = 0.8;
             var n = 1.4;
             var muas = new double[] { 0.001, 0.01, 0.03, 0.1, 0.3 };//[mm-1]
             var musps = new double[] { 0.5, 0.7, 1.0, 1.2, 1.5, 2.0 };//[mm-1]
 
             var Ops =
-                      from mus in musps
+                      from musp in musps
                       from mua in muas
-                      select new OpticalProperties(mua, mus, g, n);
+                      select new OpticalProperties(mua, musp, g, n);
 
             var forwardSolverTypes = new ForwardSolverType[]
                       {
                           ForwardSolverType.MonteCarlo,
-                          ForwardSolverType.PointSDA,
+                          ForwardSolverType.PointSourceSDA,
                           //ForwardSolverType.DistributedPointSDA,
                           //ForwardSolverType.DistributedGaussianSDA,
                           //ForwardSolverType.DeltaPOne,
@@ -325,23 +327,12 @@ namespace Vts.ReportForwardSolvers.Desktop
                 using (BinaryWriter bw = new BinaryWriter(s))
                 {
                     new ArrayCustomBinaryWriter<T>().WriteToBinary(bw, dataIN);
-                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<T>());
                 }
             }
         }
 
         private static void MakeDirectoryIfNonExistent(string sDTFolder, string tDTFolder, string fsFolder)
         {
-            if (!(Directory.Exists(@"Output/" + sDTFolder)))
-            {
-                Directory.CreateDirectory(@"Output/" + sDTFolder);
-            }
-
-            if (!(Directory.Exists(@"Output/" + sDTFolder + "/" + tDTFolder)))
-            {
-                Directory.CreateDirectory(@"Output/" + sDTFolder + "/" + tDTFolder);
-            }
-
             if (!(Directory.Exists(@"Output/" + sDTFolder + "/" + tDTFolder + "/" + fsFolder)))
             {
                 Directory.CreateDirectory(@"Output/" + sDTFolder + "/" + tDTFolder + "/" + fsFolder);
@@ -371,15 +362,16 @@ namespace Vts.ReportForwardSolvers.Desktop
             {
                 return "MonteCarlo";
             }
-            else if (forwardSolver as DistributedPointSourceDiffusionForwardSolver != null)
+            else if (forwardSolver as DistributedPointSourceSDAForwardSolver != null)
             {
                 return "DistributedPointSDA";
             }
-            else if (forwardSolver as DistributedGaussianSourceDiffusionForwardSolver != null)
+            else if (forwardSolver as DistributedGaussianSourceSDAForwardSolver
+                != null)
             {
                 return "DistributedGaussianSDA";
             }
-            else if (forwardSolver as PointSourceDiffusionForwardSolver != null)
+            else if (forwardSolver as PointSourceSDAForwardSolver != null)
             {
                 return "PointSDA";
             }

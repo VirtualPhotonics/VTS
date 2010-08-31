@@ -15,13 +15,8 @@ namespace Vts.WriteNurbsValues.Desktop
         static void Main(string[] args)
         {
             string readPath = @"Modeling\Resources\ReferenceNurbs\";
-            //TODO: relative path
             string writePath = @"..\..\..\Vts\";
             
-           // string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-           // string fullPath = currentAssemblyDirectoryName + "\\";
-
-            //string writePath = "C:/Users/Virtual Photonics/Documents/Visual Studio 2008/Projects/VtsHg/src/Vts/";
             string[] domain = { @"RealDomain\" };
             string folder = @"v0p1\";
 

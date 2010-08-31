@@ -62,6 +62,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Meta.Numerics\build\Silverlight\Meta.Numerics.Silverlight.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Unity\Silverlight\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Silverlight, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Unity\Silverlight\Microsoft.Practices.Unity.Silverlight.dll</HintPath>
+    </Reference>
     <Reference Include="MPFitLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\mpfit\build\Silverlight\MPFitLib.dll</HintPath>
@@ -149,8 +157,8 @@
     <Compile Include="Modeling\ForwardSolvers\DiffusionForwardSolverBase.cs" />
     <Compile Include="Modeling\ForwardSolvers\DiffusionGreensFunctions.cs" />
     <Compile Include="Modeling\ForwardSolvers\DiffusionParameters.cs" />
-    <Compile Include="Modeling\ForwardSolvers\DistributedGaussianSourceDiffusionForwardSolver.cs" />
-    <Compile Include="Modeling\ForwardSolvers\DistributedPointSourceDiffusionForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DistributedGaussianSourceSDAForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DistributedPointSourceSDAForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\ForwardSolverBase.cs" />
     <Compile Include="Modeling\ForwardSolvers\INurbs.cs" />
     <Compile Include="Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs" />
@@ -163,7 +171,7 @@
     <Compile Include="Modeling\ForwardSolvers\PhotonHittingDensity.cs" />
     <Compile Include="Modeling\ForwardSolvers\pMCForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\pMCLoader.cs" />
-    <Compile Include="Modeling\ForwardSolvers\PointSourceDiffusionForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\PointSourceSDAForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\StubNurbsGenerator.cs" />
     <Compile Include="Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs" />

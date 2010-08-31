@@ -48,71 +48,71 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Vts.Database\A_rz">
+    <EmbeddedResource Include="..\Vts.Database\A_rz">
       <Link>A_rz</Link>
-    </None>
-    <None Include="..\Vts.Database\D_rt">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\D_rt">
       <Link>D_rt</Link>
-    </None>
-    <None Include="..\Vts.Database\Flu_rz">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\Flu_rz">
       <Link>Flu_rz</Link>
-    </None>
-    <None Include="..\Vts.Database\photonBiographies1e6">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\photonBiographies1e6">
       <Link>photonBiographies1e6</Link>
-    </None>
-    <None Include="..\Vts.Database\R_ra">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\R_ra">
       <Link>R_ra</Link>
-    </None>
-    <None Include="..\Vts.Database\R_rt">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\R_rt">
       <Link>R_rt</Link>
-    </None>
-    <None Include="..\Vts.Database\R_rt2">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\R_rt2">
       <Link>R_rt2</Link>
-    </None>
-    <None Include="..\Vts.Database\R_rw">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\R_rw">
       <Link>R_rw</Link>
-    </None>
-    <None Include="..\Vts.Database\R_xy">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\R_xy">
       <Link>R_xy</Link>
-    </None>
-    <None Include="..\Vts.Database\T_ra">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\T_ra">
       <Link>T_ra</Link>
-    </None>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Vts.Database\A_rz.xml">
+    <EmbeddedResource Include="..\Vts.Database\A_rz.xml">
       <Link>A_rz.xml</Link>
-    </Content>
-    <Content Include="..\Vts.Database\D_rt.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\D_rt.xml">
       <Link>D_rt.xml</Link>
-    </Content>
-    <Content Include="..\Vts.Database\Flu_rz.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\Flu_rz.xml">
       <Link>Flu_rz.xml</Link>
-    </Content>
-    <Content Include="..\Vts.Database\output.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\output.xml">
       <Link>output.xml</Link>
-    </Content>
-    <Content Include="..\Vts.Database\photonBiographies1e6.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\photonBiographies1e6.xml">
       <Link>photonBiographies1e6.xml</Link>
-    </Content>
-    <Content Include="..\Vts.Database\R_ra.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\R_ra.xml">
       <Link>R_ra.xml</Link>
-    </Content>
-    <Content Include="..\Vts.Database\R_rt.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\R_rt.xml">
       <Link>R_rt.xml</Link>
-    </Content>
-    <Content Include="..\Vts.Database\R_rt2.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\R_rt2.xml">
       <Link>R_rt2.xml</Link>
-    </Content>
-    <Content Include="..\Vts.Database\R_rw.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\R_rw.xml">
       <Link>R_rw.xml</Link>
-    </Content>
-    <Content Include="..\Vts.Database\R_xy.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\R_xy.xml">
       <Link>R_xy.xml</Link>
-    </Content>
-    <Content Include="..\Vts.Database\T_ra.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Database\T_ra.xml">
       <Link>T_ra.xml</Link>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
