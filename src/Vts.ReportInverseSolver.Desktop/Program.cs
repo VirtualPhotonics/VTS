@@ -122,7 +122,6 @@ namespace Vts.ReportInverseSolver.Desktop
             bool stepByStep = false;//boolean variable used to proceed 'step by step' during the report, to view the output on the console window
 
             //fs definition
-            //fs definition
             var forwardSolverTypes = new ForwardSolverType[]
                       {
                           ForwardSolverType.Nurbs,
