@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Vts.Common.Math
 {
+    /// <summary>
+    /// Provides methods for interpolation of data in 1D and 2D
+    /// </summary>
     public static class Interpolation
     {
         #region Single-value interpolation (float and double only)
