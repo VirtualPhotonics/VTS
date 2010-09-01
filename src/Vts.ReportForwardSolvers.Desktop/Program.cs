@@ -82,7 +82,7 @@ namespace Vts.ReportForwardSolvers.Desktop
             }
         }
 
-        private static void ReportSteadyStateForwardSolver(ForwardSolverType[] forwardSolverTypes,
+        private static void ReportSteadyStateForwardSolver(ForwardSolverType[] fSTs,
                                                                    SpatialDomainType sDT,
                                                                    OpticalProperties op,
                                                                    string inputPath,
@@ -98,10 +98,9 @@ namespace Vts.ReportForwardSolvers.Desktop
                 int sDim = GetSpatialNumberOfPoints(sDT);
                 var spatialVariable = (IEnumerable<double>)FileIO.ReadArrayFromBinaryInResources<double>
                                       ("Resources/" + sDT.ToString() + "/SteadyState/" + filename, projectName, sDim);
-                foreach (var fST in forwardSolverTypes)
+                foreach (var fST in fSTs)
                 {
-                    var fs = SolverFactory.GetForwardSolver(fST);
-                    EvaluateAndWriteForwardSolverSteadyStateResults(fs, sDT, op, spatialVariable);
+                    EvaluateAndWriteForwardSolverSteadyStateResults(fST, sDT, op, spatialVariable);
                 }
             }
             else
@@ -110,7 +109,7 @@ namespace Vts.ReportForwardSolvers.Desktop
             }
         }
 
-        private static void Report2DForwardSolver(ForwardSolverType[] forwardSolverTypes,
+        private static void Report2DForwardSolver(ForwardSolverType[] fSTs,
                                                    SpatialDomainType sDT,
                                                    TimeDomainType tDT,
                                                    OpticalProperties op,
@@ -134,10 +133,9 @@ namespace Vts.ReportForwardSolvers.Desktop
                                       ("Resources/" + sDT.ToString() + "/" + "SteadyState/" + filename, projectName, sDim);
                 var temporalVariable = (double[,])FileIO.ReadArrayFromBinaryInResources<double>
                                       ("Resources/" + sDT.ToString() + "/" + tDT.ToString() + "/" + filename, projectName, dims);
-                foreach (var fST in forwardSolverTypes)
+                foreach (var fST in fSTs)
                 {
-                    var fs = SolverFactory.GetForwardSolver(fST);
-                    EvaluateAndWriteForwardSolver2DResults(fs, sDT, tDT, op, spatialVariable, temporalVariable);
+                    EvaluateAndWriteForwardSolver2DResults(fST, sDT, tDT, op, spatialVariable, temporalVariable);
                 }
             }
             else
@@ -146,25 +144,25 @@ namespace Vts.ReportForwardSolvers.Desktop
             }
         }
 
-        private static void EvaluateAndWriteForwardSolverSteadyStateResults(IForwardSolver fs,
-                                                                    SpatialDomainType sDT,
-                                                                    OpticalProperties op,
-                                                                    IEnumerable<double> spatialVariable)
+        private static void EvaluateAndWriteForwardSolverSteadyStateResults(ForwardSolverType fST,
+                                                                            SpatialDomainType sDT,
+                                                                            OpticalProperties op,
+                                                                            IEnumerable<double> spatialVariable)
         {
             double[] reflectanceValues;
 
-            var ReflectanceFunction = GetSteadyStateReflectanceFunction(fs, sDT);
+            var ReflectanceFunction = GetSteadyStateReflectanceFunction(fST, sDT);
 
-            MakeDirectoryIfNonExistent(sDT.ToString(), "SteadyState", fs.LocalToString());
+            MakeDirectoryIfNonExistent(sDT.ToString(), "SteadyState", fST.ToString());
 
             reflectanceValues = ReflectanceFunction(op.AsEnumerable(), spatialVariable).ToArray();
 
             LocalWriteArrayToBinary<double>(reflectanceValues,@"Output/" + sDT.ToString() +
-                                              "/SteadyState/" + fs.LocalToString() + "/" +
+                                              "/SteadyState/" + fST.ToString() + "/" +
                                               "musp" + op.Musp.ToString() + "mua" + op.Mua.ToString(),FileMode.Create);
         }
 
-        private static void EvaluateAndWriteForwardSolver2DResults(IForwardSolver fs,
+        private static void EvaluateAndWriteForwardSolver2DResults(ForwardSolverType fST,
                                                                    SpatialDomainType sDT,
                                                                    TimeDomainType tDT,
                                                                    OpticalProperties op,
@@ -172,9 +170,9 @@ namespace Vts.ReportForwardSolvers.Desktop
                                                                    double[,] temporalVariable)
         {
             double[] reflectanceValues;
-            var ReflectanceFunction = Get2DReflectanceFunction(fs, sDT, tDT);
+            var ReflectanceFunction = Get2DReflectanceFunction(fST, sDT, tDT);
 
-            MakeDirectoryIfNonExistent(sDT.ToString(), tDT.ToString(), fs.LocalToString());
+            MakeDirectoryIfNonExistent(sDT.ToString(), tDT.ToString(), fST.ToString());
 
             var sV = spatialVariable.First();
             var tV = temporalVariable.Row(0);
@@ -182,7 +180,7 @@ namespace Vts.ReportForwardSolvers.Desktop
             reflectanceValues = ReflectanceFunction(op.AsEnumerable(), sV.AsEnumerable(), tV).ToArray();
 
             LocalWriteArrayToBinary<double>(reflectanceValues, @"Output/" + sDT.ToString() +
-                                            "/" + tDT.ToString() + "/" + fs.LocalToString() + "/" +
+                                            "/" + tDT.ToString() + "/" + fST.ToString() + "/" +
                                             "musp" + op.Musp.ToString() + "mua" + op.Mua.ToString(),
                                             FileMode.Create);
 
@@ -194,7 +192,7 @@ namespace Vts.ReportForwardSolvers.Desktop
                 reflectanceValues = ReflectanceFunction(op.AsEnumerable(), sV.AsEnumerable(), tV).ToArray();
 
                 LocalWriteArrayToBinary<double>(reflectanceValues, @"Output/" + sDT.ToString() + "/" +
-                                                tDT.ToString() + "/" + fs.LocalToString() + "/" +
+                                                tDT.ToString() + "/" + fST.ToString() + "/" +
                                                 "musp" + op.Musp.ToString() + "mua" + op.Mua.ToString(),
                                                 FileMode.Append);
             }
@@ -260,7 +258,7 @@ namespace Vts.ReportForwardSolvers.Desktop
         }
 
         private static Func<IEnumerable<OpticalProperties>, IEnumerable<double>, IEnumerable<double>, IEnumerable<double>>
-                       Get2DReflectanceFunction(IForwardSolver fs, SpatialDomainType sD, TimeDomainType tD)
+                       Get2DReflectanceFunction(ForwardSolverType fST, SpatialDomainType sD, TimeDomainType tD)
         {
             Func<IEnumerable<OpticalProperties>, IEnumerable<double>, IEnumerable<double>, IEnumerable<double>> ReflectanceFunction;
 
@@ -269,11 +267,11 @@ namespace Vts.ReportForwardSolvers.Desktop
                 case SpatialDomainType.Real:
                     if (tD == TimeDomainType.TimeDomain)
                     {
-                        ReflectanceFunction = fs.RofRhoAndT;
+                        ReflectanceFunction = SolverFactory.GetForwardSolver(fST).RofRhoAndT;
                     }
                     else if (tD == TimeDomainType.FrequencyDomain)
                     {
-                        ReflectanceFunction = (op,rho,ft) => fs.RofRhoAndFt(op,rho,ft).Select(rComplex => rComplex.Magnitude);
+                        ReflectanceFunction = (op, rho, ft) => SolverFactory.GetForwardSolver(fST).RofRhoAndFt(op, rho, ft).Select(rComplex => rComplex.Magnitude);
                     }
                     else 
                     {
@@ -283,11 +281,11 @@ namespace Vts.ReportForwardSolvers.Desktop
                 case SpatialDomainType.SpatialFrequency:
                     if (tD == TimeDomainType.TimeDomain)
                     {
-                        ReflectanceFunction = fs.RofFxAndT;
+                        ReflectanceFunction = SolverFactory.GetForwardSolver(fST).RofFxAndT;
                     }
                     else if (tD == TimeDomainType.FrequencyDomain)
                     {
-                        ReflectanceFunction = (op, fx, ft) => fs.RofFxAndFt(op, fx, ft).Select(rComplex => rComplex.Magnitude);
+                        ReflectanceFunction = (op, fx, ft) => SolverFactory.GetForwardSolver(fST).RofFxAndFt(op, fx, ft).Select(rComplex => rComplex.Magnitude);
                     }
                     else 
                     {
@@ -296,22 +294,21 @@ namespace Vts.ReportForwardSolvers.Desktop
                     break;
                 default:
                     throw new ArgumentException("Non valid spatial domain.");
-                    break;
             }
             return ReflectanceFunction;
         }
 
         private static Func<IEnumerable<OpticalProperties>, IEnumerable<double>, IEnumerable<double>>
-                       GetSteadyStateReflectanceFunction(IForwardSolver fs, SpatialDomainType sd)
+                       GetSteadyStateReflectanceFunction(ForwardSolverType fST, SpatialDomainType sd)
         {
             Func<IEnumerable<OpticalProperties>, IEnumerable<double>, IEnumerable<double>> ReflectanceFunction;
             switch (sd)
             {
                 case SpatialDomainType.Real:
-                    ReflectanceFunction = fs.RofRho;
+                    ReflectanceFunction = SolverFactory.GetForwardSolver(fST).RofRho;
                     break;
                 case SpatialDomainType.SpatialFrequency:
-                    ReflectanceFunction = fs.RofFx;
+                    ReflectanceFunction = SolverFactory.GetForwardSolver(fST).RofFx;
                     break;
                 default:
                     throw new ArgumentException("Non valid solution domain!");
@@ -342,48 +339,48 @@ namespace Vts.ReportForwardSolvers.Desktop
         #endregion methods
     }
 
-    /// <summary>
-    /// This class defines some local extensions methods.
-    /// </summary>
-    public static class LocalExtensions
-    {
-        /// <summary>
-        /// Returns a string with a name representing the forward solver.
-        /// </summary>
-        /// <param name="forwardSolver">forward solver</param>
-        /// <returns>string with forward solver name</returns>
-        public static string LocalToString(this IForwardSolver forwardSolver)
-        {
-            if (forwardSolver as NurbsForwardSolver != null)
-            {
-                return "Nurbs";
-            }
-            else if (forwardSolver as MonteCarloForwardSolver != null)
-            {
-                return "MonteCarlo";
-            }
-            else if (forwardSolver as DistributedPointSourceSDAForwardSolver != null)
-            {
-                return "DistributedPointSDA";
-            }
-            else if (forwardSolver as DistributedGaussianSourceSDAForwardSolver
-                != null)
-            {
-                return "DistributedGaussianSDA";
-            }
-            else if (forwardSolver as PointSourceSDAForwardSolver != null)
-            {
-                return "PointSDA";
-            }
-            else if (forwardSolver as DeltaPOneForwardSolver != null)
-            {
-                return "DeltaPOne";
-            }
-            else
-            {
-                throw new Exception("Unknown forward solver type.");
-            }
-        }
-    }
+    ///// <summary>
+    ///// This class defines some local extensions methods.
+    ///// </summary>
+    //public static class LocalExtensions
+    //{
+    //    /// <summary>
+    //    /// Returns a string with a name representing the forward solver.
+    //    /// </summary>
+    //    /// <param name="forwardSolver">forward solver</param>
+    //    /// <returns>string with forward solver name</returns>
+    //    public static string LocalToString(this IForwardSolver forwardSolver)
+    //    {
+    //        if (forwardSolver as NurbsForwardSolver != null)
+    //        {
+    //            return "Nurbs";
+    //        }
+    //        else if (forwardSolver as MonteCarloForwardSolver != null)
+    //        {
+    //            return "MonteCarlo";
+    //        }
+    //        else if (forwardSolver as DistributedPointSourceSDAForwardSolver != null)
+    //        {
+    //            return "DistributedPointSDA";
+    //        }
+    //        else if (forwardSolver as DistributedGaussianSourceSDAForwardSolver
+    //            != null)
+    //        {
+    //            return "DistributedGaussianSDA";
+    //        }
+    //        else if (forwardSolver as PointSourceSDAForwardSolver != null)
+    //        {
+    //            return "PointSDA";
+    //        }
+    //        else if (forwardSolver as DeltaPOneForwardSolver != null)
+    //        {
+    //            return "DeltaPOne";
+    //        }
+    //        else
+    //        {
+    //            throw new Exception("Unknown forward solver type.");
+    //        }
+    //    }
+    //}
 }
 
