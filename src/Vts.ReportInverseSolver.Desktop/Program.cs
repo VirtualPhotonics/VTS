@@ -263,8 +263,7 @@ namespace Vts.ReportInverseSolver.Desktop
                             }
                             if (noisePercentage != 0.0)
                             {
-                                //why the extension for double[] is void?
-                                R = (((IEnumerable<double>)R).AddNoise(noisePercentage)).ToArray();
+                                R.AddNoise(noisePercentage);
                             }
                             start = DateTime.Now;
                             int covergedCounter = 0;
@@ -418,8 +417,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                                    projectName, stDevMode, numberOfPoints, R.ToArray());
                                 if (noisePercentage != 0.0)
                                 {
-                                    //why the extension for double[] is void?
-                                    R = (((IEnumerable<double>)R).AddNoise(noisePercentage)).ToArray();
+                                    R.AddNoise(noisePercentage);
                                 }
                                 start = DateTime.Now;
                                 int convergedCounter = 0;
