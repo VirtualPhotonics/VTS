@@ -182,7 +182,6 @@ namespace Vts.Modeling.ForwardSolvers
                         }
                         else
                         {
-                            //TODO: vectorial
                             scaledValue = _rdGenerator.ComputeSurfacePoint(t_ref, rho_ref);
                         }
 
@@ -257,8 +256,6 @@ namespace Vts.Modeling.ForwardSolvers
                 }
                 else
                 {
-                    //var time = _rdGenerator.TimeKnotSpanPolynomialCoefficients.Select(span => span.GetKnotSpanMidTime());
-                    //var deltaT = _rdGenerator.TimeKnotSpanPolynomialCoefficients.Select(span => span.GetKnotSpanDeltaT());
                     var time = _rdGenerator.NativeTimes;
                     for (int i = 0; i < time.Length; i++)
                     {
@@ -316,10 +313,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequency</param>
         /// <returns>spatial frequency resolved reflectance</returns>
         public override IEnumerable<double> RofFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs)
-        {   
+        {
             double fx_ref;
             double integralValue;
-
             foreach (var op in ops)
             {
                 foreach (var fx in fxs)
@@ -329,16 +325,36 @@ namespace Vts.Modeling.ForwardSolvers
 
                     if (fx_ref <= _sfdGenerator.SpaceValues.MaxValue)
                     {
-                        integralValue = _sfdGenerator.EvaluateNurbsCurveIntegral(fx_ref,exponentialterm);
+                        integralValue = _sfdGenerator.EvaluateNurbsCurveIntegral(fx_ref, exponentialterm);
                         integralValue = CheckIfValidOutput(integralValue);
                         yield return integralValue;
                     }
                     else
                     {
                         yield return 0.0;
-                    }                    
-                }    
+                    }
+                }
             }
+
+            //foreach (var op in ops)
+            //{
+            //    double[] time = _sfdGenerator.NativeTimes;
+            //    for (int i = 0; i < time.Length; i++)
+            //    {
+            //        time[i] = time[i] * _opReference.Musp / op.Musp;
+            //    }
+            //    var deltaT = GetDeltaT(time);
+            //    foreach (var fx in fxs)
+            //    {
+            //        double integralValue = 0.0;
+            //        var RofT = RofFxAndT(op.AsEnumerable(), fx.AsEnumerable(), time).ToArray();
+            //        for (int i = 0; i < RofT.Length; i++)
+            //        {
+            //            integralValue += RofT[i] * deltaT[i];
+            //        }
+            //        yield return integralValue;
+            //    }             
+            //}
         }
 
         /// <summary>

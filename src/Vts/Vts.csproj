@@ -62,6 +62,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Meta.Numerics\build\Silverlight\Meta.Numerics.Silverlight.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Unity\Silverlight\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Silverlight, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Unity\Silverlight\Microsoft.Practices.Unity.Silverlight.dll</HintPath>
+    </Reference>
     <Reference Include="MPFitLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\mpfit\build\Silverlight\MPFitLib.dll</HintPath>
@@ -149,9 +157,10 @@
     <Compile Include="Modeling\ForwardSolvers\DiffusionForwardSolverBase.cs" />
     <Compile Include="Modeling\ForwardSolvers\DiffusionGreensFunctions.cs" />
     <Compile Include="Modeling\ForwardSolvers\DiffusionParameters.cs" />
-    <Compile Include="Modeling\ForwardSolvers\DistributedGaussianSourceDiffusionForwardSolver.cs" />
-    <Compile Include="Modeling\ForwardSolvers\DistributedPointSourceDiffusionForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DistributedGaussianSourceSDAForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DistributedPointSourceSDAForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\ForwardSolverBase.cs" />
+    <Compile Include="Modeling\ForwardSolvers\INurbs.cs" />
     <Compile Include="Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs" />
     <Compile Include="Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolver.cs" />
@@ -162,8 +171,9 @@
     <Compile Include="Modeling\ForwardSolvers\PhotonHittingDensity.cs" />
     <Compile Include="Modeling\ForwardSolvers\pMCForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\pMCLoader.cs" />
-    <Compile Include="Modeling\ForwardSolvers\PointSourceDiffusionForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\PointSourceSDAForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\StubNurbsGenerator.cs" />
     <Compile Include="Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs" />
     <Compile Include="Modeling\Input\Commands.cs" />
     <Compile Include="Modeling\Optimizers\MPFitLevenbergMarquardtOptimizer.cs" />
@@ -235,6 +245,7 @@
     <Compile Include="MonteCarlo\Sources\PointSourceInput.cs" />
     <Compile Include="MonteCarlo\Sources\SourceInputProvider.cs" />
     <Compile Include="MonteCarlo\Sources\SourceToolbox.cs" />
+    <Compile Include="MonteCarlo\TallyActions\AOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\pMuaMusInROfRhoAndTimeTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\pMuaMusInROfRhoTally.cs" />
@@ -329,29 +340,29 @@
     <Resource Include="Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml" />
-    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml" />
     <Content Include="Modeling\Spectroscopy\ChromophoreList.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints" />
-    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees" />
-    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims" />
-    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues" />
-    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots" />
-    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
-    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes" />
-    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\controlPoints" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\degrees" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\dims" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\maxValues" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceKnots" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeKnots" />
-    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\nativeTimes" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\nativeTimes" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\nativeTimes" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
     <None Include="Modeling\Spectroscopy\Fat.csv" />
     <None Include="Vts.snk" />
   </ItemGroup>

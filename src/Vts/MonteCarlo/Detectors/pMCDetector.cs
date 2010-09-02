@@ -120,7 +120,7 @@ namespace Vts.MonteCarlo.Detectors
                     tally.Tally(dp, _tissue.Regions.Select(s => s.RegionOP).ToList());
             }
         }
-        public void HistoryTally(PhotonDataPoint dp)
+        public void HistoryTally(PhotonHistory history)
         {
             foreach (var tally in HistoryITallyList)
             {

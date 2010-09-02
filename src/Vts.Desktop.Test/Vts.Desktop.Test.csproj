@@ -6,7 +6,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BA3C3229-E3D5-4B20-BB08-BC7DF0F4D91F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vts.IO.Desktop.Test</RootNamespace>
     <AssemblyName>Vts.IO.Desktop.Test</AssemblyName>
@@ -133,6 +133,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsGeneratorTest.cs">
       <Link>Modeling\ForwardSolvers\NurbsGeneratorTest.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\pMCForwardSolverTests.cs">
+      <Link>Modeling\ForwardSolvers\pMCForwardSolverTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\ValidateDiffusionReflectanceModels.cs">
       <Link>Modeling\ForwardSolvers\ValidateDiffusionReflectanceModels.cs</Link>

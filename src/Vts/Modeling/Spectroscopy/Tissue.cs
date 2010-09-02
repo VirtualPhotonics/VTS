@@ -126,13 +126,13 @@ namespace Vts.SpectralMapping
                 case TissueType.BreastPreMenopause:
                 case TissueType.BreastPostMenopause:
                 case TissueType.Custom:
-                    Scatterer = PowerLawScatterer.Create(tissueType);
+                    Scatterer = new PowerLawScatterer();
                     break;
                 case TissueType.IntralipidPhantom:
-                    Scatterer = new IntralipidScatterer(0.01);
+                    Scatterer = new IntralipidScatterer();
                     break;
                 case TissueType.PolystyreneSpherePhantom:
-                    Scatterer = MieScatterer.Create(MieScattererType.PolystyreneSphereSuspension);
+                    Scatterer = new MieScatterer();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("tissueType");

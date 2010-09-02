@@ -11,8 +11,18 @@ using System.Windows.Controls;
 
 namespace Vts.IO
 {
+    /// <summary>
+    /// Implements static functions for returning streams from various locations (resources, file system, etc)
+    /// </summary>
     public static class StreamFinder
     {
+        /// <summary>
+        /// Returns a stream from resources (standard and embedded for Silverlight and desktop, respectively),
+        /// given a file name and an assembly (project) name
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="projectName"></param>
+        /// <returns></returns>
         public static Stream GetFileStreamFromResources(string fileName, string projectName)
         {
 #if SILVERLIGHT
@@ -37,12 +47,18 @@ namespace Vts.IO
                 throw new FileNotFoundException("Can't locate specified assembly.");
             }
 
-            var newFileName = fileName.Replace("/", ".");
+            var newFileName = fileName.Replace("/", ".").Replace(@"\", ".");
             var stream = assembly.GetManifestResourceStream(projectName + "." + newFileName);
             return stream;
 #endif
         }
 
+        /// <summary>
+        /// Returns a stream from the local file system. In the case of Silverlight, this stream is from isolated storage.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="fileMode"></param>
+        /// <returns></returns>
         public static Stream GetFileStream(string filename, FileMode fileMode)
         {
 #if SILVERLIGHT
@@ -52,7 +68,9 @@ namespace Vts.IO
             return new IsolatedStorageFileStream(filename, fileMode,
                 IsolatedStorageFile.GetUserStoreForApplication());
 #else
-            return File.Open(Path.GetFullPath(filename), fileMode);
+            string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string fullPath = currentAssemblyDirectoryName + "\\" + filename;
+            return File.Open(fullPath, fileMode);
 #endif
         }
 

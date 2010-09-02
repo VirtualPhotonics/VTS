@@ -57,6 +57,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Meta.Numerics\build\Desktop\Meta.Numerics.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Unity\Desktop\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Unity\Desktop\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="MPFitLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\mpfit\build\Desktop\MPFitLib.dll</HintPath>
@@ -254,14 +262,17 @@
     <Compile Include="..\Vts\Modeling\ForwardSolvers\DiffusionParameters.cs">
       <Link>Modeling\ForwardSolvers\DiffusionParameters.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\DistributedGaussianSourceDiffusionForwardSolver.cs">
-      <Link>Modeling\ForwardSolvers\DistributedGaussianSourceDiffusionForwardSolver.cs</Link>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DistributedGaussianSourceSDAForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\DistributedGaussianSourceSDAForwardSolver.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\DistributedPointSourceDiffusionForwardSolver.cs">
-      <Link>Modeling\ForwardSolvers\DistributedPointSourceDiffusionForwardSolver.cs</Link>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DistributedPointSourceSDAForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\DistributedPointSourceSDAForwardSolver.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\ForwardSolverBase.cs">
       <Link>Modeling\ForwardSolvers\ForwardSolverBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\INurbs.cs">
+      <Link>Modeling\ForwardSolvers\INurbs.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs">
       <Link>Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs</Link>
@@ -293,11 +304,14 @@
     <Compile Include="..\Vts\Modeling\ForwardSolvers\pMCLoader.cs">
       <Link>Modeling\ForwardSolvers\pMCLoader.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\PointSourceDiffusionForwardSolver.cs">
-      <Link>Modeling\ForwardSolvers\PointSourceDiffusionForwardSolver.cs</Link>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\PointSourceSDAForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\PointSourceSDAForwardSolver.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs">
       <Link>Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\StubNurbsGenerator.cs">
+      <Link>Modeling\ForwardSolvers\StubNurbsGenerator.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs">
       <Link>Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs</Link>
@@ -515,6 +529,9 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceToolbox.cs">
       <Link>MonteCarlo\Sources\SourceToolbox.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\AOfRhoAndZTally.cs">
+      <Link>MonteCarlo\TallyActions\AOfRhoAndZTally.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs">
       <Link>MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs</Link>
     </Compile>
@@ -609,17 +626,17 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml">
       <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml">
       <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml</Link>
     </EmbeddedResource>
     <Content Include="..\Vts\Modeling\Spectroscopy\ChromophoreList.xml">
       <Link>Modeling\Spectroscopy\ChromophoreList.xml</Link>
@@ -704,30 +721,6 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\T_ra.xml">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\T_ra.xml</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\controlPoints">
       <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\controlPoints</Link>
     </EmbeddedResource>
@@ -746,16 +739,46 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeKnots">
       <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeKnots</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\nativeTimes">
+      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\nativeTimes</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\nativeTimes">
       <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\nativeTimes</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\nativeTimes">
-      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\nativeTimes</Link>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots">
+      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots</Link>
     </EmbeddedResource>
     <None Include="..\Vts\Modeling\Spectroscopy\Fat.csv">
       <Link>Modeling\Spectroscopy\Fat.csv</Link>
     </None>
     <None Include="Vts.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vts.Database.Desktop\Vts.Database.Desktop.csproj">
+      <Project>{4FE8D1A5-E651-4264-B6A0-3D8143D7F413}</Project>
+      <Name>Vts.Database.Desktop</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -10,6 +10,8 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class SingleEllipsoidTissue : ITissue
     {
+        private EllipsoidRegion _ellipsoidRegion;
+
         public SingleEllipsoidTissue(VoxelRegion slab, EllipsoidRegion ellipsoid)
         {
             Regions = new List<ITissueRegion>()
@@ -17,6 +19,7 @@ namespace Vts.MonteCarlo.Tissues
                 slab, 
                 ellipsoid,
             };
+            _ellipsoidRegion = ellipsoid;
         }
         public SingleEllipsoidTissue() : this(
             new VoxelRegion(),
@@ -27,12 +30,10 @@ namespace Vts.MonteCarlo.Tissues
         # region ISource Members
         public int GetRegionIndex(Position position)
         {
-            //This needs work to be correct all the time
-            //if (EllipsoidRegion.ContainsPosition(position))
-            //    return 1;
-            //else
-            //    return 0;
-            throw new NotImplementedException();
+            if (_ellipsoidRegion.ContainsPosition(position))
+                return 1;
+            else
+                return 0;
         }
         public bool OnDomainBoundary(Photon photon)
         {

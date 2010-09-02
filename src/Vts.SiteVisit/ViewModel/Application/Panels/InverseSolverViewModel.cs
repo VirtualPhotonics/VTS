@@ -52,35 +52,35 @@ namespace Vts.SiteVisit.ViewModel
             MeasuredForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
                 "Forward Model Engine",
                 false);
-                //ForwardSolverType.DistributedPointSDA,
-                //ForwardSolverType.PointSDA,
-                //ForwardSolverType.DistributedGaussianSDA,
+                //ForwardSolverType.DistributedPointSourceSDA,
+                //ForwardSolverType.PointSourceSDA,
+                //ForwardSolverType.DistributedGaussianSourceSDA,
                 //ForwardSolverType.MonteCarlo); // explicitly enabling these for the workshop
-            MeasuredForwardSolverTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
+           // MeasuredForwardSolverTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
 
             MeasuredDataTypeOptionVM = new OptionViewModel<MeasuredDataType>("Measured Data Type:");
-            MeasuredDataTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
+            //MeasuredDataTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
 
             InverseForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
                 "Inverse Model Engine",
                 false);
-                //ForwardSolverType.DistributedPointSDA, 
-                //ForwardSolverType.PointSDA,
-                //ForwardSolverType.DistributedGaussianSDA,
+                //ForwardSolverType.DistributedPointSourceSDA, 
+                //ForwardSolverType.PointSourceSDA,
+                //ForwardSolverType.DistributedGaussianSourceSDA,
                 //ForwardSolverType.MonteCarlo); // explicitly enabling these for the workshop
-            InverseForwardSolverTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
+            //InverseForwardSolverTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
 
             OptimizerTypeOptionVM = new OptionViewModel<OptimizerType>("Optimizer Type:");
-            OptimizerTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
+            //OptimizerTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
 
             InverseFitTypeOptionVM = new OptionViewModel<InverseFitType>("Optimization Parameters:");
-            InverseFitTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
+            //InverseFitTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
 
             MeasuredOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "" };
             InitialGuessOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "" };
             ResultOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "" };
 
-            UpdateModels();
+            //UpdateModels();
 
             Commands.IS_SimulateMeasuredData.Executed += new EventHandler<ExecutedEventArgs>(IS_SimulateMeasuredData_Executed);
             Commands.IS_CalculateInitialGuess.Executed += new EventHandler<ExecutedEventArgs>(IS_CalculateInitialGuess_Executed);
@@ -203,33 +203,33 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
-        public IForwardSolver MeasuredForwardSolver
-        {
-            get { return _MeasuredForwardSolver; }
-            set
-            {
-                _MeasuredForwardSolver = value;
-                this.OnPropertyChanged("MeasuredForwardSolver");
-            }
-        }
-        public IForwardSolver InverseForwardSolver
-        {
-            get { return _InverseForwardSolver; }
-            set
-            {
-                _InverseForwardSolver = value;
-                this.OnPropertyChanged("InverseForwardSolver");
-            }
-        }
-        public IOptimizer Optimizer
-        {
-            get { return _Optimizer; }
-            set
-            {
-                _Optimizer = value;
-                this.OnPropertyChanged("Optimizer");
-            }
-        }
+        //public IForwardSolver MeasuredForwardSolver
+        //{
+        //    get { return _MeasuredForwardSolver; }
+        //    set
+        //    {
+        //        _MeasuredForwardSolver = value;
+        //        this.OnPropertyChanged("MeasuredForwardSolver");
+        //    }
+        //}
+        //public IForwardSolver InverseForwardSolver
+        //{
+        //    get { return _InverseForwardSolver; }
+        //    set
+        //    {
+        //        _InverseForwardSolver = value;
+        //        this.OnPropertyChanged("InverseForwardSolver");
+        //    }
+        //}
+        //public IOptimizer Optimizer
+        //{
+        //    get { return _Optimizer; }
+        //    set
+        //    {
+        //        _Optimizer = value;
+        //        this.OnPropertyChanged("Optimizer");
+        //    }
+        //}
         #endregion
 
         #region DataPoints and DataValues
@@ -296,12 +296,12 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
-        void UpdateModels()
-        {
-            MeasuredForwardSolver = SolverFactory.GetForwardSolver(MeasuredForwardSolverTypeOptionVM.SelectedValue);
-            InverseForwardSolver = SolverFactory.GetForwardSolver(InverseForwardSolverTypeOptionVM.SelectedValue);
-            Optimizer = SolverFactory.GetOptimizer(OptimizerTypeOptionVM.SelectedValue);
-        }
+        //void UpdateModels()
+        //{
+        //    MeasuredForwardSolver = SolverFactory.GetForwardSolver(MeasuredForwardSolverTypeOptionVM.SelectedValue);
+        //    InverseForwardSolver = SolverFactory.GetForwardSolver(InverseForwardSolverTypeOptionVM.SelectedValue);
+        //    Optimizer = SolverFactory.GetOptimizer(OptimizerTypeOptionVM.SelectedValue);
+        //}
 
         void IS_SimulateMeasuredData_Executed(object sender, ExecutedEventArgs e)
         {
@@ -325,27 +325,27 @@ namespace Vts.SiteVisit.ViewModel
                 case PlotDataType.Simulated:
                     solverString = "Simulated: \r";
                     modelString =
-                        MeasuredForwardSolverTypeOptionVM.SelectedValue ==ForwardSolverType.DistributedPointSDA ||
-                        MeasuredForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSDA ||
-                        MeasuredForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSDA
+                        MeasuredForwardSolverTypeOptionVM.SelectedValue ==ForwardSolverType.DistributedPointSourceSDA ||
+                        MeasuredForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSourceSDA ||
+                        MeasuredForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSourceSDA
                         ? "Model - SDA \r" : "Model - MC \r";
                     op = MeasuredOpticalPropertyVM;
                     break;
                 case PlotDataType.Calculated:
                     solverString = "Calculated:\r";
                     modelString = 
-                        InverseForwardSolverTypeOptionVM.SelectedValue ==ForwardSolverType.DistributedPointSDA ||
-                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSDA ||
-                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSDA
+                        InverseForwardSolverTypeOptionVM.SelectedValue ==ForwardSolverType.DistributedPointSourceSDA ||
+                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSourceSDA ||
+                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSourceSDA
                         ? "Model - SDA \r" : "Model - MC \r";
                     op = ResultOpticalPropertyVM;
                     break;
                 case PlotDataType.Guess:
                     solverString = "Guess:\r";
                     modelString =
-                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedPointSDA ||
-                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSDA ||
-                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSDA
+                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedPointSourceSDA ||
+                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSourceSDA ||
+                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSourceSDA
                         ? "Model - SDA \r" : "Model - MC \r";
                     op = InitialGuessOpticalPropertyVM;
                     break;
@@ -427,7 +427,7 @@ namespace Vts.SiteVisit.ViewModel
                 ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
             IEnumerable<double> measuredData = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
-                MeasuredForwardSolver,
+                MeasuredForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisType.R,
                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
@@ -452,7 +452,7 @@ namespace Vts.SiteVisit.ViewModel
                 ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
             InitialGuessDataValues = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
-                InverseForwardSolver,
+                InverseForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisType.R,
                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
@@ -478,8 +478,8 @@ namespace Vts.SiteVisit.ViewModel
                     ? new double[] {  SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
             double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
-                InverseForwardSolver,
-                Optimizer,
+                InverseForwardSolverTypeOptionVM.SelectedValue,
+                OptimizerTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
                 independentValues,
@@ -495,7 +495,7 @@ namespace Vts.SiteVisit.ViewModel
             ResultOpticalPropertyVM.N = fit[3];
 
             ResultDataValues = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
-                InverseForwardSolver,
+                InverseForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisType.R,
                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,

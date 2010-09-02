@@ -15,12 +15,15 @@ namespace Vts.MonteCarlo.Factories
             {
                 case TallyType.FluenceOfRhoAndZ:
                     return true;
+                case TallyType.AOfRhoAndZ:
+                    return true;
                 default:
                     return false;
             }
         }
         public static ITally GetTallyAction(
             TallyType tallyType,
+            ITissue tissue,
             DoubleRange rho,
             DoubleRange z,
             DoubleRange angle,
@@ -55,7 +58,9 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.TOfRhoAndAngle:
                     return new TOfRhoAndAngleTally(rho, angle);
                 case TallyType.FluenceOfRhoAndZ:
-                    return new FluenceOfRhoAndZTally(rho, z);
+                    return new FluenceOfRhoAndZTally(rho, z, tissue);
+                case TallyType.AOfRhoAndZ:
+                    return new AOfRhoAndZTally(rho, z, tissue);
             }
         }
         public static ITally GetTallyAction(

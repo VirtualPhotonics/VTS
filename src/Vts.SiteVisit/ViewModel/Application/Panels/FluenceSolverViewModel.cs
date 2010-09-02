@@ -54,9 +54,9 @@ namespace Vts.SiteVisit.ViewModel
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
                 "Forward Model:",
                 false,
-                ForwardSolverType.DistributedPointSDA,
-                ForwardSolverType.PointSDA,
-                ForwardSolverType.DistributedGaussianSDA); // explicitly enabling these for the workshop;
+                ForwardSolverType.DistributedPointSourceSDA,
+                ForwardSolverType.PointSourceSDA,
+                ForwardSolverType.DistributedGaussianSourceSDA); // explicitly enabling these for the workshop;
 
             ForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
             {
@@ -229,9 +229,9 @@ namespace Vts.SiteVisit.ViewModel
         private string GetLegendLabel()
         {
             string modelString = 
-                ForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedPointSDA ||
-                ForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSDA  ||
-                ForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSDA
+                ForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedPointSourceSDA ||
+                ForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSourceSDA  ||
+                ForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSourceSDA
                 ? "Model - SDA\r" : "Model - MC scaled\r";
             string opString = "μa=" + OpticalPropertyVM.Mua + "\rμs'=" + OpticalPropertyVM.Musp;
 
