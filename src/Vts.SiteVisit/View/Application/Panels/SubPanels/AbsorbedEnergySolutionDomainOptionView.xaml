@@ -51,12 +51,12 @@
                         Grid.Row="0" Grid.Column="1"
                         DataContext="{Binding FluenceofRhoOption}"
                         Tag="{Binding ID}" Content="A(ρ,z)"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="OptionGroup" Margin="2,3.5"/>
+                        GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="0" Grid.Column="2"
                         DataContext="{Binding FluenceofFxOption}" IsEnabled="False"
                         Tag="{Binding ID}" Content="A(fx,z)"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="OptionGroup" Margin="2,3.5"/>
+                        GroupName="{Binding GroupName}" Margin="2,3.5"/>
 
                     <!--TIME-DOMAIN-->
                     <TextBlock 
@@ -66,12 +66,12 @@
                         Grid.Row="1" Grid.Column="1" IsEnabled="False"
                         DataContext="{Binding FluenceofRhoAndTOption}"
                         Tag="{Binding ID}" Content="A(ρ,t,z)"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="OptionGroup" Margin="2,3.5"/>
+                        GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="2" IsEnabled="False"
                         DataContext="{Binding FluenceofFxAndTOption}"
                         Tag="{Binding ID}" Content="A(fx,t,z)"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="OptionGroup" Margin="2,3.5"/>
+                        GroupName="{Binding GroupName}" Margin="2,3.5"/>
 
                     <!--FREQUENCY-DOMAIN-->
                     <TextBlock 
@@ -81,12 +81,12 @@
                         Grid.Row="2" Grid.Column="1"
                         DataContext="{Binding FluenceofRhoAndFtOption}" IsEnabled="False"
                         Tag="{Binding ID}" Content="A(ρ,ft,z)"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="OptionGroup" Margin="2,3.5"/>
+                        GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="2"
                         DataContext="{Binding FluenceofFxAndFtOption}" IsEnabled="False"
                         Tag="{Binding ID}" Content="A(fx,ft)"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="OptionGroup" Margin="2,3.5"/>
+                        GroupName="{Binding GroupName}" Margin="2,3.5"/>
                 </Grid>
             </controls:HeaderedContentControl.Content>
         </controls:HeaderedContentControl>
