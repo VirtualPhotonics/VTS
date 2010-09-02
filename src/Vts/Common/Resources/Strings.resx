@@ -135,7 +135,7 @@
   <data name="ForwardSolverType_MonteCarlo" xml:space="preserve">
     <value>Scaled Monte Carlo - Basic (g=0.8, n=1.4)</value>
   </data>
-  <data name="ForwardSolverType_PointSDA" xml:space="preserve">
+  <data name="ForwardSolverType_PointSourceSDA" xml:space="preserve">
     <value>Standard Diffusion (Analytic - Point Source)</value>
   </data>
   <data name="IndependentVariableAxis_Rho" xml:space="preserve">
@@ -276,10 +276,10 @@
   <data name="FluenceSolutionDomainType_FluenceofRhoAndT" xml:space="preserve">
     <value>Φ(ρ,t,z)</value>
   </data>
-  <data name="ForwardSolverType_DistributedGaussianSDA" xml:space="preserve">
+  <data name="ForwardSolverType_DistributedGaussianSourceSDA" xml:space="preserve">
     <value>Standard Diffusion (Analytic - Distributed Gaussian Source)</value>
   </data>
-  <data name="ForwardSolverType_DistributedPointSDA" xml:space="preserve">
+  <data name="ForwardSolverType_DistributedPointSourceSDA" xml:space="preserve">
     <value>Standard Diffusion (Analytic - Distributed Line Source)</value>
   </data>
   <data name="MapType_AbsorbedEnergy" xml:space="preserve">

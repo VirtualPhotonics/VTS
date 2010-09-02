@@ -9,9 +9,9 @@ namespace Vts.SiteVisit.ViewModel.Application
             {
                 return new[]
                 {
-                    ForwardSolverType.PointSDA,
-                    ForwardSolverType.DistributedPointSDA,
-                    ForwardSolverType.DistributedGaussianSDA,
+                    ForwardSolverType.PointSourceSDA,
+                    ForwardSolverType.DistributedPointSourceSDA,
+                    ForwardSolverType.DistributedGaussianSourceSDA,
                     ForwardSolverType.MonteCarlo,
                     ForwardSolverType.Nurbs
                 };

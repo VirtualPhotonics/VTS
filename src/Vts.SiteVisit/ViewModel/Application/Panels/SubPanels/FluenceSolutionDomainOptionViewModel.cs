@@ -40,11 +40,12 @@ namespace Vts.SiteVisit.ViewModel
 
             this.PropertyChanged += (sender, args) =>
             {
-                if (sender is SolutionDomainOptionViewModel &&
-                    args.PropertyName == "SelectedValue")
-                    UpdateOptions(SelectedValue);
+                if (sender is SolutionDomainOptionViewModel && args.PropertyName == "SelectedValue")
+                {
+                    UpdateOptions();
+                }
             };
-            UpdateOptions(defaultType);
+            UpdateOptions();
         }
 
         public FluenceSolutionDomainOptionViewModel()
@@ -152,9 +153,9 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
-        private void UpdateOptions(FluenceSolutionDomainType selectedType)
+        private void UpdateOptions()
         {
-            switch (selectedType)
+            switch (SelectedValue)
             {
                 case FluenceSolutionDomainType.FluenceofRho:
                 default:
