@@ -2,10 +2,21 @@
 
 namespace Vts.Modeling.ForwardSolvers
 {
+    /// <summary>
+    /// Class containing diffusion approximation solutions to the RTE in the
+    /// spatial frequency domain.
+    /// </summary>
     public class SFDDiffusionForwardSolver
     {
 
-
+        /// <summary>
+        /// Evaluate the time-independent, one dimensional spatial frequency, depth resolved
+        /// fluence.
+        /// </summary>
+        /// <param name="dp">DiffusionParameters object</param>
+        /// <param name="fx">spatial frequency</param>
+        /// <param name="z">depth</param>
+        /// <returns>fluence</returns>
         public static double StationaryOneDimensionalSpatialFrequencyFluence(
             DiffusionParameters dp, double fx, double z)
         {
@@ -17,7 +28,13 @@ namespace Vts.Modeling.ForwardSolvers
                 Math.Exp(-mueffPrime * z));
         }
 
-        // Unsure of the boundary condition in literature to the specific problem?
+        /// <summary>
+        /// Evaluates the depth resolved diffuse spatial frequency flux in the z-direction.
+        /// </summary>
+        /// <param name="dp">DiffusionParameters object</param>
+        /// <param name="fx">spatial frequency</param>
+        /// <param name="z">depth</param>
+        /// <returns>z-flux</returns>
         public static double StationaryOneDimensionalSpatialFrequencyZFlux(
             DiffusionParameters dp, double fx, double z)
         {
