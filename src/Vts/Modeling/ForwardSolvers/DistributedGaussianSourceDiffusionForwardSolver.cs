@@ -122,30 +122,64 @@ namespace Vts.Modeling.ForwardSolvers
 
         public override double StationaryFluence(double rho, double z, DiffusionParameters dp)
         {
-            if (this.ForwardModel == ForwardModel.DeltaPOne)
-            {
-                return DiffusionGaussianBeamFluence(dp, rho, z) +
-                    Math.Exp(-dp.mutTilde * z);
-            }
-            else
-            {
+            //if (this.ForwardModel == ForwardModel.DeltaPOne)
+            //{
+            //    return DiffusionGaussianBeamFluence(dp, rho, z) +
+            //        Math.Exp(-dp.mutTilde * z);
+            //}
+            //else
+            //{
                 return DiffusionGaussianBeamFluence(dp, rho, z);
-            }
+            //}
         }
 
         private double DiffusionGaussianBeamFluence(DiffusionParameters dp, double rho, double z)
         {
-            return HankelTransform.DigitalFitlerOfOrderZero(rho,
-                k => SFD_DiffusionGaussianBeamFluence(dp, k, z));
+            if (this.ForwardModel == ForwardModel.DeltaPOne)
+            {
+                return HankelTransform.DigitalFitlerOfOrderZero(rho,
+                    k => SFD_DiffusionGaussianBeamFluence(dp, k, z)) +
+                    Math.Exp(-dp.mutTilde * z);
+            }
+            else
+            {
+                return HankelTransform.DigitalFitlerOfOrderZero(rho,
+                    k => SFD_DiffusionGaussianBeamFluence(dp, k, z));
+            }
         }
 
+        //private double SFD_DiffusionGaussianBeamFluence(DiffusionParameters dp, double k, double z)
+        //{
+        //    if (dp.mueff == dp.mutTilde) // solution domain of ODE must be modified for this case!
+        //    {
+        //        throw new ArgumentException();
+        //    }
+
+        //    var gamma = 3 * dp.musTilde * (dp.mutr + dp.gTilde * dp.mutTilde) /
+        //        (k * k + dp.mueff * dp.mueff - dp.mutTilde * dp.mutTilde)
+        //        * BeamDiameter * BeamDiameter * Math.Exp(-BeamDiameter * BeamDiameter * k * k / 32) / 16;
+        //    var xi = -(3 * dp.gTilde * dp.musTilde * BeamDiameter * BeamDiameter *
+        //            Math.Exp(-BeamDiameter * BeamDiameter * k * k / 32) / 16 +
+        //            gamma * (1 / dp.A / 2 / dp.D + dp.mutTilde)) /
+        //            (1 / dp.A / 2 / dp.D + Math.Sqrt(k * k + dp.mueff * dp.mueff));
+        //    //can modify for surface fluence vs. fluence...
+        //    return (gamma * Math.Exp(-dp.mutTilde * z) + xi *
+        //        Math.Exp(-Math.Sqrt(k * k + dp.mueff * dp.mueff) * z)) * 8 /
+        //            (Math.PI * BeamDiameter * BeamDiameter);
+        //}
+
+
+        #endregion new
+
+        // modified 8/3: for the purpose of checking the implementation of the "general" use of
+        // the SFD representation of the Gaussian beam solution
         private double SFD_DiffusionGaussianBeamFluence(DiffusionParameters dp, double k, double z)
         {
             if (dp.mueff == dp.mutTilde) // solution domain of ODE must be modified for this case!
             {
                 throw new ArgumentException();
             }
-
+            // still yet to add any modifications yet... working on the hand derivation - ....
             var gamma = 3 * dp.musTilde * (dp.mutr + dp.gTilde * dp.mutTilde) /
                 (k * k + dp.mueff * dp.mueff - dp.mutTilde * dp.mutTilde)
                 * BeamDiameter * BeamDiameter * Math.Exp(-BeamDiameter * BeamDiameter * k * k / 32) / 16;
@@ -158,9 +192,6 @@ namespace Vts.Modeling.ForwardSolvers
                 Math.Exp(-Math.Sqrt(k * k + dp.mueff * dp.mueff) * z)) * 8 /
                     (Math.PI * BeamDiameter * BeamDiameter);
         }
-
-
-        #endregion new implementation
 
 
         public override double TemporalReflectance(DiffusionParameters dp, double rho, double t, double fr1, double fr2)

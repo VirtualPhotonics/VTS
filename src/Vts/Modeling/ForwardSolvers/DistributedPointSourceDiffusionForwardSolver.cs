@@ -54,7 +54,8 @@ namespace Vts.Modeling.ForwardSolvers
                     dpLocal.zp = zp;
                     return _pointSourceForwardSolver.StationaryFluence(rho, z, dpLocal);
                 },
-                dp.mutTilde);
+                dp.mutTilde) *
+                dp.musTilde / dp.mutTilde;
         }
 
         private double StationaryFlux(double rho, double z, DiffusionParameters dp)
@@ -67,7 +68,8 @@ namespace Vts.Modeling.ForwardSolvers
                     dpLocal.zp = zp;
                     return _pointSourceForwardSolver.StationaryFlux(rho, z, dpLocal);
                 },
-                dp.mutTilde);
+                dp.mutTilde) *
+                dp.musTilde / dp.mutTilde;
         }
 
         #endregion SteadyState
@@ -167,7 +169,8 @@ namespace Vts.Modeling.ForwardSolvers
                 CalculatorToolbox.EvaluateDistributedExponentialLineSourceIntegral(
                         zp => kernelFunc(dpLocalImag, rho, k, zp).Imaginary,
                         dp.mutTilde)
-                        ) * dp.musTilde;
+                        ) *
+                        dp.musTilde / dp.mutTilde;
 
         }
 
@@ -194,13 +197,13 @@ namespace Vts.Modeling.ForwardSolvers
                 };
 
             return
-                CalculatorToolbox.EvaluateDistributedExponentialLineSourceIntegral(
+                (CalculatorToolbox.EvaluateDistributedExponentialLineSourceIntegral(
                         zp => kernelFunc(dpLocalReal, zp).Real,
-                        dp.mutTilde) * dp.musTilde
+                        dp.mutTilde)
                 + Complex.ImaginaryOne *
                 CalculatorToolbox.EvaluateDistributedExponentialLineSourceIntegral(
                         zp => kernelFunc(dpLocalImag, zp).Imaginary,
-                        dp.mutTilde) * dp.musTilde;
+                        dp.mutTilde)) * dp.musTilde / dp.mutTilde;
         }
 
         #endregion Temporal Frequency Solutions
