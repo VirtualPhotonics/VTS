@@ -142,6 +142,20 @@ namespace Vts.Factories
 
             return func(parameters, inputValues.ToArray());
         }
+        /// <summary>
+        /// Overload of GetPHD that uses internal DI framework-supplied solver singletons
+        /// </summary>
+        /// <param name="forwardSolverType"></param>
+        /// <param name="fluence"></param>
+        /// <param name="sdSeparation"></param>
+        /// <param name="ops"></param>
+        /// <param name="rhos"></param>
+        /// <param name="zs"></param>
+        /// <returns></returns>
+        public static IEnumerable<double> GetPHD(ForwardSolverType forwardSolverType, IEnumerable<double> fluence, double sdSeparation, IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
+        {
+            return GetPHD(SolverFactory.GetForwardSolver(forwardSolverType), fluence, sdSeparation, ops, rhos, zs);
+        }
 
         public static IEnumerable<double> GetPHD(IForwardSolver forwardSolver, IEnumerable<double> fluence, double sdSeparation, IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
         {

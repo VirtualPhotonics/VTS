@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using SLExtensions.Input;
 using Vts.Common;
@@ -16,10 +17,10 @@ namespace Vts.SiteVisit.ViewModel
     /// </summary>
     public partial class FluenceSolverViewModel : BindableObject
     {
-        #region Fields
-
         private OptionViewModel<MapType> _MapTypeOptionVM;
-        private FluenceSolutionDomainOptionViewModel _SolutionDomainTypeOptionVM;
+        private FluenceSolutionDomainOptionViewModel _FluenceSolutionDomainTypeOptionVM;
+        private FluenceSolutionDomainOptionViewModel _AbsorbedEnergySolutionDomainTypeOptionVM;
+        private FluenceSolutionDomainOptionViewModel _PhotonHittingDensitySolutionDomainTypeOptionVM;
         private OptionViewModel<ForwardSolverType> _ForwardSolverTypeOptionVM;
         //private OptionViewModel<ForwardAnalysisType> _ForwardAnalysisTypeOptionVM;
 
@@ -28,18 +29,6 @@ namespace Vts.SiteVisit.ViewModel
         private double _SourceDetectorSeparation;
 
         private OpticalPropertyViewModel _OpticalPropertyVM;
-
-        // todo: This should be handled by a Controller, not dealt with directly
-        // by the ViewModel. Job of ViewModel is just to "surface" Model information
-        // to the View - shouldn't have to do any appreciable work/thinking/analysis.
-        // Currently, the Factories class is serving this need, but I'm afraid it's 
-        // getting too big...
-        public IForwardSolver ForwardSolver { get; set; }
-        //private IAnalyzer Analyzer { get; set; }
-
-        #endregion
-
-        #region Constructor
 
         public FluenceSolverViewModel()
         {
@@ -58,14 +47,9 @@ namespace Vts.SiteVisit.ViewModel
                 ForwardSolverType.PointSourceSDA,
                 ForwardSolverType.DistributedGaussianSourceSDA); // explicitly enabling these for the workshop;
 
-            ForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
-            {
-                ForwardSolver = SolverFactory.GetForwardSolver(ForwardSolverTypeOptionVM.SelectedValue);
-                this.OnPropertyChanged("IsGaussianForwardModel");
-                this.OnPropertyChanged("ForwardSolver");
-            };
-
-            SolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Solution Domain", FluenceSolutionDomainType.FluenceofRho);
+            FluenceSolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Fluence Solution Domain", FluenceSolutionDomainType.FluenceofRho);
+            AbsorbedEnergySolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Absorbed Energy Solution Domain", FluenceSolutionDomainType.FluenceofRho);
+            PhotonHittingDensitySolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("PHD Solution Domain", FluenceSolutionDomainType.FluenceofRho);
 
             MapTypeOptionVM = new OptionViewModel<MapType>(
                 "Map Type", 
@@ -80,18 +64,12 @@ namespace Vts.SiteVisit.ViewModel
                 this.OnPropertyChanged("IsPhotonHittingDensity");
             };
 
-            // ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output");
-
-            // model
-            UpdateModels();
+            ForwardSolverTypeOptionVM.PropertyChanged +=
+                (sender, args) => OnPropertyChanged("IsGaussianForwardModel");
 
             Commands.FluenceSolver_ExecuteFluenceSolver.Executed += ExecuteFluenceSolver_Executed;
             Commands.FluenceSolver_SetIndependentVariableRange.Executed += SetIndependentVariableRange_Executed;
         }
-
-        #endregion
-
-        #region Properties
 
         public bool IsGaussianForwardModel
         {
@@ -111,13 +89,31 @@ namespace Vts.SiteVisit.ViewModel
                 OnPropertyChanged("MapTypeOptionVM");
             }
         }
-        public FluenceSolutionDomainOptionViewModel SolutionDomainTypeOptionVM
+        public FluenceSolutionDomainOptionViewModel FluenceSolutionDomainTypeOptionVM
         {
-            get { return _SolutionDomainTypeOptionVM; }
+            get { return _FluenceSolutionDomainTypeOptionVM; }
             set
             {
-                _SolutionDomainTypeOptionVM = value;
-                OnPropertyChanged("SolutionDomainTypeOptionVM");
+                _FluenceSolutionDomainTypeOptionVM = value;
+                OnPropertyChanged("FluenceSolutionDomainTypeOptionVM");
+            }
+        }
+        public FluenceSolutionDomainOptionViewModel AbsorbedEnergySolutionDomainTypeOptionVM
+        {
+            get { return _AbsorbedEnergySolutionDomainTypeOptionVM; }
+            set
+            {
+                _AbsorbedEnergySolutionDomainTypeOptionVM = value;
+                OnPropertyChanged("AbsorbedEnergySolutionDomainTypeOptionVM");
+            }
+        }
+        public FluenceSolutionDomainOptionViewModel PhotonHittingDensitySolutionDomainTypeOptionVM
+        {
+            get { return _PhotonHittingDensitySolutionDomainTypeOptionVM; }
+            set
+            {
+                _PhotonHittingDensitySolutionDomainTypeOptionVM = value;
+                OnPropertyChanged("PhotonHittingDensitySolutionDomainTypeOptionVM");
             }
         }
         public OptionViewModel<ForwardSolverType> ForwardSolverTypeOptionVM
@@ -166,23 +162,6 @@ namespace Vts.SiteVisit.ViewModel
                 OnPropertyChanged("OpticalPropertyVM");
             }
         }
-        //public OptionViewModel<ForwardAnalysisType> ForwardAnalysisTypeOptionVM
-        //{
-        //    get { return _ForwardAnalysisTypeOptionVM; }
-        //    set
-        //    {
-        //        _ForwardAnalysisTypeOptionVM = value;
-        //        OnPropertyChanged("ForwardAnalysisTypeOptionVM");
-        //    }
-        //}
-
-        #endregion
-
-        private void UpdateModels()
-        {
-            ForwardSolver = SolverFactory.GetForwardSolver(ForwardSolverTypeOptionVM.SelectedValue);
-        }
-
         void SetIndependentVariableRange_Executed(object sender, ExecutedEventArgs e)
         {
             if (e.Parameter is RangeViewModel)
@@ -208,7 +187,7 @@ namespace Vts.SiteVisit.ViewModel
 
         private PlotAxesLabels GetPlotLabels()
         {
-            var sd = this.SolutionDomainTypeOptionVM;
+            var sd = GetSelectedSolutionDomain();
             PlotAxesLabels axesLabels = null;
             if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
             {
@@ -245,20 +224,21 @@ namespace Vts.SiteVisit.ViewModel
 
             IEnumerable<double>[] independentValues = new[] {rhos, zs };
 
+            var sd = GetSelectedSolutionDomain();
             // todo: too much thinking at the VM layer?
             double[] constantValues =
-                ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
-                    ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
+                ComputationFactory.IsSolverWithConstantValues(sd.SelectedValue)
+                    ? new double[] { sd.ConstantAxisValue } : new double[0];
 
             IndependentVariableAxis[] independentAxes = 
                 GetIndependentVariableAxesInOrder(
-                    SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
+                    sd.IndependentVariableAxisOptionVM.SelectedValue,
                     IndependentVariableAxis.Z);
 
             double[] fluence =
                 ComputationFactory.GetVectorizedMultidimensionalIndependentVariableQueryNew(
-                    ForwardSolver,
-                    SolutionDomainTypeOptionVM.SelectedValue,
+                    ForwardSolverTypeOptionVM.SelectedValue,
+                    sd.SelectedValue,
                     independentAxes,
                     independentValues,
                     OpticalPropertyVM.GetOpticalProperties(),
@@ -276,7 +256,7 @@ namespace Vts.SiteVisit.ViewModel
                     break;
                 case MapType.PhotonHittingDensity:
                     results = ComputationFactory.GetPHD(
-                        ForwardSolver,
+                        ForwardSolverTypeOptionVM.SelectedValue,
                         fluence,
                         SourceDetectorSeparation,
                         OpticalPropertyVM.GetOpticalProperties().AsEnumerable(),
@@ -307,6 +287,21 @@ namespace Vts.SiteVisit.ViewModel
             var sortedAxes = axes.OrderBy(ax => ax.GetMaxArgumentLocation()).ToArray();
 
             return sortedAxes;
+        }
+
+        private FluenceSolutionDomainOptionViewModel GetSelectedSolutionDomain()
+        {
+            switch (MapTypeOptionVM.SelectedValue)
+            {
+                case MapType.Fluence:
+                    return this.FluenceSolutionDomainTypeOptionVM;
+                case MapType.AbsorbedEnergy:
+                    return AbsorbedEnergySolutionDomainTypeOptionVM;
+                case MapType.PhotonHittingDensity:
+                    return PhotonHittingDensitySolutionDomainTypeOptionVM;
+                default:
+                    throw new InvalidEnumArgumentException("No solution domain of the specified type exists.");
+            }
         }
     }
 }

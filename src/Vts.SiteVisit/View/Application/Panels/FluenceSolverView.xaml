@@ -18,24 +18,21 @@
         <StackPanel
             Visibility="{Binding IsFluence, Converter={StaticResource myBooleanToVisibilityConverter}}">
             <v:FluenceSolutionDomainOptionView 
-                DataContext="{Binding SolutionDomainTypeOptionVM}" 
+                DataContext="{Binding FluenceSolutionDomainTypeOptionVM}" 
                 HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
         </StackPanel>
         
         <StackPanel
             Visibility="{Binding IsAbsorbedEnergy, Converter={StaticResource myBooleanToVisibilityConverter}}">
-
             <v:AbsorbedEnergySolutionDomainOptionView 
-            DataContext="{Binding SolutionDomainTypeOptionVM}" 
+            DataContext="{Binding AbsorbedEnergySolutionDomainTypeOptionVM}" 
             HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
         </StackPanel>
 
         <StackPanel
                 Visibility="{Binding IsPhotonHittingDensity, Converter={StaticResource myBooleanToVisibilityConverter}}">
             <v:PhotonHittingDensitySolutionDomainOptionView
-                DataContext="{Binding SolutionDomainTypeOptionVM}" 
+                DataContext="{Binding PhotonHittingDensitySolutionDomainTypeOptionVM}" 
                 HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </StackPanel>
         
