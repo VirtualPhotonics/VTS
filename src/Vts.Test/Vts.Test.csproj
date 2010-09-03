@@ -142,7 +142,7 @@
     <Compile Include="Modeling\MetaNumericsZeroOrderBesselFunction.cs" />
     <Compile Include="Modeling\ForwardSolvers\NurbsForwardSolverTest.cs" />
     <Compile Include="Modeling\ForwardSolvers\NurbsGeneratorTest.cs" />
-    <Compile Include="Modeling\ForwardSolvers\ValidateDiffusionReflectanceModels.cs" />
+    <Compile Include="Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs" />
     <Compile Include="Modeling\ValidateInverseSolution.cs" />
     <Compile Include="MonteCarlo\DataStructures\InputTests.cs" />
     <Compile Include="MonteCarlo\Detectors\DetectorInputTests.cs" />
@@ -1162,6 +1162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modeling\Optimizers\" />
+    <Folder Include="Modeling\Tools\" />
     <Folder Include="MonteCarlo\TallyActions\pMCTallies\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" Condition="" />

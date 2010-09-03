@@ -55,7 +55,7 @@ namespace Vts.Modeling.ForwardSolvers
                     return _pointSourceForwardSolver.StationaryFluence(rho, z, dpLocal);
                 },
                 dp.mutTilde) *
-                dp.musTilde / dp.mutTilde;
+                dp.musTilde;
         }
 
         private double StationaryFlux(double rho, double z, DiffusionParameters dp)
@@ -69,7 +69,7 @@ namespace Vts.Modeling.ForwardSolvers
                     return _pointSourceForwardSolver.StationaryFlux(rho, z, dpLocal);
                 },
                 dp.mutTilde) *
-                dp.musTilde / dp.mutTilde;
+                dp.musTilde;
         }
 
         #endregion SteadyState
@@ -114,7 +114,7 @@ namespace Vts.Modeling.ForwardSolvers
                     return _pointSourceForwardSolver.TemporalFluence(dpLocal, rho, z, t);
                 },
                 dp.mutTilde) *
-                dp.musTilde / dp.mutTilde;
+                dp.musTilde;
         }
 
         private double TemporalFlux(
@@ -130,7 +130,7 @@ namespace Vts.Modeling.ForwardSolvers
                         _pointSourceForwardSolver.TemporalFlux(dpLocal, rho, z, t);
                 },
                 dp.mutTilde) *
-                dp.musTilde / dp.mutTilde;
+                dp.musTilde;
         }
 
         #endregion Temporal Solutions
@@ -158,7 +158,8 @@ namespace Vts.Modeling.ForwardSolvers
                 {
                     dpLocal.zp = zp;
                     return
-                        _pointSourceForwardSolver.TemporalFrequencyReflectance(dpLocal, r, kLocal, fr1, fr2);
+                        _pointSourceForwardSolver.TemporalFrequencyReflectance(
+                        dpLocal, r, kLocal, fr1, fr2);
                 };
 
             return
@@ -170,7 +171,7 @@ namespace Vts.Modeling.ForwardSolvers
                         zp => kernelFunc(dpLocalImag, rho, k, zp).Imaginary,
                         dp.mutTilde)
                         ) *
-                        dp.musTilde / dp.mutTilde;
+                        dp.musTilde;
 
         }
 
@@ -203,7 +204,8 @@ namespace Vts.Modeling.ForwardSolvers
                 + Complex.ImaginaryOne *
                 CalculatorToolbox.EvaluateDistributedExponentialLineSourceIntegral(
                         zp => kernelFunc(dpLocalImag, zp).Imaginary,
-                        dp.mutTilde)) * dp.musTilde / dp.mutTilde;
+                        dp.mutTilde)
+                        ) * dp.musTilde;
         }
 
         #endregion Temporal Frequency Solutions

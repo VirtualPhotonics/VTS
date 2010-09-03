@@ -47,8 +47,10 @@ namespace Vts.Modeling.ForwardSolvers
         public static Complex TemporalFrequencyPointSourceGreensFunction(
             DiffusionParameters dp, double r, Complex k)
         {
-            return Math.Exp(-k.Real * r) / r * (Math.Cos(k.Imaginary * r) -
-                Complex.ImaginaryOne * Math.Sin(k.Imaginary * r)) / (4.0 * Math.PI * dp.D);
+            return Math.Exp(-k.Real * r) / r * (
+                Math.Cos(k.Imaginary * r) -
+                Complex.ImaginaryOne * Math.Sin(k.Imaginary * r)
+                ) / (4.0 * Math.PI * dp.D);
         }
 
         #endregion Infinite medium diffusion Greens Function : State Space

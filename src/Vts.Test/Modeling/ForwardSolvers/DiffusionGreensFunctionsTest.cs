@@ -16,15 +16,19 @@ namespace Vts.Test.Modeling.ForwardSolvers
         const double musp = 1;
 
         private static OpticalProperties ops = new OpticalProperties(mua, musp, g, n);
-        private DiffusionParameters dp = DiffusionParameters.Create(ops, ForwardModel.SDA);
+        private static DiffusionParameters dp = DiffusionParameters.Create(ops, ForwardModel.SDA);
 
+        private double[] rTestValues = new double[] { 1, 3, 10 };
+        private const double time = 0.05; //ns
+        private const double ft = 0.5; //GHz
+        private Complex k = ((mua * dp.cn + Complex.ImaginaryOne * ft * 2 * Math.PI) /
+                            (dp.cn * dp.D)).SquareRoot();
 
         // Green's Functions Tests...
         [Test]
         public void StationaryPointSourceGreensFunction_Test()
         {
-            double[] rTestValues = new double[] { 0, 1, 999999999999 };
-            double[] greensFunctionValues = new double[] { 1, 5, 0 }; // need to choose and verify values...
+            double[] greensFunctionValues = new double[] { 0.202598, 0.0476782, 0.00422923 };
 
             for (int iR = 0; iR < rTestValues.Length; iR++)
             {
@@ -39,9 +43,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         [Test]
         public void TemporalPointSourceGreensFunction_Test()
         {
-            double time = 1; //nss
-            double[] rTestValues = new double[] { 0, 1, 999999999999 };
-            double[] greensFunctionValues = new double[] { 1, 5, 0 }; // need to choose and verify values...
+            double[] greensFunctionValues = new double[] { 0.605791, 0.343966, 0.000550124 };
 
             for (int iR = 0; iR < rTestValues.Length; iR++)
             {
@@ -56,26 +58,22 @@ namespace Vts.Test.Modeling.ForwardSolvers
         [Test]
         public void TemporalFrequencyPointSourceGreensFunction_Test()
         {
-            double ft = 1;
-            Complex k = ((mua * dp.cn + Complex.ImaginaryOne * ft * 2 * Math.PI) /
-                           (dp.cn * dp.D)).SquareRoot();
-            double[] rTestValues = new double[] { 0, 1, 999999999999 };
-            double[] greensFunctionValues = new double[] { 1, 5, 0 }; // need to choose and verify values...
+            double[] realGreensFunctionValues = new double[] { 0.195264, 0.0411688, 0.00145147 };
+            double[] imaginaryGreensFunctionValues = new double[] { -0.0212481, -0.0138797, -0.00274176 };
+
 
             for (int iR = 0; iR < rTestValues.Length; iR++)
             {
-                var relDiff = Complex.Abs(
-                    DiffusionGreensFunctions.TemporalFrequencyPointSourceGreensFunction(dp, rTestValues[iR], k) -
-                    greensFunctionValues[iR]) / greensFunctionValues[iR];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for r =" + rTestValues[iR] +
-                    "mm, with relative difference " + relDiff);
+                var tfpsGF = DiffusionGreensFunctions.TemporalFrequencyPointSourceGreensFunction(dp, rTestValues[iR], k);
+
+                var relDiffReal = Math.Abs(tfpsGF.Real - realGreensFunctionValues[iR]) / realGreensFunctionValues[iR];
+                Assert.IsTrue(relDiffReal < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                    "mm, with relative difference " + relDiffReal + " for the real compoment" + ". For tfpsGF.Real = " + tfpsGF.Real +
+                    " with magnitude " + tfpsGF.Magnitude);
+                var relDiffImag = Math.Abs(tfpsGF.Imaginary - imaginaryGreensFunctionValues[iR]) / imaginaryGreensFunctionValues[iR];
+                Assert.IsTrue(relDiffImag < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                    "mm, with relative difference " + relDiffReal + " for the imaginary compoment");
             }
         }
-
-
-
-
-
-
     }
 }
