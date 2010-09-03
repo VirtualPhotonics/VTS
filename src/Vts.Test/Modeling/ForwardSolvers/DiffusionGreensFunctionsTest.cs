@@ -68,12 +68,63 @@ namespace Vts.Test.Modeling.ForwardSolvers
 
                 var relDiffReal = Math.Abs(tfpsGF.Real - realGreensFunctionValues[iR]) / realGreensFunctionValues[iR];
                 Assert.IsTrue(relDiffReal < thresholdValue, "Test failed for r =" + rTestValues[iR] +
-                    "mm, with relative difference " + relDiffReal + " for the real compoment" + ". For tfpsGF.Real = " + tfpsGF.Real +
-                    " with magnitude " + tfpsGF.Magnitude);
+                    "mm, with relative difference " + relDiffReal + " for the real compoment");
                 var relDiffImag = Math.Abs(tfpsGF.Imaginary - imaginaryGreensFunctionValues[iR]) / imaginaryGreensFunctionValues[iR];
                 Assert.IsTrue(relDiffImag < thresholdValue, "Test failed for r =" + rTestValues[iR] +
                     "mm, with relative difference " + relDiffReal + " for the imaginary compoment");
             }
         }
+
+        [Test]
+        public void StationaryPointSourceGreensFunctionZFlux_Test()
+        {
+            double[] greensFunctionValues = new double[] { -0.0777258, -0.00263504, -3.78754e-5 };
+
+            for (int iR = 0; iR < rTestValues.Length; iR++)
+            {
+                var relDiff = Math.Abs(
+                    DiffusionGreensFunctions.StationaryPointSourceGreensFunctionZFlux(dp, rTestValues[iR], -dp.zp) -
+                    greensFunctionValues[iR]) / greensFunctionValues[iR];
+                Assert.IsTrue(relDiff < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                    "mm, with relative difference " + relDiff);
+            }
+        }
+
+        [Test]
+        public void TemporalPointSourceGreensFunctionZFlux_Test()
+        {
+            double[] greensFunctionValues = new double[] { -0.0280097, -0.0159038, -2.54359e-5 };
+
+            for (int iR = 0; iR < rTestValues.Length; iR++)
+            {
+                var relDiff = Math.Abs(
+                    DiffusionGreensFunctions.TemporalPointSourceGreensFunctionZFlux(dp, rTestValues[iR], -dp.zp, time) -
+                    greensFunctionValues[iR]) / greensFunctionValues[iR];
+                Assert.IsTrue(relDiff < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                    "mm, with time =" + time + "with relative difference " + relDiff);
+            }
+        }
+
+        [Test]
+        public void TemporalFrequencyPointSourceGreensFunctionZFlux_Test()
+        {
+            double[] realGreensFunctionValues = new double[] { -0.0776417, -0.00257811, -2.41795e-5 };
+            double[] imaginaryGreensFunctionValues = new double[] { 0.00145096, 0.000327894, 2.21896e-5 };
+
+
+            for (int iR = 0; iR < rTestValues.Length; iR++)
+            {
+                var tfpsGF = DiffusionGreensFunctions.TemporalFrequencyPointSourceGreensFunctionZFlux(dp, rTestValues[iR], -dp.zp, k);
+
+                var relDiffReal = Math.Abs(tfpsGF.Real - realGreensFunctionValues[iR]) / realGreensFunctionValues[iR];
+                Assert.IsTrue(relDiffReal < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                    "mm, with relative difference " + relDiffReal + " for the real compoment");
+                var relDiffImag = Math.Abs(tfpsGF.Imaginary - imaginaryGreensFunctionValues[iR]) / imaginaryGreensFunctionValues[iR];
+                Assert.IsTrue(relDiffImag < thresholdValue, "Test failed for r =" + rTestValues[iR] +
+                    "mm, with relative difference " + relDiffReal + " for the imaginary compoment");
+            }
+        }
+
+
     }
 }

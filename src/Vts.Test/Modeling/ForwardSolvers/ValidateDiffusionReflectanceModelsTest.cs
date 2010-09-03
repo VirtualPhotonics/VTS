@@ -58,19 +58,19 @@ namespace Vts.Test.Modeling.ForwardSolvers
             }
         }
 
-        [Test]
-        public void SteadyStateGaussianBeamSourceTest()
-        {
-            var _gaussianSourceForwardSolver = new DistributedGaussianSourceSDAForwardSolver(1.0);
-            double[] RofRhos = new double[] { 0.0275484377948659, 0.0056759402180221, 0.000216099942550358 };
-            for (int irho = 0; irho < rhos.Length; irho++)
-            {
-                var relDiff = Math.Abs(_gaussianSourceForwardSolver.StationaryReflectance(dp, rhos[irho], f1, f2) -
-                    RofRhos[irho]) / RofRhos[irho];
-                Assert.IsTrue(relDiff < thresholdValue, "Test not passed for rho =" + rhos[irho] +
-                    "mm, with relative difference " + relDiff);
-            }
-        }
+        //[Test]
+        //public void SteadyStateGaussianBeamSourceTest()
+        //{
+        //    var _gaussianSourceForwardSolver = new DistributedGaussianSourceSDAForwardSolver(1.0);
+        //    double[] RofRhos = new double[] { 0.0275484377948659, 0.0056759402180221, 0.000216099942550358 };
+        //    for (int irho = 0; irho < rhos.Length; irho++)
+        //    {
+        //        var relDiff = Math.Abs(_gaussianSourceForwardSolver.StationaryReflectance(dp, rhos[irho], f1, f2) -
+        //            RofRhos[irho]) / RofRhos[irho];
+        //        Assert.IsTrue(relDiff < thresholdValue, "Test not passed for rho =" + rhos[irho] +
+        //            "mm, with relative difference " + relDiff);
+        //    }
+        //}
 
         #endregion SteadyState Reflectance
 
