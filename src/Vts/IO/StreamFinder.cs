@@ -33,7 +33,7 @@ namespace Vts.IO
             string fullPath = currentAssemblyDirectoryName + "\\" + projectName;
 
             Assembly assembly = null;
-            
+
             if (File.Exists(fullPath + ".dll"))
             {
                 assembly = Assembly.LoadFrom(fullPath + ".dll");
@@ -68,9 +68,39 @@ namespace Vts.IO
             return new IsolatedStorageFileStream(filename, fileMode,
                 IsolatedStorageFile.GetUserStoreForApplication());
 #else
-            string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string fullPath = currentAssemblyDirectoryName + "\\" + filename;
-            return File.Open(fullPath, fileMode);
+            FileStream fs = null;
+
+            try
+            {
+                fs = File.Open(filename, fileMode);
+            }
+            catch
+            {
+                // problem locating file
+            }
+
+            if (fs != null)
+            {
+                return fs;
+            }
+
+            try
+            {
+                string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string fullPath = currentAssemblyDirectoryName + "\\" + filename;
+                fs = File.Open(fullPath, fileMode);
+            }
+            catch
+            {
+                // problem locating file
+            }
+
+            if (fs != null)
+            {
+                return fs;
+            }
+
+            return null;
 #endif
         }
 
