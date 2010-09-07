@@ -8,15 +8,15 @@
     xmlns:Charts="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
     HorizontalAlignment="Left" VerticalAlignment="Top">
 
-    <Grid Background="White">
+    <Grid Background="White" ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition MinHeight="200"/>
+            <RowDefinition MinHeight="250"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition MinWidth="400"/>
+            <ColumnDefinition MinWidth="450"/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Row="0" Grid.Column="1">
@@ -25,7 +25,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition MinWidth="350"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="-rho_max" HorizontalAlignment="Left"/>
@@ -33,9 +33,9 @@
             <TextBlock Grid.Row="0" Grid.Column="2" Text="+rho_max" HorizontalAlignment="Right"/>
         </Grid>
 
-        <Grid Grid.Row="1" Grid.Column="0">
+        <Grid Grid.Row="1" Grid.Column="0" ShowGridLines="False">
             <Grid.RowDefinitions>
-                <RowDefinition Height="200"/>
+                <RowDefinition Height="210"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="z=0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
@@ -45,10 +45,10 @@
         <StackPanel
                 Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
             <Image 
-                    Height="200"
-                    Width="400"
+                    Height="225"
+                    Width="450"
                     Source="{Binding Bitmap}" Stretch="Uniform" VerticalAlignment="Top" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                     <TextBlock Text="Mean Depth: " Margin="0,3" VerticalAlignment="Bottom"/>
                     <TextBox Text="{Binding YExpectationValue, Mode=OneWay, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}" VerticalAlignment="Bottom" MinWidth="30"/>
@@ -63,12 +63,10 @@
             </StackPanel>
         </StackPanel>
 
-        <Grid
-               Grid.Column="1" Grid.Row="2"
-               Width="400" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <Grid Grid.Column="1" Grid.Row="2" Width="450" HorizontalAlignment="Center" VerticalAlignment="Top" ShowGridLines="False">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="225"/>
+                <ColumnDefinition Width="225"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -86,7 +84,7 @@
 
             <Image 
                     Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Top"
-                    Height="30" Width="400"
+                    Height="30" Width="450"
                     Source="{Binding ColorBar}" Stretch="Fill" />
 
             <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3">

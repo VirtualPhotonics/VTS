@@ -9,8 +9,9 @@ namespace Vts.Test.Modeling.ForwardSolvers
     public class BSplinesCoefficientsTest
     {
         private BSplinesCoefficients bSplinesCoefficients = null;
+
         [SetUp]
-        private void SetUp()
+        public void SetUp()
         {
             bSplinesCoefficients = new BSplinesCoefficients();
         }
@@ -48,7 +49,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         }
 
         [TearDown]
-        private void TearDown()
+        public void TearDown()
         {
             bSplinesCoefficients = null;
         }
