@@ -22,7 +22,7 @@ namespace Vts.ReportInverseSolver.Desktop
             var inputPath = @"..\..\Resources\";
             string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             inputPath = currentAssemblyDirectoryName + "\\" + inputPath;
-            
+
             //R(rho)
             ChooseDataAndReportRofRho(projectName, inputPath);
             //R(rho,t)
@@ -37,7 +37,7 @@ namespace Vts.ReportInverseSolver.Desktop
             // ratio detectors
             int[] rDs = { 1, 2, 4, 8 };
             // noise percentage
-            double[] nPs = {0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 10.0};
+            double[] nPs = { 0.0, 0.1, 1.0, 10.0};
             //choose rho ranges
             var rhoRanges = new double[][]{
                                            new double[] {0.625,21.875},
@@ -46,7 +46,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                            new double[] {13.125, 21.875},
                                           };
             //IFT
-            InverseFitType[] IFTs = { InverseFitType.MuaMusp, InverseFitType.Mua, InverseFitType.Musp };//recovered op
+            InverseFitType[] IFTs = { InverseFitType.MuaMusp };//, InverseFitType.Mua, InverseFitType.Musp };//recovered op
 
             //fs definition
             var forwardSolverTypes = new ForwardSolverType[]
@@ -70,7 +70,7 @@ namespace Vts.ReportInverseSolver.Desktop
             var n = 1.4;
             //guess
             var guessMuas = new double[] { 0.0042, 0.0173, 0.0721 };//[mm-1]
-            var guessMusps = new double[] { 0.875, 1.25, 1.625};//[mm-1]
+            var guessMusps = new double[] { 0.875, 1.25, 1.625 };//[mm-1]
             var guessOps =
                       from musp in guessMusps
                       from mua in guessMuas
@@ -98,7 +98,7 @@ namespace Vts.ReportInverseSolver.Desktop
                             foreach (var IFT in IFTs)
                             {
                                 ReportInverseSolverRofRho(drho, rhoRange, IFT, projectName, inputPath,
-                                    forwardSolverTypes, optimizerTypes, guessOps, realOps, rD,nP, stepByStep);
+                                    forwardSolverTypes, optimizerTypes, guessOps, realOps, rD, nP, stepByStep);
                             }
                         }
                     }
@@ -109,16 +109,16 @@ namespace Vts.ReportInverseSolver.Desktop
         }
 
         private static void ChooseDataAndReportRofRhoAndT(string projectName,
-                                                  string inputPath)
+                                                          string inputPath)
         {
             // noise percentage
-            double[] nPs = { 0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 10.0 };
+            double[] nPs = { 0.0, 0.1, 1.0, 10.0 };
             //choose data & run report for R(r,t)
-            double[] dts = { 0.001, 0.005, 0.025 };//ps
+            double[] dts = { 0.001, 0.005, 0.025 };//ns
             double[] riseMarkers = { 80.0, 50.0 };// % peak value
             double[] tailMarkers = { 20.0, 1.0, 0.1 };// % peak value
             string stDevMode = "A";// U = Uniform, A = Absolute, R = Relative //can be removed
-            InverseFitType[] IFTs = { InverseFitType.MuaMusp, InverseFitType.Mua, InverseFitType.Musp };//recovered op
+            InverseFitType[] IFTs = { InverseFitType.MuaMusp };//, InverseFitType.Mua, InverseFitType.Musp };//recovered op
             bool stepByStep = false;//boolean variable used to proceed 'step by step' during the report, to view the output on the console window
 
             //fs definition
@@ -251,19 +251,17 @@ namespace Vts.ReportInverseSolver.Desktop
                             var Stot = (IEnumerable<double>)FileIO.ReadArrayFromBinaryInResources<double>
                                                   ("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + filename + "S", projectName, 88);
                             for (int i = firstInd; i <= lastInd; i++)
-                            {   
+                            {
                                 R[i - firstInd] = Rtot.ToArray()[i];
                                 S[i - firstInd] = Stot.ToArray()[i];
                             }
-                            if (ratioDetectors != 1)
-                            {
-                                rhos = FilterArray(rhos, ratioDetectors);
-                                R = FilterArray(R, ratioDetectors);
-                                S = FilterArray(S, ratioDetectors);
-                            }
+                            var mrhos = FilterArray(rhos, ratioDetectors);
+                            var mR = FilterArray(R, ratioDetectors);
+                            var mS = FilterArray(S, ratioDetectors);
+
                             if (noisePercentage != 0.0)
                             {
-                                R.AddNoise(noisePercentage);
+                                mR.AddNoise(noisePercentage);
                             }
                             start = DateTime.Now;
                             int covergedCounter = 0;
@@ -276,7 +274,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                 //solve inverse problem
                                 double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
                                                                fST, oT, SolutionDomainType.RofRho,
-                                                               IndependentVariableAxis.Rho, rhos, R, S, gOp, IFT);
+                                                               IndependentVariableAxis.Rho, mrhos, mR, mS, gOp, IFT);
                                 if (fit[0] != 0 && fit[1] != 0)
                                 {
                                     converged = true;
@@ -290,7 +288,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                 {
                                     OpticalProperties fOp = new OpticalProperties(fit[0], fit[1], gOp.G, gOp.N);
                                     //calculate chi squared and change values if it improved
-                                    double chiSquared = EvaluateChiSquared(R, SolverFactory.GetForwardSolver(fST).RofRho(fOp.AsEnumerable(), rhos).ToArray(), S);
+                                    double chiSquared = EvaluateChiSquared(mR, SolverFactory.GetForwardSolver(fST).RofRho(fOp.AsEnumerable(), mrhos).ToArray(), mS);
                                     if (chiSquared < bestChiSquared)
                                     {
                                         guessBestMua = gOp.Mua;
@@ -311,12 +309,12 @@ namespace Vts.ReportInverseSolver.Desktop
                             meanChiSquared /= covergedCounter;
                             elapsedSeconds = (end - start).TotalSeconds;
 
-                            MakeDirectoryIfNonExistent(new string[]{spaceDomainFolder, timeDomainFolder, problemFolder, fST.ToString(), oT.ToString(), IFT.ToString()});
+                            MakeDirectoryIfNonExistent(new string[] { spaceDomainFolder, timeDomainFolder, problemFolder, fST.ToString(), oT.ToString(), IFT.ToString() });
                             //write results to array
                             double[] inverseProblemValues = FillInverseSolverValuesArray(bestMua, meanMua, guessBestMua,
                                                                                          bestMusp, meanMusp, guessBestMusp,
                                                                                          bestChiSquared, meanChiSquared,
-                                                                                         elapsedSeconds, numberOfPoints);
+                                                                                         elapsedSeconds, mR.Count());
                             // write array to binary
                             LocalWriteArrayToBinary<double>(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
                                                             timeDomainFolder + "/" + problemFolder + "/" + fST.ToString() + "/" +
@@ -349,7 +347,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                           IEnumerable<OpticalProperties> guessOps,
                                                           IEnumerable<OpticalProperties> realOps,
                                                           double[] rhos,
-                                                          double noisePercentage, 
+                                                          double noisePercentage,
                                                           bool stepByStep)
         {
             Console.WriteLine("#############################################");
@@ -359,7 +357,7 @@ namespace Vts.ReportInverseSolver.Desktop
             string spaceDomainFolder = "Real";
             string timeDomainFolder = "TimeDomain";
             string noiseFolder = "noise" + noisePercentage.ToString();
-            string problemFolder =  "dt" + (dt * 1000).ToString() + "markers" + riseMarker.ToString() +
+            string problemFolder = "dt" + (dt * 1000).ToString() + "markers" + riseMarker.ToString() +
                                     tailMarker.ToString();
             problemFolder = problemFolder.Replace(".", "p");
 
@@ -417,7 +415,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                                    projectName, stDevMode, numberOfPoints, R.ToArray());
                                 if (noisePercentage != 0.0)
                                 {
-                                    R.AddNoise(noisePercentage);
+                                    R = R.AddNoise(noisePercentage);
                                 }
                                 start = DateTime.Now;
                                 int convergedCounter = 0;
@@ -464,7 +462,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                 meanChiSquared /= convergedCounter;
                                 elapsedSeconds = (end - start).TotalSeconds;
 
-                                MakeDirectoryIfNonExistent(new string[]{spaceDomainFolder, timeDomainFolder, noiseFolder, problemFolder, fST.ToString(), oT.ToString(), IFT.ToString(), rhoFolder});
+                                MakeDirectoryIfNonExistent(new string[] { spaceDomainFolder, timeDomainFolder, noiseFolder, problemFolder, fST.ToString(), oT.ToString(), IFT.ToString(), rhoFolder });
                                 //write results to array
                                 double[] inverseProblemValues = FillInverseSolverValuesArray(bestMua, meanMua, guessBestMua,
                                                                                              bestMusp, meanMusp, guessBestMusp,
@@ -558,7 +556,7 @@ namespace Vts.ReportInverseSolver.Desktop
             {
                 fullPath += folders[i] + "/";
             }
-            if (!(Directory.Exists( fullPath)))
+            if (!(Directory.Exists(fullPath)))
             {
                 Directory.CreateDirectory(fullPath);
             }
