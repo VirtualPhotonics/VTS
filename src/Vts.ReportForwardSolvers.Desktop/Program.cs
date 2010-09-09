@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.IO;
+using System.Linq;
 using Vts.IO;
 using Vts.Factories;
 using Vts.Modeling.ForwardSolvers;
-using System.IO;
-using System.Linq;
 using Vts.Extensions;
-using System.Reflection;
-
+using Vts.Common;
 namespace Vts.ReportForwardSolvers.Desktop
 {
     class Program
@@ -30,24 +30,24 @@ namespace Vts.ReportForwardSolvers.Desktop
 
             var forwardSolverTypes = new ForwardSolverType[]
                       {
+                          //ForwardSolverType.Nurbs,
                           ForwardSolverType.MonteCarlo,
-                          ForwardSolverType.PointSourceSDA,
+                          //ForwardSolverType.PointSourceSDA,
                           //ForwardSolverType.DistributedPointSDA,
                           //ForwardSolverType.DistributedGaussianSDA,
                           //ForwardSolverType.DeltaPOne,
-                          ForwardSolverType.Nurbs,
                       };
 
             var spatialDomainTypes = new SpatialDomainType[]
                      {
-                         SpatialDomainType.Real,
-                         //SpatialDomainType.SpatialFrequency,
+                         //SpatialDomainType.Real,
+                         SpatialDomainType.SpatialFrequency,
                      };
 
             var timeDomainTypes = new TimeDomainType[]
                      {
                          TimeDomainType.SteadyState,
-                         TimeDomainType.TimeDomain,
+                         //TimeDomainType.TimeDomain,
                          //TimeDomainType.FrequencyDomain,   
                      };
 
@@ -92,12 +92,22 @@ namespace Vts.ReportForwardSolvers.Desktop
             filename = filename.Replace(".", "p");
             Console.WriteLine("Looking for file {0} in spatial domain type {1}", filename, sDT.ToString());
 
-            if (File.Exists(inputPath + sDT.ToString() + "/SteadyState/" + filename))
+            if (File.Exists(inputPath + sDT.ToString() + "/SteadyState/" + filename)|| sDT == SpatialDomainType.SpatialFrequency)//qui ci metto or if sfd domain
             {
                 Console.WriteLine("The file {0} has been found.", filename);
                 int sDim = GetSpatialNumberOfPoints(sDT);
-                var spatialVariable = (IEnumerable<double>)FileIO.ReadArrayFromBinaryInResources<double>
+                //qui if real...se sfd ci metto double range..poi continua.. easy.
+                IEnumerable<double> spatialVariable;
+                if (sDT == SpatialDomainType.Real)
+                {
+                    spatialVariable = (IEnumerable<double>)FileIO.ReadArrayFromBinaryInResources<double>
                                       ("Resources/" + sDT.ToString() + "/SteadyState/" + filename, projectName, sDim);
+                }
+                else
+                {
+                    spatialVariable = new DoubleRange(0.0, 10.0, sDim).AsEnumerable(); 
+                }
+                
                 foreach (var fST in fSTs)
                 {
                     EvaluateAndWriteForwardSolverSteadyStateResults(fST, sDT, op, spatialVariable);
@@ -207,7 +217,7 @@ namespace Vts.ReportForwardSolvers.Desktop
             }
             else if (sDT == SpatialDomainType.SpatialFrequency)
             {
-                sDim = 200;
+                sDim = 1001;
             }
             else
             {

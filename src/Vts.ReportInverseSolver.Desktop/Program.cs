@@ -23,11 +23,90 @@ namespace Vts.ReportInverseSolver.Desktop
             string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             inputPath = currentAssemblyDirectoryName + "\\" + inputPath;
 
+            //R(fx)
+            ChooseDataAndReportRofFx(projectName, inputPath);
             //R(rho)
             ChooseDataAndReportRofRho(projectName, inputPath);
             //R(rho,t)
             ChooseDataAndReportRofRhoAndT(projectName, inputPath);
 
+        }
+        private static void ChooseDataAndReportRofFx(string projectName, string inputPath)
+        {
+            //choose dfx
+            double[] dfxs = { 0.01 };// 1/mm
+            // ratio detectors
+            int[] rDs = { 1, 2, 5, 10};
+            // noise percentage
+            double[] nPs = { 0.0, 0.1, 1.0, 10.0 };
+            //choose fx ranges
+            var fxRanges = new double[][]{
+                                           new double[] {0.0, 1.0},
+                                           new double[] {0.0, 0.33},
+                                           new double[] {0.33, 0.66},
+                                           new double[] {0.66, 1.0},
+                                          };
+            //IFT
+            InverseFitType[] IFTs = { InverseFitType.MuaMusp };//, InverseFitType.Mua, InverseFitType.Musp };//recovered op
+
+            //fs definition
+            var forwardSolverTypes = new ForwardSolverType[]
+                      {
+                          ForwardSolverType.Nurbs,
+                          ForwardSolverType.PointSourceSDA,
+                          //ForwardSolverType.DistributedPointSourceSDA,
+                          //ForwardSolverType.MonteCarlo,
+                          //ForwardSolverType.DistributedPointSDA,
+                          //ForwardSolverType.DistributedGaussianSDA,
+                          //ForwardSolverType.DeltaPOne,
+                      };
+            //optimizer definition
+            var optimizerTypes = new OptimizerType[]
+                      {
+                          OptimizerType.MPFitLevenbergMarquardt,
+                      };
+
+            //optical properties definition
+            var g = 0.8;
+            var n = 1.4;
+            //guess
+            var guessMuas = new double[] { 0.0012, 0.0113, 0.0921 };//[mm-1]
+            var guessMusps = new double[] { 0.875, 1.25, 1.625 };//[mm-1]
+            var guessOps =
+                      from musp in guessMusps
+                      from mua in guessMuas
+                      select new OpticalProperties(mua, musp, g, n);
+            //real
+            var realMuas = new double[] { 0.001, 0.01, 0.03, 0.1, 0.3 };//[mm-1]
+            var realMusps = new double[] { 0.5, 0.7, 1.0, 1.2, 1.5, 2.0 };//[mm-1]
+            var realOps =
+                      from musp in realMusps
+                      from mua in realMuas
+                      select new OpticalProperties(mua, musp, g, n);
+
+            // console visualization
+            bool stepByStep = false;//boolean variable used to proceed 'step by step' during the report, to view the output on the console window
+
+            //execute
+            foreach (var dfx in dfxs)
+            {
+                foreach (var rD in rDs)
+                {
+                    foreach (var nP in nPs)
+                    {
+                        foreach (var fxRange in fxRanges)
+                        {
+                            foreach (var IFT in IFTs)
+                            {
+                                ReportInverseSolverRofFx(dfx, fxRange, IFT, projectName, inputPath,
+                                    forwardSolverTypes, optimizerTypes, guessOps, realOps, rD, nP, stepByStep);
+                            }
+                        }
+                    }
+                }
+            }
+            Console.WriteLine(" -------------- THE END for RofRho --------------");
+            if (stepByStep) { Console.ReadLine(); }
         }
 
         private static void ChooseDataAndReportRofRho(string projectName, string inputPath)
@@ -178,6 +257,159 @@ namespace Vts.ReportInverseSolver.Desktop
             }
             Console.WriteLine(" -------------- THE END for RofRhoAndT --------------");
             if (stepByStep) { Console.ReadLine(); }
+        }
+
+        private static void ReportInverseSolverRofFx(double dfx,
+                                                      double[] fxRange,
+                                                      InverseFitType IFT,
+                                                      string projectName,
+                                                      string inputPath,
+                                                      ForwardSolverType[] forwardSolverTypes,
+                                                      OptimizerType[] optimizerTypes,
+                                                      IEnumerable<OpticalProperties> guessOps,
+                                                      IEnumerable<OpticalProperties> realOps,
+                                                      int ratioDetectors,
+                                                      double noisePercentage,
+                                                      bool stepByStep)
+        {
+            Console.WriteLine("#############################################");
+            Console.WriteLine("####### REPORT INVERSE SOLVER: RofFx #######");
+            Console.WriteLine("#############################################");
+            //path definition
+            string spaceDomainFolder = "SpatialFrequency";
+            string timeDomainFolder = "SteadyState";
+            string problemFolder = "dfx" + dfx.ToString() + "/" + "ratioD" + ratioDetectors.ToString() + "/" +
+                                   "noise" + noisePercentage.ToString() + "/" + "range" +  fxRange[0].ToString() + "_" + fxRange[1].ToString();
+            problemFolder = problemFolder.Replace(".", "p");
+            //fxs based on range
+            int numberOfPoints = Convert.ToInt32((fxRange[1] - fxRange[0]) / dfx) + 1;
+            var fxs = new DoubleRange(fxRange[0], fxRange[1], numberOfPoints).AsEnumerable().ToArray();
+            double[] R = new double[numberOfPoints];
+            //it is different from rho because I am using values not middle point
+            int firstInd = Convert.ToInt32(fxRange[0] / dfx);
+            int lastInd = Convert.ToInt32(fxRange[1] / dfx);
+
+            foreach (var fST in forwardSolverTypes)
+            {
+                Console.WriteLine("Forward Solver Type: {0}", fST.ToString());
+                foreach (var oT in optimizerTypes)
+                {
+                    Console.WriteLine("Optimizer Type: {0}", oT.ToString());
+                    if (stepByStep) { Console.WriteLine("Press enter to continue"); }
+                    Console.WriteLine("==============================================");
+                    if (stepByStep) { Console.ReadLine(); }
+
+                    foreach (var rOp in realOps)
+                    {
+                        //output 
+                        double bestMua = 0.0;
+                        double meanMua = 0.0;
+                        double guessBestMua = 0.0;
+                        double bestMusp = 0.0;
+                        double meanMusp = 0.0;
+                        double guessBestMusp = 0.0;
+                        double bestChiSquared = 10000000000000.0;//initialize very large to avoid if first
+                        double meanChiSquared = 0.0;
+                        DateTime start = new DateTime();//processing start time
+                        DateTime end = new DateTime();//processing finish time
+                        double elapsedSeconds;//processing time
+
+                        //set filename based on real optical properties
+                        var filename = "musp" + rOp.Musp.ToString() + "mua" + rOp.Mua.ToString();
+                        filename = filename.Replace(".", "p");
+                        Console.WriteLine("Looking for file {0}", filename);
+
+                        if (File.Exists(inputPath + spaceDomainFolder + "/" + timeDomainFolder + "/" + filename + "R"))
+                        {
+                            Console.WriteLine("The file has been found");
+                            //read binary files
+                            var Rtot = (IEnumerable<double>)FileIO.ReadArrayFromBinaryInResources<double>
+                                                  ("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + filename + "R", projectName, 101);
+                            //var Stot = (IEnumerable<double>)FileIO.ReadArrayFromBinaryInResources<double>
+                              //                    ("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + filename + "S", projectName, 88);
+                            for (int i = firstInd; i <= lastInd; i++)
+                            {
+                                R[i - firstInd] = Rtot.ToArray()[i];
+                                //S[i - firstInd] = Stot.ToArray()[i];
+                            }
+                            var mfxs = FilterArray(fxs, ratioDetectors);
+                            var mR = FilterArray(R, ratioDetectors);
+                            var mS = mR;
+
+                            if (noisePercentage != 0.0)
+                            {
+                                mR.AddNoise(noisePercentage);
+                            }
+                            start = DateTime.Now;
+                            int covergedCounter = 0;
+                            foreach (var gOp in guessOps)
+                            {
+                                bool converged;
+                                //if fitting only one parameter change the guess to the true value
+                                if (IFT == InverseFitType.Mua) { gOp.Musp = rOp.Musp; }
+                                if (IFT == InverseFitType.Musp) { gOp.Mua = rOp.Mua; }
+                                //solve inverse problem
+                                double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
+                                                               fST, oT, SolutionDomainType.RofFx,
+                                                               IndependentVariableAxis.Rho, mfxs, mR, mS, gOp, IFT);
+                                if (fit[0] != 0 && fit[1] != 0)
+                                {
+                                    converged = true;
+                                }
+                                else
+                                {
+                                    converged = false;
+                                }
+                                // fitted op
+                                if (converged)
+                                {
+                                    OpticalProperties fOp = new OpticalProperties(fit[0], fit[1], gOp.G, gOp.N);
+                                    //calculate chi squared and change values if it improved
+                                    double chiSquared = EvaluateChiSquared(mR, SolverFactory.GetForwardSolver(fST).RofFx(fOp.AsEnumerable(), mfxs).ToArray(), mS);
+                                    if (chiSquared < bestChiSquared)
+                                    {
+                                        guessBestMua = gOp.Mua;
+                                        bestMua = fit[0];
+                                        guessBestMusp = gOp.Musp;
+                                        bestMusp = fit[1];
+                                        bestChiSquared = chiSquared;
+                                    }
+                                    meanMua += fit[0];
+                                    meanMusp += fit[1];
+                                    meanChiSquared += chiSquared;
+                                    covergedCounter += 1;
+                                }
+                            }
+                            end = DateTime.Now;
+                            meanMua /= covergedCounter;
+                            meanMusp /= covergedCounter;
+                            meanChiSquared /= covergedCounter;
+                            elapsedSeconds = (end - start).TotalSeconds;
+
+                            MakeDirectoryIfNonExistent(new string[] { spaceDomainFolder, timeDomainFolder, problemFolder, fST.ToString(), oT.ToString(), IFT.ToString() });
+                            //write results to array
+                            double[] inverseProblemValues = FillInverseSolverValuesArray(bestMua, meanMua, guessBestMua,
+                                                                                         bestMusp, meanMusp, guessBestMusp,
+                                                                                         bestChiSquared, meanChiSquared,
+                                                                                         elapsedSeconds, mR.Count());
+                            // write array to binary
+                            LocalWriteArrayToBinary<double>(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
+                                                            timeDomainFolder + "/" + problemFolder + "/" + fST.ToString() + "/" +
+                                                            oT.ToString() + "/" + IFT.ToString() + "/" + filename, FileMode.Create);
+
+                            Console.WriteLine("Real MUA = {0} - best MUA = {1} - mean MUA = {2}", rOp.Mua, bestMua, meanMua);
+                            Console.WriteLine("Real MUSp = {0} - best MUSp = {1} - mean MUSp = {2}", rOp.Musp, bestMusp, meanMusp);
+                            if (stepByStep) { Console.ReadLine(); }
+                        }
+                        else
+                        {
+                            Console.WriteLine("The file has not been found.");
+                        }
+
+                        Console.Clear();
+                    }
+                }
+            }
         }
 
         private static void ReportInverseSolverRofRho(double drho,
@@ -514,7 +746,7 @@ namespace Vts.ReportInverseSolver.Desktop
         private static double[] FilterArray(double[] arrayIn, int ratioPointToUse)
         {
             int numberOfPoints = arrayIn.Count() / ratioPointToUse;
-            if (ratioPointToUse != 2)
+            if (ratioPointToUse != 2 && ratioPointToUse != 1)
             {
                 numberOfPoints += 1;
             }

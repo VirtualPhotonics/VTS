@@ -4158,6 +4158,23 @@
     <EmbeddedResource Include="Resources\Real\SteadyState\musp2mua0p1R" />
     <EmbeddedResource Include="Resources\Real\SteadyState\musp2mua0p1S" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp0p5mua0p001R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp0p5mua0p1R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp0p7mua0p001R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp0p7mua0p1R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp1mua0p001R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp1mua0p01R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp1mua0p03R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp1mua0p1R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp1mua0p3R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp1p2mua0p001R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp1p2mua0p1R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp1p5mua0p001R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp1p5mua0p1R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp2mua0p001R" />
+    <EmbeddedResource Include="Resources\SpatialFrequency\SteadyState\musp2mua0p1R" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
