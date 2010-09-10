@@ -31,11 +31,6 @@ namespace Vts.SiteVisit.ViewModel
         private OpticalPropertyViewModel _ResultOpticalPropertyVM;
 
         private double _PercentNoise;
-        private IOptimizer _Optimizer;
-        //private IAnalyzer _Analyzer;
-        private IForwardSolver _MeasuredForwardSolver;
-        private IForwardSolver _InverseForwardSolver;
-
         private IEnumerable<double> _MeasuredDataValues;
         private IEnumerable<double> _InitialGuessDataValues;
         private IEnumerable<double> _ResultDataValues;
@@ -52,26 +47,20 @@ namespace Vts.SiteVisit.ViewModel
             MeasuredForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
                 "Forward Model Engine",
                 false);
-                //ForwardSolverType.DistributedPointSourceSDA,
-                //ForwardSolverType.PointSourceSDA,
-                //ForwardSolverType.DistributedGaussianSourceSDA,
-                //ForwardSolverType.MonteCarlo); // explicitly enabling these for the workshop
-           // MeasuredForwardSolverTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
 
             MeasuredDataTypeOptionVM = new OptionViewModel<MeasuredDataType>("Measured Data Type:");
-            //MeasuredDataTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
+            MeasuredDataTypeOptionVM.PropertyChanged += (sender, args) =>
+                OnPropertyChanged("MeasuredForwardSolver");
 
             InverseForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
                 "Inverse Model Engine",
                 false);
-                //ForwardSolverType.DistributedPointSourceSDA, 
-                //ForwardSolverType.PointSourceSDA,
-                //ForwardSolverType.DistributedGaussianSourceSDA,
-                //ForwardSolverType.MonteCarlo); // explicitly enabling these for the workshop
-            //InverseForwardSolverTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
+            InverseForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
+                OnPropertyChanged("InverseForwardSolver");
 
             OptimizerTypeOptionVM = new OptionViewModel<OptimizerType>("Optimizer Type:");
-            //OptimizerTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
+            OptimizerTypeOptionVM.PropertyChanged += (sender, args) =>
+                OnPropertyChanged("Optimizer");
 
             InverseFitTypeOptionVM = new OptionViewModel<InverseFitType>("Optimization Parameters:");
             //InverseFitTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
@@ -199,37 +188,37 @@ namespace Vts.SiteVisit.ViewModel
             set
             {
                 _PercentNoise = value;
-                this.OnPropertyChanged("PercentNoise");
+                OnPropertyChanged("PercentNoise");
             }
         }
 
-        //public IForwardSolver MeasuredForwardSolver
-        //{
-        //    get { return _MeasuredForwardSolver; }
-        //    set
-        //    {
-        //        _MeasuredForwardSolver = value;
-        //        this.OnPropertyChanged("MeasuredForwardSolver");
-        //    }
-        //}
-        //public IForwardSolver InverseForwardSolver
-        //{
-        //    get { return _InverseForwardSolver; }
-        //    set
-        //    {
-        //        _InverseForwardSolver = value;
-        //        this.OnPropertyChanged("InverseForwardSolver");
-        //    }
-        //}
-        //public IOptimizer Optimizer
-        //{
-        //    get { return _Optimizer; }
-        //    set
-        //    {
-        //        _Optimizer = value;
-        //        this.OnPropertyChanged("Optimizer");
-        //    }
-        //}
+        public IForwardSolver MeasuredForwardSolver
+        {
+            get 
+            { 
+                return SolverFactory.GetForwardSolver(
+                    MeasuredForwardSolverTypeOptionVM.SelectedValue); 
+            }
+        }
+
+        public IForwardSolver InverseForwardSolver
+        {
+            get 
+            {
+                return SolverFactory.GetForwardSolver(
+                    InverseForwardSolverTypeOptionVM.SelectedValue); 
+            }
+        }
+
+        public IOptimizer Optimizer
+        {
+            get
+            {
+                return SolverFactory.GetOptimizer(
+                    OptimizerTypeOptionVM.SelectedValue);
+            }
+        }
+
         #endregion
 
         #region DataPoints and DataValues
@@ -295,13 +284,6 @@ namespace Vts.SiteVisit.ViewModel
                 RangeVM = (RangeViewModel)e.Parameter;
             }
         }
-
-        //void UpdateModels()
-        //{
-        //    MeasuredForwardSolver = SolverFactory.GetForwardSolver(MeasuredForwardSolverTypeOptionVM.SelectedValue);
-        //    InverseForwardSolver = SolverFactory.GetForwardSolver(InverseForwardSolverTypeOptionVM.SelectedValue);
-        //    Optimizer = SolverFactory.GetOptimizer(OptimizerTypeOptionVM.SelectedValue);
-        //}
 
         void IS_SimulateMeasuredData_Executed(object sender, ExecutedEventArgs e)
         {

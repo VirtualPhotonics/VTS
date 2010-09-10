@@ -65,10 +65,23 @@ namespace Vts.SiteVisit.ViewModel
             };
 
             ForwardSolverTypeOptionVM.PropertyChanged +=
-                (sender, args) => OnPropertyChanged("IsGaussianForwardModel");
+                (sender, args) =>
+                    {
+                        OnPropertyChanged("ForwardSolver");
+                        OnPropertyChanged("IsGaussianForwardModel");
+                    };
 
             Commands.FluenceSolver_ExecuteFluenceSolver.Executed += ExecuteFluenceSolver_Executed;
             Commands.FluenceSolver_SetIndependentVariableRange.Executed += SetIndependentVariableRange_Executed;
+        }
+
+        public IForwardSolver ForwardSolver
+        {
+            get
+            {
+                return SolverFactory.GetForwardSolver(
+                    ForwardSolverTypeOptionVM.SelectedValue);
+            }
         }
 
         public bool IsGaussianForwardModel
