@@ -28,7 +28,7 @@ namespace Vts.Factories
                 typeof(MPFitLevenbergMarquardtOptimizer).Namespace, true, true);
             
             RegisterClassesToEnumTypesByConvention<ScatteringType, IScatterer>(
-                typeof (IntralipidScatterer).Namespace, true, true);
+                typeof (IntralipidScatterer).Namespace, false, true);
         }
 
         /// <summary>
@@ -78,6 +78,9 @@ namespace Vts.Factories
         {
             try
             {
+                // todo: add overload of GetScattererType that takes in a tissue type 
+                // for choosing good defaults. Need to understand how to configure Unity
+                // to allow for both types of resolution (right now, calls default constructor)
                 return _container.Resolve<IScatterer>(scatteringType.ToString());
             }
             catch (Exception)

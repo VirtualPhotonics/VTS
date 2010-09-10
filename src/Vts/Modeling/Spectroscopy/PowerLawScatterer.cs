@@ -80,6 +80,10 @@ namespace Vts.SpectralMapping
                     C = 0.0;
                     D = 0.0;
                     break;
+                case (TissueType.Custom):
+                    A = 1;
+                    B = 0.1;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException("tissueType");
             }

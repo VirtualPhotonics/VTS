@@ -29,7 +29,7 @@ namespace Vts.SiteVisit.ViewModel
         private RangeViewModel _WavelengthRangeVM;
         private OptionViewModel<ScatteringType> _ScatteringTypeVM;
         private string _ScatteringTypeName;
-        //private IScatterer _Scatterer;
+        private IScatterer _Scatterer;
 
         public SpectralMappingViewModel()
         {
@@ -40,8 +40,12 @@ namespace Vts.SiteVisit.ViewModel
 #endif
             ScatteringTypeVM.PropertyChanged += (sender, args) =>
             {
-                SelectedTissue.Scatterer = SolverFactory.GetScattererType(ScatteringTypeVM.SelectedValue);
-                ScatteringTypeName = SelectedTissue.Scatterer.GetType().FullName;
+                if (SelectedTissue.ScattererType != ScatteringTypeVM.SelectedValue)
+                {
+                    SelectedTissue.Scatterer = SolverFactory.GetScattererType(ScatteringTypeVM.SelectedValue);
+                    ScatteringTypeName = SelectedTissue.Scatterer.GetType().FullName;
+                }
+                OnPropertyChanged("Scatterer");
             };
 
             WavelengthRangeVM =
@@ -100,16 +104,14 @@ namespace Vts.SiteVisit.ViewModel
         //}
         #endregion 
 
-        //public IScatterer Scatterer
-        //{
-        //    get { return _Scatterer; }
-        //    set
-        //    {
-        //        _Scatterer = value;
-        //        this.OnPropertyChanged("Scatterer");
-
-        //    }
-        //}
+        /// <summary>
+        /// Simple pass-through for SelectedTissue.Scatterer 
+        /// to allow simpler data binding in Views
+        /// </summary>
+        public IScatterer Scatterer
+        {
+            get { return _SelectedTissue.Scatterer; }
+        }
 
         public string ScatteringTypeName
         {
@@ -140,7 +142,9 @@ namespace Vts.SiteVisit.ViewModel
 
                 _SelectedTissue = value;
                 OnPropertyChanged("SelectedTissue");
+                OnPropertyChanged("Scatterer");
 
+                // todo: isn't there a simpler way? what happens when we just set SelectedValue? djc
                 ScatteringTypeVM.Options.Where(o => o.Key == _SelectedTissue.Scatterer.ScattererType)
                     .First().Value.IsSelected = true;
 

@@ -66,7 +66,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Volume fraction = "/>
-                                    <TextBox Text="{Binding SelectedTissue.Scatterer.VolumeFraction, Mode=TwoWay}" Width="40"/>
+                                    <TextBox Text="{Binding Scatterer.VolumeFraction, Mode=TwoWay}" Width="40"/>
                                 </StackPanel>
                             </DataTemplate>
                         </v:ScatteringTemplateSelector.IntralipidScatteringTemplate>
@@ -75,11 +75,11 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Particle radius = "/>
-                                    <TextBox Text="{Binding SelectedTissue.Scatterer.ParticleRadius, Mode=TwoWay}" Width="40"/>
+                                    <TextBox Text="{Binding Scatterer.ParticleRadius, Mode=TwoWay}" Width="40"/>
                                     <TextBlock Text=" Particle n = "/>
-                                    <TextBox Text="{Binding SelectedTissue.Scatterer.ParticleRefractiveIndexMismatch, Mode=TwoWay}" Width="40"/>
+                                    <TextBox Text="{Binding Scatterer.ParticleRefractiveIndexMismatch, Mode=TwoWay}" Width="40"/>
                                     <TextBlock Text=" Medium n = "/>
-                                    <TextBox Text="{Binding SelectedTissue.Scatterer.MediumRefractiveIndexMismatch, Mode=TwoWay}" Width="40"/>
+                                    <TextBox Text="{Binding Scatterer.MediumRefractiveIndexMismatch, Mode=TwoWay}" Width="40"/>
                                 </StackPanel>
                             </DataTemplate>
                         </v:ScatteringTemplateSelector.MieScatteringTemplate>
@@ -91,9 +91,9 @@
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="A = "/>
-                                        <TextBox Text="{Binding SelectedTissue.Scatterer.A, Mode=TwoWay}" Width="Auto"/>
+                                        <TextBox Text="{Binding Scatterer.A, Mode=TwoWay}" Width="Auto"/>
                                         <TextBlock Text=" b = "/>
-                                        <TextBox Text="{Binding SelectedTissue.Scatterer.B, Mode=TwoWay}" Width="Auto"/>
+                                        <TextBox Text="{Binding Scatterer.B, Mode=TwoWay}" Width="Auto"/>
                                         <TextBlock Text=" (A = μ"/>
                                         <TextBlock Text="s" FontSize="10" VerticalAlignment="Bottom"/>
                                         <TextBlock Text="' at 1000nm)"/>

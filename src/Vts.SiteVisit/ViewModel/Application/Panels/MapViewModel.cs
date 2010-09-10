@@ -215,7 +215,14 @@ namespace Vts.SiteVisit.ViewModel
                     if (_MaxValue <= 0.0) _MaxValue = 10E2;
                     for (int i = 0; i < _mapData.RawData.Length; i++)
                     {
-                        Bitmap.Pixels[i] = GetGrayscaleColor(Math.Log10(_mapData.RawData[i]), Math.Log10(_MinValue), Math.Log10(_MaxValue));
+                        if (_mapData.RawData[i] >= 0)
+                        {
+                            Bitmap.Pixels[i] = GetGrayscaleColor(Math.Log10(_mapData.RawData[i]), Math.Log10(_MinValue), Math.Log10(_MaxValue));
+                        }
+                        else // clamp to Log10(min) if the value goes negative
+                        {
+                            Bitmap.Pixels[i] = GetGrayscaleColor(Math.Log10(_MinValue), Math.Log10(_MinValue), Math.Log10(_MaxValue));
+                        }
                     }
                     break;
             }
