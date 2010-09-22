@@ -47,8 +47,10 @@ namespace Vts.Modeling.ForwardSolvers
         public static Complex TemporalFrequencyPointSourceGreensFunction(
             DiffusionParameters dp, double r, Complex k)
         {
-            return Math.Exp(-k.Real * r) / r * (Math.Cos(k.Imaginary * r) -
-                Complex.ImaginaryOne * Math.Sin(k.Imaginary * r)) / (4.0 * Math.PI * dp.D);
+            return Math.Exp(-k.Real * r) / r * (
+                Math.Cos(k.Imaginary * r) -
+                Complex.ImaginaryOne * Math.Sin(k.Imaginary * r)
+                ) / (4.0 * Math.PI * dp.D);
         }
 
         #endregion Infinite medium diffusion Greens Function : State Space
@@ -56,14 +58,14 @@ namespace Vts.Modeling.ForwardSolvers
 
         #region Infinite media diffusion Green Function z-Flux component : State Space
 
-        public static double StationaryPointSourceZFlux(
+        public static double StationaryPointSourceGreensFunctionZFlux(
             DiffusionParameters dp, double r, double zr)
         {
             return zr * (dp.mueff + 1 / r) * Math.Exp(-dp.mueff * r) / r / r /
                 4 / Math.PI;
         }
 
-        public static double TemporalPointSourceZFlux(
+        public static double TemporalPointSourceGreensFunctionZFlux(
             DiffusionParameters dp, double r, double zr, double t)
         {
             return 0.5 / Math.Pow(4.0 * Math.PI * dp.D * dp.cn, 1.5) / Math.Pow(t, 2.5) *
@@ -71,7 +73,7 @@ namespace Vts.Modeling.ForwardSolvers
                 Math.Exp(-r * r / (4.0 * dp.D * dp.cn * t));
         }
 
-        public static Complex TemporalFrequencyPointSourceZFlux(
+        public static Complex TemporalFrequencyPointSourceGreensFunctionZFlux(
             DiffusionParameters dp, double r, double zr, Complex k)
         {
             return zr * (k + 1 / r) * Math.Exp(-k.Real * r) / r / r *
@@ -112,21 +114,21 @@ namespace Vts.Modeling.ForwardSolvers
         public static double StationaryPointSourceImageGreensFunctionZFlux(
             DiffusionParameters dp, double rSource, double zSource, double rImage, double zImage)
         {
-            return StationaryPointSourceZFlux(dp, rSource, zSource)
-                - StationaryPointSourceZFlux(dp, rImage, zImage);
+            return StationaryPointSourceGreensFunctionZFlux(dp, rSource, zSource)
+                - StationaryPointSourceGreensFunctionZFlux(dp, rImage, zImage);
         }
         // z-Flux of Green's functions in source-image configuration
         public static double TemporalPointSourceImageGreensFunctionZFlux(
             DiffusionParameters dp, double rSource, double zSource, double rImage, double zImage, double t)
         {
-            return DiffusionGreensFunctions.TemporalPointSourceZFlux(dp, rSource, zSource, t) -
-                DiffusionGreensFunctions.TemporalPointSourceZFlux(dp, rImage, zImage, t);
+            return DiffusionGreensFunctions.TemporalPointSourceGreensFunctionZFlux(dp, rSource, zSource, t) -
+                DiffusionGreensFunctions.TemporalPointSourceGreensFunctionZFlux(dp, rImage, zImage, t);
         }
         public static Complex TemporalFrequencyPointSourceImageGreensFunctionZFlux(
           DiffusionParameters dp, double rSource, double zSource, double rImage, double zImage, Complex k)
         {
-            return DiffusionGreensFunctions.TemporalFrequencyPointSourceZFlux(dp, rSource, zSource, k) -
-                DiffusionGreensFunctions.TemporalFrequencyPointSourceZFlux(dp, rImage, zImage, k);
+            return DiffusionGreensFunctions.TemporalFrequencyPointSourceGreensFunctionZFlux(dp, rSource, zSource, k) -
+                DiffusionGreensFunctions.TemporalFrequencyPointSourceGreensFunctionZFlux(dp, rImage, zImage, k);
         }
 
         #endregion

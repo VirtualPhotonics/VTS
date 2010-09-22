@@ -51,8 +51,8 @@ namespace Vts.SiteVisit.ViewModel
             ForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
             {
             //    ForwardSolver = SolverFactory.GetForwardSolver(ForwardSolverTypeOptionVM.SelectedValue);
-                  this.OnPropertyChanged("IsGaussianForwardModel");
-            //    this.OnPropertyChanged("ForwardSolver");
+                  OnPropertyChanged("IsGaussianForwardModel");
+                  OnPropertyChanged("ForwardSolver");
             };
 
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.RofRho);
@@ -70,6 +70,15 @@ namespace Vts.SiteVisit.ViewModel
 
         #region Properties
 
+
+        public IForwardSolver ForwardSolver
+        {
+            get
+            {
+                return SolverFactory.GetForwardSolver(
+                    ForwardSolverTypeOptionVM.SelectedValue);
+            }
+        }
         public bool IsGaussianForwardModel
         {
             get { return ForwardSolverTypeOptionVM.SelectedValue.IsGaussianForwardModel(); }
