@@ -319,7 +319,7 @@ namespace Vts.MonteCarlo
             double x = DP.Position.X;
             double y = DP.Position.Y;
             int index = History.HistoryData.Count() - 1;
-            double d = History.HistoryData[index].SubRegionInfoList[CurrentRegionIndex].PathLength; // CKH verify this
+            double d = DP.SubRegionInfoList[CurrentRegionIndex].PathLength; 
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
             dw = DP.Weight * (1 - Math.Exp(-mua * d));
             DP.Weight -= dw;
