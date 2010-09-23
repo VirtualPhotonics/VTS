@@ -316,12 +316,9 @@ namespace Vts.MonteCarlo
             double dw;
             double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
             double mus = _tissue.Regions[CurrentRegionIndex].RegionOP.Mus;
-            double x = DP.Position.X;
-            double y = DP.Position.Y;
-            int index = History.HistoryData.Count() - 1;
-            double d = DP.SubRegionInfoList[CurrentRegionIndex].PathLength; 
+            int index = History.HistoryData.Count() - 1; 
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
-            dw = DP.Weight * (1 - Math.Exp(-mua * d));
+            dw = DP.Weight * (1 - Math.Exp(-mua * S));
             DP.Weight -= dw;
 
             ///* Compute array indices from r and z */
