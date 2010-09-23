@@ -126,7 +126,7 @@ namespace Vts.SpectralMapping
                 case TissueType.BreastPreMenopause:
                 case TissueType.BreastPostMenopause:
                 case TissueType.Custom:
-                    Scatterer = new PowerLawScatterer();
+                    Scatterer = new PowerLawScatterer(tissueType);
                     break;
                 case TissueType.IntralipidPhantom:
                     Scatterer = new IntralipidScatterer();

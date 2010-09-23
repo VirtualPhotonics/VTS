@@ -21,7 +21,7 @@ namespace Vts
         DeltaPOne,
         MonteCarlo,
         Nurbs,
-        //pMC
+        pMC
     }
 
     public enum SpatialDomainType
