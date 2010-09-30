@@ -9,8 +9,6 @@ namespace Vts.Modeling.ForwardSolvers
     public class pMCLoader
     {
         # region fields
-        /// CKH TODO: automate pointer to reference data 
-        public static string folder = "ReferenceData/N1e8mua0musp1g0p8dr0p2dt0p005/";
         public static OpticalProperties ReferenceOps;
         public static PhotonTerminationDatabase PhotonTerminationDatabase;
         public static Output databaseOutput;
@@ -18,16 +16,18 @@ namespace Vts.Modeling.ForwardSolvers
         public static DoubleRange databaseTimeRange;
         #endregion
 
-        public pMCLoader()
+        public pMCLoader(string projectName, string folderName, string databaseName)
         {
-            InitializeVectorsAndInterpolators();
+            InitializeDatabase(projectName, folderName, databaseName);
         }
         /// <summary>
-        /// InitializeVectorsAndInterpolators reads in reference database and initializes data 
+        /// InitializeDatabase reads in reference database and initializes data 
         /// </summary>
-        private static void InitializeVectorsAndInterpolators()
+        private static void InitializeDatabase(string projectName,
+            string folderName, string databaseName)
         {
-            databaseOutput = Output.FromFolderInResources("", "Vts.Database");
+            databaseOutput = Output.FromFolderInResources(folderName, projectName);
+            // need to add the setting up of other ranges
             databaseRhoRange = new DoubleRange(
                 databaseOutput.input.DetectorInput.Rho.Start,
                 databaseOutput.input.DetectorInput.Rho.Stop,
@@ -38,8 +38,8 @@ namespace Vts.Modeling.ForwardSolvers
                 databaseOutput.input.DetectorInput.Time.Count);
             ReferenceOps = databaseOutput.input.TissueInput.Regions[1].RegionOP;
    
-            PhotonTerminationDatabase = PhotonTerminationDatabase.FromFileInResources("photonBiographies1e6", "Vts.Database");
-            //PhotonTerminationDatabase = PhotonTerminationDatabase.FromFileInResources("Resources/photonBiographies1e6", "Vts");
+            PhotonTerminationDatabase = PhotonTerminationDatabase.FromFileInResources(
+                databaseName, projectName);
         }
     }
 }

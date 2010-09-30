@@ -10,14 +10,16 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.TallyActions
 {
     /// <summary>
-    /// These tests execute a MC simulation with 100 photons and verify
+    /// These tests executes a MC simulation with 100 photons and verify
     /// that the tally results match the linux results given the same seed
     /// mersenne twister STANDARD_TEST
     /// </summary>
     [TestFixture]
-    public class TallyActionsTests
+    public class pMCTallyActionsTests
     {
-        Output _output;
+        Output _onTheFlyOutput;
+        Output _PMCOutput;
+        Double _layerThickness = 1.0;
 
         [TestFixtureSetUp]
         public void execute_Monte_Carlo()
@@ -39,7 +41,11 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
                             AbsorptionWeightingType.Discrete),
                         new LayerRegion(
-                            new DoubleRange(0.0, 100.0, 2),
+                            new DoubleRange(0.0, _layerThickness, 2),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                            AbsorptionWeightingType.Discrete),
+                        new LayerRegion(
+                            new DoubleRange(_layerThickness, 100.0, 2),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                             AbsorptionWeightingType.Discrete),
                         new LayerRegion(
@@ -51,19 +57,8 @@ namespace Vts.Test.MonteCarlo.TallyActions
                 new DetectorInput(
                     new List<TallyType>()
                         {
-                            TallyType.RDiffuse,
-                            TallyType.ROfAngle,
-                            TallyType.ROfRho,
-                            TallyType.ROfRhoAndAngle,
-                            TallyType.ROfRhoAndTime,
-                            TallyType.ROfXAndY,
-                            TallyType.ROfRhoAndOmega,
-                            TallyType.TDiffuse,
-                            TallyType.TOfAngle,
-                            TallyType.TOfRho,
-                            TallyType.TOfRhoAndAngle,
-                            TallyType.FluenceOfRhoAndZ,
-                            TallyType.AOfRhoAndZ,
+                            TallyType.pMuaMusInROfRho,
+                            TallyType.pMuaMusInROfRhoAndTime,
                         },
                     new DoubleRange(0.0, 10, 101), // rho
                     new DoubleRange(0.0, 10, 101),  // z
@@ -72,49 +67,27 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-10.0, 10.0, 201), // x
                     new DoubleRange(-10.0, 10.0, 201) // y
-                ) );
-            SimulationOptions options = new SimulationOptions(0, RandomNumberGeneratorType.MersenneTwister,
-                AbsorptionWeightingType.Discrete, false, false, false, false, 0);
-            _output = new MonteCarloSimulation(input, options).Run();
+                )
+            );
+            SimulationOptions options = new SimulationOptions(
+                0, 
+                RandomNumberGeneratorType.MersenneTwister,
+                AbsorptionWeightingType.Discrete, 
+                false, 
+                false, 
+                true,  // write histories 
+                false, 
+                0);
+            _onTheFlyOutput = new MonteCarloSimulation(input, options).Run();
         }
 
         // validation values obtained from linux run using above input and seeded the same
         //
         [Test]
-        public void validate_RDiffuse()
+        public void validate_zero_perturbation()
         {
-            Assert.Less(Math.Abs(_output.Rd - 0.565765638), 0.000000001);
+            //Assert.Less(Math.Abs(_output.Rd - 0.565765638), 0.000000001);
         }
 
-        [Test]
-        public void validate_RTotal()
-        {
-            Assert.Less(Math.Abs(_output.Rtot - 0.593543415), 0.000000001);
-        }
-        [Test]
-        public void validate_TDiffuse()
-        {
-            Assert.Less(Math.Abs(_output.Td - 7.0994e-27), 1e-29);
-        }
-        [Test]
-        public void validate_ROfRho()
-        {
-            Assert.Less(Math.Abs(_output.R_r[2] - 0.0609121451), 0.000000001);
-        }
-        [Test]
-        public void validate_ROfRhoAndTime()
-        {
-            Assert.Less(Math.Abs(_output.R_rt[2,0] - 0.000609121451), 0.00000000001);
-        }
-        [Test]
-        public void validate_FluenceOfRhoAndZ()
-        {
-            Assert.Less(Math.Abs(_output.Flu_rz[0, 0] - 33.3348714), 0.0000001);
-        }
-        [Test]
-        public void validate_AOfRhoAndZ()
-        {
-            Assert.Less(Math.Abs(_output.A_rz[0, 0] - 0.333348714), 0.000000001);
-        }
     }
 }

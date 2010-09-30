@@ -20,7 +20,7 @@ namespace Vts.Modeling.ForwardSolvers
         {
             if (_pMCLoader == null)
             {
-                _pMCLoader = new pMCLoader();
+                _pMCLoader = new pMCLoader("Vts.Database", "", "photonBiographies1e6");
             }
         }
 

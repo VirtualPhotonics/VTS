@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
     {
         /// <summary>
         /// ValidatePhotonExitHistoryPostProcessor tests whether the methods within the
-        /// PhotonExitHistoryPostProcessor class regenerates the same results as the on the fly results.
+        /// PhotonTerminationDatabasePostProcessor class regenerates the same results as the on the fly results.
         /// It currently tests a point source with a layered tissue geometry.
         /// </summary>
         [Test]
