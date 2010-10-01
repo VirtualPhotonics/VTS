@@ -14,10 +14,14 @@ namespace Vts.ReportForwardSolvers.Desktop
     {
         static void Main(string[] args)
         {
+            //path
             var projectName = "Vts.ReportForwardSolvers.Desktop";
             var inputPath = @"..\..\Resources\";
             string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             inputPath = currentAssemblyDirectoryName + "\\" + inputPath;
+            // ops definition: the fs are used to predict reflectance for the specific domains for these optical properties.
+            // for R(r,t) and for R(r) the locations are not selected, but are set to those locations obtained by Equal Frequency Discretizatio
+            // of MC results. 
             var g = 0.8;
             var n = 1.4;
             var muas = new double[] { 0.001, 0.01, 0.03, 0.1, 0.3 };//[mm-1]
@@ -27,30 +31,30 @@ namespace Vts.ReportForwardSolvers.Desktop
                       from musp in musps
                       from mua in muas
                       select new OpticalProperties(mua, musp, g, n);
-
+            //FS
             var forwardSolverTypes = new ForwardSolverType[]
                       {
-                          //ForwardSolverType.Nurbs,
-                          ForwardSolverType.MonteCarlo,
+                          ForwardSolverType.Nurbs,
+                          //ForwardSolverType.MonteCarlo,
                           //ForwardSolverType.PointSourceSDA,
                           //ForwardSolverType.DistributedPointSDA,
                           //ForwardSolverType.DistributedGaussianSDA,
                           //ForwardSolverType.DeltaPOne,
                       };
-
+            //sDT
             var spatialDomainTypes = new SpatialDomainType[]
                      {
                          //SpatialDomainType.Real,
                          SpatialDomainType.SpatialFrequency,
                      };
-
+            //tDT
             var timeDomainTypes = new TimeDomainType[]
                      {
                          TimeDomainType.SteadyState,
                          //TimeDomainType.TimeDomain,
                          //TimeDomainType.FrequencyDomain,   
                      };
-
+            //execute
             foreach (var sDT in spatialDomainTypes)
             {
                 foreach (var tDT in timeDomainTypes)
@@ -92,22 +96,23 @@ namespace Vts.ReportForwardSolvers.Desktop
             filename = filename.Replace(".", "p");
             Console.WriteLine("Looking for file {0} in spatial domain type {1}", filename, sDT.ToString());
 
-            if (File.Exists(inputPath + sDT.ToString() + "/SteadyState/" + filename)|| sDT == SpatialDomainType.SpatialFrequency)//qui ci metto or if sfd domain
+            if (File.Exists(inputPath + sDT.ToString() + "/SteadyState/" + filename)|| sDT == SpatialDomainType.SpatialFrequency)
             {
                 Console.WriteLine("The file {0} has been found.", filename);
                 int sDim = GetSpatialNumberOfPoints(sDT);
-                //qui if real...se sfd ci metto double range..poi continua.. easy.
                 IEnumerable<double> spatialVariable;
+                // if R(r) not uniform locations where we evaluate, but points defined in binary files (these points are average radial positions of photons collected in each bin)
                 if (sDT == SpatialDomainType.Real)
                 {
                     spatialVariable = (IEnumerable<double>)FileIO.ReadArrayFromBinaryInResources<double>
                                       ("Resources/" + sDT.ToString() + "/SteadyState/" + filename, projectName, sDim);
                 }
+                // if R(fx) uniform evaluation, sDim used to specify number of points.
                 else
                 {
-                    spatialVariable = new DoubleRange(0.0, 10.0, sDim).AsEnumerable(); 
+                    spatialVariable = new DoubleRange(0.0, 1.0, sDim).AsEnumerable(); 
                 }
-                
+                // after providing spatial locations where we want evaluation execute and store results
                 foreach (var fST in fSTs)
                 {
                     EvaluateAndWriteForwardSolverSteadyStateResults(fST, sDT, op, spatialVariable);
@@ -217,7 +222,7 @@ namespace Vts.ReportForwardSolvers.Desktop
             }
             else if (sDT == SpatialDomainType.SpatialFrequency)
             {
-                sDim = 1001;
+                sDim = 51;
             }
             else
             {
@@ -348,49 +353,5 @@ namespace Vts.ReportForwardSolvers.Desktop
 
         #endregion methods
     }
-
-    ///// <summary>
-    ///// This class defines some local extensions methods.
-    ///// </summary>
-    //public static class LocalExtensions
-    //{
-    //    /// <summary>
-    //    /// Returns a string with a name representing the forward solver.
-    //    /// </summary>
-    //    /// <param name="forwardSolver">forward solver</param>
-    //    /// <returns>string with forward solver name</returns>
-    //    public static string LocalToString(this IForwardSolver forwardSolver)
-    //    {
-    //        if (forwardSolver as NurbsForwardSolver != null)
-    //        {
-    //            return "Nurbs";
-    //        }
-    //        else if (forwardSolver as MonteCarloForwardSolver != null)
-    //        {
-    //            return "MonteCarlo";
-    //        }
-    //        else if (forwardSolver as DistributedPointSourceSDAForwardSolver != null)
-    //        {
-    //            return "DistributedPointSDA";
-    //        }
-    //        else if (forwardSolver as DistributedGaussianSourceSDAForwardSolver
-    //            != null)
-    //        {
-    //            return "DistributedGaussianSDA";
-    //        }
-    //        else if (forwardSolver as PointSourceSDAForwardSolver != null)
-    //        {
-    //            return "PointSDA";
-    //        }
-    //        else if (forwardSolver as DeltaPOneForwardSolver != null)
-    //        {
-    //            return "DeltaPOne";
-    //        }
-    //        else
-    //        {
-    //            throw new Exception("Unknown forward solver type.");
-    //        }
-    //    }
-    //}
 }
 

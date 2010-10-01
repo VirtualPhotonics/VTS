@@ -34,32 +34,33 @@ namespace Vts.ReportInverseSolver.Desktop
         private static void ChooseDataAndReportRofFx(string projectName, string inputPath)
         {
             //choose dfx
-            double[] dfxs = { 0.01 };// 1/mm
-            // ratio detectors
-            int[] rDs = { 1, 2, 5, 10};
+            double[] dfxs = { 0.02 };// 1/mm
+            // ratio detectors (number of measurements: the measured data are evaluated for N frequencyes. N/rDs are used)
+            int[] rDs = {1, 2, 5, 10};
             // noise percentage
             double[] nPs = { 0.0, 0.1, 1.0, 10.0 };
-            //choose fx ranges
+            // choose fx ranges
             var fxRanges = new double[][]{
-                                           new double[] {0.0, 1.0},
+                                           new double[] {0.0, 0.1},
                                            new double[] {0.0, 0.33},
-                                           new double[] {0.33, 0.66},
+                                           new double[] {0.34, 0.66},
                                            new double[] {0.66, 1.0},
                                           };
             //IFT
-            InverseFitType[] IFTs = { InverseFitType.MuaMusp };//, InverseFitType.Mua, InverseFitType.Musp };//recovered op
+            InverseFitType[] IFTs = { InverseFitType.MuaMusp };//, InverseFitType.Mua, InverseFitType.Musp };
 
             //fs definition
             var forwardSolverTypes = new ForwardSolverType[]
                       {
                           ForwardSolverType.Nurbs,
-                          ForwardSolverType.PointSourceSDA,
+                          //ForwardSolverType.PointSourceSDA,
                           //ForwardSolverType.DistributedPointSourceSDA,
                           //ForwardSolverType.MonteCarlo,
                           //ForwardSolverType.DistributedPointSDA,
                           //ForwardSolverType.DistributedGaussianSDA,
                           //ForwardSolverType.DeltaPOne,
                       };
+
             //optimizer definition
             var optimizerTypes = new OptimizerType[]
                       {
@@ -70,7 +71,7 @@ namespace Vts.ReportInverseSolver.Desktop
             var g = 0.8;
             var n = 1.4;
             //guess
-            var guessMuas = new double[] { 0.0012, 0.0113, 0.0921 };//[mm-1]
+            var guessMuas = new double[] { 0.0042, 0.0173, 0.0721 };//[mm-1]
             var guessMusps = new double[] { 0.875, 1.25, 1.625 };//[mm-1]
             var guessOps =
                       from musp in guessMusps
@@ -113,7 +114,7 @@ namespace Vts.ReportInverseSolver.Desktop
         {
             //choose drho
             double[] drhos = { 0.25 };//mm
-            // ratio detectors
+            // ratio detectors (number of measurements: the measured data are evaluated using N virtual anular detectors. Only N/rDs are used)
             int[] rDs = { 1, 2, 4, 8 };
             // noise percentage
             double[] nPs = { 0.0, 0.1, 1.0, 10.0};
@@ -279,13 +280,14 @@ namespace Vts.ReportInverseSolver.Desktop
             string spaceDomainFolder = "SpatialFrequency";
             string timeDomainFolder = "SteadyState";
             string problemFolder = "dfx" + dfx.ToString() + "/" + "ratioD" + ratioDetectors.ToString() + "/" +
-                                   "noise" + noisePercentage.ToString() + "/" + "range" +  fxRange[0].ToString() + "_" + fxRange[1].ToString();
+                                   "noise" + noisePercentage.ToString() + "/" + fxRange[0].ToString() + "_" + fxRange[1].ToString();
             problemFolder = problemFolder.Replace(".", "p");
             //fxs based on range
             int numberOfPoints = Convert.ToInt32((fxRange[1] - fxRange[0]) / dfx) + 1;
             var fxs = new DoubleRange(fxRange[0], fxRange[1], numberOfPoints).AsEnumerable().ToArray();
             double[] R = new double[numberOfPoints];
-            //it is different from rho because I am using values not middle point
+            double[] S = new double[numberOfPoints];
+            // based on the range get index of first and last points within range
             int firstInd = Convert.ToInt32(fxRange[0] / dfx);
             int lastInd = Convert.ToInt32(fxRange[1] / dfx);
 
@@ -308,7 +310,7 @@ namespace Vts.ReportInverseSolver.Desktop
                         double bestMusp = 0.0;
                         double meanMusp = 0.0;
                         double guessBestMusp = 0.0;
-                        double bestChiSquared = 10000000000000.0;//initialize very large to avoid if first
+                        double bestChiSquared = 10000000000000.0;//initialize very large 
                         double meanChiSquared = 0.0;
                         DateTime start = new DateTime();//processing start time
                         DateTime end = new DateTime();//processing finish time
@@ -324,22 +326,24 @@ namespace Vts.ReportInverseSolver.Desktop
                             Console.WriteLine("The file has been found");
                             //read binary files
                             var Rtot = (IEnumerable<double>)FileIO.ReadArrayFromBinaryInResources<double>
-                                                  ("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + filename + "R", projectName, 101);
-                            //var Stot = (IEnumerable<double>)FileIO.ReadArrayFromBinaryInResources<double>
-                              //                    ("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + filename + "S", projectName, 88);
+                                                  ("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + filename + "R", projectName, 51);
+                            var Stot = (IEnumerable<double>)FileIO.ReadArrayFromBinaryInResources<double>
+                                                  ("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + filename + "S", projectName, 51);
                             for (int i = firstInd; i <= lastInd; i++)
                             {
                                 R[i - firstInd] = Rtot.ToArray()[i];
-                                //S[i - firstInd] = Stot.ToArray()[i];
+                                S[i - firstInd] = Stot.ToArray()[i];
                             }
+                            // reduce number of measured points used for the fit
                             var mfxs = FilterArray(fxs, ratioDetectors);
                             var mR = FilterArray(R, ratioDetectors);
-                            var mS = mR;
-
+                            var mS = FilterArray(S, ratioDetectors);
+                            //add noise
                             if (noisePercentage != 0.0)
                             {
                                 mR.AddNoise(noisePercentage);
                             }
+                            //execute
                             start = DateTime.Now;
                             int covergedCounter = 0;
                             foreach (var gOp in guessOps)
@@ -439,9 +443,10 @@ namespace Vts.ReportInverseSolver.Desktop
             var rhos = new DoubleRange(rhoRange[0], rhoRange[1], numberOfPoints).AsEnumerable().ToArray();
             double[] R = new double[numberOfPoints];
             double[] S = new double[numberOfPoints];
+            //based on range evaluate the index of first and last points to use
             int firstInd = Convert.ToInt32((rhoRange[0] + drho / 2.0) / drho) - 1;
             int lastInd = Convert.ToInt32((rhoRange[1] + drho / 2) / drho) - 1;
-
+            //execute
             foreach (var fST in forwardSolverTypes)
             {
                 Console.WriteLine("Forward Solver Type: {0}", fST.ToString());
@@ -451,8 +456,6 @@ namespace Vts.ReportInverseSolver.Desktop
                     if (stepByStep) { Console.WriteLine("Press enter to continue"); }
                     Console.WriteLine("=================================================");
                     if (stepByStep) { Console.ReadLine(); }
-
-                    //double[] constantVals;
 
                     foreach (var rOp in realOps)
                     {
@@ -482,15 +485,17 @@ namespace Vts.ReportInverseSolver.Desktop
                                                   ("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + filename + "R", projectName, 88);
                             var Stot = (IEnumerable<double>)FileIO.ReadArrayFromBinaryInResources<double>
                                                   ("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + filename + "S", projectName, 88);
+                            // extract points within range
                             for (int i = firstInd; i <= lastInd; i++)
                             {
                                 R[i - firstInd] = Rtot.ToArray()[i];
                                 S[i - firstInd] = Stot.ToArray()[i];
                             }
+                            // reduce number of measurements
                             var mrhos = FilterArray(rhos, ratioDetectors);
                             var mR = FilterArray(R, ratioDetectors);
                             var mS = FilterArray(S, ratioDetectors);
-
+                            // add noise
                             if (noisePercentage != 0.0)
                             {
                                 mR.AddNoise(noisePercentage);
@@ -645,6 +650,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                       ("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + problemFolder + "/" + rhoFolder + "/" + filename + "R", projectName, numberOfPoints);
                                 var S = GetStandardDeviationValues("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + problemFolder + "/" + rhoFolder + "/" + filename + "S",
                                                                    projectName, stDevMode, numberOfPoints, R.ToArray());
+                                // add noise
                                 if (noisePercentage != 0.0)
                                 {
                                     R = R.AddNoise(noisePercentage);
@@ -672,7 +678,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                     if (converged)
                                     {
                                         OpticalProperties fOp = new OpticalProperties(fit[0], fit[1], gOp.G, gOp.N);
-                                        //calculate chi squared and change values if it improved
+                                        //calculate chi squared and change best values if it improved
                                         double chiSquared = EvaluateChiSquared(R.ToArray(), SolverFactory.GetForwardSolver(fST).RofRhoAndT(fOp.AsEnumerable(), rho.AsEnumerable(), T).ToArray(), S.ToArray());
                                         if (chiSquared < bestChiSquared)
                                         {
@@ -746,7 +752,7 @@ namespace Vts.ReportInverseSolver.Desktop
         private static double[] FilterArray(double[] arrayIn, int ratioPointToUse)
         {
             int numberOfPoints = arrayIn.Count() / ratioPointToUse;
-            if (ratioPointToUse != 2 && ratioPointToUse != 1)
+            if ((ratioPointToUse != 2 && ratioPointToUse != 1)||(arrayIn.Count() == 51))
             {
                 numberOfPoints += 1;
             }
