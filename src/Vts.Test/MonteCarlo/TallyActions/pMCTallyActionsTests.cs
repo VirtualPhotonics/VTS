@@ -57,8 +57,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                 new DetectorInput(
                     new List<TallyType>()
                         {
-                            TallyType.pMuaMusInROfRho,
-                            TallyType.pMuaMusInROfRhoAndTime,
+                            TallyType.ROfRhoAndTime,
                         },
                     new DoubleRange(0.0, 10, 101), // rho
                     new DoubleRange(0.0, 10, 101),  // z
