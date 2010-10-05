@@ -97,9 +97,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                 new SimulationOptions(0, RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete, false, false, true, false, 0);
 
-            var onTheFlyOutput = new MonteCarloSimulation(input, options).Run();
-
-            return onTheFlyOutput;
+            return new MonteCarloSimulation(input, options).Run();
         }
 
         private void ValidateROfRhoAndTime(Output output1, Output output2)
@@ -115,7 +113,6 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     }
                 }
             }
-
         }
     }
 }

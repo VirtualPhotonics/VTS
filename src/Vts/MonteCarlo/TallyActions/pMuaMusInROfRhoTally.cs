@@ -47,15 +47,15 @@ namespace Vts.MonteCarlo.TallyActions
                 _rho.Start = _rho.Start - 0.1;
                 _rhoDelta = 0.2;
                 _rho.Stop = _rho.Start + _rhoDelta;
-                _rhoCenters = new double[1] { _rho.Start + _rhoDelta / 2 };
+                _rhoCenters = new double[1] { _rho.Start };
             }
-            else
+            else // put rhoCenters at rhos specified by user
             {
                 _rhoDelta = _rho.Delta;
                 _rhoCenters = new double[_rho.Count];
                 for (int i = 0; i < _rho.Count; i++)
                 {
-                    _rhoCenters[i] = _rho.Start + (i + 1) * _rhoDelta / 2;
+                    _rhoCenters[i] = _rho.Start + i * _rhoDelta;
                 }
             }
         }
