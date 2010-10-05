@@ -47,19 +47,17 @@ namespace Vts.MonteCarlo.PostProcessing
         /// reads PhotonExitHistory, and generates Output.
         /// </summary>
         /// <param name="tallies">IDetectorInput designating binning</param>
-        /// <param name="awt">AbsorptionWeightingType of photons in database</param>
-        /// <param name="perturbedOps">Perturbed optical properties</param>
-        /// <param name="perturbedRegionsIndices">Indices of regions being perturbed</param>
         /// <param name="peh">PhotonTerminationDatabase</param>
         /// <param name="databaseOutput">Database information needed for post-processing</param>
+        /// <param name="perturbedOps">Perturbed optical properties</param>
+        /// <param name="perturbedRegionsIndices">Indices of regions being perturbed</param>
         /// <returns></returns>
         public static Output GenerateOutput(
             IDetectorInput tallies, 
-            AbsorptionWeightingType awt, 
-            List<OpticalProperties> perturbedOps,
-            List<int> perturbedRegionsIndices,
             PhotonTerminationDatabase peh, 
-            Output databaseOutput)
+            Output databaseOutput,
+            List<OpticalProperties> perturbedOps,
+            List<int> perturbedRegionsIndices)
         {
             Output postProcessedOutput = new Output();
             ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.input.TissueInput);
