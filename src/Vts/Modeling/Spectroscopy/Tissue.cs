@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Vts.SpectralMapping
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Tissue : BindableObject, IAbsorber, IScatterer
     {
-        private IList<IChromophoreAbsorber> _Absorbers;
-        private IScatterer _Scatterer;
-
         public Tissue(IList<IChromophoreAbsorber> absorbers, IScatterer scatterer, string name)
         {
             Absorbers = absorbers;
@@ -18,42 +18,30 @@ namespace Vts.SpectralMapping
 
         public Tissue(TissueType tissueType)
         {
+            TissueType = tissueType;
             SetPredefinedTissueDefinitions(tissueType);
             Name = tissueType.ToString();
         }
 
-        public ScatteringType ScattererType { get { return _Scatterer.ScattererType; } }
+        public ScatteringType ScattererType { get { return Scatterer.ScattererType; } }
+        public TissueType TissueType { get; set; }
 
         public string Name { get; set; }
 
-        public IList<IChromophoreAbsorber> Absorbers
-        {
-            get { return _Absorbers; }
-            set
-            {
-                _Absorbers = value;
-                OnPropertyChanged("Absorbers");
-            }
-        }
+        public IList<IChromophoreAbsorber> Absorbers { get; set; }
 
-        public IScatterer Scatterer
-        {
-            get { return _Scatterer; }
-            set
-            {
-                _Scatterer = value;
-                OnPropertyChanged("Scatterer");
-            }
-        }
+        public IScatterer Scatterer { get; set; } 
 
         private void SetPredefinedTissueDefinitions(TissueType tissueType) // this data should be in XML
         {
+            TissueType = tissueType;
             SetAbsorbers(tissueType);
             SetScatterer(tissueType);
         }
 
         public void SetAbsorbers(TissueType tissueType)
         {
+            TissueType = tissueType;
             Absorbers = new List<IChromophoreAbsorber>();
             switch (tissueType)
             {
@@ -117,6 +105,7 @@ namespace Vts.SpectralMapping
 
         public void SetScatterer(TissueType tissueType)
         {
+            TissueType = tissueType;
             switch (tissueType)
             {
                 case TissueType.Skin:
