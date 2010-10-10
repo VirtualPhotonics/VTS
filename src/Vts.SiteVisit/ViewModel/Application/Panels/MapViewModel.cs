@@ -143,7 +143,7 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
-        void Maps_ExportDataToText_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
+        private void Maps_ExportDataToText_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
         {
             if (_mapData != null && _mapData.RawData != null && _mapData.XValues != null && _mapData.YValues != null)
             {

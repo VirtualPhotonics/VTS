@@ -44,14 +44,44 @@ namespace Vts.Modeling.ForwardSolvers
 
         #region IForwardSolver Members
 
-        #region Abstract methods - must be implemented in child classes
+        #region Dummy virtual methods - must be implemented in child classes
 
-        public abstract double RofRho(OpticalProperties op, double rho);
-        public abstract double RofRhoAndT(OpticalProperties op, double rho, double t);
-        public abstract Complex RofRhoAndFt(OpticalProperties op, double rho, double ft);
-        public abstract double RofFx(OpticalProperties op, double fx);
-        public abstract double RofFxAndT(OpticalProperties op, double fx, double t);
-        public abstract Complex RofFxAndFt(OpticalProperties op, double fx, double ft);
+        public virtual double RofRho(OpticalProperties op, double rho)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public virtual double RofTheta(OpticalProperties op, double theta)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public virtual double RofRhoAndT(OpticalProperties op, double rho, double t)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Complex RofRhoAndFt(OpticalProperties op, double rho, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual double RofFx(OpticalProperties op, double fx)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual double RofFxAndT(OpticalProperties op, double fx, double t)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Complex RofFxAndFt(OpticalProperties op, double fx, double ft)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion 
 
@@ -62,6 +92,13 @@ namespace Vts.Modeling.ForwardSolvers
             IEnumerable<double> rhos)
         {
             return ((Func<OpticalProperties, double, double>)RofRho).LoopOverVariables(ops, rhos);
+        }
+
+        public virtual IEnumerable<double> RofTheta(
+            IEnumerable<OpticalProperties> ops,
+            IEnumerable<double> thetas)
+        {
+            return ((Func<OpticalProperties, double, double>)RofTheta).LoopOverVariables(ops, thetas);
         }
 
         public virtual IEnumerable<double> RofRhoAndT(
@@ -110,10 +147,13 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns></returns>
-        public abstract IEnumerable<double> FluenceofRho(
+        public virtual IEnumerable<double> FluenceofRho(
             IEnumerable<OpticalProperties> ops, 
-            IEnumerable<double> rhos, 
-            IEnumerable<double> zs);
+            IEnumerable<double> rhos,
+            IEnumerable<double> zs)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Overload of scalar RofRhoAndT function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and times 'ts'
@@ -123,11 +163,14 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ts">times (ns)</param>
         /// <returns></returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
-        public abstract IEnumerable<double> FluenceofRhoAndT(
+        public virtual IEnumerable<double> FluenceofRhoAndT(
             IEnumerable<OpticalProperties> ops, 
             IEnumerable<double> rhos, 
-            IEnumerable<double> zs, 
-            IEnumerable<double> ts);
+            IEnumerable<double> zs,
+            IEnumerable<double> ts)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Overload of scalar RofRhoAndFt function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and time frequencies 'fts'
@@ -137,11 +180,14 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
-        public abstract IEnumerable<double> FluenceofRhoAndFt(
+        public virtual IEnumerable<double> FluenceofRhoAndFt(
             IEnumerable<OpticalProperties> ops, 
             IEnumerable<double> rhos, 
-            IEnumerable<double> zs, 
-            IEnumerable<double> fts);
+            IEnumerable<double> zs,
+            IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Overload of scalar RofFx function. Determines reflectances at optical properties 'ops' and spatial frequencies 'fxs'
@@ -149,10 +195,13 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <returns></returns>
-        public abstract IEnumerable<double> FluenceofFx(
+        public virtual IEnumerable<double> FluenceofFx(
             IEnumerable<OpticalProperties> ops, 
-            IEnumerable<double> fxs, 
-            IEnumerable<double> zs);
+            IEnumerable<double> fxs,
+            IEnumerable<double> zs)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Overload of scalar RofFxAndT function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and times 'ts'
@@ -161,11 +210,14 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public abstract IEnumerable<double> FluenceofFxAndT(
+        public virtual IEnumerable<double> FluenceofFxAndT(
             IEnumerable<OpticalProperties> ops, 
             IEnumerable<double> fxs, 
-            IEnumerable<double> zs, 
-            IEnumerable<double> ts);
+            IEnumerable<double> zs,
+            IEnumerable<double> ts)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Overload of scalar RofFxAndFt function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and time frequencies 'fts'
@@ -174,11 +226,14 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
-        public abstract IEnumerable<double> FluenceofFxAndFt(
+        public virtual IEnumerable<double> FluenceofFxAndFt(
             IEnumerable<OpticalProperties> ops, 
             IEnumerable<double> fxs, 
-            IEnumerable<double> zs, 
-            IEnumerable<double> fts);
+            IEnumerable<double> zs,
+            IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 

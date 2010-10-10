@@ -119,6 +119,9 @@
     <Compile Include="..\Vts.Test\Common\PositionTests.cs">
       <Link>Common\PositionTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\Factories\ComputationFactoryTest.cs">
+      <Link>Factories\ComputationFactoryTest.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Factories\SolverFactoryTest.cs">
       <Link>Factories\SolverFactoryTest.cs</Link>
     </Compile>

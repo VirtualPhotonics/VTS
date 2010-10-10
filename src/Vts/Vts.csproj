@@ -157,6 +157,9 @@
     <Compile Include="Modeling\ForwardSolvers\DiffusionForwardSolverBase.cs" />
     <Compile Include="Modeling\ForwardSolvers\DiffusionGreensFunctions.cs" />
     <Compile Include="Modeling\ForwardSolvers\DiffusionParameters.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DiscreteOrdinatesForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DiscreteOrdinates\DOMethods.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DiscreteOrdinates\GaussLegendreCoefficients.cs" />
     <Compile Include="Modeling\ForwardSolvers\DistributedGaussianSourceSDAForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\DistributedPointSourceSDAForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\ForwardSolverBase.cs" />

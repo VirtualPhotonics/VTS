@@ -62,11 +62,16 @@ namespace Vts.Factories
             }
         }
 
-        public static IForwardSolver GetForwardSolver(ForwardSolverType type)
+        public static IForwardSolver GetForwardSolver(ForwardSolverType forwardSolverType)
+        {
+            return GetForwardSolver(forwardSolverType.ToString());
+        }
+
+        public static IForwardSolver GetForwardSolver(string forwardSolverType)
         {
             try
             {
-                return _container.Resolve<IForwardSolver>(type.ToString());
+                return _container.Resolve<IForwardSolver>(forwardSolverType);
             }
             catch (Exception)
             {
@@ -76,12 +81,17 @@ namespace Vts.Factories
 
         public static IScatterer GetScattererType(ScatteringType scatteringType)
         {
+            return GetScattererType(scatteringType.ToString());
+        }
+
+        public static IScatterer GetScattererType(string scatteringType)
+        {
             try
             {
                 // todo: add overload of GetScattererType that takes in a tissue type 
                 // for choosing good defaults. Need to understand how to configure Unity
                 // to allow for both types of resolution (right now, calls default constructor)
-                return _container.Resolve<IScatterer>(scatteringType.ToString());
+                return _container.Resolve<IScatterer>(scatteringType);
             }
             catch (Exception)
             {
@@ -91,9 +101,14 @@ namespace Vts.Factories
 
         public static IOptimizer GetOptimizer(OptimizerType type)
         {
+            return GetOptimizer(type.ToString());
+        }
+
+        public static IOptimizer GetOptimizer(string type)
+        {
             try
             {
-                return _container.Resolve<IOptimizer>(type.ToString());
+                return _container.Resolve<IOptimizer>(type);
             }
             catch (Exception)
             {

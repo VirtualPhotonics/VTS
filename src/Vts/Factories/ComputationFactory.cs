@@ -6,11 +6,18 @@ using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers.Extensions;
 using MathNet.Numerics;
 
+#if DESKTOP
+using System.Runtime.InteropServices;
+#endif
+
 namespace Vts.Factories
 {
     /// <summary>
     /// Class that composes forward and optimization calculations based on high-level inputs
     /// </summary>
+#if DESKTOP
+    [ComVisible(true)]
+#endif
     public static class ComputationFactory
     {
         // todo: the following two methods are a result of a leaky abstraction 
@@ -50,6 +57,39 @@ namespace Vts.Factories
             //    flattened[i + tempSize] = temp[i + 1].Imaginary;
             //}
             //return flattened;
+        }
+
+#if DESKTOP
+    [ComVisible(true)] 
+#endif
+        /// <summary>
+        /// String-overloaded version of factory method for forward solver computation
+        /// </summary>
+        /// <param name="forwardSolverType"></param>
+        /// <param name="solutionDomainType"></param>
+        /// <param name="forwardAnalysisType"></param>
+        /// <param name="independentVariableAxisType"></param>
+        /// <param name="independentValues"></param>
+        /// <param name="opticalProperties"></param>
+        /// <param name="constantValues"></param>
+        /// <returns></returns>
+        public static double[] GetVectorizedIndependentVariableQueryNew(
+             string forwardSolverType,
+             string solutionDomainType,
+             string forwardAnalysisType,
+             string independentVariableAxisType,
+             double[] independentValues,
+             double[] opticalProperties,
+             double[] constantValues)
+        {
+            return GetVectorizedIndependentVariableQueryNew(
+                (ForwardSolverType)Enum.Parse(typeof(ForwardSolverType), forwardSolverType, true),
+                (SolutionDomainType)Enum.Parse(typeof(SolutionDomainType), solutionDomainType, true),
+                (ForwardAnalysisType)Enum.Parse(typeof(ForwardAnalysisType), forwardAnalysisType, true),
+                (IndependentVariableAxis)Enum.Parse(typeof(IndependentVariableAxis), independentVariableAxisType, true),
+                independentValues,
+                new OpticalProperties(opticalProperties[0], opticalProperties[1], opticalProperties[2], opticalProperties[3]),
+                constantValues).ToArray();
         }
 
         public static IEnumerable<double> GetVectorizedIndependentVariableQueryNew(
