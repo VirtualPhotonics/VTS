@@ -1,0 +1,103 @@
+Virtual Tissue Simulator (VTS) Project
+Copyright (c) 2010 Laser Microbeam and Medical Program
+
+The VTS was built using libraries and resources distributed under the licenses listed below. Where it is required, we have included the license file (license.txt) with the library or resource.
+
+-=================<Libraries & Resources>====================-
+
+-==<Adaptive Simpson's Method>==-
+
+website:	http://en.wikipedia.org/wiki/Adaptive_Simpson's_method
+License:	Wikipedia
+
+-==<Chart Helper>>==-
+
+Website:	http://jmorrill.hjtcentral.com/Home/tabid/428/EntryId/351/Silverlight-Charts-Binding-multiple-Series.aspx
+License:	Public
+Credit:		Jeremiah Morrill
+
+-==<CucciaArrayMath>==-
+
+License:	Public
+Credit:		David Cuccia
+
+-==<Math.NET Numerics>==-
+
+Website:	http://numerics.mathdotnet.com/
+License:	MIT/X11
+
+-==<MetaNumerics>==-
+
+Website:	http://metanumerics.codeplex.com/
+License:	MSPL
+
+-==<NUnit>==-
+
+Website:	http://nunit.org
+License:	Zlib/libpng 
+
+-==<Silverlight test runner for NUnit>==-
+
+Website:	http://www.jeff.wilcox.name/2009/01/nunit-and-silverlight/
+License:	Zlib/libpng (Same license as NUnit)
+Credit:		Jeff Wilcox
+
+-==<Localization in WPF>==-
+
+website:	http://www.codeproject.com/KB/WPF/InternationalizedWizard.aspx
+License:	Public
+Credit:		Josh Smith & Karl Shifflett
+
+-==<Reactive Extensions to the .NET framework>==-
+
+Website:	http://msdn.microsoft.com/en-us/devlabs/ee794896.aspx
+
+-==<Roll Algorithm>==-
+
+Details:	Roll Algorithm, Custom Integration based off Tom, et al, curtesy of Owen Yang.
+License: 
+Credit:		Owen Yang, David Cuccia, Bernard Choi
+
+-==<Silverlight ComboBox>==-
+
+website:	http://www.lhotka.net/weblog/SilverlightComboBoxControlAndDataBinding.aspx
+License:	Public
+Credit:		Rockford Lhokta
+
+-==<Silverlight Control Toolkit>==-
+
+Website:	http://silverlight.codeplex.com/releases/view/36060
+License:	MS-PL
+
+-==<SLExtensions>==-
+
+Website:	http://slextensions.codeplex.com/releases/view/18824
+License:	MSPL
+
+-==<MVVM Light Framework>==-
+
+Website:	http://www.galasoft.ch/mvvm/getstarted/
+License:	MIT
+Credit:		Laurent Bugnion, GalaSoft
+
+-==<MPFit>==-
+
+Details:	Levenberg-Marquardt nonlinear optimization library 
+Website:	http://www.physics.wisc.edu/~craigm/idl/idl.html
+License:	Public
+Credit:		B. Garbow, K. Hillstrom, J. More' (Argonne National Laboratory, MINPACK project, March 1980), 
+		C. Markwardt (Enhancements and packaging)
+		S. Moshier (ported from Fortran to C)
+		David Cuccia (ported from C to C#)
+
+-==<Unity dependency injection framework>==-
+
+Website:	http://unity.codeplex.com/
+License:	MS-PL
+Credit:		Microsoft Patterns and Practices group
+
+-==<FJCore JPEG codec library>==-
+
+Website:	http://code.google.com/p/fjcore/
+License:	MIT
+Credit:		Occipital Open Source
