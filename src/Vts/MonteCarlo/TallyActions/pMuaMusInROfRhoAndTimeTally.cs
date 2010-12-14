@@ -85,7 +85,7 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Tally(PhotonDataPoint dp, IList<OpticalProperties> perturbedOps)
         {
-            double weightFactor = 0.0;
+            double weightFactor = 1.0;
             var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
                 DetectorBinning.GetTimeDelay(
                 sub.PathLength,
@@ -114,7 +114,7 @@ namespace Vts.MonteCarlo.TallyActions
                 {
                     foreach (var i in _perturbedRegionsIndices)
                     {
-                        weightFactor +=
+                        weightFactor *=
                             Math.Pow(
                                 (perturbedOps[i].Mus / _referenceOps[i].Mus),
                                 dp.SubRegionInfoList[i].NumberOfCollisions) *
@@ -127,7 +127,7 @@ namespace Vts.MonteCarlo.TallyActions
                 {
                     foreach (var i in _perturbedRegionsIndices)
                     {
-                        weightFactor +=
+                        weightFactor *=
                             Math.Pow(
                                 (perturbedOps[i].Mus / _referenceOps[i].Mus),
                                 dp.SubRegionInfoList[i].NumberOfCollisions) *
