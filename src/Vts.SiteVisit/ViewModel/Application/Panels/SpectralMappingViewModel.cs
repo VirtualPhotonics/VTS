@@ -19,17 +19,17 @@ namespace Vts.SiteVisit.ViewModel
     /// </summary>
     public partial class SpectralMappingViewModel : BindableObject
     {
-        private List<Tissue> _Tissues;
-        private Tissue _SelectedTissue;
-        private double _Mua;
-        private double _G;
-        private double _Musp;
-        private double _Wavelength;
-        private BloodConcentrationViewModel _BloodConcentrationVM;
-        private RangeViewModel _WavelengthRangeVM;
-        private OptionViewModel<ScatteringType> _ScatteringTypeVM;
-        private string _ScatteringTypeName;
-        private IScatterer _Scatterer;
+        private List<Tissue> _tissues;
+        private Tissue _selectedTissue;
+        private double _mua;
+        private double _g;
+        private double _musp;
+        private double _wavelength;
+        private BloodConcentrationViewModel _bloodConcentrationVM;
+        private RangeViewModel _wavelengthRangeVM;
+        private OptionViewModel<ScatteringType> _scatteringTypeVM;
+        private string _scatteringTypeName;
+        private IScatterer _scatterer;
 
         public SpectralMappingViewModel()
         {
@@ -43,6 +43,12 @@ namespace Vts.SiteVisit.ViewModel
                 if (SelectedTissue.ScattererType != ScatteringTypeVM.SelectedValue)
                 {
                     SelectedTissue.Scatterer = SolverFactory.GetScattererType(ScatteringTypeVM.SelectedValue);
+                    //LM - Temporary Fix to reset the tissue type after a new scatterer is created
+                    if (SelectedTissue.ScattererType == ScatteringType.PowerLaw)
+                    {
+                       PowerLawScatterer myScatterer = (PowerLawScatterer)SelectedTissue.Scatterer;
+                       myScatterer.SetTissueType(SelectedTissue.TissueType);
+                    }
                     ScatteringTypeName = SelectedTissue.Scatterer.GetType().FullName;
                 }
                 OnPropertyChanged("Scatterer");
@@ -110,44 +116,44 @@ namespace Vts.SiteVisit.ViewModel
         /// </summary>
         public IScatterer Scatterer
         {
-            get { return _SelectedTissue.Scatterer; }
+            get { return _selectedTissue.Scatterer; }
         }
 
         public string ScatteringTypeName
         {
-            get { return _ScatteringTypeName; }
+            get { return _scatteringTypeName; }
             set
             {
-                _ScatteringTypeName = value;
+                _scatteringTypeName = value;
                 OnPropertyChanged("ScatteringTypeName");
             }
         }
 
         public OptionViewModel<ScatteringType> ScatteringTypeVM
         {
-            get { return _ScatteringTypeVM; }
+            get { return _scatteringTypeVM; }
             set
             {
-                _ScatteringTypeVM = value;
+                _scatteringTypeVM = value;
                 OnPropertyChanged("ScatteringTypeVM");
             }
         }
 
         public Tissue SelectedTissue
         {
-            get { return _SelectedTissue; }
+            get { return _selectedTissue; }
             set
             {
                 // var realScatterer = value.Scatterer;
 
-                _SelectedTissue = value;
+                _selectedTissue = value;
                 OnPropertyChanged("SelectedTissue");
                 OnPropertyChanged("Scatterer");
 
                 // todo: isn't there a simpler way? what happens when we just set SelectedValue? djc
-                ScatteringTypeVM.Options.Where(o => o.Key == _SelectedTissue.Scatterer.ScattererType)
+                ScatteringTypeVM.Options.Where(o => o.Key == _selectedTissue.Scatterer.ScattererType)
                     .First().Value.IsSelected = true;
-
+                ScatteringTypeName = _selectedTissue.Scatterer.GetType().FullName;
                 //ScatteringTypeVM.SelectedValue = realScatterer.ScattererType; // todo: how to supress/override VM.OnPropertyChanged?
                 // _SelectedTissue.Scatterer = realScatterer; //overwrite stock value generated as a result of the line above
                 // ScatteringTypeName = realScatterer.GetType().FullName; // todo: need to get rid of strings explicitly
@@ -156,8 +162,8 @@ namespace Vts.SiteVisit.ViewModel
 
                 // update the BloodConcentrationViewModel to point to the IChromophoreAbsorber instances 
                 // specified in the updated SelectedTissue
-                var hb = _SelectedTissue.Absorbers.Where(abs => abs.Name == "Hb").FirstOrDefault();
-                var hbO2 = _SelectedTissue.Absorbers.Where(abs => abs.Name == "HbO2").FirstOrDefault();
+                var hb = _selectedTissue.Absorbers.Where(abs => abs.Name == "Hb").FirstOrDefault();
+                var hbO2 = _selectedTissue.Absorbers.Where(abs => abs.Name == "HbO2").FirstOrDefault();
 
                 // only assign the values if both queries return valid (non-null) instances of IChromophoreAbsorber
                 if (hb != null && hbO2 != null)
@@ -173,20 +179,20 @@ namespace Vts.SiteVisit.ViewModel
 
         public List<Tissue> Tissues
         {
-            get { return _Tissues; }
+            get { return _tissues; }
             set
             {
-                _Tissues = value;
+                _tissues = value;
                 this.OnPropertyChanged("Tissues");
             }
         }
 
         public double Wavelength
         {
-            get { return _Wavelength; }
+            get { return _wavelength; }
             set
             {
-                _Wavelength = value;
+                _wavelength = value;
                 UpdateOpticalProperties();
                 this.OnPropertyChanged("Wavelength");
             }
@@ -194,30 +200,30 @@ namespace Vts.SiteVisit.ViewModel
 
         public double Mua
         {
-            get { return _Mua; }
+            get { return _mua; }
             set
             {
-                _Mua = value;
+                _mua = value;
                 this.OnPropertyChanged("Mua");
             }
         }
 
         public double G
         {
-            get { return _G; }
+            get { return _g; }
             set
             {
-                _G = value;
+                _g = value;
                 this.OnPropertyChanged("G");
             }
         }
 
         public double Musp
         {
-            get { return _Musp; }
+            get { return _musp; }
             set
             {
-                _Musp = value;
+                _musp = value;
                 this.OnPropertyChanged("Musp");
                 this.OnPropertyChanged("ScatteringTypeVM");
             }
@@ -225,21 +231,21 @@ namespace Vts.SiteVisit.ViewModel
 
         public RangeViewModel WavelengthRangeVM
         {
-            get { return _WavelengthRangeVM; }
+            get { return _wavelengthRangeVM; }
             set
             {
-                _WavelengthRangeVM = value;
-                this.OnPropertyChanged("WavelengthRangeVM");
+                _wavelengthRangeVM = value;
+//                this.OnPropertyChanged("WavelengthRangeVM");
 
             }
         }
 
         public BloodConcentrationViewModel BloodConcentrationVM
         {
-            get { return _BloodConcentrationVM; }
+            get { return _bloodConcentrationVM; }
             set
             {
-                _BloodConcentrationVM = value;
+                _bloodConcentrationVM = value;
                 this.OnPropertyChanged("BloodConcentrationVM");
                 this.OnPropertyChanged("SelectedTissue");
             }

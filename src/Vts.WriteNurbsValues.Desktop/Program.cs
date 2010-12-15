@@ -16,8 +16,7 @@ namespace Vts.WriteNurbsValues.Desktop
         {
             string readPath = @"Modeling\Resources\ReferenceNurbs\";
             string writePath = @"..\..\..\Vts\";
-            
-            string[] domain = { @"RealDomain\" };
+            string[] domain = { @"SpatialFrequencyDomain\", @"RealDomain\" };
             string folder = @"v0p1\";
 
             for (int dInd = 0; dInd < domain.Length; dInd++)

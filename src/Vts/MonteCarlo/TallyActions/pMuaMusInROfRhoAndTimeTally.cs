@@ -52,12 +52,12 @@ namespace Vts.MonteCarlo.TallyActions
                 _rho.Start = _rho.Start - 0.1;
                 _rhoDelta = 0.2;
                 _rho.Stop = _rho.Start + _rhoDelta;
-                _rhoCenters = new double[1] { _rho.Start + _rhoDelta / 2 };
+                _rhoCenters = new double[1] { _rho.Start };
                 _timeDelta = _time.Delta;
                 _timeCenters = new double[_time.Count];
                 for (int i = 0; i < _time.Count; i++)
                 {
-                    _timeCenters[i] = _time.Start + (i + 1) * _timeDelta / 2;
+                    _timeCenters[i] = _time.Start + i *_timeDelta;
                 }
             }
             if (_time.Count == 1)
@@ -65,12 +65,12 @@ namespace Vts.MonteCarlo.TallyActions
                 _time.Start = _time.Start - 0.0025;
                 _timeDelta = 0.005;
                 _time.Stop = _time.Start + _timeDelta;
-                _timeCenters = new double[1] { _time.Start + _timeDelta / 2 };
+                _timeCenters = new double[1] { _time.Start };
                 _rhoDelta = _rho.Delta;
                 _rhoCenters = new double[_rho.Count];
                 for (int i = 0; i < _rho.Count; i++)
                 {
-                    _rhoCenters[i] = _rho.Start + (i + 1) * _rhoDelta / 2;  
+                    _rhoCenters[i] = _rho.Start + i * _rhoDelta;  
                 }
             }
         }
@@ -85,7 +85,7 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Tally(PhotonDataPoint dp, IList<OpticalProperties> perturbedOps)
         {
-            double weightFactor = 0.0;
+            double weightFactor = 1.0;
             var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
                 DetectorBinning.GetTimeDelay(
                 sub.PathLength,
@@ -110,15 +110,16 @@ namespace Vts.MonteCarlo.TallyActions
             }
             if ((ir != -1) && (it != -1))
             {
-                if (_awt == AbsorptionWeightingType.Discrete) // DC: how do I set this so not going thru for each tally
+                if (_awt == AbsorptionWeightingType.Discrete) // set Action here
                 {
                     foreach (var i in _perturbedRegionsIndices)
                     {
-                        weightFactor +=
+                        weightFactor *=
                             Math.Pow(
                                 (perturbedOps[i].Mus / _referenceOps[i].Mus),
                                 dp.SubRegionInfoList[i].NumberOfCollisions) *
-                            Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                            Math.Exp(-((perturbedOps[i].Mus + perturbedOps[i].Mua) - 
+                                       (_referenceOps[i].Mus + _referenceOps[i].Mua)) *
                                 totalPathLengthInPerturbedRegions);
                     }
                 }
@@ -126,7 +127,7 @@ namespace Vts.MonteCarlo.TallyActions
                 {
                     foreach (var i in _perturbedRegionsIndices)
                     {
-                        weightFactor +=
+                        weightFactor *=
                             Math.Pow(
                                 (perturbedOps[i].Mus / _referenceOps[i].Mus),
                                 dp.SubRegionInfoList[i].NumberOfCollisions) *

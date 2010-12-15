@@ -42,6 +42,42 @@ namespace Vts.Extensions
         }
 
         /// <summary>
+        /// Method for applying an action to any enumerable sequence. 
+        /// This is the analog of Select, but with no output (only "side effects").
+        /// This overload takes in an Action with an additional int parameter that 
+        /// provides the index of the sequence.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <param name="action"></param>
+        public static void ForEach<T>(this IEnumerable<T> items, Action<T> action)
+        {
+            foreach (var item in items)
+            {
+                action(item);
+            }
+        }
+
+        /// <summary>
+        /// Method for applying an action to any enumerable sequence. 
+        /// This is the analog of Select, but with no output (only "side effects").
+        /// This overload takes in an Action with an additional int parameter that 
+        /// provides the index of the sequence.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <param name="action"></param>
+        public static void ForEach<T>(this IEnumerable<T> items, Action<T, int> action)
+        {
+            int i = 0;
+            foreach (var item in items)
+            {
+                action(item, i);
+                i++;
+            }
+        }
+
+        /// <summary>
         /// Converts an IEnumerable into a 2D array given a specified width and height
         /// </summary>
         /// <typeparam name="T"></typeparam>

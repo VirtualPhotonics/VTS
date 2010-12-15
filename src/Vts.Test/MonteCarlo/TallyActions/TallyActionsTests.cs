@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.TallyActions
 {
     /// <summary>
-    /// These test execute a MC simulation with 100 photons and verifies
+    /// These tests execute a MC simulation with 100 photons and verify
     /// that the tally results match the linux results given the same seed
     /// mersenne twister STANDARD_TEST
     /// </summary>

@@ -20,7 +20,7 @@ namespace Vts.Modeling.ForwardSolvers
         {
             if (_pMCLoader == null)
             {
-                _pMCLoader = new pMCLoader();
+                _pMCLoader = new pMCLoader("Vts.Database", "", "photonBiographies1e6");
             }
         }
 
@@ -47,10 +47,10 @@ namespace Vts.Modeling.ForwardSolvers
                 // make list of ops that have requested ops as middle region (of multilayer tissue)
                 List<OpticalProperties> regionOps = new List<OpticalProperties>() { 
                     new OpticalProperties(), op, new OpticalProperties() };
-                // hard code awt for now, pass in through simulationOptions added to simulationInput?
-                var _postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(detectorInput,
-                    AbsorptionWeightingType.Continuous, regionOps, perturbedRegionsIndices, pMCLoader.PhotonTerminationDatabase,
-                    pMCLoader.databaseOutput);
+                var _postProcessedOutput = 
+                    PhotonTerminationDatabasePostProcessor.GenerateOutput(
+                        detectorInput, pMCLoader.PhotonTerminationDatabase,
+                        pMCLoader.databaseOutput, regionOps, perturbedRegionsIndices);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
                 for (int r = 0; r < rhos.Count(); r++)
                 {
@@ -81,10 +81,10 @@ namespace Vts.Modeling.ForwardSolvers
                 // make list of ops that have requested ops as middle region (of multilayer tissue)
                 List<OpticalProperties> regionOps = new List<OpticalProperties>() { 
                     new OpticalProperties(), op, new OpticalProperties() };
-                // hard code awt for now, pass in through simulationOptions added to simulationInput?
-                var _postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(detectorInput,
-                    AbsorptionWeightingType.Continuous, regionOps, perturbedRegionsIndices, pMCLoader.PhotonTerminationDatabase,
-                    pMCLoader.databaseOutput);
+                var _postProcessedOutput = 
+                    PhotonTerminationDatabasePostProcessor.GenerateOutput(
+                    detectorInput, pMCLoader.PhotonTerminationDatabase,
+                    pMCLoader.databaseOutput, regionOps, perturbedRegionsIndices);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
                 for (int r = 0; r < rhos.Count(); r++)
                 {

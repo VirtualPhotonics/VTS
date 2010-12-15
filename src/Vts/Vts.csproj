@@ -157,6 +157,9 @@
     <Compile Include="Modeling\ForwardSolvers\DiffusionForwardSolverBase.cs" />
     <Compile Include="Modeling\ForwardSolvers\DiffusionGreensFunctions.cs" />
     <Compile Include="Modeling\ForwardSolvers\DiffusionParameters.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DiscreteOrdinatesForwardSolver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DiscreteOrdinates\DOMethods.cs" />
+    <Compile Include="Modeling\ForwardSolvers\DiscreteOrdinates\GaussLegendreCoefficients.cs" />
     <Compile Include="Modeling\ForwardSolvers\DistributedGaussianSourceSDAForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\DistributedPointSourceSDAForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\ForwardSolverBase.cs" />
@@ -369,6 +372,12 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
     <None Include="Modeling\Spectroscopy\Fat.csv" />
     <None Include="Vts.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vts.Database\Vts.Database.csproj">
+      <Project>{79A38678-1464-4E60-94AA-82B47DFDB334}</Project>
+      <Name>Vts.Database</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

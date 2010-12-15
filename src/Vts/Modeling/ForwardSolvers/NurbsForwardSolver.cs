@@ -323,7 +323,7 @@ namespace Vts.Modeling.ForwardSolvers
                     fx_ref = fx * _opReference.Musp / op.Musp;
                     double exponentialterm = op.Mua * v * _opReference.Musp / op.Musp;
 
-                    if (fx_ref <= _sfdGenerator.SpaceValues.MaxValue)
+                    if (fx_ref <= _sfdGenerator.SpaceValues.MaxValue && fx_ref >= 0.0)
                     {
                         integralValue = _sfdGenerator.EvaluateNurbsCurveIntegral(fx_ref, exponentialterm);
                         integralValue = CheckIfValidOutput(integralValue);
@@ -618,7 +618,6 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>zero or the input value</returns>
         public double CheckIfValidOutput(double value)
         {
-            //TODO throw exception if it happens.
             if (value < 0.0 || Double.IsNaN(value))
             {
                 value = 0.0;
@@ -638,8 +637,8 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Extrapolates the linear fit of the log of the tail of the curve and integrates
-        /// analitically from tMax to infinity.
+        /// Extrapolates the linear decay of the log of the tail of the curve and integrates
+        /// analitically from tMax to infinity to evaluate the steady state signal
         /// </summary>
         /// <param name="generator">NurbsGenerator</param>
         /// <param name="space_ref">spatial coordiante</param>

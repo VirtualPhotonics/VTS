@@ -41,6 +41,31 @@ namespace Vts.Common.Math
                 return y[currentIndex - 1] + t * (y[currentIndex] - y[currentIndex - 1]);
             }
         }
+
+        /// <summary>
+        /// Interpolation in one dimension (assumes x are monotonically increasing)
+        /// </summary>
+        /// <param name="x">The known dependent values</param>
+        /// <param name="y">The known independent values</param>
+        /// <param name="xi">Value to at which to interpolate</param>
+        /// <returns>If xi outside range of x, returns NaN,
+        ///     otherwide, returns linearly interpolated result</returns>
+        public static float interp1(IList<float> x, IList<float> y, float xi)
+        {
+            int currentIndex = 1;
+
+            if ((xi < x[0]) || (xi > x[x.Count - 1])) return float.NaN;
+            else
+            {
+                // increment the index until you pass the desired interpolation point
+                while (x[currentIndex] < xi) currentIndex++;
+
+                // then do the interp between x[currentIndex-1] and xi[currentIndex]
+                float t = (xi - x[currentIndex - 1]) / (x[currentIndex] - x[currentIndex - 1]);
+                return y[currentIndex - 1] + t * (y[currentIndex] - y[currentIndex - 1]);
+            }
+        }
+
         /// <summary>
         /// Interpolation in one dimension (assumes x are monotonically increasing) of 2D array 
         /// over either 1st or 2nd dimension with fixed index in other dimension 
@@ -75,29 +100,95 @@ namespace Vts.Common.Math
             }
             return interp1(x, temp, xi);
         }
+
+        /// <summary>
+        /// Interpolation in one dimension (assumes x are monotonically increasing) of 2D array 
+        /// over either 1st or 2nd dimension with fixed index in other dimension 
+        /// </summary>
+        /// <param name="x">The known dependent values</param>
+        /// <param name="y">The known independent values</param>
+        /// <param name="xi">Value to at which to interpolate</param>
+        /// <param name="fixedDimension">Dimension of 2D array to keep fixed</param>
+        /// <param name="fixedIndex">Fixed index of dim</param>
+        /// <returns>The interpolated value (clamped to boundary values if xi are of range)</returns>
+        public static float interp1(IList<float> x, float[,] y, float xi, int fixedDimension, int fixedIndex)
+        {
+            float[] temp;
+            switch (fixedDimension)
+            {
+                case 1:  // interpolate over 2nd dimension
+                    temp = new float[y.GetLength(1)];
+                    for (int i = 0; i < y.GetLength(1); i++)
+                    {
+                        temp[i] = y[fixedIndex, i];
+                    }
+                    break;
+                default:
+                case 2:
+                    temp = new float[y.GetLength(0)];
+                    for (int i = 0; i < y.GetLength(0); i++)
+                    {
+                        temp[i] = y[i, fixedIndex];
+                    }
+
+                    break;
+            }
+            return interp1(x, temp, xi);
+        }
+
+        #endregion
+
+        #region Multi-value interpolation
+
+        // todo: "flip" vectorized and scalar implementations to remove inefficiency 
+
         /// <summary>
         /// Interpolation in one dimension (assumes x are monotonically increasing)
         /// </summary>
         /// <param name="x">The known dependent values</param>
         /// <param name="y">The known independent values</param>
-        /// <param name="xi">Value to at which to interpolate</param>
-        /// <returns>If xi outside range of x, returns NaN,
+        /// <param name="xs">Value to at which to interpolate</param>
+        /// <returns>If xs outside range of x, returns NaN,
         ///     otherwide, returns linearly interpolated result</returns>
-        public static float interp1(IList<float> x, IList<float> y, float xi)
+        public static IEnumerable<double> interp1(IList<double> x, IList<double> y, IEnumerable<double> xs)
         {
-            int currentIndex = 1;
-
-            if ((xi < x[0]) || (xi > x[x.Count - 1])) return float.NaN;
-            else
+            foreach (var xi in xs)
             {
-                // increment the index until you pass the desired interpolation point
-                while (x[currentIndex] < xi) currentIndex++;
-
-                // then do the interp between x[currentIndex-1] and xi[currentIndex]
-                float t = (xi - x[currentIndex - 1]) / (x[currentIndex] - x[currentIndex - 1]);
-                return y[currentIndex - 1] + t * (y[currentIndex] - y[currentIndex - 1]);
+                yield return interp1(x, y, xi);
             }
         }
+        /// <summary>
+        /// Interpolation in one dimension (assumes x are monotonically increasing)
+        /// </summary>
+        /// <param name="x">The known dependent values</param>
+        /// <param name="y">The known independent values</param>
+        /// <param name="xs">Value to at which to interpolate</param>
+        /// <returns>If xs outside range of x, returns NaN,
+        ///     otherwide, returns linearly interpolated result</returns>
+        public static IEnumerable<float> interp1(IList<float> x, IList<float> y, IEnumerable<float> xs)
+        {
+            foreach (var xi in xs)
+            {
+                yield return interp1(x, y, xi);
+            }
+        }
+
+        public static IEnumerable<double> interp1(IList<double> x, double[,] y, IEnumerable<double> xs, int fixedDimension, int fixedIndex)
+        {
+            foreach (var xi in xs)
+            {
+                yield return interp1(x, y, xi, fixedDimension, fixedIndex);
+            }
+        }
+
+        public static IEnumerable<float> interp1(IList<float> x, float[,] y, IEnumerable<float> xs, int fixedDimension, int fixedIndex)
+        {
+            foreach (var xi in xs)
+            {
+                yield return interp1(x, y, xi, fixedDimension, fixedIndex);
+            }
+        }
+
         #endregion
 
         #region 2D interpolation

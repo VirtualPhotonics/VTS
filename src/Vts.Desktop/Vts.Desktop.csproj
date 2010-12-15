@@ -20,17 +20,18 @@
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DESKTOP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Vts.xml</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RegisterForComInterop>true</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;DESKTOP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -38,7 +39,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release %28White List Gui Deployment%29|AnyCPU' ">
     <OutputPath>bin\Release %28White List Gui Deployment%29\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;DESKTOP</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\Vts.xml</DocumentationFile>
     <Optimize>true</Optimize>
@@ -261,6 +262,12 @@
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\DiffusionParameters.cs">
       <Link>Modeling\ForwardSolvers\DiffusionParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DiscreteOrdinates\DOMethods.cs">
+      <Link>Modeling\ForwardSolvers\DiscreteOrdinates\DOMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DiscreteOrdinates\GaussLegendreCoefficients.cs">
+      <Link>Modeling\ForwardSolvers\DiscreteOrdinates\GaussLegendreCoefficients.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\DistributedGaussianSourceSDAForwardSolver.cs">
       <Link>Modeling\ForwardSolvers\DistributedGaussianSourceSDAForwardSolver.cs</Link>

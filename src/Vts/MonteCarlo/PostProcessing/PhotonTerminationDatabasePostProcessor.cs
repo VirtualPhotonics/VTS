@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo.PhotonData;
@@ -15,18 +16,15 @@ namespace Vts.MonteCarlo.PostProcessing
         /// GenerateOutput takes IDetectorInput (which designates tallies), reads PhotonExitHistory, and generates 
         /// Output.  This runs the conventional post-processing.
         /// </summary>
-        /// <param name="input">SimulationInput designating binning</param>
-        /// <param name="peh">PhotonExitHistory</param>
+        /// <param name="tallies">IDetectorInput designating binning</param>
+        /// <param name="peh">PhotonTerminationDatabase</param>
+        /// <param name="databaseOutput">Database information needed for post-processing</param>
         /// <returns></returns>
-        public static Output GenerateOutput(IDetectorInput tallies, PhotonTerminationDatabase peh, Output databaseOutput)
+        public static Output GenerateOutput(IDetectorInput tallies, 
+            PhotonTerminationDatabase peh, Output databaseOutput)
         {
             Output postProcessedOutput = new Output();
-
-            // the following is what I'd like to do to be general but errors with
-            // Unable to cast object of type 'Vts.MonteCarlo.ITissueRegion[]' to type 
-            // 'Vts.MonteCarlo.Tissues.LayerRegion[]'.
-            //ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.input.TissueInput);
-            ITissue tissue = Factories.TissueFactory.GetTissue(new MultiLayerTissueInput()); // workaround
+            ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.input.TissueInput);
             IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
 
             foreach (var dp in peh.DataPoints)
@@ -48,21 +46,21 @@ namespace Vts.MonteCarlo.PostProcessing
         /// GenerateOutput takes IDetectorInput (which designates tallies),
         /// reads PhotonExitHistory, and generates Output.
         /// </summary>
-        /// <param name="input">SimulationInput designating binning</param>
-        /// <param name="peh">PhotonExitHistory</param>
+        /// <param name="tallies">IDetectorInput designating binning</param>
+        /// <param name="peh">PhotonTerminationDatabase</param>
+        /// <param name="databaseOutput">Database information needed for post-processing</param>
+        /// <param name="perturbedOps">Perturbed optical properties</param>
+        /// <param name="perturbedRegionsIndices">Indices of regions being perturbed</param>
         /// <returns></returns>
         public static Output GenerateOutput(
             IDetectorInput tallies, 
-            AbsorptionWeightingType awt, 
-            List<OpticalProperties> perturbedOps,
-            List<int> perturbedRegionsIndices,
             PhotonTerminationDatabase peh, 
-            Output databaseOutput)
+            Output databaseOutput,
+            List<OpticalProperties> perturbedOps,
+            List<int> perturbedRegionsIndices)
         {
             Output postProcessedOutput = new Output();
-
-            //ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.input.TissueInput);
-            ITissue tissue = Factories.TissueFactory.GetTissue(new MultiLayerTissueInput()); // workaround
+            ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.input.TissueInput);
             IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
 
             int count = 0;

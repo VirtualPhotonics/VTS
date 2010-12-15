@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
     {
         /// <summary>
         /// ValidatePhotonExitHistoryPostProcessor tests whether the methods within the
-        /// PhotonExitHistoryPostProcessor class regenerates the same results as the on the fly results.
+        /// PhotonTerminationDatabasePostProcessor class regenerates the same results as the on the fly results.
         /// It currently tests a point source with a layered tissue geometry.
         /// </summary>
         [Test]
@@ -97,9 +97,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                 new SimulationOptions(0, RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete, false, false, true, false, 0);
 
-            var onTheFlyOutput = new MonteCarloSimulation(input, options).Run();
-
-            return onTheFlyOutput;
+            return new MonteCarloSimulation(input, options).Run();
         }
 
         private void ValidateROfRhoAndTime(Output output1, Output output2)
@@ -115,7 +113,6 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     }
                 }
             }
-
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         SpatialFrequencyDomain,
         /// <summary>
-        /// Generator used for testing of teh methods of the class.
+        /// Generator used for testing of the methods of the class.
         /// </summary>
         Stub,
     }
@@ -62,13 +62,13 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// List of the non vanishing Bsplines coefficients for each knot span.
         /// </summary>
-        public List<BSplinesCoefficients> TimeKnotSpanPolynomialCoefficients { get; set; }
+        public List<BSplinesCoefficients> TimeKnotSpanPolynomialCoefficients { get; set; }// for each knot span there is a polynomial function [p(x) = ax^(n) + bx^(n-1) + .... + z], these coefficients are evaluated at instatiation time to improve the analytical integration efficiency.
 
-        public double[] NativeTimes { get; set; }
+        public double[] NativeTimes { get; set; }// temporal coordinate of the native reference points (t_l)
 
-        private double[] MinValidTimes { get; set; }
+        private double[] MinValidTimes { get; set; }// loaded only for real domain reference: for each rho (Rhos) we have measured the time of flight of the first collecte photon, t_0(r_k). If t < t_0 return 0. 
 
-        private double[] Rhos { get; set; }
+        private double[] Rhos { get; set; }// loaded only for real domain reference: native radial coordinates of real domain reference used for minimum time of flight interpolation.
 
         #endregion properties
 
@@ -572,15 +572,15 @@ namespace Vts.Modeling.ForwardSolvers
             double[] multipliedAndSummedPolynomialCoefs = MultiplyControlPointsAndPolynomialCoefficients
                                                                  (polynomialCoefs, controlPoints);
             double deltaT = upperLimit - lowerLimit;
-            //analytical integration
-            if (deltaT > 0.001 &&  exponentialTerm >= _minExponentialTerm && (GeneratorType == NurbsGeneratorType.RealDomain || GeneratorType == NurbsGeneratorType.Stub))
+            //analytical integration: performed only for real domain and only for bins larger than 0.01 ns
+            if ((deltaT > 0.01 &&  exponentialTerm >= _minExponentialTerm) && (GeneratorType == NurbsGeneratorType.RealDomain || GeneratorType == NurbsGeneratorType.Stub))
             {
                 integralValue = IntegrateExponentialMultipliedByPolynomial(exponentialTerm,
                                                                        multipliedAndSummedPolynomialCoefs,
                                                                        lowerLimit,
                                                                        upperLimit);
             }
-            //discrete integration
+            //discrete integration: for each knot span (s) evaluates function (f(u)) at the span middle point (u) and evaluates the area as A = s*f(u)
             else
             {
                 double t = lowerLimit + deltaT/2.0;
@@ -591,10 +591,6 @@ namespace Vts.Modeling.ForwardSolvers
                 integralValue *= Math.Exp(-exponentialTerm * t) * deltaT;
             }
             
-            if (integralValue < 0.0)
-            {
-                integralValue = 0.0;
-            }
             return integralValue;
         }
 

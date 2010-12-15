@@ -5,14 +5,6 @@ namespace Vts.Extensions
 {
     public static class IEnumerableArrayExtensions
     {
-        public static void ForEach<T>(this IEnumerable<T> myCollection, Action<T> doThisAction)
-        {
-            foreach (var item in myCollection)
-            {
-                doThisAction(item);
-            }
-        }
-
         public static IEnumerable<T> ToEnumerable<T>(this Array myArray) where T : struct
         {
             if (myArray is Array[][])

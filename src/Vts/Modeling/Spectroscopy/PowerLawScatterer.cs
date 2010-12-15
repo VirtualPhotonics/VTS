@@ -10,11 +10,6 @@ namespace Vts.SpectralMapping
     /// </summary>
     public class PowerLawScatterer : BindableObject, IScatterer
     {
-        private double _A;
-        private double _B;
-        private double _C;
-        private double _D;
-
         /// <summary>
         /// Constructs a power law scatterer; i.e. mus' = a*lamda^-b + c*lambda^-d
         /// </summary>
@@ -42,6 +37,16 @@ namespace Vts.SpectralMapping
 
         public PowerLawScatterer(TissueType tissueType)
         {
+            SetTissueType(tissueType);
+        }
+
+        public PowerLawScatterer() 
+            : this(TissueType.Custom)
+        {
+        }
+
+        public void SetTissueType(TissueType tissueType)
+        {
             switch (tissueType)
             {
                 case (TissueType.Skin):
@@ -65,8 +70,8 @@ namespace Vts.SpectralMapping
                 case (TissueType.BrainWhiteMatter):
                     A = 3.56;
                     B = 0.84;
-                    D = 0.0;
                     C = 0.0;
+                    D = 0.0;
                     break;
                 case (TissueType.BrainGrayMatter):
                     A = 0.56;
@@ -83,58 +88,23 @@ namespace Vts.SpectralMapping
                 case (TissueType.Custom):
                     A = 1;
                     B = 0.1;
+                    C = 0.0;
+                    D = 0.0;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("tissueType");
             }
         }
 
-        public PowerLawScatterer() 
-            : this(TissueType.Skin)
-        {
-        }
-
         public ScatteringType ScattererType { get { return ScatteringType.PowerLaw; } }
 
-        public double A
-        {
-            get { return _A; }
-            set
-            {
-                _A = value;
-                OnPropertyChanged("A");
-            }
-        }
+        public double A { get; set; }
 
-        public double B
-        {
-            get { return _B; }
-            set
-            {
-                _B = value;
-                OnPropertyChanged("B");
-            }
-        }
+        public double B { get; set; }
 
-        public double C
-        {
-            get { return _C; }
-            set
-            {
-                _C = value;
-                OnPropertyChanged("C");
-            }
-        }
+        public double C { get; set; }
 
-        public double D
-        {
-            get { return _D; }
-            set
-            {
-                _D = value;
-                OnPropertyChanged("D");
-            }
-        }
+        public double D { get; set; }
 
         /// <summary>
         /// Returns mus' based on Steve Jacques' Skin Optics Summary:
@@ -144,7 +114,7 @@ namespace Vts.SpectralMapping
         /// <returns></returns>
         public double GetMusp(double wavelength)
         {
-            return A * Math.Pow(wavelength/1000, -B) + C * Math.Pow(wavelength/1000, -D);
+            return A * Math.Pow(wavelength/1000, - B) + C * Math.Pow(wavelength/1000, - D);
         }
 
         /// <summary>

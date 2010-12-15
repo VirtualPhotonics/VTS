@@ -47,15 +47,15 @@ namespace Vts.MonteCarlo.TallyActions
                 _rho.Start = _rho.Start - 0.1;
                 _rhoDelta = 0.2;
                 _rho.Stop = _rho.Start + _rhoDelta;
-                _rhoCenters = new double[1] { _rho.Start + _rhoDelta / 2 };
+                _rhoCenters = new double[1] { _rho.Start };
             }
-            else
+            else // put rhoCenters at rhos specified by user
             {
                 _rhoDelta = _rho.Delta;
                 _rhoCenters = new double[_rho.Count];
                 for (int i = 0; i < _rho.Count; i++)
                 {
-                    _rhoCenters[i] = _rho.Start + (i + 1) * _rhoDelta / 2;
+                    _rhoCenters[i] = _rho.Start + i * _rhoDelta;
                 }
             }
         }
@@ -70,7 +70,7 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Tally(PhotonDataPoint dp, IList<OpticalProperties> perturbedOps)
         {
-            double weightFactor = 0.0;
+            double weightFactor = 1.0;
             var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
                 DetectorBinning.GetTimeDelay(
                 sub.PathLength,
@@ -85,11 +85,11 @@ namespace Vts.MonteCarlo.TallyActions
                 _rho.Delta, _rhoCenters);
             if (ir != -1)
             {
-                if (_awt == AbsorptionWeightingType.Discrete) // DC: how do I set this so not going thru for each tally
+                if (_awt == AbsorptionWeightingType.Discrete) // set Action here in constructor
                 {
                     foreach (var i in _perturbedRegionsIndices)
                     {
-                        weightFactor +=
+                        weightFactor *=
                             Math.Pow(
                                 (perturbedOps[i].Mus / _referenceOps[i].Mus),
                                 dp.SubRegionInfoList[i].NumberOfCollisions) *
@@ -101,7 +101,7 @@ namespace Vts.MonteCarlo.TallyActions
                 {
                     foreach (var i in _perturbedRegionsIndices)
                     {
-                        weightFactor +=
+                        weightFactor *=
                             Math.Pow(
                                 (perturbedOps[i].Mus / _referenceOps[i].Mus),
                                 dp.SubRegionInfoList[i].NumberOfCollisions) *

@@ -75,7 +75,6 @@ namespace Vts
         Complex RofFxAndFt(OpticalProperties op, double fx, double ft);
         #endregion
 
-
         // The following methods are designed to return values based on iteration 
         // with the leftmost IEnumerable<T> input being the top-level, and so-on
         // such that the right-most input is at the inner-most loop
