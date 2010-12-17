@@ -8,7 +8,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.TallyActions
 {    
     /// <summary>
-    /// Implements ITally<double[,]>.  Tally for pMC estimation of reflectance 
+    /// Implements ITerminationTally<double[,]>.  Tally for pMC estimation of reflectance 
     /// as a function of Rho and Time.
     /// </summary>
     // do I need classes pMuaInROfRhoAndTimeTally and pMusInROfRhoAndTimeTally?
@@ -57,7 +57,15 @@ namespace Vts.MonteCarlo.TallyActions
                 _timeCenters = new double[_time.Count];
                 for (int i = 0; i < _time.Count; i++)
                 {
-                    _timeCenters[i] = _time.Start + i *_timeDelta;
+                    _timeCenters[i] = _time.Start + i * _timeDelta;
+                }
+            }
+            else
+            {
+                _rhoCenters = new double[_rho.Count];
+                for (int i = 0; i < _rho.Count; i++)
+                {
+                    _rhoCenters[i] = _rho.Start + i * _rho.Delta;
                 }
             }
             if (_time.Count == 1)
@@ -70,7 +78,15 @@ namespace Vts.MonteCarlo.TallyActions
                 _rhoCenters = new double[_rho.Count];
                 for (int i = 0; i < _rho.Count; i++)
                 {
-                    _rhoCenters[i] = _rho.Start + i * _rhoDelta;  
+                    _rhoCenters[i] = _rho.Start + i * _rhoDelta;
+                }
+            }
+            else
+            {
+                _timeCenters = new double[_time.Count];
+                for (int i = 0; i < _time.Count; i++)
+                {
+                    _timeCenters[i] = _time.Start + i * _timeDelta;
                 }
             }
         }
