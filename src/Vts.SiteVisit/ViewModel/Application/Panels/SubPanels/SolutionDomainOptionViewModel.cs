@@ -249,7 +249,7 @@ namespace Vts.SiteVisit.ViewModel
 
         private RangeViewModel GetDefaultIndependentAxisRange(IndependentVariableAxis independentAxisType)
         {
-            return new RangeViewModel(independentAxisType.GetDefaultRange(), independentAxisType.GetUnits(), "");
+            return new RangeViewModel(independentAxisType.GetDefaultRange(), independentAxisType.GetUnits(), independentAxisType.GetTitle());
         }
 
 

@@ -11,9 +11,12 @@ namespace Vts.SiteVisit.ViewModel
         // Range model - backing store for public properties
         private DoubleRange Range { get; set; }
 
-        private string _Units;
-        private string _Title;
+        private string _units;
+        private string _title;
 
+        /// <summary>
+        /// A double representing the start of the range
+        /// </summary>
         public double Start
         {
             get { return Range.Start; }
@@ -24,6 +27,9 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
+        /// <summary>
+        /// A double representing the end of the range
+        /// </summary>
         public double Stop
         {
             get { return Range.Stop; }
@@ -34,6 +40,9 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
+        /// <summary>
+        /// An integer representing the number of values in the range
+        /// </summary>
         public int Number
         {
             get { return Range.Count; }
@@ -46,20 +55,20 @@ namespace Vts.SiteVisit.ViewModel
 
         public string Units
         {
-            get { return _Units; }
+            get { return _units; }
             set
             {
-                _Units = value;
+                _units = value;
                 OnPropertyChanged("Units");
             }
         }
 
         public string Title
         {
-            get { return _Title; }
+            get { return _title; }
             set
             {
-                _Title = value;
+                _title = value;
                 OnPropertyChanged("Title");
                 OnPropertyChanged("ShowTitle");
             }

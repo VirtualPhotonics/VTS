@@ -34,7 +34,7 @@ namespace Vts.SiteVisit.ViewModel
 
         public ForwardSolverViewModel()
         {
-            RangeVM = new RangeViewModel { Title = "" };
+            RangeVM = new RangeViewModel { Title = "Detection Parameters:" };
             OpticalPropertyVM = new OpticalPropertyViewModel { Title = "Optical Properties:" };
 
             // right now, we're doing manual databinding to the selected item. need to enable databinding 
@@ -55,9 +55,9 @@ namespace Vts.SiteVisit.ViewModel
                   OnPropertyChanged("ForwardSolver");
             };
 
-            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.RofRho);
+            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain:", SolutionDomainType.RofRho);
 
-            ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output");
+            ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output:");
 
             SolutionDomainTypeOptionVM.SolverType = SolverType.Forward;
 

@@ -17,9 +17,9 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0"
-                Text="Fwd Model Engine:" FontSize="12" FontWeight="Bold" Margin="3,3" />
+                Text="Fwd Solver Engine:" FontSize="12" FontWeight="Bold" Margin="3,3" />
             <TextBlock Grid.Row="1" Grid.Column="0"
-                Text="Inv Model Engine:" FontSize="12" FontWeight="Bold" Margin="3,3" />
+                Text="Inv Solver Engine:" FontSize="12" FontWeight="Bold" Margin="3,3" />
             <v:ComboBoxOptionView Grid.Row="0" Grid.Column="1"
                 DataContext="{Binding MeasuredForwardSolverTypeOptionVM}" 
                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3" />
@@ -69,7 +69,7 @@
                 input:CommandService.Command="IS_SimulateMeasuredData"
                 input:CommandService.CommandParameter="{Binding}"
                 VerticalAlignment="Bottom"
-                Content="Plot Measured Data" 
+                Content="{Binding Path=MainResource.Button_PlotMeasured, Source={StaticResource LocalizedStrings }}" 
                 Width="120" Height="30" Margin="2,2"/>
             
             <Button 
