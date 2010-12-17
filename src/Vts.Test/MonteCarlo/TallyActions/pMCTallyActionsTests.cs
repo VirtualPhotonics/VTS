@@ -29,41 +29,47 @@ namespace Vts.Test.MonteCarlo.TallyActions
             _referenceInput = GenerateHomogeneousReferenceInput();
             _referenceOutput = GenerateReferenceOutput(_referenceInput);
         }
-        // validation values obtained from linux run using above input 
-        // and seeded the same
  
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
         /// determines results equal to reference
         /// </summary>
         [Test]
-        public void validate_zero_perturbation()
+        public void validate_DAW_ROfRhoAndTime_zero_perturbation()
         {
             var peh = PhotonTerminationDatabase.FromFile("_photonBiographies");
-            SimulationInput pMCInput = _referenceInput;
-            pMCInput.DetectorInput = new pMCDetectorInput(
-                new List<TallyType>()
-                {
-                    TallyType.pMuaMusInROfRhoAndTime,
-                },
-                new DoubleRange(0.0, 10, 101), // rho
-                new DoubleRange(0.0, 10, 101),  // z
-                new DoubleRange(0.0, Math.PI / 2, 1), // angle
-                new DoubleRange(0.0, 10000, 101), // time
-                new DoubleRange(0.0, 1000, 21), // omega
-                new DoubleRange(-10.0, 10.0, 201), // x
-                new DoubleRange(-10.0, 10.0, 201), // y
-                AbsorptionWeightingType.Discrete,
-                new List<OpticalProperties>() {
-                    _referenceInput.TissueInput.Regions[0].RegionOP,
-                    _referenceInput.TissueInput.Regions[1].RegionOP,
-                    _referenceInput.TissueInput.Regions[2].RegionOP},
-                new List<int>() { 1 }
-                );
-
             var postProcessedOutput = 
-                PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                    pMCInput.DetectorInput, peh, _referenceOutput);
+                PhotonTerminationDatabasePostProcessor.GenerateOutput(   
+                    new pMCDetectorInput(
+                        new List<TallyType>()
+                        {
+                            TallyType.pMuaMusInROfRhoAndTime,
+                        },
+                        // the following ranges need to match _referenceInput values
+                        new DoubleRange(0.0, 10, 101), // rho
+                        new DoubleRange(0.0, 10, 101),  // z
+                        new DoubleRange(0.0, Math.PI / 2, 1), // angle
+                        new DoubleRange(0.0, 10000, 101), // time
+                        new DoubleRange(0.0, 1000, 21), // omega
+                        new DoubleRange(-10.0, 10.0, 201), // x
+                        new DoubleRange(-10.0, 10.0, 201), // y
+                        AbsorptionWeightingType.Discrete,
+                        new List<OpticalProperties>() {
+                            _referenceInput.TissueInput.Regions[0].RegionOP,
+                            _referenceInput.TissueInput.Regions[1].RegionOP,
+                            _referenceInput.TissueInput.Regions[2].RegionOP},
+                        new List<int>() { 1 }
+                    ),
+                    peh, 
+                    _referenceOutput,
+                    new List<OpticalProperties>() { // perturbed ops
+                        _referenceInput.TissueInput.Regions[0].RegionOP,
+                        _referenceInput.TissueInput.Regions[1].RegionOP,
+                        _referenceInput.TissueInput.Regions[2].RegionOP},
+                    new List<int>() { 1 } // perturbed region
+                    );
+            // validation value obtained from linux run using above input 
+            // and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.R_rt[2, 0] - 0.000609121451), 0.00000000001);
         }
         /// <summary>
