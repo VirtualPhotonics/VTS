@@ -19,37 +19,64 @@ namespace Vts.Test.MonteCarlo.TallyActions
     [TestFixture]
     public class pMCTallyActionsTests
     {
-        SimulationInput _input;
+        SimulationInput _referenceInput;
         Output _referenceOutput;
         Output _PMCOutput;
 
         [TestFixtureSetUp]
         public void execute_reference_Monte_Carlo()
         {
-            var _input = GenerateHomogeneousReferenceInput();
-            var _referenceOutput = GenerateReferenceOutput(_input);
+            _referenceInput = GenerateHomogeneousReferenceInput();
+            _referenceOutput = GenerateReferenceOutput(_referenceInput);
         }
-        // validation values obtained from linux run using above input 
-        // and seeded the same
  
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
         /// determines results equal to reference
         /// </summary>
         [Test]
-        public void validate_zero_perturbation()
+        public void validate_DAW_ROfRhoAndTime_zero_perturbation()
         {
             var peh = PhotonTerminationDatabase.FromFile("_photonBiographies");
             var postProcessedOutput = 
-                PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                    _input.DetectorInput, peh, _referenceOutput);
-            Assert.Less(Math.Abs(postProcessedOutput.Rd - 0.565765638), 0.000000001);
+                PhotonTerminationDatabasePostProcessor.GenerateOutput(   
+                    new pMCDetectorInput(
+                        new List<TallyType>()
+                        {
+                            TallyType.pMuaMusInROfRhoAndTime,
+                        },
+                        // the following ranges need to match _referenceInput values
+                        new DoubleRange(0.0, 10, 101), // rho
+                        new DoubleRange(0.0, 10, 101),  // z
+                        new DoubleRange(0.0, Math.PI / 2, 1), // angle
+                        new DoubleRange(0.0, 10000, 101), // time
+                        new DoubleRange(0.0, 1000, 21), // omega
+                        new DoubleRange(-10.0, 10.0, 201), // x
+                        new DoubleRange(-10.0, 10.0, 201), // y
+                        AbsorptionWeightingType.Discrete,
+                        new List<OpticalProperties>() {
+                            _referenceInput.TissueInput.Regions[0].RegionOP,
+                            _referenceInput.TissueInput.Regions[1].RegionOP,
+                            _referenceInput.TissueInput.Regions[2].RegionOP},
+                        new List<int>() { 1 }
+                    ),
+                    peh, 
+                    _referenceOutput,
+                    new List<OpticalProperties>() { // perturbed ops
+                        _referenceInput.TissueInput.Regions[0].RegionOP,
+                        _referenceInput.TissueInput.Regions[1].RegionOP,
+                        _referenceInput.TissueInput.Regions[2].RegionOP},
+                    new List<int>() { 1 } // perturbed region
+                    );
+            // validation value obtained from linux run using above input 
+            // and seeded the same
+            Assert.Less(Math.Abs(postProcessedOutput.R_rt[2, 0] - 0.000609121451), 0.00000000001);
         }
         /// <summary>
         /// Define SimulationInput to define homogeneous media
         /// </summary>
         /// <returns></returns>
-        private static SimulationInput GenerateHomogeneousReferenceInput()
+        private SimulationInput GenerateHomogeneousReferenceInput()
         {
             return new SimulationInput(
                 100,
@@ -96,7 +123,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
         /// Define SimulationInput to define 2 layered media
         /// </summary>
         /// <returns></returns>
-        private static SimulationInput GenerateLayeredReferenceInput()
+        private SimulationInput GenerateLayeredReferenceInput()
         {
             Double _layerThickness = 1.0;
             return new SimulationInput(
@@ -159,3 +186,4 @@ namespace Vts.Test.MonteCarlo.TallyActions
         }
     }
 }
+
