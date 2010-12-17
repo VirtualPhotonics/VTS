@@ -117,8 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Button_GenerateFluence" xml:space="preserve">
+    <value>Generate Fluence/Interrogation Map</value>
+  </data>
+  <data name="Button_InverseSolver" xml:space="preserve">
+    <value>Run Inverse Solver</value>
+  </data>
+  <data name="Button_PlotInitialGuess" xml:space="preserve">
+    <value>Plot Initial Guess</value>
+  </data>
   <data name="Button_PlotMeasured" xml:space="preserve">
     <value>Plot Measured Data</value>
+  </data>
+  <data name="Button_PlotMua" xml:space="preserve">
+    <value>Plot μa Spectum</value>
+  </data>
+  <data name="Button_PlotMusPrime" xml:space="preserve">
+    <value>Plot μs' Spectrum</value>
+  </data>
+  <data name="Button_PlotReflectance" xml:space="preserve">
+    <value>Plot Reflectance</value>
   </data>
   <data name="IndependentVariableAxis_Ft" xml:space="preserve">
     <value>Detector Temporal Frequency</value>
@@ -133,15 +151,66 @@
     <value>Detection Time</value>
   </data>
   <data name="IndependentVariableAxis_Wavelength" xml:space="preserve">
-    <value>Detection</value>
+    <value>IndependentVariableAxis_Wavelength</value>
+  </data>
+  <data name="Label_AbsorberConcentrations" xml:space="preserve">
+    <value>Absorber Concentrations:</value>
+  </data>
+  <data name="Label_ForwardSolver" xml:space="preserve">
+    <value>Fwd Solver Engine:</value>
+  </data>
+  <data name="Label_GaussianBeam" xml:space="preserve">
+    <value>Gaussian Beam Diameter:</value>
+  </data>
+  <data name="Label_InverseSolver" xml:space="preserve">
+    <value>Inv Solver Engine:</value>
+  </data>
+  <data name="Label_PercentNoise" xml:space="preserve">
+    <value>% noise</value>
+  </data>
+  <data name="Label_PowerLawDefinitionA" xml:space="preserve">
+    <value>(A = μs' at 1000nm)</value>
+  </data>
+  <data name="Label_RhoRange" xml:space="preserve">
+    <value>ρ (Rho) Range:</value>
+  </data>
+  <data name="Label_SourceDetector" xml:space="preserve">
+    <value>Source Detector Separation:</value>
   </data>
   <data name="Label_Text" xml:space="preserve">
     <value>Test Label</value>
+  </data>
+  <data name="Label_TissueTypes" xml:space="preserve">
+    <value>Tissue Types:</value>
+  </data>
+  <data name="Label_zRange" xml:space="preserve">
+    <value>z Range:</value>
+  </data>
+  <data name="Measurement_mm" xml:space="preserve">
+    <value>mm</value>
   </data>
   <data name="Title_Text" xml:space="preserve">
     <value>Test Title</value>
   </data>
   <data name="Tooltip_Text" xml:space="preserve">
     <value>Test Tooltip</value>
+  </data>
+  <data name="Value_A" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="Value_b" xml:space="preserve">
+    <value>b</value>
+  </data>
+  <data name="Value_MediumN" xml:space="preserve">
+    <value>Medium n</value>
+  </data>
+  <data name="Value_ParticleN" xml:space="preserve">
+    <value>Particle n</value>
+  </data>
+  <data name="Value_ParticleRadius" xml:space="preserve">
+    <value>Particle radius</value>
+  </data>
+  <data name="Value_VolumeFraction" xml:space="preserve">
+    <value>Volume Fraction</value>
   </data>
 </root>

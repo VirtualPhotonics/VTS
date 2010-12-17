@@ -61,11 +61,65 @@ namespace Vts.SiteVisit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Generate Fluence/Interrogation Map.
+        /// </summary>
+        public static string Button_GenerateFluence {
+            get {
+                return ResourceManager.GetString("Button_GenerateFluence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run Inverse Solver.
+        /// </summary>
+        public static string Button_InverseSolver {
+            get {
+                return ResourceManager.GetString("Button_InverseSolver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plot Initial Guess.
+        /// </summary>
+        public static string Button_PlotInitialGuess {
+            get {
+                return ResourceManager.GetString("Button_PlotInitialGuess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Plot Measured Data.
         /// </summary>
         public static string Button_PlotMeasured {
             get {
                 return ResourceManager.GetString("Button_PlotMeasured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plot μa Spectum.
+        /// </summary>
+        public static string Button_PlotMua {
+            get {
+                return ResourceManager.GetString("Button_PlotMua", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plot μs&apos; Spectrum.
+        /// </summary>
+        public static string Button_PlotMusPrime {
+            get {
+                return ResourceManager.GetString("Button_PlotMusPrime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plot Reflectance.
+        /// </summary>
+        public static string Button_PlotReflectance {
+            get {
+                return ResourceManager.GetString("Button_PlotReflectance", resourceCulture);
             }
         }
         
@@ -106,11 +160,83 @@ namespace Vts.SiteVisit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detection.
+        ///   Looks up a localized string similar to IndependentVariableAxis_Wavelength.
         /// </summary>
         public static string IndependentVariableAxis_Wavelength {
             get {
                 return ResourceManager.GetString("IndependentVariableAxis_Wavelength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Absorber Concentrations:.
+        /// </summary>
+        public static string Label_AbsorberConcentrations {
+            get {
+                return ResourceManager.GetString("Label_AbsorberConcentrations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fwd Solver Engine:.
+        /// </summary>
+        public static string Label_ForwardSolver {
+            get {
+                return ResourceManager.GetString("Label_ForwardSolver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gaussian Beam Diameter:.
+        /// </summary>
+        public static string Label_GaussianBeam {
+            get {
+                return ResourceManager.GetString("Label_GaussianBeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inv Solver Engine:.
+        /// </summary>
+        public static string Label_InverseSolver {
+            get {
+                return ResourceManager.GetString("Label_InverseSolver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to % noise.
+        /// </summary>
+        public static string Label_PercentNoise {
+            get {
+                return ResourceManager.GetString("Label_PercentNoise", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (A = μs&apos; at 1000nm).
+        /// </summary>
+        public static string Label_PowerLawDefinitionA {
+            get {
+                return ResourceManager.GetString("Label_PowerLawDefinitionA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ρ (Rho) Range:.
+        /// </summary>
+        public static string Label_RhoRange {
+            get {
+                return ResourceManager.GetString("Label_RhoRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source Detector Separation:.
+        /// </summary>
+        public static string Label_SourceDetector {
+            get {
+                return ResourceManager.GetString("Label_SourceDetector", resourceCulture);
             }
         }
         
@@ -120,6 +246,33 @@ namespace Vts.SiteVisit.Resources {
         public static string Label_Text {
             get {
                 return ResourceManager.GetString("Label_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tissue Types:.
+        /// </summary>
+        public static string Label_TissueTypes {
+            get {
+                return ResourceManager.GetString("Label_TissueTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to z Range:.
+        /// </summary>
+        public static string Label_zRange {
+            get {
+                return ResourceManager.GetString("Label_zRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mm.
+        /// </summary>
+        public static string Measurement_mm {
+            get {
+                return ResourceManager.GetString("Measurement_mm", resourceCulture);
             }
         }
         
@@ -138,6 +291,60 @@ namespace Vts.SiteVisit.Resources {
         public static string Tooltip_Text {
             get {
                 return ResourceManager.GetString("Tooltip_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A.
+        /// </summary>
+        public static string Value_A {
+            get {
+                return ResourceManager.GetString("Value_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to b.
+        /// </summary>
+        public static string Value_b {
+            get {
+                return ResourceManager.GetString("Value_b", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium n.
+        /// </summary>
+        public static string Value_MediumN {
+            get {
+                return ResourceManager.GetString("Value_MediumN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Particle n.
+        /// </summary>
+        public static string Value_ParticleN {
+            get {
+                return ResourceManager.GetString("Value_ParticleN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Particle radius.
+        /// </summary>
+        public static string Value_ParticleRadius {
+            get {
+                return ResourceManager.GetString("Value_ParticleRadius", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume Fraction.
+        /// </summary>
+        public static string Value_VolumeFraction {
+            get {
+                return ResourceManager.GetString("Value_VolumeFraction", resourceCulture);
             }
         }
     }
