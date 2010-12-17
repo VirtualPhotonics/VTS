@@ -11,18 +11,15 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class PointSource : ISource
     {
-        private ITissue _tissue;
         private bool _tallyMomentumTransfer;
 
         public PointSource( 
-            ITissue tissue,
             Position pointLocation,
             Direction solidAngleAxis,
             DoubleRange thetaRange, 
             DoubleRange phiRange,
             bool tallyMomentumTransfer) 
         {
-            _tissue = tissue;
             PointLocation = pointLocation;
             SolidAngleAxis = solidAngleAxis;
             ThetaRange = thetaRange;
@@ -32,15 +29,13 @@ namespace Vts.MonteCarlo.Sources
 
         public PointSource()
             : this(
-                new MultiLayerTissue(),
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
                 new DoubleRange(0.0, 0, 1),
                 new DoubleRange(0.0, 0, 1),
                 false) { }
 
-        public PointSource(PointSourceInput psi, ITissue tissue, bool tallyMomentumTransfer) : this(
-            tissue,
+        public PointSource(PointSourceInput psi, bool tallyMomentumTransfer) : this(
             psi.PointLocation,
             psi.SolidAngleAxis,
             psi.ThetaRange,

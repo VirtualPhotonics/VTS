@@ -151,6 +151,7 @@
     <Compile Include="MonteCarlo\Detectors\pMCDetectorInputTests.cs" />
     <Compile Include="MonteCarlo\MonteCarloFactoriesTests.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSourceTests.cs" />
     <Compile Include="MonteCarlo\TallyActions\pMCTallyActionsTests.cs" />
     <Compile Include="MonteCarlo\TallyActions\TallyActionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
