@@ -180,7 +180,6 @@ namespace Vts.Test.MonteCarlo.TallyActions
                 false, 
                 false, 
                 true,  // write histories 
-                false, 
                 0);
             return new MonteCarloSimulation(input, options).Run();
         }

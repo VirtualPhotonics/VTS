@@ -9,8 +9,8 @@ namespace Vts.MonteCarlo.PhotonData
     /// </summary>
     public class PhotonTerminationDatabaseWriter : CustomBinaryStreamWriter<PhotonDataPoint>
     {
-        public PhotonTerminationDatabaseWriter(string filename, int numberOfSubRegions, bool tallyMomentumTransfer)
-            : base(filename, new PhotonTerminationDataPointCustomBinarySerializer(numberOfSubRegions, tallyMomentumTransfer))
+        public PhotonTerminationDatabaseWriter(string filename, int numberOfSubRegions)
+            : base(filename, new PhotonTerminationDataPointCustomBinarySerializer(numberOfSubRegions))
         {
             // this specifies any action to take at the end of the file writing
             PostWriteAction = delegate
@@ -23,7 +23,7 @@ namespace Vts.MonteCarlo.PhotonData
                 //        NumberOfSubRegions = numberOfSubRegions,
                 //        TallyMomentumTransfer = tallyMomentumTransfer,
                 //    }.WriteToXML(filename + ".xml");
-                new PhotonTerminationDatabase( currentCount(), numberOfSubRegions, tallyMomentumTransfer)
+                new PhotonTerminationDatabase( currentCount(), numberOfSubRegions)
                         .WriteToXML(filename + ".xml");
             };
         }

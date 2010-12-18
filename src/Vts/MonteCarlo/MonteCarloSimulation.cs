@@ -106,7 +106,6 @@ namespace Vts.MonteCarlo
             DO_ALLVOX = options.DoPofVandD;
             WRITE_EXIT_HISTORIES = options.WriteHistories;// Added by DC 2009-08-01
             ABSORPTION_WEIGHTING = options.AbsorptionWeightingType; // CKH add 12/14/09
-            TALLY_MOMENTUM_TRANSFER = options.TallyMomentumTransfer;
         }
 
         /// <summary>
@@ -116,7 +115,7 @@ namespace Vts.MonteCarlo
         {
             // DC: should the writer output go to same folder as Output?
             using (var photonTerminationDatabaseWriter = WRITE_EXIT_HISTORIES
-                ? new PhotonTerminationDatabaseWriter(_input.OutputFileName + "_photonBiographies", _tissue.Regions.Count, TALLY_MOMENTUM_TRANSFER)
+                ? new PhotonTerminationDatabaseWriter(_input.OutputFileName + "_photonBiographies", _tissue.Regions.Count)
                 : null)
             {
                 for (long n = 1; n <= numberOfPhotons; n++)

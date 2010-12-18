@@ -17,7 +17,6 @@ namespace Vts.MonteCarlo
             bool doTimeResolvedFluence, 
             bool doPofVandD, 
             bool writeHistories,
-            bool tallyMomentumTransfer,
             int simulationIndex)
         {
             RandomNumberGeneratorType = rngType;
@@ -27,7 +26,6 @@ namespace Vts.MonteCarlo
             DoPofVandD = doPofVandD;
             SimulationIndex = simulationIndex;
             WriteHistories = writeHistories;
-            TallyMomentumTransfer = tallyMomentumTransfer;
         }
 
         public RandomNumberGeneratorType RandomNumberGeneratorType { get; set; }
@@ -36,7 +34,6 @@ namespace Vts.MonteCarlo
         public int SimulationIndex { get; set; }
         public bool DoTimeResolvedFluence { get; set; }
         public bool DoPofVandD { get; set; }
-        public bool TallyMomentumTransfer { get; set; }
 
         public bool WriteHistories { get; set; }  // Added by DC 2009-08-01
 
@@ -44,13 +41,13 @@ namespace Vts.MonteCarlo
             int seed, 
             RandomNumberGeneratorType rngType, 
             AbsorptionWeightingType absWeightingType)
-            : this(seed, rngType, absWeightingType, false, false, false, false, 0) { }
+            : this(seed, rngType, absWeightingType, false, false, false, 0) { }
 
         public SimulationOptions(int seed)
-            : this(seed, RandomNumberGeneratorType.MersenneTwister, AbsorptionWeightingType.Discrete, false, false, false, false, 0) { }
+            : this(seed, RandomNumberGeneratorType.MersenneTwister, AbsorptionWeightingType.Discrete, false, false, false, 0) { }
 
         public SimulationOptions()
-            : this(GetRandomSeed(), RandomNumberGeneratorType.MersenneTwister, AbsorptionWeightingType.Discrete, false, false, false, false, 0) { }
+            : this(GetRandomSeed(), RandomNumberGeneratorType.MersenneTwister, AbsorptionWeightingType.Discrete, false, false, false, 0) { }
 
         public static int GetRandomSeed()  // ckh 12/15/09 made this public so Photon can see
         {

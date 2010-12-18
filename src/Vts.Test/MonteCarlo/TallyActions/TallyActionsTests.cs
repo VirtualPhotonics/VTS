@@ -73,8 +73,9 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(-10.0, 10.0, 201), // x
                     new DoubleRange(-10.0, 10.0, 201) // y
                 ) );
-            SimulationOptions options = new SimulationOptions(0, RandomNumberGeneratorType.MersenneTwister,
-                AbsorptionWeightingType.Discrete, false, false, false, false, 0);
+            SimulationOptions options = new SimulationOptions(0, 
+                RandomNumberGeneratorType.MersenneTwister,
+                AbsorptionWeightingType.Discrete, false, false, false, 0);
             _output = new MonteCarloSimulation(input, options).Run();
         }
 
