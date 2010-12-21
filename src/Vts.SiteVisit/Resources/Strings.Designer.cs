@@ -160,7 +160,7 @@ namespace Vts.SiteVisit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detector Temporal Frequency.
+        ///   Looks up a localized string similar to Temporal Frequency.
         /// </summary>
         public static string IndependentVariableAxis_Ft {
             get {
@@ -169,7 +169,7 @@ namespace Vts.SiteVisit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detector Spacial Frequency.
+        ///   Looks up a localized string similar to Spatial Frequency.
         /// </summary>
         public static string IndependentVariableAxis_Fx {
             get {
@@ -187,7 +187,7 @@ namespace Vts.SiteVisit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detection Time.
+        ///   Looks up a localized string similar to Detection Times.
         /// </summary>
         public static string IndependentVariableAxis_T {
             get {

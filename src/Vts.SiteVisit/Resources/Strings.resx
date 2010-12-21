@@ -139,16 +139,16 @@
     <value>Plot Reflectance</value>
   </data>
   <data name="IndependentVariableAxis_Ft" xml:space="preserve">
-    <value>Detector Temporal Frequency</value>
+    <value>Temporal Frequency</value>
   </data>
   <data name="IndependentVariableAxis_Fx" xml:space="preserve">
-    <value>Detector Spacial Frequency</value>
+    <value>Spatial Frequency</value>
   </data>
   <data name="IndependentVariableAxis_Rho" xml:space="preserve">
     <value>Detector Positions</value>
   </data>
   <data name="IndependentVariableAxis_T" xml:space="preserve">
-    <value>Detection Time</value>
+    <value>Detection Times</value>
   </data>
   <data name="IndependentVariableAxis_Wavelength" xml:space="preserve">
     <value>IndependentVariableAxis_Wavelength</value>

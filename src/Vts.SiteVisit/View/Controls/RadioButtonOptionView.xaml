@@ -22,7 +22,7 @@
                                  Content="{Binding DisplayName}"
                                  IsChecked="{Binding IsSelected, Mode=TwoWay}"
                                  GroupName="{Binding GroupName}"
-                                 Margin="5,0,0,0"/>
+                                 Margin="2,4"/>
                 </DataTemplate>
             </controls:HeaderedItemsControl.ItemTemplate>
         </controls:HeaderedItemsControl>
