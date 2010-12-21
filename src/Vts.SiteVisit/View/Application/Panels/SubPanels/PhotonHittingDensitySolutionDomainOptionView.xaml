@@ -3,22 +3,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit"
     xmlns:v="clr-namespace:Vts.SiteVisit.View">
-
     <StackPanel VerticalAlignment="Top">
         <controls:HeaderedContentControl
             VerticalAlignment="Top">
             <controls:HeaderedContentControl.Header>
-                <TextBlock 
-                    Text="{Binding GroupName}" 
-                    Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}" 
-                    TextDecorations="Underline" 
-                    FontSize="16" />
+                <!-- Solution Domain Title -->
+                <TextBlock Text="{Binding GroupName}" 
+                           Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}" 
+                           TextDecorations="Underline" 
+                           FontSize="16" />
             </controls:HeaderedContentControl.Header>
             <controls:HeaderedContentControl.Content>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <!--<RowDefinition Height="0"/>-->
-                        <!--<RowDefinition Height="20"/>-->
                         <RowDefinition Height="23"/>
                         <RowDefinition Height="23"/>
                         <RowDefinition Height="23"/>
@@ -28,87 +25,66 @@
                         <ColumnDefinition Width="90"/>
                         <ColumnDefinition Width="90"/>
                     </Grid.ColumnDefinitions>
-
-                    <!--<TextBlock 
-                        Grid.Row="0" Grid.Column="0" 
-                        Text="Solution Domain" FontSize="14" TextDecorations="Underline" Margin="2,2"/>
-                <TextBlock 
-                        Grid.Row="0" Grid.Column="1"  Grid.ColumnSpan="2" HorizontalAlignment="Left"
-                        Text="Source Type" FontSize="14"  Margin="2,2"/>-->
-
-                    <!--<TextBlock 
-                        Grid.Row="0" Grid.Column="1" 
-                        Text="Point Source" Margin="2,2"/>
-                    <TextBlock 
-                        Grid.Row="0" Grid.Column="2" 
-                        Text="Planar Source" Margin="2,2"/>-->
-
-                    <!--STEADY-STATE-->
+                    <!-- STEADY-STATE -->
                     <TextBlock 
                         Grid.Row="0" Grid.Column="0" 
                         Text="Steady-State"  Margin="2,2" />
                     <RadioButton 
                         Grid.Row="0" Grid.Column="1"
                         DataContext="{Binding FluenceofRhoOption}"
-                        Tag="{Binding ID}" Content="phd(ρ,z)"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDFluenceOfRho, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="0" Grid.Column="2"
                         DataContext="{Binding FluenceofFxOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="phd(fx,z)"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_FluenceOfFx, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
-
-                    <!--TIME-DOMAIN-->
+                    <!-- TIME-DOMAIN -->
                     <TextBlock 
                         Grid.Row="1" Grid.Column="0" 
                         Text="Time-Domain"  Margin="2,2"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="1"
                         DataContext="{Binding FluenceofRhoAndTOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="phd(ρ,t,z)"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDFluenceOfRhoAndT, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="2"
                         DataContext="{Binding FluenceofFxAndTOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="phd(fx,t,z)"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDFluenceOfFxAndT, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
-
-                    <!--FREQUENCY-DOMAIN-->
+                    <!-- FREQUENCY-DOMAIN -->
                     <TextBlock 
                         Grid.Row="2" Grid.Column="0" 
                         Text="Frequency-Domain"  Margin="2,2"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="1"
                         DataContext="{Binding FluenceofRhoAndFtOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="phd(ρ,ft)"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDFluenceOfRhoAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="2"
                         DataContext="{Binding FluenceofFxAndFtOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="phd(fx,ft,z)"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDFluenceOfFxAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                 </Grid>
             </controls:HeaderedContentControl.Content>
         </controls:HeaderedContentControl>
-
-        <!--Choice for independent axis label, if necessary (invisible otherwise)-->
-        <!--Visibility="{Binding ConstantLabelVisibility}"-->
-        <StackPanel 
-            Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" 
-            Visibility="{Binding ConstantLabelVisible, Converter={StaticResource myBooleanToVisibilityConverter}}"
-            LayoutUpdated="StackPanel_LayoutUpdated">
-            <TextBlock Text="Independent axis: " VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,3.5" />
-            <v:RadioButtonOptionView
-                VerticalContentAlignment="Center"
-                DataContext="{Binding IndependentVariableAxisOptionVM}"  
-                VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-            <TextBlock Text=" at " VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,3.5" />
-            <TextBlock Text="{Binding ConstantAxisLabel}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,3.5" />
-            <TextBlock Text=" = "  VerticalAlignment="Bottom" HorizontalAlignment="Left"  Margin="0,3.5" />
-            <TextBox Width="40" Text="{Binding ConstantAxisValue, Mode=TwoWay}"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,3.5" />
-            <TextBlock Text=" " VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,3.5" />
-            <TextBlock Text="{Binding ConstantAxisUnits}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,3.5" />
-
+        <!-- Independent Axis -->
+        <!-- Choice for independent axis label, if necessary (invisible otherwise) -->
+        <StackPanel Visibility="{Binding ConstantLabelVisible, Converter={StaticResource myBooleanToVisibilityConverter}}"
+                    Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" 
+                    LayoutUpdated="StackPanel_LayoutUpdated" Margin="0,5,0,0">
+            <TextBlock Text="{Binding Path=MainResource.Label_IndependentAxis, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <!-- Radio button options -->
+            <v:RadioButtonOptionView DataContext="{Binding IndependentVariableAxisOptionVM}" 
+                                     VerticalContentAlignment="Center"
+                                     VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <TextBlock Text="{Binding Path=MainResource.Label_At, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" />
+            <TextBlock Text="{Binding ConstantAxisLabel}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" />
+            <TextBlock Text=" = "  VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <TextBox Width="40" Text="{Binding ConstantAxisValue, Mode=TwoWay}"  VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <TextBlock Text="{Binding ConstantAxisUnits}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" />
         </StackPanel>
     </StackPanel>
 </UserControl>

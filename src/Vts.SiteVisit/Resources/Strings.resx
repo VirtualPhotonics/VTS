@@ -177,9 +177,6 @@
   <data name="Label_SourceDetector" xml:space="preserve">
     <value>Source Detector Separation:</value>
   </data>
-  <data name="Label_Text" xml:space="preserve">
-    <value>Test Label</value>
-  </data>
   <data name="Label_TissueTypes" xml:space="preserve">
     <value>Tissue Types:</value>
   </data>
@@ -188,12 +185,6 @@
   </data>
   <data name="Measurement_mm" xml:space="preserve">
     <value>mm</value>
-  </data>
-  <data name="Title_Text" xml:space="preserve">
-    <value>Test Title</value>
-  </data>
-  <data name="Tooltip_Text" xml:space="preserve">
-    <value>Test Tooltip</value>
   </data>
   <data name="Value_A" xml:space="preserve">
     <value>A</value>
@@ -212,5 +203,77 @@
   </data>
   <data name="Value_VolumeFraction" xml:space="preserve">
     <value>Volume Fraction</value>
+  </data>
+  <data name="Label_At" xml:space="preserve">
+    <value>at</value>
+  </data>
+  <data name="Label_BloodConcentration" xml:space="preserve">
+    <value>Blood Concentration:</value>
+  </data>
+  <data name="Label_BloodVolume" xml:space="preserve">
+    <value>Blood volume [vol. frac.]:</value>
+  </data>
+  <data name="Label_FluenceOfFx" xml:space="preserve">
+    <value>A(fx,z)</value>
+  </data>
+  <data name="Label_FluenceOfFxAndFt" xml:space="preserve">
+    <value>A(fx,ft)</value>
+  </data>
+  <data name="Label_FluenceOfFxAndT" xml:space="preserve">
+    <value>A(fx,t,z)</value>
+  </data>
+  <data name="Label_FluenceOfRho" xml:space="preserve">
+    <value>A(ρ,z)</value>
+  </data>
+  <data name="Label_FluenceOfRhoAndFt" xml:space="preserve">
+    <value>A(ρ,ft,z)</value>
+  </data>
+  <data name="Label_FluenceOfRhoAndT" xml:space="preserve">
+    <value>A(ρ,t,z)</value>
+  </data>
+  <data name="Label_IndependentAxis" xml:space="preserve">
+    <value>Independent Axis:</value>
+  </data>
+  <data name="Label_PHDFluenceOfFx" xml:space="preserve">
+    <value>phd(fx,z)</value>
+  </data>
+  <data name="Label_PHDFluenceOfFxAndFt" xml:space="preserve">
+    <value>phd(fx,ft,z)</value>
+  </data>
+  <data name="Label_PHDFluenceOfFxAndT" xml:space="preserve">
+    <value>phd(fx,t,z)</value>
+  </data>
+  <data name="Label_PHDFluenceOfRho" xml:space="preserve">
+    <value>phd(ρ,z)</value>
+  </data>
+  <data name="Label_PHDFluenceOfRhoAndFt" xml:space="preserve">
+    <value>phd(ρ,ft)</value>
+  </data>
+  <data name="Label_PHDFluenceOfRhoAndT" xml:space="preserve">
+    <value>phd(ρ,t,z)</value>
+  </data>
+  <data name="Label_ROfFx" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_ROfFxAndFt" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_ROfFxAndT" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_ROfRho" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_ROfRhoAndFt" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_ROfRhoAndT" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_StO2" xml:space="preserve">
+    <value>StO2 [frac.]:</value>
+  </data>
+  <data name="Label_TotalHb" xml:space="preserve">
+    <value>Total Hb [μM]:</value>
   </data>
 </root>
