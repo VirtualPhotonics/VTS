@@ -7,15 +7,15 @@ using Vts.MonteCarlo.Helpers;
 namespace Vts.MonteCarlo.TallyActions
 {
     /// <summary>
-    /// Implements IHistoryTally<double[,]>.  Tally for Absorption(rho,z).
+    /// Implements IHistoryTally<double[,]>.  Tally for MomentumTransfer(rho,z).
     /// </summary>
-    public class AOfRhoAndZTally : IHistoryTally<double[,]>
+    public class MomentumTransferOfRhoAndZTally : IHistoryTally<double[,]>
     {
         private DoubleRange _rho;
         private DoubleRange _z;
         private ITissue _tissue;
 
-        public AOfRhoAndZTally(DoubleRange rho, DoubleRange z, ITissue tissue)
+        public MomentumTransferOfRhoAndZTally(DoubleRange rho, DoubleRange z, ITissue tissue)
         {
             _rho = rho;
             _z = z;
@@ -24,14 +24,15 @@ namespace Vts.MonteCarlo.TallyActions
             SecondMoment = new double[_rho.Count, _z.Count];
         }
 
+        private double _momentumTransfer;
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp, IList<OpticalProperties> ops)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count, _rho.Delta, _rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count, _z.Delta, _z.Start);
-            double dw = previousDP.Weight * ops[_tissue.GetRegionIndex(dp.Position)].Mua / 
-                (ops[_tissue.GetRegionIndex(dp.Position)].Mua + ops[_tissue.GetRegionIndex(dp.Position)].Mus);
-            Mean[ir, iz] += dw; 
-            SecondMoment[ir, iz] += dw * dw;
+            // calculate momentum transfer
+            _momentumTransfer = 1;
+            Mean[ir, iz] += _momentumTransfer;
+            SecondMoment[ir, iz] += _momentumTransfer * _momentumTransfer;
         }
 
         public void Normalize(long numPhotons)
@@ -40,6 +41,7 @@ namespace Vts.MonteCarlo.TallyActions
             {
                 for (int iz = 0; iz < _z.Count; iz++)
                 {
+                    // need to check that this normalization makes sense for momentum transfer
                     Mean[ir, iz] /=
                         2.0 * Math.PI * (ir + 0.5) * _rho.Delta * _rho.Delta * _z.Delta * numPhotons;
                 }

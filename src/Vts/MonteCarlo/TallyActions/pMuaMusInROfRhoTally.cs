@@ -8,11 +8,11 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.TallyActions
 {
     /// <summary>
-    /// Implements ITally<double[]>.  Tally for pMC estimation of reflectance 
+    /// Implements ITerminationTally<double[]>.  Tally for pMC estimation of reflectance 
     /// as a function of Rho.
     /// </summary>
     // do I need classes pMuaInROfRhoTally and pMusInROfRhoTally?
-    public class pMuaMusInROfRhoTally : ITally<double[]>
+    public class pMuaMusInROfRhoTally : ITerminationTally<double[]>
     {
         private DoubleRange _rho;
         private AbsorptionWeightingType _awt;

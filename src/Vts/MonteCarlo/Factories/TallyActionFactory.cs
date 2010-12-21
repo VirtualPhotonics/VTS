@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using Vts.Common;
 using Vts.MonteCarlo.TallyActions;
 
@@ -21,7 +22,7 @@ namespace Vts.MonteCarlo.Factories
                     return false;
             }
         }
-        public static ITally GetTallyAction(
+        public static ITerminationTally GetTallyAction(
             TallyType tallyType,
             ITissue tissue,
             DoubleRange rho,
@@ -57,24 +58,48 @@ namespace Vts.MonteCarlo.Factories
                     return new TOfRhoTally(rho);
                 case TallyType.TOfRhoAndAngle:
                     return new TOfRhoAndAngleTally(rho, angle);
+                //case TallyType.FluenceOfRhoAndZ:
+                //    return new FluenceOfRhoAndZTally(rho, z, tissue);
+                //case TallyType.FluenceOfRhoAndZAndTime:
+                //    return new FluenceOfRhoAndZAndTimeTally(rho, z, time, tissue);
+                //case TallyType.AOfRhoAndZ:
+                //    return new AOfRhoAndZTally(rho, z, tissue);
+            }
+        }
+        public static IHistoryTally GetHistoryTallyAction(
+            TallyType tallyType,
+            ITissue tissue,
+            DoubleRange rho,
+            DoubleRange z,
+            DoubleRange angle,
+            DoubleRange time,
+            DoubleRange omega,
+            DoubleRange x,
+            DoubleRange y)
+        {
+            switch (tallyType)
+            {
+                default:
                 case TallyType.FluenceOfRhoAndZ:
                     return new FluenceOfRhoAndZTally(rho, z, tissue);
+                case TallyType.FluenceOfRhoAndZAndTime:
+                    return new FluenceOfRhoAndZAndTimeTally(rho, z, time, tissue);
                 case TallyType.AOfRhoAndZ:
                     return new AOfRhoAndZTally(rho, z, tissue);
             }
         }
-        public static ITally GetTallyAction(
-        TallyType tallyType,
-        DoubleRange rho,
-        DoubleRange z,
-        DoubleRange angle,
-        DoubleRange time,
-        DoubleRange omega,
-        DoubleRange x,
-        DoubleRange y,
-        AbsorptionWeightingType awt,
-        List<OpticalProperties> referenceOps,
-        List<int> perturbedRegionsIndices)
+        public static ITerminationTally GetTallyAction(
+            TallyType tallyType,
+            DoubleRange rho,
+            DoubleRange z,
+            DoubleRange angle,
+            DoubleRange time,
+            DoubleRange omega,
+            DoubleRange x,
+            DoubleRange y,
+            AbsorptionWeightingType awt,
+            List<OpticalProperties> referenceOps,
+            List<int> perturbedRegionsIndices)
         {
             switch (tallyType)
             {
@@ -84,6 +109,22 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.pMuaMusInROfRho:
                     return new pMuaMusInROfRhoTally(rho, awt, referenceOps, perturbedRegionsIndices);
             }
+        }
+ 
+        public static IHistoryTally GetHistoryTallyAction(
+            TallyType tallyType,
+            DoubleRange rho,
+            DoubleRange z,
+            DoubleRange angle,
+            DoubleRange time,
+            DoubleRange omega,
+            DoubleRange x,
+            DoubleRange y,
+            AbsorptionWeightingType awt,
+            List<OpticalProperties> referenceOps,
+            List<int> perturbedRegionsIndices)
+        {
+            throw new NotSupportedException("not implemented yet");
         }
     }
 }

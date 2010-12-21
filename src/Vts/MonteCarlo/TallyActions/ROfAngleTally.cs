@@ -8,10 +8,10 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.TallyActions
 {
     /// <summary>
-    /// Implements ITally<double[]>.  Tally for reflectance as a function 
+    /// Implements ITerminationTally<double[]>.  Tally for reflectance as a function 
     /// of Angle.
     /// </summary>
-    public class ROfAngleTally : ITally<double[]>
+    public class ROfAngleTally : ITerminationTally<double[]>
     {
         private DoubleRange _angle;
         //private double[] _rOfAngle;

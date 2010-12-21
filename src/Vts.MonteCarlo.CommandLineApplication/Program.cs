@@ -278,7 +278,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
                              false, 
                              false,
                              writeHistories,
-                             tallyMomentumTransfer,
                              i));
 
                 var p = Path.GetDirectoryName(inputBatch[i].OutputFileName);

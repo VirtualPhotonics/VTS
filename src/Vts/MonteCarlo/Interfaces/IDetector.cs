@@ -8,8 +8,8 @@ namespace Vts.MonteCarlo
     {
         // note that the properties encompass Cartesian and Cylindrical Position systems
         List<TallyType> TallyTypeList { get; set; }
-        List<ITally> TerminationITallyList { get; set; }
-        List<ITally> HistoryITallyList { get; set; }
+        List<ITerminationTally> TerminationITallyList { get; set; }
+        List<IHistoryTally> HistoryITallyList { get; set; }
         DoubleRange Rho { get; set; }
         DoubleRange Angle { get; set; }
         DoubleRange Time { get; set; }

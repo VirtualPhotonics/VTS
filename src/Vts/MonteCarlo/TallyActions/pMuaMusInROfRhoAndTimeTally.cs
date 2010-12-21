@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.TallyActions
     /// as a function of Rho and Time.
     /// </summary>
     // do I need classes pMuaInROfRhoAndTimeTally and pMusInROfRhoAndTimeTally?
-    public class pMuaMusInROfRhoAndTimeTally : ITally<double[,]>
+    public class pMuaMusInROfRhoAndTimeTally : ITerminationTally<double[,]>
     {
         private DoubleRange _rho;
         private DoubleRange _time;

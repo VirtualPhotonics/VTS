@@ -15,13 +15,15 @@ namespace Vts.MonteCarlo.PhotonData
         private long _numberOfSubRegions;
         private ICustomBinaryReader<SubRegionCollisionInfo> _subRegionInfoReader;
         private ICustomBinaryWriter<SubRegionCollisionInfo> _subRegionInfoWriter;
-        private bool _tallyMomentumTransfer;
+        //private bool _tallyMomentumTransfer;
 
-        public PhotonTerminationDataPointCustomBinarySerializer(long numberOfSubRegions, bool tallyMomentumTransfer)
+        //public PhotonTerminationDataPointCustomBinarySerializer(long numberOfSubRegions, bool tallyMomentumTransfer)
+        public PhotonTerminationDataPointCustomBinarySerializer(long numberOfSubRegions)
         {
-            _tallyMomentumTransfer = tallyMomentumTransfer;
+            //_tallyMomentumTransfer = tallyMomentumTransfer;
             _numberOfSubRegions = numberOfSubRegions;
-            var serializer = new SubRegionCollisionInfoCustomBinarySerializer(_tallyMomentumTransfer);
+            //var serializer = new SubRegionCollisionInfoCustomBinarySerializer(_tallyMomentumTransfer);
+            var serializer = new SubRegionCollisionInfoCustomBinarySerializer();
             _subRegionInfoWriter = serializer;
             _subRegionInfoReader = serializer;
         }

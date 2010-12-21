@@ -66,8 +66,10 @@ namespace Vts.MonteCarlo
         TOfAngle,
         TDiffuse,
         FluenceOfRhoAndZ,
+        FluenceOfRhoAndZAndTime,
         AOfRhoAndZ,
-        pMuaMusInROfRhoAndTime, // maybs these should be in separate enum?
+        MomentumTransferOfRhoAndZ,
+        pMuaMusInROfRhoAndTime, // maybe these should be in separate enum?
         pMuaMusInROfRho,
         pMuaInROfRhoAndTime, // do I need next two?
         pMusInROfRhoAndTime,

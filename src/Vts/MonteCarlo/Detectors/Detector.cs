@@ -75,8 +75,8 @@ namespace Vts.MonteCarlo.Detectors
                 di.Y,
                 tissue) { }
 
-        public List<ITally> TerminationITallyList { get; set; }
-        public List<ITally> HistoryITallyList { get; set; }
+        public List<ITerminationTally> TerminationITallyList { get; set; }
+        public List<IHistoryTally> HistoryITallyList { get; set; }
         public List<TallyType> TallyTypeList { get; set; }
         public DoubleRange Rho { get; set; }
         public DoubleRange Angle { get; set; }
@@ -88,13 +88,13 @@ namespace Vts.MonteCarlo.Detectors
 
         public virtual void SetTallyActionLists()
         {
-            TerminationITallyList = new List<ITally>();
-            HistoryITallyList = new List<ITally>();
+            TerminationITallyList = new List<ITerminationTally>();
+            HistoryITallyList = new List<IHistoryTally>();
             foreach (var tally in TallyTypeList)
             {
                 if (Factories.TallyActionFactory.IsHistoryTally(tally))
                 {
-                    HistoryITallyList.Add(Factories.TallyActionFactory.GetTallyAction(tally, _tissue, Rho, Z, Angle, Time, Omega, X, Y));
+                    HistoryITallyList.Add(Factories.TallyActionFactory.GetHistoryTallyAction(tally, _tissue, Rho, Z, Angle, Time, Omega, X, Y));
                     _tallyTypeIndex.Add(tally, HistoryITallyList.Count() - 1);
                 }
                 else
@@ -113,23 +113,26 @@ namespace Vts.MonteCarlo.Detectors
                         _tissue.Regions.Select(s => s.RegionOP).ToList());
             }
         }
-        //bool _firstPoint = true;
+
+        PhotonDataPoint _previousDP;
         public void HistoryTally(PhotonHistory history)
         {
+            bool _firstPoint = true;
             foreach (PhotonDataPoint dp in history.HistoryData)
             {
-                foreach (var tally in HistoryITallyList)
+                if (_firstPoint)
                 {
-                    //if (_firstPoint)
-                    //{
-                    //    _firstPoint = false;
-                    //}
-                    //else
-                    //{
-                    // can history tallies static the previous dp?
-                    tally.Tally(dp,
-                        _tissue.Regions.Select(s => s.RegionOP).ToList());
-                    //}
+                    _firstPoint = false;
+                    _previousDP = dp;
+                }
+                else
+                {
+                    foreach (var tally in HistoryITallyList)
+                    {
+                        tally.Tally(_previousDP, dp,
+                                _tissue.Regions.Select(s => s.RegionOP).ToList());
+                    }
+                    _previousDP = dp;
                 }
             }
         }
@@ -157,46 +160,46 @@ namespace Vts.MonteCarlo.Detectors
                 {
                     default:
                     case TallyType.RDiffuse:
-                        output.Rd = ((ITally<double>)TerminationITallyList[_tallyTypeIndex[TallyType.RDiffuse]]).Mean;
+                        output.Rd = ((ITerminationTally<double>)TerminationITallyList[_tallyTypeIndex[TallyType.RDiffuse]]).Mean;
                         // the following is a workaround for now
                         output.Rtot = output.Rd +
                             Helpers.Optics.Specular(_tissue.Regions[0].RegionOP.N, _tissue.Regions[1].RegionOP.N);
                         break;
                     case TallyType.ROfAngle:
-                        output.R_a = ((ITally<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfAngle]]).Mean;
+                        output.R_a = ((ITerminationTally<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfAngle]]).Mean;
                         break;
                     case TallyType.ROfRho:
-                        output.R_r = ((ITally<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRho]]).Mean;
+                        output.R_r = ((ITerminationTally<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRho]]).Mean;
                         break;
                     case TallyType.ROfRhoAndAngle:
-                        output.R_ra = ((ITally<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndAngle]]).Mean;
+                        output.R_ra = ((ITerminationTally<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndAngle]]).Mean;
                         break;
                     case TallyType.ROfRhoAndTime:
-                        output.R_rt = ((ITally<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndTime]]).Mean;
+                        output.R_rt = ((ITerminationTally<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndTime]]).Mean;
                         break;
                     case TallyType.ROfXAndY:
-                        output.R_xy = ((ITally<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfXAndY]]).Mean;
+                        output.R_xy = ((ITerminationTally<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfXAndY]]).Mean;
                         break;
                     case TallyType.ROfRhoAndOmega:
-                        output.R_rw = ((ITally<Complex[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndOmega]]).Mean;
+                        output.R_rw = ((ITerminationTally<Complex[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndOmega]]).Mean;
                         break;
                     case TallyType.FluenceOfRhoAndZ:
-                        output.Flu_rz = ((ITally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.FluenceOfRhoAndZ]]).Mean;
+                        output.Flu_rz = ((IHistoryTally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.FluenceOfRhoAndZ]]).Mean;
                         break;
                     case TallyType.AOfRhoAndZ:
-                        output.A_rz = ((ITally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.AOfRhoAndZ]]).Mean;
+                        output.A_rz = ((IHistoryTally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.AOfRhoAndZ]]).Mean;
                         break;
                     case TallyType.TDiffuse:
-                        output.Td = ((ITally<double>)TerminationITallyList[_tallyTypeIndex[TallyType.TDiffuse]]).Mean;
+                        output.Td = ((ITerminationTally<double>)TerminationITallyList[_tallyTypeIndex[TallyType.TDiffuse]]).Mean;
                         break;
                     case TallyType.TOfAngle:
-                        output.T_a = ((ITally<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.TOfAngle]]).Mean;
+                        output.T_a = ((ITerminationTally<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.TOfAngle]]).Mean;
                         break;
                     case TallyType.TOfRho:
-                        output.T_r = ((ITally<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.TOfRho]]).Mean;
+                        output.T_r = ((ITerminationTally<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.TOfRho]]).Mean;
                         break;
                     case TallyType.TOfRhoAndAngle:
-                        output.T_ra = ((ITally<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.TOfRhoAndAngle]]).Mean;
+                        output.T_ra = ((ITerminationTally<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.TOfRhoAndAngle]]).Mean;
                         break;
                 }
             }
