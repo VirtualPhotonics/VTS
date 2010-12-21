@@ -276,6 +276,18 @@
   <data name="Label_TotalHb" xml:space="preserve">
     <value>Total Hb [μM]:</value>
   </data>
+  <data name="Button_ClearAll" xml:space="preserve">
+    <value>Clear All</value>
+  </data>
+  <data name="Button_ClearNewest" xml:space="preserve">
+    <value>Clear Newest</value>
+  </data>
+  <data name="Button_ExportData" xml:space="preserve">
+    <value>Export Data</value>
+  </data>
+  <data name="Button_ExportImage" xml:space="preserve">
+    <value>Export As Image</value>
+  </data>
   <data name="Label_FluenceOfFx" xml:space="preserve">
     <value>Φ(fx,z)</value>
   </data>
@@ -293,5 +305,20 @@
   </data>
   <data name="Label_FluenceOfRhoAndT" xml:space="preserve">
     <value>Φ(ρ,t,z)</value>
+  </data>
+  <data name="Label_HoldOn" xml:space="preserve">
+    <value>Hold On</value>
+  </data>
+  <data name="Label_Normalization" xml:space="preserve">
+    <value>Normalization:</value>
+  </data>
+  <data name="Label_PlotLabel" xml:space="preserve">
+    <value>Plot Label:</value>
+  </data>
+  <data name="Label_XAxisSpacing" xml:space="preserve">
+    <value>X Axis Spacing:</value>
+  </data>
+  <data name="Label_YAxisSpacing" xml:space="preserve">
+    <value>Y Axis Spacing:</value>
   </data>
 </root>

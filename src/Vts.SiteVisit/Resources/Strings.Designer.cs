@@ -61,6 +61,42 @@ namespace Vts.SiteVisit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear All.
+        /// </summary>
+        public static string Button_ClearAll {
+            get {
+                return ResourceManager.GetString("Button_ClearAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear Newest.
+        /// </summary>
+        public static string Button_ClearNewest {
+            get {
+                return ResourceManager.GetString("Button_ClearNewest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export Data.
+        /// </summary>
+        public static string Button_ExportData {
+            get {
+                return ResourceManager.GetString("Button_ExportData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export As Image.
+        /// </summary>
+        public static string Button_ExportImage {
+            get {
+                return ResourceManager.GetString("Button_ExportImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Generate Fluence/Interrogation Map.
         /// </summary>
         public static string Button_GenerateFluence {
@@ -331,6 +367,15 @@ namespace Vts.SiteVisit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hold On.
+        /// </summary>
+        public static string Label_HoldOn {
+            get {
+                return ResourceManager.GetString("Label_HoldOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Independent Axis:.
         /// </summary>
         public static string Label_IndependentAxis {
@@ -345,6 +390,15 @@ namespace Vts.SiteVisit.Resources {
         public static string Label_InverseSolver {
             get {
                 return ResourceManager.GetString("Label_InverseSolver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normalization:.
+        /// </summary>
+        public static string Label_Normalization {
+            get {
+                return ResourceManager.GetString("Label_Normalization", resourceCulture);
             }
         }
         
@@ -408,6 +462,15 @@ namespace Vts.SiteVisit.Resources {
         public static string Label_PHDOfRhoAndT {
             get {
                 return ResourceManager.GetString("Label_PHDOfRhoAndT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plot Label:.
+        /// </summary>
+        public static string Label_PlotLabel {
+            get {
+                return ResourceManager.GetString("Label_PlotLabel", resourceCulture);
             }
         }
         
@@ -516,6 +579,24 @@ namespace Vts.SiteVisit.Resources {
         public static string Label_TotalHb {
             get {
                 return ResourceManager.GetString("Label_TotalHb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to X Axis Spacing:.
+        /// </summary>
+        public static string Label_XAxisSpacing {
+            get {
+                return ResourceManager.GetString("Label_XAxisSpacing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Y Axis Spacing:.
+        /// </summary>
+        public static string Label_YAxisSpacing {
+            get {
+                return ResourceManager.GetString("Label_YAxisSpacing", resourceCulture);
             }
         }
         
