@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo.Factories
             ISource s = null;
             if (si is PointSourceInput)
             {
-                return new PointSource((PointSourceInput)si, tissue, tallyMomentumTransfer);
+                return new PointSource((PointSourceInput)si, tallyMomentumTransfer);
             }
             if (s == null)
                 throw new ArgumentException(
