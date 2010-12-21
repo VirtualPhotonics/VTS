@@ -32,12 +32,12 @@
                     <RadioButton 
                         Grid.Row="0" Grid.Column="1"
                         DataContext="{Binding FluenceofRhoOption}"
-                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDFluenceOfRho, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDOfRho, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="0" Grid.Column="2"
                         DataContext="{Binding FluenceofFxOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDFluenceOfFx, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDOfFx, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <!-- TIME-DOMAIN -->
                     <TextBlock 
@@ -46,12 +46,12 @@
                     <RadioButton 
                         Grid.Row="1" Grid.Column="1"
                         DataContext="{Binding FluenceofRhoAndTOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDFluenceOfRhoAndT, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDOfRhoAndT, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="2"
                         DataContext="{Binding FluenceofFxAndTOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDFluenceOfFxAndT, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDOfFxAndT, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <!-- FREQUENCY-DOMAIN -->
                     <TextBlock 
@@ -60,12 +60,12 @@
                     <RadioButton 
                         Grid.Row="2" Grid.Column="1"
                         DataContext="{Binding FluenceofRhoAndFtOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDFluenceOfRhoAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDOfRhoAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="2"
                         DataContext="{Binding FluenceofFxAndFtOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDFluenceOfFxAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDOfFxAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                 </Grid>
             </controls:HeaderedContentControl.Content>

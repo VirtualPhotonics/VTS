@@ -213,43 +213,43 @@
   <data name="Label_BloodVolume" xml:space="preserve">
     <value>Blood volume [vol. frac.]:</value>
   </data>
-  <data name="Label_FluenceOfFx" xml:space="preserve">
+  <data name="Label_AOfFx" xml:space="preserve">
     <value>A(fx,z)</value>
   </data>
-  <data name="Label_FluenceOfFxAndFt" xml:space="preserve">
+  <data name="Label_AOfFxAndFt" xml:space="preserve">
     <value>A(fx,ft)</value>
   </data>
-  <data name="Label_FluenceOfFxAndT" xml:space="preserve">
+  <data name="Label_AOfFxAndT" xml:space="preserve">
     <value>A(fx,t,z)</value>
   </data>
-  <data name="Label_FluenceOfRho" xml:space="preserve">
+  <data name="Label_AOfRho" xml:space="preserve">
     <value>A(ρ,z)</value>
   </data>
-  <data name="Label_FluenceOfRhoAndFt" xml:space="preserve">
+  <data name="Label_AOfRhoAndFt" xml:space="preserve">
     <value>A(ρ,ft,z)</value>
   </data>
-  <data name="Label_FluenceOfRhoAndT" xml:space="preserve">
+  <data name="Label_AOfRhoAndT" xml:space="preserve">
     <value>A(ρ,t,z)</value>
   </data>
   <data name="Label_IndependentAxis" xml:space="preserve">
     <value>Independent Axis:</value>
   </data>
-  <data name="Label_PHDFluenceOfFx" xml:space="preserve">
+  <data name="Label_PHDOfFx" xml:space="preserve">
     <value>phd(fx,z)</value>
   </data>
-  <data name="Label_PHDFluenceOfFxAndFt" xml:space="preserve">
+  <data name="Label_PHDOfFxAndFt" xml:space="preserve">
     <value>phd(fx,ft,z)</value>
   </data>
-  <data name="Label_PHDFluenceOfFxAndT" xml:space="preserve">
+  <data name="Label_PHDOfFxAndT" xml:space="preserve">
     <value>phd(fx,t,z)</value>
   </data>
-  <data name="Label_PHDFluenceOfRho" xml:space="preserve">
+  <data name="Label_PHDOfRho" xml:space="preserve">
     <value>phd(ρ,z)</value>
   </data>
-  <data name="Label_PHDFluenceOfRhoAndFt" xml:space="preserve">
+  <data name="Label_PHDOfRhoAndFt" xml:space="preserve">
     <value>phd(ρ,ft)</value>
   </data>
-  <data name="Label_PHDFluenceOfRhoAndT" xml:space="preserve">
+  <data name="Label_PHDOfRhoAndT" xml:space="preserve">
     <value>phd(ρ,t,z)</value>
   </data>
   <data name="Label_ROfFx" xml:space="preserve">
@@ -275,5 +275,23 @@
   </data>
   <data name="Label_TotalHb" xml:space="preserve">
     <value>Total Hb [μM]:</value>
+  </data>
+  <data name="Label_FluenceOfFx" xml:space="preserve">
+    <value>Φ(fx,z)</value>
+  </data>
+  <data name="Label_FluenceOfFxAndFt" xml:space="preserve">
+    <value>Φ(fx,ft)</value>
+  </data>
+  <data name="Label_FluenceOfFxAndT" xml:space="preserve">
+    <value>Φ(fx,t,z)</value>
+  </data>
+  <data name="Label_FluenceOfRho" xml:space="preserve">
+    <value>Φ(ρ,z)</value>
+  </data>
+  <data name="Label_FluenceOfRhoAndFt" xml:space="preserve">
+    <value>Φ(ρ,ft,z)</value>
+  </data>
+  <data name="Label_FluenceOfRhoAndT" xml:space="preserve">
+    <value>Φ(ρ,t,z)</value>
   </data>
 </root>
