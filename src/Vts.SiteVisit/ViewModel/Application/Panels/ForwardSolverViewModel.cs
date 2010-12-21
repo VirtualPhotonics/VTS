@@ -57,7 +57,7 @@ namespace Vts.SiteVisit.ViewModel
 
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain:", SolutionDomainType.RofRho);
 
-            ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output:");
+            ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output:", true);
 
             SolutionDomainTypeOptionVM.SolverType = SolverType.Forward;
 

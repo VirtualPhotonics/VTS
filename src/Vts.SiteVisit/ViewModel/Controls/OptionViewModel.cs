@@ -31,7 +31,7 @@ namespace Vts.SiteVisit.ViewModel
             //    (from k in Options.Keys.Where(key=>key.HasSubOptions())
             //     select OptionModel<k.GetType>.CreateAvailableOptions(OnOptionPropertyChanged, groupName,k.GetSubOptions().ToArray())).ToArray();
         }
-        public OptionViewModel(string groupName, params TValue[] values) : this(groupName, true, values) { }
+        public OptionViewModel(string groupName, params TValue[] values) : this(groupName, false, values) { }
 
 
         public TValue SelectedValue
