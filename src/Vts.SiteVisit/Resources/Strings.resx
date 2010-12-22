@@ -321,4 +321,31 @@
   <data name="Label_YAxisSpacing" xml:space="preserve">
     <value>Y Axis Spacing:</value>
   </data>
+  <data name="Label_AutoScale" xml:space="preserve">
+    <value>Auto Scale</value>
+  </data>
+  <data name="Label_Max" xml:space="preserve">
+    <value>Max:</value>
+  </data>
+  <data name="Label_MeanDepth" xml:space="preserve">
+    <value>Mean Depth:</value>
+  </data>
+  <data name="Label_Min" xml:space="preserve">
+    <value>Min:</value>
+  </data>
+  <data name="Label_NegRhoMax" xml:space="preserve">
+    <value>-rho_max</value>
+  </data>
+  <data name="Label_PlotType" xml:space="preserve">
+    <value>Plot Type:</value>
+  </data>
+  <data name="Label_PosRhoMax" xml:space="preserve">
+    <value>+rho_max</value>
+  </data>
+  <data name="Label_Z0" xml:space="preserve">
+    <value>z=0</value>
+  </data>
+  <data name="Label_ZMax" xml:space="preserve">
+    <value>z_max</value>
+  </data>
 </root>

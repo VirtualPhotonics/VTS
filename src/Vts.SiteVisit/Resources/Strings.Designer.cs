@@ -277,6 +277,15 @@ namespace Vts.SiteVisit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto Scale.
+        /// </summary>
+        public static string Label_AutoScale {
+            get {
+                return ResourceManager.GetString("Label_AutoScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Blood Concentration:.
         /// </summary>
         public static string Label_BloodConcentration {
@@ -394,6 +403,42 @@ namespace Vts.SiteVisit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max:.
+        /// </summary>
+        public static string Label_Max {
+            get {
+                return ResourceManager.GetString("Label_Max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mean Depth:.
+        /// </summary>
+        public static string Label_MeanDepth {
+            get {
+                return ResourceManager.GetString("Label_MeanDepth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min:.
+        /// </summary>
+        public static string Label_Min {
+            get {
+                return ResourceManager.GetString("Label_Min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -rho_max.
+        /// </summary>
+        public static string Label_NegRhoMax {
+            get {
+                return ResourceManager.GetString("Label_NegRhoMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Normalization:.
         /// </summary>
         public static string Label_Normalization {
@@ -471,6 +516,24 @@ namespace Vts.SiteVisit.Resources {
         public static string Label_PlotLabel {
             get {
                 return ResourceManager.GetString("Label_PlotLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plot Type:.
+        /// </summary>
+        public static string Label_PlotType {
+            get {
+                return ResourceManager.GetString("Label_PlotType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +rho_max.
+        /// </summary>
+        public static string Label_PosRhoMax {
+            get {
+                return ResourceManager.GetString("Label_PosRhoMax", resourceCulture);
             }
         }
         
@@ -597,6 +660,24 @@ namespace Vts.SiteVisit.Resources {
         public static string Label_YAxisSpacing {
             get {
                 return ResourceManager.GetString("Label_YAxisSpacing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to z=0.
+        /// </summary>
+        public static string Label_Z0 {
+            get {
+                return ResourceManager.GetString("Label_Z0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to z_max.
+        /// </summary>
+        public static string Label_ZMax {
+            get {
+                return ResourceManager.GetString("Label_ZMax", resourceCulture);
             }
         }
         

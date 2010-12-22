@@ -27,7 +27,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
