@@ -53,6 +53,22 @@ namespace Vts.SiteVisit.Extensions
             }
         }
 
+        public static string GetTitle(this IndependentVariableAxis axis)
+        {
+            switch (axis)
+            {
+                case IndependentVariableAxis.Rho:
+                default:
+                    return IndependentVariableAxis.Rho.GetLocalizedString();
+                case IndependentVariableAxis.T:
+                    return IndependentVariableAxis.T.GetLocalizedString();
+                case IndependentVariableAxis.Fx:
+                    return IndependentVariableAxis.Fx.GetLocalizedString();
+                case IndependentVariableAxis.Ft:
+                    return IndependentVariableAxis.Ft.GetLocalizedString();
+            }
+        }
+
         public static string GetUnits(this SolutionDomainType sdType)
         {
             switch (sdType)

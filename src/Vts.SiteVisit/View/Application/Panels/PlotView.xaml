@@ -7,8 +7,8 @@
     xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" 
     xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
     HorizontalAlignment="Left" VerticalAlignment="Top">
-
     <StackPanel Background="White">
+        <!-- Chart control for the plot -->
         <charting:Chart x:Name="myChart" Width="515"  Height="400" Background="White"
                 vm:ChartHelper.DependentValueBinding="Y"
                 vm:ChartHelper.IndependentValueBinding="X"
@@ -22,53 +22,50 @@
                 <charting:LinearAxis Orientation="Y" ShowGridLines="False" AxisLabelStyle="{StaticResource MyScientificAxisLabelStyle}" Visibility="{Binding ShowAxes, Converter={StaticResource myBooleanToVisibilityConverter}}" />
             </charting:Chart.Axes>
         </charting:Chart>
-
+        <!-- Options below the plot -->
         <StackPanel Orientation="Horizontal" Background="White" Margin="0,5,0,0">
-            
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="2,0,10,0">
-                <CheckBox Content="Hold On" IsChecked="{Binding HoldOn, Mode=TwoWay}" Margin="0,5,0,0"/>
-                <Button 
-                        input:CommandService.Command="Plot_ClearPlot"
+                <!-- Hold on checkbox -->
+                <CheckBox Content="{Binding Path=MainResource.Label_HoldOn, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding HoldOn, Mode=TwoWay}" Margin="0,5,0,0"/>
+                <!-- Buttons to clear the plots -->
+                <Button input:CommandService.Command="Plot_ClearPlot"
                         input:CommandService.CommandParameter="{Binding}"
-                        Content="Clear All"  
+                        Content="{Binding Path=MainResource.Button_ClearAll, Source={StaticResource LocalizedStrings}}"  
                         Width="80" Height="20" Margin="0,5,0,0"/>
-                <Button 
-                        input:CommandService.Command="Plot_ClearPlotSingle"
+                <Button input:CommandService.Command="Plot_ClearPlotSingle"
                         input:CommandService.CommandParameter="{Binding}"
-                        Content="Clear Newest"  
+                        Content="{Binding Path=MainResource.Button_ClearAll, Source={StaticResource LocalizedStrings}}"  
                         Width="80" Height="20" Margin="0,5,0,0"/>
             </StackPanel>
-            
+            <!--  -->
             <StackPanel Orientation="Vertical" Margin="5,0,10,0">
                 <StackPanel Orientation="Horizontal" Margin="0">
-                    <TextBlock Text="X Axis Spacing: " VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Path=MainResource.Label_XAxisSpacing, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
                     <v:RadioButtonOptionView DataContext="{Binding XAxisSpacingOptionVM}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0">
-                    <TextBlock Text="Y Axis Spacing: " VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Path=MainResource.Label_YAxisSpacing, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
                     <v:RadioButtonOptionView DataContext="{Binding YAxisSpacingOptionVM}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0">
-                    <TextBlock Text="Normalization:" VerticalAlignment="Center" Margin="0,2"/>
+                    <TextBlock Text="{Binding Path=MainResource.Label_Normalization, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,2"/>
                     <v:RadioButtonOptionView DataContext="{Binding PlotNormalizationTypeOptionVM}" />
                 </StackPanel>
             </StackPanel>
-            
+            <!--  -->
             <StackPanel Orientation="Vertical" Margin="5,0,0,0">
-                
+                <!-- Plot Label -->
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Plot Label:" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Path=MainResource.Label_PlotLabel, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,0,4,0" />
                     <TextBox Width="100" Text="{Binding CustomPlotLabel, Mode=TwoWay}"/>
                 </StackPanel>
-                
-                <Button Content="Export As Image" 
+                <!-- Buttons for exporting results -->
+                <Button Content="{Binding Path=MainResource.Button_ExportImage, Source={StaticResource LocalizedStrings}}" 
                         Click="Button_Click"
                         Margin="0,5,0,0"/>
-                
-                <Button 
-                        input:CommandService.Command="Plot_ExportDataToText"
+                <Button input:CommandService.Command="Plot_ExportDataToText"
                         input:CommandService.CommandParameter="{Binding}"
-                        Content="Export Data"  
+                        Content="{Binding Path=MainResource.Button_ExportData, Source={StaticResource LocalizedStrings}}"  
                         Margin="0,5,0,0"/>
             </StackPanel>
         </StackPanel>

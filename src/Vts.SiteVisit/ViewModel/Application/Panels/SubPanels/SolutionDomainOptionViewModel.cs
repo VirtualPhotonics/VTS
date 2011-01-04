@@ -171,37 +171,37 @@ namespace Vts.SiteVisit.ViewModel
                 case SolutionDomainType.RofRho:
                 default:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("",
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             IndependentVariableAxis.Rho);
                     ConstantLabelVisible = false;
                     break;
                 case SolutionDomainType.RofFx:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("",
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             IndependentVariableAxis.Fx);
                     ConstantLabelVisible = false;
                     break;
                 case SolutionDomainType.RofRhoAndT:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("",
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             IndependentVariableAxis.Rho, IndependentVariableAxis.T);
                     ConstantLabelVisible = true;
                     break;
                 case SolutionDomainType.RofFxAndT:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("",
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             IndependentVariableAxis.Fx, IndependentVariableAxis.T);
                     ConstantLabelVisible = true;
                     break;
                 case SolutionDomainType.RofRhoAndFt:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("",
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             IndependentVariableAxis.Rho, IndependentVariableAxis.Ft);
                     ConstantLabelVisible = true;
                     break;
                 case SolutionDomainType.RofFxAndFt:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("",
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             IndependentVariableAxis.Fx, IndependentVariableAxis.Ft);
                     ConstantLabelVisible = true;
                     break;
@@ -249,7 +249,7 @@ namespace Vts.SiteVisit.ViewModel
 
         private RangeViewModel GetDefaultIndependentAxisRange(IndependentVariableAxis independentAxisType)
         {
-            return new RangeViewModel(independentAxisType.GetDefaultRange(), independentAxisType.GetUnits(), "");
+            return new RangeViewModel(independentAxisType.GetDefaultRange(), independentAxisType.GetUnits(), independentAxisType.GetTitle());
         }
 
 

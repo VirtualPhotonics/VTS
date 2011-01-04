@@ -34,9 +34,9 @@ namespace Vts.SiteVisit.ViewModel
         public SpectralMappingViewModel()
         {
 #if WHITELIST 
-            ScatteringTypeVM = new OptionViewModel<ScatteringType>("Scatterer Type:", WhiteList.ScatteringTypes);
+            ScatteringTypeVM = new OptionViewModel<ScatteringType>("Scatterer Type:", true, WhiteList.ScatteringTypes);
 #else 
-            ScatteringTypeVM = new OptionViewModel<ScatteringType>("Scatterer Type:");
+            ScatteringTypeVM = new OptionViewModel<ScatteringType>("Scatterer Type:", true);
 #endif
             ScatteringTypeVM.PropertyChanged += (sender, args) =>
             {

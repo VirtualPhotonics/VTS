@@ -4,26 +4,25 @@
     xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
     xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit">
     <controls:HeaderedItemsControl ItemsSource="{Binding Options.Values}" >
-            <controls:HeaderedItemsControl.Header >
-                <TextBlock 
-                    Text="{Binding GroupName, Mode=TwoWay}"
+            <controls:HeaderedItemsControl.Header>
+                <TextBlock Text="{Binding GroupName, Mode=TwoWay}"
                     Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}" 
                     FontSize="16" 
                     TextDecorations="Underline" />
             </controls:HeaderedItemsControl.Header>
             <controls:HeaderedItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <toolkit:WrapPanel VerticalAlignment="Top"/>
+                    <toolkit:WrapPanel VerticalAlignment="Center"/>
                 </ItemsPanelTemplate>
             </controls:HeaderedItemsControl.ItemsPanel>
             <controls:HeaderedItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <RadioButton VerticalAlignment="Top"
-                    Tag="{Binding ID}"
-                    Content="{Binding DisplayName}"
-                    IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                    GroupName="{Binding GroupName}"
-                    Margin="2,3.5" />
+                    <RadioButton VerticalAlignment="Center"
+                                 Tag="{Binding ID}"
+                                 Content="{Binding DisplayName}"
+                                 IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                 GroupName="{Binding GroupName}"
+                                 Margin="2,4"/>
                 </DataTemplate>
             </controls:HeaderedItemsControl.ItemTemplate>
         </controls:HeaderedItemsControl>

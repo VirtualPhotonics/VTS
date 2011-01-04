@@ -3,10 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:v="clr-namespace:Vts.SiteVisit.View"
     xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions">
-
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-
-        <!--Model Engines-->
+        <!-- Solver Engines -->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -17,9 +15,11 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0"
-                Text="Fwd Model Engine:" FontSize="12" FontWeight="Bold" Margin="3,3" />
+                       Text="{Binding Path=MainResource.Label_ForwardSolver, Source={StaticResource LocalizedStrings }}" 
+                       FontSize="12" FontWeight="Bold" Margin="3,3" VerticalAlignment="Center" />
             <TextBlock Grid.Row="1" Grid.Column="0"
-                Text="Inv Model Engine:" FontSize="12" FontWeight="Bold" Margin="3,3" />
+                       Text="{Binding Path=MainResource.Label_InverseSolver, Source={StaticResource LocalizedStrings }}" 
+                       FontSize="12" FontWeight="Bold" Margin="3,3" VerticalAlignment="Center" />
             <v:ComboBoxOptionView Grid.Row="0" Grid.Column="1"
                 DataContext="{Binding MeasuredForwardSolverTypeOptionVM}" 
                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3" />
@@ -27,14 +27,15 @@
                 DataContext="{Binding InverseForwardSolverTypeOptionVM}"
                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3" />
         </Grid>
-
+        <!-- Solution Domain -->
         <v:SolutionDomainOptionView DataContext="{Binding SolutionDomainTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3"/>
+        <!-- Detection Parameters -->
         <v:RangeView DataContext="{Binding RangeVM}" Margin="3,3"/>
-
+        <!-- Optimization paramters -->
         <v:RadioButtonOptionView DataContext="{Binding InverseFitTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3"/>
+        <!-- Optimizer Type -->
         <v:RadioButtonOptionView DataContext="{Binding OptimizerTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3"/>
-        
-        <!--Optical Properties-->
+        <!-- Optical Properties -->
         <Grid  Margin="3,3">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -44,118 +45,42 @@
                 <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-
+            <!-- TODO: Need to put these TextBlocks into the resources -->
             <StackPanel VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="0">
                 <TextBlock HorizontalAlignment="Left">Forward Simulation</TextBlock>
                 <TextBlock HorizontalAlignment="Left">Optical Properties:</TextBlock>
             </StackPanel>
             <v:OpticalPropertyView Grid.Row="0" Grid.Column="1" DataContext="{Binding MeasuredOpticalPropertyVM}" />
-
             <StackPanel VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="0">
                 <TextBlock HorizontalAlignment="Left">Initial Guess</TextBlock>
                 <TextBlock HorizontalAlignment="Left">Optical Properties:</TextBlock>
             </StackPanel>
             <v:OpticalPropertyView DataContext="{Binding InitialGuessOpticalPropertyVM}" Grid.Row="1" Grid.Column="1"/>
         </Grid>
-        
-
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-            
             <StackPanel VerticalAlignment="Bottom" >
-                <TextBlock Text=" % noise"/>
+                <TextBlock Text="{Binding Path=MainResource.Label_PercentNoise, Source={StaticResource LocalizedStrings}}"/>
                 <TextBox Width="40" Text="{Binding  PercentNoise, Mode=TwoWay}"/>
             </StackPanel>
+            <!-- Buttons -->
             <Button 
                 input:CommandService.Command="IS_SimulateMeasuredData"
                 input:CommandService.CommandParameter="{Binding}"
                 VerticalAlignment="Bottom"
-                Content="Plot Measured Data" 
+                Content="{Binding Path=MainResource.Button_PlotMeasured, Source={StaticResource LocalizedStrings}}" 
                 Width="120" Height="30" Margin="2,2"/>
-            
             <Button 
                 input:CommandService.Command="IS_CalculateInitialGuess"
                 input:CommandService.CommandParameter="{Binding}"
                 VerticalAlignment="Bottom"
-                Content="Plot Initial Guess" 
+                Content="{Binding Path=MainResource.Button_PlotInitialGuess, Source={StaticResource LocalizedStrings}}" 
                 Width="120" Height="30" Margin="2,2"/>
-
             <Button 
                 input:CommandService.Command="IS_SolveInverse"
                 input:CommandService.CommandParameter="{Binding}"
                 VerticalAlignment="Bottom"
                 Width="120" Height="30" Margin="2,2"
-                Content="Run Inverse Solver"/>
-
+                Content="{Binding Path=MainResource.Button_InverseSolver, Source={StaticResource LocalizedStrings}}"/>
         </StackPanel>
-
-        <!--<TextBlock Text="INVERSE SOLVER:"/>
-        <TextBlock Text="Solution Domain:"/>
-        <ListBox
-            Background="{Binding StackPanel.Background}" 
-            BorderThickness="0"
-            ItemsSource="{Binding SolutionDomainTypes}"
-            SelectedItem="{Binding SolutionDomainType, Mode=TwoWay}"/>
-
-        <TextBlock Text="Independent Variable Spacing:"/>
-        <ListBox 
-            DataContext="{Binding RangeControlViewModel}" 
-            Background="{Binding StackPanel.Background}" BorderThickness="0"
-            ItemsSource="{Binding RangeSpacingTypes}"
-            SelectedItem="{Binding RangeSpacingType, Mode=TwoWay}"/>
-
-        <local:RangeControlView 
-            DataContext="{Binding RangeControlViewModel}"/>
-
-        <TextBlock Text="Model Engine:"/>
-        <ListBox Background="{Binding StackPanel.Background}" 
-                 BorderThickness="0"
-                 ItemsSource="{Binding ForwardSolverTypes}"
-                 SelectedItem="{Binding InverseForwardSolverType, Mode=TwoWay}"/>-->
-
-        <!--<local:OpticalPropertyControlView 
-            DataContext="{Binding InitialGuessOpticalPropertyControlViewModel}"/>-->
-
-        <!--<TextBlock Text="Optimizer:"/>
-        <ListBox
-            Background="{Binding StackPanel.Background}" 
-            BorderThickness="0"
-            ItemsSource="{Binding OptimizerTypes}"
-            SelectedItem="{Binding OptimizerType, Mode=TwoWay}"/>
-
-        <TextBlock Text="Measured Data Type:"/>
-        <ListBox 
-            Background="{Binding StackPanel.Background}" BorderThickness="0"
-            ItemsSource="{Binding MeasuredDataTypes}"
-            SelectedItem="{Binding MeasuredDataType, Mode=TwoWay}"/>
-
-        <TextBlock Text="Simulated Measured Data Engine:"/>
-        <ListBox
-            Background="{Binding StackPanel.Background}" BorderThickness="0"
-            ItemsSource="{Binding ForwardSolverTypes}"
-            SelectedItem="{Binding MeasuredForwardSolverType, Mode=TwoWay}"/>
-
-        <TextBlock Text="Simulated Measured Data:"/>
-        
-        <StackPanel Orientation="Horizontal">
-            <local:OpticalPropertyControlView 
-                DataContext="{Binding MeasuredOpticalPropertyControlViewModel}"/>
-            <TextBlock Text=" % noise="/>
-            <TextBox Width="40" Text="{Binding  PercentNoise, Mode=TwoWay}"/>
-        </StackPanel>-->
-
-
-
-        <!--<TextBlock Text="Optimization Parameters:"/>
-        <ListBox
-            Background="{Binding StackPanel.Background}" BorderThickness="0"
-            ItemsSource="{Binding InverseParameterTypes}"
-            SelectedItem="{Binding InverseParameterType, Mode=TwoWay}"/>-->
-
-        <!--<TextBlock Text="Initial Guess:"/>-->
-        <!--<local:OpticalPropertyControlView  DataContext="{Binding InitialGuessOpticalPropertyControlViewModel}"/>-->
-
-
-
-
     </StackPanel>
 </UserControl>

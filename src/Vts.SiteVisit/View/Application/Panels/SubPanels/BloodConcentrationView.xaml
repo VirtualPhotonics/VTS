@@ -3,17 +3,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions"
     Height="Auto">
-    
     <Grid x:Name="LayoutRoot" Background="White" Visibility="{Binding BloodConcentrationVM.DisplayBloodVM, Converter={StaticResource myBooleanToVisibilityConverter}}">
         <StackPanel Orientation="Vertical" >
-            <TextBlock Text="Blood concentration:" FontSize="16" TextDecorations="Underline"/>
+            <!-- Blood Concentration Labels -->
+            <TextBlock Text="{Binding Path=MainResource.Label_BloodConcentration, Source={StaticResource LocalizedStrings}}" FontSize="16" TextDecorations="Underline"/>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text=" Total Hb [μM]:" Margin="3,0,3,0"/>
-                <TextBlock Text=" Blood volume [vol. frac.]:" Margin="3,0,3,0"/>
-                <TextBlock Text=" StO2 [frac.]:" Margin="3,0,3,0"/>
+                <TextBlock Text="{Binding Path=MainResource.Label_TotalHb, Source={StaticResource LocalizedStrings}}" Margin="3,0,3,0"/>
+                <TextBlock Text="{Binding Path=MainResource.Label_BloodVolume, Source={StaticResource LocalizedStrings}}" Margin="3,0,3,0"/>
+                <TextBlock Text="{Binding Path=MainResource.Label_StO2, Source={StaticResource LocalizedStrings}}" Margin="3,0,3,0"/>
              </StackPanel>
             <StackPanel Orientation="Horizontal">
-              <TextBox Text="{Binding TotalHb, Mode=TwoWay,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}" 
+                <!-- Blood Concentration values -->
+                <TextBox Text="{Binding TotalHb, Mode=TwoWay,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}" 
                        Width="40"  Margin="30,0,0,0"/>
               <TextBox Text="{Binding BloodVolumeFraction, Mode=TwoWay,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}"
                        Width="40"  Margin="80,0,0,0"/>

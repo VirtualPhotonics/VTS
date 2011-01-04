@@ -58,11 +58,11 @@ namespace Vts.SiteVisit.ViewModel
             InverseForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
                 OnPropertyChanged("InverseForwardSolver");
 
-            OptimizerTypeOptionVM = new OptionViewModel<OptimizerType>("Optimizer Type:");
+            OptimizerTypeOptionVM = new OptionViewModel<OptimizerType>("Optimizer Type:", true);
             OptimizerTypeOptionVM.PropertyChanged += (sender, args) =>
                 OnPropertyChanged("Optimizer");
 
-            InverseFitTypeOptionVM = new OptionViewModel<InverseFitType>("Optimization Parameters:");
+            InverseFitTypeOptionVM = new OptionViewModel<InverseFitType>("Optimization Parameters:", true);
             //InverseFitTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
 
             MeasuredOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "" };

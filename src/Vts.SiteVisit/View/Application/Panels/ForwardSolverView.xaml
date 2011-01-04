@@ -4,29 +4,50 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:v="clr-namespace:Vts.SiteVisit.View"
     xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
-
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-        <v:ComboBoxOptionView  DataContext="{Binding ForwardSolverTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <!-- Solver Engine -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=MainResource.Label_ForwardSolver, Source={StaticResource LocalizedStrings }}" FontSize="12" FontWeight="Bold" Margin="3,3" />
+            <v:ComboBoxOptionView Grid.Row="0" Grid.Column="1"  DataContext="{Binding ForwardSolverTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </Grid>
+        <!-- Gaussian Beam Diameter -->
         <StackPanel Orientation="Horizontal" Visibility="{Binding IsGaussianForwardModel, Converter={StaticResource myBooleanToVisibilityConverter}}" Margin="5">
-            <TextBlock Text="Gaussian Beam Diameter:" Margin="3" VerticalAlignment="Bottom"/>
+            <TextBlock Text="{Binding Path=MainResource.Label_GaussianBeam, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
             <TextBox Width="40" Margin="3" Text="{Binding ForwardSolver.BeamDiameter, Mode=TwoWay}" VerticalAlignment="Bottom"/>
-            <TextBlock Text="mm" Margin="3" VerticalAlignment="Bottom"/>
+            <TextBlock Text="{Binding Path=MainResource.Measurement_mm, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
         </StackPanel>
+        <!-- Solution Domain -->
         <v:SolutionDomainOptionView DataContext="{Binding SolutionDomainTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <!-- Detection Parameters -->
         <v:RangeView DataContext="{Binding RangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <!-- Optical Properties -->
         <v:OpticalPropertyView Mua="1.0" DataContext="{Binding OpticalPropertyVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
-
-            <v:RadioButtonOptionView DataContext="{Binding ForwardAnalysisTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!-- Model/Analysis Output -->
+            <v:RadioButtonOptionView Grid.Column="0" DataContext="{Binding ForwardAnalysisTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <!-- Button -->
             <Button 
+                Grid.Column="1"
                 VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
                 input:CommandService.Command="FS_ExecuteForwardSolver"
                 input:CommandService.CommandParameter="{Binding}"
-                Content="Plot Reflectance"  
+                Content="{Binding Path=MainResource.Button_PlotReflectance, Source={StaticResource LocalizedStrings}}"  
                 Width="100" Height="30" />
-
-        </StackPanel>
-
-
+        </Grid>
     </StackPanel>
 </UserControl>
