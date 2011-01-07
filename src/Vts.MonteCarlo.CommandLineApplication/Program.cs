@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Vts.Common;
 using Vts.Extensions;
 using System.IO;
+using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.Tissues;
 
 // ParallelFx June '08 CTP
 //using System.Threading.Collections;
@@ -176,7 +179,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
 #region     Infile Generation (optional)
 #if GENERATE_INFILE
             var tempInput = new SimulationInput(
-                1000000,  // FIX 1e6 takes about 70 minutes my laptop
+                100
+                ,  // FIX 1e6 takes about 70 minutes my laptop
                 "Output",
                 new PointSourceInput(
                     new Position(0, 0, 0),
@@ -455,8 +459,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
 
 
-            Console.WriteLine("Hit *Enter* to exit.");
-            Console.Read();
+            //Console.WriteLine("Hit *Enter* to exit.");
+            //Console.Read();
         }
 
         private static SimulationInput LoadDefaultInputFile()
