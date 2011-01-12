@@ -154,7 +154,7 @@ namespace Vts.MonteCarlo
 
                         /*Test_Distance(); */
 
-                        //todo: PhotonHistoryDatabaseWriter.AddDataPoint(DP);
+                        //photon.DP added to History list in Photon
 
                         photon.TestWeight();
 
@@ -191,14 +191,15 @@ namespace Vts.MonteCarlo
         /********************************************************/
         void DisplayIntro()
         {
-            Console.WriteLine(SimulationIndex + ":                                                  ");
-            Console.WriteLine(SimulationIndex + ":      Monte Carlo Simulation of Light Propagation ");
-            Console.WriteLine(SimulationIndex + ":            in a multi-layered tissue             ");
-            Console.WriteLine(SimulationIndex + ":      with pMC and photon banana generation       ");
-            Console.WriteLine(SimulationIndex + ":                                                  ");
-            Console.WriteLine(SimulationIndex + ":           written by Dunn/Hayakawa/Cuccia        ");
-            Console.WriteLine(SimulationIndex + ":             Beckman Laser Institute              ");
-            Console.WriteLine(SimulationIndex + ": ");
+            string intro = "\n" +
+                SimulationIndex + ":                                                  \n" +
+                SimulationIndex + ":      Monte Carlo Simulation of Light Propagation \n" +
+                SimulationIndex + ":              in a multi-region tissue            \n" +
+                SimulationIndex + ":                                                  \n" +
+                SimulationIndex + ":         written by the Virtual Photonics Team    \n" +
+                SimulationIndex + ":              Beckman Laser Institute             \n" +
+                SimulationIndex + ":";
+            Console.WriteLine(intro);
         }
 
         /*****************************************************************/
