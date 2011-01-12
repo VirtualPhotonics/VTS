@@ -51,12 +51,26 @@ namespace Vts.MonteCarlo.Tissues
 
         #region ITissue Members
 
-
+        public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
+        {
+            if (position.Z < 1e-10)
+                return PhotonStateType.ExitedOutTop;
+            else
+                return PhotonStateType.ExitedOutBottom;
+        }
         public double GetDistanceToBoundary(Photon photon)
         {
             throw new NotImplementedException();
         }
-
+        public Direction GetReflectedDirection(Position currentPosition, Direction currentDirection)
+        {
+            throw new NotImplementedException();
+        }
+        public Direction GetRefractedDirection(Position currentPosition, Direction currentDirection, 
+            double nCurrent, double nNext, double cosThetaSnell)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

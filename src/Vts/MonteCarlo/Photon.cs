@@ -128,7 +128,6 @@ namespace Vts.MonteCarlo
         public void CrossRegionOrReflect()
         {
             double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(this);
-            //double uz = photptr.DP.Direction.Uz;
             double nCurrent = _tissue.Regions[CurrentRegionIndex].RegionOP.N;
             int neighborIndex = _tissue.GetNeighborRegionIndex(this);
             double nNext = _tissue.Regions[neighborIndex].RegionOP.N;
@@ -140,60 +139,52 @@ namespace Vts.MonteCarlo
                 coscrit = 0.0;
 
             double probOfCrossing;
-            double uZSnell;
-            probOfCrossing = Optics.Fresnel(nCurrent, nNext, cosTheta, out uZSnell);
+            double cosThetaSnell;
+            // call Fresnel be default to have uZSnell set, used to be within else
+            probOfCrossing = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
             if (cosTheta <= coscrit)
                 probOfCrossing = 1.0;
             //else
-            //    probOfCrossing = Optics.Fresnel(nCurrent, nNext, cosTheta, out uZSnell);
+            //    probOfCrossing = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
 
             /* Decide whether or not photon goes to next region */
             if (_rng.NextDouble() > probOfCrossing)
             {
-                // check if at border of system
-                if (_tissue.OnDomainBoundary(this))
-                /* transmitted to next layer */
-                //if (((_tissue.do_ellip_layer != 3) && (currentRegion == _tissue.num_layers)) ||
-                //    ((_tissue.do_ellip_layer == 3) && (currentRegion == 1)))
+                if (_tissue.OnDomainBoundary(this)) // if at border of system, exit
                 {
-                    if (DP.Position.Z < 1e-10)
-                        DP.StateFlag = PhotonStateType.ExitedOutTop;
-                    else
-                        DP.StateFlag = PhotonStateType.ExitedOutBottom;
-                    if (DP.StateFlag != PhotonStateType.NotSet)
-                    {
-                        History.HistoryData.Add(
-                            new PhotonDataPoint(
-                                new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
-                                new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
-                                DP.Weight,
-                                DP.StateFlag,
-                                null));
-                    }
-                    DP.Direction.Ux *= nCurrent / nNext;
-                    DP.Direction.Uy *= nCurrent / nNext;
-                    DP.Direction.Uz = uZSnell;
+                    DP.StateFlag = _tissue.GetPhotonDataPointStateOnExit(DP.Position);
+                    // add updated final DP to History
+                    History.HistoryData.Add(
+                        new PhotonDataPoint(
+                            new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
+                            new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
+                            DP.Weight,
+                            DP.StateFlag,
+                            null)); 
+                    //don't need to update these unless photon not dead upon exiting tissue
+                    //DP.Direction.Ux *= nCurrent / nNext;
+                    //DP.Direction.Uy *= nCurrent / nNext;
+                    //DP.Direction.Uz = uZSnell;
                 }
-                else
+                else // not on domain boundary, at internal interface, pass to next
                 {
                     CurrentRegionIndex = neighborIndex;
-                    DP.Direction.Ux *= nCurrent / nNext;
-                    DP.Direction.Uy *= nCurrent / nNext;
-                    DP.Direction.Uz = uZSnell;
+                    DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
+                        nCurrent, nNext, cosThetaSnell);
                 }
             }
             else  // don't cross, reflect
             {
-                DP.Direction.Uz = -DP.Direction.Uz;
+                DP.Direction = _tissue.GetReflectedDirection(DP.Position, DP.Direction);
             }
         }
         /*****************************************************************/
         public void AbsorbAnalog()
         {
             if (_rng.NextDouble() > _tissue.Regions[CurrentRegionIndex].RegionOP.Mus /
-                (_tissue.Regions[CurrentRegionIndex].RegionOP.Mus + _tissue.Regions[CurrentRegionIndex].RegionOP.Mua))
+                (_tissue.Regions[CurrentRegionIndex].RegionOP.Mus + 
+                 _tissue.Regions[CurrentRegionIndex].RegionOP.Mua))
             {
-                //Absorb_Discrete(rng);  // CKH don't think this call is needed
                 DP.StateFlag = PhotonStateType.Absorbed;
                 History.AddDPToHistory(DP);
             }
@@ -202,7 +193,7 @@ namespace Vts.MonteCarlo
         /*****************************************************************/
         public void Scatter()
         {
-            // don't need local copy here, but readability not good if don't
+            // readability eased with local copies of following
             double ux = DP.Direction.Ux;
             double uy = DP.Direction.Uy;
             double uz = DP.Direction.Uz;
@@ -279,34 +270,10 @@ namespace Vts.MonteCarlo
             {
                 dw = w * mua / (mua + mus);
                 DP.Weight -= dw;
-                // CKH TODO: add tallies here
-                /* Compute array indices from r and z */
-                //iz = DetectorBinning.WhichBin(this.DP.Position.Z, Detector.Nz, Detector.Dz, 0.0);
-                //ir = DetectorBinning.WhichBin(Math.Sqrt(x * x + y * y), Detector.Nr, Detector.Dr, 0.0);
-                //outptr.A_layer[currentRegion] += dw;
-                //outptr.A_rz[ir, iz] += dw;
+                // fluence tallying used to be done here 
 
-                //if (MonteCarloSimulation.DO_TIME_RESOLVED_FLUENCE)
-                //{
-                //    double t_delay = this.Histptr.HistoryData.Select(
-                //    double t_delay = this.History.HistoryData.Select(
-                //        dp => dp.SubRegionInfoList.Select(sr => sr.PathLength).Sum() /
-                //            (.03 / _tissue.Regions[currentRegion].RegionOP.N));  /* . ps */
-                //    int it = (int)Math.Floor(t_delay / Detector.Dt); /* assumes tmin=0 */
-                //    if ((it > Detector.Nt - 1) || (it < 0)) it = -1; /* if outside [tmin,tmax] */
-                //    //if (it != -1) outptr.A_rzt[ir, iz, it] += dw;
-                //}
-
-                /* update weight for History */
-                // ckh question: do I update current historydata or add?
-                History.HistoryData[index].Weight = DP.Weight;
-                //History.HistoryData.Add(
-                //    new PhotonDataPoint(
-                //        DP.Position,
-                //        DP.Direction,
-                //        DP.Weight,
-                //        DP.StateFlag,
-                //        null)); 
+                // update weight for current DP in History 
+                History.HistoryData[index].Weight = DP.Weight; 
             }
         }
 
@@ -321,37 +288,13 @@ namespace Vts.MonteCarlo
             dw = DP.Weight * (1 - Math.Exp(-mua * S));
             DP.Weight -= dw;
 
-            ///* Compute array indices from r and z */
-            //iz = DetectorBinning.WhichBin(this.DP.Position.Z, Detector.Nz, Detector.Dz, 0.0);
-            //ir = DetectorBinning.WhichBin(Math.Sqrt(x * x + y * y), Detector.Nr, Detector.Dr, 0.0);
-            //outptr.A_layer[currentRegion] += dw;
-            //outptr.A_rz[ir, iz] += dw;
-
-            //TODO: DC add feature to unmanaged code
-            //if (MonteCarloSimulation.DO_TIME_RESOLVED_FLUENCE)
-            //{
-            //    double t_delay = this.Histptr.HistoryData[currentRegion].SubRegionInfoList.Select(s => s.PathLength).Sum() /
-            //    double t_delay = this.History.HistoryData[currentRegion].SubRegionInfoList.Select(s => s.PathLength).Sum() /
-            //        (.03 / this._tissue.Regions[currentRegion].RegionOP.N);  /* . ps */
-            //    int it = (int)Math.Floor(t_delay / Detector.Dt); /* assumes tmin=0 */
-            //    if ((it > Detector.Nt - 1) || (it < 0)) it = -1; /* if outside [tmin,tmax] */
-            //    if (it != -1) outptr.A_rzt[ir, iz, it] += dw;
-            //}
-
-            /* update weight for History */
-            History.HistoryData[index].Weight = DP.Weight;
-            //History.HistoryData.Add(
-            //    new PhotonDataPoint(
-            //        DP.Position,
-            //        DP.Direction,
-            //        DP.Weight,
-            //        DP.StateFlag,
-            //        null)); 
+            // update weight for current DP in History 
+            History.HistoryData[index].Weight = DP.Weight; 
         }
         public void TestWeight()
         {
-            /*   if (photptr.w < Weight_Limit) */
-            /*     Roulette();  */
+            //   if (photptr.w < Weight_Limit) 
+            //     Roulette();  
             if (History.HistoryData.Count >= MAX_HISTORY_PTS - 4)
             {
                 DP.StateFlag = PhotonStateType.KilledOverMaximumCollisions;
@@ -366,7 +309,7 @@ namespace Vts.MonteCarlo
 
         public void AdjustTrackLength(double distanceToBoundary)
         {
-            // if crossing boundary, modify photon track-length, S by pro-rating
+            // if crossing boundary, modify photon track-length, S, by pro-rating
             // the remaining distance by the optical properties in the next region
             SLeft = (S - distanceToBoundary) * _tissue.Regions[CurrentRegionIndex].ScatterLength;
 

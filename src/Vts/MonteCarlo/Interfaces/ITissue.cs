@@ -14,5 +14,9 @@ namespace Vts.MonteCarlo
         double GetAngleRelativeToBoundaryNormal(Photon photon);
         int GetNeighborRegionIndex(Photon photon);  
         bool OnDomainBoundary(Photon photon);  // no boundaries, possibly Tissue kills photons per situation
+        PhotonStateType GetPhotonDataPointStateOnExit(Position position);
+        Direction GetReflectedDirection(Position currentPosition, Direction currentDirection);
+        Direction GetRefractedDirection(Position currentPosition, Direction currentDirection, 
+            double currentN, double nextN, double cosThetaSnell);
     }
 }

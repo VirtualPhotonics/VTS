@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Tissues
 {
@@ -83,7 +85,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             if (photon.DP.Direction.Uz == 0.0) return double.PositiveInfinity;
 
-            // going "up" in negative z-direction?
+            // going "up" in negative z-direction
             bool goingUp = photon.DP.Direction.Uz < 0.0;
 
             // get current and adjacent regions
@@ -118,6 +120,28 @@ namespace Vts.MonteCarlo.Tissues
                 else
                     return Math.Min(photon.CurrentRegionIndex - 1, 0);
             }
+        }
+        public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
+        {
+            if (position.Z < 1e-10)
+                return PhotonStateType.ExitedOutTop;
+            else
+                return PhotonStateType.ExitedOutBottom;
+        }
+        public Direction GetReflectedDirection(Position positionCurrent, Direction directionCurrent)
+        {
+            return new Direction(
+                directionCurrent.Ux,
+                directionCurrent.Uy,
+                -directionCurrent.Uz);
+        }
+        public Direction GetRefractedDirection(Position positionCurrent, Direction directionCurrent, 
+            double nCurrent, double nNext, double cosThetaSnell)
+        {
+            return new Direction(
+                directionCurrent.Ux * nCurrent / nNext,
+                directionCurrent.Uy * nCurrent / nNext,
+                cosThetaSnell);
         }
         public double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
