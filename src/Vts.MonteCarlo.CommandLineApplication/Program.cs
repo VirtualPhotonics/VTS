@@ -161,8 +161,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
     class MonteCarloSetup
     {
         // program requires the path to have no spaces so that it can be used from the command line
-        string path = "";
-        string basename = "newinfile";
+        private string path = "";
+        private string basename = "newinfile";
+
+        public bool ValidSimulation { get; set; }
 
         public string InputFile { get; set; }
         public string OutputFile { get; set; }
@@ -176,6 +178,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
         public MonteCarloSetup()
         {
+            ValidSimulation = true;
             InputFile = "";
             OutputFile = "results";
             RunUnmanagedCode = false;
@@ -186,16 +189,15 @@ namespace Vts.MonteCarlo.CommandLineApplication
         }
 
         /// <summary>
-        /// method to read the simulation input from a specified file
+        /// method to read the simulation input from a specified or default file
         /// </summary>
-        /// <param name="filename">File name from which to read the input</param>
-        public void ReadSimulationInputFromFile()
+        public bool ReadSimulationInputFromFile()
         {
             if (InputFile.Length > 0)
             {
                 path = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(InputFile)) + "\\";
-                InputFile = System.IO.Path.GetFileNameWithoutExtension(InputFile);
-                InputFile = path + InputFile + ".xml";
+                basename = System.IO.Path.GetFileNameWithoutExtension(InputFile);
+                InputFile = path + basename + ".xml";
 
                 if (System.IO.File.Exists(InputFile))
                 {
@@ -203,19 +205,18 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 }
                 else
                 {
-                    Console.WriteLine("\nThe following input file could not be found: " + InputFile + ".xml. Hit *Enter* to exit.");
-                    Console.Read();
+                    Console.WriteLine("\nThe following input file could not be found: " + basename + ".xml");
+                    return false;
                 }
             }
             else
             {
-                Console.Write("\nNo input file specified. Using input.xml from resources... ");
+                Console.Write("\nNo input file specified. Using newinfile.xml from resources... ");
                 Input = SimulationInput.FromFile("newinfile.xml");
-                BatchQuery = Input.AsEnumerable();
-                BatchNameQuery = new[] { "" };
             }
             BatchQuery = Input.AsEnumerable();
             BatchNameQuery = new[] { "" };
+            return true;
         }
 
         /// <summary>
@@ -223,34 +224,50 @@ namespace Vts.MonteCarlo.CommandLineApplication
         /// </summary>
         /// <param name="val"></param>
         /// <param name="t"></param>
-        public void SetRangeValues(IEnumerable<string> val, InputParameterType t)
+        public void SetRangeValues(IEnumerable<string> val)
         {
-            //add a check to make sure val has 3 values
+            //add a check to make sure val has 4 values
             IEnumerable<double> sweep = null;
-
-            try
-            {   // batch parameter values should come in threes 
-                // eg. /x=-4.0,4.0,0.05 /mus1=0.5,1.5,0.1 /mus2=0.5,1.5,0.1 ...
-                var start = double.Parse(val.ElementAt(0));
-                var stop = double.Parse(val.ElementAt(1));
-                var delta = double.Parse(val.ElementAt(2));
-
-                sweep = new DoubleRange(start, stop, (int)((stop - start)/delta) + 1).AsEnumerable();
-            }
-            catch
+            InputParameterType t;
+            
+            if (val.Count() == 4)
             {
-                Console.WriteLine("Could not parse the input arguments.");
-            }
-            InputParameterType inputParameterType = t;
-            string inputParameterString = t.ToString().ToLower();
+                try
+                {
+                    t = (InputParameterType)Enum.Parse(typeof(InputParameterType), val.ElementAt(0), true);
 
-            if (inputParameterString.Length > 0)
-            {
-                BatchQuery = BatchQuery.WithParameterSweep(sweep, inputParameterType);
-                BatchNameQuery =
-                                (from b in BatchNameQuery
-                                    from s in sweep
-                                    select (b + inputParameterString + "_" + String.Format("{0:f}", s) + "_")).ToArray();
+                    // batch parameter values should come in fours 
+                    // eg. inputparam=mua1,-4.0,4.0,0.05 inputparam=mus1,0.5,1.5,0.1 inputparam=mus2,0.5,1.5,0.1 ...
+                    var start = double.Parse(val.ElementAt(1));
+                    var stop = double.Parse(val.ElementAt(2));
+                    var delta = double.Parse(val.ElementAt(3));
+
+                    sweep = new DoubleRange(start, stop, (int)((stop - start)/delta) + 1).AsEnumerable();
+
+                    if (BatchQuery == null)
+                    {
+                        ValidSimulation = ReadSimulationInputFromFile();
+                    }
+
+                    if (ValidSimulation)
+                    {
+                        InputParameterType inputParameterType = t;
+                        string inputParameterString = t.ToString().ToLower();
+
+                        if (inputParameterString.Length > 0)
+                        {
+                            BatchQuery = BatchQuery.WithParameterSweep(sweep, inputParameterType);
+                            BatchNameQuery =
+                                            (from b in BatchNameQuery
+                                             from s in sweep
+                                             select (b + inputParameterString + "_" + String.Format("{0:f}", s) + "_")).ToArray();
+                        }
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Could not parse the input arguments.");
+                }
             }
         }
 
@@ -370,46 +387,54 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
              args.Process(
                 () =>
-                {
-                    Console.WriteLine("Usages are:");
-                    Console.WriteLine("\t[/genlut or /g] infile=lutinput outfile=mylut");
-                    Console.WriteLine("\t[/process or /p] tisname=tissue1,tissue2,tissue3 phname=ph1 optionfile=myoptions datadir=\"C:\\Data\\dcuccia\\101113\\\"");
-                },
-                new CommandLine.Switch("infile", val =>
-                {
-                    Console.WriteLine("input file specified as {0}", val.First());
-                    MonteCarloSetup.InputFile = val.First();
-                }),
-                new CommandLine.Switch("outfile", val =>
-                {
-                    Console.WriteLine("output file specified as {0}", val.First());
-                    MonteCarloSetup.OutputFile = val.First();
-                }),
-                new CommandLine.Switch("/unmanaged", "/u", val =>
-                {
-                    Console.WriteLine("Run unmanaged code");
-                    MonteCarloSetup.RunUnmanagedCode = true;
-                }),
-                new CommandLine.Switch("/history", "/h", val =>
-                {
-                    Console.WriteLine("Write histories");
-                    MonteCarloSetup.WriteHistories = true;
-                }),
-                new CommandLine.Switch("mua1", val =>
                     {
-                        MonteCarloSetup.ReadSimulationInputFromFile();
-                        //Call a function to set the InputParameterType and pass the sweep
-                        MonteCarloSetup.SetRangeValues(val, (InputParameterType)Enum.Parse(typeof(InputParameterType), "Mua1"));
-                    })
+                        Console.WriteLine("Usages are:");
+                        Console.WriteLine("mc infile=myinput outfile=myoutput");
+                        Console.WriteLine("initparam=mua1,0.01,0.09,0.01 initparam=mus1,10,20,1");
+                        Console.WriteLine();
+                        Console.WriteLine("The initparam values are: ");
+                        Console.WriteLine("initparam=InputParameterType,Start,Stop,Delta");
+                    },
+                new CommandLine.Switch("infile", val =>
+                    {
+                        Console.WriteLine("input file specified as {0}", val.First());
+                        MonteCarloSetup.InputFile = val.First();
+                    }),
+                new CommandLine.Switch("outfile", val =>
+                    {
+                        Console.WriteLine("output file specified as {0}", val.First());
+                        MonteCarloSetup.OutputFile = val.First();
+                    }),
+                new CommandLine.Switch("/unmanaged", "/u", val =>
+                    {
+                        Console.WriteLine("Run unmanaged code");
+                        MonteCarloSetup.RunUnmanagedCode = true;
+                    }),
+                new CommandLine.Switch("/history", "/h", val =>
+                    {
+                        Console.WriteLine("Write histories");
+                        MonteCarloSetup.WriteHistories = true;
+                    }),
+                new CommandLine.Switch("inputparam", val =>
+                {
+                    MonteCarloSetup.SetRangeValues(val);
+                })
             );
 
-            if (MonteCarloSetup.BatchQuery == null)
+            if (MonteCarloSetup.BatchQuery == null && MonteCarloSetup.ValidSimulation)
             {
-                MonteCarloSetup.ReadSimulationInputFromFile();
+                MonteCarloSetup.ValidSimulation = MonteCarloSetup.ReadSimulationInputFromFile();
             }
-            MonteCarloSetup.RunSimulation();
-            Console.Write("\nSimulation(s) complete.");
-
+            if (MonteCarloSetup.ValidSimulation)
+            {
+                MonteCarloSetup.RunSimulation();
+                Console.Write("\nSimulation(s) complete.");
+            }
+            else
+            {
+                Console.Write("\nSimulation(s) completed with errors. Press enter key to exit.");
+                Console.Read();
+            }
             //if (args.Length > 0)
             //{
             //    path = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(args[0])) + "\\";
