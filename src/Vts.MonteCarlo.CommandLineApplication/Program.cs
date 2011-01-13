@@ -79,88 +79,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
     #endregion
 
-    #region David's Main consuming CommandLine parser class above
-     //static void Main(string[] args)
-     //   {
-     //       var console = new ConsoleOutput();
-
-     //       Queue<AnalysisAction> actionsToTake = new Queue<AnalysisAction>();
-
-     //       string dataDirectory = "";
-     //       string lutInFile = null;
-     //       string lutOutFile = null;
-     //       string[] tissueFiles = null;
-     //       string phantomFile = null;
-     //       string optionFile = null;
-
-     //       args.Process(
-     //           () =>
-     //               {
-     //                   Console.WriteLine("Usages are:");
-     //                   Console.WriteLine("\t[/genlut or /g] infile=lutinput outfile=mylut");
-     //                   Console.WriteLine("\t[/process or /p] tisname=tissue1,tissue2,tissue3 phname=ph1 optionfile=myoptions datadir=\"C:\\Data\\dcuccia\\101113\\\"");
-     //               },
-     //           new CommandLine.Switch("/genlut", "/g", val =>
-     //               {
-     //                   Console.WriteLine("Generate lookup table called");
-     //                   actionsToTake.Enqueue(AnalysisAction.GenerateLookupTable);
-     //               }),
-     //           new CommandLine.Switch("infile", val =>
-     //               {
-     //                   Console.WriteLine("Lookup table input file specified as {0}", string.Join(" ", val));
-     //                   lutInFile = val.First();
-     //               }),
-     //           new CommandLine.Switch("outfile", val =>
-     //               {
-     //                   Console.WriteLine("Lookup table output file specified as {0}", string.Join(" ", val));
-     //                   lutOutFile = val.First();
-     //               }),
-     //           new CommandLine.Switch("/process", "/p", val =>
-     //               {
-     //                   Console.WriteLine("Process data called");
-     //                   actionsToTake.Enqueue(AnalysisAction.ProcessData);
-     //               }),
-     //           new CommandLine.Switch("tisnames", val =>
-     //               {
-     //                   Console.WriteLine("Tissue filenames specified as {0}", string.Join(" ", val));
-     //                   tissueFiles = val.ToArray();
-     //               }),
-     //           new CommandLine.Switch("phname", val =>
-     //               {
-     //                   Console.WriteLine("Reference phantom filename specified as {0}", string.Join(" ", val));
-     //                   phantomFile = val.First();
-     //               }),
-     //           new CommandLine.Switch("optionfile", val =>
-     //               {
-     //                   Console.WriteLine("Option file specified as {0}", string.Join(" ", val));
-     //                   optionFile = val.First();
-     //               }),
-     //           new CommandLine.Switch("datadir", val =>
-     //               {
-     //                   Console.WriteLine("Data directory specified as {0}", string.Join(" ", val));
-     //                   dataDirectory = val.First();
-     //               })
-     //       );
-
-     //       foreach (var analysisAction in actionsToTake)
-     //       {
-     //           switch (analysisAction)
-     //           {
-     //               case AnalysisAction.GenerateLookupTable:
-     //                   break;
-     //               case AnalysisAction.ProcessData:
-     //                   AnalysisRoutines.LoadAndProcessAllData(dataDirectory, tissueFiles, phantomFile, optionFile);
-     //                   break;
-     //               default:
-     //                   throw new ArgumentOutOfRangeException();
-     //           }
-     //       }
-     //   }
-    #endregion
-
     class MonteCarloSetup
     {
-        // program requires the path to have no spaces so that it can be used from the command line
         private string path = "";
         private string basename = "newinfile";
 
@@ -211,7 +131,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             }
             else
             {
-                Console.Write("\nNo input file specified. Using newinfile.xml from resources... ");
+                Console.WriteLine("\nNo input file specified. Using newinfile.xml from resources... ");
                 Input = SimulationInput.FromFile("newinfile.xml");
             }
             BatchQuery = Input.AsEnumerable();
@@ -222,19 +142,17 @@ namespace Vts.MonteCarlo.CommandLineApplication
         /// <summary>
         /// method for seting the range values for a specific InputParameterType
         /// </summary>
-        /// <param name="val"></param>
-        /// <param name="t"></param>
+        /// <param name="val">IEnumerable of string values representing the InputParameterType and the range</param>
         public void SetRangeValues(IEnumerable<string> val)
         {
-            //add a check to make sure val has 4 values
             IEnumerable<double> sweep = null;
-            InputParameterType t;
-            
+            InputParameterType inputParameterType;
+
             if (val.Count() == 4)
             {
                 try
                 {
-                    t = (InputParameterType)Enum.Parse(typeof(InputParameterType), val.ElementAt(0), true);
+                    inputParameterType = (InputParameterType)Enum.Parse(typeof(InputParameterType), val.ElementAt(0), true);
 
                     // batch parameter values should come in fours 
                     // eg. inputparam=mua1,-4.0,4.0,0.05 inputparam=mus1,0.5,1.5,0.1 inputparam=mus2,0.5,1.5,0.1 ...
@@ -242,7 +160,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     var stop = double.Parse(val.ElementAt(2));
                     var delta = double.Parse(val.ElementAt(3));
 
-                    sweep = new DoubleRange(start, stop, (int)((stop - start)/delta) + 1).AsEnumerable();
+                    sweep = new DoubleRange(start, stop, (int)((stop - start) / delta) + 1).AsEnumerable();
 
                     if (BatchQuery == null)
                     {
@@ -251,8 +169,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
                     if (ValidSimulation)
                     {
-                        InputParameterType inputParameterType = t;
-                        string inputParameterString = t.ToString().ToLower();
+                        string inputParameterString = inputParameterType.ToString().ToLower();
 
                         if (inputParameterString.Length > 0)
                         {
@@ -268,6 +185,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 {
                     Console.WriteLine("Could not parse the input arguments.");
                 }
+            }
+            else
+            {
+                Console.WriteLine("Input parameters should have 4 values in the format inputparam=<InputParameterType>,Start,Stop,Delta.");
             }
         }
 
@@ -308,29 +229,16 @@ namespace Vts.MonteCarlo.CommandLineApplication
             });
         }
     }
-
+    
     class Program
     {
         static void Main(string[] args)
         {
-            //new SimulationInput().ToFile("infile.xml"); return;
-            // program requires the path to have no spaces so that it can be used from the command line
-            //string path = "";
-            //string basename = "newinfile";
-            //string filename;
-            //string outname = "results";
-            //bool runUnmanagedCode = false;
-            //bool tallyMomentumTransfer = false; // todo: allow reading of SimulationOptions file from XML
-            //bool writeHistories = false;
-
-            //IEnumerable<SimulationInput> batchQuery = null;
-            //string[] batchNameQuery = null;
-            //SimulationInput input = null;
-            
             MonteCarloSetup MonteCarloSetup = new MonteCarloSetup();
             
-#region     Infile Generation (optional)
-#if GENERATE_INFILE
+    #region Infile Generation (optional)
+        //To Generate an infile when running a simulation, uncomment the first line of code in this file
+        #if GENERATE_INFILE
             var tempInput = new SimulationInput(
                 100
                 ,  // FIX 1e6 takes about 70 minutes my laptop
@@ -381,9 +289,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     new DoubleRange(-100.0, 100.0, 81) // y
                 ));
             tempInput.ToFile("newinfile.xml");
-
-#endif
-#endregion
+        #endif
+    #endregion
 
              args.Process(
                 () =>
@@ -392,8 +299,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         Console.WriteLine("mc infile=myinput outfile=myoutput");
                         Console.WriteLine("initparam=mua1,0.01,0.09,0.01 initparam=mus1,10,20,1");
                         Console.WriteLine();
-                        Console.WriteLine("The initparam values are: ");
-                        Console.WriteLine("initparam=InputParameterType,Start,Stop,Delta");
                     },
                 new CommandLine.Switch("infile", val =>
                     {
@@ -435,234 +340,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 Console.Write("\nSimulation(s) completed with errors. Press enter key to exit.");
                 Console.Read();
             }
-            //if (args.Length > 0)
-            //{
-            //    path = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(args[0])) + "\\";
-            //    basename = System.IO.Path.GetFileNameWithoutExtension(args[0]);
-            //    filename = path + basename + ".xml";
-
-            //    if (System.IO.File.Exists(filename))
-            //    {
-            //        input = SimulationInput.FromFile(filename);
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine("\nThe following input file could not be found: " + basename + ".xml. Hit *Enter* to exit.");
-            //        Console.Read();
-            //    }
-            //}
-            //else
-            //{
-            //    Console.Write("\nNo input file specified. Using input.xml from resources... ");
-            //    input = SimulationInput.FromFile("newinfile.xml");
-            //}
-
-            //batchQuery = input.AsEnumerable();
-            //batchNameQuery = new[] { "" };
-
-            //if (args.Length > 1)
-            //{
-            //    IEnumerable<double> sweep = null;
-            //    int sweepArgumentStart = 1;
-
-            //    while (sweepArgumentStart < args.Length
-            //        && (args[sweepArgumentStart] == "/o" || args[sweepArgumentStart] == "/u" || args[sweepArgumentStart] == "/h" || args[sweepArgumentStart] == "/mt"))
-            //    {
-            //        // if the output name is explicitly stated (ie. "/o output"), assign it here
-            //        if (args[sweepArgumentStart] == "/o"
-            //            && sweepArgumentStart + 1 < args.Length
-            //            && args[sweepArgumentStart + 1] != null
-            //            && args[sweepArgumentStart + 1].Length > 0
-            //            && args[sweepArgumentStart + 1][0] != '/')
-            //        {
-            //            outname = args[sweepArgumentStart + 1];
-            //            sweepArgumentStart += 2;
-            //        }
-            //        else if (args[sweepArgumentStart] == "/u")
-            //        {
-            //            runUnmanagedCode = true;
-            //            sweepArgumentStart += 1;
-            //        }
-            //        else if (args[sweepArgumentStart] == "/mt")
-            //        {
-            //            tallyMomentumTransfer = true;
-            //            sweepArgumentStart += 1;
-            //        }
-            //        else if (args[sweepArgumentStart] == "/h")
-            //        {
-            //            writeHistories = true;
-            //            sweepArgumentStart += 1;
-            //        }
-            //    }
-
-            //    InputParameterType inputParameterType = InputParameterType.XSourcePosition;
-            //    string inputParameterString = "";
-
-            //    for (int i = sweepArgumentStart; i < args.Length; i += 4)
-            //    {
-            //        try
-            //        {   // batch parameters should come in fours 
-            //            // eg. /x -4.0 4.0 0.05 /mus1 0.5 1.5 0.1 /mus2 0.5 1.5 0.1 ...
-            //            var start = double.Parse(args[i + 1]);
-            //            var stop = double.Parse(args[i + 2]);
-            //            var delta = double.Parse(args[i + 3]);
-
-            //            sweep = new DoubleRange(start, stop, (int)((stop - start)/delta) + 1).AsEnumerable();
-            //        }
-            //        catch
-            //        {
-            //            Console.WriteLine("Could not parse the input arguments.");
-            //            break;
-            //        }
-
-            //        #region switch statement for input argument
-            //        switch (args[i].ToLower())
-            //        {
-            //            case "/mua1":
-            //                inputParameterType = InputParameterType.Mua1;
-            //                inputParameterString = "mua1";
-            //                break;
-            //            case "/mua2":
-            //                inputParameterType = InputParameterType.Mua2;
-            //                inputParameterString = "mua2";
-            //                break;
-            //            case "/mus1":
-            //                inputParameterType = InputParameterType.Mus1;
-            //                inputParameterString = "mus1";
-            //                break;
-            //            case "/mus2":
-            //                inputParameterType = InputParameterType.Mus2;
-            //                inputParameterString = "mus2";
-            //                break;
-            //            case "/g1":
-            //                inputParameterType = InputParameterType.G1;
-            //                inputParameterString = "g1";
-            //                break;
-            //            case "/g2":
-            //                inputParameterType = InputParameterType.G2;
-            //                inputParameterString = "g2";
-            //                break;
-            //            case "/n1":
-            //                inputParameterType = InputParameterType.N1;
-            //                inputParameterString = "n1";
-            //                break;
-            //            case "/n2":
-            //                inputParameterType = InputParameterType.N2;
-            //                inputParameterString = "n2";
-            //                break;
-            //            case "/d1":
-            //                inputParameterType = InputParameterType.D1;
-            //                inputParameterString = "d1";
-            //                break;
-            //            case "/d2":
-            //                inputParameterType = InputParameterType.D2;
-            //                inputParameterString = "d2";
-            //                break;
-            //            case "/xs":
-            //                inputParameterType = InputParameterType.XSourcePosition;
-            //                inputParameterString = "xs";
-            //                break;
-            //            case "/ys":
-            //                inputParameterType = InputParameterType.YSourcePosition;
-            //                inputParameterString = "xs";
-            //                break;
-            //            case "/xe":
-            //                inputParameterType = InputParameterType.XEllipsePosition;
-            //                inputParameterString = "xe";
-            //                break;
-            //            case "/ye":
-            //                inputParameterType = InputParameterType.YEllipsePosition;
-            //                inputParameterString = "ye";
-            //                break;
-            //            case "/ze":
-            //                inputParameterType = InputParameterType.ZEllipsePosition;
-            //                inputParameterString = "ze";
-            //                break;
-            //            case "/xer":
-            //                inputParameterType = InputParameterType.XEllipseRadius;
-            //                inputParameterString = "xer";
-            //                break;
-            //            case "/yer":
-            //                inputParameterType = InputParameterType.YEllipseRadius;
-            //                inputParameterString = "yer";
-            //                break;
-            //            case "/zer":
-            //                inputParameterType = InputParameterType.ZEllipseRadius;
-            //                inputParameterString = "zer";
-            //                break;
-            //        }
-            //        #endregion
-
-            //        if (inputParameterString.Length > 0)
-            //        {
-            //            batchQuery = batchQuery.WithParameterSweep(sweep, inputParameterType);
-            //            batchNameQuery =
-            //                            (from b in batchNameQuery
-            //                             from s in sweep
-            //                             select (b + inputParameterString + "_" + String.Format("{0:f}", s) + "_")).ToArray();
-            //        }
-            //    }
-            //}
-
-            //SimulationInput[] inputBatch = MonteCarloSetup.BatchQuery.ToArray();
-            ////string[] simulationNames = batchNameQuery.ToArray();
-            ////string directory = 
-            //string[] outNames = MonteCarloSetup.BatchNameQuery.Select(s => path + basename + "_" + outname + "\\" + basename + "_" + outname + s).ToArray();
-
-            //for (int i = 0; i < inputBatch.Length; i++)
-            //    inputBatch[i].OutputFileName = outNames[i];
-
-            //Parallel.For(0, inputBatch.Length, i =>
-            //{
-            //    var mc = runUnmanagedCode ?
-            //         new UnmanagedMonteCarloSimulation(
-            //             inputBatch[i],
-            //             new UnmanagedSimulationOptions(i))
-            //       : new MonteCarloSimulation(
-            //             inputBatch[i],
-            //             new SimulationOptions(
-            //                 i, 
-            //                 RandomNumberGeneratorType.MersenneTwister, 
-            //                 AbsorptionWeightingType.Discrete,
-            //                 false, 
-            //                 false,
-            //                 writeHistories,
-            //                 i));
-
-            //    var p = Path.GetDirectoryName(inputBatch[i].OutputFileName);
-
-            //    if (!Directory.Exists(p))
-            //        Directory.CreateDirectory(p);
-
-            //    mc.Run().ToFile(inputBatch[i].OutputFileName);
-            //});
-
-            // Below are the same things, performed with PLINQ instead:
-
-            //Boolean[] success =
-            //    (from i in 0.To(inputBatch.Length - 1).AsParallel()
-            //     select new MonteCarloSimulation(
-            //                    inputBatch[i],
-            //                    new SimulationOptions(i, RandomNumberGeneratorType.Mcch, AbsorptionWeightingType.Discrete)
-            //             ).Run().ToFile(inputBatch[i].outputFileName)
-            //    ).ToArray();
-
-            //Boolean[] success =
-            //    (from i in 0.To(inputBatch.Length - 1).AsParallel()
-            //     let m = runUnmanagedCode ?
-            //          new UnmanagedMonteCarloSimulation(
-            //              inputBatch[i],
-            //              new UnmanagedSimulationOptions(i)) // always discrete absorption weighting, mcch
-            //        : new MonteCarloSimulation(
-            //              inputBatch[i],
-            //              new SimulationOptions(i, RandomNumberGeneratorType.Mcch, AbsorptionWeightingType.Discrete))
-            //     select m.Run().ToFile(inputBatch[i].outputFileName)).ToArray(); 
-
-
-
-
-            //Console.WriteLine("Hit *Enter* to exit.");
-            //Console.Read();
         }
 
         private static SimulationInput LoadDefaultInputFile()
