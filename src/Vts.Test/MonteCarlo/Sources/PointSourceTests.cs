@@ -17,8 +17,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 new Position(0,0,0),
                 new Direction(0,0,1),
                 new DoubleRange(0,0,1),
-                new DoubleRange(0,0,1),
-                false);
+                new DoubleRange(0,0,1));
             rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var photon = ps.GetNextPhoton(new MultiLayerTissue(), rng);
 

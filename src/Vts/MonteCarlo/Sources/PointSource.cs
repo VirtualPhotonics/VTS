@@ -11,20 +11,16 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class PointSource : ISource
     {
-        private bool _tallyMomentumTransfer;
-
         public PointSource( 
             Position pointLocation,
             Direction solidAngleAxis,
             DoubleRange thetaRange, 
-            DoubleRange phiRange,
-            bool tallyMomentumTransfer) 
+            DoubleRange phiRange) 
         {
             PointLocation = pointLocation;
             SolidAngleAxis = solidAngleAxis;
             ThetaRange = thetaRange;
             PhiRange = phiRange;
-            _tallyMomentumTransfer = tallyMomentumTransfer;
         }
 
         public PointSource()
@@ -32,15 +28,13 @@ namespace Vts.MonteCarlo.Sources
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
                 new DoubleRange(0.0, 0, 1),
-                new DoubleRange(0.0, 0, 1),
-                false) { }
+                new DoubleRange(0.0, 0, 1)) { }
 
-        public PointSource(PointSourceInput psi, bool tallyMomentumTransfer) : this(
+        public PointSource(PointSourceInput psi) : this(
             psi.PointLocation,
             psi.SolidAngleAxis,
             psi.ThetaRange,
-            psi.PhiRange,
-            tallyMomentumTransfer)
+            psi.PhiRange)
         {
         }
 
@@ -55,7 +49,7 @@ namespace Vts.MonteCarlo.Sources
             var p = new Position(0, 0, 0);
             var d = new Direction(0, 0, 1);
 
-            var _photon = new Photon(p, d, tissue, MonteCarloSimulation.ABSORPTION_WEIGHTING, rng, _tallyMomentumTransfer);
+            var _photon = new Photon(p, d, tissue, MonteCarloSimulation.ABSORPTION_WEIGHTING, rng);
 
             // the following is not general enough
             if ((tissue.OnDomainBoundary(_photon))&&

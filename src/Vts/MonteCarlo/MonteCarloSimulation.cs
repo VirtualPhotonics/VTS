@@ -31,7 +31,7 @@ namespace Vts.MonteCarlo
             InitializeOptions(options);
 
             _tissue = Factories.TissueFactory.GetTissue(input.TissueInput);
-            _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue, TALLY_MOMENTUM_TRANSFER);
+            _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue);
             _detector = Factories.DetectorFactory.GetDetector(input.DetectorInput, _tissue);
         }
 

@@ -16,7 +16,6 @@ namespace Vts.MonteCarlo
         private const int MAX_HISTORY_PTS = 300000; // moved this from MCSimulation
         private const double CHANCE = 0.1;
         private const double MAX_PHOTON_PATHLENGTH = 300; // mm
-        private readonly bool _tallyMomentumTranfer;
 
         // could add layer of indirection to not expose AbsorbAction;
         public Action _AbsorbAction;  // sets correct abs. for DAW/CAW 
@@ -28,11 +27,8 @@ namespace Vts.MonteCarlo
             Direction d, 
             ITissue tissue, 
             AbsorptionWeightingType awt,
-            Random generator, 
-            bool tallyMomentumTransfer)
+            Random generator)
         {
-            _tallyMomentumTranfer = tallyMomentumTransfer;
-
             DP = new PhotonDataPoint(
                     p,
                     d,
@@ -57,8 +53,8 @@ namespace Vts.MonteCarlo
                 new Direction(0, 0, 1),
                 new MultiLayerTissue(),
                 AbsorptionWeightingType.Discrete,
-                RandomNumberGeneratorFactory.GetRandomNumberGenerator(RandomNumberGeneratorType.MersenneTwister),
-                false) { }
+                RandomNumberGeneratorFactory.GetRandomNumberGenerator(RandomNumberGeneratorType.MersenneTwister)
+                ) { }
 
         public PhotonDataPoint DP { get; set; }
         public PhotonHistory History { get; set; }

@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.PhotonData
 
         public long NumberOfPhotons { get; set; }
         public long NumberOfSubRegions { get; set; }
-        public bool TallyMomentumTransfer { get; set; }
+        //public bool TallyMomentumTransfer { get; set; }
 
         [IgnoreDataMember]
         public IEnumerable<PhotonDataPoint> DataPoints { get; set; }

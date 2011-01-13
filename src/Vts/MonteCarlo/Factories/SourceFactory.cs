@@ -8,12 +8,12 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public static class SourceFactory
     {
-        public static ISource GetSource(ISourceInput si, ITissue tissue, bool tallyMomentumTransfer)
+        public static ISource GetSource(ISourceInput si, ITissue tissue)
         {
             ISource s = null;
             if (si is PointSourceInput)
             {
-                return new PointSource((PointSourceInput)si, tallyMomentumTransfer);
+                return new PointSource((PointSourceInput)si);
             }
             if (s == null)
                 throw new ArgumentException(
