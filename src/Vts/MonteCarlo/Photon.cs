@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo
                     1.0,
                     PhotonStateType.NotSet,
                     Enumerable.Range(0, tissue.Regions.Count).Select(i =>
-                        new SubRegionCollisionInfo(0.0, 0, tallyMomentumTransfer, 0D)).ToArray());
+                        new SubRegionCollisionInfo(0.0, 0)).ToArray());
 
             History = new PhotonHistory();
             S = 0.0;
@@ -233,11 +233,6 @@ namespace Vts.MonteCarlo
                 dir.Ux = sint * (ux * uz * cosp - uy * sinp) / temp + ux * cost;
                 dir.Uy = sint * (uy * uz * cosp + ux * sinp) / temp + uy * cost;
                 dir.Uz = -sint * cosp * temp + uz * cost;
-            }
-
-            if (DP.SubRegionInfoList[CurrentRegionIndex].TallyMomentumTransfer)
-            {
-                DP.SubRegionInfoList[CurrentRegionIndex].MomentumTransfer += 1 - cost;
             }
 
             DP.Direction = dir;
