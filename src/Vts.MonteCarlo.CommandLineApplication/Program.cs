@@ -297,7 +297,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     {
                         Console.WriteLine("Usages are:");
                         Console.WriteLine("mc infile=myinput outfile=myoutput");
-                        Console.WriteLine("initparam=mua1,0.01,0.09,0.01 initparam=mus1,10,20,1");
+                        Console.WriteLine("inputparam=mua1,0.01,0.09,0.01 inputparam=mus1,10,20,1");
                         Console.WriteLine();
                     },
                 new CommandLine.Switch("infile", val =>
