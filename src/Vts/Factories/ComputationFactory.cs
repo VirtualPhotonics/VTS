@@ -206,7 +206,7 @@ namespace Vts.Factories
 
             var greensFunction = forwardSolver.SteadyStateFluence2SurfacePointPHD(ops, rhoPrimes, zs);
 
-            return System.Linq.EnumerableEx.Zip(fluence, greensFunction, (flu, green) => flu * green);
+            return System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green);
         }
 
         public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, double mua)

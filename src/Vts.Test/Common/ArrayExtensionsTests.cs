@@ -50,7 +50,7 @@ namespace Vts.Test.Common
 
         private static bool IEnumerablesHaveEqualMembers<T>(IEnumerable<T> myList, IEnumerable<T> comparingList)
         {
-            return !EnumerableEx.Zip(myList, comparingList, (left, right) => left.Equals(right)).Contains(false);
+            return !Enumerable.Zip(myList, comparingList, (left, right) => left.Equals(right)).Contains(false);
         }
     }
 

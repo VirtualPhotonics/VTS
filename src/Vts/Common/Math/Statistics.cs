@@ -13,7 +13,7 @@ namespace Vts.Common.Math
         /// method determines the discrete expected value given x and a probability density function, p(x)
         public static double ExpectedValue(double[] x, double[] pOfX)
         {
-            return EnumerableEx.Zip(x, pOfX, (left, right) => (left * right)).Sum();
+            return Enumerable.Zip(x, pOfX, (left, right) => (left * right)).Sum();
         }
 
         /// method determines expected value of a 2D array given in 1D (row dominant) over the 2nd dimension 

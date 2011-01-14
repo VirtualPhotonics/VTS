@@ -97,29 +97,22 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.CoreEx, Version=1.0.2521.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.CoreEx.dll</HintPath>
+    <Reference Include="System.CoreEx">
+      <HintPath>..\..\lib\RxFramework\NET40\System.CoreEx.dll</HintPath>
     </Reference>
-    <Reference Include="System.Interactive, Version=1.0.2521.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Interactive, Version=1.0.2838.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.Interactive.dll</HintPath>
+      <HintPath>..\..\lib\RxFramework\NET40\System.Interactive.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Observable, Version=1.0.0.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.Observable.dll</HintPath>
+    <Reference Include="System.Reactive">
+      <HintPath>..\..\lib\RxFramework\NET40\System.Reactive.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive, Version=1.0.2521.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.Reactive.dll</HintPath>
+    <Reference Include="System.Reactive.ClientProfile">
+      <HintPath>..\..\lib\RxFramework\NET40\System.Reactive.ClientProfile.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Threading, Version=1.0.2521.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.Threading.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

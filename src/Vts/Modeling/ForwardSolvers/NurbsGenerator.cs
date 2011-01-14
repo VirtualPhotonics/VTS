@@ -787,7 +787,7 @@ namespace Vts.Modeling.ForwardSolvers
         {
             List<double[]> tensorProductControlPoints = EvaluateTensorProductControlPoints(space);
 
-            var Value = System.Linq.EnumerableEx.Zip( 
+            var Value = System.Linq.Enumerable.Zip( 
                 tensorProductControlPoints,
                 TimeKnotSpanPolynomialCoefficients,
                 (controlPoints, Bsplines) =>
@@ -813,7 +813,7 @@ namespace Vts.Modeling.ForwardSolvers
             double imaginary = 0.0;
             List<double[]> tensorProductControlPoints = EvaluateTensorProductControlPoints(space);
 
-            var Value = EnumerableEx.Zip(
+            var Value = Enumerable.Zip(
                 tensorProductControlPoints,
                 TimeKnotSpanPolynomialCoefficients,
                 (controlPoints, Bsplines) =>
