@@ -272,7 +272,7 @@ namespace Vts.SiteVisit.ViewModel
 
             //var points = independentValues.Zip(query, (x, y) => new Point(x, y));
             //return points;
-            return independentValues.Zip(query, (x, y) => new Point(x, y));
+            return  EnumerableEx.Zip(independentValues, query, (x, y) => new Point(x, y));
         }
 
         private bool IsFourVariableSolver(SolutionDomainType solutionDomainType)

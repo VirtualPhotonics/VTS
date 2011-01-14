@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vts.SiteVisit</RootNamespace>
     <AssemblyName>Vts.SiteVisit</AssemblyName>
-    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightApplication>true</SilverlightApplication>
     <SupportedCultures>
     </SupportedCultures>
@@ -59,6 +59,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -108,21 +109,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\SilverlightExtensions\SLExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.CoreEx, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Silverlight\System.CoreEx.dll</HintPath>
+    <Reference Include="System.CoreEx">
+      <HintPath>..\..\lib\RxFramework\SL4\System.CoreEx.dll</HintPath>
     </Reference>
-    <Reference Include="System.Interactive, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Silverlight\System.Interactive.dll</HintPath>
+    <Reference Include="System.Interactive">
+      <HintPath>..\..\lib\RxFramework\SL4\System.Interactive.dll</HintPath>
     </Reference>
-    <Reference Include="System.Observable, Version=1.0.0.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Silverlight\System.Observable.dll</HintPath>
+    <Reference Include="System.Observable">
+      <HintPath>..\..\lib\RxFramework\SL4\System.Observable.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Silverlight\System.Reactive.dll</HintPath>
+    <Reference Include="System.Reactive">
+      <HintPath>..\..\lib\RxFramework\SL4\System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Controls, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />

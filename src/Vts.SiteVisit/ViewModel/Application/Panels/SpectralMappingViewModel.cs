@@ -278,7 +278,7 @@ namespace Vts.SiteVisit.ViewModel
                 from w in independentValues
                 select SelectedTissue.GetMua(w);
 
-            return independentValues.Zip(dependentValues, (x, y) => new Point(x, y));
+            return  EnumerableEx.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
         }
 
         void PlotMusprimeSpectra_Executed(object sender, ExecutedEventArgs e)
@@ -299,7 +299,7 @@ namespace Vts.SiteVisit.ViewModel
             var independentValues = WavelengthRangeVM.Values;
             var dependentValues = independentValues.Select(w => SelectedTissue.GetMusp(w));
 
-            return independentValues.Zip(dependentValues, (x, y) => new Point(x, y));
+            return  EnumerableEx.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
         }
     }
 }

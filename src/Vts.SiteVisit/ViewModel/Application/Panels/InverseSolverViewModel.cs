@@ -230,9 +230,9 @@ namespace Vts.SiteVisit.ViewModel
                 // if it's reporting Real + Imaginary, we need a vector twice as long
                 if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
                 {
-                    return RangeVM.Values.Concat(RangeVM.Values).Zip(MeasuredDataValues, (x, y) => new Point(x, y));
+                    return  EnumerableEx.Zip(RangeVM.Values.Concat(RangeVM.Values), MeasuredDataValues, (x, y) => new Point(x, y));
                 }
-                return RangeVM.Values.Zip(MeasuredDataValues, (x, y) => new Point(x, y));
+                return  EnumerableEx.Zip( RangeVM.Values, MeasuredDataValues, (x, y) => new Point(x, y));
             }
         }
         public IEnumerable<double> MeasuredDataValues
@@ -247,9 +247,9 @@ namespace Vts.SiteVisit.ViewModel
                 // if it's reporting Real + Imaginary, we need a vector twice as long
                 if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
                 {
-                    return RangeVM.Values.Concat(RangeVM.Values).Zip(InitialGuessDataValues, (x, y) => new Point(x, y));
+                    return  EnumerableEx.Zip(RangeVM.Values.Concat(RangeVM.Values), InitialGuessDataValues, (x, y) => new Point(x, y));
                 }
-                return RangeVM.Values.Zip(InitialGuessDataValues, (x, y) => new Point(x, y));
+                return  EnumerableEx.Zip(RangeVM.Values, InitialGuessDataValues, (x, y) => new Point(x, y));
             }
         }
         public IEnumerable<double> InitialGuessDataValues
@@ -264,9 +264,12 @@ namespace Vts.SiteVisit.ViewModel
                 // if it's reporting Real + Imaginary, we need a vector twice as long
                 if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
                 {
-                    return RangeVM.Values.Concat(RangeVM.Values).Zip(ResultDataValues, (x, y) => new Point(x, y));
+                    return  EnumerableEx.Zip(
+                        RangeVM.Values.Concat(RangeVM.Values), 
+                        ResultDataValues, 
+                        (x, y) => new Point(x, y));
                 } 
-                return RangeVM.Values.Zip(ResultDataValues, (x, y) => new Point(x, y));
+                return  EnumerableEx.Zip(RangeVM.Values, ResultDataValues, (x, y) => new Point(x, y));
             }
         }
         public IEnumerable<double> ResultDataValues

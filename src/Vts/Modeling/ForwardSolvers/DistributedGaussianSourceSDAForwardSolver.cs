@@ -1,6 +1,6 @@
 using System;
 using Vts.IO;
-using MathNet.Numerics;
+using System.Numerics;
 
 namespace Vts.Modeling.ForwardSolvers
 {
@@ -199,7 +199,7 @@ namespace Vts.Modeling.ForwardSolvers
             throw new NotImplementedException();
         }
 
-        public override MathNet.Numerics.Complex TemporalFrequencyReflectance(DiffusionParameters dp, double rho, MathNet.Numerics.Complex k, double fr1, double fr2)
+        public override Complex TemporalFrequencyReflectance(DiffusionParameters dp, double rho, Complex k, double fr1, double fr2)
         {
             throw new NotImplementedException();
         }
@@ -209,7 +209,7 @@ namespace Vts.Modeling.ForwardSolvers
             throw new NotImplementedException();
         }
 
-        public override Complex TemporalFrequencyFluence(DiffusionParameters dp, double rho, double z, MathNet.Numerics.Complex k)
+        public override Complex TemporalFrequencyFluence(DiffusionParameters dp, double rho, double z, Complex k)
         {
             throw new NotImplementedException();
         }

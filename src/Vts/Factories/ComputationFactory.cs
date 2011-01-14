@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using Vts.Extensions;
 using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers.Extensions;
-using MathNet.Numerics;
+using System.Numerics;
 
 #if DESKTOP
 using System.Runtime.InteropServices;
@@ -205,7 +206,7 @@ namespace Vts.Factories
 
             var greensFunction = forwardSolver.SteadyStateFluence2SurfacePointPHD(ops, rhoPrimes, zs);
 
-            return fluence.Zip(greensFunction, (flu, green) => flu * green);
+            return System.Linq.EnumerableEx.Zip(fluence, greensFunction, (flu, green) => flu * green);
         }
 
         public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, double mua)

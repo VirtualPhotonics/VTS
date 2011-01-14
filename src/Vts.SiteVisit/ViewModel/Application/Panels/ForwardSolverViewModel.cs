@@ -223,11 +223,17 @@ namespace Vts.SiteVisit.ViewModel
             // if it's reporting Real + Imaginary, we need a vector twice as long
             if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
-                return independentValues.Concat(independentValues).Zip(query, (x, y) => new Point(x, y));
+                return EnumerableEx.Zip(
+                    independentValues.Concat(independentValues),
+                    query, 
+                    (x, y) => new Point(x, y));
             }
             else
             {
-                return independentValues.Zip(query, (x, y) => new Point(x, y));
+                return  EnumerableEx.Zip(
+                    independentValues,
+                    query, 
+                    (x, y) => new Point(x, y));
             }
         }
     }

@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Vts.IO;
-using Vts.Extensions;
 using System.Linq;
-using Vts.Common;
-using MathNet.Numerics;
-using Vts.Modeling.ForwardSolvers;
+using System.Numerics;
 
 namespace Vts.Modeling.ForwardSolvers
 {
@@ -790,14 +787,16 @@ namespace Vts.Modeling.ForwardSolvers
         {
             List<double[]> tensorProductControlPoints = EvaluateTensorProductControlPoints(space);
 
-            var Value = tensorProductControlPoints.Zip(TimeKnotSpanPolynomialCoefficients,
-                                                      (controlPoints, Bsplines) =>
-                                                      EvaluateKnotSpanIntegralValue(exponentialTerm,
-                                                                                    Bsplines.Coefficients,
-                                                                                    controlPoints,
-                                                                                    Bsplines.LowerLimit,
-                                                                                    Bsplines.UpperLimit,
-                                                                                    space));
+            var Value = System.Linq.EnumerableEx.Zip( 
+                tensorProductControlPoints,
+                TimeKnotSpanPolynomialCoefficients,
+                (controlPoints, Bsplines) =>
+                EvaluateKnotSpanIntegralValue(exponentialTerm,
+                                            Bsplines.Coefficients,
+                                            controlPoints,
+                                            Bsplines.LowerLimit,
+                                            Bsplines.UpperLimit,
+                                            space));
             return Value.Sum();
         }
 
@@ -814,14 +813,16 @@ namespace Vts.Modeling.ForwardSolvers
             double imaginary = 0.0;
             List<double[]> tensorProductControlPoints = EvaluateTensorProductControlPoints(space);
 
-            var Value = tensorProductControlPoints.Zip(TimeKnotSpanPolynomialCoefficients,
-                                                      (controlPoints, Bsplines) =>
-                                                      EvaluateKnotSpanFourierTransform(expTerm,
-                                                                                    Bsplines.Coefficients,
-                                                                                    controlPoints,
-                                                                                    Bsplines.LowerLimit,
-                                                                                    Bsplines.UpperLimit,
-                                                                                    space,ft));
+            var Value = EnumerableEx.Zip(
+                tensorProductControlPoints,
+                TimeKnotSpanPolynomialCoefficients,
+                (controlPoints, Bsplines) =>
+                EvaluateKnotSpanFourierTransform(expTerm,
+                                            Bsplines.Coefficients,
+                                            controlPoints,
+                                            Bsplines.LowerLimit,
+                                            Bsplines.UpperLimit,
+                                            space,ft));
             for (int i = 0; i < Value.Count(); i++)
             {
                 real += Value.ElementAt(i).Real;

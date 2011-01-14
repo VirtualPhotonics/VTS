@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using MathNet.Numerics;
+using System.Numerics;
 using Vts.IO;
 
 namespace Vts.MonteCarlo

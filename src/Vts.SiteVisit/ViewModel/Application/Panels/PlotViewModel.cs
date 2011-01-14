@@ -324,13 +324,14 @@ namespace Vts.SiteVisit.ViewModel
             var newCollection = new ObservableCollection<IList<Point>>();
 
             var pointsToPlot =
-                from ds in DataSeriesCollection.Zip(
+                from ds in  EnumerableEx.Zip(
+                    DataSeriesCollection, 
                     normalizationPoints, (p, n) => new { DataPoints = p, NormValues = n })
                 let xValues = ds.DataPoints.Select(dp => dp.X)
-                let yValues = ds.DataPoints.Zip(ds.NormValues, (dp, nv) => dp.Y / nv)
+                let yValues =  EnumerableEx.Zip(ds.DataPoints, ds.NormValues, (dp, nv) => dp.Y / nv)
                 let useLogX = XAxisSpacingOptionVM.SelectedValue == ScalingType.Log
                 let useLogY = YAxisSpacingOptionVM.SelectedValue == ScalingType.Log
-                select xValues.Zip(yValues, (x, y) =>
+                select  EnumerableEx.Zip(xValues, yValues, (x, y) =>
                     new Point(
                         useLogX ? Math.Log10(x) : x,
                         useLogY ? Math.Log10(y) : y))

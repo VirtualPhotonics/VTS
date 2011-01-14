@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vts.Test</RootNamespace>
     <AssemblyName>Vts.Test</AssemblyName>
-    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightApplication>true</SilverlightApplication>
     <SupportedCultures>
     </SupportedCultures>
@@ -49,6 +49,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -94,9 +95,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\tools\nunit\Silverlight\CompatibilityShims.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics.Silverlight, Version=2010.1.26.439, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Math.NET\Math.Net.Numerics.Silverlight\MathNet.Numerics.Silverlight.dll</HintPath>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\..\lib\Math.NET\lib\SL4\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics.Silverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -118,21 +118,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\tools\nunit\Silverlight\NUnitSilverlight.dll</HintPath>
     </Reference>
-    <Reference Include="System.CoreEx, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Silverlight\System.CoreEx.dll</HintPath>
+    <Reference Include="System.CoreEx">
+      <HintPath>..\..\lib\RxFramework\SL4\System.CoreEx.dll</HintPath>
     </Reference>
-    <Reference Include="System.Interactive, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Silverlight\System.Interactive.dll</HintPath>
+    <Reference Include="System.Interactive">
+      <HintPath>..\..\lib\RxFramework\SL4\System.Interactive.dll</HintPath>
     </Reference>
-    <Reference Include="System.Observable, Version=1.0.0.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Silverlight\System.Observable.dll</HintPath>
+    <Reference Include="System.Numerics, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Observable">
+      <HintPath>..\..\lib\RxFramework\SL4\System.Observable.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive, Version=1.0.2521.204, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Silverlight\System.Reactive.dll</HintPath>
+    <Reference Include="System.Reactive">
+      <HintPath>..\..\lib\RxFramework\SL4\System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
