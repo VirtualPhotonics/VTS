@@ -173,8 +173,9 @@
     <Compile Include="MonteCarlo\MonteCarloFactoriesTests.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs" />
     <Compile Include="MonteCarlo\Sources\PointSourceTests.cs" />
+    <Compile Include="MonteCarlo\TallyActions\AnalogTallyActionsTests.cs" />
     <Compile Include="MonteCarlo\TallyActions\pMCTallyActionsTests.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TallyActionsTests.cs" />
+    <Compile Include="MonteCarlo\TallyActions\DAWTallyActionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\ArrayExtensionsTests.cs" />
   </ItemGroup>
