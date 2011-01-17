@@ -547,14 +547,14 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSource.cs">
       <Link>MonteCarlo\Sources\CustomPointSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSourceInput.cs">
-      <Link>MonteCarlo\Sources\CustomPointSourceInput.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\IsotropicLineSource.cs">
       <Link>MonteCarlo\Sources\IsotropicLineSource.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceBase.cs">
       <Link>MonteCarlo\Sources\LineSourceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointSourceInput.cs">
+      <Link>MonteCarlo\Sources\PointSourceInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceBase.cs">
       <Link>MonteCarlo\Sources\SourceBase.cs</Link>

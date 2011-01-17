@@ -205,11 +205,13 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             Parallel.For(0, inputBatch.Length, i =>
             {
-                var mc = RunUnmanagedCode ?
-                     new UnmanagedMonteCarloSimulation(
-                         inputBatch[i],
-                         new UnmanagedSimulationOptions(i))
-                   : new MonteCarloSimulation(
+                var mc =
+                //var mc = RunUnmanagedCode ?
+                //     new UnmanagedMonteCarloSimulation(
+                //         inputBatch[i],
+                //         new (i))
+                //   : 
+                   new MonteCarloSimulation(
                          inputBatch[i],
                          new SimulationOptions(
                              i,
