@@ -2,28 +2,64 @@ using System.IO;
 
 namespace Vts.Common
 {
+    /// <summary>
+    /// Represents a 3-dimensional cartesian point in space
+    /// </summary>
     public class Position
     {
-        private double _X;
-        private double _Y;
-        private double _Z;
-
+        /// <summary>
+        /// Returns a 3-dimensional cartesian point in space, based on an x, y, and z position
+        /// </summary>
+        /// <param name="x">The x position</param>
+        /// <param name="y">The y position</param>
+        /// <param name="z">The z position</param>
         public Position(double x, double y, double z)
         {
-            _X = x;
-            _Y = y;
-            _Z = z;
+            X = x;
+            Y = y;
+            Z = z;
         }
 
-        public Position()
-            : this(0.0, 0.0, 0.0)
+        /// <summary>
+        /// Returns a default 3-dimensional cartesian point, located at the origin (x=0, y=0, z=0)
+        /// </summary>
+        public Position() : this(0.0, 0.0, 0.0) { }
+
+        /// <summary>
+        /// The X component of the position
+        /// </summary>
+        public double X { get; set; }
+
+        /// <summary>
+        /// The Y component of the position
+        /// </summary>
+        public double Y { get; set; }
+
+        /// <summary>
+        /// The Z component of the position
+        /// </summary>
+        public double Z { get; set; }
+
+        /// <summary>
+        /// Static helper method for calculating the distance between two 3-dimensional points
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
+        public static double GetDistance(Position p1, Position p2)
         {
+            return System.Math.Sqrt(
+                (p1.X - p2.X)*(p1.X - p2.X) +
+                (p1.Y - p2.Y)*(p1.Y - p2.Y) +
+                (p1.Z - p2.Z)*(p1.Z - p2.Z));
         }
 
-        public double X { get { return _X; } set { _X = value; } }
-        public double Y { get { return _Y; } set { _Y = value; } }
-        public double Z { get { return _Z; } set { _Z = value; } }
-
+        /// <summary>
+        /// Operator overload for adding two 3D cartesian positions
+        /// </summary>
+        /// <param name="p1">The first addend position</param>
+        /// <param name="p2">The second addend position</param>
+        /// <returns>The summed position in 3D cartesian coordinates</returns>
         public static Position operator +(Position p1, Position p2)
         {
             return
@@ -33,6 +69,12 @@ namespace Vts.Common
                     p1.Z + p2.Z);
         }
 
+        /// <summary>
+        /// Operator overload for subtracting two 3D cartesian positions
+        /// </summary>
+        /// <param name="p1">The minuend position</param>
+        /// <param name="p2">The subtrahend position</param>
+        /// <returns>The difference between the two positions, in 3D cartesian coordinates</returns>
         public static Position operator -(Position p1, Position p2)
         {
             return
@@ -42,22 +84,26 @@ namespace Vts.Common
                     p1.Z - p2.Z);
         }
 
+        /// <summary>
+        /// Equality overload for two 3D cartesian coordinates
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
         public static bool operator ==(Position p1, Position p2)
         {
             return p1.Equals(p2);
         }
 
+        /// <summary>
+        /// Inequality overload for two 3D cartesian coordinates
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
         public static bool operator !=(Position p1, Position p2)
         {
             return !p1.Equals(p2);
-        }
-
-        public static double GetDistance(Position p1, Position p2)
-        {
-            return System.Math.Sqrt(
-                (p1.X - p2.X) * (p1.X - p2.X) +
-                (p1.Y - p2.Y) * (p1.Y - p2.Y) +
-                (p1.Z - p2.Z) * (p1.Z - p2.Z));
         }
 
         public void WriteBinary(BinaryWriter bw)
@@ -75,12 +121,22 @@ namespace Vts.Common
                 br.ReadDouble()); // Z
         }
 
-        public bool Equals(Position p)
+        /// <summary>
+        /// Instance member for equality comparison
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
         {
-            return
-                this.X == p.X &&
-                this.Y == p.Y &&
-                this.Z == p.Z;
+            if (obj is Position)
+            {
+                var p = obj as Position;
+                return
+                    X == p.X &&
+                    Y == p.Y &&
+                    Z == p.Z;
+            }
+            return false;
         }
     }
 }

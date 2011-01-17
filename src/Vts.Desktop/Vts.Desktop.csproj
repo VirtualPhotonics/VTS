@@ -160,6 +160,9 @@
     <Compile Include="..\Vts\Common\Extension Methods\OpticalPropertiesExtensions.cs">
       <Link>Common\Extension Methods\OpticalPropertiesExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Common\Extension Methods\RNGExtensions.cs">
+      <Link>Common\Extension Methods\RNGExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Common\GlobalConstants.cs">
       <Link>Common\GlobalConstants.cs</Link>
     </Compile>
@@ -184,8 +187,8 @@
     <Compile Include="..\Vts\Common\Helpers\Range\RangeOfT.cs">
       <Link>Common\Helpers\Range\RangeOfT.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Helpers\Range\UintRange.cs">
-      <Link>Common\Helpers\Range\UintRange.cs</Link>
+    <Compile Include="..\Vts\Common\Helpers\Range\UIntRange.cs">
+      <Link>Common\Helpers\Range\UIntRange.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Common\Helpers\Tuple.cs">
       <Link>Common\Helpers\Tuple.cs</Link>
@@ -234,9 +237,6 @@
     </Compile>
     <Compile Include="..\Vts\Factories\ComputationFactory.cs">
       <Link>Factories\ComputationFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Factories\Extensions\EnumExtensions.cs">
-      <Link>Factories\Extensions\EnumExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Factories\SolverFactory.cs">
       <Link>Factories\SolverFactory.cs</Link>
@@ -436,9 +436,6 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\Detector.cs">
       <Link>MonteCarlo\Detectors\Detector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\DetectorBinning.cs">
-      <Link>MonteCarlo\Detectors\DetectorBinning.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\DetectorInput.cs">
       <Link>MonteCarlo\Detectors\DetectorInput.cs</Link>
     </Compile>
@@ -457,9 +454,6 @@
     <Compile Include="..\Vts\MonteCarlo\Factories\RandomNumberGeneratorFactory.cs">
       <Link>MonteCarlo\Factories\RandomNumberGeneratorFactory.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Factories\ScatterLengthFactory.cs">
-      <Link>MonteCarlo\Factories\ScatterLengthFactory.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\SourceFactory.cs">
       <Link>MonteCarlo\Factories\SourceFactory.cs</Link>
     </Compile>
@@ -469,8 +463,14 @@
     <Compile Include="..\Vts\MonteCarlo\Factories\TissueFactory.cs">
       <Link>MonteCarlo\Factories\TissueFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\DetectorBinning.cs">
+      <Link>MonteCarlo\Helpers\DetectorBinning.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\Optics.cs">
       <Link>MonteCarlo\Helpers\Optics.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceToolbox.cs">
+      <Link>MonteCarlo\Helpers\SourceToolbox.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetector.cs">
       <Link>MonteCarlo\Interfaces\IDetector.cs</Link>
@@ -483,9 +483,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IHistoryTallyOfT.cs">
       <Link>MonteCarlo\Interfaces\IHistoryTallyOfT.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISimulationOptions.cs">
-      <Link>MonteCarlo\Interfaces\ISimulationOptions.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISource.cs">
       <Link>MonteCarlo\Interfaces\ISource.cs</Link>
@@ -541,26 +538,26 @@
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\RNG\RNGExtensions.cs">
-      <Link>MonteCarlo\RNG\RNGExtensions.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\CollimatedLineSource.cs">
+      <Link>MonteCarlo\Sources\CollimatedLineSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\LineSource.cs">
-      <Link>MonteCarlo\Sources\LineSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\CollimatedRectangularSource.cs">
+      <Link>MonteCarlo\Sources\CollimatedRectangularSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\PlanarSource.cs">
-      <Link>MonteCarlo\Sources\PlanarSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSource.cs">
+      <Link>MonteCarlo\Sources\CustomPointSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\PointSource.cs">
-      <Link>MonteCarlo\Sources\PointSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSourceInput.cs">
+      <Link>MonteCarlo\Sources\CustomPointSourceInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\PointSourceInput.cs">
-      <Link>MonteCarlo\Sources\PointSourceInput.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\IsotropicLineSource.cs">
+      <Link>MonteCarlo\Sources\IsotropicLineSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SourceInputProvider.cs">
-      <Link>MonteCarlo\Sources\SourceInputProvider.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceBase.cs">
+      <Link>MonteCarlo\Sources\LineSourceBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SourceToolbox.cs">
-      <Link>MonteCarlo\Sources\SourceToolbox.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SourceBase.cs">
+      <Link>MonteCarlo\Sources\SourceBase.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\AOfRhoAndZTally.cs">
       <Link>MonteCarlo\TallyActions\AOfRhoAndZTally.cs</Link>
@@ -651,7 +648,6 @@
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedMonteCarloSimulation.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedOutput.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedPhoton.cs" />
-    <Compile Include="MonteCarlo\Unmanaged\UnmanagedSimulationOptions.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedSourceDefinition.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedTissue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -11,7 +11,7 @@ namespace Vts.Test.Common
         [Test]
         public void validate_parameterized_constructor_assigns_correct_values()
         {
-            var r = new UintRange(0, 9, 10);
+            var r = new UIntRange(0, 9, 10);
 
             Assert.AreEqual(r.Start, 0U);
             Assert.AreEqual(r.Stop, 9U);
@@ -22,7 +22,7 @@ namespace Vts.Test.Common
         [Test]
         public void validate_default_constructor_assigns_correct_values()
         {
-            var r = new UintRange();
+            var r = new UIntRange();
 
             Assert.AreEqual(r.Start, 0U);
             Assert.AreEqual(r.Stop, 1U);
@@ -33,13 +33,13 @@ namespace Vts.Test.Common
         [Test]
         public void validate_class_is_serializable()
         {
-            Assert.IsNotNull(Clone(new UintRange()));
+            Assert.IsNotNull(Clone(new UIntRange()));
         }
 
         [Test]
         public void validate_deserialized_class_is_correct()
         {
-            var r = new UintRange(0U, 9U, 10);
+            var r = new UIntRange(0U, 9U, 10);
 
             var deserializedR = Clone(r);
 

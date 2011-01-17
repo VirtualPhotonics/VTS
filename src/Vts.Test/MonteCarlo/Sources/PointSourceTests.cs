@@ -12,14 +12,19 @@ namespace Vts.Test.MonteCarlo.Sources
         [Test]
         public void validate_getnextphoton_assigns_correct_values()
         {
-            Random rng;
-            var ps = new PointSource(
-                new Position(0,0,0),
-                new Direction(0,0,1),
-                new DoubleRange(0,0,1),
-                new DoubleRange(0,0,1));
-            rng = new MathNet.Numerics.Random.MersenneTwister(0);
-            var photon = ps.GetNextPhoton(new MultiLayerTissue(), rng);
+            Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
+            PointSourceInput psi = new PointSourceInput(
+                new Position(0, 0, 0),
+                new Direction(0, 0, 1),
+                new DoubleRange(0, 0, 1),
+                new DoubleRange(0, 0, 1));
+
+            var ps = new CustomPointSource(psi)
+                {
+                    Rng = rng // assigns the externally-defined random number generator
+                };
+
+            var photon = ps.GetNextPhoton(new MultiLayerTissue());
 
             Assert.IsTrue(
                 photon.DP.Position.X == 0.0 &&

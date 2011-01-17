@@ -2,7 +2,6 @@ using System.Runtime.InteropServices;
 
 namespace Vts.MonteCarlo
 {
-
     public unsafe class UnmanagedMonteCarloSimulation : MonteCarloSimulation
     {
         //public UnmanagedPhoton unmanagedPhoton;
@@ -24,21 +23,20 @@ namespace Vts.MonteCarlo
         //    ref UnmanagedTissue unmanagedTissue, ref UnmanagedPerturb unmanagedPerturb, 
         //    ref UnmanagedOutput unmanagedOutput);
 
-        public UnmanagedMonteCarloSimulation(SimulationInput input, UnmanagedSimulationOptions options)
-            : base(input, options) { }
-
-        protected override void InitializeOptions(ISimulationOptions so)
+        public UnmanagedMonteCarloSimulation(SimulationInput input, SimulationOptions options)
+            : base(input, options)
         {
-            var options = so as UnmanagedSimulationOptions;
+        }
 
+        protected void InitializeOptions(SimulationOptions options)
+        {
             unmanagedFlags = new UnmanagedFlags();
             unmanagedFlags.AbsWeightingType = (int)options.AbsorptionWeightingType;
             unmanagedFlags.Seed = options.Seed;
         }
 
-
-        public UnmanagedMonteCarloSimulation(SimulationInput input) : this(input, new UnmanagedSimulationOptions()) { }
-        public UnmanagedMonteCarloSimulation() : this(new SimulationInput(), new UnmanagedSimulationOptions()) { }
+        public UnmanagedMonteCarloSimulation(SimulationInput input) : this(input, new SimulationOptions()) { }
+        public UnmanagedMonteCarloSimulation() : this(new SimulationInput(), new SimulationOptions()) { }
 
         //protected override void ExecuteMCLoop(ITissue tissptr, Photon photptr, History histptr,
         //    ISource source, Banana bananaptr, Output outptr, IDetector detector)
@@ -80,5 +78,4 @@ namespace Vts.MonteCarlo
             //output.num_visit = unmanagedOutput.num_visit;
         }
     }
-
 }

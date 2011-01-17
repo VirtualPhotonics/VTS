@@ -2,19 +2,19 @@
 
 namespace Vts.Common
 {
-    public class UintRange : Range<uint>
+    public class UIntRange : Range<uint>
     {
-        public UintRange(uint start, uint stop, int number)
+        public UIntRange(uint start, uint stop, int number)
             : base(start, stop, number)
         {
         }
 
-        public UintRange(uint start, uint stop)
+        public UIntRange(uint start, uint stop)
             : this(start, stop, (int)(stop - start) + 1)
         {
         }
 
-        public UintRange()
+        public UIntRange()
             : this(0U, 1U, 2)
         {
         }

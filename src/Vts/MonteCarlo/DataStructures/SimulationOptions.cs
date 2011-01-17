@@ -3,12 +3,12 @@ using System;
 namespace Vts.MonteCarlo
 {
     /// <summary>
-    /// Implements ISimulationOptions.  Designates random number generator,
+    /// Designates random number generator,
     /// absorption weighting type and flags input to the Monte
     /// Carlo simulation (e.g. to write the histories to file, to generate
     /// the P(V and D) results).
     /// </summary>
-    public class SimulationOptions : ISimulationOptions
+    public class SimulationOptions
     {
         public SimulationOptions(
             int seed, 

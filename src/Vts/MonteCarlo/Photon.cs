@@ -18,7 +18,6 @@ namespace Vts.MonteCarlo
         private const double MAX_PHOTON_PATHLENGTH = 300; // mm
 
         // could add layer of indirection to not expose AbsorbAction;
-        public Action _AbsorbAction;  // sets correct abs. for DAW/CAW 
         private ITissue _tissue;
         private Random _rng;
 
@@ -60,9 +59,10 @@ namespace Vts.MonteCarlo
         public PhotonHistory History { get; set; }
         public double S { get; set; }
         public double SLeft { get; set; }
-        public int CurrentRegionIndex { get; set; }
-        public int CurrentTrackIndex { get; set; }
-        public Action AbsorbAction { get; set; }
+
+        public int CurrentRegionIndex { get; private set; }
+        public int CurrentTrackIndex { get; private set; }
+        public Action AbsorbAction { get; private set; }
 
         private void SetAbsorbAction(AbsorptionWeightingType awt)
         {

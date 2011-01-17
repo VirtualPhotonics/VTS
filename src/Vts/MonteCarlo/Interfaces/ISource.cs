@@ -7,6 +7,8 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface ISource
     {
-        Photon GetNextPhoton(ITissue tissue, Random rng);
+        Photon GetNextPhoton(ITissue tissue);
+
+        Random Rng { get; set; }
     }
 }

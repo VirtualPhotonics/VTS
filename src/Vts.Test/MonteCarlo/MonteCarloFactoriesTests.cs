@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Vts.MonteCarlo.Factories;
+using Vts.Extensions;
 
 namespace Vts.Test.MonteCarlo
 {

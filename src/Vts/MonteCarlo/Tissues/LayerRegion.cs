@@ -1,5 +1,5 @@
 using Vts.Common;
-using Vts.MonteCarlo.Factories;
+using Vts.Extensions;
 
 namespace Vts.MonteCarlo.Tissues
 {

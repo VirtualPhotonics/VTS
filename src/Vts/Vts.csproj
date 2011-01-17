@@ -136,6 +136,7 @@
     <Compile Include="Common\Extension Methods\EnumerableExtensions.cs" />
     <Compile Include="Common\Extension Methods\EnumExtensions.cs" />
     <Compile Include="Common\Extension Methods\IEnumerableArrayExtensions.cs" />
+    <Compile Include="Common\Extension Methods\OpticalPropertiesExtensions.cs" />
     <Compile Include="Common\GlobalConstants.cs" />
     <Compile Include="Common\Helpers\EnumHelper.cs" />
     <Compile Include="Common\Helpers\FuncOfT.cs" />
@@ -144,7 +145,7 @@
     <Compile Include="Common\Helpers\Range\IntRange.cs" />
     <Compile Include="Common\Helpers\Range\LongRange.cs" />
     <Compile Include="Common\Helpers\Range\RangeOfT.cs" />
-    <Compile Include="Common\Helpers\Range\UintRange.cs" />
+    <Compile Include="Common\Helpers\Range\UIntRange.cs" />
     <Compile Include="Common\Helpers\Tuple.cs" />
     <Compile Include="Common\Interfaces\IChangeTracking.cs" />
     <Compile Include="Common\Interfaces\IForwardSolver.cs" />
@@ -233,14 +234,13 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationOptions.cs" />
     <Compile Include="MonteCarlo\Detectors\Detector.cs" />
-    <Compile Include="MonteCarlo\Detectors\DetectorBinning.cs" />
+    <Compile Include="MonteCarlo\Helpers\DetectorBinning.cs" />
     <Compile Include="MonteCarlo\Detectors\DetectorInput.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCDetectorInput.cs" />
     <Compile Include="MonteCarlo\Enums.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorFactory.cs" />
     <Compile Include="MonteCarlo\Factories\RandomNumberGeneratorFactory.cs" />
-    <Compile Include="MonteCarlo\Factories\ScatterLengthFactory.cs" />
     <Compile Include="MonteCarlo\Factories\SourceFactory.cs" />
     <Compile Include="MonteCarlo\Factories\TallyActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\TissueFactory.cs" />
@@ -250,7 +250,6 @@
     <Compile Include="MonteCarlo\PhotonHistory.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Interfaces\ISimulationOptions.cs" />
     <Compile Include="MonteCarlo\Interfaces\ISource.cs" />
     <Compile Include="MonteCarlo\Interfaces\ISourceInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITerminationTally.cs" />
@@ -268,13 +267,15 @@
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfo.cs" />
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfoCustomBinarySerializer.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
-    <Compile Include="MonteCarlo\RNG\RNGExtensions.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSource.cs" />
-    <Compile Include="MonteCarlo\Sources\PlanarSource.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSource.cs" />
+    <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
+    <Compile Include="MonteCarlo\Sources\CollimatedLineSource.cs" />
+    <Compile Include="MonteCarlo\Sources\IsotropicLineSource.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\CollimatedRectangularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\CustomPointSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\PointSourceInput.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceInputProvider.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceToolbox.cs" />
+    <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
     <Compile Include="MonteCarlo\TallyActions\AOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\MomentumTransferOfRhoAndZTally.cs" />
@@ -395,6 +396,7 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
+    <None Include="Sources.cd" />
     <None Include="Modeling\Spectroscopy\Fat.csv" />
     <None Include="Vts.snk" />
   </ItemGroup>

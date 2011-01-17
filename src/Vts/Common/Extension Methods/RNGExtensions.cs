@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vts.MonteCarlo.RNG.Extensions
+namespace Vts.Extensions
 {
     /// <summary>
     /// Class for adding functionality to the .NET Random base class

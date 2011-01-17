@@ -16,22 +16,40 @@ namespace Vts.MonteCarlo
         private IDetector _detector;
         private long numberOfPhotons;
         private string outputFilename;
+
+        // todo: Why is this static? (DJC 2011-01-16)
         protected static SimulationInput _input;
 
-        public MonteCarloSimulation(SimulationInput input, ISimulationOptions options)
+        private Random _rng;
+
+        public MonteCarloSimulation(SimulationInput input, SimulationOptions options)
         {
             // all field/property defaults should be set here
-            DO_ALLVOX = false;
-            DO_TIME_RESOLVED_FLUENCE = false;
-            WRITE_EXIT_HISTORIES = false;
-
             _input = input;
             numberOfPhotons = input.N;
             outputFilename = input.OutputFileName;
-            InitializeOptions(options);
+
+            DO_TIME_RESOLVED_FLUENCE = options.DoTimeResolvedFluence;
+            DO_ALLVOX = options.DoPofVandD;
+            WRITE_EXIT_HISTORIES = options.WriteHistories;// Added by DC 2009-08-01
+            ABSORPTION_WEIGHTING = options.AbsorptionWeightingType; // CKH add 12/14/09
+
+            // CKH TODO: GeneratorProvider
+            switch (options.RandomNumberGeneratorType)
+            {
+                case RandomNumberGeneratorType.MersenneTwister:
+                    _rng = new MathNet.Numerics.Random.MersenneTwister(options.Seed);
+                    break;
+                //case RandomNumberGeneratorType.Mcch:
+                //default:
+                //    this.rng = new MCCHGenerator(options.Seed);
+                //    break;
+            }
+
+            this.SimulationIndex = options.SimulationIndex;
 
             _tissue = Factories.TissueFactory.GetTissue(input.TissueInput);
-            _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue);
+            _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
             _detector = Factories.DetectorFactory.GetDetector(input.DetectorInput, _tissue);
         }
 
@@ -48,14 +66,15 @@ namespace Vts.MonteCarlo
 
         // private properties
         private int SimulationIndex { get; set; }
-        private Random rng { get; set; }
 
         // public properties
+        // todo: Why are these all static? (DJC 2011-01-16)
         public static bool DO_ALLVOX { get; set; }
         public static bool DO_TIME_RESOLVED_FLUENCE { get; set; } // TODO: DC - Add to unmanaged code
         public static bool WRITE_EXIT_HISTORIES { get; set; }  // Added by DC 2009-08-01 
         public static bool TALLY_MOMENTUM_TRANSFER { get; set; }
         public static AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
+
         // wrappers for _input to access internal fields
         public static ITissueInput TissueInput { get { return _input.TissueInput; } }
         public static ISourceInput SourceInput { get { return _input.SourceInput; } }
@@ -67,10 +86,9 @@ namespace Vts.MonteCarlo
         /// <returns></returns>
         public Output Run()
         {
-            Banana bananaptr;
+            // Banana bananaptr;
 
             Output output = new Output(_input);
-            // output.Initialize(out bananaptr, _input); // initialize removed 3/10/2010
 
             DisplayIntro();
 
@@ -85,35 +103,13 @@ namespace Vts.MonteCarlo
             return output;
         }
 
-        protected virtual void InitializeOptions(ISimulationOptions so)
-        {
-            var options = so as SimulationOptions;
-            // CKH TODO: GeneratorProvider
-            switch (options.RandomNumberGeneratorType)
-            {
-                case RandomNumberGeneratorType.MersenneTwister:
-                    this.rng = new MathNet.Numerics.Random.MersenneTwister(options.Seed);
-                    break;
-                //case RandomNumberGeneratorType.Mcch:
-                //default:
-                //    this.rng = new MCCHGenerator(options.Seed);
-                //    break;
-            }
-
-            this.SimulationIndex = options.SimulationIndex;
-
-            DO_TIME_RESOLVED_FLUENCE = options.DoTimeResolvedFluence;
-            DO_ALLVOX = options.DoPofVandD;
-            WRITE_EXIT_HISTORIES = options.WriteHistories;// Added by DC 2009-08-01
-            ABSORPTION_WEIGHTING = options.AbsorptionWeightingType; // CKH add 12/14/09
-        }
-
         /// <summary>
         /// This function encapsulates the managed loop. Can be overridden in derived classes.
         /// </summary>
         protected virtual void ExecuteMCLoop()
         {
-            // DC: should the writer output go to same folder as Output?
+
+            // DC: should the writer output go to same folder as Output?);
             using (var photonTerminationDatabaseWriter = WRITE_EXIT_HISTORIES
                 ? new PhotonTerminationDatabaseWriter(_input.OutputFileName + "_photonBiographies", _tissue.Regions.Count)
                 : null)
@@ -122,13 +118,15 @@ namespace Vts.MonteCarlo
                 {
                     // todo: bug - num photons is assumed to be over 10 :)
                     if (n % (numberOfPhotons / 10) == 0)
+                    {
                         DisplayStatus(n, numberOfPhotons);
+                    }
 
-                    var photon = _source.GetNextPhoton(_tissue, rng);
+                    var photon = _source.GetNextPhoton(_tissue);
 
                     do
                     { /* begin do while  */
-                        photon.SetStepSize(rng);
+                        photon.SetStepSize(_rng);
 
                         var distance = _tissue.GetDistanceToBoundary(photon);
 
@@ -149,7 +147,9 @@ namespace Vts.MonteCarlo
                         {
                             photon.AbsorbAction();
                             if (photon.DP.StateFlag != PhotonStateType.Absorbed)
+                            {
                                 photon.Scatter();
+                            }
                         }
 
                         /*Test_Distance(); */
