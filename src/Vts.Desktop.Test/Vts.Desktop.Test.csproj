@@ -197,8 +197,14 @@
     <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <Link>MonteCarlo\PostProcessing\PostProcessingTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\TallyActions\TallyActionsTests.cs">
-      <Link>MonteCarlo\TallyActions\TallyActionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\TallyActions\AnalogTallyActionsTests.cs">
+      <Link>MonteCarlo\TallyActions\AnalogTallyActionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\TallyActions\DAWTallyActionsTests.cs">
+      <Link>MonteCarlo\TallyActions\DAWTallyActionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\TallyActions\pMCTallyActionsTests.cs">
+      <Link>MonteCarlo\TallyActions\pMCTallyActionsTests.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -212,7 +218,6 @@
   <ItemGroup>
     <Folder Include="Modeling\N1e7G0.8dt2.5\" />
     <Folder Include="Modeling\Optimizers\" />
-    <Folder Include="MonteCarlo\TallyActions\pMCTallies\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
