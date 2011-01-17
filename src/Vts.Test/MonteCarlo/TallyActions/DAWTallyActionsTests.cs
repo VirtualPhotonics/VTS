@@ -10,12 +10,13 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.TallyActions
 {
     /// <summary>
-    /// These tests execute a MC simulation with 100 photons and verify
+    /// These tests execute a discrete absorption weighting (DAW)
+    /// MC simulation with 100 photons and verify
     /// that the tally results match the linux results given the same seed
     /// mersenne twister STANDARD_TEST
     /// </summary>
     [TestFixture]
-    public class TallyActionsTests
+    public class DAWTallyActionsTests
     {
         Output _output;
 
@@ -82,38 +83,38 @@ namespace Vts.Test.MonteCarlo.TallyActions
         // validation values obtained from linux run using above input and seeded the same
         //
         [Test]
-        public void validate_RDiffuse()
+        public void validate_DAW_RDiffuse()
         {
             Assert.Less(Math.Abs(_output.Rd - 0.565765638), 0.000000001);
         }
 
         [Test]
-        public void validate_RTotal()
+        public void validate_DAW_RTotal()
         {
             Assert.Less(Math.Abs(_output.Rtot - 0.593543415), 0.000000001);
         }
         [Test]
-        public void validate_TDiffuse()
+        public void validate_DAW_TDiffuse()
         {
             Assert.Less(Math.Abs(_output.Td - 7.0994e-27), 1e-29);
         }
         [Test]
-        public void validate_ROfRho()
+        public void validate_DAW_ROfRho()
         {
             Assert.Less(Math.Abs(_output.R_r[2] - 0.0609121451), 0.000000001);
         }
         [Test]
-        public void validate_ROfRhoAndTime()
+        public void validate_DAW_ROfRhoAndTime()
         {
             Assert.Less(Math.Abs(_output.R_rt[2,0] - 0.000609121451), 0.00000000001);
         }
         [Test]
-        public void validate_FluenceOfRhoAndZ()
+        public void validate_DAW_FluenceOfRhoAndZ()
         {
             Assert.Less(Math.Abs(_output.Flu_rz[0, 0] - 33.3348714), 0.0000001);
         }
         [Test]
-        public void validate_AOfRhoAndZ()
+        public void validate_DAW_AOfRhoAndZ()
         {
             Assert.Less(Math.Abs(_output.A_rz[0, 0] - 0.333348714), 0.000000001);
         }
