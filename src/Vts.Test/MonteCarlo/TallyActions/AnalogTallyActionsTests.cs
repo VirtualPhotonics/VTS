@@ -75,7 +75,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                 ) );
             SimulationOptions options = new SimulationOptions(0, 
                 RandomNumberGeneratorType.MersenneTwister,
-                AbsorptionWeightingType.Analog, false, false, false, 0);
+                AbsorptionWeightingType.Analog, false, 0);
             _output = new MonteCarloSimulation(input, options).Run();
         }
 

@@ -176,9 +176,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
             SimulationOptions options = new SimulationOptions(
                 0, 
                 RandomNumberGeneratorType.MersenneTwister,
-                AbsorptionWeightingType.Discrete, 
-                false, 
-                false, 
+                AbsorptionWeightingType.Discrete,
                 true,  // write histories 
                 0);
             return new MonteCarloSimulation(input, options).Run();

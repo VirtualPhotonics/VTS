@@ -217,8 +217,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
                              i,
                              RandomNumberGeneratorType.MersenneTwister,
                              AbsorptionWeightingType.Discrete,
-                             false,
-                             false,
                              WriteHistories,
                              i));
 

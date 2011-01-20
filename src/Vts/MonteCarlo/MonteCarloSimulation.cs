@@ -29,8 +29,6 @@ namespace Vts.MonteCarlo
             numberOfPhotons = input.N;
             outputFilename = input.OutputFileName;
 
-            DO_TIME_RESOLVED_FLUENCE = options.DoTimeResolvedFluence;
-            DO_ALLVOX = options.DoPofVandD;
             WRITE_EXIT_HISTORIES = options.WriteHistories;// Added by DC 2009-08-01
             ABSORPTION_WEIGHTING = options.AbsorptionWeightingType; // CKH add 12/14/09
 

@@ -95,7 +95,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             // turn on option to write photon exit data to database (second from last parameter "true")
             SimulationOptions options = 
                 new SimulationOptions(0, RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Discrete, false, false, true, 0);
+                    AbsorptionWeightingType.Discrete, true, 0);
 
             return new MonteCarloSimulation(input, options).Run();
         }

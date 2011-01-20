@@ -65,8 +65,6 @@ namespace Vts.MonteCarlo.GenerateReferenceData
             SimulationOptions options = new SimulationOptions(
                 0, RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Continuous, 
-                false, 
-                false, 
                 true, 
                 1); // turn on photon biog write
 
