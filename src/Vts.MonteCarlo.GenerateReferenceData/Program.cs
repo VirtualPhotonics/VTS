@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     AbsorptionWeightingType.Continuous,
                     true, // turn on photon biog write
                     1),
-                new PointSourceInput(
+                new CustomPointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),

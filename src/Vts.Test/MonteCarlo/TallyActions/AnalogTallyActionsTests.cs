@@ -31,7 +31,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     AbsorptionWeightingType.Analog, 
                     false, 
                     0),
-                new PointSourceInput(
+                new CustomPointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),

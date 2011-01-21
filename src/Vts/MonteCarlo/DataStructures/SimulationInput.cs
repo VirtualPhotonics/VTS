@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo
     [Serializable]
 #endif
 
-    [KnownType(typeof(PointSourceInput))]
+    [KnownType(typeof(CustomPointSourceInput))]
     [KnownType(typeof(MultiLayerTissueInput))]
     [KnownType(typeof(DetectorInput))]
     
@@ -68,7 +68,7 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete, 
                     false, 
                     0),
-                new PointSourceInput(
+                new CustomPointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),

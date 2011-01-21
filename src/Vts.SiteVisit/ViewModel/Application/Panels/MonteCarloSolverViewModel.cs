@@ -199,7 +199,7 @@ namespace Vts.SiteVisit.ViewModel
                 0, // Note seed = 0 is -1 in linux
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete);
-            input.SourceInput = new PointSourceInput();
+            input.SourceInput = new CustomPointSourceInput();
             input.TissueInput = new MultiLayerTissueInput();
             input.DetectorInput = new DetectorInput();
             ////input.Tissue.num_layers = 1;

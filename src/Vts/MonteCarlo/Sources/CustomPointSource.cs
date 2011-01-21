@@ -43,11 +43,11 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="psi">The point source input DTO</param>
         /// <remarks>This really should be logic in a factory class</remarks>
-        public CustomPointSource(PointSourceInput psi) : this(
-            psi.PointLocation,
-            psi.SolidAngleAxis,
-            psi.ThetaRange,
-            psi.PhiRange)
+        public CustomPointSource(CustomPointSourceInput cpsi) : this(
+            cpsi.PointLocation,
+            cpsi.SolidAngleAxis,
+            cpsi.ThetaRange,
+            cpsi.PhiRange)
         {
         }
 

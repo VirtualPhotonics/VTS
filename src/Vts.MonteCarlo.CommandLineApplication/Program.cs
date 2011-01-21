@@ -237,7 +237,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 100,  // FIX 1e6 takes about 70 minutes my laptop
                 "Output",
                 new SimulationOptions(),
-                new PointSourceInput(
+                new CustomPointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),

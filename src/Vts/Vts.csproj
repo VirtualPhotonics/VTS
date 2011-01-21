@@ -269,12 +269,12 @@
     <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
     <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\Sources\CollimatedLineSource.cs" />
+    <Compile Include="MonteCarlo\Sources\CustomPointSourceInput.cs" />
     <Compile Include="MonteCarlo\Sources\IsotropicLineSource.cs" />
     <Compile Include="MonteCarlo\Sources\LineSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\CollimatedRectangularSource.cs" />
     <Compile Include="MonteCarlo\Sources\CustomPointSource.cs" />
     <Compile Include="MonteCarlo\Sources\SourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSourceInput.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
     <Compile Include="MonteCarlo\TallyActions\AOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs" />

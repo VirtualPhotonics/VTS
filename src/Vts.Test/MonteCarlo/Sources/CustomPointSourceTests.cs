@@ -7,19 +7,19 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Sources
 {
     [TestFixture]
-    public class PointSourceTests
+    public class CustomPointSourceTests
     {
         [Test]
         public void validate_getnextphoton_assigns_correct_values()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
-            PointSourceInput psi = new PointSourceInput(
+            CustomPointSourceInput cpsi = new CustomPointSourceInput(
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
                 new DoubleRange(0, 0, 1),
                 new DoubleRange(0, 0, 1));
 
-            var ps = new CustomPointSource(psi)
+            var ps = new CustomPointSource(cpsi)
                 {
                     Rng = rng // assigns the externally-defined random number generator
                 };
