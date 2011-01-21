@@ -195,6 +195,10 @@ namespace Vts.SiteVisit.ViewModel
             SimulationInput input = new SimulationInput();
             input.OutputFileName = "MonteCarloOutput";
             input.N = 100;
+            input.Options = new SimulationOptions(
+                0, // Note seed = 0 is -1 in linux
+                RandomNumberGeneratorType.MersenneTwister,
+                AbsorptionWeightingType.Discrete);
             input.SourceInput = new PointSourceInput();
             input.TissueInput = new MultiLayerTissueInput();
             input.DetectorInput = new DetectorInput();
@@ -240,10 +244,7 @@ namespace Vts.SiteVisit.ViewModel
             //input.detector.det_ctr = new double[] { 0.0 }; /* THESE NEED TO MATCH PERT REGION */
             //input.detector.radius = 4.0;
 
-            // Note seed = 0 is -1 in linux, default RNG = Mcch, absorption = discrete
-            SimulationOptions options = new SimulationOptions(0,RandomNumberGeneratorType.MersenneTwister,AbsorptionWeightingType.Discrete);
-
-            MonteCarloSimulation simulation = new MonteCarloSimulation(input, options);
+            MonteCarloSimulation simulation = new MonteCarloSimulation(input);
             Output output = simulation.Run();
             query = output.R_r;
 

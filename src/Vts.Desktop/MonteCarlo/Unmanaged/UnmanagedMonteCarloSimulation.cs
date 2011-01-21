@@ -23,8 +23,8 @@ namespace Vts.MonteCarlo
         //    ref UnmanagedTissue unmanagedTissue, ref UnmanagedPerturb unmanagedPerturb, 
         //    ref UnmanagedOutput unmanagedOutput);
 
-        public UnmanagedMonteCarloSimulation(SimulationInput input, SimulationOptions options)
-            : base(input, options)
+        public UnmanagedMonteCarloSimulation(SimulationInput input)
+            : base(input)
         {
         }
 
@@ -35,8 +35,7 @@ namespace Vts.MonteCarlo
             unmanagedFlags.Seed = options.Seed;
         }
 
-        public UnmanagedMonteCarloSimulation(SimulationInput input) : this(input, new SimulationOptions()) { }
-        public UnmanagedMonteCarloSimulation() : this(new SimulationInput(), new SimulationOptions()) { }
+        public UnmanagedMonteCarloSimulation() : this(new SimulationInput()) { }
 
         //protected override void ExecuteMCLoop(ITissue tissptr, Photon photptr, History histptr,
         //    ISource source, Banana bananaptr, Output outptr, IDetector detector)

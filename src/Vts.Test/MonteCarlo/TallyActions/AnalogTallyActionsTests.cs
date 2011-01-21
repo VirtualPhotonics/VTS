@@ -25,6 +25,12 @@ namespace Vts.Test.MonteCarlo.TallyActions
            var input = new SimulationInput(
                 100,
                 "Output",
+                new SimulationOptions(
+                    0, 
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Analog, 
+                    false, 
+                    0),
                 new PointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
@@ -73,10 +79,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(-10.0, 10.0, 201), // x
                     new DoubleRange(-10.0, 10.0, 201) // y
                 ) );
-            SimulationOptions options = new SimulationOptions(0, 
-                RandomNumberGeneratorType.MersenneTwister,
-                AbsorptionWeightingType.Analog, false, 0);
-            _output = new MonteCarloSimulation(input, options).Run();
+            _output = new MonteCarloSimulation(input).Run();
         }
 
         // validation values obtained from linux run using above input and seeded the same

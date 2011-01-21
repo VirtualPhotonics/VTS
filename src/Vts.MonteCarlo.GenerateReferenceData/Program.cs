@@ -16,6 +16,12 @@ namespace Vts.MonteCarlo.GenerateReferenceData
             var input = new SimulationInput(
                 1000000,  // FIX 1e6 takes about 70 minutes my laptop
                 "Output",
+                 new SimulationOptions(
+                    0, 
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Continuous,
+                    true, // turn on photon biog write
+                    1),
                 new PointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
@@ -62,13 +68,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     new DoubleRange(-100.0, 100.0, 81) // y
                 ));
 
-            SimulationOptions options = new SimulationOptions(
-                0, RandomNumberGeneratorType.MersenneTwister,
-                AbsorptionWeightingType.Continuous, 
-                true, 
-                1); // turn on photon biog write
-
-            MonteCarloSimulation managedSimulation = new MonteCarloSimulation(input, options);
+            MonteCarloSimulation managedSimulation = new MonteCarloSimulation(input);
 
             //var FS = Vts.Factories.SolverFactory.GetForwardSolver(ForwardSolverType.MonteCarlo);
             //var OP = new OpticalProperties();

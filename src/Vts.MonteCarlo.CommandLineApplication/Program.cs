@@ -212,13 +212,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 //         new (i))
                 //   : 
                    new MonteCarloSimulation(
-                         inputBatch[i],
-                         new SimulationOptions(
-                             i,
-                             RandomNumberGeneratorType.MersenneTwister,
-                             AbsorptionWeightingType.Discrete,
-                             WriteHistories,
-                             i));
+                         inputBatch[i]);
 
                 var p = Path.GetDirectoryName(inputBatch[i].OutputFileName);
 
@@ -240,9 +234,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
         //To Generate an infile when running a simulation, uncomment the first line of code in this file
         #if GENERATE_INFILE
             var tempInput = new SimulationInput(
-                100
-                ,  // FIX 1e6 takes about 70 minutes my laptop
+                100,  // FIX 1e6 takes about 70 minutes my laptop
                 "Output",
+                new SimulationOptions(),
                 new PointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),

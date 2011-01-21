@@ -43,6 +43,12 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             return new SimulationInput(
                 100,
                 "",
+                new SimulationOptions(
+                    0, 
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete, 
+                    true, 
+                    0),
                 new PointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
@@ -92,12 +98,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
 
         private static Output GenerateReferenceOutput(SimulationInput input)
         {
-            // turn on option to write photon exit data to database (second from last parameter "true")
-            SimulationOptions options = 
-                new SimulationOptions(0, RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Discrete, true, 0);
-
-            return new MonteCarloSimulation(input, options).Run();
+            return new MonteCarloSimulation(input).Run();
         }
 
         private void ValidateROfRhoAndTime(Output output1, Output output2)

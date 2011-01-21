@@ -30,6 +30,7 @@ namespace Vts.MonteCarlo
         // make it much easier for users to define simulations without wading through XML namespaces, etc.
         public string OutputFileName;
         public long N;
+        public SimulationOptions Options;
         public ISourceInput SourceInput;
         public ITissueInput TissueInput;
         public IDetectorInput DetectorInput;
@@ -40,12 +41,14 @@ namespace Vts.MonteCarlo
         public SimulationInput(
             long numberOfPhotons, 
             string outputFilename,
+            SimulationOptions simulationOptions,
             ISourceInput sourceInput, 
             ITissueInput tissueInput,  
             IDetectorInput detectorInput)
         {
             N = numberOfPhotons;
             OutputFileName = outputFilename;
+            Options = simulationOptions;
             SourceInput = sourceInput;
             TissueInput = tissueInput;
             DetectorInput = detectorInput;
@@ -59,6 +62,12 @@ namespace Vts.MonteCarlo
                 //new DetectorInput()) { }
                 1000000,  // FIX 1e6 takes about 70 minutes my laptop
                 "Output",
+                new SimulationOptions(
+                    SimulationOptions.GetRandomSeed(), 
+                    RandomNumberGeneratorType.MersenneTwister, 
+                    AbsorptionWeightingType.Discrete, 
+                    false, 
+                    0),
                 new PointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),

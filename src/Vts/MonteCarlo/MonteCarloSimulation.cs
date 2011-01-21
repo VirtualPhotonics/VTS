@@ -22,29 +22,29 @@ namespace Vts.MonteCarlo
 
         private Random _rng;
 
-        public MonteCarloSimulation(SimulationInput input, SimulationOptions options)
+        public MonteCarloSimulation(SimulationInput input)
         {
             // all field/property defaults should be set here
             _input = input;
             numberOfPhotons = input.N;
             outputFilename = input.OutputFileName;
 
-            WRITE_EXIT_HISTORIES = options.WriteHistories;// Added by DC 2009-08-01
-            ABSORPTION_WEIGHTING = options.AbsorptionWeightingType; // CKH add 12/14/09
+            WRITE_EXIT_HISTORIES = input.Options.WriteHistories;// Added by DC 2009-08-01
+            ABSORPTION_WEIGHTING = input.Options.AbsorptionWeightingType; // CKH add 12/14/09
 
             // CKH TODO: GeneratorProvider
-            switch (options.RandomNumberGeneratorType)
+            switch (input.Options.RandomNumberGeneratorType)
             {
                 case RandomNumberGeneratorType.MersenneTwister:
-                    _rng = new MathNet.Numerics.Random.MersenneTwister(options.Seed);
+                    _rng = new MathNet.Numerics.Random.MersenneTwister(input.Options.Seed);
                     break;
                 //case RandomNumberGeneratorType.Mcch:
                 //default:
-                //    this.rng = new MCCHGenerator(options.Seed);
+                //    this.rng = new MCCHGenerator(input.Options.Seed);
                 //    break;
             }
 
-            this.SimulationIndex = options.SimulationIndex;
+            this.SimulationIndex = input.Options.SimulationIndex;
 
             _tissue = Factories.TissueFactory.GetTissue(input.TissueInput);
             _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
@@ -54,13 +54,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Default constructor to allow quick-and-easy simulation
         /// </summary>
-        public MonteCarloSimulation() : this(new SimulationInput(), new SimulationOptions()) { }
-
-        /// <summary>
-        /// Constructor that uses discrete absorption weighting and Mersenne Twister RNG as default
-        /// </summary>
-        /// <param name="input"></param>
-        public MonteCarloSimulation(SimulationInput input) : this(input, new SimulationOptions()) { }
+        public MonteCarloSimulation() : this(new SimulationInput()) { }
 
         // private properties
         private int SimulationIndex { get; set; }

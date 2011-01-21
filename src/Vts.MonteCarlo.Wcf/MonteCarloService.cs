@@ -12,8 +12,7 @@ namespace Vts.MonteCarlo.Wcf
             Parallel.For(0, inputs.Length, i =>
             {
                 var mc = new MonteCarloSimulation(
-                         inputs[i],
-                         new SimulationOptions(i, RandomNumberGeneratorType.MersenneTwister, AbsorptionWeightingType.Discrete));
+                         inputs[i]);
 
                 mc.Run().ToFile(inputs[i].OutputFileName);
 

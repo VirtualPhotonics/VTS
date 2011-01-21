@@ -81,6 +81,12 @@ namespace Vts.Test.MonteCarlo.TallyActions
             return new SimulationInput(
                 100,
                 "Output",
+                new SimulationOptions(
+                    0, 
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    true,  // write histories 
+                    0),
                 new PointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
@@ -129,6 +135,12 @@ namespace Vts.Test.MonteCarlo.TallyActions
             return new SimulationInput(
                 100,
                 "Output",
+                new SimulationOptions(
+                    0,
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    true,  // write histories 
+                    0),
                 new PointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
@@ -173,13 +185,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
         }
         private static Output GenerateReferenceOutput(SimulationInput input)
         {
-            SimulationOptions options = new SimulationOptions(
-                0, 
-                RandomNumberGeneratorType.MersenneTwister,
-                AbsorptionWeightingType.Discrete,
-                true,  // write histories 
-                0);
-            return new MonteCarloSimulation(input, options).Run();
+            return new MonteCarloSimulation(input).Run();
         }
     }
 }
