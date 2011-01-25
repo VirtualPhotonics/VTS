@@ -77,7 +77,8 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(0.0, 10000, 101), // time
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-10.0, 10.0, 201), // x
-                    new DoubleRange(-10.0, 10.0, 201) // y
+                    new DoubleRange(-10.0, 10.0, 201), // y
+                    AbsorptionWeightingType.Discrete
                 ) );
             _output = new MonteCarloSimulation(input).Run();
         }
@@ -108,13 +109,13 @@ namespace Vts.Test.MonteCarlo.TallyActions
         //[Test]
         //public void validate_Analog_ROfRhoAndTime()
         //{
-        //    Assert.Less(Math.Abs(_output.R_rt[2,1] - 0.000618935890), 0.00000000001);
+        //    Assert.Less(Math.Abs(_output.R_rt[2, 1] - 0.000618935890), 0.00000000001);
         //}
-        //[Test]
-        //public void validate_Analog_FluenceOfRhoAndZ()
-        //{
-        //    Assert.Less(Math.Abs(_output.Flu_rz[0, 0] - 33.3348714), 0.0000001);
-        //}
+        [Test]
+        public void validate_Analog_FluenceOfRhoAndZ()
+        {
+            Assert.Less(Math.Abs(_output.Flu_rz[0, 6] - 0.617700489), 0.0000001);
+        }
         //[Test]
         //public void validate_Analog_AOfRhoAndZ()
         //{

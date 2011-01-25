@@ -111,7 +111,8 @@ namespace Vts.MonteCarlo
                     new DoubleRange(0.0, 4.0, 801), // time: nt=800 dt=0.005ns used for workshop
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-100.0, 100.0, 81), // x
-                    new DoubleRange(-100.0, 100.0, 81) // y
+                    new DoubleRange(-100.0, 100.0, 81), // y
+                    AbsorptionWeightingType.Discrete
                 )) {}
 
         public static SimulationInput FromFile(string filename)

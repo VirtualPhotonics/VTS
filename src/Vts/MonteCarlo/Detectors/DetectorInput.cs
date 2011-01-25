@@ -13,7 +13,8 @@ namespace Vts.MonteCarlo.Detectors
             DoubleRange time,
             DoubleRange omega,
             DoubleRange x,
-            DoubleRange y)
+            DoubleRange y,
+            AbsorptionWeightingType awt)
         {
             TallyTypeList = tallyTypeList;
             Rho = rho;
@@ -23,6 +24,7 @@ namespace Vts.MonteCarlo.Detectors
             Omega = omega;
             X = x;
             Y = y;
+            AWT = awt;
         }
         /// <summary>
         /// Default constructor tallies all tallies
@@ -48,7 +50,8 @@ namespace Vts.MonteCarlo.Detectors
             new DoubleRange(0.0, 10000, 101), // time
             new DoubleRange(0.0, 1000, 21), // omega
             new DoubleRange(-10.0, 10.0, 201), // x
-            new DoubleRange(-10.0, 10.0, 201) // y
+            new DoubleRange(-10.0, 10.0, 201), // y
+            AbsorptionWeightingType.Discrete
         ) {}
         public List<TallyType> TallyTypeList { get; set; }
         public DoubleRange Rho { get; set; }
@@ -58,5 +61,6 @@ namespace Vts.MonteCarlo.Detectors
         public DoubleRange X { get; set; }
         public DoubleRange Y { get; set; }
         public DoubleRange Z { get; set; }
+        public AbsorptionWeightingType AWT { get; set; }
     }
 }

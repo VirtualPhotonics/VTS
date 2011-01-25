@@ -78,7 +78,8 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(0.0, 10000, 101), // time
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-10.0, 10.0, 201), // x
-                    new DoubleRange(-10.0, 10.0, 201) // y
+                    new DoubleRange(-10.0, 10.0, 201), // y
+                    AbsorptionWeightingType.Discrete
                 ) );
             _output = new MonteCarloSimulation(input).Run();
         }

@@ -20,12 +20,15 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <param name="peh">PhotonTerminationDatabase</param>
         /// <param name="databaseOutput">Database information needed for post-processing</param>
         /// <returns></returns>
-        public static Output GenerateOutput(IDetectorInput tallies, 
-            PhotonTerminationDatabase peh, Output databaseOutput)
+        public static Output GenerateOutput(
+            IDetectorInput tallies, 
+            AbsorptionWeightingType awt,
+            PhotonTerminationDatabase peh, 
+            Output databaseOutput)
         {
             Output postProcessedOutput = new Output();
             ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.input.TissueInput);
-            IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
+            IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue, awt);
 
             foreach (var dp in peh.DataPoints)
             {
@@ -54,6 +57,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <returns></returns>
         public static Output GenerateOutput(
             IDetectorInput tallies, 
+            AbsorptionWeightingType awt,
             PhotonTerminationDatabase peh, 
             Output databaseOutput,
             List<OpticalProperties> perturbedOps,
@@ -61,7 +65,7 @@ namespace Vts.MonteCarlo.PostProcessing
         {
             Output postProcessedOutput = new Output();
             ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.input.TissueInput);
-            IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
+            IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue, awt);
 
             int count = 0;
             foreach (var dp in peh.DataPoints)

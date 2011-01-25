@@ -8,12 +8,13 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public static class DetectorFactory
     {
-        public static IDetector GetDetector(IDetectorInput di, ITissue tissue)
+        public static IDetector GetDetector(IDetectorInput di, ITissue tissue, 
+            AbsorptionWeightingType awt)
         {
             IDetector d = null;
             if (di is DetectorInput)
             {
-                return new Detector((DetectorInput)di, tissue);
+                return new Detector((DetectorInput)di, tissue, awt);
             }
             if (di is pMCDetectorInput)
             {

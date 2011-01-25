@@ -107,7 +107,7 @@ namespace Vts.MonteCarlo.Detectors
                 }
                 else
                 {
-                    TerminationITallyList.Add(Factories.TallyActionFactory.GetTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y,
+                    TerminationITallyList.Add(Factories.TallyActionFactory.GetTerminationTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y,
                         AWT, ReferenceOps, PerturbedRegionsIndices));
                 }
             }

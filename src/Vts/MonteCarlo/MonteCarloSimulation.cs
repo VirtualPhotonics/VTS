@@ -48,7 +48,7 @@ namespace Vts.MonteCarlo
 
             _tissue = Factories.TissueFactory.GetTissue(input.TissueInput);
             _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
-            _detector = Factories.DetectorFactory.GetDetector(input.DetectorInput, _tissue);
+            _detector = Factories.DetectorFactory.GetDetector(input.DetectorInput, _tissue, input.Options.AbsorptionWeightingType);
         }
 
         /// <summary>

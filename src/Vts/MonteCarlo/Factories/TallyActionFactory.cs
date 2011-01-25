@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.Factories
                     return false;
             }
         }
-        public static ITerminationTally GetTallyAction(
+        public static ITerminationTally GetTerminationTallyAction(
             TallyType tallyType,
             ITissue tissue,
             DoubleRange rho,
@@ -58,16 +58,11 @@ namespace Vts.MonteCarlo.Factories
                     return new TOfRhoTally(rho);
                 case TallyType.TOfRhoAndAngle:
                     return new TOfRhoAndAngleTally(rho, angle);
-                //case TallyType.FluenceOfRhoAndZ:
-                //    return new FluenceOfRhoAndZTally(rho, z, tissue);
-                //case TallyType.FluenceOfRhoAndZAndTime:
-                //    return new FluenceOfRhoAndZAndTimeTally(rho, z, time, tissue);
-                //case TallyType.AOfRhoAndZ:
-                //    return new AOfRhoAndZTally(rho, z, tissue);
             }
         }
         public static IHistoryTally GetHistoryTallyAction(
             TallyType tallyType,
+            AbsorptionWeightingType awt,
             ITissue tissue,
             DoubleRange rho,
             DoubleRange z,
@@ -81,14 +76,15 @@ namespace Vts.MonteCarlo.Factories
             {
                 default:
                 case TallyType.FluenceOfRhoAndZ:
-                    return new FluenceOfRhoAndZTally(rho, z, tissue);
+                    return new FluenceOfRhoAndZTally(rho, z, tissue, awt);
                 case TallyType.FluenceOfRhoAndZAndTime:
                     return new FluenceOfRhoAndZAndTimeTally(rho, z, time, tissue);
                 case TallyType.AOfRhoAndZ:
                     return new AOfRhoAndZTally(rho, z, tissue);
             }
         }
-        public static ITerminationTally GetTallyAction(
+        // pMC overload
+        public static ITerminationTally GetTerminationTallyAction(
             TallyType tallyType,
             DoubleRange rho,
             DoubleRange z,

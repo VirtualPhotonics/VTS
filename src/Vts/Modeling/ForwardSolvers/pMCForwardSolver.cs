@@ -49,7 +49,7 @@ namespace Vts.Modeling.ForwardSolvers
                     new OpticalProperties(), op, new OpticalProperties() };
                 var _postProcessedOutput = 
                     PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                        detectorInput, pMCLoader.PhotonTerminationDatabase,
+                        detectorInput, detectorInput.AWT, pMCLoader.PhotonTerminationDatabase,
                         pMCLoader.databaseOutput, regionOps, perturbedRegionsIndices);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
                 for (int r = 0; r < rhos.Count(); r++)
@@ -83,7 +83,7 @@ namespace Vts.Modeling.ForwardSolvers
                     new OpticalProperties(), op, new OpticalProperties() };
                 var _postProcessedOutput = 
                     PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                    detectorInput, pMCLoader.PhotonTerminationDatabase,
+                    detectorInput, detectorInput.AWT, pMCLoader.PhotonTerminationDatabase,
                     pMCLoader.databaseOutput, regionOps, perturbedRegionsIndices);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
                 for (int r = 0; r < rhos.Count(); r++)

@@ -11,6 +11,7 @@ namespace Vts.MonteCarlo.Detectors
     public class Detector : IDetector
     {
         private ITissue _tissue;
+        private AbsorptionWeightingType _awt;
         private IDictionary<TallyType, int> _tallyTypeIndex = new Dictionary<TallyType,int>();
         public Detector(
             List<TallyType> tallyTypeList,
@@ -21,7 +22,8 @@ namespace Vts.MonteCarlo.Detectors
             DoubleRange omega,
             DoubleRange x,
             DoubleRange y,
-            ITissue tissue)
+            ITissue tissue,
+            AbsorptionWeightingType awt)
         {
             TallyTypeList = tallyTypeList;
             Rho = rho;
@@ -32,6 +34,7 @@ namespace Vts.MonteCarlo.Detectors
             X = x;
             Y = y;
             _tissue = tissue;
+            _awt = awt;
             SetTallyActionLists();
         }
         /// <summary>
@@ -61,9 +64,10 @@ namespace Vts.MonteCarlo.Detectors
                 new DoubleRange(0.0, 1000, 21), // omega
                 new DoubleRange(-10.0, 10.0, 201), // x
                 new DoubleRange(-10.0, 10.0, 201), // y
-                new MultiLayerTissue()
+                new MultiLayerTissue(),
+                AbsorptionWeightingType.Discrete
                 ) { }
-        public Detector(IDetectorInput di, ITissue tissue)
+        public Detector(IDetectorInput di, ITissue tissue, AbsorptionWeightingType awt)
             : this(
                 di.TallyTypeList,
                 di.Rho,
@@ -73,7 +77,8 @@ namespace Vts.MonteCarlo.Detectors
                 di.Omega,
                 di.X,
                 di.Y,
-                tissue) { }
+                tissue,
+                awt) { }
 
         public List<ITerminationTally> TerminationITallyList { get; set; }
         public List<IHistoryTally> HistoryITallyList { get; set; }
@@ -94,12 +99,12 @@ namespace Vts.MonteCarlo.Detectors
             {
                 if (Factories.TallyActionFactory.IsHistoryTally(tally))
                 {
-                    HistoryITallyList.Add(Factories.TallyActionFactory.GetHistoryTallyAction(tally, _tissue, Rho, Z, Angle, Time, Omega, X, Y));
+                    HistoryITallyList.Add(Factories.TallyActionFactory.GetHistoryTallyAction(tally, _awt, _tissue, Rho, Z, Angle, Time, Omega, X, Y));
                     _tallyTypeIndex.Add(tally, HistoryITallyList.Count() - 1);
                 }
                 else
                 {
-                    TerminationITallyList.Add(Factories.TallyActionFactory.GetTallyAction(tally, _tissue, Rho, Z, Angle, Time, Omega, X, Y));
+                    TerminationITallyList.Add(Factories.TallyActionFactory.GetTerminationTallyAction(tally, _tissue, Rho, Z, Angle, Time, Omega, X, Y));
                     _tallyTypeIndex.Add(tally, TerminationITallyList.Count() - 1);
                 }
             }
