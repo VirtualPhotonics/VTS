@@ -25,6 +25,7 @@ namespace Vts.MonteCarlo.TallyActions
             SecondMoment = new double[_rho.Count, _z.Count];
             SetAbsorbAction(awt);
         }
+        // should following code be put in common class?
         public Action<double, double> AbsorbAction { get; private set; }
         private void SetAbsorbAction(AbsorptionWeightingType awt)
         {
@@ -42,15 +43,15 @@ namespace Vts.MonteCarlo.TallyActions
                     break;
             }
         }
-        double _dw;
-        PhotonStateType _pst; 
+        private double _dw;
+        private PhotonStateType _pst; 
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp, IList<OpticalProperties> ops)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count, _rho.Delta, _rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count, _z.Delta, _z.Start);
-            _pst = dp.StateFlag;
             //double dw = previousDP.Weight * ops[_tissue.GetRegionIndex(dp.Position)].Mua / 
             //    (ops[_tissue.GetRegionIndex(dp.Position)].Mua + ops[_tissue.GetRegionIndex(dp.Position)].Mus);
+            _pst = dp.StateFlag;
             _dw = previousDP.Weight;
             AbsorbAction(ops[_tissue.GetRegionIndex(dp.Position)].Mua, ops[_tissue.GetRegionIndex(dp.Position)].Mus);
             Mean[ir, iz] += _dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua; 

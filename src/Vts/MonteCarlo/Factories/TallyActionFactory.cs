@@ -80,7 +80,7 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.FluenceOfRhoAndZAndTime:
                     return new FluenceOfRhoAndZAndTimeTally(rho, z, time, tissue);
                 case TallyType.AOfRhoAndZ:
-                    return new AOfRhoAndZTally(rho, z, tissue);
+                    return new AOfRhoAndZTally(rho, z, tissue, awt);
             }
         }
         // pMC overload

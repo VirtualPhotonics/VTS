@@ -114,12 +114,12 @@ namespace Vts.Test.MonteCarlo.TallyActions
         [Test]
         public void validate_Analog_FluenceOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_output.Flu_rz[0, 6] - 0.617700489), 0.0000001);
+            Assert.Less(Math.Abs(_output.Flu_rz[0, 6] - 0.617700489), 0.000000001);
         }
-        //[Test]
-        //public void validate_Analog_AOfRhoAndZ()
-        //{
-        //    Assert.Less(Math.Abs(_output.A_rz[0, 0] - 0.333348714), 0.000000001);
-        //}
+        [Test]
+        public void validate_Analog_AOfRhoAndZ()
+        {
+            Assert.Less(Math.Abs(_output.A_rz[0, 6] - 0.00617700489), 0.00000000001);
+        }
     }
 }
