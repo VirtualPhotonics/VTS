@@ -15,8 +15,6 @@ namespace Vts.MonteCarlo.TallyActions
     {
         private DoubleRange _rho;
         private DoubleRange _time;
-        //private double[,] _rOfRhoAndTime;
-        //private double[,] _rOfRhoAndTimeSecondMoment;
 
         public ROfRhoAndTimeTally(DoubleRange rho, DoubleRange time)
         {
@@ -60,15 +58,5 @@ namespace Vts.MonteCarlo.TallyActions
                 }
             }
         }
-
-        //public double[,] Mean
-        //{
-        //    get { return _rOfRhoAndTime; }
-        //}
-
-        //public double[,] SecondMoment
-        //{
-        //    get { return _rOfRhoAndTimeSecondMoment; }
-        //}
     }
 }

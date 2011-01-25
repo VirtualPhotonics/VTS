@@ -75,7 +75,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(0.0, 10, 101), // rho
                     new DoubleRange(0.0, 10, 101),  // z
                     new DoubleRange(0.0, Math.PI / 2, 1), // angle
-                    new DoubleRange(0.0, 10000, 101), // time
+                    new DoubleRange(0.0, 1, 101), // time
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-10.0, 10.0, 201), // x
                     new DoubleRange(-10.0, 10.0, 201), // y
@@ -110,7 +110,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
         [Test]
         public void validate_DAW_ROfRhoAndTime()
         {
-            Assert.Less(Math.Abs(_output.R_rt[2,0] - 0.000609121451), 0.00000000001);
+            Assert.Less(Math.Abs(_output.R_rt[2,0] - 6.09121451), 0.00000001);
         }
         [Test]
         public void validate_DAW_FluenceOfRhoAndZ()

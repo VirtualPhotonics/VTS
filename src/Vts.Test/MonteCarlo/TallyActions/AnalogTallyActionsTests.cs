@@ -71,10 +71,10 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             TallyType.FluenceOfRhoAndZ,
                             TallyType.AOfRhoAndZ,
                         },
-                    new DoubleRange(0.0, 10, 101), // rho
+                    new DoubleRange(0.0, 10, 101), // rho (mm)
                     new DoubleRange(0.0, 10, 101),  // z
                     new DoubleRange(0.0, Math.PI / 2, 1), // angle
-                    new DoubleRange(0.0, 10000, 101), // time
+                    new DoubleRange(0.0, 1, 101), // time (ns=1000ps)
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-10.0, 10.0, 201), // x
                     new DoubleRange(-10.0, 10.0, 201), // y
@@ -106,11 +106,11 @@ namespace Vts.Test.MonteCarlo.TallyActions
         {
             Assert.Less(Math.Abs(_output.R_r[2] - 0.0618935890), 0.000000001);
         }
-        //[Test]
-        //public void validate_Analog_ROfRhoAndTime()
-        //{
-        //    Assert.Less(Math.Abs(_output.R_rt[2, 1] - 0.000618935890), 0.00000000001);
-        //}
+        [Test]
+        public void validate_Analog_ROfRhoAndTime()
+        {
+            Assert.Less(Math.Abs(_output.R_rt[2, 1] - 6.18935890), 0.00000001);
+        }
         [Test]
         public void validate_Analog_FluenceOfRhoAndZ()
         {
