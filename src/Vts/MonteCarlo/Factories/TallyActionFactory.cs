@@ -78,7 +78,7 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.FluenceOfRhoAndZ:
                     return new FluenceOfRhoAndZTally(rho, z, tissue, awt);
                 case TallyType.FluenceOfRhoAndZAndTime:
-                    return new FluenceOfRhoAndZAndTimeTally(rho, z, time, tissue);
+                    return new FluenceOfRhoAndZAndTimeTally(rho, z, time, tissue, awt);
                 case TallyType.AOfRhoAndZ:
                     return new AOfRhoAndZTally(rho, z, tissue, awt);
             }

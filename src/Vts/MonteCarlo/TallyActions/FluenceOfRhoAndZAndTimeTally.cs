@@ -18,7 +18,8 @@ namespace Vts.MonteCarlo.TallyActions
         private DoubleRange _time;
         private ITissue _tissue;
 
-        public FluenceOfRhoAndZAndTimeTally(DoubleRange rho, DoubleRange z, DoubleRange time, ITissue tissue)
+        public FluenceOfRhoAndZAndTimeTally(DoubleRange rho, DoubleRange z, DoubleRange time, 
+            ITissue tissue, AbsorptionWeightingType awt)
         {
             _rho = rho;
             _z = z;
@@ -26,7 +27,27 @@ namespace Vts.MonteCarlo.TallyActions
             _tissue = tissue;
             Mean = new double[_rho.Count, _z.Count, _time.Count];
             SecondMoment = new double[_rho.Count, _z.Count, _time.Count];
+            SetAbsorbAction(awt);
         }
+        public Action<double, double> AbsorbAction { get; private set; }
+        private void SetAbsorbAction(AbsorptionWeightingType awt)
+        {
+            switch (awt)
+            {
+                case AbsorptionWeightingType.Analog:
+                    AbsorbAction = AbsorbAnalog;
+                    break;
+                //case AbsorptionWeightingType.Continuous:
+                //    AbsorbAction = AbsorbContinuous;
+                //    break;
+                case AbsorptionWeightingType.Discrete:
+                default:
+                    AbsorbAction = AbsorbDiscrete;
+                    break;
+            }
+        }
+        private double _dw;
+        private PhotonStateType _pst;
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp,
             IList<OpticalProperties> ops)
         {
@@ -39,13 +60,30 @@ namespace Vts.MonteCarlo.TallyActions
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count, _rho.Delta, _rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count, _z.Delta, _z.Start);
             var it = DetectorBinning.WhichBin(totalTime, _time.Count, _time.Delta, _time.Start);
-            double dw = previousDP.Weight * ops[_tissue.GetRegionIndex(dp.Position)].Mua /
-                (ops[_tissue.GetRegionIndex(dp.Position)].Mua + ops[_tissue.GetRegionIndex(dp.Position)].Mus);
-            Mean[ir, iz, it] += dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua;
-            SecondMoment[ir, iz, it] += (dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua) *
-                (dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua);
+            //double dw = previousDP.Weight * ops[_tissue.GetRegionIndex(dp.Position)].Mua /
+            //    (ops[_tissue.GetRegionIndex(dp.Position)].Mua + ops[_tissue.GetRegionIndex(dp.Position)].Mus);
+            _pst = dp.StateFlag;
+            _dw = previousDP.Weight;
+            AbsorbAction(ops[_tissue.GetRegionIndex(dp.Position)].Mua, ops[_tissue.GetRegionIndex(dp.Position)].Mus);
+            Mean[ir, iz, it] += _dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua;
+            SecondMoment[ir, iz, it] += (_dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua) *
+                (_dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua);
         }
-
+        public void AbsorbAnalog(double mua, double mus)
+        {
+            if (_pst != PhotonStateType.Absorbed)
+            {
+                _dw = 0.0;
+            }
+            else
+            {
+                _dw *= mua / (mua + mus);
+            }
+        }
+        public void AbsorbDiscrete(double mua, double mus)
+        {
+            _dw *= mua / (mua + mus);
+        }
         public void Normalize(long numPhotons)
         {
             for (int ir = 0; ir < _rho.Count; ir++)
