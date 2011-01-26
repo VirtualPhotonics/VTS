@@ -42,6 +42,7 @@ namespace Vts.MonteCarlo.TallyActions
             }
         }
         private double _dw;
+        private double _nextDw;
         private PhotonStateType _pst; 
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp, IList<OpticalProperties> ops)
         {
@@ -51,6 +52,7 @@ namespace Vts.MonteCarlo.TallyActions
             //    (ops[_tissue.GetRegionIndex(dp.Position)].Mua + ops[_tissue.GetRegionIndex(dp.Position)].Mus);
             _pst = dp.StateFlag;
             _dw = previousDP.Weight;
+            _nextDw = dp.Weight;
             AbsorbAction(ops[_tissue.GetRegionIndex(dp.Position)].Mua, ops[_tissue.GetRegionIndex(dp.Position)].Mus);
             Mean[ir, iz] += _dw; 
             SecondMoment[ir, iz] += _dw * _dw;
@@ -68,7 +70,14 @@ namespace Vts.MonteCarlo.TallyActions
         }
         public void AbsorbDiscrete(double mua, double mus)
         {
-            _dw *= mua / (mua + mus);
+            if (_dw == _nextDw) // pseudo collision, so no tally
+            {
+                _dw = 0.0;
+            }
+            else
+            {
+                _dw *= mua / (mua + mus);
+            }
         }
 
         public void Normalize(long numPhotons)
