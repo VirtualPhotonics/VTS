@@ -14,8 +14,6 @@ namespace Vts.MonteCarlo.TallyActions
     public class TOfAngleTally : ITerminationTally<double[]>
     {
         private DoubleRange _angle;
-        //private double[] _tOfAngle;
-        //private double[] _tOfAngleSecondMoment;
 
         public TOfAngleTally(DoubleRange angle)
         {
@@ -53,15 +51,5 @@ namespace Vts.MonteCarlo.TallyActions
                 Mean[ia] /= 2.0 * Math.PI * Math.Sin((ia + 0.5) * _angle.Delta) * _angle.Delta * numPhotons;
             }
         }
-
-        //public double[] Mean 
-        //{
-        //    get { return _tOfAngle; }
-        //}
-        //public double[] SecondMoment
-        //{
-        //    get { return _tOfAngleSecondMoment; }
-        //}
-
     }
 }

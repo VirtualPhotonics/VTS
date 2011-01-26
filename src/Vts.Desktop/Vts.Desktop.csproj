@@ -562,6 +562,9 @@
     <Compile Include="..\Vts\MonteCarlo\TallyActions\AOfRhoAndZTally.cs">
       <Link>MonteCarlo\TallyActions\AOfRhoAndZTally.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ATotalTally.cs">
+      <Link>MonteCarlo\TallyActions\ATotalTally.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs">
       <Link>MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs</Link>
     </Compile>

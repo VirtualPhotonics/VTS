@@ -68,6 +68,7 @@ namespace Vts.MonteCarlo
         FluenceOfRhoAndZ,
         FluenceOfRhoAndZAndTime,
         AOfRhoAndZ,
+        ATotal,
         MomentumTransferOfRhoAndZ,
         pMuaMusInROfRhoAndTime, // maybe these should be in separate enum?
         pMuaMusInROfRho,

@@ -194,6 +194,9 @@ namespace Vts.MonteCarlo.Detectors
                     case TallyType.AOfRhoAndZ:
                         output.A_rz = ((IHistoryTally<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.AOfRhoAndZ]]).Mean;
                         break;
+                    case TallyType.ATotal:
+                        output.Atot = ((IHistoryTally<double>)HistoryITallyList[_tallyTypeIndex[TallyType.ATotal]]).Mean;
+                        break;
                     case TallyType.TDiffuse:
                         output.Td = ((ITerminationTally<double>)TerminationITallyList[_tallyTypeIndex[TallyType.TDiffuse]]).Mean;
                         break;

@@ -45,11 +45,11 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
                             AbsorptionWeightingType.Discrete),
                         new LayerRegion(
-                            new DoubleRange(0.0, 100.0, 2),
+                            new DoubleRange(0.0, 20.0, 2),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                             AbsorptionWeightingType.Discrete),
                         new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity, 2),
+                            new DoubleRange(20.0, double.PositiveInfinity, 2),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
                             AbsorptionWeightingType.Discrete)
                     }
@@ -70,10 +70,11 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             TallyType.TOfRhoAndAngle,
                             TallyType.FluenceOfRhoAndZ,
                             TallyType.AOfRhoAndZ,
+                            TallyType.ATotal
                         },
                     new DoubleRange(0.0, 10, 101), // rho (mm)
                     new DoubleRange(0.0, 10, 101),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 1), // angle
+                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
                     new DoubleRange(0.0, 1, 101), // time (ns=1000ps)
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-10.0, 10.0, 201), // x
@@ -88,23 +89,18 @@ namespace Vts.Test.MonteCarlo.TallyActions
         [Test]
         public void validate_Analog_RDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Rd - 0.680555555), 0.000000001);
+            Assert.Less(Math.Abs(_output.Rd - 0.670833333), 0.000000001);
         }
 
         [Test]
         public void validate_Analog_RTotal()
         {
-            Assert.Less(Math.Abs(_output.Rtot - 0.708333333), 0.000000001);
-        }
-        [Test]
-        public void validate_Analog_TDiffuse()
-        {
-            Assert.Less(Math.Abs(_output.Td - 0.0), 1e-29);
+            Assert.Less(Math.Abs(_output.Rtot - 0.698611111), 0.000000001);
         }
         [Test]
         public void validate_Analog_ROfRho()
         {
-            Assert.Less(Math.Abs(_output.R_r[2] - 0.0618935890), 0.000000001);
+            Assert.Less(Math.Abs(_output.R_r[0] - 0.928403835), 0.000000001);
         }
         [Test]
         public void validate_Analog_ROfRhoAndTime()
@@ -112,14 +108,34 @@ namespace Vts.Test.MonteCarlo.TallyActions
             Assert.Less(Math.Abs(_output.R_rt[2, 1] - 6.18935890), 0.00000001);
         }
         [Test]
-        public void validate_Analog_FluenceOfRhoAndZ()
+        public void validate_Analog_ATotal()
         {
-            Assert.Less(Math.Abs(_output.Flu_rz[0, 6] - 0.617700489), 0.000000001);
+            Assert.Less(Math.Abs(_output.Atot - 0.000562763362), 0.000000000001);
         }
         [Test]
         public void validate_Analog_AOfRhoAndZ()
         {
             Assert.Less(Math.Abs(_output.A_rz[0, 6] - 0.00617700489), 0.00000000001);
+        }
+        [Test]
+        public void validate_Analog_TDiffuse()
+        {
+            Assert.Less(Math.Abs(_output.Td - 0.0194444444), 0.0000000001);
+        }
+        [Test]
+        public void validate_Analog_TOfRho()
+        {
+            Assert.Less(Math.Abs(_output.T_r[46] - 0.00332761231), 0.00000000001);
+        }
+        [Test]
+        public void validate_Analog_TOfRhoAndAngle()
+        {
+            Assert.Less(Math.Abs(_output.T_ra[46, 0] - 0.000476812876), 0.000000000001);
+        }
+        [Test]
+        public void validate_Analog_FluenceOfRhoAndZ()
+        {
+            Assert.Less(Math.Abs(_output.Flu_rz[0, 6] - 0.617700489), 0.000000001);
         }
     }
 }

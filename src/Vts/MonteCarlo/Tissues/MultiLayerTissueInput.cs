@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -22,6 +23,7 @@ namespace Vts.MonteCarlo.Tissues
         public MultiLayerTissueInput(IList<LayerRegion> regions)
         {
             _regions = regions.Select(region => (ITissueRegion)region).ToList();
+            ValidateInput(regions);
         }
 
         /// <summary>
@@ -45,5 +47,21 @@ namespace Vts.MonteCarlo.Tissues
                 }) {}
 
         public IList<ITissueRegion> Regions { get { return _regions; } set { _regions = value; } }
+
+        /// <summary>
+        /// This verifies that the layers do not overlap.  It assumes that the layers are
+        /// adjacent and defined in order.
+        /// </summary>
+        /// <param name="layers"></param>
+        private void ValidateInput(IList<LayerRegion> layers)
+        {
+            for (int i = 0; i < layers.Count() - 1; i++)
+            {
+                if (layers[i].ZRange.Stop != layers[i + 1].ZRange.Start)
+                {
+                    throw new ArgumentException("MultiLayerTissueInput: layers start/stop definition in error.");
+                }
+            }
+        }
     }
 }

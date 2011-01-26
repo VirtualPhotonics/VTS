@@ -18,6 +18,8 @@ namespace Vts.MonteCarlo.Factories
                     return true;
                 case TallyType.AOfRhoAndZ:
                     return true;
+                case TallyType.ATotal:
+                    return true;
                 default:
                     return false;
             }
@@ -81,6 +83,8 @@ namespace Vts.MonteCarlo.Factories
                     return new FluenceOfRhoAndZAndTimeTally(rho, z, time, tissue, awt);
                 case TallyType.AOfRhoAndZ:
                     return new AOfRhoAndZTally(rho, z, tissue, awt);
+                case TallyType.ATotal:
+                    return new ATotalTally(tissue, awt);
             }
         }
         // pMC overload

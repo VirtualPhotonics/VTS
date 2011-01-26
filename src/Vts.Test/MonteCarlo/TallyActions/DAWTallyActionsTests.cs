@@ -46,11 +46,11 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
                             AbsorptionWeightingType.Discrete),
                         new LayerRegion(
-                            new DoubleRange(0.0, 100.0, 2),
+                            new DoubleRange(0.0, 20.0, 2),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                             AbsorptionWeightingType.Discrete),
                         new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity, 2),
+                            new DoubleRange(20.0, double.PositiveInfinity, 2),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
                             AbsorptionWeightingType.Discrete)
                     }
@@ -71,10 +71,11 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             TallyType.TOfRhoAndAngle,
                             TallyType.FluenceOfRhoAndZ,
                             TallyType.AOfRhoAndZ,
+                            TallyType.ATotal
                         },
                     new DoubleRange(0.0, 10, 101), // rho
                     new DoubleRange(0.0, 10, 101),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 1), // angle
+                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
                     new DoubleRange(0.0, 1, 101), // time
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-10.0, 10.0, 201), // x
@@ -89,38 +90,52 @@ namespace Vts.Test.MonteCarlo.TallyActions
         [Test]
         public void validate_DAW_RDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Rd - 0.565765638), 0.000000001);
+            Assert.Less(Math.Abs(_output.Rd - 0.565017749), 0.000000001);
         }
-
         [Test]
         public void validate_DAW_RTotal()
         {
-            Assert.Less(Math.Abs(_output.Rtot - 0.593543415), 0.000000001);
-        }
-        [Test]
-        public void validate_DAW_TDiffuse()
-        {
-            Assert.Less(Math.Abs(_output.Td - 7.0994e-27), 1e-29);
+            Assert.Less(Math.Abs(_output.Rtot - 0.592795527), 0.000000001);
         }
         [Test]
         public void validate_DAW_ROfRho()
         {
-            Assert.Less(Math.Abs(_output.R_r[2] - 0.0609121451), 0.000000001);
+            Assert.Less(Math.Abs(_output.R_r[0] - 0.615238307), 0.000000001);
         }
         [Test]
         public void validate_DAW_ROfRhoAndTime()
         {
-            Assert.Less(Math.Abs(_output.R_rt[2,0] - 6.09121451), 0.00000001);
+            Assert.Less(Math.Abs(_output.R_rt[0, 0] - 61.5238307), 0.0000001);
         }
         [Test]
-        public void validate_DAW_FluenceOfRhoAndZ()
+        public void validate_DAW_ATotal()
         {
-            Assert.Less(Math.Abs(_output.Flu_rz[0, 0] - 33.3348714), 0.0000001);
+            Assert.Less(Math.Abs(_output.Atot - 0.384363881), 0.000000001);
         }
         [Test]
         public void validate_DAW_AOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_output.A_rz[0, 0] - 0.333348714), 0.000000001);
+            Assert.Less(Math.Abs(_output.A_rz[0, 0] - 0.39494647), 0.00000001);
+        }
+        [Test]
+        public void validate_DAW_TDiffuse()
+        {
+            Assert.Less(Math.Abs(_output.Td - 0.0228405921), 0.000000001);
+        }
+        [Test]
+        public void validate_DAW_TOfRho()
+        {
+            Assert.Less(Math.Abs(_output.T_r[54] - 0.00169219067), 0.00000000001);
+        }
+        [Test]
+        public void validate_DAW_TOfRhoAndAngle()
+        {
+            Assert.Less(Math.Abs(_output.T_ra[54,0] - 0.000242473649), 0.000000000001);
+        }
+        [Test]
+        public void validate_DAW_FluenceOfRhoAndZ()
+        {
+            Assert.Less(Math.Abs(_output.Flu_rz[0, 0] - 39.4946472), 0.0000001);
         }
     }
 }

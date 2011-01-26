@@ -66,7 +66,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                             new OpticalProperties(0.0, 1.0, 0.8, 1.4),
                             AbsorptionWeightingType.Discrete),
                         new LayerRegion(
-                            new DoubleRange(10.0, double.PositiveInfinity, 2),
+                            new DoubleRange(100.0, double.PositiveInfinity, 2),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
                             AbsorptionWeightingType.Discrete)
                     }
