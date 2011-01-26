@@ -62,5 +62,16 @@ namespace Vts.Test.Common
             var result = p1 - p2;
             Assert.IsTrue(result.Equals(new Position(-3, -3, -3)));
         }
+        /// <summary>
+        /// Tests whether GetDistance returns correct value
+        /// </summary>
+        [Test]
+        public void validate_GetDistance_returns_correct_value()
+        {
+            var p1 = new Position(0, 0, 0);
+            var p2 = new Position(3, 4, 0);
+            var result = Position.GetDistance(p1, p2);
+            Assert.IsTrue(result == 5.0);
+        }
     }
 }
