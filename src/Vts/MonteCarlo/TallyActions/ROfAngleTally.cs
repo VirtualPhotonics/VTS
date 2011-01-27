@@ -14,8 +14,6 @@ namespace Vts.MonteCarlo.TallyActions
     public class ROfAngleTally : ITerminationTally<double[]>
     {
         private DoubleRange _angle;
-        //private double[] _rOfAngle;
-        //private double[] _rOfAngleSecondMoment;
 
         public ROfAngleTally(DoubleRange angle)
         {
@@ -37,7 +35,6 @@ namespace Vts.MonteCarlo.TallyActions
                     ops[i].N)
             ).Sum();
 
-            //var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), _na, _da, 0);
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), _angle.Count, _angle.Delta, _angle.Start);
 
             Mean[ia] += dp.Weight;
@@ -48,7 +45,6 @@ namespace Vts.MonteCarlo.TallyActions
         {
             for (int ia = 0; ia < _angle.Count; ia++)
             {
-                //_rOfAngle[ia] /= 2.0 * Math.PI * Math.Sin((ia + 0.5) * _da) * _da * numPhotons;
                 Mean[ia] /= 2.0 * Math.PI * Math.Sin((ia + 0.5) * _angle.Delta) * _angle.Delta * numPhotons;
             }
         }
@@ -56,13 +52,5 @@ namespace Vts.MonteCarlo.TallyActions
         public double[] Mean { get; set; }
         public double[] SecondMoment { get; set; }
 
-        //public double[] Mean 
-        //{
-        //    get { return _rOfAngle; }
-        //}
-        //public double[] SecondMoment
-        //{
-        //    get { return _rOfAngleSecondMoment; }
-        //}
     }
 }

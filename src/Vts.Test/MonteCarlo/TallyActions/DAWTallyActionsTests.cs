@@ -104,6 +104,16 @@ namespace Vts.Test.MonteCarlo.TallyActions
             Assert.Less(Math.Abs(_output.R_r[0] - 0.615238307), 0.000000001);
         }
         [Test]
+        public void validate_DAW_ROfAngle()
+        {
+            Assert.Less(Math.Abs(_output.R_a[1] - 0.0809612757), 0.0000000001);
+        }
+        [Test]
+        public void validate_DAW_ROfRhoAndAngle()
+        {
+            Assert.Less(Math.Abs(_output.R_ra[0, 1] - 0.0881573691), 0.0000000001);
+        }
+        [Test]
         public void validate_DAW_ROfRhoAndTime()
         {
             Assert.Less(Math.Abs(_output.R_rt[0, 0] - 61.5238307), 0.0000001);
@@ -132,6 +142,11 @@ namespace Vts.Test.MonteCarlo.TallyActions
         public void validate_DAW_TOfRho()
         {
             Assert.Less(Math.Abs(_output.T_r[54] - 0.00169219067), 0.00000000001);
+        }
+        [Test]
+        public void validate_DAW_TOfAngle()
+        {
+            Assert.Less(Math.Abs(_output.T_a[0] - 0.00327282369), 0.00000000001);
         }
         [Test]
         public void validate_DAW_TOfRhoAndAngle()

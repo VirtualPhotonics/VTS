@@ -92,7 +92,6 @@ namespace Vts.Test.MonteCarlo.TallyActions
         {
             Assert.Less(Math.Abs(_output.Rd - 0.670833333), 0.000000001);
         }
-
         [Test]
         public void validate_Analog_RTotal()
         {
@@ -102,6 +101,16 @@ namespace Vts.Test.MonteCarlo.TallyActions
         public void validate_Analog_ROfRho()
         {
             Assert.Less(Math.Abs(_output.R_r[0] - 0.928403835), 0.000000001);
+        }
+        [Test]
+        public void validate_Analog_ROfAngle()
+        {
+            Assert.Less(Math.Abs(_output.R_a[1] - 0.0961235688), 0.0000000001);
+        }
+        [Test]
+        public void validate_Analog_ROfRhoAndAngle()
+        {
+            Assert.Less(Math.Abs(_output.R_ra[0, 1] - 0.133030792), 0.000000001);
         }
         [Test]
         public void validate_Analog_ROfRhoAndTime()
@@ -133,6 +142,11 @@ namespace Vts.Test.MonteCarlo.TallyActions
         public void validate_Analog_TOfRho()
         {
             Assert.Less(Math.Abs(_output.T_r[46] - 0.00332761231), 0.00000000001);
+        }
+        [Test]
+        public void validate_Analog_TOfAngle()
+        {
+            Assert.Less(Math.Abs(_output.T_a[0] - 0.00278619040), 0.00000000001);
         }
         [Test]
         public void validate_Analog_TOfRhoAndAngle()
