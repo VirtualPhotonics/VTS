@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
@@ -106,6 +107,12 @@ namespace Vts.Test.MonteCarlo.TallyActions
         public void validate_Analog_ROfRhoAndTime()
         {
             Assert.Less(Math.Abs(_output.R_rt[2, 1] - 6.18935890), 0.00000001);
+        }
+        [Test]
+        public void validate_Analog_ROfRhoAndOmega()
+        {
+            Assert.Less(Complex.Abs(
+                _output.R_rw[0, 0] - (0.9284030 - Complex.ImaginaryOne * 0.0007940711)), 0.000001);
         }
         [Test]
         public void validate_Analog_ATotal()

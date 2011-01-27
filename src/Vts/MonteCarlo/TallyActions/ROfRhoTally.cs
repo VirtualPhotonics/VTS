@@ -14,8 +14,6 @@ namespace Vts.MonteCarlo.TallyActions
     public class ROfRhoTally : ITerminationTally<double[]>
     {
         private DoubleRange _rho;
-        //private double[] _rOfRho;
-        //private double[] _rOfRhoSecondMoment;
 
         public ROfRhoTally(DoubleRange rho)
         {
@@ -53,13 +51,5 @@ namespace Vts.MonteCarlo.TallyActions
             }
         }
 
-        //public double[] Mean 
-        //{
-        //    get { return _rOfRho; }
-        //}
-        //public double[] SecondMoment
-        //{
-        //    get { return _rOfRhoSecondMoment; }
-        //}
     }
 }

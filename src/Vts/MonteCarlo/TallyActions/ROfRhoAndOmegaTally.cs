@@ -16,8 +16,6 @@ namespace Vts.MonteCarlo.TallyActions
     {
         private DoubleRange _rho;
         private DoubleRange _omega;
-        //private Complex[,] _rOfRhoAndOmega;
-        //private Complex[,] _rOfRhoAndOmegaSecondMoment;
 
         public ROfRhoAndOmegaTally(DoubleRange rho, DoubleRange omega)
         {
@@ -29,15 +27,6 @@ namespace Vts.MonteCarlo.TallyActions
 
         public Complex[,] Mean { get; set; }
         public Complex[,] SecondMoment { get; set; }
-
-        //public Complex[,] Mean
-        //{
-        //    get { return _rOfRhoAndOmega; }
-        //}
-        //public Complex[,] SecondMoment
-        //{
-        //    get { return _rOfRhoAndOmegaSecondMoment; }  
-        //}
 
         public bool ContainsPoint(PhotonDataPoint dp)
         {
@@ -56,7 +45,7 @@ namespace Vts.MonteCarlo.TallyActions
             for (int iw = 0; iw < _omega.Count; ++iw)
             {
                 double freq = (iw + 1) * _omega.Delta;
-                /* convert to Hz-sec from GHz-ps 1e9*1e-12=1e-3 */
+                /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
                 Mean[ir, iw] += dp.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime * 1e-3) +
                     Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime * 1e-3) );
                 // CKH TODO CHECK: is second moment of complex tally squared or square of real and imag separately?

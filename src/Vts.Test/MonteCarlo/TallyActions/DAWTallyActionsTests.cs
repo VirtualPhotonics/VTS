@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
@@ -106,6 +107,11 @@ namespace Vts.Test.MonteCarlo.TallyActions
         public void validate_DAW_ROfRhoAndTime()
         {
             Assert.Less(Math.Abs(_output.R_rt[0, 0] - 61.5238307), 0.0000001);
+        }
+        public void validate_Analog_ROfRhoAndOmega()
+        {
+            Assert.Less(Complex.Abs(
+                _output.R_rw[0, 0] - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
         }
         [Test]
         public void validate_DAW_ATotal()
