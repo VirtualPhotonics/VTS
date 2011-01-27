@@ -79,8 +79,8 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(0.0, Math.PI / 2, 2), // angle
                     new DoubleRange(0.0, 1, 101), // time
                     new DoubleRange(0.0, 1000, 21), // omega
-                    new DoubleRange(-10.0, 10.0, 201), // x
-                    new DoubleRange(-10.0, 10.0, 201), // y
+                    new DoubleRange(-200.0, 200.0, 401), // x
+                    new DoubleRange(-200.0, 200.0, 401), // y
                     AbsorptionWeightingType.Discrete
                 ) );
             _output = new MonteCarloSimulation(input).Run();
@@ -157,6 +157,11 @@ namespace Vts.Test.MonteCarlo.TallyActions
         public void validate_DAW_FluenceOfRhoAndZ()
         {
             Assert.Less(Math.Abs(_output.Flu_rz[0, 0] - 39.4946472), 0.0000001);
+        }
+        [Test]
+        public void validate_Analog_ROfXAndY()
+        {
+            Assert.Less(Math.Abs(_output.R_xy[198, 201] - 0.00825301), 0.00000001);
         }
     }
 }
