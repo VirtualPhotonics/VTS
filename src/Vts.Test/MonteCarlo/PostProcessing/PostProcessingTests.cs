@@ -88,7 +88,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     },
                     new DoubleRange(0.0, 40.0, 201), // rho: nr=200 dr=0.2mm used for workshop
                     new DoubleRange(0.0, 10.0, 11),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 1), // angle
+                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
                     new DoubleRange(0.0, 4.0, 801), // time: nt=800 dt=0.005ns used for workshop
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-100.0, 100.0, 81), // x
@@ -104,9 +104,9 @@ namespace Vts.Test.MonteCarlo.PostProcessing
 
         private void ValidateROfRhoAndTime(Output output1, Output output2)
         {
-            for (int i = 0; i < output1.input.DetectorInput.Rho.Count; i++)
+            for (int i = 0; i < output1.input.DetectorInput.Rho.Count - 1; i++)
             {
-                for (int j = 0; j < output1.input.DetectorInput.Time.Count; j++)
+                for (int j = 0; j < output1.input.DetectorInput.Time.Count - 1; j++)
                 {
                     // round off error about 1e-18
                     if (output1.R_rt[i, j] > 0.0)

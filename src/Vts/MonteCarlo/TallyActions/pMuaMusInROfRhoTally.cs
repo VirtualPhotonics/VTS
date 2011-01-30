@@ -37,12 +37,12 @@ namespace Vts.MonteCarlo.TallyActions
             IList<int> perturbedRegionIndices)
         {
             _rho = rho;
-            Mean = new double[_rho.Count];
-            SecondMoment = new double[_rho.Count];
+            Mean = new double[_rho.Count - 1];
+            SecondMoment = new double[_rho.Count - 1];
             _awt = awt;
             _referenceOps = referenceOps;
             _perturbedRegionsIndices = perturbedRegionIndices;
-            if (_rho.Count == 1)
+            if (_rho.Count - 1 == 1)
             {
                 _rho.Start = _rho.Start - 0.1;
                 _rhoDelta = 0.2;
@@ -52,8 +52,8 @@ namespace Vts.MonteCarlo.TallyActions
             else // put rhoCenters at rhos specified by user
             {
                 _rhoDelta = _rho.Delta;
-                _rhoCenters = new double[_rho.Count];
-                for (int i = 0; i < _rho.Count; i++)
+                _rhoCenters = new double[_rho.Count - 1];
+                for (int i = 0; i < _rho.Count - 1; i++)
                 {
                     _rhoCenters[i] = _rho.Start + i * _rhoDelta;
                 }
@@ -115,7 +115,7 @@ namespace Vts.MonteCarlo.TallyActions
         }
         public void Normalize(long numPhotons)
         {
-            for (int ir = 0; ir < _rho.Count; ir++)
+            for (int ir = 0; ir < _rho.Count - 1; ir++)
             {
                 Mean[ir] /=
                     2 * Math.PI * _rhoCenters[ir] * _rhoDelta * numPhotons;

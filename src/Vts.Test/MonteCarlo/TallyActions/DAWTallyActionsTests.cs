@@ -106,7 +106,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
         [Test]
         public void validate_DAW_ROfAngle()
         {
-            Assert.Less(Math.Abs(_output.R_a[1] - 0.0809612757), 0.0000000001);
+            Assert.Less(Math.Abs(_output.R_a[0] - 0.0809612757), 0.0000000001);
         }
         [Test]
         public void validate_DAW_ROfRhoAndAngle()

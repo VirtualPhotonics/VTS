@@ -20,15 +20,15 @@ namespace Vts.MonteCarlo.TallyActions
             _rho = rho;
             _z = z;
             _tissue = tissue;
-            Mean = new double[_rho.Count, _z.Count];
-            SecondMoment = new double[_rho.Count, _z.Count];
+            Mean = new double[_rho.Count - 1, _z.Count - 1];
+            SecondMoment = new double[_rho.Count - 1, _z.Count - 1];
         }
 
         private double _momentumTransfer;
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp, IList<OpticalProperties> ops)
         {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count, _rho.Delta, _rho.Start);
-            var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count, _z.Delta, _z.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
+            var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);
             // calculate momentum transfer
             _momentumTransfer = 1;
             Mean[ir, iz] += _momentumTransfer;
@@ -37,9 +37,9 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Normalize(long numPhotons)
         {
-            for (int ir = 0; ir < _rho.Count; ir++)
+            for (int ir = 0; ir < _rho.Count - 1; ir++)
             {
-                for (int iz = 0; iz < _z.Count; iz++)
+                for (int iz = 0; iz < _z.Count - 1; iz++)
                 {
                     // need to check that this normalization makes sense for momentum transfer
                     Mean[ir, iz] /=

@@ -16,6 +16,8 @@ namespace Vts.MonteCarlo.Factories
             {
                 case TallyType.FluenceOfRhoAndZ:
                     return true;
+                case TallyType.FluenceOfRhoAndZAndTime:
+                    return true;
                 case TallyType.AOfRhoAndZ:
                     return true;
                 case TallyType.ATotal:

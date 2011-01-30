@@ -42,49 +42,49 @@ namespace Vts.MonteCarlo.TallyActions
         {
             _rho = rho;
             _time = time;
-            Mean = new double[_rho.Count, _time.Count];
-            SecondMoment = new double[_rho.Count, _time.Count];
+            Mean = new double[_rho.Count - 1, _time.Count - 1];
+            SecondMoment = new double[_rho.Count - 1, _time.Count - 1];
             _awt = awt;
             _referenceOps = referenceOps;
             _perturbedRegionsIndices = perturbedRegionIndices;
-            if (_rho.Count == 1)
+            if (_rho.Count - 1 == 1)
             {
                 _rho.Start = _rho.Start - 0.1;
                 _rhoDelta = 0.2;
                 _rho.Stop = _rho.Start + _rhoDelta;
                 _rhoCenters = new double[1] { _rho.Start };
                 _timeDelta = _time.Delta;
-                _timeCenters = new double[_time.Count];
-                for (int i = 0; i < _time.Count; i++)
+                _timeCenters = new double[_time.Count - 1];
+                for (int i = 0; i < _time.Count - 1; i++)
                 {
                     _timeCenters[i] = _time.Start + i * _timeDelta;
                 }
             }
             else
             {
-                _rhoCenters = new double[_rho.Count];
-                for (int i = 0; i < _rho.Count; i++)
+                _rhoCenters = new double[_rho.Count - 1];
+                for (int i = 0; i < _rho.Count - 1; i++)
                 {
                     _rhoCenters[i] = _rho.Start + i * _rho.Delta;
                 }
             }
-            if (_time.Count == 1)
+            if (_time.Count - 1 == 1)
             {
                 _time.Start = _time.Start - 0.0025;
                 _timeDelta = 0.005;
                 _time.Stop = _time.Start + _timeDelta;
                 _timeCenters = new double[1] { _time.Start };
                 _rhoDelta = _rho.Delta;
-                _rhoCenters = new double[_rho.Count];
-                for (int i = 0; i < _rho.Count; i++)
+                _rhoCenters = new double[_rho.Count - 1];
+                for (int i = 0; i < _rho.Count - 1; i++)
                 {
                     _rhoCenters[i] = _rho.Start + i * _rhoDelta;
                 }
             }
             else
             {
-                _timeCenters = new double[_time.Count];
-                for (int i = 0; i < _time.Count; i++)
+                _timeCenters = new double[_time.Count - 1];
+                for (int i = 0; i < _time.Count - 1; i++)
                 {
                     _timeCenters[i] = _time.Start + i * _timeDelta;
                 }
@@ -112,15 +112,15 @@ namespace Vts.MonteCarlo.TallyActions
             {
                 totalPathLengthInPerturbedRegions += dp.SubRegionInfoList[i].PathLength;
             }
-            var it = DetectorBinning.WhichBin(totalTime, _time.Count, _time.Delta, _time.Start);
+            var it = DetectorBinning.WhichBin(totalTime, _time.Count - 1, _time.Delta, _time.Start);
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y),
-                _rho.Count, _rho.Delta, _rho.Start);
-            if (_rho.Count == 1)
+                _rho.Count - 1, _rho.Delta, _rho.Start);
+            if (_rho.Count - 1 == 1)
             {
                 ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y),
                     _rhoDelta, _rhoCenters);
             }
-            if (_time.Count == 1)
+            if (_time.Count - 1 == 1)
             {
                 it = DetectorBinning.WhichBin(totalTime, _timeDelta, _timeCenters);
             }
@@ -157,9 +157,9 @@ namespace Vts.MonteCarlo.TallyActions
         }
         public void Normalize(long numPhotons)
         {
-            for (int ir = 0; ir < _rho.Count; ir++)
+            for (int ir = 0; ir < _rho.Count - 1; ir++)
             {
-                for (int it = 0; it < _time.Count; it++)
+                for (int it = 0; it < _time.Count - 1; it++)
                 {
                     Mean[ir, it] /=
                         2 * Math.PI * _rhoCenters[ir] * _rhoDelta  * _timeDelta * numPhotons;

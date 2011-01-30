@@ -18,8 +18,8 @@ namespace Vts.MonteCarlo.TallyActions
         public ROfRhoTally(DoubleRange rho)
         {
             _rho = rho;
-            Mean = new double[_rho.Count];
-            SecondMoment = new double[_rho.Count];
+            Mean = new double[_rho.Count - 1];
+            SecondMoment = new double[_rho.Count - 1];
         }
 
         public double[] Mean { get; set; }
@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo.TallyActions
                     ops[i].N)
             ).Sum();
 
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count, _rho.Delta, _rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
 
             Mean[ir] += dp.Weight;
             SecondMoment[ir] += dp.Weight * dp.Weight;
@@ -45,7 +45,7 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Normalize(long numPhotons)
         {
-            for (int ir = 0; ir < _rho.Count; ir++)
+            for (int ir = 0; ir < _rho.Count - 1; ir++)
             {
                 Mean[ir] /= 2.0 * Math.PI * (ir + 0.5) * _rho.Delta * _rho.Delta * numPhotons;
             }

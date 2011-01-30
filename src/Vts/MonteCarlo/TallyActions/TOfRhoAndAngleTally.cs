@@ -20,8 +20,8 @@ namespace Vts.MonteCarlo.TallyActions
         {
             _rho = rho;
             _angle = angle;
-            Mean = new double[_rho.Count, _angle.Count];
-            SecondMoment = new double[_rho.Count, _angle.Count];
+            Mean = new double[_rho.Count - 1, _angle.Count - 1];
+            SecondMoment = new double[_rho.Count - 1, _angle.Count - 1];
         }
 
         public double[,] Mean { get; set; }
@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo.TallyActions
             ).Sum();
 
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), _angle.Count, _angle.Delta, 0);
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count, _rho.Delta, _rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
 
             Mean[ir, ia] += dp.Weight;
             SecondMoment[ir, ia] += dp.Weight * dp.Weight;
@@ -48,9 +48,9 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Normalize(long numPhotons)
         {
-            for (int ir = 0; ir < _rho.Count; ir++)
+            for (int ir = 0; ir < _rho.Count - 1; ir++)
             {
-                for (int ia = 0; ia < _angle.Count; ia++)
+                for (int ia = 0; ia < _angle.Count - 1; ia++)
                 {
                     Mean[ir, ia] /=
                         2.0 * Math.PI *_rho.Delta * _rho.Delta * 2.0* Math.PI * _angle.Delta * 

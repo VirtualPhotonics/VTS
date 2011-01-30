@@ -20,8 +20,8 @@ namespace Vts.MonteCarlo.TallyActions
         {
             _rho = rho;
             _time = time;
-            Mean = new double[_rho.Count, _time.Count];
-            SecondMoment = new double[_rho.Count, _time.Count];
+            Mean = new double[_rho.Count - 1, _time.Count - 1];
+            SecondMoment = new double[_rho.Count - 1, _time.Count - 1];
         }
 
         public double[,] Mean { get; set; }
@@ -40,8 +40,8 @@ namespace Vts.MonteCarlo.TallyActions
                     ops[i].N)
             ).Sum();
 
-            var it = DetectorBinning.WhichBin(totalTime, _time.Count, _time.Delta, _time.Start);
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count, _rho.Delta, _rho.Start);
+            var it = DetectorBinning.WhichBin(totalTime, _time.Count - 1, _time.Delta, _time.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
 
             Mean[ir, it] += dp.Weight;
             SecondMoment[ir, it] += dp.Weight * dp.Weight;
@@ -49,9 +49,9 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Normalize(long numPhotons)
         {
-            for (int ir = 0; ir < _rho.Count; ir++)
+            for (int ir = 0; ir < _rho.Count - 1; ir++)
             {
-                for (int it = 0; it < _time.Count; it++)
+                for (int it = 0; it < _time.Count - 1; it++)
                 {
                     Mean[ir, it] /=
                         2.0 * Math.PI * (ir + 0.5) * _rho.Delta * _rho.Delta * _time.Delta * numPhotons;

@@ -30,6 +30,7 @@ namespace Vts.MonteCarlo
                     dp.Weight,
                     dp.StateFlag,
                     null)); // don't carry SubRegionCollisionInfo data in History
+                    //Enumerable.Range(0, _tissue.Regions.Count).Select(i => new SubRegionCollisionInfo(0.0, 0)).ToArray());
         }
     }
 

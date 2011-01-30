@@ -18,8 +18,8 @@ namespace Vts.MonteCarlo.TallyActions
         {
             _x = x;
             _y = y;
-            Mean = new double[_x.Count, _y.Count];
-            SecondMoment = new double[_x.Count, _y.Count];
+            Mean = new double[_x.Count - 1, _y.Count - 1];
+            SecondMoment = new double[_x.Count - 1, _y.Count - 1];
         }
 
         public double[,] Mean { get; set; }
@@ -31,17 +31,17 @@ namespace Vts.MonteCarlo.TallyActions
         }
         public void Tally(PhotonDataPoint dp, IList<OpticalProperties> ops)
         {
-            int ix = DetectorBinning.WhichBin(dp.Position.X, _x.Count, _x.Delta, _x.Start);
-            int iy = DetectorBinning.WhichBin(dp.Position.Y, _y.Count, _y.Delta, _y.Start);
+            int ix = DetectorBinning.WhichBin(dp.Position.X, _x.Count - 1, _x.Delta, _x.Start);
+            int iy = DetectorBinning.WhichBin(dp.Position.Y, _y.Count - 1, _y.Delta, _y.Start);
             Mean[ix, iy] += dp.Weight;
             SecondMoment[ix, iy] += dp.Weight * dp.Weight;
         }
 
         public void Normalize(long numPhotons)
         {
-            for (int ix = 0; ix < _x.Count; ix++)
+            for (int ix = 0; ix < _x.Count - 1; ix++)
             {
-                for (int iy = 0; iy < _y.Count; iy++)
+                for (int iy = 0; iy < _y.Count - 1; iy++)
                 {
                     Mean[ix, iy] /= _x.Delta * _y.Delta * numPhotons;
                 }
