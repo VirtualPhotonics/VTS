@@ -47,6 +47,7 @@ namespace Vts.MonteCarlo.TallyActions
             _awt = awt;
             _referenceOps = referenceOps;
             _perturbedRegionsIndices = perturbedRegionIndices;
+            SetAbsorbAction(awt);
             if (_rho.Count - 1 == 1)
             {
                 _rho.Start = _rho.Start - 0.1;
@@ -94,23 +95,45 @@ namespace Vts.MonteCarlo.TallyActions
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
 
+        // should following code be put in common class?
+        public Action AbsorbAction { get; private set; }
+        private void SetAbsorbAction(AbsorptionWeightingType awt)
+        {
+            switch (awt)
+            {
+                // note: pMC is not applied to analog processing,
+                // only DAW and CAW
+                case AbsorptionWeightingType.Continuous:
+                    AbsorbAction = AbsorbContinuous;
+                    break;
+                case AbsorptionWeightingType.Discrete:
+                default:
+                    AbsorbAction = AbsorbDiscrete;
+                    break;
+            }
+        }
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return (dp.StateFlag == PhotonStateType.ExitedOutTop);
         }
-
+        double _weightFactor = 1.0;
+        PhotonDataPoint _dp;
+        IList<OpticalProperties> _perturbedOps;
+        double _totalPathLengthInPerturbedRegions = 0.0;
         public void Tally(PhotonDataPoint dp, IList<OpticalProperties> perturbedOps)
         {
-            double weightFactor = 1.0;
+            //double weightFactor = 1.0;
+            _dp = dp;
+            _perturbedOps = perturbedOps;
             var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
                 DetectorBinning.GetTimeDelay(
                 sub.PathLength,
                 _referenceOps[i].N)  // time is based on reference optical properties
                 ).Sum();
-            double totalPathLengthInPerturbedRegions = 0.0;
+            //double totalPathLengthInPerturbedRegions = 0.0;
             foreach (var i in _perturbedRegionsIndices)
             {
-                totalPathLengthInPerturbedRegions += dp.SubRegionInfoList[i].PathLength;
+                _totalPathLengthInPerturbedRegions += dp.SubRegionInfoList[i].PathLength;
             }
             var it = DetectorBinning.WhichBin(totalTime, _time.Count - 1, _time.Delta, _time.Start);
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y),
@@ -126,34 +149,38 @@ namespace Vts.MonteCarlo.TallyActions
             }
             if ((ir != -1) && (it != -1))
             {
-                if (_awt == AbsorptionWeightingType.Discrete) // set Action here
-                {
-                    foreach (var i in _perturbedRegionsIndices)
-                    {
-                        weightFactor *=
-                            Math.Pow(
-                                (perturbedOps[i].Mus / _referenceOps[i].Mus),
-                                dp.SubRegionInfoList[i].NumberOfCollisions) *
-                            Math.Exp(-((perturbedOps[i].Mus + perturbedOps[i].Mua) - 
-                                       (_referenceOps[i].Mus + _referenceOps[i].Mua)) *
-                                totalPathLengthInPerturbedRegions);
-                    }
-                }
-                else // CAW
-                {
-                    foreach (var i in _perturbedRegionsIndices)
-                    {
-                        weightFactor *=
-                            Math.Pow(
-                                (perturbedOps[i].Mus / _referenceOps[i].Mus),
-                                dp.SubRegionInfoList[i].NumberOfCollisions) *
-                            Math.Exp(-(perturbedOps[i].Mus - _referenceOps[i].Mus) *
-                                totalPathLengthInPerturbedRegions);
-                    }
-                }
-                Mean[ir, it] += dp.Weight * weightFactor;
-                SecondMoment[ir, it] += dp.Weight * weightFactor * dp.Weight * weightFactor;
+                AbsorbAction();
+                Mean[ir, it] += dp.Weight * _weightFactor;
+                SecondMoment[ir, it] += dp.Weight * _weightFactor * dp.Weight * _weightFactor;
             }
+        }
+        public void AbsorbContinuous()
+        {
+            foreach (var i in _perturbedRegionsIndices)
+            {
+                _weightFactor *=
+                    Math.Pow(
+                        (_perturbedOps[i].Mus / _referenceOps[i].Mus),
+                        _dp.SubRegionInfoList[i].NumberOfCollisions) *
+                    Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
+                        _totalPathLengthInPerturbedRegions);
+            }
+
+        }
+        public void AbsorbDiscrete()
+        {
+
+            foreach (var i in _perturbedRegionsIndices)
+            {
+                _weightFactor *=
+                    Math.Pow(
+                        (_perturbedOps[i].Mus / _referenceOps[i].Mus),
+                        _dp.SubRegionInfoList[i].NumberOfCollisions) *
+                    Math.Exp(-((_perturbedOps[i].Mus + _perturbedOps[i].Mua) -
+                               (_referenceOps[i].Mus + _referenceOps[i].Mua)) *
+                        _totalPathLengthInPerturbedRegions);
+            }
+
         }
         public void Normalize(long numPhotons)
         {
