@@ -169,6 +169,7 @@
     <Compile Include="Factories\SolverFactory.cs" />
     <Compile Include="IO\ArrayCustomBinaryReader.cs" />
     <Compile Include="IO\ArrayCustomBinaryWriter.cs" />
+    <Compile Include="IO\LibraryIO.cs" />
     <Compile Include="IO\CustomBinaryStreamWriterOfT.cs" />
     <Compile Include="IO\FileIO.cs" />
     <Compile Include="IO\ICustomBinaryReaderOfT.cs" />
