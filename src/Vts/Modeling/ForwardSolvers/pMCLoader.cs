@@ -41,5 +41,9 @@ namespace Vts.Modeling.ForwardSolvers
             PhotonTerminationDatabase = PhotonTerminationDatabase.FromFileInResources(
                 databaseName, projectName);
         }
+#if SILVERLIGHT
+
+#else
+#endif
     }
 }

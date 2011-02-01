@@ -52,7 +52,7 @@ namespace Vts.Modeling.ForwardSolvers
                         detectorInput, detectorInput.AWT, pMCLoader.PhotonTerminationDatabase,
                         pMCLoader.databaseOutput, regionOps, perturbedRegionsIndices);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
-                for (int r = 0; r < rhos.Count(); r++)
+                for (int r = 0; r < rhos.Count() - 1; r++)
                 {
                     yield return _postProcessedOutput.R_r[r];
                 }
