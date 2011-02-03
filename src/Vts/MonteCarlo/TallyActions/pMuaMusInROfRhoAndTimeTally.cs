@@ -19,7 +19,8 @@ namespace Vts.MonteCarlo.TallyActions
         private AbsorptionWeightingType _awt;
         private IList<OpticalProperties> _referenceOps;
         private IList<int> _perturbedRegionsIndices;
-        private double _rhoDelta;  // need to keep these two because DoubleRange adjusts deltas automatically
+        // need next two because DoubleRange adjusts deltas automatically
+        private double _rhoDelta;  
         private double _timeDelta;
         // note: bins accommodate noncontiguous and also single bins
         private double[] _rhoCenters;
@@ -42,19 +43,26 @@ namespace Vts.MonteCarlo.TallyActions
         {
             _rho = rho;
             _time = time;
+            // save delta because DoubleRange readjusts when Start,Stop,Count changes
+            _rhoDelta = _rho.Delta;
+            _timeDelta = _time.Delta;
             Mean = new double[_rho.Count - 1, _time.Count - 1];
             SecondMoment = new double[_rho.Count - 1, _time.Count - 1];
             _awt = awt;
             _referenceOps = referenceOps;
             _perturbedRegionsIndices = perturbedRegionIndices;
             SetAbsorbAction(awt);
+            // problem: the gui defines the rhos and times with the centers,
+            // but in the usual tally definition, the rhos and times define
+            // the extent of the bin
+            // so currently assuming if either only 1 rho bin or 1 time bin,
+            // then gui call, otherwise regular tally.  Need to fix!
             if (_rho.Count - 1 == 1)
             {
                 _rho.Start = _rho.Start - 0.1;
                 _rhoDelta = 0.2;
                 _rho.Stop = _rho.Start + _rhoDelta;
                 _rhoCenters = new double[1] { _rho.Start };
-                _timeDelta = _time.Delta;
                 _timeCenters = new double[_time.Count - 1];
                 for (int i = 0; i < _time.Count - 1; i++)
                 {
@@ -66,7 +74,7 @@ namespace Vts.MonteCarlo.TallyActions
                 _rhoCenters = new double[_rho.Count - 1];
                 for (int i = 0; i < _rho.Count - 1; i++)
                 {
-                    _rhoCenters[i] = _rho.Start + i * _rho.Delta;
+                    _rhoCenters[i] = _rho.Start + i * _rhoDelta + _rhoDelta / 2;
                 }
             }
             if (_time.Count - 1 == 1)
@@ -75,7 +83,6 @@ namespace Vts.MonteCarlo.TallyActions
                 _timeDelta = 0.005;
                 _time.Stop = _time.Start + _timeDelta;
                 _timeCenters = new double[1] { _time.Start };
-                _rhoDelta = _rho.Delta;
                 _rhoCenters = new double[_rho.Count - 1];
                 for (int i = 0; i < _rho.Count - 1; i++)
                 {
@@ -87,7 +94,7 @@ namespace Vts.MonteCarlo.TallyActions
                 _timeCenters = new double[_time.Count - 1];
                 for (int i = 0; i < _time.Count - 1; i++)
                 {
-                    _timeCenters[i] = _time.Start + i * _timeDelta;
+                    _timeCenters[i] = _time.Start + i * _timeDelta + _timeDelta / 2;
                 }
             }
         }
@@ -153,6 +160,8 @@ namespace Vts.MonteCarlo.TallyActions
                 Mean[ir, it] += dp.Weight * _weightFactor;
                 SecondMoment[ir, it] += dp.Weight * _weightFactor * dp.Weight * _weightFactor;
             }
+            // reset weight factor for next photon
+            _weightFactor = 1.0;
         }
         public void AbsorbContinuous()
         {
@@ -169,7 +178,6 @@ namespace Vts.MonteCarlo.TallyActions
         }
         public void AbsorbDiscrete()
         {
-
             foreach (var i in _perturbedRegionsIndices)
             {
                 _weightFactor *=
@@ -180,7 +188,6 @@ namespace Vts.MonteCarlo.TallyActions
                                (_referenceOps[i].Mus + _referenceOps[i].Mua)) *
                         _totalPathLengthInPerturbedRegions);
             }
-
         }
         public void Normalize(long numPhotons)
         {

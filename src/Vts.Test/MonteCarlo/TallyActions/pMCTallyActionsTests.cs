@@ -13,21 +13,26 @@ namespace Vts.Test.MonteCarlo.TallyActions
 {
     /// <summary>
     /// These tests executes a MC simulation with 100 photons and verify
-    /// that the tally results match the linux results given the same seed
+    /// that the tally results match the linux results given the same seed.
+    /// The linux results are generated using the post-processing code in 
+    /// the g_post subdirectory.
     /// mersenne twister STANDARD_TEST
     /// </summary>
     [TestFixture]
     public class pMCTallyActionsTests
     {
-        SimulationInput _referenceInput;
-        Output _referenceOutput;
+        SimulationInput _referenceHomogeneousInput;
+        Output _referenceHomogeneousOutput;
         Output _PMCOutput;
 
+        /// <summary>
+        /// Setup input to the MC, SimulationInput, and execute MC
+        /// </summary>
         [TestFixtureSetUp]
         public void execute_reference_Monte_Carlo()
         {
-            _referenceInput = GenerateHomogeneousReferenceInput();
-            _referenceOutput = GenerateReferenceOutput(_referenceInput);
+            _referenceHomogeneousInput = GenerateHomogeneousReferenceInput();
+            _referenceHomogeneousOutput = GenerateReferenceOutput(_referenceHomogeneousInput);
         }
  
         /// <summary>
@@ -37,7 +42,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
         [Test]
         public void validate_DAW_ROfRhoAndTime_zero_perturbation()
         {
-            var peh = PhotonTerminationDatabase.FromFile("_photonBiographies");
+            var peh = PhotonTerminationDatabase.FromFile("pMC_photonBiographies");
             var postProcessedOutput = 
                 PhotonTerminationDatabasePostProcessor.GenerateOutput(   
                     new pMCDetectorInput(
@@ -48,25 +53,25 @@ namespace Vts.Test.MonteCarlo.TallyActions
                         // the following ranges need to match _referenceInput values
                         new DoubleRange(0.0, 10, 101), // rho
                         new DoubleRange(0.0, 10, 101),  // z
-                        new DoubleRange(0.0, Math.PI / 2, 1), // angle
+                        new DoubleRange(0.0, Math.PI / 2, 2), // angle
                         new DoubleRange(0.0, 10000, 101), // time
                         new DoubleRange(0.0, 1000, 21), // omega
                         new DoubleRange(-10.0, 10.0, 201), // x
                         new DoubleRange(-10.0, 10.0, 201), // y
                         AbsorptionWeightingType.Discrete,
                         new List<OpticalProperties>() {
-                            _referenceInput.TissueInput.Regions[0].RegionOP,
-                            _referenceInput.TissueInput.Regions[1].RegionOP,
-                            _referenceInput.TissueInput.Regions[2].RegionOP},
+                            _referenceHomogeneousInput.TissueInput.Regions[0].RegionOP,
+                            _referenceHomogeneousInput.TissueInput.Regions[1].RegionOP,
+                            _referenceHomogeneousInput.TissueInput.Regions[2].RegionOP},
                         new List<int>() { 1 }
                     ),
                     AbsorptionWeightingType.Discrete,
                     peh, 
-                    _referenceOutput,
+                    _referenceHomogeneousOutput,
                     new List<OpticalProperties>() { // perturbed ops
-                        _referenceInput.TissueInput.Regions[0].RegionOP,
-                        _referenceInput.TissueInput.Regions[1].RegionOP,
-                        _referenceInput.TissueInput.Regions[2].RegionOP},
+                        _referenceHomogeneousInput.TissueInput.Regions[0].RegionOP,
+                        _referenceHomogeneousInput.TissueInput.Regions[1].RegionOP,
+                        _referenceHomogeneousInput.TissueInput.Regions[2].RegionOP},
                     new List<int>() { 1 } // perturbed region
                     );
             // validation value obtained from linux run using above input 
@@ -74,14 +79,14 @@ namespace Vts.Test.MonteCarlo.TallyActions
             Assert.Less(Math.Abs(postProcessedOutput.R_rt[2, 0] - 0.000609121451), 0.00000000001);
         }
         /// <summary>
-        /// Define SimulationInput to define homogeneous media
+        /// Define SimulationInput to describe homogeneous media
         /// </summary>
         /// <returns></returns>
         private SimulationInput GenerateHomogeneousReferenceInput()
         {
             return new SimulationInput(
                 100,
-                "Output",
+                "pMC",
                 new SimulationOptions(
                     0, 
                     RandomNumberGeneratorType.MersenneTwister,
@@ -118,7 +123,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                         },
                     new DoubleRange(0.0, 10, 101), // rho
                     new DoubleRange(0.0, 10, 101),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 1), // angle
+                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
                     new DoubleRange(0.0, 10000, 101), // time
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-10.0, 10.0, 201), // x
@@ -177,7 +182,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                         },
                     new DoubleRange(0.0, 10, 101), // rho
                     new DoubleRange(0.0, 10, 101),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 1), // angle
+                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
                     new DoubleRange(0.0, 10000, 101), // time
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-10.0, 10.0, 201), // x
@@ -188,6 +193,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
         }
         private static Output GenerateReferenceOutput(SimulationInput input)
         {
+            // the following execution writes database file to isolated storage
             return new MonteCarloSimulation(input).Run();
         }
     }

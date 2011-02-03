@@ -12,18 +12,21 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.PostProcessing
 {
     /// <summary>
-    /// ValidatePostProcessing reads the output data generated on the fly by MonteCarloSimulation and
-    /// using the same binning that was used for that output, generates the output data using 
-    /// the postprocessing code, and compares the two.  Thus validating that the on the fly and 
-    /// postprocessing results agree
+    /// PhotonTerminationDatabasePostProcessorTests tests whether the 
+    /// methods within the PhotonTerminationDatabasePostProcessor class regenerates 
+    /// the same results as the on the fly results.
     /// </summary>
     [TestFixture]
     public class PhotonTerminationDatabasePostProcessorTests
     {
         /// <summary>
-        /// ValidatePhotonExitHistoryPostProcessor tests whether the methods within the
-        /// PhotonTerminationDatabasePostProcessor class regenerates the same results as the on the fly results.
-        /// It currently tests a point source with a layered tissue geometry.
+        /// validate_photon_termination_database_postprocessor reads the output data 
+        /// generated on the fly by MonteCarloSimulation and using the same binning 
+        /// that was used for that output, generates the output data using 
+        /// the postprocessing code, and compares the two.  Thus validating that the 
+        /// on the fly and postprocessing results agree.
+        /// It currently tests a point source with a layered tissue geometry and 
+        /// validates the R(rho,time) tally.
         /// </summary>
         [Test]
         public void validate_photon_termination_database_postprocessor()
@@ -31,18 +34,21 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var input = GenerateReferenceInput();
             var onTheFlyOutput = GenerateReferenceOutput(input);
 
-            var peh = PhotonTerminationDatabase.FromFile("_photonBiographies");
+            var peh = PhotonTerminationDatabase.FromFile("postprocessing_photonBiographies");
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
                 input.DetectorInput, input.Options.AbsorptionWeightingType, peh, onTheFlyOutput);
 
             ValidateROfRhoAndTime(onTheFlyOutput, postProcessedOutput);
         }
-
+        /// <summary>
+        /// method to generate input to the MC simulation
+        /// </summary>
+        /// <returns>SimulationInput</returns>
         private static SimulationInput GenerateReferenceInput()
         {
             return new SimulationInput(
                 100,
-                "",
+                "postprocessing",
                 new SimulationOptions(
                     0, 
                     RandomNumberGeneratorType.MersenneTwister,
@@ -96,12 +102,21 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     AbsorptionWeightingType.Discrete
             ));
         }
-
+        /// <summary>
+        /// method to execute the MC and return the output from the tallies
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>Output</returns>
         private static Output GenerateReferenceOutput(SimulationInput input)
         {
             return new MonteCarloSimulation(input).Run();
         }
-
+        /// <summary>
+        /// method that takes two Output classes, output1 and output2, and
+        /// compares their R(rho,time) results
+        /// </summary>
+        /// <param name="output1"></param>
+        /// <param name="output2"></param>
         private void ValidateROfRhoAndTime(Output output1, Output output2)
         {
             for (int i = 0; i < output1.input.DetectorInput.Rho.Count - 1; i++)
