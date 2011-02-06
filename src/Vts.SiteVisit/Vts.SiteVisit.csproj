@@ -429,10 +429,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vts.Database\Vts.Database.csproj">
-      <Project>{79A38678-1464-4E60-94AA-82B47DFDB334}</Project>
-      <Name>Vts.Database</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Vts\Vts.csproj">
       <Project>{92381E9C-57F9-4391-A3C6-A5FAA99E823B}</Project>
       <Name>Vts</Name>
