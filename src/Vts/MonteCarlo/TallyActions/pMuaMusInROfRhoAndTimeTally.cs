@@ -123,13 +123,14 @@ namespace Vts.MonteCarlo.TallyActions
         {
             return (dp.StateFlag == PhotonStateType.ExitedOutTop);
         }
-        double _weightFactor = 1.0;
+        double _weightFactor;
         PhotonDataPoint _dp;
         IList<OpticalProperties> _perturbedOps;
         double _totalPathLengthInPerturbedRegions = 0.0;
         public void Tally(PhotonDataPoint dp, IList<OpticalProperties> perturbedOps)
         {
             //double weightFactor = 1.0;
+            _weightFactor = 1.0;
             _dp = dp;
             _perturbedOps = perturbedOps;
             var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
@@ -160,8 +161,6 @@ namespace Vts.MonteCarlo.TallyActions
                 Mean[ir, it] += dp.Weight * _weightFactor;
                 SecondMoment[ir, it] += dp.Weight * _weightFactor * dp.Weight * _weightFactor;
             }
-            // reset weight factor for next photon
-            _weightFactor = 1.0;
         }
         public void AbsorbContinuous()
         {
