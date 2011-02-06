@@ -484,20 +484,17 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IHistoryTally.cs">
       <Link>MonteCarlo\Interfaces\IHistoryTally.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IHistoryTallyOfT.cs">
-      <Link>MonteCarlo\Interfaces\IHistoryTallyOfT.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISource.cs">
       <Link>MonteCarlo\Interfaces\ISource.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISourceInput.cs">
       <Link>MonteCarlo\Interfaces\ISourceInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITally.cs">
+      <Link>MonteCarlo\Interfaces\ITally.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITerminationTally.cs">
       <Link>MonteCarlo\Interfaces\ITerminationTally.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITerminationTallyOfT.cs">
-      <Link>MonteCarlo\Interfaces\ITerminationTallyOfT.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissue.cs">
       <Link>MonteCarlo\Interfaces\ITissue.cs</Link>
@@ -574,6 +571,9 @@
     <Compile Include="..\Vts\MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs">
       <Link>MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\HistoryTallyBase.cs">
+      <Link>MonteCarlo\TallyActions\HistoryTallyBase.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\MomentumTransferOfRhoAndZTally.cs">
       <Link>MonteCarlo\TallyActions\MomentumTransferOfRhoAndZTally.cs</Link>
     </Compile>
@@ -603,6 +603,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfXAndYTally.cs">
       <Link>MonteCarlo\TallyActions\ROfXAndYTally.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\TallyBase.cs">
+      <Link>MonteCarlo\TallyActions\TallyBase.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\TallyExtensionMethods.cs">
       <Link>MonteCarlo\TallyActions\TallyExtensionMethods.cs</Link>
@@ -642,6 +645,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SingleEllipsoidTissue.cs">
       <Link>MonteCarlo\Tissues\SingleEllipsoidTissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\TissueBase.cs">
+      <Link>MonteCarlo\Tissues\TissueBase.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\VoxelRegion.cs">
       <Link>MonteCarlo\Tissues\VoxelRegion.cs</Link>
