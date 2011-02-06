@@ -9,43 +9,43 @@ namespace Vts.MonteCarlo.TallyActions
     /// <summary>
     /// Implements IHistoryTally<double[,]>.  Tally for Absorption(rho,z).
     /// </summary>
-    public class ATotalTally : IHistoryTally<double>
+    public class ATotalTally : HistoryTallyBase, IHistoryTally<double>
     {
-        private ITissue _tissue;
+        private Action<double, double> _absorbAction;
 
-        public ATotalTally(ITissue tissue, AbsorptionWeightingType awt)
+        public ATotalTally(ITissue tissue)
+           : base(tissue)
         {
-            _tissue = tissue;
-            SetAbsorbAction(awt);
         }
-        public Action<double, double> AbsorbAction { get; private set; }
-        private void SetAbsorbAction(AbsorptionWeightingType awt)
+
+        protected override void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
             {
                 case AbsorptionWeightingType.Analog:
-                    AbsorbAction = AbsorbAnalog;
+                    _absorbAction = AbsorbAnalog;
                     break;
                 //case AbsorptionWeightingType.Continuous:
                 //    AbsorbAction = AbsorbContinuous;
                 //    break;
                 case AbsorptionWeightingType.Discrete:
                 default:
-                    AbsorbAction = AbsorbDiscrete;
+                    _absorbAction = AbsorbDiscrete;
                     break;
             }
         }
+
         private double _dw;
         private double _nextDw;
         private PhotonStateType _pst; 
-        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp, IList<OpticalProperties> ops)
+        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             //double dw = previousDP.Weight * ops[_tissue.GetRegionIndex(dp.Position)].Mua / 
             //    (ops[_tissue.GetRegionIndex(dp.Position)].Mua + ops[_tissue.GetRegionIndex(dp.Position)].Mus);
             _pst = dp.StateFlag;
             _dw = previousDP.Weight;
             _nextDw = dp.Weight;
-            AbsorbAction(ops[_tissue.GetRegionIndex(dp.Position)].Mua, ops[_tissue.GetRegionIndex(dp.Position)].Mus);
+            _absorbAction(_ops[_tissue.GetRegionIndex(dp.Position)].Mua, _ops[_tissue.GetRegionIndex(dp.Position)].Mus);
             Mean += _dw; 
             SecondMoment += _dw * _dw;
         }

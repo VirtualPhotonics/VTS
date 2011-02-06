@@ -8,7 +8,9 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface ITissue
     {
+        AbsorptionWeightingType AbsorptionWeightingType { get; }
         IList<ITissueRegion> Regions { get; }
+        IList<double> RegionScatterLengths { get; }
         int GetRegionIndex(Position position);
         double GetDistanceToBoundary(Photon photon);  
         double GetAngleRelativeToBoundaryNormal(Photon photon);

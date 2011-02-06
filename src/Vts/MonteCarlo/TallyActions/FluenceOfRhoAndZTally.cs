@@ -10,79 +10,84 @@ namespace Vts.MonteCarlo.TallyActions
     /// Implements IHistoryTally<double[,]>.  Tally for Fluence(rho,z).
     /// Note: this tally currently only works with discrete absorption weighting
     /// </summary>
-    public class FluenceOfRhoAndZTally : IHistoryTally<double[,]>
+    public class FluenceOfRhoAndZTally : HistoryTallyBase, IHistoryTally<double[,]>
     {
         private DoubleRange _rho;
         private DoubleRange _z;
-        private ITissue _tissue;
+        // should following code be put in common class?
+        private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
-        public FluenceOfRhoAndZTally(DoubleRange rho, DoubleRange z, ITissue tissue, AbsorptionWeightingType awt)
+        public FluenceOfRhoAndZTally(DoubleRange rho, DoubleRange z, ITissue tissue)
+            : base(tissue)
         {
             _rho = rho;
             _z = z;
-            _tissue = tissue;
             Mean = new double[_rho.Count - 1, _z.Count - 1];
             SecondMoment = new double[_rho.Count - 1, _z.Count - 1];
-            SetAbsorbAction(awt);
         }
-        // should following code be put in common class?
-        public Action<double, double> AbsorbAction { get; private set; }
-        private void SetAbsorbAction(AbsorptionWeightingType awt)
+        
+        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
+        {
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
+            var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);
+
+            var weight = _absorbAction(
+                _ops[_tissue.GetRegionIndex(dp.Position)].Mua,
+                _ops[_tissue.GetRegionIndex(dp.Position)].Mus,
+                previousDP.Weight,
+                dp.Weight,
+                dp.StateFlag);
+
+            var regionIndex = _tissue.GetRegionIndex(dp.Position);
+
+            Mean[ir, iz] += weight / _ops[regionIndex].Mua;
+            SecondMoment[ir, iz] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
+        }
+
+        protected override void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
             {
                 case AbsorptionWeightingType.Analog:
-                    AbsorbAction = AbsorbAnalog;
+                    _absorbAction = AbsorbAnalog;
                     break;
                 //case AbsorptionWeightingType.Continuous:
                 //    AbsorbAction = AbsorbContinuous;
                 //    break;
                 case AbsorptionWeightingType.Discrete:
                 default:
-                    AbsorbAction = AbsorbDiscrete;
+                    _absorbAction = AbsorbDiscrete;
                     break;
             }
         }
-        private double _dw;
-        private double _nextDw;
-        private PhotonStateType _pst; 
-        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp, IList<OpticalProperties> ops)
+        
+        private double AbsorbAnalog(double mua, double mus, double weight, double nextWeight, PhotonStateType photonStateType)
         {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
-            var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);
-            //double dw = previousDP.Weight * ops[_tissue.GetRegionIndex(dp.Position)].Mua / 
-            //    (ops[_tissue.GetRegionIndex(dp.Position)].Mua + ops[_tissue.GetRegionIndex(dp.Position)].Mus);
-            _pst = dp.StateFlag;
-            _dw = previousDP.Weight;
-            _nextDw = dp.Weight;
-            AbsorbAction(ops[_tissue.GetRegionIndex(dp.Position)].Mua, ops[_tissue.GetRegionIndex(dp.Position)].Mus);
-            var dum = _tissue.GetRegionIndex(dp.Position);
-            Mean[ir, iz] += _dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua;
-            SecondMoment[ir, iz] += (_dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua) *
-                (_dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua);
-        }
-        public void AbsorbAnalog(double mua, double mus)
-        {
-            if (_pst != PhotonStateType.Absorbed)
+            if (photonStateType != PhotonStateType.Absorbed)
             {
-                _dw = 0.0;
+                weight = 0.0;
             }
             else
             {
-                _dw *= mua / (mua + mus);
+                weight *= mua / (mua + mus);
             }
+            return weight;
         }
-        public void AbsorbDiscrete(double mua, double mus)
+
+        private double AbsorbDiscrete(double mua, double mus, double weight, double nextWeight, PhotonStateType photonStateType)
         {
-            if (_dw == _nextDw) // pseudo collision, so no tally
+            if (weight == nextWeight) // pseudo collision, so no tally
             {
-                _dw = 0.0;
+                weight = 0.0;
             }
             else
             {
-                _dw *= mua / (mua + mus);
+                weight *= mua / (mua + mus);
             }
+
+            return weight;
         }
+
         public void Normalize(long numPhotons)
         {
             for (int ir = 0; ir < _rho.Count - 1; ir++)

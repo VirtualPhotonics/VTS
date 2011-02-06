@@ -26,6 +26,7 @@ namespace Vts.MonteCarlo.Factories
                     return false;
             }
         }
+
         public static ITerminationTally GetTerminationTallyAction(
             TallyType tallyType,
             ITissue tissue,
@@ -64,6 +65,7 @@ namespace Vts.MonteCarlo.Factories
                     return new TOfRhoAndAngleTally(rho, angle);
             }
         }
+
         public static IHistoryTally GetHistoryTallyAction(
             TallyType tallyType,
             AbsorptionWeightingType awt,
@@ -80,15 +82,16 @@ namespace Vts.MonteCarlo.Factories
             {
                 default:
                 case TallyType.FluenceOfRhoAndZ:
-                    return new FluenceOfRhoAndZTally(rho, z, tissue, awt);
+                    return new FluenceOfRhoAndZTally(rho, z, tissue);
                 case TallyType.FluenceOfRhoAndZAndTime:
-                    return new FluenceOfRhoAndZAndTimeTally(rho, z, time, tissue, awt);
+                    return new FluenceOfRhoAndZAndTimeTally(rho, z, time, tissue);
                 case TallyType.AOfRhoAndZ:
-                    return new AOfRhoAndZTally(rho, z, tissue, awt);
+                    return new AOfRhoAndZTally(rho, z, tissue);
                 case TallyType.ATotal:
-                    return new ATotalTally(tissue, awt);
+                    return new ATotalTally(tissue);
             }
         }
+
         // pMC overload
         public static ITerminationTally GetTerminationTallyAction(
             TallyType tallyType,
@@ -100,8 +103,8 @@ namespace Vts.MonteCarlo.Factories
             DoubleRange x,
             DoubleRange y,
             AbsorptionWeightingType awt,
-            List<OpticalProperties> referenceOps,
-            List<int> perturbedRegionsIndices)
+            IList<OpticalProperties> referenceOps,
+            IList<int> perturbedRegionsIndices)
         {
             switch (tallyType)
             {
@@ -123,8 +126,8 @@ namespace Vts.MonteCarlo.Factories
             DoubleRange x,
             DoubleRange y,
             AbsorptionWeightingType awt,
-            List<OpticalProperties> referenceOps,
-            List<int> perturbedRegionsIndices)
+            IList<OpticalProperties> referenceOps,
+            IList<int> perturbedRegionsIndices)
         {
             throw new NotSupportedException("not implemented yet");
         }

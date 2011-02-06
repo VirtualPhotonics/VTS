@@ -80,9 +80,9 @@ namespace Vts.MonteCarlo.Detectors
             ) { }
 
         //public List<ITally> ITallyList { get; set; }
-        public List<ITerminationTally> TerminationITallyList { get; set; }
-        public List<IHistoryTally> HistoryITallyList { get; set; }
-        public List<TallyType> TallyTypeList { get; set; }
+        public IList<ITerminationTally> TerminationITallyList { get; set; }
+        public IList<IHistoryTally> HistoryITallyList { get; set; }
+        public IList<TallyType> TallyTypeList { get; set; }
         public DoubleRange Rho { get; set; }
         public DoubleRange Angle { get; set; }
         public DoubleRange Time { get; set; }
@@ -91,8 +91,8 @@ namespace Vts.MonteCarlo.Detectors
         public DoubleRange Y { get; set; }
         public DoubleRange Z { get; set; }
         public AbsorptionWeightingType AWT { get; set; }
-        public List<OpticalProperties> ReferenceOps { get; set; }
-        public List<int> PerturbedRegionsIndices { get; set; }
+        public IList<OpticalProperties> ReferenceOps { get; set; }
+        public IList<int> PerturbedRegionsIndices { get; set; }
  
         public void SetTallyActionLists()
         {
@@ -102,8 +102,10 @@ namespace Vts.MonteCarlo.Detectors
             {
                 if (Factories.TallyActionFactory.IsHistoryTally(tally))
                 {
-                    HistoryITallyList.Add(Factories.TallyActionFactory.GetHistoryTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y,
-                        AWT, ReferenceOps, PerturbedRegionsIndices));
+                    HistoryITallyList.Add(
+                        Factories.TallyActionFactory.GetHistoryTallyAction(
+                            tally, Rho, Z, Angle, Time, Omega, X, Y,
+                            AWT, ReferenceOps, PerturbedRegionsIndices));
                 }
                 else
                 {
@@ -152,11 +154,11 @@ namespace Vts.MonteCarlo.Detectors
                     default:
                     case TallyType.pMuaMusInROfRhoAndTime:
                         output.R_rt = 
-                            ((ITerminationTally<double[,]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRhoAndTime)]).Mean;
+                            ((ITally<double[,]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRhoAndTime)]).Mean;
                         break;
                     case TallyType.pMuaMusInROfRho:
                         output.R_r =
-                            ((ITerminationTally<double[]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRho)]).Mean;
+                            ((ITally<double[]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRho)]).Mean;
                         break;
                 }
             }

@@ -43,21 +43,19 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(0.0, 0, 1)
                 ),
                 new MultiLayerTissueInput(
-                    new List<LayerRegion>
+                    new List<ITissueRegion>
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0, 2),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
-                            AbsorptionWeightingType.Discrete),
+                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0)),
                         new LayerRegion(
                             new DoubleRange(0.0, 20.0, 2),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                            AbsorptionWeightingType.Discrete),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(20.0, double.PositiveInfinity, 2),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
-                            AbsorptionWeightingType.Discrete)
-                    }
+                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
+                    },
+                    AbsorptionWeightingType.Discrete
                 ),
                 new DetectorInput(
                     new List<TallyType>()

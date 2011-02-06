@@ -8,69 +8,67 @@ namespace Vts.MonteCarlo.Tissues
     /// Implements ITissue.  Defines a tissue geometry comprised of an
     /// ellipsoid embedded within a voxel slab.
     /// </summary>
-    public class SingleEllipsoidTissue : ITissue
+    public class SingleEllipsoidTissue : TissueBase
     {
         private EllipsoidRegion _ellipsoidRegion;
 
-        public SingleEllipsoidTissue(VoxelRegion slab, EllipsoidRegion ellipsoid)
+        public SingleEllipsoidTissue(VoxelRegion slab, EllipsoidRegion ellipsoid, AbsorptionWeightingType absorptionWeightingType)
+            : base(new ITissueRegion[] { slab, ellipsoid }, absorptionWeightingType)
         {
-            Regions = new List<ITissueRegion>()
-            { 
-                slab, 
-                ellipsoid,
-            };
             _ellipsoidRegion = ellipsoid;
         }
-        public SingleEllipsoidTissue() : this(
-            new VoxelRegion(),
-            new EllipsoidRegion()) {}
 
-        public IList<ITissueRegion> Regions { get; set; }
+        public SingleEllipsoidTissue()
+            : this(
+                new VoxelRegion(),
+                new EllipsoidRegion(),
+                AbsorptionWeightingType.Discrete) { }
 
-        # region ISource Members
-        public int GetRegionIndex(Position position)
+        public override int GetRegionIndex(Position position)
         {
-            if (_ellipsoidRegion.ContainsPosition(position))
-                return 1;
-            else
-                return 0;
+            return _ellipsoidRegion.ContainsPosition(position) ? 1 : 0;
         }
-        public bool OnDomainBoundary(Photon photon)
-        {
-            throw new NotImplementedException();
-        }
-        public int GetNeighborRegionIndex(Photon photon)
-        {
-            throw new NotImplementedException();
-        }
-        public double GetAngleRelativeToBoundaryNormal(Photon photon)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
 
-        #region ITissue Members
+        public override bool OnDomainBoundary(Photon photon)
+        {
+            throw new NotImplementedException();
+        }
 
-        public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
-        {
-            if (position.Z < 1e-10)
-                return PhotonStateType.ExitedOutTop;
-            else
-                return PhotonStateType.ExitedOutBottom;
-        }
-        public double GetDistanceToBoundary(Photon photon)
+        public override int GetNeighborRegionIndex(Photon photon)
         {
             throw new NotImplementedException();
         }
-        public Direction GetReflectedDirection(Position currentPosition, Direction currentDirection)
+
+        public override double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
             throw new NotImplementedException();
         }
-        public Direction GetRefractedDirection(Position currentPosition, Direction currentDirection, 
-            double nCurrent, double nNext, double cosThetaSnell)
+
+        public override PhotonStateType GetPhotonDataPointStateOnExit(Position position)
+        {
+            return position.Z < 1e-10 ? PhotonStateType.ExitedOutTop : PhotonStateType.ExitedOutBottom;
+        }
+
+        public override double GetDistanceToBoundary(Photon photon)
         {
             throw new NotImplementedException();
         }
-        #endregion
+
+        public override Direction GetReflectedDirection(
+            Position currentPosition, 
+            Direction currentDirection)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Direction GetRefractedDirection(
+            Position currentPosition, 
+            Direction currentDirection,
+            double nCurrent, 
+            double nNext, 
+            double cosThetaSnell)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

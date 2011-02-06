@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.TallyActions
         }
 
         private double _momentumTransfer;
-        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp, IList<OpticalProperties> ops)
+        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);

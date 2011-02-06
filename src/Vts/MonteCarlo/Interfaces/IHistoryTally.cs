@@ -6,11 +6,15 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Defines a contract for Monte Carlo History Tallies.
     /// </summary>
-    public interface IHistoryTally
+    public interface IHistoryTally : ITally
     {
-        void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp, IList<OpticalProperties> ops);
-        void Normalize(long numPhotons);
-        //bool ShouldBeTallied();
-        bool ContainsPoint(PhotonDataPoint dp);
+        void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp);
+    }
+
+    /// <summary>
+    /// Defines a contract for Monte Carlo History Tallies.
+    /// </summary>
+    public interface IHistoryTally<T> : ITally<T>, IHistoryTally
+    {
     }
 }

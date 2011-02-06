@@ -3,14 +3,15 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo
 {
+    public interface  ITerminationTally : ITally
+    {
+        void Tally(PhotonDataPoint dp, IList<OpticalProperties> ops);
+    }
+
     /// <summary>
     /// Defines a contract for Monte Carlo Termination Tallies.
     /// </summary>
-    public interface ITerminationTally
+    public interface ITerminationTally<T> : ITally<T>, ITerminationTally
     {
-        void Tally(PhotonDataPoint dp, IList<OpticalProperties> ops);
-        void Normalize(long numPhotons);
-        //bool ShouldBeTallied();
-        bool ContainsPoint(PhotonDataPoint dp);
     }
 }

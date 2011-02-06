@@ -247,15 +247,14 @@
     <Compile Include="MonteCarlo\Factories\TallyActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\TissueFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\Optics.cs" />
-    <Compile Include="MonteCarlo\Interfaces\IHistoryTallyOfT.cs" />
     <Compile Include="MonteCarlo\Interfaces\IHistoryTally.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ITally.cs" />
     <Compile Include="MonteCarlo\PhotonHistory.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\ISource.cs" />
     <Compile Include="MonteCarlo\Interfaces\ISourceInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITerminationTally.cs" />
-    <Compile Include="MonteCarlo\Interfaces\ITerminationTallyOfT.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITissue.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITissueInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITissueRegion.cs" />
@@ -281,6 +280,7 @@
     <Compile Include="MonteCarlo\TallyActions\AOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\ATotalTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\HistoryTallyBase.cs" />
     <Compile Include="MonteCarlo\TallyActions\MomentumTransferOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\pMuaMusInROfRhoAndTimeTally.cs" />
@@ -292,6 +292,7 @@
     <Compile Include="MonteCarlo\TallyActions\ROfRhoAndTimeTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\ROfRhoTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\ROfXAndYTally.cs" />
+    <Compile Include="MonteCarlo\TallyActions\TallyBase.cs" />
     <Compile Include="MonteCarlo\TallyActions\TallyExtensionMethods.cs" />
     <Compile Include="MonteCarlo\TallyActions\TDiffuseTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\TOfAngleTally.cs" />
@@ -304,6 +305,7 @@
     <Compile Include="MonteCarlo\Tissues\MultiLayerTissueInput.cs" />
     <Compile Include="MonteCarlo\Tissues\MultiLayerTissueProvider.cs" />
     <Compile Include="MonteCarlo\Tissues\SingleEllipsoidTissue.cs" />
+    <Compile Include="MonteCarlo\Tissues\TissueBase.cs" />
     <Compile Include="MonteCarlo\Tissues\VoxelRegion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -402,12 +404,6 @@
     <None Include="Sources.cd" />
     <None Include="Modeling\Spectroscopy\Fat.csv" />
     <None Include="Vts.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Vts.Database\Vts.Database.csproj">
-      <Project>{79A38678-1464-4E60-94AA-82B47DFDB334}</Project>
-      <Name>Vts.Database</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
