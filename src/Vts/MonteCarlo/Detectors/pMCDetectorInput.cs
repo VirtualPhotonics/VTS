@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Vts.Common;
+
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
@@ -17,7 +19,7 @@ namespace Vts.MonteCarlo.Detectors
             DoubleRange x,
             DoubleRange y,
             ITissue tissue,
-            List<OpticalProperties> referenceOps,
+            List<OpticalProperties> perturbedOps,
             List<int> perturbedRegionsIndices)
         {
             TallyTypeList = tallyTypeList;
@@ -29,7 +31,8 @@ namespace Vts.MonteCarlo.Detectors
             X = x;
             Y = y;
             AWT = tissue.AbsorptionWeightingType;
-            ReferenceOps = referenceOps;
+            ReferenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
+            PerturbedOps = perturbedOps;
             PerturbedRegionsIndices = perturbedRegionsIndices;
         }
         /// <summary>
@@ -64,6 +67,7 @@ namespace Vts.MonteCarlo.Detectors
         public DoubleRange Y { get; set; }
         public DoubleRange Z { get; set; }
         public AbsorptionWeightingType AWT { get; set; }
+        public List<OpticalProperties> PerturbedOps { get; set; }
         public List<OpticalProperties> ReferenceOps { get; set; }
         public List<int> PerturbedRegionsIndices { get; set; }
     }

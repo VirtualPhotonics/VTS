@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.TallyActions
         // note: bins accommodate noncontiguous and also single bins
         private double[] _rhoCenters;
         private double[] _timeCenters;
-        private Func<double, IList<long>, double, IList<OpticalProperties>, double> _absorbAction;
+        private Func<IList<long>, double, IList<OpticalProperties>, double> _absorbAction;
 
         /// <summary>
         /// Tallies perturbed R(rho,time).  Instantiate with reference optical properties.  When
@@ -124,8 +124,6 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Tally(PhotonDataPoint dp)
         {
-            double weightFactor = 1.0;
-
             var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
                 DetectorBinning.GetTimeDelay(
                 sub.PathLength,
@@ -151,8 +149,7 @@ namespace Vts.MonteCarlo.TallyActions
             }
             if ((ir != -1) && (it != -1))
             {
-                weightFactor = _absorbAction(
-                    dp.Weight,
+                var weightFactor = _absorbAction(
                     dp.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
                     totalPathLengthInPerturbedRegions,
                     _perturbedOps);
@@ -160,24 +157,28 @@ namespace Vts.MonteCarlo.TallyActions
                 SecondMoment[ir, it] += dp.Weight * weightFactor * dp.Weight * weightFactor;
             }
         }
-        private double AbsorbContinuous(double weight, IList<long> numberOfCollisions, double totalPathLengthInPerturbedRegions, IList<OpticalProperties> perturbedOps)
+        private double AbsorbContinuous(IList<long> numberOfCollisions, double totalPathLengthInPerturbedRegions, IList<OpticalProperties> perturbedOps)
         {
+            double weightFactor = 1.0;
+
             foreach (var i in _perturbedRegionsIndices)
             {
-                weight *= 
+                weightFactor *= 
                     Math.Pow(
                         (perturbedOps[i].Mus / _referenceOps[i].Mus),
                         numberOfCollisions[i]) *
                     Math.Exp(-(perturbedOps[i].Mus - _referenceOps[i].Mus) *
                         totalPathLengthInPerturbedRegions);
             }
-            return weight;
+            return weightFactor;
         }
-        private double AbsorbDiscrete(double weight, IList<long> numberOfCollisions, double totalPathLengthInPerturbedRegions, IList<OpticalProperties> perturbedOps)
+        private double AbsorbDiscrete(IList<long> numberOfCollisions, double totalPathLengthInPerturbedRegions, IList<OpticalProperties> perturbedOps)
         {
+            double weightFactor = 1.0;
+
             foreach (var i in _perturbedRegionsIndices)
             {
-                weight *=
+                weightFactor *=
                     Math.Pow(
                         (perturbedOps[i].Mus / _referenceOps[i].Mus),
                         numberOfCollisions[i]) *
@@ -185,7 +186,7 @@ namespace Vts.MonteCarlo.TallyActions
                                (_referenceOps[i].Mus + _referenceOps[i].Mua)) *
                         totalPathLengthInPerturbedRegions);
             }
-            return weight;
+            return weightFactor;
         }
         public void Normalize(long numPhotons)
         {

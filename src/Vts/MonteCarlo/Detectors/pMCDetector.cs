@@ -73,7 +73,7 @@ namespace Vts.MonteCarlo.Detectors
                 di.X,
                 di.Y,
                 tissue,
-                di.ReferenceOps,
+                di.PerturbedOps,
                 di.PerturbedRegionsIndices
             ) { }
         // do this all have to be properties?
@@ -169,11 +169,11 @@ namespace Vts.MonteCarlo.Detectors
                     default:
                     case TallyType.pMuaMusInROfRhoAndTime:
                         output.R_rt = 
-                            ((ITally<double[,]>)HistoryITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRhoAndTime)]).Mean;
+                            ((ITally<double[,]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRhoAndTime)]).Mean;
                         break;
                     case TallyType.pMuaMusInROfRho:
                         output.R_r =
-                            ((ITally<double[]>)HistoryITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRho)]).Mean;
+                            ((ITally<double[]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRho)]).Mean;
                         break;
                 }
             }
