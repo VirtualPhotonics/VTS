@@ -51,8 +51,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClientAccessPolicy.xml" />
     <Content Include="ClientBin\Vts.SiteVisit.xap" />
     <Content Include="Silverlight.js" />
+    <Content Include="Vts.Database.dll" />
     <Content Include="Vts.SiteVisitTestPage.aspx" />
     <Content Include="Vts.SiteVisitTestPage.html" />
     <Content Include="Web.config" />
@@ -76,7 +78,7 @@
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
+          <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>50678</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
