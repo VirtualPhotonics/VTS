@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo.TallyActions
 {
     /// <summary>
     /// Implements IHistoryTally<double[,,]>.  Tally for Fluence(rho,z,t).
-    /// Note: this tally currently only works with discrete absorption weighting
+    /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
     public class FluenceOfRhoAndZAndTimeTally : HistoryTallyBase, IHistoryTally<double[, ,]>
     {
@@ -43,9 +43,10 @@ namespace Vts.MonteCarlo.TallyActions
                 //    AbsorbAction = AbsorbContinuous;
                 //    break;
                 case AbsorptionWeightingType.Discrete:
-                default:
                     _absorbAction = AbsorbDiscrete;
                     break;
+                default:
+                    throw new ArgumentException("AbsorptionWeightingType not set");
             }
         }
 
@@ -76,7 +77,7 @@ namespace Vts.MonteCarlo.TallyActions
             SecondMoment[ir, iz, it] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
         }
 
-        private double AbsorbAnalog(double mua, double mus, double weight, double nextWeight, PhotonStateType photonStateType)
+        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
             if (photonStateType != PhotonStateType.Absorbed)
             {
@@ -84,22 +85,21 @@ namespace Vts.MonteCarlo.TallyActions
             }
             else
             {
-                weight *= mua / (mua + mus);
+                weight = previousWeight * mua / (mua + mus);
             }
             return weight;
         }
 
-        private double AbsorbDiscrete(double mua, double mus, double weight, double nextWeight, PhotonStateType photonStateType)
+        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (weight == nextWeight) // pseudo collision, so no tally
+            if (previousWeight == weight) // pseudo collision, so no tally
             {
                 weight = 0.0;
             }
             else
             {
-                weight *= mua / (mua + mus);
+                weight = previousWeight * mua / (mua + mus);
             }
-
             return weight;
         }
 

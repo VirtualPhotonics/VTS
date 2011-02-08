@@ -54,7 +54,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             new DoubleRange(20.0, double.PositiveInfinity, 2),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
                     },
-                    AbsorptionWeightingType.Discrete
+                    AbsorptionWeightingType.Analog
                 ),
                 new DetectorInput(
                     new List<TallyType>()
@@ -81,8 +81,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(0.0, 1, 101), // time (ns=1000ps)
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-200.0, 200.0, 401), // x
-                    new DoubleRange(-200.0, 200.0, 401), // y
-                    AbsorptionWeightingType.Discrete
+                    new DoubleRange(-200.0, 200.0, 401) // y
                 ));
             _output = new MonteCarloSimulation(input).Run();
         }

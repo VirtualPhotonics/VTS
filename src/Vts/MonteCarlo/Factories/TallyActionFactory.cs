@@ -29,14 +29,14 @@ namespace Vts.MonteCarlo.Factories
 
         public static ITerminationTally GetTerminationTallyAction(
             TallyType tallyType,
-            ITissue tissue,
             DoubleRange rho,
             DoubleRange z,
             DoubleRange angle,
             DoubleRange time,
             DoubleRange omega,
             DoubleRange x,
-            DoubleRange y)
+            DoubleRange y,
+            ITissue tissue)
         {
             switch (tallyType)
             {
@@ -48,13 +48,13 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.ROfAngle:
                     return new ROfAngleTally(angle);
                 case TallyType.ROfRhoAndTime:
-                    return new ROfRhoAndTimeTally(rho, time);
+                    return new ROfRhoAndTimeTally(rho, time, tissue);
                 case TallyType.ROfRhoAndAngle:
                     return new ROfRhoAndAngleTally(rho, angle);
                 case TallyType.ROfXAndY:
                     return new ROfXAndYTally(x, y);
                 case TallyType.ROfRhoAndOmega:
-                    return new ROfRhoAndOmegaTally(rho, omega);
+                    return new ROfRhoAndOmegaTally(rho, omega, tissue);
                 case TallyType.TDiffuse:
                     return new TDiffuseTally();
                 case TallyType.TOfAngle:
@@ -68,15 +68,14 @@ namespace Vts.MonteCarlo.Factories
 
         public static IHistoryTally GetHistoryTallyAction(
             TallyType tallyType,
-            AbsorptionWeightingType awt,
-            ITissue tissue,
             DoubleRange rho,
             DoubleRange z,
             DoubleRange angle,
             DoubleRange time,
             DoubleRange omega,
             DoubleRange x,
-            DoubleRange y)
+            DoubleRange y,
+            ITissue tissue)
         {
             switch (tallyType)
             {
@@ -102,17 +101,17 @@ namespace Vts.MonteCarlo.Factories
             DoubleRange omega,
             DoubleRange x,
             DoubleRange y,
-            AbsorptionWeightingType awt,
-            IList<OpticalProperties> referenceOps,
+            ITissue tissue,
+            IList<OpticalProperties> perturbedOps,
             IList<int> perturbedRegionsIndices)
         {
             switch (tallyType)
             {
                 default:
                 case TallyType.pMuaMusInROfRhoAndTime:
-                    return new pMuaMusInROfRhoAndTimeTally(rho, time, awt, referenceOps, perturbedRegionsIndices);
+                    return new pMuaMusInROfRhoAndTimeTally(rho, time, tissue, perturbedOps, perturbedRegionsIndices);
                 case TallyType.pMuaMusInROfRho:
-                    return new pMuaMusInROfRhoTally(rho, awt, referenceOps, perturbedRegionsIndices);
+                    return new pMuaMusInROfRhoTally(rho, tissue, perturbedOps, perturbedRegionsIndices);
             }
         }
  
@@ -125,8 +124,8 @@ namespace Vts.MonteCarlo.Factories
             DoubleRange omega,
             DoubleRange x,
             DoubleRange y,
-            AbsorptionWeightingType awt,
-            IList<OpticalProperties> referenceOps,
+            ITissue tissue,
+            IList<OpticalProperties> perturbedOps,
             IList<int> perturbedRegionsIndices)
         {
             throw new NotSupportedException("not implemented yet");

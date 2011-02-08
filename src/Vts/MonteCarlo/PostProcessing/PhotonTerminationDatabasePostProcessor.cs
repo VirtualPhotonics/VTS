@@ -22,13 +22,12 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <returns></returns>
         public static Output GenerateOutput(
             IDetectorInput tallies, 
-            AbsorptionWeightingType awt,
             PhotonTerminationDatabase peh, 
             Output databaseOutput)
         {
             Output postProcessedOutput = new Output();
             ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.input.TissueInput);
-            IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue, awt);
+            IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
 
             foreach (var dp in peh.DataPoints)
             {
@@ -36,7 +35,7 @@ namespace Vts.MonteCarlo.PostProcessing
                 {
                     if (t.ContainsPoint(dp))
                     {
-                        t.Tally(dp, databaseOutput.input.TissueInput.Regions.Select(s => s.RegionOP).ToList());
+                        t.Tally(dp);
                     }
                 }          
             }
@@ -57,7 +56,6 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <returns></returns>
         public static Output GenerateOutput(
             IDetectorInput tallies, 
-            AbsorptionWeightingType awt,
             PhotonTerminationDatabase peh, 
             Output databaseOutput,
             List<OpticalProperties> perturbedOps,
@@ -65,7 +63,7 @@ namespace Vts.MonteCarlo.PostProcessing
         {
             Output postProcessedOutput = new Output();
             ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.input.TissueInput);
-            IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue, awt);
+            IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
 
             int count = 0;
             foreach (var dp in peh.DataPoints)
@@ -74,7 +72,7 @@ namespace Vts.MonteCarlo.PostProcessing
 			    {
                     if (t.ContainsPoint(dp))
                     {
-                        t.Tally(dp, perturbedOps);
+                        t.Tally(dp);
                         ++count;
                     }
                 }

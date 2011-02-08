@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Vts.Common;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -15,7 +16,7 @@ namespace Vts.MonteCarlo.Detectors
             DoubleRange omega,
             DoubleRange x,
             DoubleRange y,
-            AbsorptionWeightingType awt,
+            ITissue tissue,
             List<OpticalProperties> referenceOps,
             List<int> perturbedRegionsIndices)
         {
@@ -27,7 +28,7 @@ namespace Vts.MonteCarlo.Detectors
             Omega = omega;
             X = x;
             Y = y;
-            AWT = awt;
+            AWT = tissue.AbsorptionWeightingType;
             ReferenceOps = referenceOps;
             PerturbedRegionsIndices = perturbedRegionsIndices;
         }
@@ -46,7 +47,7 @@ namespace Vts.MonteCarlo.Detectors
             new DoubleRange(0.0, 1000, 21), // omega
             new DoubleRange(-10.0, 10.0, 201), // x
             new DoubleRange(-10.0, 10.0, 201), // y
-            AbsorptionWeightingType.Discrete,
+            new MultiLayerTissue(),
             new List<OpticalProperties>() {
                 new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
                 new OpticalProperties(0.0, 1.0, 0.8, 1.4),

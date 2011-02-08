@@ -9,7 +9,8 @@ namespace Vts.MonteCarlo.TallyActions
 {
     /// <summary>
     /// Implements ITerminationTally<double[]>.  Tally for transmittance as a function 
-    /// of Angle.
+    /// of Angle. 
+    /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     public class TOfAngleTally : ITerminationTally<double[]>
     {
@@ -25,18 +26,8 @@ namespace Vts.MonteCarlo.TallyActions
         public double[] Mean { get; set; }
         public double[] SecondMoment { get; set; }
 
-        public bool ContainsPoint(PhotonDataPoint dp)
+        public void Tally(PhotonDataPoint dp)
         {
-            return (dp.StateFlag == PhotonStateType.ExitedOutBottom);
-        }
-
-        public void Tally(PhotonDataPoint dp, IList<OpticalProperties> ops)
-        {
-            var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
-                DetectorBinning.GetTimeDelay(
-                    sub.PathLength,
-                    ops[i].N)
-            ).Sum();
 
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), _angle.Count, _angle.Delta, _angle.Start);
 
@@ -51,5 +42,10 @@ namespace Vts.MonteCarlo.TallyActions
                 Mean[ia] /= 2.0 * Math.PI * Math.Sin((ia + 0.5) * _angle.Delta) * _angle.Delta * numPhotons;
             }
         }
+        public bool ContainsPoint(PhotonDataPoint dp)
+        {
+            return (dp.StateFlag == PhotonStateType.ExitedOutBottom);
+        }
+
     }
 }

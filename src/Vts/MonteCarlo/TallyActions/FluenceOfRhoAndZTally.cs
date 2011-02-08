@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.TallyActions
     {
         private DoubleRange _rho;
         private DoubleRange _z;
-        // should following code be put in common class?
+
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
         public FluenceOfRhoAndZTally(DoubleRange rho, DoubleRange z, ITissue tissue)
@@ -22,10 +22,32 @@ namespace Vts.MonteCarlo.TallyActions
         {
             _rho = rho;
             _z = z;
+
             Mean = new double[_rho.Count - 1, _z.Count - 1];
             SecondMoment = new double[_rho.Count - 1, _z.Count - 1];
         }
-        
+
+        public double[,] Mean { get; set; }
+        public double[,] SecondMoment { get; set; }
+
+        protected override void SetAbsorbAction(AbsorptionWeightingType awt)
+        {
+            switch (awt)
+            {
+                case AbsorptionWeightingType.Analog:
+                    _absorbAction = AbsorbAnalog;
+                    break;
+                //case AbsorptionWeightingType.Continuous:
+                //    AbsorbAction = AbsorbContinuous;
+                //    break;
+                case AbsorptionWeightingType.Discrete:
+                    _absorbAction = AbsorbDiscrete;
+                    break;
+                default:
+                    throw new ArgumentException("AbsorptionWeightingType not set");
+            }
+        }
+
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
@@ -44,24 +66,7 @@ namespace Vts.MonteCarlo.TallyActions
             SecondMoment[ir, iz] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
         }
 
-        protected override void SetAbsorbAction(AbsorptionWeightingType awt)
-        {
-            switch (awt)
-            {
-                case AbsorptionWeightingType.Analog:
-                    _absorbAction = AbsorbAnalog;
-                    break;
-                //case AbsorptionWeightingType.Continuous:
-                //    AbsorbAction = AbsorbContinuous;
-                //    break;
-                case AbsorptionWeightingType.Discrete:
-                default:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-            }
-        }
-        
-        private double AbsorbAnalog(double mua, double mus, double weight, double nextWeight, PhotonStateType photonStateType)
+        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
             if (photonStateType != PhotonStateType.Absorbed)
             {
@@ -69,22 +74,21 @@ namespace Vts.MonteCarlo.TallyActions
             }
             else
             {
-                weight *= mua / (mua + mus);
+                weight = previousWeight * mua / (mua + mus);
             }
             return weight;
         }
 
-        private double AbsorbDiscrete(double mua, double mus, double weight, double nextWeight, PhotonStateType photonStateType)
+        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (weight == nextWeight) // pseudo collision, so no tally
+            if (previousWeight == weight) // pseudo collision, so no tally
             {
                 weight = 0.0;
             }
             else
             {
-                weight *= mua / (mua + mus);
+                weight = previousWeight * mua / (mua + mus);
             }
-
             return weight;
         }
 
@@ -99,12 +103,11 @@ namespace Vts.MonteCarlo.TallyActions
                 }
             }
         }
+
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true;
         }
-        public double[,] Mean { get; set; }
-        public double[,] SecondMoment { get; set; }
 
     }
 }

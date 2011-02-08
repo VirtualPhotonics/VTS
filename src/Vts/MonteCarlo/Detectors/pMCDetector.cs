@@ -20,10 +20,9 @@ namespace Vts.MonteCarlo.Detectors
             DoubleRange omega,
             DoubleRange x,
             DoubleRange y,
-            AbsorptionWeightingType awt,
-            List<OpticalProperties> referenceOps,
-            List<int> perturbedRegionsIndices,
-            ITissue tissue
+            ITissue tissue,
+            List<OpticalProperties> perturbedOps,
+            List<int> perturbedRegionsIndices
             ) 
         {
             TallyTypeList = tallyTypeList;
@@ -35,8 +34,9 @@ namespace Vts.MonteCarlo.Detectors
             X = x;
             Y = y;
             _tissue = tissue;
-            AWT = awt;
-            ReferenceOps = referenceOps;
+            AWT = tissue.AbsorptionWeightingType;
+            ReferenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
+            PerturbedOps = perturbedOps;
             PerturbedRegionsIndices = perturbedRegionsIndices;
             SetTallyActionLists();
         }
@@ -55,13 +55,12 @@ namespace Vts.MonteCarlo.Detectors
             new DoubleRange(0.0, 1000, 21), // omega
             new DoubleRange(-10.0, 10.0, 201), // x
             new DoubleRange(-10.0, 10.0, 201), // y
-            AbsorptionWeightingType.Discrete,
+            new MultiLayerTissue(),
             new List<OpticalProperties>() {
                 new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
                 new OpticalProperties(0.0, 1.0, 0.8, 1.4),
                 new OpticalProperties(1e-10, 0.0, 0.0, 1.0) },
-            new List<int>() { 1 },
-            new MultiLayerTissue()
+            new List<int>() { 1 }
         ) {}
         public pMCDetector(pMCDetectorInput di, ITissue tissue)
             : this(
@@ -73,13 +72,11 @@ namespace Vts.MonteCarlo.Detectors
                 di.Omega,
                 di.X,
                 di.Y,
-                di.AWT,
+                tissue,
                 di.ReferenceOps,
-                di.PerturbedRegionsIndices,
-                tissue
+                di.PerturbedRegionsIndices
             ) { }
-
-        //public List<ITally> ITallyList { get; set; }
+        // do this all have to be properties?
         public IList<ITerminationTally> TerminationITallyList { get; set; }
         public IList<IHistoryTally> HistoryITallyList { get; set; }
         public IList<TallyType> TallyTypeList { get; set; }
@@ -92,6 +89,7 @@ namespace Vts.MonteCarlo.Detectors
         public DoubleRange Z { get; set; }
         public AbsorptionWeightingType AWT { get; set; }
         public IList<OpticalProperties> ReferenceOps { get; set; }
+        public IList<OpticalProperties> PerturbedOps { get; set; }
         public IList<int> PerturbedRegionsIndices { get; set; }
  
         public void SetTallyActionLists()
@@ -105,12 +103,14 @@ namespace Vts.MonteCarlo.Detectors
                     HistoryITallyList.Add(
                         Factories.TallyActionFactory.GetHistoryTallyAction(
                             tally, Rho, Z, Angle, Time, Omega, X, Y,
-                            AWT, ReferenceOps, PerturbedRegionsIndices));
+                            _tissue, PerturbedOps, PerturbedRegionsIndices));
                 }
                 else
                 {
-                    TerminationITallyList.Add(Factories.TallyActionFactory.GetTerminationTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y,
-                        AWT, ReferenceOps, PerturbedRegionsIndices));
+                    TerminationITallyList.Add(
+                        Factories.TallyActionFactory.GetTerminationTallyAction(
+                            tally, Rho, Z, Angle, Time, Omega, X, Y,
+                            _tissue, PerturbedOps, PerturbedRegionsIndices));
                 }
             }
         }
@@ -119,16 +119,31 @@ namespace Vts.MonteCarlo.Detectors
             foreach (var tally in TerminationITallyList)
             {
                 if (tally.ContainsPoint(dp))
-                    tally.Tally(dp, _tissue.Regions.Select(s => s.RegionOP).ToList());
+                    tally.Tally(dp);
             }
         }
+        PhotonDataPoint _previousDP;
         public void HistoryTally(PhotonHistory history)
         {
-            foreach (var tally in HistoryITallyList)
+            bool _firstPoint = true;
+            foreach (PhotonDataPoint dp in history.HistoryData)
             {
-                // to fill in 
+                if (_firstPoint)
+                {
+                    _firstPoint = false;
+                    _previousDP = dp;
+                }
+                else
+                {
+                    foreach (var tally in HistoryITallyList)
+                    {
+                        tally.Tally(_previousDP, dp);
+                    }
+                    _previousDP = dp;
+                }
             }
         }
+
         // pass in Output rather than return because want instance of SimulationInput to be consistent
         public void NormalizeTalliesToOutput(long N, Output output)
         {
@@ -154,11 +169,11 @@ namespace Vts.MonteCarlo.Detectors
                     default:
                     case TallyType.pMuaMusInROfRhoAndTime:
                         output.R_rt = 
-                            ((ITally<double[,]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRhoAndTime)]).Mean;
+                            ((ITally<double[,]>)HistoryITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRhoAndTime)]).Mean;
                         break;
                     case TallyType.pMuaMusInROfRho:
                         output.R_r =
-                            ((ITally<double[]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRho)]).Mean;
+                            ((ITally<double[]>)HistoryITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRho)]).Mean;
                         break;
                 }
             }

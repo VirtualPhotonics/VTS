@@ -11,12 +11,15 @@ namespace Vts.MonteCarlo.TallyActions
     /// </summary>
     public class ATotalTally : HistoryTallyBase, IHistoryTally<double>
     {
-        private Action<double, double> _absorbAction;
+        private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
         public ATotalTally(ITissue tissue)
            : base(tissue)
         {
         }
+
+        public double Mean { get; set; }
+        public double SecondMoment { get; set; }
 
         protected override void SetAbsorbAction(AbsorptionWeightingType awt)
         {
@@ -34,42 +37,41 @@ namespace Vts.MonteCarlo.TallyActions
                     break;
             }
         }
-
-        private double _dw;
-        private double _nextDw;
-        private PhotonStateType _pst; 
+ 
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
-            //double dw = previousDP.Weight * ops[_tissue.GetRegionIndex(dp.Position)].Mua / 
-            //    (ops[_tissue.GetRegionIndex(dp.Position)].Mua + ops[_tissue.GetRegionIndex(dp.Position)].Mus);
-            _pst = dp.StateFlag;
-            _dw = previousDP.Weight;
-            _nextDw = dp.Weight;
-            _absorbAction(_ops[_tissue.GetRegionIndex(dp.Position)].Mua, _ops[_tissue.GetRegionIndex(dp.Position)].Mus);
-            Mean += _dw; 
-            SecondMoment += _dw * _dw;
+            var weight = _absorbAction(
+                _ops[_tissue.GetRegionIndex(dp.Position)].Mua, 
+                _ops[_tissue.GetRegionIndex(dp.Position)].Mus,
+                previousDP.Weight,
+                dp.Weight,
+                dp.StateFlag);
+            Mean += weight; 
+            SecondMoment += weight * weight;
         }
-        public void AbsorbAnalog(double mua, double mus)
+        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (_pst != PhotonStateType.Absorbed)
+            if (photonStateType != PhotonStateType.Absorbed)
             {
-                _dw = 0.0;
+                weight = 0.0;
             }
             else
             {
-                _dw *= mua / (mua + mus);
+                weight = previousWeight * mua / (mua + mus);
             }
+            return weight;
         }
-        public void AbsorbDiscrete(double mua, double mus)
+        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (_dw == _nextDw) // pseudo collision, so no tally
+            if (previousWeight == weight) // pseudo collision, so no tally
             {
-                _dw = 0.0;
+                weight = 0.0;
             }
             else
             {
-                _dw *= mua / (mua + mus);
+                weight = previousWeight * mua / (mua + mus);
             }
+            return weight;
         }
 
         public void Normalize(long numPhotons)
@@ -81,8 +83,6 @@ namespace Vts.MonteCarlo.TallyActions
         {
             return true;
         }
-        public double Mean { get; set; }
-        public double SecondMoment { get; set; }
 
     }
 }

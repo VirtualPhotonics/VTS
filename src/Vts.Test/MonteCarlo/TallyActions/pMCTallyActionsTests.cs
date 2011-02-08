@@ -58,14 +58,15 @@ namespace Vts.Test.MonteCarlo.TallyActions
                         new DoubleRange(0.0, 1000, 21), // omega
                         new DoubleRange(-10.0, 10.0, 201), // x
                         new DoubleRange(-10.0, 10.0, 201), // y
-                        AbsorptionWeightingType.Discrete,
+                        new MultiLayerTissue(
+                            _referenceHomogeneousInput.TissueInput.Regions,
+                            _referenceHomogeneousInput.Options.AbsorptionWeightingType),
                         new List<OpticalProperties>() {
                             _referenceHomogeneousInput.TissueInput.Regions[0].RegionOP,
                             _referenceHomogeneousInput.TissueInput.Regions[1].RegionOP,
                             _referenceHomogeneousInput.TissueInput.Regions[2].RegionOP},
                         new List<int>() { 1 }
                     ),
-                    AbsorptionWeightingType.Discrete,
                     peh, 
                     _referenceHomogeneousOutput,
                     new List<OpticalProperties>() { // perturbed ops
@@ -125,8 +126,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(0.0, 10000, 101), // time
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-10.0, 10.0, 201), // x
-                    new DoubleRange(-10.0, 10.0, 201), // y
-                    AbsorptionWeightingType.Discrete
+                    new DoubleRange(-10.0, 10.0, 201) // y
                 )
             );
         }
@@ -181,8 +181,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(0.0, 10000, 101), // time
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-10.0, 10.0, 201), // x
-                    new DoubleRange(-10.0, 10.0, 201), // y
-                    AbsorptionWeightingType.Discrete
+                    new DoubleRange(-10.0, 10.0, 201) // y
                 )
             );
         }

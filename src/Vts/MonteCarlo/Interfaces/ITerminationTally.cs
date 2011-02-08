@@ -5,7 +5,7 @@ namespace Vts.MonteCarlo
 {
     public interface  ITerminationTally : ITally
     {
-        void Tally(PhotonDataPoint dp, IList<OpticalProperties> ops);
+        void Tally(PhotonDataPoint dp);
     }
 
     /// <summary>

@@ -13,73 +13,79 @@ namespace Vts.MonteCarlo.TallyActions
     {
         private DoubleRange _rho;
         private DoubleRange _z;
-        private ITissue _tissue;
+
+        private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
         public AOfRhoAndZTally(DoubleRange rho, DoubleRange z, ITissue tissue)
             : base(tissue)
         {
             _rho = rho;
             _z = z;
+
             Mean = new double[_rho.Count - 1, _z.Count - 1];
             SecondMoment = new double[_rho.Count - 1, _z.Count - 1];
         }
 
-        public Action<double, double> AbsorbAction { get; private set; }
-
+        public double[,] Mean { get; set; }
+        public double[,] SecondMoment { get; set; }
+        
         protected override void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
             {
                 case AbsorptionWeightingType.Analog:
-                    AbsorbAction = AbsorbAnalog;
+                    _absorbAction = AbsorbAnalog;
                     break;
                 //case AbsorptionWeightingType.Continuous:
                 //    AbsorbAction = AbsorbContinuous;
                 //    break;
                 case AbsorptionWeightingType.Discrete:
-                default:
-                    AbsorbAction = AbsorbDiscrete;
+                    _absorbAction = AbsorbDiscrete;
                     break;
+                default:
+                    throw new ArgumentException("AbsorptionWeightingType not set");
+                    
             }
         }
 
-        private double _dw;
-        private double _nextDw;
-        private PhotonStateType _pst; 
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);
-            //double dw = previousDP.Weight * ops[_tissue.GetRegionIndex(dp.Position)].Mua / 
-            //    (ops[_tissue.GetRegionIndex(dp.Position)].Mua + ops[_tissue.GetRegionIndex(dp.Position)].Mus);
-            _pst = dp.StateFlag;
-            _dw = previousDP.Weight;
-            _nextDw = dp.Weight;
-            AbsorbAction(_ops[_tissue.GetRegionIndex(dp.Position)].Mua, _ops[_tissue.GetRegionIndex(dp.Position)].Mus);
-            Mean[ir, iz] += _dw; 
-            SecondMoment[ir, iz] += _dw * _dw;
+
+            var weight = _absorbAction(
+                _ops[_tissue.GetRegionIndex(dp.Position)].Mua, 
+                _ops[_tissue.GetRegionIndex(dp.Position)].Mus,
+                previousDP.Weight,
+                dp.Weight,
+                dp.StateFlag);
+
+            Mean[ir, iz] += weight; 
+            SecondMoment[ir, iz] += weight * weight;
         }
-        public void AbsorbAnalog(double mua, double mus)
+        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (_pst != PhotonStateType.Absorbed)
+            if (photonStateType != PhotonStateType.Absorbed)
             {
-                _dw = 0.0;
+                weight = 0.0;
             }
             else
             {
-                _dw *= mua / (mua + mus);
+                weight = previousWeight * mua / (mua + mus);
             }
+            return weight;
         }
-        public void AbsorbDiscrete(double mua, double mus)
+        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (_dw == _nextDw) // pseudo collision, so no tally
+            if (previousWeight == weight) // pseudo collision, so no tally
             {
-                _dw = 0.0;
+                weight = 0.0;
             }
             else
             {
-                _dw *= mua / (mua + mus);
+                weight = previousWeight * mua / (mua + mus);
             }
+            return weight;
         }
 
         public void Normalize(long numPhotons)
@@ -97,8 +103,6 @@ namespace Vts.MonteCarlo.TallyActions
         {
             return true;
         }
-        public double[,] Mean { get; set; }
-        public double[,] SecondMoment { get; set; }
-
+        
     }
 }
