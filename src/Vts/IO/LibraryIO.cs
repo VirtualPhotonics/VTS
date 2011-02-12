@@ -3,8 +3,10 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Threading;
 using System.Windows;
 using System.Runtime.Serialization;
+using System.Windows.Threading;
 using Vts.Extensions;
 
 
@@ -15,61 +17,57 @@ namespace Vts.IO
     /// </summary>
     public static class LibraryIO
     {
-        private static Assembly _sLDLL;
-        //private static string _sLProjectName;
-        private static List<string> _assemblyList = new List<string>();
+        private static IDictionary<string, string> _loadedAssemblies;
+
+        static LibraryIO()
+        {
+            _loadedAssemblies = new Dictionary<string, string>();
+        }
+
+        public static void EnsureDllIsLoaded(string assemblyName)
+        {
+            if (!_loadedAssemblies.ContainsKey(assemblyName))
+            {
+                LoadFromDLL(assemblyName);
+            }
+        }
 
 #if SILVERLIGHT
-
+        // a lightweight object to use 
+        private static AutoResetEvent _signal = new AutoResetEvent(false);
         /// <summary>
         /// Loads an assembly from a dll
         /// </summary>
-        /// <param name="FileName">path name and filename of the dll</param>
-        public static void LoadFromDLL(string FileName)
+        /// <param name="fileName">path name and filename of the dll</param>
+        private static void LoadFromDLL(string fileName)
         {
-            WebClient downloader = new WebClient(); 
-            string path = FileName.ToString();
-            downloader.OpenReadCompleted += new OpenReadCompletedEventHandler(downloader_OpenReadCompleted); 
-            downloader.OpenReadAsync(new Uri(path, UriKind.Absolute));
-        }
+            WebClient downloader = new WebClient();
 
-        public static void PollDLL(string AssemblyName)
-        {
-            bool IsLoaded;
-            do
+            downloader.OpenReadCompleted += (sender1, e1) =>
             {
-                IsLoaded = IsDLLLoaded(AssemblyName.ToString());
-            } while (!IsLoaded);
-        }
+                AssemblyPart assemblyPart = new AssemblyPart();
+                var assembly = assemblyPart.Load(e1.Result);
+                //Add the current assembly to the list of assemblies
+                _loadedAssemblies.Add(fileName, assembly.FullName);
+                _signal.Set();
+            };
 
-        static void downloader_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
-        {
-            AssemblyPart assemblyPart = new AssemblyPart();
-            _sLDLL = assemblyPart.Load(e.Result);
-            //Add the current assembly to the list of assemblies
-            _assemblyList.Add(_sLDLL.FullName);
+            downloader.OpenReadAsync(new Uri(fileName, UriKind.Absolute));
+
+            // wait for the async operation to complete (-1 specifies an infinte wait time)
+            _signal.WaitOne(-1);
         }
 #else
         /// <summary>
         /// Loads an assembly from a dll
         /// </summary>
-        /// <param name="FileName">Path and name of the dll</param>
-        public static void LoadFromDLL(string FileName)
+        /// <param name="fileName">Path and name of the dll</param>
+        private static void LoadFromDLL(string fileName)
         {
-            byte[] bytes = File.ReadAllBytes(FileName);
-            _sLDLL = Assembly.Load(bytes);
-            //return _sLDLL.CreateInstance(SLProjectName);
-            _assemblyList.Add(_sLDLL.FullName);
+            byte[] bytes = File.ReadAllBytes(fileName);
+            var assembly = Assembly.Load(bytes);
+            _loadedAssemblies.Add(fileName, assembly.FullName);
         }
 #endif
-        public static bool IsDLLLoaded(string AssemblyName)
-        {
-            foreach (string Item in _assemblyList)
-            {
-                if (Item.StartsWith(AssemblyName, StringComparison.CurrentCultureIgnoreCase))
-                    return true;
-            }
-            return false;
-        }
     }
 }
