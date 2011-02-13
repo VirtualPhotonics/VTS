@@ -29,6 +29,7 @@ syntax: glob
 *.scc
 *.sig
 [Bb]in
+[Cc]lient[Bb]in
 [Dd]ebug*/
 obj/
 [Rr]elease*/
