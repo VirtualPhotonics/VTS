@@ -34,7 +34,7 @@
                         Width="80" Height="20" Margin="0,5,0,0"/>
                 <Button input:CommandService.Command="Plot_ClearPlotSingle"
                         input:CommandService.CommandParameter="{Binding}"
-                        Content="{Binding Path=MainResource.Button_ClearAll, Source={StaticResource LocalizedStrings}}"  
+                        Content="{Binding Path=MainResource.Button_ClearNewest, Source={StaticResource LocalizedStrings}}"  
                         Width="80" Height="20" Margin="0,5,0,0"/>
             </StackPanel>
             <!--  -->

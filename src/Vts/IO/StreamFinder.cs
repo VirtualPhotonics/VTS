@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 #if SILVERLIGHT
@@ -16,6 +17,18 @@ namespace Vts.IO
     /// </summary>
     public static class StreamFinder
     {
+        // todo: this is a temp location for this resource list, should be moved to .resx file
+        private static IDictionary<string, string> _lazyLoadLibraries;
+
+        static StreamFinder()
+        {
+            // dictionary of libraries to be lazy loaded, keyed by the project name
+            _lazyLoadLibraries = new Dictionary<string, string>
+            {
+                {"Vts.Database", "Vts.Database.dll"}
+            };
+        }
+
         /// <summary>
         /// Returns a stream from resources (standard and embedded for Silverlight and desktop, respectively),
         /// given a file name and an assembly (project) name
@@ -25,6 +38,11 @@ namespace Vts.IO
         /// <returns></returns>
         public static Stream GetFileStreamFromResources(string fileName, string projectName)
         {
+            if (_lazyLoadLibraries.ContainsKey(projectName))
+            {
+                LibraryIO.EnsureDllIsLoaded(_lazyLoadLibraries[projectName]);
+            }
+
 #if SILVERLIGHT
             var stream = Application.GetResourceStream(new Uri(projectName + ";component/" + fileName, UriKind.Relative)).Stream;
             return stream;

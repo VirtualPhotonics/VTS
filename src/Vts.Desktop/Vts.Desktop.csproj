@@ -822,12 +822,6 @@
     <None Include="Vts.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vts.Database.Desktop\Vts.Database.Desktop.csproj">
-      <Project>{4FE8D1A5-E651-4264-B6A0-3D8143D7F413}</Project>
-      <Name>Vts.Database.Desktop</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>

@@ -3,8 +3,10 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Threading;
 using System.Windows;
 using System.Runtime.Serialization;
+using System.Windows.Threading;
 using Vts.Extensions;
 
 
@@ -15,42 +17,56 @@ namespace Vts.IO
     /// </summary>
     public static class LibraryIO
     {
-#if SILVERLIGHT
-        private static Assembly SLDLL;
-        private static string SLProjectName;
+        private static IDictionary<string, string> _loadedAssemblies;
 
+        static LibraryIO()
+        {
+            _loadedAssemblies = new Dictionary<string, string>();
+        }
+
+        public static void EnsureDllIsLoaded(string assemblyName)
+        {
+            if (!_loadedAssemblies.ContainsKey(assemblyName))
+            {
+                LoadFromDLL(assemblyName);
+            }
+        }
+
+#if SILVERLIGHT
+        // a lightweight object to use 
+        private static AutoResetEvent _signal = new AutoResetEvent(false);
         /// <summary>
         /// Loads an assembly from a dll
         /// </summary>
-        /// <param name="pathName">path name and filename of the dll</param>
-        /// <param name="projectName">Type name of the instance (Project name)</param>
-        public static void LoadFromDLL(string pathName, string projectName)
+        /// <param name="fileName">path name and filename of the dll</param>
+        private static void LoadFromDLL(string fileName)
         {
-            WebClient downloader = new WebClient(); 
-            string path = pathName;
-            SLProjectName = projectName;
-            downloader.OpenReadCompleted += new OpenReadCompletedEventHandler(downloader_OpenReadCompleted); 
-            downloader.OpenReadAsync(new Uri(path, UriKind.Absolute));
-        }
+            WebClient downloader = new WebClient();
 
-        static void downloader_OpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
-        {
-            AssemblyPart assemblyPart = new AssemblyPart();
-            SLDLL = assemblyPart.Load(e.Result);
-            // SLDLL.CreateInstance(SLProjectName); //what is the scope of this instance?
+            downloader.OpenReadCompleted += (sender1, e1) =>
+            {
+                AssemblyPart assemblyPart = new AssemblyPart();
+                var assembly = assemblyPart.Load(e1.Result);
+                //Add the current assembly to the list of assemblies
+                _loadedAssemblies.Add(fileName, assembly.FullName);
+                _signal.Set();
+            };
+
+            downloader.OpenReadAsync(new Uri(fileName, UriKind.Absolute));
+
+            // wait for the async operation to complete (-1 specifies an infinte wait time)
+            _signal.WaitOne(-1);
         }
 #else
         /// <summary>
         /// Loads an assembly from a dll
         /// </summary>
-        /// <param name="filename">Path and name of the dll</param>
-        /// <param name="projectName">Type name of the instance (Project Name)</param>
-        /// <returns></returns>
-        public static object LoadFromDLL(string filename, string projectName)
+        /// <param name="fileName">Path and name of the dll</param>
+        private static void LoadFromDLL(string fileName)
         {
-            byte[] bytes = File.ReadAllBytes(filename);
-            Assembly LoadedDLL = Assembly.Load(bytes);
-            return LoadedDLL.CreateInstance(projectName);
+            byte[] bytes = File.ReadAllBytes(fileName);
+            var assembly = Assembly.Load(bytes);
+            _loadedAssemblies.Add(fileName, assembly.FullName);
         }
 #endif
     }

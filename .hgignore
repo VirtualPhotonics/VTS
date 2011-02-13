@@ -29,9 +29,11 @@ syntax: glob
 *.scc
 *.sig
 [Bb]in
+[Cc]lient[Bb]in
 [Dd]ebug*/
 obj/
 [Rr]elease*/
+[Ll]ibraries/*.dll
 [Tt]est[Rr]esult*
 [Bb]uild[Ll]og.*
 *.[Pp]ublish.xml

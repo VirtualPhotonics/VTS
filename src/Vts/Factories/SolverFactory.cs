@@ -26,9 +26,9 @@ namespace Vts.Factories
 
             RegisterClassesToEnumTypesByConvention<OptimizerType, IOptimizer>(
                 typeof(MPFitLevenbergMarquardtOptimizer).Namespace, true, true);
-            
+
             RegisterClassesToEnumTypesByConvention<ScatteringType, IScatterer>(
-                typeof (IntralipidScatterer).Namespace, false, true);
+                typeof(IntralipidScatterer).Namespace, false, true);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Vts.Factories
         /// <param name="useSingleton"></param>
         /// <param name="useDefaultConstructor"></param>
         private static void RegisterClassesToEnumTypesByConvention<TEnum, TInterface>(
-            string namespaceString, 
+            string namespaceString,
             bool useSingleton,
             bool useDefaultConstructor)
         {
@@ -50,15 +50,18 @@ namespace Vts.Factories
             var enumValues = EnumHelper.GetValues<TEnum>();
             foreach (var enumValue in enumValues)
             {
-                var interfaceType = typeof (TInterface);
+                var interfaceType = typeof(TInterface);
                 var interfaceBasename = interfaceType.Name.Substring(1);
                 var classType = Type.GetType(namespaceString + @"." + enumValue + interfaceBasename, false, true);
-                _container.RegisterType(
+                if (classType != null)
+                {
+                    _container.RegisterType(
                      interfaceType,
                      classType,
                      enumValue.ToString(), // use the enum string to register each class
                      useSingleton ? new ContainerControlledLifetimeManager() : null,
                      useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
+                }
             }
         }
 

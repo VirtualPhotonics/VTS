@@ -158,6 +158,9 @@
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\DiffusionGreensFunctionsTest.cs">
       <Link>Modeling\ForwardSolvers\DiffusionGreensFunctionsTest.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\MonteCarloForwardSolverTests.cs">
+      <Link>Modeling\ForwardSolvers\MonteCarloForwardSolverTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsForwardSolverTest.cs">
       <Link>Modeling\ForwardSolvers\NurbsForwardSolverTest.cs</Link>
     </Compile>
