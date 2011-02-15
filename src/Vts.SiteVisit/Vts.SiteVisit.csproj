@@ -168,6 +168,9 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="ViewModel\Application\Panels\MultiLayerTissueViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\LayerRegionViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\SimulationInputViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\BloodConcentrationViewModel.cs" />
     <Compile Include="Converters\DoubleToStringConverter.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\FluenceSolutionDomainOptionViewModel.cs" />

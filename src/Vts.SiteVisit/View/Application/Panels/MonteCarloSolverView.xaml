@@ -6,15 +6,33 @@
     xmlns:vm="clr-namespace:Vts.SiteVisit.ViewModel"
     xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
 
-    <!--<UserControl.DataContext>
+    <UserControl.DataContext>
         <vm:MonteCarloSolverViewModel/>
-    </UserControl.DataContext>-->
+    </UserControl.DataContext>
 
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
         <TextBlock Text="EXECUTE A SIMULATION:" FontSize="16" />
 
-        <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}"/>
+        <v:ListBox ItemsSource="{Binding SimulationInputVM.TissueInputVM.Regions}">
+            <v:ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Gray" BorderThickness="1.5">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Layer Range:" Margin="3"/>
+                                <v:RangeView DataContext="{Binding ZRangeVM}" Margin="3"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Layer OP:" Margin="3"/>
+                                <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" Margin="3"/>
+                            </StackPanel>
+                        </StackPanel>
+                       
+                    </Border>
+                </DataTemplate>
+            </v:ListBox.ItemTemplate>
+        </v:ListBox>
 
         <TextBlock Text="Todo: added other user inputs and choice of output plot"/>
         <StackPanel Orientation="Horizontal">

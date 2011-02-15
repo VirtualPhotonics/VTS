@@ -85,11 +85,11 @@
                     <!--<controls:TabItem Name="tabTools" Header="Tools">
                         <local:IsolatedStorageView Background="LightSteelBlue" />
                     </controls:TabItem>-->
-                    <!--<controls:TabItem Header="Monte Carlo Solver Panel">
+                    <controls:TabItem Header="Monte Carlo Solver Panel">
                         <local:MonteCarloSolverView
                             DataContext="{Binding MonteCarloSolverVM}"
                             Background="LightSteelBlue"/>
-                    </controls:TabItem>-->
+                    </controls:TabItem>
                 </controls:TabControl>
 
                 <controls:TabControl x:Name="outputTabControl"
