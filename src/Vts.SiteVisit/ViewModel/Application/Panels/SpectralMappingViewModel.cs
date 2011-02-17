@@ -260,7 +260,7 @@ namespace Vts.SiteVisit.ViewModel
                 
         void PlotMuaSpectra_Executed(object sender, ExecutedEventArgs e)
         {
-            PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", "μa'", "mm-1");
+            PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", "μa", "mm-1");
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
             IEnumerable<Point> points = ExecutePlotMuaSpectra();
