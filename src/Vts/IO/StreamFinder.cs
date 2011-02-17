@@ -25,7 +25,7 @@ namespace Vts.IO
             // dictionary of libraries to be lazy loaded, keyed by the project name
             _lazyLoadLibraries = new Dictionary<string, string>
             {
-                {"Vts.Database", "Vts.Database.dll"}
+//                {"Vts.Database", "Vts.Database.dll"}
             };
         }
 

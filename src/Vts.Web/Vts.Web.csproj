@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientBin\Vts.SiteVisit.xap" />
-    <Content Include="Libraries\ClientAccessPolicy.xml" />
+    <Content Include="ClientAccessPolicy.xml" />
     <Content Include="Libraries\Vts.Database.dll" />
     <Content Include="Silverlight.js" />
     <Content Include="Vts.SiteVisitTestPage.aspx" />

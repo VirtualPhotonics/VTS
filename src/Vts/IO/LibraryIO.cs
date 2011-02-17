@@ -28,11 +28,13 @@ namespace Vts.IO
         {
             if (!_loadedAssemblies.ContainsKey(assemblyName))
             {
-                LoadFromDLL(assemblyName);
+                LoadFromDLL(DLLLocation + assemblyName);
             }
         }
 
 #if SILVERLIGHT
+        // Location of the DLL
+        private static string DLLLocation = "http://localhost:50789/Libraries/";
         // a lightweight object to use 
         private static AutoResetEvent _signal = new AutoResetEvent(false);
         /// <summary>
@@ -58,13 +60,15 @@ namespace Vts.IO
             _signal.WaitOne(-1);
         }
 #else
+        // Location of the DLL
+        private static string DLLLocation = "";
         /// <summary>
         /// Loads an assembly from a dll
         /// </summary>
         /// <param name="fileName">Path and name of the dll</param>
         private static void LoadFromDLL(string fileName)
         {
-            byte[] bytes = File.ReadAllBytes(fileName);
+            byte[] bytes = File.ReadAllBytes(DLLLocation + fileName);
             var assembly = Assembly.Load(bytes);
             _loadedAssemblies.Add(fileName, assembly.FullName);
         }
