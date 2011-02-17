@@ -5,24 +5,20 @@ namespace Vts.MonteCarlo.TallyActions
 {
     /// <summary>
     /// Implements ITerminationTally<double>.  Tally for diffuse reflectance.
+    /// This implementation works for Analog, DAW and CAW.
     /// </summary>
     public class RDiffuseTally : ITerminationTally<double>
     {
-        //private double _rDiffuse;
-        //private double _rDiffuseSecondMoment;
-
         public RDiffuseTally()
         {
             Mean = 0;
             SecondMoment = 0;
         }
 
-        public bool ContainsPoint(PhotonDataPoint dp)
-        {
-            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
-        }
+        public double Mean { get; set; }
+        public double SecondMoment { get; set; }
 
-        public void Tally(PhotonDataPoint dp, IList<OpticalProperties> ops)
+        public void Tally(PhotonDataPoint dp)
         {
             Mean += dp.Weight;
             SecondMoment += dp.Weight * dp.Weight;
@@ -32,16 +28,10 @@ namespace Vts.MonteCarlo.TallyActions
         {
             Mean /= numPhotons;
         }
-        public double Mean { get; set; }
-        public double SecondMoment { get; set; }
 
-        //public double Mean
-        //{
-        //    get { return _rDiffuse; }
-        //}
-        //public double SecondMoment 
-        //{
-        //    get { return _rDiffuseSecondMoment; }
-        //}
+        public bool ContainsPoint(PhotonDataPoint dp)
+        {
+            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace Vts.MonteCarlo.TallyActions
     /// <summary>
     /// Implements ITerminationTally<double[,]>.  Tally for reflectance as a function 
     /// of X and Y.
+    /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     public class ROfXAndYTally : ITerminationTally<double[,]>
     {
@@ -25,11 +26,7 @@ namespace Vts.MonteCarlo.TallyActions
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
 
-        public bool ContainsPoint(PhotonDataPoint dp)
-        {
-            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
-        }
-        public void Tally(PhotonDataPoint dp, IList<OpticalProperties> ops)
+        public void Tally(PhotonDataPoint dp)
         {
             int ix = DetectorBinning.WhichBin(dp.Position.X, _x.Count - 1, _x.Delta, _x.Start);
             int iy = DetectorBinning.WhichBin(dp.Position.Y, _y.Count - 1, _y.Delta, _y.Start);
@@ -46,6 +43,11 @@ namespace Vts.MonteCarlo.TallyActions
                     Mean[ix, iy] /= _x.Delta * _y.Delta * numPhotons;
                 }
             }
+        }
+
+        public bool ContainsPoint(PhotonDataPoint dp)
+        {
+            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
         }
     }
 }

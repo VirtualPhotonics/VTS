@@ -1,34 +1,27 @@
 using Vts.Common;
-using Vts.Extensions;
 
 namespace Vts.MonteCarlo.Tissues
 {
+
     /// <summary>
     /// Implements ITissueRegion.  Defines a layer infinite in extent along
     /// x,y-axes and with extent along z-axis given by ZRange.
     /// </summary>
     public class LayerRegion : ITissueRegion
     {
-        public LayerRegion(DoubleRange zRange, OpticalProperties op, AbsorptionWeightingType weightingType) 
+        public LayerRegion(DoubleRange zRange, OpticalProperties op)
         {
             ZRange = zRange;
             RegionOP = op;
-            ScatterLength = op.GetScatterLength(weightingType);
         }
 
-        public LayerRegion() : this(
-            new DoubleRange(0.0, 10, 2),
-            new OpticalProperties(0.01, 1.0, 0.8, 1.4), 
-            AbsorptionWeightingType.Discrete) {}  
+        public LayerRegion()
+            : this(
+                new DoubleRange(0.0, 10, 2),
+                new OpticalProperties(0.01, 1.0, 0.8, 1.4)) { }
 
         public DoubleRange ZRange { get; set; }
         public OpticalProperties RegionOP { get; set; }
-        public double ScatterLength { get; private set; }
-
-        public bool ContainsPosition(Position position)
-        {
-            return position.Z >= ZRange.Start && position.Z < ZRange.Stop;
-        }
 
         //public bool RayExitBoundary(Photon photptr, ref double distanceToBoundary)
         //{

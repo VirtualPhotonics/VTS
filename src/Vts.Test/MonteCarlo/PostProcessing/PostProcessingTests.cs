@@ -36,7 +36,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
 
             var peh = PhotonTerminationDatabase.FromFile("postprocessing_photonBiographies");
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                input.DetectorInput, input.Options.AbsorptionWeightingType, peh, onTheFlyOutput);
+                input.DetectorInput, peh, onTheFlyOutput);
 
             ValidateROfRhoAndTime(onTheFlyOutput, postProcessedOutput);
         }
@@ -61,21 +61,19 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     new DoubleRange(0.0, 0, 1),
                     new DoubleRange(0.0, 0, 1)),
                 new MultiLayerTissueInput(
-                    new List<LayerRegion> 
+                    new List<ITissueRegion> 
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0, 2),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
-                            AbsorptionWeightingType.Discrete),
+                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0)),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0, 2),
-                            new OpticalProperties(0.0, 1.0, 0.8, 1.4),
-                            AbsorptionWeightingType.Discrete),
+                            new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity, 2),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
-                            AbsorptionWeightingType.Discrete)
-                    }
+                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
+                    },
+                    AbsorptionWeightingType.Discrete
                 ),
                 new DetectorInput(
                     new List<TallyType>()
@@ -98,8 +96,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     new DoubleRange(0.0, 4.0, 801), // time: nt=800 dt=0.005ns used for workshop
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-100.0, 100.0, 81), // x
-                    new DoubleRange(-100.0, 100.0, 81), // y
-                    AbsorptionWeightingType.Discrete
+                    new DoubleRange(-100.0, 100.0, 81) // y
             ));
         }
         /// <summary>

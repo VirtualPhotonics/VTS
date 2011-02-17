@@ -24,8 +24,11 @@ namespace Vts.MonteCarlo.TallyActions
             SecondMoment = new double[_rho.Count - 1, _z.Count - 1];
         }
 
+        public double[,] Mean { get; set; }
+        public double[,] SecondMoment { get; set; }
+
         private double _momentumTransfer;
-        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp, IList<OpticalProperties> ops)
+        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);
@@ -51,8 +54,5 @@ namespace Vts.MonteCarlo.TallyActions
         {
             return true;
         }
-        public double[,] Mean { get; set; }
-        public double[,] SecondMoment { get; set; }
-
     }
 }

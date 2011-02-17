@@ -10,13 +10,14 @@ namespace Vts.MonteCarlo.TallyActions
     /// <summary>
     /// Implements ITerminationTally<double[,]>.  Tally for reflectance as a function 
     /// of Rho and Time.
+    /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class ROfRhoAndTimeTally : ITerminationTally<double[,]>
+    public class ROfRhoAndTimeTally : TallyBase, ITerminationTally<double[,]>
     {
         private DoubleRange _rho;
         private DoubleRange _time;
 
-        public ROfRhoAndTimeTally(DoubleRange rho, DoubleRange time)
+        public ROfRhoAndTimeTally(DoubleRange rho, DoubleRange time, ITissue tissue) : base(tissue)
         {
             _rho = rho;
             _time = time;
@@ -27,17 +28,12 @@ namespace Vts.MonteCarlo.TallyActions
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
 
-        public bool ContainsPoint(PhotonDataPoint dp)
-        {
-            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
-        }
-
-        public virtual void Tally(PhotonDataPoint dp, IList<OpticalProperties> ops)
+        public virtual void Tally(PhotonDataPoint dp)
         {
             var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
                 DetectorBinning.GetTimeDelay(
                     sub.PathLength,
-                    ops[i].N)
+                    _ops[i].N)
             ).Sum();
 
             var it = DetectorBinning.WhichBin(totalTime, _time.Count - 1, _time.Delta, _time.Start);
@@ -58,5 +54,11 @@ namespace Vts.MonteCarlo.TallyActions
                 }
             }
         }
+
+        public bool ContainsPoint(PhotonDataPoint dp)
+        {
+            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
+        }
+
     }
 }

@@ -8,5 +8,6 @@ namespace Vts.MonteCarlo
     public interface ITissueInput
     {
         IList<ITissueRegion> Regions { get; }
+        AbsorptionWeightingType AbsorptionWeightingType { get; }
     }
 }

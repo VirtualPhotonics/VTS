@@ -43,21 +43,19 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(0.0, 0, 1)
                 ),
                 new MultiLayerTissueInput(
-                    new List<LayerRegion>
+                    new List<ITissueRegion>
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0, 2),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
-                            AbsorptionWeightingType.Discrete),
+                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0)),
                         new LayerRegion(
                             new DoubleRange(0.0, 20.0, 2),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                            AbsorptionWeightingType.Discrete),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(20.0, double.PositiveInfinity, 2),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
-                            AbsorptionWeightingType.Discrete)
-                    }
+                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
+                    },
+                    AbsorptionWeightingType.Discrete
                 ),
                 new DetectorInput(
                     new List<TallyType>()
@@ -83,8 +81,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new DoubleRange(0.0, 1, 101), // time
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-200.0, 200.0, 401), // x
-                    new DoubleRange(-200.0, 200.0, 401), // y
-                    AbsorptionWeightingType.Discrete
+                    new DoubleRange(-200.0, 200.0, 401) // y
                 ) );
             _output = new MonteCarloSimulation(input).Run();
         }
@@ -128,7 +125,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
             Assert.Less(Math.Abs(_output.R_rt[0, 0] - 61.5238307), 0.0000001);
         }
         // Reflection R(rho,omega)
-        public void validate_Analog_ROfRhoAndOmega()
+        public void validate_DAW_ROfRhoAndOmega()
         {
             Assert.Less(Complex.Abs(
                 _output.R_rw[0, 0] - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
@@ -177,7 +174,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
         }
         // Reflectance R(x,y)
         [Test]
-        public void validate_Analog_ROfXAndY()
+        public void validate_DAW_ROfXAndY()
         {
             Assert.Less(Math.Abs(_output.R_xy[198, 201] - 0.00825301), 0.00000001);
         }

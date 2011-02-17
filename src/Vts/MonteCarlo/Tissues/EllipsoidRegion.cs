@@ -10,14 +10,13 @@ namespace Vts.MonteCarlo.Tissues
     public class EllipsoidRegion : ITissueRegion
     {
         private OpticalProperties _RegionOP;
-        private double _ScatterLength;
         private static Position _Center;
         private static double _Dx;
         private static double _Dy;
         private static double _Dz;
 
         public EllipsoidRegion(Position center, double radiusX, double radiusY, double radiusZ,
-            OpticalProperties op, AbsorptionWeightingType awt)
+            OpticalProperties op)
         {
             if ((radiusX == 0.0) || (radiusY == 0.0) || (radiusZ == 0.0))
             {
@@ -28,12 +27,11 @@ namespace Vts.MonteCarlo.Tissues
             _Dx = radiusX;
             _Dy = radiusY;
             _Dz = radiusZ;
-            _ScatterLength = op.GetScatterLength(awt);
         }
-        public EllipsoidRegion() : this (new Position(0, 0, 1), 0.5, 0.5, 0.5,
-            new OpticalProperties(0.05, 1.0, 0.8, 1.4), AbsorptionWeightingType.Discrete) {}
 
-        #region Properties
+        public EllipsoidRegion() : this (new Position(0, 0, 1), 0.5, 0.5, 0.5,
+            new OpticalProperties(0.05, 1.0, 0.8, 1.4)) {}
+
         public OpticalProperties RegionOP
         {
             get { return _RegionOP; }
@@ -58,12 +56,6 @@ namespace Vts.MonteCarlo.Tissues
             get { return _Dz; }
             set { _Dz = value; }
         }
-        public double ScatterLength
-        {
-            get { return _ScatterLength; }
-            set { _ScatterLength = value; }
-        }
-        #endregion
 
         public bool ContainsPosition(Position position)
         {
@@ -76,21 +68,18 @@ namespace Vts.MonteCarlo.Tissues
 
                 if (inside < 0.9999999)
                 {
-                    //return 1;
                     return true;
                 }
                 else if (inside > 1.0000001)
                 {
-                    //return 0;
                     return false;
                 }
                 else
-                {//if (inside == 1.0)
-                    //return 3;
+                {
                     return true;
                 }
-            
         }
+
         //void CrossEllip(Photon photptr)   //---new
         ///*based on CrossRegion, but without Fresnel (n doesn't change)=>no reflections at the boundary.*/
         //{

@@ -9,13 +9,12 @@ namespace Vts.MonteCarlo.TallyActions
     /// <summary>
     /// Implements ITerminationTally<double[,]>.  Tally for reflectance as a function 
     /// of Rho and Angle.
+    /// This works for Analog, DAW and CAW processing.
     /// </summary>
     public class ROfRhoAndAngleTally : ITerminationTally<double[,]>
     {
         private DoubleRange _rho;
         private DoubleRange _angle;
-        //private double[,] _rOfRhoAndAngle;
-        //private double[,] _rOfRhoAndAngleSecondMoment;
 
         public ROfRhoAndAngleTally(DoubleRange rho, DoubleRange angle)
         {
@@ -27,26 +26,8 @@ namespace Vts.MonteCarlo.TallyActions
 
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
-        
-        //public double[,] Mean 
-        //{
-        //    get { return _rOfRhoAndAngle; }
-        //}
 
-        //public double[,] SecondMoment
-        //{
-        //    get { return _rOfRhoAndAngleSecondMoment; }
-        //}
-
-
-        #region ITally Members
-
-        public bool ContainsPoint(PhotonDataPoint dp)
-        {
-            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
-        }
- 
-        public virtual void Tally(PhotonDataPoint dp, IList<OpticalProperties> ops)
+        public virtual void Tally(PhotonDataPoint dp)
         {
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), _angle.Count, _angle.Delta, _angle.Start);
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
@@ -67,7 +48,11 @@ namespace Vts.MonteCarlo.TallyActions
                 }
             }
         }
+        
+        public bool ContainsPoint(PhotonDataPoint dp)
+        {
+            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
+        }
 
-        #endregion
     }
 }

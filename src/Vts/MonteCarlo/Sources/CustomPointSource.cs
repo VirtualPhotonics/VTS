@@ -59,7 +59,7 @@ namespace Vts.MonteCarlo.Sources
             var p = new Position(0, 0, 0);
             var d = new Direction(0, 0, 1);
 
-            var _photon = new Photon(p, d, tissue, MonteCarloSimulation.ABSORPTION_WEIGHTING, Rng);
+            var _photon = new Photon(p, d, tissue, Rng);
 
             // the following is not general enough
             if ((tissue.OnDomainBoundary(_photon)) &&

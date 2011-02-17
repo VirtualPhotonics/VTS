@@ -25,7 +25,6 @@ namespace Vts.MonteCarlo
             Position p, 
             Direction d, 
             ITissue tissue, 
-            AbsorptionWeightingType awt,
             Random generator)
         {
             DP = new PhotonDataPoint(
@@ -42,7 +41,7 @@ namespace Vts.MonteCarlo
             CurrentRegionIndex = tissue.GetRegionIndex(DP.Position);
             CurrentTrackIndex = 0;
             _tissue = tissue;
-            SetAbsorbAction(awt);
+            SetAbsorbAction(_tissue.AbsorptionWeightingType);
             _rng = generator;
         }
 
@@ -51,7 +50,6 @@ namespace Vts.MonteCarlo
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
                 new MultiLayerTissue(),
-                AbsorptionWeightingType.Discrete,
                 RandomNumberGeneratorFactory.GetRandomNumberGenerator(RandomNumberGeneratorType.MersenneTwister)
                 ) { }
 
@@ -85,11 +83,11 @@ namespace Vts.MonteCarlo
         {
             if (SLeft == 0.0)
             {
-                S = -Math.Log(rng.NextDouble()) / _tissue.Regions[CurrentRegionIndex].ScatterLength;
+                S = -Math.Log(rng.NextDouble()) / _tissue.RegionScatterLengths[CurrentRegionIndex];
             }
             else
             {
-                S = SLeft / _tissue.Regions[CurrentRegionIndex].ScatterLength;
+                S = SLeft / _tissue.RegionScatterLengths[CurrentRegionIndex];
                 SLeft = 0.0;
             }
         }
@@ -302,7 +300,7 @@ namespace Vts.MonteCarlo
         {
             // if crossing boundary, modify photon track-length, S, by pro-rating
             // the remaining distance by the optical properties in the next region
-            SLeft = (S - distanceToBoundary) * _tissue.Regions[CurrentRegionIndex].ScatterLength;
+            SLeft = (S - distanceToBoundary) * _tissue.RegionScatterLengths[CurrentRegionIndex];
 
             // reassign S to be distance that takes track to boundary
             S = distanceToBoundary;

@@ -8,9 +8,5 @@ namespace Vts.MonteCarlo
     public interface ITissueRegion 
     {
         OpticalProperties RegionOP { get; }
-        double ScatterLength { get; }
-        bool ContainsPosition(Position position);
-        ////bool RayIntersectBoundary(Photon photptr, ref double distanceToBoundary);
-        //bool RayExitBoundary(Photon photptr, ref double distanceToBoundary);
     }
 }

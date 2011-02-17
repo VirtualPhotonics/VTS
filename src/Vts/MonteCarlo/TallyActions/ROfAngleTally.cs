@@ -10,31 +10,24 @@ namespace Vts.MonteCarlo.TallyActions
     /// <summary>
     /// Implements ITerminationTally<double[]>.  Tally for reflectance as a function 
     /// of Angle.
+    /// This works for Analog, DAW and CAW.
     /// </summary>
     public class ROfAngleTally : ITerminationTally<double[]>
     {
         private DoubleRange _angle;
 
-        public ROfAngleTally(DoubleRange angle)
+        public ROfAngleTally(DoubleRange angle) 
         {
             _angle = angle;
             Mean = new double[_angle.Count - 1]; 
             SecondMoment = new double[_angle.Count - 1];
         }
 
-        public bool ContainsPoint(PhotonDataPoint dp)
-        {
-            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
-        }
+        public double[] Mean { get; set; }
+        public double[] SecondMoment { get; set; }
 
-        public void Tally(PhotonDataPoint dp, IList<OpticalProperties> ops)
+        public void Tally(PhotonDataPoint dp)
         {
-            var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
-                DetectorBinning.GetTimeDelay(
-                    sub.PathLength,
-                    ops[i].N)
-            ).Sum();
-
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), _angle.Count - 1, _angle.Delta, _angle.Start);
 
             Mean[ia] += dp.Weight;
@@ -49,8 +42,10 @@ namespace Vts.MonteCarlo.TallyActions
             }
         }
 
-        public double[] Mean { get; set; }
-        public double[] SecondMoment { get; set; }
+        public bool ContainsPoint(PhotonDataPoint dp)
+        {
+            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
+        }
 
     }
 }

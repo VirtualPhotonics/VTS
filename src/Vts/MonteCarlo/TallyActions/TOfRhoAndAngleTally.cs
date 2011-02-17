@@ -10,6 +10,7 @@ namespace Vts.MonteCarlo.TallyActions
     /// <summary>
     /// Implements ITerminationTally<double[,]>.  Tally for transmittance as a function 
     /// of Rho and Angle.
+    /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     public class TOfRhoAndAngleTally : ITerminationTally<double[,]>
     {
@@ -27,18 +28,8 @@ namespace Vts.MonteCarlo.TallyActions
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
 
-        public bool ContainsPoint(PhotonDataPoint dp)
+        public void Tally(PhotonDataPoint dp)
         {
-            return (dp.StateFlag == PhotonStateType.ExitedOutBottom);
-        }
-        public void Tally(PhotonDataPoint dp, IList<OpticalProperties> ops)
-        {
-            var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
-                DetectorBinning.GetTimeDelay(
-                    sub.PathLength,
-                    ops[i].N)
-            ).Sum();
-
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), _angle.Count, _angle.Delta, 0);
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
 
@@ -57,6 +48,11 @@ namespace Vts.MonteCarlo.TallyActions
                         (ir + 0.5) * Math.Sin((ia + 0.5) * _angle.Delta) * numPhotons;
                 }
             }
+        }
+
+        public bool ContainsPoint(PhotonDataPoint dp)
+        {
+            return (dp.StateFlag == PhotonStateType.ExitedOutBottom);
         }
 
     }

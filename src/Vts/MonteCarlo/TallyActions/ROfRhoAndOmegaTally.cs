@@ -11,13 +11,14 @@ namespace Vts.MonteCarlo.TallyActions
     /// <summary>
     /// Implements ITerminationTally<double[,]>.  Tally for reflectance as a function 
     /// of Rho and Omega.
+    /// This implementation works for Analog, DAW and CAW.
     /// </summary>
-    public class ROfRhoAndOmegaTally : ITerminationTally<Complex[,]>
+    public class ROfRhoAndOmegaTally : TallyBase, ITerminationTally<Complex[,]>
     {
         private DoubleRange _rho;
         private DoubleRange _omega;
 
-        public ROfRhoAndOmegaTally(DoubleRange rho, DoubleRange omega)
+        public ROfRhoAndOmegaTally(DoubleRange rho, DoubleRange omega, ITissue tissue) : base(tissue)
         {
             _rho = rho;
             _omega = omega;
@@ -28,18 +29,13 @@ namespace Vts.MonteCarlo.TallyActions
         public Complex[,] Mean { get; set; }
         public Complex[,] SecondMoment { get; set; }
 
-        public bool ContainsPoint(PhotonDataPoint dp)
-        {
-            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
-        }
-
-        public void Tally(PhotonDataPoint dp, IList<OpticalProperties> ops)
+        public void Tally(PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
             var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
                 DetectorBinning.GetTimeDelay(
                     sub.PathLength,
-                    ops[i].N)
+                    _ops[i].N)
                 ).Sum();
 
             for (int iw = 0; iw < _omega.Count - 1; ++iw)
@@ -65,6 +61,11 @@ namespace Vts.MonteCarlo.TallyActions
                     Mean[ir, iw] /= 2.0 * Math.PI * (ir + 0.5) * _rho.Delta * _rho.Delta * numPhotons;
                 }
             }
+        }
+
+        public bool ContainsPoint(PhotonDataPoint dp)
+        {
+            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
         }
     }
 }

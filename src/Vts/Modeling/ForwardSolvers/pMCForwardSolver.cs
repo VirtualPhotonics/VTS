@@ -37,7 +37,6 @@ namespace Vts.Modeling.ForwardSolvers
         {
             // set tallytypelist in input before calling postprocessor
             var detectorInput = new pMCDetectorInput();
-            detectorInput.AWT = AbsorptionWeightingType.Continuous;
             detectorInput.TallyTypeList = new List<TallyType>() { TallyType.pMuaMusInROfRho };
             // the next one should come from parameter list
             detectorInput.Rho = new DoubleRange(rhos.First(), rhos.Last(), rhos.Count());
@@ -49,7 +48,7 @@ namespace Vts.Modeling.ForwardSolvers
                     new OpticalProperties(), op, new OpticalProperties() };
                 var _postProcessedOutput = 
                     PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                        detectorInput, detectorInput.AWT, pMCLoader.PhotonTerminationDatabase,
+                        detectorInput, pMCLoader.PhotonTerminationDatabase,
                         pMCLoader.databaseOutput, regionOps, perturbedRegionsIndices);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
                 for (int r = 0; r < rhos.Count() - 1; r++)
@@ -83,7 +82,7 @@ namespace Vts.Modeling.ForwardSolvers
                     new OpticalProperties(), op, new OpticalProperties() };
                 var _postProcessedOutput = 
                     PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                    detectorInput, detectorInput.AWT, pMCLoader.PhotonTerminationDatabase,
+                    detectorInput, pMCLoader.PhotonTerminationDatabase,
                     pMCLoader.databaseOutput, regionOps, perturbedRegionsIndices);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
                 for (int r = 0; r < rhos.Count(); r++)

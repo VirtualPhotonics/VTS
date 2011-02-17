@@ -9,96 +9,100 @@ namespace Vts.MonteCarlo.TallyActions
 {
     /// <summary>
     /// Implements IHistoryTally<double[,,]>.  Tally for Fluence(rho,z,t).
-    /// Note: this tally currently only works with discrete absorption weighting
+    /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
-    public class FluenceOfRhoAndZAndTimeTally : IHistoryTally<double[,,]>
+    public class FluenceOfRhoAndZAndTimeTally : HistoryTallyBase, IHistoryTally<double[, ,]>
     {
         private DoubleRange _rho;
         private DoubleRange _z;
         private DoubleRange _time;
-        private ITissue _tissue;
+        private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
-        public FluenceOfRhoAndZAndTimeTally(DoubleRange rho, DoubleRange z, DoubleRange time, 
-            ITissue tissue, AbsorptionWeightingType awt)
+        public FluenceOfRhoAndZAndTimeTally(DoubleRange rho, DoubleRange z, DoubleRange time, ITissue tissue)
+            : base(tissue)
         {
             _rho = rho;
             _z = z;
             _time = time;
-            _tissue = tissue;
+
             Mean = new double[_rho.Count - 1, _z.Count - 1, _time.Count - 1];
             SecondMoment = new double[_rho.Count - 1, _z.Count - 1, _time.Count - 1];
-            SetAbsorbAction(awt);
         }
 
         public double[, ,] Mean { get; set; }
         public double[, ,] SecondMoment { get; set; }
-        public Action<double, double> AbsorbAction { get; private set; }
 
-        private void SetAbsorbAction(AbsorptionWeightingType awt)
+        protected override void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
             {
                 case AbsorptionWeightingType.Analog:
-                    AbsorbAction = AbsorbAnalog;
+                    _absorbAction = AbsorbAnalog;
                     break;
                 //case AbsorptionWeightingType.Continuous:
                 //    AbsorbAction = AbsorbContinuous;
                 //    break;
                 case AbsorptionWeightingType.Discrete:
-                default:
-                    AbsorbAction = AbsorbDiscrete;
+                    _absorbAction = AbsorbDiscrete;
                     break;
+                default:
+                    throw new ArgumentException("AbsorptionWeightingType not set");
             }
         }
-        private double _dw;
-        private double _nextDw;
-        private PhotonStateType _pst;
-        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp,
-            IList<OpticalProperties> ops)
+
+        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             // history tallies currently don't carry along subregionInfoList so can't determine
             // total Pathlength from it
             var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
                 DetectorBinning.GetTimeDelay(
                     sub.PathLength,
-                    ops[i].N)
+                    _ops[i].N)
             ).Sum();
 
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);
             var it = DetectorBinning.WhichBin(totalTime, _time.Count - 1, _time.Delta, _time.Start);
-            //double dw = previousDP.Weight * ops[_tissue.GetRegionIndex(dp.Position)].Mua /
-            //    (ops[_tissue.GetRegionIndex(dp.Position)].Mua + ops[_tissue.GetRegionIndex(dp.Position)].Mus);
-            _pst = dp.StateFlag;
-            _dw = previousDP.Weight;
-            _nextDw = dp.Weight;
-            AbsorbAction(ops[_tissue.GetRegionIndex(dp.Position)].Mua, ops[_tissue.GetRegionIndex(dp.Position)].Mus);
-            Mean[ir, iz, it] += _dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua;
-            SecondMoment[ir, iz, it] += (_dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua) *
-                (_dw / ops[_tissue.GetRegionIndex(dp.Position)].Mua);
+
+            var weight = _absorbAction(
+                _ops[_tissue.GetRegionIndex(dp.Position)].Mua,
+                _ops[_tissue.GetRegionIndex(dp.Position)].Mus,
+                previousDP.Weight,
+                dp.Weight,
+                dp.StateFlag);
+
+            var regionIndex = _tissue.GetRegionIndex(dp.Position);
+
+            Mean[ir, iz, it] += weight / _ops[regionIndex].Mua;
+            SecondMoment[ir, iz, it] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
         }
-        public void AbsorbAnalog(double mua, double mus)
+
+        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (_pst != PhotonStateType.Absorbed)
+            if (photonStateType != PhotonStateType.Absorbed)
             {
-                _dw = 0.0;
+                weight = 0.0;
             }
             else
             {
-                _dw *= mua / (mua + mus);
+                weight = previousWeight * mua / (mua + mus);
             }
+            return weight;
         }
-        public void AbsorbDiscrete(double mua, double mus)
+
+        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (_dw == _nextDw) // pseudo collision, so no tally
+            if (previousWeight == weight) // pseudo collision, so no tally
             {
-                _dw = 0.0;
+                weight = 0.0;
             }
             else
             {
-                _dw *= mua / (mua + mus);
+                weight = previousWeight * mua / (mua + mus);
             }
+            return weight;
         }
+
         public void Normalize(long numPhotons)
         {
             for (int ir = 0; ir < _rho.Count - 1; ir++)
@@ -113,6 +117,7 @@ namespace Vts.MonteCarlo.TallyActions
                 }
             }
         }
+
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true;
