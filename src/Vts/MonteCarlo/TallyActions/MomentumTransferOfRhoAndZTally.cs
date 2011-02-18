@@ -32,8 +32,10 @@ namespace Vts.MonteCarlo.TallyActions
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);
-            // calculate momentum transfer
-            _momentumTransfer = 1;
+            // momentum transfer is the angle between incoming direction and scattering direction
+            // cos(theta) = dot product between previousDP.Direction and dp.Direction
+            // for now calculate cos(theta)
+            _momentumTransfer = Direction.GetDotProduct(previousDP.Direction, dp.Direction);
             Mean[ir, iz] += _momentumTransfer;
             SecondMoment[ir, iz] += _momentumTransfer * _momentumTransfer;
         }

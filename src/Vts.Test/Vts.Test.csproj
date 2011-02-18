@@ -148,6 +148,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\DirectionTests.cs" />
     <Compile Include="Common\Helpers\Range\LongRangeTests.cs" />
     <Compile Include="Common\Helpers\Range\UintRangeTests.cs" />
     <Compile Include="Common\Helpers\Range\FloatRangeTests.cs" />
