@@ -105,6 +105,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\fjcore\build\Silverlight\FJ.Core.dll</HintPath>
     </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras.SL4">
+      <HintPath>..\..\lib\MVVMLight\Silverlight4\GalaSoft.MvvmLight.Extras.SL4.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.SL4">
+      <HintPath>..\..\lib\MVVMLight\Silverlight4\GalaSoft.MvvmLight.SL4.dll</HintPath>
+    </Reference>
     <Reference Include="SLExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\SilverlightExtensions\SLExtensions.dll</HintPath>

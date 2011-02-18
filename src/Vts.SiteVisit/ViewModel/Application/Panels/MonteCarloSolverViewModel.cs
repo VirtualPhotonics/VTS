@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
 using Vts.Extensions;
 using Vts.MonteCarlo;
@@ -44,13 +45,19 @@ namespace Vts.SiteVisit.ViewModel
 
             _simulationInputVM = new SimulationInputViewModel(_simulationInput);
 
-            _independentVariableRangeVM = new RangeViewModel(_simulationInput.DetectorInput.Rho,"mm", "Independent Variable Range");
+            _independentVariableRangeVM = new RangeViewModel(_simulationInput.DetectorInput.Rho, "mm", "Independent Variable Range");
 
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.RofRho);
-            
+
             Commands.MC_ExecuteMonteCarloSolver.Executed += MC_ExecuteMonteCarloSolver_Executed;
             Commands.FS_SetIndependentVariableRange.Executed += SetIndependentVariableRange_Executed;
+
+
+            ExecuteMonteCarloSolverCommand = new RelayCommand(() => MC_ExecuteMonteCarloSolver_Executed(null, null));
         }
+
+        public RelayCommand ExecuteMonteCarloSolverCommand { get; private set; }
+
 
         public SolutionDomainOptionViewModel SolutionDomainTypeOptionVM
         {
@@ -138,9 +145,9 @@ namespace Vts.SiteVisit.ViewModel
         private string GetPlotLabel()
         {
             return "Model - MC";// + 
-                   //"\rμa=" + OpticalPropertyVM.Mua + 
-                   //"\rμs'=" + OpticalPropertyVM.Musp + 
-                   //"\rg=" + OpticalPropertyVM.G;
+            //"\rμa=" + OpticalPropertyVM.Mua + 
+            //"\rμs'=" + OpticalPropertyVM.Musp + 
+            //"\rg=" + OpticalPropertyVM.G;
         }
     }
 }

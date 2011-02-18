@@ -14,17 +14,24 @@
 
         <TextBlock Text="EXECUTE A SIMULATION:" FontSize="16" />
 
-        <v:ListBox ItemsSource="{Binding SimulationInputVM.TissueInputVM.Regions}">
+        <v:ListBox ItemsSource="{Binding SimulationInputVM.TissueInputVM.Regions}" Height="210" Margin="5">
             <v:ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Gray" BorderThickness="1.5">
-                        <StackPanel>
+                        <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Layer Range:" Margin="3"/>
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock Text="Layer Height" />
+                                    <TextBlock Text="Start/Stop:" />                                    
+                                </StackPanel>
                                 <v:RangeView DataContext="{Binding ZRangeVM}" Margin="3"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Layer OP:" Margin="3"/>
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock Text="Layer " />
+                                    <TextBlock Text="Optical" />
+                                    <TextBlock Text="Properties:" />
+                                </StackPanel>
                                 <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" Margin="3"/>
                             </StackPanel>
                         </StackPanel>
@@ -34,7 +41,6 @@
             </v:ListBox.ItemTemplate>
         </v:ListBox>
 
-        <TextBlock Text="Todo: added other user inputs and choice of output plot"/>
         <StackPanel Orientation="Horizontal">
             
             <!--<v:OptionControlView DataContext="{Binding ForwardAnalysisTypeViewModel}" HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
@@ -42,7 +48,7 @@
                 input:CommandService.Command="MC_ExecuteMonteCarloSolver"
                 input:CommandService.CommandParameter="{Binding}"
                 Background="{Binding StackPanel.Background}" Content="Run Monte Carlo"  
-                Width="100" Height="30" />
+                Width="100" Height="30" Margin="5"/>
         </StackPanel>
 
         <TextBlock Text="PLOT SAVED RESULTS:" FontSize="16" />
