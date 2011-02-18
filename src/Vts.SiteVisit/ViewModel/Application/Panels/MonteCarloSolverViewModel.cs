@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
+using Vts.Common;
 using Vts.Extensions;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
@@ -32,9 +33,26 @@ namespace Vts.SiteVisit.ViewModel
         {
             _simulationInput = new SimulationInput
             {
-                TissueInput = new MultiLayerTissueInput(),
+                TissueInput = new MultiLayerTissueInput(
+                    new List<ITissueRegion> 
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0, 2),
+                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 1.0, 2),
+                            new OpticalProperties(0.1, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(1.0, 100.0, 2),
+                            new OpticalProperties(0.01, 2.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity, 2),
+                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
+                    },
+                    AbsorptionWeightingType.Discrete
+                ),
                 OutputFileName = "MonteCarloOutput",
-                N = 100,
+                N = 1000,
                 Options = new SimulationOptions(
                     0, // Note seed = 0 is -1 in linux
                     RandomNumberGeneratorType.MersenneTwister,

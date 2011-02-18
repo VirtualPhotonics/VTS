@@ -44,9 +44,7 @@
         <StackPanel Orientation="Horizontal">
             
             <!--<v:OptionControlView DataContext="{Binding ForwardAnalysisTypeViewModel}" HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
-            <Button VerticalAlignment="Bottom"
-                input:CommandService.Command="MC_ExecuteMonteCarloSolver"
-                input:CommandService.CommandParameter="{Binding}"
+            <Button VerticalAlignment="Bottom" Command="{Binding ExecuteMonteCarloSolverCommand}"
                 Background="{Binding StackPanel.Background}" Content="Run Monte Carlo"  
                 Width="100" Height="30" Margin="5"/>
         </StackPanel>

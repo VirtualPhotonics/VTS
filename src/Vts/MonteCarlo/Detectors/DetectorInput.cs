@@ -44,7 +44,7 @@ namespace Vts.MonteCarlo.Detectors
                 },
             new DoubleRange(0.0, 10, 101), // rho
             new DoubleRange(0.0, 10, 101),  // z
-            new DoubleRange(0.0, Math.PI / 2, 1), // angle
+            new DoubleRange(0.0, Math.PI / 2, 2), // angle
             new DoubleRange(0.0, 10000, 101), // time
             new DoubleRange(0.0, 1000, 21), // omega
             new DoubleRange(-10.0, 10.0, 201), // x
