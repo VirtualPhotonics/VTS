@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                             new OpticalProperties(0.0, 1.0, 0.8, 1.4)
                             ),
                         new LayerRegion(
-                            new DoubleRange(10.0, double.PositiveInfinity, 2),
+                            new DoubleRange(100.0, double.PositiveInfinity, 2),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0)
                             )
                     },
@@ -62,7 +62,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     },
                     new DoubleRange(0.0, 40.0, 201), // rho: nr=200 dr=0.2mm used for workshop
                     new DoubleRange(0.0, 10.0, 11),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 1), // angle
+                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
                     new DoubleRange(0.0, 4.0, 801), // time: nt=800 dt=0.005ns used for workshop
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-100.0, 100.0, 81), // x
