@@ -75,15 +75,15 @@ namespace Vts.Test.Modeling
             //                 ( R[/cm^2] )/dt[ns] -> ( R(1cm^2/100mm^2) [/mm^2])/dt [/mm^2 ns]
             double[,] ValidationRrt2;
             double variance;
-            muaValidation = output.input.TissueInput.Regions[1].RegionOP.Mua / 10.0D; // convert to mm-1
-            gValidation = output.input.TissueInput.Regions[1].RegionOP.G;
-            N = output.input.N;
-            muspValidation = output.input.TissueInput.Regions[1].RegionOP.Mus * (1.0D - gValidation) / 10;
-            nValidation = output.input.TissueInput.Regions[1].RegionOP.N;
-            drValidation = output.input.DetectorInput.Rho.Delta * 10; // convert from cm to mm
-            dtValidation = output.input.DetectorInput.Time.Delta / 1000;  // convert from ps to ns
-            nrValidation = output.input.DetectorInput.Rho.Count;
-            ntValidation = output.input.DetectorInput.Time.Count;
+            muaValidation = output.Input.TissueInput.Regions[1].RegionOP.Mua / 10.0D; // convert to mm-1
+            gValidation = output.Input.TissueInput.Regions[1].RegionOP.G;
+            N = output.Input.N;
+            muspValidation = output.Input.TissueInput.Regions[1].RegionOP.Mus * (1.0D - gValidation) / 10;
+            nValidation = output.Input.TissueInput.Regions[1].RegionOP.N;
+            drValidation = output.Input.DetectorInput.Rho.Delta * 10; // convert from cm to mm
+            dtValidation = output.Input.DetectorInput.Time.Delta / 1000;  // convert from ps to ns
+            nrValidation = output.Input.DetectorInput.Rho.Count;
+            ntValidation = output.Input.DetectorInput.Time.Count;
             ValidationRrt = output.R_rt;
             ValidationRrt2 = output.R_rt2;
             ValidationRrtSDUpper = new double[nrValidation, ntValidation];

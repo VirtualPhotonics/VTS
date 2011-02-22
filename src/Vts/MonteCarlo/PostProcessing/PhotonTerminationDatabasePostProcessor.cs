@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.PostProcessing
             Output databaseOutput)
         {
             Output postProcessedOutput = new Output();
-            ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.input.TissueInput);
+            ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.Input.TissueInput);
             IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
 
             foreach (var dp in peh.DataPoints)
@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo.PostProcessing
                     }
                 }          
             }
-            detector.NormalizeTalliesToOutput(databaseOutput.input.N, postProcessedOutput);
+            detector.NormalizeTalliesToOutput(databaseOutput.Input.N, postProcessedOutput);
             return postProcessedOutput;
         }
 
@@ -62,7 +62,7 @@ namespace Vts.MonteCarlo.PostProcessing
             List<int> perturbedRegionsIndices)
         {
             Output postProcessedOutput = new Output();
-            ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.input.TissueInput);
+            ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.Input.TissueInput);
             IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
 
             int count = 0;
@@ -77,7 +77,7 @@ namespace Vts.MonteCarlo.PostProcessing
                     }
                 }
             }
-            detector.NormalizeTalliesToOutput(databaseOutput.input.N, postProcessedOutput);
+            detector.NormalizeTalliesToOutput(databaseOutput.Input.N, postProcessedOutput);
             return postProcessedOutput;
         }
 

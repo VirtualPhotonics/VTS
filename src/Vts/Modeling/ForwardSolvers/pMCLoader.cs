@@ -29,14 +29,14 @@ namespace Vts.Modeling.ForwardSolvers
             databaseOutput = Output.FromFolderInResources(folderName, projectName);
             // need to add the setting up of other ranges
             databaseRhoRange = new DoubleRange(
-                databaseOutput.input.DetectorInput.Rho.Start,
-                databaseOutput.input.DetectorInput.Rho.Stop,
-                databaseOutput.input.DetectorInput.Rho.Count);
+                databaseOutput.Input.DetectorInput.Rho.Start,
+                databaseOutput.Input.DetectorInput.Rho.Stop,
+                databaseOutput.Input.DetectorInput.Rho.Count);
             databaseTimeRange = new DoubleRange(
-                databaseOutput.input.DetectorInput.Time.Start,
-                databaseOutput.input.DetectorInput.Time.Stop,
-                databaseOutput.input.DetectorInput.Time.Count);
-            ReferenceOps = databaseOutput.input.TissueInput.Regions[1].RegionOP;
+                databaseOutput.Input.DetectorInput.Time.Start,
+                databaseOutput.Input.DetectorInput.Time.Stop,
+                databaseOutput.Input.DetectorInput.Time.Count);
+            ReferenceOps = databaseOutput.Input.TissueInput.Regions[1].RegionOP;
    
             PhotonTerminationDatabase = PhotonTerminationDatabase.FromFileInResources(
                 databaseName, projectName);

@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             var o = new Output
             {
-                input = new SimulationInput
+                Input = new SimulationInput
                 {
                     DetectorInput = new DetectorInput
                     {
@@ -28,19 +28,19 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             var oCloned = Clone(o);
 
-            Assert.AreEqual(oCloned.input.DetectorInput.Angle.Start, 0d);
-            Assert.AreEqual(oCloned.input.DetectorInput.Angle.Stop, Math.PI);
-            Assert.AreEqual(oCloned.input.DetectorInput.Angle.Count, 10);
+            Assert.AreEqual(oCloned.Input.DetectorInput.Angle.Start, 0d);
+            Assert.AreEqual(oCloned.Input.DetectorInput.Angle.Stop, Math.PI);
+            Assert.AreEqual(oCloned.Input.DetectorInput.Angle.Count, 10);
         }
 
 
         [Test]
         public void validate_deserialized_class_is_correct_when_using_FileIO()
         {
-            new Output { input = new SimulationInput { N = 10 } }.WriteToXML("testOutput");
+            new Output { Input = new SimulationInput { N = 10 } }.WriteToXML("testOutput");
             var oCloned = FileIO.ReadFromXML<Output>("testOutput");
 
-            Assert.AreEqual(oCloned.input.N, 10);
+            Assert.AreEqual(oCloned.Input.N, 10);
         }
 
         private static T Clone<T>(T myObject)

@@ -116,9 +116,9 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         /// <param name="output2"></param>
         private void ValidateROfRhoAndTime(Output output1, Output output2)
         {
-            for (int i = 0; i < output1.input.DetectorInput.Rho.Count - 1; i++)
+            for (int i = 0; i < output1.Input.DetectorInput.Rho.Count - 1; i++)
             {
-                for (int j = 0; j < output1.input.DetectorInput.Time.Count - 1; j++)
+                for (int j = 0; j < output1.Input.DetectorInput.Time.Count - 1; j++)
                 {
                     // round off error about 1e-18
                     if (output1.R_rt[i, j] > 0.0)

@@ -44,12 +44,12 @@ namespace Vts.Modeling.ForwardSolvers
         private void InitializeVectorsAndInterpolators()
         {
             var output = Output.FromFolderInResources("Modeling/Resources/" + folder, "Vts");
-            nrReference = output.input.DetectorInput.Rho.Count;
-            drReference = output.input.DetectorInput.Rho.Delta ; 
-            ntReference = output.input.DetectorInput.Time.Count;
-            dtReference = output.input.DetectorInput.Time.Delta;  
-            muspReference = output.input.TissueInput.Regions[1].RegionOP.Mus *
-                    (1 - output.input.TissueInput.Regions[1].RegionOP.G);
+            nrReference = output.Input.DetectorInput.Rho.Count;
+            drReference = output.Input.DetectorInput.Rho.Delta ; 
+            ntReference = output.Input.DetectorInput.Time.Count;
+            dtReference = output.Input.DetectorInput.Time.Delta;  
+            muspReference = output.Input.TissueInput.Regions[1].RegionOP.Mus *
+                    (1 - output.Input.TissueInput.Regions[1].RegionOP.G);
 
             RhoReference = new DoubleRange(drReference / 2, drReference * nrReference - drReference / 2, nrReference).AsEnumerable().ToArray();
             TimeReference = new DoubleRange(dtReference / 2, dtReference * ntReference - dtReference / 2, ntReference).AsEnumerable().ToArray();
