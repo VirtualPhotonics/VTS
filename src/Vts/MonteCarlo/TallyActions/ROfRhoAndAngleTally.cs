@@ -38,17 +38,16 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Normalize(long numPhotons)
         {
+            var normalizationFactor = 2.0 * Math.PI * _rho.Delta * _rho.Delta * 2.0 * Math.PI * _angle.Delta * numPhotons;
             for (int ir = 0; ir < _rho.Count - 1; ir++)
             {
                 for (int ia = 0; ia < _angle.Count; ia++)
                 {
-                    Mean[ir, ia] /=
-                        2.0 * Math.PI * _rho.Delta * _rho.Delta * 2.0 * Math.PI * _angle.Delta *
-                        (ir + 0.5) * Math.Sin((ia + 0.5) * _angle.Delta) * numPhotons;
+                    Mean[ir, ia] /= (ir + 0.5) * Math.Sin((ia + 0.5) * _angle.Delta) * normalizationFactor;
                 }
             }
         }
-        
+
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return (dp.StateFlag == PhotonStateType.ExitedOutTop);

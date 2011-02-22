@@ -44,13 +44,13 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Normalize(long numPhotons)
         {
+            var normalizationFactor = 2.0 * Math.PI * _rho.Delta * _rho.Delta * _z.Delta * numPhotons;
             for (int ir = 0; ir < _rho.Count - 1; ir++)
             {
                 for (int iz = 0; iz < _z.Count - 1; iz++)
                 {
                     // need to check that this normalization makes sense for momentum transfer
-                    Mean[ir, iz] /=
-                        2.0 * Math.PI * (ir + 0.5) * _rho.Delta * _rho.Delta * _z.Delta * numPhotons;
+                    Mean[ir, iz] /= (ir + 0.5) * normalizationFactor;
                 }
             }
         }

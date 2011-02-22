@@ -105,14 +105,14 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Normalize(long numPhotons)
         {
+            var normalizationFactor = 2.0 * Math.PI * _rho.Delta * _rho.Delta * _z.Delta * _time.Delta * numPhotons;
             for (int ir = 0; ir < _rho.Count - 1; ir++)
             {
                 for (int iz = 0; iz < _z.Count - 1; iz++)
                 {
                     for (int it = 0; it < _time.Count - 1; it++)
                     {
-                        Mean[ir, iz, it] /=
-                            2.0 * Math.PI * (ir + 0.5) * _rho.Delta * _rho.Delta * _z.Delta * _time.Delta * numPhotons;
+                        Mean[ir, iz, it] /= (ir + 0.5) * normalizationFactor;
                     }
                 }
             }

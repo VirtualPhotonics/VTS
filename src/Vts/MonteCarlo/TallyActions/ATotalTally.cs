@@ -46,9 +46,21 @@ namespace Vts.MonteCarlo.TallyActions
                 previousDP.Weight,
                 dp.Weight,
                 dp.StateFlag);
+
             Mean += weight; 
             SecondMoment += weight * weight;
         }
+        
+        public void Normalize(long numPhotons)
+        {
+            Mean /= numPhotons;
+        }
+
+        public bool ContainsPoint(PhotonDataPoint dp)
+        {
+            return true;
+        }
+
         private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
             if (photonStateType != PhotonStateType.Absorbed)
@@ -61,6 +73,7 @@ namespace Vts.MonteCarlo.TallyActions
             }
             return weight;
         }
+
         private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
             if (previousWeight == weight) // pseudo collision, so no tally
@@ -73,16 +86,5 @@ namespace Vts.MonteCarlo.TallyActions
             }
             return weight;
         }
-
-        public void Normalize(long numPhotons)
-        {
-            Mean /=  numPhotons;
-
-        }
-        public bool ContainsPoint(PhotonDataPoint dp)
-        {
-            return true;
-        }
-
     }
 }

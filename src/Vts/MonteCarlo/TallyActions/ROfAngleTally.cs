@@ -16,10 +16,10 @@ namespace Vts.MonteCarlo.TallyActions
     {
         private DoubleRange _angle;
 
-        public ROfAngleTally(DoubleRange angle) 
+        public ROfAngleTally(DoubleRange angle)
         {
             _angle = angle;
-            Mean = new double[_angle.Count - 1]; 
+            Mean = new double[_angle.Count - 1];
             SecondMoment = new double[_angle.Count - 1];
         }
 
@@ -36,9 +36,10 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Normalize(long numPhotons)
         {
+            var normalizationFactor = 2.0 * Math.PI * _angle.Delta * numPhotons;
             for (int ia = 0; ia < _angle.Count - 1; ia++)
             {
-                Mean[ia] /= 2.0 * Math.PI * Math.Sin((ia + 0.5) * _angle.Delta) * _angle.Delta * numPhotons;
+                Mean[ia] /= Math.Sin((ia + 0.5) * _angle.Delta) * normalizationFactor;
             }
         }
 

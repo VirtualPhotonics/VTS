@@ -8,7 +8,8 @@ namespace Vts.MonteCarlo.TallyActions
     {        
         protected AbsorptionWeightingType _awt;
 
-        public HistoryTallyBase(ITissue tissue): base(tissue)
+        public HistoryTallyBase(ITissue tissue)
+            : base(tissue)
         {
             _awt = tissue.AbsorptionWeightingType;
 
@@ -16,14 +17,5 @@ namespace Vts.MonteCarlo.TallyActions
         }
 
         protected abstract void SetAbsorbAction(AbsorptionWeightingType awt);
-        //protected ITissue _tissue;
-        //protected IList<OpticalProperties> _ops;
-
-        //public HistoryTallyBase(ITissue tissue)
-        //    : base(tissue.AbsorptionWeightingType)
-        //{
-        //    _tissue = tissue;
-        //    _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
-        //}
     }
 }

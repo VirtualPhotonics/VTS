@@ -17,7 +17,8 @@ namespace Vts.MonteCarlo.TallyActions
         private DoubleRange _rho;
         private DoubleRange _time;
 
-        public ROfRhoAndTimeTally(DoubleRange rho, DoubleRange time, ITissue tissue) : base(tissue)
+        public ROfRhoAndTimeTally(DoubleRange rho, DoubleRange time, ITissue tissue)
+            : base(tissue)
         {
             _rho = rho;
             _time = time;
@@ -31,9 +32,7 @@ namespace Vts.MonteCarlo.TallyActions
         public virtual void Tally(PhotonDataPoint dp)
         {
             var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
-                DetectorBinning.GetTimeDelay(
-                    sub.PathLength,
-                    _ops[i].N)
+                DetectorBinning.GetTimeDelay(sub.PathLength, _ops[i].N)
             ).Sum();
 
             var it = DetectorBinning.WhichBin(totalTime, _time.Count - 1, _time.Delta, _time.Start);
@@ -45,12 +44,12 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Normalize(long numPhotons)
         {
+            var normalizationFactor = 2.0 * Math.PI * _rho.Delta * _rho.Delta * _time.Delta * numPhotons;
             for (int ir = 0; ir < _rho.Count - 1; ir++)
             {
                 for (int it = 0; it < _time.Count - 1; it++)
                 {
-                    Mean[ir, it] /=
-                        2.0 * Math.PI * (ir + 0.5) * _rho.Delta * _rho.Delta * _time.Delta * numPhotons;
+                    Mean[ir, it] /= (ir + 0.5) * normalizationFactor;
                 }
             }
         }

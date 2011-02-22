@@ -18,7 +18,8 @@ namespace Vts.MonteCarlo.TallyActions
         private DoubleRange _rho;
         private DoubleRange _omega;
 
-        public ROfRhoAndOmegaTally(DoubleRange rho, DoubleRange omega, ITissue tissue) : base(tissue)
+        public ROfRhoAndOmegaTally(DoubleRange rho, DoubleRange omega, ITissue tissue)
+            : base(tissue)
         {
             _rho = rho;
             _omega = omega;

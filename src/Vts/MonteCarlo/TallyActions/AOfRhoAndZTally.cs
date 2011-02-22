@@ -28,7 +28,7 @@ namespace Vts.MonteCarlo.TallyActions
 
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
-        
+
         protected override void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
@@ -44,7 +44,6 @@ namespace Vts.MonteCarlo.TallyActions
                     break;
                 default:
                     throw new ArgumentException("AbsorptionWeightingType not set");
-                    
             }
         }
 
@@ -54,15 +53,33 @@ namespace Vts.MonteCarlo.TallyActions
             var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);
 
             var weight = _absorbAction(
-                _ops[_tissue.GetRegionIndex(dp.Position)].Mua, 
+                _ops[_tissue.GetRegionIndex(dp.Position)].Mua,
                 _ops[_tissue.GetRegionIndex(dp.Position)].Mus,
                 previousDP.Weight,
                 dp.Weight,
                 dp.StateFlag);
 
-            Mean[ir, iz] += weight; 
+            Mean[ir, iz] += weight;
             SecondMoment[ir, iz] += weight * weight;
         }
+
+        public void Normalize(long numPhotons)
+        {
+            var normalizationFactor = 2.0 * Math.PI * _rho.Delta * _rho.Delta * _z.Delta * numPhotons;
+            for (int ir = 0; ir < _rho.Count - 1; ir++)
+            {
+                for (int iz = 0; iz < _z.Count - 1; iz++)
+                {
+                    Mean[ir, iz] /= (ir + 0.5) * normalizationFactor;
+                }
+            }
+        }
+
+        public bool ContainsPoint(PhotonDataPoint dp)
+        {
+            return true;
+        }
+
         private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
             if (photonStateType != PhotonStateType.Absorbed)
@@ -75,6 +92,7 @@ namespace Vts.MonteCarlo.TallyActions
             }
             return weight;
         }
+
         private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
             if (previousWeight == weight) // pseudo collision, so no tally
@@ -87,22 +105,5 @@ namespace Vts.MonteCarlo.TallyActions
             }
             return weight;
         }
-
-        public void Normalize(long numPhotons)
-        {
-            for (int ir = 0; ir < _rho.Count - 1; ir++)
-            {
-                for (int iz = 0; iz < _z.Count - 1; iz++)
-                {
-                    Mean[ir, iz] /=
-                        2.0 * Math.PI * (ir + 0.5) * _rho.Delta * _rho.Delta * _z.Delta * numPhotons;
-                }
-            }
-        }
-        public bool ContainsPoint(PhotonDataPoint dp)
-        {
-            return true;
-        }
-        
     }
 }

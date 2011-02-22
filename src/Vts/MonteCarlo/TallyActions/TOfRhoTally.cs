@@ -36,9 +36,10 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Normalize(long numPhotons)
         {
+            var normalizationFactor = 2.0 * Math.PI * _rho.Delta * _rho.Delta * numPhotons;
             for (int ir = 0; ir < _rho.Count - 1; ir++)
             {
-                Mean[ir] /= 2.0 * Math.PI * (ir + 0.5) * _rho.Delta * _rho.Delta * numPhotons;
+                Mean[ir] /= (ir + 0.5) * normalizationFactor;
             }
         }
 

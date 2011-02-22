@@ -84,8 +84,6 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Tally(PhotonDataPoint dp)
         {
-            double weightFactor = 1.0;
-
             var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
                 DetectorBinning.GetTimeDelay(
                 sub.PathLength,
@@ -98,18 +96,19 @@ namespace Vts.MonteCarlo.TallyActions
                 totalPathLengthInPerturbedRegions += dp.SubRegionInfoList[i].PathLength;
             }
 
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y),
-                _rho.Delta, _rhoCenters);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Delta, _rhoCenters);
             if (ir != -1)
             {
-                weightFactor = _absorbAction(
+                double weightFactor = _absorbAction(
                     dp.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
                     totalPathLengthInPerturbedRegions,
                     _perturbedOps);
+
                 Mean[ir] += dp.Weight * weightFactor;
                 SecondMoment[ir] += dp.Weight * weightFactor * dp.Weight * weightFactor;
             }
         }
+
         private double AbsorbContinuous(IList<long> numberOfCollisions, double totalPathLengthInPerturbedRegions, IList<OpticalProperties> perturbedOps)
         {
             double weightFactor = 1.0;

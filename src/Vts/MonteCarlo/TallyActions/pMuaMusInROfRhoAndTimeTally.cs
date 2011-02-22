@@ -6,7 +6,7 @@ using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.TallyActions
-{    
+{
     /// <summary>
     /// Implements ITerminationTally<double[,]>.  Tally for pMC estimation of reflectance 
     /// as a function of Rho and Time.  Perturbations of just mua or mus alone are also
@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.TallyActions
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices;
         // need next two because DoubleRange adjusts deltas automatically
-        private double _rhoDelta;  
+        private double _rhoDelta;
         private double _timeDelta;
         // note: bins accommodate noncontiguous and also single bins
         private double[] _rhoCenters;
@@ -42,7 +42,8 @@ namespace Vts.MonteCarlo.TallyActions
             DoubleRange time,
             ITissue tissue,
             IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionIndices) : base(tissue)
+            IList<int> perturbedRegionIndices)
+            : base(tissue)
         {
             _rho = rho;
             _time = time;
@@ -163,7 +164,7 @@ namespace Vts.MonteCarlo.TallyActions
 
             foreach (var i in _perturbedRegionsIndices)
             {
-                weightFactor *= 
+                weightFactor *=
                     Math.Pow(
                         (perturbedOps[i].Mus / _referenceOps[i].Mus),
                         numberOfCollisions[i]) *
@@ -188,14 +189,15 @@ namespace Vts.MonteCarlo.TallyActions
             }
             return weightFactor;
         }
+
         public void Normalize(long numPhotons)
         {
+            var normalizationFactor = 2 * Math.PI * _rhoDelta * _timeDelta * numPhotons;
             for (int ir = 0; ir < _rho.Count - 1; ir++)
             {
                 for (int it = 0; it < _time.Count - 1; it++)
                 {
-                    Mean[ir, it] /=
-                        2 * Math.PI * _rhoCenters[ir] * _rhoDelta  * _timeDelta * numPhotons;
+                    Mean[ir, it] /= _rhoCenters[ir] * normalizationFactor;
                     // the above is pi(rmax*rmax-rmin*rmin) * timeDelta * N
                 }
             }
