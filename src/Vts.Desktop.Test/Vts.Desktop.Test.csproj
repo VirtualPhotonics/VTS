@@ -94,10 +94,6 @@
       <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.Interactive.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Observable, Version=1.0.0.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.Observable.dll</HintPath>
-    </Reference>
     <Reference Include="System.Reactive, Version=1.0.2521.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.Reactive.dll</HintPath>
@@ -213,6 +209,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Vts.Database.Desktop\Vts.Database.Desktop.csproj">
+      <Project>{4FE8D1A5-E651-4264-B6A0-3D8143D7F413}</Project>
+      <Name>Vts.Database.Desktop</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Vts.Desktop\Vts.Desktop.csproj">
       <Project>{05B6020A-B646-4BBB-B9A0-B524F5F85023}</Project>
       <Name>Vts.Desktop</Name>
