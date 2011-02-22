@@ -27,17 +27,20 @@ namespace Vts.MonteCarlo.TallyActions
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
 
-        private double _momentumTransfer;
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
+            // calculate momentum transfer
+            double cosineBetweenTrajectories = 
+            	Direction.GetDotProduct(previousDP.Direction, dp.Direction);
+
+            var momentumTransfer = 1 - cosineBetweenTrajectories;
+
+            // calculate the radial and time bins to attribute the deposition
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);
-            // momentum transfer is the angle between incoming direction and scattering direction
-            // cos(theta) = dot product between previousDP.Direction and dp.Direction
-            // for now calculate cos(theta)
-            _momentumTransfer = Direction.GetDotProduct(previousDP.Direction, dp.Direction);
-            Mean[ir, iz] += _momentumTransfer;
-            SecondMoment[ir, iz] += _momentumTransfer * _momentumTransfer;
+
+            Mean[ir, iz] += momentumTransfer;
+            SecondMoment[ir, iz] += momentumTransfer * momentumTransfer;
         }
 
         public void Normalize(long numPhotons)
@@ -52,6 +55,7 @@ namespace Vts.MonteCarlo.TallyActions
                 }
             }
         }
+
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true;
