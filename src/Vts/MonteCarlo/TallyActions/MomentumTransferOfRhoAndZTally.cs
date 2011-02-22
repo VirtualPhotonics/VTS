@@ -30,8 +30,7 @@ namespace Vts.MonteCarlo.TallyActions
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             // calculate momentum transfer
-            double cosineBetweenTrajectories = 
-            	Direction.GetDotProduct(previousDP.Direction, dp.Direction);
+            double cosineBetweenTrajectories = Direction.GetDotProduct(previousDP.Direction, dp.Direction);
 
             var momentumTransfer = 1 - cosineBetweenTrajectories;
 
