@@ -104,13 +104,13 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new List<ITissueRegion>
                     { 
                         new LayerRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0, 2),
+                            new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0)),
                         new LayerRegion(
-                            new DoubleRange(0.0, 100.0, 2),
+                            new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity, 2),
+                            new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
                     },
                     AbsorptionWeightingType.Discrete
@@ -156,22 +156,22 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     new List<ITissueRegion>
                     { 
                         new LayerRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0, 2),
+                            new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0)),
                         new LayerRegion(
-                            new DoubleRange(0.0, _layerThickness, 2),
+                            new DoubleRange(0.0, _layerThickness),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
-                            new DoubleRange(_layerThickness, 100.0, 2),
+                            new DoubleRange(_layerThickness, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity, 2),
+                            new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
                     },
                     AbsorptionWeightingType.Discrete
                 ),
                 new DetectorInput(
-                    new List<TallyType>()
+                    new List<TallyType>
                         {
                             TallyType.ROfRhoAndTime,
                         },

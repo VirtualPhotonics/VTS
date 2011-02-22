@@ -22,9 +22,9 @@ namespace Vts.MonteCarlo.Tissues
             _ScatterLength = op.GetScatterLength(awt);
         }
         public VoxelRegion() : this(
-            new DoubleRange(-10.0, 10, 2),
-            new DoubleRange(-10.0, 10, 2),
-            new DoubleRange(0.0, 10, 2),
+            new DoubleRange(-10.0, 10),
+            new DoubleRange(-10.0, 10),
+            new DoubleRange(0.0, 10),
             new OpticalProperties(0.01, 1.0, 0.8, 1.4), AbsorptionWeightingType.Discrete) {}  
 
         # region Properties

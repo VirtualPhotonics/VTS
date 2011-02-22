@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.Tissues
 
         public LayerRegion()
             : this(
-                new DoubleRange(0.0, 10, 2),
+                new DoubleRange(0.0, 10),
                 new OpticalProperties(0.01, 1.0, 0.8, 1.4)) { }
 
         public DoubleRange ZRange { get; set; }
