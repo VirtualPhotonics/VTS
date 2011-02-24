@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.TallyActions
 
         public virtual void Tally(PhotonDataPoint dp)
         {
-            var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), _angle.Count, _angle.Delta, _angle.Start);
+            var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), _angle.Count - 1, _angle.Delta, _angle.Start);
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
 
             Mean[ir, ia] += dp.Weight;

@@ -176,6 +176,7 @@
     <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs" />
     <Compile Include="MonteCarlo\Sources\CustomPointSourceTests.cs" />
     <Compile Include="MonteCarlo\TallyActions\AnalogTallyActionsTests.cs" />
+    <Compile Include="MonteCarlo\TallyActions\CAWTallyActionsTests.cs" />
     <Compile Include="MonteCarlo\TallyActions\pMCTallyActionsTests.cs" />
     <Compile Include="MonteCarlo\TallyActions\DAWTallyActionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

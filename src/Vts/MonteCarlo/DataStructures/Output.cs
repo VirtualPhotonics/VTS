@@ -17,22 +17,8 @@ namespace Vts.MonteCarlo
         public Output(SimulationInput si)
         {
             Input = si;
-            //foreach (var t in si.DetectorInput.TallyTypeList)
-            //{
-            //    switch (t)
-            //    {
-            //        case TallyType.AOfRhoAndZ:
-            //            A_rz = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Z.Count];
-            //            break;
-            //        case TallyType.ATotal:   
-            //            public double Atot { get; set; }
-            //            break;
-            //    }
-                
-            //}
-            R_rw = new Complex[Input.DetectorInput.Rho.Count, Input.DetectorInput.Omega.Count];
 
-            
+            R_rw = new Complex[Input.DetectorInput.Rho.Count, Input.DetectorInput.Omega.Count];           
             A_z = new double[Input.DetectorInput.Z.Count];
             A_layer = new double[Input.TissueInput.Regions.Count() + 1];
             Flu_rz = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Z.Count];
@@ -204,8 +190,15 @@ namespace Vts.MonteCarlo
                 FileIO.WriteToXML(this, folderPath + @"/output.xml");
 
                 // Write the multidimensional arrays as binaries (and accompanying .xml MetaData files0
-                FileIO.WriteArrayToBinary<double>(A_rz, folderPath + @"/A_rz");
-                FileIO.WriteArrayToBinary<double>(Flu_rz, folderPath + @"/Flu_rz");
+                // quick fix until we figure out redesign of Output
+                if (Input.DetectorInput.TallyTypeList.Contains(TallyType.AOfRhoAndZ))
+                {
+                    FileIO.WriteArrayToBinary<double>(A_rz, folderPath + @"/A_rz");
+                }
+                if (Input.DetectorInput.TallyTypeList.Contains(TallyType.FluenceOfRhoAndZ))
+                {
+                    FileIO.WriteArrayToBinary<double>(Flu_rz, folderPath + @"/Flu_rz");
+                }
                 FileIO.WriteArrayToBinary<double>(R_ra, folderPath + @"/R_ra");
                 FileIO.WriteArrayToBinary<double>(R_xy, folderPath + @"/R_xy");
                 FileIO.WriteArrayToBinary<double>(T_ra, folderPath + @"/T_ra");
