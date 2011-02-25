@@ -89,44 +89,45 @@ namespace Vts.Test.MonteCarlo.TallyActions
         [Test]
         public void validate_CAW_RDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Rd - 0.574808020), 0.000000001);
+            Assert.Less(Math.Abs(_output.Rd - 0.573738839), 0.000000001);
         }
         // Diffuse Reflectance
         [Test]
         public void validate_CAW_RTotal()
         {
-            Assert.Less(Math.Abs(_output.Rtot - 0.602585798), 0.000000001);
+            Assert.Less(Math.Abs(_output.Rtot - 0.601516617), 0.000000001);
         }
         // Reflection R(rho)
         [Test]
         public void validate_CAW_ROfRho()
         {
-            Assert.Less(Math.Abs(_output.R_r[0] - 0.923694501), 0.000000001);
+            Assert.Less(Math.Abs(_output.R_r[0] - 0.922411018), 0.000000001);
         }
         // Reflection R(angle)
         [Test]
         public void validate_CAW_ROfAngle()
         {
-            Assert.Less(Math.Abs(_output.R_a[0] - 0.0823641217), 0.0000000001);
+            Assert.Less(Math.Abs(_output.R_a[0] - 0.0822109189), 0.0000000001);
         }
         // Reflection R(rho,angle)
         [Test]
         public void validate_CAW_ROfRhoAndAngle()
         {
-            Assert.Less(Math.Abs(_output.R_ra[0, 0] - 0.132355993), 0.0000000001);
+            Assert.Less(Math.Abs(_output.R_ra[0, 0] - 0.132172083), 0.0000000001);
         }
         // Reflection R(rho,time)
         [Test]
         public void validate_CAW_ROfRhoAndTime()
         {
-            Assert.Less(Math.Abs(_output.R_rt[0, 0] - 92.3694501), 0.0000001);
+            Assert.Less(Math.Abs(_output.R_rt[0, 0] - 92.2411018), 0.0000001);
         }
         // Reflection R(rho,omega)
-        //public void validate_CAW_ROfRhoAndOmega()
-        //{
-        //    Assert.Less(Complex.Abs(
-        //        _output.R_rw[0, 0] - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
-        //}
+        [Test]
+        public void validate_CAW_ROfRhoAndOmega()
+        {
+           Assert.Less(Complex.Abs(
+                _output.R_rw[0, 0] - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.000001);
+        }
         // Total Absorption not coded yet for CAW
         // Absorption A(rho,z) not coded yet for CAW
 
@@ -134,25 +135,25 @@ namespace Vts.Test.MonteCarlo.TallyActions
         [Test]
         public void validate_CAW_TDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Td - 0.023392444), 0.000000001);
+            Assert.Less(Math.Abs(_output.Td - 0.0233366015), 0.000000001);
         }
         // Transmittance T(rho)
         [Test]
         public void validate_CAW_TOfRho()
         {
-            Assert.Less(Math.Abs(_output.T_r[54] - 0.00167318212), 0.00000000001);
+            Assert.Less(Math.Abs(_output.T_r[54] - 0.00167241353), 0.00000000001);
         }
         // Transmittance T(angle)
         [Test]
         public void validate_CAW_TOfAngle()
         {
-            Assert.Less(Math.Abs(_output.T_a[0] - 0.00335189855), 0.00000000001);
+            Assert.Less(Math.Abs(_output.T_a[0] - 0.00334389677), 0.00000000001);
         }
         // Transmittance T(rho,angle)
         [Test]
         public void validate_CAW_TOfRhoAndAngle()
         {
-            Assert.Less(Math.Abs(_output.T_ra[54,0] - 0.000239749918), 0.000000000001);
+            Assert.Less(Math.Abs(_output.T_ra[54,0] - 0.000239639787), 0.000000000001);
         }
         // Fluence Flu(rho,z) not coded yet for CAW
 
@@ -160,7 +161,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
         [Test]
         public void validate_CAW_ROfXAndY()
         {
-            Assert.Less(Math.Abs(_output.R_xy[198, 201] - 0.00828551), 0.00000001);
+            Assert.Less(Math.Abs(_output.R_xy[198, 201] - 0.00827581), 0.00000001);
         }
     }
 }

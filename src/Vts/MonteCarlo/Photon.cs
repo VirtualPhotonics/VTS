@@ -103,6 +103,8 @@ namespace Vts.MonteCarlo
             DP.Position.Z += S * DP.Direction.Uz;
 
             CurrentTrackIndex++;
+            if ((AbsorbAction == AbsorbContinuous) && (DP.Position.Z == 0.0))
+                Console.WriteLine("z=");
 
             DP.SubRegionInfoList[CurrentRegionIndex].PathLength += S;
 
@@ -154,7 +156,12 @@ namespace Vts.MonteCarlo
                             new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
                             DP.Weight,
                             DP.StateFlag,
-                            null)); 
+                            null));
+                    // adjust CAW weight for portion of track prior to exit
+                    if (AbsorbAction == AbsorbContinuous)
+                    {
+                        AbsorbContinuous();
+                    }
                     //don't need to update these unless photon not dead upon exiting tissue
                     //DP.Direction.Ux *= nCurrent / nNext;
                     //DP.Direction.Uy *= nCurrent / nNext;
