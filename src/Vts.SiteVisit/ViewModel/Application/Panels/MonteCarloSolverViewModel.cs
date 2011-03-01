@@ -48,8 +48,7 @@ namespace Vts.SiteVisit.ViewModel
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
-                    },
-                    AbsorptionWeightingType.Discrete
+                    }
                 ),
                 OutputFileName = "MonteCarloOutput",
                 N = 1000,

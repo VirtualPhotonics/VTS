@@ -30,16 +30,17 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="input"></param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
-        public MultiLayerTissue(MultiLayerTissueInput input)
-            : this(input.Regions, input.AbsorptionWeightingType)
+        public MultiLayerTissue(MultiLayerTissueInput input, AbsorptionWeightingType absorptionWeightingType)
+            : this(input.Regions, absorptionWeightingType)
         {
         }
 
         /// <summary>
         /// Creates a default instance of a MultiLayerTissue based on a homogeneous medium slab geometry
+        /// and discrete absorption weighting
         /// </summary>
         public MultiLayerTissue() 
-            : this(new MultiLayerTissueInput())
+            : this(new MultiLayerTissueInput(), AbsorptionWeightingType.Discrete)
         {
         }
 

@@ -8,12 +8,12 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public static class TissueFactory
     {
-        public static ITissue GetTissue(ITissueInput ti)
+        public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt)
         {
             ITissue t = null;
             if (ti is MultiLayerTissueInput)
             {
-                t = new MultiLayerTissue((MultiLayerTissueInput)ti);
+                t = new MultiLayerTissue((MultiLayerTissueInput)ti, awt);
             }
             //if (ti is SingleEllipsoidTissueInput)
             //{

@@ -85,8 +85,7 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
-                    },
-                    AbsorptionWeightingType.Discrete),
+                    }),
                 new DetectorInput(
                     new List<TallyType>()
                     {

@@ -14,7 +14,6 @@ namespace Vts.MonteCarlo.Tissues
     [KnownType(typeof(List<OpticalProperties>))]
     [KnownType(typeof(List<LayerRegion>))]
     [KnownType(typeof(List<ITissueRegion>))]
-    [KnownType(typeof(AbsorptionWeightingType))]
     public class MultiLayerTissueInput : ITissueInput
     {
         private IList<ITissueRegion> _regions;
@@ -23,10 +22,9 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// MultiLayeredTissueInput constructor 
         /// </summary>
-        public MultiLayerTissueInput(IList<ITissueRegion> regions, AbsorptionWeightingType absorptionWeightingType)
+        public MultiLayerTissueInput(IList<ITissueRegion> regions)
         {
             _regions = regions;
-            _absorptionWeightingType = absorptionWeightingType;
             ValidateInput(regions);
         }
 
@@ -46,8 +44,7 @@ namespace Vts.MonteCarlo.Tissues
                     new LayerRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
-                },
-                AbsorptionWeightingType.Discrete)
+                })
         {
         }
 

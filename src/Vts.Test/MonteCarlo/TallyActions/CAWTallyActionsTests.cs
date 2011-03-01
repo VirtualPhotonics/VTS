@@ -54,8 +54,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                         new LayerRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
-                    },
-                    AbsorptionWeightingType.Continuous
+                    }
                 ),
                 new DetectorInput(
                     new List<TallyType>()

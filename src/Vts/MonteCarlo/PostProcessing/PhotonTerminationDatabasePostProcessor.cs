@@ -26,7 +26,9 @@ namespace Vts.MonteCarlo.PostProcessing
             Output databaseOutput)
         {
             Output postProcessedOutput = new Output();
-            ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.Input.TissueInput);
+            ITissue tissue = Factories.TissueFactory.GetTissue(
+                databaseOutput.Input.TissueInput,
+                databaseOutput.Input.Options.AbsorptionWeightingType);
             IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
 
             foreach (var dp in peh.DataPoints)
@@ -62,7 +64,9 @@ namespace Vts.MonteCarlo.PostProcessing
             List<int> perturbedRegionsIndices)
         {
             Output postProcessedOutput = new Output();
-            ITissue tissue = Factories.TissueFactory.GetTissue(databaseOutput.Input.TissueInput);
+            ITissue tissue = Factories.TissueFactory.GetTissue(
+                databaseOutput.Input.TissueInput, 
+                databaseOutput.Input.Options.AbsorptionWeightingType);
             IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
 
             int count = 0;

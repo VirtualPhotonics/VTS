@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            _tissue = Factories.TissueFactory.GetTissue(input.TissueInput);
+            _tissue = Factories.TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType);
             _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
             _detector = Factories.DetectorFactory.GetDetector(input.DetectorInput, _tissue);
         }
