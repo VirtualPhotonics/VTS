@@ -22,7 +22,7 @@ namespace Vts
         MonteCarlo,
         Nurbs,
         pMC,
-        DiscreteOrdinates
+//        DiscreteOrdinates
     }
 
     public enum SpatialDomainType
