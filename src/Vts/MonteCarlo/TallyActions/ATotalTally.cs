@@ -28,9 +28,9 @@ namespace Vts.MonteCarlo.TallyActions
                 case AbsorptionWeightingType.Analog:
                     _absorbAction = AbsorbAnalog;
                     break;
-                //case AbsorptionWeightingType.Continuous:
-                //    Absorb = AbsorbContinuous;
-                //    break;
+                case AbsorptionWeightingType.Continuous:
+                    _absorbAction = AbsorbContinuous;
+                    break;
                 case AbsorptionWeightingType.Discrete:
                 default:
                     _absorbAction = AbsorbDiscrete;
@@ -85,6 +85,11 @@ namespace Vts.MonteCarlo.TallyActions
                 weight = previousWeight * mua / (mua + mus);
             }
             return weight;
+        }
+        // the following tally would work better as a termination tally
+        private double AbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
+        {
+            throw new NotImplementedException();
         }
     }
 }

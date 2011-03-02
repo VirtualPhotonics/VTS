@@ -10,8 +10,7 @@ namespace Vts.MonteCarlo.TallyActions
     /// Implements IHistoryTally<double[,]>.  Tally for Fluence(rho,z).
     /// Note: this tally currently only works with discrete absorption weighting
     /// </summary>
-    public class FluenceOfRhoAndZTally 
-        : HistoryTallyBase, IHistoryTally<double[,]>
+    public class FluenceOfRhoAndZTally : HistoryTallyBase, IHistoryTally<double[,]>
     {
         private DoubleRange _rho;
         private DoubleRange _z;
@@ -38,9 +37,9 @@ namespace Vts.MonteCarlo.TallyActions
                 case AbsorptionWeightingType.Analog:
                     _absorbAction = AbsorbAnalog;
                     break;
-                //case AbsorptionWeightingType.Continuous:
-                //    Absorb = AbsorbContinuous;
-                //    break;
+                case AbsorptionWeightingType.Continuous:
+                    _absorbAction = AbsorbContinuous;
+                    break;
                 case AbsorptionWeightingType.Discrete:
                     _absorbAction = AbsorbDiscrete;
                     break;
@@ -91,6 +90,11 @@ namespace Vts.MonteCarlo.TallyActions
                 weight = previousWeight * mua / (mua + mus);
             }
             return weight;
+        }
+
+        private double AbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
+        {
+            throw new NotImplementedException();
         }
 
         public void Normalize(long numPhotons)
