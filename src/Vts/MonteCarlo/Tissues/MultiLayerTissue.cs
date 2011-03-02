@@ -113,7 +113,7 @@ namespace Vts.MonteCarlo.Tissues
                 return Math.Min(photon.CurrentRegionIndex + 1, Regions.Count - 1);
             }
                 
-            return Math.Min(photon.CurrentRegionIndex - 1, 0);
+            return Math.Max(photon.CurrentRegionIndex - 1, 0);
         }
 
         public override PhotonStateType GetPhotonDataPointStateOnExit(Position position)
