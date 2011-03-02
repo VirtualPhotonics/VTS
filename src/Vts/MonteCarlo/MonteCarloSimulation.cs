@@ -121,23 +121,16 @@ namespace Vts.MonteCarlo
                         photon.SetStepSize(_rng);
 
                         var distance = _tissue.GetDistanceToBoundary(photon);
+                        
+                        bool hitBoundary = photon.Move(distance);
 
-                        bool willHitBoundary = photon.WillHitBoundary(distance);
-
-                        if (willHitBoundary)
-                        {
-                            photon.AdjustTrackLength(distance);
-                        }
-
-                        photon.Move(willHitBoundary);
-
-                        if (willHitBoundary)
+                        if (hitBoundary)
                         {
                             photon.CrossRegionOrReflect();
                         }
                         else
                         {
-                            photon.AbsorbAction();
+                            photon.Absorb();
                             if (photon.DP.StateFlag != PhotonStateType.Absorbed)
                             {
                                 photon.Scatter();

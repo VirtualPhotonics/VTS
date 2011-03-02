@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
         private const double CHANCE = 0.1;
         private const double MAX_PHOTON_PATHLENGTH = 300; // mm
 
-        // could add layer of indirection to not expose AbsorbAction;
+        // could add layer of indirection to not expose Absorb;
         private ITissue _tissue;
         private Random _rng;
 
@@ -60,21 +60,21 @@ namespace Vts.MonteCarlo
 
         public int CurrentRegionIndex { get; private set; }
         public int CurrentTrackIndex { get; private set; }
-        public Action AbsorbAction { get; private set; }
+        public Action Absorb { get; private set; }
 
         private void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
             {
                 case AbsorptionWeightingType.Analog:
-                    AbsorbAction = AbsorbAnalog;
+                    Absorb = AbsorbAnalog;
                     break;
                 case AbsorptionWeightingType.Continuous:
-                    AbsorbAction = AbsorbContinuous;
+                    Absorb = AbsorbContinuous;
                     break;
                 case AbsorptionWeightingType.Discrete:
                 default:
-                    AbsorbAction = AbsorbDiscrete;
+                    Absorb = AbsorbDiscrete;
                     break;
             }
         }
@@ -92,12 +92,20 @@ namespace Vts.MonteCarlo
             }
         }
 
-        public void Move(bool hitBoundary)
+        public bool Move(double distance)
         {
+            bool willHitBoundary = WillHitBoundary(distance);
+
+            if (willHitBoundary)
+            {
+                AdjustTrackLength(distance);
+            }
+
             if (History.HistoryData.Count() == 0) // add initial data point
             {
                 History.AddDPToHistory(DP);
             }
+
             DP.Position.X += S * DP.Direction.Ux;
             DP.Position.Y += S * DP.Direction.Uy;
             DP.Position.Z += S * DP.Direction.Uz;
@@ -109,7 +117,7 @@ namespace Vts.MonteCarlo
             // need to add: only increment number of collision counter if NOT pseudo-collision
             // i.e. collision at boundary but need to change while check in main
             // MC loop
-            if (!hitBoundary)
+            if (!willHitBoundary)
             {
                 DP.SubRegionInfoList[CurrentRegionIndex].NumberOfCollisions++;
             }
@@ -117,6 +125,23 @@ namespace Vts.MonteCarlo
             History.AddDPToHistory(DP);
 
             DP.StateFlag = PhotonStateType.NotSet; // reset state back to not set
+
+            return willHitBoundary;
+        }
+
+        private bool WillHitBoundary(double distanceToBoundary)
+        {
+            return S >= distanceToBoundary;
+        }
+
+        private void AdjustTrackLength(double distanceToBoundary)
+        {
+            // if crossing boundary, modify photon track-length, S, by pro-rating
+            // the remaining distance by the optical properties in the next region
+            SLeft = (S - distanceToBoundary) * _tissue.RegionScatterLengths[CurrentRegionIndex];
+
+            // reassign S to be distance that takes track to boundary
+            S = distanceToBoundary;
         }
 
         public void CrossRegionOrReflect()
@@ -156,7 +181,7 @@ namespace Vts.MonteCarlo
                             DP.StateFlag,
                             null));
                     // adjust CAW weight for portion of track prior to exit
-                    if (AbsorbAction == AbsorbContinuous)
+                    if (Absorb == AbsorbContinuous)
                     {
                         AbsorbContinuous();
                     }
@@ -177,6 +202,7 @@ namespace Vts.MonteCarlo
                 DP.Direction = _tissue.GetReflectedDirection(DP.Position, DP.Direction);
             }
         }
+
         /*****************************************************************/
         public void AbsorbAnalog()
         {
@@ -285,6 +311,7 @@ namespace Vts.MonteCarlo
             // update weight for current DP in History 
             History.HistoryData[index].Weight = DP.Weight; 
         }
+
         public void TestWeight()
         {
             //   if (photptr.w < Weight_Limit) 
@@ -294,21 +321,6 @@ namespace Vts.MonteCarlo
                 DP.StateFlag = PhotonStateType.KilledOverMaximumCollisions;
                 History.AddDPToHistory(DP);
             }
-        }
-
-        public bool WillHitBoundary(double distanceToBoundary)
-        {
-            return S >= distanceToBoundary;
-        }
-
-        public void AdjustTrackLength(double distanceToBoundary)
-        {
-            // if crossing boundary, modify photon track-length, S, by pro-rating
-            // the remaining distance by the optical properties in the next region
-            SLeft = (S - distanceToBoundary) * _tissue.RegionScatterLengths[CurrentRegionIndex];
-
-            // reassign S to be distance that takes track to boundary
-            S = distanceToBoundary;
         }
 
         /*****************************************************************/

@@ -8,20 +8,20 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public static class AbsorptionActionFactory
     {
-        //public Action AbsorbAction { get; private set; }
+        //public Action Absorb { get; private set; }
         //private void SetAbsorbAction(AbsorptionWeightingType awt)
         //{
         //    switch (awt)
         //    {
                 //case AbsorptionWeightingType.Analog:
-                //    AbsorbAction = AbsorbAnalog;
+                //    Absorb = AbsorbAnalog;
                 //    break;
                 //case AbsorptionWeightingType.Continuous:
-                //    AbsorbAction = AbsorbContinuous;
+                //    Absorb = AbsorbContinuous;
                 //    break;
                 //case AbsorptionWeightingType.Discrete:
                 //default:
-                //    AbsorbAction = AbsorbDiscrete;
+                //    Absorb = AbsorbDiscrete;
                 //    break;
         //    }
         //}

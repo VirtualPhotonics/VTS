@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.TallyActions
                     _absorbAction = AbsorbAnalog;
                     break;
                 //case AbsorptionWeightingType.Continuous:
-                //    AbsorbAction = AbsorbContinuous;
+                //    Absorb = AbsorbContinuous;
                 //    break;
                 case AbsorptionWeightingType.Discrete:
                 default:
