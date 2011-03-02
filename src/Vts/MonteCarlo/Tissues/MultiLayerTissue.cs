@@ -143,10 +143,16 @@ namespace Vts.MonteCarlo.Tissues
             double nNext, 
             double cosThetaSnell)
         {
-            return new Direction(
-                directionCurrent.Ux * nCurrent / nNext,
-                directionCurrent.Uy * nCurrent / nNext,
-                cosThetaSnell);
+            if (directionCurrent.Uz > 0)
+                return new Direction(
+                    directionCurrent.Ux * nCurrent / nNext,
+                    directionCurrent.Uy * nCurrent / nNext,
+                    cosThetaSnell);
+            else
+                return new Direction(
+                    directionCurrent.Ux * nCurrent / nNext,
+                    directionCurrent.Uy * nCurrent / nNext,
+                    -cosThetaSnell);
         }
 
         public override double GetAngleRelativeToBoundaryNormal(Photon photon)
