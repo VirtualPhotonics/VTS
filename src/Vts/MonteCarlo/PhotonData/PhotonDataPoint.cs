@@ -11,29 +11,39 @@ namespace Vts.MonteCarlo.PhotonData
         private Position _Position;
         private Direction _Direction;
         private double _Weight;
+        private double _TotalTime;
         private PhotonStateType _StateFlag;
-        private IList<SubRegionCollisionInfo> _SubRegionInfoList;
 
         public PhotonDataPoint(
             Position position,
             Direction direction,
             double weight,
-            PhotonStateType stateFlag,
-            IList<SubRegionCollisionInfo> subRegionInfoList)
+            double totalTime,
+            PhotonStateType stateFlag)
         {
             _Position = position;
             _Direction = direction;
             _Weight = weight;
+            _TotalTime = totalTime;
             _StateFlag = stateFlag;
-            _SubRegionInfoList = subRegionInfoList;
         }
 
         public Position Position { get { return _Position; } set { _Position = value; } }
         public Direction Direction { get { return _Direction; } set { _Direction = value; } }
 
         public double Weight { get { return _Weight; } set { _Weight = value; } }
+        public double TotalTime { get { return _TotalTime; } set { _TotalTime = value; } }
         public PhotonStateType StateFlag { get { return _StateFlag; } set { _StateFlag = value; } }
-        public IList<SubRegionCollisionInfo> SubRegionInfoList { get { return _SubRegionInfoList; } set { _SubRegionInfoList = value; } }
+
+        public PhotonDataPoint Clone()
+        {
+            return new PhotonDataPoint(
+                new Position(Position.X, Position.Y, Position.Z),
+                new Direction(Direction.Ux, Direction.Uy, Direction.Uz),
+                Weight,
+                TotalTime,
+                StateFlag);
+        }
 
     }
 }

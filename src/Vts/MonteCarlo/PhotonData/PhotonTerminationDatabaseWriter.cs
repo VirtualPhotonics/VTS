@@ -9,22 +9,15 @@ namespace Vts.MonteCarlo.PhotonData
     /// </summary>
     public class PhotonTerminationDatabaseWriter : CustomBinaryStreamWriter<PhotonDataPoint>
     {
-        public PhotonTerminationDatabaseWriter(string filename, int numberOfSubRegions)
-            : base(filename, new PhotonTerminationDataPointCustomBinarySerializer(numberOfSubRegions))
+        public PhotonTerminationDatabaseWriter(string filename)
+            : base(filename, new PhotonDataPointCustomBinarySerializer())
         {
             // this specifies any action to take at the end of the file writing
             PostWriteAction = delegate
             {   
                 // note: Count will be calculated at the end, not captured at instantiation
                 Func<long> currentCount = () => Count;
-                //new PhotonTerminationDatabase // why not call perameterized constructurer? what's the "bug"?
-                //    {
-                //        NumberOfPhotons = currentCount(),
-                //        NumberOfSubRegions = numberOfSubRegions,
-                //        TallyMomentumTransfer = tallyMomentumTransfer,
-                //    }.WriteToXML(filename + ".xml");
-                new PhotonTerminationDatabase( currentCount(), numberOfSubRegions)
-                        .WriteToXML(filename + ".xml");
+                new PhotonTerminationDatabase( currentCount()).WriteToXML(filename + ".xml");
             };
         }
     }

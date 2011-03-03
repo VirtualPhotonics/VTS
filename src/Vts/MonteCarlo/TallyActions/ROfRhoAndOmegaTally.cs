@@ -33,12 +33,7 @@ namespace Vts.MonteCarlo.TallyActions
         public void Tally(PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
-            var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
-                DetectorBinning.GetTimeDelay(
-                    sub.PathLength,
-                    _ops[i].N)
-                ).Sum();
-
+            var totalTime = dp.TotalTime;
             for (int iw = 0; iw < _omega.Count - 1; ++iw)
             {
                 double freq = (iw + 1) * _omega.Delta;

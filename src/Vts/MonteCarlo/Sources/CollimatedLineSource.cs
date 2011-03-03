@@ -47,12 +47,12 @@ namespace Vts.MonteCarlo.Sources
             var photonPosition = SourceToolbox.GetRandomLinePosition(Position, Orientation, Length, Rng);
 
             var dataPoint = new PhotonDataPoint(
-                    photonPosition,
-                    PhotonDirection,
-                    // the handling of specular needs work
-                    1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N),
-                    PhotonStateType.NotSet,
-                    Enumerable.Range(0, tissue.Regions.Count).Select(i => new SubRegionCollisionInfo(0.0, 0)).ToArray());
+                photonPosition,
+                PhotonDirection,
+                // the handling of specular needs work
+                1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N),
+                0.0,
+                PhotonStateType.NotSet);
 
             var photon = new Photon { DP = dataPoint };
 

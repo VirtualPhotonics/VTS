@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.TallyActions;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
@@ -88,24 +89,26 @@ namespace Vts.MonteCarlo.Detectors
         public DoubleRange Y { get; set; }
         public DoubleRange Z { get; set; }
 
-        public virtual void SetTallyActionLists()
+        private void SetTallyActionLists()
         {
             TerminationITallyList = new List<ITerminationTally>();
             HistoryITallyList = new List<IHistoryTally>();
             foreach (var tally in TallyTypeList)
             {
-                if (Factories.TallyActionFactory.IsHistoryTally(tally))
+                if (tally.IsHistoryTally())
                 {
                     HistoryITallyList.Add(Factories.TallyActionFactory.GetHistoryTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y, _tissue));
                     _tallyTypeIndex.Add(tally, HistoryITallyList.Count() - 1);
                 }
-                else
+
+                if(tally.IsTerminationTally())
                 {
                     TerminationITallyList.Add(Factories.TallyActionFactory.GetTerminationTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y, _tissue));
                     _tallyTypeIndex.Add(tally, TerminationITallyList.Count() - 1);
                 }
             }
         }
+
         public void TerminationTally(PhotonDataPoint dp)
         {
             foreach (var tally in TerminationITallyList)

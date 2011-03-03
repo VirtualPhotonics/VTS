@@ -9,19 +9,14 @@ namespace Vts.MonteCarlo.PhotonData
     /// </summary>
     public class PhotonTerminationDatabase
     {
-        //public PhotonTerminationDatabase(long numPhotons, long numSubRegions, bool tallyMomentumTransfer)
-        public PhotonTerminationDatabase(long numPhotons, long numSubRegions)
+        public PhotonTerminationDatabase(long numPhotons)
         {
             NumberOfPhotons = numPhotons;
-            NumberOfSubRegions = numSubRegions;
-            //TallyMomentumTransfer = tallyMomentumTransfer;
         }
 
-        public PhotonTerminationDatabase() : this(1000000, 3) { } 
+        public PhotonTerminationDatabase() : this(1000000) { } 
 
         public long NumberOfPhotons { get; set; }
-        public long NumberOfSubRegions { get; set; }
-        //public bool TallyMomentumTransfer { get; set; }
 
         [IgnoreDataMember]
         public IEnumerable<PhotonDataPoint> DataPoints { get; set; }
@@ -29,11 +24,8 @@ namespace Vts.MonteCarlo.PhotonData
         public static PhotonTerminationDatabase FromFile(string fileName)
         {
             var photonExitHistory = FileIO.ReadFromXML<PhotonTerminationDatabase>(fileName + ".xml");
-            //var serializer = new PhotonTerminationDataPointCustomBinarySerializer(
-            //    photonExitHistory.NumberOfSubRegions, 
-            //    photonExitHistory.TallyMomentumTransfer);
-            var serializer = new PhotonTerminationDataPointCustomBinarySerializer(
-                photonExitHistory.NumberOfSubRegions);
+
+            var serializer = new PhotonDataPointCustomBinarySerializer();
             
             photonExitHistory.DataPoints = FileIO.ReadFromBinaryCustom<PhotonDataPoint>(
                 fileName, 
@@ -48,11 +40,7 @@ namespace Vts.MonteCarlo.PhotonData
                 fileName + ".xml", 
                 projectName);
 
-            //var serializer = new PhotonTerminationDataPointCustomBinarySerializer(
-            //    photonExitHistory.NumberOfSubRegions,
-            //    photonExitHistory.TallyMomentumTransfer);
-            var serializer = new PhotonTerminationDataPointCustomBinarySerializer(
-                photonExitHistory.NumberOfSubRegions);
+            var serializer = new PhotonDataPointCustomBinarySerializer();
 
             photonExitHistory.DataPoints = FileIO.ReadFromBinaryInResourcesCustom<PhotonDataPoint>(
                 fileName, 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
@@ -22,20 +23,20 @@ namespace Vts.MonteCarlo
         private Random _rng;
 
         public Photon(
-            Position p, 
-            Direction d, 
-            ITissue tissue, 
+            Position p,
+            Direction d,
+            ITissue tissue,
             Random generator)
         {
             DP = new PhotonDataPoint(
                     p,
                     d,
                     1.0,
-                    PhotonStateType.NotSet,
-                    Enumerable.Range(0, tissue.Regions.Count).Select(i =>
-                        new SubRegionCollisionInfo(0.0, 0)).ToArray());
+                    0.0,
+                    PhotonStateType.NotSet);
 
-            History = new PhotonHistory();
+            History = new PhotonHistory(tissue.Regions.Count);
+
             S = 0.0;
             SLeft = 0.0;
             CurrentRegionIndex = tissue.GetRegionIndex(DP.Position);
@@ -54,6 +55,8 @@ namespace Vts.MonteCarlo
                 ) { }
 
         public PhotonDataPoint DP { get; set; }
+
+
         public PhotonHistory History { get; set; }
         public double S { get; set; }
         public double SLeft { get; set; }
@@ -110,16 +113,18 @@ namespace Vts.MonteCarlo
             DP.Position.Y += S * DP.Direction.Uy;
             DP.Position.Z += S * DP.Direction.Uz;
 
+            DP.TotalTime += DetectorBinning.GetTimeDelay(S, _tissue.Regions[CurrentRegionIndex].RegionOP.N);
+
             CurrentTrackIndex++;
 
-            DP.SubRegionInfoList[CurrentRegionIndex].PathLength += S;
+            History.SubRegionInfoList[CurrentRegionIndex].PathLength += S;
 
             // need to add: only increment number of collision counter if NOT pseudo-collision
             // i.e. collision at boundary but need to change while check in main
             // MC loop
             if (!willHitBoundary)
             {
-                DP.SubRegionInfoList[CurrentRegionIndex].NumberOfCollisions++;
+                History.SubRegionInfoList[CurrentRegionIndex].NumberOfCollisions++;
             }
 
             History.AddDPToHistory(DP);
@@ -173,13 +178,7 @@ namespace Vts.MonteCarlo
                 {
                     DP.StateFlag = _tissue.GetPhotonDataPointStateOnExit(DP.Position);
                     // add updated final DP to History
-                    History.HistoryData.Add(
-                        new PhotonDataPoint(
-                            new Position(DP.Position.X, DP.Position.Y, DP.Position.Z),
-                            new Direction(DP.Direction.Ux, DP.Direction.Uz, DP.Direction.Uz),
-                            DP.Weight,
-                            DP.StateFlag,
-                            null));
+                    History.AddDPToHistory(DP);
                     // adjust CAW weight for portion of track prior to exit
                     if (Absorb == AbsorbContinuous)
                     {
@@ -207,7 +206,7 @@ namespace Vts.MonteCarlo
         public void AbsorbAnalog()
         {
             if (_rng.NextDouble() > _tissue.Regions[CurrentRegionIndex].RegionOP.Mus /
-                (_tissue.Regions[CurrentRegionIndex].RegionOP.Mus + 
+                (_tissue.Regions[CurrentRegionIndex].RegionOP.Mus +
                  _tissue.Regions[CurrentRegionIndex].RegionOP.Mua))
             {
                 DP.StateFlag = PhotonStateType.Absorbed;
@@ -293,7 +292,7 @@ namespace Vts.MonteCarlo
                 // fluence tallying used to be done here 
 
                 // update weight for current DP in History 
-                History.HistoryData[index].Weight = DP.Weight; 
+                History.HistoryData[index].Weight = DP.Weight;
             }
         }
 
@@ -303,13 +302,13 @@ namespace Vts.MonteCarlo
             double dw;
             double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
             double mus = _tissue.Regions[CurrentRegionIndex].RegionOP.Mus;
-            int index = History.HistoryData.Count() - 1; 
+            int index = History.HistoryData.Count() - 1;
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
             dw = DP.Weight * (1 - Math.Exp(-mua * S));
             DP.Weight -= dw;
 
             // update weight for current DP in History 
-            History.HistoryData[index].Weight = DP.Weight; 
+            History.HistoryData[index].Weight = DP.Weight;
         }
 
         public void TestWeight()
@@ -327,9 +326,12 @@ namespace Vts.MonteCarlo
         void Test_Distance()
         {
             /* kill photon if it has gone too far */
-            if (History.HistoryData[CurrentTrackIndex].SubRegionInfoList.Select((pl, c) => pl.PathLength).Sum()
-                >= MAX_PHOTON_PATHLENGTH)
+            var totalPathLength = History.SubRegionInfoList.Select((pl, c) => pl.PathLength).Sum();
+            if (totalPathLength >= MAX_PHOTON_PATHLENGTH)
+            {
                 DP.StateFlag = PhotonStateType.KilledOverMaximumPathLength;
+            }
+
             History.AddDPToHistory(DP);
         }
 

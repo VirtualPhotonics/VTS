@@ -52,17 +52,9 @@ namespace Vts.MonteCarlo.TallyActions
 
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
-            // history tallies currently don't carry along subregionInfoList so can't determine
-            // total Pathlength from it
-            var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
-                DetectorBinning.GetTimeDelay(
-                    sub.PathLength,
-                    _ops[i].N)
-            ).Sum();
-
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);
-            var it = DetectorBinning.WhichBin(totalTime, _time.Count - 1, _time.Delta, _time.Start);
+            var it = DetectorBinning.WhichBin(dp.TotalTime, _time.Count - 1, _time.Delta, _time.Start);
 
             var weight = _absorbAction(
                 _ops[_tissue.GetRegionIndex(dp.Position)].Mua,

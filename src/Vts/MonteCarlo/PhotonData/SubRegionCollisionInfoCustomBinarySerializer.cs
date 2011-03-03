@@ -12,7 +12,6 @@ namespace Vts.MonteCarlo.PhotonData
         ICustomBinaryReader<SubRegionCollisionInfo>,
         ICustomBinaryWriter<SubRegionCollisionInfo>
     {
-
         public void WriteToBinary(BinaryWriter bw, SubRegionCollisionInfo info)
         {
             bw.Write(info.PathLength);

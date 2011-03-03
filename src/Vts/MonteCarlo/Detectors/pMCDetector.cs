@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.TallyActions;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
@@ -76,9 +77,12 @@ namespace Vts.MonteCarlo.Detectors
                 di.PerturbedOps,
                 di.PerturbedRegionsIndices
             ) { }
+
         // do this all have to be properties?
         public IList<ITerminationTally> TerminationITallyList { get; set; }
         public IList<IHistoryTally> HistoryITallyList { get; set; }
+        public IList<IpMCTally> pMCITallyList { get; set; }
+
         public IList<TallyType> TallyTypeList { get; set; }
         public DoubleRange Rho { get; set; }
         public DoubleRange Angle { get; set; }
@@ -91,29 +95,19 @@ namespace Vts.MonteCarlo.Detectors
         public IList<OpticalProperties> ReferenceOps { get; set; }
         public IList<OpticalProperties> PerturbedOps { get; set; }
         public IList<int> PerturbedRegionsIndices { get; set; }
- 
-        public void SetTallyActionLists()
+
+        private void SetTallyActionLists()
         {
-            TerminationITallyList = new List<ITerminationTally>();
-            HistoryITallyList = new List<IHistoryTally>();
+            pMCITallyList = new List<IpMCTally>();
             foreach (var tally in TallyTypeList)
             {
-                if (Factories.TallyActionFactory.IsHistoryTally(tally))
-                {
-                    HistoryITallyList.Add(
-                        Factories.TallyActionFactory.GetHistoryTallyAction(
-                            tally, Rho, Z, Angle, Time, Omega, X, Y,
-                            _tissue, PerturbedOps, PerturbedRegionsIndices));
-                }
-                else
-                {
-                    TerminationITallyList.Add(
-                        Factories.TallyActionFactory.GetTerminationTallyAction(
-                            tally, Rho, Z, Angle, Time, Omega, X, Y,
-                            _tissue, PerturbedOps, PerturbedRegionsIndices));
-                }
+                pMCITallyList.Add(
+                    Factories.TallyActionFactory.GetpMCTallyAction(
+                        tally, Rho, Z, Angle, Time, Omega, X, Y,
+                        _tissue, PerturbedOps, PerturbedRegionsIndices));
             }
         }
+
         public void TerminationTally(PhotonDataPoint dp)
         {
             foreach (var tally in TerminationITallyList)

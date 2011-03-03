@@ -11,29 +11,15 @@ namespace Vts.MonteCarlo.TallyActions
             switch (type)
             {
                 case TallyType.ROfRhoAndAngle:
-                    return true;
-                default:
                 case TallyType.ROfRho:
-                    return true;
                 case TallyType.ROfAngle:
-                    return true;
                 case TallyType.ROfRhoAndOmega:
-                    return true;
                 case TallyType.ROfRhoAndTime:
-                    return true;
                 case TallyType.ROfXAndY:
-                    return true;
                 case TallyType.RDiffuse:
-                    return true;
                 case TallyType.pMuaMusInROfRhoAndTime:
                     return true;
-                case TallyType.TOfRhoAndAngle:
-                    return false;
-                case TallyType.TOfRho:
-                    return false;
-                case TallyType.TOfAngle:
-                    return false;
-                case TallyType.TDiffuse:
+                default:
                     return false;
             }
         }
@@ -42,31 +28,44 @@ namespace Vts.MonteCarlo.TallyActions
         {
             switch (type)
             {
-                case TallyType.ROfRhoAndAngle:
-                    return false;
-                default:
-                case TallyType.ROfRho:
-                    return false;
-                case TallyType.ROfAngle:
-                    return false;
-                case TallyType.ROfRhoAndOmega:
-                    return false;
-                case TallyType.ROfRhoAndTime:
-                    return false;
-                case TallyType.ROfXAndY:
-                    return false;
-                case TallyType.RDiffuse:
-                    return false;
-                case TallyType.pMuaMusInROfRhoAndTime:
-                    return false;
                 case TallyType.TOfRhoAndAngle:
-                    return true;
                 case TallyType.TOfRho:
-                    return true;
                 case TallyType.TOfAngle:
-                    return true;
                 case TallyType.TDiffuse:
                     return true;
+                default:
+                    return false;
+            }
+        }
+
+        public static bool IsTerminationTally(this TallyType tallyType)
+        {
+            return tallyType.IsTransmittanceTally() || tallyType.IsReflectanceTally();
+        }
+
+        public static bool IspMCTally(this TallyType tallyType)
+        {
+            switch (tallyType)
+            {
+                case TallyType.pMuaMusInROfRho:
+                case TallyType.pMuaMusInROfRhoAndTime:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public static bool IsHistoryTally(this TallyType tallyType)
+        {
+            switch (tallyType)
+            {
+                case TallyType.FluenceOfRhoAndZ:
+                case TallyType.FluenceOfRhoAndZAndTime:
+                case TallyType.AOfRhoAndZ:
+                case TallyType.ATotal:
+                    return true;
+                default:
+                    return false;
             }
         }
     }

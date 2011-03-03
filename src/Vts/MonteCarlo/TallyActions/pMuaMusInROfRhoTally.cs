@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.TallyActions
     /// as a function of Rho.
     /// </summary>
     // do I need classes pMuaInROfRhoTally and pMusInROfRhoTally?
-    public class pMuaMusInROfRhoTally : HistoryTallyBase, ITerminationTally<double[]>
+    public class pMuaMusInROfRhoTally : IpMCTally<double[]>
     {
         private DoubleRange _rho;
         private AbsorptionWeightingType _awt;
@@ -23,6 +23,7 @@ namespace Vts.MonteCarlo.TallyActions
         // note: bins accommodate noncontiguous and also single bins
         private double[] _rhoCenters;
         private Func<IList<long>, double, IList<OpticalProperties>, double> _absorbAction;
+
         /// <summary>
         /// Tallies perturbed R(rho).  Instantiate with reference optical properties.  When
         /// method Tally invoked, perturbed optical properties passed.
@@ -36,7 +37,7 @@ namespace Vts.MonteCarlo.TallyActions
             DoubleRange rho,
             ITissue tissue,
             IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionIndices) : base(tissue)
+            IList<int> perturbedRegionIndices)
         {
             _rho = rho;
             Mean = new double[_rho.Count - 1];
@@ -66,7 +67,7 @@ namespace Vts.MonteCarlo.TallyActions
         public double[] Mean { get; set; }
         public double[] SecondMoment { get; set; }
 
-        protected override void SetAbsorbAction(AbsorptionWeightingType awt)
+        protected void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
             {
@@ -82,25 +83,19 @@ namespace Vts.MonteCarlo.TallyActions
             }
         }
 
-        public void Tally(PhotonDataPoint dp)
+        public void Tally(PhotonDataPoint dp, IList<SubRegionCollisionInfo> infoList)
         {
-            var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
-                DetectorBinning.GetTimeDelay(
-                sub.PathLength,
-                _referenceOps[i].N)  // time is based on reference optical properties
-                ).Sum();
-            
             double totalPathLengthInPerturbedRegions = 0.0;
             foreach (var i in _perturbedRegionsIndices)
             {
-                totalPathLengthInPerturbedRegions += dp.SubRegionInfoList[i].PathLength;
+                totalPathLengthInPerturbedRegions += infoList[i].PathLength;
             }
 
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Delta, _rhoCenters);
             if (ir != -1)
             {
                 double weightFactor = _absorbAction(
-                    dp.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
+                    infoList.Select(c => c.NumberOfCollisions).ToList(),
                     totalPathLengthInPerturbedRegions,
                     _perturbedOps);
 
@@ -124,6 +119,7 @@ namespace Vts.MonteCarlo.TallyActions
             }
             return weightFactor;
         }
+
         private double AbsorbDiscrete(IList<long> numberOfCollisions, double totalPathLengthInPerturbedRegions, IList<OpticalProperties> perturbedOps)
         {
             double weightFactor = 1.0;
@@ -140,6 +136,7 @@ namespace Vts.MonteCarlo.TallyActions
             }
             return weightFactor;
         }
+
         public void Normalize(long numPhotons)
         {
             for (int ir = 0; ir < _rho.Count - 1; ir++)

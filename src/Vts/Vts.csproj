@@ -247,6 +247,7 @@
     <Compile Include="MonteCarlo\Factories\TallyActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\TissueFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\Optics.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IpMCTally.cs" />
     <Compile Include="MonteCarlo\Interfaces\IHistoryTally.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITally.cs" />
     <Compile Include="MonteCarlo\PhotonHistory.cs" />
@@ -264,7 +265,7 @@
     <Compile Include="MonteCarlo\PhotonData\PhotonDataPoint.cs" />
     <Compile Include="MonteCarlo\PhotonData\PhotonTerminationDatabase.cs" />
     <Compile Include="MonteCarlo\PhotonData\PhotonTerminationDatabaseWriter.cs" />
-    <Compile Include="MonteCarlo\PhotonData\PhotonTerminationDataPointCustomBinarySerializer.cs" />
+    <Compile Include="MonteCarlo\PhotonData\PhotonDataPointCustomBinarySerializer.cs" />
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfo.cs" />
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfoCustomBinarySerializer.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />

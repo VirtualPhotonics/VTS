@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.TallyActions
     /// as a function of Rho and Time.  Perturbations of just mua or mus alone are also
     /// handled by this class.
     /// </summary>
-    public class pMuaMusInROfRhoAndTimeTally : HistoryTallyBase, ITerminationTally<double[,]>
+    public class pMuaMusInROfRhoAndTimeTally : IpMCTally<double[,]>
     {
         private DoubleRange _rho;
         private DoubleRange _time;
@@ -43,7 +43,6 @@ namespace Vts.MonteCarlo.TallyActions
             ITissue tissue,
             IList<OpticalProperties> perturbedOps,
             IList<int> perturbedRegionIndices)
-            : base(tissue)
         {
             _rho = rho;
             _time = time;
@@ -107,7 +106,7 @@ namespace Vts.MonteCarlo.TallyActions
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
 
-        protected override void SetAbsorbAction(AbsorptionWeightingType awt)
+        protected void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
             {
@@ -123,18 +122,13 @@ namespace Vts.MonteCarlo.TallyActions
             }
         }
 
-        public void Tally(PhotonDataPoint dp)
+        public void Tally(PhotonDataPoint dp, IList<SubRegionCollisionInfo> infoList)
         {
-            var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
-                DetectorBinning.GetTimeDelay(
-                sub.PathLength,
-                _referenceOps[i].N)  // time is based on reference optical properties
-                ).Sum();
-
+            var totalTime = dp.TotalTime;
             double totalPathLengthInPerturbedRegions = 0.0;
             foreach (var i in _perturbedRegionsIndices)
             {
-                totalPathLengthInPerturbedRegions += dp.SubRegionInfoList[i].PathLength;
+                totalPathLengthInPerturbedRegions += infoList[i].PathLength;
             }
             var it = DetectorBinning.WhichBin(totalTime, _time.Count - 1, _time.Delta, _time.Start);
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y),
@@ -151,13 +145,14 @@ namespace Vts.MonteCarlo.TallyActions
             if ((ir != -1) && (it != -1))
             {
                 var weightFactor = _absorbAction(
-                    dp.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
+                    infoList.Select(c => c.NumberOfCollisions).ToList(),
                     totalPathLengthInPerturbedRegions,
                     _perturbedOps);
                 Mean[ir, it] += dp.Weight * weightFactor;
                 SecondMoment[ir, it] += dp.Weight * weightFactor * dp.Weight * weightFactor;
             }
         }
+
         private double AbsorbContinuous(IList<long> numberOfCollisions, double totalPathLengthInPerturbedRegions, IList<OpticalProperties> perturbedOps)
         {
             double weightFactor = 1.0;
@@ -173,6 +168,7 @@ namespace Vts.MonteCarlo.TallyActions
             }
             return weightFactor;
         }
+
         private double AbsorbDiscrete(IList<long> numberOfCollisions, double totalPathLengthInPerturbedRegions, IList<OpticalProperties> perturbedOps)
         {
             double weightFactor = 1.0;

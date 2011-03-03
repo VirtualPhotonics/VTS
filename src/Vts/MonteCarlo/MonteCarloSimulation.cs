@@ -100,10 +100,9 @@ namespace Vts.MonteCarlo
         /// </summary>
         protected virtual void ExecuteMCLoop()
         {
-
             // DC: should the writer output go to same folder as Output?);
             using (var photonTerminationDatabaseWriter = WRITE_EXIT_HISTORIES
-                ? new PhotonTerminationDatabaseWriter(_input.OutputFileName + "_photonBiographies", _tissue.Regions.Count)
+                ? new PhotonTerminationDatabaseWriter(_input.OutputFileName + "_photonBiographies")
                 : null)
             {
                 for (long n = 1; n <= numberOfPhotons; n++)

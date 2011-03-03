@@ -31,11 +31,7 @@ namespace Vts.MonteCarlo.TallyActions
 
         public virtual void Tally(PhotonDataPoint dp)
         {
-            var totalTime = dp.SubRegionInfoList.Select((sub, i) =>
-                DetectorBinning.GetTimeDelay(sub.PathLength, _ops[i].N)
-            ).Sum();
-
-            var it = DetectorBinning.WhichBin(totalTime, _time.Count - 1, _time.Delta, _time.Start);
+            var it = DetectorBinning.WhichBin(dp.TotalTime, _time.Count - 1, _time.Delta, _time.Start);
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
 
             Mean[ir, it] += dp.Weight;

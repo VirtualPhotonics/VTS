@@ -10,7 +10,8 @@ namespace Vts.MonteCarlo.TallyActions
     /// Implements IHistoryTally<double[,]>.  Tally for Fluence(rho,z).
     /// Note: this tally currently only works with discrete absorption weighting
     /// </summary>
-    public class FluenceOfRhoAndZTally : HistoryTallyBase, IHistoryTally<double[,]>
+    public class FluenceOfRhoAndZTally 
+        : HistoryTallyBase, IHistoryTally<double[,]>
     {
         private DoubleRange _rho;
         private DoubleRange _z;

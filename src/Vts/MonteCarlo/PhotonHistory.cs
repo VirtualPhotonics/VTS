@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Vts.MonteCarlo.PhotonData;
 using Vts.Common;
 
@@ -9,13 +10,22 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class PhotonHistory
     {
-        public PhotonHistory(IList<PhotonDataPoint> historyData)
-        {
-            HistoryData = historyData;
-        }
-        public PhotonHistory() : this(new List<PhotonDataPoint>()) { }
+        private IList<SubRegionCollisionInfo> _SubRegionInfoList;
 
-        public IList<PhotonDataPoint> HistoryData{ get; set; }
+        public PhotonHistory(int numSubRegions)
+        {
+            HistoryData = new List<PhotonDataPoint>();
+            _SubRegionInfoList = Enumerable.Range(0, numSubRegions)
+                .Select(i => new SubRegionCollisionInfo(0.0, 0)).ToArray();
+        }
+
+        public IList<PhotonDataPoint> HistoryData{ get; private set; }
+
+        public IList<SubRegionCollisionInfo> SubRegionInfoList
+        {
+            get { return _SubRegionInfoList; } 
+            set { _SubRegionInfoList = value; }
+        }
 
         /// <summary>
         /// Method to add PhotonDataPoint to History.  
@@ -23,14 +33,7 @@ namespace Vts.MonteCarlo
         /// <param name="dp"></param>
         public void AddDPToHistory(PhotonDataPoint dp)
         {
-                HistoryData.Add(
-                    new PhotonDataPoint(
-                    new Position(dp.Position.X, dp.Position.Y, dp.Position.Z),
-                    new Direction(dp.Direction.Ux, dp.Direction.Uy, dp.Direction.Uz),
-                    dp.Weight,
-                    dp.StateFlag,
-                    null)); // don't carry SubRegionCollisionInfo data in History
-                    //Enumerable.Range(0, _tissue.Regions.Count).Select(i => new SubRegionCollisionInfo(0.0, 0)).ToArray());
+            HistoryData.Add(dp.Clone()); 
         }
     }
 

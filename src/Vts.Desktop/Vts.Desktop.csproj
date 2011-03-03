@@ -484,6 +484,9 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IHistoryTally.cs">
       <Link>MonteCarlo\Interfaces\IHistoryTally.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCTally.cs">
+      <Link>MonteCarlo\Interfaces\IpMCTally.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISource.cs">
       <Link>MonteCarlo\Interfaces\ISource.cs</Link>
     </Compile>
@@ -517,14 +520,14 @@
     <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDataPoint.cs">
       <Link>MonteCarlo\PhotonData\PhotonDataPoint.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDataPointCustomBinarySerializer.cs">
+      <Link>MonteCarlo\PhotonData\PhotonDataPointCustomBinarySerializer.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonTerminationDatabase.cs">
       <Link>MonteCarlo\PhotonData\PhotonTerminationDatabase.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonTerminationDatabaseWriter.cs">
       <Link>MonteCarlo\PhotonData\PhotonTerminationDatabaseWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonTerminationDataPointCustomBinarySerializer.cs">
-      <Link>MonteCarlo\PhotonData\PhotonTerminationDataPointCustomBinarySerializer.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhotonData\SubRegionCollisionInfo.cs">
       <Link>MonteCarlo\PhotonData\SubRegionCollisionInfo.cs</Link>

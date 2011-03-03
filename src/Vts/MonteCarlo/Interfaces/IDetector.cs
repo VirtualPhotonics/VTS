@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
         DoubleRange X { get; set; }
         DoubleRange Y { get; set; }
         DoubleRange Z { get; set; }
-        void SetTallyActionLists();
+        // void SetTallyActionLists();
         void TerminationTally(PhotonDataPoint dp);
         void NormalizeTalliesToOutput(long N, Output output);
         void SetOutputArrays(Output output);

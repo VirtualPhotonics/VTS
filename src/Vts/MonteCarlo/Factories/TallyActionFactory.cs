@@ -10,23 +10,6 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public class TallyActionFactory
     {
-        public static bool IsHistoryTally(TallyType tallyType)
-        {
-            switch (tallyType)
-            {
-                case TallyType.FluenceOfRhoAndZ:
-                    return true;
-                case TallyType.FluenceOfRhoAndZAndTime:
-                    return true;
-                case TallyType.AOfRhoAndZ:
-                    return true;
-                case TallyType.ATotal:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
         public static ITerminationTally GetTerminationTallyAction(
             TallyType tallyType,
             DoubleRange rho,
@@ -92,7 +75,7 @@ namespace Vts.MonteCarlo.Factories
         }
 
         // pMC overload
-        public static ITerminationTally GetTerminationTallyAction(
+        public static IpMCTally GetpMCTallyAction(
             TallyType tallyType,
             DoubleRange rho,
             DoubleRange z,
