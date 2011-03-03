@@ -31,20 +31,20 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     new LayerRegion[]
                     { 
                         new LayerRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0, 2),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0)
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)
                             ),
                         new LayerRegion(
-                            new DoubleRange(0.0, 0.1, 2),
+                            new DoubleRange(0.0, 0.1),
                             new OpticalProperties(0.033, 1.0, 0.8, 1.38)
                             ),
                         new LayerRegion(
-                            new DoubleRange(0.1, 100.0, 2),
+                            new DoubleRange(0.1, 100.0),
                             new OpticalProperties(0.033, 1.0, 0.8, 1.38)
                             ),
                         new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity, 2),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0)
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0, 1e-10, 0.0, 1.0)
                             )
                     }
                 ),

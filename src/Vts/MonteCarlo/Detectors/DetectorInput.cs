@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Vts.Common;
+using Vts.IO;
 
 namespace Vts.MonteCarlo.Detectors
 {
+    [KnownType(typeof(DetectorInput))]
     public class DetectorInput : IDetectorInput
     {
         public DetectorInput(List<TallyType> tallyTypeList, 
@@ -58,5 +61,20 @@ namespace Vts.MonteCarlo.Detectors
         public DoubleRange X { get; set; }
         public DoubleRange Y { get; set; }
         public DoubleRange Z { get; set; }
+
+        public static DetectorInput FromFile(string filename)
+        {
+            return FileIO.ReadFromXML<DetectorInput>(filename);
+        }
+
+        public void ToFile(string filename)
+        {
+            FileIO.WriteToXML(this, filename);
+        }
+
+        public static DetectorInput FromFileInResources(string filename, string project)
+        {
+            return FileIO.ReadFromXMLInResources<DetectorInput>(filename, project);
+        }
     }
 }
