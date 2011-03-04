@@ -310,6 +310,48 @@
     <Compile Include="..\Vts\Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs">
       <Link>Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\Boundary.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\Boundary.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\AngularMesh.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\AngularMesh.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\BoundaryCoupling.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\BoundaryCoupling.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\LightSource.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\LightSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Measurement.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Measurement.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Output.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Output.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Parameters.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Parameters.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\SpatialMesh.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\SpatialMesh.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\Initialization.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\Initialization.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\ParametersIO.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\ParametersIO.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\MultiGridCycle.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\MultiGridCycle.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\Reflect.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\Reflect.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\Solver.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\Solver.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\MonteCarloForwardSolver.cs">
       <Link>Modeling\ForwardSolvers\MonteCarloForwardSolver.cs</Link>
     </Compile>

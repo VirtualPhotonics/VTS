@@ -193,6 +193,20 @@
     <Compile Include="Modeling\ForwardSolvers\INurbs.cs" />
     <Compile Include="Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs" />
     <Compile Include="Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\Boundary.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\DataStructures\AngularMesh.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\DataStructures\BoundaryCoupling.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\DataStructures\LightSource.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Measurement.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\DataStructures\SpatialMesh.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\IO\Initialization.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\IO\ParametersIO.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\MultiGridCycle.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Output.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Parameters.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\Reflect.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\Solver.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloLoader.cs" />
     <Compile Include="Modeling\ForwardSolvers\NurbsForwardSolver.cs" />
@@ -424,6 +438,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
