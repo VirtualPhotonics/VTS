@@ -54,6 +54,7 @@ namespace Vts.MonteCarlo.TallyActions
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);
+            var it = DetectorBinning.WhichBin(dp.TotalTime, _time.Count - 1, _time.Delta, _time.Start);
 
             var weight = _absorbAction(
                 _ops[_tissue.GetRegionIndex(dp.Position)].Mua,

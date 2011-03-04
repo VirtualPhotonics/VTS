@@ -1,4 +1,4 @@
-//#define GENERATE_INFILE
+#define GENERATE_INFILE
 
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,8 @@ using System.IO;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.PostProcessing;
+using Vts.MonteCarlo.PhotonData;
 
 // ParallelFx June '08 CTP
 //using System.Threading.Collections;
@@ -79,7 +81,7 @@ namespace Vts.MonteCarlo.PostProcessor
 
     #endregion
 
-    class MonteCarloSetup
+    class PostProcessorSetup
     {
         private string path = "";
         private string basename = "newinfile";
@@ -87,16 +89,21 @@ namespace Vts.MonteCarlo.PostProcessor
         public bool ValidInput { get; set; }
 
         public string DetectorInputFile { get; set; }
+        public string DatabaseFile { get; set; }
+        public string DatabaseXMLFile { get; set; }
         public string OutputFile { get; set; }
         
         public IEnumerable<DetectorInput> BatchQuery { get; set; }
         public string[] BatchNameQuery { get; set; }
         public DetectorInput Input { get; set; }
+        public PhotonTerminationDatabase Database { get; set; }
+        public Output OutputFromDatabaseGeneration { get; set; }
 
-        public MonteCarloSetup()
+        public PostProcessorSetup()
         {
             ValidInput = true;
             DetectorInputFile = "";
+            DatabaseFile = "";
             OutputFile = "results";
             BatchQuery = null;
             BatchNameQuery = null;
@@ -104,7 +111,7 @@ namespace Vts.MonteCarlo.PostProcessor
         }
 
         /// <summary>
-        /// method to read the detector input from a specified or default file
+        /// method to read the detector input from a specified or default files
         /// </summary>
         public bool ReadDetectorInputFromFile()
         {
@@ -128,6 +135,49 @@ namespace Vts.MonteCarlo.PostProcessor
             {
                 Console.WriteLine("\nNo input file specified. Using newinfile.xml from resources... ");
                 Input = DetectorInput.FromFile("newinfile.xml");
+            }
+            if (DatabaseFile.Length > 0)
+            {
+                path = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(DatabaseFile)) + "\\";
+                basename = System.IO.Path.GetFileNameWithoutExtension(DatabaseFile);
+                DatabaseFile = path + basename;
+
+                if (System.IO.File.Exists(DatabaseFile))
+                {
+                    Database = PhotonTerminationDatabase.FromFile(DatabaseFile);
+                }
+                else
+                {
+                    Console.WriteLine("\nThe following database file could not be found: " + basename);
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nNo input file specified. Using database from resources... ");
+                Database = PhotonTerminationDatabase.FromFileInResources(
+                    "postprocessing_photonBiographies", "Vts.MonteCarlo.PostProcessor");
+            }
+            if (OutputFile.Length > 0)
+            {
+                path = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(OutputFile)) + "\\";
+                basename = System.IO.Path.GetFileNameWithoutExtension(OutputFile);
+                OutputFile = path + basename;
+
+                if (System.IO.File.Exists(OutputFile))
+                {
+                    OutputFromDatabaseGeneration = Output.FromFile(OutputFile);
+                }
+                else
+                {
+                    Console.WriteLine("\nThe following output.xml file could not be found: " + basename);
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nNo input file specified. Using output.xml from resources... ");
+                OutputFromDatabaseGeneration = Output.FromFile("output.xml");
             }
             BatchQuery = Input.AsEnumerable();
             BatchNameQuery = new[] { "" };
@@ -164,16 +214,16 @@ namespace Vts.MonteCarlo.PostProcessor
 
                     if (ValidInput)
                     {
-                        string inputParameterString = inputParameterType.ToString().ToLower();
+                        //string inputParameterString = inputParameterType.ToString().ToLower();
 
-                        if (inputParameterString.Length > 0)
-                        {
-                            BatchQuery = BatchQuery.WithParameterSweep(sweep, inputParameterType);
-                            BatchNameQuery =
-                                            (from b in BatchNameQuery
-                                             from s in sweep
-                                             select (b + inputParameterString + "_" + String.Format("{0:f}", s) + "_")).ToArray();
-                        }
+                        //if (inputParameterString.Length > 0)
+                        //{
+                        //    BatchQuery = BatchQuery.WithParameterSweep(sweep, inputParameterType);
+                        //    BatchNameQuery =
+                        //                    (from b in BatchNameQuery
+                        //                     from s in sweep
+                        //                     select (b + inputParameterString + "_" + String.Format("{0:f}", s) + "_")).ToArray();
+                        //}
                     }
                 }
                 catch
@@ -188,28 +238,32 @@ namespace Vts.MonteCarlo.PostProcessor
         }
 
         /// <summary>
-        /// Runs the Monte Carlo simulation
+        /// Runs the Monte Carlo Post-processor
         /// </summary>
-        public void RunSimulation()
+        public void RunPostProcessor()
         {
             DetectorInput[] inputBatch = BatchQuery.ToArray();
             string[] outNames = BatchNameQuery.Select(s => path + basename + "_" + OutputFile + "\\" + basename + "_" + OutputFile + s).ToArray();
+            Output postProcessedOutput;
 
-            for (int i = 0; i < inputBatch.Length; i++)
-                inputBatch[i].OutputFileName = outNames[i];
+            //for (int i = 0; i < inputBatch.Length; i++)
+            //    inputBatch[i].OutputFileName = outNames[i];
+            
+            var peh = PhotonTerminationDatabase.FromFile(DatabaseFile);
+            var databaseXMLFile = Output.FromFile(DatabaseXMLFile);
 
             Parallel.For(0, inputBatch.Length, i =>
             {
-                var mc =
-                   new MonteCarloSimulation(
-                         inputBatch[i]);
+ 
+                postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
+                inputBatch[i], peh, databaseXMLFile);
 
-                var p = Path.GetDirectoryName(inputBatch[i].OutputFileName);
+                var p = Path.GetDirectoryName("results" + i);
 
                 if (!Directory.Exists(p))
                     Directory.CreateDirectory(p);
 
-                mc.Run().ToFile(inputBatch[i].OutputFileName);
+                postProcessedOutput.ToFile(p);
             });
         }
     }
@@ -218,38 +272,12 @@ namespace Vts.MonteCarlo.PostProcessor
     {
         static void Main(string[] args)
         {
-            MonteCarloSetup MonteCarloSetup = new MonteCarloSetup();
+            PostProcessorSetup PostProcessorSetup = new PostProcessorSetup();
             
     #region Infile Generation (optional)
-        //To Generate an infile when running a simulation, uncomment the first line of code in this file
+        //To Generate a detector infile, uncomment the first line of code in this file
         #if GENERATE_INFILE
-            var tempInput = new SimulationInput(
-                100,  // FIX 1e6 takes about 70 minutes my laptop
-                "Output",
-                new SimulationOptions(),
-                new CustomPointSourceInput(
-                    new Position(0, 0, 0),
-                    new Direction(0, 0, 1),
-                    new DoubleRange(0.0, 0, 1),
-                    new DoubleRange(0.0, 0, 1)),
-                new MultiLayerTissueInput(
-                    new LayerRegion[]
-                    { 
-                        new LayerRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0, 2),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
-                            AbsorptionWeightingType.Discrete),
-                        new LayerRegion(
-                            new DoubleRange(0.0, 100.0, 2),
-                            new OpticalProperties(0.0, 1.0, 0.8, 1.4),
-                            AbsorptionWeightingType.Discrete),
-                        new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity, 2),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
-                            AbsorptionWeightingType.Discrete)
-                    }
-                ),
-                new DetectorInput(
+            var tempInput = new DetectorInput(
                     new List<TallyType>()
                     {
                         TallyType.RDiffuse,
@@ -270,9 +298,8 @@ namespace Vts.MonteCarlo.PostProcessor
                     new DoubleRange(0.0, 4.0, 801), // time: nt=800 dt=0.005ns used for workshop
                     new DoubleRange(0.0, 1000, 21), // omega
                     new DoubleRange(-100.0, 100.0, 81), // x
-                    new DoubleRange(-100.0, 100.0, 81), // y
-                    AbsorptionWeightingType.Discrete
-                ));
+                    new DoubleRange(-100.0, 100.0, 81) // y
+                );
             tempInput.ToFile("newinfile.xml");
         #endif
     #endregion
@@ -281,45 +308,55 @@ namespace Vts.MonteCarlo.PostProcessor
                 () =>
                     {
                         Console.WriteLine("Usages are:");
-                        Console.WriteLine("mc_post infile=myinput datafile=mydatafile outfile=myoutput");
-                        Console.WriteLine("inputparam=mua1,0.01,0.09,0.01 inputparam=mus1,10,20,1");
+                        Console.WriteLine("mc_post detectorinputinfile=mydetectorinput datafile=mydatafile outputxmlfile=myoutputxml");
+                        Console.WriteLine("inputparam=rho,0.01,0.09,0.01 inputparam=time,10,20,1");
                         Console.WriteLine();
                     },
                 new CommandLine.Switch("infile", val =>
                     {
                         Console.WriteLine("input file specified as {0}", val.First());
-                        MonteCarloSetup.DetectorInputFile = val.First();
+                        PostProcessorSetup.DetectorInputFile = val.First();
+                    }),
+                new CommandLine.Switch("datafile", val =>
+                    {
+                        Console.WriteLine("database file specified as {0}", val.First());
+                        PostProcessorSetup.DatabaseFile = val.First();
+                    }),
+                new CommandLine.Switch("dataxmlfile", val =>
+                    {
+                        Console.WriteLine("database .xml file specified as {0}", val.First());
+                        PostProcessorSetup.DatabaseXMLFile = val.First();
                     }),
                 new CommandLine.Switch("outfile", val =>
                     {
                         Console.WriteLine("output file specified as {0}", val.First());
-                        MonteCarloSetup.OutputFile = val.First();
+                        PostProcessorSetup.OutputFile = val.First();
                     }),
                 new CommandLine.Switch("inputparam", val =>
                 {
-                    MonteCarloSetup.SetRangeValues(val);
+                    PostProcessorSetup.SetRangeValues(val);
                 })
             );
 
-            if (MonteCarloSetup.BatchQuery == null && MonteCarloSetup.ValidInput)
+            if (PostProcessorSetup.BatchQuery == null && PostProcessorSetup.ValidInput)
             {
-                MonteCarloSetup.ValidInput = MonteCarloSetup.ReadSimulationInputFromFile();
+                PostProcessorSetup.ValidInput = PostProcessorSetup.ReadDetectorInputFromFile();
             }
-            if (MonteCarloSetup.ValidInput)
+            if (PostProcessorSetup.ValidInput)
             {
-                MonteCarloSetup.RunSimulation();
-                Console.Write("\nSimulation(s) complete.");
+                PostProcessorSetup.RunPostProcessor();
+                Console.Write("\nPostProcessor complete.");
             }
             else
             {
-                Console.Write("\nSimulation(s) completed with errors. Press enter key to exit.");
+                Console.Write("\nPostProcessor completed with errors. Press enter key to exit.");
                 Console.Read();
             }
         }
 
-        private static SimulationInput LoadDefaultInputFile()
+        private static DetectorInput LoadDefaultInputFile()
         {
-            return SimulationInput.FromFileInResources("newinfile.xml", "mc");
+            return DetectorInput.FromFileInResources("newinfile.xml", "mc_post");
         }
     }
 }

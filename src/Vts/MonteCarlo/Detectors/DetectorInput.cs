@@ -6,7 +6,11 @@ using Vts.IO;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(DetectorInput))]
+//#if !SILVERLIGHT
+//    [Serializable]
+//#endif
+
+//    [KnownType(typeof(DetectorInput))]
     public class DetectorInput : IDetectorInput
     {
         public DetectorInput(List<TallyType> tallyTypeList, 

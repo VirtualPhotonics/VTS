@@ -235,6 +235,7 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationOptions.cs" />
     <Compile Include="MonteCarlo\Detectors\Detector.cs" />
+    <Compile Include="MonteCarlo\Detectors\DetectorInputExtensions.cs" />
     <Compile Include="MonteCarlo\Factories\AbsorptionActionFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\DetectorBinning.cs" />
     <Compile Include="MonteCarlo\Detectors\DetectorInput.cs" />

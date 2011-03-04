@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vts.MonteCarlo.PostProcessor</RootNamespace>
-    <AssemblyName>Vts.MonteCarlo.PostProcessor</AssemblyName>
+    <AssemblyName>mc_post</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -38,7 +38,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -51,6 +50,15 @@
       <Project>{05B6020A-B646-4BBB-B9A0-B524F5F85023}</Project>
       <Name>Vts.Desktop</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <Resource Include="postprocessing_photonBiographies" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="newinfile.xml" />
+    <Resource Include="output.xml" />
+    <Resource Include="postprocessing_photonBiographies.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
