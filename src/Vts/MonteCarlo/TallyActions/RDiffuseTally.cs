@@ -13,10 +13,12 @@ namespace Vts.MonteCarlo.TallyActions
         {
             Mean = 0;
             SecondMoment = 0;
+            TallyType = TallyType.RDiffuse;
         }
 
         public double Mean { get; set; }
         public double SecondMoment { get; set; }
+        public TallyType TallyType { get; set; }
 
         public void Tally(PhotonDataPoint dp)
         {

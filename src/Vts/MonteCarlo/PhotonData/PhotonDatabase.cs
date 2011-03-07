@@ -5,25 +5,25 @@ using Vts.IO;
 namespace Vts.MonteCarlo.PhotonData
 {
     /// <summary>
-    /// Describes database for terminating photons.
+    /// Describes database for photon data points.
     /// </summary>
-    public class PhotonTerminationDatabase
+    public class PhotonDatabase
     {
-        public PhotonTerminationDatabase(long numPhotons)
+        public PhotonDatabase(long numPhotons)
         {
             NumberOfPhotons = numPhotons;
         }
 
-        public PhotonTerminationDatabase() : this(1000000) { } 
+        public PhotonDatabase() : this(1000000) { } 
 
         public long NumberOfPhotons { get; set; }
 
         [IgnoreDataMember]
         public IEnumerable<PhotonDataPoint> DataPoints { get; set; }
 
-        public static PhotonTerminationDatabase FromFile(string fileName)
+        public static PhotonDatabase FromFile(string fileName)
         {
-            var photonExitHistory = FileIO.ReadFromXML<PhotonTerminationDatabase>(fileName + ".xml");
+            var photonExitHistory = FileIO.ReadFromXML<PhotonDatabase>(fileName + ".xml");
 
             var serializer = new PhotonDataPointCustomBinarySerializer();
             
@@ -34,9 +34,9 @@ namespace Vts.MonteCarlo.PhotonData
             return photonExitHistory;
         }
 
-        public static PhotonTerminationDatabase FromFileInResources(string fileName, string projectName)
+        public static PhotonDatabase FromFileInResources(string fileName, string projectName)
         {
-            var photonExitHistory = FileIO.ReadFromXMLInResources<PhotonTerminationDatabase>(
+            var photonExitHistory = FileIO.ReadFromXMLInResources<PhotonDatabase>(
                 fileName + ".xml", 
                 projectName);
 

@@ -227,8 +227,6 @@
     <Compile Include="Modeling\Spectroscopy\Tissue.cs" />
     <Compile Include="Modeling\Tools\CalculatorToolbox.cs" />
     <Compile Include="Modeling\Tools\HankelTransform.cs" />
-    <Compile Include="MonteCarlo\Banana.cs" />
-    <Compile Include="MonteCarlo\bvolume.cs" />
     <Compile Include="MonteCarlo\DataStructures\Output.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensions.cs" />
@@ -244,7 +242,7 @@
     <Compile Include="MonteCarlo\Factories\DetectorFactory.cs" />
     <Compile Include="MonteCarlo\Factories\RandomNumberGeneratorFactory.cs" />
     <Compile Include="MonteCarlo\Factories\SourceFactory.cs" />
-    <Compile Include="MonteCarlo\Factories\TallyActionFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\TallyFactory.cs" />
     <Compile Include="MonteCarlo\Factories\TissueFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\Optics.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCTally.cs" />
@@ -263,8 +261,8 @@
     <Compile Include="MonteCarlo\MonteCarloSimulation.cs" />
     <Compile Include="MonteCarlo\Photon.cs" />
     <Compile Include="MonteCarlo\PhotonData\PhotonDataPoint.cs" />
-    <Compile Include="MonteCarlo\PhotonData\PhotonTerminationDatabase.cs" />
-    <Compile Include="MonteCarlo\PhotonData\PhotonTerminationDatabaseWriter.cs" />
+    <Compile Include="MonteCarlo\PhotonData\PhotonDatabase.cs" />
+    <Compile Include="MonteCarlo\PhotonData\PhotonDatabaseWriter.cs" />
     <Compile Include="MonteCarlo\PhotonData\PhotonDataPointCustomBinarySerializer.cs" />
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfo.cs" />
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfoCustomBinarySerializer.cs" />

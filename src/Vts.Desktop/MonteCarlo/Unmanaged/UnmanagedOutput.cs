@@ -27,11 +27,6 @@ namespace Vts.MonteCarlo
             unmanagedOutput.Td = output.Td;
             UnmanagedIO.Assign2DPointer(output.R_rt, ref unmanagedOutput.R_rt);
 
-            if (MonteCarloSimulation.DO_ALLVOX)
-            {
-                UnmanagedIO.Assign4DPointer(output.in_side_allvox, ref unmanagedOutput.in_side_allvox);
-                UnmanagedIO.Assign4DPointer(output.out_side_allvox, ref unmanagedOutput.out_side_allvox);
-            }
             UnmanagedIO.Assign2DPointer(output.D_rt, ref unmanagedOutput.D_rt);
 
             return unmanagedOutput;

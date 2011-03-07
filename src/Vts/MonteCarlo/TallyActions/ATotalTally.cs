@@ -16,10 +16,12 @@ namespace Vts.MonteCarlo.TallyActions
         public ATotalTally(ITissue tissue)
            : base(tissue)
         {
+            TallyType = TallyType.ATotal;
         }
 
         public double Mean { get; set; }
         public double SecondMoment { get; set; }
+        public TallyType TallyType { get; set; }
 
         protected override void SetAbsorbAction(AbsorptionWeightingType awt)
         {

@@ -21,10 +21,12 @@ namespace Vts.MonteCarlo.TallyActions
             _y = y;
             Mean = new double[_x.Count - 1, _y.Count - 1];
             SecondMoment = new double[_x.Count - 1, _y.Count - 1];
+            TallyType = TallyType.ROfXAndY;
         }
 
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
+        public TallyType TallyType { get; set; }
 
         public void Tally(PhotonDataPoint dp)
         {

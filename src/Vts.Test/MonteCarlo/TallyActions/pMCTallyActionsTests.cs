@@ -42,7 +42,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
         [Test]
         public void validate_DAW_ROfRhoAndTime_zero_perturbation()
         {
-            var peh = PhotonTerminationDatabase.FromFile("pMC_photonBiographies");
+            var peh = PhotonDatabase.FromFile("pMC_photonBiographies");
             var postProcessedOutput = 
                 PhotonTerminationDatabasePostProcessor.GenerateOutput(   
                     new pMCDetectorInput(

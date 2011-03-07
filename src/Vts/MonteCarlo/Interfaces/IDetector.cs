@@ -23,4 +23,23 @@ namespace Vts.MonteCarlo
         void SetOutputArrays(Output output);
         void HistoryTally(PhotonHistory history);
     }
+
+    public interface IDetectorController
+    {
+        IList<IDetector2> Detectors { get; set; }
+        void TerminationTally(PhotonDataPoint dp);
+        void HistoryTally(PhotonHistory history);
+        void NormalizeTallies(long N, Output output);
+        void SetOutputArrays(Output output);
+    }
+    
+    public interface IDetector2
+    {
+        TallyType TallyType { get; set; }
+    }
+
+    public interface IDetector2<T> : IDetector
+    {
+        ITally<T> Tally { get; set; }
+    }
 }

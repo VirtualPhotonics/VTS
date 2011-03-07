@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <returns></returns>
         public static Output GenerateOutput(
             IDetectorInput tallies, 
-            PhotonTerminationDatabase peh, 
+            PhotonDatabase peh, 
             Output databaseOutput)
         {
             Output postProcessedOutput = new Output();
@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <returns></returns>
         public static Output GenerateOutput(
             IDetectorInput tallies, 
-            PhotonTerminationDatabase peh, 
+            PhotonDatabase peh, 
             Output databaseOutput,
             List<OpticalProperties> perturbedOps,
             List<int> perturbedRegionsIndices)

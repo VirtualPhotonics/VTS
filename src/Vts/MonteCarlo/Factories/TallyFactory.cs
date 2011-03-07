@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo.Factories
     /// <summary>
     /// Instantiates appropriate detector tally given TallyType.
     /// </summary>
-    public class TallyActionFactory
+    public class TallyFactory
     {
         public static ITerminationTally GetTerminationTallyAction(
             TallyType tallyType,

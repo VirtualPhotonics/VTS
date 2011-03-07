@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Vts.Common;
+using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.TallyActions;
 using Vts.MonteCarlo.Tissues;
@@ -12,7 +13,6 @@ namespace Vts.MonteCarlo.Detectors
     public class Detector : IDetector
     {
         private ITissue _tissue;
-        private AbsorptionWeightingType _awt;
         private IDictionary<TallyType, int> _tallyTypeIndex = new Dictionary<TallyType,int>();
         public Detector(
             List<TallyType> tallyTypeList,
@@ -34,7 +34,6 @@ namespace Vts.MonteCarlo.Detectors
             X = x;
             Y = y;
             _tissue = tissue;
-            _awt = tissue.AbsorptionWeightingType;
             SetTallyActionLists();
         }
         /// <summary>
@@ -42,7 +41,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public Detector()
             : this(
-                new List<TallyType>()
+                new List<TallyType>
                 {
                     TallyType.RDiffuse,
                     TallyType.ROfAngle,
@@ -66,6 +65,7 @@ namespace Vts.MonteCarlo.Detectors
                 new DoubleRange(-10.0, 10.0, 201), // y
                 new MultiLayerTissue()
                 ) { }
+
         public Detector(IDetectorInput di, ITissue tissue)
             : this(
                 di.TallyTypeList,
@@ -97,13 +97,13 @@ namespace Vts.MonteCarlo.Detectors
             {
                 if (tally.IsHistoryTally())
                 {
-                    HistoryITallyList.Add(Factories.TallyActionFactory.GetHistoryTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y, _tissue));
+                    HistoryITallyList.Add(TallyFactory.GetHistoryTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y, _tissue));
                     _tallyTypeIndex.Add(tally, HistoryITallyList.Count() - 1);
                 }
 
                 if(tally.IsTerminationTally())
                 {
-                    TerminationITallyList.Add(Factories.TallyActionFactory.GetTerminationTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y, _tissue));
+                    TerminationITallyList.Add(TallyFactory.GetTerminationTallyAction(tally, Rho, Z, Angle, Time, Omega, X, Y, _tissue));
                     _tallyTypeIndex.Add(tally, TerminationITallyList.Count() - 1);
                 }
             }
@@ -139,6 +139,7 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
+
         // pass in Output rather than return because want instance of SimulationInput to be consistent
         public virtual void NormalizeTalliesToOutput(long N, Output output)
         {
@@ -146,17 +147,63 @@ namespace Vts.MonteCarlo.Detectors
             {
                 tally.Normalize(N);
             }
+
             foreach (var tally in HistoryITallyList)
             {
                 tally.Normalize(N);
             }
-            foreach (var tallyType in TallyTypeList)
-            {
-                SetOutputArrays(output);
-            };
+
+            SetOutputArrays(output);
         }
+
         public virtual void SetOutputArrays(Output output)
         {
+            foreach (var terminationTally in TerminationITallyList)
+            {
+                switch (terminationTally.TallyType)
+                {
+                    case TallyType.ROfRhoAndAngle:
+                        break;
+                    case TallyType.ROfRho:
+                        break;
+                    case TallyType.ROfAngle:
+                        break;
+                    case TallyType.ROfRhoAndOmega:
+                        break;
+                    case TallyType.ROfRhoAndTime:
+                        break;
+                    case TallyType.ROfXAndY:
+                        break;
+                    case TallyType.RDiffuse:
+                        break;
+                    case TallyType.TOfRhoAndAngle:
+                        break;
+                    case TallyType.TOfRho:
+                        break;
+                    case TallyType.TOfAngle:
+                        break;
+                    case TallyType.TDiffuse:
+                        break;
+                    case TallyType.FluenceOfRhoAndZ:
+                        break;
+                    case TallyType.FluenceOfRhoAndZAndTime:
+                        break;
+                    case TallyType.AOfRhoAndZ:
+                        break;
+                    case TallyType.ATotal:
+                        break;
+                    case TallyType.MomentumTransferOfRhoAndZ:
+                        break;
+                    case TallyType.pMuaMusInROfRhoAndTime:
+                        break;
+                    case TallyType.pMuaMusInROfRho:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+
             foreach (var tallyType in TallyTypeList)
             {
                 switch (tallyType)

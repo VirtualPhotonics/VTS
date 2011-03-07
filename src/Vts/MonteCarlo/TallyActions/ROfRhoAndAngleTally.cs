@@ -22,10 +22,12 @@ namespace Vts.MonteCarlo.TallyActions
             _angle = angle;
             Mean = new double[_rho.Count - 1, _angle.Count];
             SecondMoment = new double[_rho.Count - 1, _angle.Count];
+            TallyType = TallyType.ROfRhoAndAngle;
         }
 
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
+        public TallyType TallyType { get; set; }
 
         public virtual void Tally(PhotonDataPoint dp)
         {

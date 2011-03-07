@@ -10,7 +10,7 @@ namespace Vts.Modeling.ForwardSolvers
     {
         # region fields
         public static OpticalProperties ReferenceOps;
-        public static PhotonTerminationDatabase PhotonTerminationDatabase;
+        public static PhotonDatabase PhotonTerminationDatabase;
         public static Output databaseOutput;
         public static DoubleRange databaseRhoRange;
         public static DoubleRange databaseTimeRange;
@@ -38,7 +38,7 @@ namespace Vts.Modeling.ForwardSolvers
                 databaseOutput.Input.DetectorInput.Time.Count);
             ReferenceOps = databaseOutput.Input.TissueInput.Regions[1].RegionOP;
    
-            PhotonTerminationDatabase = PhotonTerminationDatabase.FromFileInResources(
+            PhotonTerminationDatabase = PhotonDatabase.FromFileInResources(
                 databaseName, projectName);
         }
 

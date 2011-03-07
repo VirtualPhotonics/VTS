@@ -51,6 +51,7 @@ namespace Vts.MonteCarlo.TallyActions
             _timeDelta = _time.Delta;
             Mean = new double[_rho.Count - 1, _time.Count - 1];
             SecondMoment = new double[_rho.Count - 1, _time.Count - 1];
+            TallyType = TallyType.pMuaMusInROfRhoAndTime;
             _awt = tissue.AbsorptionWeightingType;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
             _perturbedOps = perturbedOps;
@@ -105,6 +106,7 @@ namespace Vts.MonteCarlo.TallyActions
 
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
+        public TallyType TallyType { get; set; }
 
         protected void SetAbsorbAction(AbsorptionWeightingType awt)
         {

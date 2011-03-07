@@ -22,10 +22,12 @@ namespace Vts.MonteCarlo.TallyActions
             _tissue = tissue;
             Mean = new double[_rho.Count - 1, _z.Count - 1];
             SecondMoment = new double[_rho.Count - 1, _z.Count - 1];
+            TallyType = TallyType.MomentumTransferOfRhoAndZ;
         }
 
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
+        public TallyType TallyType { get; set; }
 
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {

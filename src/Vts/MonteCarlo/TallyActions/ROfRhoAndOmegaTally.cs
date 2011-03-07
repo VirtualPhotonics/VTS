@@ -25,10 +25,12 @@ namespace Vts.MonteCarlo.TallyActions
             _omega = omega;
             Mean = new Complex[_rho.Count - 1, _omega.Count - 1];
             SecondMoment = new Complex[_rho.Count - 1, _omega.Count - 1];
+            TallyType = TallyType.ROfRhoAndOmega;
         }
 
         public Complex[,] Mean { get; set; }
         public Complex[,] SecondMoment { get; set; }
+        public TallyType TallyType { get; set; }
 
         public void Tally(PhotonDataPoint dp)
         {

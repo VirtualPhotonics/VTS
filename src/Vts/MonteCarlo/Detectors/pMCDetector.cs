@@ -102,7 +102,7 @@ namespace Vts.MonteCarlo.Detectors
             foreach (var tally in TallyTypeList)
             {
                 pMCITallyList.Add(
-                    Factories.TallyActionFactory.GetpMCTallyAction(
+                    Factories.TallyFactory.GetpMCTallyAction(
                         tally, Rho, Z, Angle, Time, Omega, X, Y,
                         _tissue, PerturbedOps, PerturbedRegionsIndices));
             }

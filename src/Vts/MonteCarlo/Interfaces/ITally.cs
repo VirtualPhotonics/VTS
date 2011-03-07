@@ -15,8 +15,8 @@ namespace Vts.MonteCarlo
 
     public interface ITally
     {
+        TallyType TallyType{ get; set; }
         void Normalize(long numPhotons);
         bool ContainsPoint(PhotonDataPoint dp);
     }
-
 }

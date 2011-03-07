@@ -61,6 +61,7 @@ namespace Vts.IO
                 yield return br.ReadDouble();
             }
         }
+
         private static IEnumerable<float> ReadFloats(BinaryReader br, int numberOfElements)
         {
             for (int i = 0; i < numberOfElements; i++)
@@ -68,6 +69,7 @@ namespace Vts.IO
                 yield return br.ReadSingle();
             }
         }
+
         private static IEnumerable<ushort> ReadUShorts(BinaryReader br, int numberOfElements)
         {
             for (int i = 0; i < numberOfElements; i++)
@@ -75,13 +77,10 @@ namespace Vts.IO
                 yield return br.ReadUInt16();
             }
         }
+
         private static IEnumerable<byte> ReadBytes(BinaryReader br, int numberOfElements)
         {
             return br.ReadBytes(numberOfElements);
-            //for (int i = 0; i < numberOfElements; i++)
-            //{
-            //    yield return br.re.ReadByte();
-            //}
         }
     }
 }

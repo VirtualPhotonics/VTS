@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
@@ -24,10 +24,16 @@ namespace Vts.MonteCarlo.TallyActions
 
             Mean = new double[_rho.Count - 1, _z.Count - 1];
             SecondMoment = new double[_rho.Count - 1, _z.Count - 1];
+            TallyType = TallyType.AOfRhoAndZ;
         }
 
+        [IgnoreDataMember]
         public double[,] Mean { get; set; }
+
+        [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
+
+        public TallyType TallyType { get; set; }
 
         protected override void SetAbsorbAction(AbsorptionWeightingType awt)
         {

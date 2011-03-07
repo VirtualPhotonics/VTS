@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Vts.IO;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo
@@ -15,7 +17,6 @@ namespace Vts.MonteCarlo
         private ITissue _tissue;
         private IDetector _detector;
         private long numberOfPhotons;
-        private string outputFilename;
 
         // todo: Why is this static? (DJC 2011-01-16)
         protected static SimulationInput _input;
@@ -27,7 +28,6 @@ namespace Vts.MonteCarlo
             // all field/property defaults should be set here
             _input = input;
             numberOfPhotons = input.N;
-            outputFilename = input.OutputFileName;
 
             WRITE_EXIT_HISTORIES = input.Options.WriteHistories;// Added by DC 2009-08-01
             ABSORPTION_WEIGHTING = input.Options.AbsorptionWeightingType; // CKH add 12/14/09
@@ -61,16 +61,17 @@ namespace Vts.MonteCarlo
 
         // public properties
         // todo: Why are these all static? (DJC 2011-01-16)
-        public static bool DO_ALLVOX { get; set; }
-        public static bool DO_TIME_RESOLVED_FLUENCE { get; set; } // TODO: DC - Add to unmanaged code
-        public static bool WRITE_EXIT_HISTORIES { get; set; }  // Added by DC 2009-08-01 
-        public static bool TALLY_MOMENTUM_TRANSFER { get; set; }
-        public static AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
+        private bool DO_ALLVOX { get; set; }
+        private bool DO_TIME_RESOLVED_FLUENCE { get; set; } // TODO: DC - Add to unmanaged code
+        private bool WRITE_EXIT_HISTORIES { get; set; }  // Added by DC 2009-08-01 
+        private bool WRITE_ALL_HISTORIES { get; set; }  // Added by DC 2011-03-03
+        private bool TALLY_MOMENTUM_TRANSFER { get; set; }
+        private AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
 
         // wrappers for _input to access internal fields
-        public static ITissueInput TissueInput { get { return _input.TissueInput; } }
-        public static ISourceInput SourceInput { get { return _input.SourceInput; } }
-        public static IDetectorInput DetectorInput { get { return _input.DetectorInput; } }
+        //public static ITissueInput TissueInput { get { return _input.TissueInput; } }
+        //public static ISourceInput SourceInput { get { return _input.SourceInput; } }
+        //public static IDetectorInput DetectorInput { get { return _input.DetectorInput; } }
 
         /// <summary>
         /// Run the simulation
@@ -100,11 +101,14 @@ namespace Vts.MonteCarlo
         /// </summary>
         protected virtual void ExecuteMCLoop()
         {
-            // DC: should the writer output go to same folder as Output?);
-            using (var photonTerminationDatabaseWriter = WRITE_EXIT_HISTORIES
-                ? new PhotonTerminationDatabaseWriter(_input.OutputFileName + "_photonBiographies")
-                : null)
+            PhotonDatabaseWriter terminationWriter = null;
+            try
             {
+                if (WRITE_EXIT_HISTORIES)
+                {
+                    terminationWriter = new PhotonDatabaseWriter(_input.OutputFileName + "_photonBiographies");
+                }
+
                 for (long n = 1; n <= numberOfPhotons; n++)
                 {
                     // todo: bug - num photons is assumed to be over 10 :)
@@ -120,7 +124,7 @@ namespace Vts.MonteCarlo
                         photon.SetStepSize(_rng);
 
                         var distance = _tissue.GetDistanceToBoundary(photon);
-                        
+
                         bool hitBoundary = photon.Move(distance);
 
                         if (hitBoundary)
@@ -146,10 +150,10 @@ namespace Vts.MonteCarlo
 
                     _detector.TerminationTally(photon.DP);
 
-                    if (photonTerminationDatabaseWriter != null)
+                    if (terminationWriter != null)
                     {
                         //dc: how to check if detector contains DP  ckh: check is on reading side, may need to fix
-                        photonTerminationDatabaseWriter.Write(photon.DP);
+                        terminationWriter.Write(photon.DP);
                     }
 
                     //if (DO_ALLVOX) Compute_Prob_allvox(source, tissptr, photptr, bananaptr, outptr, detector);  /* DCFIX */
@@ -157,7 +161,12 @@ namespace Vts.MonteCarlo
                     _detector.HistoryTally(photon.History);
 
                 } /* end of for n loop */
-            } /* end exit history using scope*/
+
+            }
+            finally
+            {
+                if (terminationWriter != null) terminationWriter.Dispose();
+            }
         }
 
         public void ReportResults()

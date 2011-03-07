@@ -415,12 +415,6 @@
     <Compile Include="..\Vts\Modeling\Tools\HankelTransform.cs">
       <Link>Modeling\Tools\HankelTransform.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Banana.cs">
-      <Link>MonteCarlo\Banana.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\bvolume.cs">
-      <Link>MonteCarlo\bvolume.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\Output.cs">
       <Link>MonteCarlo\DataStructures\Output.cs</Link>
     </Compile>
@@ -460,8 +454,8 @@
     <Compile Include="..\Vts\MonteCarlo\Factories\SourceFactory.cs">
       <Link>MonteCarlo\Factories\SourceFactory.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Factories\TallyActionFactory.cs">
-      <Link>MonteCarlo\Factories\TallyActionFactory.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Factories\TallyFactory.cs">
+      <Link>MonteCarlo\Factories\TallyFactory.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\TissueFactory.cs">
       <Link>MonteCarlo\Factories\TissueFactory.cs</Link>
@@ -517,17 +511,17 @@
     <Compile Include="..\Vts\MonteCarlo\Photon.cs">
       <Link>MonteCarlo\Photon.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDatabase.cs">
+      <Link>MonteCarlo\PhotonData\PhotonDatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDatabaseWriter.cs">
+      <Link>MonteCarlo\PhotonData\PhotonDatabaseWriter.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDataPoint.cs">
       <Link>MonteCarlo\PhotonData\PhotonDataPoint.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDataPointCustomBinarySerializer.cs">
       <Link>MonteCarlo\PhotonData\PhotonDataPointCustomBinarySerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonTerminationDatabase.cs">
-      <Link>MonteCarlo\PhotonData\PhotonTerminationDatabase.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonTerminationDatabaseWriter.cs">
-      <Link>MonteCarlo\PhotonData\PhotonTerminationDatabaseWriter.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhotonData\SubRegionCollisionInfo.cs">
       <Link>MonteCarlo\PhotonData\SubRegionCollisionInfo.cs</Link>

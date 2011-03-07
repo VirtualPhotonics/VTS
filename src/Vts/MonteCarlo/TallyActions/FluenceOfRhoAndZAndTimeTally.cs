@@ -27,10 +27,12 @@ namespace Vts.MonteCarlo.TallyActions
 
             Mean = new double[_rho.Count - 1, _z.Count - 1, _time.Count - 1];
             SecondMoment = new double[_rho.Count - 1, _z.Count - 1, _time.Count - 1];
+            TallyType = TallyType.FluenceOfRhoAndZAndTime;
         }
 
         public double[, ,] Mean { get; set; }
         public double[, ,] SecondMoment { get; set; }
+        public TallyType TallyType { get; set; }
 
         protected override void SetAbsorbAction(AbsorptionWeightingType awt)
         {
