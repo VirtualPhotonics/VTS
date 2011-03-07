@@ -34,9 +34,9 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var input = GenerateReferenceInput();
             var onTheFlyOutput = GenerateReferenceOutput(input);
 
-            var peh = PhotonTerminationDatabase.FromFile("postprocessing_photonBiographies");
+            var database = PhotonTerminationDatabase.FromFile("postprocessing_photonBiographies");
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                input.DetectorInput, peh, onTheFlyOutput);
+                input.DetectorInput, database, onTheFlyOutput.Input);
 
             ValidateROfRhoAndTime(onTheFlyOutput, postProcessedOutput);
         }

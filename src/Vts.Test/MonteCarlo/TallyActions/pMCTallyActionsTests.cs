@@ -68,7 +68,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                         new List<int>() { 1 }
                     ),
                     peh, 
-                    _referenceHomogeneousOutput,
+                    _referenceHomogeneousOutput.Input,
                     new List<OpticalProperties>() { // perturbed ops
                         _referenceHomogeneousInput.TissueInput.Regions[0].RegionOP,
                         _referenceHomogeneousInput.TissueInput.Regions[1].RegionOP,
