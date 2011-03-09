@@ -191,16 +191,16 @@ namespace Vts.MonteCarlo.PostProcessor
         public void SetRangeValues(IEnumerable<string> val)
         {
             IEnumerable<double> sweep = null;
-            InputParameterType inputParameterType;
+            PostProcessorInputParameterType inputParameterType;
 
             if (val.Count() == 4)
             {
                 try
                 {
-                    inputParameterType = (InputParameterType)Enum.Parse(typeof(InputParameterType), val.ElementAt(0), true);
+                    inputParameterType = (PostProcessorInputParameterType)Enum.Parse(typeof(PostProcessorInputParameterType), val.ElementAt(0), true);
 
                     // batch parameter values should come in fours 
-                    // eg. inputparam=mua1,-4.0,4.0,0.05 inputparam=mus1,0.5,1.5,0.1 inputparam=mus2,0.5,1.5,0.1 ...
+                    // eg. inputparam=Rho.Count,100,200,100 inputparam=Time.Count,100,200,100 ...
                     var start = double.Parse(val.ElementAt(1));
                     var stop = double.Parse(val.ElementAt(2));
                     var delta = double.Parse(val.ElementAt(3));
@@ -306,7 +306,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     {
                         Console.WriteLine("Usages are:");
                         Console.WriteLine("mc_post detectorinputinfile=mydetectorinput datafile=mydatafile simulationinputfile=mysimulationinput");
-                        Console.WriteLine("inputparam=rho,0.01,0.09,0.01 inputparam=time,10,20,1");
+                        Console.WriteLine("inputparam=rhocount,100,200,100 inputparam=timecount,100,200,100");
                         Console.WriteLine();
                     },
                 new CommandLine.Switch("detectorinputinfile", val =>

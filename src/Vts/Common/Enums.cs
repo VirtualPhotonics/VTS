@@ -189,6 +189,12 @@ namespace Vts
         D2,
     }
 
+    public enum PostProcessorInputParameterType
+    {
+        Rho,
+        Time,
+    }
+
     public enum RandomNumberGeneratorType
     {
         /// <summary>

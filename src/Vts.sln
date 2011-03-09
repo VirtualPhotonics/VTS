@@ -45,7 +45,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.Web", "Vts.Web\Vts.Web.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MonteCarlo.PostProcessor", "Vts.MonteCarlo.PostProcessor\Vts.MonteCarlo.PostProcessor.csproj", "{169F5A43-1079-4E1F-87A2-C5E8E7A69BF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MGRTE.ConsoleApp", "Vts.MGRTE.Console\Vts.MGRTE.ConsoleApp.csproj", "{A8043ED2-2536-46BB-A856-F051C43A985D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MGRTE.ConsoleApp", "Vts.MGRTE.ConsoleApp\Vts.MGRTE.ConsoleApp.csproj", "{A8043ED2-2536-46BB-A856-F051C43A985D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
