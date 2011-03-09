@@ -136,11 +136,7 @@ namespace Vts.MonteCarlo
                             }
                         }
 
-                        /*Test_Distance(); */
-
-                        //photon.DP added to History list in Photon
-
-                        photon.TestWeight();
+                        photon.TestWeightAndDistance();
 
                     } while (photon.DP.StateFlag == PhotonStateType.NotSet); /* end do while */
 
