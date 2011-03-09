@@ -56,8 +56,10 @@ namespace Vts.MonteCarlo.Sources
 
         public override Photon GetNextPhoton(ITissue tissue)
         {
-            var p = new Position(0, 0, 0);
-            var d = new Direction(0, 0, 1);
+            //var p = new Position(0, 0, 0);
+            //var d = new Direction(0, 0, 1);
+            var p = Position.Clone();
+            var d = Orientation.Clone();
 
             var _photon = new Photon(p, d, tissue, Rng);
 
