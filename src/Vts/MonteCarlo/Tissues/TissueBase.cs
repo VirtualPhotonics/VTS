@@ -19,6 +19,7 @@ namespace Vts.MonteCarlo.Tissues
         public IList<ITissueRegion> Regions { get; protected set; }
         public IList<double> RegionScatterLengths { get; protected set; }
         public AbsorptionWeightingType AbsorptionWeightingType { get; protected set; }
+        public PhaseFunctionType PhaseFunctionType { get; protected set; }
 
         public abstract int GetRegionIndex(Position position);
         public abstract double GetDistanceToBoundary(Photon photon);

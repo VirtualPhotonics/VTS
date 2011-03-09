@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            _tissue = Factories.TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType);
+            _tissue = Factories.TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType);
             _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
             _detector = Factories.DetectorFactory.GetDetector(input.DetectorInput, _tissue);
         }
@@ -66,6 +66,7 @@ namespace Vts.MonteCarlo
         public static bool WRITE_EXIT_HISTORIES { get; set; }  // Added by DC 2009-08-01 
         public static bool TALLY_MOMENTUM_TRANSFER { get; set; }
         public static AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
+        public static PhaseFunctionType PHASE_FUNCTION { get; set; }
 
         // wrappers for _input to access internal fields
         public static ITissueInput TissueInput { get { return _input.TissueInput; } }

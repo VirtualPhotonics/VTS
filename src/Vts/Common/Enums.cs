@@ -167,6 +167,12 @@ namespace Vts
         Continuous,
     }
 
+    public enum PhaseFunctionType
+    {
+        HenyeyGreenstein,
+        Bidirectional,
+    }
+
     public enum InputParameterType
     {
         XSourcePosition,

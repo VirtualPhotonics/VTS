@@ -66,6 +66,7 @@ namespace Vts.MonteCarlo
                     SimulationOptions.GetRandomSeed(), 
                     RandomNumberGeneratorType.MersenneTwister, 
                     AbsorptionWeightingType.Discrete, 
+                    PhaseFunctionType.HenyeyGreenstein,
                     false, 
                     0),
                 new CustomPointSourceInput(

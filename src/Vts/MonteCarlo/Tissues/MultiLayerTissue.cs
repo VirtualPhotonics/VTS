@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="regions"></param>
         /// <param name="absorptionWeightingType"></param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
-        public MultiLayerTissue(IList<ITissueRegion> regions, AbsorptionWeightingType absorptionWeightingType)
+        public MultiLayerTissue(IList<ITissueRegion> regions, AbsorptionWeightingType absorptionWeightingType, PhaseFunctionType phaseFunctionType)
             : base( regions, absorptionWeightingType)
         {
         }
@@ -30,8 +30,8 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="input"></param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
-        public MultiLayerTissue(MultiLayerTissueInput input, AbsorptionWeightingType absorptionWeightingType)
-            : this(input.Regions, absorptionWeightingType)
+        public MultiLayerTissue(MultiLayerTissueInput input, AbsorptionWeightingType absorptionWeightingType, PhaseFunctionType phaseFunctionType)
+            : this(input.Regions, absorptionWeightingType, phaseFunctionType)
         {
         }
 
@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo.Tissues
         /// and discrete absorption weighting
         /// </summary>
         public MultiLayerTissue() 
-            : this(new MultiLayerTissueInput(), AbsorptionWeightingType.Discrete)
+            : this(new MultiLayerTissueInput(), AbsorptionWeightingType.Discrete, PhaseFunctionType.HenyeyGreenstein)
         {
         }
 

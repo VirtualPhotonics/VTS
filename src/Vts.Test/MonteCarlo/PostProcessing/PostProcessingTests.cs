@@ -53,6 +53,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     0, 
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete, 
+                    PhaseFunctionType.HenyeyGreenstein,
                     true, 
                     0),
                 new CustomPointSourceInput(

@@ -44,6 +44,7 @@ namespace Vts.MonteCarlo
             CurrentTrackIndex = 0;
             _tissue = tissue;
             SetAbsorbAction(_tissue.AbsorptionWeightingType);
+            SetScatterAction(_tissue.PhaseFunctionType);
             _rng = generator;
         }
 
@@ -65,6 +66,7 @@ namespace Vts.MonteCarlo
         public int CurrentRegionIndex { get; private set; }
         public int CurrentTrackIndex { get; private set; }
         public Action Absorb { get; private set; }
+        public Action Scatter { get; private set; }
 
         private void SetAbsorbAction(AbsorptionWeightingType awt)
         {
@@ -79,6 +81,18 @@ namespace Vts.MonteCarlo
                 case AbsorptionWeightingType.Discrete:
                 default:
                     Absorb = AbsorbDiscrete;
+                    break;
+            }
+        }
+        private void SetScatterAction(PhaseFunctionType st)
+        {
+            switch (st)
+            {
+                case PhaseFunctionType.HenyeyGreenstein:
+                    Scatter = ScatterHenyeyGreenstein;
+                    break;
+                case PhaseFunctionType.Bidirectional:
+                    Scatter = Scatter1D;
                     break;
             }
         }
@@ -216,7 +230,7 @@ namespace Vts.MonteCarlo
         }
 
         /*****************************************************************/
-        public void Scatter()
+        public void ScatterHenyeyGreenstein()
         {
             // readability eased with local copies of following
             double ux = DP.Direction.Ux;
@@ -263,17 +277,17 @@ namespace Vts.MonteCarlo
             DP.Direction = dir;
         }
         /*********************************************************/
-        //public void Scatter1D(Generator rng)
-        //{
-        //    int currentRegion = this.CurrentRegionIndex;
-        //    double g = this._tissue.Regions[currentRegion].RegionOP.G;
+        public void Scatter1D()
+        {
+            int currentRegion = this.CurrentRegionIndex;
+            double g = this._tissue.Regions[currentRegion].RegionOP.G;
 
-        //    // comment for compile
-        //    if (rng.NextDouble() < ((1 + g) / 2.0))
-        //        this.DP.Direction.Uz *= 1.0;
-        //    else
-        //        this.DP.Direction.Uz *= -1.0;
-        //}
+            // comment for compile
+            if (_rng.NextDouble() < ((1 + g) / 2.0))
+                this.DP.Direction.Uz *= 1.0;
+            else
+                this.DP.Direction.Uz *= -1.0;
+        }
         /*****************************************************************/
         public void AbsorbDiscrete()
         {

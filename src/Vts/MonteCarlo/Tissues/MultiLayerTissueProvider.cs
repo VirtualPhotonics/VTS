@@ -26,7 +26,8 @@ namespace Vts.MonteCarlo.Tissues
                         new DoubleRange(10.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                 },
-                AbsorptionWeightingType.Discrete);
+                AbsorptionWeightingType.Discrete,
+                PhaseFunctionType.HenyeyGreenstein);
         }
     }
 }

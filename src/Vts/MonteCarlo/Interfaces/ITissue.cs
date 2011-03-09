@@ -9,6 +9,7 @@ namespace Vts.MonteCarlo
     public interface ITissue
     {
         AbsorptionWeightingType AbsorptionWeightingType { get; }
+        PhaseFunctionType PhaseFunctionType { get; }
         IList<ITissueRegion> Regions { get; }
         IList<double> RegionScatterLengths { get; }
         int GetRegionIndex(Position position);

@@ -28,7 +28,8 @@ namespace Vts.MonteCarlo.PostProcessing
             Output postProcessedOutput = new Output();
             ITissue tissue = Factories.TissueFactory.GetTissue(
                 databaseInput.TissueInput,
-                databaseInput.Options.AbsorptionWeightingType);
+                databaseInput.Options.AbsorptionWeightingType,
+                databaseInput.Options.PhaseFunctionType);
             IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
 
             foreach (var dp in database.DataPoints)
@@ -67,7 +68,8 @@ namespace Vts.MonteCarlo.PostProcessing
             Output postProcessedOutput = new Output();
             ITissue tissue = Factories.TissueFactory.GetTissue(
                 databaseInput.TissueInput, 
-                databaseInput.Options.AbsorptionWeightingType);
+                databaseInput.Options.AbsorptionWeightingType,
+                databaseInput.Options.PhaseFunctionType);
             IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
 
             int count = 0;
