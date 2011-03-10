@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Vts.IO;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo
@@ -15,7 +16,7 @@ namespace Vts.MonteCarlo
 
         private ISource _source;
         private ITissue _tissue;
-        private IDetectorController _detector;
+        private DetectorController _detector;
         private long numberOfPhotons;
 
         // todo: Why is this static? (DJC 2011-01-16)
@@ -48,14 +49,7 @@ namespace Vts.MonteCarlo
 
             _tissue = Factories.TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType);
             _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
-
-            // todo: temp work-around. need to redefine SimulationInput to hold an IList<IDetectorInput>
-            var detectorInputs = new List<IDetectorInput>
-            {
-                input.DetectorInput
-            };
-
-            _detector = Factories.DetectorControllerFactory.GetStandardDetectorController(detectorInputs, _tissue);
+            _detector = Factories.DetectorControllerFactory.GetStandardDetectorController(input.DetectorInputs, _tissue);
         }
 
         /// <summary>

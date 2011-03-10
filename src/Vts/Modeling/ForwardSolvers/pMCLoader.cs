@@ -1,5 +1,7 @@
+using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PhotonData;
 
 //using MathNet.Numerics.Interpolation;
@@ -28,19 +30,24 @@ namespace Vts.Modeling.ForwardSolvers
         {
             databaseOutput = Output.FromFolderInResources(folderName, projectName);
             // need to add the setting up of other ranges
+
+            // todo: temp code to make this work with the new structure. revisit.
+            var input = (ROfRhoAndTDetectorInput) databaseOutput.Input.DetectorInputs.Where(di => di.TallyType == TallyType.ROfRhoAndTime).First();
+
             databaseRhoRange = new DoubleRange(
-                databaseOutput.Input.DetectorInput.Rho.Start,
-                databaseOutput.Input.DetectorInput.Rho.Stop,
-                databaseOutput.Input.DetectorInput.Rho.Count);
+                input.Rho.Start,
+                input.Rho.Stop,
+                input.Rho.Count);
+
             databaseTimeRange = new DoubleRange(
-                databaseOutput.Input.DetectorInput.Time.Start,
-                databaseOutput.Input.DetectorInput.Time.Stop,
-                databaseOutput.Input.DetectorInput.Time.Count);
+                input.Time.Start,
+                input.Time.Stop,
+                input.Time.Count);
+
             ReferenceOps = databaseOutput.Input.TissueInput.Regions[1].RegionOP;
    
             PhotonTerminationDatabase = PhotonDatabase.FromFileInResources(
                 databaseName, projectName);
         }
-
     }
 }

@@ -18,30 +18,32 @@ namespace Vts.MonteCarlo
         {
             Input = si;
 
-            R_rw = new Complex[Input.DetectorInput.Rho.Count, Input.DetectorInput.Omega.Count];
-            A_z = new double[Input.DetectorInput.Z.Count];
-            A_layer = new double[Input.TissueInput.Regions.Count() + 1];
-            Flu_rz = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Z.Count];
-            Flu_z = new double[Input.DetectorInput.Z.Count];
+            // todo: still need to figure out who does the partitioning/serialization of IDetectorOutput classes
 
-            R_ra = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Angle.Count];
+            //R_rw = new Complex[Input.DetectorInput.Rho.Count, Input.DetectorInput.Omega.Count];
+            //A_z = new double[Input.DetectorInput.Z.Count];
+            //A_layer = new double[Input.TissueInput.Regions.Count() + 1];
+            //Flu_rz = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Z.Count];
+            //Flu_z = new double[Input.DetectorInput.Z.Count];
 
-            R_xy = new double[Input.DetectorInput.X.Count, Input.DetectorInput.Y.Count];
+            //R_ra = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Angle.Count];
 
-            R_r = new double[Input.DetectorInput.Rho.Count];
-            R_r2 = new double[Input.DetectorInput.Rho.Count];
+            //R_xy = new double[Input.DetectorInput.X.Count, Input.DetectorInput.Y.Count];
 
-            R_rt = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Time.Count]; /* R(r,t) */
-            R_rt2 = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Time.Count]; /* second moment R(r,t) */
+            //R_r = new double[Input.DetectorInput.Rho.Count];
+            //R_r2 = new double[Input.DetectorInput.Rho.Count];
 
-            R_a = new double[Input.DetectorInput.Angle.Count];
-            T_ra = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Angle.Count];
-            T_r = new double[Input.DetectorInput.Rho.Count];
-            T_a = new double[Input.DetectorInput.Angle.Count];
-            D_rt = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Time.Count];
+            //R_rt = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Time.Count]; /* R(r,t) */
+            //R_rt2 = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Time.Count]; /* second moment R(r,t) */
 
-            A_rzt = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Z.Count, Input.DetectorInput.Time.Count]; 
-            Flu_rzt = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Z.Count, Input.DetectorInput.Time.Count]; 
+            //R_a = new double[Input.DetectorInput.Angle.Count];
+            //T_ra = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Angle.Count];
+            //T_r = new double[Input.DetectorInput.Rho.Count];
+            //T_a = new double[Input.DetectorInput.Angle.Count];
+            //D_rt = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Time.Count];
+
+            //A_rzt = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Z.Count, Input.DetectorInput.Time.Count]; 
+            //Flu_rzt = new double[Input.DetectorInput.Rho.Count, Input.DetectorInput.Z.Count, Input.DetectorInput.Time.Count]; 
 
         }
 
@@ -161,20 +163,14 @@ namespace Vts.MonteCarlo
 
                 // Write the multidimensional arrays as binaries (and accompanying .xml MetaData files0
                 // quick fix until we figure out redesign of Output
-                if (Input.DetectorInput.TallyTypeList.Contains(TallyType.AOfRhoAndZ))
-                {
-                    FileIO.WriteArrayToBinary<double>(A_rz, folderPath + @"/A_rz");
-                }
-                if (Input.DetectorInput.TallyTypeList.Contains(TallyType.FluenceOfRhoAndZ))
-                {
-                    FileIO.WriteArrayToBinary<double>(Flu_rz, folderPath + @"/Flu_rz");
-                }
 
-                if (Input.DetectorInput.TallyTypeList.Contains(TallyType.FluenceOfRhoAndZAndTime))
-                {
-                    if (A_rzt != null) FileIO.WriteArrayToBinary<double>(A_rzt, folderPath + @"/A_rzt");
-                    if (Flu_rzt != null) FileIO.WriteArrayToBinary<double>(Flu_rzt, folderPath + @"/Flu_rzt");
-                }
+                    FileIO.WriteArrayToBinary<double>(A_rz, folderPath + @"/A_rz");
+
+                    FileIO.WriteArrayToBinary<double>(Flu_rz, folderPath + @"/Flu_rz");
+                    FileIO.WriteArrayToBinary<double>(A_rzt, folderPath + @"/A_rzt");
+                   
+                    FileIO.WriteArrayToBinary<double>(Flu_rzt, folderPath + @"/Flu_rzt");
+
 
                 FileIO.WriteArrayToBinary<double>(R_ra, folderPath + @"/R_ra");
                 FileIO.WriteArrayToBinary<double>(R_xy, folderPath + @"/R_xy");
@@ -187,8 +183,9 @@ namespace Vts.MonteCarlo
 
                 FileIO.WriteArrayToBinary<double>(D_rt, folderPath + @"/D_rt");
 
-                if (A_rzt != null) FileIO.WriteArrayToBinary<double>(A_rzt, folderPath + @"/A_rzt");
-                if (Flu_rzt != null) FileIO.WriteArrayToBinary<double>(Flu_rzt, folderPath + @"/Flu_rzt");
+               
+                FileIO.WriteArrayToBinary<double>(A_rzt, folderPath + @"/A_rzt");
+                FileIO.WriteArrayToBinary<double>(Flu_rzt, folderPath + @"/Flu_rzt");
 
 
                 return true;

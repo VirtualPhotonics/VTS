@@ -71,10 +71,10 @@ namespace Vts.MonteCarlo.PostProcessing
                 databaseOutput.Input.Options.AbsorptionWeightingType);
 
             pMCDetectorController detectorController = Factories.DetectorControllerFactory.GetpMCDetectorController(detectorInputs, tissue);
-
+            IList<SubRegionCollisionInfo> collisionInfo = null; // todo: revisit
             foreach (var dp in peh.DataPoints)
             {
-                detectorController.TerminationTally(dp);
+                detectorController.TerminationTally(dp, collisionInfo);
             }
 
             detectorController.NormalizeDetectors(databaseOutput.Input.N);

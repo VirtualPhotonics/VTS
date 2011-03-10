@@ -6,10 +6,8 @@ namespace Vts.MonteCarlo
 {
     public interface IDetectorController
     {
-        IList<IDetector> Detectors { get; set; }
-        //void TerminationTally(PhotonDataPoint dp);
-        //void HistoryTally(PhotonHistory history);
+        IList<IDetector> Detectors { get; }
         void NormalizeDetectors(long N);
-        void SetOutputArrays(Output output);
+        //void SetOutputArrays(Output output);
     }
 }

@@ -10,9 +10,9 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public static class DetectorControllerFactory
     {
-        public static IDetectorController GetStandardDetectorController(IList<IDetectorInput> inputs, ITissue tissue)
+        public static DetectorController GetStandardDetectorController(IList<IDetectorInput> inputs, ITissue tissue)
         {
-            IDetectorController controller = null;
+            DetectorController controller = null;
             controller = new DetectorController(inputs, tissue);
 
             if (controller == null)
@@ -23,9 +23,9 @@ namespace Vts.MonteCarlo.Factories
         }
 
 
-        public static IDetectorController GetpMCDetectorController(IList<IpMCDetectorInput> inputs, ITissue tissue)
+        public static pMCDetectorController GetpMCDetectorController(IList<IpMCDetectorInput> inputs, ITissue tissue)
         {
-            IDetectorController controller = null;
+            pMCDetectorController controller = null;
             controller = new pMCDetectorController(inputs, tissue);
 
             if (controller == null)

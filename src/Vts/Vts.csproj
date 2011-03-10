@@ -232,6 +232,7 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensions.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationOptions.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfRhoAndTDetectorInput.cs" />
     <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZDetectorInput.cs" />
     <Compile Include="MonteCarlo\Detectors\DetectorController.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCDetectorController.cs" />

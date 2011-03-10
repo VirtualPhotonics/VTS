@@ -15,7 +15,8 @@ namespace Vts.MonteCarlo
 
     [KnownType(typeof(CustomPointSourceInput))]
     [KnownType(typeof(MultiLayerTissueInput))]
-    [KnownType(typeof(DetectorInput))]
+    [KnownType(typeof(ROfRhoDetectorInput))]
+    // todo: add more types?
     
     ///<summary>
     /// Defines input to the Monte Carlo simulation.  This includes the output
@@ -33,7 +34,7 @@ namespace Vts.MonteCarlo
         public SimulationOptions Options;
         public ISourceInput SourceInput;
         public ITissueInput TissueInput;
-        public IDetectorInput DetectorInput;
+        public IList<IDetectorInput> DetectorInputs;
 
         /// <summary>
         /// Default constructor loads default values for InputData
@@ -44,15 +45,16 @@ namespace Vts.MonteCarlo
             SimulationOptions simulationOptions,
             ISourceInput sourceInput, 
             ITissueInput tissueInput,  
-            IDetectorInput detectorInput)
+            IList<IDetectorInput> detectorInputs)
         {
             N = numberOfPhotons;
             OutputFileName = outputFilename;
             Options = simulationOptions;
             SourceInput = sourceInput;
             TissueInput = tissueInput;
-            DetectorInput = detectorInput;
+            DetectorInputs = detectorInputs;
         }
+
         public SimulationInput()
             : this(
                 //(long)1e5, 
@@ -86,29 +88,11 @@ namespace Vts.MonteCarlo
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
                     }),
-                new DetectorInput(
-                    new List<TallyType>()
+                new List<IDetectorInput>
                     {
-                        TallyType.RDiffuse,
-                        TallyType.ROfAngle,
-                        TallyType.ROfRho,
-                        TallyType.ROfRhoAndAngle,
-                        TallyType.ROfRhoAndTime,
-                        TallyType.ROfXAndY,
-                        TallyType.ROfRhoAndOmega,
-                        TallyType.TDiffuse,
-                        TallyType.TOfAngle,
-                        TallyType.TOfRho,
-                        TallyType.TOfRhoAndAngle,
-                    },
-                    new DoubleRange(0.0, 40.0, 201), // rho: nr=200 dr=0.2mm used for workshop
-                    new DoubleRange(0.0, 10.0, 11),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 1), // angle
-                    new DoubleRange(0.0, 4.0, 801), // time: nt=800 dt=0.005ns used for workshop
-                    new DoubleRange(0.0, 1000, 21), // omega
-                    new DoubleRange(-100.0, 100.0, 81), // x
-                    new DoubleRange(-100.0, 100.0, 81) // y
-                )) {}
+                        new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+                    }
+                ) {}
 
         public static SimulationInput FromFile(string filename)
         {

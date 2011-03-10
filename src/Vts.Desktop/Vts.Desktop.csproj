@@ -430,20 +430,32 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs">
       <Link>MonteCarlo\DataStructures\SimulationOptions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\Detector.cs">
-      <Link>MonteCarlo\Detectors\Detector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\DetectorController.cs">
+      <Link>MonteCarlo\Detectors\DetectorController.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\DetectorInput.cs">
-      <Link>MonteCarlo\Detectors\DetectorInput.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZDetectorInput.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfRhoAndZDetectorInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCDetector.cs">
-      <Link>MonteCarlo\Detectors\pMCDetector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCDetectorController.cs">
+      <Link>MonteCarlo\Detectors\pMCDetectorController.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCDetectorInput.cs">
-      <Link>MonteCarlo\Detectors\pMCDetectorInput.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCRofRhoDetectorInput.cs">
+      <Link>MonteCarlo\Detectors\pMCRofRhoDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndTDetectorInput.cs">
+      <Link>MonteCarlo\Detectors\ROfRhoAndTDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoDetectorInput.cs">
+      <Link>MonteCarlo\Detectors\ROfRhoDetectorInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Enums.cs">
       <Link>MonteCarlo\Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\AbsorptionActionFactory.cs">
+      <Link>MonteCarlo\Factories\AbsorptionActionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\DetectorControllerFactory.cs">
+      <Link>MonteCarlo\Factories\DetectorControllerFactory.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\DetectorFactory.cs">
       <Link>MonteCarlo\Factories\DetectorFactory.cs</Link>
@@ -453,9 +465,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\SourceFactory.cs">
       <Link>MonteCarlo\Factories\SourceFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Factories\TallyFactory.cs">
-      <Link>MonteCarlo\Factories\TallyFactory.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\TissueFactory.cs">
       <Link>MonteCarlo\Factories\TissueFactory.cs</Link>
@@ -472,14 +481,23 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetector.cs">
       <Link>MonteCarlo\Interfaces\IDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetectorController.cs">
+      <Link>MonteCarlo\Interfaces\IDetectorController.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetectorInput.cs">
       <Link>MonteCarlo\Interfaces\IDetectorInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IHistoryTally.cs">
-      <Link>MonteCarlo\Interfaces\IHistoryTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IHistoryDetector.cs">
+      <Link>MonteCarlo\Interfaces\IHistoryDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCTally.cs">
-      <Link>MonteCarlo\Interfaces\IpMCTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCDetectorInput.cs">
+      <Link>MonteCarlo\Interfaces\IpMCDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCHistoryDetector.cs">
+      <Link>MonteCarlo\Interfaces\IpMCHistoryDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCTerminationDetector.cs">
+      <Link>MonteCarlo\Interfaces\IpMCTerminationDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISource.cs">
       <Link>MonteCarlo\Interfaces\ISource.cs</Link>
@@ -487,11 +505,8 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISourceInput.cs">
       <Link>MonteCarlo\Interfaces\ISourceInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITally.cs">
-      <Link>MonteCarlo\Interfaces\ITally.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITerminationTally.cs">
-      <Link>MonteCarlo\Interfaces\ITerminationTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITerminationDetector.cs">
+      <Link>MonteCarlo\Interfaces\ITerminationDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissue.cs">
       <Link>MonteCarlo\Interfaces\ITissue.cs</Link>
@@ -556,50 +571,50 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceBase.cs">
       <Link>MonteCarlo\Sources\SourceBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\AOfRhoAndZTally.cs">
-      <Link>MonteCarlo\TallyActions\AOfRhoAndZTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\AOfRhoAndZDetector.cs">
+      <Link>MonteCarlo\TallyActions\AOfRhoAndZDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\ATotalTally.cs">
-      <Link>MonteCarlo\TallyActions\ATotalTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ATotalDetector.cs">
+      <Link>MonteCarlo\TallyActions\ATotalDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs">
-      <Link>MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeDetector.cs">
+      <Link>MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs">
-      <Link>MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\FluenceOfRhoAndZDetector.cs">
+      <Link>MonteCarlo\TallyActions\FluenceOfRhoAndZDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\HistoryTallyBase.cs">
       <Link>MonteCarlo\TallyActions\HistoryTallyBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\MomentumTransferOfRhoAndZTally.cs">
-      <Link>MonteCarlo\TallyActions\MomentumTransferOfRhoAndZTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\MomentumTransferOfRhoAndZDetector.cs">
+      <Link>MonteCarlo\TallyActions\MomentumTransferOfRhoAndZDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\pMuaMusInROfRhoAndTimeTally.cs">
-      <Link>MonteCarlo\TallyActions\pMuaMusInROfRhoAndTimeTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\pMCMuaMusROfRhoAndTimeDetector.cs">
+      <Link>MonteCarlo\TallyActions\pMCMuaMusROfRhoAndTimeDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\pMuaMusInROfRhoTally.cs">
-      <Link>MonteCarlo\TallyActions\pMuaMusInROfRhoTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\pMCMuaMusROfRhoDetector.cs">
+      <Link>MonteCarlo\TallyActions\pMCMuaMusROfRhoDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\RDiffuseTally.cs">
-      <Link>MonteCarlo\TallyActions\RDiffuseTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\RDiffuseDetector.cs">
+      <Link>MonteCarlo\TallyActions\RDiffuseDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfAngleTally.cs">
-      <Link>MonteCarlo\TallyActions\ROfAngleTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfAngleDetector.cs">
+      <Link>MonteCarlo\TallyActions\ROfAngleDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfRhoAndAngleTally.cs">
-      <Link>MonteCarlo\TallyActions\ROfRhoAndAngleTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfRhoAndAngleDetector.cs">
+      <Link>MonteCarlo\TallyActions\ROfRhoAndAngleDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfRhoAndOmegaTally.cs">
-      <Link>MonteCarlo\TallyActions\ROfRhoAndOmegaTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfRhoAndOmegaDetector.cs">
+      <Link>MonteCarlo\TallyActions\ROfRhoAndOmegaDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfRhoAndTimeTally.cs">
-      <Link>MonteCarlo\TallyActions\ROfRhoAndTimeTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfRhoAndTimeDetector.cs">
+      <Link>MonteCarlo\TallyActions\ROfRhoAndTimeDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfRhoTally.cs">
-      <Link>MonteCarlo\TallyActions\ROfRhoTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfRhoDetector.cs">
+      <Link>MonteCarlo\TallyActions\ROfRhoDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\ROfXAndYTally.cs">
-      <Link>MonteCarlo\TallyActions\ROfXAndYTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\RofXAndYDetector.cs">
+      <Link>MonteCarlo\TallyActions\RofXAndYDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\TallyBase.cs">
       <Link>MonteCarlo\TallyActions\TallyBase.cs</Link>
@@ -607,17 +622,17 @@
     <Compile Include="..\Vts\MonteCarlo\TallyActions\TallyExtensionMethods.cs">
       <Link>MonteCarlo\TallyActions\TallyExtensionMethods.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\TDiffuseTally.cs">
-      <Link>MonteCarlo\TallyActions\TDiffuseTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\TDiffuseDetector.cs">
+      <Link>MonteCarlo\TallyActions\TDiffuseDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\TOfAngleTally.cs">
-      <Link>MonteCarlo\TallyActions\TOfAngleTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\TOfAngleDetector.cs">
+      <Link>MonteCarlo\TallyActions\TOfAngleDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\TOfRhoAndAngleTally.cs">
-      <Link>MonteCarlo\TallyActions\TOfRhoAndAngleTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\TOfRhoAndAngleDetector.cs">
+      <Link>MonteCarlo\TallyActions\TOfRhoAndAngleDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\TallyActions\TOfRhoTally.cs">
-      <Link>MonteCarlo\TallyActions\TOfRhoTally.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\TallyActions\TOfRhoDetector.cs">
+      <Link>MonteCarlo\TallyActions\TOfRhoDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\CylinderRegion.cs">
       <Link>MonteCarlo\Tissues\CylinderRegion.cs</Link>

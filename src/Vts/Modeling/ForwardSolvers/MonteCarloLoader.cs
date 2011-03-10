@@ -5,6 +5,7 @@ using Vts.Extensions;
 using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.Common;
+using Vts.MonteCarlo.Detectors;
 
 //using MathNet.Numerics.Interpolation;
 
@@ -44,10 +45,14 @@ namespace Vts.Modeling.ForwardSolvers
         private void InitializeVectorsAndInterpolators()
         {
             var output = Output.FromFolderInResources("Modeling/Resources/" + folder, "Vts");
-            nrReference = output.Input.DetectorInput.Rho.Count;
-            drReference = output.Input.DetectorInput.Rho.Delta ; 
-            ntReference = output.Input.DetectorInput.Time.Count;
-            dtReference = output.Input.DetectorInput.Time.Delta;  
+
+            // todo: temp code to make this work with the new structure. revisit.
+            var input = (ROfRhoAndTDetectorInput)output.Input.DetectorInputs.Where(di => di.TallyType == TallyType.ROfRhoAndTime).First();
+
+            nrReference = input.Rho.Count;
+            drReference = input.Rho.Delta;
+            ntReference = input.Time.Count;
+            dtReference = input.Time.Delta;  
             muspReference = output.Input.TissueInput.Regions[1].RegionOP.Mus *
                     (1 - output.Input.TissueInput.Regions[1].RegionOP.G);
 

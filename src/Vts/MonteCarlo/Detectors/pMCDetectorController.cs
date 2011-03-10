@@ -45,6 +45,8 @@ namespace Vts.MonteCarlo.Detectors
                 var detector = DetectorFactory.GetpMCDetector(detectorInput, _tissue);
                 detectorList.Add(detector);
             }
+
+            return detectorList;
         }
 
         /// <summary>
@@ -57,6 +59,7 @@ namespace Vts.MonteCarlo.Detectors
         {
         }
 
+        public IList<IDetector> Detectors { get { return _detectors; } }
         public IList<OpticalProperties> ReferenceOps { get; set; }
         public IList<int> PerturbedRegionsIndices { get; set; }
         
