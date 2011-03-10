@@ -12,23 +12,21 @@ namespace Vts.MonteCarlo.TallyActions
     /// of Rho and Angle.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class TOfRhoAndAngleDetector : ITerminationDetector<double[,]>
+    public class TOfRhoAndAngleTally : ITerminationTally<double[,]>
     {
         private DoubleRange _rho;
         private DoubleRange _angle;
 
-        public TOfRhoAndAngleDetector(DoubleRange rho, DoubleRange angle)
+        public TOfRhoAndAngleTally(DoubleRange rho, DoubleRange angle)
         {
             _rho = rho;
             _angle = angle;
             Mean = new double[_rho.Count - 1, _angle.Count - 1];
             SecondMoment = new double[_rho.Count - 1, _angle.Count - 1];
-            TallyType = TallyType.TOfRhoAndAngle;
         }
 
         public double[,] Mean { get; set; }
         public double[,] SecondMoment { get; set; }
-        public TallyType TallyType { get; set; }
 
         public void Tally(PhotonDataPoint dp)
         {

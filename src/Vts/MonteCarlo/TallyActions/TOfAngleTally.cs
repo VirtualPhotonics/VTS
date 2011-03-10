@@ -12,21 +12,19 @@ namespace Vts.MonteCarlo.TallyActions
     /// of Angle. 
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class TOfAngleDetector : ITerminationDetector<double[]>
+    public class TOfAngleTally : ITerminationTally<double[]>
     {
         private DoubleRange _angle;
 
-        public TOfAngleDetector(DoubleRange angle)
+        public TOfAngleTally(DoubleRange angle)
         {
             _angle = angle;
             Mean = new double[_angle.Count];
             SecondMoment = new double[_angle.Count];
-            TallyType = TallyType.TOfAngle;
         }
 
         public double[] Mean { get; set; }
         public double[] SecondMoment { get; set; }
-        public TallyType TallyType { get; set; }
 
         public void Tally(PhotonDataPoint dp)
         {

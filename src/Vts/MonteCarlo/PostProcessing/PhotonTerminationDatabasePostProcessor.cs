@@ -18,11 +18,16 @@ namespace Vts.MonteCarlo.PostProcessing
         /// GenerateOutput takes IDetectorInput (which designates tallies), reads PhotonExitHistory, and generates 
         /// Output.  This runs the conventional post-processing.
         /// </summary>
+        /// <param name="tallies">IDetectorInput designating binning</param>
         /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
         /// <param name="peh">PhotonTerminationDatabase</param>
+
         /// <param name="databaseOutput">Database information needed for post-processing</param>
         /// <returns></returns>
         public static Output GenerateOutput(
+            IDetectorInput tallies, 
+            PhotonTerminationDatabase peh, 
+            Output databaseOutput)
             IList<IDetectorInput> detectorInputs, 
             PhotonDatabase peh, 
             Output databaseOutput)
@@ -33,12 +38,25 @@ namespace Vts.MonteCarlo.PostProcessing
                 databaseOutput.Input.TissueInput,
                 databaseOutput.Input.Options.AbsorptionWeightingType);
 
+
+            IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
+
+            foreach (var dp in peh.DataPoints)
             DetectorController detectorController = Factories.DetectorControllerFactory.GetStandardDetectorController(detectorInputs, tissue);
 
             foreach (var dp in peh.DataPoints)
             {
+                foreach (var t in detector.TerminationITallyList)
+                {
+                    if (t.ContainsPoint(dp))
+                    {
+                        t.Tally(dp);
+                    }
+                }          
                 detectorController.TerminationTally(dp);     
             }
+            detector.NormalizeTalliesToOutput(databaseOutput.Input.N, postProcessedOutput);
+
 
             detectorController.NormalizeDetectors(databaseOutput.Input.N);
 
@@ -51,13 +69,18 @@ namespace Vts.MonteCarlo.PostProcessing
         /// GenerateOutput takes IDetectorInput (which designates tallies),
         /// reads PhotonExitHistory, and generates Output.
         /// </summary>
+        /// <param name="tallies">IDetectorInput designating binning</param>
         /// <param name="detectorInputs>List of IDetectorInputs designating binning</param>
         /// <param name="peh">PhotonTerminationDatabase</param>
+
         /// <param name="databaseOutput">Database information needed for post-processing</param>
         /// <param name="perturbedOps">Perturbed optical properties</param>
         /// <param name="perturbedRegionsIndices">Indices of regions being perturbed</param>
         /// <returns></returns>
         public static Output GenerateOutput(
+            IDetectorInput tallies, 
+            PhotonTerminationDatabase peh, 
+            Output databaseOutput,
             IList<IpMCDetectorInput> detectorInputs, 
             PhotonDatabase peh, 
             Output databaseOutput,
@@ -70,12 +93,27 @@ namespace Vts.MonteCarlo.PostProcessing
                 databaseOutput.Input.TissueInput, 
                 databaseOutput.Input.Options.AbsorptionWeightingType);
 
+
+            IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
+
+            int count = 0;
             pMCDetectorController detectorController = Factories.DetectorControllerFactory.GetpMCDetectorController(detectorInputs, tissue);
             IList<SubRegionCollisionInfo> collisionInfo = null; // todo: revisit
             foreach (var dp in peh.DataPoints)
+
             {
+                foreach (var t in detector.TerminationITallyList)
+			    {
+                    if (t.ContainsPoint(dp))
+                    {
+                        t.Tally(dp);
+                        ++count;
+                    }
+                }
                 detectorController.TerminationTally(dp, collisionInfo);
             }
+            detector.NormalizeTalliesToOutput(databaseOutput.Input.N, postProcessedOutput);
+
 
             detectorController.NormalizeDetectors(databaseOutput.Input.N);
             

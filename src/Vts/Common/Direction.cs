@@ -83,5 +83,10 @@ namespace Vts.Common
                 br.ReadDouble(), // Uy
                 br.ReadDouble()); // Uz
         }
+
+        public Direction Clone()
+        {
+            return new Direction(this.Ux, this.Uy, this.Uz);
+        }
     }
 }

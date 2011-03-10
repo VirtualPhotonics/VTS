@@ -138,5 +138,10 @@ namespace Vts.Common
             }
             return false;
         }
+
+        public Position Clone()
+        {
+            return new Position(this.X, this.Y, this.Z);
+        }
     }
 }
