@@ -16,7 +16,6 @@ namespace Vts.MonteCarlo
 
         private ISource _source;
         private ITissue _tissue;
-        private IDetector _detector;
         private DetectorController _detector;
         private long numberOfPhotons;
         private string outputFilename;
@@ -50,9 +49,8 @@ namespace Vts.MonteCarlo
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-
+            _tissue = Factories.TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, PhaseFunctionType.HenyeyGreenstein);
             _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
-            _detector = Factories.DetectorFactory.GetDetector(input.DetectorInput, _tissue);
             _detector = Factories.DetectorControllerFactory.GetStandardDetectorController(input.DetectorInputs, _tissue);
         }
 
@@ -65,12 +63,6 @@ namespace Vts.MonteCarlo
         private int SimulationIndex { get; set; }
 
         // public properties
-        // todo: Why are these all static? (DJC 2011-01-16)
-        public static bool DO_ALLVOX { get; set; }
-        public static bool DO_TIME_RESOLVED_FLUENCE { get; set; } // TODO: DC - Add to unmanaged code
-        public static bool WRITE_EXIT_HISTORIES { get; set; }  // Added by DC 2009-08-01 
-        public static bool TALLY_MOMENTUM_TRANSFER { get; set; }
-        public static AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
         private bool WRITE_EXIT_HISTORIES { get; set; }  // Added by DC 2009-08-01 
         private bool WRITE_ALL_HISTORIES { get; set; }  // Added by DC 2011-03-03
         private AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
