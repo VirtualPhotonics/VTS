@@ -167,6 +167,12 @@ namespace Vts
         Continuous,
     }
 
+    public enum PhaseFunctionType
+    {
+        HenyeyGreenstein,
+        Bidirectional,
+    }
+
     public enum InputParameterType
     {
         XSourcePosition,
@@ -187,6 +193,12 @@ namespace Vts
         N2,
         D1,
         D2,
+    }
+
+    public enum PostProcessorInputParameterType
+    {
+        Rho,
+        Time,
     }
 
     public enum RandomNumberGeneratorType

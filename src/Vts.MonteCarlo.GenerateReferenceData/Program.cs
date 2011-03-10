@@ -20,6 +20,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     0, 
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous,
+                    PhaseFunctionType.HenyeyGreenstein,
                     true, // turn on photon biog write
                     1),
                 new CustomPointSourceInput(

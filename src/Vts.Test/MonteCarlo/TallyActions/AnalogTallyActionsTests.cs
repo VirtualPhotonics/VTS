@@ -16,7 +16,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
     /// mersenne twister STANDARD_TEST
     /// </summary>
     [TestFixture]
-    public class AnalogTallyActionsTests
+    public class AnalogBidirectionalTallyActionsTests
     {
         Output _output;
 
@@ -33,6 +33,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     0, 
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Analog, 
+                    PhaseFunctionType.HenyeyGreenstein,
                     false, 
                     0),
                 new CustomPointSourceInput(

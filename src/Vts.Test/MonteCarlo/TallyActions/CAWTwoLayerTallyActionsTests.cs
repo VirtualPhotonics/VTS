@@ -37,6 +37,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     0, 
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous, 
+                    PhaseFunctionType.HenyeyGreenstein,
                     false, 
                     0),
                 new CustomPointSourceInput(

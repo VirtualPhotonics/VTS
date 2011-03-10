@@ -168,6 +168,8 @@
     <Compile Include="Modeling\ForwardSolvers\NurbsGeneratorTest.cs" />
     <Compile Include="Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs" />
     <Compile Include="Modeling\ValidateInverseSolution.cs" />
+    <Compile Include="MonteCarlo\BidirectionalScattering\AnalogBidirectionalTallyActionsTests.cs" />
+    <Compile Include="MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs" />
     <Compile Include="MonteCarlo\DataStructures\InputTests.cs" />
     <Compile Include="MonteCarlo\Detectors\DetectorInputTests.cs" />
     <Compile Include="MonteCarlo\Detectors\OutputTests.cs" />

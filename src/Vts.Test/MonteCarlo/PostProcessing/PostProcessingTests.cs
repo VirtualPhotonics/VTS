@@ -54,6 +54,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     0, 
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete, 
+                    PhaseFunctionType.HenyeyGreenstein,
                     true, 
                     0),
                 new CustomPointSourceInput(
@@ -69,7 +70,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))

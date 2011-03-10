@@ -14,9 +14,10 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class Photon
     {
+        // reducing any of the following values might result in unit tests not passing
         private const int MAX_HISTORY_PTS = 300000; // moved this from MCSimulation
         private const double CHANCE = 0.1;
-        private const double MAX_PHOTON_PATHLENGTH = 300; // mm
+        private const double MAX_PHOTON_PATHLENGTH = 2000; // mm
 
         // could add layer of indirection to not expose Absorb;
         private ITissue _tissue;
@@ -43,6 +44,7 @@ namespace Vts.MonteCarlo
             CurrentTrackIndex = 0;
             _tissue = tissue;
             SetAbsorbAction(_tissue.AbsorptionWeightingType);
+            SetScatterAction(_tissue.PhaseFunctionType);
             _rng = generator;
         }
 
@@ -64,6 +66,7 @@ namespace Vts.MonteCarlo
         public int CurrentRegionIndex { get; private set; }
         public int CurrentTrackIndex { get; private set; }
         public Action Absorb { get; private set; }
+        public Action Scatter { get; private set; }
 
         private void SetAbsorbAction(AbsorptionWeightingType awt)
         {
@@ -78,6 +81,18 @@ namespace Vts.MonteCarlo
                 case AbsorptionWeightingType.Discrete:
                 default:
                     Absorb = AbsorbDiscrete;
+                    break;
+            }
+        }
+        private void SetScatterAction(PhaseFunctionType st)
+        {
+            switch (st)
+            {
+                case PhaseFunctionType.HenyeyGreenstein:
+                    Scatter = ScatterHenyeyGreenstein;
+                    break;
+                case PhaseFunctionType.Bidirectional:
+                    Scatter = Scatter1D;
                     break;
             }
         }
@@ -215,7 +230,7 @@ namespace Vts.MonteCarlo
         }
 
         /*****************************************************************/
-        public void Scatter()
+        public void ScatterHenyeyGreenstein()
         {
             // readability eased with local copies of following
             double ux = DP.Direction.Ux;
@@ -262,17 +277,17 @@ namespace Vts.MonteCarlo
             DP.Direction = dir;
         }
         /*********************************************************/
-        //public void Scatter1D(Generator rng)
-        //{
-        //    int currentRegion = this.CurrentRegionIndex;
-        //    double g = this._tissue.Regions[currentRegion].RegionOP.G;
+        public void Scatter1D()
+        {
+            int currentRegion = this.CurrentRegionIndex;
+            double g = this._tissue.Regions[currentRegion].RegionOP.G;
 
-        //    // comment for compile
-        //    if (rng.NextDouble() < ((1 + g) / 2.0))
-        //        this.DP.Direction.Uz *= 1.0;
-        //    else
-        //        this.DP.Direction.Uz *= -1.0;
-        //}
+            // comment for compile
+            if (_rng.NextDouble() < ((1 + g) / 2.0))
+                this.DP.Direction.Uz *= 1.0;
+            else
+                this.DP.Direction.Uz *= -1.0;
+        }
         /*****************************************************************/
         public void AbsorbDiscrete()
         {
@@ -311,28 +326,23 @@ namespace Vts.MonteCarlo
             History.HistoryData[index].Weight = DP.Weight;
         }
 
-        public void TestWeight()
+        public void TestWeightAndDistance()
         {
             //   if (photptr.w < Weight_Limit) 
             //     Roulette();  
-            if (History.HistoryData.Count >= MAX_HISTORY_PTS - 4)
+            // kill photon if it has had too many collisions
+            if (History.HistoryData.Count >= MAX_HISTORY_PTS)
             {
                 DP.StateFlag = PhotonStateType.KilledOverMaximumCollisions;
                 History.AddDPToHistory(DP);
             }
-        }
-
-        /*****************************************************************/
-        void Test_Distance()
-        {
             /* kill photon if it has gone too far */
             var totalPathLength = History.SubRegionInfoList.Select((pl, c) => pl.PathLength).Sum();
             if (totalPathLength >= MAX_PHOTON_PATHLENGTH)
             {
                 DP.StateFlag = PhotonStateType.KilledOverMaximumPathLength;
+                History.AddDPToHistory(DP);
             }
-
-            History.AddDPToHistory(DP);
         }
 
         /*****************************************************************/

@@ -60,7 +60,8 @@ namespace Vts.Test.MonteCarlo.TallyActions
                         new DoubleRange(-10.0, 10.0, 201), // y
                         new MultiLayerTissue(
                             _referenceHomogeneousInput.TissueInput.Regions,
-                            _referenceHomogeneousInput.Options.AbsorptionWeightingType),
+                            _referenceHomogeneousInput.Options.AbsorptionWeightingType,
+                            _referenceHomogeneousInput.Options.PhaseFunctionType),
                         new List<OpticalProperties>() {
                             _referenceHomogeneousInput.TissueInput.Regions[0].RegionOP,
                             _referenceHomogeneousInput.TissueInput.Regions[1].RegionOP,
@@ -92,6 +93,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     0, 
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
                     true,  // write histories 
                     0),
                 new CustomPointSourceInput(
@@ -143,6 +145,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     0,
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
                     true,  // write histories 
                     0),
                 new CustomPointSourceInput(
