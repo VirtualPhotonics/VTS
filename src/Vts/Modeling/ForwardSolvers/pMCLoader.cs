@@ -32,7 +32,7 @@ namespace Vts.Modeling.ForwardSolvers
             // need to add the setting up of other ranges
 
             // todo: temp code to make this work with the new structure. revisit.
-            var input = (ROfRhoAndTDetectorInput) databaseOutput.Input.DetectorInputs.Where(di => di.TallyType == TallyType.ROfRhoAndTime).First();
+            var input = (ROfRhoAndTimeDetectorInput) databaseOutput.Input.DetectorInputs.Where(di => di.TallyType == TallyType.ROfRhoAndTime).First();
 
             databaseRhoRange = new DoubleRange(
                 input.Rho.Start,

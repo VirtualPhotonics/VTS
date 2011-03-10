@@ -54,7 +54,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public pMCDetectorController()
             : this(
-                new List<IpMCDetectorInput> { new pMCROfRhoDetectorInput() },
+                new List<IpMCDetectorInput> { new pMCROfRhoAndTimeDetectorInput() },
                 new MultiLayerTissue())
         {
         }

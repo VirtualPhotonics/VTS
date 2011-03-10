@@ -5,13 +5,13 @@ using Vts.Common;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// DetectorInput for Flu(r,z)
+    /// DetectorInput for Absorption(r,z)
     /// </summary>
-    public class FluenceOfRhoAndZDetectorInput : IDetectorInput
+    public class AOfRhoAndZDetectorInput : IDetectorInput
     {
-        public FluenceOfRhoAndZDetectorInput(DoubleRange rho, DoubleRange z)
+        public AOfRhoAndZDetectorInput(DoubleRange rho, DoubleRange z)
         {
-            TallyType = TallyType.FluenceOfRhoAndZ;
+            TallyType = TallyType.AOfRhoAndZ;
             Rho = rho;
             Z = z;
         }
@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Default constructor uses default rho and z bins
         /// </summary>
-        public FluenceOfRhoAndZDetectorInput()
+        public AOfRhoAndZDetectorInput()
             : this(
             new DoubleRange(0.0, 10.0, 101), //rho
             new DoubleRange(0.0, 10.0, 101)) // z

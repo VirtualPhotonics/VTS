@@ -47,7 +47,7 @@ namespace Vts.Modeling.ForwardSolvers
             var output = Output.FromFolderInResources("Modeling/Resources/" + folder, "Vts");
 
             // todo: temp code to make this work with the new structure. revisit.
-            var input = (ROfRhoAndTDetectorInput)output.Input.DetectorInputs.Where(di => di.TallyType == TallyType.ROfRhoAndTime).First();
+            var input = (ROfRhoAndTimeDetectorInput)output.Input.DetectorInputs.Where(di => di.TallyType == TallyType.ROfRhoAndTime).First();
 
             nrReference = input.Rho.Count;
             drReference = input.Rho.Delta;

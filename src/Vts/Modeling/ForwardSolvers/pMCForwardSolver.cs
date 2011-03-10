@@ -72,7 +72,7 @@ namespace Vts.Modeling.ForwardSolvers
         public override IEnumerable<double> RofRhoAndT(IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos, IEnumerable<double> times)
         {
-            var detectorInput = new pMCROfRhoDetectorInput();
+            var detectorInput = new pMCROfRhoAndTimeDetectorInput();
             var detectorInputs = new List<IpMCDetectorInput> { detectorInput };
 
             // todo: revisit!!

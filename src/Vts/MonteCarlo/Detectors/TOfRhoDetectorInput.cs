@@ -5,20 +5,20 @@ using Vts.Common;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// DetectorInput for R(r)
+    /// DetectorInput for T(r)
     /// </summary>
-    public class ROfRhoDetectorInput : IDetectorInput
+    public class TOfRhoDetectorInput : IDetectorInput
     {
-        public ROfRhoDetectorInput(DoubleRange rho)
+        public TOfRhoDetectorInput(DoubleRange rho)
         {
-            TallyType = TallyType.ROfRho;
+            TallyType = TallyType.TOfRho;
             Rho = rho;
         }
 
         /// <summary>
         /// Default constructor uses default rho bins
         /// </summary>
-        public ROfRhoDetectorInput() : this(new DoubleRange(0.0, 10, 101))
+        public TOfRhoDetectorInput() : this(new DoubleRange(0.0, 10, 101))
         {
         }
 
