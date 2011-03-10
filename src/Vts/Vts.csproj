@@ -247,10 +247,10 @@
     <Compile Include="MonteCarlo\Factories\SourceFactory.cs" />
     <Compile Include="MonteCarlo\Factories\TissueFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\Optics.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCHistoryDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCTerminationDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
-    <Compile Include="MonteCarlo\Interfaces\IDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCDetectorInput.cs" />
     <Compile Include="MonteCarlo\PhotonHistory.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
