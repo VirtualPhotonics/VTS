@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo
 
         private ISource _source;
         private ITissue _tissue;
-        private IDetector _detector;
+        private IDetectorController _detector;
         private long numberOfPhotons;
 
         // todo: Why is this static? (DJC 2011-01-16)
@@ -48,7 +48,14 @@ namespace Vts.MonteCarlo
 
             _tissue = Factories.TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType);
             _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
-            _detector = Factories.DetectorFactory.GetDetector(input.DetectorInput, _tissue);
+
+            // todo: temp work-around. need to redefine SimulationInput to hold an IList<IDetectorInput>
+            var detectorInputs = new List<IDetectorInput>
+            {
+                input.DetectorInput
+            };
+
+            _detector = Factories.DetectorControllerFactory.GetStandardDetectorController(detectorInputs, _tissue);
         }
 
         /// <summary>
@@ -60,18 +67,9 @@ namespace Vts.MonteCarlo
         private int SimulationIndex { get; set; }
 
         // public properties
-        // todo: Why are these all static? (DJC 2011-01-16)
-        private bool DO_ALLVOX { get; set; }
-        private bool DO_TIME_RESOLVED_FLUENCE { get; set; } // TODO: DC - Add to unmanaged code
         private bool WRITE_EXIT_HISTORIES { get; set; }  // Added by DC 2009-08-01 
         private bool WRITE_ALL_HISTORIES { get; set; }  // Added by DC 2011-03-03
-        private bool TALLY_MOMENTUM_TRANSFER { get; set; }
         private AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
-
-        // wrappers for _input to access internal fields
-        //public static ITissueInput TissueInput { get { return _input.TissueInput; } }
-        //public static ISourceInput SourceInput { get { return _input.SourceInput; } }
-        //public static IDetectorInput DetectorInput { get { return _input.DetectorInput; } }
 
         /// <summary>
         /// Run the simulation
@@ -79,17 +77,13 @@ namespace Vts.MonteCarlo
         /// <returns></returns>
         public Output Run()
         {
-            // Banana bananaptr;
-
             Output output = new Output(_input);
 
             DisplayIntro();
 
             ExecuteMCLoop();
 
-            //if (DO_ALLVOX) Compute_Wts_allvox(tissptr, photptr, source, outptr, detector); /* DCFIX  */
-
-            _detector.NormalizeTalliesToOutput(numberOfPhotons, output);
+            _detector.NormalizeDetectors(numberOfPhotons);
 
             ReportResults();
 

@@ -3,7 +3,7 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo
 {
-    public interface  ITerminationTally : ITally
+    public interface  ITerminationDetector : IDetector
     {
         void Tally(PhotonDataPoint dp);
     }
@@ -11,7 +11,7 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Defines a contract for Monte Carlo Termination Tallies.
     /// </summary>
-    public interface ITerminationTally<T> : ITally<T>, ITerminationTally
+    public interface ITerminationDetector<T> : IDetector<T>, ITerminationDetector
     {
     }
 }
