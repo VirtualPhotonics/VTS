@@ -62,32 +62,31 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new DetectorInput(
-                    new List<TallyType>()
-                        {
-                            TallyType.RDiffuse,
-                            TallyType.ROfAngle,
-                            TallyType.ROfRho,
-                            TallyType.ROfRhoAndAngle,
-                            TallyType.ROfRhoAndTime,
-                            TallyType.ROfXAndY,
-                            TallyType.ROfRhoAndOmega,
-                            TallyType.TDiffuse,
-                            TallyType.TOfAngle,
-                            TallyType.TOfRho,
-                            TallyType.TOfRhoAndAngle,
-                            TallyType.FluenceOfRhoAndZ,
-                            TallyType.AOfRhoAndZ,
-                            TallyType.ATotal
-                        },
-                    new DoubleRange(0.0, 10, 101), // rho
-                    new DoubleRange(0.0, 10, 101),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
-                    new DoubleRange(0.0, 1, 101), // time
-                    new DoubleRange(0.0, 1000, 21), // omega
-                    new DoubleRange(-200.0, 200.0, 401), // x
-                    new DoubleRange(-200.0, 200.0, 401) // y
-                ) );
+                new List<IDetectorInput>()
+                {
+                    new RDiffuseDetectorInput(),
+                    new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new ROfRhoAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new ROfRhoAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101)),
+                    new ROfXAndYDetectorInput(
+                        new DoubleRange(-200.0, 200.0, 401), // x
+                        new DoubleRange(-200.0, 200.0, 401)), // y,
+                    new ROfRhoAndOmegaDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 1000, 21)),
+                    new TDiffuseDetectorInput(),
+                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new TOfRhoAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, Math.PI / 2, 2))
+                });
+                
             _output = new MonteCarloSimulation(input).Run();
         }
 

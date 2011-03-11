@@ -16,11 +16,11 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_class_can_be_serialized_as_part_of_SimulationInput()
         {
-            var detectorInput = new DetectorInput() { Rho = new DoubleRange(10, 20, 51) };
+            var detectorInput = new ROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) };
 
             try
             {
-                new SimulationInput() { DetectorInput = detectorInput }.WriteToXML("test");
+                new SimulationInput() { DetectorInputs = { (ROfRhoDetectorInput)detectorInput } }.WriteToXML("test");
             }
             catch(SerializationException se)
             {
@@ -36,7 +36,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_deserialized_class_is_correct()
         {
-            var i = new DetectorInput() { Rho = new DoubleRange(10, 20, 51) };
+            var i = new ROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) };
             var iCloned = Clone(i);
 
             Assert.AreEqual(iCloned.Rho.Start, 10);
@@ -45,8 +45,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_deserialized_class_is_correct_when_using_FileIO()
         {
-            new DetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToXML("test");
-            var iCloned = FileIO.ReadFromXML<DetectorInput>("test");
+            new ROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToXML("test");
+            var iCloned = FileIO.ReadFromXML<ROfRhoDetectorInput>("test");
 
             Assert.AreEqual(iCloned.Rho.Start, 10);
         }

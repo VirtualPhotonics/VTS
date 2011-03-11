@@ -95,8 +95,8 @@ namespace Vts.MonteCarlo.PostProcessor
         
         public IEnumerable<DetectorInput> BatchQuery { get; set; }
         public string[] BatchNameQuery { get; set; }
-        public DetectorInput Input { get; set; }
-        public PhotonTerminationDatabase Database { get; set; }
+        public IList<IDetectorInput> DetectorInput { get; set; }
+        public PhotonDatabase Database { get; set; }
         public SimulationInput SimulationInputFromDatabaseGeneration { get; set; }
 
         public PostProcessorSetup()
@@ -107,7 +107,7 @@ namespace Vts.MonteCarlo.PostProcessor
             SimulationInputFile = "";
             BatchQuery = null;
             BatchNameQuery = null;
-            Input = null;
+            DetectorInput = null;
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Vts.MonteCarlo.PostProcessor
 
                 if (System.IO.File.Exists(DetectorInputFile))
                 {
-                    Input = DetectorInput.FromFile(DetectorInputFile);
+                    DetectorInput = DetectorInput.FromFile(DetectorInputFile);
                 }
                 else
                 {
@@ -134,7 +134,7 @@ namespace Vts.MonteCarlo.PostProcessor
             else
             {
                 Console.WriteLine("\nNo detector input file specified. Using newdetectorinfile.xml from resources... ");
-                Input = FileIO.ReadFromXML<DetectorInput>("newdetectorinfile.xml");
+                DetectorInput = FileIO.ReadFromXML<DetectorInput>("newdetectorinfile.xml");
             }
             if (DatabaseFile.Length > 0)
             {
@@ -144,7 +144,7 @@ namespace Vts.MonteCarlo.PostProcessor
 
                 if (System.IO.File.Exists(DatabaseFile))
                 {
-                    Database = PhotonTerminationDatabase.FromFile(DatabaseFile);
+                    Database = PhotonDatabase.FromFile(DatabaseFile);
                 }
                 else
                 {
@@ -155,7 +155,7 @@ namespace Vts.MonteCarlo.PostProcessor
             else
             {
                 Console.WriteLine("\nNo input file specified. Using database from debug directory... ");
-                Database = PhotonTerminationDatabase.FromFile(
+                Database = PhotonDatabase.FromFile(
                     "Output_photonBiographies");
             }
             if (SimulationInputFile.Length > 0)
@@ -274,34 +274,35 @@ namespace Vts.MonteCarlo.PostProcessor
     #region Infile Generation (optional)
         //To Generate a detector infile, uncomment the first line of code in this file
         #if GENERATE_INFILE
-            var tempInput = new DetectorInput(
-                    new List<TallyType>()
-                    {
-                        TallyType.RDiffuse,
-                        TallyType.ROfAngle,
-                        TallyType.ROfRho,
-                        TallyType.ROfRhoAndAngle,
-                        TallyType.ROfRhoAndTime,
-                        TallyType.ROfXAndY,
-                        TallyType.ROfRhoAndOmega,
-                        TallyType.TDiffuse,
-                        TallyType.TOfAngle,
-                        TallyType.TOfRho,
-                        TallyType.TOfRhoAndAngle,
-                    },
-                    new DoubleRange(0.0, 40.0, 201), // rho: nr=200 dr=0.2mm used for workshop
-                    new DoubleRange(0.0, 10.0, 11),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
-                    new DoubleRange(0.0, 4.0, 801), // time: nt=800 dt=0.005ns used for workshop
-                    new DoubleRange(0.0, 1000, 21), // omega
-                    new DoubleRange(-100.0, 100.0, 81), // x
-                    new DoubleRange(-100.0, 100.0, 81) // y
-                );
+            var tempInput = new List<IDetectorInput>()
+                {
+                    new RDiffuseDetectorInput(),
+                    new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new ROfRhoAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new ROfRhoAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101)),
+                    new ROfXAndYDetectorInput(
+                        new DoubleRange(-200.0, 200.0, 401), // x
+                        new DoubleRange(-200.0, 200.0, 401)), // y,
+                    new ROfRhoAndOmegaDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 1000, 21)),
+                    new TDiffuseDetectorInput(),
+                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new TOfRhoAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, Math.PI / 2, 2))
+                });
             tempInput.ToFile("newinfile.xml");
-        #endif
+#endif
     #endregion
 
-             args.Process(
+            args.Process(
                 () =>
                     {
                         Console.WriteLine("Usages are:");

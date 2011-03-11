@@ -162,7 +162,6 @@
     <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolverTests.cs" />
     <Compile Include="Modeling\ForwardSolvers\DiffusionGreensFunctionsTest.cs" />
     <Compile Include="Modeling\ForwardSolvers\pMCForwardSolverTests.cs" />
-    <Compile Include="Modeling\LoadValidationData.cs" />
     <Compile Include="Modeling\MetaNumericsZeroOrderBesselFunction.cs" />
     <Compile Include="Modeling\ForwardSolvers\NurbsForwardSolverTest.cs" />
     <Compile Include="Modeling\ForwardSolvers\NurbsGeneratorTest.cs" />

@@ -15,7 +15,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_deserialized_class_is_correct()
         {
-            var i = new pMCDetectorInput() { Rho = new DoubleRange(10, 20, 51) };
+            var i = new pMCROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) };
             var iCloned = Clone(i);
 
             Assert.AreEqual(iCloned.Rho.Start, 10);
@@ -24,8 +24,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_deserialized_class_is_correct_when_using_FileIO()
         {
-            new pMCDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToXML("test");
-            var iCloned = FileIO.ReadFromXML<pMCDetectorInput>("test");
+            new pMCROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToXML("test");
+            var iCloned = FileIO.ReadFromXML<pMCROfRhoDetectorInput>("test");
 
             Assert.AreEqual(iCloned.Rho.Start, 10);
         }

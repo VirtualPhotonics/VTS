@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
@@ -19,18 +21,19 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 Input = new SimulationInput
                 {
-                    DetectorInput = new DetectorInput
+                    DetectorInputs = new List<IDetectorInput>
                     {
-                        Angle = new DoubleRange(0d, Math.PI, 10)
+                        new ROfAngleDetectorInput(new DoubleRange(0d, Math.PI, 10))
                     }
                 }
             };
 
             var oCloned = Clone(o);
-
-            Assert.AreEqual(oCloned.Input.DetectorInput.Angle.Start, 0d);
-            Assert.AreEqual(oCloned.Input.DetectorInput.Angle.Stop, Math.PI);
-            Assert.AreEqual(oCloned.Input.DetectorInput.Angle.Count, 10);
+            var angle = ((ROfAngleDetectorInput)oCloned.Input.DetectorInputs.
+                Where(d => d.TallyType == TallyType.ROfAngle).First()).Angle;
+            Assert.AreEqual(angle.Start, 0d);
+            Assert.AreEqual(angle.Stop, Math.PI);
+            Assert.AreEqual(angle.Count, 10);
         }
 
 

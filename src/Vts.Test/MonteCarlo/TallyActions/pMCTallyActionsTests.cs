@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
@@ -42,34 +43,15 @@ namespace Vts.Test.MonteCarlo.TallyActions
         [Test]
         public void validate_DAW_ROfRhoAndTime_zero_perturbation()
         {
-            var peh = PhotonDatabase.FromFile("pMC_photonBiographies");
+            var database = PhotonDatabase.FromFile("pMC_photonBiographies");
             var postProcessedOutput = 
                 PhotonTerminationDatabasePostProcessor.GenerateOutput(   
-                    new pMCDetectorInput(
-                        new List<TallyType>()
-                        {
-                            TallyType.pMuaMusInROfRhoAndTime,
-                        },
-                        // the following ranges need to match _referenceInput values
-                        new DoubleRange(0.0, 10, 101), // rho
-                        new DoubleRange(0.0, 10, 101),  // z
-                        new DoubleRange(0.0, Math.PI / 2, 2), // angle
-                        new DoubleRange(0.0, 10000, 101), // time
-                        new DoubleRange(0.0, 1000, 21), // omega
-                        new DoubleRange(-10.0, 10.0, 201), // x
-                        new DoubleRange(-10.0, 10.0, 201), // y
-                        new MultiLayerTissue(
-                            _referenceHomogeneousInput.TissueInput.Regions,
-                            _referenceHomogeneousInput.Options.AbsorptionWeightingType,
-                            _referenceHomogeneousInput.Options.PhaseFunctionType),
-                        new List<OpticalProperties>() {
-                            _referenceHomogeneousInput.TissueInput.Regions[0].RegionOP,
-                            _referenceHomogeneousInput.TissueInput.Regions[1].RegionOP,
-                            _referenceHomogeneousInput.TissueInput.Regions[2].RegionOP},
-                        new List<int>() { 1 }
-                    ),
-                    peh, 
-                    _referenceHomogeneousOutput.Input,
+                    new List<IpMCDetectorInput>()
+                    {
+                        new pMCROfRhoAndTimeDetectorInput()
+                    },
+                    database,
+                    _referenceHomogeneousInput,
                     new List<OpticalProperties>() { // perturbed ops
                         _referenceHomogeneousInput.TissueInput.Regions[0].RegionOP,
                         _referenceHomogeneousInput.TissueInput.Regions[1].RegionOP,
@@ -116,19 +98,13 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new DetectorInput(
-                    new List<TallyType>()
-                        {
-                            TallyType.ROfRhoAndTime,
-                        },
-                    new DoubleRange(0.0, 10, 101), // rho
-                    new DoubleRange(0.0, 10, 101),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
-                    new DoubleRange(0.0, 10000, 101), // time
-                    new DoubleRange(0.0, 1000, 21), // omega
-                    new DoubleRange(-10.0, 10.0, 201), // x
-                    new DoubleRange(-10.0, 10.0, 201) // y
-                )
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new ROfRhoAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101)),
+                }
             );
         }
         /// <summary>
@@ -171,20 +147,14 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
                     }
                 ),
-                new DetectorInput(
-                    new List<TallyType>
-                        {
-                            TallyType.ROfRhoAndTime,
-                        },
-                    new DoubleRange(0.0, 10, 101), // rho
-                    new DoubleRange(0.0, 10, 101),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
-                    new DoubleRange(0.0, 10000, 101), // time
-                    new DoubleRange(0.0, 1000, 21), // omega
-                    new DoubleRange(-10.0, 10.0, 201), // x
-                    new DoubleRange(-10.0, 10.0, 201) // y
-                )
-            );
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new ROfRhoAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101)),
+                });
+      
         }
         private static Output GenerateReferenceOutput(SimulationInput input)
         {

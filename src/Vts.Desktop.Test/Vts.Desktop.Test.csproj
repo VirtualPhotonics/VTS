@@ -161,9 +161,6 @@
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs">
       <Link>Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\LoadValidationData.cs">
-      <Link>Modeling\LoadValidationData.cs</Link>
-    </Compile>
     <Compile Include="..\Vts.Test\Modeling\MetaNumericsZeroOrderBesselFunction.cs">
       <Link>Modeling\MetaNumericsZeroOrderBesselFunction.cs</Link>
     </Compile>

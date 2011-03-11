@@ -61,21 +61,13 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new DetectorInput(
-                    new List<TallyType>()
-                        {
-                            TallyType.RDiffuse,
-                            TallyType.TDiffuse,
-                            TallyType.ATotal
-                        },
-                    new DoubleRange(0.0, 10, 2),// rho (mm)
-                    new DoubleRange(0.0, 10, 101),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
-                    new DoubleRange(0.0, 1, 101), // time (ns=1000ps)
-                    new DoubleRange(0.0, 1000, 21), // omega
-                    new DoubleRange(-200.0, 200.0, 2), // x
-                    new DoubleRange(-200.0, 200.0, 2)// y
-                ));
+                new List<IDetectorInput>()
+                {
+                    new RDiffuseDetectorInput(),
+                    new TDiffuseDetectorInput(),
+                    new ATotalDetectorInput()
+                }
+            );
             _output = new MonteCarloSimulation(input).Run();
         }
 

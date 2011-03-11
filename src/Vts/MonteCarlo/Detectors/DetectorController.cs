@@ -38,11 +38,27 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         /// <summary>
-        /// Default constructor tallies all tallies
+        /// Default constructor tallies all tallies with default ranges
         /// </summary>
         public DetectorController()
             : this(
-                new List<IDetectorInput> { new ROfRhoDetectorInput() },
+                new List<IDetectorInput> { 
+                    new AOfRhoAndZDetectorInput(),
+                    new ATotalDetectorInput(),
+                    new FluenceOfRhoAndZAndTimeDetectorInput(),
+                    new FluenceOfRhoAndZDetectorInput(),
+                    new RDiffuseDetectorInput(),
+                    new ROfAngleDetectorInput(),
+                    new ROfRhoAndAngleDetectorInput(),
+                    new ROfRhoAndOmegaDetectorInput(),
+                    new ROfRhoAndTimeDetectorInput(),
+                    new ROfRhoDetectorInput(),
+                    new ROfXAndYDetectorInput(),
+                    new TDiffuseDetectorInput(),
+                    new TOfAngleDetectorInput(),
+                    new TOfRhoAndAngleDetectorInput(),
+                    new TOfRhoDetectorInput(),
+                    new ROfRhoDetectorInput() },
                 new MultiLayerTissue() )
         {
         }
