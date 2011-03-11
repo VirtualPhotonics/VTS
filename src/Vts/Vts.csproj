@@ -293,6 +293,7 @@
     <Compile Include="MonteCarlo\Sources\CustomPointSource.cs" />
     <Compile Include="MonteCarlo\Sources\SourceBase.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
+    <Compile Include="MonteCarlo\Sources\SourceDefinition.cs" />
     <Compile Include="MonteCarlo\TallyActions\AOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\ATotalTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs" />
