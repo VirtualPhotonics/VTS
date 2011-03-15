@@ -27,7 +27,6 @@ namespace Vts.MonteCarlo.Sources
                 new DoubleRange(0.0, 0, 1),
                 new DoubleRange(0.0, 0, 1)) { }
 
-        //public Photon Photon { get; set; }
         public Position PointLocation { get; set; }
         public Direction SolidAngleAxis { get; set; }
         public DoubleRange ThetaRange { get; set; }

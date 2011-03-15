@@ -136,11 +136,10 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns a random radial direction [0,2*Pi] along a specified axis
         /// </summary>
-        /// <param name="axisOrientation">The unit vector radial axis orientation. (Must be normalized!)</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
         /// <remarks>Custom orientation is not yet enabled.</remarks>
-        public static Direction GetRandomRadialDirection(Direction axisOrientation, Random rng)
+        public static Direction SampleIsotropicRadialDirection(Random rng)
         {
             var theta = 2 * Math.PI * rng.NextDouble();
 
@@ -149,7 +148,17 @@ namespace Vts.MonteCarlo.Sources
             // todo: CKH help
             var direction = new Direction();
 
+            // todo: implement random 
             return direction;
+        }
+
+        public static Direction SampleAngularDistributionDirection(
+            DoubleRange polarAngleEmissionRange, 
+            DoubleRange azimuthalAngleEmissionRange,
+            Random Rng)
+        {
+            // todo: implement
+            throw new NotImplementedException();
         }
     }
 }

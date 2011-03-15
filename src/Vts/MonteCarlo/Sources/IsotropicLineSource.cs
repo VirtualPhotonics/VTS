@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo.Sources
             var photonPosition = SourceToolbox.GetRandomLinePosition(Position, Orientation, Length, Rng);
             
             // create a random radial direction along axis orthogonal to line direction
-            var photonDirection = SourceToolbox.GetRandomRadialDirection(Orientation, Rng);
+            var photonDirection = SourceToolbox.SampleIsotropicRadialDirection(Rng);
 
             var dataPoint = new PhotonDataPoint(
                     photonPosition,
