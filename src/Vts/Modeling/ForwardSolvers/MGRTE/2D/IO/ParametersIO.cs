@@ -16,7 +16,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
 
                     int count = 0;
                     double temp = 0.0;
-
+                    
                     para.G = double.Parse(bits[count]); count++;
                     para.Index_i = double.Parse(bits[count]); count++;
                     para.Index_o = double.Parse(bits[count]); count++;
@@ -32,6 +32,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                     temp = double.Parse(bits[count]); para.N3 = (int)temp; count++;
                     temp = double.Parse(bits[count]); para.N_max = (int)temp;
                     reader.Close();
+
                 }
             }
             else
