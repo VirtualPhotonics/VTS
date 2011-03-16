@@ -40,7 +40,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// Test to validate that setting mua and mus to the reference values
         /// determines results equal to reference
         /// </summary>
-        [Test]
+        //[Test]  // ckh 3/15/11 hold on this test until dc-110309-detector_output_tally_refactoring merge
         public void validate_DAW_ROfRhoAndTime_zero_perturbation()
         {
             var database = PhotonDatabase.FromFile("pMC_photonBiographies");

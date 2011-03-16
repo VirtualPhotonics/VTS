@@ -34,6 +34,7 @@ syntax: glob
 obj/
 [Rr]elease*/
 [Ll]ibraries/*.dll
+[Rr]esources/*
 [Tt]est[Rr]esult*
 [Bb]uild[Ll]og.*
 *.[Pp]ublish.xml

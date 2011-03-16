@@ -222,6 +222,38 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 mc.Run().ToFile(inputBatch[i].OutputFileName);
             });
         }
+
+        /// <summary>
+        /// Displays the help text for detailed usage of the application
+        /// </summary>
+        public void ShowHelp()
+        {
+            Console.WriteLine("Virtual Photonics MC 1.0");
+            Console.WriteLine();
+            Console.WriteLine("list of arguments:");
+            Console.WriteLine();
+            Console.WriteLine("infile\t\tthe input file.");
+            Console.WriteLine("outfile\t\tthe output file.");
+            Console.WriteLine("inputparam\tthe input parameter name and value(s).");
+            Console.WriteLine();
+            Console.WriteLine("list of input parameters (inputparam):");
+            Console.WriteLine();
+            Console.WriteLine("mua1\t\tdescription of mua1 and possible values");
+            Console.WriteLine("mus1\t\tdescription of mus1 and possible values");
+            Console.WriteLine();
+            Console.WriteLine("sample usage:");
+            Console.WriteLine();
+            Console.WriteLine("mc infile=myinput outfile=myoutput inputparam=mua1,0.01,0.09,0.01 inputparam=mus1,10,20,1");
+        }
+
+        /// <summary>
+        /// Displays the help text for the topic passed as a parameter
+        /// </summary>
+        /// <param name="helpTopic">Help topic</param>
+        public void ShowHelp(string helpTopic)
+        {
+
+        }
     }
     
     class Program
@@ -229,6 +261,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
         static void Main(string[] args)
         {
             MonteCarloSetup MonteCarloSetup = new MonteCarloSetup();
+            bool _showHelp = false;
             
     #region Infile Generation (optional)
         //To Generate an infile when running a simulation, uncomment the first line of code in this file
@@ -283,53 +316,64 @@ namespace Vts.MonteCarlo.CommandLineApplication
         #endif
     #endregion
 
-             args.Process(
-                () =>
-                    {
-                        Console.WriteLine("Usages are:");
-                        Console.WriteLine("mc infile=myinput outfile=myoutput");
-                        Console.WriteLine("inputparam=mua1,0.01,0.09,0.01 inputparam=mus1,10,20,1");
-                        Console.WriteLine();
-                    },
+             args.Process(() =>
+                {
+                    Console.WriteLine("Usages are:");
+                    Console.WriteLine("mc infile=myinput outfile=myoutput");
+                    Console.WriteLine("inputparam=mua1,0.01,0.09,0.01 inputparam=mus1,10,20,1");
+                    Console.WriteLine();
+                },
+                new CommandLine.Switch("help", val =>
+                {
+                    _showHelp = true;
+                }),
                 new CommandLine.Switch("infile", val =>
-                    {
-                        Console.WriteLine("input file specified as {0}", val.First());
-                        MonteCarloSetup.InputFile = val.First();
-                    }),
+                {
+                    Console.WriteLine("input file specified as {0}", val.First());
+                    MonteCarloSetup.InputFile = val.First();
+                }),
                 new CommandLine.Switch("outfile", val =>
-                    {
-                        Console.WriteLine("output file specified as {0}", val.First());
-                        MonteCarloSetup.OutputFile = val.First();
-                    }),
+                {
+                    Console.WriteLine("output file specified as {0}", val.First());
+                    MonteCarloSetup.OutputFile = val.First();
+                }),
                 new CommandLine.Switch("/unmanaged", "/u", val =>
-                    {
-                        Console.WriteLine("Run unmanaged code");
-                        MonteCarloSetup.RunUnmanagedCode = true;
-                    }),
+                {
+                    Console.WriteLine("Run unmanaged code");
+                    MonteCarloSetup.RunUnmanagedCode = true;
+                }),
                 new CommandLine.Switch("/history", "/h", val =>
-                    {
-                        Console.WriteLine("Write histories");
-                        MonteCarloSetup.WriteHistories = true;
-                    }),
+                {
+                    Console.WriteLine("Write histories");
+                    MonteCarloSetup.WriteHistories = true;
+                }),
                 new CommandLine.Switch("inputparam", val =>
                 {
                     MonteCarloSetup.SetRangeValues(val);
-                })
-            );
-
-            if (MonteCarloSetup.BatchQuery == null && MonteCarloSetup.ValidSimulation)
+                }));
+            
+            //if help is passed as an agument do not run the Monte Carlo, just display the help for the topic
+            if (_showHelp)
             {
-                MonteCarloSetup.ValidSimulation = MonteCarloSetup.ReadSimulationInputFromFile();
-            }
-            if (MonteCarloSetup.ValidSimulation)
-            {
-                MonteCarloSetup.RunSimulation();
-                Console.Write("\nSimulation(s) complete.");
+                MonteCarloSetup.ShowHelp();
             }
             else
             {
-                Console.Write("\nSimulation(s) completed with errors. Press enter key to exit.");
-                Console.Read();
+                if (MonteCarloSetup.BatchQuery == null && MonteCarloSetup.ValidSimulation)
+                {
+                   MonteCarloSetup.ValidSimulation = MonteCarloSetup.ReadSimulationInputFromFile();
+                }
+    
+                if (MonteCarloSetup.ValidSimulation)
+                {
+                    MonteCarloSetup.RunSimulation();
+                    Console.Write("\nSimulation(s) complete.");
+                }
+                else
+                {
+                    Console.Write("\nSimulation(s) completed with errors. Press enter key to exit.");
+                    Console.Read();
+                }
             }
         }
 

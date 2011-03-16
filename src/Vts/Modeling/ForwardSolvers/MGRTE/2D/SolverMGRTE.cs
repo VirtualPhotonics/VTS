@@ -5,10 +5,11 @@ using System.Text;
 using System.IO;
 using Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures;
 using Vts.Modeling.ForwardSolvers.MGRTE._2D.IO;
+using Vts.Common;
 
 namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
 {
-    public class Solver
+    public class SolverMGRTE
     {
         /*Multigrid*/
         //AMG = 1;
@@ -41,6 +42,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
 
         //    Console.ReadLine();
         //}
+                
 
         public static void ExecuteMGRTE(Parameters para)
         {
@@ -56,17 +58,24 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             DateTime startTime1 = DateTime.Now;
 
             if (Math.Abs(para.Index_i - para.Index_o) / para.Index_i < 0.01) // refraction index mismatch at the boundary
-            { vacuum = 1; }
+            { 
+                vacuum = 1; 
+            }
             else
-            { vacuum = 0; }
+            { 
+                vacuum = 0; 
+            }
 
             // 1.2. compute "level"
             //      level: the indicator of mesh levels in multigrid
             ds = para.Slevel - para.Slevel0;
             da = para.Alevel - para.Alevel0;
+
+            
+
             switch (para.Whichmg)
             {
-                case 1:  //AMG:
+                case 1:
                     level = da;
                     break;
                 case 2: //SMG:
@@ -105,13 +114,19 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             Output Rteout = new Output();
             Source Insource = new Source();
 
+            ReadFiles.ReadAmesh(ref amesh, para.Alevel);
+            ReadFiles.ReadSmesh(ref smesh, para.Slevel, para.Alevel, amesh);
+            ReadFiles.ReadMua(ref ua, para.Slevel, smesh[para.Slevel].nt);
+            ReadFiles.ReadMus(ref us, para.Slevel, smesh[para.Slevel].nt);
+
             // load optical property, angular mesh, and spatial mesh files
             Initialization.Initial(
-                para.Alevel, para.Alevel0, ref amesh,
-                para.Slevel, para.Slevel0, ref smesh,
-                ref ua, ref us, level, para.Whichmg, noflevel,
-                ref flux, ref d, ref RHS, ref q, ref b,
-                vacuum, para.Index_i, para.Index_o);
+                ref amesh, ref smesh, ref flux, ref d, 
+                ref RHS, ref q, ref noflevel, ref b,
+                level, para.Whichmg,vacuum,para.Index_i,
+                para.Index_o,para.Alevel,para.Alevel0, 
+                para.Slevel,para.Slevel0, ua,us,Mgrid);           
+
 
             // initialize internal and boundary sources 
             Insource.Inputsource(para.Alevel, amesh, para.Slevel, smesh, level, RHS, q);
@@ -122,7 +137,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             TimeSpan duration1 = stopTime1 - startTime1;
 
 
-            Console.WriteLine("Initlalization for RTE_1D takes {0} seconds.\n", duration1.TotalSeconds);
+            Console.WriteLine("Initlalization for RTE_2D takes {0} seconds.\n", duration1.TotalSeconds);
 
             //step 2: RTE solver
             DateTime startTime2 = DateTime.Now;
@@ -242,7 +257,6 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             // 2.2. multigrid solver on the finest mesh
             n = 0;
             Console.WriteLine("Iter\t\t Res\t Rho\t\t T (in seconds) ");
-
 
             while (n < para.N_max)
             {
