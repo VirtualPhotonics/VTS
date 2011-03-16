@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.SiteVisit.ViewModel.Application.Panels

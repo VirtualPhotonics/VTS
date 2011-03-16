@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace Vts.MonteCarlo.TallyActions
+namespace Vts.MonteCarlo.Detectors
 {
     public abstract class TallyBase
     {

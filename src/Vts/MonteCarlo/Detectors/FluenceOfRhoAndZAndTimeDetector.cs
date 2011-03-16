@@ -5,7 +5,7 @@ using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
 
-namespace Vts.MonteCarlo.TallyActions
+namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// Implements IHistoryDetector<double[,,]>.  Tally for Fluence(rho,z,t).

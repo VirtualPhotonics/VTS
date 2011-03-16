@@ -13,6 +13,7 @@ using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Controllers;
 using Vts.IO;
 
 // ParallelFx June '08 CTP
@@ -93,7 +94,7 @@ namespace Vts.MonteCarlo.PostProcessor
         public string DatabaseFile { get; set; }
         public string SimulationInputFile { get; set; }
         
-        public IEnumerable<DetectorInput> BatchQuery { get; set; }
+        public IEnumerable<DetectorController> BatchQuery { get; set; }
         public string[] BatchNameQuery { get; set; }
         public IList<IDetectorInput> DetectorInput { get; set; }
         public PhotonDatabase Database { get; set; }
@@ -121,20 +122,21 @@ namespace Vts.MonteCarlo.PostProcessor
                 basename = System.IO.Path.GetFileNameWithoutExtension(DetectorInputFile);
                 DetectorInputFile = path + basename + ".xml";
 
-                if (System.IO.File.Exists(DetectorInputFile))
-                {
-                    DetectorInput = DetectorInput.FromFile(DetectorInputFile);
-                }
-                else
-                {
-                    Console.WriteLine("\nThe following input file could not be found: " + basename + ".xml");
-                    return false;
-                }
+                // comment out following for now 3/16/11
+                //if (System.IO.File.Exists(DetectorInputFile))
+                //{
+                //    DetectorInput = DetectorInput.FromFile(DetectorInputFile);
+                //}
+                //else
+                //{
+                //    Console.WriteLine("\nThe following input file could not be found: " + basename + ".xml");
+                //    return false;
+                //}
             }
             else
             {
                 Console.WriteLine("\nNo detector input file specified. Using newdetectorinfile.xml from resources... ");
-                DetectorInput = FileIO.ReadFromXML<DetectorInput>("newdetectorinfile.xml");
+                //DetectorInput = FileIO.ReadFromXML<DetectorInput>("newdetectorinfile.xml"); //comment out 3/16/11
             }
             if (DatabaseFile.Length > 0)
             {
@@ -179,7 +181,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 Console.WriteLine("\nNo simulation input file specified. Using .xml from resources... ");
                 SimulationInputFromDatabaseGeneration = FileIO.ReadFromXML<SimulationInput>("newinfile.xml"); 
             }
-            BatchQuery = Input.AsEnumerable();
+            //BatchQuery = new DetectorController(DetectorInput, SimulationInputFromDatabaseGeneration.TissueInput);
             BatchNameQuery = new[] { "" };
             return true;
         }
@@ -242,7 +244,7 @@ namespace Vts.MonteCarlo.PostProcessor
         /// </summary>
         public void RunPostProcessor()
         {
-            DetectorInput[] inputBatch = BatchQuery.ToArray();
+            DetectorController[] inputBatch = BatchQuery.ToArray();
             string[] outNames = BatchNameQuery.Select(s => path + basename + "_" + SimulationInputFile + "\\" + basename + "_" + SimulationInputFile + s).ToArray();
             Output postProcessedOutput;
 
@@ -252,15 +254,15 @@ namespace Vts.MonteCarlo.PostProcessor
             Parallel.For(0, inputBatch.Length, i =>
             {
  
-                postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                inputBatch[i], Database, SimulationInputFromDatabaseGeneration);
+                //postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
+                //inputBatch[i], Database, SimulationInputFromDatabaseGeneration);
 
-                //var p = Path.GetDirectoryName("postresults");
-                var p = "postresults";
-                if (!Directory.Exists(p))
-                    Directory.CreateDirectory(p);
+                ////var p = Path.GetDirectoryName("postresults");
+                //var p = "postresults";
+                //if (!Directory.Exists(p))
+                //    Directory.CreateDirectory(p);
 
-                postProcessedOutput.ToFile(p);
+                //postProcessedOutput.ToFile(p);
             });
         }
     }
@@ -347,9 +349,10 @@ namespace Vts.MonteCarlo.PostProcessor
             }
         }
 
-        private static DetectorInput LoadDefaultInputFile()
+        private static DetectorController LoadDefaultInputFile()
         {
-            return DetectorInput.FromFileInResources("newdetectorinfile.xml", "mc_post");
+            //return DetectorInput.FromFileInResources("newdetectorinfile.xml", "mc_post");
+            return new DetectorController();
         }
     }
 }

@@ -1,33 +1,30 @@
 using System.IO;
 using System.Runtime.Serialization;
 using NUnit.Framework;
-using Vts.Common;
-using Vts.IO;
-using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo;
 
-namespace Vts.Test.MonteCarlo.Detectors
+namespace Vts.Test.MonteCarlo
 {
     [TestFixture]
-    public class pMCDetectorInputTests
+    public class SimulationInputTests
     {
-        // todo: need to show working with SimulationInput using serialization
-
         [Test]
         public void validate_deserialized_class_is_correct()
         {
-            var i = new pMCROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) };
+            var i = new SimulationInput { N = 10 };
+
             var iCloned = Clone(i);
 
-            Assert.AreEqual(iCloned.Rho.Start, 10);
+            Assert.AreEqual(iCloned.N, 10);
         }
 
         [Test]
         public void validate_deserialized_class_is_correct_when_using_FileIO()
         {
-            new pMCROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToXML("test");
-            var iCloned = FileIO.ReadFromXML<pMCROfRhoDetectorInput>("test");
+            new SimulationInput { N = 10 }.ToFile("test");
+            var iCloned = SimulationInput.FromFile("test");
 
-            Assert.AreEqual(iCloned.Rho.Start, 10);
+            Assert.AreEqual(iCloned.N, 10);
         }
 
         private static T Clone<T>(T myObject)

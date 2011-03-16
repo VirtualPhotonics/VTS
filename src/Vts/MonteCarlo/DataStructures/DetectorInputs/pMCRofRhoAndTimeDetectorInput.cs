@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.Interfaces;
 
-namespace Vts.MonteCarlo.Detectors
+namespace Vts.MonteCarlo
 {
     /// <summary>
     /// DetectorInput for pMC R(r,time).

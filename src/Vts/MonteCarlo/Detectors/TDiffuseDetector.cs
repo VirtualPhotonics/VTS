@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
 
-namespace Vts.MonteCarlo.TallyActions
+namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// Implements ITerminationTally<double>.  Tally for diffuse transmittance.

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Vts.Common;
 
-namespace Vts.MonteCarlo.Detectors
+namespace Vts.MonteCarlo
 {
     /// <summary>
     /// DetectorInput for R(r,angle)

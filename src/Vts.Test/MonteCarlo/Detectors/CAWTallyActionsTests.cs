@@ -8,7 +8,7 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
-namespace Vts.Test.MonteCarlo.TallyActions
+namespace Vts.Test.MonteCarlo.Detectors
 {
     /// <summary>
     /// These tests execute a continuous absorption weighting (CAW)

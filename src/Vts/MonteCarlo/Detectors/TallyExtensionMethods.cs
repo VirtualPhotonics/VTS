@@ -1,4 +1,4 @@
-namespace Vts.MonteCarlo.TallyActions
+namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// Methods used to determine if tally is reflectance or 

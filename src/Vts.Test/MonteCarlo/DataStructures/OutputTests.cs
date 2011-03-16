@@ -9,7 +9,7 @@ using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 
-namespace Vts.Test.MonteCarlo.Detectors
+namespace Vts.Test.MonteCarlo
 {
     [TestFixture]
     public class OutputTests

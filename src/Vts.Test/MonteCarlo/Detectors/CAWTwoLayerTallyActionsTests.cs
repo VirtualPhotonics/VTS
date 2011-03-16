@@ -8,15 +8,19 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
-namespace Vts.Test.MonteCarlo.TallyActions
+namespace Vts.Test.MonteCarlo.Detectors
 {
     /// <summary>
-    /// These tests execute an Analog MC simulation with 100 photons and verify
+    /// These tests execute a continuous absorption weighting (CAW) in 2 layers
+    /// each layer having the same optical properties in a
+    /// MC simulation with 100 photons and verify
     /// that the tally results match the linux results given the same seed
     /// mersenne twister STANDARD_TEST
+    /// NOTE that these results DO NOT match 1 layer results because the crossing
+    /// at the internal interface adds random number calls
     /// </summary>
     [TestFixture]
-    public class AnalogBidirectionalTallyActionsTests
+    public class CAWTwoLayerTallyActionsTests
     {
         Output _output;
 
@@ -32,7 +36,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                 new SimulationOptions(
                     0, 
                     RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Analog, 
+                    AbsorptionWeightingType.Continuous, 
                     PhaseFunctionType.HenyeyGreenstein,
                     false, 
                     0),
@@ -49,7 +53,10 @@ namespace Vts.Test.MonteCarlo.TallyActions
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
                         new LayerRegion(
-                            new DoubleRange(0.0, 20.0),
+                            new DoubleRange(0.0, 1.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(1.0, 20.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
@@ -80,107 +87,88 @@ namespace Vts.Test.MonteCarlo.TallyActions
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, Math.PI / 2, 2))
                 });
-
             _output = new MonteCarloSimulation(input).Run();
         }
 
-        // validation values obtained from linux run using above input and seeded 
-        // the same for:
+        // validation values obtained from linux run using above input and 
+        // seeded the same for:
         // Diffuse Reflectance
         [Test]
-        public void validate_Analog_RDiffuse()
+        public void validate_CAW_two_layer_RDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Rd - 0.670833333), 0.000000001);
+            Assert.Less(Math.Abs(_output.Rd - 0.599832000), 0.000000001);
         }
         // Diffuse Reflectance
         [Test]
-        public void validate_Analog_RTotal()
+        public void validate_CAW_two_layer_RTotal()
         {
-            Assert.Less(Math.Abs(_output.Rtot - 0.698611111), 0.000000001);
+            Assert.Less(Math.Abs(_output.Rtot - 0.627609778), 0.000000001);
         }
         // Reflection R(rho)
         [Test]
-        public void validate_Analog_ROfRho()
+        public void validate_CAW_two_layer_ROfRho()
         {
-            Assert.Less(Math.Abs(_output.R_r[0] - 0.928403835), 0.000000001);
+            Assert.Less(Math.Abs(_output.R_r[3] - 0.0160632923), 0.000000001);
         }
         // Reflection R(angle)
         [Test]
-        public void validate_Analog_ROfAngle()
+        public void validate_CAW_two_layer_ROfAngle()
         {
-            Assert.Less(Math.Abs(_output.R_a[0] - 0.0961235688), 0.0000000001);
+            Assert.Less(Math.Abs(_output.R_a[0] - 0.085949802), 0.000000001);
         }
         // Reflection R(rho,angle)
         [Test]
-        public void validate_Analog_ROfRhoAndAngle()
+        public void validate_CAW_two_layer_ROfRhoAndAngle()
         {
-            Assert.Less(Math.Abs(_output.R_ra[0, 0] - 0.133030792), 0.000000001);
+            Assert.Less(Math.Abs(_output.R_ra[3, 0] - 0.00230170582), 0.0000000001);
         }
         // Reflection R(rho,time)
         [Test]
-        public void validate_Analog_ROfRhoAndTime()
+        public void validate_CAW_two_layer_ROfRhoAndTime()
         {
-            Assert.Less(Math.Abs(_output.R_rt[2, 1] - 6.18935890), 0.00000001);
+            Assert.Less(Math.Abs(_output.R_rt[4, 0] - 10.1840199), 0.000001);
         }
         // Reflection R(rho,omega)
-        [Test]
-        public void validate_Analog_ROfRhoAndOmega()
-        {
-            Assert.Less(Complex.Abs(
-                _output.R_rw[0, 0] - (0.9284030 - Complex.ImaginaryOne * 0.0007940711)), 0.000001);
-        }
-        // Total Absorption
-        [Test]
-        public void validate_Analog_ATotal()
-        {
-            Assert.Less(Math.Abs(_output.Atot - 0.000562763362), 0.000000000001);
-        }
-        // Absorption A(rho,z)
-        [Test]
-        public void validate_Analog_AOfRhoAndZ()
-        {
-            Assert.Less(Math.Abs(_output.A_rz[0, 6] - 0.00617700489), 0.00000000001);
-        }
+        //[Test]
+        //public void validate_CAW_two_layer_ROfRhoAndOmega()
+        //{
+        //   Assert.Less(Complex.Abs(
+        //        _output.R_rw[0, 0] - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.000001);
+        //}
+        // Total Absorption not coded yet for CAW
+        // Absorption A(rho,z) not coded yet for CAW
+
         // Diffuse Transmittance
         [Test]
-        public void validate_Analog_TDiffuse()
+        public void validate_CAW_two_layer_TDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Td - 0.0194444444), 0.0000000001);
+            Assert.Less(Math.Abs(_output.Td - 0.0158211135), 0.000000001);
         }
         // Transmittance T(rho)
         [Test]
-        public void validate_Analog_TOfRho()
+        public void validate_CAW_two_layer_TOfRho()
         {
-            Assert.Less(Math.Abs(_output.T_r[46] - 0.00332761231), 0.00000000001);
+            Assert.Less(Math.Abs(_output.T_r[50] - 0.000825294502), 0.000000000001);
         }
         // Transmittance T(angle)
         [Test]
-        public void validate_Analog_TOfAngle()
+        public void validate_CAW_two_layer_TOfAngle()
         {
-            Assert.Less(Math.Abs(_output.T_a[0] - 0.00278619040), 0.00000000001);
+            Assert.Less(Math.Abs(_output.T_a[0] - 0.00226700407), 0.00000000001);
         }
         // Transmittance T(rho,angle)
         [Test]
-        public void validate_Analog_TOfRhoAndAngle()
+        public void validate_CAW_two_layer_TOfRhoAndAngle()
         {
-            Assert.Less(Math.Abs(_output.T_ra[46, 0] - 0.000476812876), 0.000000000001);
+            Assert.Less(Math.Abs(_output.T_ra[50,0] - 0.00011825627), 0.00000000001);
         }
-        // Fluence Flu(rho,z)
-        [Test]
-        public void validate_Analog_FluenceOfRhoAndZ()
-        {
-            Assert.Less(Math.Abs(_output.Flu_rz[0, 6] - 0.617700489), 0.000000001);
-        }
-        //[Test]
-        //public void validate_Analog_FluenceOfRhoAndZAndTime()
-        //{
-        //    Assert.Less(Math.Abs(_output.Flu_rzt[0, 6, 0] - 0.617700489), 0.000000001);
-        //}
+        // Fluence Flu(rho,z) not coded yet for CAW
+
         // Reflectance R(x,y)
         [Test]
-        public void validate_Analog_ROfXAndY()
+        public void validate_CAW_two_layer_ROfXAndY()
         {
-            Assert.Less(Math.Abs(_output.R_xy[198, 201] - 0.0097222222), 0.0000000001);
+            Assert.Less(Math.Abs(_output.R_xy[198, 201] - 0.00870566), 0.00000001);
         }
     }
 }

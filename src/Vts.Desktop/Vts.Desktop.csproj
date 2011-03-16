@@ -589,14 +589,8 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\TOfAngleDetector.cs">
       <Link>MonteCarlo\Detectors\TOfAngleDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\TOfAngleTally.cs">
-      <Link>MonteCarlo\Detectors\TOfAngleTally.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs">
       <Link>MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\TOfRhoAndAngleTally.cs">
-      <Link>MonteCarlo\Detectors\TOfRhoAndAngleTally.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TOfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\TOfRhoDetector.cs</Link>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Vts.IO;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Controllers;
 
 namespace Vts.MonteCarlo
 {

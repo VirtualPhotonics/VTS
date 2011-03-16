@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.PhotonData;
 
-namespace Vts.Test.MonteCarlo.TallyActions
+namespace Vts.Test.MonteCarlo.Detectors
 {
     /// <summary>
     /// These tests executes a MC simulation with 100 photons and verify

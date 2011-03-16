@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
+using Vts.MonteCarlo.Tissues;
 
-namespace Vts.MonteCarlo.Tissues
+namespace Vts.MonteCarlo
 {
     /// <summary>
     /// Implements ITissueInput.  Defines input to MultiLayerTissue class.

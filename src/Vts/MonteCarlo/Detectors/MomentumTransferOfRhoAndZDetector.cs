@@ -4,7 +4,7 @@ using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
 
-namespace Vts.MonteCarlo.TallyActions
+namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// Implements IHistoryTally<double[,]>.  Tally for MomentumTransfer(rho,z).

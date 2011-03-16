@@ -5,6 +5,7 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Controllers;
 
 namespace Vts.MonteCarlo.PostProcessing
 {

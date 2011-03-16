@@ -6,7 +6,7 @@ using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 using System.Numerics;
 
-namespace Vts.MonteCarlo.TallyActions
+namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// Implements ITerminationDetector<double[,]>.  Tally for reflectance as a function 

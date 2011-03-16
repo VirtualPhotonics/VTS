@@ -5,10 +5,10 @@ using Vts.Common;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.TallyActions;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Detectors;
 
-namespace Vts.MonteCarlo.Detectors
+namespace Vts.MonteCarlo.Controllers
 {
     public class pMCDetectorController : IDetectorController
     {

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System;
 using Vts.Common;
 using Vts.MonteCarlo.Interfaces;
-using Vts.MonteCarlo.TallyActions;
 using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo.Factories
