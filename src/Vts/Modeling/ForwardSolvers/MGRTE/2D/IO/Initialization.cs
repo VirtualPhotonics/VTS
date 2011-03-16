@@ -12,8 +12,8 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
         public static void Initial(
             int alevel, int alevel0, ref AngularMesh[] amesh,
             int slevel, int slevel0, ref SpatialMesh[] smesh, 
-            ref double[][][] ua, 
-            ref double[][][] us, 
+            ref double[][][] mua, 
+            ref double[][][] mus, 
             int level, int whichmg, int[][] noflevel, 
             ref double[][][][] flux,
             ref double[][][][] d, 
@@ -22,159 +22,30 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
             ref BoundaryCoupling[] b, 
             int vacuum, double index_i, double index_o)
         {
-            string angularMeshFile = "amesh.txt";
-            string spatialMeshFile = "smesh.txt";
-            string absorptionFile = "ua.txt";
-            string scatteringFile = "us.txt";
+            
 
-             //Purpose: in this function, we load the following four ".txt" files:
-             //             1) "amesh.txt": "ns", "a" and "w" for angular mesh
-             //             3) "ua.txt": absorption coefficient
-             //             4) "us.txt": scattering coefficient
+             
             
-             //         we first load the mesh files:
-             //             1.1. "amesh.txt": "ns", "a" and "w" for angular mesh
-            
+             //         we first load the mesh files:           
+             //                       
              //         and then we compute the following for spatial mesh:
-             //             2.1. "smap", "cf" and "fc"
-            
+             //             2.1. "smap", "cf" and "fc"            
              //         and finally malloc the following for multigrid algorithm:
              //             3.1. "noflevel"
-             //             3.2. "ua", "us", "flux", "RHS", "d" and "q"
+             //             3.2. "mua", "mus", "flux", "RHS", "d" and "q"
              //             3.3.  "b"
 
             int tempsize = 20, tempsize2 = 20;
             int i, j, k,m, n, nt, np, ne, ns, da = alevel - alevel0, ds = slevel - slevel0;
             double x1,x2,x3,y1,y2,y3;
-            double tempd;
-            int count;
             int[][] t;
             int[][] e;
             int[][] p2;
             int[][] smap;
             double[][] p;
 
-            MultiGridCycle Mgrid = new MultiGridCycle();
-            Boundary Bound = new Boundary();
-            Reflect Refl   = new Reflect();
-                       
-            // 1.1. load amesh.txt
-            if (File.Exists(angularMeshFile))
-            {
-                using (TextReader reader = File.OpenText(angularMeshFile))
-                {
-                    string text = reader.ReadToEnd();
-                    string[] bits = text.Split('\t');
-                    count = 0;
-                    for (i = 0; i <= alevel; i++)
-                    {
-                        tempd = double.Parse(bits[count]);
-                        amesh[i].ns = (int)tempd;
-                        count++;
-                        amesh[i].a = new double[amesh[i].ns][];                       
-                        for (j = 0; j < amesh[i].ns; j++)
-                        {
-                            amesh[i].a[j] = new double[3];
-                            for (k = 0; k < 3; k++)
-                            {
-                                amesh[i].a[j][ k] = double.Parse(bits[count]);
-                                count++;                                
-                            }
-                        }
-
-                        amesh[i].w = new double[amesh[i].ns, amesh[i].ns];
-                        for (j = 0; j < amesh[i].ns; j++)
-                        {
-                            for (k = 0; k < amesh[i].ns; k++)
-                            {
-                                amesh[i].w[j, k] = double.Parse(bits[count]);
-                                count++;
-                            }
-                        }
-                    }
-                    reader.Close();
-                }
-            }
-            else
-            {
-                Console.WriteLine(angularMeshFile + " does not exist!"); 
-            }
-
-            // 1.2. load smesh.txt
-            //      Notice the index difference in c programming: array indexes from 0 instead of 1,
-            //      we subtract "1" from every integer-valued index here as for "so", "t" and "e" as follow.
-
-            if (File.Exists(spatialMeshFile))
-            {
-                using (TextReader reader = File.OpenText(spatialMeshFile))
-                {
-                    string text = reader.ReadToEnd();
-                    string[] bits = text.Split('\t');
-                    count = 0;
-                    
-                    for (i=0;i<=slevel;i++)
-	                {
-                        tempd = double.Parse(bits[count]); smesh[i].nt = (int)tempd; count++;
-                        tempd = double.Parse(bits[count]); smesh[i].np = (int)tempd; count++;
-                        tempd = double.Parse(bits[count]); smesh[i].ne = (int)tempd; count++;
-
-                        smesh[i].so = new int[amesh[alevel].ns][];
-                        for (j = 0; j < amesh[alevel].ns; j++)
-                        {
-                            smesh[i].so[j] = new int[smesh[i].nt];
-                            for (k = 0; k < smesh[i].nt; k++)
-                            {
-                                tempd = double.Parse(bits[count]);
-                                smesh[i].so[j][k] = (int)tempd - 1;
-                                count++;
-                            }
-                        }
-
-                        smesh[i].p = new double[smesh[i].np][];
-                        for (j = 0; j < smesh[i].np; j++)
-                        {
-                            smesh[i].p[j] = new double[2];
-                            for (k = 0; k < 2; k++)
-                            {
-                                tempd = double.Parse(bits[count]);
-                                smesh[i].p[j][k] = tempd;
-                                count++;
-                            }
-                        }
-                           
-                        smesh[i].t = new int[smesh[i].nt][];
-                        for (j = 0; j < smesh[i].nt; j++)
-                        {
-                            smesh[i].t[j] = new int[3];
-                            for (k = 0; k < 3; k++)
-                            {
-                                tempd = double.Parse(bits[count]);
-                                smesh[i].t[j][k] = (int)tempd - 1;
-                                count++;
-                            }
-                        }
-     
-                       smesh[i].e = new int[smesh[i].ne][];
-                        for (j = 0; j < smesh[i].ne; j++)
-                        {
-                            smesh[i].e[j] = new int[4];
-                            smesh[i].e[j][0]=-1;
-                            smesh[i].e[j][3]=-1;           
-                            for (k = 1; k < 3; k++)
-                            {
-                                tempd = double.Parse(bits[count]);
-                                smesh[i].e[j][k] = (int)tempd - 1;
-                                count++;
-                            }
-                        }   
-                    }
-                    reader.Close();
-                }
-            }
-            else
-            {
-                Console.WriteLine(spatialMeshFile + " does not exist!"); 
-            }
+            ReadDataFiles.ReadAmesh(alevel, slevel, ref amesh);
+            ReadDataFiles.ReadSmesh(alevel, slevel, amesh, ref smesh);            
 
             // 2.1. compute "c", "ec", "a" and "p2"
             //      p2[np][p2[np][0]+1]: triangles adjacent to one node
@@ -210,7 +81,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                     x1 = p[t[j][0]][0]; y1 = p[t[j][0]][1];
                     x2 = p[t[j][1]][0]; y2 = p[t[j][1]][1];
                     x3 = p[t[j][2]][0]; y3 = p[t[j][2]][1];
-                    smesh[i].a[j] = Mgrid.Area(x1, y1, x2, y2, x3, y3);//area of triangle
+                    smesh[i].a[j] =  MultiGridCycle.Area(x1, y1, x2, y2, x3, y3);//area of triangle
                 }
 
                 p2 = new int[np][];               
@@ -268,7 +139,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                     for (k = 1; k < tempsize2; k++)
                     { smap[j][k] = -1; }
                 }
-                Mgrid.SpatialMapping(smesh[i - 1], smesh[i], smap);
+                 MultiGridCycle.SpatialMapping(smesh[i - 1], smesh[i], smap);
 
                 for (j = 0; j < smesh[i - 1].nt; j++)
                 {
@@ -310,7 +181,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                         { smesh[i].fc[j][k][m] = new double[3]; ; }
                     }
                 }
-                Mgrid.SpatialMapping2(smesh[i - 1], smesh[i], smesh[i].smap, smesh[i].cf, smesh[i].fc, tempsize2);
+                 MultiGridCycle.SpatialMapping2(smesh[i - 1], smesh[i], smesh[i].smap, smesh[i].cf, smesh[i].fc, tempsize2);
             }
 
             // 2.3. compute "e", "e2", "so2", "n" and "ori"
@@ -328,7 +199,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                 { smesh[i].n[j] = new double[2]; }
                 smesh[i].ori = new int[smesh[i].ne];
 
-                Bound.Bound(smesh[i].ne, smesh[i].nt, smesh[i].t, smesh[i].p2, smesh[i].p, smesh[i].e, smesh[i].e2, smesh[i].so2, smesh[i].n, smesh[i].ori);
+                 MultiGridCycle.Bound(smesh[i].ne, smesh[i].nt, smesh[i].t, smesh[i].p2, smesh[i].p, smesh[i].e, smesh[i].e2, smesh[i].so2, smesh[i].n, smesh[i].ori);
             }
 
             // 2.4. compute "bd" and "bd2"
@@ -360,7 +231,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
             for (i = 0; i <= slevel; i++)
             {
                 for (j = 0; j < amesh[alevel].ns; j++)
-                { Bound.EdgeTri(smesh[i].nt, amesh[alevel].a[j], smesh[i].p, smesh[i].p2, smesh[i].t, smesh[i].bd[j], smesh[i].bd2[j], smesh[i].so2); }
+                {  MultiGridCycle.EdgeTri(smesh[i].nt, amesh[alevel].a[j], smesh[i].p, smesh[i].p2, smesh[i].t, smesh[i].bd[j], smesh[i].bd2[j], smesh[i].so2); }
             }
 
             // 3.1. compute "noflevel"
@@ -516,179 +387,108 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                     break;
             }
 
-            // 3.2. malloc "ua", "us", "flux", "RHS", "d" and "q"
-            //      ua[level][nt][2]:absorption coefficient
-            //      us[level][nt][2]:scattering coefficient
+            // 3.2. malloc "mua", "mus", "flux", "RHS", "d" and "q"
+            //      mua[level][nt][2]:absorption coefficient
+            //      mus[level][nt][2]:scattering coefficient
             //      flux[level][ns][nt][2]: photon flux
             //      RHS[level][ns][nt][2]: source term
             //      d[level][ns][nt][2]: residual
             //      q[level][2][ns]: boundary source
+
+            ReadDataFiles.ReadMua(slevel, smesh, ref mua);
+            ReadDataFiles.ReadMus(slevel, smesh, ref mus);                         
+
+               
+
+            for (i = slevel - 1; i >= 0; i--)
             {
-                //Collect us data
-                ua[slevel] = new double[smesh[slevel].nt][];
-                if (File.Exists(absorptionFile))
+                mua[i] = new double[smesh[i].nt][];
+                mus[i] = new double[smesh[i].nt][];
+                for (j = 0; j < smesh[i].nt; j++)
                 {
-                    using (TextReader reader = File.OpenText(absorptionFile))
-                    {
-                        string text = reader.ReadToEnd();
-                        string[] bits = text.Split('\t');
-                        count = 0;
-
-                        for (j = 0; j < smesh[slevel].nt; j++)
-                        {
-                            ua[slevel][j] = new double[3];
-                            for (k = 0; k < 3; k++)
-                            { 
-                                ua[slevel][j][k] = double.Parse(bits[count]);                                
-                                count++; 
-                            }
-                        }
-                        reader.Close();
-                    }
+                    mua[i][j] = new double[3];
+                    mus[i][j] = new double[3];
                 }
-                else
-                {
-                    Console.WriteLine(absorptionFile + " does not exist!"); 
-                }
-                               
-
-                //Collect us data
-                us[slevel] = new double[smesh[slevel].nt][];
-                if (File.Exists(scatteringFile))
-                {
-                    using (TextReader reader = File.OpenText(scatteringFile))
-                    {
-                        string text = reader.ReadToEnd();
-                        string[] bits = text.Split('\t');
-                        count = 0;
-
-                        for (j = 0; j < smesh[slevel].nt; j++)
-                        {
-                            us[slevel][j] = new double[3];
-                            for (k = 0; k < 3; k++)
-                            {
-                                us[slevel][j][k] = double.Parse(bits[count]);
-                                count++;
-                            }
-                        }
-                        reader.Close();
-                    }                    
-                }
-                else
-                {
-                    Console.WriteLine(scatteringFile + " does not exist!"); 
-                }
-
-                for (i = slevel - 1; i >= 0; i--)
-                {
-                    ua[i] = new double[smesh[i].nt][];
-                    us[i] = new double[smesh[i].nt][];
-                    for (j = 0; j < smesh[i].nt; j++)
-                    {
-                        ua[i][j] = new double[3];
-                        us[i][j] = new double[3];
-                    }
-                    Mgrid.FtoC_s2(smesh[i].nt, ua[i + 1], ua[i], smesh[i + 1].smap, smesh[i + 1].fc);
-                    Mgrid.FtoC_s2(smesh[i].nt, us[i + 1], us[i], smesh[i + 1].smap, smesh[i + 1].fc);
-                }
+                 MultiGridCycle.FtoC_s2(smesh[i].nt, mua[i + 1], mua[i], smesh[i + 1].smap, smesh[i + 1].fc);
+                 MultiGridCycle.FtoC_s2(smesh[i].nt,mus[i + 1], mus[i], smesh[i + 1].smap, smesh[i + 1].fc);
+            }
 
                 
-                for (n = 0; n <= level; n++)
+            for (n = 0; n <= level; n++)
+            {
+                nt = smesh[noflevel[n][0]].nt;
+                ns = amesh[noflevel[n][1]].ns;
+                RHS[n] = new double[ns][][];
+                for (i = 0; i < ns; i++)
                 {
-                    nt = smesh[noflevel[n][0]].nt;
-                    ns = amesh[noflevel[n][1]].ns;
-                    RHS[n] = new double[ns][][];
-                    for (i = 0; i < ns; i++)
+                    RHS[n][i] = new double[nt][];
+                    for (j = 0; j < nt; j++)
                     {
-                        RHS[n][i] = new double[nt][];
-                        for (j = 0; j < nt; j++)
+                        RHS[n][i][j] = new double[3];
+                        for (k = 0; k < 3; k++)
                         {
-                            RHS[n][i][j] = new double[3];
-                            for (k = 0; k < 3; k++)
-                            {
-                                RHS[n][i][j][k] = 0;
-                            }
-                        }
-                    }
-                }
-
-                for (n = 0; n <= level; n++)
-                {
-                    nt = smesh[noflevel[n][0]].nt;
-                    ns = amesh[noflevel[n][1]].ns;
-                    d[n] = new double[ns][][];
-                    for (i = 0; i < ns; i++)
-                    {
-                        d[n][i] = new double[nt][];
-                        for (j = 0; j < nt; j++)
-                        {
-                            d[n][i][j] = new double[3];
-                            for (k = 0; k < 3; k++)
-                            {
-                                d[n][i][j][k] = 0;
-                            }
-                        }
-                    }
-                }
-                for (n = 0; n <= level; n++)
-                {
-                    nt = smesh[noflevel[n][0]].nt;
-                    ns = amesh[noflevel[n][1]].ns;
-                    flux[n] = new double[ns][][];
-                    for (i = 0; i < ns; i++)
-                    {
-                        flux[n][i] = new double[nt][];
-                        for (j = 0; j < nt; j++)
-                        {
-                            flux[n][i][j] = new double[3];
-                            for (k = 0; k < 3; k++)
-                            {
-                                flux[n][i][j][k] = 0;
-                            }
-                        }
-                    }
-                }
-
-                /*	for(n=0;n<=level;n++)
-                  {   nt=smesh[noflevel[n][0]].nt;
-                      ns=amesh[noflevel[n][1]].ns;
-                      RHS[n]=malloc(ns*sizeof(double **));
-                      d[n]=malloc(ns*sizeof(double **));
-                      flux[n]=malloc(ns*sizeof(double **));
-                      for (i=0;i<ns;i++)
-                      {	RHS[n][i]=malloc(nt*sizeof(double *));
-                          d[n][i]=malloc(nt*sizeof(double *));
-                          flux[n][i]=malloc(nt*sizeof(double *));
-                          for(j=0;j<nt;j++)
-                          {   RHS[n][i][j]=malloc(3*sizeof(double));
-                              d[n][i][j]=malloc(3*sizeof(double));
-                              flux[n][i][j]=malloc(3*sizeof(double));
-                              for(k=0;k<3;k++)
-                              {   RHS[n][i][j][k].r=0;RHS[n][i][j][k].i=0;
-                                  d[n][i][j][k].r=0;d[n][i][j][k].i=0;
-                                  flux[n][i][j][k].r=0;flux[n][i][j][k].i=0;
-                              }
-                          }
-                      }
-                  }*/
-
-                for (n = 0; n <= level; n++)
-                {
-                    ne = smesh[noflevel[n][0]].ne;
-                    ns = amesh[noflevel[n][1]].ns;
-                    q[n] = new double[ns][][];
-                    for (i = 0; i < ns; i++)
-                    {
-                        q[n][i] = new double [ne][];
-                        for (j = 0; j < ne; j++)
-                        {
-                            q[n][i][j] = new double[2];
-                            for (k = 0; k < 2; k++)
-                            { q[n][i][j][k] = 0; }
+                            RHS[n][i][j][k] = 0;
                         }
                     }
                 }
             }
+
+            for (n = 0; n <= level; n++)
+            {
+                nt = smesh[noflevel[n][0]].nt;
+                ns = amesh[noflevel[n][1]].ns;
+                d[n] = new double[ns][][];
+                for (i = 0; i < ns; i++)
+                {
+                    d[n][i] = new double[nt][];
+                    for (j = 0; j < nt; j++)
+                    {
+                        d[n][i][j] = new double[3];
+                        for (k = 0; k < 3; k++)
+                        {
+                            d[n][i][j][k] = 0;
+                        }
+                    }
+                }
+            }
+            for (n = 0; n <= level; n++)
+            {
+                nt = smesh[noflevel[n][0]].nt;
+                ns = amesh[noflevel[n][1]].ns;
+                flux[n] = new double[ns][][];
+                for (i = 0; i < ns; i++)
+                {
+                    flux[n][i] = new double[nt][];
+                    for (j = 0; j < nt; j++)
+                    {
+                        flux[n][i][j] = new double[3];
+                        for (k = 0; k < 3; k++)
+                        {
+                            flux[n][i][j][k] = 0;
+                        }
+                    }
+                }
+            }
+
+           
+
+            for (n = 0; n <= level; n++)
+            {
+                ne = smesh[noflevel[n][0]].ne;
+                ns = amesh[noflevel[n][1]].ns;
+                q[n] = new double[ns][][];
+                for (i = 0; i < ns; i++)
+                {
+                    q[n][i] = new double [ne][];
+                    for (j = 0; j < ne; j++)
+                    {
+                        q[n][i][j] = new double[2];
+                        for (k = 0; k < 2; k++)
+                        { q[n][i][j][k] = 0; }
+                    }
+                }
+            }
+            
 
 
             // 3.3. compute "b"
@@ -764,8 +564,8 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                         for (k = 0; k < ns; k++)
                             b[i].so2[j][k] = new double[2];
                     }
-                                        
-                    Refl.BoundReflection(ns, amesh[noflevel[i][1]].a, smesh[noflevel[i][0]], index_i, index_o, b[i]);
+
+                     MultiGridCycle.BoundReflection(ns, amesh[noflevel[i][1]].a, smesh[noflevel[i][0]], index_i, index_o, b[i]);
                 }
             }
         stop: ;

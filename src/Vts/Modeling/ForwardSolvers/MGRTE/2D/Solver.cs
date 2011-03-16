@@ -101,7 +101,6 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             double[][][][] flux = new double[level + 1][][][];
             double[][][][] q = new double[level + 1][][][];
 
-            MultiGridCycle Mgrid = new MultiGridCycle();
             Output Rteout = new Output();
             Source Insource = new Source();
 
@@ -122,7 +121,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             TimeSpan duration1 = stopTime1 - startTime1;
 
 
-            Console.WriteLine("Initlalization for RTE_1D takes {0} seconds.\n", duration1.TotalSeconds);
+            Console.WriteLine("Initlalization for RTE_2D takes {0} seconds.\n", duration1.TotalSeconds);
 
             //step 2: RTE solver
             DateTime startTime2 = DateTime.Now;
@@ -138,17 +137,17 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
                     ns1 = amesh[noflevel[n][1]].ns;
                     if (nt1 == nt2)
                     {
-                        Mgrid.FtoC_a(nt1, ns1, RHS[n + 1], RHS[n]);
+                         MultiGridCycle.FtoC_a(nt1, ns1, RHS[n + 1], RHS[n]);
                     }
                     else
                     {
                         if (ns1 == ns2)
                         {
-                            Mgrid.FtoC_s(nt1, ns1, RHS[n + 1], RHS[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].fc);
+                             MultiGridCycle.FtoC_s(nt1, ns1, RHS[n + 1], RHS[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].fc);
                         }
                         else
                         {
-                            Mgrid.FtoC(nt1, ns1, RHS[n + 1], RHS[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].fc);
+                             MultiGridCycle.FtoC(nt1, ns1, RHS[n + 1], RHS[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].fc);
                         }
 
                     }
@@ -166,14 +165,14 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
                         {
                             for (i = 0; i < para.N3; i++)
                             {
-                                res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 6);
+                                res =  MultiGridCycle.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 6);
                             }
                         }
                         else
                         {
                             for (i = 0; i < para.N3; i++)
                             {
-                                Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 7);
+                                 MultiGridCycle.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 7);
                             }
                         }
                     }
@@ -185,14 +184,14 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
                             {
                                 for (i = 0; i < para.N3; i++)
                                 {
-                                    Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 7);
+                                     MultiGridCycle.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 7);
                                 }
                             }
                             else
                             {
                                 for (i = 0; i < para.N3; i++)
                                 {
-                                    Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 6);
+                                     MultiGridCycle.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 6);
                                 }
                             }
                         }
@@ -200,7 +199,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
                         {
                             for (i = 0; i < para.N3; i++)
                             {
-                                Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, para.Whichmg);
+                                 MultiGridCycle.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, para.Whichmg);
                             }
                         }
                     }
@@ -209,17 +208,17 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
                     ns2 = amesh[noflevel[n + 1][1]].ns;
                     if (nt1 == nt2)
                     {
-                        Mgrid.CtoF_a(nt1, ns1, flux[n + 1], flux[n]);
+                         MultiGridCycle.CtoF_a(nt1, ns1, flux[n + 1], flux[n]);
                     }
                     else
                     {
                         if (ns1 == ns2)
                         {
-                            Mgrid.CtoF_s(nt1, ns1, flux[n + 1], flux[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].cf);
+                             MultiGridCycle.CtoF_s(nt1, ns1, flux[n + 1], flux[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].cf);
                         }
                         else
                         {
-                            Mgrid.CtoF(nt1, ns1, flux[n + 1], flux[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].cf);
+                             MultiGridCycle.CtoF(nt1, ns1, flux[n + 1], flux[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].cf);
                         }
                     }
                     nt1 = nt2; ns1 = ns2;
@@ -250,7 +249,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
                 startTime1 = DateTime.Now;
 
                 n++;
-                res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, para.Alevel, para.Alevel0, para.Slevel, para.Slevel0, ns, vacuum, para.Whichmg);
+                res =  MultiGridCycle.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, para.Alevel, para.Alevel0, para.Slevel, para.Slevel0, ns, vacuum, para.Whichmg);
                 for (m = 0; m < level; m++)
                 {
                     for (i = 0; i < amesh[noflevel[m][1]].ns; i++)
@@ -289,8 +288,8 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             }
 
             // 2.3. compute the residual
-            Mgrid.Defect(amesh[para.Alevel], smesh[para.Slevel], ns, RHS[level], ua[para.Slevel], us[para.Slevel], flux[level], b[level], q[level], d[level], vacuum);
-            res = Mgrid.Residual(smesh[para.Slevel].nt, amesh[para.Alevel].ns, d[level], smesh[para.Slevel].a);
+             MultiGridCycle.Defect(amesh[para.Alevel], smesh[para.Slevel], ns, RHS[level], ua[para.Slevel], us[para.Slevel], flux[level], b[level], q[level], d[level], vacuum);
+            res =  MultiGridCycle.Residual(smesh[para.Slevel].nt, amesh[para.Alevel].ns, d[level], smesh[para.Slevel].a);
 
             /* Read the start time. */
             DateTime stopTime2 = DateTime.Now;

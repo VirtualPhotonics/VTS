@@ -8,7 +8,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
 {
     public class Output
     {
-        public double Pi = 3.141592653589793;
+        public double Pi = GlobalConstants.Pi;
 
         
 
@@ -23,8 +23,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
         //              "output.txt": "output"
         {
             Measurement Det = new Measurement();
-            MultiGridCycle Mgrid = new MultiGridCycle();
-            Reflect Refl = new Reflect();
+                      
 
             double temp, temp2;
             int i, j, k, m, ang, tri = -1, edge, count;
@@ -159,14 +158,14 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
                     x = Det.coord[i][0]; y = Det.coord[i][1];
                     for (j = 0; j < nt; j++)
                     {
-                        tri = Mgrid.FindMin(nt, distance);
+                        tri =  MultiGridCycle.FindMin(nt, distance);
                         distance[tri] = 1e10;
                         x1 = p[t[tri][0] - 1][0]; y1 = p[t[tri][0] - 1][1];
                         x2 = p[t[tri][1] - 1][0]; y2 = p[t[tri][1] - 1][1];
                         x3 = p[t[tri][2] - 1][0]; y3 = p[t[tri][2] - 1][1];
-                        area[0] = Mgrid.Area(x, y, x2, y2, x3, y3);
-                        area[1] = Mgrid.Area(x1, y1, x, y, x3, y3);
-                        area[2] = Mgrid.Area(x1, y1, x2, y2, x, y);
+                        area[0] =  MultiGridCycle.Area(x, y, x2, y2, x3, y3);
+                        area[1] =  MultiGridCycle.Area(x1, y1, x, y, x3, y3);
+                        area[2] =  MultiGridCycle.Area(x1, y1, x2, y2, x, y);
                         tempd = area[0] + area[1] + area[2];
                         if (Math.Abs(tempd - a[tri]) / a[tri] < 1e-2)
                         {
@@ -193,7 +192,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
                     }
                     else// angular-resolved measurement (flux)
                     {
-                        Refl.Intepolation_a(Det.coord[i][2], dtheta, ns, w_a, w_a2, 1.0);//angular interpolation
+                         MultiGridCycle.Intepolation_a(Det.coord[i][2], dtheta, ns, w_a, w_a2, 1.0);//angular interpolation
                         for (k = 0; k < 3; k++)
                         {
                             temp = 0;
@@ -223,11 +222,11 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
                         }
                     }
                     x = Det.coord[i][0]; y = Det.coord[i][1];
-                    edge = Mgrid.FindMin(ne, distance);
+                    edge =  MultiGridCycle.FindMin(ne, distance);
                     x1 = p[e[edge][1]][0]; y1 = p[e[edge][1]][1];
                     x2 = p[e[edge][2]][0]; y2 = p[e[edge][2]][1];
-                    l[0] = Mgrid.Length(x, y, x2, y2);
-                    l[1] = Mgrid.Length(x1, y1, x, y);
+                    l[0] =  MultiGridCycle.Length(x, y, x2, y2);
+                    l[1] =  MultiGridCycle.Length(x1, y1, x, y);
                     tempd = l[0] + l[1];
                     for (k = 0; k < 2; k++)
                     { w_s[k] = l[k] / tempd; }
@@ -254,7 +253,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
                         }
                         else
                         {
-                            Refl.Intepolation_a(Det.coord[i][2], dtheta, ns, w_a, w_a2, 1.0);
+                             MultiGridCycle.Intepolation_a(Det.coord[i][2], dtheta, ns, w_a, w_a2, 1.0);
                             for (k = 0; k < 2; k++)// boundary interpolation
                             {
                                 temp = 0;
@@ -292,7 +291,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
                         }
                         else
                         {
-                            Refl.Intepolation_a(Det.coord[i][2], dtheta, ns, w_a, w_a2, 1.0);// angular weights
+                             MultiGridCycle.Intepolation_a(Det.coord[i][2], dtheta, ns, w_a, w_a2, 1.0);// angular weights
                             for (k = 0; k < 2; k++)// boundary interpolation
                             {
                                 temp2 = 0;

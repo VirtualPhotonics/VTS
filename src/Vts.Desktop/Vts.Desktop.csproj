@@ -310,9 +310,6 @@
     <Compile Include="..\Vts\Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs">
       <Link>Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\Boundary.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\Boundary.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\AngularMesh.cs">
       <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\AngularMesh.cs</Link>
     </Compile>
@@ -340,14 +337,14 @@
     <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\ParametersIO.cs">
       <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\ParametersIO.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\ReadDataFiles.cs">
+      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\ReadDataFiles.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs">
       <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\MultiGridCycle.cs">
       <Link>Modeling\ForwardSolvers\MGRTE\2D\MultiGridCycle.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\Reflect.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\Reflect.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\Solver.cs">
       <Link>Modeling\ForwardSolvers\MGRTE\2D\Solver.cs</Link>
