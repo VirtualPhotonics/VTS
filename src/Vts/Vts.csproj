@@ -246,28 +246,28 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensions.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationOptions.cs" />
-    <Compile Include="MonteCarlo\Detectors\AOfRhoAndZDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\ATotalDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCRofRhoAndTimeDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\TOfRhoAndAngleDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\TOfRhoDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\TOfAngleDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\TDiffuseDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\ROfRhoAndOmegaDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\ROfXAndYDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\ROfRhoAndAngleDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\ROfAngleDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\RDiffuseDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\ROfRhoAndTimeDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\DetectorController.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCDetectorController.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ATotalDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCRofRhoAndTimeDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZAndTimeDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\TOfRhoAndAngleDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\TOfRhoDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\TOfAngleDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\TDiffuseDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndOmegaDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfXAndYDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndAngleDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RDiffuseDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndTimeDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs" />
+    <Compile Include="MonteCarlo\Controllers\DetectorController.cs" />
+    <Compile Include="MonteCarlo\Controllers\pMCDetectorController.cs" />
     <Compile Include="MonteCarlo\Factories\AbsorptionActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\DetectorBinning.cs" />
-    <Compile Include="MonteCarlo\Detectors\ROfRhoDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCRofRhoDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCRofRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\Enums.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorFactory.cs" />
     <Compile Include="MonteCarlo\Factories\RandomNumberGeneratorFactory.cs" />
@@ -307,32 +307,32 @@
     <Compile Include="MonteCarlo\Sources\CustomPointSource.cs" />
     <Compile Include="MonteCarlo\Sources\SourceBase.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
-    <Compile Include="MonteCarlo\TallyActions\AOfRhoAndZDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ATotalDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\HistoryTallyBase.cs" />
-    <Compile Include="MonteCarlo\TallyActions\MomentumTransferOfRhoAndZDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\pMCMuaMusROfRhoAndTimeDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\pMCMuaMusROfRhoDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\RDiffuseDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ROfAngleDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ROfRhoAndAngleDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ROfRhoAndOmegaDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ROfRhoAndTimeDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ROfRhoDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\RofXAndYDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TallyBase.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TallyExtensionMethods.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TDiffuseDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TOfAngleDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TOfRhoAndAngleDetector.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TOfRhoDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\AOfRhoAndZDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ATotalDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\HistoryTallyBase.cs" />
+    <Compile Include="MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\pMCMuaMusROfRhoAndTimeDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\pMCMuaMusROfRhoDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\RDiffuseDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfAngleDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfRhoAndTimeDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfRhoDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\RofXAndYDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\TallyBase.cs" />
+    <Compile Include="MonteCarlo\Detectors\TallyExtensionMethods.cs" />
+    <Compile Include="MonteCarlo\Detectors\TDiffuseDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\TOfAngleDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\TOfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Tissues\CylinderRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\EllipsoidRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\LayerRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\MultiLayerTissue.cs" />
-    <Compile Include="MonteCarlo\Tissues\MultiLayerTissueInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
     <Compile Include="MonteCarlo\Tissues\MultiLayerTissueProvider.cs" />
     <Compile Include="MonteCarlo\Tissues\SingleEllipsoidTissue.cs" />
     <Compile Include="MonteCarlo\Tissues\TissueBase.cs" />
@@ -452,7 +452,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
