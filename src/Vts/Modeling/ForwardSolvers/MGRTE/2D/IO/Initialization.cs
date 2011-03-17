@@ -10,17 +10,23 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
     class Initialization
     {
         public static void Initial(
-            int alevel, int alevel0, ref AngularMesh[] amesh,
-            int slevel, int slevel0, ref SpatialMesh[] smesh, 
-            ref double[][][] mua, 
-            ref double[][][] mus, 
-            int level, int whichmg, int[][] noflevel, 
+            int alevel, int alevel0, 
+            int slevel, int slevel0, 
+            double[][][] mua, 
+            double[][][] mus, 
+            bool vacuum, 
+            double index_i, 
+            double index_o,
+            int level, 
+            int whichmg, 
+            int[][] noflevel,
+            ref AngularMesh[] amesh,
+            ref SpatialMesh[] smesh, 
             ref double[][][][] flux,
             ref double[][][][] d, 
             ref double[][][][] RHS,
             ref double[][][][] q, 
-            ref BoundaryCoupling[] b, 
-            int vacuum, double index_i, double index_o)
+            ref BoundaryCoupling[] b)
         {
             
 
@@ -44,8 +50,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
             int[][] smap;
             double[][] p;
 
-            ReadDataFiles.ReadAmesh(alevel, slevel, ref amesh);
-            ReadDataFiles.ReadSmesh(alevel, slevel, amesh, ref smesh);            
+                     
 
             // 2.1. compute "c", "ec", "a" and "p2"
             //      p2[np][p2[np][0]+1]: triangles adjacent to one node
@@ -395,8 +400,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
             //      d[level][ns][nt][2]: residual
             //      q[level][2][ns]: boundary source
 
-            ReadDataFiles.ReadMua(slevel, smesh, ref mua);
-            ReadDataFiles.ReadMus(slevel, smesh, ref mus);                         
+                       
 
                
 
@@ -493,7 +497,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
 
             // 3.3. compute "b"
             //      For the data structure of "b", see "boundarycoupling".
-            if (vacuum == 0)// we need "b" only in the presence of refraction index mismatch at the domain boundary.
+            if (!vacuum)// we need "b" only in the presence of refraction index mismatch at the domain boundary.
             {
                 for (i = 0; i <= level; i++)
                 {

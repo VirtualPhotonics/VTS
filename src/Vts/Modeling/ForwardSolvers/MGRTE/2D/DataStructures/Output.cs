@@ -12,7 +12,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
 
         
 
-        public void RteOutput(double[][][] flux, double[][][] q, AngularMesh amesh, SpatialMesh smesh, BoundaryCoupling b, int vacuum)
+        public void RteOutput(double[][][] flux, double[][][] q, AngularMesh amesh, SpatialMesh smesh, BoundaryCoupling b, bool vacuum)
 
         // Purpose: this function is to write measurements to three ".txt" files given the input file "det.txt".
         //          Input:
@@ -234,7 +234,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
                     tri = e[edge][0];
 
                     Det.output[i] = 0;
-                    if (vacuum == 1)// vacuum B.C.
+                    if (vacuum)// vacuum B.C.
                     {
                         if (Det.A == 1)
                         {

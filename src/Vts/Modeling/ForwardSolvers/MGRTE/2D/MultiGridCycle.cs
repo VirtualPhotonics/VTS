@@ -137,7 +137,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
 
         public static double MgCycle(AngularMesh[] amesh, SpatialMesh[] smesh, BoundaryCoupling[] b, double[][][][] q, 
             double[][][][] RHS, double[][][] ua, double[][][] us, double[][][][] flux, double[][][][] d,
-            int n1, int n2, int alevel, int alevel0, int slevel, int slevel0, int NS, int vacuum, int whichmg)
+            int n1, int n2, int alevel, int alevel0, int slevel, int slevel0, int NS, bool vacuum, int whichmg)
 
         // Purpose: this function contains the multigrid methods with V-cycle.
         //     AMG: angular multigrid method.
@@ -410,7 +410,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
 
 
         public static void Defect(AngularMesh amesh, SpatialMesh smesh, int Ns, double[][][] RHS, double[][] ua, double[][] us, double[][][] flux,
-        BoundaryCoupling bb, double[][][] q, double[][][] res, int vacuum)
+        BoundaryCoupling bb, double[][][] q, double[][][] res, bool vacuum)
 
         // Purpose: this function is to compute the residual with vacuum or reflection boundary condition.
         //          see "relaxation" for more details.
@@ -434,7 +434,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
 
             alevel = Ns / amesh.ns;
 
-            if (vacuum == 0)
+            if (!vacuum)
             {
                 for (i = 0; i < amesh.ns; i++)
                 {
@@ -628,7 +628,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
 
 
         public static void Relaxation(AngularMesh amesh, SpatialMesh smesh, int Ns, double[][][] RHS, double[][] ua, double[][] us, double[][][] flux,
-        BoundaryCoupling bb, double[][][] q, int vacuum)
+        BoundaryCoupling bb, double[][][] q, bool vacuum)
 
         // Purpose: this function is improved source-iteration (ISI) with vacuum or reflection boundary condition.
         {
@@ -653,7 +653,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             index[2, 0] = 0; index[2, 1] = 1;
 
 
-            if (vacuum == 0)// reflection boundary condition
+            if (!vacuum)// reflection boundary condition
             {
                 for (i = 0; i < ns; i++)
                 {
@@ -1396,7 +1396,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             }
         }
 
-        public static double Reflection(double theta_i, double ni, double no)
+        private static double Reflection(double theta_i, double ni, double no)
         // Purpose: this function is to find the reflection energy ratio for the reflected angle "theta_i" by tracing-back computation.
         {
             double r, theta_t, temp1, temp2;
@@ -1424,7 +1424,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
         }
 
 
-        public static void Refraction(double[] temp, double theta_r, double ni, double no)
+        private static void Refraction(double[] temp, double theta_r, double ni, double no)
         // Purpose: this function is to find the refraction energy ratio for the refracted angle "theta_r" by tracing-back computation.
         {
             double r, theta_i, temp1, temp2;

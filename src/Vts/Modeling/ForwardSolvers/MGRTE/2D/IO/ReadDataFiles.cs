@@ -14,10 +14,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
     //             4) "us.txt": scattering coefficient
     public class ReadDataFiles
     {
-        public static void ReadAmesh(
-            int alevel, 
-            int slevel,
-            ref AngularMesh[] amesh)
+        public static void ReadAmesh(int alevel, int slevel, ref AngularMesh[] amesh)
           
         {
             int i, j, k, count;
@@ -69,11 +66,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
         }
         
 
-        public static void ReadSmesh(
-            int alevel,
-            int slevel,
-            AngularMesh[] amesh,
-            ref SpatialMesh[] smesh)
+        public static void ReadSmesh(int alevel, int slevel, AngularMesh[] amesh, ref SpatialMesh[] smesh)
         {
             int i, j, k, count;
             double tempd;           
@@ -158,10 +151,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
         }
 
 
-        public static void ReadMua(
-            int slevel,
-            SpatialMesh[] smesh,
-            ref double[][][] mua)
+        public static void ReadMua(int slevel, SpatialMesh[] smesh, ref double[][][] mua)
         {
             int j, k, count;
             string absorptionFile = "mua.txt";
@@ -196,10 +186,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
         }
 
 
-        public static void ReadMus(            
-            int slevel, 
-            SpatialMesh[] smesh,
-            ref double[][][] mus)
+        public static void ReadMus(int slevel, SpatialMesh[] smesh, ref double[][][] mus)
         {
             int j, k, count;                     
             string scatteringFile = "mus.txt";
@@ -233,5 +220,76 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
             }
 
         }
+
+
+        public static void ReadIntSource(int slevel, SpatialMesh[] smesh, ref double[][][] mus)
+        {
+            int j, k, count;
+            string scatteringFile = "mus.txt";
+
+            //Collect mus data
+            mus[slevel] = new double[smesh[slevel].nt][];
+
+            if (File.Exists(scatteringFile))
+            {
+                using (TextReader reader = File.OpenText(scatteringFile))
+                {
+                    string text = reader.ReadToEnd();
+                    string[] bits = text.Split('\t');
+                    count = 0;
+
+                    for (j = 0; j < smesh[slevel].nt; j++)
+                    {
+                        mus[slevel][j] = new double[3];
+                        for (k = 0; k < 3; k++)
+                        {
+                            mus[slevel][j][k] = double.Parse(bits[count]);
+                            count++;
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+            else
+            {
+                Console.WriteLine(scatteringFile + " does not exist!");
+            }
+        }
+
+
+
+        public static void ReadBoundSource(int slevel, SpatialMesh[] smesh, ref double[][][] mus)
+        {
+            int j, k, count;
+            string internalSourceFile = "source.txt";
+
+
+
+            if (File.Exists(internalSourceFile))
+            {
+                using (TextReader reader = File.OpenText(internalSourceFile))
+                {
+                    string text = reader.ReadToEnd();
+                    string[] bits = text.Split('\t');
+                    count = 0;
+
+                    for (j = 0; j < smesh[slevel].nt; j++)
+                    {
+                        mus[slevel][j] = new double[3];
+                        for (k = 0; k < 3; k++)
+                        {
+                            mus[slevel][j][k] = double.Parse(bits[count]);
+                            count++;
+                        }
+                    }
+                    reader.Close();
+                }
+            }
+            else
+            {
+                Console.WriteLine(internalSourceFile + " does not exist!");
+            }
+        }
+
     }
 }
