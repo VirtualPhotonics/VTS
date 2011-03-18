@@ -1,7 +1,8 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
-using Vts.IO;
-using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Controllers;
 
@@ -17,13 +18,10 @@ namespace Vts.MonteCarlo
 
         private ISource _source;
         private ITissue _tissue;
-        private DetectorController _detector;
+        private DetectorController _detectorController;
         private long numberOfPhotons;
-        private string outputFilename;
 
-        // todo: Why is this static? (DJC 2011-01-16)
-        protected static SimulationInput _input;
-
+        protected SimulationInput _input;
         private Random _rng;
 
         public MonteCarloSimulation(SimulationInput input)
@@ -31,28 +29,19 @@ namespace Vts.MonteCarlo
             // all field/property defaults should be set here
             _input = input;
             numberOfPhotons = input.N;
-            outputFilename = input.OutputFileName;
 
             WRITE_EXIT_HISTORIES = input.Options.WriteHistories;// Added by DC 2009-08-01
             ABSORPTION_WEIGHTING = input.Options.AbsorptionWeightingType; // CKH add 12/14/09
 
-            // CKH TODO: GeneratorProvider
-            switch (input.Options.RandomNumberGeneratorType)
-            {
-                case RandomNumberGeneratorType.MersenneTwister:
-                    _rng = new MathNet.Numerics.Random.MersenneTwister(input.Options.Seed);
-                    break;
-                //case RandomNumberGeneratorType.Mcch:
-                //default:
-                //    this.rng = new MCCHGenerator(input.Options.Seed);
-                //    break;
-            }
+
+            _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                input.Options.RandomNumberGeneratorType, input.Options.Seed);
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            _tissue = Factories.TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, PhaseFunctionType.HenyeyGreenstein);
-            _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
-            _detector = Factories.DetectorControllerFactory.GetStandardDetectorController(input.DetectorInputs, _tissue);
+            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, PhaseFunctionType.HenyeyGreenstein);
+            _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
+            _detectorController = DetectorControllerFactory.GetStandardDetectorController(input.DetectorInputs, _tissue);
         }
 
         /// <summary>
@@ -67,7 +56,9 @@ namespace Vts.MonteCarlo
         private bool WRITE_EXIT_HISTORIES { get; set; }  // Added by DC 2009-08-01 
         private bool WRITE_ALL_HISTORIES { get; set; }  // Added by DC 2011-03-03
         private AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
-        public static PhaseFunctionType PHASE_FUNCTION { get; set; }
+        public PhaseFunctionType PHASE_FUNCTION { get; set; }
+
+        public Output Results { get; private set; }
 
         /// <summary>
         /// Run the simulation
@@ -75,21 +66,20 @@ namespace Vts.MonteCarlo
         /// <returns></returns>
         public Output Run()
         {
-            Output output = new Output(_input);
-
             DisplayIntro();
 
             ExecuteMCLoop();
 
-            _detector.NormalizeDetectors(numberOfPhotons);
+            // todo: consider statistics, other checks for reporting. SimulationOutput class?
+            Results = new Output(_input, _detectorController.Detectors);
 
             ReportResults();
 
-            return output;
+            return Results;
         }
 
         /// <summary>
-        /// This function encapsulates the managed loop. Can be overridden in derived classes.
+        /// Executes the Monte Carlo Loop
         /// </summary>
         protected virtual void ExecuteMCLoop()
         {
@@ -137,7 +127,7 @@ namespace Vts.MonteCarlo
 
                     } while (photon.DP.StateFlag == PhotonStateType.NotSet); /* end do while */
 
-                    _detector.TerminationTally(photon.DP);
+                    _detectorController.TerminationTally(photon.DP);
 
                     if (terminationWriter != null)
                     {
@@ -145,17 +135,17 @@ namespace Vts.MonteCarlo
                         terminationWriter.Write(photon.DP);
                     }
 
-                    //if (DO_ALLVOX) Compute_Prob_allvox(source, tissptr, photptr, bananaptr, outptr, detector);  /* DCFIX */
-
-                    _detector.HistoryTally(photon.History);
+                    _detectorController.HistoryTally(photon.History);
 
                 } /* end of for n loop */
-
             }
             finally
             {
                 if (terminationWriter != null) terminationWriter.Dispose();
             }
+
+            // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
+            _detectorController.NormalizeDetectors(numberOfPhotons);
         }
 
         public void ReportResults()
@@ -192,14 +182,6 @@ namespace Vts.MonteCarlo
             Console.WriteLine(SimulationIndex + ": " + frac + " percent complete, " + DateTime.Now);
         }
 
-        void Display_Status(int num_phot)
-        {
-            if (numberOfPhotons % num_phot == 0.0)
-            {
-                Console.WriteLine(SimulationIndex + ": Number of photons processed={0} {1}",
-                  (int)numberOfPhotons, DateTime.Now);
-            }
-        }
         // Keep this commented section for reference
         ///// <summary>
         ///// This function encapsulates the managed loop. Can be overridden in derived classes.

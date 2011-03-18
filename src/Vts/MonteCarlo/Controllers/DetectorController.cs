@@ -100,14 +100,6 @@ namespace Vts.MonteCarlo.Controllers
                 detector.Normalize(N);
             }
         }
-        
-        public void WriteDetectorsToFile(string folderPath)
-        {
-            foreach (var detector in _detectors)
-            {
-                DetectorIO.WriteDetectorToFile(detector, folderPath);
-            }
-        }
 
         private IList<IDetector> GetDetectors(IList<IDetectorInput> detectorInputs)
         {

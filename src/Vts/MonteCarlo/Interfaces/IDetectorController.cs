@@ -8,6 +8,5 @@ namespace Vts.MonteCarlo
     {
         IList<IDetector> Detectors { get; }
         void NormalizeDetectors(long N);
-        void WriteDetectorsToFile(string folderPath);
     }
 }

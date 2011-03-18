@@ -12,12 +12,34 @@ namespace Vts.MonteCarlo
 #if !SILVERLIGHT
     [Serializable]
 #endif
-
-    [KnownType(typeof(CustomPointSourceInput))]
-    [KnownType(typeof(MultiLayerTissueInput))]
-    [KnownType(typeof(ROfRhoDetectorInput))]
-    // todo: add more types?
+    // todo: Can we do this programmatcially? DataContractResolver? Automatically via convention?
     
+    // Source inputs
+    [KnownType(typeof(CustomPointSourceInput))]
+
+    // Tissue inputs
+    [KnownType(typeof(MultiLayerTissueInput))]
+    
+    // Detector inputs
+    [KnownType(typeof(AOfRhoAndZDetectorInput))]
+    [KnownType(typeof(ATotalDetectorInput))]
+    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
+    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
+    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
+    [KnownType(typeof(pMCROfRhoDetectorInput))]
+    [KnownType(typeof(RDiffuseDetectorInput))]
+    [KnownType(typeof(ROfAngleDetectorInput))]
+    [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
+    [KnownType(typeof(ROfRhoAndOmegaDetectorInput))]
+    [KnownType(typeof(ROfRhoAndTimeDetectorInput))]
+    [KnownType(typeof(ROfRhoDetectorInput))]
+    [KnownType(typeof(ROfXAndYDetectorInput))]
+    [KnownType(typeof(TDiffuseDetectorInput))]
+    [KnownType(typeof(TOfAngleDetectorInput))]
+    [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
+    [KnownType(typeof(TOfRhoDetectorInput))]
+
+    // todo: add more types?
     ///<summary>
     /// Defines input to the Monte Carlo simulation.  This includes the output
     /// file name, number of photons to execute (N), source, tissue and detector

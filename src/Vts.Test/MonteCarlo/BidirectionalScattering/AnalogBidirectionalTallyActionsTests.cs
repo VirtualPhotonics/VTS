@@ -80,6 +80,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 new OpticalProperties(_mua, _musp, _g, 1.0),
                 -1, // direction -1=up
                 0); // position at surface
+
             Assert.Less(Math.Abs(_output.Rd - analyticSolution), 0.01);
         }
         // Total Absorption
@@ -97,7 +98,10 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 new OpticalProperties(_mua, _musp, _g, 1.0),
                 1, // direction 1=down
                 _slabThickness); // position at slab end
-            Assert.Less(Math.Abs(_output.Td - analyticSolution), 0.03);
+
+            var td = ((TDiffuseDetector)_output[TallyType.TDiffuse]).Mean;
+
+            Assert.Less(Math.Abs(td - analyticSolution), 0.03);
         }
         //// Fluence Flu(rho,z)
         //[Test]

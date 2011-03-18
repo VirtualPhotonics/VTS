@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using Vts.Extensions;
+using Vts.MonteCarlo;
+
 #if !SILVERLIGHT
 using System.Runtime.Serialization.Formatters.Binary;
 #endif

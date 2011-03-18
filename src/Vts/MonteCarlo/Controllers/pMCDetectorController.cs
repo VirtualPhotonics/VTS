@@ -100,14 +100,5 @@ namespace Vts.MonteCarlo.Controllers
                 detector.Normalize(N);
             }
         }
-
-        // todo: put in IO/DetectorIO
-        public void WriteDetectorsToFile(string folderPath)
-        {
-            foreach (var detector in _detectors)
-            {
-                DetectorIO.WriteDetectorToFile(detector, folderPath);
-            }
-        }
     }
 }
