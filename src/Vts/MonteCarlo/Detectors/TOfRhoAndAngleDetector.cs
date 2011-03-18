@@ -15,16 +15,15 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class TOfRhoAndAngleDetector : ITerminationDetector<double[,]>
     {
-        private DoubleRange _rho;
-        private DoubleRange _angle;
 
         public TOfRhoAndAngleDetector(DoubleRange rho, DoubleRange angle)
         {
-            _rho = rho;
-            _angle = angle;
-            Mean = new double[_rho.Count - 1, _angle.Count - 1];
-            SecondMoment = new double[_rho.Count - 1, _angle.Count - 1];
+            Rho = rho;
+            Angle = angle;
+            Mean = new double[Rho.Count - 1, Angle.Count - 1];
+            SecondMoment = new double[Rho.Count - 1, Angle.Count - 1];
             TallyType = TallyType.TOfRhoAndAngle;
+            TallyCount = 0;
         }
 
         [IgnoreDataMember]
@@ -35,23 +34,30 @@ namespace Vts.MonteCarlo.Detectors
 
         public TallyType TallyType { get; set; }
 
+        public long TallyCount { get; set; }
+
+        public DoubleRange Rho { get; set; }
+
+        public DoubleRange Angle { get; set; }
+
         public void Tally(PhotonDataPoint dp)
         {
-            var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), _angle.Count - 1, _angle.Delta, 0);
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
+            var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Angle.Count - 1, Angle.Delta, 0);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
             Mean[ir, ia] += dp.Weight;
             SecondMoment[ir, ia] += dp.Weight * dp.Weight;
+            TallyCount++;
         }
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = numPhotons * 2.0 * Math.PI * _rho.Delta * _rho.Delta * 2.0 * Math.PI * _angle.Delta;
-            for (int ir = 0; ir < _rho.Count - 1; ir++)
+            var normalizationFactor = numPhotons * 2.0 * Math.PI * Rho.Delta * Rho.Delta * 2.0 * Math.PI * Angle.Delta;
+            for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                for (int ia = 0; ia < _angle.Count - 1; ia++)
+                for (int ia = 0; ia < Angle.Count - 1; ia++)
                 {
-                    Mean[ir, ia] /= (ir + 0.5) * Math.Sin((ia + 0.5) * _angle.Delta) * normalizationFactor;
+                    Mean[ir, ia] /= (ir + 0.5) * Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor;
                 }
             }
         }

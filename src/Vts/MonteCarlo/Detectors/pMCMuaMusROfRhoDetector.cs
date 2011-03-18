@@ -15,7 +15,6 @@ namespace Vts.MonteCarlo.Detectors
     // do I need classes pMuaInROfRhoTally and pMusInROfRhoTally?
     public class pMCMuaMusROfRhoDetector : IpMCTerminationDetector<double[]>
     {
-        private DoubleRange _rho;
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices;
@@ -39,30 +38,31 @@ namespace Vts.MonteCarlo.Detectors
             IList<OpticalProperties> perturbedOps,
             IList<int> perturbedRegionIndices)
         {
-            _rho = rho;
-            Mean = new double[_rho.Count - 1];
-            SecondMoment = new double[_rho.Count - 1];
+            Rho = rho;
+            Mean = new double[Rho.Count - 1];
+            SecondMoment = new double[Rho.Count - 1];
             TallyType = TallyType.pMuaMusInROfRho;
             _perturbedOps = perturbedOps;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
             _perturbedRegionsIndices = perturbedRegionIndices;
             SetAbsorbAction(tissue.AbsorptionWeightingType);
-            if (_rho.Count - 1 == 1)
+            if (Rho.Count - 1 == 1)
             {
-                _rho.Start = _rho.Start - 0.1;
+                Rho.Start = Rho.Start - 0.1;
                 _rhoDelta = 0.2;
-                _rho.Stop = _rho.Start + _rhoDelta;
-                _rhoCenters = new double[1] { _rho.Start };
+                Rho.Stop = Rho.Start + _rhoDelta;
+                _rhoCenters = new double[1] { Rho.Start };
             }
             else // put rhoCenters at rhos specified by user
             {
-                _rhoDelta = _rho.Delta;
-                _rhoCenters = new double[_rho.Count - 1];
-                for (int i = 0; i < _rho.Count - 1; i++)
+                _rhoDelta = Rho.Delta;
+                _rhoCenters = new double[Rho.Count - 1];
+                for (int i = 0; i < Rho.Count - 1; i++)
                 {
-                    _rhoCenters[i] = _rho.Start + i * _rhoDelta;
+                    _rhoCenters[i] = Rho.Start + i * _rhoDelta;
                 }
             }
+            TallyCount = 0;
         }
 
         [IgnoreDataMember]
@@ -73,6 +73,10 @@ namespace Vts.MonteCarlo.Detectors
 
         public TallyType TallyType { get; set; }
 
+        public long TallyCount { get; set; }
+
+        public DoubleRange Rho { get; set; }
+        
         protected void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
@@ -97,7 +101,7 @@ namespace Vts.MonteCarlo.Detectors
                 totalPathLengthInPerturbedRegions += infoList[i].PathLength;
             }
 
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Delta, _rhoCenters);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Delta, _rhoCenters);
             if (ir != -1)
             {
                 double weightFactor = _absorbAction(
@@ -107,6 +111,7 @@ namespace Vts.MonteCarlo.Detectors
 
                 Mean[ir] += dp.Weight * weightFactor;
                 SecondMoment[ir] += dp.Weight * weightFactor * dp.Weight * weightFactor;
+                TallyCount++;
             }
         }
 
@@ -145,7 +150,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
-            for (int ir = 0; ir < _rho.Count - 1; ir++)
+            for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
                 Mean[ir] /=
                     2 * Math.PI * _rhoCenters[ir] * _rhoDelta * numPhotons;

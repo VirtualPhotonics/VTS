@@ -15,17 +15,16 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfRhoAndTimeDetector : TallyBase, ITerminationDetector<double[,]>
     {
-        private DoubleRange _rho;
-        private DoubleRange _time;
 
         public ROfRhoAndTimeDetector(DoubleRange rho, DoubleRange time, ITissue tissue)
             : base(tissue)
         {
-            _rho = rho;
-            _time = time;
-            Mean = new double[_rho.Count - 1, _time.Count - 1];
-            SecondMoment = new double[_rho.Count - 1, _time.Count - 1];
+            Rho = rho;
+            Time = time;
+            Mean = new double[Rho.Count - 1, Time.Count - 1];
+            SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
             TallyType = TallyType.ROfRhoAndTime;
+            TallyCount = 0;
         }
 
         [IgnoreDataMember]
@@ -36,21 +35,28 @@ namespace Vts.MonteCarlo.Detectors
 
         public TallyType TallyType { get; set; }
 
+        public long TallyCount { get; set; }
+
+        public DoubleRange Rho { get; set; }
+
+        public DoubleRange Time { get; set; }
+
         public virtual void Tally(PhotonDataPoint dp)
         {
-            var it = DetectorBinning.WhichBin(dp.TotalTime, _time.Count - 1, _time.Delta, _time.Start);
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
+            var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
             Mean[ir, it] += dp.Weight;
             SecondMoment[ir, it] += dp.Weight * dp.Weight;
+            TallyCount++;
         }
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * _rho.Delta * _rho.Delta * _time.Delta * numPhotons;
-            for (int ir = 0; ir < _rho.Count - 1; ir++)
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta * Time.Delta * numPhotons;
+            for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                for (int it = 0; it < _time.Count - 1; it++)
+                for (int it = 0; it < Time.Count - 1; it++)
                 {
                     Mean[ir, it] /= (ir + 0.5) * normalizationFactor;
                 }

@@ -17,11 +17,16 @@ namespace Vts.MonteCarlo.Detectors
            : base(tissue)
         {
             TallyType = TallyType.ATotal;
+            TallyCount = 0;
         }
 
         public double Mean { get; set; }
+
         public double SecondMoment { get; set; }
+
         public TallyType TallyType { get; set; }
+
+        public long TallyCount { get; set; }
 
         protected override void SetAbsorbAction(AbsorptionWeightingType awt)
         {
@@ -51,6 +56,7 @@ namespace Vts.MonteCarlo.Detectors
 
             Mean += weight; 
             SecondMoment += weight * weight;
+            TallyCount++;
         }
         
         public void Normalize(long numPhotons)

@@ -14,6 +14,7 @@ namespace Vts.MonteCarlo.Detectors
             Mean = 0;
             SecondMoment = 0;
             TallyType = TallyType.RDiffuse;
+            TallyCount = 0;
         }
 
         public double Mean { get; set; }
@@ -22,10 +23,13 @@ namespace Vts.MonteCarlo.Detectors
 
         public TallyType TallyType { get; set; }
 
+        public long TallyCount { get; set; }
+
         public void Tally(PhotonDataPoint dp)
         {
             Mean += dp.Weight;
             SecondMoment += dp.Weight * dp.Weight;
+            TallyCount++;
         }
 
         public void Normalize(long numPhotons)

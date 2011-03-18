@@ -15,14 +15,14 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class TOfRhoDetector : ITerminationDetector<double[]>
     {
-        private DoubleRange _rho;
 
         public TOfRhoDetector(DoubleRange rho)
         {
-            _rho = rho;
-            Mean = new double[_rho.Count - 1];
-            SecondMoment = new double[_rho.Count - 1];
+            Rho = rho;
+            Mean = new double[Rho.Count - 1];
+            SecondMoment = new double[Rho.Count - 1];
             TallyType = TallyType.TOfRho;
+            TallyCount = 0;
         }
 
         [IgnoreDataMember]
@@ -33,18 +33,23 @@ namespace Vts.MonteCarlo.Detectors
 
         public TallyType TallyType { get; set; }
 
+        public long TallyCount { get; set; }
+
+        public DoubleRange Rho { get; set; }
+
         public void Tally(PhotonDataPoint dp)
         {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
             Mean[ir] += dp.Weight;
             SecondMoment[ir] += dp.Weight * dp.Weight;
+            TallyCount++;
         }
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * _rho.Delta * _rho.Delta * numPhotons;
-            for (int ir = 0; ir < _rho.Count - 1; ir++)
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta * numPhotons;
+            for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
                 Mean[ir] /= (ir + 0.5) * normalizationFactor;
             }

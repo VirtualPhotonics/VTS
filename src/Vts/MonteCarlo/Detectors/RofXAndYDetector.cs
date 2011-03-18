@@ -13,16 +13,16 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfXAndYDetector : ITerminationDetector<double[,]>
     {
-        private DoubleRange _x;
-        private DoubleRange _y;
 
         public ROfXAndYDetector(DoubleRange x, DoubleRange y)
         {
-            _x = x;
-            _y = y;
-            Mean = new double[_x.Count - 1, _y.Count - 1];
-            SecondMoment = new double[_x.Count - 1, _y.Count - 1];
+            X = x;
+            Y = y;
+
+            Mean = new double[X.Count - 1, Y.Count - 1];
+            SecondMoment = new double[X.Count - 1, Y.Count - 1];
             TallyType = TallyType.ROfXAndY;
+            TallyCount = 0;
         }
 
         [IgnoreDataMember]
@@ -33,20 +33,26 @@ namespace Vts.MonteCarlo.Detectors
 
         public TallyType TallyType { get; set; }
 
+        public long TallyCount { get; set; }
+
+        public DoubleRange X { get; set; }
+
+        public DoubleRange Y { get; set; }
+
         public void Tally(PhotonDataPoint dp)
         {
-            int ix = DetectorBinning.WhichBin(dp.Position.X, _x.Count - 1, _x.Delta, _x.Start);
-            int iy = DetectorBinning.WhichBin(dp.Position.Y, _y.Count - 1, _y.Delta, _y.Start);
+            int ix = DetectorBinning.WhichBin(dp.Position.X, X.Count - 1, X.Delta, X.Start);
+            int iy = DetectorBinning.WhichBin(dp.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
             Mean[ix, iy] += dp.Weight;
             SecondMoment[ix, iy] += dp.Weight * dp.Weight;
         }
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = _x.Delta * _y.Delta * numPhotons;
-            for (int ix = 0; ix < _x.Count - 1; ix++)
+            var normalizationFactor = X.Delta * Y.Delta * numPhotons;
+            for (int ix = 0; ix < X.Count - 1; ix++)
             {
-                for (int iy = 0; iy < _y.Count - 1; iy++)
+                for (int iy = 0; iy < Y.Count - 1; iy++)
                 {
                     Mean[ix, iy] /= normalizationFactor;
                 }

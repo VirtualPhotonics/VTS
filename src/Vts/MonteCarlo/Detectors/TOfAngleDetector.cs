@@ -15,14 +15,13 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class TOfAngleDetector : ITerminationDetector<double[]>
     {
-        private DoubleRange _angle;
-
         public TOfAngleDetector(DoubleRange angle)
         {
-            _angle = angle;
-            Mean = new double[_angle.Count];
-            SecondMoment = new double[_angle.Count];
+            Angle = angle;
+            Mean = new double[Angle.Count];
+            SecondMoment = new double[Angle.Count];
             TallyType = TallyType.TOfAngle;
+            TallyCount = 0;
         }
 
         [IgnoreDataMember]
@@ -33,20 +32,26 @@ namespace Vts.MonteCarlo.Detectors
 
         public TallyType TallyType { get; set; }
 
+        public long TallyCount { get; set; }
+
+        public DoubleRange Angle { get; set; }
+
         public void Tally(PhotonDataPoint dp)
         {
-            var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), _angle.Count - 1, _angle.Delta, _angle.Start);
+            var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
 
             Mean[ia] += dp.Weight;
             SecondMoment[ia] += dp.Weight * dp.Weight;
+            TallyCount++;
+
         }
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * _angle.Delta * numPhotons;
-            for (int ia = 0; ia < _angle.Count; ia++)
+            var normalizationFactor = 2.0 * Math.PI * Angle.Delta * numPhotons;
+            for (int ia = 0; ia < Angle.Count; ia++)
             {
-                Mean[ia] /= Math.Sin((ia + 0.5) * _angle.Delta) * normalizationFactor;
+                Mean[ia] /= Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor;
             }
         }
 

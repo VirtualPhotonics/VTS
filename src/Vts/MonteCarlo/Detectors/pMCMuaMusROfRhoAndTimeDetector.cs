@@ -15,8 +15,6 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class pMCMuaMusROfRhoAndTimeDetector : IpMCTerminationDetector<double[,]>
     {
-        private DoubleRange _rho;
-        private DoubleRange _time;
         private AbsorptionWeightingType _awt;
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
@@ -45,13 +43,13 @@ namespace Vts.MonteCarlo.Detectors
             IList<OpticalProperties> perturbedOps,
             IList<int> perturbedRegionIndices)
         {
-            _rho = rho;
-            _time = time;
+            Rho = rho;
+            Time = time;
             // save delta because DoubleRange readjusts when Start,Stop,Count changes
-            _rhoDelta = _rho.Delta;
-            _timeDelta = _time.Delta;
-            Mean = new double[_rho.Count - 1, _time.Count - 1];
-            SecondMoment = new double[_rho.Count - 1, _time.Count - 1];
+            _rhoDelta = Rho.Delta;
+            _timeDelta = Time.Delta;
+            Mean = new double[Rho.Count - 1, Time.Count - 1];
+            SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
             TallyType = TallyType.pMuaMusInROfRhoAndTime;
             _awt = tissue.AbsorptionWeightingType;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
@@ -63,46 +61,48 @@ namespace Vts.MonteCarlo.Detectors
             // the extent of the bin
             // so currently assuming if either only 1 rho bin or 1 time bin,
             // then gui call, otherwise regular tally.  Need to fix!
-            if (_rho.Count - 1 == 1)
+            if (Rho.Count - 1 == 1)
             {
-                _rho.Start = _rho.Start - 0.1;
+                Rho.Start = Rho.Start - 0.1;
                 _rhoDelta = 0.2;
-                _rho.Stop = _rho.Start + _rhoDelta;
-                _rhoCenters = new double[1] { _rho.Start };
-                _timeCenters = new double[_time.Count - 1];
-                for (int i = 0; i < _time.Count - 1; i++)
+                Rho.Stop = Rho.Start + _rhoDelta;
+                _rhoCenters = new double[1] { Rho.Start };
+                _timeCenters = new double[Time.Count - 1];
+                for (int i = 0; i < Time.Count - 1; i++)
                 {
-                    _timeCenters[i] = _time.Start + i * _timeDelta;
+                    _timeCenters[i] = Time.Start + i * _timeDelta;
                 }
             }
             else
             {
-                _rhoCenters = new double[_rho.Count - 1];
-                for (int i = 0; i < _rho.Count - 1; i++)
+                _rhoCenters = new double[Rho.Count - 1];
+                for (int i = 0; i < Rho.Count - 1; i++)
                 {
-                    _rhoCenters[i] = _rho.Start + i * _rhoDelta + _rhoDelta / 2;
+                    _rhoCenters[i] = Rho.Start + i * _rhoDelta + _rhoDelta / 2;
                 }
             }
-            if (_time.Count - 1 == 1)
+            if (Time.Count - 1 == 1)
             {
-                _time.Start = _time.Start - 0.0025;
+                Time.Start = Time.Start - 0.0025;
                 _timeDelta = 0.005;
-                _time.Stop = _time.Start + _timeDelta;
-                _timeCenters = new double[1] { _time.Start };
-                _rhoCenters = new double[_rho.Count - 1];
-                for (int i = 0; i < _rho.Count - 1; i++)
+                Time.Stop = Time.Start + _timeDelta;
+                _timeCenters = new double[1] { Time.Start };
+                _rhoCenters = new double[Rho.Count - 1];
+                for (int i = 0; i < Rho.Count - 1; i++)
                 {
-                    _rhoCenters[i] = _rho.Start + i * _rhoDelta;
+                    _rhoCenters[i] = Rho.Start + i * _rhoDelta;
                 }
             }
             else
             {
-                _timeCenters = new double[_time.Count - 1];
-                for (int i = 0; i < _time.Count - 1; i++)
+                _timeCenters = new double[Time.Count - 1];
+                for (int i = 0; i < Time.Count - 1; i++)
                 {
-                    _timeCenters[i] = _time.Start + i * _timeDelta + _timeDelta / 2;
+                    _timeCenters[i] = Time.Start + i * _timeDelta + _timeDelta / 2;
                 }
             }
+
+            TallyCount = 0;
         }
 
         [IgnoreDataMember]
@@ -112,6 +112,12 @@ namespace Vts.MonteCarlo.Detectors
         public double[,] SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public long TallyCount { get; set; }
+
+        public DoubleRange Rho { get; set; }
+
+        public DoubleRange Time { get; set; }
 
         protected void SetAbsorbAction(AbsorptionWeightingType awt)
         {
@@ -137,15 +143,15 @@ namespace Vts.MonteCarlo.Detectors
             {
                 totalPathLengthInPerturbedRegions += infoList[i].PathLength;
             }
-            var it = DetectorBinning.WhichBin(totalTime, _time.Count - 1, _time.Delta, _time.Start);
+            var it = DetectorBinning.WhichBin(totalTime, Time.Count - 1, Time.Delta, Time.Start);
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y),
-                _rho.Count - 1, _rho.Delta, _rho.Start);
-            if (_rho.Count - 1 == 1)
+                Rho.Count - 1, Rho.Delta, Rho.Start);
+            if (Rho.Count - 1 == 1)
             {
                 ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y),
                     _rhoDelta, _rhoCenters);
             }
-            if (_time.Count - 1 == 1)
+            if (Time.Count - 1 == 1)
             {
                 it = DetectorBinning.WhichBin(totalTime, _timeDelta, _timeCenters);
             }
@@ -157,6 +163,7 @@ namespace Vts.MonteCarlo.Detectors
                     _perturbedOps);
                 Mean[ir, it] += dp.Weight * weightFactor;
                 SecondMoment[ir, it] += dp.Weight * weightFactor * dp.Weight * weightFactor;
+                TallyCount++;
             }
         }
 
@@ -196,9 +203,9 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2 * Math.PI * _rhoDelta * _timeDelta * numPhotons;
-            for (int ir = 0; ir < _rho.Count - 1; ir++)
+            for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                for (int it = 0; it < _time.Count - 1; it++)
+                for (int it = 0; it < Time.Count - 1; it++)
                 {
                     Mean[ir, it] /= _rhoCenters[ir] * normalizationFactor;
                     // the above is pi(rmax*rmax-rmin*rmin) * timeDelta * N

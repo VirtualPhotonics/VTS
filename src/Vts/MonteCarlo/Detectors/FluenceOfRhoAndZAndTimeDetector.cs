@@ -14,21 +14,19 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class FluenceOfRhoAndZAndTimeDetector : HistoryTallyBase, IHistoryDetector<double[, ,]>
     {
-        private DoubleRange _rho;
-        private DoubleRange _z;
-        private DoubleRange _time;
-        private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
+        public Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
         public FluenceOfRhoAndZAndTimeDetector(DoubleRange rho, DoubleRange z, DoubleRange time, ITissue tissue)
             : base(tissue)
         {
-            _rho = rho;
-            _z = z;
-            _time = time;
+            Rho = rho;
+            Z = z;
+            Time = time;
 
-            Mean = new double[_rho.Count - 1, _z.Count - 1, _time.Count - 1];
-            SecondMoment = new double[_rho.Count - 1, _z.Count - 1, _time.Count - 1];
+            Mean = new double[Rho.Count - 1, Z.Count - 1, Time.Count - 1];
+            SecondMoment = new double[Rho.Count - 1, Z.Count - 1, Time.Count - 1];
             TallyType = TallyType.FluenceOfRhoAndZAndTime;
+            TallyCount = 0;
         }
 
         [IgnoreDataMember]
@@ -38,6 +36,14 @@ namespace Vts.MonteCarlo.Detectors
         public double[, ,] SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public long TallyCount { get; set; }
+
+        public DoubleRange Rho { get; set; }
+
+        public DoubleRange Z { get; set; }
+
+        public DoubleRange Time { get; set; }
 
         protected override void SetAbsorbAction(AbsorptionWeightingType awt)
         {
@@ -59,9 +65,9 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), _rho.Count - 1, _rho.Delta, _rho.Start);
-            var iz = DetectorBinning.WhichBin(dp.Position.Z, _z.Count - 1, _z.Delta, _z.Start);
-            var it = DetectorBinning.WhichBin(dp.TotalTime, _time.Count - 1, _time.Delta, _time.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
+            var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
 
             var weight = _absorbAction(
                 _ops[_tissue.GetRegionIndex(dp.Position)].Mua,
@@ -74,6 +80,7 @@ namespace Vts.MonteCarlo.Detectors
 
             Mean[ir, iz, it] += weight / _ops[regionIndex].Mua;
             SecondMoment[ir, iz, it] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
+            TallyCount++;
         }
 
         private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
@@ -109,12 +116,12 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * _rho.Delta * _rho.Delta * _z.Delta * _time.Delta * numPhotons;
-            for (int ir = 0; ir < _rho.Count - 1; ir++)
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta * Z.Delta * Time.Delta * numPhotons;
+            for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                for (int iz = 0; iz < _z.Count - 1; iz++)
+                for (int iz = 0; iz < Z.Count - 1; iz++)
                 {
-                    for (int it = 0; it < _time.Count - 1; it++)
+                    for (int it = 0; it < Time.Count - 1; it++)
                     {
                         Mean[ir, iz, it] /= (ir + 0.5) * normalizationFactor;
                     }
