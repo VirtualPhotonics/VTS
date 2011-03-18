@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -13,6 +14,12 @@ namespace Vts.MonteCarlo.Detectors
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
+        /// <summary>
+        /// Returns an instance of AOfRhoAndZDetector
+        /// </summary>
+        /// <param name="rho"></param>
+        /// <param name="z"></param>
+        /// <param name="tissue"></param>
         public AOfRhoAndZDetector(DoubleRange rho, DoubleRange z, ITissue tissue)
             : base(tissue)
         {
@@ -23,6 +30,14 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
             TallyType = TallyType.AOfRhoAndZ;
             TallyCount = 0;
+        }
+
+        /// <summary>
+        /// Returns a default instance of AOfRhoAndZDetector (for serialization purposes only)
+        /// </summary>
+        public AOfRhoAndZDetector()
+            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue())
+        {
         }
 
         [IgnoreDataMember]

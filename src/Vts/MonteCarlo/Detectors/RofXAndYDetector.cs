@@ -13,7 +13,11 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfXAndYDetector : ITerminationDetector<double[,]>
     {
-
+        /// <summary>
+        /// Returns an instance of ROfXAndYDetector
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public ROfXAndYDetector(DoubleRange x, DoubleRange y)
         {
             X = x;
@@ -23,6 +27,14 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = new double[X.Count - 1, Y.Count - 1];
             TallyType = TallyType.ROfXAndY;
             TallyCount = 0;
+        }
+
+        /// <summary>
+        /// Returns a default instance of ROfXAndYDetector (for serialization purposes only)
+        /// </summary>
+        public ROfXAndYDetector()
+            : this(new DoubleRange(), new DoubleRange())
+        {
         }
 
         [IgnoreDataMember]

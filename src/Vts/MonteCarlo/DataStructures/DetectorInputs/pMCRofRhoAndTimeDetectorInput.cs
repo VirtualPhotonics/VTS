@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
             IList<OpticalProperties> perturbedOps,
             IList<int> perturbedRegionsIndices)
         {
-            TallyType = TallyType.pMuaMusInROfRhoAndTime;
+            TallyType = TallyType.pMCMuaMusInROfRhoAndTime;
             Rho = rho;
             Time = time;
             PerturbedOps = perturbedOps;

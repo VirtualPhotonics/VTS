@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -15,7 +16,12 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfRhoAndTimeDetector : TallyBase, ITerminationDetector<double[,]>
     {
-
+        /// <summary>
+        ///  Returns an instance of ROfRhoAndTimeDetector
+        /// </summary>
+        /// <param name="rho"></param>
+        /// <param name="time"></param>
+        /// <param name="tissue"></param>
         public ROfRhoAndTimeDetector(DoubleRange rho, DoubleRange time, ITissue tissue)
             : base(tissue)
         {
@@ -25,6 +31,14 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
             TallyType = TallyType.ROfRhoAndTime;
             TallyCount = 0;
+        }
+
+        /// <summary>
+        /// Returns a default instance of ROfRhoAndTimeDetector (for serialization purposes only)
+        /// </summary>
+        public ROfRhoAndTimeDetector()
+            : this(new DoubleRange(),  new DoubleRange(),  new MultiLayerTissue())
+        {
         }
 
         [IgnoreDataMember]

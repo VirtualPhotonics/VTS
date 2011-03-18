@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -13,11 +14,23 @@ namespace Vts.MonteCarlo.Detectors
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
+        /// <summary>
+        /// Returns am instance of ATotalDetector
+        /// </summary>
+        /// <param name="tissue"></param>
         public ATotalDetector(ITissue tissue)
            : base(tissue)
         {
             TallyType = TallyType.ATotal;
             TallyCount = 0;
+        }
+
+        /// <summary>
+        /// Returns a default instance of ATotalDetector (for serialization purposes only)
+        /// </summary>
+        public ATotalDetector()
+            : this(new MultiLayerTissue())
+        {
         }
 
         public double Mean { get; set; }

@@ -77,7 +77,7 @@ namespace Vts.Modeling.ForwardSolvers
 
             // todo: revisit!!
             //detectorInput.AWT = AbsorptionWeightingType.Continuous;
-            //detectorInput.TallyTypeList = new List<TallyType>() { TallyType.pMuaMusInROfRhoAndTime };
+            //detectorInput.TallyTypeList = new List<TallyType>() { TallyType.pMCMuaMusInROfRhoAndTime };
             //// the next two should come from parameter list
             //detectorInput.Rho = new DoubleRange(rhos.First(), rhos.Last(), rhos.Count());
             //detectorInput.Time = new DoubleRange(times.First(), times.Last(), times.Count());

@@ -70,7 +70,7 @@ namespace Vts.MonteCarlo
         AOfRhoAndZ,
         ATotal,
         MomentumTransferOfRhoAndZ,
-        pMuaMusInROfRhoAndTime, // maybe these should be in separate enum?
-        pMuaMusInROfRho,
+        pMCMuaMusInROfRhoAndTime, // maybe these should be in separate enum?
+        pMCMuaMusInROfRho,
     }
 }

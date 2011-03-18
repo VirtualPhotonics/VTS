@@ -14,7 +14,11 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfRhoAndAngleDetector : ITerminationDetector<double[,]>
     {
-
+        /// <summary>
+        /// Returns an instance of ROfRhoAndAngleDetector
+        /// </summary>
+        /// <param name="rho"></param>
+        /// <param name="angle"></param>
         public ROfRhoAndAngleDetector(DoubleRange rho, DoubleRange angle)
         {
             Rho = rho;
@@ -23,6 +27,14 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = new double[Rho.Count - 1, Angle.Count];
             TallyType = TallyType.ROfRhoAndAngle;
             TallyCount = 0;
+        }
+
+        /// <summary>
+        /// Returns a default instance of ROfRhoAndAngleDetector (for serialization purposes only)
+        /// </summary>
+        public ROfRhoAndAngleDetector()
+            : this(new DoubleRange(), new DoubleRange())
+        {
         }
 
         [IgnoreDataMember]

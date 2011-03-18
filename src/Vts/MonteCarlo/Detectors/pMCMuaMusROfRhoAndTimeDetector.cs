@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -28,13 +29,13 @@ namespace Vts.MonteCarlo.Detectors
         private Func<IList<long>, double, IList<OpticalProperties>, double> _absorbAction;
 
         /// <summary>
-        /// Tallies perturbed R(rho,time).  Instantiate with reference optical properties.  When
+        /// Returns an instance of pMCMuaMusROfRhoAndTimeDetector. Tallies perturbed R(rho,time). Instantiate with reference optical properties. When
         /// method Tally invoked, perturbed optical properties passed.
         /// </summary>
         /// <param name="rho"></param>
         /// <param name="time"></param>
-        /// <param name="awt"></param>
-        /// <param name="referenceOps"></param>
+        /// <param name="tissue"></param>
+        /// <param name="perturbedOps"></param>
         /// <param name="perturbedRegionIndices"></param>
         public pMCMuaMusROfRhoAndTimeDetector(
             DoubleRange rho,
@@ -50,12 +51,13 @@ namespace Vts.MonteCarlo.Detectors
             _timeDelta = Time.Delta;
             Mean = new double[Rho.Count - 1, Time.Count - 1];
             SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
-            TallyType = TallyType.pMuaMusInROfRhoAndTime;
+            TallyType = TallyType.pMCMuaMusInROfRhoAndTime;
             _awt = tissue.AbsorptionWeightingType;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
             _perturbedOps = perturbedOps;
             _perturbedRegionsIndices = perturbedRegionIndices;
             SetAbsorbAction(_awt);
+            TallyCount = 0;
             // problem: the gui defines the rhos and times with the centers,
             // but in the usual tally definition, the rhos and times define
             // the extent of the bin
@@ -101,8 +103,14 @@ namespace Vts.MonteCarlo.Detectors
                     _timeCenters[i] = Time.Start + i * _timeDelta + _timeDelta / 2;
                 }
             }
+        }
 
-            TallyCount = 0;
+        /// <summary>
+        /// Returns a default instance of pMCMuaMusROfRhoAndTimeDetector (for serialization purposes only)
+        /// </summary>
+        public pMCMuaMusROfRhoAndTimeDetector()
+            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue(), new List<OpticalProperties>(), new List<int>())
+        {
         }
 
         [IgnoreDataMember]

@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -11,12 +12,18 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IHistoryTally<double[,]>.  Tally for Fluence(rho,z).
     /// Note: this tally currently only works with discrete absorption weighting
     /// </summary>
-    public class FluenceOfRhoAndZDetector 
+    public class FluenceOfRhoAndZDetector
         : HistoryTallyBase, IHistoryDetector<double[,]>
     {
 
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
+        /// <summary>
+        /// Returns an instance of FluenceOfRhoAndZDetector
+        /// </summary>
+        /// <param name="rho"></param>
+        /// <param name="z"></param>
+        /// <param name="tissue"></param>
         public FluenceOfRhoAndZDetector(DoubleRange rho, DoubleRange z, ITissue tissue)
             : base(tissue)
         {
@@ -27,6 +34,14 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
             TallyType = TallyType.FluenceOfRhoAndZ;
             TallyCount = 0;
+        }
+
+        /// <summary>
+        /// Returns an instance of FluenceOfRhoAndZDetector (for serialization purposes only)
+        /// </summary>
+        public FluenceOfRhoAndZDetector()
+            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue())
+        {
         }
 
         [IgnoreDataMember]

@@ -664,6 +664,9 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissueRegion.cs">
       <Link>MonteCarlo\Interfaces\ITissueRegion.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\IO\DetectorIO.cs">
+      <Link>MonteCarlo\IO\DetectorIO.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\mc_allvox.cs">
       <Link>MonteCarlo\mc_allvox.cs</Link>
     </Compile>

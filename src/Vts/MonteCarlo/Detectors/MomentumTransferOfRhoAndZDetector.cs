@@ -12,17 +12,27 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class MomentumTransferOfRhoAndZDetector : IHistoryDetector<double[,]>
     {
-        private ITissue _tissue;
-
-        public MomentumTransferOfRhoAndZDetector(DoubleRange rho, DoubleRange z, ITissue tissue)
+        /// <summary>
+        /// Returns an instance of MomentumTransferOfRhoAndZDetector
+        /// </summary>
+        /// <param name="rho"></param>
+        /// <param name="z"></param>
+        public MomentumTransferOfRhoAndZDetector(DoubleRange rho, DoubleRange z)
         {
             Rho = rho;
             Z = z;
-            _tissue = tissue;
             Mean = new double[Rho.Count - 1, Z.Count - 1];
             SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
             TallyType = TallyType.MomentumTransferOfRhoAndZ;
             TallyCount = 0;
+        }
+
+        /// <summary>
+        /// Returns a default instance of MomentumTransferOfRhoAndZDetector (for serialization purposes only)
+        /// </summary>
+        public MomentumTransferOfRhoAndZDetector()
+            : this(new DoubleRange(), new DoubleRange())
+        {
         }
 
         [IgnoreDataMember]

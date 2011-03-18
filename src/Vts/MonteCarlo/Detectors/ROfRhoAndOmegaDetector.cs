@@ -6,6 +6,7 @@ using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 using System.Numerics;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -16,6 +17,12 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfRhoAndOmegaDetector : TallyBase, ITerminationDetector<Complex[,]>
     {
+        /// <summary>
+        /// Returns an instance of ROfRhoAndAngleDetector
+        /// </summary>
+        /// <param name="rho"></param>
+        /// <param name="omega"></param>
+        /// <param name="tissue"></param>
         public ROfRhoAndOmegaDetector(DoubleRange rho, DoubleRange omega, ITissue tissue)
             : base(tissue)
         {
@@ -25,6 +32,14 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = new Complex[Rho.Count - 1, Omega.Count - 1];
             TallyType = TallyType.ROfRhoAndOmega;
             TallyCount = 0;
+        }
+        /// <summary>
+        /// Returns a default instance of ROfRhoAndAngleDetector (for serialization purposes only)
+        /// </summary>
+        public ROfRhoAndOmegaDetector()
+            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue() )
+        {
+            
         }
         
         [IgnoreDataMember]

@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -24,13 +25,12 @@ namespace Vts.MonteCarlo.Detectors
         private Func<IList<long>, double, IList<OpticalProperties>, double> _absorbAction;
 
         /// <summary>
-        /// Tallies perturbed R(rho).  Instantiate with reference optical properties.  When
-        /// method Tally invoked, perturbed optical properties passed.
+        /// Returns an instance of pMCMuaMusROfRhoDetector. Tallies perturbed R(rho). Instantiate with reference optical properties. 
+        /// When method Tally invoked, perturbed optical properties passed.
         /// </summary>
         /// <param name="rho"></param>
-        /// <param name="time"></param>
-        /// <param name="awt"></param>
-        /// <param name="referenceOps"></param>
+        /// <param name="tissue"></param>
+        /// <param name="perturbedOps"></param>
         /// <param name="perturbedRegionIndices"></param>
         public pMCMuaMusROfRhoDetector(
             DoubleRange rho,
@@ -41,7 +41,7 @@ namespace Vts.MonteCarlo.Detectors
             Rho = rho;
             Mean = new double[Rho.Count - 1];
             SecondMoment = new double[Rho.Count - 1];
-            TallyType = TallyType.pMuaMusInROfRho;
+            TallyType = TallyType.pMCMuaMusInROfRho;
             _perturbedOps = perturbedOps;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
             _perturbedRegionsIndices = perturbedRegionIndices;
@@ -63,6 +63,14 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
             TallyCount = 0;
+        }
+
+        /// <summary>
+        /// Returns a default instance of pMCMuaMusROfRhoDetector (for serialization purposes only)
+        /// </summary>
+        public pMCMuaMusROfRhoDetector()
+            : this(new DoubleRange(), new MultiLayerTissue(), new List<OpticalProperties>(), new List<int>() )
+        {
         }
 
         [IgnoreDataMember]

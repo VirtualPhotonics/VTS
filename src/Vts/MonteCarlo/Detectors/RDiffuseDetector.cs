@@ -9,6 +9,9 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class RDiffuseDetector : ITerminationDetector<double>
     {
+        /// <summary>
+        /// Returns an instance of RDiffuseDetector
+        /// </summary>
         public RDiffuseDetector()
         {
             Mean = 0;

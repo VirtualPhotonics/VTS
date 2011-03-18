@@ -83,10 +83,10 @@ namespace Vts.MonteCarlo.Factories
             switch (detectorInput.TallyType)
             {
                 default:
-                case TallyType.pMuaMusInROfRhoAndTime:
+                case TallyType.pMCMuaMusInROfRhoAndTime:
                     var prrtinput = (pMCROfRhoAndTimeDetectorInput)detectorInput;
                     return new pMCMuaMusROfRhoAndTimeDetector(prrtinput.Rho, prrtinput.Time, tissue, prrtinput.PerturbedOps, prrtinput.PerturbedRegionsIndices);
-                case TallyType.pMuaMusInROfRho:
+                case TallyType.pMCMuaMusInROfRho:
                     var input = (pMCROfRhoAndTimeDetectorInput)detectorInput;
                     return new pMCMuaMusROfRhoDetector(input.Rho, tissue, input.PerturbedOps, input.PerturbedRegionsIndices);
             }

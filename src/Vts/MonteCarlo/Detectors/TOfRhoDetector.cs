@@ -15,7 +15,10 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class TOfRhoDetector : ITerminationDetector<double[]>
     {
-
+        /// <summary>
+        /// Returns an instance of TOfRhoDetector
+        /// </summary>
+        /// <param name="rho"></param>
         public TOfRhoDetector(DoubleRange rho)
         {
             Rho = rho;
@@ -23,6 +26,14 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = new double[Rho.Count - 1];
             TallyType = TallyType.TOfRho;
             TallyCount = 0;
+        }
+
+        /// <summary>
+        /// Returns a default instance of TOfRhoDetector (for serialization purposes only)
+        /// </summary>
+        public TOfRhoDetector()
+            : this(new DoubleRange())
+        {
         }
 
         [IgnoreDataMember]

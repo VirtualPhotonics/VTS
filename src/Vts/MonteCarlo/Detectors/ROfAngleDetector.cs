@@ -15,6 +15,9 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfAngleDetector : ITerminationDetector<double[]>
     {
+        /// <summary>
+        /// Returns an instance of RDiffuseDetector
+        /// </summary>
         public ROfAngleDetector(DoubleRange angle)
         {
             Angle = angle;
@@ -23,7 +26,6 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = TallyType.ROfAngle;
             TallyCount = 0;
         }
-
 
         [IgnoreDataMember]
         public double[] Mean { get; set; }

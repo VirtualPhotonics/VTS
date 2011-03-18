@@ -15,6 +15,10 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class TOfAngleDetector : ITerminationDetector<double[]>
     {
+        /// <summary>
+        /// Returns an instance of TOfAngleDetector
+        /// </summary>
+        /// <param name="angle"></param>
         public TOfAngleDetector(DoubleRange angle)
         {
             Angle = angle;
@@ -22,6 +26,14 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = new double[Angle.Count];
             TallyType = TallyType.TOfAngle;
             TallyCount = 0;
+        }
+
+        /// <summary>
+        /// Returns a default instance of TDiffuseDetector (for serialization purposes only)
+        /// </summary>
+        public TOfAngleDetector()
+            : this(new DoubleRange())
+        {
         }
 
         [IgnoreDataMember]

@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -16,6 +17,13 @@ namespace Vts.MonteCarlo.Detectors
     {
         public Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
+        ///<summary>
+        /// Returns an instance of FluenceOfRhoAndZAndTimeDetector
+        ///</summary>
+        ///<param name="rho"></param>
+        ///<param name="z"></param>
+        ///<param name="time"></param>
+        ///<param name="tissue"></param>
         public FluenceOfRhoAndZAndTimeDetector(DoubleRange rho, DoubleRange z, DoubleRange time, ITissue tissue)
             : base(tissue)
         {
@@ -27,6 +35,14 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = new double[Rho.Count - 1, Z.Count - 1, Time.Count - 1];
             TallyType = TallyType.FluenceOfRhoAndZAndTime;
             TallyCount = 0;
+        }
+
+        /// <summary>
+        /// Returns an instance of FluenceOfRhoAndZAndTimeDetector (for serialization purposes only)
+        /// </summary>
+        public FluenceOfRhoAndZAndTimeDetector()
+            : this(new DoubleRange(), new DoubleRange(), new DoubleRange(), new MultiLayerTissue())
+        {
         }
 
         [IgnoreDataMember]
