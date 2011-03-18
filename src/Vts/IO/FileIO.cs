@@ -54,6 +54,30 @@ namespace Vts.IO
             }
         }
 
+        public static void WriteScalarValueToBinary<T>(T dataIN, string filename, Action<BinaryWriter, T> writeMap)
+        {
+            // Create a file to write binary data 
+            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
+            {
+                using (BinaryWriter bw = new BinaryWriter(s))
+                {
+                    writeMap(bw, dataIN);
+                }
+            }
+        }
+
+        public static T ReadScalarValueFromBinary<T>(string filename, Func<BinaryReader, T> readMap)
+        {
+            // Create a file to write binary data 
+            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
+            {
+                using (BinaryReader br = new BinaryReader(s))
+                {
+                    return readMap(br);
+                }
+            }
+        }
+
         /// <summary>
         /// Writes an array to a binary file, as well as an accompanying .xml file to store array dimensions
         /// </summary>
