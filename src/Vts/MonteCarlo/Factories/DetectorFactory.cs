@@ -36,7 +36,7 @@ namespace Vts.MonteCarlo.Factories
                     return new ROfRhoAndAngleDetector(rrainput.Rho, rrainput.Angle);
                 case TallyType.ROfXAndY:
                     var rxyinput = (ROfXAndYDetectorInput)detectorInput;
-                    return new RofXAndYDetector(rxyinput.X, rxyinput.Y);
+                    return new ROfXAndYDetector(rxyinput.X, rxyinput.Y);
                 case TallyType.ROfRhoAndOmega:
                     var rroinput = (ROfRhoAndOmegaDetectorInput)detectorInput;
                     return new ROfRhoAndOmegaDetector(rroinput.Rho, rroinput.Omega, tissue);

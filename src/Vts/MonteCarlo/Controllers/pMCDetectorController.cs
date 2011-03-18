@@ -4,6 +4,7 @@ using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Interfaces;
+using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
@@ -49,18 +50,20 @@ namespace Vts.MonteCarlo.Controllers
             return detectorList;
         }
 
-        /// <summary>
-        /// Default constructor tallies all tallies
-        /// </summary>
-        public pMCDetectorController()
-            : this(
-                new List<IpMCDetectorInput> { 
-                    new pMCROfRhoAndTimeDetectorInput(),
-                    new pMCROfRhoDetectorInput(),
-                },
-                new MultiLayerTissue())
-        {
-        }
+        // commented unused overload
+        ///// <summary>
+        ///// Default constructor tallies all tallies
+        ///// </summary>
+        //public pMCDetectorController()
+        //    : this(
+        //        new IpMCDetectorInput[]
+        //        { 
+        //            new pMCROfRhoAndTimeDetectorInput(),
+        //            new pMCROfRhoDetectorInput(),
+        //        },
+        //        new MultiLayerTissue())
+        //{
+        //}
 
         public IList<IDetector> Detectors { get { return _detectors; } }
         public IList<OpticalProperties> ReferenceOps { get; set; }
@@ -98,23 +101,13 @@ namespace Vts.MonteCarlo.Controllers
             }
         }
 
-        //public void SetOutputArrays(Output output)
-        //{
-        //    foreach (var tallyType in TallyTypeList)
-        //    {
-        //        switch (tallyType)
-        //        {
-        //            default:
-        //            case TallyType.pMuaMusInROfRhoAndTime:
-        //                output.R_rt =
-        //                    ((IDetector<double[,]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRhoAndTime)]).Mean;
-        //                break;
-        //            case TallyType.pMuaMusInROfRho:
-        //                output.R_r =
-        //                    ((IDetector<double[]>)TerminationITallyList[TallyTypeList.IndexOf(TallyType.pMuaMusInROfRho)]).Mean;
-        //                break;
-        //        }
-        //    }
-        //}
+        // todo: put in IO/DetectorIO
+        public void WriteDetectorsToFile(string folderPath)
+        {
+            foreach (var detector in _detectors)
+            {
+                DetectorIO.WriteDetectorToFile(detector, folderPath);
+            }
+        }
     }
 }

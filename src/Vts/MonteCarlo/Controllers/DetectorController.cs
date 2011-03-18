@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
@@ -16,7 +18,6 @@ namespace Vts.MonteCarlo.Controllers
         private IList<IDetector> _detectors;
         private IList<ITerminationDetector> _terminationDetectors;
         private IList<IHistoryDetector> _historyDetectors;
-        private IDictionary<TallyType, int> _tallyTypeIndex = new Dictionary<TallyType,int>();
 
         public DetectorController(
             IList<IDetectorInput> detectorInputs,
@@ -29,7 +30,7 @@ namespace Vts.MonteCarlo.Controllers
             _terminationDetectors =
                 (from detector in _detectors
                  where detector.TallyType.IsTerminationTally()
-                 select (ITerminationDetector) detector).ToArray();
+                 select (ITerminationDetector)detector).ToArray();
 
             _historyDetectors =
                 (from detector in _detectors
@@ -37,34 +38,37 @@ namespace Vts.MonteCarlo.Controllers
                  select (IHistoryDetector)detector).ToArray();
         }
 
-        /// <summary>
-        /// Default constructor tallies all tallies with default ranges
-        /// </summary>
-        public DetectorController()
-            : this(
-                new List<IDetectorInput> { 
-                    new AOfRhoAndZDetectorInput(),
-                    new ATotalDetectorInput(),
-                    new FluenceOfRhoAndZAndTimeDetectorInput(),
-                    new FluenceOfRhoAndZDetectorInput(),
-                    new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput(),
-                    new ROfRhoAndAngleDetectorInput(),
-                    new ROfRhoAndOmegaDetectorInput(),
-                    new ROfRhoAndTimeDetectorInput(),
-                    new ROfRhoDetectorInput(),
-                    new ROfXAndYDetectorInput(),
-                    new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput(),
-                    new TOfRhoAndAngleDetectorInput(),
-                    new TOfRhoDetectorInput(),
-                    new ROfRhoDetectorInput() },
-                new MultiLayerTissue() )
-        {
-        }
+        // Commented unused overload
+        ///// <summary>
+        ///// Default constructor tallies all tallies with default ranges
+        ///// </summary>
+        //public DetectorController()
+        //    : this(
+        //        new IDetectorInput[] 
+        //        { 
+        //            new AOfRhoAndZDetectorInput(),
+        //            new ATotalDetectorInput(),
+        //            new FluenceOfRhoAndZAndTimeDetectorInput(),
+        //            new FluenceOfRhoAndZDetectorInput(),
+        //            new RDiffuseDetectorInput(),
+        //            new ROfAngleDetectorInput(),
+        //            new ROfRhoAndAngleDetectorInput(),
+        //            new ROfRhoAndOmegaDetectorInput(),
+        //            new ROfRhoAndTimeDetectorInput(),
+        //            new ROfRhoDetectorInput(),
+        //            new ROfXAndYDetectorInput(),
+        //            new TDiffuseDetectorInput(),
+        //            new TOfAngleDetectorInput(),
+        //            new TOfRhoAndAngleDetectorInput(),
+        //            new TOfRhoDetectorInput(),
+        //            new ROfRhoDetectorInput() 
+        //        },
+        //        new MultiLayerTissue() )
+        //{
+        //}
 
         public IList<IDetector> Detectors { get { return _detectors; } }
-        
+
         public void TerminationTally(PhotonDataPoint dp)
         {
             foreach (var tally in _terminationDetectors)
@@ -96,6 +100,14 @@ namespace Vts.MonteCarlo.Controllers
                 detector.Normalize(N);
             }
         }
+        
+        public void WriteDetectorsToFile(string folderPath)
+        {
+            foreach (var detector in _detectors)
+            {
+                DetectorIO.WriteDetectorToFile(detector, folderPath);
+            }
+        }
 
         private IList<IDetector> GetDetectors(IList<IDetectorInput> detectorInputs)
         {
@@ -107,107 +119,5 @@ namespace Vts.MonteCarlo.Controllers
             }
             return detectorList;
         }
-
-        //public virtual void SetOutputArrays(Output output)
-        //{
-        //    foreach (var terminationTally in _terminationDetectors)
-        //    {
-        //        switch (terminationTally.TallyType)
-        //        {
-        //            case TallyType.ROfRhoAndAngle:
-        //                break;
-        //            case TallyType.ROfRho:
-        //                break;
-        //            case TallyType.ROfAngle:
-        //                break;
-        //            case TallyType.ROfRhoAndOmega:
-        //                break;
-        //            case TallyType.ROfRhoAndTime:
-        //                break;
-        //            case TallyType.ROfXAndY:
-        //                break;
-        //            case TallyType.RDiffuse:
-        //                break;
-        //            case TallyType.TOfRhoAndAngle:
-        //                break;
-        //            case TallyType.TOfRho:
-        //                break;
-        //            case TallyType.TOfAngle:
-        //                break;
-        //            case TallyType.TDiffuse:
-        //                break;
-        //            case TallyType.FluenceOfRhoAndZ:
-        //                break;
-        //            case TallyType.FluenceOfRhoAndZAndTime:
-        //                break;
-        //            case TallyType.AOfRhoAndZ:
-        //                break;
-        //            case TallyType.ATotal:
-        //                break;
-        //            case TallyType.MomentumTransferOfRhoAndZ:
-        //                break;
-        //            case TallyType.pMuaMusInROfRhoAndTime:
-        //                break;
-        //            case TallyType.pMuaMusInROfRho:
-        //                break;
-        //            default:
-        //                throw new ArgumentOutOfRangeException();
-        //        }
-        //    }
-
-
-        //    foreach (var tallyType in TallyTypeList)
-        //    {
-        //        switch (tallyType)
-        //        {
-        //            default:
-        //            case TallyType.RDiffuse:
-        //                output.Rd = ((IDetector<double>)TerminationITallyList[_tallyTypeIndex[TallyType.RDiffuse]]).Mean;
-        //                // the following is a workaround for now
-        //                output.Rtot = output.Rd +
-        //                    Helpers.Optics.Specular(_tissue.Regions[0].RegionOP.N, _tissue.Regions[1].RegionOP.N);
-        //                break;
-        //            case TallyType.ROfAngle:
-        //                output.R_a = ((IDetector<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfAngle]]).Mean;
-        //                break;
-        //            case TallyType.ROfRho:
-        //                output.R_r = ((IDetector<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRho]]).Mean;
-        //                break;
-        //            case TallyType.ROfRhoAndAngle:
-        //                output.R_ra = ((IDetector<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndAngle]]).Mean;
-        //                break;
-        //            case TallyType.ROfRhoAndTime:
-        //                output.R_rt = ((IDetector<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndTime]]).Mean;
-        //                break;
-        //            case TallyType.ROfXAndY:
-        //                output.R_xy = ((IDetector<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfXAndY]]).Mean;
-        //                break;
-        //            case TallyType.ROfRhoAndOmega:
-        //                output.R_rw = ((IDetector<Complex[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.ROfRhoAndOmega]]).Mean;
-        //                break;
-        //            case TallyType.FluenceOfRhoAndZ:
-        //                output.Flu_rz = ((IHistoryDetector<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.FluenceOfRhoAndZ]]).Mean;
-        //                break;
-        //            case TallyType.AOfRhoAndZ:
-        //                output.A_rz = ((IHistoryDetector<double[,]>)HistoryITallyList[_tallyTypeIndex[TallyType.AOfRhoAndZ]]).Mean;
-        //                break;
-        //            case TallyType.ATotal:
-        //                output.Atot = ((IHistoryDetector<double>)HistoryITallyList[_tallyTypeIndex[TallyType.ATotal]]).Mean;
-        //                break;
-        //            case TallyType.TDiffuse:
-        //                output.Td = ((IDetector<double>)TerminationITallyList[_tallyTypeIndex[TallyType.TDiffuse]]).Mean;
-        //                break;
-        //            case TallyType.TOfAngle:
-        //                output.T_a = ((IDetector<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.TOfAngle]]).Mean;
-        //                break;
-        //            case TallyType.TOfRho:
-        //                output.T_r = ((IDetector<double[]>)TerminationITallyList[_tallyTypeIndex[TallyType.TOfRho]]).Mean;
-        //                break;
-        //            case TallyType.TOfRhoAndAngle:
-        //                output.T_ra = ((IDetector<double[,]>)TerminationITallyList[_tallyTypeIndex[TallyType.TOfRhoAndAngle]]).Mean;
-        //                break;
-        //        }
-        //    }
-        //}
     }
 }

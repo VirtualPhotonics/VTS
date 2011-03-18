@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
@@ -25,8 +26,12 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = TallyType.ROfRhoAndAngle;
         }
 
+        [IgnoreDataMember]
         public double[,] Mean { get; set; }
+
+        [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
+
         public TallyType TallyType { get; set; }
 
         public virtual void Tally(PhotonDataPoint dp)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
@@ -10,12 +11,12 @@ namespace Vts.MonteCarlo.Detectors
     /// of X and Y.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class RofXAndYDetector : ITerminationDetector<double[,]>
+    public class ROfXAndYDetector : ITerminationDetector<double[,]>
     {
         private DoubleRange _x;
         private DoubleRange _y;
 
-        public RofXAndYDetector(DoubleRange x, DoubleRange y)
+        public ROfXAndYDetector(DoubleRange x, DoubleRange y)
         {
             _x = x;
             _y = y;
@@ -24,8 +25,12 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = TallyType.ROfXAndY;
         }
 
+        [IgnoreDataMember]
         public double[,] Mean { get; set; }
+
+        [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
+
         public TallyType TallyType { get; set; }
 
         public void Tally(PhotonDataPoint dp)

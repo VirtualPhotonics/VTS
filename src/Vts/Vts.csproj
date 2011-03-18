@@ -280,6 +280,7 @@
     <Compile Include="MonteCarlo\Interfaces\IpMCTerminationDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCDetectorInput.cs" />
+    <Compile Include="MonteCarlo\IO\DetectorIO.cs" />
     <Compile Include="MonteCarlo\PhotonHistory.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorInput.cs" />
@@ -322,7 +323,7 @@
     <Compile Include="MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ROfRhoAndTimeDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ROfRhoDetector.cs" />
-    <Compile Include="MonteCarlo\Detectors\RofXAndYDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfXAndYDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TallyBase.cs" />
     <Compile Include="MonteCarlo\Detectors\TallyExtensionMethods.cs" />
     <Compile Include="MonteCarlo\Detectors\TDiffuseDetector.cs" />
