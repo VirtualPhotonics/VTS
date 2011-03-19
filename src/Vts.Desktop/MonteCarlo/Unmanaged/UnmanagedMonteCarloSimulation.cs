@@ -62,10 +62,10 @@ namespace Vts.MonteCarlo
         
         public static void ToManagedOutput(ref UnmanagedOutput unmanagedOutput, ref Output output)
         {
-            output.Atot = unmanagedOutput.Atot;
-            output.Rd = unmanagedOutput.Rd;
-            output.Rtot = unmanagedOutput.Rtot;
-            output.Td = unmanagedOutput.Td;
+            //output.Atot = unmanagedOutput.Atot;
+            //output.Rd = unmanagedOutput.Rd;
+            //output.Rtot = unmanagedOutput.Rtot;
+            //output.Td = unmanagedOutput.Td;
             //output.wt_pathlen_out_top = unmanagedOutput.wt_pathlen_out_top;
             //output.wt_pathlen_out_bot = unmanagedOutput.wt_pathlen_out_bot;
             //output.wt_pathlen_out_sides = unmanagedOutput.wt_pathlen_out_sides;

@@ -209,7 +209,9 @@
     <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\SolverMGRTE.cs" />
     <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolver.cs" />
-    <Compile Include="Modeling\ForwardSolvers\MonteCarloLoader.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MonteCarloLoader.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Modeling\ForwardSolvers\NurbsForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\NurbsGenerator.cs" />
     <Compile Include="Modeling\ForwardSolvers\NurbsValues.cs" />
@@ -414,6 +416,7 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.xml" />
     <Content Include="Modeling\Spectroscopy\ChromophoreList.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -433,6 +436,7 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime" />
     <None Include="Sources.cd" />
     <None Include="Modeling\Spectroscopy\Fat.csv" />
     <None Include="Vts.snk" />

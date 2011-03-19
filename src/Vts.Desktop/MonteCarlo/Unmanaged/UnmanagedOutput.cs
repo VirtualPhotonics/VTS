@@ -9,11 +9,11 @@ namespace Vts.MonteCarlo
             UnmanagedOutput unmanagedOutput = new UnmanagedOutput();
 
             UnmanagedIO.Assign2DPointer(output.A_rz, ref unmanagedOutput.A_rz);
-            UnmanagedIO.Assign1DPointer(output.A_z, ref unmanagedOutput.A_z);
-            UnmanagedIO.Assign1DPointer(output.A_layer, ref unmanagedOutput.A_layer);
+            //UnmanagedIO.Assign1DPointer(output.A_z, ref unmanagedOutput.A_z);
+            //UnmanagedIO.Assign1DPointer(output.A_layer, ref unmanagedOutput.A_layer);
             unmanagedOutput.Atot = output.Atot;
-            UnmanagedIO.Assign2DPointer(output.Flu_rz, ref unmanagedOutput.Flu_rz);
-            UnmanagedIO.Assign1DPointer(output.Flu_z, ref unmanagedOutput.Flu_z);
+            //UnmanagedIO.Assign2DPointer(output.Flu_rz, ref unmanagedOutput.Flu_rz);
+            //UnmanagedIO.Assign1DPointer(output.Flu_z, ref unmanagedOutput.Flu_z);
             UnmanagedIO.Assign2DPointer(output.R_ra, ref unmanagedOutput.R_ra);
             UnmanagedIO.Assign1DPointer(output.R_r, ref unmanagedOutput.R_r);
             UnmanagedIO.Assign1DPointer(output.R_a, ref unmanagedOutput.R_a);
@@ -23,11 +23,11 @@ namespace Vts.MonteCarlo
             UnmanagedIO.Assign1DPointer(output.T_r, ref unmanagedOutput.T_r);
             UnmanagedIO.Assign1DPointer(output.T_a, ref unmanagedOutput.T_a);
             unmanagedOutput.Rd = output.Rd;
-            unmanagedOutput.Rtot = output.Rtot;
+            //unmanagedOutput.Rtot = output.Rtot;
             unmanagedOutput.Td = output.Td;
             UnmanagedIO.Assign2DPointer(output.R_rt, ref unmanagedOutput.R_rt);
 
-            UnmanagedIO.Assign2DPointer(output.D_rt, ref unmanagedOutput.D_rt);
+            //UnmanagedIO.Assign2DPointer(output.D_rt, ref unmanagedOutput.D_rt);
 
             return unmanagedOutput;
         }

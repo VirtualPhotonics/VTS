@@ -106,7 +106,16 @@ namespace Vts.MonteCarlo.Controllers
             var detectorList = new List<IDetector>(detectorInputs.Count);
             foreach (var detectorInput in detectorInputs)
             {
-                var detector = DetectorFactory.GetTerminationDetector(detectorInput, _tissue);
+                // ckh change 3/14/11 added GetHistoryDetector
+                IDetector detector;
+                if (detectorInput.TallyType.IsTerminationTally())
+                {
+                    detector = DetectorFactory.GetTerminationDetector(detectorInput, _tissue);
+                }
+                else
+                {
+                    detector = DetectorFactory.GetHistoryDetector(detectorInput, _tissue);
+                }
                 detectorList.Add(detector);
             }
             return detectorList;

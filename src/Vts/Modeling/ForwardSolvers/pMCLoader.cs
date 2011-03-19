@@ -30,7 +30,7 @@ namespace Vts.Modeling.ForwardSolvers
             string folderName, string databaseName)
         {
             // databaseOutput = Output.FromFolderInResources(folderName, projectName); // old IO
-            var detector = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFileInResources(TallyType.ROfRhoAndTime, folderName, projectName); // new IO
+            //var detector = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFileInResources(TallyType.ROfRhoAndTime, folderName, projectName); // new IO
 
             // old IO
             // need to add the setting up of other ranges
@@ -45,18 +45,18 @@ namespace Vts.Modeling.ForwardSolvers
             //    input.Time.Stop,
             //    input.Time.Count);
 
-            // new IO
-            databaseRhoRange = new DoubleRange(
-                detector.Rho.Start,
-                detector.Rho.Stop,
-                detector.Rho.Count);
+            //// new IO
+            //databaseRhoRange = new DoubleRange(
+            //    detector.Rho.Start,
+            //    detector.Rho.Stop,
+            //    detector.Rho.Count);
 
-            databaseTimeRange = new DoubleRange(
-                detector.Time.Start,
-                detector.Time.Stop,
-                detector.Time.Count);
+            //databaseTimeRange = new DoubleRange(
+            //    detector.Time.Start,
+            //    detector.Time.Stop,
+            //    detector.Time.Count);
 
-            ReferenceOps = databaseOutput.Input.TissueInput.Regions[1].RegionOP;
+            //ReferenceOps = databaseOutput.Input.TissueInput.Regions[1].RegionOP;
    
             PhotonTerminationDatabase = PhotonDatabase.FromFileInResources(
                 databaseName, projectName);

@@ -26,8 +26,8 @@ namespace Vts.MonteCarlo
         //public double Rtot { get { return ((RTotalDetector)ResultsDictionary[TallyType.RTotal]).Mean; } }
         //public double Rtot2 { get { return ((RTotalDetector)ResultsDictionary[TallyType.RTotal]).SecondMoment; } }
 
-        public double Td { get { return ((ATotalDetector)ResultsDictionary[TallyType.TDiffuse]).Mean; } }
-        public double Td2 { get { return ((ATotalDetector)ResultsDictionary[TallyType.TDiffuse]).SecondMoment; } }
+        public double Td { get { return ((TDiffuseDetector)ResultsDictionary[TallyType.TDiffuse]).Mean; } }
+        public double Td2 { get { return ((TDiffuseDetector)ResultsDictionary[TallyType.TDiffuse]).SecondMoment; } }
 
         public double Atot { get { return ((ATotalDetector)ResultsDictionary[TallyType.ATotal]).Mean; } }
         public double Atot2 { get { return ((ATotalDetector)ResultsDictionary[TallyType.ATotal]).SecondMoment; } }

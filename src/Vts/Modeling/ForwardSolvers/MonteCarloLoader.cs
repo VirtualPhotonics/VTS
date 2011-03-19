@@ -6,6 +6,7 @@ using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.Common;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.IO;
 
 //using MathNet.Numerics.Interpolation;
 
@@ -44,17 +45,19 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         private void InitializeVectorsAndInterpolators()
         {
-            var output = Output.FromFolderInResources("Modeling/Resources/" + folder, "Vts");
+            //var output = Output.FromFolvar detector = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFileInResources(TallyType.ROfRhoAndTime, folderName, projectName); // new IO
+            var rOfRhoAndTime = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFileInResources(TallyType.ROfRhoAndTime, "Modeling/Resources/" + folder, "Vts");
 
             // todo: temp code to make this work with the new structure. revisit.
-            var input = (ROfRhoAndTimeDetectorInput)output.Input.DetectorInputs.Where(di => di.TallyType == TallyType.ROfRhoAndTime).First();
+            //var input = (ROfRhoAndTimeDetectorInput)output.Input.DetectorInputs.Where(di => di.TallyType == TallyType.ROfRhoAndTime).First();
 
-            nrReference = input.Rho.Count;
-            drReference = input.Rho.Delta;
-            ntReference = input.Time.Count;
-            dtReference = input.Time.Delta;  
-            muspReference = output.Input.TissueInput.Regions[1].RegionOP.Mus *
-                    (1 - output.Input.TissueInput.Regions[1].RegionOP.G);
+            nrReference = rOfRhoAndTime.Rho.Count;
+            drReference = rOfRhoAndTime.Rho.Delta;
+            ntReference = rOfRhoAndTime.Time.Count;
+            dtReference = rOfRhoAndTime.Time.Delta;  
+            //muspReference = output.Input.TissueInput.Regions[1].RegionOP.Mus *
+            //        (1 - output.Input.TissueInput.Regions[1].RegionOP.G);
+            muspReference = 1.0;  // QUICK FIX 
 
             RhoReference = new DoubleRange(drReference / 2, drReference * nrReference - drReference / 2, nrReference).AsEnumerable().ToArray();
             TimeReference = new DoubleRange(dtReference / 2, dtReference * ntReference - dtReference / 2, ntReference).AsEnumerable().ToArray();
@@ -66,8 +69,8 @@ namespace Vts.Modeling.ForwardSolvers
                 double sum = 0.0;
                 for (int it = 0; it < ntReference; it++)
                 {
-                        RReferenceOfRhoAndTime[ir, it] = output.R_rt[ir, it];
-                        sum += output.R_rt[ir, it];  // debug line
+                        RReferenceOfRhoAndTime[ir, it] = rOfRhoAndTime.Mean[ir, it];
+                        sum += rOfRhoAndTime.Mean[ir, it];  // debug line
                 }
             }
             RReferenceOfFxAndTime = new double[nfxReference, ntReference];

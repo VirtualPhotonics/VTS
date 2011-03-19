@@ -67,13 +67,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(0.0, Math.PI / 2, 2)),
                     new ROfRhoAndTimeDetectorInput(
                         new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
+                        new DoubleRange(0.0, 1, 101)),
                     new ROfXAndYDetectorInput(
                         new DoubleRange(-200.0, 200.0, 401), // x
                         new DoubleRange(-200.0, 200.0, 401)), // y,
                     new ROfRhoAndOmegaDetectorInput(
                         new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 1000, 21)),
+                        new DoubleRange(0.0, 1000, 21)),     
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
                     new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
@@ -94,11 +94,11 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_output.Rd - 0.573738839), 0.000000001);
         }
         // Diffuse Reflectance
-        [Test]
-        public void validate_CAW_RTotal()
-        {
-            Assert.Less(Math.Abs(_output.Rtot - 0.601516617), 0.000000001);
-        }
+        //[Test]
+        //public void validate_CAW_RTotal()
+        //{
+        //    Assert.Less(Math.Abs(_output.Rtot - 0.601516617), 0.000000001);
+        //}
         // Reflection R(rho)
         [Test]
         public void validate_CAW_ROfRho()

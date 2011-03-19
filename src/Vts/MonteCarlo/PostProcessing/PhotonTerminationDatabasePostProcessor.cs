@@ -28,8 +28,6 @@ namespace Vts.MonteCarlo.PostProcessing
             PhotonDatabase database, 
             SimulationInput databaseInput)
         {
-            Output postProcessedOutput = new Output();
-
             ITissue tissue = Factories.TissueFactory.GetTissue(
                 databaseInput.TissueInput,
                 databaseInput.Options.AbsorptionWeightingType,
@@ -44,6 +42,7 @@ namespace Vts.MonteCarlo.PostProcessing
 
             detectorController.NormalizeDetectors(databaseInput.N);
 
+            var postProcessedOutput = new Output(databaseInput, detectorController.Detectors);
             // todo: call output generation method on detectorController (once it's implemented)
             return postProcessedOutput;
         }
@@ -66,8 +65,6 @@ namespace Vts.MonteCarlo.PostProcessing
             List<OpticalProperties> perturbedOps,
             List<int> perturbedRegionsIndices)
         {
-            Output postProcessedOutput = new Output();
-
             ITissue tissue = Factories.TissueFactory.GetTissue(
                 databaseInput.TissueInput, 
                 databaseInput.Options.AbsorptionWeightingType,
@@ -81,7 +78,9 @@ namespace Vts.MonteCarlo.PostProcessing
             }
 
             detectorController.NormalizeDetectors(databaseInput.N);
-            
+
+            var postProcessedOutput = new Output(databaseInput, detectorController.Detectors);
+
             // todo: call output generation method on detectorController (once it's implemented)
             return postProcessedOutput;
         }

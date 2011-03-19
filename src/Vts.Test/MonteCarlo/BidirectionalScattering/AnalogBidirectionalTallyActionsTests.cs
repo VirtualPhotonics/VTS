@@ -99,9 +99,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 1, // direction 1=down
                 _slabThickness); // position at slab end
 
-            var td = ((TDiffuseDetector)_output[TallyType.TDiffuse]).Mean;
-
-            Assert.Less(Math.Abs(td - analyticSolution), 0.03);
+            Assert.Less(Math.Abs(_output.Td - analyticSolution), 0.03);
         }
         //// Fluence Flu(rho,z)
         //[Test]
