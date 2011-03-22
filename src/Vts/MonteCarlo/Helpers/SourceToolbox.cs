@@ -2,6 +2,7 @@
 using Vts.Common;
 using Vts.Extensions;
 
+
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
@@ -151,14 +152,99 @@ namespace Vts.MonteCarlo.Sources
             // todo: implement random 
             return direction;
         }
-
+        
+        /// <summary>
+        /// Returns a random direction
+        /// </summary>
+        /// <param name="polarAngleEmissionRange"></param>
+        /// <param name="azimuthalAngleEmissionRange"></param>
+        /// <param name="Rng"></param>
+        /// <returns></returns>
         public static Direction SampleAngularDistributionDirection(
             DoubleRange polarAngleEmissionRange, 
             DoubleRange azimuthalAngleEmissionRange,
             Random Rng)
         {
-            // todo: implement
-            throw new NotImplementedException();
+            double cost, sint, psi, cosp, sinp;
+            double costmax, costmin; 
+            Direction dir;
+
+            //sampling cost
+            costmax = Math.Cos(polarAngleEmissionRange.Stop);
+            costmin = Math.Cos(polarAngleEmissionRange.Start);
+            cost = (costmax-costmin)*Rng.NextDouble() + costmin;            
+            sint = Math.Sqrt(1.0 - cost * cost);
+            
+            //sampling psi
+            psi = (azimuthalAngleEmissionRange.Stop - azimuthalAngleEmissionRange.Start) * Rng.NextDouble() + azimuthalAngleEmissionRange.Start;  
+            cosp = Math.Cos(psi);
+            sinp = Math.Sqrt(1.0 - cosp * cosp);
+
+            dir.Ux = sint * cosp;
+            dir.Uy = sint * sinp;
+            dir.Uz = cost;   
+                     
+            return dir;
         }
+
+        /// <summary>
+        /// Returns a random position for a uniform distribution
+        /// </summary>
+        /// <param name="polarAngleEmissionRange"></param>
+        /// <param name="azimuthalAngleEmissionRange"></param>
+        /// <param name="Rng"></param>
+        /// <returns></returns>
+        public static Position SampleUniformlyDistributedPosition(
+            DoubleRange xAxisRange,
+            DoubleRange yAxisRange,
+            DoubleRange zAxisRange,
+            Random Rng)
+        {                      
+            Position pos;
+
+            pos.X = (xAxisRange.Stop - xAxisRange.Start) * Rng.NextDouble() + xAxisRange.Start;
+            pos.Y = (yAxisRange.Stop - yAxisRange.Start) * Rng.NextDouble() + yAxisRange.Start;
+            pos.Z = (zAxisRange.Stop - zAxisRange.Start) * Rng.NextDouble() + zAxisRange.Start;
+
+            return pos;
+        }
+
+        /// <summary>
+        /// Returns a random position for a normal (Gaussian) distribution
+        /// </summary>
+        /// <param name="polarAngleEmissionRange"></param>
+        /// <param name="azimuthalAngleEmissionRange"></param>
+        /// <param name="Rng"></param>
+        /// <returns></returns>
+        public static Position SampleNormallyDistributedPosition(
+            DoubleRange xAxisRange,
+            DoubleRange yAxisRange,
+            DoubleRange zAxisRange,
+            double xStdDev,
+            double yStdDev,
+            double zStdDev,
+            Random Rng)
+        {
+            Position pos;
+            double s1, s2, s3;
+            double w;
+
+            do {
+                s1 = 2.0 * Rng.NextDouble() - 1.0;
+                s2 = 2.0 * Rng.NextDouble() - 1.0;
+		        s3 = 2.0 * Rng.NextDouble() - 1.0;
+	
+                w = s1 * s1 + s2 * s2 + + s3 * s3;
+            } while ( w >= 1.0 );
+
+             w = Math.Sqrt( (-2.0 * Math.Log( w ) ) / w );
+
+             pos.X = (xAxisRange.Stop - xAxisRange.Start) * xStdDev * s1 * w + xAxisRange.Start;
+             pos.Y = (yAxisRange.Stop - yAxisRange.Start) * yStdDev * s2 * w + yAxisRange.Start;
+             pos.Z = (zAxisRange.Stop - zAxisRange.Start) * zStdDev * s3 * w + zAxisRange.Start;
+
+            return pos;
+        }     
+
     }
 }

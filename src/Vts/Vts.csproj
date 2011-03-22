@@ -285,8 +285,10 @@
     <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
     <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\Sources\CollimatedLineSource.cs" />
+    <Compile Include="MonteCarlo\Sources\CustomPointSourceNew.cs" />
     <Compile Include="MonteCarlo\Sources\CustomPointSourceInput.cs" />
     <Compile Include="MonteCarlo\Sources\IsotropicLineSource.cs" />
+    <Compile Include="MonteCarlo\Sources\IsotropicPointSourceNew.cs" />
     <Compile Include="MonteCarlo\Sources\LineSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\CollimatedRectangularSource.cs" />
     <Compile Include="MonteCarlo\Sources\CustomPointSource.cs" />
