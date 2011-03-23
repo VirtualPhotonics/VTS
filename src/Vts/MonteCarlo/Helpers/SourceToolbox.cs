@@ -246,6 +246,91 @@ namespace Vts.MonteCarlo.Sources
              pos.Z = (zAxisRange.Stop - zAxisRange.Start) * zStdDev * s3 * w + zAxisRange.Start;
 
             return pos;
+        }
+
+
+        /// <summary>
+        /// Returns a direction after rotating around x axis
+        /// </summary>
+        /// <param name="polarAngleEmissionRange"></param>
+        /// <param name="azimuthalAngleEmissionRange"></param>
+        /// <param name="Rng"></param>
+        /// <returns></returns>
+        public static Direction RotationAroundxAxis(
+            double xRotationAngle,
+            Direction currentDirection)
+        {
+            // readability eased with local copies of following
+            double ux = currentDirection.Ux;
+            double uy = currentDirection.Uy;
+            double uz = currentDirection.Uz;
+            
+            double cost, sint;    /* cosine and sine of rotation angle */
+
+            cost = Math.Cos(xRotationAngle);
+            sint = Math.Sqrt(1.0 - cost * cost);
+
+            currentDirection.Ux = ux;
+            currentDirection.Uy = uy * cost - uz * sint;
+            currentDirection.Uz = uy * sint + uz * cost;
+
+            return currentDirection;
+        }
+
+        /// <summary>
+        /// Returns a direction after rotating around y axis
+        /// </summary>
+        /// <param name="polarAngleEmissionRange"></param>
+        /// <param name="azimuthalAngleEmissionRange"></param>
+        /// <param name="Rng"></param>
+        /// <returns></returns>
+        public static Direction RotationAroundyAxis(
+            double yRotationAngle,
+            Direction currentDirection)
+        {
+            // readability eased with local copies of following
+            double ux = currentDirection.Ux;
+            double uy = currentDirection.Uy;
+            double uz = currentDirection.Uz;
+
+            double cost, sint;    /* cosine and sine of rotation angle */
+
+            cost = Math.Cos(yRotationAngle);
+            sint = Math.Sqrt(1.0 - cost * cost);
+
+            currentDirection.Ux = ux * cost + uz * sint;
+            currentDirection.Uy = uy;
+            currentDirection.Uz =-ux * sint + uz * cost;
+
+            return currentDirection;
+        }
+
+        /// <summary>
+        /// Returns a direction after rotating around z axis
+        /// </summary>
+        /// <param name="polarAngleEmissionRange"></param>
+        /// <param name="azimuthalAngleEmissionRange"></param>
+        /// <param name="Rng"></param>
+        /// <returns></returns>
+        public static Direction RotationAroundzAxis(
+            double zRotationAngle,
+            Direction currentDirection)
+        {
+            // readability eased with local copies of following
+            double ux = currentDirection.Ux;
+            double uy = currentDirection.Uy;
+            double uz = currentDirection.Uz;
+
+            double cost, sint;    /* cosine and sine of rotation angle */
+
+            cost = Math.Cos(zRotationAngle);
+            sint = Math.Sqrt(1.0 - cost * cost);
+
+            currentDirection.Ux = ux * cost - uy * sint;
+            currentDirection.Uy = ux * sint + uz * cost;
+            currentDirection.Uz = uz;
+
+            return currentDirection;
         }     
 
     }
