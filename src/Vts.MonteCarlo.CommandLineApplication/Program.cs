@@ -220,9 +220,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     Directory.CreateDirectory(p);
                 }
 
-                var detectorResults = mc.Run();
+                Output detectorResults = mc.Run();
 
-                foreach (var result in detectorResults.Values)
+                foreach (var result in detectorResults.ResultsDictionary.Values)
                 {
                     // save all detector data to the specified folder
                     DetectorIO.WriteDetectorToFile(result, input.OutputFileName);
