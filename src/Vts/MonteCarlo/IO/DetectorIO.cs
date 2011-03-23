@@ -35,7 +35,7 @@ namespace Vts.MonteCarlo.IO
                 {
                     var d = detector as IDetector<double[,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
-                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath);
+                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                 }
                 if (detector is IDetector<double[, ,]>)
                 {
@@ -143,7 +143,8 @@ namespace Vts.MonteCarlo.IO
                     // "2D" detectors
                     case TallyType.ROfRhoAndTime:
                         var rOfRhoAndTimeDetector = FileIO.ReadFromXML<ROfRhoAndTimeDetector>(filePath + ".xml");
-                        rOfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath);
+                        var dims = new int[] {rOfRhoAndTimeDetector.Rho.Count, rOfRhoAndTimeDetector.Time.Count};
+                        rOfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, dims);
                         return rOfRhoAndTimeDetector;
 
                     case TallyType.pMCMuaMusInROfRhoAndTime:
@@ -254,7 +255,8 @@ namespace Vts.MonteCarlo.IO
                     // "2D" detectors
                     case TallyType.ROfRhoAndTime:
                         var rOfRhoAndTimeDetector = FileIO.ReadFromXMLInResources<ROfRhoAndTimeDetector>(filePath + ".xml", projectName);
-                        rOfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName);
+                        var dims = new int[] { rOfRhoAndTimeDetector.Rho.Count, rOfRhoAndTimeDetector.Time.Count };
+                        rOfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, dims);
                         return rOfRhoAndTimeDetector;
 
                     case TallyType.pMCMuaMusInROfRhoAndTime:

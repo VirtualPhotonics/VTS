@@ -45,19 +45,14 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         private void InitializeVectorsAndInterpolators()
         {
-            //var output = Output.FromFolvar detector = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFileInResources(TallyType.ROfRhoAndTime, folderName, projectName); // new IO
             var rOfRhoAndTime = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFileInResources(TallyType.ROfRhoAndTime, "Modeling/Resources/" + folder, "Vts");
-
-            // todo: temp code to make this work with the new structure. revisit.
-            //var input = (ROfRhoAndTimeDetectorInput)output.Input.DetectorInputs.Where(di => di.TallyType == TallyType.ROfRhoAndTime).First();
 
             nrReference = rOfRhoAndTime.Rho.Count;
             drReference = rOfRhoAndTime.Rho.Delta;
             ntReference = rOfRhoAndTime.Time.Count;
             dtReference = rOfRhoAndTime.Time.Delta;  
-            //muspReference = output.Input.TissueInput.Regions[1].RegionOP.Mus *
-            //        (1 - output.Input.TissueInput.Regions[1].RegionOP.G);
-            muspReference = 1.0;  // QUICK FIX 
+            // assume mus' used by Kienle
+            muspReference = 1.0;  
 
             RhoReference = new DoubleRange(drReference / 2, drReference * nrReference - drReference / 2, nrReference).AsEnumerable().ToArray();
             TimeReference = new DoubleRange(dtReference / 2, dtReference * ntReference - dtReference / 2, ntReference).AsEnumerable().ToArray();
