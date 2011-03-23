@@ -9,6 +9,7 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
+    [KnownType(typeof(pMCMuaMusROfRhoAndTimeDetector))]
     /// <summary>
     /// Implements ITerminationTally<double[,]>.  Tally for pMC estimation of reflectance 
     /// as a function of Rho and Time.  Perturbations of just mua or mus alone are also

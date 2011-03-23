@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
@@ -7,6 +8,7 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
+    [KnownType(typeof(ATotalDetector))]
     /// <summary>
     /// Implements IHistoryDetector<double[,]>.  Tally for Absorption(rho,z).
     /// </summary>

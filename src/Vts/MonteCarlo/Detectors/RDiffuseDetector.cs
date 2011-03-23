@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
+    [KnownType(typeof(RDiffuseDetector))]
     /// <summary>
     /// Implements ITerminationDetector<double>.  Tally for diffuse reflectance.
     /// This implementation works for Analog, DAW and CAW.

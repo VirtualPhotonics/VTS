@@ -10,6 +10,7 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
+    [KnownType(typeof(ROfRhoAndOmegaDetector))]
     /// <summary>
     /// Implements ITerminationDetector<double[,]>.  Tally for reflectance as a function 
     /// of Rho and Omega.

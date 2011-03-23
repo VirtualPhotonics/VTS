@@ -8,7 +8,8 @@ using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
-{
+{ 
+    [KnownType(typeof(ROfRhoAndTimeDetector))]
     /// <summary>
     /// Implements ITerminationTally<double[,]>.  Tally for reflectance as a function 
     /// of Rho and Time.

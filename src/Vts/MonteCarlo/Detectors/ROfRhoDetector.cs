@@ -8,6 +8,7 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
+    [KnownType(typeof(ROfRhoDetector))]
     /// <summary>
     /// Implements ITerminationTally<double[]>.  Tally for reflectance as a function 
     /// of Rho.

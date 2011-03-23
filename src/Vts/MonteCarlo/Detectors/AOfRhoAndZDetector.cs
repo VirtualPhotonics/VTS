@@ -7,6 +7,7 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
+    [KnownType(typeof(AOfRhoAndZDetector))]
     /// <summary>
     /// Implements IHistoryDetector<double[,]>.  Tally for Absorption(rho,z).
     /// </summary>
