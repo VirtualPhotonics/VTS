@@ -257,7 +257,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="Rng"></param>
         /// <returns></returns>
         public static Direction RotationAroundxAxis(
-            double xRotationAngle,
+            double xRotation,
             Direction currentDirection)
         {
             // readability eased with local copies of following
@@ -267,7 +267,7 @@ namespace Vts.MonteCarlo.Sources
             
             double cost, sint;    /* cosine and sine of rotation angle */
 
-            cost = Math.Cos(xRotationAngle);
+            cost = Math.Cos(xRotation);
             sint = Math.Sqrt(1.0 - cost * cost);
 
             currentDirection.Ux = ux;
@@ -285,7 +285,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="Rng"></param>
         /// <returns></returns>
         public static Direction RotationAroundyAxis(
-            double yRotationAngle,
+            double yRotation,
             Direction currentDirection)
         {
             // readability eased with local copies of following
@@ -295,7 +295,7 @@ namespace Vts.MonteCarlo.Sources
 
             double cost, sint;    /* cosine and sine of rotation angle */
 
-            cost = Math.Cos(yRotationAngle);
+            cost = Math.Cos(yRotation);
             sint = Math.Sqrt(1.0 - cost * cost);
 
             currentDirection.Ux = ux * cost + uz * sint;
@@ -313,7 +313,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="Rng"></param>
         /// <returns></returns>
         public static Direction RotationAroundzAxis(
-            double zRotationAngle,
+            double zRotation,
             Direction currentDirection)
         {
             // readability eased with local copies of following
@@ -323,7 +323,7 @@ namespace Vts.MonteCarlo.Sources
 
             double cost, sint;    /* cosine and sine of rotation angle */
 
-            cost = Math.Cos(zRotationAngle);
+            cost = Math.Cos(zRotation);
             sint = Math.Sqrt(1.0 - cost * cost);
 
             currentDirection.Ux = ux * cost - uy * sint;
@@ -331,7 +331,73 @@ namespace Vts.MonteCarlo.Sources
             currentDirection.Uz = uz;
 
             return currentDirection;
-        }     
+        }
+
+        /// <summary>
+        /// Returns a direction after rotating around Clockwise xyz axis (Left Handed Rotation)
+        /// </summary>
+        /// <param name="polarAngleEmissionRange"></param>
+        /// <param name="azimuthalAngleEmissionRange"></param>
+        /// <param name="Rng"></param>
+        /// <returns></returns>
+        public static Direction RotationAroundThreeAxisClockwiseLeftHanded(
+            double xRotation,
+            double yRotation,
+            double zRotation,
+            Direction currentDirection)
+        {
+            // readability eased with local copies of following
+            double ux = currentDirection.Ux;
+            double uy = currentDirection.Uy;
+            double uz = currentDirection.Uz;
+
+            double cosx, sinx, cosy, siny, cosz, sinz;    /* cosine and sine of rotation angles */
+
+            cosx = Math.Cos(xRotation);            
+            cosy = Math.Cos(yRotation);            
+            cosz = Math.Cos(zRotation);
+            sinx = Math.Sqrt(1.0 - cosx * cosx);
+            siny = Math.Sqrt(1.0 - cosy * cosy);
+            sinz = Math.Sqrt(1.0 - cosz * cosz);
+
+            currentDirection.Ux = ux * cosy * cosz + uy * (-cosx * sinz + sinx * siny * cosz) + uz * (sinx * sinz + cosx * siny * cosz);
+            currentDirection.Uy = ux * cosy * sinz + uy * (cosx * cosz + sinx * siny * sinz) + uz * (-sinx * cosz + cosx * siny * sinz);
+            currentDirection.Uz = ux * siny + uy * sinx * cosy + uz * cosx * cosy;
+
+            return currentDirection;
+        }
+
+        /// <summary>
+        /// Returns a direction when rotation angles are given as polar (theta) and azimuthal (phi) angles
+        /// This rotation is given by RotationAroundz * RotationAroundy * CurrentDirection
+        /// </summary>
+        /// <param name="theta"></param>
+        /// <param name="phi"></param>
+        /// <param name="currentDirection"></param>
+        /// <returns></returns>
+        public static Direction AngleThetaPhiRotation(
+            double theta,
+            double phi,            
+            Direction currentDirection)
+        {
+            // readability eased with local copies of following
+            double ux = currentDirection.Ux;
+            double uy = currentDirection.Uy;
+            double uz = currentDirection.Uz;
+
+            double cost, sint, cosp, sinp;    /* cosine and sine of theta and phi */
+
+            cost = Math.Cos(theta);
+            cosp = Math.Cos(phi);            
+            sint = Math.Sqrt(1.0 - cost * cost);
+            sinp = Math.Sqrt(1.0 - cosp * cosp);
+
+            currentDirection.Ux = ux * cosp * cost - uy * sint + uz * sinp * cost;
+            currentDirection.Uy = ux * cosp * sint + uy * cost + uz * sinp * sint;
+            currentDirection.Uz = -ux * sinp +  uz * cost;
+
+            return currentDirection;
+        }  
 
     }
 }
