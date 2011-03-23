@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Detectors
     /// of Rho and Omega.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
-    public class ROfRhoAndOmegaDetector : TallyBase, ITerminationDetector<Complex[,]>
+    public class ROfRhoAndOmegaDetector : ITerminationDetector<Complex[,]>
     {
         /// <summary>
         /// Returns an instance of ROfRhoAndAngleDetector
@@ -24,7 +24,6 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="omega"></param>
         /// <param name="tissue"></param>
         public ROfRhoAndOmegaDetector(DoubleRange rho, DoubleRange omega, ITissue tissue)
-            : base(tissue)
         {
             Rho = rho;
             Omega = omega;

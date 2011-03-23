@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Detectors
     /// of Rho and Time.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class ROfRhoAndTimeDetector : TallyBase, ITerminationDetector<double[,]>
+    public class ROfRhoAndTimeDetector : ITerminationDetector<double[,]>
     {
         /// <summary>
         ///  Returns an instance of ROfRhoAndTimeDetector
@@ -23,7 +23,6 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="time"></param>
         /// <param name="tissue"></param>
         public ROfRhoAndTimeDetector(DoubleRange rho, DoubleRange time, ITissue tissue)
-            : base(tissue)
         {
             Rho = rho;
             Time = time;
