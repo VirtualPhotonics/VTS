@@ -167,7 +167,8 @@ namespace Vts.MonteCarlo.Sources
         {
             double cost, sint, psi, cosp, sinp;
             double costmax, costmin; 
-            Direction dir;
+            
+            var dir = new Direction(0,0,0);
 
             //sampling cost
             costmax = Math.Cos(polarAngleEmissionRange.Stop);
@@ -200,7 +201,7 @@ namespace Vts.MonteCarlo.Sources
             DoubleRange zAxisRange,
             Random Rng)
         {                      
-            Position pos;
+            var pos = new Position(0,0,0);
 
             pos.X = (xAxisRange.Stop - xAxisRange.Start) * Rng.NextDouble() + xAxisRange.Start;
             pos.Y = (yAxisRange.Stop - yAxisRange.Start) * Rng.NextDouble() + yAxisRange.Start;
@@ -225,9 +226,10 @@ namespace Vts.MonteCarlo.Sources
             double zStdDev,
             Random Rng)
         {
-            Position pos;
             double s1, s2, s3;
             double w;
+
+            var pos = new Position(0, 0, 0);
 
             do {
                 s1 = 2.0 * Rng.NextDouble() - 1.0;
