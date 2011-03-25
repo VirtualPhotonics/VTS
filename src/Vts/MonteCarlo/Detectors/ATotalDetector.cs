@@ -20,10 +20,11 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns am instance of ATotalDetector
         /// </summary>
         /// <param name="tissue"></param>
-        public ATotalDetector(ITissue tissue)
+        public ATotalDetector(ITissue tissue, String name)
            : base(tissue)
         {
             TallyType = TallyType.ATotal;
+            Name = name;
             TallyCount = 0;
         }
 
@@ -31,7 +32,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of ATotalDetector (for serialization purposes only)
         /// </summary>
         public ATotalDetector()
-            : this(new MultiLayerTissue())
+            : this(new MultiLayerTissue(), TallyType.ATotal.ToString())
         {
         }
 
@@ -40,6 +41,8 @@ namespace Vts.MonteCarlo.Detectors
         public double SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public String Name { get; set; }
 
         public long TallyCount { get; set; }
 

@@ -9,5 +9,6 @@ namespace Vts.MonteCarlo
     public interface IDetectorInput
     {
        TallyType TallyType { get; set; }
+       string Name { get; set; }
     }
 }

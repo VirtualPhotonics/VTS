@@ -16,6 +16,7 @@ namespace Vts.MonteCarlo
     public interface IDetector
     {
         TallyType TallyType{ get; set; }
+        string Name { get; set; }
         long TallyCount { get; set; }
         void Normalize(long numPhotons);
         bool ContainsPoint(PhotonDataPoint dp);

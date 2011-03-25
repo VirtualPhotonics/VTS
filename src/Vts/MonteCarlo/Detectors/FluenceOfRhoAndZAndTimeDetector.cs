@@ -25,7 +25,12 @@ namespace Vts.MonteCarlo.Detectors
         ///<param name="z"></param>
         ///<param name="time"></param>
         ///<param name="tissue"></param>
-        public FluenceOfRhoAndZAndTimeDetector(DoubleRange rho, DoubleRange z, DoubleRange time, ITissue tissue)
+        public FluenceOfRhoAndZAndTimeDetector(
+            DoubleRange rho, 
+            DoubleRange z, 
+            DoubleRange time, 
+            ITissue tissue,
+            String name)
             : base(tissue)
         {
             Rho = rho;
@@ -35,6 +40,7 @@ namespace Vts.MonteCarlo.Detectors
             Mean = new double[Rho.Count - 1, Z.Count - 1, Time.Count - 1];
             SecondMoment = new double[Rho.Count - 1, Z.Count - 1, Time.Count - 1];
             TallyType = TallyType.FluenceOfRhoAndZAndTime;
+            Name = name;
             TallyCount = 0;
         }
 
@@ -42,7 +48,12 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns an instance of FluenceOfRhoAndZAndTimeDetector (for serialization purposes only)
         /// </summary>
         public FluenceOfRhoAndZAndTimeDetector()
-            : this(new DoubleRange(), new DoubleRange(), new DoubleRange(), new MultiLayerTissue())
+            : this(
+            new DoubleRange(), 
+            new DoubleRange(), 
+            new DoubleRange(), 
+            new MultiLayerTissue(), 
+            TallyType.FluenceOfRhoAndZAndTime.ToString())
         {
         }
 
@@ -53,6 +64,8 @@ namespace Vts.MonteCarlo.Detectors
         public double[, ,] SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public String Name { get; set; }
 
         public long TallyCount { get; set; }
 

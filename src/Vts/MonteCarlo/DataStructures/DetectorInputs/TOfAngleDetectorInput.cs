@@ -9,9 +9,21 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class TOfAngleDetectorInput : IDetectorInput
     {
+        public TOfAngleDetectorInput(DoubleRange angle, String name)
+        {
+            TallyType = TallyType.TOfAngle;
+            Name = name;
+            Angle = angle;
+        }
+        /// <summary>
+        /// constructor uses TallyType for name
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="name"></param>
         public TOfAngleDetectorInput(DoubleRange angle)
         {
             TallyType = TallyType.TOfAngle;
+            Name = TallyType.TOfAngle.ToString();
             Angle = angle;
         }
 
@@ -19,11 +31,12 @@ namespace Vts.MonteCarlo
         /// Default constructor uses default angle bins
         /// </summary>
         public TOfAngleDetectorInput()
-            : this(new DoubleRange(0.0, Math.PI / 2, 2))
+            : this(new DoubleRange(0.0, Math.PI / 2, 2), TallyType.TOfAngle.ToString())
         {
         }
 
         public TallyType TallyType { get; set; }
+        public String Name { get; set; }
         public DoubleRange Angle { get; set; }
     }
 }

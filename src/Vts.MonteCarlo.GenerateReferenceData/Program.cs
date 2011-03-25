@@ -64,7 +64,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
 
             Output output = new MonteCarloSimulation(input).Run();
 
-            var rOfRhoAndTime = output.ResultsDictionary[TallyType.ROfRhoAndTime];
+            var rOfRhoAndTime = output.ResultsDictionary[TallyType.ROfRhoAndTime.ToString()];
 
             string folderPath = "results";
             if (!Directory.Exists(folderPath))

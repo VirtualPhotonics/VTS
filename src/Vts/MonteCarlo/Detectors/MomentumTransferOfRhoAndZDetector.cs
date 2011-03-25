@@ -18,13 +18,14 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         /// <param name="rho"></param>
         /// <param name="z"></param>
-        public MomentumTransferOfRhoAndZDetector(DoubleRange rho, DoubleRange z)
+        public MomentumTransferOfRhoAndZDetector(DoubleRange rho, DoubleRange z, String name)
         {
             Rho = rho;
             Z = z;
             Mean = new double[Rho.Count - 1, Z.Count - 1];
             SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
             TallyType = TallyType.MomentumTransferOfRhoAndZ;
+            Name = name;
             TallyCount = 0;
         }
 
@@ -32,7 +33,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of MomentumTransferOfRhoAndZDetector (for serialization purposes only)
         /// </summary>
         public MomentumTransferOfRhoAndZDetector()
-            : this(new DoubleRange(), new DoubleRange())
+            : this(new DoubleRange(), new DoubleRange(), TallyType.MomentumTransferOfRhoAndZ.ToString())
         {
         }
 
@@ -43,6 +44,8 @@ namespace Vts.MonteCarlo.Detectors
         public double[,] SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public String Name { get; set; }
 
         public long TallyCount { get; set; }
 

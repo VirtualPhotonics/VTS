@@ -19,15 +19,23 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Returns an instance of RDiffuseDetector
         /// </summary>
-        public ROfAngleDetector(DoubleRange angle)
+        public ROfAngleDetector(DoubleRange angle, String name)
         {
             Angle = angle;
             Mean = new double[Angle.Count - 1];
             SecondMoment = new double[Angle.Count - 1];
             TallyType = TallyType.ROfAngle;
+            Name = name;
             TallyCount = 0;
         }
-
+        
+        /// <summary>
+        /// Returns a default instance of ROfAngleDetector (for serialization purposes only)
+        /// </summary>
+        public ROfAngleDetector()
+            : this(new DoubleRange(), TallyType.ROfAngle.ToString())
+        {
+        }
         [IgnoreDataMember]
         public double[] Mean { get; set; }
 
@@ -35,6 +43,8 @@ namespace Vts.MonteCarlo.Detectors
         public double[] SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public String Name { get; set; }
 
         public long TallyCount { get; set; }
 

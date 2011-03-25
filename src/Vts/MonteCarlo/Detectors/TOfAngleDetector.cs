@@ -20,12 +20,13 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns an instance of TOfAngleDetector
         /// </summary>
         /// <param name="angle"></param>
-        public TOfAngleDetector(DoubleRange angle)
+        public TOfAngleDetector(DoubleRange angle, String name)
         {
             Angle = angle;
             Mean = new double[Angle.Count];
             SecondMoment = new double[Angle.Count];
             TallyType = TallyType.TOfAngle;
+            Name = name;
             TallyCount = 0;
         }
 
@@ -33,7 +34,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of TDiffuseDetector (for serialization purposes only)
         /// </summary>
         public TOfAngleDetector()
-            : this(new DoubleRange())
+            : this(new DoubleRange(), TallyType.TOfAngle.ToString())
         {
         }
 
@@ -44,6 +45,8 @@ namespace Vts.MonteCarlo.Detectors
         public double[] SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public String Name { get; set; }
 
         public long TallyCount { get; set; }
 

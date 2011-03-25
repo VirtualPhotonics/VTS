@@ -23,13 +23,14 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="rho"></param>
         /// <param name="time"></param>
         /// <param name="tissue"></param>
-        public ROfRhoAndTimeDetector(DoubleRange rho, DoubleRange time, ITissue tissue)
+        public ROfRhoAndTimeDetector(DoubleRange rho, DoubleRange time, ITissue tissue, String name)
         {
             Rho = rho;
             Time = time;
             Mean = new double[Rho.Count - 1, Time.Count - 1];
             SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
             TallyType = TallyType.ROfRhoAndTime;
+            Name = name;
             TallyCount = 0;
         }
 
@@ -37,7 +38,11 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of ROfRhoAndTimeDetector (for serialization purposes only)
         /// </summary>
         public ROfRhoAndTimeDetector()
-            : this(new DoubleRange(),  new DoubleRange(),  new MultiLayerTissue())
+            : this(
+            new DoubleRange(),  
+            new DoubleRange(),  
+            new MultiLayerTissue(), 
+            TallyType.ROfRhoAndTime.ToString())
         {
         }
 
@@ -48,6 +53,8 @@ namespace Vts.MonteCarlo.Detectors
         public double[,] SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public String Name { get; set; }
 
         public long TallyCount { get; set; }
 

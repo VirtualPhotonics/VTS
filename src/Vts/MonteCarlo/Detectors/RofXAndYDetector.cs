@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
@@ -19,7 +20,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public ROfXAndYDetector(DoubleRange x, DoubleRange y)
+        public ROfXAndYDetector(DoubleRange x, DoubleRange y, String name)
         {
             X = x;
             Y = y;
@@ -27,6 +28,7 @@ namespace Vts.MonteCarlo.Detectors
             Mean = new double[X.Count - 1, Y.Count - 1];
             SecondMoment = new double[X.Count - 1, Y.Count - 1];
             TallyType = TallyType.ROfXAndY;
+            Name = name;
             TallyCount = 0;
         }
 
@@ -34,7 +36,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of ROfXAndYDetector (for serialization purposes only)
         /// </summary>
         public ROfXAndYDetector()
-            : this(new DoubleRange(), new DoubleRange())
+            : this(new DoubleRange(), new DoubleRange(), TallyType.ROfXAndY.ToString())
         {
         }
 
@@ -45,6 +47,8 @@ namespace Vts.MonteCarlo.Detectors
         public double[,] SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public String Name { get; set; }
 
         public long TallyCount { get; set; }
 

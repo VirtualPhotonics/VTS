@@ -91,6 +91,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_CAW_RDiffuse()
         {
+            //var temp = (RDiffuseDetector)_output.ResultsDictionary[TallyType.RDiffuse.ToString()];
+            //Assert.Less(Math.Abs(temp.Mean - 0.573738839), 0.0000000001);
             Assert.Less(Math.Abs(_output.Rd - 0.573738839), 0.000000001);
         }
         // Diffuse Reflectance

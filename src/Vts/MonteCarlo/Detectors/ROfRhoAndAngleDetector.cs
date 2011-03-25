@@ -20,13 +20,14 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         /// <param name="rho"></param>
         /// <param name="angle"></param>
-        public ROfRhoAndAngleDetector(DoubleRange rho, DoubleRange angle)
+        public ROfRhoAndAngleDetector(DoubleRange rho, DoubleRange angle, String name)
         {
             Rho = rho;
             Angle = angle;
             Mean = new double[Rho.Count - 1, Angle.Count];
             SecondMoment = new double[Rho.Count - 1, Angle.Count];
             TallyType = TallyType.ROfRhoAndAngle;
+            Name = name;
             TallyCount = 0;
         }
 
@@ -34,7 +35,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of ROfRhoAndAngleDetector (for serialization purposes only)
         /// </summary>
         public ROfRhoAndAngleDetector()
-            : this(new DoubleRange(), new DoubleRange())
+            : this(new DoubleRange(), new DoubleRange(), TallyType.ROfRhoAndAngle.ToString())
         {
         }
 
@@ -47,6 +48,8 @@ namespace Vts.MonteCarlo.Detectors
         public TallyType TallyType { get; set; }
 
         public long TallyCount { get; set; }
+
+        public String Name { get; set; }
 
         public DoubleRange Rho { get; set; }
 

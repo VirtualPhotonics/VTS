@@ -24,20 +24,21 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="rho"></param>
         /// <param name="omega"></param>
         /// <param name="tissue"></param>
-        public ROfRhoAndOmegaDetector(DoubleRange rho, DoubleRange omega, ITissue tissue)
+        public ROfRhoAndOmegaDetector(DoubleRange rho, DoubleRange omega, ITissue tissue, String name)
         {
             Rho = rho;
             Omega = omega;
             Mean = new Complex[Rho.Count - 1, Omega.Count - 1];
             SecondMoment = new Complex[Rho.Count - 1, Omega.Count - 1];
             TallyType = TallyType.ROfRhoAndOmega;
+            Name = name;
             TallyCount = 0;
         }
         /// <summary>
         /// Returns a default instance of ROfRhoAndAngleDetector (for serialization purposes only)
         /// </summary>
         public ROfRhoAndOmegaDetector()
-            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue() )
+            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue(), TallyType.ROfRhoAndOmega.ToString())
         {
             
         }
@@ -49,6 +50,8 @@ namespace Vts.MonteCarlo.Detectors
         public Complex[,] SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public String Name { get; set; }
 
         public long TallyCount { get; set; }
 

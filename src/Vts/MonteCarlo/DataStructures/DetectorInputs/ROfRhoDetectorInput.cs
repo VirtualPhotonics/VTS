@@ -9,20 +9,33 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class ROfRhoDetectorInput : IDetectorInput
     {
+        public ROfRhoDetectorInput(DoubleRange rho, String name)
+        {
+            TallyType = TallyType.ROfRho;
+            Name = name;
+            Rho = rho;
+        }
+        /// <summary>
+        /// constructor uses TallyType as name
+        /// </summary>
+        /// <param name="rho"></param>
+        /// <param name="name"></param>
         public ROfRhoDetectorInput(DoubleRange rho)
         {
             TallyType = TallyType.ROfRho;
+            Name = TallyType.ROfRho.ToString();
             Rho = rho;
         }
 
         /// <summary>
         /// Default constructor uses default rho bins
         /// </summary>
-        public ROfRhoDetectorInput() : this(new DoubleRange(0.0, 10, 101))
+        public ROfRhoDetectorInput() : this(new DoubleRange(0.0, 10, 101), TallyType.ROfRho.ToString())
         {
         }
 
         public TallyType TallyType { get; set; }
+        public String Name { get; set; }
         public DoubleRange Rho { get; set; }
     }
 }

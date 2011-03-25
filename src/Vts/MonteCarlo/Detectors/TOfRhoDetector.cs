@@ -20,12 +20,13 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns an instance of TOfRhoDetector
         /// </summary>
         /// <param name="rho"></param>
-        public TOfRhoDetector(DoubleRange rho)
+        public TOfRhoDetector(DoubleRange rho, String name)
         {
             Rho = rho;
             Mean = new double[Rho.Count - 1];
             SecondMoment = new double[Rho.Count - 1];
             TallyType = TallyType.TOfRho;
+            Name = name;
             TallyCount = 0;
         }
 
@@ -33,7 +34,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of TOfRhoDetector (for serialization purposes only)
         /// </summary>
         public TOfRhoDetector()
-            : this(new DoubleRange())
+            : this(new DoubleRange(), TallyType.TOfRho.ToString())
         {
         }
 
@@ -44,6 +45,8 @@ namespace Vts.MonteCarlo.Detectors
         public double[] SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public String Name { get; set; }
 
         public long TallyCount { get; set; }
 

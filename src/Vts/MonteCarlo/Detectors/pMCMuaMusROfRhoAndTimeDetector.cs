@@ -43,7 +43,8 @@ namespace Vts.MonteCarlo.Detectors
             DoubleRange time,
             ITissue tissue,
             IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionIndices)
+            IList<int> perturbedRegionIndices,
+            String name)
         {
             Rho = rho;
             Time = time;
@@ -52,7 +53,8 @@ namespace Vts.MonteCarlo.Detectors
             _timeDelta = Time.Delta;
             Mean = new double[Rho.Count - 1, Time.Count - 1];
             SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
-            TallyType = TallyType.pMCMuaMusInROfRhoAndTime;
+            TallyType = TallyType.pMCMuaMusROfRhoAndTime;
+            Name = name;
             _awt = tissue.AbsorptionWeightingType;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
             _perturbedOps = perturbedOps;
@@ -110,7 +112,13 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of pMCMuaMusROfRhoAndTimeDetector (for serialization purposes only)
         /// </summary>
         public pMCMuaMusROfRhoAndTimeDetector()
-            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue(), new List<OpticalProperties>(), new List<int>())
+            : this(
+            new DoubleRange(), 
+            new DoubleRange(), 
+            new MultiLayerTissue(), 
+            new List<OpticalProperties>(), 
+            new List<int>(),
+            TallyType.pMCMuaMusROfRhoAndTime.ToString())
         {
         }
 
@@ -121,6 +129,8 @@ namespace Vts.MonteCarlo.Detectors
         public double[,] SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public String Name { get; set; }
 
         public long TallyCount { get; set; }
 

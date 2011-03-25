@@ -187,7 +187,7 @@ namespace Vts.MonteCarlo.PostProcessor
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
             DetectorInput, Database, SimulationInputFromDatabaseGeneration);
 
-            var rOfRhoAndTime = postProcessedOutput.ResultsDictionary[TallyType.ROfRhoAndTime];
+            var rOfRhoAndTime = postProcessedOutput.ResultsDictionary[TallyType.ROfRhoAndTime.ToString()];
 
             var folderPath = "postresults";
             if (!Directory.Exists(folderPath))

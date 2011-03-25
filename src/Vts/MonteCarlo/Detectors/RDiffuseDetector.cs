@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.MonteCarlo.PhotonData;
@@ -14,12 +15,20 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Returns an instance of RDiffuseDetector
         /// </summary>
-        public RDiffuseDetector()
+        public RDiffuseDetector(String name)
         {
             Mean = 0;
             SecondMoment = 0;
             TallyType = TallyType.RDiffuse;
+            Name = name;
             TallyCount = 0;
+        }
+        /// <summary>
+        /// Returns a default instance of RDiffuseDetector (for serialization purposes only)
+        /// </summary>
+        public RDiffuseDetector()
+            : this(TallyType.RDiffuse.ToString())
+        {
         }
 
         public double Mean { get; set; }
@@ -27,6 +36,8 @@ namespace Vts.MonteCarlo.Detectors
         public double SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
+
+        public String Name { get; set; }
 
         public long TallyCount { get; set; }
 

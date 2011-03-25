@@ -14,23 +14,37 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class Output
     {
+        private IList<IDetector> _detectorResults;
         public Output(SimulationInput si, IList<IDetector> detectorResults)
         {
             Input = si;
-            ResultsDictionary = detectorResults.ToDictionary(d => d.TallyType);
+            ResultsDictionary = new Dictionary<String, IDetector>();
+            foreach (var detector in detectorResults)
+            {
+                try
+                {
+                    ResultsDictionary.Add(detector.Name, detector);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Problem adding detector results to dictionary.\n\nDetails:\n\n" + e + "\n");
+                }
+            }
+            //ResultsDictionary = detectorResults.ToDictionary(d => d.Name);
+            _detectorResults = detectorResults;
         }
 
-        public double Rd { get { return ((RDiffuseDetector)ResultsDictionary[TallyType.RDiffuse]).Mean; } }
-        public double Rd2 { get { return ((RDiffuseDetector)ResultsDictionary[TallyType.RDiffuse]).SecondMoment; } }
+        public double Rd { get { return ((RDiffuseDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RDiffuse).First().Name]).Mean; } }
+        public double Rd2 { get { return ((RDiffuseDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RDiffuse).First().Name]).SecondMoment; } }
 
         //public double Rtot { get { return ((RTotalDetector)ResultsDictionary[TallyType.RTotal]).Mean; } }
         //public double Rtot2 { get { return ((RTotalDetector)ResultsDictionary[TallyType.RTotal]).SecondMoment; } }
 
-        public double Td { get { return ((TDiffuseDetector)ResultsDictionary[TallyType.TDiffuse]).Mean; } }
-        public double Td2 { get { return ((TDiffuseDetector)ResultsDictionary[TallyType.TDiffuse]).SecondMoment; } }
+        public double Td { get { return ((TDiffuseDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.TDiffuse).First().Name]).Mean; } }
+        public double Td2 { get { return ((TDiffuseDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.TDiffuse).First().Name]).SecondMoment; } }
 
-        public double Atot { get { return ((ATotalDetector)ResultsDictionary[TallyType.ATotal]).Mean; } }
-        public double Atot2 { get { return ((ATotalDetector)ResultsDictionary[TallyType.ATotal]).SecondMoment; } }
+        public double Atot { get { return ((ATotalDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ATotal).First().Name]).Mean; } }
+        public double Atot2 { get { return ((ATotalDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ATotal).First().Name]).SecondMoment; } }
 
         //public double[] A_z { get { return ((AOfZDetector)ResultsDictionary[TallyType.AOfZ]).Mean; } }
         //public double[] A_z2 { get { return ((AOfZDetector)ResultsDictionary[TallyType.AOfZ]).SecondMoment; } }
@@ -41,47 +55,48 @@ namespace Vts.MonteCarlo
         //public double[] Flu_z { get { return ((FluenceOfZDetector)ResultsDictionary[TallyType.FluenceOfZ]).Mean; } }
         //public double[] Flu_z2 { get { return ((FluenceOfZDetector)ResultsDictionary[TallyType.FluenceOfZ]).SecondMoment; } }
 
-        public double[] R_r { get { return ((ROfRhoDetector)ResultsDictionary[TallyType.ROfRho]).Mean; } }
-        public double[] R_r2 { get { return ((ROfRhoDetector)ResultsDictionary[TallyType.ROfRho]).SecondMoment; } }
+        public double[] R_r { get { return ((ROfRhoDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfRho).First().Name]).Mean; } }
+        public double[] R_r2 { get { return ((ROfRhoDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfRho).First().Name]).SecondMoment; } }
 
-        public double[] R_a { get { return ((ROfAngleDetector)ResultsDictionary[TallyType.ROfAngle]).Mean; } }
-        public double[] R_a2 { get { return ((ROfAngleDetector)ResultsDictionary[TallyType.ROfAngle]).SecondMoment; } }
+        public double[] R_a { get { return ((ROfAngleDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfAngle).First().Name]).Mean; } }
+        public double[] R_a2 { get { return ((ROfAngleDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfAngle).First().Name]).SecondMoment; } }
 
-        public double[] T_r { get { return ((TOfRhoDetector)ResultsDictionary[TallyType.TOfRho]).Mean; } }
-        public double[] T_r2 { get { return ((TOfRhoDetector)ResultsDictionary[TallyType.TOfRho]).SecondMoment; } }
+        public double[] T_r { get { return ((TOfRhoDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.TOfRho).First().Name]).Mean; } }
+        public double[] T_r2 { get { return ((TOfRhoDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.TOfRho).First().Name]).SecondMoment; } }
 
-        public double[] T_a { get { return ((TOfAngleDetector)ResultsDictionary[TallyType.TOfAngle]).Mean; } }
-        public double[] T_a2 { get { return ((TOfAngleDetector)ResultsDictionary[TallyType.TOfAngle]).SecondMoment; } }
+        public double[] T_a { get { return ((TOfAngleDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.TOfAngle).First().Name]).Mean; } }
+        public double[] T_a2 { get { return ((TOfAngleDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.TOfAngle).First().Name]).SecondMoment; } }
 
-        public double[,] A_rz { get { return ((AOfRhoAndZDetector)ResultsDictionary[TallyType.AOfRhoAndZ]).Mean; } }
-        public double[,] A_rz2 { get { return ((AOfRhoAndZDetector)ResultsDictionary[TallyType.AOfRhoAndZ]).SecondMoment; } }
+        public double[,] A_rz { get { return ((AOfRhoAndZDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.AOfRhoAndZ).First().Name]).Mean; } }
+        public double[,] A_rz2 { get { return ((AOfRhoAndZDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.AOfRhoAndZ).First().Name]).SecondMoment; } }
 
-        public double[,] Flu_rz { get { return ((FluenceOfRhoAndZDetector)ResultsDictionary[TallyType.FluenceOfRhoAndZ]).Mean; } }
-        public double[,] Flu_rz2 { get { return ((FluenceOfRhoAndZDetector)ResultsDictionary[TallyType.FluenceOfRhoAndZ]).SecondMoment; } }
+        public double[,] Flu_rz { get { return ((FluenceOfRhoAndZDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.FluenceOfRhoAndZ).First().Name]).Mean; } }
+        public double[,] Flu_rz2 { get { return ((FluenceOfRhoAndZDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.FluenceOfRhoAndZ).First().Name]).SecondMoment; } }
 
-        public double[,] R_ra { get { return ((ROfRhoAndAngleDetector)ResultsDictionary[TallyType.ROfRhoAndAngle]).Mean; } }
-        public double[,] R_ra2 { get { return ((ROfRhoAndAngleDetector)ResultsDictionary[TallyType.ROfRhoAndAngle]).SecondMoment; } }
+        public double[,] R_ra { get { return ((ROfRhoAndAngleDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfRhoAndAngle).First().Name]).Mean; } }
+        public double[,] R_ra2 { get { return ((ROfRhoAndAngleDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfRhoAndAngle).First().Name]).SecondMoment; } }
 
-        public double[,] T_ra { get { return ((TOfRhoAndAngleDetector)ResultsDictionary[TallyType.TOfRhoAndAngle]).Mean; } }
-        public double[,] T_ra2 { get { return ((TOfRhoAndAngleDetector)ResultsDictionary[TallyType.TOfRhoAndAngle]).SecondMoment; } }
+        public double[,] T_ra { get { return ((TOfRhoAndAngleDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.TOfRhoAndAngle).First().Name]).Mean; } }
+        public double[,] T_ra2 { get { return ((TOfRhoAndAngleDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.TOfRhoAndAngle).First().Name]).SecondMoment; } }
 
-        public double[,] R_xy { get { return ((ROfXAndYDetector)ResultsDictionary[TallyType.ROfXAndY]).Mean; } }
-        public double[,] R_xy2 { get { return ((ROfXAndYDetector)ResultsDictionary[TallyType.ROfXAndY]).SecondMoment; } }
+        public double[,] R_xy { get { return ((ROfXAndYDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfXAndY).First().Name]).Mean; } }
+        public double[,] R_xy2 { get { return ((ROfXAndYDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfXAndY).First().Name]).SecondMoment; } }
 
-        public double[,] R_rt { get { return ((ROfRhoAndTimeDetector)ResultsDictionary[TallyType.ROfRhoAndTime]).Mean; } }
-        public double[,] R_rt2 { get { return ((ROfRhoAndTimeDetector)ResultsDictionary[TallyType.ROfRhoAndTime]).SecondMoment; } }
+        public double[,] R_rt { get { return ((ROfRhoAndTimeDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfRhoAndTime).First().Name]).Mean; } }
+        public double[,] R_rt2 { get { return ((ROfRhoAndTimeDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfRhoAndTime).First().Name]).SecondMoment; } }
 
-        public Complex[,] R_rw { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary[TallyType.ROfRhoAndOmega]).Mean; } }
-        public Complex[,] R_rw2 { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary[TallyType.ROfRhoAndOmega]).SecondMoment; } }
+        public Complex[,] R_rw { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfRhoAndOmega).First().Name]).Mean; } }
+        public Complex[,] R_rw2 { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfRhoAndOmega).First().Name]).SecondMoment; } }
 
         //public double[, ,] A_rzt { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary[TallyType.AOfRhoAndZAndTime]).Mean; } }
         //public double[, ,] A_rzt2 { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary[TallyType.AOfRhoAndZAndTime]).SecondMoment; } }
 
-        public double[, ,] Flu_rzt { get { return ((FluenceOfRhoAndZAndTimeDetector)ResultsDictionary[TallyType.FluenceOfRhoAndZAndTime]).Mean; } }
-        public double[, ,] Flu_rzt2 { get { return ((FluenceOfRhoAndZAndTimeDetector)ResultsDictionary[TallyType.FluenceOfRhoAndZAndTime]).SecondMoment; } }
+        public double[, ,] Flu_rzt { get { return ((FluenceOfRhoAndZAndTimeDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.FluenceOfRhoAndZAndTime).First().Name]).Mean; } }
+        public double[, ,] Flu_rzt2 { get { return ((FluenceOfRhoAndZAndTimeDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.FluenceOfRhoAndZAndTime).First().Name]).SecondMoment; } }
 
         public SimulationInput Input { get; private set; }
 
-        public IDictionary<TallyType, IDetector> ResultsDictionary { get; private set; }
+        public IDictionary<String, IDetector> ResultsDictionary { get; private set; }
+
     }
 }
