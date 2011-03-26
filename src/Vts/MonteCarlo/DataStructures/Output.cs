@@ -17,6 +17,7 @@ namespace Vts.MonteCarlo
         private IList<IDetector> _detectorResults;
         public Output(SimulationInput si, IList<IDetector> detectorResults)
         {
+            int count = 1;
             Input = si;
             ResultsDictionary = new Dictionary<String, IDetector>();
             foreach (var detector in detectorResults)
@@ -28,6 +29,14 @@ namespace Vts.MonteCarlo
                 catch (Exception e)
                 {
                     Console.WriteLine("Problem adding detector results to dictionary.\n\nDetails:\n\n" + e + "\n");
+                    if (e is ArgumentException)
+                    {
+                        Console.WriteLine("detector with that name already exists in dictionary\n");
+                        Console.WriteLine("Adding detector with name = " + detector.Name + count + " instead.\n");
+                        string newName = detector.Name + count;
+                        ResultsDictionary.Add(newName, detector);
+                        ++count;
+                    }
                 }
             }
             //ResultsDictionary = detectorResults.ToDictionary(d => d.Name);

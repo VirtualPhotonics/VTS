@@ -216,7 +216,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modeling\N1e7G0.8dt2.5\" />
     <Folder Include="Modeling\Optimizers\" />
   </ItemGroup>
   <ItemGroup>
