@@ -18,6 +18,20 @@ namespace Vts.Test.MonteCarlo
     {
         /// <summary>
         /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
+        /// are working correctly for oD detector.
+        /// </summary>
+        [Test]
+        public void validate_0D_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "test0D";
+            IDetector detector = new RDiffuseDetector(detectorName);
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = DetectorIO.ReadDetectorFromFile(TallyType.RDiffuse, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+        } 
+        /// <summary>
+        /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
         /// are working correctly for 1D detector.
         /// </summary>
         [Test]
@@ -48,8 +62,26 @@ namespace Vts.Test.MonteCarlo
 
             Assert.AreEqual(dcloned.Name, detectorName);
         }
-        
+        /// cannot uncomment this test until HistoryTallyBase and TallyBase figured out for History tallies
+        ///// <summary>
+        ///// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
+        ///// are working correctly for 3D detector.
+        ///// </summary>
+        //[Test]
+        //public void validate_3D_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        //{
+        //    string detectorName = "test3D";
+        //    IDetector detector = new FluenceOfRhoAndZAndTimeDetector(
+        //        new DoubleRange(0, 10, 11),
+        //        new DoubleRange(0, 10, 11),
+        //        new DoubleRange(0, 1, 101),
+        //        new MultiLayerTissue(),
+        //        detectorName);
+        //    DetectorIO.WriteDetectorToFile(detector, "");
+        //    var dcloned = DetectorIO.ReadDetectorFromFile(TallyType.FluenceOfRhoAndZAndTime, detectorName, "");
 
+        //    Assert.AreEqual(dcloned.Name, detectorName);
+        //}
         private static T Clone<T>(T myObject)
         {
             using (MemoryStream ms = new MemoryStream(1024))
