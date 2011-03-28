@@ -387,7 +387,7 @@ Random rng)
         /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
         /// <param name="rng">The random number generato</param>
         /// <returns></returns>
-        public static Direction GetRandomPolarAngle(DoubleRange polarAngleEmissionRange,
+        public static Direction GetRandomPolarAndRandomAzimuthalAngle(DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Random rng)
         {
@@ -533,7 +533,7 @@ Random rng)
         /// <param name="phi">azimuthal angle</param>
         /// <param name="currentDirection"></param>
         /// <returns></returns>
-        public static Direction AngleThetaPhiRotation(
+        public static Direction RotateByGivenPolarAndAzimuthalAngle(
             double theta,
             double phi,            
             Direction currentDirection)
