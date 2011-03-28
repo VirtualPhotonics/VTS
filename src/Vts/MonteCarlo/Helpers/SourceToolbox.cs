@@ -10,251 +10,410 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class SourceToolbox
     {
+        
         /// <summary>
-        /// AngleDistributed provides a Lambertian Direction selected from thetaRange and phiRange
+        /// Returns a random position in a line (Flat distribution)        
         /// </summary>
-        /// <param name="thetaRange"></param>
-        /// <param name="phiRange"></param>
-        /// <param name="rng"></param>
-        /// <returns>Direction</returns>
-        /// CKH TODO:  add in rotation to solidAngleAxis
-        public static Direction GetRandomAngleDistributedDirection(
-            Direction solidAngleAxis, DoubleRange thetaRange, DoubleRange phiRange, Random rng)
+        /// <param name="center">The center coordiantes of the line</param>
+        /// <param name="lengthX">The x-length of the line</param>        
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Position GetRandomFlatLinePosition(Position center, 
+            double lengthX, 
+            Random rng)
         {
-            double theta = rng.NextDouble(Math.Acos(thetaRange.Start), Math.Acos(thetaRange.Stop));
-            double phi = rng.NextDouble(phiRange.Stop, phiRange.Start);
-            return (new Direction(
-                Math.Cos(theta) * Math.Sin(phi),
-                Math.Sin(theta) * Math.Sin(phi),
-                Math.Cos(phi)));
-            // previous algorithm (uses rejection sampling)
-            //public Direction AngleDistributed(double numericalAperture, double refractiveIndex,
-            //    Generator rng)
-            //double theta = 2.0 * Math.PI * rng.NextDouble();
-            //double cost = Math.Cos(theta);
-            //double sint = Math.Sin(theta);
-            //double cosp, sinp;
-            //do
-            //{
-            //    cosp = rng.NextDouble(); // has min max overload
-            //    sinp = Math.Sqrt(1.0 - cosp * cosp);
-            //} while (sinp > (numericalAperture / refractiveIndex));
-            //return new Direction(cost * sinp, sint * sinp, cosp);
+            if (lengthX == 0.0)
+            {
+                return (center);
+            }
+            
+            return(new Position(
+            center.X + GetFlatRandomLocationForASymmetricalLine(lengthX, rng),
+            center.Y,
+            center.Z));
         }
 
+        /// <summary>
+        /// Returns a random position in a line (Flat distribution)    {overload}    
+        /// </summary>
+        /// <param name="center">The center coordiantes of the line</param>
+        /// <param name="paraX">Minmum and maximum parameters of the line</param>        
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Position GetRandomFlatLinePosition(Position center, 
+            DoubleRange paraX, 
+            Random rng)
+        {
+            if (paraX.Start == paraX.Stop)
+            {
+                return (center);
+            }
+
+            return (new Position(
+            center.X + GetFlatRandomLocationForANonSymmetricalLine(paraX, rng),
+            center.Y,
+            center.Z));
+        }
+
+        /// <summary>
+        /// Returns a random position in a line (Flat distribution)        
+        /// </summary>
+        /// <param name="center">The center coordiantes of the line</param>
+        /// <param name="lengthX">The x-length of the line</param>   
+        /// <param name="stdevX">The standard deviation of the distribution along the x-axis</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Position GetRandomGaussianLinePosition(Position center, 
+            double lengthX, 
+            double stdevX, 
+            Random rng)
+        {
+            if (lengthX == 0.0)
+            {
+                return (center);
+            }
+
+            double d = 0.0;
+            do
+            {
+                Get1DGaussianDistributedRandomNumberBoxMuller1(ref d, stdevX, rng);
+            }
+            while ((d >= -0.5 * lengthX) && (d <= 0.5 * lengthX));
+            return (new Position(
+            center.X + d,
+            center.Y,
+            center.Z));        
+
+        }
+
+        /// <summary>
+        /// Returns a random position in a rectangular surface (Flat distribution)
+        /// </summary>
+        /// <param name="center">The center coordiantes of the rectangle</param>
+        /// <param name="lengthX">The x-length of the rectangle</param>
+        /// <param name="lengthY">The y-length of the rectangle</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Position GetRandomFlatRectangularPosition(Position center, 
+            double lengthX, 
+            double lengthY, 
+            Random rng)
+        {
+            if ((lengthX == 0.0) && (lengthY == 0.0))
+            {
+                return (center);
+            }
+
+            var position = new Position { Z = center.Z };
+
+            position.X = center.X + GetFlatRandomLocationForASymmetricalLine(lengthX, rng);
+            position.Y = center.Y + GetFlatRandomLocationForASymmetricalLine(lengthY, rng);
+            return position;
+        }
+
+        /// <summary>
+        /// Returns a random position in a rectangular surface (Gaussian distribution)
+        /// </summary>
+        /// <param name="center">The center coordiantes of the rectangle</param>
+        /// <param name="lengthX">The x-length of the rectangle</param>
+        /// <param name="lengthY">The y-length of the rectangle</param>
+        /// <param name="stdevX">The standard deviation of the distribution along the x-axis</param>
+        /// <param name="stdevY">The standard deviation of the distribution along the y-axis</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Position GetRandomGaussianRectangularPosition(Position center, 
+            double lengthX, 
+            double lengthY, 
+            double stdevX, 
+            double stdevY, 
+Random rng)
+        {
+            if ((lengthX == 0.0) && (lengthY == 0.0))
+            {
+                return (center);
+            }
+
+            var position = new Position { Z = center.Z };
+            double x = 0.0;
+            double y = 0.0;
+            
+            do
+            {
+                Get2DGaussianDistributedRandomNumberBoxMuller1(ref x, ref y, stdevX, stdevY, rng);
+            }
+            while ((x >= -0.5 * lengthX) && (x <= 0.5 * lengthX) && (y >= -0.5 * lengthY) && (y <= 0.5 * lengthY));
+            position.X = center.X + x;
+            position.Y = center.Y + y;
+            return position;
+        }
+
+        /// <summary>
+        /// Returns a random position in a cuboid volume (Flat distribution)
+        /// </summary>
+        /// <param name="center">The center coordiantes of the cuboid</param>
+        /// <param name="lengthX">The x-length of the cuboid</param>
+        /// <param name="lengthY">The y-length of the cuboid</param>
+        /// <param name="lengthZ">The z-length of the cuboid</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Position GetRandomFlatCuboidPosition(Position center, 
+            double lengthX, 
+            double lengthY, 
+            double lengthZ, 
+            Random rng)
+        {
+            if ((lengthX == 0.0) && (lengthY == 0.0) && (lengthZ == 0.0))
+            {
+                return (center);
+            }
+
+            var position = new Position {};
+
+            position.X = center.X + GetFlatRandomLocationForASymmetricalLine(lengthX, rng);
+            position.Y = center.Y + GetFlatRandomLocationForASymmetricalLine(lengthY, rng);
+            position.Z = center.Z + GetFlatRandomLocationForASymmetricalLine(lengthZ, rng);
+            return position;            
+        }
+
+        /// <summary>
+        /// Returns a random position in a cuboid volume (Flat distribution) {overload}
+        /// </summary>
+        /// <param name="center">The center coordiantes of the cuboid</param>
+        /// <param name="xAxisRange">The minimum and maximum parameters of the x-length</param>
+        /// <param name="yAxisRange">The minimum and maximum parameters of the y-length</param>
+        /// <param name="zAxisRange">The minimum and maximum parameters of the z-length</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Position GetRandomFlatCuboidPosition(Position center,
+            DoubleRange xAxisRange,
+            DoubleRange yAxisRange,
+            DoubleRange zAxisRange,
+            Random rng)
+        {
+            if ((xAxisRange.Start == xAxisRange.Stop) && (yAxisRange.Start == yAxisRange.Stop) && (zAxisRange.Start == zAxisRange.Stop))
+            {
+                return (center);
+            }
+            
+            var position = new Position { };
+
+            position.X = center.X + GetFlatRandomLocationForANonSymmetricalLine(xAxisRange, rng);
+            position.Y = center.Y + GetFlatRandomLocationForANonSymmetricalLine(yAxisRange, rng);
+            position.Z = center.Z + GetFlatRandomLocationForANonSymmetricalLine(zAxisRange, rng);
+            return position;
+        }
+              
+
+     
+        /// <summary>
+        /// Provides a random position in a circle (Flat distribution)
+        /// </summary>
+        /// <param name="center">The center coordiantes of the circle</param>
+        /// <param name="radius">The radius of the circle</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
         public static Position GetRandomFlatCircularPosition(Position center, double radius, Random rng)
         {
             if (radius == 0.0)
             {
                 return (center);
             }
-
+                                 
             double RN1 = rng.NextDouble();
             double RN2 = rng.NextDouble();
-            double cosRN2 = Math.Cos(2 * Math.PI * RN2);
-            double sinRN2 = Math.Sin(2 * Math.PI * RN2);
+            double cosRN1 = Math.Cos(2 * Math.PI * RN1);
+            double sinRN1 = Math.Sin(2 * Math.PI * RN1);
             return (new Position(
-                center.X + radius * Math.Sqrt(RN1) * cosRN2,
-                center.Y + radius * Math.Sqrt(RN1) * sinRN2,
+                center.X + radius * Math.Sqrt(RN2) * cosRN1,
+                center.Y + radius * Math.Sqrt(RN2) * sinRN1,
                 0.0));
         }
 
-        public static Position GetRandomGaussianCircularPosition(Position center, double radius, Random rng)
+        /// <summary>
+        /// Provides a random position in a circle (Gaussisan distribution)
+        /// <summary>
+        /// <param name="center">The center coordiantes of the circle</param>
+        /// <param name="radius">The radius of the circle</param>
+        /// <param name="stdev">The standard deviation of the distribution</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Position GetRandomGaussianCircularPosition(Position center, double radius, double stdev, Random rng)
         {
             if (radius == 0.0)
             {
                 return (center);
             }
 
-            double RN1 = rng.NextDouble();
-            double RN2 = rng.NextDouble();
-            double cosRN2 = Math.Cos(2 * Math.PI * RN2);
-            double sinRN2 = Math.Sin(2 * Math.PI * RN2);
+            double x = 0.0;
+            double y = 0.0;
+            double r;
 
-            /* Gaussian beam starting coordinates as given on p24 in Ch4 of AJW book  */
-            if (RN1 == 1.0) RN1 = rng.NextDouble();
+            /*eliminate points outside the circle */
+            do
+            {
+                Get2DGaussianDistributedRandomNumberBoxMuller1(ref x, ref y, stdev, stdev, rng);
+                r = Math.Sqrt(x * x + y * y);
+            }
+            while (r <= radius);           
+                        
             return (new Position(
-                center.X + radius * Math.Sqrt(-Math.Log(1.0 - RN1) / 2.0) * cosRN2,
-                center.Y + radius * Math.Sqrt(-Math.Log(1.0 - RN1) / 2.0) * sinRN2,
+                center.X + radius * x,
+                center.Y + radius * y,
                 center.Z));
         }
 
-        // todo: extend to arbitrary orientation
-        // todo: CKH verify
         /// <summary>
-        /// Returns a random position on a flat rectangular surface
+        /// Provides a random position in an ellipse (Flat distribution)
         /// </summary>
-        /// <param name="center"></param>
-        /// <param name="lengthX">The x-length of the rectangle</param>
-        /// <param name="lengthY">The x-length of the rectangle</param>
+        /// <param name="center">The center coordiantes of the ellipse</param>
+        /// <param name="a">'a' parameter of the ellipse</param>
+        /// <param name="b">'b' parameter of the ellipse</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        /// <remarks>Custom orientation is not yet enabled.</remarks> 
-        public static Position GetRandomFlatRectangularPosition(Position center, double lengthX, double lengthY, Random rng)
+        public static Position GetRandomFlatEllipsePosition(Position center, double a, double b, Random rng)
         {
-            var position = new Position { Z = center.Z };
+           if ((a == 0.0) && (b == 0.0))
+           {
+                return (center);
+           }
+          
+           double RN1, RN2;
+           /*eliminate points outside the ellipse */
+           do
+           {
+               RN1 = 2 * rng.NextDouble() - 1;
+               RN2 = 2 * rng.NextDouble() - 1;
+           }
+           while (RN1 * RN1  + RN2 * RN2  <= 1.0);
+           return (new Position(
+               center.X + a * RN1,
+               center.Y + b * RN2,
+               0.0));
+        }
 
-            if (lengthX == 0.0) { position.X = lengthX; }
-            else
+        /// <summary>
+        /// Provides a random position in an ellipse (Gaussian distribution)
+        /// </summary>
+        /// <param name="center">The center coordiantes of the ellipse</param>
+        /// <param name="a">'a' parameter of the ellipse</param>
+        /// <param name="b">'b' parameter of the ellipse</param>
+        /// <param name="stdevX">The standard deviation of the distribution along the x-axis</param>
+        /// <param name="stdevY">The standard deviation of the distribution along the y-axis</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>   
+        public static Position GetRandomGaussianEllipsePosition(Position center, double a, double b, double stdevX, double stdevY, Random rng)
+        {
+            if ((a == 0.0) && (b == 0.0))
             {
-                position.X = center.X + lengthX * (rng.NextDouble() - 0.5);
+                return (center);
             }
 
-            if (lengthY == 0.0) { position.Y = lengthY; }
-            else
+            double x = 0.0;
+            double y = 0.0;
+            double r;
+            /*eliminate points outside the ellipse */
+            do
             {
-                position.Y = center.Y + lengthY * (rng.NextDouble() - 0.5);
+                Get2DGaussianDistributedRandomNumberBoxMuller1(ref x, ref y, stdevX, stdevY, rng);
+                r = x * x + y * y;
             }
+            while (r <= 1.0);
 
-            return position;
-        }
-
-        /// <summary>
-        /// Returns a random position on a line of a specified length
-        /// </summary>
-        /// <param name="center">The center of the line</param>
-        /// <param name="lineOrientation">The unit vector line orientation. (Must be normalized!)</param>
-        /// <param name="length">The length of the line</param>
-        /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
-        /// <remarks>Custom orientation is not yet enabled.</remarks>
-        public static Position GetRandomLinePosition(Position center, Direction lineOrientation, double length, Random rng)
-        {
-            var position = center;
-
-            // if the length is zero, this is a point source - just return the center location
-            if (length == 0.0) { return position; }
-
-            var positionAlongAxis = length * (rng.NextDouble() - 0.5);
-
-            // need to calculate X,Y,Z location based on projection of 
-            // positionAlongAxis along the direction of lineOrientation
-            // todo: CKH help
-
-            return position;
-        }
-
-        /// <summary>
-        /// Returns a random radial direction [0,2*Pi] along a specified axis
-        /// </summary>
-        /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
-        /// <remarks>Custom orientation is not yet enabled.</remarks>
-        public static Direction SampleIsotropicRadialDirection(Random rng)
-        {
-            var theta = 2 * Math.PI * rng.NextDouble();
-
-            // need to calculate the direction based on projection of 
-            // theta along the direction of axisOrientation
-            // todo: CKH help
-            var direction = new Direction();
-
-            // todo: implement random 
-            return direction;
-        }
+            return (new Position(
+                center.X + a * x,
+                center.Y + b * y,
+                center.Z));
+        }   
         
-        /// <summary>
-        /// Returns a random direction
-        /// </summary>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="Rng"></param>
-        /// <returns></returns>
-        public static Direction SampleAngularDistributionDirection(
-            DoubleRange polarAngleEmissionRange, 
-            DoubleRange azimuthalAngleEmissionRange,
-            Random Rng)
-        {
-            double cost, sint, psi, cosp, sinp;
-            double costmax, costmin; 
-            
-            var dir = new Direction(0,0,0);
 
-            //sampling cost
-            costmax = Math.Cos(polarAngleEmissionRange.Stop);
-            costmin = Math.Cos(polarAngleEmissionRange.Start);
-            cost = (costmax-costmin)*Rng.NextDouble() + costmin;            
+        /// <summary>
+        /// Provides a direction for a given random azimuthal angle range and constant polar angle
+        /// </summary>
+        /// <param name="polarAngle">Constant polar angle</param>
+        /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Direction GetRandomAzimuthalAngle(double polarAngle, 
+            DoubleRange azimuthalAngleEmissionRange,             
+            Random rng)
+        {
+            double cost, sint, phi, cosp, sinp;
+                                
+            cost = Math.Cos(polarAngle);
+            sint = Math.Sqrt(1.0 - cost * cost);
+
+            //sampling phi
+            phi = rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop);
+            cosp = Math.Cos(phi);
+            sinp = Math.Sin(phi);
+
+            return (new Direction(
+                sint * cosp,
+                sint * sinp,
+                cost));
+        }
+
+        /// <summary>
+        /// Provides a direction for a given random polar angle range and constant azimuthal angle
+        /// </summary>
+        /// <param name="polarAngleEmissionRange">The polar angle range</param>
+        /// <param name="azimuthalAngle">Constant azimuthal angle</param>
+        /// <param name="rng">The random number generato</param>
+        /// <returns></returns>
+        public static Direction GetRandomPolarAngle(DoubleRange polarAngleEmissionRange, 
+            double azimuthalAngle,            
+            Random rng)
+        {
+            double cost, sint, cosp, sinp;
+
+            //sampling cost           
+            cost = rng.NextDouble(Math.Cos(polarAngleEmissionRange.Start), Math.Cos(polarAngleEmissionRange.Stop));
+            sint = Math.Sqrt(1.0 - cost * cost);
+
+            cosp = Math.Cos(azimuthalAngle);
+            sinp = Math.Sin(azimuthalAngle);
+
+            return (new Direction(
+                sint * cosp,
+                sint * sinp,
+                cost));
+        }
+
+
+        /// <summary>
+        /// Provides a direction for a given random polar angle range and random azimuthal angle range
+        /// </summary>
+        /// <param name="polarAngleEmissionRange">The polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
+        /// <param name="rng">The random number generato</param>
+        /// <returns></returns>
+        public static Direction GetRandomPolarAngle(DoubleRange polarAngleEmissionRange,
+            DoubleRange azimuthalAngleEmissionRange,
+            Random rng)
+        {
+            double cost, sint, phi, cosp, sinp;    
+
+            //sampling cost           
+            cost = rng.NextDouble(Math.Cos(polarAngleEmissionRange.Start), Math.Cos(polarAngleEmissionRange.Stop));                      
             sint = Math.Sqrt(1.0 - cost * cost);
             
-            //sampling psi
-            psi = (azimuthalAngleEmissionRange.Stop - azimuthalAngleEmissionRange.Start) * Rng.NextDouble() + azimuthalAngleEmissionRange.Start;  
-            cosp = Math.Cos(psi);
-            sinp = Math.Sqrt(1.0 - cosp * cosp);
-
-            dir.Ux = sint * cosp;
-            dir.Uy = sint * sinp;
-            dir.Uz = cost;   
+            //sampling phi
+            phi = rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop);     
+            cosp = Math.Cos(phi);
+            sinp = Math.Sin(phi);
                      
-            return dir;
+            return (new Direction( 
+                sint * cosp, 
+                sint * sinp, 
+                cost));
         }
 
+                
         /// <summary>
-        /// Returns a random position for a uniform distribution
+        /// Provides the new direction after rotating around the x-axis
         /// </summary>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="Rng"></param>
-        /// <returns></returns>
-        public static Position SampleUniformlyDistributedPosition(
-            DoubleRange xAxisRange,
-            DoubleRange yAxisRange,
-            DoubleRange zAxisRange,
-            Random Rng)
-        {                      
-            var pos = new Position(0,0,0);
-
-            pos.X = (xAxisRange.Stop - xAxisRange.Start) * Rng.NextDouble() + xAxisRange.Start;
-            pos.Y = (yAxisRange.Stop - yAxisRange.Start) * Rng.NextDouble() + yAxisRange.Start;
-            pos.Z = (zAxisRange.Stop - zAxisRange.Start) * Rng.NextDouble() + zAxisRange.Start;
-
-            return pos;
-        }
-
-        /// <summary>
-        /// Returns a random position for a normal (Gaussian) distribution
-        /// </summary>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="Rng"></param>
-        /// <returns></returns>
-        public static Position SampleNormallyDistributedPosition(
-            DoubleRange xAxisRange,
-            DoubleRange yAxisRange,
-            DoubleRange zAxisRange,
-            double xStdDev,
-            double yStdDev,
-            double zStdDev,
-            Random Rng)
-        {
-            double s1, s2, s3;
-            double w;
-
-            var pos = new Position(0, 0, 0);
-
-            do {
-                s1 = 2.0 * Rng.NextDouble() - 1.0;
-                s2 = 2.0 * Rng.NextDouble() - 1.0;
-		        s3 = 2.0 * Rng.NextDouble() - 1.0;
-	
-                w = s1 * s1 + s2 * s2 + + s3 * s3;
-            } while ( w >= 1.0 );
-
-             w = Math.Sqrt( (-2.0 * Math.Log( w ) ) / w );
-
-             pos.X = (xAxisRange.Stop - xAxisRange.Start) * xStdDev * s1 * w + xAxisRange.Start;
-             pos.Y = (yAxisRange.Stop - yAxisRange.Start) * yStdDev * s2 * w + yAxisRange.Start;
-             pos.Z = (zAxisRange.Stop - zAxisRange.Start) * zStdDev * s3 * w + zAxisRange.Start;
-
-            return pos;
-        }
-
-
-        /// <summary>
-        /// Returns a direction after rotating around x axis
-        /// </summary>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="Rng"></param>
+        /// <param name="xRotation">rotation angle around the x-axis</param>
+        /// <param name="currentDirection"></param>
         /// <returns></returns>
         public static Direction RotationAroundxAxis(
             double xRotation,
@@ -278,11 +437,10 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns a direction after rotating around y axis
+        /// Provides the new direction after rotating around the y-axis
         /// </summary>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="Rng"></param>
+        /// <param name="yRotation">rotation angle around the y-axis</param>
+        /// <param name="currentDirection"></param>
         /// <returns></returns>
         public static Direction RotationAroundyAxis(
             double yRotation,
@@ -306,11 +464,10 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns a direction after rotating around z axis
+        /// Provides the new direction after rotating around the z-axis
         /// </summary>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="Rng"></param>
+        /// <param name="zRotation">rotation angle around the z-axis</param>
+        /// <param name="currentDirection"></param>
         /// <returns></returns>
         public static Direction RotationAroundzAxis(
             double zRotation,
@@ -333,13 +490,14 @@ namespace Vts.MonteCarlo.Sources
             return currentDirection;
         }
 
-        /// <summary>
-        /// Returns a direction after rotating around Clockwise xyz axis (Left Handed Rotation)
-        /// </summary>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="Rng"></param>
-        /// <returns></returns>
+       /// <summary>
+       /// Provides the neew direction after 3-axis rotation
+       /// </summary>
+       /// <param name="xRotation">rotation angle around the x-axis</param>
+       /// <param name="yRotation">rotation angle around the y-axis</param>
+       /// <param name="zRotation">rotation angle around the z-axis</param>
+       /// <param name="currentDirection"></param>
+       /// <returns></returns>
         public static Direction RotationAroundThreeAxisClockwiseLeftHanded(
             double xRotation,
             double yRotation,
@@ -371,8 +529,8 @@ namespace Vts.MonteCarlo.Sources
         /// Returns a direction when rotation angles are given as polar (theta) and azimuthal (phi) angles
         /// This rotation is given by RotationAroundz * RotationAroundy * CurrentDirection
         /// </summary>
-        /// <param name="theta"></param>
-        /// <param name="phi"></param>
+        /// <param name="theta">polar angle</param>
+        /// <param name="phi">azimuthal angle</param>
         /// <param name="currentDirection"></param>
         /// <returns></returns>
         public static Direction AngleThetaPhiRotation(
@@ -397,7 +555,122 @@ namespace Vts.MonteCarlo.Sources
             currentDirection.Uz = -ux * sinp +  uz * cost;
 
             return currentDirection;
-        }  
+        }
 
+        /// <summary>
+        /// Provides a random location of a symmetrical line
+        /// </summary>
+        /// <param name="length">The length of the line</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static double GetFlatRandomLocationForASymmetricalLine(double length, Random rng)
+        {
+            return length * (rng.NextDouble() - 0.5);                
+        }
+
+        /// <summary>
+        /// Provides a random location of a non - symmetrical line
+        /// </summary>
+        /// <param name="line">Start and end parameters of the line</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static double GetFlatRandomLocationForANonSymmetricalLine(DoubleRange line, Random rng)
+        {
+            return rng.NextDouble(line.Start, line.Stop);
+        }
+
+
+        /// <summary>
+        /// Generate two Gaussian random numbers by using Box Muller Algorithm 1 (without sine/cosine)
+        /// </summary>
+        /// <param name="nrng1">normally distributed random number 1</param>
+        /// <param name="nrng2">normally distributed random number 2</param>
+        /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
+        /// <param name="stdev2">standard deviation of the normally distributed random number 2</param>
+        /// <param name="rng">The random number generator</param>
+        public static void Get2DGaussianDistributedRandomNumberBoxMuller1(ref double nrng1, ref double nrng2, double stdev1, double stdev2, Random rng)
+        {
+            double RN1, RN2;
+            double w;
+
+            do
+            {
+                RN1 = 2.0 * rng.NextDouble() - 1.0;
+                RN2 = 2.0 * rng.NextDouble() - 1.0;
+
+                w = RN1 * RN1 + RN2 * RN2;
+            } while (w >= 1.0);
+
+            w = Math.Sqrt((-2.0 * Math.Log(w)) / w);
+
+            nrng1 = stdev1 * w * RN1;
+            nrng2 = stdev2 * w * RN2;
+        }
+
+
+        /// <summary>
+        /// Generate two Gaussian random numbers by using Box Muller Algorithm 1 (without sine/cosine)
+        /// </summary>
+        /// <param name="nrng1">normally distributed random number 1</param>
+        /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
+        /// <param name="rng">The random number generator</param>
+        public static void Get1DGaussianDistributedRandomNumberBoxMuller1(ref double nrng1, double stdev1, Random rng)
+        {
+            double RN1, RN2;
+            double w;
+
+            do
+            {
+                RN1 = 2.0 * rng.NextDouble() - 1.0;
+                RN2 = 2.0 * rng.NextDouble() - 1.0;
+
+                w = RN1 * RN1 + RN2 * RN2;
+            } while (w >= 1.0);
+
+            w = Math.Sqrt((-2.0 * Math.Log(w)) / w);
+
+            nrng1 = stdev1 * w * RN1;
+        }
+
+        /// <summary>
+        /// Generate two Gaussian random numbers by using Box Muller Algorithm 1 (with sine/cosine)
+        /// </summary>
+        /// <param name="nrng1">normally distributed random number 1</param>
+        /// <param name="nrng2">normally distributed random number 2</param>
+        /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
+        /// <param name="stdev2">standard deviation of the normally distributed random number 2</param>
+        /// <param name="rng">The random number generator</param>
+        public static void Get2DGaussianDistributedRandomNumberBoxMuller2(ref double nrng1, ref double nrng2, double stdev1, double stdev2, Random rng)
+        {
+            double RN1, RN2;
+            double cosRN1, sinRN1;
+
+            RN1 = rng.NextDouble();
+            RN2 = rng.NextDouble();
+            cosRN1 = Math.Cos(2 * Math.PI * RN1);
+            sinRN1 = Math.Sin(2 * Math.PI * RN1);
+
+            nrng1 = stdev1 * Math.Sqrt(RN2) * cosRN1;
+            nrng2 = stdev2 * Math.Sqrt(RN2) * sinRN1;
+        }
+
+        /// <summary>
+        /// Generate one Gaussian random numbers by using Box Muller Algorithm 1 (with sine/cosine)
+        /// </summary>
+        /// <param name="nrng1">normally distributed random number 1</param>
+        /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>        
+        /// <param name="rng">The random number generator</param>
+        public static void Get1DGaussianDistributedRandomNumberBoxMuller2(ref double nrng1, double stdev1, Random rng)
+        {
+            double RN1, RN2;
+            double cosRN1, sinRN1;
+
+            RN1 = rng.NextDouble();
+            RN2 = rng.NextDouble();
+            cosRN1 = Math.Cos(2 * Math.PI * RN1);
+            sinRN1 = Math.Sin(2 * Math.PI * RN1);
+
+            nrng1 = stdev1 * Math.Sqrt(RN2) * cosRN1;
+        }
     }
 }
