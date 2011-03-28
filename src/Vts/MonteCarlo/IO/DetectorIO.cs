@@ -13,17 +13,26 @@ namespace Vts.MonteCarlo.IO
         /// Writes Detector xml for scalar detectors, writes Detector xml and 
         /// binary for 1D and larger detectors.  Detector.Name is used for filename.
         /// </summary>
-        /// <param name="detector"></param>
-        /// <param name="folderPath"></param>
+        /// <param name="detector"></param>IDetector being written.
+        /// <param name="folderPath"></param>location of written file.
         public static void WriteDetectorToFile(IDetector detector, string folderPath)
         {
             try
             {
-                string filePath = folderPath + @"/" + detector.Name;
-
-                if (!Directory.Exists(folderPath))
+                // allow null folderPath in case writing to isolated storage
+                string filePath;
+                if (folderPath == "")
                 {
-                    Directory.CreateDirectory(folderPath);
+                    filePath = detector.Name;
+                }
+                else
+                {
+                    filePath = folderPath + @"/" + detector.Name;
+
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
                 }
 
                 if (detector is IDetector<double>)
@@ -35,7 +44,7 @@ namespace Vts.MonteCarlo.IO
                 {
                     var d = detector as IDetector<double[]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
-                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath);
+                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                 }
                 if (detector is IDetector<double[,]>)
                 {
@@ -47,19 +56,19 @@ namespace Vts.MonteCarlo.IO
                 {
                     var d = detector as IDetector<double[, ,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
-                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath);
+                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                 }
                 if (detector is IDetector<double[, , ,]>)
                 {
                     var d = detector as IDetector<double[, , ,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
-                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath);
+                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                 }
                 if (detector is IDetector<double[, , , ,]>)
                 {
                     var d = detector as IDetector<double[, , , ,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
-                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath);
+                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                 }
                 if (detector is IDetector<Complex>)
                 {
@@ -70,31 +79,31 @@ namespace Vts.MonteCarlo.IO
                 {
                     var d = detector as IDetector<Complex[]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
-                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath);
+                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                 }
                 if (detector is IDetector<Complex[,]>)
                 {
                     var d = detector as IDetector<Complex[,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
-                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath);
+                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                 }
                 if (detector is IDetector<Complex[, ,]>)
                 {
                     var d = detector as IDetector<Complex[, ,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
-                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath);
+                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                 }
                 if (detector is IDetector<Complex[, , ,]>)
                 {
                     var d = detector as IDetector<Complex[, , ,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
-                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath);
+                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                 }
                 if (detector is IDetector<Complex[, , , ,]>)
                 {
                     var d = detector as IDetector<Complex[, , , ,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
-                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath);
+                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                 }
             }
             catch (Exception e)
@@ -113,7 +122,16 @@ namespace Vts.MonteCarlo.IO
         {
             try
             {
-                string filePath = folderPath + @"/" + fileName;
+                // allow num filePaths in case writing to isolated storage
+                string filePath;
+                if (folderPath == "")
+                {
+                    filePath = fileName;
+                }
+                else
+                {
+                    filePath = folderPath + @"/" + fileName;
+                }
                 switch (tallyType)
                 {
                     // "0D" detectors
@@ -129,84 +147,101 @@ namespace Vts.MonteCarlo.IO
                     // "1D" detectors
                     case TallyType.ROfRho:
                         var rOfRhoDetector = FileIO.ReadFromXML<ROfRhoDetector>(filePath + ".xml");
-                        rOfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath);
+                        var rOfRhoDetectorDims = new int[] { rOfRhoDetector.Rho.Count - 1 };
+                        rOfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, rOfRhoDetectorDims);
                         return rOfRhoDetector;
 
                     case TallyType.pMCMuaMusROfRho:
-                        var pMuaMusInROfRhoDetector = FileIO.ReadFromXML<pMCMuaMusROfRhoDetector>(filePath + ".xml");
-                        pMuaMusInROfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath);
-                        return pMuaMusInROfRhoDetector;
+                        var pMCMuaMusROfRhoDetector = FileIO.ReadFromXML<pMCMuaMusROfRhoDetector>(filePath + ".xml");
+                        var pMCMuaMusROfRhoDetectorDims = new int[] { pMCMuaMusROfRhoDetector.Rho.Count - 1 };                        
+                        pMCMuaMusROfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, pMCMuaMusROfRhoDetectorDims);
+                        return pMCMuaMusROfRhoDetector;
 
                     case TallyType.TOfRho:
                         var tOfRhoDetector = FileIO.ReadFromXML<TOfRhoDetector>(filePath + ".xml");
-                        tOfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath);
+                        var tOfRhoDetectorDims = new int[] { tOfRhoDetector.Rho.Count - 1 };
+                        tOfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, tOfRhoDetectorDims);
                         return tOfRhoDetector;
 
                     case TallyType.ROfAngle:
                         var rOfAngleDetector = FileIO.ReadFromXML<ROfAngleDetector>(filePath + ".xml");
-                        rOfAngleDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath);
+                        var rOfAngleDetectorDims = new int[] { rOfAngleDetector.Angle.Count - 1 };
+                        rOfAngleDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, rOfAngleDetectorDims);
                         return rOfAngleDetector;
 
                     case TallyType.TOfAngle:
                         var tOfAngleDetector = FileIO.ReadFromXML<TOfAngleDetector>(filePath + ".xml");
-                        tOfAngleDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath);
+                        var tOfAngleDetectorDims = new int[] { tOfAngleDetector.Angle.Count - 1 };
+                        tOfAngleDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, tOfAngleDetectorDims);
                         return tOfAngleDetector;
 
                     // "2D" detectors
                     case TallyType.ROfRhoAndTime:
                         var rOfRhoAndTimeDetector = FileIO.ReadFromXML<ROfRhoAndTimeDetector>(filePath + ".xml");
-                        var dims = new int[] {rOfRhoAndTimeDetector.Rho.Count, rOfRhoAndTimeDetector.Time.Count};
-                        rOfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, dims);
+                        var rOfRhoAndTimeDetectorDims = new int[] {rOfRhoAndTimeDetector.Rho.Count - 1, rOfRhoAndTimeDetector.Time.Count - 1};
+                        rOfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, rOfRhoAndTimeDetectorDims);
                         return rOfRhoAndTimeDetector;
 
                     case TallyType.pMCMuaMusROfRhoAndTime:
-                        var pMuaMusInROfRhoAndTimeDetector =
+                        var pMCMuaMusROfRhoAndTimeDetector =
                             FileIO.ReadFromXML<pMCMuaMusROfRhoAndTimeDetector>(filePath + ".xml");
-                        pMuaMusInROfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath);
-                        return pMuaMusInROfRhoAndTimeDetector;
+                        var pMCMuaMusROfRhoAndTimeDetectorDims = new int[] { pMCMuaMusROfRhoAndTimeDetector.Rho.Count - 1, pMCMuaMusROfRhoAndTimeDetector.Time.Count - 1 };
+                        pMCMuaMusROfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, pMCMuaMusROfRhoAndTimeDetectorDims);
+                        return pMCMuaMusROfRhoAndTimeDetector;
 
                     case TallyType.ROfRhoAndAngle:
                         var rOfRhoAndAngleDetector = FileIO.ReadFromXML<ROfRhoAndAngleDetector>(filePath + ".xml");
-                        rOfRhoAndAngleDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath);
+                        var rOfRhoAndAngleDetectorDims = new int[] { rOfRhoAndAngleDetector.Rho.Count, rOfRhoAndAngleDetector.Angle.Count - 1};
+                        rOfRhoAndAngleDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, rOfRhoAndAngleDetectorDims);
                         return rOfRhoAndAngleDetector;
 
                     case TallyType.TOfRhoAndAngle:
                         var tOfRhoAndAngleDetector = FileIO.ReadFromXML<TOfRhoAndAngleDetector>(filePath + ".xml");
-                        tOfRhoAndAngleDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath);
+                        var tOfRhoAndAngleDetectorDims = new int[] { tOfRhoAndAngleDetector.Rho.Count, tOfRhoAndAngleDetector.Angle.Count - 1};                        
+                        tOfRhoAndAngleDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, tOfRhoAndAngleDetectorDims);
                         return tOfRhoAndAngleDetector;
 
                     case TallyType.ROfRhoAndOmega:
                         var rOfRhoAndOmegaDetector = FileIO.ReadFromXML<ROfRhoAndOmegaDetector>(filePath + ".xml");
-                        rOfRhoAndOmegaDetector.Mean = (Complex[,])FileIO.ReadArrayFromBinary<double>(filePath);
+                        var rOfRhoAndOmegaDetectorDims = new int[] { rOfRhoAndOmegaDetector.Rho.Count, rOfRhoAndOmegaDetector.Omega.Count - 1};
+                        rOfRhoAndOmegaDetector.Mean = (Complex[,])FileIO.ReadArrayFromBinary<double>(filePath, rOfRhoAndOmegaDetectorDims);
                         return rOfRhoAndOmegaDetector;
 
                     case TallyType.ROfXAndY:
                         var rOfXAndYDetector = FileIO.ReadFromXML<ROfXAndYDetector>(filePath + ".xml");
-                        rOfXAndYDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath);
+                        var rOfXAndYDetectorDims = new int[] { rOfXAndYDetector.X.Count, rOfXAndYDetector.Y.Count - 1};
+                        rOfXAndYDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, rOfXAndYDetectorDims);
                         return rOfXAndYDetector;
 
                     case TallyType.FluenceOfRhoAndZ:
                         var fluenceOfRhoAndZDetector = FileIO.ReadFromXML<FluenceOfRhoAndZDetector>(filePath + ".xml");
-                        fluenceOfRhoAndZDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath);
+                        var fluenceOfRhoAndZDetectorDims = new int[] { fluenceOfRhoAndZDetector.Rho.Count - 1, fluenceOfRhoAndZDetector.Z.Count - 1 };
+                        fluenceOfRhoAndZDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfRhoAndZDetectorDims);
                         return fluenceOfRhoAndZDetector;
 
                     case TallyType.AOfRhoAndZ:
                         var aOfRhoAndZDetector = FileIO.ReadFromXML<AOfRhoAndZDetector>(filePath + ".xml");
-                        aOfRhoAndZDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath);
+                        var aOfRhoAndZDetectorDims = new int[] { aOfRhoAndZDetector.Rho.Count - 1, aOfRhoAndZDetector.Z.Count - 1 };
+                        aOfRhoAndZDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, aOfRhoAndZDetectorDims);
                         return aOfRhoAndZDetector;
 
                     case TallyType.MomentumTransferOfRhoAndZ:
                         var momentumTransferOfRhoAndZDetector =
                             FileIO.ReadFromXML<MomentumTransferOfRhoAndZDetector>(filePath + ".xml");
+                        var momentumTransferOfRhoAndZDetectorDims = new int[] { momentumTransferOfRhoAndZDetector.Rho.Count - 1, momentumTransferOfRhoAndZDetector.Z.Count - 1 };
                         momentumTransferOfRhoAndZDetector.Mean =
-                            (double[,])FileIO.ReadArrayFromBinary<double>(filePath);
+                            (double[,])FileIO.ReadArrayFromBinary<double>(filePath, momentumTransferOfRhoAndZDetectorDims);
                         return momentumTransferOfRhoAndZDetector;
 
                     // "3D" detectors
                     case TallyType.FluenceOfRhoAndZAndTime:
                         var fluenceOfRhoAndZAndTimeDetector =
                             FileIO.ReadFromXML<FluenceOfRhoAndZAndTimeDetector>(filePath + ".xml");
-                        fluenceOfRhoAndZAndTimeDetector.Mean = (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath);
+                        var fluenceOfRhoAndZAndTimeDetectorDims = new int[] { 
+                            fluenceOfRhoAndZAndTimeDetector.Rho.Count - 1, 
+                            fluenceOfRhoAndZAndTimeDetector.Z.Count - 1,
+                            fluenceOfRhoAndZAndTimeDetector.Time.Count - 1 };
+                        fluenceOfRhoAndZAndTimeDetector.Mean = (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfRhoAndZAndTimeDetectorDims);
                         return fluenceOfRhoAndZAndTimeDetector;
 
                     default:
@@ -258,13 +293,13 @@ namespace Vts.MonteCarlo.IO
                     // "1D" detectors
                     case TallyType.ROfRho:
                         var rOfRhoDetector = FileIO.ReadFromXMLInResources<ROfRhoDetector>(filePath + ".xml", projectName);
-                        var rOfRhoDetectorDims = new int[] { rOfRhoDetector.Rho.Count };
+                        var rOfRhoDetectorDims = new int[] { rOfRhoDetector.Rho.Count - 1};
                         rOfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, rOfRhoDetectorDims);
                         return rOfRhoDetector;
 
                     case TallyType.pMCMuaMusROfRho:
                         var pMuaMusROfRhoDetector = FileIO.ReadFromXMLInResources<pMCMuaMusROfRhoDetector>(filePath + ".xml", projectName);
-                        var pMCROfRhoDetectorDims = new int[] { pMuaMusROfRhoDetector.Rho.Count };
+                        var pMCROfRhoDetectorDims = new int[] { pMuaMusROfRhoDetector.Rho.Count - 1 };
                         pMuaMusROfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, pMCROfRhoDetectorDims);
                         return pMuaMusROfRhoDetector;
 
@@ -275,33 +310,33 @@ namespace Vts.MonteCarlo.IO
 
                     case TallyType.ROfAngle:
                         var rOfAngleDetector = FileIO.ReadFromXMLInResources<ROfAngleDetector>(filePath + ".xml", projectName);
-                        var rOfAngleDetectorDims = new int[] { rOfAngleDetector.Angle.Count };
+                        var rOfAngleDetectorDims = new int[] { rOfAngleDetector.Angle.Count - 1};
                         rOfAngleDetector.Mean = (double[])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, rOfAngleDetectorDims);
                         return rOfAngleDetector;
 
                     case TallyType.TOfAngle:
                         var tOfAngleDetector = FileIO.ReadFromXMLInResources<TOfAngleDetector>(filePath + ".xml", projectName);
-                        var tOfAngleDetectorDims = new int[] { tOfAngleDetector.Angle.Count };
+                        var tOfAngleDetectorDims = new int[] { tOfAngleDetector.Angle.Count - 1};
                         tOfAngleDetector.Mean = (double[])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, tOfAngleDetectorDims);
                         return tOfAngleDetector;
 
                     // "2D" detectors
                     case TallyType.ROfRhoAndTime:
                         var rOfRhoAndTimeDetector = FileIO.ReadFromXMLInResources<ROfRhoAndTimeDetector>(filePath + ".xml", projectName);
-                        var rOfRhoAndTimeDetectorDims = new int[] { rOfRhoAndTimeDetector.Rho.Count, rOfRhoAndTimeDetector.Time.Count };
+                        var rOfRhoAndTimeDetectorDims = new int[] { rOfRhoAndTimeDetector.Rho.Count, rOfRhoAndTimeDetector.Time.Count - 1};
                         rOfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, rOfRhoAndTimeDetectorDims);
                         return rOfRhoAndTimeDetector;
 
                     case TallyType.pMCMuaMusROfRhoAndTime:
                         var pMuaMusROfRhoAndTimeDetector = FileIO.ReadFromXMLInResources<pMCMuaMusROfRhoAndTimeDetector>(filePath + ".xml", projectName);
-                        var pMCROfRhoAndTimeDetectorDims = new int[] { pMuaMusROfRhoAndTimeDetector.Rho.Count, pMuaMusROfRhoAndTimeDetector.Time.Count };
+                        var pMCROfRhoAndTimeDetectorDims = new int[] { pMuaMusROfRhoAndTimeDetector.Rho.Count, pMuaMusROfRhoAndTimeDetector.Time.Count - 1 };
                         pMuaMusROfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, pMCROfRhoAndTimeDetectorDims);
                         return pMuaMusROfRhoAndTimeDetector;
 
                     case TallyType.ROfRhoAndAngle:
                         var rOfRhoAndAngleDetector =
                             FileIO.ReadFromXMLInResources<ROfRhoAndAngleDetector>(filePath + ".xml", projectName);
-                        var rOfRhoAndAngleDetectorDims = new int[] { rOfRhoAndAngleDetector.Rho.Count, rOfRhoAndAngleDetector.Angle.Count };
+                        var rOfRhoAndAngleDetectorDims = new int[] { rOfRhoAndAngleDetector.Rho.Count - 1, rOfRhoAndAngleDetector.Angle.Count - 1 };
                         rOfRhoAndAngleDetector.Mean =
                             (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, rOfRhoAndAngleDetectorDims);
                         return rOfRhoAndAngleDetector;
@@ -309,7 +344,7 @@ namespace Vts.MonteCarlo.IO
                     case TallyType.TOfRhoAndAngle:
                         var tOfRhoAndAngleDetector =
                             FileIO.ReadFromXMLInResources<TOfRhoAndAngleDetector>(filePath + ".xml", projectName);
-                        var tOfRhoAndAngleDetectorDims = new int[] { tOfRhoAndAngleDetector.Rho.Count, tOfRhoAndAngleDetector.Angle.Count };
+                        var tOfRhoAndAngleDetectorDims = new int[] { tOfRhoAndAngleDetector.Rho.Count - 1, tOfRhoAndAngleDetector.Angle.Count - 1 };
                         tOfRhoAndAngleDetector.Mean =
                             (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, tOfRhoAndAngleDetectorDims);
                         return tOfRhoAndAngleDetector;
@@ -317,7 +352,7 @@ namespace Vts.MonteCarlo.IO
                     case TallyType.ROfRhoAndOmega:
                         var rOfRhoAndOmegaDetector =
                             FileIO.ReadFromXMLInResources<ROfRhoAndOmegaDetector>(filePath + ".xml", projectName);
-                        var rOfRhoAndOmegaDetectorDims = new int[] { rOfRhoAndOmegaDetector.Rho.Count, rOfRhoAndOmegaDetector.Omega.Count };
+                        var rOfRhoAndOmegaDetectorDims = new int[] { rOfRhoAndOmegaDetector.Rho.Count - 1, rOfRhoAndOmegaDetector.Omega.Count - 1 };
                         rOfRhoAndOmegaDetector.Mean =
                             (Complex[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, rOfRhoAndOmegaDetectorDims);
                         return rOfRhoAndOmegaDetector;

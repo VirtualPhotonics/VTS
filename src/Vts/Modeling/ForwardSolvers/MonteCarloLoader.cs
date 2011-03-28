@@ -47,9 +47,9 @@ namespace Vts.Modeling.ForwardSolvers
         {
             var rOfRhoAndTime = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFileInResources(TallyType.ROfRhoAndTime, "Modeling/Resources/" + folder, "Vts");
 
-            nrReference = rOfRhoAndTime.Rho.Count;
+            nrReference = rOfRhoAndTime.Rho.Count - 1;
             drReference = rOfRhoAndTime.Rho.Delta;
-            ntReference = rOfRhoAndTime.Time.Count;
+            ntReference = rOfRhoAndTime.Time.Count - 1;
             dtReference = rOfRhoAndTime.Time.Delta;  
             // assume mus' used by Kienle
             muspReference = 1.0;  
