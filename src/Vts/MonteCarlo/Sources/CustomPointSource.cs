@@ -71,7 +71,7 @@ namespace Vts.MonteCarlo.Sources
             //don't call RNG if true point source (this aligns sequence with linux for debug)
             if (ThetaRange.Delta != 0.0)
             {
-                _photon.DP.Direction = SourceToolbox.GetRandomAngleDistributedDirection(Orientation, ThetaRange, PhiRange, Rng);
+                _photon.DP.Direction = SourceToolbox.GetRandomPolarAndRandomAzimuthalAngle(ThetaRange,PhiRange,Rng); 
             }
 
             return _photon;

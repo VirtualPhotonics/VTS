@@ -76,7 +76,7 @@ namespace Vts.MonteCarlo.Sources
             double d = 0.0;
             do
             {
-                Get1DGaussianDistributedRandomNumberBoxMuller1(ref d, stdevX, rng);
+                GetSingleGaussianDistributedRandomNumberBoxMuller1(ref d, stdevX, rng);
             }
             while ((d >= -0.5 * lengthX) && (d <= 0.5 * lengthX));
             return (new Position(
@@ -139,7 +139,7 @@ Random rng)
             
             do
             {
-                Get2DGaussianDistributedRandomNumberBoxMuller1(ref x, ref y, stdevX, stdevY, rng);
+                GetDoubleGaussianDistributedRandomNumberBoxMuller1(ref x, ref y, stdevX, stdevY, rng);
             }
             while ((x >= -0.5 * lengthX) && (x <= 0.5 * lengthX) && (y >= -0.5 * lengthY) && (y <= 0.5 * lengthY));
             position.X = center.X + x;
@@ -228,7 +228,7 @@ Random rng)
                 center.Y + radius * Math.Sqrt(RN2) * sinRN1,
                 0.0));
         }
-
+        
         /// <summary>
         /// Provides a random position in a circle (Gaussisan distribution)
         /// <summary>
@@ -251,7 +251,7 @@ Random rng)
             /*eliminate points outside the circle */
             do
             {
-                Get2DGaussianDistributedRandomNumberBoxMuller1(ref x, ref y, stdev, stdev, rng);
+                GetDoubleGaussianDistributedRandomNumberBoxMuller1(ref x, ref y, stdev, stdev, rng);
                 r = Math.Sqrt(x * x + y * y);
             }
             while (r <= radius);           
@@ -314,7 +314,7 @@ Random rng)
             /*eliminate points outside the ellipse */
             do
             {
-                Get2DGaussianDistributedRandomNumberBoxMuller1(ref x, ref y, stdevX, stdevY, rng);
+                GetDoubleGaussianDistributedRandomNumberBoxMuller1(ref x, ref y, stdevX, stdevY, rng);
                 r = x * x + y * y;
             }
             while (r <= 1.0);
@@ -408,75 +408,104 @@ Random rng)
                 cost));
         }
 
-                
         /// <summary>
-        /// Provides the new direction after rotating around the x-axis
+        /// Provides a random direction for a isotropic point source
+        /// </summary>
+        /// <param name="rng">The random number generato</param>
+        /// <returns></returns>
+        public static Direction GetRandomAngleForIsotroicDistribution(Random rng)
+        {
+            double cost, sint, phi, cosp, sinp;
+
+            //sampling cost           
+            cost = rng.NextDouble(0, Math.PI);
+            sint = Math.Sqrt(1.0 - cost * cost);
+
+            //sampling phi
+            phi = rng.NextDouble(0, 2*Math.PI);
+            cosp = Math.Cos(phi);
+            sinp = Math.Sin(phi);
+
+            return (new Direction(
+                sint * cosp,
+                sint * sinp,
+                cost));
+        }
+                    
+        /// <summary>
+        /// Update the direction and position after rotating around the x-axis
         /// </summary>
         /// <param name="xRotation">rotation angle around the x-axis</param>
-        /// <param name="currentDirection"></param>
-        /// <returns></returns>
-        public static Direction RotationAroundxAxis(
+        /// <param name="currentDirection">The direction to be updated</param>
+        /// <param name="currentPosition">The position to be updated</param>
+        public static void RotationAroundxAxis(
             double xRotation,
-            Direction currentDirection)
+            ref Direction currentDirection,
+            ref Position currentPosition)
         {
             // readability eased with local copies of following
-            double ux = currentDirection.Ux;
-            double uy = currentDirection.Uy;
+             double uy = currentDirection.Uy;
             double uz = currentDirection.Uz;
+            double y = currentPosition.Y;
+            double z = currentPosition.Z;
             
             double cost, sint;    /* cosine and sine of rotation angle */
 
             cost = Math.Cos(xRotation);
             sint = Math.Sqrt(1.0 - cost * cost);
-
-            currentDirection.Ux = ux;
+            
             currentDirection.Uy = uy * cost - uz * sint;
             currentDirection.Uz = uy * sint + uz * cost;
 
-            return currentDirection;
+            currentPosition.Y = y * cost - z * sint;
+            currentPosition.Z = y * sint + z * cost;
         }
 
         /// <summary>
-        /// Provides the new direction after rotating around the y-axis
+        /// Update the direction and position after rotating around the y-axis
         /// </summary>
         /// <param name="yRotation">rotation angle around the y-axis</param>
-        /// <param name="currentDirection"></param>
-        /// <returns></returns>
-        public static Direction RotationAroundyAxis(
+        /// <param name="currentDirection">The direction to be updated</param>
+        /// <param name="currentPosition">The position to be updated</param>
+        public static void RotationAroundyAxis(
             double yRotation,
-            Direction currentDirection)
+            ref Direction currentDirection,
+            ref Position currentPosition)
         {
             // readability eased with local copies of following
-            double ux = currentDirection.Ux;
-            double uy = currentDirection.Uy;
+            double ux = currentDirection.Ux;           
             double uz = currentDirection.Uz;
-
+            double x = currentPosition.X;           
+            double z = currentPosition.Z;
+            
             double cost, sint;    /* cosine and sine of rotation angle */
 
             cost = Math.Cos(yRotation);
             sint = Math.Sqrt(1.0 - cost * cost);
 
-            currentDirection.Ux = ux * cost + uz * sint;
-            currentDirection.Uy = uy;
-            currentDirection.Uz =-ux * sint + uz * cost;
+            currentDirection.Ux = ux * cost + uz * sint;           
+            currentDirection.Uz = -ux * sint + uz * cost;
 
-            return currentDirection;
+            currentPosition.X = x * cost + z * sint;             
+            currentPosition.Z = -x * sint + z * cost;
         }
 
         /// <summary>
-        /// Provides the new direction after rotating around the z-axis
+        /// Update the direction and position after rotating around the z-axis
         /// </summary>
         /// <param name="zRotation">rotation angle around the z-axis</param>
-        /// <param name="currentDirection"></param>
-        /// <returns></returns>
-        public static Direction RotationAroundzAxis(
+        /// <param name="currentDirection">The direction to be updated</param>
+        /// <param name="currentPosition">The position to be updated</param>
+        public static void RotationAroundzAxis(
             double zRotation,
-            Direction currentDirection)
+            ref Direction currentDirection,
+            ref Position currentPosition)
         {
             // readability eased with local copies of following
             double ux = currentDirection.Ux;
             double uy = currentDirection.Uy;
-            double uz = currentDirection.Uz;
+            double x = currentPosition.X;
+            double y = currentPosition.Y;
 
             double cost, sint;    /* cosine and sine of rotation angle */
 
@@ -484,30 +513,35 @@ Random rng)
             sint = Math.Sqrt(1.0 - cost * cost);
 
             currentDirection.Ux = ux * cost - uy * sint;
-            currentDirection.Uy = ux * sint + uz * cost;
-            currentDirection.Uz = uz;
+            currentDirection.Uy = ux * sint + uy * cost;
 
-            return currentDirection;
+            currentPosition.X = x * cost - y * sint;
+            currentPosition.Y = x * sint + y * cost;
         }
+                
 
        /// <summary>
-       /// Provides the neew direction after 3-axis rotation
+        /// Update the direction and position after 3-axis rotation
        /// </summary>
        /// <param name="xRotation">rotation angle around the x-axis</param>
        /// <param name="yRotation">rotation angle around the y-axis</param>
        /// <param name="zRotation">rotation angle around the z-axis</param>
-       /// <param name="currentDirection"></param>
-       /// <returns></returns>
-        public static Direction RotationAroundThreeAxisClockwiseLeftHanded(
+        /// <param name="currentDirection">The direction to be updated</param>
+        /// <param name="currentPosition">The position to be updated</param>
+        public static void RotationAroundThreeAxisClockwiseLeftHanded(
             double xRotation,
             double yRotation,
             double zRotation,
-            Direction currentDirection)
+            ref Direction currentDirection,
+            ref Position currentPosition)
         {
             // readability eased with local copies of following
             double ux = currentDirection.Ux;
             double uy = currentDirection.Uy;
             double uz = currentDirection.Uz;
+            double x = currentPosition.X;
+            double y = currentPosition.Y;
+            double z = currentPosition.Z;
 
             double cosx, sinx, cosy, siny, cosz, sinz;    /* cosine and sine of rotation angles */
 
@@ -522,26 +556,31 @@ Random rng)
             currentDirection.Uy = ux * cosy * sinz + uy * (cosx * cosz + sinx * siny * sinz) + uz * (-sinx * cosz + cosx * siny * sinz);
             currentDirection.Uz = ux * siny + uy * sinx * cosy + uz * cosx * cosy;
 
-            return currentDirection;
+            currentPosition.X = x * cosy * cosz + y * (-cosx * sinz + sinx * siny * cosz) + z * (sinx * sinz + cosx * siny * cosz);
+            currentPosition.Y = x * cosy * sinz + y * (cosx * cosz + sinx * siny * sinz) + z * (-sinx * cosz + cosx * siny * sinz);
+            currentPosition.Z = x * siny + y * sinx * cosy + z * cosx * cosy;
         }
 
         /// <summary>
-        /// Returns a direction when rotation angles are given as polar (theta) and azimuthal (phi) angles
-        /// This rotation is given by RotationAroundz * RotationAroundy * CurrentDirection
+        /// Update the direction and position after polar and azimuthal angle rotation
         /// </summary>
         /// <param name="theta">polar angle</param>
         /// <param name="phi">azimuthal angle</param>
-        /// <param name="currentDirection"></param>
-        /// <returns></returns>
-        public static Direction RotateByGivenPolarAndAzimuthalAngle(
+        /// <param name="currentDirection">The direction to be updated</param>
+        /// <param name="currentPosition">The position to be updated</param>
+        public static void RotateByGivenPolarAndAzimuthalAngle(
             double theta,
-            double phi,            
-            Direction currentDirection)
+            double phi,
+            ref Direction currentDirection,
+            ref Position currentPosition)
         {
             // readability eased with local copies of following
             double ux = currentDirection.Ux;
             double uy = currentDirection.Uy;
             double uz = currentDirection.Uz;
+            double x = currentPosition.X;
+            double y = currentPosition.Y;
+            double z = currentPosition.Z;
 
             double cost, sint, cosp, sinp;    /* cosine and sine of theta and phi */
 
@@ -554,7 +593,9 @@ Random rng)
             currentDirection.Uy = ux * cosp * sint + uy * cost + uz * sinp * sint;
             currentDirection.Uz = -ux * sinp +  uz * cost;
 
-            return currentDirection;
+            currentPosition.X = x * cosp * cost - y * sint + z * sinp * cost;
+            currentPosition.Y = x * cosp * sint + y * cost + z * sinp * sint;
+            currentPosition.Z = -x * sinp + z * cost;
         }
 
         /// <summary>
@@ -588,7 +629,7 @@ Random rng)
         /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
         /// <param name="stdev2">standard deviation of the normally distributed random number 2</param>
         /// <param name="rng">The random number generator</param>
-        public static void Get2DGaussianDistributedRandomNumberBoxMuller1(ref double nrng1, ref double nrng2, double stdev1, double stdev2, Random rng)
+        public static void GetDoubleGaussianDistributedRandomNumberBoxMuller1(ref double nrng1, ref double nrng2, double stdev1, double stdev2, Random rng)
         {
             double RN1, RN2;
             double w;
@@ -614,7 +655,7 @@ Random rng)
         /// <param name="nrng1">normally distributed random number 1</param>
         /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
         /// <param name="rng">The random number generator</param>
-        public static void Get1DGaussianDistributedRandomNumberBoxMuller1(ref double nrng1, double stdev1, Random rng)
+        public static void GetSingleGaussianDistributedRandomNumberBoxMuller1(ref double nrng1, double stdev1, Random rng)
         {
             double RN1, RN2;
             double w;
@@ -640,7 +681,7 @@ Random rng)
         /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
         /// <param name="stdev2">standard deviation of the normally distributed random number 2</param>
         /// <param name="rng">The random number generator</param>
-        public static void Get2DGaussianDistributedRandomNumberBoxMuller2(ref double nrng1, ref double nrng2, double stdev1, double stdev2, Random rng)
+        public static void GetDoubleGaussianDistributedRandomNumberBoxMuller2(ref double nrng1, ref double nrng2, double stdev1, double stdev2, Random rng)
         {
             double RN1, RN2;
             double cosRN1, sinRN1;
@@ -660,7 +701,7 @@ Random rng)
         /// <param name="nrng1">normally distributed random number 1</param>
         /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>        
         /// <param name="rng">The random number generator</param>
-        public static void Get1DGaussianDistributedRandomNumberBoxMuller2(ref double nrng1, double stdev1, Random rng)
+        public static void GetSingleGaussianDistributedRandomNumberBoxMuller2(ref double nrng1, double stdev1, Random rng)
         {
             double RN1, RN2;
             double cosRN1, sinRN1;

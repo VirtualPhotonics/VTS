@@ -37,10 +37,11 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>Photon</returns>
         public override Photon GetNextPhoton(ITissue tissue)
         {
-            var photonPosition = SourceToolbox.GetRandomLinePosition(Position, Orientation, Length, Rng);
+            
+            var photonPosition = SourceToolbox.GetRandomFlatLinePosition(Position, Length, Rng);
             
             // create a random radial direction along axis orthogonal to line direction
-            var photonDirection = SourceToolbox.SampleIsotropicRadialDirection(Rng);
+            var photonDirection = SourceToolbox.GetRandomAngleForIsotroicDistribution(Rng);
 
             var dataPoint = new PhotonDataPoint(
                     photonPosition,
