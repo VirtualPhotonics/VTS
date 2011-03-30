@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Vts.Extensions;
+using System.Numerics;
 
 namespace Vts.IO
 {
@@ -51,6 +52,12 @@ namespace Vts.IO
                 return dataOut;
             }
 
+            if (dataType == typeof(Complex))
+            {
+                dataOut.PopulateFromEnumerable(ReadComplices(br, dataOut.Length));
+                return dataOut;
+            }
+
             throw new NotSupportedException("Type of T is not supported");
         }
 
@@ -81,6 +88,14 @@ namespace Vts.IO
         private static IEnumerable<byte> ReadBytes(BinaryReader br, int numberOfElements)
         {
             return br.ReadBytes(numberOfElements);
+        }
+
+        private static IEnumerable<Complex> ReadComplices(BinaryReader br, int numberOfElements)
+        {
+            for (int i = 0; i < numberOfElements; i++)
+            {
+                yield return new Complex(br.ReadDouble(), br.ReadDouble());
+            }
         }
     }
 }

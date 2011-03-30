@@ -26,11 +26,11 @@ namespace Vts.IO
                 return;
             }
 
-            //if (array is IEnumerable<Complex>)
-            //{
-            //    (array as IEnumerable<Complex>).ForEach(bw.Write);
-            //    return;
-            //}
+            if (array is IEnumerable<Complex>)
+            {
+                (array as IEnumerable<Complex>).ForEach(c => { bw.Write(c.Real); bw.Write(c.Imaginary); });
+                return;
+            }
 
             if (array is IEnumerable<ushort>)
             {
