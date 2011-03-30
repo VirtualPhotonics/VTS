@@ -269,13 +269,13 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfRhoAndOmegaDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfRhoAndOmega, detectorName, "");
 
-            //Assert.AreEqual(dcloned.Name, detectorName);
-            //Assert.AreEqual(dcloned.Mean[0, 0], 1 + Complex.ImaginaryOne * 1);
-            //Assert.AreEqual(dcloned.Mean[0, 1], 2 + Complex.ImaginaryOne * 2);
-            //Assert.AreEqual(dcloned.Mean[1, 0], 3 + Complex.ImaginaryOne * 3);
-            //Assert.AreEqual(dcloned.Mean[1, 1], 4 + Complex.ImaginaryOne * 4);
-            //Assert.AreEqual(dcloned.Mean[2, 0], 5 + Complex.ImaginaryOne * 5);
-            //Assert.AreEqual(dcloned.Mean[2, 1], 6 + Complex.ImaginaryOne * 6);
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0, 0], 1 + Complex.ImaginaryOne * 1);
+            Assert.AreEqual(dcloned.Mean[0, 1], 2 + Complex.ImaginaryOne * 2);
+            Assert.AreEqual(dcloned.Mean[0, 2], 3 + Complex.ImaginaryOne * 3);
+            Assert.AreEqual(dcloned.Mean[1, 0], 4 + Complex.ImaginaryOne * 4);
+            Assert.AreEqual(dcloned.Mean[1, 1], 5 + Complex.ImaginaryOne * 5);
+            Assert.AreEqual(dcloned.Mean[1, 2], 6 + Complex.ImaginaryOne * 6);
         }
         [Test]
         public void validate_pMCMuaMusROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()

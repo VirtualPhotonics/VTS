@@ -204,7 +204,7 @@ namespace Vts.MonteCarlo.IO
                     case TallyType.ROfRhoAndOmega:
                         var rOfRhoAndOmegaDetector = FileIO.ReadFromXML<ROfRhoAndOmegaDetector>(filePath + ".xml");
                         var rOfRhoAndOmegaDetectorDims = new int[] { rOfRhoAndOmegaDetector.Rho.Count - 1, rOfRhoAndOmegaDetector.Omega.Count - 1};
-                        rOfRhoAndOmegaDetector.Mean = (Complex[,])FileIO.ReadArrayFromBinary<double>(filePath, rOfRhoAndOmegaDetectorDims);
+                        rOfRhoAndOmegaDetector.Mean = (Complex[,])FileIO.ReadArrayFromBinary<Complex>(filePath, rOfRhoAndOmegaDetectorDims);
                         return rOfRhoAndOmegaDetector;
 
                     case TallyType.ROfXAndY:
