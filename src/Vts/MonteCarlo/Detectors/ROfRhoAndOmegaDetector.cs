@@ -24,7 +24,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="rho"></param>
         /// <param name="omega"></param>
         /// <param name="tissue"></param>
-        public ROfRhoAndOmegaDetector(DoubleRange rho, DoubleRange omega, ITissue tissue, String name)
+        public ROfRhoAndOmegaDetector(DoubleRange rho, DoubleRange omega, String name)
         {
             Rho = rho;
             Omega = omega;
@@ -38,7 +38,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of ROfRhoAndAngleDetector (for serialization purposes only)
         /// </summary>
         public ROfRhoAndOmegaDetector()
-            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue(), TallyType.ROfRhoAndOmega.ToString())
+            : this(new DoubleRange(), new DoubleRange(), TallyType.ROfRhoAndOmega.ToString())
         {
             
         }

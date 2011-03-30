@@ -23,7 +23,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="rho"></param>
         /// <param name="time"></param>
         /// <param name="tissue"></param>
-        public ROfRhoAndTimeDetector(DoubleRange rho, DoubleRange time, ITissue tissue, String name)
+        public ROfRhoAndTimeDetector(DoubleRange rho, DoubleRange time, String name)
         {
             Rho = rho;
             Time = time;
@@ -40,8 +40,7 @@ namespace Vts.MonteCarlo.Detectors
         public ROfRhoAndTimeDetector()
             : this(
             new DoubleRange(),  
-            new DoubleRange(),  
-            new MultiLayerTissue(), 
+            new DoubleRange(),   
             TallyType.ROfRhoAndTime.ToString())
         {
         }

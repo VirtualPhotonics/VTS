@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
@@ -12,20 +13,24 @@ namespace Vts.MonteCarlo.Detectors
     /// <summary>
     /// Implements IHistoryDetector<double[,]>.  Tally for Absorption(rho,z).
     /// </summary>
-    public class ATotalDetector : HistoryTallyBase, IHistoryDetector<double>
+    public class ATotalDetector : IHistoryDetector<double>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
+        private ITissue _tissue;
+        private IList<OpticalProperties> _ops;
         /// <summary>
         /// Returns am instance of ATotalDetector
         /// </summary>
         /// <param name="tissue"></param>
         public ATotalDetector(ITissue tissue, String name)
-           : base(tissue)
         {
             TallyType = TallyType.ATotal;
             Name = name;
             TallyCount = 0;
+            _tissue = tissue;
+            SetAbsorbAction(_tissue.AbsorptionWeightingType);
+            _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
         }
 
         /// <summary>
@@ -46,7 +51,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public long TallyCount { get; set; }
 
-        protected override void SetAbsorbAction(AbsorptionWeightingType awt)
+        private void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
             {

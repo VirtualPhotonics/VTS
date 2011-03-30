@@ -544,9 +544,6 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\HistoryTallyBase.cs">
-      <Link>MonteCarlo\Detectors\HistoryTallyBase.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs</Link>
     </Compile>
@@ -576,9 +573,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RofXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\RofXAndYDetector.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\TallyBase.cs">
-      <Link>MonteCarlo\Detectors\TallyBase.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TallyExtensionMethods.cs">
       <Link>MonteCarlo\Detectors\TallyExtensionMethods.cs</Link>

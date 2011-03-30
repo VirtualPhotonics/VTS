@@ -14,10 +14,12 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IHistoryDetector<double[,,]>.  Tally for Fluence(rho,z,t).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
-    public class FluenceOfRhoAndZAndTimeDetector : HistoryTallyBase, IHistoryDetector<double[, ,]>
+    public class FluenceOfRhoAndZAndTimeDetector : IHistoryDetector<double[, ,]>
     {
-        public Func<double, double, double, double, PhotonStateType, double> _absorbAction;
+        private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
+        private ITissue _tissue;
+        private IList<OpticalProperties> _ops;
         ///<summary>
         /// Returns an instance of FluenceOfRhoAndZAndTimeDetector
         ///</summary>
@@ -31,17 +33,18 @@ namespace Vts.MonteCarlo.Detectors
             DoubleRange time, 
             ITissue tissue,
             String name)
-            : base(tissue)
         {
             Rho = rho;
             Z = z;
             Time = time;
-
             Mean = new double[Rho.Count - 1, Z.Count - 1, Time.Count - 1];
             SecondMoment = new double[Rho.Count - 1, Z.Count - 1, Time.Count - 1];
             TallyType = TallyType.FluenceOfRhoAndZAndTime;
             Name = name;
             TallyCount = 0;
+            _tissue = tissue;
+            SetAbsorbAction(_tissue.AbsorptionWeightingType);
+            _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Time { get; set; }
 
-        protected override void SetAbsorbAction(AbsorptionWeightingType awt)
+        private void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
             {

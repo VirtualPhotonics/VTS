@@ -314,7 +314,6 @@
     <Compile Include="MonteCarlo\Detectors\AOfRhoAndZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ATotalDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs" />
-    <Compile Include="MonteCarlo\Detectors\HistoryTallyBase.cs" />
     <Compile Include="MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCMuaMusROfRhoAndTimeDetector.cs" />
@@ -326,7 +325,6 @@
     <Compile Include="MonteCarlo\Detectors\ROfRhoAndTimeDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ROfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ROfXAndYDetector.cs" />
-    <Compile Include="MonteCarlo\Detectors\TallyBase.cs" />
     <Compile Include="MonteCarlo\Detectors\TallyExtensionMethods.cs" />
     <Compile Include="MonteCarlo\Detectors\TDiffuseDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfAngleDetector.cs" />

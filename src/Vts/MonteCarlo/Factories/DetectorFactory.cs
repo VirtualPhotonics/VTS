@@ -31,7 +31,7 @@ namespace Vts.MonteCarlo.Factories
                     return new ROfAngleDetector(rainput.Angle, rainput.Name);
                 case TallyType.ROfRhoAndTime:
                     var rrtinput = (ROfRhoAndTimeDetectorInput)detectorInput;
-                    return new ROfRhoAndTimeDetector(rrtinput.Rho, rrtinput.Time, tissue,rrtinput.Name);
+                    return new ROfRhoAndTimeDetector(rrtinput.Rho, rrtinput.Time, rrtinput.Name);
                 case TallyType.ROfRhoAndAngle:
                     var rrainput = (ROfRhoAndAngleDetectorInput)detectorInput;
                     return new ROfRhoAndAngleDetector(rrainput.Rho, rrainput.Angle, rrainput.Name);
@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo.Factories
                     return new ROfXAndYDetector(rxyinput.X, rxyinput.Y, rxyinput.Name);
                 case TallyType.ROfRhoAndOmega:
                     var rroinput = (ROfRhoAndOmegaDetectorInput)detectorInput;
-                    return new ROfRhoAndOmegaDetector(rroinput.Rho, rroinput.Omega, tissue, rroinput.Name);
+                    return new ROfRhoAndOmegaDetector(rroinput.Rho, rroinput.Omega, rroinput.Name);
                 case TallyType.TDiffuse:
                     var tdinput = (TDiffuseDetectorInput)detectorInput;
                     return new TDiffuseDetector(tdinput.Name);

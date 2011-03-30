@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface IHistoryDetector : IDetector
     {
-        void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp);
+        void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp);  
     }
 
     /// <summary>

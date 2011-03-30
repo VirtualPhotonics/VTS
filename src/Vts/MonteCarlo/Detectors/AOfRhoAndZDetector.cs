@@ -1,5 +1,7 @@
 using System;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
+using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
@@ -11,10 +13,12 @@ namespace Vts.MonteCarlo.Detectors
     /// <summary>
     /// Implements IHistoryDetector<double[,]>.  Tally for Absorption(rho,z).
     /// </summary>
-    public class AOfRhoAndZDetector : HistoryTallyBase, IHistoryDetector<double[,]>
+    public class AOfRhoAndZDetector : IHistoryDetector<double[,]>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
+        private ITissue _tissue;
+        private IList<OpticalProperties> _ops;
         /// <summary>
         /// Returns an instance of AOfRhoAndZDetector
         /// </summary>
@@ -22,7 +26,6 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="z"></param>
         /// <param name="tissue"></param>
         public AOfRhoAndZDetector(DoubleRange rho, DoubleRange z, ITissue tissue, String name)
-            : base(tissue)
         {
             Rho = rho;
             Z = z;
@@ -31,6 +34,9 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = TallyType.AOfRhoAndZ;
             Name = name;
             TallyCount = 0;
+            _tissue = tissue;
+            SetAbsorbAction(_tissue.AbsorptionWeightingType);
+            _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
         }
 
         /// <summary>
@@ -57,7 +63,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Z { get; set; }
 
-        protected override void SetAbsorbAction(AbsorptionWeightingType awt)
+        private void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
             {

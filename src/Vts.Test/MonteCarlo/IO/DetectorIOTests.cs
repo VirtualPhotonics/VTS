@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 using NUnit.Framework;
@@ -18,79 +19,326 @@ namespace Vts.Test.MonteCarlo
     {
         /// <summary>
         /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
-        /// are working correctly for oD detector.
+        /// are working correctly for 0D detectors.
         /// </summary>
         [Test]
-        public void validate_0D_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        public void validate_RDiffuseDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
-            string detectorName = "test0D";
-            IDetector detector = new RDiffuseDetector(detectorName);
+            string detectorName = "testrdiffuse";
+            IDetector detector = new RDiffuseDetector(detectorName) { Mean = 100 };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = DetectorIO.ReadDetectorFromFile(TallyType.RDiffuse, detectorName, "");
+            var dcloned = (RDiffuseDetector)DetectorIO.ReadDetectorFromFile(TallyType.RDiffuse, detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
-        } 
+            Assert.AreEqual(dcloned.Mean, 100);
+        }
+        [Test]
+        public void validate_TDiffuseDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testtdiffuse";
+            IDetector detector = new TDiffuseDetector(detectorName) { Mean = 100 };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (TDiffuseDetector)DetectorIO.ReadDetectorFromFile(TallyType.TDiffuse, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean, 100);
+        }
+        [Test]
+        public void validate_ATotalDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testatotal";
+            IDetector detector = new ATotalDetector(new MultiLayerTissue(), detectorName) { Mean = 100 };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (ATotalDetector)DetectorIO.ReadDetectorFromFile(TallyType.ATotal, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean, 100);
+        }
         /// <summary>
         /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
         /// are working correctly for 1D detector.
         /// </summary>
         [Test]
-        public void validate_1D_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        public void validate_ROfRhoDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
-            string detectorName = "test1D";
-            IDetector detector = new ROfRhoDetector(new DoubleRange(0, 10, 11), detectorName);
+            string detectorName = "testrofrho";
+            IDetector detector = new ROfRhoDetector(
+                new DoubleRange(0, 10, 4), detectorName) // remember Count-1 is size of array 
+                    { Mean = new double[] {100, 200, 300} };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = DetectorIO.ReadDetectorFromFile(TallyType.ROfRho, detectorName, "");
+            var dcloned = (ROfRhoDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfRho, detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
-        }        
+            Assert.AreEqual(dcloned.Mean[0], 100);
+            Assert.AreEqual(dcloned.Mean[1], 200);
+            Assert.AreEqual(dcloned.Mean[2], 300);
+        }
+        [Test]
+        public void validate_ROfAngleDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testrofangle";
+            IDetector detector = new ROfAngleDetector(
+                new DoubleRange(0, 10, 4), detectorName) // remember Count-1 is size of array 
+                    { Mean = new double[] { 100, 200, 300 } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (ROfAngleDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfAngle, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0], 100);
+            Assert.AreEqual(dcloned.Mean[1], 200);
+            Assert.AreEqual(dcloned.Mean[2], 300);
+        }
+        [Test]
+        public void validate_TOfAngleDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testtofangle";
+            IDetector detector = new TOfAngleDetector(
+                new DoubleRange(0, 10, 4), detectorName) // remember Count-1 is size of array 
+                    { Mean = new double[] { 100, 200, 300 } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (TOfAngleDetector)DetectorIO.ReadDetectorFromFile(TallyType.TOfAngle, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0], 100);
+            Assert.AreEqual(dcloned.Mean[1], 200);
+            Assert.AreEqual(dcloned.Mean[2], 300);
+        }
+        [Test]
+        public void validate_TOfRhoDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testtofrho";
+            IDetector detector = new TOfRhoDetector(
+                new DoubleRange(0, 10, 4), detectorName) // remember Count-1 is size of array 
+                    { Mean = new double[] { 100, 200, 300 } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (TOfRhoDetector)DetectorIO.ReadDetectorFromFile(TallyType.TOfRho, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0], 100);
+            Assert.AreEqual(dcloned.Mean[1], 200);
+            Assert.AreEqual(dcloned.Mean[2], 300);
+        }
+        [Test]
+        public void validate_pMCMuaMusROfRhoDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testpmcrofrho";
+            IDetector detector = new pMCMuaMusROfRhoDetector(
+                new DoubleRange(0, 10, 4), 
+                new MultiLayerTissue(),
+                new List<OpticalProperties>() { new OpticalProperties() },
+                new List<int>() { 1 },
+                detectorName)
+                { Mean = new double[] { 100, 200, 300 } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (pMCMuaMusROfRhoDetector)DetectorIO.ReadDetectorFromFile(TallyType.pMCMuaMusROfRho, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0], 100);
+            Assert.AreEqual(dcloned.Mean[1], 200);
+            Assert.AreEqual(dcloned.Mean[2], 300);
+        }
         /// <summary>
         /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
         /// are working correctly for 2D detector.
         /// </summary>
         [Test]
-        public void validate_2D_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        public void validate_ROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
-            string detectorName = "test2D";
+            string detectorName = "testrofrhoandtime";
             IDetector detector = new ROfRhoAndTimeDetector(
-                new DoubleRange(0, 10, 11), 
-                new DoubleRange(0, 1, 101),
-                new MultiLayerTissue(),
-                detectorName);
+                new DoubleRange(0, 10, 3),
+                new DoubleRange(0, 1, 4),
+                detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = DetectorIO.ReadDetectorFromFile(TallyType.ROfRhoAndTime, detectorName, "");
+            var dcloned = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfRhoAndTime, detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0, 0], 1);
+            Assert.AreEqual(dcloned.Mean[0, 1], 2);
+            Assert.AreEqual(dcloned.Mean[0, 2], 3);
+            Assert.AreEqual(dcloned.Mean[1, 0], 4);
+            Assert.AreEqual(dcloned.Mean[1, 1], 5);
+            Assert.AreEqual(dcloned.Mean[1, 2], 6);
         }
-        /// cannot uncomment this test until HistoryTallyBase and TallyBase figured out for History tallies
-        ///// <summary>
-        ///// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
-        ///// are working correctly for 3D detector.
-        ///// </summary>
-        //[Test]
-        //public void validate_3D_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
-        //{
-        //    string detectorName = "test3D";
-        //    IDetector detector = new FluenceOfRhoAndZAndTimeDetector(
-        //        new DoubleRange(0, 10, 11),
-        //        new DoubleRange(0, 10, 11),
-        //        new DoubleRange(0, 1, 101),
-        //        new MultiLayerTissue(),
-        //        detectorName);
-        //    DetectorIO.WriteDetectorToFile(detector, "");
-        //    var dcloned = DetectorIO.ReadDetectorFromFile(TallyType.FluenceOfRhoAndZAndTime, detectorName, "");
-
-        //    Assert.AreEqual(dcloned.Name, detectorName);
-        //}
-        private static T Clone<T>(T myObject)
+        [Test]
+        public void validate_ROfRhoAndAngleDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
-            using (MemoryStream ms = new MemoryStream(1024))
-            {
-                var dcs = new DataContractSerializer(typeof(T));
-                dcs.WriteObject(ms, myObject);
-                ms.Seek(0, SeekOrigin.Begin);
-                return (T)dcs.ReadObject(ms);
-            }
+            string detectorName = "testrofrhoandangle";
+            IDetector detector = new ROfRhoAndAngleDetector(
+                new DoubleRange(0, 10, 3),
+                new DoubleRange(0, 1, 4),
+                detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (ROfRhoAndAngleDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfRhoAndAngle, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0, 0], 1);
+            Assert.AreEqual(dcloned.Mean[0, 1], 2);
+            Assert.AreEqual(dcloned.Mean[0, 2], 3);
+            Assert.AreEqual(dcloned.Mean[1, 0], 4);
+            Assert.AreEqual(dcloned.Mean[1, 1], 5);
+            Assert.AreEqual(dcloned.Mean[1, 2], 6);
         }
+        [Test]
+        public void validate_TOfRhoAndAngleDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testtofrhoandangle";
+            IDetector detector = new TOfRhoAndAngleDetector(
+                new DoubleRange(0, 10, 3),
+                new DoubleRange(0, 1, 4),
+                detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (TOfRhoAndAngleDetector)DetectorIO.ReadDetectorFromFile(TallyType.TOfRhoAndAngle, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0, 0], 1);
+            Assert.AreEqual(dcloned.Mean[0, 1], 2);
+            Assert.AreEqual(dcloned.Mean[0, 2], 3);
+            Assert.AreEqual(dcloned.Mean[1, 0], 4);
+            Assert.AreEqual(dcloned.Mean[1, 1], 5);
+            Assert.AreEqual(dcloned.Mean[1, 2], 6);
+        }
+        [Test]
+        public void validate_AOfRhoAndZDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testaofrhoandz";
+            IDetector detector = new AOfRhoAndZDetector(
+                new DoubleRange(0, 10, 3),
+                new DoubleRange(0, 1, 4),
+                new MultiLayerTissue(),
+                detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (AOfRhoAndZDetector)DetectorIO.ReadDetectorFromFile(TallyType.AOfRhoAndZ, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0, 0], 1);
+            Assert.AreEqual(dcloned.Mean[0, 1], 2);
+            Assert.AreEqual(dcloned.Mean[0, 2], 3);
+            Assert.AreEqual(dcloned.Mean[1, 0], 4);
+            Assert.AreEqual(dcloned.Mean[1, 1], 5);
+            Assert.AreEqual(dcloned.Mean[1, 2], 6);
+        }
+        [Test]
+        public void validate_ROfXAndYDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testrofxandy";
+            IDetector detector = new ROfXAndYDetector(
+                new DoubleRange(0, 10, 3),
+                new DoubleRange(0, 1, 4),
+                detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (ROfXAndYDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfXAndY, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0, 0], 1);
+            Assert.AreEqual(dcloned.Mean[0, 1], 2);
+            Assert.AreEqual(dcloned.Mean[0, 2], 3);
+            Assert.AreEqual(dcloned.Mean[1, 0], 4);
+            Assert.AreEqual(dcloned.Mean[1, 1], 5);
+            Assert.AreEqual(dcloned.Mean[1, 2], 6);
+        }
+        [Test]
+        public void validate_FluenceOfRhoAndZDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testfluenceofrhoandz";
+            IDetector detector = new FluenceOfRhoAndZDetector(
+                new DoubleRange(0, 10, 3),
+                new DoubleRange(0, 1, 4),
+                new MultiLayerTissue(),
+                detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (FluenceOfRhoAndZDetector)DetectorIO.ReadDetectorFromFile(TallyType.FluenceOfRhoAndZ, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0, 0], 1);
+            Assert.AreEqual(dcloned.Mean[0, 1], 2);
+            Assert.AreEqual(dcloned.Mean[0, 2], 3);
+            Assert.AreEqual(dcloned.Mean[1, 0], 4);
+            Assert.AreEqual(dcloned.Mean[1, 1], 5);
+            Assert.AreEqual(dcloned.Mean[1, 2], 6);
+        }
+        [Test]
+        public void validate_ROfRhoAndOmegaDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testrofrhoandomega";
+            IDetector detector = new ROfRhoAndOmegaDetector(
+                new DoubleRange(0, 10, 3),
+                new DoubleRange(0, 1, 4),
+                detectorName) { Mean = new Complex[,] { { 1 + Complex.ImaginaryOne * 1, 2 + Complex.ImaginaryOne * 2, 3 + Complex.ImaginaryOne * 3},
+                                                        { 4 + Complex.ImaginaryOne * 4, 5 + Complex.ImaginaryOne * 5, 6 + Complex.ImaginaryOne * 6} } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (ROfRhoAndOmegaDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfRhoAndOmega, detectorName, "");
+
+            //Assert.AreEqual(dcloned.Name, detectorName);
+            //Assert.AreEqual(dcloned.Mean[0, 0], 1 + Complex.ImaginaryOne * 1);
+            //Assert.AreEqual(dcloned.Mean[0, 1], 2 + Complex.ImaginaryOne * 2);
+            //Assert.AreEqual(dcloned.Mean[1, 0], 3 + Complex.ImaginaryOne * 3);
+            //Assert.AreEqual(dcloned.Mean[1, 1], 4 + Complex.ImaginaryOne * 4);
+            //Assert.AreEqual(dcloned.Mean[2, 0], 5 + Complex.ImaginaryOne * 5);
+            //Assert.AreEqual(dcloned.Mean[2, 1], 6 + Complex.ImaginaryOne * 6);
+        }
+        [Test]
+        public void validate_pMCMuaMusROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testpmcmuamusrofrhoandtime";
+            IDetector detector = new pMCMuaMusROfRhoAndTimeDetector(
+                new DoubleRange(0, 10, 3),
+                new DoubleRange(0, 1, 4),
+                new MultiLayerTissue(),
+                new List<OpticalProperties>() { new OpticalProperties() },
+                new List<int>() { 1 },
+                detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (pMCMuaMusROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFile(TallyType.pMCMuaMusROfRhoAndTime, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0, 0], 1);
+            Assert.AreEqual(dcloned.Mean[0, 1], 2);
+            Assert.AreEqual(dcloned.Mean[0, 2], 3);
+            Assert.AreEqual(dcloned.Mean[1, 0], 4);
+            Assert.AreEqual(dcloned.Mean[1, 1], 5);
+            Assert.AreEqual(dcloned.Mean[1, 2], 6);
+        }
+        /// <summary>
+        /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
+        /// are working correctly for 3D detector.
+        /// </summary>
+        [Test]
+        public void validate_FluenceOfRhoAndZAndTime_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testfluenceofrhoandtime";
+            IDetector detector = new FluenceOfRhoAndZAndTimeDetector(
+                new DoubleRange(0, 10, 3),
+                new DoubleRange(0, 10, 3),
+                new DoubleRange(0, 1, 4),
+                new MultiLayerTissue(),
+                detectorName) { Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (FluenceOfRhoAndZAndTimeDetector)DetectorIO.ReadDetectorFromFile(TallyType.FluenceOfRhoAndZAndTime, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0, 0, 0], 1);
+            Assert.AreEqual(dcloned.Mean[0, 0, 1], 2);
+            Assert.AreEqual(dcloned.Mean[0, 0, 2], 3);
+            Assert.AreEqual(dcloned.Mean[0, 1, 0], 4);
+            Assert.AreEqual(dcloned.Mean[0, 1, 1], 5);
+            Assert.AreEqual(dcloned.Mean[0, 1, 2], 6);
+            Assert.AreEqual(dcloned.Mean[1, 0, 0], 7);
+            Assert.AreEqual(dcloned.Mean[1, 0, 1], 8);
+            Assert.AreEqual(dcloned.Mean[1, 0, 2], 9);
+            Assert.AreEqual(dcloned.Mean[1, 1, 0], 10);
+            Assert.AreEqual(dcloned.Mean[1, 1, 1], 11);
+            Assert.AreEqual(dcloned.Mean[1, 1, 2], 12);
+        }
+        //private static T Clone<T>(T myObject)
+        //{
+        //    using (MemoryStream ms = new MemoryStream(1024))
+        //    {
+        //        var dcs = new DataContractSerializer(typeof(T));
+        //        dcs.WriteObject(ms, myObject);
+        //        ms.Seek(0, SeekOrigin.Begin);
+        //        return (T)dcs.ReadObject(ms);
+        //    }
+        //}
     }
 }

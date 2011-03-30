@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
@@ -14,11 +15,13 @@ namespace Vts.MonteCarlo.Detectors
     /// Note: this tally currently only works with discrete absorption weighting
     /// </summary>
     public class FluenceOfRhoAndZDetector
-        : HistoryTallyBase, IHistoryDetector<double[,]>
+        : IHistoryDetector<double[,]>
     {
 
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
+        private ITissue _tissue;
+        private IList<OpticalProperties> _ops;
         /// <summary>
         /// Returns an instance of FluenceOfRhoAndZDetector
         /// </summary>
@@ -26,7 +29,6 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="z"></param>
         /// <param name="tissue"></param>
         public FluenceOfRhoAndZDetector(DoubleRange rho, DoubleRange z, ITissue tissue, String name)
-            : base(tissue)
         {
             Rho = rho;
             Z = z;
@@ -36,6 +38,9 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = TallyType.FluenceOfRhoAndZ;
             Name = name;
             TallyCount = 0;
+            _tissue = tissue;
+            SetAbsorbAction(_tissue.AbsorptionWeightingType);
+            _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
         }
 
         /// <summary>
@@ -62,7 +67,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Z { get; set; }
 
-        protected override void SetAbsorbAction(AbsorptionWeightingType awt)
+        private void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
             {
