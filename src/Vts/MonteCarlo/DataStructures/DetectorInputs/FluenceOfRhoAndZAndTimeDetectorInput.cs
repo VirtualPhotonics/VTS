@@ -24,28 +24,19 @@ namespace Vts.MonteCarlo
         /// <param name="rho"></param>
         /// <param name="z"></param>
         /// <param name="time"></param>
-        /// <param name="name"></param>
         public FluenceOfRhoAndZAndTimeDetectorInput(
-            DoubleRange rho, DoubleRange z, DoubleRange time)
-        {
-            TallyType = TallyType.FluenceOfRhoAndZAndTime;
-            Name = TallyType.FluenceOfRhoAndZAndTime.ToString();
-            Rho = rho;
-            Z = z;
-            Time = time;
-        }
+            DoubleRange rho, DoubleRange z, DoubleRange time) 
+            : this (rho, z, time, TallyType.FluenceOfRhoAndZAndTime.ToString()) {}
 
         /// <summary>
         /// Default constructor uses default rho and z bins
         /// </summary>
-        public FluenceOfRhoAndZAndTimeDetectorInput()
+        public FluenceOfRhoAndZAndTimeDetectorInput() 
             : this(
-            new DoubleRange(0.0, 10.0, 101), // rho
-            new DoubleRange(0.0, 10.0, 101), // z
-            new DoubleRange(0.0, 1, 101), // time
-            TallyType.FluenceOfRhoAndZAndTime.ToString())   // name
-        {
-        }
+                new DoubleRange(0.0, 10.0, 101), // rho
+                new DoubleRange(0.0, 10.0, 101), // z
+                new DoubleRange(0.0, 1, 101), // time
+                TallyType.FluenceOfRhoAndZAndTime.ToString()) {}
 
         public TallyType TallyType { get; set; }
         public String Name { get; set; }

@@ -9,13 +9,13 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(pMCMuaMusROfRhoDetector))]
+    [KnownType(typeof(pMCROfRhoDetector))]
     /// <summary>
     /// Implements ITerminationTally<double[]>.  Tally for pMC estimation of reflectance 
     /// as a function of Rho.
     /// </summary>
     // do I need classes pMuaInROfRhoTally and pMusInROfRhoTally?
-    public class pMCMuaMusROfRhoDetector : IpMCTerminationDetector<double[]>
+    public class pMCROfRhoDetector : IpMCTerminationDetector<double[]>
     {
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="tissue"></param>
         /// <param name="perturbedOps"></param>
         /// <param name="perturbedRegionIndices"></param>
-        public pMCMuaMusROfRhoDetector(
+        public pMCROfRhoDetector(
             DoubleRange rho,
             ITissue tissue,
             IList<OpticalProperties> perturbedOps,
@@ -43,7 +43,7 @@ namespace Vts.MonteCarlo.Detectors
             Rho = rho;
             Mean = new double[Rho.Count - 1];
             SecondMoment = new double[Rho.Count - 1];
-            TallyType = TallyType.pMCMuaMusROfRho;
+            TallyType = TallyType.pMCROfRho;
             Name = name;
             _perturbedOps = perturbedOps;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
@@ -71,13 +71,13 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Returns a default instance of pMCMuaMusROfRhoDetector (for serialization purposes only)
         /// </summary>
-        public pMCMuaMusROfRhoDetector()
+        public pMCROfRhoDetector()
             : this(
             new DoubleRange(), 
             new MultiLayerTissue(), 
             new List<OpticalProperties>(), 
             new List<int>(), 
-            TallyType.pMCMuaMusROfRho.ToString() )
+            TallyType.pMCROfRho.ToString() )
         {
         }
 

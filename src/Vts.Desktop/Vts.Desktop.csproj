@@ -547,11 +547,11 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCMuaMusROfRhoAndTimeDetector.cs">
-      <Link>MonteCarlo\Detectors\pMCMuaMusROfRhoAndTimeDetector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs">
+      <Link>MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCMuaMusROfRhoDetector.cs">
-      <Link>MonteCarlo\Detectors\pMCMuaMusROfRhoDetector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoDetector.cs">
+      <Link>MonteCarlo\Detectors\pMCROfRhoDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>

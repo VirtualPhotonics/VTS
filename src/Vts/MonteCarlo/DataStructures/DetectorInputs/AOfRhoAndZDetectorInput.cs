@@ -21,24 +21,17 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="rho"></param>
         /// <param name="z"></param>
-        /// <param name="name"></param>
-        public AOfRhoAndZDetectorInput(DoubleRange rho, DoubleRange z)
-        {
-            TallyType = TallyType.AOfRhoAndZ;
-            Name = TallyType.AOfRhoAndZ.ToString();
-            Rho = rho;
-            Z = z;
-        }
+        public AOfRhoAndZDetectorInput(DoubleRange rho, DoubleRange z) 
+            : this(rho, z, TallyType.AOfRhoAndZ.ToString()) { }
+
         /// <summary>
         /// Default constructor uses default rho and z bins
         /// </summary>
-        public AOfRhoAndZDetectorInput()
+        public AOfRhoAndZDetectorInput() 
             : this(
-            new DoubleRange(0.0, 10.0, 101), //rho
-            new DoubleRange(0.0, 10.0, 101), // z
-            TallyType.AOfRhoAndZ.ToString()) 
-        {
-        }
+                new DoubleRange(0.0, 10.0, 101), //rho
+                new DoubleRange(0.0, 10.0, 101), // z
+                TallyType.AOfRhoAndZ.ToString()) { }
 
         public TallyType TallyType { get; set; }
         public String Name { get; set; }

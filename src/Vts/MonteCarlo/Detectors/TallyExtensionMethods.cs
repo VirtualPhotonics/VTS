@@ -17,7 +17,8 @@ namespace Vts.MonteCarlo.Detectors
                 case TallyType.ROfRhoAndTime:
                 case TallyType.ROfXAndY:
                 case TallyType.RDiffuse:
-                case TallyType.pMCMuaMusROfRhoAndTime:
+                case TallyType.pMCROfRhoAndTime:
+                case TallyType.pMCROfRho:
                     return true;
                 default:
                     return false;
@@ -47,8 +48,8 @@ namespace Vts.MonteCarlo.Detectors
         {
             switch (tallyType)
             {
-                case TallyType.pMCMuaMusROfRho:
-                case TallyType.pMCMuaMusROfRhoAndTime:
+                case TallyType.pMCROfRho:
+                case TallyType.pMCROfRhoAndTime:
                     return true;
                 default:
                     return false;
@@ -63,6 +64,7 @@ namespace Vts.MonteCarlo.Detectors
                 case TallyType.FluenceOfRhoAndZAndTime:
                 case TallyType.AOfRhoAndZ:
                 case TallyType.ATotal:
+                case TallyType.MomentumTransferOfRhoAndZ:
                     return true;
                 default:
                     return false;

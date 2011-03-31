@@ -22,21 +22,16 @@ namespace Vts.MonteCarlo
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="name"></param>
-        public ROfXAndYDetectorInput(DoubleRange x, DoubleRange y)
-        {
-            TallyType = TallyType.ROfXAndY;
-            Name = TallyType.ROfXAndY.ToString();
-            X = x;
-            Y = y;
-        }
+        public ROfXAndYDetectorInput(DoubleRange x, DoubleRange y) 
+            : this (x, y, TallyType.ROfXAndY.ToString()) {}
 
         /// <summary>
         /// Default constructor uses default x and y bins
         /// </summary>
-        public ROfXAndYDetectorInput()
-            : this(new DoubleRange(-200.0, 200.0, 401), new DoubleRange(-200.0, 200.0, 401), TallyType.ROfXAndY.ToString()) 
-        {
-        }
+        public ROfXAndYDetectorInput() 
+            : this (new DoubleRange(-200.0, 200.0, 401), 
+                    new DoubleRange(-200.0, 200.0, 401), 
+                    TallyType.ROfXAndY.ToString()) {}
 
         public TallyType TallyType { get; set; }
         public String Name { get; set; }

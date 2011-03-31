@@ -9,13 +9,13 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(pMCMuaMusROfRhoAndTimeDetector))]
+    [KnownType(typeof(pMCROfRhoAndTimeDetector))]
     /// <summary>
     /// Implements ITerminationTally<double[,]>.  Tally for pMC estimation of reflectance 
     /// as a function of Rho and Time.  Perturbations of just mua or mus alone are also
     /// handled by this class.
     /// </summary>
-    public class pMCMuaMusROfRhoAndTimeDetector : IpMCTerminationDetector<double[,]>
+    public class pMCROfRhoAndTimeDetector : IpMCTerminationDetector<double[,]>
     {
         private AbsorptionWeightingType _awt;
         private IList<OpticalProperties> _referenceOps;
@@ -38,7 +38,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="tissue"></param>
         /// <param name="perturbedOps"></param>
         /// <param name="perturbedRegionIndices"></param>
-        public pMCMuaMusROfRhoAndTimeDetector(
+        public pMCROfRhoAndTimeDetector(
             DoubleRange rho,
             DoubleRange time,
             ITissue tissue,
@@ -53,7 +53,7 @@ namespace Vts.MonteCarlo.Detectors
             _timeDelta = Time.Delta;
             Mean = new double[Rho.Count - 1, Time.Count - 1];
             SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
-            TallyType = TallyType.pMCMuaMusROfRhoAndTime;
+            TallyType = TallyType.pMCROfRhoAndTime;
             Name = name;
             _awt = tissue.AbsorptionWeightingType;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
@@ -111,14 +111,14 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Returns a default instance of pMCMuaMusROfRhoAndTimeDetector (for serialization purposes only)
         /// </summary>
-        public pMCMuaMusROfRhoAndTimeDetector()
+        public pMCROfRhoAndTimeDetector()
             : this(
             new DoubleRange(), 
             new DoubleRange(), 
             new MultiLayerTissue(), 
             new List<OpticalProperties>(), 
             new List<int>(),
-            TallyType.pMCMuaMusROfRhoAndTime.ToString())
+            TallyType.pMCROfRhoAndTime.ToString())
         {
         }
 

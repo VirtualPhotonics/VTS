@@ -22,21 +22,16 @@ namespace Vts.MonteCarlo
         /// <param name="rho"></param>
         /// <param name="omega"></param>
         /// <param name="name"></param>
-        public ROfRhoAndOmegaDetectorInput(DoubleRange rho, DoubleRange omega)
-        {
-            TallyType = TallyType.ROfRhoAndOmega;
-            Name = TallyType.ROfRhoAndOmega.ToString();
-            Rho = rho;
-            Omega = omega;
-        }
+        public ROfRhoAndOmegaDetectorInput(DoubleRange rho, DoubleRange omega) 
+            : this (rho, omega, TallyType.ROfRhoAndOmega.ToString()) {}
 
         /// <summary>
         /// Default constructor uses default rho and omega bins
         /// </summary>
         public ROfRhoAndOmegaDetectorInput()
-            : this(new DoubleRange(0.0, 10, 101), new DoubleRange(0.0, 1000, 21), TallyType.ROfRhoAndOmega.ToString()) 
-        {
-        }
+            : this (new DoubleRange(0.0, 10, 101), 
+                    new DoubleRange(0.0, 1000, 21), 
+                    TallyType.ROfRhoAndOmega.ToString()) {}
 
         public TallyType TallyType { get; set; }
         public String Name { get; set; }

@@ -122,7 +122,7 @@ namespace Vts.Test.MonteCarlo
         public void validate_pMCMuaMusROfRhoDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testpmcrofrho";
-            IDetector detector = new pMCMuaMusROfRhoDetector(
+            IDetector detector = new pMCROfRhoDetector(
                 new DoubleRange(0, 10, 4), 
                 new MultiLayerTissue(),
                 new List<OpticalProperties>() { new OpticalProperties() },
@@ -130,7 +130,7 @@ namespace Vts.Test.MonteCarlo
                 detectorName)
                 { Mean = new double[] { 100, 200, 300 } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (pMCMuaMusROfRhoDetector)DetectorIO.ReadDetectorFromFile(TallyType.pMCMuaMusROfRho, detectorName, "");
+            var dcloned = (pMCROfRhoDetector)DetectorIO.ReadDetectorFromFile(TallyType.pMCROfRho, detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0], 100);
@@ -278,10 +278,30 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(dcloned.Mean[1, 2], 6 + Complex.ImaginaryOne * 6);
         }
         [Test]
+        public void validate_MomentumTransferOfRhoAndZDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        {
+            string detectorName = "testmomentumtransferofrhoandz";
+            IDetector detector = new MomentumTransferOfRhoAndZDetector(
+                new DoubleRange(0, 10, 3),
+                new DoubleRange(0, 1, 4),
+                detectorName) { Mean = new Double[,]  { { 1, 2, 3 }, { 4, 5, 6 } } };
+            DetectorIO.WriteDetectorToFile(detector, "");
+            var dcloned = (MomentumTransferOfRhoAndZDetector)DetectorIO.ReadDetectorFromFile(TallyType.MomentumTransferOfRhoAndZ, detectorName, "");
+
+            Assert.AreEqual(dcloned.Name, detectorName);
+
+            Assert.AreEqual(dcloned.Mean[0, 0], 1);
+            Assert.AreEqual(dcloned.Mean[0, 1], 2);
+            Assert.AreEqual(dcloned.Mean[0, 2], 3);
+            Assert.AreEqual(dcloned.Mean[1, 0], 4);
+            Assert.AreEqual(dcloned.Mean[1, 1], 5);
+            Assert.AreEqual(dcloned.Mean[1, 2], 6);
+        }
+        [Test]
         public void validate_pMCMuaMusROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testpmcmuamusrofrhoandtime";
-            IDetector detector = new pMCMuaMusROfRhoAndTimeDetector(
+            IDetector detector = new pMCROfRhoAndTimeDetector(
                 new DoubleRange(0, 10, 3),
                 new DoubleRange(0, 1, 4),
                 new MultiLayerTissue(),
@@ -289,7 +309,7 @@ namespace Vts.Test.MonteCarlo
                 new List<int>() { 1 },
                 detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (pMCMuaMusROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFile(TallyType.pMCMuaMusROfRhoAndTime, detectorName, "");
+            var dcloned = (pMCROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFile(TallyType.pMCROfRhoAndTime, detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0], 1);

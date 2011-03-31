@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
             IList<int> perturbedRegionsIndices,
             String name)
         {
-            TallyType = TallyType.pMCMuaMusROfRho;
+            TallyType = TallyType.pMCROfRho;
             Name = name;
             Rho = rho;
             PerturbedOps = perturbedOps;
@@ -33,27 +33,25 @@ namespace Vts.MonteCarlo
         public pMCROfRhoDetectorInput(
             DoubleRange rho,
             IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionsIndices)
-        {
-            TallyType = TallyType.pMCMuaMusROfRho;
-            Name = TallyType.pMCMuaMusROfRho.ToString();
-            Rho = rho;
-            PerturbedOps = perturbedOps;
-            PerturbedRegionsIndices = perturbedRegionsIndices;
-        }
+            IList<int> perturbedRegionsIndices) 
+                : this (rho, 
+                      perturbedOps, 
+                      perturbedRegionsIndices, 
+                      TallyType.pMCROfRho.ToString()) {}
+
         /// <summary>
         /// Default constructor tallies all tallies
         /// </summary>
-        public pMCROfRhoDetectorInput()
+        public pMCROfRhoDetectorInput() 
             : this(
-            new DoubleRange(0.0, 10, 101), // rho
-            new List<OpticalProperties>() {  // perturbedOps
-                new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
-                new OpticalProperties(0.0, 1.0, 0.8, 1.4),
-                new OpticalProperties(1e-10, 0.0, 0.0, 1.0) },
-            new List<int>() { 1 }, // perturbedRegionIndex
-            TallyType.pMCMuaMusROfRho.ToString()
-        ) {}
+                new DoubleRange(0.0, 10, 101), // rho
+                new List<OpticalProperties>() {  // perturbedOps
+                    new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
+                    new OpticalProperties(0.0, 1.0, 0.8, 1.4),
+                    new OpticalProperties(1e-10, 0.0, 0.0, 1.0) },
+                new List<int>() { 1 }, // perturbedRegionIndex
+                TallyType.pMCROfRho.ToString()
+            ) {}
 
         public TallyType TallyType { get; set; }
         public String Name { get; set; }

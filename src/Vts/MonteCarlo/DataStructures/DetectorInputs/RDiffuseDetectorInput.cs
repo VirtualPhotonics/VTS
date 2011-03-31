@@ -18,11 +18,7 @@ namespace Vts.MonteCarlo
         /// default constructor uses TallyType as name
         /// </summary>
         /// <param name="name"></param>
-        public RDiffuseDetectorInput()
-        {
-            TallyType = TallyType.RDiffuse;
-            Name = TallyType.RDiffuse.ToString();
-        } 
+        public RDiffuseDetectorInput() : this (TallyType.RDiffuse.ToString()) {}
 
         public TallyType TallyType { get; set; }
         public String Name { get; set; }

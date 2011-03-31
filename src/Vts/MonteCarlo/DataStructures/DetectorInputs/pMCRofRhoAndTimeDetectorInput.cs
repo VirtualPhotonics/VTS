@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo
             IList<int> perturbedRegionsIndices,
             String name)
         {
-            TallyType = TallyType.pMCMuaMusROfRhoAndTime;
+            TallyType = TallyType.pMCROfRhoAndTime;
             Name = name;
             Rho = rho;
             Time = time;
@@ -37,29 +37,23 @@ namespace Vts.MonteCarlo
             DoubleRange rho,
             DoubleRange time,
             IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionsIndices)
-        {
-            TallyType = TallyType.pMCMuaMusROfRhoAndTime;
-            Name = TallyType.pMCMuaMusROfRhoAndTime.ToString();
-            Rho = rho;
-            Time = time;
-            PerturbedOps = perturbedOps;
-            PerturbedRegionsIndices = perturbedRegionsIndices;
-        }
+            IList<int> perturbedRegionsIndices) 
+            : this (rho, time, perturbedOps, perturbedRegionsIndices, TallyType.pMCROfRhoAndTime.ToString()) {}
+        
         /// <summary>
         /// Default constructor tallies all tallies
         /// </summary>
-        public pMCROfRhoAndTimeDetectorInput()
+        public pMCROfRhoAndTimeDetectorInput() 
             : this(
-            new DoubleRange(0.0, 10, 101), // rho
-            new DoubleRange(0.0, 1, 101), // time
-            new List<OpticalProperties>() {  // perturbedOps
-                new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
-                new OpticalProperties(0.0, 1.0, 0.8, 1.4),
-                new OpticalProperties(1e-10, 0.0, 0.0, 1.0) },
-            new List<int>() { 1 }, // perturbedRegionIndex
-            TallyType.pMCMuaMusROfRhoAndTime.ToString()
-        ) {}
+                new DoubleRange(0.0, 10, 101), // rho
+                new DoubleRange(0.0, 1, 101), // time
+                new List<OpticalProperties>() {  // perturbedOps
+                    new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
+                    new OpticalProperties(0.0, 1.0, 0.8, 1.4),
+                    new OpticalProperties(1e-10, 0.0, 0.0, 1.0) },
+                new List<int>() { 1 }, // perturbedRegionIndex
+                TallyType.pMCROfRhoAndTime.ToString()
+            ) {}
 
         public TallyType TallyType { get; set; }
         public String Name { get; set; }

@@ -316,8 +316,8 @@
     <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCMuaMusROfRhoAndTimeDetector.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCMuaMusROfRhoDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\pMCROfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RDiffuseDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ROfAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs" />

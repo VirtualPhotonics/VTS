@@ -20,19 +20,14 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="rho"></param>
         /// <param name="name"></param>
-        public TOfRhoDetectorInput(DoubleRange rho)
-        {
-            TallyType = TallyType.TOfRho;
-            Name = TallyType.TOfRho.ToString();
-            Rho = rho;
-        }
+        public TOfRhoDetectorInput(DoubleRange rho) 
+            : this (rho, TallyType.TOfRho.ToString()) {}
 
         /// <summary>
         /// Default constructor uses default rho bins
         /// </summary>
-        public TOfRhoDetectorInput() : this(new DoubleRange(0.0, 10, 101), TallyType.TOfRho.ToString())
-        {
-        }
+        public TOfRhoDetectorInput() 
+            : this(new DoubleRange(0.0, 10, 101), TallyType.TOfRho.ToString()) {}
 
         public TallyType TallyType { get; set; }
         public String Name { get; set; }
