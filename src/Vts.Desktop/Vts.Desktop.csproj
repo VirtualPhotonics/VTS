@@ -775,12 +775,12 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml">
       <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml</Link>
     </EmbeddedResource>
-    <Content Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.xml">
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.xml">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.xml</Link>
-    </Content>
-    <Content Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml</Link>
-    </Content>
+    </EmbeddedResource>
     <Content Include="..\Vts\Modeling\Spectroscopy\ChromophoreList.xml">
       <Link>Modeling\Spectroscopy\ChromophoreList.xml</Link>
     </Content>
@@ -843,12 +843,12 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots">
       <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots</Link>
     </EmbeddedResource>
-    <None Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime">
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime</Link>
-    </None>
-    <None Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt</Link>
-    </None>
+    </EmbeddedResource>
     <None Include="..\Vts\Modeling\Spectroscopy\Fat.csv">
       <Link>Modeling\Spectroscopy\Fat.csv</Link>
     </None>
