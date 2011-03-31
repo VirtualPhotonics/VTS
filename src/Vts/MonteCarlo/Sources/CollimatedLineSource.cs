@@ -44,7 +44,7 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>Photon</returns>
         public override Photon GetNextPhoton(ITissue tissue)
         {
-            var photonPosition = SourceToolbox.GetRandomFlatLinePosition(Position, Length, Rng);
+            var photonPosition = SourceToolbox.GetRandomLinePosition(Position, Orientation, Length, Rng);
 
             var dataPoint = new PhotonDataPoint(
                 photonPosition,
