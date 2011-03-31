@@ -6,10 +6,10 @@ namespace Vts.MonteCarlo.Sources
     /// Implements ISourceInput.  Defines input data for PointSource implementation
     /// including position, direction and range of theta and phi.
     /// </summary>
-    public class CustomPointSourceInput : ISourceInput
+    public class CustomPointSourceInputOld : ISourceInput
     {
         // this handles point
-        public CustomPointSourceInput( 
+        public CustomPointSourceInputOld( 
             Position pointLocation,
             Direction solidAngleAxis,
             DoubleRange thetaRange, 
@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.Sources
             ThetaRange = thetaRange;
             PhiRange = phiRange;
         }
-        public CustomPointSourceInput()
+        public CustomPointSourceInputOld()
             : this(
                 new Position (0, 0, 0),
                 new Direction(0, 0, 1),

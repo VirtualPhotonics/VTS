@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Vts.MonteCarlo.Helpers
+namespace Vts.Common
 {
     public class ThreeAxisRotation
     {

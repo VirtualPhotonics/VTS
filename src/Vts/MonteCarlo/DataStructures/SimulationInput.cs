@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo
     [Serializable]
 #endif
 
-    [KnownType(typeof(CustomPointSourceInput))]
+    [KnownType(typeof(CustomPointSourceInputOld))]
     [KnownType(typeof(MultiLayerTissueInput))]
     [KnownType(typeof(DetectorInput))]
     
@@ -69,7 +69,7 @@ namespace Vts.MonteCarlo
                     PhaseFunctionType.HenyeyGreenstein,
                     false, 
                     0),
-                new CustomPointSourceInput(
+                new CustomPointSourceInputOld(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),

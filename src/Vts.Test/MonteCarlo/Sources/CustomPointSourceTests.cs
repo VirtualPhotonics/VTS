@@ -13,13 +13,13 @@ namespace Vts.Test.MonteCarlo.Sources
         public void validate_getnextphoton_assigns_correct_values()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
-            CustomPointSourceInput cpsi = new CustomPointSourceInput(
+            CustomPointSourceInputOld cpsi = new CustomPointSourceInputOld(
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
                 new DoubleRange(0, 0, 1),
                 new DoubleRange(0, 0, 1));
 
-            var ps = new CustomPointSource(cpsi)
+            var ps = new CustomPointSourceOld(cpsi)
                 {
                     Rng = rng // assigns the externally-defined random number generator
                 };

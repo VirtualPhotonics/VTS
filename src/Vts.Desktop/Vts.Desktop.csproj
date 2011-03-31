@@ -226,6 +226,9 @@
     <Compile Include="..\Vts\Common\OpticalProperties.cs">
       <Link>Common\OpticalProperties.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Common\PolarAzimuthalRotationAngles.cs">
+      <Link>Common\PolarAzimuthalRotationAngles.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Common\Position.cs">
       <Link>Common\Position.cs</Link>
     </Compile>
@@ -234,6 +237,9 @@
     </Compile>
     <Compile Include="..\Vts\Common\Resources\Strings.Designer.cs">
       <Link>Common\Resources\Strings.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\ThreeAxisRotationAngles.cs">
+      <Link>Common\ThreeAxisRotationAngles.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Factories\ComputationFactory.cs">
       <Link>Factories\ComputationFactory.cs</Link>
@@ -511,14 +517,8 @@
     <Compile Include="..\Vts\MonteCarlo\Helpers\Optics.cs">
       <Link>MonteCarlo\Helpers\Optics.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Helpers\PolarAzimuthalRotationAngles.cs">
-      <Link>MonteCarlo\Helpers\PolarAzimuthalRotationAngles.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\SourceToolbox.cs">
       <Link>MonteCarlo\Helpers\SourceToolbox.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Helpers\ThreeAxisRotationAngles.cs">
-      <Link>MonteCarlo\Helpers\ThreeAxisRotationAngles.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetector.cs">
       <Link>MonteCarlo\Interfaces\IDetector.cs</Link>
@@ -586,23 +586,35 @@
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSource.cs">
-      <Link>MonteCarlo\Sources\CustomPointSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSourceInputOld.cs">
+      <Link>MonteCarlo\Sources\CustomPointSourceInputOld.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSourceInput.cs">
-      <Link>MonteCarlo\Sources\CustomPointSourceInput.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSourceOld.cs">
+      <Link>MonteCarlo\Sources\CustomPointSourceOld.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceBase.cs">
-      <Link>MonteCarlo\Sources\LineSourceBase.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceBaseOld.cs">
+      <Link>MonteCarlo\Sources\LineSourceBaseOld.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceCustom.cs">
       <Link>MonteCarlo\Sources\LineSourceCustom.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceDiverging.cs">
+      <Link>MonteCarlo\Sources\LineSourceDiverging.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceHemispherical.cs">
+      <Link>MonteCarlo\Sources\LineSourceHemispherical.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointSourceCollimated.cs">
+      <Link>MonteCarlo\Sources\PointSourceCollimated.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\PointSourceCustom.cs">
       <Link>MonteCarlo\Sources\PointSourceCustom.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SourceBase.cs">
-      <Link>MonteCarlo\Sources\SourceBase.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointSourceMultiDirectional.cs">
+      <Link>MonteCarlo\Sources\PointSourceMultiDirectional.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SourceBaseOld.cs">
+      <Link>MonteCarlo\Sources\SourceBaseOld.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\AOfRhoAndZTally.cs">
       <Link>MonteCarlo\TallyActions\AOfRhoAndZTally.cs</Link>

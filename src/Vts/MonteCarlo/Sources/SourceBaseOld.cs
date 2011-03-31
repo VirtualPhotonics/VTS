@@ -3,7 +3,7 @@ using Vts.Common;
 
 namespace Vts.MonteCarlo.Sources
 {
-    public abstract class SourceBase : ISource
+    public abstract class SourceBaseOld : ISource
     {
         private Random _rng;
 
@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="location"></param>
         /// <param name="orientation"></param>
-        public SourceBase(Position location, Direction orientation)
+        public SourceBaseOld(Position location, Direction orientation)
         {
             Position = location;
             Orientation = orientation;

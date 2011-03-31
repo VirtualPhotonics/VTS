@@ -10,9 +10,9 @@ namespace Vts.MonteCarlo.Factories
     {
         public static ISource GetSource(ISourceInput si, ITissue tissue, Random rng)
         {
-            if (si is CustomPointSourceInput)
+            if (si is CustomPointSourceInputOld)
             {
-                return new CustomPointSource((CustomPointSourceInput) si) {Rng = rng};
+                return new CustomPointSourceOld((CustomPointSourceInputOld) si) {Rng = rng};
             }
             // else if...
             

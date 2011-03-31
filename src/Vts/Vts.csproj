@@ -261,8 +261,8 @@
     <Compile Include="MonteCarlo\Factories\TallyActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\TissueFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\Optics.cs" />
-    <Compile Include="MonteCarlo\Helpers\PolarAzimuthalRotationAngles.cs" />
-    <Compile Include="MonteCarlo\Helpers\ThreeAxisRotationAngles.cs" />
+    <Compile Include="Common\PolarAzimuthalRotationAngles.cs" />
+    <Compile Include="Common\ThreeAxisRotationAngles.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCTally.cs" />
     <Compile Include="MonteCarlo\Interfaces\IHistoryTally.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITally.cs" />
@@ -286,14 +286,19 @@
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfoCustomBinarySerializer.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
     <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
-    <Compile Include="MonteCarlo\Sources\CustomPointSourceInput.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\CustomPointSource.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSourceCustom.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSourceDiverging.cs" />
+    <Compile Include="MonteCarlo\Sources\CustomPointSourceInputOld.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSourceBaseOld.cs" />
+    <Compile Include="MonteCarlo\Sources\CustomPointSourceOld.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSourceCustom.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Sources\LineSourceHemispherical.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSourceCollimated.cs" />
     <Compile Include="MonteCarlo\Sources\PointSourceCustom.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSourceMultiDirectional.cs" />
+    <Compile Include="MonteCarlo\Sources\SourceBaseOld.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceDefinition.cs" />
     <Compile Include="MonteCarlo\TallyActions\AOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\ATotalTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs" />

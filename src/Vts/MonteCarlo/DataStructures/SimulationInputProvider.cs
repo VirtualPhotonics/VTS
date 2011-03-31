@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo
             {
                 N = (long)1e6, 
                 OutputFileName = "PointSourceHomogeneous",
-                SourceInput = new CustomPointSourceInput(),
+                SourceInput = new CustomPointSourceInputOld(),
                 TissueInput = new MultiLayerTissueInput(),
                 DetectorInput = new DetectorInput()
             };

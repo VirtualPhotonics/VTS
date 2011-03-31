@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo.Sources
     /// Notes: possible update: its up to caller to determine acceptable 
     /// theta/phi range to pass specular rather than in GetNextPhoton.
     /// </summary>
-    public class CustomPointSource : SourceBase
+    public class CustomPointSourceOld : SourceBaseOld
     {
         /// <summary>
         /// Creates a PointSource with user-specified details
@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="orientation"></param>
         /// <param name="thetaRange"></param>
         /// <param name="phiRange"></param>
-        public CustomPointSource( 
+        public CustomPointSourceOld( 
             Position position,
             Direction orientation,
             DoubleRange thetaRange, 
@@ -31,7 +31,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Creates a default CustomPointSource with unit normal pointing in the positive z direction
         /// </summary>
-        public CustomPointSource()
+        public CustomPointSourceOld()
             : this(
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
@@ -43,7 +43,7 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="psi">The point source input DTO</param>
         /// <remarks>This really should be logic in a factory class</remarks>
-        public CustomPointSource(CustomPointSourceInput cpsi) : this(
+        public CustomPointSourceOld(CustomPointSourceInputOld cpsi) : this(
             cpsi.PointLocation,
             cpsi.SolidAngleAxis,
             cpsi.ThetaRange,

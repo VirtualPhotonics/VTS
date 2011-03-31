@@ -8,10 +8,8 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// 
     /// </summary>
-    public class PointSourceCustom : ISource
-    {
-        private DoubleRange _polarAngleEmissionRange;
-        private DoubleRange _azimuthalAngleEmissionRange;
+    public class PointSourceCollimated : ISource
+    {        
         private Position _translationFromOrigin;
         private PolarAzimuthalRotationAngles _rotationFromInwardNormal;
 
@@ -22,31 +20,23 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationFromInwardNormal"></param>
-        public PointSourceCustom(
-            DoubleRange polarAngleEmissionRange,
-            DoubleRange azimuthalAngleEmissionRange,
+        public PointSourceCollimated( 
             Position translationFromOrigin,
             PolarAzimuthalRotationAngles rotationFromInwardNormal)
         {
-            _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
-            _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();
             _translationFromOrigin = translationFromOrigin.Clone();
             _rotationFromInwardNormal = rotationFromInwardNormal.Clone();
         }
-               
+
         /// <summary>
         /// Returns an instance of CustomPointSource with a specified translation, pointed normally inward
         /// </summary>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
+        /// <param name="polarAngleEmissionRange">Polar Angle Range</param>
+        /// <param name="azimuthalAngleEmissionRange">Azimuthal Ange Range</param>
         /// <param name="translationFromOrigin"></param>
-        public PointSourceCustom(
-            DoubleRange polarAngleEmissionRange,
-            DoubleRange azimuthalAngleEmissionRange,
+        public PointSourceCollimated(
             Position translationFromOrigin)
             : this(
-                polarAngleEmissionRange,
-                azimuthalAngleEmissionRange,
                 translationFromOrigin,
                 new PolarAzimuthalRotationAngles(0, 0))
         {
@@ -55,31 +45,28 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from the origin
-             Position initialPosition = new Position(0, 0, 0);
+            Position initialPosition = new Position(0, 0, 0);
 
-             // sample angular distribution
-             Direction initialDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
-                 _polarAngleEmissionRange,
-                 _azimuthalAngleEmissionRange,
-                 Rng);
+            // along z-axis
+            Direction initialDirection = new Direction(0, 0, 1);
 
-             Direction finalDirection = initialDirection;
+            Direction finalDirection = initialDirection;
 
-             //If source rotation angles are not equal to zero, returns the direction after rotation
-             if ((_rotationFromInwardNormal.ThetaRotation == 0.0) && (_rotationFromInwardNormal.PhiRotation == 0.0))
-             { }
-             else
-             { finalDirection = SourceToolbox.GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(_rotationFromInwardNormal, initialDirection); }
+            //If source rotation angles are not equal to zero, returns the direction after rotation
+            if ((_rotationFromInwardNormal.ThetaRotation == 0.0) && (_rotationFromInwardNormal.PhiRotation == 0.0))
+            { }
+            else
+            { finalDirection = SourceToolbox.GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(_rotationFromInwardNormal, initialDirection); }
 
-             Position finalPosition = initialPosition;
+            Position finalPosition = initialPosition;
 
-             //if translation is required, update the position            
-             if ((_translationFromOrigin.X == 0.0) && (_translationFromOrigin.Y == 0.0) && (_translationFromOrigin.Z == 0.0))
-             { }
-             else
-             { finalPosition = SourceToolbox.GetPositionafterTranslation(initialPosition, _translationFromOrigin); }     
-            
-   
+            //if translation is required, update the position            
+            if ((_translationFromOrigin.X == 0.0) && (_translationFromOrigin.Y == 0.0) && (_translationFromOrigin.Z == 0.0))
+            { }
+            else
+            { finalPosition = SourceToolbox.GetPositionafterTranslation(initialPosition, _translationFromOrigin); }    
+
+
 
             // the handling of specular needs work
             var weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
@@ -93,7 +80,7 @@ namespace Vts.MonteCarlo.Sources
 
             var photon = new Photon { DP = dataPoint };
 
-            return photon;  
+            return photon;
         }
 
         #region Random number generator code (copy-paste into all sources)
