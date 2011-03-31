@@ -209,7 +209,9 @@
     <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\SolverMGRTE.cs" />
     <Compile Include="Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolver.cs" />
-    <Compile Include="Modeling\ForwardSolvers\MonteCarloLoader.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MonteCarloLoader.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Modeling\ForwardSolvers\NurbsForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\NurbsGenerator.cs" />
     <Compile Include="Modeling\ForwardSolvers\NurbsValues.cs" />
@@ -242,36 +244,51 @@
     <Compile Include="Modeling\Spectroscopy\Tissue.cs" />
     <Compile Include="Modeling\Tools\CalculatorToolbox.cs" />
     <Compile Include="Modeling\Tools\HankelTransform.cs" />
-    <Compile Include="MonteCarlo\Banana.cs" />
-    <Compile Include="MonteCarlo\bvolume.cs" />
     <Compile Include="MonteCarlo\DataStructures\Output.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensions.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationOptions.cs" />
-    <Compile Include="MonteCarlo\Detectors\Detector.cs" />
-    <Compile Include="MonteCarlo\Detectors\DetectorInputExtensions.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ATotalDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfRhoAndTimeDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZAndTimeDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\TOfRhoAndAngleDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\TOfRhoDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\TOfAngleDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\TDiffuseDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndOmegaDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfXAndYDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndAngleDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RDiffuseDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndTimeDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs" />
+    <Compile Include="MonteCarlo\Controllers\DetectorController.cs" />
+    <Compile Include="MonteCarlo\Controllers\pMCDetectorController.cs" />
     <Compile Include="MonteCarlo\Factories\AbsorptionActionFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\DetectorBinning.cs" />
-    <Compile Include="MonteCarlo\Detectors\DetectorInput.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCDetector.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\Enums.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorFactory.cs" />
     <Compile Include="MonteCarlo\Factories\RandomNumberGeneratorFactory.cs" />
     <Compile Include="MonteCarlo\Factories\SourceFactory.cs" />
-    <Compile Include="MonteCarlo\Factories\TallyActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\TissueFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\Optics.cs" />
-    <Compile Include="MonteCarlo\Interfaces\IpMCTally.cs" />
-    <Compile Include="MonteCarlo\Interfaces\IHistoryTally.cs" />
-    <Compile Include="MonteCarlo\Interfaces\ITally.cs" />
-    <Compile Include="MonteCarlo\PhotonHistory.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetector.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IpMCHistoryDetector.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IpMCTerminationDetector.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IpMCDetectorInput.cs" />
+    <Compile Include="MonteCarlo\IO\DetectorIO.cs" />
+    <Compile Include="MonteCarlo\PhotonHistory.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\ISource.cs" />
     <Compile Include="MonteCarlo\Interfaces\ISourceInput.cs" />
-    <Compile Include="MonteCarlo\Interfaces\ITerminationTally.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ITerminationDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITissue.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITissueInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITissueRegion.cs" />
@@ -279,8 +296,8 @@
     <Compile Include="MonteCarlo\MonteCarloSimulation.cs" />
     <Compile Include="MonteCarlo\Photon.cs" />
     <Compile Include="MonteCarlo\PhotonData\PhotonDataPoint.cs" />
-    <Compile Include="MonteCarlo\PhotonData\PhotonTerminationDatabase.cs" />
-    <Compile Include="MonteCarlo\PhotonData\PhotonTerminationDatabaseWriter.cs" />
+    <Compile Include="MonteCarlo\PhotonData\PhotonDatabase.cs" />
+    <Compile Include="MonteCarlo\PhotonData\PhotonDatabaseWriter.cs" />
     <Compile Include="MonteCarlo\PhotonData\PhotonDataPointCustomBinarySerializer.cs" />
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfo.cs" />
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfoCustomBinarySerializer.cs" />
@@ -294,32 +311,30 @@
     <Compile Include="MonteCarlo\Sources\CustomPointSource.cs" />
     <Compile Include="MonteCarlo\Sources\SourceBase.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
-    <Compile Include="MonteCarlo\TallyActions\AOfRhoAndZTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ATotalTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\HistoryTallyBase.cs" />
-    <Compile Include="MonteCarlo\TallyActions\MomentumTransferOfRhoAndZTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\pMuaMusInROfRhoAndTimeTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\pMuaMusInROfRhoTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\RDiffuseTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ROfAngleTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ROfRhoAndAngleTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ROfRhoAndOmegaTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ROfRhoAndTimeTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ROfRhoTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\ROfXAndYTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TallyBase.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TallyExtensionMethods.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TDiffuseTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TOfAngleTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TOfRhoAndAngleTally.cs" />
-    <Compile Include="MonteCarlo\TallyActions\TOfRhoTally.cs" />
+    <Compile Include="MonteCarlo\Detectors\AOfRhoAndZDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ATotalDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\pMCROfRhoDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\RDiffuseDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfAngleDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfRhoAndTimeDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfRhoDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfXAndYDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\TallyExtensionMethods.cs" />
+    <Compile Include="MonteCarlo\Detectors\TDiffuseDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\TOfAngleDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\TOfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Tissues\CylinderRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\EllipsoidRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\LayerRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\MultiLayerTissue.cs" />
-    <Compile Include="MonteCarlo\Tissues\MultiLayerTissueInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
     <Compile Include="MonteCarlo\Tissues\MultiLayerTissueProvider.cs" />
     <Compile Include="MonteCarlo\Tissues\SingleEllipsoidTissue.cs" />
     <Compile Include="MonteCarlo\Tissues\TissueBase.cs" />
@@ -369,29 +384,6 @@
     <Resource Include="Modeling\Spectroscopy\Resources\SpectraData1.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\A_rz" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\A_rz.xml" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt.xml" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt_layer" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\D_rt_layer.xml" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\Flu_rz" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\Flu_rz.xml" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\output.xml" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_ra" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_ra.xml" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt.xml" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt2" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rt2.xml" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rw" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_rw.xml" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_xy" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_xy.xml" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\T_ra" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\T_ra.xml" />
     <Resource Include="Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -399,6 +391,8 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.xml" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml" />
     <Content Include="Modeling\Spectroscopy\ChromophoreList.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -418,6 +412,8 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt" />
     <None Include="Sources.cd" />
     <None Include="Modeling\Spectroscopy\Fat.csv" />
     <None Include="Vts.snk" />
@@ -439,7 +435,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

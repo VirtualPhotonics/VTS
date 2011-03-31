@@ -1,14 +1,16 @@
-//#define GENERATE_INFILE
+#define GENERATE_INFILE
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Vts.Common;
 using Vts.Extensions;
 using System.IO;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -91,7 +93,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
         public bool RunUnmanagedCode { get; set; }
         public bool WriteHistories { get; set; }
-        
+
         public IEnumerable<SimulationInput> BatchQuery { get; set; }
         public string[] BatchNameQuery { get; set; }
         public SimulationInput Input { get; set; }
@@ -198,28 +200,33 @@ namespace Vts.MonteCarlo.CommandLineApplication
         public void RunSimulation()
         {
             SimulationInput[] inputBatch = BatchQuery.ToArray();
-            string[] outNames = BatchNameQuery.Select(s => path + basename + "_" + OutputFile + "\\" + basename + "_" + OutputFile + s).ToArray();
+            string[] outNames = BatchNameQuery
+                .Select(s => path + basename + "_" + OutputFile + "\\" + basename + "_" + OutputFile + s)
+                .ToArray();
 
             for (int i = 0; i < inputBatch.Length; i++)
-                inputBatch[i].OutputFileName = outNames[i];
-
-            Parallel.For(0, inputBatch.Length, i =>
             {
-                var mc =
-                //var mc = RunUnmanagedCode ?
-                //     new UnmanagedMonteCarloSimulation(
-                //         inputBatch[i],
-                //         new (i))
-                //   : 
-                   new MonteCarloSimulation(
-                         inputBatch[i]);
+                inputBatch[i].OutputFileName = outNames[i];
+            }
 
-                var p = Path.GetDirectoryName(inputBatch[i].OutputFileName);
+            Parallel.ForEach(inputBatch, input =>
+            {
+                var mc = new MonteCarloSimulation(input);
+
+                var p = Path.GetDirectoryName(input.OutputFileName);
 
                 if (!Directory.Exists(p))
+                {
                     Directory.CreateDirectory(p);
+                }
 
-                mc.Run().ToFile(inputBatch[i].OutputFileName);
+                Output detectorResults = mc.Run();
+
+                foreach (var result in detectorResults.ResultsDictionary.Values)
+                {
+                    // save all detector data to the specified folder
+                    DetectorIO.WriteDetectorToFile(result, input.OutputFileName);
+                }
             });
         }
 
@@ -255,21 +262,29 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
         }
     }
-    
+
     class Program
     {
         static void Main(string[] args)
         {
             MonteCarloSetup MonteCarloSetup = new MonteCarloSetup();
+
             bool _showHelp = false;
-            
-    #region Infile Generation (optional)
-        //To Generate an infile when running a simulation, uncomment the first line of code in this file
-        #if GENERATE_INFILE
+
+
+            #region Infile Generation (optional)
+            //To Generate an infile when running a simulation, uncomment the first line of code in this file
+#if GENERATE_INFILE
             var tempInput = new SimulationInput(
                 100,  // FIX 1e6 takes about 70 minutes my laptop
                 "Output",
-                new SimulationOptions(),
+                new SimulationOptions(
+                     0,
+                     RandomNumberGeneratorType.MersenneTwister,
+                     AbsorptionWeightingType.Discrete,
+                     PhaseFunctionType.HenyeyGreenstein,
+                     false,
+                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
@@ -279,79 +294,80 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     new LayerRegion[]
                     { 
                         new LayerRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0, 2),
+                            new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
                         new LayerRegion(
-                            new DoubleRange(0.0, 100.0, 2),
+                            new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
                         new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity, 2),
+                            new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new DetectorInput(
-                    new List<TallyType>()
-                    {
-                        TallyType.RDiffuse,
-                        TallyType.ROfAngle,
-                        TallyType.ROfRho,
-                        TallyType.ROfRhoAndAngle,
-                        TallyType.ROfRhoAndTime,
-                        TallyType.ROfXAndY,
-                        TallyType.ROfRhoAndOmega,
-                        TallyType.TDiffuse,
-                        TallyType.TOfAngle,
-                        TallyType.TOfRho,
-                        TallyType.TOfRhoAndAngle,
-                    },
-                    new DoubleRange(0.0, 40.0, 201), // rho: nr=200 dr=0.2mm used for workshop
-                    new DoubleRange(0.0, 10.0, 11),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
-                    new DoubleRange(0.0, 4.0, 801), // time: nt=800 dt=0.005ns used for workshop
-                    new DoubleRange(0.0, 1000, 21), // omega
-                    new DoubleRange(-100.0, 100.0, 81), // x
-                    new DoubleRange(-100.0, 100.0, 81) // y
-                ));
+                new List<IDetectorInput>()
+                {
+                    new RDiffuseDetectorInput(),
+                    new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new ROfRhoAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new ROfRhoAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101)),
+                    new ROfXAndYDetectorInput(
+                        new DoubleRange(-200.0, 200.0, 401), // x
+                        new DoubleRange(-200.0, 200.0, 401)), // y,
+                    new ROfRhoAndOmegaDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 1000, 21)),
+                    new TDiffuseDetectorInput(),
+                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new TOfRhoAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, Math.PI / 2, 2))
+                });
             tempInput.ToFile("newinfile.xml");
-        #endif
-    #endregion
+#endif
+            #endregion
 
-             args.Process(() =>
-                {
-                    Console.WriteLine("Usages are:");
-                    Console.WriteLine("mc infile=myinput outfile=myoutput");
-                    Console.WriteLine("inputparam=mua1,0.01,0.09,0.01 inputparam=mus1,10,20,1");
-                    Console.WriteLine();
-                },
-                new CommandLine.Switch("help", val =>
-                {
-                    _showHelp = true;
-                }),
-                new CommandLine.Switch("infile", val =>
-                {
-                    Console.WriteLine("input file specified as {0}", val.First());
-                    MonteCarloSetup.InputFile = val.First();
-                }),
-                new CommandLine.Switch("outfile", val =>
-                {
-                    Console.WriteLine("output file specified as {0}", val.First());
-                    MonteCarloSetup.OutputFile = val.First();
-                }),
-                new CommandLine.Switch("/unmanaged", "/u", val =>
-                {
-                    Console.WriteLine("Run unmanaged code");
-                    MonteCarloSetup.RunUnmanagedCode = true;
-                }),
-                new CommandLine.Switch("/history", "/h", val =>
-                {
-                    Console.WriteLine("Write histories");
-                    MonteCarloSetup.WriteHistories = true;
-                }),
-                new CommandLine.Switch("inputparam", val =>
-                {
-                    MonteCarloSetup.SetRangeValues(val);
-                }));
-            
+            args.Process(() =>
+               {
+                   Console.WriteLine("Usages are:");
+                   Console.WriteLine("mc infile=myinput outfile=myoutput");
+                   Console.WriteLine("inputparam=mua1,0.01,0.09,0.01 inputparam=mus1,10,20,1");
+                   Console.WriteLine();
+               },
+               new CommandLine.Switch("help", val =>
+               {
+                   _showHelp = true;
+               }),
+               new CommandLine.Switch("infile", val =>
+               {
+                   Console.WriteLine("input file specified as {0}", val.First());
+                   MonteCarloSetup.InputFile = val.First();
+               }),
+               new CommandLine.Switch("outfile", val =>
+               {
+                   Console.WriteLine("output file specified as {0}", val.First());
+                   MonteCarloSetup.OutputFile = val.First();
+               }),
+               new CommandLine.Switch("/unmanaged", "/u", val =>
+               {
+                   Console.WriteLine("Run unmanaged code");
+                   MonteCarloSetup.RunUnmanagedCode = true;
+               }),
+               new CommandLine.Switch("/history", "/h", val =>
+               {
+                   Console.WriteLine("Write histories");
+                   MonteCarloSetup.WriteHistories = true;
+               }),
+               new CommandLine.Switch("inputparam", val =>
+               {
+                   MonteCarloSetup.SetRangeValues(val);
+               }));
+
             //if help is passed as an agument do not run the Monte Carlo, just display the help for the topic
             if (_showHelp)
             {
@@ -361,9 +377,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 if (MonteCarloSetup.BatchQuery == null && MonteCarloSetup.ValidSimulation)
                 {
-                   MonteCarloSetup.ValidSimulation = MonteCarloSetup.ReadSimulationInputFromFile();
+                    MonteCarloSetup.ValidSimulation = MonteCarloSetup.ReadSimulationInputFromFile();
                 }
-    
+
                 if (MonteCarloSetup.ValidSimulation)
                 {
                     MonteCarloSetup.RunSimulation();

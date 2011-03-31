@@ -1,8 +1,11 @@
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 using System.Linq;
+using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Controllers;
 
 namespace Vts.MonteCarlo.PostProcessing
 {
@@ -16,34 +19,31 @@ namespace Vts.MonteCarlo.PostProcessing
         /// GenerateOutput takes IDetectorInput (which designates tallies), reads PhotonExitHistory, and generates 
         /// Output.  This runs the conventional post-processing.
         /// </summary>
-        /// <param name="tallies">IDetectorInput designating binning</param>
+        /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
         /// <param name="database">PhotonTerminationDatabase</param>
-        /// <param name="databaseOutput">Database information needed for post-processing</param>
+        /// <param name="databaseInput">Database information needed for post-processing</param>
         /// <returns></returns>
         public static Output GenerateOutput(
-            IDetectorInput tallies, 
-            PhotonTerminationDatabase database, 
+            IList<IDetectorInput> detectorInputs, 
+            PhotonDatabase database, 
             SimulationInput databaseInput)
         {
-            Output postProcessedOutput = new Output();
             ITissue tissue = Factories.TissueFactory.GetTissue(
                 databaseInput.TissueInput,
                 databaseInput.Options.AbsorptionWeightingType,
                 databaseInput.Options.PhaseFunctionType);
-            IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
+
+            DetectorController detectorController = Factories.DetectorControllerFactory.GetStandardDetectorController(detectorInputs, tissue);
 
             foreach (var dp in database.DataPoints)
             {
-                foreach (var t in detector.TerminationITallyList)
-                {
-                    if (t.ContainsPoint(dp))
-                    {
-                        t.Tally(dp);
-                    }
-                }          
+                detectorController.TerminationTally(dp);     
             }
-            postProcessedOutput.Input = databaseInput;
-            detector.NormalizeTalliesToOutput(databaseInput.N, postProcessedOutput);
+
+            detectorController.NormalizeDetectors(databaseInput.N);
+
+            var postProcessedOutput = new Output(databaseInput, detectorController.Detectors);
+            // todo: call output generation method on detectorController (once it's implemented)
             return postProcessedOutput;
         }
 
@@ -52,40 +52,36 @@ namespace Vts.MonteCarlo.PostProcessing
         /// GenerateOutput takes IDetectorInput (which designates tallies),
         /// reads PhotonExitHistory, and generates Output.
         /// </summary>
-        /// <param name="tallies">IDetectorInput designating binning</param>
+        /// <param name="detectorInputs>List of IDetectorInputs designating binning</param>
         /// <param name="database">PhotonTerminationDatabase</param>
-        /// <param name="databaseOutput">Database information needed for post-processing</param>
+        /// <param name="databaseInput">Database information needed for post-processing</param>
         /// <param name="perturbedOps">Perturbed optical properties</param>
         /// <param name="perturbedRegionsIndices">Indices of regions being perturbed</param>
         /// <returns></returns>
         public static Output GenerateOutput(
-            IDetectorInput tallies, 
-            PhotonTerminationDatabase database, 
+            IList<IpMCDetectorInput> detectorInputs, 
+            PhotonDatabase database, 
             SimulationInput databaseInput,
             List<OpticalProperties> perturbedOps,
             List<int> perturbedRegionsIndices)
         {
-            Output postProcessedOutput = new Output();
             ITissue tissue = Factories.TissueFactory.GetTissue(
                 databaseInput.TissueInput, 
                 databaseInput.Options.AbsorptionWeightingType,
                 databaseInput.Options.PhaseFunctionType);
-            IDetector detector = Factories.DetectorFactory.GetDetector(tallies, tissue);
 
-            int count = 0;
+            pMCDetectorController detectorController = Factories.DetectorControllerFactory.GetpMCDetectorController(detectorInputs, tissue);
+            IList<SubRegionCollisionInfo> collisionInfo = null; // todo: revisit
             foreach (var dp in database.DataPoints)
             {
-                foreach (var t in detector.TerminationITallyList)
-			    {
-                    if (t.ContainsPoint(dp))
-                    {
-                        t.Tally(dp);
-                        ++count;
-                    }
-                }
+                detectorController.TerminationTally(dp, collisionInfo);
             }
-            postProcessedOutput.Input = databaseInput;
-            detector.NormalizeTalliesToOutput(databaseInput.N, postProcessedOutput);
+
+            detectorController.NormalizeDetectors(databaseInput.N);
+
+            var postProcessedOutput = new Output(databaseInput, detectorController.Detectors);
+
+            // todo: call output generation method on detectorController (once it's implemented)
             return postProcessedOutput;
         }
 

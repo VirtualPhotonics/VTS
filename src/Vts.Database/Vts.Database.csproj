@@ -98,36 +98,6 @@
     <Resource Include="output.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="A_rz.xml" />
-    <Resource Include="D_rt.xml" />
-    <Resource Include="Flu_rz.xml" />
-    <Resource Include="R_ra.xml" />
-    <Resource Include="R_rt.xml" />
-    <Resource Include="R_rt2.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="A_rz" />
-    <Resource Include="D_rt" />
-    <Resource Include="Flu_rz" />
-    <Resource Include="R_ra" />
-    <Resource Include="R_rt" />
-    <Resource Include="R_rt2" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="R_xy.xml" />
-    <Resource Include="T_ra.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="R_xy" />
-    <Resource Include="T_ra" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="R_rw" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="R_rw.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using Vts.Extensions;
+using Vts.MonteCarlo;
+
 #if !SILVERLIGHT
 using System.Runtime.Serialization.Formatters.Binary;
 #endif
@@ -54,6 +56,56 @@ namespace Vts.IO
             }
         }
 
+        public static void WriteScalarValueToBinary<T>(T dataIN, string filename, Action<BinaryWriter, T> writeMap)
+        {
+            // Create a file to write binary data 
+            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
+            {
+                using (BinaryWriter bw = new BinaryWriter(s))
+                {
+                    writeMap(bw, dataIN);
+                }
+            }
+        }
+
+        public static T ReadScalarValueFromBinary<T>(string filename, Func<BinaryReader, T> readMap)
+        {
+            // Create a file to write binary data 
+            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
+            {
+                using (BinaryReader br = new BinaryReader(s))
+                {
+                    return readMap(br);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Writes an array to a binary file and optionally accompanying .xml file 
+        /// (to store array dimensions) if includeMetaData = true
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataIN"></param>
+        /// <param name="filename"></param>
+        /// <param name="includeMetaData"</param>
+        public static void WriteArrayToBinary<T>(Array dataIN, string filename, bool includeMetaData) where T : struct
+        {
+            // Write XML file to describe the contents of the binary file
+            if (includeMetaData)
+            {
+                new MetaData(dataIN).WriteToXML(filename + ".xml");
+            }
+            // Create a file to write binary data 
+            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
+            {
+                using (BinaryWriter bw = new BinaryWriter(s))
+                {
+                    new ArrayCustomBinaryWriter<T>().WriteToBinary(bw, dataIN);
+                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<T>());
+                }
+            }
+        }
+
         /// <summary>
         /// Writes an array to a binary file, as well as an accompanying .xml file to store array dimensions
         /// </summary>
@@ -62,18 +114,7 @@ namespace Vts.IO
         /// <param name="filename"></param>
         public static void WriteArrayToBinary<T>(Array dataIN, string filename) where T : struct
         {
-            // Write XML file to describe the contents of the binary file
-            new MetaData(dataIN).WriteToXML(filename + ".xml");
-
-            // Create a file to write binary data 
-            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
-            {
-                using (BinaryWriter bw = new BinaryWriter(s))
-                {
-                    new ArrayCustomBinaryWriter<T>().WriteToBinary(bw,dataIN);
-                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<T>());
-                }
-            }
+            WriteArrayToBinary<T>(dataIN, filename, true);
         }
 
         /// <summary>

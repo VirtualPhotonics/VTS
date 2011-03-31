@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
@@ -34,9 +35,9 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var input = GenerateReferenceInput();
             var onTheFlyOutput = GenerateReferenceOutput(input);
 
-            var database = PhotonTerminationDatabase.FromFile("postprocessing_photonBiographies");
+            var database = PhotonDatabase.FromFile("postprocessing_photonBiographies");
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                input.DetectorInput, database, onTheFlyOutput.Input);
+                input.DetectorInputs, database, onTheFlyOutput.Input);
 
             ValidateROfRhoAndTime(onTheFlyOutput, postProcessedOutput);
         }
@@ -50,11 +51,11 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                 100,
                 "postprocessing",
                 new SimulationOptions(
-                    0, 
+                    0,
                     RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Discrete, 
+                    AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    true, 
+                    true,
                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),
@@ -75,29 +76,13 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new DetectorInput(
-                    new List<TallyType>()
-                    {
-                        TallyType.RDiffuse,
-                        TallyType.ROfAngle,
-                        TallyType.ROfRho,
-                        TallyType.ROfRhoAndAngle,
-                        TallyType.ROfRhoAndTime,
-                        TallyType.ROfXAndY,
-                        TallyType.ROfRhoAndOmega,
-                        TallyType.TDiffuse,
-                        TallyType.TOfAngle,
-                        TallyType.TOfRho,
-                        TallyType.TOfRhoAndAngle,
-                    },
-                    new DoubleRange(0.0, 40.0, 201), // rho: nr=200 dr=0.2mm used for workshop
-                    new DoubleRange(0.0, 10.0, 11),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
-                    new DoubleRange(0.0, 4.0, 801), // time: nt=800 dt=0.005ns used for workshop
-                    new DoubleRange(0.0, 1000, 21), // omega
-                    new DoubleRange(-100.0, 100.0, 81), // x
-                    new DoubleRange(-100.0, 100.0, 81) // y
-            ));
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoAndTimeDetectorInput(
+                        new DoubleRange(0.0, 40.0, 201),
+                        new DoubleRange(0.0, 1, 101)),
+                }
+            );
         }
         /// <summary>
         /// method to execute the MC and return the output from the tallies
@@ -116,9 +101,11 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         /// <param name="output2"></param>
         private void ValidateROfRhoAndTime(Output output1, Output output2)
         {
-            for (int i = 0; i < output1.Input.DetectorInput.Rho.Count - 1; i++)
+            var detector = (ROfRhoAndTimeDetectorInput)output1.Input.DetectorInputs.
+                Where(d => d.TallyType == TallyType.ROfRhoAndTime).First();
+            for (int i = 0; i < detector.Rho.Count - 1; i++)
             {
-                for (int j = 0; j < output1.Input.DetectorInput.Time.Count - 1; j++)
+                for (int j = 0; j < detector.Time.Count - 1; j++)
                 {
                     // round off error about 1e-18
                     if (output1.R_rt[i, j] > 0.0)

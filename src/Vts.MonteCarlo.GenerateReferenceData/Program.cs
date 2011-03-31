@@ -5,6 +5,7 @@ using Vts.Common;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.GenerateReferenceData
 {
@@ -14,7 +15,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
         {
             try{
             var input = new SimulationInput(
-                1000000,  // FIX 1e6 takes about 70 minutes my laptop
+                100,  // FIX 1e6 takes about 70 minutes my laptop
                 "Output",
                  new SimulationOptions(
                     0, 
@@ -49,43 +50,27 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                             )
                     }
                 ),
-                new DetectorInput(
-                    new List<TallyType>()
-                    {
-                        TallyType.RDiffuse,
-                        TallyType.ROfAngle,
-                        TallyType.ROfRho,
-                        TallyType.ROfRhoAndAngle,
-                        TallyType.ROfRhoAndTime,
-                        TallyType.ROfXAndY,
-                        TallyType.ROfRhoAndOmega,
-                        TallyType.TDiffuse,
-                        TallyType.TOfAngle,
-                        TallyType.TOfRho,
-                        TallyType.TOfRhoAndAngle,
-                    },
-                    new DoubleRange(0.0, 40.0, 201), // rho: nr=200 dr=0.2mm used for workshop
-                    new DoubleRange(0.0, 10.0, 11),  // z
-                    new DoubleRange(0.0, Math.PI / 2, 2), // angle
-                    new DoubleRange(0.0, 4.0, 801), // time: nt=800 dt=0.005ns used for workshop
-                    new DoubleRange(0.0, 1000, 21), // omega
-                    new DoubleRange(-100.0, 100.0, 81), // x
-                    new DoubleRange(-100.0, 100.0, 81) // y
-                ));
-
-            MonteCarloSimulation managedSimulation = new MonteCarloSimulation(input);
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoAndTimeDetectorInput(
+                        new DoubleRange(0.0, 40, 201), // numbers for scaled MC
+                        new DoubleRange(0.0, 4, 801)) // numbers for scaled MC
+                });
 
             //var FS = Vts.Factories.SolverFactory.GetForwardSolver(ForwardSolverType.MonteCarlo);
             //var OP = new OpticalProperties();
             //var RHO = 1.0;
             //var R = FS.RofRho(OP, RHO);
 
-            Output output = managedSimulation.Run();
+            Output output = new MonteCarloSimulation(input).Run();
+
+            var rOfRhoAndTime = output.ResultsDictionary[TallyType.ROfRhoAndTime.ToString()];
 
             string folderPath = "results";
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
-            output.ToFile(folderPath);
+
+            DetectorIO.WriteDetectorToFile(rOfRhoAndTime, folderPath);
         }
             catch (Exception e)
             {

@@ -1,30 +1,28 @@
 using System.Runtime.InteropServices;
-using Vts.MonteCarlo.Detectors;
-
 namespace Vts.MonteCarlo
 {
-    public unsafe static class UnmanagedDetectorDefinitionExtension
-    {
-        public static UnmanagedDetectorDefinition ToUnmanagedDetector(this Detector detector)
-        {
-            UnmanagedDetectorDefinition unmanagedDetector = new UnmanagedDetectorDefinition();
+//    public unsafe static class UnmanagedDetectorDefinitionExtension
+//    {
+//        public static UnmanagedDetectorDefinition ToUnmanagedDetector(this Detector detector)
+//        {
+//            UnmanagedDetectorDefinition unmanagedDetector = new UnmanagedDetectorDefinition();
 
-            unmanagedDetector.dz = detector.Z.Delta;
-            unmanagedDetector.dr = detector.Rho.Delta;
-            unmanagedDetector.da = detector.Angle.Delta;
-            unmanagedDetector.dt = detector.Time.Delta;
-            unmanagedDetector.dx = detector.X.Delta;
-            unmanagedDetector.dy = detector.Y.Delta;
-            unmanagedDetector.nz = detector.Z.Count;
-            unmanagedDetector.nr = detector.Rho.Count;
-            unmanagedDetector.na = detector.Angle.Count;
-            unmanagedDetector.nt = detector.Time.Count;
-            unmanagedDetector.nx = detector.X.Count;
-            unmanagedDetector.ny = detector.Y.Count;
-            unmanagedDetector.na = detector.Angle.Count;
-            return unmanagedDetector;
-        }
-    }
+//            unmanagedDetector.dz = detector.Z.Delta;
+//            unmanagedDetector.dr = detector.Rho.Delta;
+//            unmanagedDetector.da = detector.Angle.Delta;
+//            unmanagedDetector.dt = detector.Time.Delta;
+//            unmanagedDetector.dx = detector.X.Delta;
+//            unmanagedDetector.dy = detector.Y.Delta;
+//            unmanagedDetector.nz = detector.Z.Count;
+//            unmanagedDetector.nr = detector.Rho.Count;
+//            unmanagedDetector.na = detector.Angle.Count;
+//            unmanagedDetector.nt = detector.Time.Count;
+//            unmanagedDetector.nx = detector.X.Count;
+//            unmanagedDetector.ny = detector.Y.Count;
+//            unmanagedDetector.na = detector.Angle.Count;
+//            return unmanagedDetector;
+//        }
+//    }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public unsafe struct UnmanagedDetectorDefinition

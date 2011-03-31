@@ -8,14 +8,7 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface IDetectorInput
     {
-        List<TallyType> TallyTypeList { get; set; }
-        //List<ITally> TallyList { get; set; }
-        DoubleRange Rho { get; set; }
-        DoubleRange Angle { get; set; }
-        DoubleRange Time { get; set; }
-        DoubleRange Omega { get; set; }
-        DoubleRange X { get; set; }
-        DoubleRange Y { get; set; }
-        DoubleRange Z { get; set; }
+       TallyType TallyType { get; set; }
+       string Name { get; set; }
     }
 }

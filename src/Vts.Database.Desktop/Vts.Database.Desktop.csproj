@@ -69,70 +69,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Vts.Database\A_rz">
-      <Link>A_rz</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\D_rt">
-      <Link>D_rt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\Flu_rz">
-      <Link>Flu_rz</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts.Database\photonBiographies1e6">
       <Link>photonBiographies1e6</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\R_ra">
-      <Link>R_ra</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\R_rt">
-      <Link>R_rt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\R_rt2">
-      <Link>R_rt2</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\R_rw">
-      <Link>R_rw</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\R_xy">
-      <Link>R_xy</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\T_ra">
-      <Link>T_ra</Link>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Vts.Database\A_rz.xml">
-      <Link>A_rz.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\D_rt.xml">
-      <Link>D_rt.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\Flu_rz.xml">
-      <Link>Flu_rz.xml</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts.Database\output.xml">
       <Link>output.xml</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Vts.Database\photonBiographies1e6.xml">
       <Link>photonBiographies1e6.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\R_ra.xml">
-      <Link>R_ra.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\R_rt.xml">
-      <Link>R_rt.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\R_rt2.xml">
-      <Link>R_rt2.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\R_rw.xml">
-      <Link>R_rw.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\R_xy.xml">
-      <Link>R_xy.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\T_ra.xml">
-      <Link>T_ra.xml</Link>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
