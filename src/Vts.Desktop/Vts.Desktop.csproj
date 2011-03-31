@@ -511,8 +511,14 @@
     <Compile Include="..\Vts\MonteCarlo\Helpers\Optics.cs">
       <Link>MonteCarlo\Helpers\Optics.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\PolarAzimuthalRotationAngles.cs">
+      <Link>MonteCarlo\Helpers\PolarAzimuthalRotationAngles.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\SourceToolbox.cs">
       <Link>MonteCarlo\Helpers\SourceToolbox.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\ThreeAxisRotationAngles.cs">
+      <Link>MonteCarlo\Helpers\ThreeAxisRotationAngles.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetector.cs">
       <Link>MonteCarlo\Interfaces\IDetector.cs</Link>
@@ -580,23 +586,20 @@
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\CollimatedLineSource.cs">
-      <Link>MonteCarlo\Sources\CollimatedLineSource.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\CollimatedRectangularSource.cs">
-      <Link>MonteCarlo\Sources\CollimatedRectangularSource.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSource.cs">
       <Link>MonteCarlo\Sources\CustomPointSource.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSourceInput.cs">
       <Link>MonteCarlo\Sources\CustomPointSourceInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\IsotropicLineSource.cs">
-      <Link>MonteCarlo\Sources\IsotropicLineSource.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceBase.cs">
       <Link>MonteCarlo\Sources\LineSourceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceCustom.cs">
+      <Link>MonteCarlo\Sources\LineSourceCustom.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointSourceCustom.cs">
+      <Link>MonteCarlo\Sources\PointSourceCustom.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceBase.cs">
       <Link>MonteCarlo\Sources\SourceBase.cs</Link>

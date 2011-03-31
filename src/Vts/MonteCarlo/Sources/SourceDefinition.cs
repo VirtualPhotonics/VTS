@@ -65,25 +65,25 @@ namespace Vts.MonteCarlo.Sources
     {
         public static void Demo()
         {
-            var seed = 2;
-            var rng = new MathNet.Numerics.Random.MersenneTwister(seed);
-            var tissue = new MultiLayerTissue();
+            //var seed = 2;
+            //var rng = new MathNet.Numerics.Random.MersenneTwister(seed);
+            //var tissue = new MultiLayerTissue();
 
-            var isotropicSource = new IsotropicPointSource2(new Position(0, 0, 1))
-            {
-                Rng = rng
-            };
+            //var isotropicSource = new IsotropicPointSource(new Position(0, 0, 1))
+            //{
+            //    Rng = rng
+            //};
 
-            var customSource = new CustomPointSourceNew(
-                new DoubleRange(0, Math.PI/2),
-                new DoubleRange(0, Math.PI),
-                new Position(0, 0, 1), 
-                new SourceOrientation(0,0)) //todo: is SourceOrientation still desirable?
-            {
-                Rng = rng
-            };
+            //var customSource = new CustomPointSourceNew(
+            //    new DoubleRange(0, Math.PI/2),
+            //    new DoubleRange(0, Math.PI),
+            //    new Position(0, 0, 1), 
+            //    new SourceOrientation(0,0)) //todo: is SourceOrientation still desirable?
+            //{
+            //    Rng = rng
+            //};
 
-            isotropicSource.GetNextPhoton(tissue);
+            //isotropicSource.GetNextPhoton(tissue);
         }
     }
 

@@ -68,11 +68,7 @@ namespace Vts.MonteCarlo.Sources
                 (tissue.Regions[0].RegionOP.N != tissue.Regions[1].RegionOP.N))
                 _photon.DP.Weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
 
-            //don't call RNG if true point source (this aligns sequence with linux for debug)
-            if (ThetaRange.Delta != 0.0)
-            {
-                _photon.DP.Direction = SourceToolbox.GetRandomAngleDistributedDirection(Orientation, ThetaRange, PhiRange, Rng);
-            }
+           
 
             return _photon;
         }
