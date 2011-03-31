@@ -62,35 +62,36 @@ namespace Vts.MonteCarlo.Sources
 
         public Photon GetNextPhoton(ITissue tissue)
         {
-            //Source starts from the origin
-            Position initialPosition = SourceToolbox.GetRandomFlatLinePosition(new Position(0,0,0), _lineLength, Rng);
+            //todo: Janaka add NA
+            ////Source starts from the origin
+            //Position initialPosition = SourceToolbox.GetRandomFlatLinePosition(new Position(0,0,0), _lineLength, Rng);
 
-            _polarAngleEmissionRange.Start = 0.0;
-            _polarAngleEmissionRange.Stop = Math.PI / 2;
+            //_polarAngleEmissionRange.Start = 0.0;
+            //_polarAngleEmissionRange.Stop = Math.PI / 2;
 
-            _azimuthalAngleEmissionRange.Start = 0.0;
-            _azimuthalAngleEmissionRange.Stop = 2 * Math.PI;
+            //_azimuthalAngleEmissionRange.Start = 0.0;
+            //_azimuthalAngleEmissionRange.Stop = 2 * Math.PI;
 
 
-            // sample angular distribution
-            Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
-                _polarAngleEmissionRange,
-                _azimuthalAngleEmissionRange,
-                Rng);                      
+            //// sample angular distribution
+            //Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
+            //    _polarAngleEmissionRange,
+            //    _azimuthalAngleEmissionRange,
+            //    Rng);                      
          
 
-            //If source rotation angles are not equal to zero, rotate the source, and update the position and the direction
-            if ((_rotationOfPrincipalSourceAxis.ThetaRotation == 0.0) && (_rotationOfPrincipalSourceAxis.PhiRotation == 0.0))
-            { }
-            else
-            { SourceToolbox.DoSourceRotationByGivenPolarAndAzimuthalAngle(_rotationOfPrincipalSourceAxis, ref finalDirection, ref initialPosition); }
+            ////If source rotation angles are not equal to zero, rotate the source, and update the position and the direction
+            //if ((_rotationOfPrincipalSourceAxis.ThetaRotation == 0.0) && (_rotationOfPrincipalSourceAxis.PhiRotation == 0.0))
+            //{ }
+            //else
+            //{ SourceToolbox.DoSourceRotationByGivenPolarAndAzimuthalAngle(_rotationOfPrincipalSourceAxis, ref finalDirection, ref initialPosition); }
 
-            Position finalPosition = initialPosition;
-            //if translate the photon            
-            if ((_translationFromOrigin.X == 0.0) && (_translationFromOrigin.Y == 0.0) && (_translationFromOrigin.Z == 0.0))
-            { }
-            else
-            { finalPosition = SourceToolbox.GetPositionafterTranslation(initialPosition, _translationFromOrigin); }                 
+            //Position finalPosition = initialPosition;
+            ////if translate the photon            
+            //if ((_translationFromOrigin.X == 0.0) && (_translationFromOrigin.Y == 0.0) && (_translationFromOrigin.Z == 0.0))
+            //{ }
+            //else
+            //{ finalPosition = SourceToolbox.GetPositionafterTranslation(initialPosition, _translationFromOrigin); }                 
 
 
 
