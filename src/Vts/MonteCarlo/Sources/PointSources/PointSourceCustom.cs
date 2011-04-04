@@ -13,10 +13,11 @@ namespace Vts.MonteCarlo.Sources
         private DoubleRange _polarAngleEmissionRange;
         private DoubleRange _azimuthalAngleEmissionRange;
         private Position _translationFromOrigin;
-        private PolarAzimuthalRotationAngles _rotationFromInwardNormal;
+        private PolarAzimuthalAngles _rotationFromInwardNormal;
+        private SourceFlags _rotationAndTranslationFlags;
 
         /// <summary>
-        /// 
+        /// Returns an instance of Custom PointSource
         /// </summary>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
@@ -26,16 +27,17 @@ namespace Vts.MonteCarlo.Sources
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Position translationFromOrigin,
-            PolarAzimuthalRotationAngles rotationFromInwardNormal)
+            PolarAzimuthalAngles rotationFromInwardNormal)
         {
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
             _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();
             _translationFromOrigin = translationFromOrigin.Clone();
             _rotationFromInwardNormal = rotationFromInwardNormal.Clone();
+            _rotationAndTranslationFlags = new SourceFlags(true, true, false);            
         }
                
         /// <summary>
-        /// Returns an instance of CustomPointSource with a specified translation, pointed normally inward
+        /// Returns an instance of Custom PointSource with a specified translation, no rotation, pointing normally inward
         /// </summary>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
@@ -48,39 +50,67 @@ namespace Vts.MonteCarlo.Sources
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 translationFromOrigin,
-                new PolarAzimuthalRotationAngles(0, 0))
+                new PolarAzimuthalAngles(0, 0))
         {
+            _rotationAndTranslationFlags = new SourceFlags(true, false, false);      
+        }            
+
+        /// <summary>
+        /// Returns an instance of Custom PointSource with no translation, but rotation from inward normal
+        /// </summary>
+        /// <param name="polarAngleEmissionRange"></param>
+        /// <param name="azimuthalAngleEmissionRange"></param>
+        /// <param name="rotationFromInwardNormal"></param>
+        public PointSourceCustom(
+            DoubleRange polarAngleEmissionRange,
+            DoubleRange azimuthalAngleEmissionRange,
+            PolarAzimuthalAngles rotationFromInwardNormal)
+            : this(
+                polarAngleEmissionRange,
+                azimuthalAngleEmissionRange,
+                new Position(0, 0, 0),
+                rotationFromInwardNormal)
+        {
+            _rotationAndTranslationFlags = new SourceFlags(false, true, false);
         }
+
+        /// <summary>
+        /// Returns an instance of Custom PointSource with no translation, no rotation, pointing normally inward
+        /// </summary>
+        /// <param name="polarAngleEmissionRange"></param>
+        /// <param name="azimuthalAngleEmissionRange"></param>
+        public PointSourceCustom(
+            DoubleRange polarAngleEmissionRange,
+            DoubleRange azimuthalAngleEmissionRange)
+            : this(
+                polarAngleEmissionRange,
+                azimuthalAngleEmissionRange,
+                new Position(0, 0, 0),
+                new PolarAzimuthalAngles(0, 0))
+        {
+            _rotationAndTranslationFlags = new SourceFlags(false, false, false);
+        }
+
 
         public Photon GetNextPhoton(ITissue tissue)
         {
-            //Source starts from the origin
-             Position initialPosition = new Position(0, 0, 0);
+            //Source starts at the origin
+             Position finalPosition = new Position(0, 0, 0);
 
-             // sample angular distribution
-             Direction initialDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
+             //Sample angular distribution
+             Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
                  _polarAngleEmissionRange,
                  _azimuthalAngleEmissionRange,
                  Rng);
 
-             Direction finalDirection = initialDirection;
-
-             //If source rotation angles are not equal to zero, returns the direction after rotation
-             if ((_rotationFromInwardNormal.ThetaRotation == 0.0) && (_rotationFromInwardNormal.PhiRotation == 0.0))
-             { }
-             else
-             { finalDirection = SourceToolbox.GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(_rotationFromInwardNormal, initialDirection); }
-
-             Position finalPosition = initialPosition;
-
-             //if translation is required, update the position            
-             if ((_translationFromOrigin.X == 0.0) && (_translationFromOrigin.Y == 0.0) && (_translationFromOrigin.Z == 0.0))
-             { }
-             else
-             { finalPosition = SourceToolbox.GetPositionafterTranslation(initialPosition, _translationFromOrigin); }     
-            
-   
-
+            //Rotation and translation
+             SourceToolbox.DoRotationandTranslationForGivenFlags(
+                 ref finalPosition,
+                 ref finalDirection,
+                 _translationFromOrigin,
+                 _rotationFromInwardNormal,                 
+                 _rotationAndTranslationFlags);          
+  
             // the handling of specular needs work
             var weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
 

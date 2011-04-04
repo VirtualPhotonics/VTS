@@ -261,8 +261,8 @@
     <Compile Include="MonteCarlo\Factories\TallyActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\TissueFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\Optics.cs" />
-    <Compile Include="Common\PolarAzimuthalRotationAngles.cs" />
-    <Compile Include="Common\ThreeAxisRotationAngles.cs" />
+    <Compile Include="MonteCarlo\Helpers\PolarAzimuthalAngles.cs" />
+    <Compile Include="MonteCarlo\Helpers\ThreeAxisRotation.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCTally.cs" />
     <Compile Include="MonteCarlo\Interfaces\IHistoryTally.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITally.cs" />
@@ -286,17 +286,31 @@
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfoCustomBinarySerializer.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
     <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSourceDiverging.cs" />
+    <Compile Include="MonteCarlo\Helpers\SourceFlags.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceCollimatedGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceConvergingGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceCustomGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceDivergingGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceHemiSphericalGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceWithNAGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceConvergingFlat.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceWithNAFlat.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSources\PointSourceHemiSpherical.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceCollimatedFlat.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceDivergingFlat.cs" />
     <Compile Include="MonteCarlo\Sources\CustomPointSourceInputOld.cs" />
     <Compile Include="MonteCarlo\Sources\LineSourceBaseOld.cs" />
     <Compile Include="MonteCarlo\Sources\CustomPointSourceOld.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSourceCustom.cs">
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceCustomFlat.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Sources\LineSourceHemispherical.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSourceCollimated.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSourceCustom.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSourceMultiDirectional.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceHemiSphericalFalt.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSources\PointSourceCollimated.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSources\PointSourceCustom.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Sources\PointSources\PointSourceIsotropic.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSources\PointSourceWithNA.cs" />
     <Compile Include="MonteCarlo\Sources\SourceBaseOld.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
     <Compile Include="MonteCarlo\Sources\SourceHelper.cs" />

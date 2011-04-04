@@ -2,18 +2,19 @@
 using System;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Sources
 {       
     public class SourceHelper
     {
         private Position _translationFromOrigin;
-        private PolarAzimuthalRotationAngles _rotationFromInwardNormal;
+        private PolarAzimuthalAngles _rotationFromInwardNormal;
         private Direction _rotatedPrincipalSourceAxis;
 
         public SourceHelper(
             Position _translationFromOrigin,
-            PolarAzimuthalRotationAngles _rotationFromInwardNormal)
+            PolarAzimuthalAngles _rotationFromInwardNormal)
         {
             _translationFromOrigin = _translationFromOrigin.Clone();
             _rotationFromInwardNormal = _rotationFromInwardNormal.Clone();
@@ -21,7 +22,7 @@ namespace Vts.MonteCarlo.Sources
         }
 
         private Direction GetUltimatePrincipalAxisFromPolarOrientation(
-            PolarAzimuthalRotationAngles polarAzimuthalOrientation)
+            PolarAzimuthalAngles polarAzimuthalOrientation)
         {
             // todo: Janaka help
             return new Direction();
@@ -33,7 +34,7 @@ namespace Vts.MonteCarlo.Sources
             set { _translationFromOrigin = value; }
         }
 
-        public PolarAzimuthalRotationAngles RotationFromInwardNormal
+        public PolarAzimuthalAngles RotationFromInwardNormal
         {
             get { return _rotationFromInwardNormal; }
             set { _rotationFromInwardNormal = value; }
@@ -67,7 +68,7 @@ namespace Vts.MonteCarlo.Sources
             var rng = new MathNet.Numerics.Random.MersenneTwister(seed);
             var tissue = new MultiLayerTissue();
 
-            var isotropicSource = new PointSourceMultiDirectional(new Position(0, 0, 1))
+            var isotropicSource = new PointSourceIsotropic(new Position(0, 0, 1))
             {
                 Rng = rng
             };
@@ -76,7 +77,7 @@ namespace Vts.MonteCarlo.Sources
                 new DoubleRange(0, Math.PI / 2),
                 new DoubleRange(0, Math.PI),
                 new Position(0, 0, 1),
-                new PolarAzimuthalRotationAngles(0, 0)) //todo: is SourceOrientation still desirable?
+                new PolarAzimuthalAngles(0, 0)) //todo: is SourceOrientation still desirable?
             {
                 Rng = rng
             };

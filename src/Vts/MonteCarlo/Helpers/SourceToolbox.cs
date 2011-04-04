@@ -1,15 +1,58 @@
 ﻿using System;
+using System.IO;
 using Vts.Common;
 using Vts.Extensions;
-
 
 namespace Vts.MonteCarlo.Helpers
 {
     /// <summary>
-    /// Utilities shared by Source implementations.
+    /// Utilities shared by Sources.
     /// </summary>
     public class SourceToolbox
     {
+        /// <summary>
+        /// Update the direction and position after beam rotation, source axis rotation and translation
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="dir"></param>
+        /// <param name="rotateBeam"></param>
+        /// <param name="rotateAxis"></param>
+        /// <param name="translate"></param>
+        /// <param name="flags"></param>
+        public static void DoRotationandTranslationForGivenFlags(ref Position pos, 
+            ref Direction dir,
+            Position translate,
+            PolarAzimuthalAngles rotateBeam, 
+            ThreeAxisRotation rotateAxis,             
+            SourceFlags flags)
+        {
+            if(flags.RotationFromInwardNormalFlag)
+                dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);
+            if(flags.RotationOfPrincipalSourceAxisFlag)
+                DoSourceRotationAroundThreeAxisClockwiseLeftHanded (rotateAxis, ref dir, ref pos);
+            if(flags.TranslationFromOriginFlag)
+                pos = GetPositionafterTranslation(pos, translate);
+        }
+
+        /// <summary>
+        /// Update the direction and position after beam rotation and translation
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="dir"></param>
+        /// <param name="rotateBeam"></param>
+        /// <param name="translate"></param>
+        /// <param name="flags"></param>
+        public static void DoRotationandTranslationForGivenFlags(ref Position pos,
+            ref Direction dir,
+            Position translate,
+            PolarAzimuthalAngles rotateBeam,    
+            SourceFlags flags)
+        {
+            if (flags.RotationFromInwardNormalFlag)
+                dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);            
+            if (flags.TranslationFromOriginFlag)
+                pos = GetPositionafterTranslation(pos, translate);
+        }           
 
         /// <summary>
         /// Returns a random position in a line (Flat distribution)        
@@ -539,9 +582,7 @@ Random rng)
         /// <param name="currentDirection">The direction to be updated</param>
         /// <param name="currentPosition">The position to be updated</param>
         public static void DoSourceRotationAroundThreeAxisClockwiseLeftHanded(
-            double xRotation,
-            double yRotation,
-            double zRotation,
+            ThreeAxisRotation threeAxisRotation,
             ref Direction currentDirection,
             ref Position currentPosition)
         {
@@ -555,9 +596,9 @@ Random rng)
 
             double cosx, sinx, cosy, siny, cosz, sinz;    /* cosine and sine of rotation angles */
 
-            cosx = Math.Cos(xRotation);
-            cosy = Math.Cos(yRotation);
-            cosz = Math.Cos(zRotation);
+            cosx = Math.Cos(threeAxisRotation.XRotation);
+            cosy = Math.Cos(threeAxisRotation.YRotation);
+            cosz = Math.Cos(threeAxisRotation.ZRotation);
             sinx = Math.Sqrt(1.0 - cosx * cosx);
             siny = Math.Sqrt(1.0 - cosy * cosy);
             sinz = Math.Sqrt(1.0 - cosz * cosz);
@@ -579,7 +620,7 @@ Random rng)
         /// <param name="currentDirection">The direction to be updated</param>
         /// <param name="currentPosition">The position to be updated</param>
         public static void DoSourceRotationByGivenPolarAndAzimuthalAngle(
-            PolarAzimuthalRotationAngles rotationAngle,
+            PolarAzimuthalAngles rotationAngle,
             ref Direction currentDirection,
             ref Position currentPosition)
         {
@@ -593,8 +634,8 @@ Random rng)
 
             double cost, sint, cosp, sinp;    /* cosine and sine of theta and phi */
 
-            cost = Math.Cos(rotationAngle.ThetaRotation);
-            cosp = Math.Cos(rotationAngle.PhiRotation);
+            cost = Math.Cos(rotationAngle.Theta);
+            cosp = Math.Cos(rotationAngle.Phi);
             sint = Math.Sqrt(1.0 - cost * cost);
             sinp = Math.Sqrt(1.0 - cosp * cosp);
 
@@ -719,7 +760,7 @@ Random rng)
         /// <param name="currentDirection">The direction to be updated</param>
         /// <returns></returns>
         public static Direction GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(
-            PolarAzimuthalRotationAngles rotationAngle,
+            PolarAzimuthalAngles rotationAngle,
             Direction currentDirection)
         {
             // readability eased with local copies of following
@@ -729,8 +770,8 @@ Random rng)
 
             double cost, sint, cosp, sinp;    /* cosine and sine of theta and phi */
 
-            cost = Math.Cos(rotationAngle.ThetaRotation);
-            cosp = Math.Cos(rotationAngle.PhiRotation);
+            cost = Math.Cos(rotationAngle.Theta);
+            cosp = Math.Cos(rotationAngle.Phi);
             sint = Math.Sqrt(1.0 - cost * cost);
             sinp = Math.Sqrt(1.0 - cosp * cosp);
 

@@ -226,9 +226,6 @@
     <Compile Include="..\Vts\Common\OpticalProperties.cs">
       <Link>Common\OpticalProperties.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\PolarAzimuthalRotationAngles.cs">
-      <Link>Common\PolarAzimuthalRotationAngles.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\Common\Position.cs">
       <Link>Common\Position.cs</Link>
     </Compile>
@@ -237,9 +234,6 @@
     </Compile>
     <Compile Include="..\Vts\Common\Resources\Strings.Designer.cs">
       <Link>Common\Resources\Strings.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Common\ThreeAxisRotationAngles.cs">
-      <Link>Common\ThreeAxisRotationAngles.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Factories\ComputationFactory.cs">
       <Link>Factories\ComputationFactory.cs</Link>
@@ -517,8 +511,17 @@
     <Compile Include="..\Vts\MonteCarlo\Helpers\Optics.cs">
       <Link>MonteCarlo\Helpers\Optics.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\PolarAzimuthalAngles.cs">
+      <Link>MonteCarlo\Helpers\PolarAzimuthalAngles.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceFlags.cs">
+      <Link>MonteCarlo\Helpers\SourceFlags.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\SourceToolbox.cs">
       <Link>MonteCarlo\Helpers\SourceToolbox.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\ThreeAxisRotation.cs">
+      <Link>MonteCarlo\Helpers\ThreeAxisRotation.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetector.cs">
       <Link>MonteCarlo\Interfaces\IDetector.cs</Link>
@@ -595,23 +598,56 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceBaseOld.cs">
       <Link>MonteCarlo\Sources\LineSourceBaseOld.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceCustom.cs">
-      <Link>MonteCarlo\Sources\LineSourceCustom.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceCollimatedFlat.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceCollimatedFlat.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceDiverging.cs">
-      <Link>MonteCarlo\Sources\LineSourceDiverging.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceCollimatedGaussian.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceCollimatedGaussian.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceHemispherical.cs">
-      <Link>MonteCarlo\Sources\LineSourceHemispherical.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceConvergingFlat.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceConvergingFlat.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\PointSourceCollimated.cs">
-      <Link>MonteCarlo\Sources\PointSourceCollimated.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceConvergingGaussian.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceConvergingGaussian.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\PointSourceCustom.cs">
-      <Link>MonteCarlo\Sources\PointSourceCustom.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceCustomFlat.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceCustomFlat.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\PointSourceMultiDirectional.cs">
-      <Link>MonteCarlo\Sources\PointSourceMultiDirectional.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceCustomGaussian.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceCustomGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceDivergingFlat.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceDivergingFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceDivergingGaussian.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceDivergingGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceHemiSphericalFalt.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceHemiSphericalFalt.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceHemiSphericalGaussian.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceHemiSphericalGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceWithNAFlat.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceWithNAFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceWithNAGaussian.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceWithNAGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointSources\PointSourceCollimated.cs">
+      <Link>MonteCarlo\Sources\PointSources\PointSourceCollimated.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointSources\PointSourceCustom.cs">
+      <Link>MonteCarlo\Sources\PointSources\PointSourceCustom.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointSources\PointSourceHemiSpherical.cs">
+      <Link>MonteCarlo\Sources\PointSources\PointSourceHemiSpherical.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointSources\PointSourceIsotropic.cs">
+      <Link>MonteCarlo\Sources\PointSources\PointSourceIsotropic.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointSources\PointSourceWithNA.cs">
+      <Link>MonteCarlo\Sources\PointSources\PointSourceWithNA.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceBaseOld.cs">
       <Link>MonteCarlo\Sources\SourceBaseOld.cs</Link>
@@ -895,6 +931,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
