@@ -30,6 +30,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="rotationOfPrincipalSourceAxis"></param>
         public LineSourceCustomGaussian(
             double lineLength,
+            double gaussianStdDev,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Position translationFromOrigin,
@@ -54,12 +55,14 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="rotationFromInwardnormal"></param>
         public LineSourceCustomGaussian(
             double lineLength,
+            double gaussianStdDev,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Position translationFromOrigin,
             PolarAzimuthalAngles rotationFromInwardnormal)
             : this(
                 lineLength,
+                gaussianStdDev,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 translationFromOrigin,
@@ -79,6 +82,7 @@ namespace Vts.MonteCarlo.Sources
        /// <param name="rotationOfPrincipalSourceAxis"></param>
         public LineSourceCustomGaussian(
             double lineLength,
+            double gaussianStdDev,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,            
             Position translationFromOrigin,
@@ -86,6 +90,7 @@ namespace Vts.MonteCarlo.Sources
             )
             : this(
                 lineLength,
+                gaussianStdDev,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 translationFromOrigin,
@@ -104,11 +109,13 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="translationFromOrigin"></param>
         public LineSourceCustomGaussian(
             double lineLength,
+            double gaussianStdDev,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Position translationFromOrigin)
             : this(
                 lineLength,
+                gaussianStdDev,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 translationFromOrigin,
@@ -128,12 +135,14 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="rotationOfPrincipalSourceAxis"></param>
         public LineSourceCustomGaussian(
             double lineLength,
+            double gaussianStdDev,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,            
             PolarAzimuthalAngles rotationFromInwardnormal,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
             : this(
                 lineLength,
+                gaussianStdDev,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 new Position(0, 0, 0),
@@ -153,11 +162,13 @@ namespace Vts.MonteCarlo.Sources
        /// <param name="rotationFromInwardnormal"></param>
         public LineSourceCustomGaussian(
             double lineLength,
+            double gaussianStdDev,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             PolarAzimuthalAngles rotationFromInwardnormal)
             : this(
                 lineLength,
+                gaussianStdDev,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 new Position(0, 0, 0),
@@ -176,11 +187,13 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="rotationOfPrincipalSourceAxis"></param>
         public LineSourceCustomGaussian(
             double lineLength,
+            double gaussianStdDev,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
             : this(
                 lineLength,
+                gaussianStdDev,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 new Position(0, 0, 0),
@@ -198,10 +211,12 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="azimuthalAngleEmissionRange"></param>
         public LineSourceCustomGaussian(
             double lineLength,
+            double gaussianStdDev,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange)
             : this(
                 lineLength,
+                gaussianStdDev,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 new Position(0, 0, 0),
@@ -215,7 +230,10 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the line
-            Position finalPosition = SourceToolbox.GetRandomGaussianLinePosition(new Position(0, 0, 0), _lineLength, _gaussianStdDev, Rng);
+            Position finalPosition = SourceToolbox.GetRandomGaussianLinePosition(new Position(0, 0, 0), 
+                _lineLength, 
+                _gaussianStdDev, 
+                Rng);
              
             // sample angular distribution
             Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(

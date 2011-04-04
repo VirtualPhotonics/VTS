@@ -8,31 +8,26 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// 
     /// </summary>
-    public class LineSourceWithNAGaussian : ISource
+    public class RectangularSourceHemiSphericalFlat : ISource
     {
-        private double _numericalAperture = 0.25;
-        private DoubleRange _polarAngleEmissionRange;
-        private DoubleRange _azimuthalAngleEmissionRange;
         private Position _translationFromOrigin;
         private PolarAzimuthalAngles _rotationFromInwardNormal;
         private ThreeAxisRotation _rotationOfPrincipalSourceAxis;
-        private double _lineLength = 1.0;
+        private double _rectLengthX = 1.0;
+        private double _rectLengthY = 1.0;
         private SourceFlags _rotationAndTranslationFlags;
-        private double _gaussianStdDev = 1.0;
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with a specified translation, inward normal rotation, and source axis rotation
+        /// Returns an instance of Hemispherical Flat Rectangular Source with a specified translation, inward normal rotation, and source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="numericalAperture"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationFromInwardNormal"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,
-            double numericalAperture,
-            double gaussianStdDev,
+        public RectangularSourceHemiSphericalFlat(
+            double rectLengthX,
+            double rectLengthY,
             Position translationFromOrigin,
             PolarAzimuthalAngles rotationFromInwardNormal,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
@@ -44,23 +39,20 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with a specified translation and inward normal rotation, but without source axis rotation
+        /// Returns an instance of Hemispherical Flat Rectangular Source with a specified translation and inward normal rotation, but without source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="numericalAperture"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationFromInwardnormal"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,
-            double numericalAperture,
-            double gaussianStdDev,
+        public RectangularSourceHemiSphericalFlat(
+            double rectLengthX,
+            double rectLengthY,
             Position translationFromOrigin,
             PolarAzimuthalAngles rotationFromInwardnormal)
             : this(
-                lineLength,
-                numericalAperture,
-                gaussianStdDev,
+                rectLengthX,
+                rectLengthY, 
                 translationFromOrigin,
                 rotationFromInwardnormal,
                 new ThreeAxisRotation(0, 0, 0))
@@ -69,24 +61,21 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with a specified translation and source axis rotation, but without inward normal rotation
+        /// Returns an instance of Hemispherical Flat Rectangular Source with a specified translation and source axis rotation, but without inward normal rotation 
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="numericalAperture"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,
-            double numericalAperture,
-            double gaussianStdDev,
+        public RectangularSourceHemiSphericalFlat(
+            double rectLengthX,
+            double rectLengthY,
             Position translationFromOrigin,
             ThreeAxisRotation rotationOfPrincipalSourceAxis
             )
             : this(
-                lineLength,
-                numericalAperture,
-                gaussianStdDev,
+                rectLengthX,
+                rectLengthY, 
                 translationFromOrigin,
                 new PolarAzimuthalAngles(0, 0),
                 rotationOfPrincipalSourceAxis)
@@ -95,21 +84,18 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with a specified translation but without inward normal rotation or source axis rotation 
+        /// Returns an instance of Hemispherical Flat Rectangular Source with a specified translation but without inward normal rotation or source axis rotation 
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="numericalAperture"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="translationFromOrigin"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,
-            double numericalAperture,
-            double gaussianStdDev,
+        public RectangularSourceHemiSphericalFlat(
+            double rectLengthX,
+            double rectLengthY,
             Position translationFromOrigin)
             : this(
-                lineLength,
-                numericalAperture,
-                gaussianStdDev,
+                rectLengthX,
+                rectLengthY, 
                 translationFromOrigin,
                 new PolarAzimuthalAngles(0, 0),
                 new ThreeAxisRotation(0, 0, 0))
@@ -118,23 +104,20 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with an inward normal rotation and source axis rotation
+        /// Returns an instance of Hemispherical Flat Rectangular Source with an inward normal rotation and source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="numericalAperture"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="rotationFromInwardnormal"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,
-            double numericalAperture,
-            double gaussianStdDev,
+        public RectangularSourceHemiSphericalFlat(
+            double rectLengthX,
+            double rectLengthY,
             PolarAzimuthalAngles rotationFromInwardnormal,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
             : this(
-                lineLength,
-                numericalAperture,
-                gaussianStdDev,
+                rectLengthX,
+                rectLengthY, 
                 new Position(0, 0, 0),
                 rotationFromInwardnormal,
                 rotationOfPrincipalSourceAxis)
@@ -144,21 +127,18 @@ namespace Vts.MonteCarlo.Sources
 
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with an inward normal rotation, but without source axis rotation
+        /// Returns an instance of Hemispherical Flat Rectangular Source with an inward normal rotation, but without source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="numericalAperture"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="rotationFromInwardnormal"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,
-            double numericalAperture,
-            double gaussianStdDev,
+        public RectangularSourceHemiSphericalFlat(
+            double rectLengthX,
+            double rectLengthY,
             PolarAzimuthalAngles rotationFromInwardnormal)
             : this(
-                lineLength,
-                numericalAperture,
-                gaussianStdDev,
+                rectLengthX,
+                rectLengthY, 
                 new Position(0, 0, 0),
                 rotationFromInwardnormal,
                 new ThreeAxisRotation(0, 0, 0))
@@ -167,21 +147,18 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with a source axis rotation, but without inward normal rotation
+        /// Returns an instance of Hemispherical Flat Rectangular Source with a source axis rotation, but without inward normal rotation
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="numericalAperture"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,
-            double numericalAperture,
-            double gaussianStdDev,
+        public RectangularSourceHemiSphericalFlat(
+            double rectLengthX,
+            double rectLengthY,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
             : this(
-                lineLength,
-                numericalAperture,
-                gaussianStdDev,
+                rectLengthX,
+                rectLengthY, 
                 new Position(0, 0, 0),
                 new PolarAzimuthalAngles(0, 0),
                 rotationOfPrincipalSourceAxis)
@@ -190,19 +167,16 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with no inward normal rotation or source axis rotation
+        /// Returns an instance of Hemispherical Flat Rectangular Source with no inward normal rotation or source axis rotation  
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="numericalAperture"></param>
-        /// <param name="gaussianStdDev"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,
-            double numericalAperture,
-            double gaussianStdDev)
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
+        public RectangularSourceHemiSphericalFlat(
+            double rectLengthX,  
+            double rectLengthY)
             : this(
-                lineLength,
-                numericalAperture,
-                gaussianStdDev,
+                rectLengthX,
+                rectLengthY, 
                 new Position(0, 0, 0),
                 new PolarAzimuthalAngles(0, 0),
                 new ThreeAxisRotation(0, 0, 0))
@@ -213,20 +187,15 @@ namespace Vts.MonteCarlo.Sources
 
         public Photon GetNextPhoton(ITissue tissue)
         {
-            //Source starts from anywhere in the line
-            Position finalPosition = SourceToolbox.GetRandomGaussianLinePosition(new Position(0, 0, 0), 
-                _lineLength, 
-                _gaussianStdDev, 
+            //Source starts from anywhere in the rectangle
+            Position finalPosition = SourceToolbox.GetRandomFlatRectangularPosition(new Position(0, 0, 0),
+                _rectLengthX,
+                _rectLengthY,
                 Rng);
 
-
-            _azimuthalAngleEmissionRange = new DoubleRange(0.0, 2 * Math.PI);
-            _polarAngleEmissionRange = new DoubleRange(0.0, Math.Asin(_numericalAperture));
-
-            //Sample angular distribution
-            Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
-                _polarAngleEmissionRange,
-                _azimuthalAngleEmissionRange,
+            // sample angular distribution
+            Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(new DoubleRange(0, 0.5 * Math.PI),
+                new DoubleRange(0, 2.0 * Math.PI), 
                 Rng);
 
             //Rotation and translation

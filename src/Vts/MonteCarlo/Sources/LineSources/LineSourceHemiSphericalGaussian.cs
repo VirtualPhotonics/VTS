@@ -188,10 +188,15 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the line
-            Position finalPosition = SourceToolbox.GetRandomGaussianLinePosition(new Position(0, 0, 0), _lineLength, _gaussianStdDev, Rng);
+            Position finalPosition = SourceToolbox.GetRandomGaussianLinePosition(new Position(0, 0, 0), 
+                _lineLength, 
+                _gaussianStdDev, 
+                Rng);
 
             // sample angular distribution
-            Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(new DoubleRange(0, 0.5 * Math.PI),new DoubleRange(0, 2.0 * Math.PI), Rng);
+            Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(new DoubleRange(0, 0.5 * Math.PI),
+                new DoubleRange(0, 2.0 * Math.PI), 
+                Rng);
 
             //Rotation and translation
             SourceToolbox.DoRotationandTranslationForGivenFlags(

@@ -190,7 +190,9 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the line
-            Position finalPosition = SourceToolbox.GetRandomFlatLinePosition(new Position(0, 0, 0), _lineLength, Rng);
+            Position finalPosition = SourceToolbox.GetRandomFlatLinePosition(new Position(0, 0, 0), 
+                _lineLength, 
+                Rng);
 
            
             _azimuthalAngleEmissionRange = new DoubleRange(0.0, 2 * Math.PI);

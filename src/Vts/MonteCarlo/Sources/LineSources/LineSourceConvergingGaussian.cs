@@ -215,7 +215,10 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the line
-            Position finalPosition = SourceToolbox.GetRandomGaussianLinePosition(new Position(0, 0, 0), _lineLength, _gaussianStdDev, Rng);
+            Position finalPosition = SourceToolbox.GetRandomGaussianLinePosition(new Position(0, 0, 0), 
+                _lineLength, 
+                _gaussianStdDev, 
+                Rng);
 
             //Calculate polar angle
             _azimuthalAngleEmissionRange = new DoubleRange(0.0, 2 * Math.PI);
@@ -223,7 +226,9 @@ namespace Vts.MonteCarlo.Sources
             _polarAngle = Math.Atan(-finalPosition.X/_height);
 
             //Sample angular distribution
-            Direction finalDirection = SourceToolbox.GetRandomAzimuthalAngle(_polarAngle, _azimuthalAngleEmissionRange, Rng);
+            Direction finalDirection = SourceToolbox.GetRandomAzimuthalAngle(_polarAngle, 
+                _azimuthalAngleEmissionRange, 
+                Rng);
 
             //Rotation and translation
             SourceToolbox.DoRotationandTranslationForGivenFlags(

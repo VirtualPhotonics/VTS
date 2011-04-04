@@ -8,27 +8,30 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// 
     /// </summary>
-    public class LineSourceCustomFlat : ISource
+    public class RectangularSourceCustomFlat : ISource
     {
         private DoubleRange _polarAngleEmissionRange;
         private DoubleRange _azimuthalAngleEmissionRange;
         private Position _translationFromOrigin;
         private PolarAzimuthalAngles _rotationFromInwardNormal;
         private ThreeAxisRotation _rotationOfPrincipalSourceAxis;
-        private double _lineLength = 1.0;
+        private double _rectLengthX = 1.0;
+        private double _rectLengthY = 1.0;
         private SourceFlags _rotationAndTranslationFlags;
 
         /// <summary>
-        /// Returns an instance of Custom Flat Line Source with a specified translation, inward normal rotation, and source axis rotation
+        /// Returns an instance of Custom Flat Rectangular Source with a specified translation, inward normal rotation, and source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationFromInwardNormal"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public LineSourceCustomFlat(
-            double lineLength,
+        public RectangularSourceCustomFlat(
+            double rectLengthX,
+            double rectLengthY, 
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Position translationFromOrigin,
@@ -44,21 +47,24 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Flat Line Source with a specified translation and inward normal rotation, but without source axis rotation
+        /// Returns an instance of Custom Flat Rectangular Source with a specified translation and inward normal rotation, but without source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationFromInwardnormal"></param>
-        public LineSourceCustomFlat(
-            double lineLength,
+        public RectangularSourceCustomFlat(
+            double rectLengthX,
+            double rectLengthY, 
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Position translationFromOrigin,
             PolarAzimuthalAngles rotationFromInwardnormal)
             : this(
-                lineLength,
+                rectLengthX,
+                rectLengthY,  
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 translationFromOrigin,
@@ -68,23 +74,26 @@ namespace Vts.MonteCarlo.Sources
             _rotationAndTranslationFlags = new SourceFlags(true, true, false);      
         }
 
-       /// <summary>
-        ///  Returns an instance of Custom Flat Line Source with a specified translation and source axis rotation, but without inward normal rotation 
-       /// </summary>
-       /// <param name="lineLength"></param>
-       /// <param name="polarAngleEmissionRange"></param>
-       /// <param name="azimuthalAngleEmissionRange"></param>
-       /// <param name="translationFromOrigin"></param>
-       /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public LineSourceCustomFlat(
-            double lineLength,
+        /// <summary>
+        /// Returns an instance of Custom Flat Rectangular Source with a specified translation and source axis rotation, but without inward normal rotation 
+        /// </summary>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
+        /// <param name="polarAngleEmissionRange"></param>
+        /// <param name="azimuthalAngleEmissionRange"></param>
+        /// <param name="translationFromOrigin"></param>
+        /// <param name="rotationOfPrincipalSourceAxis"></param>
+        public RectangularSourceCustomFlat(
+            double rectLengthX,
+            double rectLengthY, 
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,            
             Position translationFromOrigin,
             ThreeAxisRotation rotationOfPrincipalSourceAxis
             )
             : this(
-                lineLength,
+                rectLengthX,
+                rectLengthY,  
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 translationFromOrigin,
@@ -95,19 +104,22 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Flat Line Source with a specified translation but without inward normal rotation or source axis rotation 
+        /// Returns an instance of Custom Flat Rectangular Source with a specified translation but without inward normal rotation or source axis rotation 
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
-        public LineSourceCustomFlat(
-            double lineLength,
+        public RectangularSourceCustomFlat(
+            double rectLengthX,
+            double rectLengthY, 
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Position translationFromOrigin)
             : this(
-                lineLength,
+                rectLengthX,
+                rectLengthY,  
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 translationFromOrigin,
@@ -118,21 +130,24 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Flat Line Source with an inward normal rotation and source axis rotation
+        /// Returns an instance of Custom Flat Rectangular Source with an inward normal rotation and source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="rotationFromInwardnormal"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public LineSourceCustomFlat(
-            double lineLength,
+        public RectangularSourceCustomFlat(
+            double rectLengthX,
+            double rectLengthY, 
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,            
             PolarAzimuthalAngles rotationFromInwardnormal,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
             : this(
-                lineLength,
+                rectLengthX,
+                rectLengthY,  
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 new Position(0, 0, 0),
@@ -144,19 +159,22 @@ namespace Vts.MonteCarlo.Sources
 
 
         /// <summary>
-        /// Returns an instance of Custom Flat Line Source with an inward normal rotation, but without source axis rotation
+        /// Returns an instance of Custom Flat Rectangular Source with an inward normal rotation, but without source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="rotationFromInwardnormal"></param>
-        public LineSourceCustomFlat(
-            double lineLength,
+        public RectangularSourceCustomFlat(
+            double rectLengthX,
+            double rectLengthY, 
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             PolarAzimuthalAngles rotationFromInwardnormal)
             : this(
-                lineLength,
+                rectLengthX,
+                rectLengthY,  
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 new Position(0, 0, 0),
@@ -167,19 +185,22 @@ namespace Vts.MonteCarlo.Sources
         }
         
         /// <summary>
-        /// Returns an instance of Custom Flat Line Source with a source axis rotation, but without inward normal rotation
+        /// Returns an instance of Custom Flat Rectangular Source with a source axis rotation, but without inward normal rotation
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public LineSourceCustomFlat(
-            double lineLength,
+        public RectangularSourceCustomFlat(
+            double rectLengthX,
+            double rectLengthY, 
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
             : this(
-                lineLength,
+                rectLengthX,
+                rectLengthY,  
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 new Position(0, 0, 0),
@@ -190,17 +211,20 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Flat Line Source with no inward normal rotation or source axis rotation  
+        /// Returns an instance of Custom Flat Rectangular Source with no inward normal rotation or source axis rotation  
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectLengthY"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
-        public LineSourceCustomFlat(
-            double lineLength,
+        public RectangularSourceCustomFlat(
+            double rectLengthX,
+            double rectLengthY, 
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange)
             : this(
-                lineLength,
+                rectLengthX,
+                rectLengthY,  
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 new Position(0, 0, 0),
@@ -213,9 +237,10 @@ namespace Vts.MonteCarlo.Sources
 
         public Photon GetNextPhoton(ITissue tissue)
         {
-            //Source starts from anywhere in the line
-            Position finalPosition = SourceToolbox.GetRandomFlatLinePosition(new Position(0,0,0), 
-                _lineLength, 
+            //Source starts from anywhere in the rectangle
+            Position finalPosition = SourceToolbox.GetRandomFlatRectangularPosition(new Position(0, 0, 0),
+                _rectLengthX,
+                _rectLengthY,
                 Rng);
              
             // sample angular distribution

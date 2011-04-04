@@ -311,6 +311,18 @@
     </Compile>
     <Compile Include="MonteCarlo\Sources\PointSources\PointSourceIsotropic.cs" />
     <Compile Include="MonteCarlo\Sources\PointSources\PointSourceWithNA.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceCollimatedFlat.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceCollimatedGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceConvergingFlat.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceConvergingGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceCustomFlat.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceCustomGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceDivergingFlat.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceDivergingGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceHemiSphericalFalt.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceHemiSphericalGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAFlat.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAGaussian.cs" />
     <Compile Include="MonteCarlo\Sources\SourceBaseOld.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
     <Compile Include="MonteCarlo\Sources\SourceHelper.cs" />
