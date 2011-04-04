@@ -8,30 +8,31 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// 
     /// </summary>
-    public class LineSourceWithNAGaussian : ISource
+    public class EllipticalSourceConvergingFlat : ISource
     {
-        private double _numericalAperture = 0.25;
-        private DoubleRange _polarAngleEmissionRange;
+        private double _numericalAperture;
+        private double _polarAngle;
         private DoubleRange _azimuthalAngleEmissionRange;
         private Position _translationFromOrigin;
         private PolarAzimuthalAngles _rotationFromInwardNormal;
         private ThreeAxisRotation _rotationOfPrincipalSourceAxis;
-        private double _lineLength = 1.0;
         private SourceFlags _rotationAndTranslationFlags;
-        private double _gaussianStdDev = 1.0;
+        private double _aParameter = 1.0;
+        private double _bParameter = 1.0;
+        private double _height; 
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with a specified translation, inward normal rotation, and source axis rotation
+        /// Returns an instance of Converging Flat Elliptical Source with a specified translation, inward normal rotation, and source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>        
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="aParameter"></param>
+        /// <param name="bParameter"></param>
         /// <param name="numericalAperture"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationFromInwardNormal"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,            
-            double gaussianStdDev,
+        public EllipticalSourceConvergingFlat (
+            double aParameter,
+            double bParameter,
             double numericalAperture,
             Position translationFromOrigin,
             PolarAzimuthalAngles rotationFromInwardNormal,
@@ -44,22 +45,22 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with a specified translation and inward normal rotation, but without source axis rotation
+        /// Returns an instance of Converging Flat Elliptical Source with a specified translation and inward normal rotation, but without source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="aParameter"></param>
+        /// <param name="bParameter"></param>
         /// <param name="numericalAperture"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationFromInwardnormal"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,            
-            double gaussianStdDev,
+        public EllipticalSourceConvergingFlat (
+            double aParameter,
+            double bParameter,
             double numericalAperture,
             Position translationFromOrigin,
             PolarAzimuthalAngles rotationFromInwardnormal)
             : this(
-                lineLength,                
-                gaussianStdDev,
+                aParameter,
+                bParameter, 
                 numericalAperture,
                 translationFromOrigin,
                 rotationFromInwardnormal,
@@ -69,23 +70,23 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with a specified translation and source axis rotation, but without inward normal rotation
+        /// Returns an instance of Converging Flat Elliptical Source with a specified translation and source axis rotation, but without inward normal rotation 
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="aParameter"></param>
+        /// <param name="bParameter"></param>
         /// <param name="numericalAperture"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,            
-            double gaussianStdDev,
+        public EllipticalSourceConvergingFlat (
+            double aParameter,
+            double bParameter,
             double numericalAperture,
             Position translationFromOrigin,
             ThreeAxisRotation rotationOfPrincipalSourceAxis
             )
             : this(
-                lineLength,                
-                gaussianStdDev,
+                aParameter,
+                bParameter, 
                 numericalAperture,
                 translationFromOrigin,
                 new PolarAzimuthalAngles(0, 0),
@@ -95,20 +96,20 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with a specified translation but without inward normal rotation or source axis rotation 
+        /// Returns an instance of Converging Flat Elliptical Source with a specified translation but without inward normal rotation or source axis rotation 
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="aParameter"></param>
+        /// <param name="bParameter"></param>
         /// <param name="numericalAperture"></param>
         /// <param name="translationFromOrigin"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,            
-            double gaussianStdDev,
+        public EllipticalSourceConvergingFlat (
+            double aParameter,
+            double bParameter,
             double numericalAperture,
             Position translationFromOrigin)
             : this(
-                lineLength,                
-                gaussianStdDev,
+                aParameter,
+                bParameter, 
                 numericalAperture,
                 translationFromOrigin,
                 new PolarAzimuthalAngles(0, 0),
@@ -118,22 +119,22 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with an inward normal rotation and source axis rotation
+        /// Returns an instance of Converging Flat Elliptical Source with an inward normal rotation and source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="aParameter"></param>
+        /// <param name="bParameter"></param>
         /// <param name="numericalAperture"></param>
         /// <param name="rotationFromInwardnormal"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,            
-            double gaussianStdDev,
+        public EllipticalSourceConvergingFlat (
+            double aParameter,
+            double bParameter,
             double numericalAperture,
             PolarAzimuthalAngles rotationFromInwardnormal,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
             : this(
-                lineLength,
-                gaussianStdDev,
+                aParameter,
+                bParameter, 
                 numericalAperture,
                 new Position(0, 0, 0),
                 rotationFromInwardnormal,
@@ -141,23 +142,22 @@ namespace Vts.MonteCarlo.Sources
         {
             _rotationAndTranslationFlags = new SourceFlags(false, true, false);
         }
-
-
+        
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with an inward normal rotation, but without source axis rotation
+        /// Returns an instance of Converging Flat Elliptical Source with an inward normal rotation, but without source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="aParameter"></param>
+        /// <param name="bParameter"></param>
         /// <param name="numericalAperture"></param>
         /// <param name="rotationFromInwardnormal"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,            
-            double gaussianStdDev,
+        public EllipticalSourceConvergingFlat (
+            double aParameter,
+            double bParameter,
             double numericalAperture,
             PolarAzimuthalAngles rotationFromInwardnormal)
             : this(
-                lineLength,                
-                gaussianStdDev,
+                aParameter,
+                bParameter, 
                 numericalAperture,
                 new Position(0, 0, 0),
                 rotationFromInwardnormal,
@@ -167,20 +167,20 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Gaussian Line Source with a source axis rotation, but without inward normal rotation
+        /// Returns an instance of Converging Flat Elliptical Source with a source axis rotation, but without inward normal rotation
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="gaussianStdDev"></param>
+        /// <param name="aParameter"></param>
+        /// <param name="bParameter"></param>
         /// <param name="numericalAperture"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,            
-            double gaussianStdDev,
+        public EllipticalSourceConvergingFlat (
+            double aParameter,
+            double bParameter,
             double numericalAperture,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
             : this(
-                lineLength,                
-                gaussianStdDev,
+                aParameter,
+                bParameter, 
                 numericalAperture,
                 new Position(0, 0, 0),
                 new PolarAzimuthalAngles(0, 0),
@@ -189,19 +189,19 @@ namespace Vts.MonteCarlo.Sources
             _rotationAndTranslationFlags = new SourceFlags(false, false, true);
         }
 
-        /// <summary>
-        /// Returns an instance of Gaussian Line Source with no inward normal rotation or source axis rotation
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="gaussianStdDev"></param>
-        /// <param name="numericalAperture"></param>
-        public LineSourceWithNAGaussian(
-            double lineLength,            
-            double gaussianStdDev,
+       /// <summary>
+        /// Returns an instance of Converging Flat Elliptical Source with no inward normal rotation or source axis rotation 
+       /// </summary>
+       /// <param name="aParameter"></param>
+       /// <param name="bParameter"></param>
+       /// <param name="numericalAperture"></param>
+        public EllipticalSourceConvergingFlat(
+            double aParameter,
+            double bParameter,
             double numericalAperture)
             : this(
-                lineLength,                
-                gaussianStdDev,
+                aParameter,
+                bParameter, 
                 numericalAperture,
                 new Position(0, 0, 0),
                 new PolarAzimuthalAngles(0, 0),
@@ -213,20 +213,28 @@ namespace Vts.MonteCarlo.Sources
 
         public Photon GetNextPhoton(ITissue tissue)
         {
-            //Source starts from anywhere in the line
-            Position finalPosition = SourceToolbox.GetRandomGaussianLinePosition(new Position(0, 0, 0), 
-                _lineLength, 
-                _gaussianStdDev, 
-                Rng);
+            Position finalPosition;
 
+            if (_aParameter == _bParameter)
+                //Source starts from anywhere in the circle
+                finalPosition = SourceToolbox.GetRandomFlatCircularPosition(new Position(0, 0, 0),
+                    _aParameter,
+                    Rng);
+            else
+                //Source starts from anywhere in the ellipse
+                finalPosition = SourceToolbox.GetRandomFlatEllipsePosition(new Position(0, 0, 0),
+                    _aParameter,
+                    _bParameter,
+                    Rng);
 
+            //Calculate polar angle
             _azimuthalAngleEmissionRange = new DoubleRange(0.0, 2 * Math.PI);
-            _polarAngleEmissionRange = new DoubleRange(0.0, Math.Asin(_numericalAperture));
+            _height = 0.5 * _aParameter * Math.Tan(Math.Asin(_numericalAperture));
+            _polarAngle = Math.Atan(-Math.Sqrt(finalPosition.X*finalPosition.X +finalPosition.Y*finalPosition.Y) /_height);
 
             //Sample angular distribution
-            Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
-                _polarAngleEmissionRange,
-                _azimuthalAngleEmissionRange,
+            Direction finalDirection = SourceToolbox.GetRandomAzimuthalAngle(_polarAngle, 
+                _azimuthalAngleEmissionRange, 
                 Rng);
 
             //Rotation and translation

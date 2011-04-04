@@ -595,6 +595,42 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSourceOld.cs">
       <Link>MonteCarlo\Sources\CustomPointSourceOld.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceCollimatedFlat.cs">
+      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceCollimatedFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceCollimatedGaussian.cs">
+      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceCollimatedGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceConvergingFlat.cs">
+      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceConvergingFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceConvergingGaussian.cs">
+      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceConvergingGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceCustomFlat.cs">
+      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceCustomFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceCustomGaussian.cs">
+      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceCustomGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceDivergingFlat.cs">
+      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceDivergingFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceDivergingGaussian.cs">
+      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceDivergingGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceHemiSphericalFalt.cs">
+      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceHemiSphericalFalt.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceHemiSphericalGaussian.cs">
+      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceHemiSphericalGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceWithNAFlat.cs">
+      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceWithNAFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceWithNAGaussian.cs">
+      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceWithNAGaussian.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSourceBaseOld.cs">
       <Link>MonteCarlo\Sources\LineSourceBaseOld.cs</Link>
     </Compile>
@@ -648,6 +684,42 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\PointSources\PointSourceWithNA.cs">
       <Link>MonteCarlo\Sources\PointSources\PointSourceWithNA.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceCollimatedFlat.cs">
+      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceCollimatedFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceCollimatedGaussian.cs">
+      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceCollimatedGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceConvergingFlat.cs">
+      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceConvergingFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceConvergingGaussian.cs">
+      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceConvergingGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceCustomFlat.cs">
+      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceCustomFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceCustomGaussian.cs">
+      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceCustomGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceDivergingFlat.cs">
+      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceDivergingFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceDivergingGaussian.cs">
+      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceDivergingGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceHemiSphericalFalt.cs">
+      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceHemiSphericalFalt.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceHemiSphericalGaussian.cs">
+      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceHemiSphericalGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAFlat.cs">
+      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAGaussian.cs">
+      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAGaussian.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceBaseOld.cs">
       <Link>MonteCarlo\Sources\SourceBaseOld.cs</Link>
