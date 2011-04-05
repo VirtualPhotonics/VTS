@@ -215,7 +215,6 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\PointSourceIsotropicTests.cs">
       <Link>MonteCarlo\Sources\PointSources\PointSourceIsotropicTests.cs</Link>
     </Compile>
-    </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

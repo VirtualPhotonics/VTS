@@ -532,7 +532,6 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\PointSourceCollimatedInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\PointSourceCollimatedInput.cs</Link>
     </Compile>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\AOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\AOfRhoAndZDetector.cs</Link>
     </Compile>
