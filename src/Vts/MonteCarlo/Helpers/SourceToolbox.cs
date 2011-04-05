@@ -52,7 +52,28 @@ namespace Vts.MonteCarlo.Helpers
                 dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);            
             if (flags.TranslationFromOriginFlag)
                 pos = GetPositionafterTranslation(pos, translate);
-        }           
+        }
+
+        /// <summary>
+        /// Update the direction and position after source axis rotation and translation
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="dir"></param>
+        /// <param name="translate"></param>
+        /// <param name="rotateAxis"></param>
+        /// <param name="flags"></param>
+        public static void DoRotationandTranslationForGivenFlags(ref Position pos,
+            ref Direction dir,
+            Position translate,
+            ThreeAxisRotation rotateAxis,
+            SourceFlags flags)
+        {
+            if (flags.RotationOfPrincipalSourceAxisFlag)
+                dir = GetDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, dir);
+            if (flags.TranslationFromOriginFlag)
+                pos = GetPositionafterTranslation(pos, translate);
+        }   
+
 
         /// <summary>
         /// Returns a random position in a line (Flat distribution)        
@@ -247,6 +268,39 @@ Random rng)
         }
 
 
+        /// <summary>
+        /// Returns a random position in a cuboid volume (Gaussian distribution)
+        /// </summary>
+        /// <param name="center">The center coordiantes of the cuboid</param>
+        /// <param name="lengthX">The x-length of the cuboid</param>
+        /// <param name="stdevX">The standard deviation of the distribution along the x-axis</param>
+        /// <param name="lengthY">The y-length of the cuboid</param>
+        /// <param name="stdevY">The standard deviation of the distribution along the y-axis</param>
+        /// <param name="lengthZ">The z-length of the cuboid</param>
+        /// <param name="stdevZ">The standard deviation of the distribution along the z-axis</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Position GetRandomGaussianCuboidPosition(Position center,
+            double lengthX,
+            double stdevX,
+            double lengthY,
+            double stdevY,
+            double lengthZ,
+            double stdevZ,
+            Random rng)
+        {
+            if ((lengthX == 0.0) && (lengthY == 0.0) && (lengthZ == 0.0))
+            {
+                return (center);
+            }
+
+            Position position = new Position (0, 0, 0);
+
+            position.X = center.X + GetRandomGaussianLocationOfSymmetricalLine(lengthX, stdevX, rng);
+            position.Y = center.X + GetRandomGaussianLocationOfSymmetricalLine(lengthY, stdevY, rng);
+            position.Z = center.X + GetRandomGaussianLocationOfSymmetricalLine(lengthZ, stdevZ, rng);
+            return position;
+        }
 
         /// <summary>
         /// Provides a random position in a circle (Flat distribution)
@@ -783,14 +837,29 @@ Random rng)
 
 
         /// <summary>
-        /// Provides a random location of a symmetrical line
+        /// Provides a flat random location of a symmetrical line
         /// </summary>
         /// <param name="length">The length of the line</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
         public static double GetRandomFlatLocationOfSymmetricalLine(double length, Random rng)
-        {
+        {            
             return length * (rng.NextDouble() - 0.5);
+        }
+
+        /// <summary>
+        /// Provides a Gaussian random location of a symmetrical line
+        /// </summary>
+        /// <param name="length">The length of the line</param>
+        /// <param name="stdev">Standard deviation</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static double GetRandomGaussianLocationOfSymmetricalLine(double length, double stdev, Random rng)
+        {
+            double nrng = 0.0;
+            do {GaussianDistributedSingleRandomNumberBoxMuller1(ref nrng, 0.5 * length * stdev, rng);}
+            while(Math.Abs(nrng) <= 0.5*length);
+            return nrng;
         }
 
         /// <summary>

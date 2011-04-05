@@ -338,6 +338,10 @@
     <Compile Include="MonteCarlo\Sources\SourceBaseOld.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
     <Compile Include="MonteCarlo\Sources\SourceHelper.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceFlatIsotropic.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceGaussianIsotropic.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceFlatIsotropic.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceGaussianIsotropic.cs" />
     <Compile Include="MonteCarlo\TallyActions\AOfRhoAndZTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\ATotalTally.cs" />
     <Compile Include="MonteCarlo\TallyActions\FluenceOfRhoAndZAndTimeTally.cs" />

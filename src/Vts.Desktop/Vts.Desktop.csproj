@@ -724,6 +724,18 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceBaseOld.cs">
       <Link>MonteCarlo\Sources\SourceBaseOld.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\CuboidalSourceFlatIsotropic.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\CuboidalSourceFlatIsotropic.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\CuboidalSourceGaussianIsotropic.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\CuboidalSourceGaussianIsotropic.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceFlatIsotropic.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceFlatIsotropic.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceGaussianIsotropic.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceGaussianIsotropic.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\TallyActions\AOfRhoAndZTally.cs">
       <Link>MonteCarlo\TallyActions\AOfRhoAndZTally.cs</Link>
     </Compile>
