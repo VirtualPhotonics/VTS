@@ -19,8 +19,11 @@ namespace Vts.MonteCarlo.Sources
         private double _radius;
 
         /// <summary>
-        /// Returns an instance of Isotropic Ellipsoidal Source with a specified translation and source axis rotation
+        /// Returns an instance of Isotropic Flat Cuboidal Source with a specified translation and source axis rotation
         /// </summary>
+        /// <param name="lengthX"></param>
+        /// <param name="lengthY"></param>
+        /// <param name="lengthZ"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
         public CuboidalSourceFlatIsotropic(
@@ -36,8 +39,11 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Isotropic Ellipsoidal Source with a specified translation but no source axis rotation
+        /// Returns an instance of Isotropic Flat Cuboidal Source with a specified translation but no source axis rotation
         /// </summary>
+        /// <param name="lengthX"></param>
+        /// <param name="lengthY"></param>
+        /// <param name="lengthZ"></param>
         /// <param name="translationFromOrigin"></param>
         public CuboidalSourceFlatIsotropic(
             double lengthX,
@@ -55,8 +61,11 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Isotropic Ellipsoidal Source with source axis rotation
+        /// Returns an instance of Isotropic Flat Cuboidal Source with source axis rotation
         /// </summary>
+        /// <param name="lengthX"></param>
+        /// <param name="lengthY"></param>
+        /// <param name="lengthZ"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
         public CuboidalSourceFlatIsotropic(
             double lengthX,
@@ -74,8 +83,11 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Isotropic Ellipsoidal Source with no translation and no source axis rotation
+        /// Returns an instance of Isotropic Flat Cuboidal Source with no translation and no source axis rotation
         /// </summary>
+        /// <param name="lengthX"></param>
+        /// <param name="lengthY"></param>
+        /// <param name="lengthZ"></param>
         public CuboidalSourceFlatIsotropic(
             double lengthX,
             double lengthY,

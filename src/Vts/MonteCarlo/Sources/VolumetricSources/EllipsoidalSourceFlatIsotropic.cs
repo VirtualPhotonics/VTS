@@ -19,8 +19,11 @@ namespace Vts.MonteCarlo.Sources
         private double _radius;
 
         /// <summary>
-        /// Returns an instance of Isotropic Ellipsoidal Source with a specified translation and source axis rotation
+        /// Returns an instance of Isotropic Flat Ellipsoidal Source with a specified translation and source axis rotation
         /// </summary>
+        /// <param name="aParameter"></param>
+        /// <param name="bParameter"></param>
+        /// <param name="cParameter"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
         public EllipsoidalSourceFlatIsotropic(
@@ -35,10 +38,13 @@ namespace Vts.MonteCarlo.Sources
             _rotationAndTranslationFlags = new SourceFlags(true, false, true); 
         }
 
-        /// <summary>
-        /// Returns an instance of Isotropic Ellipsoidal Source with a specified translation but no source axis rotation
-        /// </summary>
-        /// <param name="translationFromOrigin"></param>
+       /// <summary>
+        /// Returns an instance of Isotropic Flat Ellipsoidal Source with a specified translation but no source axis rotation
+       /// </summary>
+       /// <param name="aParameter"></param>
+       /// <param name="bParameter"></param>
+       /// <param name="cParameter"></param>
+       /// <param name="translationFromOrigin"></param>
         public EllipsoidalSourceFlatIsotropic(
             double aParameter,
             double bParameter,
@@ -55,8 +61,11 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Isotropic Ellipsoidal Source with source axis rotation
+        /// Returns an instance of Isotropic Flat Ellipsoidal Source with source axis rotation
         /// </summary>
+        /// <param name="aParameter"></param>
+        /// <param name="bParameter"></param>
+        /// <param name="cParameter"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
         public EllipsoidalSourceFlatIsotropic(
             double aParameter,
@@ -74,8 +83,11 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Isotropic Ellipsoidal Source with no translation and no source axis rotation
+        ///  Returns an instance of Isotropic flat Ellipsoidal Source with no translation and no source axis rotation
         /// </summary>
+        /// <param name="aParameter"></param>
+        /// <param name="bParameter"></param>
+        /// <param name="cParameter"></param>
         public EllipsoidalSourceFlatIsotropic(
             double aParameter,
             double bParameter,

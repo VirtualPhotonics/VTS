@@ -22,8 +22,14 @@ namespace Vts.MonteCarlo.Sources
         private double _radius;
 
         /// <summary>
-        /// Returns an instance of Isotropic Ellipsoidal Source with a specified translation and source axis rotation
+        /// Returns an instance of Isotropic Gaussian Cuboidal Source with a specified translation and source axis rotation
         /// </summary>
+        /// <param name="lengthX"></param>
+        /// <param name="lengthY"></param>
+        /// <param name="lengthZ"></param>
+        /// <param name="stdevX"></param>
+        /// <param name="stdevY"></param>
+        /// <param name="stdevZ"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
         public CuboidalSourceGaussianIsotropic(
@@ -42,8 +48,14 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Isotropic Ellipsoidal Source with a specified translation but no source axis rotation
+        /// Returns an instance of Isotropic Gaussian Cuboidal Source with a specified translation but no source axis rotation
         /// </summary>
+        /// <param name="lengthX"></param>
+        /// <param name="lengthY"></param>
+        /// <param name="lengthZ"></param>
+        /// <param name="stdevX"></param>
+        /// <param name="stdevY"></param>
+        /// <param name="stdevZ"></param>
         /// <param name="translationFromOrigin"></param>
         public CuboidalSourceGaussianIsotropic(
             double lengthX,
@@ -67,8 +79,14 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Isotropic Ellipsoidal Source with source axis rotation
+        /// Returns an instance of Isotropic Gaussian Cuboidal Source with source axis rotation
         /// </summary>
+        /// <param name="lengthX"></param>
+        /// <param name="lengthY"></param>
+        /// <param name="lengthZ"></param>
+        /// <param name="stdevX"></param>
+        /// <param name="stdevY"></param>
+        /// <param name="stdevZ"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
         public CuboidalSourceGaussianIsotropic(
             double lengthX,
@@ -92,8 +110,14 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Isotropic Ellipsoidal Source with no translation and no source axis rotation
+        /// Returns an instance of Isotropic Gaussian Cuboidal Source with no translation and no source axis rotation
         /// </summary>
+        /// <param name="lengthX"></param>
+        /// <param name="lengthY"></param>
+        /// <param name="lengthZ"></param>
+        /// <param name="stdevX"></param>
+        /// <param name="stdevY"></param>
+        /// <param name="stdevZ"></param>
         public CuboidalSourceGaussianIsotropic(
             double lengthX,
             double lengthY,
