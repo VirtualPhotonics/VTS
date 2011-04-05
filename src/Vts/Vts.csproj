@@ -247,6 +247,7 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensions.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationOptions.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceCollimatedInput.cs" />
     <Compile Include="MonteCarlo\Detectors\Detector.cs" />
     <Compile Include="MonteCarlo\Detectors\DetectorInputExtensions.cs" />
     <Compile Include="MonteCarlo\Factories\AbsorptionActionFactory.cs" />
@@ -295,7 +296,7 @@
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceCustomGaussian.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceDivergingFlat.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceDivergingGaussian.cs" />
-    <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceHemiSphericalFalt.cs" />
+    <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceHemiSphericalFlat.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceHemiSphericalGaussian.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceWithNAFlat.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceWithNAGaussian.cs" />
@@ -310,13 +311,10 @@
     <Compile Include="MonteCarlo\Sources\PointSources\PointSourceHemiSpherical.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\LineSourceCollimatedFlat.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\LineSourceDivergingFlat.cs" />
-    <Compile Include="MonteCarlo\Sources\CustomPointSourceInputOld.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSourceBaseOld.cs" />
-    <Compile Include="MonteCarlo\Sources\CustomPointSourceOld.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\LineSourceCustomFlat.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceHemiSphericalFalt.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceHemiSphericalFlat.cs" />
     <Compile Include="MonteCarlo\Sources\PointSources\PointSourceCollimated.cs" />
     <Compile Include="MonteCarlo\Sources\PointSources\PointSourceCustom.cs">
       <SubType>Code</SubType>
@@ -331,13 +329,11 @@
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceCustomGaussian.cs" />
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceDivergingFlat.cs" />
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceDivergingGaussian.cs" />
-    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceHemiSphericalFalt.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceHemiSphericalFlat.cs" />
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceHemiSphericalGaussian.cs" />
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAFlat.cs" />
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAGaussian.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceBaseOld.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceHelper.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceFlatIsotropic.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceGaussianIsotropic.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceFlatIsotropic.cs" />

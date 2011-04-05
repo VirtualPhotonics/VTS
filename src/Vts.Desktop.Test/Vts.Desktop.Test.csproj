@@ -188,6 +188,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <Link>MonteCarlo\PostProcessing\PostProcessingTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\PointSourceIsotropicTests.cs">
+      <Link>MonteCarlo\Sources\PointSources\PointSourceIsotropicTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\TallyActions\AnalogTallyActionsTests.cs">
       <Link>MonteCarlo\TallyActions\AnalogTallyActionsTests.cs</Link>
     </Compile>

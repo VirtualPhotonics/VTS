@@ -56,7 +56,7 @@ namespace Vts.SiteVisit.ViewModel
                     0, // Note seed = 0 is -1 in linux
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete),
-                SourceInput = new CustomPointSourceInputOld(),
+                SourceInput = new PointSourceCollimatedInput(),
                 DetectorInput = new DetectorInput()
             };
 

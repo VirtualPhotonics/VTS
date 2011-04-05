@@ -11,56 +11,23 @@ namespace Vts.MonteCarlo.Sources
     public class PointSourceIsotropic : ISource
     {
         private Position _translationFromOrigin;
-        private PolarAzimuthalAngles _rotationFromInwardNormal;
         private SourceFlags _rotationAndTranslationFlags;
 
         /// <summary>
         /// Returns an instance of MultiDirectional PointSource
         /// </summary>
         /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public PointSourceIsotropic(
-            Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal)
+        public PointSourceIsotropic(Position translationFromOrigin)
         {
             _translationFromOrigin = translationFromOrigin.Clone();
-            _rotationFromInwardNormal = rotationFromInwardNormal.Clone();
-            _rotationAndTranslationFlags = new SourceFlags(true, true, false); 
-        }
-
-        /// <summary>
-        /// Returns an instance of Multidirectional/Isotropic PointSource with a specified translation, no rotation, pointing normally inward
-        /// </summary>
-        /// <param name="translationFromOrigin"></param>
-        public PointSourceIsotropic(
-            Position translationFromOrigin)
-            : this(
-                translationFromOrigin,
-                new PolarAzimuthalAngles(0, 0))
-        {
             _rotationAndTranslationFlags = new SourceFlags(true, false, false); 
         }
                        
         /// <summary>
-        /// Returns an instance of Multidirectional/Isotropic PointSource with no translation, but rotation from inward normal
-        /// </summary>
-        /// <param name="rotationFromInwardNormal"></param>
-        public PointSourceIsotropic(
-            PolarAzimuthalAngles rotationFromInwardNormal)
-            : this(
-                new Position(0, 0, 0),
-                rotationFromInwardNormal)
-        {
-            _rotationAndTranslationFlags = new SourceFlags(false, true, false);
-        }
-
-        /// <summary>
-        /// Returns an instance of Multidirectional/ Isotropic PointSource with no translation, no rotation, pointing normally inward
+        /// Returns an instance of Multidirectional/Isotropic PointSource with no translation
         /// </summary>
         public PointSourceIsotropic()
-            : this(
-                new Position(0, 0, 0),
-                new PolarAzimuthalAngles(0, 0))
+            : this(new Position(0, 0, 0))
         {
             _rotationAndTranslationFlags = new SourceFlags(false, false, false);
         }
@@ -78,9 +45,8 @@ namespace Vts.MonteCarlo.Sources
                 ref finalPosition,
                 ref finalDirection,               
                 _translationFromOrigin,
-                _rotationFromInwardNormal,
+                new PolarAzimuthalAngles(), // todo: fix
                 _rotationAndTranslationFlags);
-
 
             // the handling of specular needs work
             var weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);

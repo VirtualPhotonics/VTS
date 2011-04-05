@@ -8,14 +8,14 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public static class SourceFactory
     {
-        public static ISource GetSource(ISourceInput si, ITissue tissue, Random rng)
+        public static ISource GetSource(ISourceInput input, ITissue tissue, Random rng)
         {
-            if (si is CustomPointSourceInputOld)
+            if (input is PointSourceCollimatedInput)
             {
-                return new CustomPointSourceOld((CustomPointSourceInputOld) si) {Rng = rng};
+                return new PointSourceCollimated() { Rng = rng }; // todo: update SourceFactory 
             }
             // else if...
-            
+
             throw new ArgumentException(
                     "Problem generating ISource instance. Check that SourceInput, si, has a matching ISource definition.");
         }

@@ -1,5 +1,6 @@
 using System;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo
 {
@@ -47,7 +48,9 @@ namespace Vts.MonteCarlo
             this.SimulationIndex = input.Options.SimulationIndex;
 
             _tissue = Factories.TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType);
+
             _source = Factories.SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
+
             _detector = Factories.DetectorFactory.GetDetector(input.DetectorInput, _tissue);
         }
 
@@ -121,7 +124,7 @@ namespace Vts.MonteCarlo
                         photon.SetStepSize(_rng);
 
                         var distance = _tissue.GetDistanceToBoundary(photon);
-                        
+
                         bool hitBoundary = photon.Move(distance);
 
                         if (hitBoundary)

@@ -37,7 +37,7 @@ namespace Vts.Test.MonteCarlo.TallyActions
                     PhaseFunctionType.HenyeyGreenstein,
                     false, 
                     0),
-                new CustomPointSourceInputOld(
+                new PointSourceCollimatedInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),

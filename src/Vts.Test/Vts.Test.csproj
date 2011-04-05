@@ -176,7 +176,7 @@
     <Compile Include="MonteCarlo\Detectors\pMCDetectorInputTests.cs" />
     <Compile Include="MonteCarlo\MonteCarloFactoriesTests.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs" />
-    <Compile Include="MonteCarlo\Sources\CustomPointSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSources\PointSourceIsotropicTests.cs" />
     <Compile Include="MonteCarlo\TallyActions\AnalogTallyActionsTests.cs" />
     <Compile Include="MonteCarlo\TallyActions\CAWTallyActionsTests.cs" />
     <Compile Include="MonteCarlo\TallyActions\CAWTwoLayerTallyActionsTests.cs" />
