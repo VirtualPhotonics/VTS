@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.Wcf
 {
@@ -11,10 +12,12 @@ namespace Vts.MonteCarlo.Wcf
 
             Parallel.For(0, inputs.Length, i =>
             {
-                var mc = new MonteCarloSimulation(
-                         inputs[i]);
-
-                mc.Run().ToFile(inputs[i].OutputFileName);
+                Output detectorResults = new MonteCarloSimulation(inputs[i]).Run();
+                foreach (var result in detectorResults.ResultsDictionary.Values)
+                {
+                    // save all detector data to the specified folder
+                    DetectorIO.WriteDetectorToFile(result, inputs[i].OutputFileName);
+                }
 
                 success[i] = true;
             });

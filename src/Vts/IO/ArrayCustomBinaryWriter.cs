@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.IO;
 using Vts.Extensions;
@@ -22,6 +23,12 @@ namespace Vts.IO
             if (array is IEnumerable<double>)
             {
                 (array as IEnumerable<double>).ForEach(bw.Write);
+                return;
+            }
+
+            if (array is IEnumerable<Complex>)
+            {
+                (array as IEnumerable<Complex>).ForEach(c => { bw.Write(c.Real); bw.Write(c.Imaginary); });
                 return;
             }
 

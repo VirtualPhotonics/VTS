@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
@@ -13,15 +14,15 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// PointSourceHomogeneous
         /// </summary>
-        public static SimulationInput PointSourceHomogeneous()
+        public static SimulationInput PointSourceHomogeneous() // todo: who calls this?
         {
             return new SimulationInput()
             {
-                N = (long)1e6, 
+                N = (long)1e6,
                 OutputFileName = "PointSourceHomogeneous",
                 //SourceInput = new CustomPointSourceInputOld(),
                 TissueInput = new MultiLayerTissueInput(),
-                DetectorInput = new DetectorInput()
+                DetectorInputs = new List<IDetectorInput> { new ROfRhoDetectorInput() }
             };
         }
     }

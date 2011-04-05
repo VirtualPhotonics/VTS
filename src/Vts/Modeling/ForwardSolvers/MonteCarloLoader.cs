@@ -5,6 +5,8 @@ using Vts.Extensions;
 using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.Common;
+using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.IO;
 
 //using MathNet.Numerics.Interpolation;
 
@@ -43,13 +45,14 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         private void InitializeVectorsAndInterpolators()
         {
-            var output = Output.FromFolderInResources("Modeling/Resources/" + folder, "Vts");
-            nrReference = output.Input.DetectorInput.Rho.Count;
-            drReference = output.Input.DetectorInput.Rho.Delta ; 
-            ntReference = output.Input.DetectorInput.Time.Count;
-            dtReference = output.Input.DetectorInput.Time.Delta;  
-            muspReference = output.Input.TissueInput.Regions[1].RegionOP.Mus *
-                    (1 - output.Input.TissueInput.Regions[1].RegionOP.G);
+            var rOfRhoAndTime = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFileInResources(TallyType.ROfRhoAndTime, "Modeling/Resources/" + folder, "Vts");
+
+            nrReference = rOfRhoAndTime.Rho.Count - 1;
+            drReference = rOfRhoAndTime.Rho.Delta;
+            ntReference = rOfRhoAndTime.Time.Count - 1;
+            dtReference = rOfRhoAndTime.Time.Delta;  
+            // assume mus' used by Kienle
+            muspReference = 1.0;  
 
             RhoReference = new DoubleRange(drReference / 2, drReference * nrReference - drReference / 2, nrReference).AsEnumerable().ToArray();
             TimeReference = new DoubleRange(dtReference / 2, dtReference * ntReference - dtReference / 2, ntReference).AsEnumerable().ToArray();
@@ -61,8 +64,8 @@ namespace Vts.Modeling.ForwardSolvers
                 double sum = 0.0;
                 for (int it = 0; it < ntReference; it++)
                 {
-                        RReferenceOfRhoAndTime[ir, it] = output.R_rt[ir, it];
-                        sum += output.R_rt[ir, it];  // debug line
+                        RReferenceOfRhoAndTime[ir, it] = rOfRhoAndTime.Mean[ir, it];
+                        sum += rOfRhoAndTime.Mean[ir, it];  // debug line
                 }
             }
             RReferenceOfFxAndTime = new double[nfxReference, ntReference];

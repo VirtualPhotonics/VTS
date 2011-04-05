@@ -161,26 +161,50 @@
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs">
       <Link>Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\LoadValidationData.cs">
-      <Link>Modeling\LoadValidationData.cs</Link>
-    </Compile>
     <Compile Include="..\Vts.Test\Modeling\MetaNumericsZeroOrderBesselFunction.cs">
       <Link>Modeling\MetaNumericsZeroOrderBesselFunction.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\ValidateInverseSolution.cs">
       <Link>Modeling\ValidateInverseSolution.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\InputTests.cs">
-      <Link>MonteCarlo\DataStructures\InputTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\BidirectionalScattering\AnalogBidirectionalTallyActionsTests.cs">
+      <Link>MonteCarlo\BidirectionalScattering\AnalogBidirectionalTallyActionsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DetectorInputTests.cs">
-      <Link>MonteCarlo\Detectors\DetectorInputTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
+      <Link>MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\OutputTests.cs">
-      <Link>MonteCarlo\Detectors\OutputTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDetectorInputTests.cs">
-      <Link>MonteCarlo\Detectors\pMCDetectorInputTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\DetectorInputs\pMCDetectorInputTests.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\pMCDetectorInputTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\OutputTests.cs">
+      <Link>MonteCarlo\DataStructures\OutputTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputTests.cs">
+      <Link>MonteCarlo\DataStructures\SimulationInputTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogTallyActionsTests.cs">
+      <Link>MonteCarlo\Detectors\AnalogTallyActionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWTallyActionsTests.cs">
+      <Link>MonteCarlo\Detectors\CAWTallyActionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWTwoLayerTallyActionsTests.cs">
+      <Link>MonteCarlo\Detectors\CAWTwoLayerTallyActionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWTallyActionsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWTallyActionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWTwoLayerTallyActionsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWTwoLayerTallyActionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCTallyActionsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCTallyActionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\IO\DetectorIOTests.cs">
+      <Link>MonteCarlo\IO\DetectorIOTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\MonteCarloFactoriesTests.cs">
       <Link>MonteCarlo\MonteCarloFactoriesTests.cs</Link>
@@ -191,30 +215,17 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\PointSourceIsotropicTests.cs">
       <Link>MonteCarlo\Sources\PointSources\PointSourceIsotropicTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\TallyActions\AnalogTallyActionsTests.cs">
-      <Link>MonteCarlo\TallyActions\AnalogTallyActionsTests.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\TallyActions\DAWTallyActionsTests.cs">
-      <Link>MonteCarlo\TallyActions\DAWTallyActionsTests.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\TallyActions\pMCTallyActionsTests.cs">
-      <Link>MonteCarlo\TallyActions\pMCTallyActionsTests.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vts.Database.Desktop\Vts.Database.Desktop.csproj">
-      <Project>{4FE8D1A5-E651-4264-B6A0-3D8143D7F413}</Project>
-      <Name>Vts.Database.Desktop</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Vts.Desktop\Vts.Desktop.csproj">
       <Project>{05B6020A-B646-4BBB-B9A0-B524F5F85023}</Project>
       <Name>Vts.Desktop</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modeling\N1e7G0.8dt2.5\" />
     <Folder Include="Modeling\Optimizers\" />
   </ItemGroup>
   <ItemGroup>

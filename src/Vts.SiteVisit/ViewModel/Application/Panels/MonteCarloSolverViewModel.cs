@@ -57,12 +57,18 @@ namespace Vts.SiteVisit.ViewModel
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete),
                 SourceInput = new PointSourceCollimatedInput(),
-                DetectorInput = new DetectorInput()
+                DetectorInputs = new List<IDetectorInput>
+                    {
+                        new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+                    }
             };
 
-            _simulationInputVM = new SimulationInputViewModel(_simulationInput);
+            _simulationInputVM = new SimulationInputViewModel(_simulationInput); 
 
-            _independentVariableRangeVM = new RangeViewModel(_simulationInput.DetectorInput.Rho, "mm", "Independent Variable Range");
+            var rho = ((ROfRhoDetectorInput)_simulationInput.DetectorInputs.
+                Where(d => d.TallyType == TallyType.ROfRho).First()).Rho;
+
+            _independentVariableRangeVM = new RangeViewModel(rho, "mm", "Independent Variable Range");
 
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.RofRho);
 
