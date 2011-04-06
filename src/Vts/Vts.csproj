@@ -282,7 +282,12 @@
     <Compile Include="MonteCarlo\Interfaces\IpMCTerminationDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCDetectorInput.cs" />
+    <Compile Include="MonteCarlo\IO\DatabaseOfT.cs" />
     <Compile Include="MonteCarlo\IO\DetectorIO.cs" />
+    <Compile Include="MonteCarlo\PhotonData\CollisionInfo.cs" />
+    <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabase.cs" />
+    <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseWriter.cs" />
+    <Compile Include="MonteCarlo\PhotonData\CollisionInfoSerializer.cs" />
     <Compile Include="MonteCarlo\PhotonHistory.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorInput.cs" />
@@ -298,9 +303,8 @@
     <Compile Include="MonteCarlo\PhotonData\PhotonDataPoint.cs" />
     <Compile Include="MonteCarlo\PhotonData\PhotonDatabase.cs" />
     <Compile Include="MonteCarlo\PhotonData\PhotonDatabaseWriter.cs" />
-    <Compile Include="MonteCarlo\PhotonData\PhotonDataPointCustomBinarySerializer.cs" />
+    <Compile Include="MonteCarlo\PhotonData\PhotonDataPointSerializer.cs" />
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfo.cs" />
-    <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfoCustomBinarySerializer.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
     <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\Sources\CollimatedLineSource.cs" />

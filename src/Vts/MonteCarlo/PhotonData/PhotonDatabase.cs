@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.PhotonData
             NumberOfPhotons = numPhotons;
         }
 
-        public PhotonDatabase() : this(1000000) { } 
+        public PhotonDatabase() : this(1000000) { } // only needed for serialization
 
         public long NumberOfPhotons { get; set; }
 
@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.PhotonData
         {
             var photonExitHistory = FileIO.ReadFromXML<PhotonDatabase>(fileName + ".xml");
 
-            var serializer = new PhotonDataPointCustomBinarySerializer();
+            var serializer = new PhotonDataPointSerializer();
             
             photonExitHistory.DataPoints = FileIO.ReadFromBinaryCustom<PhotonDataPoint>(
                 fileName, 
@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo.PhotonData
                 fileName + ".xml", 
                 projectName);
 
-            var serializer = new PhotonDataPointCustomBinarySerializer();
+            var serializer = new PhotonDataPointSerializer();
 
             photonExitHistory.DataPoints = FileIO.ReadFromBinaryInResourcesCustom<PhotonDataPoint>(
                 fileName, 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Vts.IO;
 
 namespace Vts.MonteCarlo.PhotonData
@@ -7,17 +7,17 @@ namespace Vts.MonteCarlo.PhotonData
     /// Implements CustomBinaryStreamWriter(Of PhotonDataPoint). Handles writing photon
     /// terminating data to database.
     /// </summary>
-    public class PhotonDatabaseWriter : CustomBinaryStreamWriter<PhotonDataPoint>
+    public class CollisionInfoDatabaseWriter : CustomBinaryStreamWriter<CollisionInfo>
     {
-        public PhotonDatabaseWriter(string filename)
-            : base( filename, new PhotonDataPointSerializer())
+        public CollisionInfoDatabaseWriter(string filename, int numberOfSubRegions)
+            : base(filename, new CollisionInfoSerializer(numberOfSubRegions))
         {
             // this specifies any action to take at the end of the file writing
             PostWriteAction = delegate
-            {   
+            {
                 // note: Count will be calculated at the end, not captured at instantiation
                 Func<long> currentCount = () => Count;
-                new PhotonDatabase( currentCount()).WriteToXML(filename + ".xml");
+                new PhotonDatabase(currentCount()).WriteToXML(filename + ".xml");
             };
         }
     }
