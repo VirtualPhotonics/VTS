@@ -5,11 +5,10 @@ using System.Text;
 using System.IO;
 using Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures;
 using Vts.Modeling.ForwardSolvers.MGRTE._2D.IO;
-using Vts.Common;
 
 namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
 {
-    public class SolverMGRTE
+    public class Solver
     {
         /*Multigrid*/
         //AMG = 1;
@@ -42,13 +41,12 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
 
         //    Console.ReadLine();
         //}
-                
 
         public static void ExecuteMGRTE(Parameters para)
         {
 
             int level = -1;
-            int vacuum;
+            bool vacuum;
             int i, j, k, m, n, ns, nt1, nt2, ns1, ns2, da, ds, nf = 0;
             double res = 0, res0 = 1, rho = 1.0;
 
@@ -58,24 +56,17 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             DateTime startTime1 = DateTime.Now;
 
             if (Math.Abs(para.Index_i - para.Index_o) / para.Index_i < 0.01) // refraction index mismatch at the boundary
-            { 
-                vacuum = 1; 
-            }
+            { vacuum = true; }
             else
-            { 
-                vacuum = 0; 
-            }
+            { vacuum = false; }
 
             // 1.2. compute "level"
             //      level: the indicator of mesh levels in multigrid
             ds = para.Slevel - para.Slevel0;
             da = para.Alevel - para.Alevel0;
-
-            
-
             switch (para.Whichmg)
             {
-                case 1:
+                case 1:  //AMG:
                     level = da;
                     break;
                 case 2: //SMG:
@@ -103,30 +94,30 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             BoundaryCoupling[] b = new BoundaryCoupling[level + 1];
 
             int[][] noflevel = new int[level + 1][];
-            double[][][] ua = new double[para.Slevel + 1][][];
-            double[][][] us = new double[para.Slevel + 1][][];
+            double[][][] mua = new double[para.Slevel + 1][][];
+            double[][][] mus = new double[para.Slevel + 1][][];
             double[][][][] RHS = new double[level + 1][][][];
             double[][][][] d = new double[level + 1][][][];
             double[][][][] flux = new double[level + 1][][][];
             double[][][][] q = new double[level + 1][][][];
 
-            MultiGridCycle Mgrid = new MultiGridCycle();
             Output Rteout = new Output();
             Source Insource = new Source();
 
-            ReadFiles.ReadAmesh(ref amesh, para.Alevel);
-            ReadFiles.ReadSmesh(ref smesh, para.Slevel, para.Alevel, amesh);
-            ReadFiles.ReadMua(ref ua, para.Slevel, smesh[para.Slevel].nt);
-            ReadFiles.ReadMus(ref us, para.Slevel, smesh[para.Slevel].nt);
+            ReadDataFiles.ReadAmesh(para.Alevel, para.Slevel, ref amesh);
+            ReadDataFiles.ReadSmesh(para.Alevel, para.Slevel, amesh, ref smesh);
+            ReadDataFiles.ReadMua(para.Slevel, smesh, ref mua);
+            ReadDataFiles.ReadMus(para.Slevel, smesh, ref mus);   
 
             // load optical property, angular mesh, and spatial mesh files
             Initialization.Initial(
-                ref amesh, ref smesh, ref flux, ref d, 
-                ref RHS, ref q, ref noflevel, ref b,
-                level, para.Whichmg,vacuum,para.Index_i,
-                para.Index_o,para.Alevel,para.Alevel0, 
-                para.Slevel,para.Slevel0, ua,us,Mgrid);           
+                para.Alevel, para.Alevel0, para.Slevel, para.Slevel0,
+                mua, mus, vacuum, para.Index_i, para.Index_o, level, 
+                para.Whichmg, noflevel, ref amesh, ref smesh, ref flux, 
+                ref d, ref RHS, ref q, ref b);
 
+           // if (vacuum == 0)
+          
 
             // initialize internal and boundary sources 
             Insource.Inputsource(para.Alevel, amesh, para.Slevel, smesh, level, RHS, q);
@@ -153,17 +144,17 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
                     ns1 = amesh[noflevel[n][1]].ns;
                     if (nt1 == nt2)
                     {
-                        Mgrid.FtoC_a(nt1, ns1, RHS[n + 1], RHS[n]);
+                         MultiGridCycle.FtoC_a(nt1, ns1, RHS[n + 1], RHS[n]);
                     }
                     else
                     {
                         if (ns1 == ns2)
                         {
-                            Mgrid.FtoC_s(nt1, ns1, RHS[n + 1], RHS[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].fc);
+                             MultiGridCycle.FtoC_s(nt1, ns1, RHS[n + 1], RHS[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].fc);
                         }
                         else
                         {
-                            Mgrid.FtoC(nt1, ns1, RHS[n + 1], RHS[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].fc);
+                             MultiGridCycle.FtoC(nt1, ns1, RHS[n + 1], RHS[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].fc);
                         }
 
                     }
@@ -181,14 +172,14 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
                         {
                             for (i = 0; i < para.N3; i++)
                             {
-                                res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 6);
+                                res =  MultiGridCycle.MgCycle(amesh, smesh, b, q, RHS, mua, mus, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 6);
                             }
                         }
                         else
                         {
                             for (i = 0; i < para.N3; i++)
                             {
-                                Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 7);
+                                 MultiGridCycle.MgCycle(amesh, smesh, b, q, RHS, mua, mus, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 7);
                             }
                         }
                     }
@@ -200,14 +191,14 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
                             {
                                 for (i = 0; i < para.N3; i++)
                                 {
-                                    Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 7);
+                                     MultiGridCycle.MgCycle(amesh, smesh, b, q, RHS, mua, mus, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 7);
                                 }
                             }
                             else
                             {
                                 for (i = 0; i < para.N3; i++)
                                 {
-                                    Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 6);
+                                     MultiGridCycle.MgCycle(amesh, smesh, b, q, RHS, mua, mus, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 6);
                                 }
                             }
                         }
@@ -215,7 +206,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
                         {
                             for (i = 0; i < para.N3; i++)
                             {
-                                Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, para.Whichmg);
+                                 MultiGridCycle.MgCycle(amesh, smesh, b, q, RHS, mua, mus, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, para.Whichmg);
                             }
                         }
                     }
@@ -224,17 +215,17 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
                     ns2 = amesh[noflevel[n + 1][1]].ns;
                     if (nt1 == nt2)
                     {
-                        Mgrid.CtoF_a(nt1, ns1, flux[n + 1], flux[n]);
+                         MultiGridCycle.CtoF_a(nt1, ns1, flux[n + 1], flux[n]);
                     }
                     else
                     {
                         if (ns1 == ns2)
                         {
-                            Mgrid.CtoF_s(nt1, ns1, flux[n + 1], flux[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].cf);
+                             MultiGridCycle.CtoF_s(nt1, ns1, flux[n + 1], flux[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].cf);
                         }
                         else
                         {
-                            Mgrid.CtoF(nt1, ns1, flux[n + 1], flux[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].cf);
+                             MultiGridCycle.CtoF(nt1, ns1, flux[n + 1], flux[n], smesh[noflevel[n][0] + 1].smap, smesh[noflevel[n][0] + 1].cf);
                         }
                     }
                     nt1 = nt2; ns1 = ns2;
@@ -258,13 +249,14 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             n = 0;
             Console.WriteLine("Iter\t\t Res\t Rho\t\t T (in seconds) ");
 
+
             while (n < para.N_max)
             {
                 /* Read the start time. */
                 startTime1 = DateTime.Now;
 
                 n++;
-                res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, para.Alevel, para.Alevel0, para.Slevel, para.Slevel0, ns, vacuum, para.Whichmg);
+                res =  MultiGridCycle.MgCycle(amesh, smesh, b, q, RHS, mua, mus, flux, d, para.N1, para.N2, para.Alevel, para.Alevel0, para.Slevel, para.Slevel0, ns, vacuum, para.Whichmg);
                 for (m = 0; m < level; m++)
                 {
                     for (i = 0; i < amesh[noflevel[m][1]].ns; i++)
@@ -303,8 +295,8 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             }
 
             // 2.3. compute the residual
-            Mgrid.Defect(amesh[para.Alevel], smesh[para.Slevel], ns, RHS[level], ua[para.Slevel], us[para.Slevel], flux[level], b[level], q[level], d[level], vacuum);
-            res = Mgrid.Residual(smesh[para.Slevel].nt, amesh[para.Alevel].ns, d[level], smesh[para.Slevel].a);
+            MultiGridCycle.Defect(amesh[para.Alevel], smesh[para.Slevel], ns, RHS[level], mua[para.Slevel], mus[para.Slevel], flux[level], b[level], q[level], d[level], vacuum);
+            res =  MultiGridCycle.Residual(smesh[para.Slevel].nt, amesh[para.Alevel].ns, d[level], smesh[para.Slevel].a);
 
             /* Read the start time. */
             DateTime stopTime2 = DateTime.Now;

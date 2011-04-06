@@ -430,7 +430,5 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                 Console.WriteLine(boundarySourceFile + " does not exist!"); 
             }
         }
-
-
     }    
 }
