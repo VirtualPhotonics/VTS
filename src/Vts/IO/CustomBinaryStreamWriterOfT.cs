@@ -87,7 +87,7 @@ namespace Vts.IO
             foreach (var item in items)
             {
                 Write(item);
-                Count++;
+                //Count++; ckh comment out 4/6/11
             }
         }
 

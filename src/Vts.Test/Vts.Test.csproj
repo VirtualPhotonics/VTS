@@ -175,6 +175,8 @@
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCDetectorInputTests.cs" />
     <Compile Include="MonteCarlo\IO\DetectorIOTests.cs" />
     <Compile Include="MonteCarlo\MonteCarloFactoriesTests.cs" />
+    <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs" />
+    <Compile Include="MonteCarlo\PhotonData\PhotonDatabaseTests.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs" />
     <Compile Include="MonteCarlo\Sources\CustomPointSourceTests.cs" />
     <Compile Include="MonteCarlo\Detectors\AnalogTallyActionsTests.cs" />
