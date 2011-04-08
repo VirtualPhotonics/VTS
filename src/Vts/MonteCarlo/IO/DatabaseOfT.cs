@@ -21,6 +21,7 @@ namespace Vts.MonteCarlo.IO
             _dataPoints = dataPoints;
         }
 
+        [IgnoreDataMember]
         public IEnumerable<T> DataPoints
         {
             get { return _dataPoints; }
