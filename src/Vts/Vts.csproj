@@ -290,6 +290,8 @@
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabase.cs" />
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseWriter.cs" />
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoSerializer.cs" />
+    <Compile Include="MonteCarlo\PhotonData\pMCDataPoint.cs" />
+    <Compile Include="MonteCarlo\PhotonData\pMCDatabase.cs" />
     <Compile Include="MonteCarlo\PhotonHistory.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorInput.cs" />

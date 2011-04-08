@@ -20,5 +20,15 @@ namespace Vts.MonteCarlo.PhotonData
         public CollisionInfo() : this(0) // for serialization only
         {
         }
+
+        public CollisionInfo Clone()
+        {
+            var collisionInfo = new CollisionInfo(this.Capacity);
+            foreach (var subRegion in collisionInfo)
+            {
+                collisionInfo.Add(subRegion.Clone());
+            }
+            return collisionInfo;
+        }
     }
 }

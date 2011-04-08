@@ -703,6 +703,12 @@
     <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDataPointSerializer.cs">
       <Link>MonteCarlo\PhotonData\PhotonDataPointSerializer.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\pMCDatabase.cs">
+      <Link>MonteCarlo\PhotonData\pMCDatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\pMCDataPoint.cs">
+      <Link>MonteCarlo\PhotonData\pMCDataPoint.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhotonData\SubRegionCollisionInfo.cs">
       <Link>MonteCarlo\PhotonData\SubRegionCollisionInfo.cs</Link>
     </Compile>
