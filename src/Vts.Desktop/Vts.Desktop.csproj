@@ -661,6 +661,12 @@
     <Compile Include="..\Vts\MonteCarlo\IO\DatabaseOfT.cs">
       <Link>MonteCarlo\IO\DatabaseOfT.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\IO\DatabaseReader.cs">
+      <Link>MonteCarlo\IO\DatabaseReader.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\IO\DatabaseWriter.cs">
+      <Link>MonteCarlo\IO\DatabaseWriter.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\IO\DetectorIO.cs">
       <Link>MonteCarlo\IO\DetectorIO.cs</Link>
     </Compile>

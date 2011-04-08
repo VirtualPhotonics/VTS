@@ -282,6 +282,8 @@
     <Compile Include="MonteCarlo\Interfaces\IpMCTerminationDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCDetectorInput.cs" />
+    <Compile Include="MonteCarlo\IO\DatabaseWriter.cs" />
+    <Compile Include="MonteCarlo\IO\DatabaseReader.cs" />
     <Compile Include="MonteCarlo\IO\DatabaseOfT.cs" />
     <Compile Include="MonteCarlo\IO\DetectorIO.cs" />
     <Compile Include="MonteCarlo\PhotonData\CollisionInfo.cs" />

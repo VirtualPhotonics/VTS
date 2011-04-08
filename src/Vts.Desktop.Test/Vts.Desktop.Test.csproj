@@ -209,6 +209,12 @@
     <Compile Include="..\Vts.Test\MonteCarlo\MonteCarloFactoriesTests.cs">
       <Link>MonteCarlo\MonteCarloFactoriesTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
+      <Link>MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\PhotonData\PhotonDatabaseTests.cs">
+      <Link>MonteCarlo\PhotonData\PhotonDatabaseTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <Link>MonteCarlo\PostProcessing\PostProcessingTests.cs</Link>
     </Compile>

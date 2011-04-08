@@ -1,13 +1,42 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Sources;
 
 namespace Vts.Test.MonteCarlo.Sources
 {
+
+    //// Source inputs
+    //[KnownType(typeof(CustomPointSourceInput))]
+
+    //// Tissue inputs
+    //[KnownType(typeof(MultiLayerTissueInput))]
+
+    //// Detector inputs
+    //[KnownType(typeof(AOfRhoAndZDetectorInput))]
+    //[KnownType(typeof(ATotalDetectorInput))]
+    //[KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
+    //[KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
+    //[KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
+    //[KnownType(typeof(pMCROfRhoDetectorInput))]
+    //[KnownType(typeof(RDiffuseDetectorInput))]
+    //[KnownType(typeof(ROfAngleDetectorInput))]
+    //[KnownType(typeof(ROfRhoAndAngleDetectorInput))]
+    //[KnownType(typeof(ROfRhoAndOmegaDetectorInput))]
+    //[KnownType(typeof(ROfRhoAndTimeDetectorInput))]
+    //[KnownType(typeof(ROfRhoDetectorInput))]
+    //[KnownType(typeof(ROfXAndYDetectorInput))]
+    //[KnownType(typeof(TDiffuseDetectorInput))]
+    //[KnownType(typeof(TOfAngleDetectorInput))]
+    //[KnownType(typeof(TOfRhoAndAngleDetectorInput))]
+    //[KnownType(typeof(TOfRhoDetectorInput))]
+
     [TestFixture]
     public class PhotonDatabaseTests
     {
@@ -18,49 +47,55 @@ namespace Vts.Test.MonteCarlo.Sources
         [Test]
         public void validate_PhotonDatabase_deserialized_class_is_correct_when_using_WriteToFile()
         {
-            var dbWriter = new PhotonDatabaseWriter("testphotondatabase");
-                
-            var db = new PhotonDatabase()
-            { 
-                NumberOfPhotons = 2, 
-                DataPoints = new List<PhotonDataPoint>()
-                {
-                    new PhotonDataPoint( 
-                        new Position(1, 2, 3), 
-                        new Direction(0, 0, 1),
-                        1.0,  // weight
-                        10,  // time
-                        PhotonStateType.ExitedOutBottom),
-                    new PhotonDataPoint(
-                        new Position(4, 5, 6),
-                        new Direction(1, 0, 0),
-                        0.50,
-                        100,
-                        PhotonStateType.ExitedOutTop)
-                }
-            };
+            // test serialization
+            new SimulationInput().ToFile("SimulationInputTest.xml");
 
-            if (dbWriter != null)
+            string databaseFilename = "testphotondatabase";
+
+            using(var dbWriter = new PhotonDatabaseWriter(databaseFilename))
             {
-                dbWriter.Write(db.DataPoints);
+                dbWriter.Write(new PhotonDataPoint(
+                                   new Position(1, 2, 3),
+                                   new Direction(0, 0, 1),
+                                   1.0, // weight
+                                   10, // time
+                                   PhotonStateType.ExitedOutBottom));
+
+                dbWriter.Write(new PhotonDataPoint(
+                                   new Position(4, 5, 6),
+                                   new Direction(1, 0, 0),
+                                   0.50,
+                                   100,
+                                   PhotonStateType.ExitedOutTop));
             }
-            if (dbWriter != null) dbWriter.Dispose();
 
-            var dbcloned = PhotonDatabase.FromFile("testphotondatabase");
+            // read the database from file, and verify the correct number of photons were written
+            var dbCloned = PhotonDatabase.FromFile(databaseFilename);
 
-            Assert.AreEqual(dbcloned.NumberOfPhotons, 2);
-            var dps = dbcloned.DataPoints.ToArray();
-            Assert.AreEqual(dps[0].Position, new Position(1, 2, 3));
-            Assert.AreEqual(dps[0].Direction, new Direction(0, 0, 1));
-            Assert.AreEqual(dps[0].Weight, 1.0);
-            Assert.AreEqual(dps[0].TotalTime, 10);
-            Assert.AreEqual(dps[0].StateFlag, PhotonStateType.ExitedOutBottom);
-            Assert.AreEqual(dps[1].Position, new Position(4, 5, 6));
-            Assert.AreEqual(dps[1].Direction, new Direction(1, 0, 0));
-            Assert.AreEqual(dps[1].Weight, 0.5);
-            Assert.AreEqual(dps[1].TotalTime, 100);
-            Assert.AreEqual(dps[1].StateFlag, PhotonStateType.ExitedOutTop);
+            Assert.AreEqual(dbCloned.NumberOfElements, 2);
+
+            // manually enumerate through the first two elements (same as foreach)
+            // PhotonDatabase is designed so you don't have to have the whole thing
+            // in memory, so .ToArray() loses the benefits of the lazy-load data points
+            var enumerator = dbCloned.DataPoints.GetEnumerator();
+
+            // advance to the first point and test that the point is valid
+            enumerator.MoveNext();
+            var dp1 = enumerator.Current;
+            Assert.AreEqual(dp1.Position, new Position(1, 2, 3));
+            Assert.AreEqual(dp1.Direction, new Direction(0, 0, 1));
+            Assert.AreEqual(dp1.Weight, 1.0);
+            Assert.AreEqual(dp1.TotalTime, 10);
+            Assert.AreEqual(dp1.StateFlag, PhotonStateType.ExitedOutBottom);
+
+            // advance to the second point and test that the point is valid
+            enumerator.MoveNext();
+            var dp2 = enumerator.Current;
+            Assert.AreEqual(dp2.Position, new Position(4, 5, 6));
+            Assert.AreEqual(dp2.Direction, new Direction(1, 0, 0));
+            Assert.AreEqual(dp2.Weight, 0.5);
+            Assert.AreEqual(dp2.TotalTime, 100);
+            Assert.AreEqual(dp2.StateFlag, PhotonStateType.ExitedOutTop);
         }
     }
-
 }

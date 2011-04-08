@@ -87,14 +87,14 @@ namespace Vts.IO
             foreach (var item in items)
             {
                 Write(item);
-                //Count++; ckh comment out 4/6/11
+                Count++;
             }
         }
 
         /// <summary>
         /// Closes the filestream and writes the accompanying .xml
         /// </summary>
-        public void Close()
+        public virtual void Close()
         {
             Dispose();
         }

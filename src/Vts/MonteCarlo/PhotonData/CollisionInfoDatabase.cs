@@ -1,30 +1,57 @@
-using System.Collections.Generic;
 using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.PhotonData
 {
     /// <summary>
     /// Describes database for storing and returning collision info (pathlength & number of collisions).
-    /// The base class, Database(OfT,OfTSelfReferencingType), exposes the IEnumerable(OfT) list of CollisionInfo objects
+    /// The base class, Database(OfT), exposes the IEnumerable(OfT) DataPoints list of CollisionInfo items
     /// </summary>
-    public class CollisionInfoDatabase : Database<CollisionInfo, CollisionInfoDatabase> 
-        // note: the second argument is just to help the base class figure stuff out, and should be identical to the class name
+    public class CollisionInfoDatabase : Database<CollisionInfo> 
     {
-        public CollisionInfoDatabase(long numPhotons, int numSubRegions)
+        /// <summary>
+        /// Creates an instance of a CollisionInfoDatabase
+        /// </summary>
+        /// <param name="numSubRegions">The number of "sub-regions" within the tissue</param>
+        public CollisionInfoDatabase(int numSubRegions)
         {
-            NumberOfPhotons = numPhotons;
             NumberOfSubRegions = numSubRegions;
-
-            // BinaryReader is static, so we only need to 
-            if (BinaryReader != null)
-            {
-                BinaryReader = new CollisionInfoSerializer(numSubRegions);
-            }
         }
 
-        public CollisionInfoDatabase() : this(1000000, 3) { } // only needed for serialization
+        /// <summary>
+        /// Do not use this overload, it is only for serialization purposes
+        /// </summary>
+        public CollisionInfoDatabase() : this(0) { } // only needed for serialization
 
-        public long NumberOfPhotons { get; set; }
+        /// <summary>
+        /// The number of "sub-regions" within the tissue
+        /// </summary>
         public int NumberOfSubRegions { get; set; }
+
+        /// <summary>
+        /// Static helper method to simplify reading from file
+        /// </summary>
+        /// <param name="fileName">The base filename for the database (no ".xml")</param>
+        /// <returns>A new instance of CollisionInfoDatabase</returns>
+        public static CollisionInfoDatabase FromFile(string fileName)
+        {
+            var dbReader = new DatabaseReader<CollisionInfoDatabase, CollisionInfo>(
+                db => new CollisionInfoSerializer(db.NumberOfSubRegions));
+
+            return dbReader.FromFile(fileName);
+        }
+
+        /// <summary>
+        /// Static helper method to simplify reading from file
+        /// </summary>
+        /// <param name="fileName">The base filename for the database (no ".xml")</param>
+        /// <param name="projectName">The project name containing the resource</param>
+        /// <returns>A new instance of CollisionInfoDatabase</returns>
+        public static CollisionInfoDatabase FromFileInResources(string fileName, string projectName)
+        {
+            var dbReader = new DatabaseReader<CollisionInfoDatabase, CollisionInfo>(
+                db => new CollisionInfoSerializer(db.NumberOfSubRegions));
+
+            return dbReader.FromFileInResources(fileName, projectName);
+        }
     }
 }

@@ -1,12 +1,10 @@
 using System.IO;
-using Vts.Common;
 using Vts.IO;
 
 namespace Vts.MonteCarlo.PhotonData
 {
     /// <summary>
-    /// Implements ICustomBinaryReader<CollisionInfo> and 
-    /// ICustomBinaryWriter<CollisionInfo>.
+    /// Implements ICustomBinaryReader(OfCollisionInfo) and ICustomBinaryWriter(OfCollisionInfo).
     /// </summary>
     public class CollisionInfoSerializer :
         ICustomBinaryReader<CollisionInfo>,
@@ -32,11 +30,11 @@ namespace Vts.MonteCarlo.PhotonData
         {
             var collisionInfo = new CollisionInfo(_numberofSubRegions);
 
-            for (int i = 0; i < collisionInfo.Count; i++)
+            for (int i = 0; i < _numberofSubRegions; i++)
             {
-                collisionInfo[i] = new SubRegionCollisionInfo(
+                collisionInfo.Add(new SubRegionCollisionInfo(
                     br.ReadDouble(), // pathLength
-                    br.ReadInt64());  // numberOfCollisions); 
+                    br.ReadInt64()));  // numberOfCollisions); 
             }
 
             return collisionInfo;
