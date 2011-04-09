@@ -251,6 +251,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs" />
+    <Compile Include="MonteCarlo\PhotonData\pMCDatabaseTests.cs" />
     <Compile Include="MonteCarlo\PhotonData\PhotonDatabaseTests.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <SubType>Code</SubType>

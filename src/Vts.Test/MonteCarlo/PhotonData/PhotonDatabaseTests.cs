@@ -5,38 +5,11 @@ using System.Runtime.Serialization;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.IO;
 
-namespace Vts.Test.MonteCarlo.Sources
+namespace Vts.Test.MonteCarlo.PhotonData
 {
-
-    //// Source inputs
-    //[KnownType(typeof(CustomPointSourceInput))]
-
-    //// Tissue inputs
-    //[KnownType(typeof(MultiLayerTissueInput))]
-
-    //// Detector inputs
-    //[KnownType(typeof(AOfRhoAndZDetectorInput))]
-    //[KnownType(typeof(ATotalDetectorInput))]
-    //[KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
-    //[KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
-    //[KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
-    //[KnownType(typeof(pMCROfRhoDetectorInput))]
-    //[KnownType(typeof(RDiffuseDetectorInput))]
-    //[KnownType(typeof(ROfAngleDetectorInput))]
-    //[KnownType(typeof(ROfRhoAndAngleDetectorInput))]
-    //[KnownType(typeof(ROfRhoAndOmegaDetectorInput))]
-    //[KnownType(typeof(ROfRhoAndTimeDetectorInput))]
-    //[KnownType(typeof(ROfRhoDetectorInput))]
-    //[KnownType(typeof(ROfXAndYDetectorInput))]
-    //[KnownType(typeof(TDiffuseDetectorInput))]
-    //[KnownType(typeof(TOfAngleDetectorInput))]
-    //[KnownType(typeof(TOfRhoAndAngleDetectorInput))]
-    //[KnownType(typeof(TOfRhoDetectorInput))]
-
     [TestFixture]
     public class PhotonDatabaseTests
     {

@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.IO;
 
-namespace Vts.Test.MonteCarlo.Sources
+namespace Vts.Test.MonteCarlo.PhotonData
 {
     [TestFixture]
     public class CollisionInfoDatabaseTests
