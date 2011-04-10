@@ -91,11 +91,11 @@ namespace Vts.MonteCarlo
                 if ((WRITE_DATABASE == DatabaseType.PhotonExitDataPoints) || 
                     (WRITE_DATABASE == DatabaseType.PhotonExitDataPointsAndCollisionInfo))
                 {
-                    terminationWriter = new PhotonDatabaseWriter(_input.OutputFileName + "_photonExitDatapoints");
+                    terminationWriter = new PhotonDatabaseWriter(_input.OutputFileName + "_photonExitDatabase");
                     if (WRITE_DATABASE == DatabaseType.PhotonExitDataPointsAndCollisionInfo)
                     {
                         collisionWriter = new CollisionInfoDatabaseWriter(
-                            _input.OutputFileName + "_collisionInfo", _tissue.Regions.Count());
+                            _input.OutputFileName + "_collisionInfoDatabase", _tissue.Regions.Count());
                     }
                 }
 

@@ -35,7 +35,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var input = GenerateReferenceInput();
             var onTheFlyOutput = GenerateReferenceOutput(input);
 
-            var database = PhotonDatabase.FromFile("postprocessing_photonBiographies");
+            var database = PhotonDatabase.FromFile("postprocessing_photonExitDatabase");
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
                 input.DetectorInputs, database, onTheFlyOutput.Input);
 

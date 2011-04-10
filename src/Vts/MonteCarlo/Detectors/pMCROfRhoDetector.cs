@@ -111,7 +111,7 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        public void Tally(PhotonDataPoint dp, IList<SubRegionCollisionInfo> infoList)
+        public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
         {
             double totalPathLengthInPerturbedRegions = 0.0;
             foreach (var i in _perturbedRegionsIndices)

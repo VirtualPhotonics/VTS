@@ -21,7 +21,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DAWTwoLayerTallyActionsTests
     {
-        Output _output;
+        private Output _output;
 
         /// <summary>
         /// Setup input to the MC, SimulationInput, and execute MC

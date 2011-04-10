@@ -235,13 +235,14 @@
     <Compile Include="MonteCarlo\Detectors\CAWTwoLayerTallyActionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\Detectors\pMCDAWTwoLayerTallyActionsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\DAWTallyActionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\Detectors\DAWTwoLayerTallyActionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\pMCTallyActionsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\pMCDAWTallyActionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\IO\DetectorIOTests.cs">

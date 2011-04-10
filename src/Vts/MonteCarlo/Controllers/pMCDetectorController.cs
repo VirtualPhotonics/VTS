@@ -69,7 +69,7 @@ namespace Vts.MonteCarlo.Controllers
         public IList<OpticalProperties> ReferenceOps { get; set; }
         public IList<int> PerturbedRegionsIndices { get; set; }
         
-        public void TerminationTally(PhotonDataPoint dp, IList<SubRegionCollisionInfo> collisionInfo)
+        public void TerminationTally(PhotonDataPoint dp, CollisionInfo collisionInfo)
         {
             foreach (var detector in _terminationDetectors)
             {
@@ -78,7 +78,7 @@ namespace Vts.MonteCarlo.Controllers
             }
         }
 
-        public void HistoryTally(PhotonHistory history, IList<SubRegionCollisionInfo> collisionInfo)
+        public void HistoryTally(PhotonHistory history, CollisionInfo collisionInfo)
         {
             // loop through the photon history. history tallies require information 
             // from previous and "current" collision points (including pseudo-collisions)
