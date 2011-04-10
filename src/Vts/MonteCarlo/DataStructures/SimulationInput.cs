@@ -91,7 +91,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister, 
                     AbsorptionWeightingType.Discrete, 
                     PhaseFunctionType.HenyeyGreenstein,
-                    false, 
+                    DatabaseType.NoDatabaseGeneration, 
                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

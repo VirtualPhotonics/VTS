@@ -55,7 +55,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    true,
+                    DatabaseType.PhotonExitDataPoints,
                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

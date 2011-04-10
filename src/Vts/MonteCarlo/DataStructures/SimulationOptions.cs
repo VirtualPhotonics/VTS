@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo
             RandomNumberGeneratorType rngType, 
             AbsorptionWeightingType absWeightingType, 
             PhaseFunctionType phaseFunctionType,
-            bool writeHistories,
+            DatabaseType databaseType,
             int simulationIndex)
         {
             RandomNumberGeneratorType = rngType;
@@ -23,7 +23,7 @@ namespace Vts.MonteCarlo
             PhaseFunctionType = phaseFunctionType;
             Seed = seed;
             SimulationIndex = simulationIndex;
-            WriteHistories = writeHistories;
+            DatabaseType = databaseType;
         }
 
         public RandomNumberGeneratorType RandomNumberGeneratorType { get; set; }
@@ -32,19 +32,34 @@ namespace Vts.MonteCarlo
         public int Seed { get; set; }
         public int SimulationIndex { get; set; }
 
-        public bool WriteHistories { get; set; }  // Added by DC 2009-08-01
+        public DatabaseType DatabaseType { get; set; }  // modified ckh 4/9/11
 
         public SimulationOptions(
             int seed, 
             RandomNumberGeneratorType rngType, 
             AbsorptionWeightingType absWeightingType)
-            : this(seed, rngType, absWeightingType, PhaseFunctionType.HenyeyGreenstein, false, 0) { }
+            : this(seed, 
+                rngType, 
+                absWeightingType, 
+                PhaseFunctionType.HenyeyGreenstein, 
+                DatabaseType.NoDatabaseGeneration, 
+                0) { }
 
         public SimulationOptions(int seed)
-            : this(seed, RandomNumberGeneratorType.MersenneTwister, AbsorptionWeightingType.Discrete, PhaseFunctionType.HenyeyGreenstein, false, 0) { }
+            : this(seed, 
+                RandomNumberGeneratorType.MersenneTwister,  
+                AbsorptionWeightingType.Discrete, 
+                PhaseFunctionType.HenyeyGreenstein, 
+                DatabaseType.NoDatabaseGeneration, 
+                0) { }
 
         public SimulationOptions()
-            : this(GetRandomSeed(), RandomNumberGeneratorType.MersenneTwister, AbsorptionWeightingType.Discrete, PhaseFunctionType.HenyeyGreenstein, false, 0) { }
+            : this(GetRandomSeed(), 
+                RandomNumberGeneratorType.MersenneTwister, 
+                AbsorptionWeightingType.Discrete, 
+                PhaseFunctionType.HenyeyGreenstein, 
+                DatabaseType.NoDatabaseGeneration, 
+                0) { }
 
         public static int GetRandomSeed()  // ckh 12/15/09 made this public so Photon can see
         {

@@ -76,7 +76,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    true,  // write histories 
+                    DatabaseType.PhotonExitDataPointsAndCollisionInfo,  // write histories 
                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),
@@ -122,7 +122,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    true,  // write histories 
+                    DatabaseType.PhotonExitDataPointsAndCollisionInfo,  // write histories 
                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

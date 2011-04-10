@@ -30,7 +30,7 @@ namespace Vts.MonteCarlo
             _input = input;
             numberOfPhotons = input.N;
 
-            WRITE_EXIT_HISTORIES = input.Options.WriteHistories;// Added by DC 2009-08-01
+            WRITE_DATABASE = input.Options.DatabaseType; // modified ckh 4/9/11
             ABSORPTION_WEIGHTING = input.Options.AbsorptionWeightingType; // CKH add 12/14/09
 
 
@@ -53,8 +53,8 @@ namespace Vts.MonteCarlo
         private int SimulationIndex { get; set; }
 
         // public properties
-        private bool WRITE_EXIT_HISTORIES { get; set; }  // Added by DC 2009-08-01 
-        private bool WRITE_ALL_HISTORIES { get; set; }  // Added by DC 2011-03-03
+        private DatabaseType WRITE_DATABASE { get; set; }  // modified ckh 4/9/11
+        //private bool WRITE_ALL_HISTORIES { get; set; }  // Added by DC 2011-03-03
         private AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
         public PhaseFunctionType PHASE_FUNCTION { get; set; }
 
@@ -84,11 +84,19 @@ namespace Vts.MonteCarlo
         protected virtual void ExecuteMCLoop()
         {
             PhotonDatabaseWriter terminationWriter = null;
+            CollisionInfoDatabaseWriter collisionWriter = null;
+
             try
             {
-                if (WRITE_EXIT_HISTORIES)
+                if ((WRITE_DATABASE == DatabaseType.PhotonExitDataPoints) || 
+                    (WRITE_DATABASE == DatabaseType.PhotonExitDataPointsAndCollisionInfo))
                 {
-                    terminationWriter = new PhotonDatabaseWriter(_input.OutputFileName + "_photonBiographies");
+                    terminationWriter = new PhotonDatabaseWriter(_input.OutputFileName + "_photonExitDatapoints");
+                    if (WRITE_DATABASE == DatabaseType.PhotonExitDataPointsAndCollisionInfo)
+                    {
+                        collisionWriter = new CollisionInfoDatabaseWriter(
+                            _input.OutputFileName + "_collisionInfo", _tissue.Regions.Count());
+                    }
                 }
 
                 for (long n = 1; n <= numberOfPhotons; n++)
@@ -134,6 +142,10 @@ namespace Vts.MonteCarlo
                         //dc: how to check if detector contains DP  ckh: check is on reading side, may need to fix
                         terminationWriter.Write(photon.DP);
                     }
+                    if (collisionWriter != null)
+                    {
+                        collisionWriter.Write(photon.History.SubRegionInfoList);
+                    }
 
                     _detectorController.HistoryTally(photon.History);
 
@@ -142,6 +154,7 @@ namespace Vts.MonteCarlo
             finally
             {
                 if (terminationWriter != null) terminationWriter.Dispose();
+                if (collisionWriter != null) collisionWriter.Dispose();
             }
 
             // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
