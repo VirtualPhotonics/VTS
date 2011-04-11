@@ -265,6 +265,7 @@
     <Compile Include="MonteCarlo\Controllers\pMCDetectorController.cs" />
     <Compile Include="MonteCarlo\Factories\AbsorptionActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\SourceProfileFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\DetectorBinning.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfRhoDetectorInput.cs" />
@@ -281,6 +282,7 @@
     <Compile Include="MonteCarlo\Interfaces\IpMCTerminationDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCDetectorInput.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ISourceProfile.cs" />
     <Compile Include="MonteCarlo\IO\DetectorIO.cs" />
     <Compile Include="MonteCarlo\PhotonHistory.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
@@ -349,6 +351,10 @@
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAFlat.cs" />
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAGaussian.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
+    <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian3DSourceProfile.cs" />
+    <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian2DSourceProfile.cs" />
+    <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian1DSourceProfile.cs" />
+    <Compile Include="MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceFlatIsotropic.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceGaussianIsotropic.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceFlatIsotropic.cs" />
