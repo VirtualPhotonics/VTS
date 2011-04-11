@@ -305,7 +305,6 @@
     <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
     <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceFlags.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\SphericalSurfaceEmmitingSourceCustomLambertian.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceCollimatedFlat.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceCollimatedGaussian.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceConvergingFlat.cs" />
@@ -353,11 +352,10 @@
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAGaussian.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
     <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian3DSourceProfile.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian3DSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian2DSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian1DSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\SphericalSurfaceEmmitingSourceCustom.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\SphericalSurfaceEmmitingSourceCustomFlat.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceFlatIsotropic.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceGaussianIsotropic.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceFlatIsotropic.cs" />
@@ -381,6 +379,7 @@
     <Compile Include="MonteCarlo\Detectors\TOfAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfRhoDetector.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\SphericalSurfaceEmmitingSourceFlat.cs" />
     <Compile Include="MonteCarlo\Tissues\CylinderRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\EllipsoidRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\LayerRegion.cs" />

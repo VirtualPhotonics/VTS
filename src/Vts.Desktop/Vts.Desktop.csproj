@@ -841,6 +841,12 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\Gaussian3DSourceProfile.cs">
       <Link>MonteCarlo\Sources\SourceProfiles\Gaussian3DSourceProfile.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\SphericalSurfaceEmmitingSourceCustomFlat.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\SphericalSurfaceEmmitingSourceCustomFlat.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\SphericalSurfaceEmmitingSourceFlat.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\SphericalSurfaceEmmitingSourceFlat.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\CuboidalSourceFlatIsotropic.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\CuboidalSourceFlatIsotropic.cs</Link>
     </Compile>

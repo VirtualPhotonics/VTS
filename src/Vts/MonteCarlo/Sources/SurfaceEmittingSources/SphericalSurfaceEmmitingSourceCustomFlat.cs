@@ -8,25 +8,24 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// 
     /// </summary>
-    public class SphericalSurfaceEmmitingSourceCustom : ISource
+    public class SphericalSurfaceEmmitingSourceCustomFlat : ISource
     {
         private DoubleRange _polarAngleEmissionRange;
         private DoubleRange _azimuthalAngleEmissionRange;
-        private Position _translationFromOrigin;
-        private PolarAzimuthalAngles _mappingOntoSpehere;
+        private Position _translationFromOrigin;        
         private ThreeAxisRotation _rotationOfPrincipalSourceAxis;
         private double _radius = 1.0;
-        private SourceFlags _rotationAndTranslationFlags;
+        private SourceFlags _rotationAndTranslationFlags;        
 
         /// <summary>
-        /// Returns an instance of Spherical Surface Emission Source with a specified translation and source axis rotation
+        /// Returns an instance of custom Spherical Surface Emission Source with a specified translation and source axis rotation
         /// </summary>
         /// <param name="radius"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public SphericalSurfaceEmmitingSourceCustom(
+        public SphericalSurfaceEmmitingSourceCustomFlat(
             double radius,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
@@ -41,13 +40,13 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Spherical Surface Emission Source with a specified translation
+        /// Returns an instance of custom Spherical Surface Emission Source with a specified translation
         /// </summary>
         /// <param name="radius"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
-        public SphericalSurfaceEmmitingSourceCustom(
+        public SphericalSurfaceEmmitingSourceCustomFlat(
             double radius,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
@@ -63,13 +62,13 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Spherical Surface Emission Source with a source axis rotation
+        /// Returns an instance of custom Spherical Surface Emission Source with a source axis rotation
         /// </summary>
         /// <param name="radius"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public SphericalSurfaceEmmitingSourceCustom(
+        public SphericalSurfaceEmmitingSourceCustomFlat(
             double radius,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,  
@@ -86,12 +85,12 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Spherical Surface Emission Source with no translation or source axis rotation
+        /// Returns an instance of custom Spherical Surface Emission Source with no translation or source axis rotation
         /// </summary>
         /// <param name="radius"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
-        public SphericalSurfaceEmmitingSourceCustom(
+        public SphericalSurfaceEmmitingSourceCustomFlat(
             double radius,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange)
@@ -106,7 +105,6 @@ namespace Vts.MonteCarlo.Sources
         }
 
    
-     
         
         
 
@@ -122,7 +120,7 @@ namespace Vts.MonteCarlo.Sources
              
              
             //Sample polar and azimuthal angle
-            PolarAzimuthalAngles polarAzimuthal = SourceToolbox.GetRandomPolarAzimuthalForLambertianPolarAndAzimuthalAngleRange(
+            PolarAzimuthalAngles polarAzimuthal = SourceToolbox.GetRandomPolarAzimuthalForUniformPolarAndAzimuthalAngleRange(
                 _polarAngleEmissionRange,
                 _azimuthalAngleEmissionRange,
                 Rng);

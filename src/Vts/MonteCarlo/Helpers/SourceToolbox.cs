@@ -572,23 +572,7 @@ Random rng)
                 cost));
         }
 
-        /// <summary>
-        /// Provides a polarazimuthal angle pair for a given lambertian random polar angle range and random azimuthal angle range
-        /// </summary>
-        /// <param name="polarAngleEmissionRange">The polar angle range</param>
-        /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
-        /// <param name="rng">The random number generato</param>
-        /// <returns></returns>
-        public static PolarAzimuthalAngles GetRandomPolarAzimuthalForLambertianPolarAndAzimuthalAngleRange(DoubleRange polarAngleEmissionRange,
-            DoubleRange azimuthalAngleEmissionRange,
-            Random rng)       
-        {      
-            return (new PolarAzimuthalAngles(
-                Math.Asin(rng.NextDouble(Math.Cos(polarAngleEmissionRange.Start), Math.Cos(polarAngleEmissionRange.Stop))),
-                rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop)));
-        }
-
-
+        
         /// <summary>
         /// Provides a polarazimuthal angle pair for a given uniform random polar angle range and random azimuthal angle range
         /// </summary>
