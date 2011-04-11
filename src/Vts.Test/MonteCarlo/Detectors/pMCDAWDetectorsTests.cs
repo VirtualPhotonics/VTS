@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// mersenne twister STANDARD_TEST
     /// </summary>
     [TestFixture]
-    public class pMCTallyActionsTests
+    public class pMCDAWDetectorsTests
     {
         private SimulationInput _referenceInput;
         private Output _referenceOutput;

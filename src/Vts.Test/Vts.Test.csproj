@@ -226,23 +226,23 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\AnalogTallyActionsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\AnalogDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\CAWTallyActionsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\CAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\CAWTwoLayerTallyActionsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\pMCDAWTwoLayerTallyActionsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\DAWTallyActionsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\DAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\DAWTwoLayerTallyActionsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\DAWTwoLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\pMCDAWTallyActionsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\IO\DetectorIOTests.cs">

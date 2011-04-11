@@ -20,7 +20,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// at the internal interface adds random number calls
     /// </summary>
     [TestFixture]
-    public class CAWTwoLayerTallyActionsTests
+    public class CAWTwoLayerDetectorsTests
     {
         private Output _output;
 

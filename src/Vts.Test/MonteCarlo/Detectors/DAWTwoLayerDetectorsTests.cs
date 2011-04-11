@@ -11,12 +11,15 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Detectors
 {
     /// <summary>
-    /// These tests execute an Analog MC simulation with 100 photons and verify
+    /// These tests execute a discrete absorption weighting (DAW) in 2layer
+    /// MC simulation with 100 photons and verify
     /// that the tally results match the linux results given the same seed
     /// mersenne twister STANDARD_TEST
+    /// NOTE that these results DO NOT match 1 layer results because the crossing
+    /// at the internal interface adds random number calls
     /// </summary>
     [TestFixture]
-    public class AnalogBidirectionalTallyActionsTests
+    public class DAWTwoLayerDetectorsTests
     {
         private Output _output;
 
@@ -32,7 +35,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new SimulationOptions(
                     0, 
                     RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Analog, 
+                    AbsorptionWeightingType.Discrete, 
                     PhaseFunctionType.HenyeyGreenstein,
                     DatabaseType.NoDatabaseGeneration, 
                     0),
@@ -49,7 +52,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
                         new LayerRegion(
-                            new DoubleRange(0.0, 20.0),
+                            new DoubleRange(0.0, 1.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(1.0, 20.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
@@ -72,7 +78,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(-200.0, 200.0, 401)), // y,
                     new ROfRhoAndOmegaDetectorInput(
                         new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 1000, 21)),
+                        new DoubleRange(0.0, 1000, 21)),    
                     new AOfRhoAndZDetectorInput(
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101)),
@@ -87,108 +93,101 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, Math.PI / 2, 2))
                 });
-
+                
             _output = new MonteCarloSimulation(input).Run();
         }
 
-        // validation values obtained from linux run using above input and seeded 
-        // the same for:
+        // validation values obtained from linux run using above input and 
+        // seeded the same for:
         // Diffuse Reflectance
         [Test]
-        public void validate_Analog_RDiffuse()
+        public void validate_DAW_two_layer_RDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Rd - 0.670833333), 0.000000001);
+            Assert.Less(Math.Abs(_output.Rd - 0.570818117), 0.000000001);
         }
         // Diffuse Reflectance
-        // comment out for now, uncomment when we figure out specular handling
         //[Test]
-        //public void validate_Analog_RTotal()
+        //public void validate_DAW_two_layer_RTotal()
         //{
-        //    Assert.Less(Math.Abs(_output.Rtot - 0.698611111), 0.000000001);
+        //    Assert.Less(Math.Abs(_output.Rtot - 0.598595895), 0.000000001);
         //}
         // Reflection R(rho)
         [Test]
-        public void validate_Analog_ROfRho()
+        public void validate_DAW_two_layer_ROfRho()
         {
-            Assert.Less(Math.Abs(_output.R_r[0] - 0.928403835), 0.000000001);
+            Assert.Less(Math.Abs(_output.R_r[1] - 0.102334844), 0.000000001);
         }
         // Reflection R(angle)
         [Test]
-        public void validate_Analog_ROfAngle()
+        public void validate_DAW_two_layer_ROfAngle()
         {
-            Assert.Less(Math.Abs(_output.R_a[0] - 0.0961235688), 0.0000000001);
+            Assert.Less(Math.Abs(_output.R_a[0] - 0.0817924093), 0.0000000001);
         }
         // Reflection R(rho,angle)
         [Test]
-        public void validate_Analog_ROfRhoAndAngle()
+        public void validate_DAW_two_layer_ROfRhoAndAngle()
         {
-            Assert.Less(Math.Abs(_output.R_ra[0, 0] - 0.133030792), 0.000000001);
+            Assert.Less(Math.Abs(_output.R_ra[1, 0] - 0.0146635384), 0.0000000001);
         }
         // Reflection R(rho,time)
         [Test]
-        public void validate_Analog_ROfRhoAndTime()
+        public void validate_DAW_two_layer_ROfRhoAndTime()
         {
-            Assert.Less(Math.Abs(_output.R_rt[2, 1] - 6.18935890), 0.00000001);
+            Assert.Less(Math.Abs(_output.R_rt[1, 0] - 10.2334844), 0.0000001);
         }
         // Reflection R(rho,omega)
-        [Test]
-        public void validate_Analog_ROfRhoAndOmega()
-        {
-            Assert.Less(Complex.Abs(
-                _output.R_rw[0, 0] - (0.9284030 - Complex.ImaginaryOne * 0.0007940711)), 0.000001);
-        }
+        //public void validate_DAW_two_layer_ROfRhoAndOmega()
+        //{
+        //    Assert.Less(Complex.Abs(
+        //        _output.R_rw[0, 0] - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
+        //}
         // Total Absorption
         [Test]
-        public void validate_Analog_ATotal()
+        public void validate_DAW_two_layer_ATotal()
         {
-            Assert.Less(Math.Abs(_output.Atot - 0.000562763362), 0.000000000001);
+            Assert.Less(Math.Abs(_output.Atot - 0.379223950), 0.000000001);
         }
         // Absorption A(rho,z)
         [Test]
-        public void validate_Analog_AOfRhoAndZ()
+        public void validate_DAW_two_layer_AOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_output.A_rz[0, 6] - 0.00617700489), 0.00000000001);
+            Assert.Less(Math.Abs(_output.A_rz[0, 0] - 0.308653049), 0.00000001);
         }
         // Diffuse Transmittance
         [Test]
-        public void validate_Analog_TDiffuse()
+        public void validate_DAW_two_layer_TDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Td - 0.0194444444), 0.0000000001);
+            Assert.Less(Math.Abs(_output.Td - 0.0221801550), 0.000000001);
         }
         // Transmittance T(rho)
         [Test]
-        public void validate_Analog_TOfRho()
+        public void validate_DAW_two_layer_TOfRho()
         {
-            Assert.Less(Math.Abs(_output.T_r[46] - 0.00332761231), 0.00000000001);
+            Assert.Less(Math.Abs(_output.T_r[54] - 0.000153880454), 0.00000000001);
         }
         // Transmittance T(angle)
         [Test]
-        public void validate_Analog_TOfAngle()
+        public void validate_DAW_two_layer_TOfAngle()
         {
-            Assert.Less(Math.Abs(_output.T_a[0] - 0.00278619040), 0.00000000001);
+            Assert.Less(Math.Abs(_output.T_a[0] - 0.00317818980), 0.00000000001);
         }
         // Transmittance T(rho,angle)
         [Test]
-        public void validate_Analog_TOfRhoAndAngle()
+        public void validate_DAW_two_layer_TOfRhoAndAngle()
         {
-            Assert.Less(Math.Abs(_output.T_ra[46, 0] - 0.000476812876), 0.000000000001);
+            Assert.Less(Math.Abs(_output.T_ra[54,0] - 0.0000220494982), 0.000000000001);
         }
         // Fluence Flu(rho,z)
         [Test]
-        public void validate_Analog_FluenceOfRhoAndZ()
+        public void validate_DAW_two_layer_FluenceOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_output.Flu_rz[0, 6] - 0.617700489), 0.000000001);
+            Assert.Less(Math.Abs(_output.Flu_rz[0, 0] - 30.8653049), 0.0000001);
         }
-        //[Test]
-        //public void validate_Analog_FluenceOfRhoAndZAndTime()
-        //{
-        //    Assert.Less(Math.Abs(_output.Flu_rzt[0, 6, 0] - 0.617700489), 0.000000001);
-        //}
         // Reflectance R(x,y)
         [Test]
-        public void validate_Analog_ROfXAndY()
+        public void validate_DAW_two_layer_ROfXAndY()
         {
-            Assert.Less(Math.Abs(_output.R_xy[198, 201] - 0.0097222222), 0.0000000001);
+            Assert.Less(Math.Abs(_output.R_xy[198, 201] - 0.00932274), 0.00000001);
         }
     }
 }

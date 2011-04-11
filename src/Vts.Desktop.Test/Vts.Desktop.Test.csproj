@@ -185,26 +185,26 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputTests.cs">
       <Link>MonteCarlo\DataStructures\SimulationInputTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogTallyActionsTests.cs">
-      <Link>MonteCarlo\Detectors\AnalogTallyActionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\AnalogDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWTallyActionsTests.cs">
-      <Link>MonteCarlo\Detectors\CAWTallyActionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\CAWDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWTwoLayerTallyActionsTests.cs">
-      <Link>MonteCarlo\Detectors\CAWTwoLayerTallyActionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWTallyActionsTests.cs">
-      <Link>MonteCarlo\Detectors\DAWTallyActionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWTwoLayerTallyActionsTests.cs">
-      <Link>MonteCarlo\Detectors\DAWTwoLayerTallyActionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWTwoLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWTwoLayerDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWTallyActionsTests.cs">
-      <Link>MonteCarlo\Detectors\pMCDAWTallyActionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCDAWDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWTwoLayerTallyActionsTests.cs">
-      <Link>MonteCarlo\Detectors\pMCDAWTwoLayerTallyActionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\IO\DetectorIOTests.cs">
       <Link>MonteCarlo\IO\DetectorIOTests.cs</Link>
