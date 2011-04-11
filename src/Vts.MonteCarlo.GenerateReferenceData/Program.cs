@@ -24,7 +24,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     PhaseFunctionType.HenyeyGreenstein,
                     true, // turn on photon biog write
                     1),
-                new CustomPointSourceInput(
+                new CustomPointSourceInputOld(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),
