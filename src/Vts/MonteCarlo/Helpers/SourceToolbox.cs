@@ -72,6 +72,28 @@ namespace Vts.MonteCarlo.Helpers
                 dir = GetDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, dir);
             if (flags.TranslationFromOriginFlag)
                 pos = GetPositionafterTranslation(pos, translate);
+        }
+
+        
+
+        /// <summary>
+        /// Update the direction and position after translation
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="dir"></param>
+        /// <param name="translate"></param>
+        /// <param name="rotateAxis"></param>
+        /// <param name="flags"></param>
+        public static void DoRotationandTranslationForGivenFlags(ref Position pos,
+            ref Direction dir,
+            PolarAzimuthalAngles rotateBeam,
+            ThreeAxisRotation rotateAxis,
+            SourceFlags flags)
+        {
+            if (flags.RotationFromInwardNormalFlag)
+                dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);
+            if (flags.RotationOfPrincipalSourceAxisFlag)
+                DoSourceRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, ref dir, ref pos);
         }   
 
 
@@ -115,6 +137,41 @@ namespace Vts.MonteCarlo.Helpers
 
             return (new Position(
             center.X + GetRandomFlatLocationOfAnyLine(paraX, rng),
+            center.Y,
+            center.Z));
+        }
+
+
+        /// <summary>
+        /// Returns a random position in a line (Flat distribution)        
+        /// </summary>
+        /// <param name="center">The center coordiantes of the line</param>
+        /// <param name="lengthX">The x-length of the line</param>        
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Position GetRandomSphericalSurfacePosition(Position center,
+            double radius,
+            Random rng)
+        {
+            double cost, sint, phi, cosp, sinp;
+            double temp;
+
+            if (radius == 0.0)
+            {
+                return (center);
+            }
+
+            //sampling cost           
+            cost = rng.NextDouble(0, Math.PI);
+            sint = Math.Sqrt(1.0 - cost * cost);
+
+            //sampling phi
+            phi = rng.NextDouble(0, 2 * Math.PI);
+            cosp = Math.Cos(phi);
+            sinp = Math.Sin(phi);
+
+            return (new Position(
+            center.X + radius * sinp,
             center.Y,
             center.Z));
         }
@@ -513,6 +570,39 @@ Random rng)
                 sint * cosp,
                 sint * sinp,
                 cost));
+        }
+
+        /// <summary>
+        /// Provides a polarazimuthal angle pair for a given lambertian random polar angle range and random azimuthal angle range
+        /// </summary>
+        /// <param name="polarAngleEmissionRange">The polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
+        /// <param name="rng">The random number generato</param>
+        /// <returns></returns>
+        public static PolarAzimuthalAngles GetRandomPolarAzimuthalForLambertianPolarAndAzimuthalAngleRange(DoubleRange polarAngleEmissionRange,
+            DoubleRange azimuthalAngleEmissionRange,
+            Random rng)       
+        {      
+            return (new PolarAzimuthalAngles(
+                Math.Asin(rng.NextDouble(Math.Cos(polarAngleEmissionRange.Start), Math.Cos(polarAngleEmissionRange.Stop))),
+                rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop)));
+        }
+
+
+        /// <summary>
+        /// Provides a polarazimuthal angle pair for a given uniform random polar angle range and random azimuthal angle range
+        /// </summary>
+        /// <param name="polarAngleEmissionRange">The polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
+        /// <param name="rng">The random number generato</param>
+        /// <returns></returns>
+        public static PolarAzimuthalAngles GetRandomPolarAzimuthalForUniformPolarAndAzimuthalAngleRange(DoubleRange polarAngleEmissionRange,
+            DoubleRange azimuthalAngleEmissionRange,
+            Random rng)
+        {
+            return (new PolarAzimuthalAngles(
+                Math.Acos(rng.NextDouble(Math.Cos(polarAngleEmissionRange.Start), Math.Cos(polarAngleEmissionRange.Stop))),
+                rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop)));
         }
 
         /// <summary>
