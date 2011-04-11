@@ -15,7 +15,8 @@ namespace Vts.Test.MonteCarlo.Detectors
 {
     /// <summary>
     /// These tests executes a MC simulation with 100 photons and verify
-    /// that the tally results match the linux results given the same seed.
+    /// that the tally results match either the reference results (no 
+    /// perturbation) or the the linux results given the same seed.
     /// The linux results are generated using the post-processing code in 
     /// the g_post subdirectory.
     /// mersenne twister STANDARD_TEST
@@ -34,7 +35,6 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             _referenceOutput = GenerateTwoLayerReferenceOutput();
         }
-        // todo: add test against linux results
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
         /// determines results equal to reference
@@ -49,7 +49,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     {
                         new pMCROfRhoAndTimeDetectorInput(
                             new DoubleRange(0.0, 10, 101),
-                            new DoubleRange(0.0, 10, 101),
+                            new DoubleRange(0.0, 1, 101),
                             new List<OpticalProperties>() { // perturbed ops
                                 _referenceInput.TissueInput.Regions[0].RegionOP,
                                 _referenceInput.TissueInput.Regions[1].RegionOP,
@@ -61,7 +61,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                     _referenceInput
                     );
             // validation value obtained from reference results
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[2, 0] - _referenceOutput.R_rt[2, 0]), 0.00000000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[1, 0] - _referenceOutput.R_rt[1, 0]), 0.00000000001);
+            // validation value obtained from linux run using above input and seeded the same
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[1, 0] - 10.2334844), 0.0000001);
         }
 
         /// <summary>
@@ -97,10 +99,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new DoubleRange(0.0, _layerThickness),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
-                            new DoubleRange(_layerThickness, 100.0),
+                            new DoubleRange(_layerThickness, 20.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
                     }
                 ),
@@ -109,7 +111,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
                     new ROfRhoAndTimeDetectorInput(
                         new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
+                        new DoubleRange(0.0, 1, 101)),
                 });
             return new MonteCarloSimulation(_referenceInput).Run();    
         }

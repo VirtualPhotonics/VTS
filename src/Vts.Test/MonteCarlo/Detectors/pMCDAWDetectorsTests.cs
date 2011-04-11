@@ -35,7 +35,6 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             _referenceOutput = GenerateHomogeneousReferenceOutput();
         }
-        // todo: add test against linux results
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
         /// determines results equal to reference
@@ -50,7 +49,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     {
                         new pMCROfRhoAndTimeDetectorInput(
                             new DoubleRange(0.0, 10, 101),
-                            new DoubleRange(0.0, 10, 101),
+                            new DoubleRange(0.0, 1, 101),
                             // set perturbed ops to reference ops
                             new List<OpticalProperties>() { 
                                 _referenceInput.TissueInput.Regions[0].RegionOP,
@@ -62,8 +61,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                     _referenceInput
                     );
             // validation value obtained from reference non-pMC run
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[2, 0] - _referenceOutput.R_rt[2, 0]), 0.00000000001);
-        }
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - _referenceOutput.R_rt[0, 0]), 0.00000000001);
+            // validation value obtained from linux run using above input and seeded the same
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - 61.5238307), 0.0000001);
+       }
         /// <summary>
         /// Define SimulationInput to describe homogeneous media
         /// </summary>
@@ -93,10 +94,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
                         new LayerRegion(
-                            new DoubleRange(0.0, 100.0),
+                            new DoubleRange(0.0, 20.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
@@ -105,7 +106,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
                     new ROfRhoAndTimeDetectorInput(
                         new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
+                        new DoubleRange(0.0, 1, 101)),
                 }
             );
             return new MonteCarloSimulation(_referenceInput).Run();
