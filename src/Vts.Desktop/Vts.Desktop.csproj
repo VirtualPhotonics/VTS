@@ -655,6 +655,9 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISourceInput.cs">
       <Link>MonteCarlo\Interfaces\ISourceInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISourceProfile.cs">
+      <Link>MonteCarlo\Interfaces\ISourceProfile.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITerminationDetector.cs">
       <Link>MonteCarlo\Interfaces\ITerminationDetector.cs</Link>
     </Compile>
@@ -825,6 +828,18 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAGaussian.cs">
       <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceWithNAGaussian.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs">
+      <Link>MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\Gaussian1DSourceProfile.cs">
+      <Link>MonteCarlo\Sources\SourceProfiles\Gaussian1DSourceProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\Gaussian2DSourceProfile.cs">
+      <Link>MonteCarlo\Sources\SourceProfiles\Gaussian2DSourceProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\Gaussian3DSourceProfile.cs">
+      <Link>MonteCarlo\Sources\SourceProfiles\Gaussian3DSourceProfile.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\CuboidalSourceFlatIsotropic.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\CuboidalSourceFlatIsotropic.cs</Link>
