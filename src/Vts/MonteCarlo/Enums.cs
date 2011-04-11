@@ -1,5 +1,6 @@
 namespace Vts.MonteCarlo
 {
+
     /// <summary>
     /// All Monte Carlo enums.
     /// </summary>
@@ -23,6 +24,15 @@ namespace Vts.MonteCarlo
         Cylindrical,
         Line,
     }
+
+    public enum SourceProfileType
+    {
+        Flat,
+        Gaussian1D,
+        Gaussian2D,
+        Gaussian3D,
+    }
+
     public enum BeamType
     {
         Gaussian,
