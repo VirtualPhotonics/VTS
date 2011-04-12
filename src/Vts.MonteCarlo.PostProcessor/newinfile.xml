@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SimulationInput xmlns="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <DetectorInput i:type="a:DetectorInput" xmlns:a="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo.Detectors">
+    <a:AWT>Discrete</a:AWT>
+    <a:Angle xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+      <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">2</Count>
+      <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">1.5707963267948966</Delta>
+      <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Start>
+      <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">1.5707963267948966</Stop>
+    </a:Angle>
+    <a:Omega xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+      <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">21</Count>
+      <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">50</Delta>
+      <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Start>
+      <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">1000</Stop>
+    </a:Omega>
+    <a:Rho xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+      <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">201</Count>
+      <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">0.2</Delta>
+      <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Start>
+      <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">40</Stop>
+    </a:Rho>
+    <a:TallyTypeList>
+      <TallyType>RDiffuse</TallyType>
+      <TallyType>ROfAngle</TallyType>
+      <TallyType>ROfRho</TallyType>
+      <TallyType>ROfRhoAndAngle</TallyType>
+      <TallyType>ROfRhoAndTime</TallyType>
+      <TallyType>ROfXAndY</TallyType>
+      <TallyType>ROfRhoAndOmega</TallyType>
+      <TallyType>TDiffuse</TallyType>
+      <TallyType>TOfAngle</TallyType>
+      <TallyType>TOfRho</TallyType>
+      <TallyType>TOfRhoAndAngle</TallyType>
+    </a:TallyTypeList>
+    <a:Time xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+      <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">801</Count>
+      <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">0.005</Delta>
+      <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Start>
+      <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">4</Stop>
+    </a:Time>
+    <a:X xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+      <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">81</Count>
+      <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">2.5</Delta>
+      <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">-100</Start>
+      <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">100</Stop>
+    </a:X>
+    <a:Y xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+      <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">81</Count>
+      <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">2.5</Delta>
+      <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">-100</Start>
+      <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">100</Stop>
+    </a:Y>
+    <a:Z xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+      <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">11</Count>
+      <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">1</Delta>
+      <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Start>
+      <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">10</Stop>
+    </a:Z>
+  </DetectorInput>
+  <N>100</N>
+  <Options>
+    <AbsorptionWeightingType>Discrete</AbsorptionWeightingType>
+    <RandomNumberGeneratorType>MersenneTwister</RandomNumberGeneratorType>
+    <Seed>19382</Seed>
+    <SimulationIndex>0</SimulationIndex>
+    <WriteHistories>true</WriteHistories>
+  </Options>
+  <OutputFileName>Output</OutputFileName>
+  <SourceInput i:type="a:CustomPointSourceInput" xmlns:a="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo.Sources">
+    <a:PhiRange xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+      <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">1</Count>
+      <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Delta>
+      <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Start>
+      <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Stop>
+    </a:PhiRange>
+    <a:PointLocation xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+      <b:X>0</b:X>
+      <b:Y>0</b:Y>
+      <b:Z>0</b:Z>
+    </a:PointLocation>
+    <a:SolidAngleAxis xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+      <b:Ux>0</b:Ux>
+      <b:Uy>0</b:Uy>
+      <b:Uz>1</b:Uz>
+    </a:SolidAngleAxis>
+    <a:ThetaRange xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+      <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">1</Count>
+      <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Delta>
+      <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Start>
+      <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Stop>
+    </a:ThetaRange>
+  </SourceInput>
+  <TissueInput i:type="a:MultiLayerTissueInput" xmlns:a="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo.Tissues">
+    <a:Regions xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+      <b:anyType i:type="a:LayerRegion">
+        <a:RegionOP xmlns:c="http://schemas.datacontract.org/2004/07/Vts">
+          <c:G>0</c:G>
+          <c:Mua>1E-10</c:Mua>
+          <c:Mus>0</c:Mus>
+          <c:Musp>0</c:Musp>
+          <c:N>1</c:N>
+        </a:RegionOP>
+        <a:ZRange xmlns:c="http://schemas.datacontract.org/2004/07/Vts.Common">
+          <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">2</Count>
+          <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">INF</Delta>
+          <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">-INF</Start>
+          <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Stop>
+        </a:ZRange>
+      </b:anyType>
+      <b:anyType i:type="a:LayerRegion">
+        <a:RegionOP xmlns:c="http://schemas.datacontract.org/2004/07/Vts">
+          <c:G>0.8</c:G>
+          <c:Mua>0</c:Mua>
+          <c:Mus>5.0000000000000009</c:Mus>
+          <c:Musp>1</c:Musp>
+          <c:N>1.4</c:N>
+        </a:RegionOP>
+        <a:ZRange xmlns:c="http://schemas.datacontract.org/2004/07/Vts.Common">
+          <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">2</Count>
+          <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">100</Delta>
+          <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Start>
+          <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">100</Stop>
+        </a:ZRange>
+      </b:anyType>
+      <b:anyType i:type="a:LayerRegion">
+        <a:RegionOP xmlns:c="http://schemas.datacontract.org/2004/07/Vts">
+          <c:G>0</c:G>
+          <c:Mua>1E-10</c:Mua>
+          <c:Mus>0</c:Mus>
+          <c:Musp>0</c:Musp>
+          <c:N>1</c:N>
+        </a:RegionOP>
+        <a:ZRange xmlns:c="http://schemas.datacontract.org/2004/07/Vts.Common">
+          <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">2</Count>
+          <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">INF</Delta>
+          <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">100</Start>
+          <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">INF</Stop>
+        </a:ZRange>
+      </b:anyType>
+    </a:Regions>
+  </TissueInput>
+</SimulationInput>
