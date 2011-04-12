@@ -1,4 +1,4 @@
-#define GENERATE_INFILE
+//#define GENERATE_INFILE
 
 using System;
 using System.Collections.Generic;
@@ -92,7 +92,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
         public string OutputFile { get; set; }
 
         public bool RunUnmanagedCode { get; set; }
-        public bool WriteHistories { get; set; }
+        public DatabaseType WriteHistories { get; set; }
 
         public IEnumerable<SimulationInput> BatchQuery { get; set; }
         public string[] BatchNameQuery { get; set; }
@@ -104,7 +104,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             InputFile = "";
             OutputFile = "results";
             RunUnmanagedCode = false;
-            WriteHistories = false;
+            WriteHistories = DatabaseType.NoDatabaseGeneration;
             BatchQuery = null;
             BatchNameQuery = null;
             Input = null;
@@ -358,11 +358,13 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    Console.WriteLine("Run unmanaged code");
                    MonteCarloSetup.RunUnmanagedCode = true;
                }),
-               new CommandLine.Switch("/history", "/h", val =>
-               {
-                   Console.WriteLine("Write histories");
-                   MonteCarloSetup.WriteHistories = true;
-               }),
+               // ckh comment out until decide whether writing the database should be
+               // added.
+               //new CommandLine.Switch("/database", "/d", val =>
+               //{
+               //    Console.WriteLine("Database type");
+               //    MonteCarloSetup.WriteHistories = val.GetType;
+               //}),
                new CommandLine.Switch("inputparam", val =>
                {
                    MonteCarloSetup.SetRangeValues(val);

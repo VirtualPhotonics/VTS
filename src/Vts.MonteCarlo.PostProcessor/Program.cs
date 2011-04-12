@@ -1,8 +1,9 @@
-//#define GENERATE_INFILE
+#define GENERATE_INFILE
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Vts.Common;
@@ -19,6 +20,24 @@ using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.PostProcessor
 {
+    // Detector inputs
+    [KnownType(typeof(AOfRhoAndZDetectorInput))]
+    [KnownType(typeof(ATotalDetectorInput))]
+    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
+    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
+    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
+    [KnownType(typeof(pMCROfRhoDetectorInput))]
+    [KnownType(typeof(RDiffuseDetectorInput))]
+    [KnownType(typeof(ROfAngleDetectorInput))]
+    [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
+    [KnownType(typeof(ROfRhoAndOmegaDetectorInput))]
+    [KnownType(typeof(ROfRhoAndTimeDetectorInput))]
+    [KnownType(typeof(ROfRhoDetectorInput))]
+    [KnownType(typeof(ROfXAndYDetectorInput))]
+    [KnownType(typeof(TDiffuseDetectorInput))]
+    [KnownType(typeof(TOfAngleDetectorInput))]
+    [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
+    [KnownType(typeof(TOfRhoDetectorInput))]
     #region CommandLine Arguments Parser
 
     /* Simple commandline argument parser written by Ananth B. http://www.ananthonline.net */
@@ -88,18 +107,18 @@ namespace Vts.MonteCarlo.PostProcessor
 
         public bool ValidInput { get; set; }
 
-        public string DetectorInputFile { get; set; }
+        public string DetectorInputFilename { get; set; }
         public string DatabaseFile { get; set; }
         public string SimulationInputFile { get; set; }
         
-        public IList<IDetectorInput> DetectorInput { get; set; }
+        public List<IDetectorInput> DetectorInput { get; set; }
         public PhotonDatabase Database { get; set; }
         public SimulationInput SimulationInputFromDatabaseGeneration { get; set; }
 
         public PostProcessorSetup()
         {
             ValidInput = true;
-            DetectorInputFile = "";
+            DetectorInputFilename = "";
             DatabaseFile = "";
             SimulationInputFile = "";
             DetectorInput = null;
@@ -110,27 +129,28 @@ namespace Vts.MonteCarlo.PostProcessor
         /// </summary>
         public bool ReadInputFromFile()
         {
-            if (DetectorInputFile.Length > 0)
+            if (DetectorInputFilename.Length > 0)
             {
-                path = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(DetectorInputFile)) + "\\";
-                basename = System.IO.Path.GetFileNameWithoutExtension(DetectorInputFile);
-                DetectorInputFile = path + basename + ".xml";
+                path = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(DetectorInputFilename)) + "\\";
+                basename = System.IO.Path.GetFileNameWithoutExtension(DetectorInputFilename);
+                DetectorInputFilename = path + basename + ".xml";
 
                 // comment out following for now 3/16/11
-                //if (System.IO.File.Exists(DetectorInputFile))
-                //{
-                //    DetectorInput = DetectorInput.FromFile(DetectorInputFile);
-                //}
-                //else
-                //{
-                //    Console.WriteLine("\nThe following input file could not be found: " + basename + ".xml");
-                //    return false;
-                //}
+                if (System.IO.File.Exists(DetectorInputFilename))
+                {
+                    DetectorInput = FileIO.ReadFromXML<List<IDetectorInput>>(DetectorInputFilename);
+                }
+                else
+                {
+                    Console.WriteLine("\nThe following input file could not be found: " + basename + ".xml");
+                    return false;
+                }
             }
             else
             {
                 Console.WriteLine("\nNo detector input file specified. Using newdetectorinfile.xml from resources... ");
-                //DetectorInput = FileIO.ReadFromXML<DetectorInput>("newdetectorinfile.xml"); //comment out 3/16/11
+                DetectorInput = FileIO.ReadFromXML<List<IDetectorInput>>("newdetectorinfile.xml"); //comment out 3/16/11
+                
             }
             if (DatabaseFile.Length > 0)
             {
@@ -141,6 +161,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 if (System.IO.File.Exists(DatabaseFile))
                 {
                     Database = PhotonDatabase.FromFile(DatabaseFile);
+                    SimulationInputFromDatabaseGeneration = Database.SimulationInput;
                 }
                 else
                 {
@@ -151,31 +172,9 @@ namespace Vts.MonteCarlo.PostProcessor
             else
             {
                 Console.WriteLine("\nNo input file specified. Using database from debug directory... ");
-                Database = PhotonDatabase.FromFile(
-                    "Output_photonBiographies");
+                Database = PhotonDatabase.FromFile("Output_photonExitDatabase");
+                SimulationInputFromDatabaseGeneration = Database.SimulationInput;
             }
-            if (SimulationInputFile.Length > 0)
-            {
-                path = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(SimulationInputFile)) + "\\";
-                basename = System.IO.Path.GetFileNameWithoutExtension(SimulationInputFile);
-                SimulationInputFile = path + basename + ".xml";
-
-                if (System.IO.File.Exists(SimulationInputFile))
-                {
-                    SimulationInputFromDatabaseGeneration = SimulationInput.FromFile(SimulationInputFile);
-                }
-                else
-                {
-                    Console.WriteLine("\nThe following SimulationInput.xml file could not be found: " + basename);
-                    return false;
-                }
-            }
-            else
-            {
-                Console.WriteLine("\nNo simulation input file specified. Using .xml from resources... ");
-                SimulationInputFromDatabaseGeneration = FileIO.ReadFromXML<SimulationInput>("newinfile.xml"); 
-            }
-
             return true;
         }
 
@@ -196,6 +195,7 @@ namespace Vts.MonteCarlo.PostProcessor
             DetectorIO.WriteDetectorToFile(rOfRhoAndTime, folderPath);
         }
     }
+
     
     class Program
     {
@@ -229,8 +229,8 @@ namespace Vts.MonteCarlo.PostProcessor
                     new TOfRhoAndAngleDetectorInput(
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, Math.PI / 2, 2))
-                });
-            tempInput.ToFile("newinfile.xml");
+                };
+            tempInput.WriteToXML<List<IDetectorInput>>("newinfile.xml");
 #endif
     #endregion
 
@@ -238,23 +238,18 @@ namespace Vts.MonteCarlo.PostProcessor
                 () =>
                     {
                         Console.WriteLine("Usages are:");
-                        Console.WriteLine("mc_post detectorinputinfile=mydetectorinput datafile=mydatafile simulationinputfile=mysimulationinput");
+                        Console.WriteLine("mc_post detectorinputinfile=mydetectorinput datafile=mydatafile");
                         Console.WriteLine();
                     },
                 new CommandLine.Switch("detectorinputinfile", val =>
                     {
                         Console.WriteLine("input file specified as {0}", val.First());
-                        PostProcessorSetup.DetectorInputFile = val.First();
+                        PostProcessorSetup.DetectorInputFilename = val.First();
                     }),
                 new CommandLine.Switch("datafile", val =>
                     {
                         Console.WriteLine("database file specified as {0}", val.First());
                         PostProcessorSetup.DatabaseFile = val.First();
-                    }),
-                new CommandLine.Switch("simulationinputfile", val =>
-                    {
-                        Console.WriteLine("simulation input file specified as {0}", val.First());
-                        PostProcessorSetup.SimulationInputFile = val.First();
                     })
             );
 
