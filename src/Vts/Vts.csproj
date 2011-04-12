@@ -338,6 +338,8 @@
     </Compile>
     <Compile Include="MonteCarlo\Sources\PointSources\PointSourceIsotropic.cs" />
     <Compile Include="MonteCarlo\Sources\PointSources\PointSourceWithNA.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\CuboidalSurfaceEmmitingSourceFlat.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\CuboidalSurfaceEmmitingSourceCustomFlat.cs" />
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceCollimatedFlat.cs" />
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceCollimatedGaussian.cs" />
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceConvergingFlat.cs" />

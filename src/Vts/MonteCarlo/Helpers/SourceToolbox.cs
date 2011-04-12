@@ -19,7 +19,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="rotateAxis"></param>
         /// <param name="translate"></param>
         /// <param name="flags"></param>
-        public static void DoRotationandTranslationForGivenFlags(ref Position pos, 
+        public static void DoRotationandTranslationForGivenFlags(
+            ref Position pos, 
             ref Direction dir,
             Position translate,
             PolarAzimuthalAngles rotateBeam, 
@@ -42,7 +43,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="rotateBeam"></param>
         /// <param name="translate"></param>
         /// <param name="flags"></param>
-        public static void DoRotationandTranslationForGivenFlags(ref Position pos,
+        public static void DoRotationandTranslationForGivenFlags(
+            ref Position pos,
             ref Direction dir,
             Position translate,
             PolarAzimuthalAngles rotateBeam,    
@@ -62,7 +64,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="translate"></param>
         /// <param name="rotateAxis"></param>
         /// <param name="flags"></param>
-        public static void DoRotationandTranslationForGivenFlags(ref Position pos,
+        public static void DoRotationandTranslationForGivenFlags(
+            ref Position pos,
             ref Direction dir,
             Position translate,
             ThreeAxisRotation rotateAxis,
@@ -84,7 +87,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="translate"></param>
         /// <param name="rotateAxis"></param>
         /// <param name="flags"></param>
-        public static void DoRotationandTranslationForGivenFlags(ref Position pos,
+        public static void DoRotationandTranslationForGivenFlags(
+            ref Position pos,
             ref Direction dir,
             PolarAzimuthalAngles rotateBeam,
             ThreeAxisRotation rotateAxis,
@@ -104,7 +108,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="lengthX">The x-length of the line</param>        
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomFlatLinePosition(Position center,
+        public static Position GetRandomFlatLinePosition(
+            Position center,
             double lengthX,
             Random rng)
         {
@@ -126,7 +131,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="paraX">Minmum and maximum parameters of the line</param>        
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomFlatLinePosition(Position center,
+        public static Position GetRandomFlatLinePosition(
+            Position center,
             DoubleRange paraX,
             Random rng)
         {
@@ -149,7 +155,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="lengthX">The x-length of the line</param>        
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomSphericalSurfacePosition(Position center,
+        public static Position GetRandomSphericalSurfacePosition(
+            Position center,
             double radius,
             Random rng)
         {
@@ -184,7 +191,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="stdevX">The standard deviation of the distribution along the x-axis</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomGaussianLinePosition(Position center,
+        public static Position GetRandomGaussianLinePosition(
+            Position center,
             double lengthX,
             double stdevX,
             Random rng)
@@ -215,7 +223,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="lengthY">The y-length of the rectangle</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomFlatRectangularPosition(Position center,
+        public static Position GetRandomFlatRectangularPosition(
+            Position center,
             double lengthX,
             double lengthY,
             Random rng)
@@ -242,12 +251,13 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="stdevY">The standard deviation of the distribution along the y-axis</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomGaussianRectangularPosition(Position center,
+        public static Position GetRandomGaussianRectangularPosition(
+            Position center,
             double lengthX,
             double lengthY,
             double stdevX,
             double stdevY,
-Random rng)
+            Random rng)
         {
             if ((lengthX == 0.0) && (lengthY == 0.0))
             {
@@ -277,7 +287,8 @@ Random rng)
         /// <param name="lengthZ">The z-length of the cuboid</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomFlatCuboidPosition(Position center,
+        public static Position GetRandomFlatCuboidPosition(
+            Position center,
             double lengthX,
             double lengthY,
             double lengthZ,
@@ -305,7 +316,8 @@ Random rng)
         /// <param name="zAxisRange">The minimum and maximum parameters of the z-length</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomFlatCuboidPosition(Position center,
+        public static Position GetRandomFlatCuboidPosition(
+            Position center,
             DoubleRange xAxisRange,
             DoubleRange yAxisRange,
             DoubleRange zAxisRange,
@@ -337,7 +349,8 @@ Random rng)
         /// <param name="stdevZ">The standard deviation of the distribution along the z-axis</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomGaussianCuboidPosition(Position center,
+        public static Position GetRandomGaussianCuboidPosition(
+            Position center,
             double lengthX,
             double stdevX,
             double lengthY,
@@ -366,7 +379,10 @@ Random rng)
         /// <param name="radius">The radius of the circle</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomFlatCircularPosition(Position center, double radius, Random rng)
+        public static Position GetRandomFlatCircularPosition(
+            Position center, 
+            double radius, 
+            Random rng)
         {
             if (radius == 0.0)
             {
@@ -390,7 +406,8 @@ Random rng)
         /// <param name="stdev">The standard deviation of the distribution</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>       
-        public static Position GetRandomGaussianCircularPosition(Position center,
+        public static Position GetRandomGaussianCircularPosition(
+            Position center,
             double radius,
             double stdev,
             Random rng)
@@ -426,7 +443,8 @@ Random rng)
         /// <param name="b">'b' parameter of the ellipse</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomFlatEllipsePosition(Position center,
+        public static Position GetRandomFlatEllipsePosition(
+            Position center,
             double a,
             double b,
             Random rng)
@@ -460,7 +478,8 @@ Random rng)
         /// <param name="stdevY">The standard deviation of the distribution along the y-axis</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>   
-        public static Position GetRandomGaussianEllipsePosition(Position center,
+        public static Position GetRandomGaussianEllipsePosition(
+            Position center,
             double a,
             double b,
             double stdevX,
@@ -478,7 +497,12 @@ Random rng)
             /*eliminate points outside the ellipse */
             do
             {
-                GaussianDistributedDoubleRandomNumberBoxMuller1(ref x, ref y, stdevX, stdevY, rng);
+                GaussianDistributedDoubleRandomNumberBoxMuller1(
+                    ref x, 
+                    ref y, 
+                    stdevX, 
+                    stdevY, 
+                    rng);
                 r = x * x + y * y;
             }
             while (r <= 1.0);
@@ -497,7 +521,8 @@ Random rng)
         /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Direction GetRandomAzimuthalAngle(double polarAngle,
+        public static Direction GetRandomAzimuthalAngle(
+            double polarAngle,
             DoubleRange azimuthalAngleEmissionRange,
             Random rng)
         {
@@ -524,7 +549,8 @@ Random rng)
         /// <param name="azimuthalAngle">Constant azimuthal angle</param>
         /// <param name="rng">The random number generato</param>
         /// <returns></returns>
-        public static Direction GetRandomDirectionForAPolarAngle(DoubleRange polarAngleEmissionRange,
+        public static Direction GetRandomDirectionForAPolarAngle(
+            DoubleRange polarAngleEmissionRange,
             double azimuthalAngle,
             Random rng)
         {
@@ -551,7 +577,8 @@ Random rng)
         /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
         /// <param name="rng">The random number generato</param>
         /// <returns></returns>
-        public static Direction GetRandomDirectionForPolarAndAzimuthalAngleRange(DoubleRange polarAngleEmissionRange,
+        public static Direction GetRandomDirectionForPolarAndAzimuthalAngleRange(
+            DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Random rng)
         {
@@ -580,7 +607,8 @@ Random rng)
         /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
         /// <param name="rng">The random number generato</param>
         /// <returns></returns>
-        public static PolarAzimuthalAngles GetRandomPolarAzimuthalForUniformPolarAndAzimuthalAngleRange(DoubleRange polarAngleEmissionRange,
+        public static PolarAzimuthalAngles GetRandomPolarAzimuthalForUniformPolarAndAzimuthalAngleRange(
+            DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Random rng)
         {
@@ -916,7 +944,9 @@ Random rng)
         /// <param name="length">The length of the line</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static double GetRandomFlatLocationOfSymmetricalLine(double length, Random rng)
+        public static double GetRandomFlatLocationOfSymmetricalLine(
+            double length, 
+            Random rng)
         {            
             return length * (rng.NextDouble() - 0.5);
         }
@@ -928,7 +958,10 @@ Random rng)
         /// <param name="stdev">Standard deviation</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static double GetRandomGaussianLocationOfSymmetricalLine(double length, double stdev, Random rng)
+        public static double GetRandomGaussianLocationOfSymmetricalLine(
+            double length, 
+            double stdev, 
+            Random rng)
         {
             double nrng = 0.0;
             do {GaussianDistributedSingleRandomNumberBoxMuller1(ref nrng, 0.5 * length * stdev, rng);}
@@ -942,7 +975,9 @@ Random rng)
         /// <param name="linepara">Start and end parameters of the line</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static double GetRandomFlatLocationOfAnyLine(DoubleRange linepara, Random rng)
+        public static double GetRandomFlatLocationOfAnyLine(
+            DoubleRange linepara, 
+            Random rng)
         {
             return rng.NextDouble(linepara.Start, linepara.Stop);
         }
@@ -953,7 +988,10 @@ Random rng)
         /// <param name="nrng1">normally distributed random number 1</param>
         /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
         /// <param name="rng">The random number generator</param>
-        public static void GaussianDistributedSingleRandomNumberBoxMuller1(ref double nrng1, double stdev1, Random rng)
+        public static void GaussianDistributedSingleRandomNumberBoxMuller1(
+            ref double nrng1, 
+            double stdev1, 
+            Random rng)
         {
             double RN1, RN2;
             double w;
@@ -979,7 +1017,12 @@ Random rng)
         /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
         /// <param name="stdev2">standard deviation of the normally distributed random number 2</param>
         /// <param name="rng">The random number generator</param>
-        public static void GaussianDistributedDoubleRandomNumberBoxMuller1(ref double nrng1, ref double nrng2, double stdev1, double stdev2, Random rng)
+        public static void GaussianDistributedDoubleRandomNumberBoxMuller1(
+            ref double nrng1, 
+            ref double nrng2, 
+            double stdev1, 
+            double stdev2, 
+            Random rng)
         {
             double RN1, RN2;
             double w;
@@ -1004,7 +1047,10 @@ Random rng)
         /// <param name="nrng1">normally distributed random number 1</param>
         /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>        
         /// <param name="rng">The random number generator</param>
-        public static void GaussianDistributedSingleRandomNumberBoxMuller2(ref double nrng1, double stdev1, Random rng)
+        public static void GaussianDistributedSingleRandomNumberBoxMuller2(
+            ref double nrng1, 
+            double stdev1, 
+            Random rng)
         {
             double RN1, RN2;
             double cosRN1, sinRN1;
@@ -1025,7 +1071,12 @@ Random rng)
         /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
         /// <param name="stdev2">standard deviation of the normally distributed random number 2</param>
         /// <param name="rng">The random number generator</param>
-        public static void GaussianDistributedDoubleRandomNumberBoxMuller2(ref double nrng1, ref double nrng2, double stdev1, double stdev2, Random rng)
+        public static void GaussianDistributedDoubleRandomNumberBoxMuller2(
+            ref double nrng1, 
+            ref double nrng2, 
+            double stdev1, 
+            double stdev2, 
+            Random rng)
         {
             double RN1, RN2;
             double cosRN1, sinRN1;
@@ -1047,13 +1098,103 @@ Random rng)
         /// <param name="oldPosition">The old location</param>
         /// <param name="newPosition">Translation coordinats relative to the origin</param>
         /// <returns></returns>
-        public static Position GetPositionafterTranslation(Position oldPosition, Position translation)
+        public static Position GetPositionafterTranslation(
+            Position oldPosition, 
+            Position translation)
         {
             return (new Position(
                 oldPosition.X + translation.X,
                 oldPosition.Y + translation.Y,
                 oldPosition.Z + translation.Z));
         }
+
+
+        /// <summary>
+        /// Update the direction and position in the cuboid surface after sampling
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="position"></param>
+        /// <param name="l"></param>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
+        /// <param name="rng"></param>
+        public static void DoDirectionAndPositionForCuboidSurface(
+            ref Direction direction,
+            ref Position position,
+            double l,
+            double w,
+            double h,
+            Random rng)
+        {
+            double lw, hw, lh;
+            double temp1;
+            Position tempPosition = new Position();
+
+            lw = l * w;
+            hw = h * w;
+            lh = l * h;
+
+            temp1= 2 * (lw + hw + lh) *rng.NextDouble();
+
+            if (temp1 < lw)
+            {
+                position = GetRandomFlatRectangularPosition(tempPosition, l, w, rng);
+                position.X = tempPosition.X;
+                position.Y = tempPosition.Y;
+                position.Z = 0.5*h;                
+            }
+            else if (temp1 < 2*lw)
+            {
+                position = GetRandomFlatRectangularPosition(tempPosition, l, w, rng);
+                position.X = tempPosition.X;
+                position.Y = tempPosition.Y;
+                position.Z = -0.5*h;
+
+                direction = GetDirectionAfterRotationAroundxAxis(Math.PI, direction);
+            }
+            else if (temp1 < (2 * lw + hw) )
+            {
+                position = GetRandomFlatRectangularPosition(tempPosition, h, w, rng);
+                position.X = 0.5 * l;
+                position.Y = tempPosition.Y;
+                position.Z = tempPosition.X;
+
+                direction = GetDirectionAfterRotationAroundyAxis(0.5*Math.PI, direction);
+            }
+            else if (temp1 < 2 * (lw + hw))
+            {
+                position = GetRandomFlatRectangularPosition(tempPosition, h, w, rng);
+                position.X = -0.5 * l;
+                position.Y = tempPosition.Y;
+                position.Z = tempPosition.X;
+
+                direction = GetDirectionAfterRotationAroundyAxis(-0.5 * Math.PI, direction);
+            }
+            else if (temp1 < (2 * (lw + hw) + lh))
+            {
+                position = GetRandomFlatRectangularPosition(tempPosition, l, h, rng);
+                position.X = tempPosition.X;
+                position.Y = 0.5 * w;
+                position.Z = tempPosition.Y;
+
+                direction = GetDirectionAfterRotationAroundxAxis(0.5 * Math.PI, direction);
+            }
+            else 
+            {
+                position = GetRandomFlatRectangularPosition(tempPosition, l, h, rng);
+                position.X = tempPosition.X;
+                position.Y = -0.5 * w;
+                position.Z = tempPosition.Y;
+
+                direction = GetDirectionAfterRotationAroundxAxis(-0.5 * Math.PI, direction);
+            }
+
+           
+
+
+        }
+
+
 
     }
 }
