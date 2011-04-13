@@ -14,24 +14,22 @@ namespace Vts.MonteCarlo.PhotonData
         /// <summary>
         /// Returns an instance of PhotonDatabase
         /// </summary>
-        /// <param name="simulationInput">The details of the simulation that generated this result</param>
-        public PhotonDatabase(SimulationInput simulationInput)
+         public PhotonDatabase()
         {
-            SimulationInput = simulationInput;
         }
 
         /// <summary>
         /// Do not use this overload, it is only for serialization purposes
         /// </summary>
-        public PhotonDatabase()
-            : this(new SimulationInput())
-        {
-        }
+        //public PhotonDatabase()
+        //    : this(new SimulationInput())
+        //{
+        //}
 
         /// <summary>
         /// The details of the simulation that generated this result
         /// </summary>
-        public SimulationInput SimulationInput { get; set; }
+        //public SimulationInput SimulationInput { get; set; }
 
         /// <summary>
         /// Static helper method to simplify reading from file

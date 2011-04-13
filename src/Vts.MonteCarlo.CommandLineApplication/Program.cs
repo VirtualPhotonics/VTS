@@ -222,6 +222,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
                 Output detectorResults = mc.Run();
 
+                input.ToFile(p + "\\" + basename);
+
                 foreach (var result in detectorResults.ResultsDictionary.Values)
                 {
                     // save all detector data to the specified folder
@@ -283,6 +285,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Discrete,
                      PhaseFunctionType.HenyeyGreenstein,
+                     //new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
                      null,
                      0),
                 new CustomPointSourceInput(

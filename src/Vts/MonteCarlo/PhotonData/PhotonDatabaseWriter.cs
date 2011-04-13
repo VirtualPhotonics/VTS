@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.PhotonData
     {
         public PhotonDatabaseWriter(string filename)
             //: base(filename, new PhotonDatabase(), new PhotonDataPointSerializer())
-            : base(filename, new PhotonDatabase(new SimulationInput { N = 1000 }), new PhotonDataPointSerializer())
+            : base(filename, new PhotonDatabase(), new PhotonDataPointSerializer())
         {
         }
     }
