@@ -39,7 +39,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Analog, 
                     PhaseFunctionType.Bidirectional,
-                    DatabaseType.NoDatabaseGeneration, 
+                    null, 
                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

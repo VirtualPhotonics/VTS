@@ -92,7 +92,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
         public string OutputFile { get; set; }
 
         public bool RunUnmanagedCode { get; set; }
-        public DatabaseType WriteHistories { get; set; }
+        public IList<DatabaseType> WriteDatabases { get; set; }
 
         public IEnumerable<SimulationInput> BatchQuery { get; set; }
         public string[] BatchNameQuery { get; set; }
@@ -104,7 +104,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             InputFile = "";
             OutputFile = "results";
             RunUnmanagedCode = false;
-            WriteHistories = DatabaseType.NoDatabaseGeneration;
+            WriteDatabases = null;
             BatchQuery = null;
             BatchNameQuery = null;
             Input = null;
@@ -283,7 +283,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Discrete,
                      PhaseFunctionType.HenyeyGreenstein,
-                     DatabaseType.NoDatabaseGeneration,
+                     null,
                      0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

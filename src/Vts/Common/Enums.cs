@@ -175,11 +175,9 @@ namespace Vts
 
     public enum DatabaseType
     {
-        NoDatabaseGeneration,
         PhotonExitDataPoints,
-        PhotonExitDataPointsAndCollisionInfo,
+        CollisionInfo,
         AllPhotonDataPoints,
-        AllPhotonDataPointsAndCollisionInfo,
     }
 
     public enum InputParameterType

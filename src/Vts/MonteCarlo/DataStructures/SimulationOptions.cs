@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Vts.MonteCarlo
 {
@@ -15,7 +16,7 @@ namespace Vts.MonteCarlo
             RandomNumberGeneratorType rngType, 
             AbsorptionWeightingType absWeightingType, 
             PhaseFunctionType phaseFunctionType,
-            DatabaseType databaseType,
+            IList<DatabaseType> writeDatabases,
             int simulationIndex)
         {
             RandomNumberGeneratorType = rngType;
@@ -23,7 +24,7 @@ namespace Vts.MonteCarlo
             PhaseFunctionType = phaseFunctionType;
             Seed = seed;
             SimulationIndex = simulationIndex;
-            DatabaseType = databaseType;
+            WriteDatabases = writeDatabases;
         }
 
         public RandomNumberGeneratorType RandomNumberGeneratorType { get; set; }
@@ -32,7 +33,7 @@ namespace Vts.MonteCarlo
         public int Seed { get; set; }
         public int SimulationIndex { get; set; }
 
-        public DatabaseType DatabaseType { get; set; }  // modified ckh 4/9/11
+        public IList<DatabaseType> WriteDatabases { get; set; }  // modified ckh 4/12/11
 
         public SimulationOptions(
             int seed, 
@@ -42,7 +43,7 @@ namespace Vts.MonteCarlo
                 rngType, 
                 absWeightingType, 
                 PhaseFunctionType.HenyeyGreenstein, 
-                DatabaseType.NoDatabaseGeneration, 
+                null, 
                 0) { }
 
         public SimulationOptions(int seed)
@@ -50,15 +51,15 @@ namespace Vts.MonteCarlo
                 RandomNumberGeneratorType.MersenneTwister,  
                 AbsorptionWeightingType.Discrete, 
                 PhaseFunctionType.HenyeyGreenstein, 
-                DatabaseType.NoDatabaseGeneration, 
+                null, 
                 0) { }
 
         public SimulationOptions()
             : this(GetRandomSeed(), 
                 RandomNumberGeneratorType.MersenneTwister, 
                 AbsorptionWeightingType.Discrete, 
-                PhaseFunctionType.HenyeyGreenstein, 
-                DatabaseType.NoDatabaseGeneration, 
+                PhaseFunctionType.HenyeyGreenstein,
+                null, 
                 0) { }
 
         public static int GetRandomSeed()  // ckh 12/15/09 made this public so Photon can see

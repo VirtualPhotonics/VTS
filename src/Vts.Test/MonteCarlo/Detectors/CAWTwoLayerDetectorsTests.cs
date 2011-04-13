@@ -38,7 +38,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous, 
                     PhaseFunctionType.HenyeyGreenstein,
-                    DatabaseType.NoDatabaseGeneration, 
+                    null, 
                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

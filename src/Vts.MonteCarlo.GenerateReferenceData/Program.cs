@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
-                    DatabaseType.NoDatabaseGeneration, 
+                    null, 
                     1),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

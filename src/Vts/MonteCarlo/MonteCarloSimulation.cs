@@ -30,7 +30,7 @@ namespace Vts.MonteCarlo
             _input = input;
             numberOfPhotons = input.N;
 
-            WRITE_DATABASE = input.Options.DatabaseType; // modified ckh 4/9/11
+            WRITE_DATABASES = input.Options.WriteDatabases; // modified ckh 4/9/11
             ABSORPTION_WEIGHTING = input.Options.AbsorptionWeightingType; // CKH add 12/14/09
 
 
@@ -53,7 +53,7 @@ namespace Vts.MonteCarlo
         private int SimulationIndex { get; set; }
 
         // public properties
-        private DatabaseType WRITE_DATABASE { get; set; }  // modified ckh 4/9/11
+        private IList<DatabaseType> WRITE_DATABASES { get; set; }  // modified ckh 4/9/11
         //private bool WRITE_ALL_HISTORIES { get; set; }  // Added by DC 2011-03-03
         private AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
         public PhaseFunctionType PHASE_FUNCTION { get; set; }
@@ -88,11 +88,13 @@ namespace Vts.MonteCarlo
 
             try
             {
-                if ((WRITE_DATABASE == DatabaseType.PhotonExitDataPoints) || 
-                    (WRITE_DATABASE == DatabaseType.PhotonExitDataPointsAndCollisionInfo))
+                if (WRITE_DATABASES != null)
                 {
-                    terminationWriter = new PhotonDatabaseWriter(_input.OutputFileName + "_photonExitDatabase");
-                    if (WRITE_DATABASE == DatabaseType.PhotonExitDataPointsAndCollisionInfo)
+                    if (WRITE_DATABASES.Contains(DatabaseType.PhotonExitDataPoints))
+                    {
+                        terminationWriter = new PhotonDatabaseWriter(_input.OutputFileName + "_photonExitDatabase");
+                    }
+                    if (WRITE_DATABASES.Contains(DatabaseType.CollisionInfo))
                     {
                         collisionWriter = new CollisionInfoDatabaseWriter(
                             _input.OutputFileName + "_collisionInfoDatabase", _tissue.Regions.Count());
