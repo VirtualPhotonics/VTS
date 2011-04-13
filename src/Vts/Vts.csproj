@@ -311,6 +311,7 @@
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfo.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
     <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
+    <Compile Include="MonteCarlo\PostProcessing\PostProcessorInput.cs" />
     <Compile Include="MonteCarlo\Sources\CollimatedLineSource.cs" />
     <Compile Include="MonteCarlo\Sources\CustomPointSourceInput.cs" />
     <Compile Include="MonteCarlo\Sources\IsotropicLineSource.cs" />

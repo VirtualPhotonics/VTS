@@ -2,7 +2,6 @@ using System.Runtime.Serialization;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Controllers;

@@ -718,6 +718,9 @@
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PostProcessing\PostProcessorInput.cs">
+      <Link>MonteCarlo\PostProcessing\PostProcessorInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\CollimatedLineSource.cs">
       <Link>MonteCarlo\Sources\CollimatedLineSource.cs</Link>
     </Compile>

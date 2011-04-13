@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;

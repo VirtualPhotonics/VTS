@@ -122,7 +122,7 @@ namespace Vts.MonteCarlo.IO
         {
             try
             {
-                // allow num filePaths in case writing to isolated storage
+                // allow null filePaths in case writing to isolated storage
                 string filePath;
                 if (folderPath == "")
                 {

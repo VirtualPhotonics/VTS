@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
