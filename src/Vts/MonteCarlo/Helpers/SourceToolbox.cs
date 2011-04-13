@@ -1058,7 +1058,7 @@ namespace Vts.MonteCarlo.Helpers
             RN1 = rng.NextDouble();
             RN2 = rng.NextDouble();
             cosRN1 = Math.Cos(2 * Math.PI * RN1);
-            sinRN1 = Math.Sin(2 * Math.PI * RN1);
+            //sinRN1 = Math.Sin(2 * Math.PI * RN1);
 
             nrng1 = stdev1 * Math.Sqrt(RN2) * cosRN1;
         }
@@ -1188,13 +1188,11 @@ namespace Vts.MonteCarlo.Helpers
 
                 direction = GetDirectionAfterRotationAroundxAxis(-0.5 * Math.PI, direction);
             }
-
-           
-
-
         }
 
-
-
+        public static double NAToPolarAngle(double numericalAperture)
+        {
+            return Math.Asin(numericalAperture);
+        }
     }
 }

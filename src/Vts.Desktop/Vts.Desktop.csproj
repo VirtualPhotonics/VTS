@@ -745,6 +745,15 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceWithNAGaussian.cs">
       <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceWithNAGaussian.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\CustomLineSource.cs">
+      <Link>MonteCarlo\Sources\LineSources\CustomLineSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\DirectionalLineSource.cs">
+      <Link>MonteCarlo\Sources\LineSources\DirectionalLineSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceBase.cs">
+      <Link>MonteCarlo\Sources\LineSources\LineSourceBase.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceCollimatedFlat.cs">
       <Link>MonteCarlo\Sources\LineSources\LineSourceCollimatedFlat.cs</Link>
     </Compile>
@@ -759,9 +768,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceCustomFlat.cs">
       <Link>MonteCarlo\Sources\LineSources\LineSourceCustomFlat.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceCustomGaussian.cs">
-      <Link>MonteCarlo\Sources\LineSources\LineSourceCustomGaussian.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceDivergingFlat.cs">
       <Link>MonteCarlo\Sources\LineSources\LineSourceDivergingFlat.cs</Link>

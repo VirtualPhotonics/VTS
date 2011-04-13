@@ -317,9 +317,11 @@
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceHemiSphericalGaussian.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceWithNAFlat.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceWithNAGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\DirectionalLineSource.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\LineSourceCollimatedGaussian.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\LineSourceConvergingGaussian.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceCustomGaussian.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\CustomLineSource.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\LineSourceDivergingGaussian.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\LineSourceHemiSphericalGaussian.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\LineSourceWithNAGaussian.cs" />
