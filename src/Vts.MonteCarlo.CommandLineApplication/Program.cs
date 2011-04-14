@@ -89,7 +89,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
         public bool ValidSimulation { get; set; }
 
         public string InputFile { get; set; }
-        public string OutputFile { get; set; }
+        public string OutputFolder { get; set; }
 
         public bool RunUnmanagedCode { get; set; }
         public IList<DatabaseType> WriteDatabases { get; set; }
@@ -102,7 +102,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
         {
             ValidSimulation = true;
             InputFile = "";
-            OutputFile = "results";
+            OutputFolder = "results";
             RunUnmanagedCode = false;
             WriteDatabases = null;
             BatchQuery = null;
@@ -201,7 +201,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
         {
             SimulationInput[] inputBatch = BatchQuery.ToArray();
             string[] outNames = BatchNameQuery
-                .Select(s => path + basename + "_" + OutputFile + "\\" + basename + "_" + OutputFile + s)
+                .Select(s => path + basename + "_" + OutputFolder + "\\" + basename + "_" + OutputFolder + s)
                 .ToArray();
 
             for (int i = 0; i < inputBatch.Length; i++)
@@ -285,8 +285,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Discrete,
                      PhaseFunctionType.HenyeyGreenstein,
-                     //new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
-                     null,
+                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
+                     //null,
                      0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),
@@ -354,7 +354,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                new CommandLine.Switch("outfile", val =>
                {
                    Console.WriteLine("output file specified as {0}", val.First());
-                   MonteCarloSetup.OutputFile = val.First();
+                   MonteCarloSetup.OutputFolder = val.First();
                }),
                new CommandLine.Switch("/unmanaged", "/u", val =>
                {

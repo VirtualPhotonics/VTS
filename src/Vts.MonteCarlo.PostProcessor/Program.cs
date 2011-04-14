@@ -1,4 +1,4 @@
-#define GENERATE_INFILE
+//#define GENERATE_INFILE
 
 using System;
 using System.Collections.Generic;
@@ -103,7 +103,7 @@ namespace Vts.MonteCarlo.PostProcessor
     class PostProcessorSetup
     {
         private string path = "";
-        public string infileName = "newinfile";
+        public string infileName = "";
         private IList<IDetectorInput> detectorInputs;
         private IList<IpMCDetectorInput> pMCDetectorInputs;
         private SimulationInput databaseSimulationInput;
@@ -113,7 +113,8 @@ namespace Vts.MonteCarlo.PostProcessor
         private pMCDatabase pmcDatabase;
         private bool doPMC = false;
 
-        public string PostProcessorInputFilename { get; set; }
+        public string InputFilename { get; set; }
+        public string OutputFolder { get; set; }
 
         public bool ValidInput { get; set; }
         
@@ -122,6 +123,8 @@ namespace Vts.MonteCarlo.PostProcessor
         public PostProcessorSetup()
         {
             ValidInput = true;
+            InputFilename = "";
+            OutputFolder = "results";
         }
 
         /// <summary>
@@ -130,15 +133,15 @@ namespace Vts.MonteCarlo.PostProcessor
         public bool ReadPostProcessorInputFromFile()
         {
             // read input file then read in elements of input file
-            if (PostProcessorInputFilename.Length > 0)
+            if (InputFilename.Length > 0)
             {
-                path = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(PostProcessorInputFilename)) + "\\";
-                infileName = System.IO.Path.GetFileNameWithoutExtension(PostProcessorInputFilename);
-                PostProcessorInputFilename = path + infileName + ".xml";
+                path = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(InputFilename)) + "\\";
+                infileName = System.IO.Path.GetFileNameWithoutExtension(InputFilename);
+                InputFilename = path + infileName + ".xml";
 
-                if (System.IO.File.Exists(PostProcessorInputFilename))
+                if (System.IO.File.Exists(InputFilename))
                 {
-                    Input = FileIO.ReadFromXML<PostProcessorInput>(PostProcessorInputFilename);
+                    Input = FileIO.ReadFromXML<PostProcessorInput>(InputFilename);
                 }
                 else
                 {
@@ -148,7 +151,7 @@ namespace Vts.MonteCarlo.PostProcessor
             }
             else
             {
-                Console.WriteLine("\nNo detector input file specified. Using newinfile.xml from resources... ");
+                Console.WriteLine("\nNo detector input file specified. Using newinfile.xml from resources.");
                 Input = FileIO.ReadFromXML<PostProcessorInput>("newinfile.xml"); 
                 
             }
@@ -156,16 +159,16 @@ namespace Vts.MonteCarlo.PostProcessor
             detectorInputs = Input.DetectorInputs;
             if (Input.DatabaseSimulationInputFilename.Length > 0)
             {
-                infileName = Input.DatabaseSimulationInputFilename;
-                var InputFile = path + infileName + ".xml";
+                var SimulationInputFile = path + Input.DatabaseSimulationInputFilename + ".xml";
 
-                if (System.IO.File.Exists(InputFile))
+                if (System.IO.File.Exists(SimulationInputFile))
                 {
-                    databaseSimulationInput = SimulationInput.FromFile(InputFile);
+                    databaseSimulationInput = SimulationInput.FromFile(SimulationInputFile);
                 }
                 else
                 {
-                    Console.WriteLine("\nThe following input file could not be found: " + infileName + ".xml");
+                    Console.WriteLine("\nThe following input file could not be found: " + 
+                        Input.DatabaseSimulationInputFilename + ".xml");
                     return false;
                 }
             }
@@ -176,28 +179,14 @@ namespace Vts.MonteCarlo.PostProcessor
             // read in database(s) designed in SimulationInput file
             if (databaseSimulationInput.Options.WriteDatabases != null)
             {
-                if (databaseSimulationInput.Options.WriteDatabases.Contains(DatabaseType.PhotonExitDataPoints))
-                {
-                    infileName = Input.DatabaseFilenames.Where(d => d == DatabaseType.PhotonExitDataPoints.ToString()).First();
-                    var InputFile = path + infileName + ".xml";
-
-                    if (System.IO.File.Exists(InputFile))
-                    {
-                        photonDatabase = PhotonDatabase.FromFile(InputFile);
-                    }
-                    else
-                    {
-                        Console.WriteLine("\nThe following database file could not be found: " + infileName + ".xml");
-                        return false;
-                    }
-                }
+                // check which databases were written as specified by infile to db gen
                 if (databaseSimulationInput.Options.WriteDatabases.Contains(DatabaseType.PhotonExitDataPoints) &&
                     databaseSimulationInput.Options.WriteDatabases.Contains(DatabaseType.CollisionInfo))
                 {
                     doPMC = true;
                     pMCDetectorInputs = Input.pMCDetectorInputs;
                     infileName = Input.DatabaseFilenames.Where(d => d == DatabaseType.PhotonExitDataPoints.ToString()).First();
-                    var InputFile = path + infileName + ".xml";
+                    var InputFile = path + infileName;
 
                     if (System.IO.File.Exists(InputFile))
                     {
@@ -209,6 +198,25 @@ namespace Vts.MonteCarlo.PostProcessor
                         return false;
                     }
                 }
+
+                //else
+                //    if (databaseSimulationInput.Options.WriteDatabases.Contains(DatabaseType.PhotonExitDataPoints))
+                //{
+                //    // don't know how to do the following, i.e. know which filename matches databasetype
+                //    infileName = Input.DatabaseFilenames[0];
+                //    var InputFile = path + infileName;
+
+                //    if (System.IO.File.Exists(InputFile))
+                //    {
+                //        photonDatabase = PhotonDatabase.FromFile(InputFile);
+                //    }
+                //    else
+                //    {
+                //        Console.WriteLine("\nThe following database file could not be found: " + infileName + ".xml");
+                //        return false;
+                //    }
+                //}
+ 
             }
             else
             {
@@ -227,13 +235,13 @@ namespace Vts.MonteCarlo.PostProcessor
             {
                 postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
                     detectorInputs, photonDatabase, databaseSimulationInput);
-
             }
             else
             {
                 postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
                     pMCDetectorInputs, pmcDatabase, databaseSimulationInput);
             }
+            // the following needs editing
             var rOfRhoAndTime = postProcessedOutput.ResultsDictionary[TallyType.ROfRhoAndTime.ToString()];
 
             var folderPath = "postresults";
@@ -252,8 +260,8 @@ namespace Vts.MonteCarlo.PostProcessor
             PostProcessorSetup PostProcessorSetup = new PostProcessorSetup();
             
     #region Infile Generation (optional)
-        //To Generate a detector infile, uncomment the first line of code in this file
-        #if GENERATE_INFILE
+        //To Generate an infile, uncomment the first line of code in this file
+#if GENERATE_INFILE
             var tempInput = new PostProcessorInput(
                 new List<IDetectorInput>()
                 {
@@ -288,17 +296,21 @@ namespace Vts.MonteCarlo.PostProcessor
 #endif
     #endregion
 
-            args.Process(
-                () =>
+            args.Process(() =>
                     {
                         Console.WriteLine("Usages are:");
-                        Console.WriteLine("mc_post infile=myinput");
+                        Console.WriteLine("mc_post infile=myinput outfile=myoutfile");
                         Console.WriteLine();
                     },
-                new CommandLine.Switch("detectorinputinfile", val =>
+                new CommandLine.Switch("infile", val =>
                     {
                         Console.WriteLine("input file specified as {0}", val.First());
-                        PostProcessorSetup.infileName = val.First();
+                        PostProcessorSetup.InputFilename = val.First();
+                    }),
+                new CommandLine.Switch("outfile", val =>
+                    {
+                        Console.WriteLine("output file specified as {0}", val.First());
+                        PostProcessorSetup.OutputFolder = val.First();
                     })
                 //new CommandLine.Switch("datafile", val =>
                 //    {
@@ -306,6 +318,8 @@ namespace Vts.MonteCarlo.PostProcessor
                 //        PostProcessorSetup.DatabaseFile = val.First();
                 //    })
             );
+
+            PostProcessorSetup.ReadPostProcessorInputFromFile();
 
             if (PostProcessorSetup.ValidInput)
             {
