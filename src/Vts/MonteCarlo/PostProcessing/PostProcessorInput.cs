@@ -40,6 +40,7 @@ namespace Vts.MonteCarlo
     {
         public string DatabaseSimulationInputFilename;
         public IList<string> DatabaseFilenames;
+        public IList<DatabaseType> DatabaseTypes;
         public IList<IDetectorInput> DetectorInputs;
         public IList<IpMCDetectorInput> pMCDetectorInputs;
 
@@ -49,10 +50,12 @@ namespace Vts.MonteCarlo
         public PostProcessorInput(
             IList<IDetectorInput> detectorInputs,
             IList<string> databaseFilenames,
+            IList<DatabaseType> databaseTypes,
             string databaseSimulationInputFilename)
         {
             DetectorInputs = detectorInputs;
             DatabaseFilenames = databaseFilenames;
+            DatabaseTypes = databaseTypes;
             DatabaseSimulationInputFilename = databaseSimulationInputFilename;
         }
 
@@ -66,6 +69,10 @@ namespace Vts.MonteCarlo
                     {
                         "_photonExitDataPoints"
                     },
+                new List<DatabaseType>
+                {
+                    DatabaseType.PhotonExitDataPoints
+                },
                 "infile"
                 ) {}
 

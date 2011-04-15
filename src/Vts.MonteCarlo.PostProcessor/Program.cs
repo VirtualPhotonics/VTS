@@ -104,27 +104,22 @@ namespace Vts.MonteCarlo.PostProcessor
     {
         private string path = "";
         public string infileName = "";
-        private IList<IDetectorInput> detectorInputs;
-        private IList<IpMCDetectorInput> pMCDetectorInputs;
+        private bool doPMC = false;
         private SimulationInput databaseSimulationInput;
-        private string photonExitDatabaseFilename;
-        private string pMCDatabaseFilename;
         private PhotonDatabase photonDatabase;
         private pMCDatabase pmcDatabase;
-        private bool doPMC = false;
 
         public string InputFilename { get; set; }
-        public string OutputFolder { get; set; }
+        public string OutputFolder { get; set; }      
+        public PostProcessorInput Input { get; set; }
 
         public bool ValidInput { get; set; }
-        
-        public PostProcessorInput Input { get; set; }
 
         public PostProcessorSetup()
         {
             ValidInput = true;
             InputFilename = "";
-            OutputFolder = "results";
+            OutputFolder = "ppresults";
         }
 
         /// <summary>
@@ -156,7 +151,6 @@ namespace Vts.MonteCarlo.PostProcessor
                 
             }
             // read in SimulationInput that generated database
-            detectorInputs = Input.DetectorInputs;
             if (Input.DatabaseSimulationInputFilename.Length > 0)
             {
                 var SimulationInputFile = path + Input.DatabaseSimulationInputFilename + ".xml";
@@ -176,51 +170,49 @@ namespace Vts.MonteCarlo.PostProcessor
             {
                 Console.WriteLine("\nNo SimulationInput file specified in PostProcessorInput. ");
             }
-            // read in database(s) designed in SimulationInput file
-            if (databaseSimulationInput.Options.WriteDatabases != null)
+            // read in database names
+            if (Input.DatabaseFilenames != null)
             {
-                // check which databases were written as specified by infile to db gen
-                if (databaseSimulationInput.Options.WriteDatabases.Contains(DatabaseType.PhotonExitDataPoints) &&
-                    databaseSimulationInput.Options.WriteDatabases.Contains(DatabaseType.CollisionInfo))
+                // check if pMC databases first
+                if (Input.DatabaseTypes.Contains(DatabaseType.PhotonExitDataPoints) &&
+                    Input.DatabaseTypes.Contains(DatabaseType.CollisionInfo))
                 {
                     doPMC = true;
-                    pMCDetectorInputs = Input.pMCDetectorInputs;
-                    infileName = Input.DatabaseFilenames.Where(d => d == DatabaseType.PhotonExitDataPoints.ToString()).First();
-                    var InputFile = path + infileName;
-
-                    if (System.IO.File.Exists(InputFile))
+                    int pdindex = Input.DatabaseTypes.IndexOf(DatabaseType.PhotonExitDataPoints);
+                    var photonDatabaseName = path + Input.DatabaseFilenames[pdindex];
+                    int ciindex = Input.DatabaseTypes.IndexOf(DatabaseType.CollisionInfo);
+                    var collisionInfoDatabaseName = path + Input.DatabaseFilenames[ciindex];
+                    if (System.IO.File.Exists(photonDatabaseName) &&
+                        System.IO.File.Exists(collisionInfoDatabaseName))
                     {
-                        pmcDatabase = pMCDatabase.FromFile("_photonExitDatabase", "_collisionInfo");
+                        pmcDatabase = pMCDatabase.FromFile(photonDatabaseName, collisionInfoDatabaseName);
                     }
                     else
                     {
-                        Console.WriteLine("\nThe following database file could not be found: " + infileName + ".xml");
+                        Console.WriteLine("\nOne of the following database files could not be found: " + 
+                            photonDatabaseName + ".xml or" + collisionInfoDatabaseName + ".xml");
                         return false;
                     }
                 }
-
-                //else
-                //    if (databaseSimulationInput.Options.WriteDatabases.Contains(DatabaseType.PhotonExitDataPoints))
-                //{
-                //    // don't know how to do the following, i.e. know which filename matches databasetype
-                //    infileName = Input.DatabaseFilenames[0];
-                //    var InputFile = path + infileName;
-
-                //    if (System.IO.File.Exists(InputFile))
-                //    {
-                //        photonDatabase = PhotonDatabase.FromFile(InputFile);
-                //    }
-                //    else
-                //    {
-                //        Console.WriteLine("\nThe following database file could not be found: " + infileName + ".xml");
-                //        return false;
-                //    }
-                //}
- 
-            }
-            else
-            {
-                Console.WriteLine("\nNo Database file specified in PostProcessorInput. ");
+                if (Input.DatabaseTypes.Contains(DatabaseType.PhotonExitDataPoints))
+                {
+                    int index = Input.DatabaseTypes.IndexOf(DatabaseType.PhotonExitDataPoints);
+                    var photonDatabaseName = path + Input.DatabaseFilenames[index];
+                    if (System.IO.File.Exists(photonDatabaseName))
+                    {
+                        photonDatabase = PhotonDatabase.FromFile(photonDatabaseName);
+                    }
+                        else
+                        {
+                            Console.WriteLine("\nThe following database file could not be found: " + 
+                                photonDatabaseName + ".xml");
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                    Console.WriteLine("\nNo Database file specified in PostProcessorInput. ");
+                }
             }
             return true;
         }
@@ -234,21 +226,22 @@ namespace Vts.MonteCarlo.PostProcessor
             if (!doPMC)
             {
                 postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                    detectorInputs, photonDatabase, databaseSimulationInput);
+                    Input.DetectorInputs, photonDatabase, databaseSimulationInput);
             }
             else
             {
                 postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                    pMCDetectorInputs, pmcDatabase, databaseSimulationInput);
+                    Input.pMCDetectorInputs, pmcDatabase, databaseSimulationInput);
             }
-            // the following needs editing
-            var rOfRhoAndTime = postProcessedOutput.ResultsDictionary[TallyType.ROfRhoAndTime.ToString()];
-
-            var folderPath = "postresults";
+            var folderPath = OutputFolder;
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
+            foreach (var result in postProcessedOutput.ResultsDictionary.Values)
+            {
+                // save all detector data to the specified folder
+                DetectorIO.WriteDetectorToFile(result, folderPath);
+            }
 
-            DetectorIO.WriteDetectorToFile(rOfRhoAndTime, folderPath);
         }
     }
 
@@ -290,6 +283,10 @@ namespace Vts.MonteCarlo.PostProcessor
                 new List<string>()
                 {
                     "infile_photonExitDataPoints",
+                },
+                new List<DatabaseType>()
+                {
+                    DatabaseType.PhotonExitDataPoints,
                 },
                 "infile");
             tempInput.WriteToXML<PostProcessorInput>("newinfile.xml");
