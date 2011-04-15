@@ -17,15 +17,16 @@ namespace Vts.MonteCarlo.Sources
 
         #region Constructors
         /// <summary>
-        /// Returns an instance of Custom Gaussian Line Source with a specified translation, inward normal rotation, and source axis rotation
+        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// polar and azimuthal angle range, translation, inward normal rotation, and source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        /// <param name="rotationOfPrincipalSourceAxis"></param>
+        /// <param name="lineLength">The length of the line source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian(1D/2D/3D)}</param>
+        /// <param name="polarAngleEmissionRange">Polar angle emission range</param>
+        /// <param name="azimuthalAngleEmissionRange">Azimuthal angle emission range</param>
+        /// <param name="translationFromOrigin">New position</param>
+        /// <param name="rotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
+        /// <param name="rotationOfPrincipalSourceAxis">Source rotation</param>
         public CustomLineSource(
             double lineLength,
             ISourceProfile sourceProfile,
@@ -41,47 +42,45 @@ namespace Vts.MonteCarlo.Sources
                 rotationFromInwardNormal, 
                 rotationOfPrincipalSourceAxis)
         {
-            _lineLength = lineLength;
-            _sourceProfile = sourceProfile;
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
-            _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();
-            //_translationFromOrigin = translationFromOrigin.Clone();
-            //_rotationFromInwardNormal = rotationFromInwardNormal.Clone();
-            //_rotationOfPrincipalSourceAxis = rotationOfPrincipalSourceAxis.Clone();
-            //_rotationAndTranslationFlags = new SourceFlags(true, true, true);            
+            _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();         
         }
 
         /// <summary>
-        /// Returns an instance of Custom Gaussian Line Source with a specified translation and inward normal rotation, but without source axis rotation
+        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// polar and azimuthal angle range, translation, and inward normal rotation.
         /// </summary>
         /// <param name="lineLength"></param>
+        /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardnormal"></param>
+        /// <param name="rotationFromInwardNormal"></param>
         public CustomLineSource(
             double lineLength,
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardnormal)
+            PolarAzimuthalAngles rotationFromInwardNormal)
             : this(
                 lineLength,
                 sourceProfile,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 translationFromOrigin,
-                rotationFromInwardnormal,
+                rotationFromInwardNormal,
                 new ThreeAxisRotation(0, 0, 0))
         {
             _rotationAndTranslationFlags = new SourceFlags(true, true, false);
         }
 
         /// <summary>
-        /// Returns an instance of Custom Gaussian Line Source with a specified translation and source axis rotation, but without inward normal rotation 
+        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// polar and azimuthal angle range, translation, and source axis rotation.
         /// </summary>
         /// <param name="lineLength"></param>
+        /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
@@ -107,9 +106,11 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Gaussian Line Source with a specified translation but without inward normal rotation or source axis rotation 
+        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// polar and azimuthal angle range, and translation
         /// </summary>
         /// <param name="lineLength"></param>
+        /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
@@ -132,19 +133,21 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Gaussian Line Source with an inward normal rotation and source axis rotation
+        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// polar and azimuthal angle range, inward normal rotation, and source axis rotation
         /// </summary>
         /// <param name="lineLength"></param>
+        /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="rotationFromInwardnormal"></param>
+        /// <param name="rotationFromInwardNormal"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
         public CustomLineSource(
             double lineLength,
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
-            PolarAzimuthalAngles rotationFromInwardnormal,
+            PolarAzimuthalAngles rotationFromInwardNormal,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
             : this(
                 lineLength,
@@ -152,41 +155,45 @@ namespace Vts.MonteCarlo.Sources
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 new Position(0, 0, 0),
-                rotationFromInwardnormal,
+                rotationFromInwardNormal,
                 rotationOfPrincipalSourceAxis)
         {
             _rotationAndTranslationFlags = new SourceFlags(false, true, false);
         }
 
         /// <summary>
-        /// Returns an instance of Custom Gaussian Line Source with an inward normal rotation, but without source axis rotation
+        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// polar and azimuthal angle range and inward normal rotation.
         /// </summary>
         /// <param name="lineLength"></param>
+        /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="rotationFromInwardnormal"></param>
+        /// <param name="rotationFromInwardNormal"></param>
         public CustomLineSource(
             double lineLength,
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
-            PolarAzimuthalAngles rotationFromInwardnormal)
+            PolarAzimuthalAngles rotationFromInwardNormal)
             : this(
                 lineLength,
                 sourceProfile,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 new Position(0, 0, 0),
-                rotationFromInwardnormal,
+                rotationFromInwardNormal,
                 new ThreeAxisRotation(0, 0, 0))
         {
             _rotationAndTranslationFlags = new SourceFlags(false, true, false);
         }
 
         /// <summary>
-        /// Returns an instance of Custom Gaussian Line Source with a source axis rotation, but without inward normal rotation
+        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// polar and azimuthal angle range, and source axis rotation
         /// </summary>
         /// <param name="lineLength"></param>
+        /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
@@ -209,9 +216,11 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Gaussian Line Source with no inward normal rotation or source axis rotation  
+        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// polar and azimuthal angle range.
         /// </summary>
         /// <param name="lineLength"></param>
+        /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         public CustomLineSource(
@@ -230,9 +239,10 @@ namespace Vts.MonteCarlo.Sources
         {
             _rotationAndTranslationFlags = new SourceFlags(false, false, false);
         }
+
         #endregion
         
-        // In CustomLineSource
+        //CustomLineSource
         protected override Direction GetFinalDirection(Position finalPosition)
         {
             return SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(

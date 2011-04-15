@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Sources
         protected PolarAzimuthalAngles _rotationFromInwardNormal;
         protected ThreeAxisRotation _rotationOfPrincipalSourceAxis;
         protected SourceFlags _rotationAndTranslationFlags;
-        protected double _lineLength = 1.0;
+        protected double _lineLength;
 
         protected LineSourceBase(
             double lineLength,
