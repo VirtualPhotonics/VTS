@@ -223,7 +223,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="lengthY">The y-length of the rectangle</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomFlatRectangularPosition(
+        public static Position GetRandomFlatRectangulePosition(
             Position center,
             double lengthX,
             double lengthY,
@@ -251,7 +251,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="stdevY">The standard deviation of the distribution along the y-axis</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomGaussianRectangularPosition(
+        public static Position GetRandomGaussianRectangulePosition(
             Position center,
             double lengthX,
             double lengthY,
@@ -1099,14 +1099,14 @@ namespace Vts.MonteCarlo.Helpers
 
             if (temp1 < lw)
             {
-                position = GetRandomFlatRectangularPosition(tempPosition, l, w, rng);
+                position = GetRandomFlatRectangulePosition(tempPosition, l, w, rng);
                 position.X = tempPosition.X;
                 position.Y = tempPosition.Y;
                 position.Z = 0.5*h;                
             }
             else if (temp1 < 2*lw)
             {
-                position = GetRandomFlatRectangularPosition(tempPosition, l, w, rng);
+                position = GetRandomFlatRectangulePosition(tempPosition, l, w, rng);
                 position.X = tempPosition.X;
                 position.Y = tempPosition.Y;
                 position.Z = -0.5*h;
@@ -1115,7 +1115,7 @@ namespace Vts.MonteCarlo.Helpers
             }
             else if (temp1 < (2 * lw + hw) )
             {
-                position = GetRandomFlatRectangularPosition(tempPosition, h, w, rng);
+                position = GetRandomFlatRectangulePosition(tempPosition, h, w, rng);
                 position.X = 0.5 * l;
                 position.Y = tempPosition.Y;
                 position.Z = tempPosition.X;
@@ -1124,7 +1124,7 @@ namespace Vts.MonteCarlo.Helpers
             }
             else if (temp1 < 2 * (lw + hw))
             {
-                position = GetRandomFlatRectangularPosition(tempPosition, h, w, rng);
+                position = GetRandomFlatRectangulePosition(tempPosition, h, w, rng);
                 position.X = -0.5 * l;
                 position.Y = tempPosition.Y;
                 position.Z = tempPosition.X;
@@ -1133,7 +1133,7 @@ namespace Vts.MonteCarlo.Helpers
             }
             else if (temp1 < (2 * (lw + hw) + lh))
             {
-                position = GetRandomFlatRectangularPosition(tempPosition, l, h, rng);
+                position = GetRandomFlatRectangulePosition(tempPosition, l, h, rng);
                 position.X = tempPosition.X;
                 position.Y = 0.5 * w;
                 position.Z = tempPosition.Y;
@@ -1142,7 +1142,7 @@ namespace Vts.MonteCarlo.Helpers
             }
             else 
             {
-                position = GetRandomFlatRectangularPosition(tempPosition, l, h, rng);
+                position = GetRandomFlatRectangulePosition(tempPosition, l, h, rng);
                 position.X = tempPosition.X;
                 position.Y = -0.5 * w;
                 position.Z = tempPosition.Y;

@@ -7,26 +7,26 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
-    public abstract class RectangularSourceBase : ISource
+    public abstract class EllipticalSourceBase : ISource
     {
         protected ISourceProfile _sourceProfile;
         protected Position _translationFromOrigin;
         protected PolarAzimuthalAngles _rotationFromInwardNormal;
         protected ThreeAxisRotation _rotationOfPrincipalSourceAxis;
         protected SourceFlags _rotationAndTranslationFlags;
-        protected double _rectLengthX;
-        protected double _rectWidthY;
+        protected double _aParameter;
+        protected double _bParameter;
 
-        protected RectangularSourceBase(
-            double rectLengthX,
-            double rectWidthY,
+        protected EllipticalSourceBase(
+            double aParameter,
+            double bParameter,
             ISourceProfile sourceProfile,
             Position translationFromOrigin,
             PolarAzimuthalAngles rotationFromInwardNormal,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
         {
-            _rectLengthX = rectLengthX;
-            _rectWidthY = rectWidthY;
+            _aParameter = aParameter;
+            _bParameter = bParameter;
             _sourceProfile = sourceProfile;
             _translationFromOrigin = translationFromOrigin.Clone();
             _rotationFromInwardNormal = rotationFromInwardNormal.Clone();
@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the line
-            Position finalPosition = GetFinalPositionFromProfileType(_sourceProfile, _rectLengthX, _rectWidthY, Rng);
+            Position finalPosition = GetFinalPositionFromProfileType(_sourceProfile, _aParameter, _bParameter, Rng);
 
             // sample angular distribution
             Direction finalDirection = GetFinalDirection(finalPosition);
@@ -68,30 +68,30 @@ namespace Vts.MonteCarlo.Sources
 
         protected abstract Direction GetFinalDirection(Position finalPosition); // position may or may not be needed
 
-        private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double rectLengthX, double rectWidthY, Random rng)
+        private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double aParameter, double bParameter, Random rng)
         {
             Position finalPosition = null;
             switch (sourceProfile.ProfileType)
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
-                    SourceToolbox.GetRandomFlatRectangulePosition(
+                    SourceToolbox.GetRandomFlatEllipsePosition(
                         new Position(0, 0, 0),
-                        rectLengthX,
-                        rectWidthY,
+                        aParameter,
+                        bParameter,
                         rng);
-                    break;                                
+                    break;
                 case SourceProfileType.Gaussian2D:
                     var gaussian2DProfile = sourceProfile as Gaussian2DSourceProfile;
-                    finalPosition = SourceToolbox.GetRandomGaussianRectangulePosition(
+                    finalPosition = SourceToolbox.GetRandomGaussianEllipsePosition(
                         new Position(0, 0, 0),
-                        rectLengthX,
-                        rectWidthY,
+                        aParameter,
+                        bParameter,
                         gaussian2DProfile.StdDevX,
                         gaussian2DProfile.StdDevY,
                         rng);
                     break;
-                case SourceProfileType.Gaussian1D: 
+                case SourceProfileType.Gaussian1D:
                 case SourceProfileType.Gaussian3D:
                 default:
                     throw new ArgumentOutOfRangeException("The specified profile type is not permitted.");
