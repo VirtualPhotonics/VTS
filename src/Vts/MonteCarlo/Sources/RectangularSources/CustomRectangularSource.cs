@@ -10,25 +10,27 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// 
     /// </summary>
-    public class CustomLineSource : LineSourceBase
+    public class CustomRectangularSource : RectangularSourceBase
     {
         private DoubleRange _polarAngleEmissionRange;
         private DoubleRange _azimuthalAngleEmissionRange;
 
         #region Constructors
         /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// Returns an instance of Custom Rectangular Source with specified length and width, source profile (Flat/Gaussian), 
         /// polar and azimuthal angle range, translation, inward normal rotation, and source axis rotation
         /// </summary>
-        /// <param name="lineLength">The length of the line source</param>
+        /// <param name="rectLengthX">The length of the Rectangular Source</param>
+        /// <param name="rectWidthY">The width of the Rectangular Source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian(1D/2D/3D)}</param>
         /// <param name="polarAngleEmissionRange">Polar angle emission range</param>
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle emission range</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="rotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
         /// <param name="rotationOfPrincipalSourceAxis">Source rotation</param>
-        public CustomLineSource(
-            double lineLength,
+        public CustomRectangularSource(
+            double rectLengthX,
+            double rectWidthY,
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
@@ -36,35 +38,39 @@ namespace Vts.MonteCarlo.Sources
             PolarAzimuthalAngles rotationFromInwardNormal,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
             : base(
-                lineLength,
+                rectLengthX,
+                rectWidthY,
                 sourceProfile,
-                translationFromOrigin, 
-                rotationFromInwardNormal, 
+                translationFromOrigin,
+                rotationFromInwardNormal,
                 rotationOfPrincipalSourceAxis)
         {
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
-            _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();         
+            _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();
         }
 
         /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// Returns an instance of Custom Rectangular Source with specified length and width, source profile (Flat/Gaussian), 
         /// polar and azimuthal angle range, translation, and inward normal rotation.
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectWidthY"></param>
         /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationFromInwardNormal"></param>
-        public CustomLineSource(
-            double lineLength,
+        public CustomRectangularSource(
+            double rectLengthX,
+            double rectWidthY,
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Position translationFromOrigin,
             PolarAzimuthalAngles rotationFromInwardNormal)
             : this(
-                lineLength,
+                rectLengthX,
+                rectWidthY,
                 sourceProfile,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
@@ -76,17 +82,19 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// Returns an instance of Custom Rectangular Source with specified length and width, source profile (Flat/Gaussian), 
         /// polar and azimuthal angle range, translation, and source axis rotation.
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectWidthY"></param>
         /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public CustomLineSource(
-            double lineLength,
+        public CustomRectangularSource(
+            double rectLengthX,
+            double rectWidthY,
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
@@ -94,7 +102,8 @@ namespace Vts.MonteCarlo.Sources
             ThreeAxisRotation rotationOfPrincipalSourceAxis
             )
             : this(
-                lineLength,
+                rectLengthX,
+                rectWidthY,
                 sourceProfile,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
@@ -106,22 +115,25 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// Returns an instance of Custom Rectangular Source with specified length and width, source profile (Flat/Gaussian), 
         /// polar and azimuthal angle range, and translation
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectWidthY"></param>
         /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
-        public CustomLineSource(
-            double lineLength,
+        public CustomRectangularSource(
+            double rectLengthX,
+            double rectWidthY,
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Position translationFromOrigin)
             : this(
-                lineLength,
+                rectLengthX,
+                rectWidthY,
                 sourceProfile,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
@@ -133,24 +145,27 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// Returns an instance of Custom Rectangular Source with specified length and width, source profile (Flat/Gaussian), 
         /// polar and azimuthal angle range, inward normal rotation, and source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectWidthY"></param>
         /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="rotationFromInwardNormal"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public CustomLineSource(
-            double lineLength,
+        public CustomRectangularSource(
+            double rectLengthX,
+            double rectWidthY,
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             PolarAzimuthalAngles rotationFromInwardNormal,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
             : this(
-                lineLength,
+                rectLengthX,
+                rectWidthY,
                 sourceProfile,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
@@ -162,22 +177,25 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// Returns an instance of Custom Rectangular Source with specified length and width, source profile (Flat/Gaussian), 
         /// polar and azimuthal angle range and inward normal rotation.
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectWidthY"></param>
         /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="rotationFromInwardNormal"></param>
-        public CustomLineSource(
-            double lineLength,
+        public CustomRectangularSource(
+            double rectLengthX,
+            double rectWidthY,
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             PolarAzimuthalAngles rotationFromInwardNormal)
             : this(
-                lineLength,
+                rectLengthX,
+                rectWidthY,
                 sourceProfile,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
@@ -189,22 +207,25 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// Returns an instance of Custom Rectangular Source with specified length and width, source profile (Flat/Gaussian), 
         /// polar and azimuthal angle range, and source axis rotation
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectWidthY"></param>
         /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public CustomLineSource(
-            double lineLength,
+        public CustomRectangularSource(
+            double rectLengthX,
+            double rectWidthY,
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
             : this(
-                lineLength,
+                rectLengthX,
+                rectWidthY,
                 sourceProfile,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
@@ -216,20 +237,23 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
+        /// Returns an instance of Custom Rectangular Source with specified length and width, source profile (Flat/Gaussian), 
         /// polar and azimuthal angle range.
         /// </summary>
-        /// <param name="lineLength"></param>
+        /// <param name="rectLengthX"></param>
+        /// <param name="rectWidthY"></param>
         /// <param name="sourceProfile"></param>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
-        public CustomLineSource(
-            double lineLength,
+        public CustomRectangularSource(
+            double rectLengthX,
+            double rectWidthY,
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange)
             : this(
-                lineLength,
+                rectLengthX,
+                rectWidthY,
                 sourceProfile,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
@@ -241,8 +265,8 @@ namespace Vts.MonteCarlo.Sources
         }
 
         #endregion
-        
-        //CustomLineSource
+
+        //CustomRectangularSource
         protected override Direction GetFinalDirection(Position finalPosition)
         {
             return SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
