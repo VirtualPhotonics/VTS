@@ -205,7 +205,7 @@ namespace Vts.MonteCarlo.Helpers
             double d = 0.0;
             do
             {
-                GaussianDistributedSingleRandomNumberBoxMuller1(ref d, stdevX, rng);
+                OneGaussianDistributedRandomNumber(ref d, stdevX, rng);
             }
             while ((d >= -0.5 * lengthX) && (d <= 0.5 * lengthX));
             return (new Position(
@@ -270,7 +270,7 @@ namespace Vts.MonteCarlo.Helpers
 
             do
             {
-                GaussianDistributedDoubleRandomNumberBoxMuller1(ref x, ref y, stdevX, stdevY, rng);
+                TwoGaussianDistributedRandomNumbers(ref x, ref y, stdevX, stdevY, rng);
             }
             while ((x >= -0.5 * lengthX) && (x <= 0.5 * lengthX) && (y >= -0.5 * lengthY) && (y <= 0.5 * lengthY));
             position.X = center.X + x;
@@ -424,7 +424,7 @@ namespace Vts.MonteCarlo.Helpers
             /*eliminate points outside the circle */
             do
             {
-                GaussianDistributedDoubleRandomNumberBoxMuller1(ref x, ref y, stdev, stdev, rng);
+                TwoGaussianDistributedRandomNumbers(ref x, ref y, stdev, stdev, rng);
                 r = Math.Sqrt(x * x + y * y);
             }
             while (r <= radius);
@@ -497,7 +497,7 @@ namespace Vts.MonteCarlo.Helpers
             /*eliminate points outside the ellipse */
             do
             {
-                GaussianDistributedDoubleRandomNumberBoxMuller1(
+                TwoGaussianDistributedRandomNumbers(
                     ref x, 
                     ref y, 
                     stdevX, 
@@ -937,6 +937,18 @@ namespace Vts.MonteCarlo.Helpers
             return currentDirection;
         }
 
+        /// <summary>
+        /// Provides a random location of a non - symmetrical line
+        /// </summary>
+        /// <param name="linepara">Start and end parameters of the line</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static double GetRandomFlatLocationOfAnyLine(
+            DoubleRange linepara,
+            Random rng)
+        {
+            return rng.NextDouble(linepara.Start, linepara.Stop);
+        }
 
         /// <summary>
         /// Provides a flat random location of a symmetrical line
@@ -964,114 +976,40 @@ namespace Vts.MonteCarlo.Helpers
             Random rng)
         {
             double nrng = 0.0;
-            do {GaussianDistributedSingleRandomNumberBoxMuller1(ref nrng, 0.5 * length * stdev, rng);}
+            do { OneGaussianDistributedRandomNumber(ref nrng, 0.5 * length * stdev, rng); }
             while(Math.Abs(nrng) <= 0.5*length);
             return nrng;
         }
 
-        /// <summary>
-        /// Provides a random location of a non - symmetrical line
-        /// </summary>
-        /// <param name="linepara">Start and end parameters of the line</param>
-        /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
-        public static double GetRandomFlatLocationOfAnyLine(
-            DoubleRange linepara, 
-            Random rng)
-        {
-            return rng.NextDouble(linepara.Start, linepara.Stop);
-        }
+                              
 
         /// <summary>
-        /// Generate single Gaussian random number by using Box Muller Algorithm 1 (without sine/cosine)
-        /// </summary>
-        /// <param name="nrng1">normally distributed random number 1</param>
-        /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
-        /// <param name="rng">The random number generator</param>
-        public static void GaussianDistributedSingleRandomNumberBoxMuller1(
-            ref double nrng1, 
-            double stdev1, 
-            Random rng)
-        {
-            double RN1, RN2;
-            double w;
-
-            do
-            {
-                RN1 = 2.0 * rng.NextDouble() - 1.0;
-                RN2 = 2.0 * rng.NextDouble() - 1.0;
-
-                w = RN1 * RN1 + RN2 * RN2;
-            } while (w >= 1.0);
-
-            w = Math.Sqrt((-2.0 * Math.Log(w)) / w);
-
-            nrng1 = stdev1 * w * RN1;
-        }
-
-        /// <summary>
-        /// Generate double Gaussian random numbers by using Box Muller Algorithm 1 (without sine/cosine)
-        /// </summary>
-        /// <param name="nrng1">normally distributed random number 1</param>
-        /// <param name="nrng2">normally distributed random number 2</param>
-        /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
-        /// <param name="stdev2">standard deviation of the normally distributed random number 2</param>
-        /// <param name="rng">The random number generator</param>
-        public static void GaussianDistributedDoubleRandomNumberBoxMuller1(
-            ref double nrng1, 
-            ref double nrng2, 
-            double stdev1, 
-            double stdev2, 
-            Random rng)
-        {
-            double RN1, RN2;
-            double w;
-
-            do
-            {
-                RN1 = 2.0 * rng.NextDouble() - 1.0;
-                RN2 = 2.0 * rng.NextDouble() - 1.0;
-
-                w = RN1 * RN1 + RN2 * RN2;
-            } while (w >= 1.0);
-
-            w = Math.Sqrt((-2.0 * Math.Log(w)) / w);
-
-            nrng1 = stdev1 * w * RN1;
-            nrng2 = stdev2 * w * RN2;
-        }
-
-        /// <summary>
-        /// Generate one Gaussian random numbers by using Box Muller Algorithm 2 (with sine/cosine)
+        /// Generate one normally (Gaussian) distributed random number by using Box Muller Algorithm (with sine/cosine)
         /// </summary>
         /// <param name="nrng1">normally distributed random number 1</param>
         /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>        
         /// <param name="rng">The random number generator</param>
-        public static void GaussianDistributedSingleRandomNumberBoxMuller2(
+        public static void OneGaussianDistributedRandomNumber(
             ref double nrng1, 
             double stdev1, 
             Random rng)
         {
             double RN1, RN2;
-            double cosRN1, sinRN1;
 
             RN1 = rng.NextDouble();
             RN2 = rng.NextDouble();
-            cosRN1 = Math.Cos(2 * Math.PI * RN1);
-            //sinRN1 = Math.Sin(2 * Math.PI * RN1);
-
-            nrng1 = stdev1 * Math.Sqrt(RN2) * cosRN1;
+            nrng1 = stdev1 * Math.Sqrt(-2 * Math.Log(RN2)) * Math.Cos(2 * Math.PI * RN1);
         }
 
         /// <summary>
-        /// Generate double Gaussian random numbers by using Box Muller Algorithm 2 (with sine/cosine)
+        /// Generate two normally (Gaussian) distributed random numbers by using Box Muller Algorithm (with sine/cosine)
         /// </summary>
         /// <param name="nrng1">normally distributed random number 1</param>
         /// <param name="nrng2">normally distributed random number 2</param>
         /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
         /// <param name="stdev2">standard deviation of the normally distributed random number 2</param>
         /// <param name="rng">The random number generator</param>
-        public static void GaussianDistributedDoubleRandomNumberBoxMuller2(
+        public static void TwoGaussianDistributedRandomNumbers(
             ref double nrng1, 
             ref double nrng2, 
             double stdev1, 
@@ -1086,17 +1024,40 @@ namespace Vts.MonteCarlo.Helpers
             cosRN1 = Math.Cos(2 * Math.PI * RN1);
             sinRN1 = Math.Sin(2 * Math.PI * RN1);
 
-            nrng1 = stdev1 * Math.Sqrt(RN2) * cosRN1;
-            nrng2 = stdev2 * Math.Sqrt(RN2) * sinRN1;
+            nrng1 = stdev1 * Math.Sqrt(-2 * Math.Log(RN2)) * cosRN1;
+            nrng2 = stdev2 * Math.Sqrt(-2 * Math.Log(RN2)) * sinRN1;
         }
 
+
+        /// <summary>
+        /// Generate three normally (Gaussian) distributed random numbers by using Box Muller Algorithm (with sine/cosine)
+        /// </summary>
+        /// <param name="nrng1">normally distributed random number 1</param>
+        /// <param name="nrng2">normally distributed random number 2</param>
+        /// <param name="nrng3">normally distributed random number 3</param>
+        /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
+        /// <param name="stdev2">standard deviation of the normally distributed random number 2</param>
+        /// <param name="stdev3">standard deviation of the normally distributed random number 3</param>
+        /// <param name="rng">The random number generator</param>
+        public static void ThreeGaussianDistributedRandomNumbers(
+            ref double nrng1,
+            ref double nrng2,
+            ref double nrng3,
+            double stdev1,
+            double stdev2,
+            double stdev3,
+            Random rng)
+        {
+            OneGaussianDistributedRandomNumber(ref nrng1, stdev1, rng);
+            TwoGaussianDistributedRandomNumbers(ref nrng2, ref nrng3, stdev2, stdev3, rng);
+        }
 
 
         /// <summary>
         /// Returns the new position after translation
         /// </summary>
         /// <param name="oldPosition">The old location</param>
-        /// <param name="newPosition">Translation coordinats relative to the origin</param>
+        /// <param name="translation">Translation coordinats relative to the origin</param>
         /// <returns></returns>
         public static Position GetPositionafterTranslation(
             Position oldPosition, 
