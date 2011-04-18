@@ -27,7 +27,7 @@ namespace Vts.MonteCarlo.Helpers
             ThreeAxisRotation rotateAxis,             
             SourceFlags flags)
         {
-            if(flags.RotationFromInwardNormalFlag)
+            if(flags.rotationFromInwardNormalFlag)
                 dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);
             if(flags.RotationOfPrincipalSourceAxisFlag)
                 DoSourceRotationAroundThreeAxisClockwiseLeftHanded (rotateAxis, ref dir, ref pos);
@@ -50,7 +50,7 @@ namespace Vts.MonteCarlo.Helpers
             PolarAzimuthalAngles rotateBeam,    
             SourceFlags flags)
         {
-            if (flags.RotationFromInwardNormalFlag)
+            if (flags.rotationFromInwardNormalFlag)
                 dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);            
             if (flags.TranslationFromOriginFlag)
                 pos = GetPositionafterTranslation(pos, translate);
@@ -94,7 +94,7 @@ namespace Vts.MonteCarlo.Helpers
             ThreeAxisRotation rotateAxis,
             SourceFlags flags)
         {
-            if (flags.RotationFromInwardNormalFlag)
+            if (flags.rotationFromInwardNormalFlag)
                 dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);
             if (flags.RotationOfPrincipalSourceAxisFlag)
                 DoSourceRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, ref dir, ref pos);

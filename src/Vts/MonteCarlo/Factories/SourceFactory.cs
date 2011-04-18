@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.Factories
         {
             if (input is PointSourceCollimatedInput)
             {
-                return new PointSourceCollimated() { Rng = rng }; // todo: update SourceFactory 
+                return new DirectionalPointSource() { Rng = rng }; // todo: update SourceFactory 
             }
             // else if...
 
