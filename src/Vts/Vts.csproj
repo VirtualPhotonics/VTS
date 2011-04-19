@@ -329,10 +329,12 @@
     <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian1DSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\SphericalSurfaceEmmitingSourceCustomFlat.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceFlatIsotropic.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceGaussianIsotropic.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceFlatIsotropic.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceGaussianIsotropic.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\CustomCuboidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\IsotropicEllipsoidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\IsotropicCuboidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\CustomEllipsoidalSource.cs" />
     <Compile Include="MonteCarlo\Detectors\AOfRhoAndZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ATotalDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs" />

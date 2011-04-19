@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class ConvergingDivergingOrCollimatedLineSource : LineSourceBase
     {
-        private double _thetaConvOrDiv;
+        private double _thetaConvOrDiv;   //convergence:positive, divergence:negative
 
         #region Constructors
 

@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class ConvergingDivergingOrCollimatedRectangularSource : RectangularSourceBase
     {
-        private double _thetaConvOrDiv;
+        private double _thetaConvOrDiv;  //convergence:positive, divergence:negative
 
         #region Constructors
 

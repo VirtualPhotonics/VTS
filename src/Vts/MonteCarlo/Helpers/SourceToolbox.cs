@@ -307,34 +307,7 @@ namespace Vts.MonteCarlo.Helpers
             return position;
         }
 
-        /// <summary>
-        /// Returns a random position in a cuboid volume (Flat distribution) {overload}
-        /// </summary>
-        /// <param name="center">The center coordiantes of the cuboid</param>
-        /// <param name="xAxisRange">The minimum and maximum parameters of the x-length</param>
-        /// <param name="yAxisRange">The minimum and maximum parameters of the y-length</param>
-        /// <param name="zAxisRange">The minimum and maximum parameters of the z-length</param>
-        /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
-        public static Position GetRandomFlatCuboidPosition(
-            Position center,
-            DoubleRange xAxisRange,
-            DoubleRange yAxisRange,
-            DoubleRange zAxisRange,
-            Random rng)
-        {
-            if ((xAxisRange.Start == xAxisRange.Stop) && (yAxisRange.Start == yAxisRange.Stop) && (zAxisRange.Start == zAxisRange.Stop))
-            {
-                return (center);
-            }
-
-            var position = new Position { };
-
-            position.X = center.X + GetRandomFlatLocationOfAnyLine(xAxisRange, rng);
-            position.Y = center.Y + GetRandomFlatLocationOfAnyLine(yAxisRange, rng);
-            position.Z = center.Z + GetRandomFlatLocationOfAnyLine(zAxisRange, rng);
-            return position;
-        }
+        
 
 
         /// <summary>
@@ -369,6 +342,91 @@ namespace Vts.MonteCarlo.Helpers
             position.X = center.X + GetRandomGaussianLocationOfSymmetricalLine(lengthX, stdevX, rng);
             position.Y = center.X + GetRandomGaussianLocationOfSymmetricalLine(lengthY, stdevY, rng);
             position.Z = center.X + GetRandomGaussianLocationOfSymmetricalLine(lengthZ, stdevZ, rng);
+            return position;
+        }
+
+        /// <summary>
+        /// Returns a random position in a ellipsoid volume (Flat distribution)
+        /// </summary>
+        /// <param name="center">The center coordiantes of the ellipse</param>
+        /// <param name="lengthX">The x-length of the ellipse</param>
+        /// <param name="lengthY">The y-length of the ellipse</param>
+        /// <param name="lengthZ">The z-length of the ellipse</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Position GetRandomFlatEllipsoidPosition(
+            Position center,
+            double lengthX,
+            double lengthY,
+            double lengthZ,
+            Random rng)
+        {          
+            if ((lengthX == 0.0) && (lengthY == 0.0) && (lengthZ == 0.0))
+            {
+                return (center);
+            }
+
+            var position = new Position { };
+            double  radius;
+            do
+            {
+                position = GetRandomFlatCuboidPosition(center, 
+                    lengthX, 
+                    lengthY, 
+                    lengthZ,
+                    rng);
+                radius = (4.0 * position.X * position.X / (lengthX * lengthX) +
+                          4.0 * position.Y * position.Y / (lengthY * lengthY) +
+                          4.0 * position.Z * position.Z / (lengthZ * lengthZ));
+            } while (radius <= 1.0);            
+            return position;
+        }
+
+
+        /// <summary>
+        /// Returns a random position in an ellipsoid volume (Gaussian distribution)
+        /// </summary>
+        /// <param name="center">The center coordiantes of the cuboid</param>
+        /// <param name="lengthX">The x-length of the cuboid</param>
+        /// <param name="stdevX">The standard deviation of the distribution along the x-axis</param>
+        /// <param name="lengthY">The y-length of the cuboid</param>
+        /// <param name="stdevY">The standard deviation of the distribution along the y-axis</param>
+        /// <param name="lengthZ">The z-length of the cuboid</param>
+        /// <param name="stdevZ">The standard deviation of the distribution along the z-axis</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns></returns>
+        public static Position GetRandomGaussianEllipsoidPosition(
+            Position center,
+            double lengthX,
+            double stdevX,
+            double lengthY,
+            double stdevY,
+            double lengthZ,
+            double stdevZ,
+            Random rng)
+        {
+            if ((lengthX == 0.0) && (lengthY == 0.0) && (lengthZ == 0.0))
+            {
+                return (center);
+            }
+
+            var position = new Position { };
+            double radius;
+            do
+            {
+                position = GetRandomGaussianCuboidPosition(center, 
+                    lengthX, 
+                    stdevX,
+                    lengthY,
+                    stdevY,
+                    lengthZ,
+                    stdevZ,
+                    rng);
+
+                radius = (4.0 * position.X * position.X / (lengthX * lengthX) +
+                          4.0 * position.Y * position.Y / (lengthY * lengthY) +
+                          4.0 * position.Z * position.Z / (lengthZ * lengthZ));
+            } while (radius <= 1.0);
             return position;
         }
 
@@ -1154,6 +1212,6 @@ namespace Vts.MonteCarlo.Helpers
         public static double NAToPolarAngle(double numericalAperture)
         {
             return Math.Asin(numericalAperture);
-        }
+        }        
     }
 }
