@@ -31,7 +31,7 @@ namespace Vts.MonteCarlo.Sources
             _sourceProfile = sourceProfile;
             _translationFromOrigin = translationFromOrigin.Clone();
             _rotationOfPrincipalSourceAxis = rotationOfPrincipalSourceAxis.Clone();
-            _rotationAndTranslationFlags = new SourceFlags(true, true, true); //??           
+            _rotationAndTranslationFlags = new SourceFlags(true, false, true); //??           
         }
 
         public Photon GetNextPhoton(ITissue tissue)

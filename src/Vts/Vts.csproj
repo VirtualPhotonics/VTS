@@ -328,7 +328,8 @@
     <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian2DSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian1DSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\SphericalSurfaceEmmitingSourceCustomFlat.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\SphericalSurfaceEmittingSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\IsotrpicSphericalSurfaceEmmitingSource.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\CustomCuboidalSource.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\IsotropicEllipsoidalSource.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceBase.cs" />
@@ -354,7 +355,7 @@
     <Compile Include="MonteCarlo\Detectors\TOfAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfRhoDetector.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\SphericalSurfaceEmmitingSourceFlat.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\CustomSphericalSurfaceEmittingSource.cs" />
     <Compile Include="MonteCarlo\Tissues\CylinderRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\EllipsoidRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\LayerRegion.cs" />

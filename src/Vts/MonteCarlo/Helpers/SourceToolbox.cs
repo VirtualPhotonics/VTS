@@ -80,7 +80,7 @@ namespace Vts.MonteCarlo.Helpers
         
 
         /// <summary>
-        /// Update the direction and position after translation
+        /// Update the direction and position after translation or beam rotation
         /// </summary>
         /// <param name="pos"></param>
         /// <param name="dir"></param>
@@ -98,6 +98,24 @@ namespace Vts.MonteCarlo.Helpers
                 dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);
             if (flags.RotationOfPrincipalSourceAxisFlag)
                 DoSourceRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, ref dir, ref pos);
+        }
+
+        // <summary>
+        /// Update the direction and position after translation or beam rotation
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="dir"></param>
+        /// <param name="translate"></param>
+        /// <param name="rotateAxis"></param>
+        /// <param name="flags"></param>
+        public static void DoRotationandTranslationForGivenFlags(
+            ref Position pos,
+            ref Direction dir, 
+            Position translate,
+            SourceFlags flags)
+        {
+            if (flags.TranslationFromOriginFlag)
+                pos = GetPositionafterTranslation(pos, translate);
         }   
 
 
