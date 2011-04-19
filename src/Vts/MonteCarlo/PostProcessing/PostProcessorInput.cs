@@ -42,6 +42,7 @@ namespace Vts.MonteCarlo
         public IList<string> DatabaseFilenames;
         public IList<DatabaseType> DatabaseTypes;
         public IList<IDetectorInput> DetectorInputs;
+        // need this to swing both ways: used for IDetectorInput AND IpMCDetectorInput
         public IList<IpMCDetectorInput> pMCDetectorInputs;
 
         /// <summary>
@@ -54,6 +55,19 @@ namespace Vts.MonteCarlo
             string databaseSimulationInputFilename)
         {
             DetectorInputs = detectorInputs;
+            DatabaseFilenames = databaseFilenames;
+            DatabaseTypes = databaseTypes;
+            DatabaseSimulationInputFilename = databaseSimulationInputFilename;
+        }
+        // I don't think I can overload because serialized default constructor
+        // can only go one way.
+        public PostProcessorInput(
+            IList<IpMCDetectorInput> detectorInputs,
+            IList<string> databaseFilenames,
+            IList<DatabaseType> databaseTypes,
+            string databaseSimulationInputFilename)
+        {
+            pMCDetectorInputs = detectorInputs;
             DatabaseFilenames = databaseFilenames;
             DatabaseTypes = databaseTypes;
             DatabaseSimulationInputFilename = databaseSimulationInputFilename;
