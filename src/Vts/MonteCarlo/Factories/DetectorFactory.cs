@@ -95,7 +95,7 @@ namespace Vts.MonteCarlo.Factories
                         prrtinput.PerturbedRegionsIndices,
                         prrtinput.Name);
                 case TallyType.pMCROfRho:
-                    var prrinput = (pMCROfRhoAndTimeDetectorInput)detectorInput;
+                    var prrinput = (pMCROfRhoDetectorInput)detectorInput;
                     return new pMCROfRhoDetector(
                         prrinput.Rho, 
                         tissue, 

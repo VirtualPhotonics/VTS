@@ -222,7 +222,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
                 Output detectorResults = mc.Run();
 
-                input.ToFile(p + "\\" + basename);
+                input.ToFile(p + "\\" + basename + ".xml");
 
                 foreach (var result in detectorResults.ResultsDictionary.Values)
                 {

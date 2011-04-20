@@ -227,8 +227,10 @@ namespace Vts.MonteCarlo.PostProcessor
             }
             else
             {
+                IList<IpMCDetectorInput> pMCDetectorInputs;
+                pMCDetectorInputs = Input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
                 postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                    Input.pMCDetectorInputs, pmcDatabase, databaseSimulationInput);
+                    pMCDetectorInputs, pmcDatabase, databaseSimulationInput);
             }
             var folderPath = 
                 

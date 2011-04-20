@@ -119,7 +119,7 @@ namespace Vts.MonteCarlo.Detectors
                 totalPathLengthInPerturbedRegions += infoList[i].PathLength;
             }
 
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Delta, _rhoCenters);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             if (ir != -1)
             {
                 double weightFactor = _absorbAction(
@@ -168,10 +168,10 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta * numPhotons;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                Mean[ir] /=
-                    2 * Math.PI * _rhoCenters[ir] * _rhoDelta * numPhotons;
+                Mean[ir] /= _rhoCenters[ir] * normalizationFactor;
                 // the above is pi(rmax*rmax-rmin*rmin) * timeDelta * N
 
             }
