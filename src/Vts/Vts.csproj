@@ -306,11 +306,11 @@
     <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceFlags.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\EllipticalSources\ConvergingDivergingOrCollimatedEllipticalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\EllipticalSources\DirectionalEllipticalSource.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\CustomEllipticalSource.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\IsotropicLineSource.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\LineSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSources\ConvergingDivergingOrCollimatedLineSource.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\DirectionalLineSource.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\CustomLineSource.cs" />
     <Compile Include="MonteCarlo\Sources\PointSources\PointSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\PointSources\DirectionalPointSource.cs" />
@@ -321,7 +321,7 @@
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\CuboidalSurfaceEmmitingSourceFlat.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\CuboidalSurfaceEmmitingSourceCustomFlat.cs" />
     <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\RectangularSources\ConvergingDivergingOrCollimatedRectangularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\RectangularSources\DirectionalRectangularSource.cs" />
     <Compile Include="MonteCarlo\Sources\RectangularSources\CustomRectangularSource.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
     <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian3DSourceProfile.cs" />

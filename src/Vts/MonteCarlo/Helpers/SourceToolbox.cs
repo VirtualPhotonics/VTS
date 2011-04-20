@@ -15,46 +15,47 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="pos"></param>
         /// <param name="dir"></param>
+        /// <param name="translate"></param>
         /// <param name="rotateBeam"></param>
         /// <param name="rotateAxis"></param>
-        /// <param name="translate"></param>
-        /// <param name="flags"></param>
-        public static void DoRotationandTranslationForGivenFlags(
-            ref Position pos, 
-            ref Direction dir,
-            Position translate,
-            PolarAzimuthalAngles rotateBeam, 
-            ThreeAxisRotation rotateAxis,             
-            SourceFlags flags)
-        {
-            if(flags.rotationFromInwardNormalFlag)
-                dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);
-            if(flags.RotationOfPrincipalSourceAxisFlag)
-                DoSourceRotationAroundThreeAxisClockwiseLeftHanded (rotateAxis, ref dir, ref pos);
-            if(flags.TranslationFromOriginFlag)
-                pos = GetPositionafterTranslation(pos, translate);
-        }
-
-        /// <summary>
-        /// Update the direction and position after beam rotation and translation
-        /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="dir"></param>
-        /// <param name="rotateBeam"></param>
-        /// <param name="translate"></param>
         /// <param name="flags"></param>
         public static void DoRotationandTranslationForGivenFlags(
             ref Position pos,
             ref Direction dir,
             Position translate,
-            PolarAzimuthalAngles rotateBeam,    
+            PolarAzimuthalAngles rotateBeam,
+            ThreeAxisRotation rotateAxis,
             SourceFlags flags)
         {
             if (flags.rotationFromInwardNormalFlag)
-                dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);            
+                dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);
+            if (flags.RotationOfPrincipalSourceAxisFlag)
+                dir = GetDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, dir);
             if (flags.TranslationFromOriginFlag)
                 pos = GetPositionafterTranslation(pos, translate);
         }
+
+        /// <summary>
+        /// Update the direction and position after beam axis rotation and translation
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="dir"></param>
+        /// <param name="translate"></param>
+        /// <param name="rotateBeam"></param>
+        /// <param name="flags"></param>
+        public static void DoRotationandTranslationForGivenFlags(
+            ref Position pos,
+            ref Direction dir,
+            Position translate,
+            PolarAzimuthalAngles rotateBeam,
+            SourceFlags flags)
+        {
+            if (flags.rotationFromInwardNormalFlag)
+                dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);
+            if (flags.TranslationFromOriginFlag)
+                pos = GetPositionafterTranslation(pos, translate);
+        }
+
 
         /// <summary>
         /// Update the direction and position after source axis rotation and translation
@@ -76,8 +77,6 @@ namespace Vts.MonteCarlo.Helpers
             if (flags.TranslationFromOriginFlag)
                 pos = GetPositionafterTranslation(pos, translate);
         }
-
-        
 
         /// <summary>
         /// Update the direction and position after translation or beam rotation
@@ -117,7 +116,6 @@ namespace Vts.MonteCarlo.Helpers
             if (flags.TranslationFromOriginFlag)
                 pos = GetPositionafterTranslation(pos, translate);
         }   
-
 
         /// <summary>
         /// Returns a random position in a line (Flat distribution)        
@@ -591,31 +589,21 @@ namespace Vts.MonteCarlo.Helpers
 
 
         /// <summary>
-        /// Provides a direction for a given random azimuthal angle range and constant polar angle
+        /// Provides a direction for a given 2D position and constant polar angle
         /// </summary>
         /// <param name="polarAngle">Constant polar angle</param>
-        /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
-        /// <param name="rng">The random number generator</param>
+        /// <param name="position">The position </param>
         /// <returns></returns>
-        public static Direction GetRandomAzimuthalAngle(
+        public static Direction GetDirectionForGiven2DPositionAndPolarAngle(
             double polarAngle,
-            DoubleRange azimuthalAngleEmissionRange,
-            Random rng)
+            Position position)
         {
-            double cost, sint, phi, cosp, sinp;
-
-            cost = Math.Cos(polarAngle);
-            sint = Math.Sqrt(1.0 - cost * cost);
-
-            //sampling phi
-            phi = rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop);
-            cosp = Math.Cos(phi);
-            sinp = Math.Sin(phi);
+            double radius = Math.Sqrt(position.X * position.X + position.Y * position.Y);
 
             return (new Direction(
-                sint * cosp,
-                sint * sinp,
-                cost));
+                position.X / radius,
+                position.Y / radius,
+                Math.Cos(polarAngle)));            
         }
 
         /// <summary>
