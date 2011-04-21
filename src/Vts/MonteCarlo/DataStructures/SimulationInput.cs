@@ -79,11 +79,6 @@ namespace Vts.MonteCarlo
 
         public SimulationInput()
             : this(
-                //(long)1e5, 
-                //"Output", 
-                //new PointSourceInput(),
-                //new MultiLayerTissueInput(), 
-                //new DetectorInput()) { }
                 1000000,  // FIX 1e6 takes about 70 minutes my laptop
                 "Output",
                 new SimulationOptions(
@@ -91,7 +86,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister, 
                     AbsorptionWeightingType.Discrete, 
                     PhaseFunctionType.HenyeyGreenstein,
-                    false, 
+                    null, 
                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

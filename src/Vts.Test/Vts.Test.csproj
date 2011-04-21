@@ -148,43 +148,119 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\DirectionTests.cs" />
-    <Compile Include="Common\Helpers\Range\LongRangeTests.cs" />
-    <Compile Include="Common\Helpers\Range\UintRangeTests.cs" />
-    <Compile Include="Common\Helpers\Range\FloatRangeTests.cs" />
-    <Compile Include="Common\Helpers\Range\IntRangeTests.cs" />
-    <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs" />
-    <Compile Include="Common\Math\Convolution2DTests.cs" />
-    <Compile Include="Common\PositionTests.cs" />
-    <Compile Include="Factories\ComputationFactoryTest.cs" />
-    <Compile Include="Factories\SolverFactoryTest.cs" />
-    <Compile Include="Modeling\ForwardSolvers\BSplinesCoefficientsTest.cs" />
-    <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolverTests.cs" />
-    <Compile Include="Modeling\ForwardSolvers\DiffusionGreensFunctionsTest.cs" />
-    <Compile Include="Modeling\ForwardSolvers\pMCForwardSolverTests.cs" />
-    <Compile Include="Modeling\MetaNumericsZeroOrderBesselFunction.cs" />
-    <Compile Include="Modeling\ForwardSolvers\NurbsForwardSolverTest.cs" />
-    <Compile Include="Modeling\ForwardSolvers\NurbsGeneratorTest.cs" />
-    <Compile Include="Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs" />
-    <Compile Include="Modeling\ValidateInverseSolution.cs" />
-    <Compile Include="MonteCarlo\BidirectionalScattering\AnalogBidirectionalTallyActionsTests.cs" />
-    <Compile Include="MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SimulationInputTests.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs" />
-    <Compile Include="MonteCarlo\DataStructures\OutputTests.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCDetectorInputTests.cs" />
-    <Compile Include="MonteCarlo\IO\DetectorIOTests.cs" />
-    <Compile Include="MonteCarlo\MonteCarloFactoriesTests.cs" />
-    <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs" />
-    <Compile Include="MonteCarlo\Sources\CustomPointSourceTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\AnalogTallyActionsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\CAWTallyActionsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\CAWTwoLayerTallyActionsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\DAWTwoLayerTallyActionsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCTallyActionsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\DAWTallyActionsTests.cs" />
+    <Compile Include="Common\ArrayExtensionsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\DirectionTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\Helpers\Range\FloatRangeTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\Helpers\Range\IntRangeTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\Helpers\Range\LongRangeTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\Helpers\Range\UintRangeTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\Math\Convolution2DTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\PositionTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Factories\ComputationFactoryTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Factories\SolverFactoryTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\ForwardSolvers\BSplinesCoefficientsTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\ForwardSolvers\DiffusionGreensFunctionsTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolverTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\ForwardSolvers\NurbsForwardSolverTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\ForwardSolvers\NurbsGeneratorTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\ForwardSolvers\pMCForwardSolverTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\MetaNumericsZeroOrderBesselFunction.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\ValidateInverseSolution.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\BidirectionalScattering\AnalogBidirectionalTallyActionsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCDetectorInputTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\DataStructures\OutputTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\DataStructures\SimulationInputTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Detectors\AnalogDetectorsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Detectors\CAWDetectorsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\DAWDetectorsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Detectors\DAWTwoLayerDetectorsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\IO\DetectorIOTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\MonteCarloFactoriesTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs" />
+    <Compile Include="MonteCarlo\PhotonData\pMCDatabaseTests.cs" />
+    <Compile Include="MonteCarlo\PhotonData\PhotonDatabaseTests.cs" />
+    <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Sources\CustomPointSourceTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Common\ArrayExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

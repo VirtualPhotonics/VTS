@@ -13,21 +13,21 @@ namespace Vts.Modeling.ForwardSolvers
     {
         # region fields
         public static OpticalProperties ReferenceOps;
-        public static PhotonDatabase PhotonTerminationDatabase;
+        public static pMCDatabase PhotonTerminationDatabase;
         public static Output databaseOutput;
         public static DoubleRange databaseRhoRange;
         public static DoubleRange databaseTimeRange;
         #endregion
 
-        public pMCLoader(string projectName, string folderName, string databaseName)
+        public pMCLoader(string projectName, string folderName, string photonDatabaseName, string collisionInfoDatabaseName)
         {
-            InitializeDatabase(projectName, folderName, databaseName);
+            InitializeDatabase(projectName, folderName, photonDatabaseName, collisionInfoDatabaseName);
         }
         /// <summary>
         /// InitializeDatabase reads in reference database and initializes data 
         /// </summary>
         private static void InitializeDatabase(string projectName,
-            string folderName, string databaseName)
+            string folderName, string PhotonDatabaseName, string collisionInfoDatabaseName)
         {
             // databaseOutput = Output.FromFolderInResources(folderName, projectName); // old IO
             //var detector = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFileInResources(TallyType.ROfRhoAndTime, folderName, projectName); // new IO
@@ -58,8 +58,8 @@ namespace Vts.Modeling.ForwardSolvers
 
             //ReferenceOps = databaseOutput.Input.TissueInput.Regions[1].RegionOP;
    
-            PhotonTerminationDatabase = PhotonDatabase.FromFileInResources(
-                databaseName, projectName);
+            PhotonTerminationDatabase = pMCDatabase.FromFileInResources(
+                PhotonDatabaseName, collisionInfoDatabaseName, projectName);
         }
     }
 }

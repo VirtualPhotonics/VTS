@@ -658,6 +658,15 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissueRegion.cs">
       <Link>MonteCarlo\Interfaces\ITissueRegion.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\IO\DatabaseOfT.cs">
+      <Link>MonteCarlo\IO\DatabaseOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\IO\DatabaseReader.cs">
+      <Link>MonteCarlo\IO\DatabaseReader.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\IO\DatabaseWriter.cs">
+      <Link>MonteCarlo\IO\DatabaseWriter.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\IO\DetectorIO.cs">
       <Link>MonteCarlo\IO\DetectorIO.cs</Link>
     </Compile>
@@ -670,6 +679,18 @@
     <Compile Include="..\Vts\MonteCarlo\Photon.cs">
       <Link>MonteCarlo\Photon.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\CollisionInfo.cs">
+      <Link>MonteCarlo\PhotonData\CollisionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\CollisionInfoDatabase.cs">
+      <Link>MonteCarlo\PhotonData\CollisionInfoDatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\CollisionInfoDatabaseWriter.cs">
+      <Link>MonteCarlo\PhotonData\CollisionInfoDatabaseWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\CollisionInfoSerializer.cs">
+      <Link>MonteCarlo\PhotonData\CollisionInfoSerializer.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDatabase.cs">
       <Link>MonteCarlo\PhotonData\PhotonDatabase.cs</Link>
     </Compile>
@@ -679,20 +700,26 @@
     <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDataPoint.cs">
       <Link>MonteCarlo\PhotonData\PhotonDataPoint.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDataPointCustomBinarySerializer.cs">
-      <Link>MonteCarlo\PhotonData\PhotonDataPointCustomBinarySerializer.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDataPointSerializer.cs">
+      <Link>MonteCarlo\PhotonData\PhotonDataPointSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\pMCDatabase.cs">
+      <Link>MonteCarlo\PhotonData\pMCDatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\pMCDataPoint.cs">
+      <Link>MonteCarlo\PhotonData\pMCDataPoint.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhotonData\SubRegionCollisionInfo.cs">
       <Link>MonteCarlo\PhotonData\SubRegionCollisionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\PhotonData\SubRegionCollisionInfoCustomBinarySerializer.cs">
-      <Link>MonteCarlo\PhotonData\SubRegionCollisionInfoCustomBinarySerializer.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhotonHistory.cs">
       <Link>MonteCarlo\PhotonHistory.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PostProcessing\PostProcessorInput.cs">
+      <Link>MonteCarlo\PostProcessing\PostProcessorInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\CollimatedLineSource.cs">
       <Link>MonteCarlo\Sources\CollimatedLineSource.cs</Link>

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System;
 using Vts.Common;
-using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo.Factories
@@ -96,7 +95,7 @@ namespace Vts.MonteCarlo.Factories
                         prrtinput.PerturbedRegionsIndices,
                         prrtinput.Name);
                 case TallyType.pMCROfRho:
-                    var prrinput = (pMCROfRhoAndTimeDetectorInput)detectorInput;
+                    var prrinput = (pMCROfRhoDetectorInput)detectorInput;
                     return new pMCROfRhoDetector(
                         prrinput.Rho, 
                         tissue, 

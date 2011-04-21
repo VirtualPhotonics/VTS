@@ -159,7 +159,7 @@ namespace Vts
         InverseSolverAtConvergedData,
         Clear
     }
-
+    // Monte Carlo enums
     public enum AbsorptionWeightingType
     {
         Analog,
@@ -171,6 +171,13 @@ namespace Vts
     {
         HenyeyGreenstein,
         Bidirectional,
+    }
+
+    public enum DatabaseType
+    {
+        PhotonExitDataPoints,
+        CollisionInfo,
+        AllPhotonDataPoints,
     }
 
     public enum InputParameterType

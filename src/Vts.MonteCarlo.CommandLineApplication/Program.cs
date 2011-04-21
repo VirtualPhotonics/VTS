@@ -1,4 +1,4 @@
-#define GENERATE_INFILE
+//#define GENERATE_INFILE
 
 using System;
 using System.Collections.Generic;
@@ -89,10 +89,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
         public bool ValidSimulation { get; set; }
 
         public string InputFile { get; set; }
-        public string OutputFile { get; set; }
+        public string OutputFolder { get; set; }
 
         public bool RunUnmanagedCode { get; set; }
-        public bool WriteHistories { get; set; }
+        public IList<DatabaseType> WriteDatabases { get; set; }
 
         public IEnumerable<SimulationInput> BatchQuery { get; set; }
         public string[] BatchNameQuery { get; set; }
@@ -102,9 +102,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
         {
             ValidSimulation = true;
             InputFile = "";
-            OutputFile = "results";
+            OutputFolder = "results";
             RunUnmanagedCode = false;
-            WriteHistories = false;
+            WriteDatabases = null;
             BatchQuery = null;
             BatchNameQuery = null;
             Input = null;
@@ -201,7 +201,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
         {
             SimulationInput[] inputBatch = BatchQuery.ToArray();
             string[] outNames = BatchNameQuery
-                .Select(s => path + basename + "_" + OutputFile + "\\" + basename + "_" + OutputFile + s)
+                .Select(s => path + basename + "_" + OutputFolder + "\\" + basename + "_" + OutputFolder + s)
                 .ToArray();
 
             for (int i = 0; i < inputBatch.Length; i++)
@@ -221,6 +221,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 }
 
                 Output detectorResults = mc.Run();
+
+                input.ToFile(p + "\\" + basename + ".xml");
 
                 foreach (var result in detectorResults.ResultsDictionary.Values)
                 {
@@ -283,7 +285,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Discrete,
                      PhaseFunctionType.HenyeyGreenstein,
-                     false,
+                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
+                     //null,
                      0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),
@@ -351,18 +354,20 @@ namespace Vts.MonteCarlo.CommandLineApplication
                new CommandLine.Switch("outfile", val =>
                {
                    Console.WriteLine("output file specified as {0}", val.First());
-                   MonteCarloSetup.OutputFile = val.First();
+                   MonteCarloSetup.OutputFolder = val.First();
                }),
                new CommandLine.Switch("/unmanaged", "/u", val =>
                {
                    Console.WriteLine("Run unmanaged code");
                    MonteCarloSetup.RunUnmanagedCode = true;
                }),
-               new CommandLine.Switch("/history", "/h", val =>
-               {
-                   Console.WriteLine("Write histories");
-                   MonteCarloSetup.WriteHistories = true;
-               }),
+               // ckh comment out until decide whether writing the database should be
+               // added.
+               //new CommandLine.Switch("/database", "/d", val =>
+               //{
+               //    Console.WriteLine("Database type");
+               //    MonteCarloSetup.WriteHistories = val.GetType;
+               //}),
                new CommandLine.Switch("inputparam", val =>
                {
                    MonteCarloSetup.SetRangeValues(val);

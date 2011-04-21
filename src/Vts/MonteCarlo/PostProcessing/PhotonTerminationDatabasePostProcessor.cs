@@ -2,7 +2,6 @@ using System.Runtime.Serialization;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Controllers;
@@ -60,28 +59,25 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <returns></returns>
         public static Output GenerateOutput(
             IList<IpMCDetectorInput> detectorInputs, 
-            PhotonDatabase database, 
-            SimulationInput databaseInput,
-            List<OpticalProperties> perturbedOps,
-            List<int> perturbedRegionsIndices)
+            pMCDatabase database, 
+            SimulationInput databaseInput)
         {
             ITissue tissue = Factories.TissueFactory.GetTissue(
                 databaseInput.TissueInput, 
                 databaseInput.Options.AbsorptionWeightingType,
                 databaseInput.Options.PhaseFunctionType);
 
-            pMCDetectorController detectorController = Factories.DetectorControllerFactory.GetpMCDetectorController(detectorInputs, tissue);
-            IList<SubRegionCollisionInfo> collisionInfo = null; // todo: revisit
+            pMCDetectorController detectorController = 
+                Factories.DetectorControllerFactory.GetpMCDetectorController(detectorInputs, tissue);
             foreach (var dp in database.DataPoints)
             {
-                detectorController.TerminationTally(dp, collisionInfo);
+                detectorController.TerminationTally(dp.PhotonDataPoint, dp.CollisionInfo);
             }
 
             detectorController.NormalizeDetectors(databaseInput.N);
 
             var postProcessedOutput = new Output(databaseInput, detectorController.Detectors);
 
-            // todo: call output generation method on detectorController (once it's implemented)
             return postProcessedOutput;
         }
 

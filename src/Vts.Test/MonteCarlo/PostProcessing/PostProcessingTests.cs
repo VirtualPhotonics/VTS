@@ -35,7 +35,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var input = GenerateReferenceInput();
             var onTheFlyOutput = GenerateReferenceOutput(input);
 
-            var database = PhotonDatabase.FromFile("postprocessing_photonBiographies");
+            var database = PhotonDatabase.FromFile("postprocessing_photonExitDatabase");
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
                 input.DetectorInputs, database, onTheFlyOutput.Input);
 
@@ -55,7 +55,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    true,
+                    new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints },
                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

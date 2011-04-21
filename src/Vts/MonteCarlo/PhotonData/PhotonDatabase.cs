@@ -1,53 +1,61 @@
-using System.Collections.Generic;
+using System;
 using System.Runtime.Serialization;
-using Vts.IO;
+using Vts.MonteCarlo.IO;
+using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.PhotonData
 {
     /// <summary>
-    /// Describes database for photon data points.
+    /// Describes database for storing and returning photon data points (position, direction, weight & total time).
+    /// The base class, Database(OfT), exposes the IEnumerable(OfT) DataPoints list of PhotonDataPoint items
     /// </summary>
-    public class PhotonDatabase
+    public class PhotonDatabase : Database<PhotonDataPoint>
     {
-        public PhotonDatabase(long numPhotons)
+        /// <summary>
+        /// Returns an instance of PhotonDatabase
+        /// </summary>
+         public PhotonDatabase()
         {
-            NumberOfPhotons = numPhotons;
         }
 
-        public PhotonDatabase() : this(1000000) { } 
+        /// <summary>
+        /// Do not use this overload, it is only for serialization purposes
+        /// </summary>
+        //public PhotonDatabase()
+        //    : this(new SimulationInput())
+        //{
+        //}
 
-        public long NumberOfPhotons { get; set; }
+        /// <summary>
+        /// The details of the simulation that generated this result
+        /// </summary>
+        //public SimulationInput SimulationInput { get; set; }
 
-        [IgnoreDataMember]
-        public IEnumerable<PhotonDataPoint> DataPoints { get; set; }
-
+        /// <summary>
+        /// Static helper method to simplify reading from file
+        /// </summary>
+        /// <param name="fileName">The base filename for the database (no ".xml")</param>
+        /// <returns>A new instance of PhotonDatabase</returns>
         public static PhotonDatabase FromFile(string fileName)
         {
-            var photonExitHistory = FileIO.ReadFromXML<PhotonDatabase>(fileName + ".xml");
+            var dbReader = new DatabaseReader<PhotonDatabase, PhotonDataPoint>(
+                db => new PhotonDataPointSerializer());
 
-            var serializer = new PhotonDataPointCustomBinarySerializer();
-            
-            photonExitHistory.DataPoints = FileIO.ReadFromBinaryCustom<PhotonDataPoint>(
-                fileName, 
-                serializer.ReadFromBinary);
-            
-            return photonExitHistory;
+            return dbReader.FromFile(fileName);
         }
 
+        /// <summary>
+        /// Static helper method to simplify reading from file
+        /// </summary>
+        /// <param name="fileName">The base filename for the database (no ".xml")</param>
+        /// <param name="projectName">The project name containing the resource</param>
+        /// <returns>A new instance of PhotonDatabase</returns>
         public static PhotonDatabase FromFileInResources(string fileName, string projectName)
         {
-            var photonExitHistory = FileIO.ReadFromXMLInResources<PhotonDatabase>(
-                fileName + ".xml", 
-                projectName);
+            var dbReader = new DatabaseReader<PhotonDatabase, PhotonDataPoint>(
+                db => new PhotonDataPointSerializer());
 
-            var serializer = new PhotonDataPointCustomBinarySerializer();
-
-            photonExitHistory.DataPoints = FileIO.ReadFromBinaryInResourcesCustom<PhotonDataPoint>(
-                fileName, 
-                projectName, 
-                serializer.ReadFromBinary);
-
-            return photonExitHistory;
+            return dbReader.FromFileInResources(fileName, projectName);
         }
     }
 }
