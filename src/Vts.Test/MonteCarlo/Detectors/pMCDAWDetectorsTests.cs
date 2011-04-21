@@ -64,6 +64,31 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - 61.5238307), 0.0000001);
        }
+        [Test]
+        public void validate_pMC_DAW_ROfRho_zero_perturbation()
+        {
+            var database = pMCDatabase.FromFile("pMC_photonExitDatabase", "pMC_collisionInfoDatabase");
+            var postProcessedOutput =
+                PhotonTerminationDatabasePostProcessor.GenerateOutput(
+                    new List<IpMCDetectorInput>()
+                    {
+                        new pMCROfRhoDetectorInput(
+                            new DoubleRange(0.0, 10, 101),
+                            // set perturbed ops to reference ops
+                            new List<OpticalProperties>() { 
+                                _referenceInput.TissueInput.Regions[0].RegionOP,
+                                _referenceInput.TissueInput.Regions[1].RegionOP,
+                                _referenceInput.TissueInput.Regions[2].RegionOP},
+                            new List<int>() { 1 })
+                    },
+                    database,
+                    _referenceInput
+                    );
+            // validation value obtained from reference non-pMC run
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] - _referenceOutput.R_r[0]), 0.00000000001);
+            // validation value obtained from linux run using above input and seeded the same
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] - 0.615238307), 0.000000001);
+        }
         /// <summary>
         /// Define SimulationInput to describe homogeneous media
         /// </summary>

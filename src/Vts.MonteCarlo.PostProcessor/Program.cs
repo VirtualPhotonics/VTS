@@ -232,9 +232,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
                     pMCDetectorInputs, pmcDatabase, databaseSimulationInput);
             }
-            var folderPath = 
-                
-                 OutputFolder;
+            var folderPath = OutputFolder;
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
             foreach (var result in postProcessedOutput.ResultsDictionary.Values)
