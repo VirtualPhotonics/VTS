@@ -1,1 +1,0 @@
-<MetaData xmlns="http://schemas.datacontract.org/2004/07/Vts.IO" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><ObjectType>System.Double[,]</ObjectType><datetime>2009-05-09T01:01:22.542001-07:00</datetime><dims xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays"><a:int>100</a:int><a:int>1</a:int></dims><filename i:nil="true"/></MetaData>
