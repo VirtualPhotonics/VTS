@@ -257,45 +257,45 @@ namespace Vts.MonteCarlo.PostProcessor
             var tempInput = new PostProcessorInput(
                 new List<IDetectorInput>()
                 {
-                    //new RDiffuseDetectorInput(),
-                    //new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    //new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    //new ROfRhoAndAngleDetectorInput(
-                    //    new DoubleRange(0.0, 10, 101),
-                    //    new DoubleRange(0.0, Math.PI / 2, 2)),
-                    //new ROfRhoAndTimeDetectorInput(
-                    //    new DoubleRange(0.0, 10, 101),
-                    //    new DoubleRange(0.0, 10, 101)),
-                    //new ROfXAndYDetectorInput(
-                    //    new DoubleRange(-200.0, 200.0, 401), // x
-                    //    new DoubleRange(-200.0, 200.0, 401)), // y,
-                    //new ROfRhoAndOmegaDetectorInput(
-                    //    new DoubleRange(0.0, 10, 101),
-                    //    new DoubleRange(0.0, 1000, 21)),
-                    //new TDiffuseDetectorInput(),
-                    //new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    //new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    //new TOfRhoAndAngleDetectorInput(
-                    //    new DoubleRange(0.0, 10, 101),
-                    //    new DoubleRange(0.0, Math.PI / 2, 2))
-                    new pMCROfRhoDetectorInput(
+                    new RDiffuseDetectorInput(),
+                    new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new ROfRhoAndAngleDetectorInput(
                         new DoubleRange(0.0, 10, 101),
-                        new List<OpticalProperties>() { 
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        new List<int>() { 1 },
-                        TallyType.pMCROfRho.ToString())
+                        new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new ROfRhoAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101)),
+                    new ROfXAndYDetectorInput(
+                        new DoubleRange(-200.0, 200.0, 401), // x
+                        new DoubleRange(-200.0, 200.0, 401)), // y,
+                    new ROfRhoAndOmegaDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 1000, 21)),
+                    new TDiffuseDetectorInput(),
+                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new TOfRhoAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, Math.PI / 2, 2))
+                    //new pMCROfRhoDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new List<OpticalProperties>() { 
+                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                    //            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                    //    new List<int>() { 1 },
+                    //    TallyType.pMCROfRho.ToString())
                 },
                 new List<string>()
                 {
                     "infile_photonExitDatabase",
-                    "infile_collisionInfoDatabase"
+                    //"infile_collisionInfoDatabase"
                 },
                 new List<DatabaseType>()
                 {
                     DatabaseType.PhotonExitDataPoints,
-                    DatabaseType.CollisionInfo
+                    //DatabaseType.CollisionInfo
                 },
                 "infile");
             tempInput.WriteToXML<PostProcessorInput>("newinfile.xml");
