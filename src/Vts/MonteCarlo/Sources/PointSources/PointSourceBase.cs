@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// 
     /// </summary>
-    public class PointSourceBase : ISource
+    public abstract class PointSourceBase : ISource
     {
         /// <summary>
         /// 
@@ -46,7 +46,6 @@ namespace Vts.MonteCarlo.Sources
                 _azimuthalAngleEmissionRange,
                 Rng);
             
-            //Rotation and translation
             //Rotation and translation
             SourceToolbox.DoRotationandTranslationForGivenFlags(
                 ref finalPosition,

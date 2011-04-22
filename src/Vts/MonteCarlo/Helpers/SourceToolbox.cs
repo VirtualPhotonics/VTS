@@ -168,41 +168,6 @@ namespace Vts.MonteCarlo.Helpers
         /// Returns a random position in a line (Flat distribution)        
         /// </summary>
         /// <param name="center">The center coordiantes of the line</param>
-        /// <param name="lengthX">The x-length of the line</param>        
-        /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
-        public static Position GetRandomSphericalSurfacePosition(
-            Position center,
-            double radius,
-            Random rng)
-        {
-            double cost, sint, phi, cosp, sinp;
-            double temp;
-
-            if (radius == 0.0)
-            {
-                return (center);
-            }
-
-            //sampling cost           
-            cost = rng.NextDouble(0, Math.PI);
-            sint = Math.Sqrt(1.0 - cost * cost);
-
-            //sampling phi
-            phi = rng.NextDouble(0, 2 * Math.PI);
-            cosp = Math.Cos(phi);
-            sinp = Math.Sin(phi);
-
-            return (new Position(
-            center.X + radius * sinp,
-            center.Y,
-            center.Z));
-        }
-
-        /// <summary>
-        /// Returns a random position in a line (Flat distribution)        
-        /// </summary>
-        /// <param name="center">The center coordiantes of the line</param>
         /// <param name="lengthX">The x-length of the line</param>   
         /// <param name="stdevX">The standard deviation of the distribution along the x-axis</param>
         /// <param name="rng">The random number generator</param>
@@ -885,7 +850,7 @@ namespace Vts.MonteCarlo.Helpers
             double cost, sint;    /* cosine and sine of rotation angle */
 
             cost = Math.Cos(xRotation);
-            sint = Math.Sqrt(1.0 - cost * cost);
+            sint = Math.Sin(xRotation);
 
             currentDirection.Uy = uy * cost - uz * sint;
             currentDirection.Uz = uy * sint + uz * cost;
@@ -909,7 +874,7 @@ namespace Vts.MonteCarlo.Helpers
             double cost, sint;    /* cosine and sine of rotation angle */
 
             cost = Math.Cos(yRotation);
-            sint = Math.Sqrt(1.0 - cost * cost);
+            sint = Math.Sin(yRotation);
 
             currentDirection.Ux = ux * cost + uz * sint;
             currentDirection.Uz = -ux * sint + uz * cost;
@@ -933,7 +898,7 @@ namespace Vts.MonteCarlo.Helpers
             double cost, sint;    /* cosine and sine of rotation angle */
 
             cost = Math.Cos(zRotation);
-            sint = Math.Sqrt(1.0 - cost * cost);
+            sint = Math.Sin(zRotation);
 
             currentDirection.Ux = ux * cost - uy * sint;
             currentDirection.Uy = ux * sint + uy * cost;
@@ -1132,89 +1097,8 @@ namespace Vts.MonteCarlo.Helpers
                 oldPosition.Y + translation.Y,
                 oldPosition.Z + translation.Z));
         }
-
-
-        /// <summary>
-        /// Update the direction and position in the cuboid surface after sampling
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <param name="position"></param>
-        /// <param name="l"></param>
-        /// <param name="w"></param>
-        /// <param name="h"></param>
-        /// <param name="rng"></param>
-        public static void DoDirectionAndPositionForCuboidSurface(
-            ref Direction direction,
-            ref Position position,
-            double l,
-            double w,
-            double h,
-            Random rng)
-        {
-            double lw, hw, lh;
-            double temp1;
-            Position tempPosition = new Position();
-
-            lw = l * w;
-            hw = h * w;
-            lh = l * h;
-
-            temp1= 2 * (lw + hw + lh) *rng.NextDouble();
-
-            if (temp1 < lw)
-            {
-                position = GetRandomFlatRectangulePosition(tempPosition, l, w, rng);
-                position.X = tempPosition.X;
-                position.Y = tempPosition.Y;
-                position.Z = 0.5*h;                
-            }
-            else if (temp1 < 2*lw)
-            {
-                position = GetRandomFlatRectangulePosition(tempPosition, l, w, rng);
-                position.X = tempPosition.X;
-                position.Y = tempPosition.Y;
-                position.Z = -0.5*h;
-
-                direction = GetDirectionAfterRotationAroundxAxis(Math.PI, direction);
-            }
-            else if (temp1 < (2 * lw + hw) )
-            {
-                position = GetRandomFlatRectangulePosition(tempPosition, h, w, rng);
-                position.X = 0.5 * l;
-                position.Y = tempPosition.Y;
-                position.Z = tempPosition.X;
-
-                direction = GetDirectionAfterRotationAroundyAxis(0.5*Math.PI, direction);
-            }
-            else if (temp1 < 2 * (lw + hw))
-            {
-                position = GetRandomFlatRectangulePosition(tempPosition, h, w, rng);
-                position.X = -0.5 * l;
-                position.Y = tempPosition.Y;
-                position.Z = tempPosition.X;
-
-                direction = GetDirectionAfterRotationAroundyAxis(-0.5 * Math.PI, direction);
-            }
-            else if (temp1 < (2 * (lw + hw) + lh))
-            {
-                position = GetRandomFlatRectangulePosition(tempPosition, l, h, rng);
-                position.X = tempPosition.X;
-                position.Y = 0.5 * w;
-                position.Z = tempPosition.Y;
-
-                direction = GetDirectionAfterRotationAroundxAxis(0.5 * Math.PI, direction);
-            }
-            else 
-            {
-                position = GetRandomFlatRectangulePosition(tempPosition, l, h, rng);
-                position.X = tempPosition.X;
-                position.Y = -0.5 * w;
-                position.Z = tempPosition.Y;
-
-                direction = GetDirectionAfterRotationAroundxAxis(-0.5 * Math.PI, direction);
-            }
-        }
-
+        
+        
         public static double NAToPolarAngle(double numericalAperture)
         {
             return Math.Asin(numericalAperture);
