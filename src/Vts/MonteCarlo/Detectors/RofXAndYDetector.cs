@@ -78,7 +78,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public bool ContainsPoint(PhotonDataPoint dp)
         {
-            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
+            return ((dp.StateFlag & PhotonStateType.ExitedOutTop) == PhotonStateType.ExitedOutTop);
         }
     }
 }

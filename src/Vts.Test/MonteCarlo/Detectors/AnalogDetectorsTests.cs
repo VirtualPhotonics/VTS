@@ -40,7 +40,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),
-                    new DoubleRange(0.0, 0, 1)
+                    new DoubleRange(0.0, 0, 1),
+                    PhotonStateType.Alive
                 ),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>

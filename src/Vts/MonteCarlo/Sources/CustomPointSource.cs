@@ -21,11 +21,13 @@ namespace Vts.MonteCarlo.Sources
             Position position,
             Direction orientation,
             DoubleRange thetaRange, 
-            DoubleRange phiRange)
+            DoubleRange phiRange,
+            PhotonStateType pst)
             : base(position, orientation)
         {
             ThetaRange = thetaRange;
             PhiRange = phiRange;
+            PhotonState = pst;
         }
 
         /// <summary>
@@ -36,7 +38,8 @@ namespace Vts.MonteCarlo.Sources
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
                 new DoubleRange(0.0, 0, 1),
-                new DoubleRange(0.0, 0, 1)) { }
+                new DoubleRange(0.0, 0, 1),
+                PhotonStateType.OnBoundary) { }
 
         /// <summary>
         /// Creates a PointSource, based on a PointSourceInput data transfer object)
@@ -47,26 +50,32 @@ namespace Vts.MonteCarlo.Sources
             cpsi.PointLocation,
             cpsi.SolidAngleAxis,
             cpsi.ThetaRange,
-            cpsi.PhiRange)
+            cpsi.PhiRange,
+            cpsi.PhotonState)
         {
         }
 
         public DoubleRange ThetaRange { get; protected set; }
         public DoubleRange PhiRange { get; protected set; }
+        public PhotonStateType PhotonState { get; protected set; } // should this be in SourceBase?
 
         public override Photon GetNextPhoton(ITissue tissue)
         {
-            //var p = new Position(0, 0, 0);
-            //var d = new Direction(0, 0, 1);
             var p = Position.Clone();
             var d = Orientation.Clone();
-
-            var _photon = new Photon(p, d, tissue, Rng);
+            // if Position is on boundary of tissue region and if state type is OnBoundary then Photon 
+            // determines tissue region that photon starts in by Orientation and where its entering
+            // var _photon = new Photon(p, d, tissue, PhotonState.Add(PhotonStateType.OnBoundary, Rng);
+            
+            // if Position is on boundary of tissue region and if state type is not OnBoundary then
+            // Photon determines tissue region that photon starts in by determining region 
+            // "behind" it (see Photon)
+            var _photon = new Photon(p, d, tissue, PhotonState, Rng);
 
             // the following is not general enough
-            if ((tissue.OnDomainBoundary(_photon)) &&
-                (tissue.Regions[0].RegionOP.N != tissue.Regions[1].RegionOP.N))
-                _photon.DP.Weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
+            //if ((tissue.OnDomainBoundary(_photon)) &&
+            //    (tissue.Regions[0].RegionOP.N != tissue.Regions[1].RegionOP.N))
+            //    _photon.DP.Weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
 
             //don't call RNG if true point source (this aligns sequence with linux for debug)
             if (ThetaRange.Delta != 0.0)

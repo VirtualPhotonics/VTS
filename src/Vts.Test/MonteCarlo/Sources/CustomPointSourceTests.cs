@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using Vts.Common;
+using Vts.MonteCarlo;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -17,7 +18,8 @@ namespace Vts.Test.MonteCarlo.Sources
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
                 new DoubleRange(0, 0, 1),
-                new DoubleRange(0, 0, 1));
+                new DoubleRange(0, 0, 1),
+                PhotonStateType.Alive);
 
             var ps = new CustomPointSource(cpsi)
                 {

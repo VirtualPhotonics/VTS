@@ -106,13 +106,13 @@ namespace Vts.MonteCarlo.Detectors
 
         private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (photonStateType != PhotonStateType.Absorbed)
+            if (photonStateType.Has(PhotonStateType.Absorbed))
             {
-                weight = 0.0;
+                weight = previousWeight * mua / (mua + mus); 
             }
             else
             {
-                weight = previousWeight * mua / (mua + mus);
+                weight = 0.0;
             }
             return weight;
         }

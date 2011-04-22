@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo.Sources
                 // the handling of specular needs work
                 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N),
                 0.0,
-                PhotonStateType.NotSet);
+                PhotonStateType.Alive);
 
             var photon = new Photon { DP = dataPoint };
 

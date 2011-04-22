@@ -131,12 +131,12 @@
     <Compile Include="Common\DependsOnAttribute.cs" />
     <Compile Include="Common\Direction.cs" />
     <Compile Include="Common\Enums.cs" />
-    <Compile Include="Common\Extension Methods\ArrayExtensions.cs" />
-    <Compile Include="Common\Extension Methods\DataExtensions.cs" />
-    <Compile Include="Common\Extension Methods\EnumerableExtensions.cs" />
-    <Compile Include="Common\Extension Methods\EnumExtensions.cs" />
-    <Compile Include="Common\Extension Methods\IEnumerableArrayExtensions.cs" />
-    <Compile Include="Common\Extension Methods\OpticalPropertiesExtensions.cs" />
+    <Compile Include="Common\ExtensionMethods\ArrayExtensions.cs" />
+    <Compile Include="Common\ExtensionMethods\DataExtensions.cs" />
+    <Compile Include="Common\ExtensionMethods\EnumerableExtensions.cs" />
+    <Compile Include="Common\ExtensionMethods\EnumExtensions.cs" />
+    <Compile Include="Common\ExtensionMethods\IEnumerableArrayExtensions.cs" />
+    <Compile Include="Common\ExtensionMethods\OpticalPropertiesExtensions.cs" />
     <Compile Include="Common\GlobalConstants.cs" />
     <Compile Include="Common\Helpers\EnumHelper.cs" />
     <Compile Include="Common\Helpers\FuncOfT.cs" />
@@ -310,10 +310,10 @@
     <Compile Include="MonteCarlo\PhotonData\PhotonDataPointSerializer.cs" />
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfo.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
-    <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
+    <Compile Include="Common\ExtensionMethods\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PostProcessorInput.cs" />
     <Compile Include="MonteCarlo\Sources\CollimatedLineSource.cs" />
-    <Compile Include="MonteCarlo\Sources\CustomPointSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\CustomPointSourceInput.cs" />
     <Compile Include="MonteCarlo\Sources\IsotropicLineSource.cs" />
     <Compile Include="MonteCarlo\Sources\LineSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\CollimatedRectangularSource.cs" />
@@ -444,9 +444,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, PhaseFunctionType.HenyeyGreenstein);
+            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType);
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
             _detectorController = DetectorControllerFactory.GetStandardDetectorController(input.DetectorInputs, _tissue);
         }
@@ -126,7 +126,7 @@ namespace Vts.MonteCarlo
                         else
                         {
                             photon.Absorb();
-                            if (photon.DP.StateFlag != PhotonStateType.Absorbed)
+                            if ((photon.DP.StateFlag & PhotonStateType.Absorbed) != PhotonStateType.Absorbed)
                             {
                                 photon.Scatter();
                             }
@@ -135,7 +135,7 @@ namespace Vts.MonteCarlo
                         /*Test_Distance(); */
                         photon.TestWeightAndDistance();
 
-                    } while (photon.DP.StateFlag == PhotonStateType.NotSet); /* end do while */
+                    } while (photon.DP.StateFlag.Has(PhotonStateType.Alive)); /* end do while */
 
                     _detectorController.TerminationTally(photon.DP);
 

@@ -28,7 +28,8 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),
-                    new DoubleRange(0.0, 0, 1)),
+                    new DoubleRange(0.0, 0, 1),
+                    PhotonStateType.Alive),
                 new MultiLayerTissueInput(
                     new LayerRegion[]
                     { 

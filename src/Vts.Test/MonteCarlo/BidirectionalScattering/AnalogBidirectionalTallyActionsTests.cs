@@ -45,7 +45,8 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),
-                    new DoubleRange(0.0, 0, 1)
+                    new DoubleRange(0.0, 0, 1),
+                    PhotonStateType.OnBoundary
                 ),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
@@ -81,7 +82,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 -1, // direction -1=up
                 0); // position at surface
 
-            Assert.Less(Math.Abs(_output.Rd - analyticSolution), 0.01);
+            Assert.Less(Math.Abs(_output.Rd - analyticSolution), 0.02);
         }
         // Total Absorption
         //[Test]

@@ -13,24 +13,27 @@ namespace Vts.MonteCarlo.Sources
             Position pointLocation,
             Direction solidAngleAxis,
             DoubleRange thetaRange, 
-            DoubleRange phiRange) 
+            DoubleRange phiRange,
+            PhotonStateType photonStateType) 
         {
             PointLocation = pointLocation;
             SolidAngleAxis = solidAngleAxis;
             ThetaRange = thetaRange;
             PhiRange = phiRange;
+            PhotonState = photonStateType;
         }
         public CustomPointSourceInput()
             : this(
                 new Position (0, 0, 0),
                 new Direction(0, 0, 1),
                 new DoubleRange(0.0, 0, 1),
-                new DoubleRange(0.0, 0, 1)) { }
+                new DoubleRange(0.0, 0, 1),
+                PhotonStateType.OnBoundary) { }
 
-        //public Photon Photon { get; set; }
         public Position PointLocation { get; set; }
         public Direction SolidAngleAxis { get; set; }
         public DoubleRange ThetaRange { get; set; }
         public DoubleRange PhiRange { get; set; }
+        public PhotonStateType PhotonState { get; set; }
     }
 }

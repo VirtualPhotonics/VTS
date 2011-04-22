@@ -3,16 +3,25 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// All Monte Carlo enums.
     /// </summary>
-    public enum PhotonStateType : byte
+    public enum PhotonStateType 
     {
-        NotSet,
-        ExitedOutTop,
-        ExitedOutBottom,
-        ExitedOutSides,
-        Absorbed,
-        KilledOverMaximumPathLength,
-        KilledOverMaximumCollisions,
-        KilledRussianRoulette,
+        None = 0x0,
+        Alive = 0x1,
+        OnBoundary = 0x2,
+        ExitedOutTop = 0x4, // these next enums mean Alive = 0
+        ExitedOutBottom = 0x8, 
+        Absorbed = 0x10,
+        KilledOverMaximumPathLength = 0x20,
+        KilledOverMaximumCollisions = 0x40,
+        KilledRussianRoulette = 0x80,
+        //NotSet,
+        //ExitedOutTop,
+        //ExitedOutBottom,
+        //ExitedOutSides,
+        //Absorbed,
+        //KilledOverMaximumPathLength,
+        //KilledOverMaximumCollisions,
+        //KilledRussianRoulette,
         //PseudoCollision, can't add until change while check in main MC
     }
     // Source enums
