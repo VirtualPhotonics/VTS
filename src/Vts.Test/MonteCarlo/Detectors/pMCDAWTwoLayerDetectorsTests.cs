@@ -82,7 +82,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },  // write histories 
                     0),
-                new CustomPointSourceInput(
+                new PointSourceCollimatedInput(
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),

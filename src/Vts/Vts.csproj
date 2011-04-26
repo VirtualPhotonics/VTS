@@ -283,8 +283,9 @@
     <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCDetectorInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\ISourceProfile.cs" />
-    <Compile Include="MonteCarlo\IO\DatabaseReader.cs" />
     <Compile Include="MonteCarlo\IO\DatabaseOfT.cs" />
+    <Compile Include="MonteCarlo\IO\DatabaseReader.cs" />
+    <Compile Include="MonteCarlo\IO\DatabaseWriter.cs" />
     <Compile Include="MonteCarlo\IO\DetectorIO.cs" />
     <Compile Include="MonteCarlo\PhotonData\CollisionInfo.cs" />
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabase.cs" />
@@ -474,9 +475,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

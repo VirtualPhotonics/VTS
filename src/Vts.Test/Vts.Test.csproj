@@ -257,9 +257,7 @@
     <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Sources\CustomPointSourceTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="MonteCarlo\Sources\PointSourceIsotropicTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
