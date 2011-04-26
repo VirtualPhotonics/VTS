@@ -292,7 +292,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     new Position(0, 0, 0),
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),
-                    new DoubleRange(0.0, 0, 1)),
+                    new DoubleRange(0.0, 0, 1),
+                    PhotonStateType.None),
                 new MultiLayerTissueInput(
                     new LayerRegion[]
                     { 
