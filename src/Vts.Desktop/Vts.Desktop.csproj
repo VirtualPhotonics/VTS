@@ -706,6 +706,15 @@
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\CircularSources\CircularSourceBase.cs">
+      <Link>MonteCarlo\Sources\CircularSources\CircularSourceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\CircularSources\CustomCircularSource.cs">
+      <Link>MonteCarlo\Sources\CircularSources\CustomCircularSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\CircularSources\DirectionalCircularSource.cs">
+      <Link>MonteCarlo\Sources\CircularSources\DirectionalCircularSource.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSourceInputOld.cs">
       <Link>MonteCarlo\Sources\CustomPointSourceInputOld.cs</Link>
     </Compile>

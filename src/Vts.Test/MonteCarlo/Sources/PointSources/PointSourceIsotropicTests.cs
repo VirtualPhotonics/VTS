@@ -8,7 +8,7 @@ using Vts.MonteCarlo;
 namespace Vts.Test.MonteCarlo.Sources
 {
     [TestFixture]
-    public class PointSourceIsotropicTests
+    public class IsotropicPointSourceTests
     {
         [Test]
         public void validate_default_constructor_with_getnextphoton_assigns_correct_values()
@@ -16,7 +16,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue(); // todo: remove
 
-            var ps = new PointSourceIsotropic()
+            var ps = new IsotropicPointSource()
             {
                 Rng = rng
             };
@@ -38,7 +38,7 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var position = new Position(1.0, 2.0, 3.0);
 
-            var ps = new PointSourceIsotropic(position)
+            var ps = new IsotropicPointSource(position)
             {
                 Rng = rng
             };
@@ -58,7 +58,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue(); // todo: remove
 
-            var ps = new PointSourceIsotropic()
+            var ps = new IsotropicPointSource()
             {
                 Rng = rng
             };

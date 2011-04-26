@@ -305,6 +305,9 @@
     <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
     <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceFlags.cs" />
+    <Compile Include="MonteCarlo\Sources\CircularSources\CircularSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\CircularSources\CustomCircularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\CircularSources\DirectionalCircularSource.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\DirectionalEllipticalSource.cs" />
     <Compile Include="MonteCarlo\Sources\EllipticalSources\CustomEllipticalSource.cs" />

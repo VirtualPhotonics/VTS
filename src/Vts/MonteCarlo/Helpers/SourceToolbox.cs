@@ -251,7 +251,7 @@ namespace Vts.MonteCarlo.Helpers
 
             do
             {
-                TwoGaussianDistributedRandomNumbers(ref x, ref y, stdevX, stdevY, rng);
+                TwoGaussianDistributedRandomNumbers(ref x, ref y, stdevX, stdevY, 1.0, rng);
             }
             while ((x >= -0.5 * lengthX) && (x <= 0.5 * lengthX) && (y >= -0.5 * lengthY) && (y <= 0.5 * lengthY));
             position.X = center.X + x;
@@ -412,50 +412,56 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         /// <summary>
-        /// Provides a random position in a circle (Flat distribution)
+        /// Provides a random position in a annular circle (Flat distribution)
         /// </summary>
         /// <param name="center">The center coordiantes of the circle</param>
-        /// <param name="radius">The radius of the circle</param>
+        /// <param name="innerRadius">The inner radius of the circle</param>
+        /// <param name="outerRadius">The outer radius of the circle</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
-        public static Position GetRandomFlatCircularPosition(
+        public static Position GetRandomFlatCirclePosition(
             Position center, 
-            double radius, 
+            double innerRadius, 
+            double outerRadius,
             Random rng)
         {
-            if (radius == 0.0)
+            if (outerRadius == 0.0)
             {
                 return (center);
             }
-
+                     
             double RN1 = rng.NextDouble();
-            double RN2 = rng.NextDouble();
+            double RN2 = innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble();
             double cosRN1 = Math.Cos(2 * Math.PI * RN1);
             double sinRN1 = Math.Sin(2 * Math.PI * RN1);
             return (new Position(
-                center.X + radius * Math.Sqrt(RN2) * cosRN1,
-                center.Y + radius * Math.Sqrt(RN2) * sinRN1,
+                center.X + Math.Sqrt(RN2) * cosRN1,
+                center.Y + Math.Sqrt(RN2) * sinRN1,
                 0.0));
         }
+
         /// <summary>
         /// Provides a random position in a circle (Gaussisan distribution)
         /// <summary>
         /// <param name="center">The center coordiantes of the circle</param>
-        /// <param name="radius">The radius of the circle</param>
+        /// <param name="innerRadius">The inner radius of the circle</param>
+        /// <param name="outerRadius">The outer radius of the circle</param>
         /// <param name="stdev">The standard deviation of the distribution</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>       
-        public static Position GetRandomGaussianCircularPosition(
+        public static Position GetRandomGaussianCirclePosition(
             Position center,
-            double radius,
+            double innerRadius,
+            double outerRadius,
             double stdev,
             Random rng)
         {
-            if (radius == 0.0)
+            if (outerRadius == 0.0)
             {
                 return (center);
             }
 
+            double factor = Math.Exp(-0.5 * innerRadius * innerRadius / (stdev* stdev* outerRadius * outerRadius));    
             double x = 0.0;
             double y = 0.0;
             double r;
@@ -463,14 +469,14 @@ namespace Vts.MonteCarlo.Helpers
             /*eliminate points outside the circle */
             do
             {
-                TwoGaussianDistributedRandomNumbers(ref x, ref y, stdev, stdev, rng);
+                TwoGaussianDistributedRandomNumbers(ref x, ref y, stdev, stdev, factor, rng);
                 r = Math.Sqrt(x * x + y * y);
             }
-            while (r <= radius);
+            while (r <= 1.0);
 
             return (new Position(
-                center.X + radius * x,
-                center.Y + radius * y,
+                center.X + outerRadius * x,
+                center.Y + outerRadius * y,
                 center.Z));
         }
 
@@ -540,7 +546,8 @@ namespace Vts.MonteCarlo.Helpers
                     ref x, 
                     ref y, 
                     stdevX, 
-                    stdevY, 
+                    stdevY,
+                    1.0,
                     rng);
                 r = x * x + y * y;
             }
@@ -554,7 +561,7 @@ namespace Vts.MonteCarlo.Helpers
 
 
         /// <summary>
-        /// Provides a direction for a given 2D position and constant polar angle
+        /// Provides a direction for a given two dimensional position and a polar angle
         /// </summary>
         /// <param name="polarAngle">Constant polar angle</param>
         /// <param name="position">The position </param>
@@ -1037,19 +1044,21 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="nrng2">normally distributed random number 2</param>
         /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
         /// <param name="stdev2">standard deviation of the normally distributed random number 2</param>
+        /// <param name="stdev2">factor = 1.0 for normal distribution without any unwanted area in the middle</param>
         /// <param name="rng">The random number generator</param>
         public static void TwoGaussianDistributedRandomNumbers(
             ref double nrng1, 
             ref double nrng2, 
             double stdev1, 
             double stdev2, 
+            double factor,
             Random rng)
         {
             double RN1, RN2;
             double cosRN1, sinRN1;
 
             RN1 = rng.NextDouble();
-            RN2 = rng.NextDouble();
+            RN2 = factor*rng.NextDouble();
             cosRN1 = Math.Cos(2 * Math.PI * RN1);
             sinRN1 = Math.Sin(2 * Math.PI * RN1);
 
@@ -1078,7 +1087,7 @@ namespace Vts.MonteCarlo.Helpers
             Random rng)
         {
             OneGaussianDistributedRandomNumber(ref nrng1, stdev1, rng);
-            TwoGaussianDistributedRandomNumbers(ref nrng2, ref nrng3, stdev2, stdev3, rng);
+            TwoGaussianDistributedRandomNumbers(ref nrng2, ref nrng3, stdev2, stdev3, 1.0, rng);
         }
 
 
