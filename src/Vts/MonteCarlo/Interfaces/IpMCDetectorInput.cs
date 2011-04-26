@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Vts.MonteCarlo.Interfaces
+namespace Vts.MonteCarlo
 {
     public interface IpMCDetectorInput : IDetectorInput
     {

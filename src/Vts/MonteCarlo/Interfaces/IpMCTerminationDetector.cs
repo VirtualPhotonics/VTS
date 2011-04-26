@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface IpMCTerminationDetector : IDetector
     {
-        void Tally(PhotonDataPoint dp, IList<SubRegionCollisionInfo> infoList);
+        void Tally(PhotonDataPoint dp, CollisionInfo infoList);
     }
 
     /// <summary>

@@ -18,7 +18,6 @@ namespace Vts.MonteCarlo
     public class MultiLayerTissueInput : ITissueInput
     {
         private IList<ITissueRegion> _regions;
-        private AbsorptionWeightingType _absorptionWeightingType;
 
         /// <summary>
         /// MultiLayeredTissueInput constructor 
@@ -50,8 +49,7 @@ namespace Vts.MonteCarlo
         }
 
         public IList<ITissueRegion> Regions { get { return _regions; } set { _regions = value; } }
-        public AbsorptionWeightingType AbsorptionWeightingType { get { return _absorptionWeightingType; } set { _absorptionWeightingType = value; } }
-
+     
         /// <summary>
         /// This verifies that the layers do not overlap.  It assumes that the layers are
         /// adjacent and defined in order.

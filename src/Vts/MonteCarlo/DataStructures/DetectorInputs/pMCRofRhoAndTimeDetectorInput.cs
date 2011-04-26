@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Vts.Common;
-using Vts.MonteCarlo.Interfaces;
 
 namespace Vts.MonteCarlo
 {

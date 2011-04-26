@@ -94,7 +94,7 @@ namespace Vts.IO
         /// <summary>
         /// Closes the filestream and writes the accompanying .xml
         /// </summary>
-        public void Close()
+        public virtual void Close()
         {
             Dispose();
         }

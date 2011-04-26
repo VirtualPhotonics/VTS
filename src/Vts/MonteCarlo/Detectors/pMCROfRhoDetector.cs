@@ -62,7 +62,7 @@ namespace Vts.MonteCarlo.Detectors
                 _rhoCenters = new double[Rho.Count - 1];
                 for (int i = 0; i < Rho.Count - 1; i++)
                 {
-                    _rhoCenters[i] = Rho.Start + i * _rhoDelta;
+                    _rhoCenters[i] = Rho.Start + i * _rhoDelta + _rhoDelta / 2;
                 }
             }
             TallyCount = 0;
@@ -111,7 +111,7 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        public void Tally(PhotonDataPoint dp, IList<SubRegionCollisionInfo> infoList)
+        public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
         {
             double totalPathLengthInPerturbedRegions = 0.0;
             foreach (var i in _perturbedRegionsIndices)
@@ -119,7 +119,7 @@ namespace Vts.MonteCarlo.Detectors
                 totalPathLengthInPerturbedRegions += infoList[i].PathLength;
             }
 
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Delta, _rhoCenters);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             if (ir != -1)
             {
                 double weightFactor = _absorbAction(
@@ -168,11 +168,11 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta * numPhotons;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                Mean[ir] /=
-                    2 * Math.PI * _rhoCenters[ir] * _rhoDelta * numPhotons;
-                // the above is pi(rmax*rmax-rmin*rmin) * timeDelta * N
+                Mean[ir] /= (ir + 0.5) * normalizationFactor;
+                // the above is pi(rmax*rmax-rmin*rmin) * rhoDelta * N
 
             }
         }

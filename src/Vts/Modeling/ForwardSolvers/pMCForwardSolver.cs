@@ -6,7 +6,6 @@ using Vts.Common;
 using Vts.Extensions;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.PostProcessing;
 
 namespace Vts.Modeling.ForwardSolvers
@@ -22,7 +21,8 @@ namespace Vts.Modeling.ForwardSolvers
         {
             if (_pMCLoader == null)
             {
-                _pMCLoader = new pMCLoader("Vts.Database", "", "photonBiographies1e6");
+                // todo: create new databases with these names
+                _pMCLoader = new pMCLoader("Vts.Database", "", "photonBiographies1e6", "collisionInfo1e6");
             }
         }
 
@@ -37,24 +37,24 @@ namespace Vts.Modeling.ForwardSolvers
         public override IEnumerable<double> RofRho(IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos)
         {
-            var detectorInput = new pMCROfRhoDetectorInput();
-            var detectorInputs = new List<IpMCDetectorInput> { detectorInput };
-
             // todo: revisit
-            detectorInput.Rho = new DoubleRange(rhos.First(), rhos.Last(), rhos.Count());
-            List<int> perturbedRegionsIndices = new List<int>() { 1 }; // assumes homogeneous tissue 
             foreach (var op in ops)
             {
-                // make list of ops that have requested ops as middle region (of multilayer tissue)
-                List<OpticalProperties> regionOps = new List<OpticalProperties>() { 
-                    new OpticalProperties(), op, new OpticalProperties() };
+                var detectorInputs = new List<IpMCDetectorInput> 
+                {
+                    new pMCROfRhoDetectorInput(
+                        new DoubleRange(rhos.First(), rhos.Last(), rhos.Count()),
+                        // make list of ops that have requested ops as middle region (of multilayer tissue)
+                        new List<OpticalProperties>() { 
+                            new OpticalProperties(), op, new OpticalProperties() },
+                        new List<int>() { 1 },
+                        TallyType.pMCROfRho.ToString())
+                };
                 var _postProcessedOutput =
                     PhotonTerminationDatabasePostProcessor.GenerateOutput(
                         detectorInputs, 
                         pMCLoader.PhotonTerminationDatabase,
-                        pMCLoader.databaseOutput.Input, 
-                        regionOps, 
-                        perturbedRegionsIndices);
+                        pMCLoader.databaseOutput.Input);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
                 for (int r = 0; r < rhos.Count() - 1; r++)
                 {
@@ -72,27 +72,25 @@ namespace Vts.Modeling.ForwardSolvers
         public override IEnumerable<double> RofRhoAndT(IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos, IEnumerable<double> times)
         {
-            var detectorInput = new pMCROfRhoAndTimeDetectorInput();
-            var detectorInputs = new List<IpMCDetectorInput> { detectorInput };
-
-            // todo: revisit!!
-            //detectorInput.AWT = AbsorptionWeightingType.Continuous;
-            //detectorInput.TallyTypeList = new List<TallyType>() { TallyType.pMCMuaMusInROfRhoAndTime };
-            //// the next two should come from parameter list
-            //detectorInput.Rho = new DoubleRange(rhos.First(), rhos.Last(), rhos.Count());
-            //detectorInput.Time = new DoubleRange(times.First(), times.Last(), times.Count());
-
-
-            List<int> perturbedRegionsIndices = new List<int>() { 1 }; // assumes homogeneous tissue 
+            // todo: revisit!!  
             foreach (var op in ops)
             {
-                // make list of ops that have requested ops as middle region (of multilayer tissue)
-                List<OpticalProperties> regionOps = new List<OpticalProperties>() { 
-                    new OpticalProperties(), op, new OpticalProperties() };
+                var detectorInputs = new List<IpMCDetectorInput> 
+                { 
+                    new pMCROfRhoAndTimeDetectorInput(  
+                        new DoubleRange(rhos.First(), rhos.Last(), rhos.Count()),
+                        new DoubleRange(times.First(), times.Last(), times.Count()),
+                        // make list of ops that have requested ops as middle region (of multilayer tissue)
+                        new List<OpticalProperties>() { 
+                             new OpticalProperties(), op, new OpticalProperties() },
+                        new List<int>() { 1 } // assumes homogeneous tissue
+                     )                       
+                };
                 var _postProcessedOutput =
                     PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                    detectorInputs, pMCLoader.PhotonTerminationDatabase,
-                    pMCLoader.databaseOutput.Input, regionOps, perturbedRegionsIndices);
+                        detectorInputs, 
+                        pMCLoader.PhotonTerminationDatabase,
+                        pMCLoader.databaseOutput.Input);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
                 for (int r = 0; r < rhos.Count(); r++)
                 {
