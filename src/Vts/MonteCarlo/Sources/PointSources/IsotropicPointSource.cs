@@ -18,8 +18,8 @@ namespace Vts.MonteCarlo.Sources
         public IsotropicPointSource(
             Position translationFromOrigin)
             : base(
-                new DoubleRange(0, 0),
-                new DoubleRange(0, 0),
+                new DoubleRange(0, Math.PI),
+                new DoubleRange(0, 2.0 * Math.PI),
                 translationFromOrigin,
                 new PolarAzimuthalAngles (0,0))
         {

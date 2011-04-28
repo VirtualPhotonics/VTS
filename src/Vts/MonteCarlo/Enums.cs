@@ -28,9 +28,7 @@ namespace Vts.MonteCarlo
     public enum SourceProfileType
     {
         Flat,
-        Gaussian1D,
-        Gaussian2D,
-        Gaussian3D,
+        Gaussian,
     }
 
     public enum BeamType

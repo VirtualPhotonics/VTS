@@ -169,30 +169,27 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="center">The center coordiantes of the line</param>
         /// <param name="lengthX">The x-length of the line</param>   
-        /// <param name="stdevX">The standard deviation of the distribution along the x-axis</param>
+        /// <param name="stdev">The standard deviation of normal distribution</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
         public static Position GetRandomGaussianLinePosition(
             Position center,
             double lengthX,
-            double stdevX,
+            double stdev,
             Random rng)
         {
             if (lengthX == 0.0)
             {
                 return (center);
             }
-
-            double d = 0.0;
-            do
-            {
-                OneGaussianDistributedRandomNumber(ref d, stdevX, rng);
-            }
-            while ((d >= -0.5 * lengthX) && (d <= 0.5 * lengthX));
-            return (new Position(
-            center.X + d,
-            center.Y,
-            center.Z));
+            return (
+                new Position(
+                    center.X + OneGaussianDistributedRandomNumber(
+                        GetLowerLimit(stdev),
+                        GetUpperLimit(0.0, 0.5 * lengthX, stdev),
+                        rng),
+                    center.Y,
+                    center.Z));
 
         }
 
@@ -228,16 +225,14 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="center">The center coordiantes of the rectangle</param>
         /// <param name="lengthX">The x-length of the rectangle</param>
         /// <param name="lengthY">The y-length of the rectangle</param>
-        /// <param name="stdevX">The standard deviation of the distribution along the x-axis</param>
-        /// <param name="stdevY">The standard deviation of the distribution along the y-axis</param>
+        /// <param name="stdevX">The standard deviation of normal distribution</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
         public static Position GetRandomGaussianRectangulePosition(
             Position center,
             double lengthX,
             double lengthY,
-            double stdevX,
-            double stdevY,
+            double stdev,
             Random rng)
         {
             if ((lengthX == 0.0) && (lengthY == 0.0))
@@ -245,17 +240,16 @@ namespace Vts.MonteCarlo.Helpers
                 return (center);
             }
 
-            var position = new Position { Z = center.Z };
-            double x = 0.0;
-            double y = 0.0;
+            var position = new Position { Z = center.Z };            
 
-            do
-            {
-                TwoGaussianDistributedRandomNumbers(ref x, ref y, stdevX, stdevY, 1.0, rng);
-            }
-            while ((x >= -0.5 * lengthX) && (x <= 0.5 * lengthX) && (y >= -0.5 * lengthY) && (y <= 0.5 * lengthY));
-            position.X = center.X + x;
-            position.Y = center.Y + y;
+            position.X = center.X + OneGaussianDistributedRandomNumber(
+                GetLowerLimit(stdev),
+                GetUpperLimit(0, 0.5 * lengthX, stdev),
+                rng);
+            position.Y = center.Y + OneGaussianDistributedRandomNumber(
+                GetLowerLimit(stdev),
+                GetUpperLimit(0, 0.5 * lengthY, stdev),
+                rng);
             return position;
         }
 
@@ -287,10 +281,8 @@ namespace Vts.MonteCarlo.Helpers
             position.Z = center.Z + GetRandomFlatLocationOfSymmetricalLine(lengthZ, rng);
             return position;
         }
-
+              
         
-
-
         /// <summary>
         /// Returns a random position in a cuboid volume (Gaussian distribution)
         /// </summary>
@@ -306,11 +298,9 @@ namespace Vts.MonteCarlo.Helpers
         public static Position GetRandomGaussianCuboidPosition(
             Position center,
             double lengthX,
-            double stdevX,
             double lengthY,
-            double stdevY,
             double lengthZ,
-            double stdevZ,
+            double stdev,
             Random rng)
         {
             if ((lengthX == 0.0) && (lengthY == 0.0) && (lengthZ == 0.0))
@@ -320,9 +310,18 @@ namespace Vts.MonteCarlo.Helpers
 
             Position position = new Position (0, 0, 0);
 
-            position.X = center.X + GetRandomGaussianLocationOfSymmetricalLine(lengthX, stdevX, rng);
-            position.Y = center.X + GetRandomGaussianLocationOfSymmetricalLine(lengthY, stdevY, rng);
-            position.Z = center.X + GetRandomGaussianLocationOfSymmetricalLine(lengthZ, stdevZ, rng);
+            position.X = center.X + OneGaussianDistributedRandomNumber(
+                GetLowerLimit(stdev),
+                GetUpperLimit(0, 0.5 * lengthX, stdev),
+                rng);
+            position.Y = center.Y + OneGaussianDistributedRandomNumber(
+                GetLowerLimit(stdev),
+                GetUpperLimit(0, 0.5 * lengthY, stdev),
+                rng);
+            position.Z = center.Z + OneGaussianDistributedRandomNumber(
+                GetLowerLimit(stdev),
+                GetUpperLimit(0, 0.5 * lengthZ, stdev),
+                rng);
             return position;
         }
 
@@ -368,22 +367,18 @@ namespace Vts.MonteCarlo.Helpers
         /// Returns a random position in an ellipsoid volume (Gaussian distribution)
         /// </summary>
         /// <param name="center">The center coordiantes of the cuboid</param>
-        /// <param name="lengthX">The x-length of the cuboid</param>
-        /// <param name="stdevX">The standard deviation of the distribution along the x-axis</param>
+        /// <param name="lengthX">The x-length of the cuboid</param>        
         /// <param name="lengthY">The y-length of the cuboid</param>
-        /// <param name="stdevY">The standard deviation of the distribution along the y-axis</param>
         /// <param name="lengthZ">The z-length of the cuboid</param>
-        /// <param name="stdevZ">The standard deviation of the distribution along the z-axis</param>
+        /// <param name="stdev">The standard deviation of the distribution along the z-axis</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
         public static Position GetRandomGaussianEllipsoidPosition(
             Position center,
             double lengthX,
-            double stdevX,
             double lengthY,
-            double stdevY,
             double lengthZ,
-            double stdevZ,
+            double stdev,
             Random rng)
         {
             if ((lengthX == 0.0) && (lengthY == 0.0) && (lengthZ == 0.0))
@@ -396,12 +391,10 @@ namespace Vts.MonteCarlo.Helpers
             do
             {
                 position = GetRandomGaussianCuboidPosition(center, 
-                    lengthX, 
-                    stdevX,
+                    lengthX,    
                     lengthY,
-                    stdevY,
                     lengthZ,
-                    stdevZ,
+                    stdev,
                     rng);
 
                 radius = (4.0 * position.X * position.X / (lengthX * lengthX) +
@@ -429,14 +422,11 @@ namespace Vts.MonteCarlo.Helpers
             {
                 return (center);
             }
-                     
-            double RN1 = rng.NextDouble();
-            double RN2 = innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble();
-            double cosRN1 = Math.Cos(2 * Math.PI * RN1);
-            double sinRN1 = Math.Sin(2 * Math.PI * RN1);
+            double RN1 = 2 * Math.PI * rng.NextDouble();
+            double RN2 = Math.Sqrt (innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble());
             return (new Position(
-                center.X + Math.Sqrt(RN2) * cosRN1,
-                center.Y + Math.Sqrt(RN2) * sinRN1,
+                center.X + RN2 * Math.Cos(RN1),
+                center.Y + RN2 * Math.Sin(RN1),
                 0.0));
         }
 
@@ -461,22 +451,19 @@ namespace Vts.MonteCarlo.Helpers
                 return (center);
             }
 
-            double factor = Math.Exp(-0.5 * innerRadius * innerRadius / (stdev* stdev* outerRadius * outerRadius));    
             double x = 0.0;
-            double y = 0.0;
-            double r;
-
-            /*eliminate points outside the circle */
-            do
-            {
-                TwoGaussianDistributedRandomNumbers(ref x, ref y, stdev, stdev, factor, rng);
-                r = Math.Sqrt(x * x + y * y);
-            }
-            while (r <= 1.0);
+            double y = 0.0;   
+           
+            TwoGaussianDistributedRandomNumbers(
+                ref x, 
+                ref y,
+                GetLowerLimit(stdev),
+                GetUpperLimit(innerRadius, outerRadius, stdev),
+                rng);             
 
             return (new Position(
-                center.X + outerRadius * x,
-                center.Y + outerRadius * y,
+                center.X + x,
+                center.Y + y,
                 center.Z));
         }
 
@@ -499,17 +486,17 @@ namespace Vts.MonteCarlo.Helpers
                 return (center);
             }
 
-            double RN1, RN2;
+            double x, y;
             /*eliminate points outside the ellipse */
             do
             {
-                RN1 = 2 * rng.NextDouble() - 1;
-                RN2 = 2 * rng.NextDouble() - 1;
+                x = a * (2.0  * rng.NextDouble() - 1);
+                y = b * (2.0 * rng.NextDouble() - 1);
             }
-            while (RN1 * RN1 + RN2 * RN2 <= 1.0);
+            while ((x * x / (a * a)) + (y * y / (b * b)) <= 1.0);
             return (new Position(
-                center.X + a * RN1,
-                center.Y + b * RN2,
+                center.X + a * x,
+                center.Y + b * y,
                 0.0));
         }
 
@@ -519,16 +506,14 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="center">The center coordiantes of the ellipse</param>
         /// <param name="a">'a' parameter of the ellipse</param>
         /// <param name="b">'b' parameter of the ellipse</param>
-        /// <param name="stdevX">The standard deviation of the distribution along the x-axis</param>
-        /// <param name="stdevY">The standard deviation of the distribution along the y-axis</param>
+        /// <param name="stdev">The standard deviation of normal distribution</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>   
         public static Position GetRandomGaussianEllipsePosition(
             Position center,
             double a,
             double b,
-            double stdevX,
-            double stdevY,
+            double stdev,
             Random rng)
         {
             if ((a == 0.0) && (b == 0.0))
@@ -536,22 +521,20 @@ namespace Vts.MonteCarlo.Helpers
                 return (center);
             }
 
-            double x = 0.0;
-            double y = 0.0;
-            double r;
+            double x, y;
             /*eliminate points outside the ellipse */
             do
             {
-                TwoGaussianDistributedRandomNumbers(
-                    ref x, 
-                    ref y, 
-                    stdevX, 
-                    stdevY,
-                    1.0,
+                x = OneGaussianDistributedRandomNumber(
+                    GetLowerLimit(stdev),
+                    GetUpperLimit(0, a, stdev),
                     rng);
-                r = x * x + y * y;
+                y = OneGaussianDistributedRandomNumber(
+                    GetLowerLimit(stdev),
+                    GetUpperLimit(0, b, stdev),
+                    rng);
             }
-            while (r <= 1.0);
+            while ((x * x / (a * a)) + (y * y / (b * b)) <= 1.0);
 
             return (new Position(
                 center.X + a * x,
@@ -998,43 +981,21 @@ namespace Vts.MonteCarlo.Helpers
         {            
             return length * (rng.NextDouble() - 0.5);
         }
-
-        /// <summary>
-        /// Provides a Gaussian random location of a symmetrical line
-        /// </summary>
-        /// <param name="length">The length of the line</param>
-        /// <param name="stdev">Standard deviation</param>
-        /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
-        public static double GetRandomGaussianLocationOfSymmetricalLine(
-            double length, 
-            double stdev, 
-            Random rng)
-        {
-            double nrng = 0.0;
-            do { OneGaussianDistributedRandomNumber(ref nrng, 0.5 * length * stdev, rng); }
-            while(Math.Abs(nrng) <= 0.5*length);
-            return nrng;
-        }
-
-                              
+       
 
         /// <summary>
         /// Generate one normally (Gaussian) distributed random number by using Box Muller Algorithm (with sine/cosine)
         /// </summary>
-        /// <param name="nrng1">normally distributed random number 1</param>
-        /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>        
+        /// <param name="nrng1">normally distributed random number</param>
+        /// <param name="lowerLimit">lower limit of the uniform random number</param>
+        /// <param name="upperLimit">upper limit of the uniform random number</param>
         /// <param name="rng">The random number generator</param>
-        public static void OneGaussianDistributedRandomNumber(
-            ref double nrng1, 
-            double stdev1, 
+        public static double OneGaussianDistributedRandomNumber(             
+            double lowerLimit, 
+            double upperLimit,
             Random rng)
         {
-            double RN1, RN2;
-
-            RN1 = rng.NextDouble();
-            RN2 = rng.NextDouble();
-            nrng1 = stdev1 * Math.Sqrt(-2 * Math.Log(RN2)) * Math.Cos(2 * Math.PI * RN1);
+            return Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit,upperLimit))) * Math.Cos(2 * Math.PI * rng.NextDouble());
         }
 
         /// <summary>
@@ -1042,28 +1003,23 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="nrng1">normally distributed random number 1</param>
         /// <param name="nrng2">normally distributed random number 2</param>
-        /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
-        /// <param name="stdev2">standard deviation of the normally distributed random number 2</param>
-        /// <param name="stdev2">factor = 1.0 for normal distribution without any unwanted area in the middle</param>
+        /// <param name="lowerBound">lower limit of the uniform random number</param>
+        /// <param name="upperBound">upper limit of the uniform random number</param>
         /// <param name="rng">The random number generator</param>
         public static void TwoGaussianDistributedRandomNumbers(
             ref double nrng1, 
-            ref double nrng2, 
-            double stdev1, 
-            double stdev2, 
-            double factor,
+            ref double nrng2,
+            double lowerLimit,
+            double upperLimit,
             Random rng)
         {
             double RN1, RN2;
-            double cosRN1, sinRN1;
 
-            RN1 = rng.NextDouble();
-            RN2 = factor*rng.NextDouble();
-            cosRN1 = Math.Cos(2 * Math.PI * RN1);
-            sinRN1 = Math.Sin(2 * Math.PI * RN1);
+            RN1 = 2 * Math.PI * rng.NextDouble();
+            RN2 = Math.Sqrt(- 2 * Math.Log(rng.NextDouble(lowerLimit, upperLimit))) ;
 
-            nrng1 = stdev1 * Math.Sqrt(-2 * Math.Log(RN2)) * cosRN1;
-            nrng2 = stdev2 * Math.Sqrt(-2 * Math.Log(RN2)) * sinRN1;
+            nrng1 = RN2 * Math.Cos(RN1);
+            nrng2 = RN2 * Math.Sin(RN1);
         }
 
 
@@ -1073,21 +1029,19 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="nrng1">normally distributed random number 1</param>
         /// <param name="nrng2">normally distributed random number 2</param>
         /// <param name="nrng3">normally distributed random number 3</param>
-        /// <param name="stdev1">standard deviation of the normally distributed random number 1</param>
-        /// <param name="stdev2">standard deviation of the normally distributed random number 2</param>
-        /// <param name="stdev3">standard deviation of the normally distributed random number 3</param>
+        /// <param name="lowerBound">lower limit of the uniform random number</param>
+        /// <param name="upperBound">upper limit of the uniform random number</param>
         /// <param name="rng">The random number generator</param>
         public static void ThreeGaussianDistributedRandomNumbers(
             ref double nrng1,
             ref double nrng2,
             ref double nrng3,
-            double stdev1,
-            double stdev2,
-            double stdev3,
+            double lowerLimit,
+            double upperLimit,
             Random rng)
         {
-            OneGaussianDistributedRandomNumber(ref nrng1, stdev1, rng);
-            TwoGaussianDistributedRandomNumbers(ref nrng2, ref nrng3, stdev2, stdev3, 1.0, rng);
+            nrng1 = OneGaussianDistributedRandomNumber(lowerLimit, upperLimit, rng);
+            TwoGaussianDistributedRandomNumbers(ref nrng2, ref nrng3, lowerLimit, upperLimit, rng);
         }
 
 
@@ -1111,6 +1065,16 @@ namespace Vts.MonteCarlo.Helpers
         public static double NAToPolarAngle(double numericalAperture)
         {
             return Math.Asin(numericalAperture);
-        }        
+        }  
+
+        public static double GetUpperLimit(double start, double end, double stdev)
+        {
+            return (Math.Exp(-start * start / (end * end * stdev * stdev)));
+        }
+
+        public static double GetLowerLimit(double stdev)
+        {
+            return (Math.Exp(-1.0 / (stdev * stdev)));
+        }
     }
 }

@@ -337,9 +337,7 @@
     <Compile Include="MonteCarlo\Sources\RectangularSources\DirectionalRectangularSource.cs" />
     <Compile Include="MonteCarlo\Sources\RectangularSources\CustomRectangularSource.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian3DSourceProfile.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian2DSourceProfile.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceProfiles\Gaussian1DSourceProfile.cs" />
+    <Compile Include="MonteCarlo\Sources\SourceProfiles\GaussianSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\SurfaceEmittingSphericalSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\LambertianSurfaceEmmitingSphericalSource.cs" />

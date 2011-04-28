@@ -790,14 +790,8 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs">
       <Link>MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\Gaussian1DSourceProfile.cs">
-      <Link>MonteCarlo\Sources\SourceProfiles\Gaussian1DSourceProfile.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\Gaussian2DSourceProfile.cs">
-      <Link>MonteCarlo\Sources\SourceProfiles\Gaussian2DSourceProfile.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\Gaussian3DSourceProfile.cs">
-      <Link>MonteCarlo\Sources\SourceProfiles\Gaussian3DSourceProfile.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\GaussianSourceProfile.cs">
+      <Link>MonteCarlo\Sources\SourceProfiles\GaussianSourceProfile.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\CustomSurfaceEmittingCuboidalSource.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingSources\CustomSurfaceEmittingCuboidalSource.cs</Link>

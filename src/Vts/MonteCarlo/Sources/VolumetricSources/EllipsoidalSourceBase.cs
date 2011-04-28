@@ -81,22 +81,16 @@ namespace Vts.MonteCarlo.Sources
                         2 * cParameter,
                         rng);
                     break;
-                case SourceProfileType.Gaussian3D:
-                    var gaussian3DProfile = sourceProfile as Gaussian3DSourceProfile;
+                case SourceProfileType.Gaussian:
+                    var gaussianProfile = sourceProfile as GaussianSourceProfile;
                     finalPosition = SourceToolbox.GetRandomGaussianEllipsoidPosition(
                         new Position(0, 0, 0),
                         2 * aParameter,
                         2 * bParameter,
                         2 * cParameter,
-                        gaussian3DProfile.StdDevX,
-                        gaussian3DProfile.StdDevY,
-                        gaussian3DProfile.StdDevZ,
+                        gaussianProfile.StdDev,
                         rng);
                     break;
-                case SourceProfileType.Gaussian1D:
-                case SourceProfileType.Gaussian2D:
-                default:
-                    throw new ArgumentOutOfRangeException("The specified profile type is not permitted.");
             }
             return finalPosition;
         }

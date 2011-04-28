@@ -138,20 +138,15 @@ namespace Vts.MonteCarlo.Sources
                         rectWidthY,
                         rng);
                     break;
-                case SourceProfileType.Gaussian2D:
-                    var gaussian2DProfile = sourceProfile as Gaussian2DSourceProfile;
+                case SourceProfileType.Gaussian:
+                    var gaussianProfile = sourceProfile as GaussianSourceProfile;
                     finalPosition = SourceToolbox.GetRandomGaussianRectangulePosition(
                         new Position(0, 0, 0),
                         rectLengthX,
                         rectWidthY,
-                        gaussian2DProfile.StdDevX,
-                        gaussian2DProfile.StdDevY,
+                        gaussianProfile.StdDev,
                         rng);
                     break;
-                case SourceProfileType.Gaussian1D:
-                case SourceProfileType.Gaussian3D:
-                default:
-                    throw new ArgumentOutOfRangeException("The specified profile type is not permitted.");
             }
 
 

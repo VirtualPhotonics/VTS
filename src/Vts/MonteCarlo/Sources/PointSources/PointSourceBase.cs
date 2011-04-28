@@ -53,7 +53,7 @@ namespace Vts.MonteCarlo.Sources
                 _translationFromOrigin,
                 _rotationFromInwardNormal,                
                 _rotationAndTranslationFlags);
-
+            
 
             // the handling of specular needs work
             var weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
