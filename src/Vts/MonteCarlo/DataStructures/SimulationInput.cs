@@ -93,7 +93,7 @@ namespace Vts.MonteCarlo
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),
                     new DoubleRange(0.0, 0, 1),
-                    PhotonStateType.None),
+                    0),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
                     { 

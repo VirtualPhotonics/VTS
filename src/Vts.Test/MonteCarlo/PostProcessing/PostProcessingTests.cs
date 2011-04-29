@@ -62,7 +62,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     new Direction(0, 0, 1),
                     new DoubleRange(0.0, 0, 1),
                     new DoubleRange(0.0, 0, 1),
-                    PhotonStateType.Alive),
+                    0),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion> 
                     { 

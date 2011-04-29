@@ -22,12 +22,12 @@ namespace Vts.MonteCarlo.Sources
             Direction orientation,
             DoubleRange thetaRange, 
             DoubleRange phiRange,
-            PhotonStateType pst)
+            int startingRegionIndex)
             : base(position, orientation)
         {
             ThetaRange = thetaRange;
             PhiRange = phiRange;
-            PhotonState = pst;
+            StartingRegionIndex = startingRegionIndex;
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo.Sources
                 new Direction(0, 0, 1),
                 new DoubleRange(0.0, 0, 1),
                 new DoubleRange(0.0, 0, 1),
-                PhotonStateType.OnBoundary) { }
+                0) { }
 
         /// <summary>
         /// Creates a PointSource, based on a PointSourceInput data transfer object)
@@ -51,13 +51,13 @@ namespace Vts.MonteCarlo.Sources
             cpsi.SolidAngleAxis,
             cpsi.ThetaRange,
             cpsi.PhiRange,
-            cpsi.PhotonState)
+            cpsi.StartingRegionIndex)
         {
         }
 
         public DoubleRange ThetaRange { get; protected set; }
         public DoubleRange PhiRange { get; protected set; }
-        public PhotonStateType PhotonState { get; protected set; } // should this be in SourceBase?
+        public int StartingRegionIndex { get; protected set; } // should this be in SourceBase?
 
         public override Photon GetNextPhoton(ITissue tissue)
         {
@@ -70,7 +70,7 @@ namespace Vts.MonteCarlo.Sources
             // if Position is on boundary of tissue region and if state type is not OnBoundary then
             // Photon determines tissue region that photon starts in by determining region 
             // "behind" it (see Photon)
-            var _photon = new Photon(p, d, tissue, PhotonState, Rng);
+            var _photon = new Photon(p, d, tissue, StartingRegionIndex, Rng);
 
             // the following is not general enough
             //if ((tissue.OnDomainBoundary(_photon)) &&

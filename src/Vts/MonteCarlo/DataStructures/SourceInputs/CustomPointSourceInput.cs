@@ -14,13 +14,13 @@ namespace Vts.MonteCarlo.Sources
             Direction solidAngleAxis,
             DoubleRange thetaRange, 
             DoubleRange phiRange,
-            PhotonStateType photonStateType) 
+            int startingRegionIndex) 
         {
             PointLocation = pointLocation;
             SolidAngleAxis = solidAngleAxis;
             ThetaRange = thetaRange;
             PhiRange = phiRange;
-            PhotonState = photonStateType;
+            StartingRegionIndex = startingRegionIndex;
         }
         public CustomPointSourceInput()
             : this(
@@ -28,12 +28,12 @@ namespace Vts.MonteCarlo.Sources
                 new Direction(0, 0, 1),
                 new DoubleRange(0.0, 0, 1),
                 new DoubleRange(0.0, 0, 1),
-                PhotonStateType.OnBoundary) { }
+                0) { }
 
         public Position PointLocation { get; set; }
         public Direction SolidAngleAxis { get; set; }
         public DoubleRange ThetaRange { get; set; }
         public DoubleRange PhiRange { get; set; }
-        public PhotonStateType PhotonState { get; set; }
+        public int StartingRegionIndex { get; set; }
     }
 }

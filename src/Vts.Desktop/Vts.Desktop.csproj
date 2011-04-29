@@ -577,6 +577,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\RofXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\RofXAndYDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\SpecularDetector.cs">
+      <Link>MonteCarlo\Detectors\SpecularDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TallyExtensionMethods.cs">
       <Link>MonteCarlo\Detectors\TallyExtensionMethods.cs</Link>
     </Compile>

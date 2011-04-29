@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 new Direction(0, 0, 1),
                 new DoubleRange(0, 0, 1),
                 new DoubleRange(0, 0, 1),
-                PhotonStateType.Alive);
+                0);
 
             var ps = new CustomPointSource(cpsi)
                 {

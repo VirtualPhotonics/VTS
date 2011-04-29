@@ -22,64 +22,24 @@ namespace Vts.MonteCarlo
         // could add layer of indirection to not expose Absorb;
         private ITissue _tissue;
         private Random _rng;
-        private bool _inTissue;
 
         public Photon(
             Position p,
             Direction d,
             ITissue tissue,
-            PhotonStateType pst,
+            int startingRegionIndex,
             Random generator)
         {
             DP = new PhotonDataPoint(
                     p,
                     d,
-                    1.0,
-                    0.0,
-                    pst);
-            DP.StateFlag = DP.StateFlag.Add(PhotonStateType.Alive);
+                    1.0, // weight
+                    0.0, // total time
+                    PhotonStateType.Alive);
             History = new PhotonHistory(tissue.Regions.Count);
             S = 0.0;
             SLeft = 0.0;
-            // case of photon on boundary of tissue and considered already in tissue
-            if (DP.StateFlag.Has(PhotonStateType.OnBoundary)) // if state has OnBoundary on
-            {
-                // check if Photon currently not on boundary of tissue
-                if (!tissue.OnDomainBoundary(this))
-                {
-                    throw new ArgumentException(
-                        "PhotonStateType set to OnBoundary but Position indicates otherwise");
-                }
-                else
-                {
-                    // this assumes if on boundary and pointed into a region, 
-                    // then index is of entering tissue region.  Have to make
-                    // sure GetRegionIndex abides by this law
-                    CurrentRegionIndex = tissue.GetRegionIndex(DP.Position);
-                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.OnBoundary);
-                    _inTissue = true;
-                }
-            }
-            else // case of photon sitting on tissue surface but not inside tissue yet
-            {
-                // check if Photon currently on boundary
-                if (tissue.OnDomainBoundary(this))
-                {
-                    // get index of regions "behind" photon
-                    DP.Direction = new Direction(-DP.Direction.Ux, -DP.Direction.Uy, -DP.Direction.Uz);
-                    CurrentRegionIndex = tissue.GetNeighborRegionIndex(this);
-                    // reset back
-                    DP.Direction = new Direction(-DP.Direction.Ux, -DP.Direction.Uy, -DP.Direction.Uz); 
-                    // add this temporarily for now to help debug
-                    DP.Weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
-                    _inTissue = false;
-                }
-                else // photon not on any boundary
-                {
-                    CurrentRegionIndex = tissue.GetRegionIndex(DP.Position);
-                    // need to set _inTissue here but not sure how to tell
-                }
-            }
+            CurrentRegionIndex = startingRegionIndex;
             CurrentTrackIndex = 0;
             _tissue = tissue;
             SetAbsorbAction(_tissue.AbsorptionWeightingType);
@@ -92,7 +52,7 @@ namespace Vts.MonteCarlo
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
                 new MultiLayerTissue(),
-                PhotonStateType.Alive,
+                0,
                 RandomNumberGeneratorFactory.GetRandomNumberGenerator(RandomNumberGeneratorType.MersenneTwister)
                 ) { }
 
@@ -228,32 +188,31 @@ namespace Vts.MonteCarlo
             /* Decide whether or not photon goes to next region */
             if (_rng.NextDouble() > probOfCrossing)
             {
-                // if at border of system but not first time entering, then exit
-                if (_tissue.OnDomainBoundary(this) && _inTissue) 
-                //if (_tissue.OnDomainBoundary(this))
-                {
-                    DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
-                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                    // add updated final DP to History
-                    History.AddDPToHistory(DP);
-                    // adjust CAW weight for portion of track prior to exit
-                    if (Absorb == AbsorbContinuous)
-                    {
-                        AbsorbContinuous();
-                    }
-                    //don't need to update these unless photon not dead upon exiting tissue
-                    //DP.Direction.Ux *= nCurrent / nNext;
-                    //DP.Direction.Uy *= nCurrent / nNext;
-                    //DP.Direction.Uz = uZSnell;
-                }
-                else // not on domain boundary, at internal interface, pass to next
-                {
+                //// if at border of system but not first time entering, then exit
+                //if (_tissue.OnDomainBoundary(this) && _inTissue) 
+                ////if (_tissue.OnDomainBoundary(this))
+                //{
+                //    DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
+                //    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                //    // add updated final DP to History
+                //    History.AddDPToHistory(DP);
+                //    // adjust CAW weight for portion of track prior to exit
+                //    if (Absorb == AbsorbContinuous)
+                //    {
+                //        AbsorbContinuous();
+                //    }
+                //    //don't need to update these unless photon not dead upon exiting tissue
+                //    //DP.Direction.Ux *= nCurrent / nNext;
+                //    //DP.Direction.Uy *= nCurrent / nNext;
+                //    //DP.Direction.Uz = uZSnell;
+                //}
+                //else // not on domain boundary, at internal interface, pass to next
+                //{
                     CurrentRegionIndex = neighborIndex;
                     DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                         nCurrent, nNext, cosThetaSnell);
                     DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.OnBoundary);
-                    _inTissue = true;
-                }
+                //}
             }
             else  // don't cross, reflect
             {
