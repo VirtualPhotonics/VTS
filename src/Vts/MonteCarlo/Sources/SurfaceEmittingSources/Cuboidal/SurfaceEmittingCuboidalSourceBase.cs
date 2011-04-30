@@ -62,28 +62,28 @@ namespace Vts.MonteCarlo.Sources
                     finalPosition.X = 0.5 * _cubeLengthX;
                     finalPosition.Y = tempPosition.Y;
                     finalPosition.Z = tempPosition.X;
-                    finalDirection = SourceToolbox.GetDirectionAfterRotationAroundxAxis(0.5 * Math.PI, finalDirection);
+                    finalDirection = SourceToolbox.GetDirectionAfterRotationAroundXAxis(0.5 * Math.PI, finalDirection);
                     break;
                 case "xneg":
                     tempPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeHeightZ, _cubeWidthY, Rng);
                     finalPosition.X = -0.5 * _cubeLengthX;
                     finalPosition.Y = tempPosition.Y;
                     finalPosition.Z = tempPosition.X;
-                    finalDirection = SourceToolbox.GetDirectionAfterRotationAroundxAxis(-0.5 * Math.PI, finalDirection);
+                    finalDirection = SourceToolbox.GetDirectionAfterRotationAroundXAxis(-0.5 * Math.PI, finalDirection);
                     break;
                 case "ypos":
                     tempPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeLengthX, _cubeHeightZ, Rng);
                     finalPosition.X = tempPosition.X;
                     finalPosition.Y = 0.5 * _cubeWidthY;
                     finalPosition.Z = tempPosition.Y;
-                    finalDirection = SourceToolbox.GetDirectionAfterRotationAroundyAxis(0.5 * Math.PI, finalDirection);
+                    finalDirection = SourceToolbox.GetDirectionAfterRotationAroundYAxis(0.5 * Math.PI, finalDirection);
                     break;
                 case "yneg":
                     tempPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeLengthX, _cubeHeightZ, Rng);
                     finalPosition.X = tempPosition.X;
                     finalPosition.Y = -0.5 * _cubeWidthY;
                     finalPosition.Z = tempPosition.Y;
-                    finalDirection = SourceToolbox.GetDirectionAfterRotationAroundyAxis(-0.5 * Math.PI, finalDirection);
+                    finalDirection = SourceToolbox.GetDirectionAfterRotationAroundYAxis(-0.5 * Math.PI, finalDirection);
                     break;
                 case "zpos":
                     tempPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeLengthX, _cubeWidthY, Rng);

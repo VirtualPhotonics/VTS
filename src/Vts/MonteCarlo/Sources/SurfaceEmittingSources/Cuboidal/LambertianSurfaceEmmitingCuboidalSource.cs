@@ -22,7 +22,6 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="cubeWidthY">The  width of cube (along y axis)</param>
         /// <param name="cubeHeightZ">The height of cube (along z axis)</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian(1D/2D/3D)}</param>
-        /// <param name="polarAngleEmissionRange">Polar angle emission range</param>
         /// <param name="translationFromOrigin">Source axis rotation</param>
         /// <param name="rotationOfPrincipalSourceAxis">New source location</param>
         public LambertianSurfaceEmittingCuboidalSource(
@@ -52,7 +51,6 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="cubeWidthY"></param>
         /// <param name="cubeHeightZ"></param>
         /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
         /// <param name="rotationOfPrincipalSourceAxis"></param>
         public LambertianSurfaceEmittingCuboidalSource(
             double cubeLengthX,
@@ -79,7 +77,6 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="cubeWidthY"></param>
         /// <param name="cubeHeightZ"></param>
         /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
         /// <param name="translationFromOrigin"></param>
         public LambertianSurfaceEmittingCuboidalSource(
             double cubeLengthX,
@@ -105,7 +102,6 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="cubeWidthY"></param>
         /// <param name="cubeHeightZ"></param>
         /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
         public LambertianSurfaceEmittingCuboidalSource(
             double cubeLengthX,
             double cubeWidthY,

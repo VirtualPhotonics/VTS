@@ -314,12 +314,12 @@
     <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PostProcessorInput.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceFlags.cs" />
-    <Compile Include="MonteCarlo\Sources\CircularSources\CircularSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\CircularSources\CustomCircularSource.cs" />
-    <Compile Include="MonteCarlo\Sources\CircularSources\DirectionalCircularSource.cs" />
-    <Compile Include="MonteCarlo\Sources\EllipticalSources\EllipticalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\EllipticalSources\DirectionalEllipticalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\EllipticalSources\CustomEllipticalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\CircularSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\CustomCircularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\DirectionalCircularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\EllipticalSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\DirectionalEllipticalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\CustomEllipticalSource.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\IsotropicLineSource.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\LineSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\LineSources\DirectionalLineSource.cs" />
@@ -330,17 +330,19 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\Sources\PointSources\IsotropicPointSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\SurfaceEmittingCuboidalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\CustomSurfaceEmittingCuboidalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\LambertianSurfaceEmmitingCuboidalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\RectangularSources\RectangularSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\RectangularSources\DirectionalRectangularSource.cs" />
-    <Compile Include="MonteCarlo\Sources\RectangularSources\CustomRectangularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Tube\LambertianSurfaceEmmitingTubeSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Tube\SurfaceEmittingTubeSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\SurfaceEmittingCuboidalSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\CustomSurfaceEmittingCuboidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\LambertianSurfaceEmmitingCuboidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\RectangularSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\DirectionalRectangularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\CustomRectangularSource.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
     <Compile Include="MonteCarlo\Sources\SourceProfiles\GaussianSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\SurfaceEmittingSphericalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\LambertianSurfaceEmmitingSphericalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\SurfaceEmittingSphericalSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\LambertianSurfaceEmmitingSphericalSource.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\CustomCuboidalSource.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\IsotropicEllipsoidalSource.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceBase.cs" />
@@ -366,7 +368,7 @@
     <Compile Include="MonteCarlo\Detectors\TOfAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfRhoDetector.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\CustomSurfaceEmittingSphericalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\CustomSurfaceEmittingSphericalSource.cs" />
     <Compile Include="MonteCarlo\Tissues\CylinderRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\EllipsoidRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\LayerRegion.cs" />

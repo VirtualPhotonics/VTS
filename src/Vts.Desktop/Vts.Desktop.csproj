@@ -733,26 +733,8 @@
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PostProcessorInput.cs">
       <Link>MonteCarlo\PostProcessing\PostProcessorInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\CircularSources\CircularSourceBase.cs">
-      <Link>MonteCarlo\Sources\CircularSources\CircularSourceBase.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\CircularSources\CustomCircularSource.cs">
-      <Link>MonteCarlo\Sources\CircularSources\CustomCircularSource.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\CircularSources\DirectionalCircularSource.cs">
-      <Link>MonteCarlo\Sources\CircularSources\DirectionalCircularSource.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSourceInputOld.cs">
       <Link>MonteCarlo\Sources\CustomPointSourceInputOld.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\CustomEllipticalSource.cs">
-      <Link>MonteCarlo\Sources\EllipticalSources\CustomEllipticalSource.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\DirectionalEllipticalSource.cs">
-      <Link>MonteCarlo\Sources\EllipticalSources\DirectionalEllipticalSource.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\EllipticalSources\EllipticalSourceBase.cs">
-      <Link>MonteCarlo\Sources\EllipticalSources\EllipticalSourceBase.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\CustomLineSource.cs">
       <Link>MonteCarlo\Sources\LineSources\CustomLineSource.cs</Link>
@@ -778,38 +760,62 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\PointSources\PointSourceBase.cs">
       <Link>MonteCarlo\Sources\PointSources\PointSourceBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\CustomRectangularSource.cs">
-      <Link>MonteCarlo\Sources\RectangularSources\CustomRectangularSource.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\DirectionalRectangularSource.cs">
-      <Link>MonteCarlo\Sources\RectangularSources\DirectionalRectangularSource.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\RectangularSources\RectangularSourceBase.cs">
-      <Link>MonteCarlo\Sources\RectangularSources\RectangularSourceBase.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs">
       <Link>MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\GaussianSourceProfile.cs">
       <Link>MonteCarlo\Sources\SourceProfiles\GaussianSourceProfile.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\CustomSurfaceEmittingCuboidalSource.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingSources\CustomSurfaceEmittingCuboidalSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Circular\CircularSourceBase.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Circular\CircularSourceBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\CustomSurfaceEmittingSphericalSource.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingSources\CustomSurfaceEmittingSphericalSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Circular\CustomCircularSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Circular\CustomCircularSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\LambertianSurfaceEmmitingCuboidalSource.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingSources\LambertianSurfaceEmmitingCuboidalSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Circular\DirectionalCircularSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Circular\DirectionalCircularSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\LambertianSurfaceEmmitingSphericalSource.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingSources\LambertianSurfaceEmmitingSphericalSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\CustomSurfaceEmittingCuboidalSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\CustomSurfaceEmittingCuboidalSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\SurfaceEmittingCuboidalSourceBase.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingSources\SurfaceEmittingCuboidalSourceBase.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\LambertianSurfaceEmmitingCuboidalSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\LambertianSurfaceEmmitingCuboidalSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\SurfaceEmittingSphericalSourceBase.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingSources\SurfaceEmittingSphericalSourceBase.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\SurfaceEmittingCuboidalSourceBase.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\SurfaceEmittingCuboidalSourceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\CustomEllipticalSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\CustomEllipticalSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\DirectionalEllipticalSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\DirectionalEllipticalSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\EllipticalSourceBase.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\EllipticalSourceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\CustomRectangularSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\CustomRectangularSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\DirectionalRectangularSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\DirectionalRectangularSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\RectangularSourceBase.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\RectangularSourceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Spherical\CustomSurfaceEmittingSphericalSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Spherical\CustomSurfaceEmittingSphericalSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Spherical\LambertianSurfaceEmmitingSphericalSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Spherical\LambertianSurfaceEmmitingSphericalSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Spherical\SurfaceEmittingSphericalSourceBase.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Spherical\SurfaceEmittingSphericalSourceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Tube\LambertianSurfaceEmmitingTubeSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Tube\LambertianSurfaceEmmitingTubeSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Tube\SurfaceEmittingTubeSourceBase.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Tube\SurfaceEmittingTubeSourceBase.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\CuboidalSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\CuboidalSourceBase.cs</Link>
