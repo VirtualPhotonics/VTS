@@ -110,7 +110,7 @@ namespace Vts.MonteCarlo.PostProcessor
         private pMCDatabase pmcDatabase;
 
         public string InputFilename { get; set; }
-        public string OutputFolder { get; set; }      
+        public string OutputFolder { get; set; }
         public PostProcessorInput Input { get; set; }
 
         public bool ValidInput { get; set; }
@@ -147,8 +147,8 @@ namespace Vts.MonteCarlo.PostProcessor
             else
             {
                 Console.WriteLine("\nNo detector input file specified. Using newinfile.xml from resources.");
-                Input = FileIO.ReadFromXML<PostProcessorInput>("newinfile.xml"); 
-                
+                Input = FileIO.ReadFromXML<PostProcessorInput>("newinfile.xml");
+
             }
             // read in SimulationInput that generated database
             if (Input.DatabaseSimulationInputFilename.Length > 0)
@@ -161,7 +161,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 }
                 else
                 {
-                    Console.WriteLine("\nThe following input file could not be found: " + 
+                    Console.WriteLine("\nThe following input file could not be found: " +
                         Input.DatabaseSimulationInputFilename + ".xml");
                     return false;
                 }
@@ -189,7 +189,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     }
                     else
                     {
-                        Console.WriteLine("\nOne of the following database files could not be found: " + 
+                        Console.WriteLine("\nOne of the following database files could not be found: " +
                             photonDatabaseName + ".xml or" + collisionInfoDatabaseName + ".xml");
                         return false;
                     }
@@ -205,11 +205,11 @@ namespace Vts.MonteCarlo.PostProcessor
                     }
                     else
                     {
-                        Console.WriteLine("\nThe following database file could not be found: " + 
+                        Console.WriteLine("\nThe following database file could not be found: " +
                                 photonDatabaseName + ".xml");
                         return false;
                     }
-                }    
+                }
             }
             return true;
         }
@@ -246,14 +246,32 @@ namespace Vts.MonteCarlo.PostProcessor
             }
 
         }
+
+        /// <summary>
+        /// Displays the help text for detailed usage of the application
+        /// </summary>
+        public void ShowHelp()
+        {
+            Console.WriteLine("Virtual Photonics MC 1.0");
+            Console.WriteLine();
+            Console.WriteLine("list of arguments:");
+            Console.WriteLine();
+            Console.WriteLine("infile\t\tthe input file.");
+            Console.WriteLine("outfile\t\tthe output file.");
+            Console.WriteLine();
+            Console.WriteLine("sample usage:");
+            Console.WriteLine();
+            Console.WriteLine("mc_post infile=myinput outfile=myoutput");
+        }
     }
 
-    
     class Program
     {
         static void Main(string[] args)
         {
             PostProcessorSetup PostProcessorSetup = new PostProcessorSetup();
+
+            bool _showHelp = false;
             
     #region Infile Generation (optional)
         //To Generate an infile, uncomment the first line of code in this file
@@ -332,6 +350,10 @@ namespace Vts.MonteCarlo.PostProcessor
                         Console.WriteLine("mc_post infile=myinput outfile=myoutfile");
                         Console.WriteLine();
                     },
+                new CommandLine.Switch("help", val =>
+                    {
+                        _showHelp = true;
+                    }),
                 new CommandLine.Switch("infile", val =>
                     {
                         Console.WriteLine("input file specified as {0}", val.First());
@@ -348,18 +370,25 @@ namespace Vts.MonteCarlo.PostProcessor
                 //        PostProcessorSetup.DatabaseFile = val.First();
                 //    })
             );
-
-            PostProcessorSetup.ReadPostProcessorInputFromFile();
-
-            if (PostProcessorSetup.ValidInput)
+            //if help is passed as an agument do not run PP, just display the help for the topic
+            if (_showHelp)
             {
-                PostProcessorSetup.RunPostProcessor();
-                Console.Write("\nPostProcessor complete.");
+                PostProcessorSetup.ShowHelp();
             }
             else
             {
-                Console.Write("\nPostProcessor completed with errors. Press enter key to exit.");
-                Console.Read();
+                PostProcessorSetup.ReadPostProcessorInputFromFile();
+
+                if (PostProcessorSetup.ValidInput)
+                {
+                    PostProcessorSetup.RunPostProcessor();
+                    Console.Write("\nPostProcessor complete.");
+                }
+                else
+                {
+                    Console.Write("\nPostProcessor completed with errors. Press enter key to exit.");
+                    Console.Read();
+                }
             }
         }
 
