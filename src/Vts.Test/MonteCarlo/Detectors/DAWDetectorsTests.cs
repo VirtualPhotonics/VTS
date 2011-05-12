@@ -112,6 +112,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_output.R_r[0] - 0.615238307), 0.000000001);
         }
+        // Reflection R(rho) 2nd moment, linux value output in printf statement
+        [Test]
+        public void validate_CAW_ROfRho_second_moment()
+        {
+            Assert.Less(Math.Abs(_output.R_r2[0] - 18.92598), 0.00001);
+        }
         // Reflection R(angle)
         [Test]
         public void validate_DAW_ROfAngle()

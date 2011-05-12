@@ -61,10 +61,12 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Angle.Delta * numPhotons;
+            var normalizationFactor = 2.0 * Math.PI * Angle.Delta;
             for (int ia = 0; ia < Angle.Count - 1; ia++)
             {
-                Mean[ia] /= Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor;
+                Mean[ia] /= Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor * numPhotons;
+                SecondMoment[ia] /= Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor *
+                    Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor * numPhotons;
             }
         }
 

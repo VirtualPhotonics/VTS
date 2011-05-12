@@ -149,14 +149,16 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta * Z.Delta * Time.Delta * numPhotons;
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta * Z.Delta * Time.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
                 for (int iz = 0; iz < Z.Count - 1; iz++)
                 {
                     for (int it = 0; it < Time.Count - 1; it++)
                     {
-                        Mean[ir, iz, it] /= (ir + 0.5) * normalizationFactor;
+                        Mean[ir, iz, it] /= (ir + 0.5) * normalizationFactor * numPhotons;
+                        SecondMoment[ir, iz, it] /= (ir + 0.5) * normalizationFactor *
+                            (ir + 0.5) * normalizationFactor * numPhotons;
                     }
                 }
             }

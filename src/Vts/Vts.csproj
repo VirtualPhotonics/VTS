@@ -286,6 +286,7 @@
     <Compile Include="MonteCarlo\IO\DatabaseReader.cs" />
     <Compile Include="MonteCarlo\IO\DatabaseOfT.cs" />
     <Compile Include="MonteCarlo\IO\DetectorIO.cs" />
+    <Compile Include="MonteCarlo\Helpers\ErrorCalculation.cs" />
     <Compile Include="MonteCarlo\PhotonData\CollisionInfo.cs" />
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabase.cs" />
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseWriter.cs" />

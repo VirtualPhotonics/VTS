@@ -51,6 +51,7 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;
+            SecondMoment /= numPhotons;
         }
 
         public bool ContainsPoint(PhotonDataPoint dp)
