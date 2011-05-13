@@ -82,7 +82,7 @@ namespace Vts.MonteCarlo.Sources
                     finalPosition = SourceToolbox.GetRandomGaussianLinePosition(
                         new Position(0, 0, 0),
                         lineLength,
-                        gaussianProfile.StdDev,
+                        gaussianProfile.BeamWaist,
                         rng);
                     break;                
             }

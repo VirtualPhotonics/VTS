@@ -88,7 +88,7 @@ namespace Vts.MonteCarlo.Sources
                         cubeLengthX,
                         cubeWidthY,
                         cubeHeightZ,
-                        gaussianProfile.StdDev,
+                        gaussianProfile.BeamWaist,
                         rng);
                     break;
             }
