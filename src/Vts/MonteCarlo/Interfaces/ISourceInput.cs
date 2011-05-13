@@ -6,5 +6,6 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface ISourceInput
     {
+        SourceType SourceType { get; set; }
     }
 }

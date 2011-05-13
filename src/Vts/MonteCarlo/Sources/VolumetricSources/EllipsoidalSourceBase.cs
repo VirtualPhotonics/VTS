@@ -88,7 +88,7 @@ namespace Vts.MonteCarlo.Sources
                         2 * aParameter,
                         2 * bParameter,
                         2 * cParameter,
-                        gaussianProfile.BeamWaist,
+                        gaussianProfile.BeamFWHM,
                         rng);
                     break;
             }

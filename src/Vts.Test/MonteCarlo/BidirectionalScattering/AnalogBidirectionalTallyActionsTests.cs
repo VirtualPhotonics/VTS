@@ -41,11 +41,9 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     PhaseFunctionType.Bidirectional,
                     null, 
                     0),
-                new PointSourceCollimatedInput(
-                    new Position(0, 0, 0),
-                    new Direction(0, 0, 1),
-                    new DoubleRange(0.0, 0, 1),
-                    new DoubleRange(0.0, 0, 1)
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0)
                 ),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>

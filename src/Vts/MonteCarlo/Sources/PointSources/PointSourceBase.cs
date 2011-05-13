@@ -27,13 +27,16 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin,
             PolarAzimuthalAngles rotationFromInwardNormal)
         {
+            _rotationAndTranslationFlags = new SourceFlags(
+                translationFromOrigin != SourceDefaults.DefaultTranslationFromOrigin,
+                rotationFromInwardNormal != SourceDefaults.DefaultRoationFromInwardNormal,
+                false);
+
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
             _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();    
             _translationFromOrigin = translationFromOrigin.Clone();
-            _rotationFromInwardNormal = rotationFromInwardNormal.Clone();           
-            _rotationAndTranslationFlags = new SourceFlags(true, true, false); //??           
+            _rotationFromInwardNormal = rotationFromInwardNormal.Clone();                   
         }
-
 
         public Photon GetNextPhoton(ITissue tissue)
         {

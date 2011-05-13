@@ -2,6 +2,7 @@
 using System.IO;
 using Vts.Common;
 using Vts.Extensions;
+using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.Helpers
 {
@@ -28,11 +29,11 @@ namespace Vts.MonteCarlo.Helpers
             SourceFlags flags)
         {
             if (flags.rotationFromInwardNormalFlag)
-                dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);
+                UpdateDirectionAfterRotationByGivenPolarAndAzimuthalAngles(rotateBeam, dir);
             if (flags.RotationOfPrincipalSourceAxisFlag)
-                dir = GetDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, dir);
+                UpdateDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, dir);
             if (flags.TranslationFromOriginFlag)
-                pos = GetPositionafterTranslation(pos, translate);
+                UpdatePositionafterTranslation(pos, translate);
         }
 
         /// <summary>
@@ -51,9 +52,9 @@ namespace Vts.MonteCarlo.Helpers
             SourceFlags flags)
         {
             if (flags.rotationFromInwardNormalFlag)
-                dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);
+                UpdateDirectionAfterRotationByGivenPolarAndAzimuthalAngles(rotateBeam, dir);
             if (flags.TranslationFromOriginFlag)
-                pos = GetPositionafterTranslation(pos, translate);
+                UpdatePositionafterTranslation(pos, translate);
         }
 
 
@@ -73,9 +74,9 @@ namespace Vts.MonteCarlo.Helpers
             SourceFlags flags)
         {
             if (flags.RotationOfPrincipalSourceAxisFlag)
-                dir = GetDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, dir);
+                UpdateDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, dir);
             if (flags.TranslationFromOriginFlag)
-                pos = GetPositionafterTranslation(pos, translate);
+                UpdatePositionafterTranslation(pos, translate);
         }
 
         /// <summary>
@@ -94,7 +95,7 @@ namespace Vts.MonteCarlo.Helpers
             SourceFlags flags)
         {
             if (flags.rotationFromInwardNormalFlag)
-                dir = GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(rotateBeam, dir);
+                UpdateDirectionAfterRotationByGivenPolarAndAzimuthalAngles(rotateBeam, dir);
             if (flags.RotationOfPrincipalSourceAxisFlag)
                 DoSourceRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, ref dir, ref pos);
         }
@@ -109,13 +110,13 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="flags"></param>
         public static void DoRotationandTranslationForGivenFlags(
             ref Position pos,
-            ref Direction dir, 
+            ref Direction dir,
             Position translate,
             SourceFlags flags)
         {
             if (flags.TranslationFromOriginFlag)
-                pos = GetPositionafterTranslation(pos, translate);
-        }   
+                UpdatePositionafterTranslation(pos, translate);
+        }
 
         /// <summary>
         /// Returns a random position in a line (Flat distribution)        
@@ -240,7 +241,7 @@ namespace Vts.MonteCarlo.Helpers
                 return (center);
             }
 
-            var position = new Position { Z = center.Z };            
+            var position = new Position { Z = center.Z };
 
             position.X = center.X + OneGaussianDistributedRandomNumber(
                 GetLowerLimit(stdev),
@@ -281,8 +282,8 @@ namespace Vts.MonteCarlo.Helpers
             position.Z = center.Z + GetRandomFlatLocationOfSymmetricalLine(lengthZ, rng);
             return position;
         }
-              
-        
+
+
         /// <summary>
         /// Returns a random position in a cuboid volume (Gaussian distribution)
         /// </summary>
@@ -308,7 +309,7 @@ namespace Vts.MonteCarlo.Helpers
                 return (center);
             }
 
-            Position position = new Position (0, 0, 0);
+            Position position = new Position(0, 0, 0);
 
             position.X = center.X + OneGaussianDistributedRandomNumber(
                 GetLowerLimit(stdev),
@@ -340,25 +341,25 @@ namespace Vts.MonteCarlo.Helpers
             double lengthY,
             double lengthZ,
             Random rng)
-        {          
+        {
             if ((lengthX == 0.0) && (lengthY == 0.0) && (lengthZ == 0.0))
             {
                 return (center);
             }
 
             var position = new Position { };
-            double  radius;
+            double radius;
             do
             {
-                position = GetRandomFlatCuboidPosition(center, 
-                    lengthX, 
-                    lengthY, 
+                position = GetRandomFlatCuboidPosition(center,
+                    lengthX,
+                    lengthY,
                     lengthZ,
                     rng);
                 radius = (4.0 * position.X * position.X / (lengthX * lengthX) +
                           4.0 * position.Y * position.Y / (lengthY * lengthY) +
                           4.0 * position.Z * position.Z / (lengthZ * lengthZ));
-            } while (radius <= 1.0);            
+            } while (radius <= 1.0);
             return position;
         }
 
@@ -390,8 +391,8 @@ namespace Vts.MonteCarlo.Helpers
             double radius;
             do
             {
-                position = GetRandomGaussianCuboidPosition(center, 
-                    lengthX,    
+                position = GetRandomGaussianCuboidPosition(center,
+                    lengthX,
                     lengthY,
                     lengthZ,
                     stdev,
@@ -413,8 +414,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
         public static Position GetRandomFlatCirclePosition(
-            Position center, 
-            double innerRadius, 
+            Position center,
+            double innerRadius,
             double outerRadius,
             Random rng)
         {
@@ -423,7 +424,7 @@ namespace Vts.MonteCarlo.Helpers
                 return (center);
             }
             double RN1 = 2 * Math.PI * rng.NextDouble();
-            double RN2 = Math.Sqrt (innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble());
+            double RN2 = Math.Sqrt(innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble());
             return (new Position(
                 center.X + RN2 * Math.Cos(RN1),
                 center.Y + RN2 * Math.Sin(RN1),
@@ -452,14 +453,14 @@ namespace Vts.MonteCarlo.Helpers
             }
 
             double x = 0.0;
-            double y = 0.0;   
-           
+            double y = 0.0;
+
             TwoGaussianDistributedRandomNumbers(
-                ref x, 
+                ref x,
                 ref y,
                 GetLowerLimit(stdev),
                 GetUpperLimit(innerRadius, outerRadius, stdev),
-                rng);             
+                rng);
 
             return (new Position(
                 center.X + x,
@@ -490,7 +491,7 @@ namespace Vts.MonteCarlo.Helpers
             /*eliminate points outside the ellipse */
             do
             {
-                x = a * (2.0  * rng.NextDouble() - 1);
+                x = a * (2.0 * rng.NextDouble() - 1);
                 y = b * (2.0 * rng.NextDouble() - 1);
             }
             while ((x * x / (a * a)) + (y * y / (b * b)) <= 1.0);
@@ -558,7 +559,7 @@ namespace Vts.MonteCarlo.Helpers
             return (new Direction(
                 position.X / radius,
                 position.Y / radius,
-                Math.Cos(polarAngle)));            
+                Math.Cos(polarAngle)));
         }
 
         /// <summary>
@@ -618,7 +619,7 @@ namespace Vts.MonteCarlo.Helpers
                 cost));
         }
 
-        
+
         /// <summary>
         /// Provides a polarazimuthal angle pair for a given uniform random polar angle range and random azimuthal angle range
         /// </summary>
@@ -903,7 +904,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="zRotation">rotation angle around the z-axis</param>
         /// <param name="currentDirection">The direction to be updated</param>
         /// <returns></returns>
-        public static Direction GetDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(
+        public static void UpdateDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(
             ThreeAxisRotation rotationAngles,
             Direction currentDirection)
         {
@@ -924,7 +925,6 @@ namespace Vts.MonteCarlo.Helpers
             currentDirection.Ux = ux * cosy * cosz + uy * (-cosx * sinz + sinx * siny * cosz) + uz * (sinx * sinz + cosx * siny * cosz);
             currentDirection.Uy = ux * cosy * sinz + uy * (cosx * cosz + sinx * siny * sinz) + uz * (-sinx * cosz + cosx * siny * sinz);
             currentDirection.Uz = ux * siny + uy * sinx * cosy + uz * cosx * cosy;
-            return currentDirection;
         }
 
         /// <summary>
@@ -934,7 +934,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="phi">azimuthal angle</param>
         /// <param name="currentDirection">The direction to be updated</param>
         /// <returns></returns>
-        public static Direction GetDirectionAfterRotationByGivenPolarAndAzimuthalAngle(
+        public static void UpdateDirectionAfterRotationByGivenPolarAndAzimuthalAngles(
             PolarAzimuthalAngles rotationAngle,
             Direction currentDirection)
         {
@@ -953,7 +953,42 @@ namespace Vts.MonteCarlo.Helpers
             currentDirection.Ux = ux * cosp * cost - uy * sint + uz * sinp * cost;
             currentDirection.Uy = ux * cosp * sint + uy * cost + uz * sinp * sint;
             currentDirection.Uz = -ux * sinp + uz * cost;
-            return currentDirection;
+        }
+
+        public static PolarAzimuthalAngles GetPolarAndAzimuthalAnglesFromDirection(
+            Direction direction)
+        {
+            if (direction == SourceDefaults.InwardNormal)
+            {
+                return new PolarAzimuthalAngles(0.0, 0.0);
+            }
+
+            //// readability eased with local copies of following
+            //double ux = currentDirection.Ux;
+            //double uy = currentDirection.Uy;
+            //double uz = currentDirection.Uz;
+
+            //double cost, sint, cosp, sinp;    /* cosine and sine of theta and phi */
+
+            //cost = Math.Cos(rotationAngle.Theta);
+            //cosp = Math.Cos(rotationAngle.Phi);
+            //sint = Math.Sqrt(1.0 - cost * cost);
+            //sinp = Math.Sqrt(1.0 - cosp * cosp);
+
+            //currentDirection.Ux = ux * cosp * cost - uy * sint + uz * sinp * cost;
+            //currentDirection.Uy = ux * cosp * sint + uy * cost + uz * sinp * sint;
+            //currentDirection.Uz = -ux * sinp + uz * cost;
+
+            // todo asap: calculate theta and phi from direction!
+
+            var theta = 0;
+            var phi = 0;
+
+            PolarAzimuthalAngles polarAzimuthalAngles = new PolarAzimuthalAngles(
+                theta,
+                phi);
+
+            return polarAzimuthalAngles;
         }
 
         /// <summary>
@@ -976,12 +1011,12 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
         public static double GetRandomFlatLocationOfSymmetricalLine(
-            double length, 
+            double length,
             Random rng)
-        {            
+        {
             return length * (rng.NextDouble() - 0.5);
         }
-       
+
 
         /// <summary>
         /// Generate one normally (Gaussian) distributed random number by using Box Muller Algorithm (with sine/cosine)
@@ -990,12 +1025,12 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="lowerLimit">lower limit of the uniform random number</param>
         /// <param name="upperLimit">upper limit of the uniform random number</param>
         /// <param name="rng">The random number generator</param>
-        public static double OneGaussianDistributedRandomNumber(             
-            double lowerLimit, 
+        public static double OneGaussianDistributedRandomNumber(
+            double lowerLimit,
             double upperLimit,
             Random rng)
         {
-            return Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit,upperLimit))) * Math.Cos(2 * Math.PI * rng.NextDouble());
+            return Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, upperLimit))) * Math.Cos(2 * Math.PI * rng.NextDouble());
         }
 
         /// <summary>
@@ -1007,7 +1042,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="upperBound">upper limit of the uniform random number</param>
         /// <param name="rng">The random number generator</param>
         public static void TwoGaussianDistributedRandomNumbers(
-            ref double nrng1, 
+            ref double nrng1,
             ref double nrng2,
             double lowerLimit,
             double upperLimit,
@@ -1016,7 +1051,7 @@ namespace Vts.MonteCarlo.Helpers
             double RN1, RN2;
 
             RN1 = 2 * Math.PI * rng.NextDouble();
-            RN2 = Math.Sqrt(- 2 * Math.Log(rng.NextDouble(lowerLimit, upperLimit))) ;
+            RN2 = Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, upperLimit)));
 
             nrng1 = RN2 * Math.Cos(RN1);
             nrng2 = RN2 * Math.Sin(RN1);
@@ -1051,21 +1086,20 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="oldPosition">The old location</param>
         /// <param name="translation">Translation coordinats relative to the origin</param>
         /// <returns></returns>
-        public static Position GetPositionafterTranslation(
-            Position oldPosition, 
+        public static void UpdatePositionafterTranslation(
+            Position oldPosition,
             Position translation)
         {
-            return (new Position(
-                oldPosition.X + translation.X,
-                oldPosition.Y + translation.Y,
-                oldPosition.Z + translation.Z));
+            oldPosition.X += translation.X;
+            oldPosition.Y += translation.Y;
+            oldPosition.Z += translation.Z;
         }
-        
-        
+
+
         public static double NAToPolarAngle(double numericalAperture)
         {
             return Math.Asin(numericalAperture);
-        }  
+        }
 
         public static double GetUpperLimit(double start, double end, double stdev)
         {

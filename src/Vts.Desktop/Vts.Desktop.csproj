@@ -526,8 +526,8 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs">
       <Link>MonteCarlo\DataStructures\SimulationOptions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\PointSourceCollimatedInput.cs">
-      <Link>MonteCarlo\DataStructures\SourceInputs\PointSourceCollimatedInput.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\DirectionalPointSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\DirectionalPointSourceInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs</Link>
@@ -733,9 +733,6 @@
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PostProcessorInput.cs">
       <Link>MonteCarlo\PostProcessing\PostProcessorInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSourceInputOld.cs">
-      <Link>MonteCarlo\Sources\CustomPointSourceInputOld.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\CustomLineSource.cs">
       <Link>MonteCarlo\Sources\LineSources\CustomLineSource.cs</Link>
     </Compile>
@@ -760,6 +757,9 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\PointSources\PointSourceBase.cs">
       <Link>MonteCarlo\Sources\PointSources\PointSourceBase.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SourceDefaults.cs">
+      <Link>MonteCarlo\Sources\SourceDefaults.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs">
       <Link>MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs</Link>
     </Compile>
@@ -778,8 +778,8 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\CustomSurfaceEmittingCuboidalSource.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\CustomSurfaceEmittingCuboidalSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\LambertianSurfaceEmmitingCuboidalSource.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\LambertianSurfaceEmmitingCuboidalSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\LambertianSurfaceEmittingCuboidalSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\LambertianSurfaceEmittingCuboidalSource.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\SurfaceEmittingCuboidalSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\SurfaceEmittingCuboidalSourceBase.cs</Link>
@@ -811,8 +811,8 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Spherical\SurfaceEmittingSphericalSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingSources\Spherical\SurfaceEmittingSphericalSourceBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Tube\LambertianSurfaceEmmitingTubeSource.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Tube\LambertianSurfaceEmmitingTubeSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Tube\LambertianSurfaceEmittingTubeSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Tube\LambertianSurfaceEmittingTubeSource.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Tube\SurfaceEmittingTubeSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingSources\Tube\SurfaceEmittingTubeSourceBase.cs</Link>

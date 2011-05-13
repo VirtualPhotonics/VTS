@@ -7,6 +7,6 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
         [IgnoreDataMember]
         public SourceProfileType ProfileType { get { return SourceProfileType.Gaussian; } }
 
-        public double BeamWaist { get; set; }
+        public double BeamFWHM { get; set; }
     }
 }

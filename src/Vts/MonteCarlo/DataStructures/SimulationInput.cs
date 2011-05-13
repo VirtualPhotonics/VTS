@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo
 #endif
     // todo: Can we do this programmatcially? DataContractResolver? Automatically via convention?
     
-    [KnownType(typeof(PointSourceCollimatedInput))]
+    [KnownType(typeof(DirectionalPointSourceInput))]
 
     // Tissue inputs
     [KnownType(typeof(MultiLayerTissueInput))]
@@ -87,7 +87,7 @@ namespace Vts.MonteCarlo
                     PhaseFunctionType.HenyeyGreenstein,
                     null, 
                     0),
-                new PointSourceCollimatedInput(),
+                new DirectionalPointSourceInput(),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
                     { 

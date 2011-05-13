@@ -17,29 +17,23 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="rotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
         public DirectionalPointSource(
-            Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal)
+            Position pointLocation,
+            Direction direction)
             : base(
-                new DoubleRange (0, 0),
-                new DoubleRange(0, 0),
-                translationFromOrigin,
-                rotationFromInwardNormal)
+                new DoubleRange (0.0, 0.0),
+                new DoubleRange(0.0, 0.0),
+                pointLocation,
+                SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(direction))
         {
-            _rotationAndTranslationFlags = new SourceFlags(true, true, false);
         }
 
         /// <summary>
         ///  Returns an instance of Directional Point Source emitting along the z-axis at the translated location.
         /// </summary>
         /// <param name="translationFromOrigin"></param>
-        public DirectionalPointSource(
-            Position translationFromOrigin
-            )
-            : this(
-                translationFromOrigin,
-                new PolarAzimuthalAngles(0, 0))
+        public DirectionalPointSource(Position pointLocation)
+            : this(pointLocation, new Direction(0.0, 0.0, 1.0))
         {
-            _rotationAndTranslationFlags = new SourceFlags(true, false, false);
         }
 
         /// <summary>
@@ -47,24 +41,17 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="rotationFromInwardNormal"></param>
         public DirectionalPointSource(
-            PolarAzimuthalAngles rotationFromInwardNormal)
-            : this(
-                new Position(0, 0, 0),
-                rotationFromInwardNormal)
+            Direction direction)
+            : this( new Position(0.0, 0.0, 0.0), direction)
         {
-            _rotationAndTranslationFlags = new SourceFlags(false, true, false);
         }
 
         /// <summary>
         ///  Returns an instance of Directional Point Source emitting along the z-axis at the origin.
         /// </summary>
         public DirectionalPointSource()
-            : this(
-                new Position(0, 0, 0),
-                new PolarAzimuthalAngles(0, 0))
+            : this(new Position(0.0, 0.0, 0.0), new Direction(0.0, 0.0, 1.0))
         {
-            _rotationAndTranslationFlags = new SourceFlags(false, false, false);
         }
-
     }
 }
