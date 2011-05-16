@@ -948,7 +948,7 @@ namespace Vts.MonteCarlo.Helpers
             cost = Math.Cos(rotationAngle.Theta);
             cosp = Math.Cos(rotationAngle.Phi);
             sint = Math.Sqrt(1.0 - cost * cost);
-            sinp = Math.Sqrt(1.0 - cosp * cosp);
+            sinp = Math.Sin(rotationAngle.Phi);
 
             currentDirection.Ux = ux * cosp * cost - uy * sint + uz * sinp * cost;
             currentDirection.Uy = ux * cosp * sint + uy * cost + uz * sinp * sint;
@@ -963,26 +963,24 @@ namespace Vts.MonteCarlo.Helpers
                 return new PolarAzimuthalAngles(0.0, 0.0);
             }
 
-            //// readability eased with local copies of following
-            //double ux = currentDirection.Ux;
-            //double uy = currentDirection.Uy;
-            //double uz = currentDirection.Uz;
+            double x, y, z, r, theta, phi;
+            x = direction.Ux;
+            y = direction.Uy;
+            z = direction.Uz;
 
-            //double cost, sint, cosp, sinp;    /* cosine and sine of theta and phi */
+            theta = Math.Acos(z);
 
-            //cost = Math.Cos(rotationAngle.Theta);
-            //cosp = Math.Cos(rotationAngle.Phi);
-            //sint = Math.Sqrt(1.0 - cost * cost);
-            //sinp = Math.Sqrt(1.0 - cosp * cosp);
+            if ((x != 0.0) || (y != 0.0))
+            {
+                r = Math.Sqrt(x * x + y * y);
 
-            //currentDirection.Ux = ux * cosp * cost - uy * sint + uz * sinp * cost;
-            //currentDirection.Uy = ux * cosp * sint + uy * cost + uz * sinp * sint;
-            //currentDirection.Uz = -ux * sinp + uz * cost;
-
-            // todo asap: calculate theta and phi from direction!
-
-            var theta = 0;
-            var phi = 0;
+                if (y >= 0.0)
+                    phi = Math.Acos(x / r);
+                else
+                    phi = 2 * Math.PI - Math.Acos(x / r);
+            }
+            else
+                phi = 0;        
 
             PolarAzimuthalAngles polarAzimuthalAngles = new PolarAzimuthalAngles(
                 theta,

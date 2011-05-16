@@ -343,7 +343,7 @@
     <Compile Include="MonteCarlo\Sources\SourceProfiles\GaussianSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\SurfaceEmittingSphericalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\LambertianSurfaceEmmitingSphericalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\LambertianSurfaceEmittingSphericalSource.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\CustomCuboidalSource.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\IsotropicEllipsoidalSource.cs" />
     <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceBase.cs" />
