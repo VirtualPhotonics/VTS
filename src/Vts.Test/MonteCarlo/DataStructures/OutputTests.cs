@@ -23,7 +23,10 @@ namespace Vts.Test.MonteCarlo
             var detectorList =
                 new List<IDetector> 
                 {
-                    new ROfAngleDetector(new DoubleRange(0, Math.PI, 10), "testName")
+                    new ROfAngleDetector(
+                        new DoubleRange(0, Math.PI, 10), 
+                        true, // tally SecondMoment
+                        "testName")
                 };
             var output = new Output(new SimulationInput(), detectorList);
 
@@ -43,8 +46,8 @@ namespace Vts.Test.MonteCarlo
             var detectorList =
                 new List<IDetector> 
                 {
-                    new ROfRhoDetector(new DoubleRange(0, 10, 10), "testName"),
-                    new ROfRhoDetector(new DoubleRange(0, 20, 20), "testName")
+                    new ROfRhoDetector(new DoubleRange(0, 10, 10), false, "testName"),
+                    new ROfRhoDetector(new DoubleRange(0, 20, 20), false, "testName")
                 };
             Output output = new Output(new SimulationInput(), detectorList);
             var detector = (ROfRhoDetector)output.ResultsDictionary["testName"];

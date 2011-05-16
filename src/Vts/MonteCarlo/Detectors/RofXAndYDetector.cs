@@ -15,18 +15,26 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfXAndYDetector : ITerminationDetector<double[,]>
     {
+        private bool _tallySecondMoment;
         /// <summary>
         /// Returns an instance of ROfXAndYDetector
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public ROfXAndYDetector(DoubleRange x, DoubleRange y, String name)
+        public ROfXAndYDetector(DoubleRange x, DoubleRange y, bool tallySecondMoment, String name)
         {
             X = x;
             Y = y;
-
+            _tallySecondMoment = tallySecondMoment;
             Mean = new double[X.Count - 1, Y.Count - 1];
-            SecondMoment = new double[X.Count - 1, Y.Count - 1];
+            if (_tallySecondMoment)
+            {
+                SecondMoment = new double[X.Count - 1, Y.Count - 1];
+            }
+            else
+            {
+                SecondMoment = null;
+            }
             TallyType = TallyType.ROfXAndY;
             Name = name;
             TallyCount = 0;
@@ -36,7 +44,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of ROfXAndYDetector (for serialization purposes only)
         /// </summary>
         public ROfXAndYDetector()
-            : this(new DoubleRange(), new DoubleRange(), TallyType.ROfXAndY.ToString())
+            : this(new DoubleRange(), new DoubleRange(), true, TallyType.ROfXAndY.ToString())
         {
         }
 
@@ -61,7 +69,10 @@ namespace Vts.MonteCarlo.Detectors
             int ix = DetectorBinning.WhichBin(dp.Position.X, X.Count - 1, X.Delta, X.Start);
             int iy = DetectorBinning.WhichBin(dp.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
             Mean[ix, iy] += dp.Weight;
-            SecondMoment[ix, iy] += dp.Weight * dp.Weight;
+            if (_tallySecondMoment)
+            {
+                SecondMoment[ix, iy] += dp.Weight * dp.Weight;
+            }
         }
 
         public void Normalize(long numPhotons)
@@ -72,7 +83,10 @@ namespace Vts.MonteCarlo.Detectors
                 for (int iy = 0; iy < Y.Count - 1; iy++)
                 {
                     Mean[ix, iy] /= normalizationFactor * numPhotons;
-                    SecondMoment[ix, iy] /= normalizationFactor * normalizationFactor * numPhotons;
+                    if (_tallySecondMoment)
+                    {
+                        SecondMoment[ix, iy] /= normalizationFactor * normalizationFactor * numPhotons;
+                    }
                 }
             }
         }

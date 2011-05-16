@@ -56,6 +56,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints },
+                    true, // compute Second Moment
                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

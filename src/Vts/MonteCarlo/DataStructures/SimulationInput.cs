@@ -86,7 +86,8 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister, 
                     AbsorptionWeightingType.Discrete, 
                     PhaseFunctionType.HenyeyGreenstein,
-                    null, 
+                    null, // databases written
+                    true, // compute Second Moment
                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

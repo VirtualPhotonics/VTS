@@ -13,18 +13,25 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class MomentumTransferOfRhoAndZDetector : IHistoryDetector<double[,]>
     {
+        private bool _tallySecondMoment;
+
         /// <summary>
         /// Returns an instance of MomentumTransferOfRhoAndZDetector
         /// </summary>
         /// <param name="rho"></param>
         /// <param name="z"></param>
-        public MomentumTransferOfRhoAndZDetector(DoubleRange rho, DoubleRange z, String name)
+        public MomentumTransferOfRhoAndZDetector(
+            DoubleRange rho, 
+            DoubleRange z, 
+            bool tallySecondMoment,
+            String name)
         {
             Rho = rho;
             Z = z;
             Mean = new double[Rho.Count - 1, Z.Count - 1];
             SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
             TallyType = TallyType.MomentumTransferOfRhoAndZ;
+            _tallySecondMoment = tallySecondMoment;
             Name = name;
             TallyCount = 0;
         }
@@ -33,7 +40,11 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of MomentumTransferOfRhoAndZDetector (for serialization purposes only)
         /// </summary>
         public MomentumTransferOfRhoAndZDetector()
-            : this(new DoubleRange(), new DoubleRange(), TallyType.MomentumTransferOfRhoAndZ.ToString())
+            : this(
+            new DoubleRange(), 
+            new DoubleRange(), 
+            true, // tally SecondMoment
+            TallyType.MomentumTransferOfRhoAndZ.ToString())
         {
         }
 
@@ -65,7 +76,10 @@ namespace Vts.MonteCarlo.Detectors
             var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
 
             Mean[ir, iz] += momentumTransfer;
-            SecondMoment[ir, iz] += momentumTransfer * momentumTransfer;
+            if (_tallySecondMoment)
+            {
+                SecondMoment[ir, iz] += momentumTransfer * momentumTransfer;
+            }
             TallyCount++;
         }
 
@@ -76,10 +90,13 @@ namespace Vts.MonteCarlo.Detectors
             {
                 for (int iz = 0; iz < Z.Count - 1; iz++)
                 {
+                    var areaNorm = (ir + 0.5) * normalizationFactor;
                     // need to check that this normalization makes sense for momentum transfer
-                    Mean[ir, iz] /= (ir + 0.5) * normalizationFactor * numPhotons;
-                    SecondMoment[ir, iz] /= (ir + 0.5) * normalizationFactor *
-                        (ir + 0.5) * normalizationFactor * numPhotons;
+                    Mean[ir, iz] /=  areaNorm * numPhotons;
+                    if (_tallySecondMoment)
+                    {
+                        SecondMoment[ir, iz] /= areaNorm * areaNorm * numPhotons;
+                    }
                 }
             }
         }

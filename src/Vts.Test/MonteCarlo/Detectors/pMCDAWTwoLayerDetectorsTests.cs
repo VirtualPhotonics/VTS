@@ -47,8 +47,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new List<IpMCDetectorInput>()
                     {
                         new pMCROfRhoAndTimeDetectorInput(
-                            new DoubleRange(0.0, 10, 101),
-                            new DoubleRange(0.0, 1, 101),
+                            new DoubleRange(0.0, 10.0, 101),
+                            new DoubleRange(0.0, 1.0, 101),
                             new List<OpticalProperties>() { // perturbed ops
                                 _referenceInput.TissueInput.Regions[0].RegionOP,
                                 _referenceInput.TissueInput.Regions[1].RegionOP,
@@ -81,12 +81,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },  // write histories 
+                    true,
                     0),
                 new CustomPointSourceInput(
-                    new Position(0, 0, 0),
-                    new Direction(0, 0, 1),
-                    new DoubleRange(0.0, 0, 1),
-                    new DoubleRange(0.0, 0, 1)
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    new DoubleRange(0.0, 0.0, 1),
+                    new DoubleRange(0.0, 0.0, 1)
                 ),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
@@ -107,10 +108,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                 ),
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
                     new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 1, 101)),
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 1.0, 101)),
                 });
             return new MonteCarloSimulation(_referenceInput).Run();    
         }

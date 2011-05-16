@@ -18,18 +18,27 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfRhoAndOmegaDetector : ITerminationDetector<Complex[,]>
     {
+        private bool _tallySecondMoment;
         /// <summary>
         /// Returns an instance of ROfRhoAndAngleDetector
         /// </summary>
         /// <param name="rho"></param>
         /// <param name="omega"></param>
         /// <param name="tissue"></param>
-        public ROfRhoAndOmegaDetector(DoubleRange rho, DoubleRange omega, String name)
+        public ROfRhoAndOmegaDetector(DoubleRange rho, DoubleRange omega, bool tallySecondMoment, String name)
         {
             Rho = rho;
             Omega = omega;
+            _tallySecondMoment = tallySecondMoment;
             Mean = new Complex[Rho.Count - 1, Omega.Count - 1];
-            SecondMoment = new Complex[Rho.Count - 1, Omega.Count - 1];
+            if (_tallySecondMoment)
+            {
+                SecondMoment = new Complex[Rho.Count - 1, Omega.Count - 1];
+            }
+            else
+            {
+                SecondMoment = null;
+            }
             TallyType = TallyType.ROfRhoAndOmega;
             Name = name;
             TallyCount = 0;
@@ -38,7 +47,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of ROfRhoAndAngleDetector (for serialization purposes only)
         /// </summary>
         public ROfRhoAndOmegaDetector()
-            : this(new DoubleRange(), new DoubleRange(), TallyType.ROfRhoAndOmega.ToString())
+            : this(new DoubleRange(), new DoubleRange(), true, TallyType.ROfRhoAndOmega.ToString())
         {
             
         }
@@ -69,11 +78,14 @@ namespace Vts.MonteCarlo.Detectors
                 /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
                 Mean[ir, iw] += dp.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime * 1e-3) +
                     Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime * 1e-3) );
-                // CKH TODO CHECK: is second moment of complex tally squared or square of real and imag separately?
-                SecondMoment[ir, iw] += (dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime * 1e-3) +
-                    Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime * 1e-3))) *
-                    (dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime * 1e-3) +
-                    Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime * 1e-3)));
+                if (_tallySecondMoment)
+                {
+                    // CKH TODO CHECK: is second moment of complex tally squared or square of real and imag separately?
+                    SecondMoment[ir, iw] += (dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime * 1e-3) +
+                        Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime * 1e-3))) *
+                        (dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime * 1e-3) +
+                        Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime * 1e-3)));
+                }
             }
             TallyCount++;
         }
@@ -85,9 +97,12 @@ namespace Vts.MonteCarlo.Detectors
             {
                 for (int iw = 0; iw < Omega.Count - 1; iw++)
                 {
-                    Mean[ir, iw] /= (ir + 0.5) * normalizationFactor * numPhotons;
-                    SecondMoment[ir, iw] /= (ir + 0.5) * normalizationFactor *
-                        (ir + 0.5) * normalizationFactor * numPhotons;
+                    var areaNorm = (ir + 0.5) * normalizationFactor;
+                    Mean[ir, iw] /=  areaNorm * numPhotons;
+                    if (_tallySecondMoment)
+                    {
+                        SecondMoment[ir, iw] /= areaNorm * areaNorm * numPhotons;
+                    }
                 }
             }
         }

@@ -16,17 +16,26 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class TOfRhoAndAngleDetector : ITerminationDetector<double[,]>
     {
+        private bool _tallySecondMoment;
         /// <summary>
         /// Returns an instance of TOfRhoAndAngleDetector
         /// </summary>
         /// <param name="rho"></param>
         /// <param name="angle"></param>
-        public TOfRhoAndAngleDetector(DoubleRange rho, DoubleRange angle, String name)
+        public TOfRhoAndAngleDetector(DoubleRange rho, DoubleRange angle, bool tallySecondMoment, String name)
         {
             Rho = rho;
             Angle = angle;
+            _tallySecondMoment = tallySecondMoment;
             Mean = new double[Rho.Count - 1, Angle.Count - 1];
-            SecondMoment = new double[Rho.Count - 1, Angle.Count - 1];
+            if (_tallySecondMoment)
+            {
+                SecondMoment = new double[Rho.Count - 1, Angle.Count - 1];
+            }
+            else
+            {
+                SecondMoment = null;
+            }
             TallyType = TallyType.TOfRhoAndAngle;
             Name = name;
             TallyCount = 0;
@@ -36,7 +45,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of TOfRhoAndAngleDetector (for serialization purposes only)
         /// </summary>
         public TOfRhoAndAngleDetector()
-            : this(new DoubleRange(), new DoubleRange(), TallyType.TOfRhoAndAngle.ToString())
+            : this(new DoubleRange(), new DoubleRange(), true, TallyType.TOfRhoAndAngle.ToString())
         {
         }
 
@@ -62,7 +71,10 @@ namespace Vts.MonteCarlo.Detectors
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
             Mean[ir, ia] += dp.Weight;
-            SecondMoment[ir, ia] += dp.Weight * dp.Weight;
+            if (_tallySecondMoment)
+            {
+                SecondMoment[ir, ia] += dp.Weight * dp.Weight;
+            }
             TallyCount++;
         }
 
@@ -73,9 +85,12 @@ namespace Vts.MonteCarlo.Detectors
             {
                 for (int ia = 0; ia < Angle.Count - 1; ia++)
                 {
-                    Mean[ir, ia] /= (ir + 0.5) * Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor * numPhotons;
-                    SecondMoment[ir, ia] /= (ir + 0.5) * Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor *
-                        (ir + 0.5) * Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor * numPhotons;
+                    var areaNorm = (ir + 0.5) * Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor;
+                    Mean[ir, ia] /= areaNorm * numPhotons;
+                    if (_tallySecondMoment)
+                    {
+                        SecondMoment[ir, ia] /= areaNorm * areaNorm * numPhotons;
+                    }
                 }
             }
         }

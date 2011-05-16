@@ -12,10 +12,12 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class RDiffuseDetector : ITerminationDetector<double>
     {
+        private bool _tallySecondMoment;
+
         /// <summary>
         /// Returns an instance of RDiffuseDetector
         /// </summary>
-        public RDiffuseDetector(String name)
+        public RDiffuseDetector(bool tallySecondMoment, String name)
         {
             Mean = 0;
             SecondMoment = 0;
@@ -27,7 +29,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of RDiffuseDetector (for serialization purposes only)
         /// </summary>
         public RDiffuseDetector()
-            : this(TallyType.RDiffuse.ToString())
+            : this(true, TallyType.RDiffuse.ToString())
         {
         }
 
@@ -44,14 +46,20 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(PhotonDataPoint dp)
         {
             Mean += dp.Weight;
-            SecondMoment += dp.Weight * dp.Weight;
+            if (_tallySecondMoment)
+            {
+                SecondMoment += dp.Weight * dp.Weight;
+            }
             TallyCount++;
         }
 
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;
-            SecondMoment /= numPhotons;
+            if (_tallySecondMoment)
+            {
+                SecondMoment /= numPhotons;
+            }
         }
 
         public bool ContainsPoint(PhotonDataPoint dp)

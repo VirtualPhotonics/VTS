@@ -36,12 +36,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                      AbsorptionWeightingType.Discrete,
                      PhaseFunctionType.HenyeyGreenstein,
                      null,
+                     true,
                      0),
                 new CustomPointSourceInput(
-                     new Position(0, 0, 0),
-                     new Direction(0, 0, 1),
-                     new DoubleRange(0.0, 0, 1),
-                     new DoubleRange(0.0, 0, 1)
+                     new Position(0.0, 0.0, 0.0),
+                     new Direction(0.0, 0.0, 1.0),
+                     new DoubleRange(0.0, 0.0, 1),
+                     new DoubleRange(0.0, 0.0, 1)
                 ),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
@@ -61,31 +62,31 @@ namespace Vts.Test.MonteCarlo.Detectors
                 {
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
                     new ROfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, Math.PI / 2, 2)),
                     new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 1, 101)),
                     new ROfXAndYDetectorInput(
                         new DoubleRange(-200.0, 200.0, 401), // x
                         new DoubleRange(-200.0, 200.0, 401)), // y,
                     new ROfRhoAndOmegaDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 1000, 21)),                        
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 1000.0, 21)),                        
                     new AOfRhoAndZDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101)),
                     new ATotalDetectorInput(),
                     new FluenceOfRhoAndZDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101)),
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
                     new TOfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, Math.PI / 2, 2))
                 });
                 

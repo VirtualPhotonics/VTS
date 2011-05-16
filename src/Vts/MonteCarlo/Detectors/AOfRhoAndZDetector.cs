@@ -18,6 +18,7 @@ namespace Vts.MonteCarlo.Detectors
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
         private ITissue _tissue;
+        private bool _tallySecondMoment;
         private IList<OpticalProperties> _ops;
         /// <summary>
         /// Returns an instance of AOfRhoAndZDetector
@@ -25,12 +26,26 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="rho"></param>
         /// <param name="z"></param>
         /// <param name="tissue"></param>
-        public AOfRhoAndZDetector(DoubleRange rho, DoubleRange z, ITissue tissue, String name)
+        public AOfRhoAndZDetector(
+            DoubleRange rho, 
+            DoubleRange z, 
+            ITissue tissue, 
+            bool tallySecondMoment,
+            String name 
+            )
         {
             Rho = rho;
             Z = z;
             Mean = new double[Rho.Count - 1, Z.Count - 1];
-            SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
+            _tallySecondMoment = tallySecondMoment;
+            if (tallySecondMoment)
+            {
+                SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
+            }
+            else
+            {
+                SecondMoment = null;
+            }
             TallyType = TallyType.AOfRhoAndZ;
             Name = name;
             TallyCount = 0;
@@ -43,7 +58,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of AOfRhoAndZDetector (for serialization purposes only)
         /// </summary>
         public AOfRhoAndZDetector()
-            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue(), TallyType.AOfRhoAndZ.ToString())
+            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue(), true, TallyType.AOfRhoAndZ.ToString())
         {
         }
 
@@ -94,7 +109,10 @@ namespace Vts.MonteCarlo.Detectors
                 dp.StateFlag);
 
             Mean[ir, iz] += weight;
-            SecondMoment[ir, iz] += weight * weight;
+            if (_tallySecondMoment)
+            {
+                SecondMoment[ir, iz] += weight * weight;
+            } 
             TallyCount++;
         }
 
@@ -105,9 +123,12 @@ namespace Vts.MonteCarlo.Detectors
             {
                 for (int iz = 0; iz < Z.Count - 1; iz++)
                 {
-                    Mean[ir, iz] /= (ir + 0.5) * normalizationFactor * numPhotons;
-                    SecondMoment[ir, iz] /= (ir + 0.5) * normalizationFactor *
-                        (ir + 0.5) * normalizationFactor * numPhotons;
+                    var areaNorm = (ir + 0.5) * normalizationFactor;
+                    Mean[ir, iz] /= areaNorm * numPhotons;
+                    if (_tallySecondMoment)
+                    {
+                        SecondMoment[ir, iz] /= areaNorm * areaNorm * numPhotons;
+                    }
                 }
             }
         }

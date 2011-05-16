@@ -40,6 +40,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     AbsorptionWeightingType.Analog, 
                     PhaseFunctionType.Bidirectional,
                     null, 
+                    true,
                     0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

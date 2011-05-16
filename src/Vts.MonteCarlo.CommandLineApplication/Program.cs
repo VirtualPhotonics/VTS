@@ -287,6 +287,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                      PhaseFunctionType.HenyeyGreenstein,
                      new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
                      //null,
+                     true, // tally Second Moment
                      0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),

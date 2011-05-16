@@ -27,6 +27,8 @@ namespace Vts.MonteCarlo.Detectors
         // note: bins accommodate noncontiguous and also single bins
         private double[] _rhoCenters;
         private double[] _timeCenters;
+
+        private bool _tallySecondMoment;
         private Func<IList<long>, double, IList<OpticalProperties>, double> _absorbAction;
 
         /// <summary>
@@ -44,6 +46,7 @@ namespace Vts.MonteCarlo.Detectors
             ITissue tissue,
             IList<OpticalProperties> perturbedOps,
             IList<int> perturbedRegionIndices,
+            bool tallySecondMoment,
             String name)
         {
             Rho = rho;
@@ -51,8 +54,16 @@ namespace Vts.MonteCarlo.Detectors
             // save delta because DoubleRange readjusts when Start,Stop,Count changes
             _rhoDelta = Rho.Delta;
             _timeDelta = Time.Delta;
+            _tallySecondMoment = tallySecondMoment;
             Mean = new double[Rho.Count - 1, Time.Count - 1];
-            SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
+            if (_tallySecondMoment)
+            {
+                SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
+            }
+            else
+            {
+                SecondMoment = null;
+            }
             TallyType = TallyType.pMCROfRhoAndTime;
             Name = name;
             _awt = tissue.AbsorptionWeightingType;
@@ -118,6 +129,7 @@ namespace Vts.MonteCarlo.Detectors
             new MultiLayerTissue(), 
             new List<OpticalProperties>(), 
             new List<int>(),
+            true, // tallySecondMoment
             TallyType.pMCROfRhoAndTime.ToString())
         {
         }
@@ -181,7 +193,10 @@ namespace Vts.MonteCarlo.Detectors
                     totalPathLengthInPerturbedRegions,
                     _perturbedOps);
                 Mean[ir, it] += dp.Weight * weightFactor;
-                SecondMoment[ir, it] += dp.Weight * weightFactor * dp.Weight * weightFactor;
+                if (_tallySecondMoment)
+                {
+                    SecondMoment[ir, it] += dp.Weight * weightFactor * dp.Weight * weightFactor;
+                }
                 TallyCount++;
             }
         }
@@ -226,10 +241,13 @@ namespace Vts.MonteCarlo.Detectors
             {
                 for (int it = 0; it < Time.Count - 1; it++)
                 {
-                    Mean[ir, it] /= (ir + 0.5) * normalizationFactor * numPhotons;
+                    var areaNorm = (ir + 0.5) * normalizationFactor;
+                    Mean[ir, it] /= areaNorm * numPhotons;
                     // the above is pi(rmax*rmax-rmin*rmin) * timeDelta * N
-                    SecondMoment[ir, it] /= (ir + 0.5) * normalizationFactor * 
-                        (ir + 0.5) * normalizationFactor * numPhotons;
+                    if (_tallySecondMoment)
+                    {
+                        SecondMoment[ir, it] /= areaNorm * areaNorm * numPhotons;
+                    }
                 }
             }
         }

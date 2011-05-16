@@ -17,18 +17,27 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfRhoAndTimeDetector : ITerminationDetector<double[,]>
     {
+        private bool _tallySecondMoment;
         /// <summary>
         ///  Returns an instance of ROfRhoAndTimeDetector
         /// </summary>
         /// <param name="rho"></param>
         /// <param name="time"></param>
         /// <param name="tissue"></param>
-        public ROfRhoAndTimeDetector(DoubleRange rho, DoubleRange time, String name)
+        public ROfRhoAndTimeDetector(DoubleRange rho, DoubleRange time, bool tallySecondMoment, String name)
         {
             Rho = rho;
             Time = time;
+            _tallySecondMoment = tallySecondMoment;
             Mean = new double[Rho.Count - 1, Time.Count - 1];
-            SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
+            if (_tallySecondMoment)
+            {
+                SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
+            }
+            else
+            {
+                SecondMoment = null;
+            }
             TallyType = TallyType.ROfRhoAndTime;
             Name = name;
             TallyCount = 0;
@@ -40,7 +49,8 @@ namespace Vts.MonteCarlo.Detectors
         public ROfRhoAndTimeDetector()
             : this(
             new DoubleRange(),  
-            new DoubleRange(),   
+            new DoubleRange(),
+            true,
             TallyType.ROfRhoAndTime.ToString())
         {
         }
@@ -67,7 +77,10 @@ namespace Vts.MonteCarlo.Detectors
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
             Mean[ir, it] += dp.Weight;
-            SecondMoment[ir, it] += dp.Weight * dp.Weight;
+            if (_tallySecondMoment)
+            {
+                SecondMoment[ir, it] += dp.Weight * dp.Weight;
+            }
             TallyCount++;
         }
 
@@ -78,9 +91,12 @@ namespace Vts.MonteCarlo.Detectors
             {
                 for (int it = 0; it < Time.Count - 1; it++)
                 {
-                    Mean[ir, it] /= (ir + 0.5) * normalizationFactor * numPhotons;
-                    SecondMoment[ir, it] /= (ir + 0.5) * normalizationFactor * 
-                        (ir + 0.5) * normalizationFactor * numPhotons;
+                    var areaNorm = (ir + 0.5) * normalizationFactor;
+                    Mean[ir, it] /= areaNorm * numPhotons;
+                    if (_tallySecondMoment)
+                    {
+                        SecondMoment[ir, it] /= areaNorm * areaNorm * numPhotons;
+                    }
                 }
             }
         }
