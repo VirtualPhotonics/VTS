@@ -14,11 +14,14 @@ namespace Vts.MonteCarlo.Factories
             switch (input.SourceType)
             {
                 case SourceType.IsotropicPoint:
-                    var ipInput = (DirectionalPointSourceInput)input;
-                    return new DirectionalPointSource(
-                        ipInput.PointLocation, 
-                        ipInput.Direction);
+                    var ipInput = (IsotropicPointSourceInput)input;
+                    return new IsotropicPointSource(
+                        ipInput.PointLocation); 
                 case SourceType.DirectionalPoint:
+                    var dpInput = (DirectionalPointSourceInput)input;
+                    return new DirectionalPointSource(
+                        dpInput.PointLocation, 
+                        dpInput.Direction);
                 case SourceType.CustomPoint:
                 case SourceType.IsotropicLine:
                 case SourceType.DirectionalLine:

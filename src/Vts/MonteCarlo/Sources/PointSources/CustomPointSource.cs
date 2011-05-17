@@ -17,18 +17,18 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="polarAngleEmissionRange">Polar angle emission range</param>
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle emission range</param>
-        /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="rotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
+        /// <param name="pointLocation">New position</param>
+        /// <param name="newDirection">New Direction</param>
         public CustomPointSource(
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
-            Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal)
+            Position pointLocation,
+            Direction newDirection)
             : base(
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
-                translationFromOrigin, 
-                rotationFromInwardNormal)
+                pointLocation, 
+                SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(newDirection))
         {
         }
 
@@ -47,9 +47,8 @@ namespace Vts.MonteCarlo.Sources
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 translationFromOrigin,
-                new PolarAzimuthalAngles(0, 0))
+                new Direction(0.0, 0.0, 1.0))
         {
-            _rotationAndTranslationFlags = new SourceFlags(true, false, false);
         }
 
         /// <summary>
@@ -58,18 +57,17 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="polarAngleEmissionRange"></param>
         /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="rotationFromInwardNormal"></param>
+        /// <param name="newDirection">New Direction</param>
         public CustomPointSource(
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
-            PolarAzimuthalAngles rotationFromInwardNormal)
+            Direction newDirection)
             : this(
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
-                new Position(0, 0, 0),
-                rotationFromInwardNormal)
+                new Position(0.0, 0.0, 0.0),
+                newDirection)
         {
-            _rotationAndTranslationFlags = new SourceFlags(false, true, false);
         }
 
         /// <summary>
@@ -83,11 +81,9 @@ namespace Vts.MonteCarlo.Sources
             : this(
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
-                new Position(0, 0, 0),
-                new PolarAzimuthalAngles(0, 0))
+                new Position(0.0, 0.0, 0.0),
+                new Direction(0.0, 0.0, 1.0))
         {
-            _rotationAndTranslationFlags = new SourceFlags(false, false, false);
         }
-
     }
 }

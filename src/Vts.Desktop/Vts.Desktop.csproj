@@ -526,8 +526,14 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs">
       <Link>MonteCarlo\DataStructures\SimulationOptions.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\CustomPointSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\CustomPointSourceInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\DirectionalPointSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\DirectionalPointSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\IsotropicPointSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\IsotropicPointSourceInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs</Link>
@@ -805,8 +811,8 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Spherical\CustomSurfaceEmittingSphericalSource.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingSources\Spherical\CustomSurfaceEmittingSphericalSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Spherical\LambertianSurfaceEmmitingSphericalSource.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Spherical\LambertianSurfaceEmmitingSphericalSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Spherical\LambertianSurfaceEmittingSphericalSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Spherical\LambertianSurfaceEmittingSphericalSource.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Spherical\SurfaceEmittingSphericalSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingSources\Spherical\SurfaceEmittingSphericalSourceBase.cs</Link>

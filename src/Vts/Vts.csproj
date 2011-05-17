@@ -245,6 +245,7 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensions.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationOptions.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\CustomPointSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\DirectionalPointSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ATotalDetectorInput.cs" />
@@ -263,6 +264,7 @@
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs" />
     <Compile Include="MonteCarlo\Controllers\DetectorController.cs" />
     <Compile Include="MonteCarlo\Controllers\pMCDetectorController.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\IsotropicPointSourceInput.cs" />
     <Compile Include="MonteCarlo\Factories\AbsorptionActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
     <Compile Include="MonteCarlo\Factories\SourceProfileFactory.cs" />

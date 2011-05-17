@@ -5,8 +5,8 @@ namespace Vts.MonteCarlo.Sources
     // todo: re-do this file for new sources
 
     /// <summary>
-    /// Implements ISourceInput.  Defines input data for PointSource implementation
-    /// including position, direction and range of theta and phi.
+    /// Implements ISourceInput.  Defines input data for Directional PointSource 
+    /// implementation including position, and direction.
     /// </summary>
     public class DirectionalPointSourceInput : ISourceInput
     {
@@ -16,7 +16,6 @@ namespace Vts.MonteCarlo.Sources
             Direction direction) 
         {
             SourceType = SourceType.DirectionalPoint;
-
             PointLocation = pointLocation;
             Direction = direction;
         }
