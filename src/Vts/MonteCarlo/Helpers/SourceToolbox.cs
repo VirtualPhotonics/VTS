@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="rotateBeam"></param>
         /// <param name="rotateAxis"></param>
         /// <param name="flags"></param>
-        public static void DoRotationandTranslationForGivenFlags(
+        public static void UpdateDirectionAndPositionAfterGivenFlags(
             ref Position pos,
             ref Direction dir,
             Position translate,
@@ -44,7 +44,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="translate"></param>
         /// <param name="rotateBeam"></param>
         /// <param name="flags"></param>
-        public static void DoRotationandTranslationForGivenFlags(
+        public static void UpdateDirectionAndPositionAfterGivenFlags(
             ref Position pos,
             ref Direction dir,
             Position translate,
@@ -66,7 +66,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="translate"></param>
         /// <param name="rotateAxis"></param>
         /// <param name="flags"></param>
-        public static void DoRotationandTranslationForGivenFlags(
+        public static void UpdateDirectionAndPositionAfterGivenFlags(
             ref Position pos,
             ref Direction dir,
             Position translate,
@@ -87,7 +87,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="translate"></param>
         /// <param name="rotateAxis"></param>
         /// <param name="flags"></param>
-        public static void DoRotationandTranslationForGivenFlags(
+        public static void UpdateDirectionAndPositionAfterGivenFlags(
             ref Position pos,
             ref Direction dir,
             PolarAzimuthalAngles rotateBeam,
@@ -108,7 +108,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="translate"></param>
         /// <param name="rotateAxis"></param>
         /// <param name="flags"></param>
-        public static void DoRotationandTranslationForGivenFlags(
+        public static void UpdateDirectionAndPositionAfterGivenFlags(
             ref Position pos,
             ref Direction dir,
             Position translate,
@@ -176,21 +176,24 @@ namespace Vts.MonteCarlo.Helpers
         public static Position GetRandomGaussianLinePosition(
             Position center,
             double lengthX,
-            double stdev,
+            double beamDiaFWHM,
             Random rng)
         {
             if (lengthX == 0.0)
             {
                 return (center);
             }
-            return (
-                new Position(
-                    center.X + OneGaussianDistributedRandomNumber(
-                        GetLowerLimit(stdev),
-                        GetUpperLimit(0.0, 0.5 * lengthX, stdev),
-                        rng),
-                    center.Y,
-                    center.Z));
+            else
+            {
+                double factor = lengthX / beamDiaFWHM;
+                return (
+                    new Position(
+                        center.X + 0.8493218 * beamDiaFWHM * OneGaussianDistributedRandomNumber(
+                            GetLowerLimit(factor), 
+                            rng),
+                        center.Y,
+                        center.Z));
+            }
 
         }
 
@@ -233,7 +236,7 @@ namespace Vts.MonteCarlo.Helpers
             Position center,
             double lengthX,
             double lengthY,
-            double stdev,
+            double beamDiaFWHM,
             Random rng)
         {
             if ((lengthX == 0.0) && (lengthY == 0.0))
@@ -242,14 +245,15 @@ namespace Vts.MonteCarlo.Helpers
             }
 
             var position = new Position { Z = center.Z };
+            double factor = lengthX/beamDiaFWHM;
 
-            position.X = center.X + OneGaussianDistributedRandomNumber(
-                GetLowerLimit(stdev),
-                GetUpperLimit(0, 0.5 * lengthX, stdev),
+            position.X = center.X + 0.8493218 * beamDiaFWHM * OneGaussianDistributedRandomNumber(
+                GetLowerLimit(factor),
                 rng);
-            position.Y = center.Y + OneGaussianDistributedRandomNumber(
-                GetLowerLimit(stdev),
-                GetUpperLimit(0, 0.5 * lengthY, stdev),
+
+            factor = lengthY/beamDiaFWHM;
+            position.Y = center.Y + 0.8493218 * beamDiaFWHM * OneGaussianDistributedRandomNumber(
+                GetLowerLimit(factor),
                 rng);
             return position;
         }
@@ -301,7 +305,7 @@ namespace Vts.MonteCarlo.Helpers
             double lengthX,
             double lengthY,
             double lengthZ,
-            double stdev,
+            double beamDiaFWHM,
             Random rng)
         {
             if ((lengthX == 0.0) && (lengthY == 0.0) && (lengthZ == 0.0))
@@ -311,17 +315,19 @@ namespace Vts.MonteCarlo.Helpers
 
             Position position = new Position(0, 0, 0);
 
-            position.X = center.X + OneGaussianDistributedRandomNumber(
-                GetLowerLimit(stdev),
-                GetUpperLimit(0, 0.5 * lengthX, stdev),
+            double factor = lengthX / beamDiaFWHM;
+            position.X = center.X + 0.8493218 * beamDiaFWHM * OneGaussianDistributedRandomNumber(
+                GetLowerLimit(factor),
                 rng);
-            position.Y = center.Y + OneGaussianDistributedRandomNumber(
-                GetLowerLimit(stdev),
-                GetUpperLimit(0, 0.5 * lengthY, stdev),
+
+            factor = lengthY / beamDiaFWHM;
+            position.Y = center.Y + 0.8493218 * beamDiaFWHM * OneGaussianDistributedRandomNumber(
+                GetLowerLimit(factor),
                 rng);
-            position.Z = center.Z + OneGaussianDistributedRandomNumber(
-                GetLowerLimit(stdev),
-                GetUpperLimit(0, 0.5 * lengthZ, stdev),
+
+            factor = lengthZ / beamDiaFWHM;
+            position.Z = center.Z + 0.8493218 * beamDiaFWHM * OneGaussianDistributedRandomNumber(
+                GetLowerLimit(factor),
                 rng);
             return position;
         }
@@ -435,16 +441,14 @@ namespace Vts.MonteCarlo.Helpers
         /// Provides a random position in a circle (Gaussisan distribution)
         /// <summary>
         /// <param name="center">The center coordiantes of the circle</param>
-        /// <param name="innerRadius">The inner radius of the circle</param>
         /// <param name="outerRadius">The outer radius of the circle</param>
         /// <param name="stdev">The standard deviation of the distribution</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>       
         public static Position GetRandomGaussianCirclePosition(
             Position center,
-            double innerRadius,
             double outerRadius,
-            double stdev,
+            double beamDiaFWHM,
             Random rng)
         {
             if (outerRadius == 0.0)
@@ -454,17 +458,17 @@ namespace Vts.MonteCarlo.Helpers
 
             double x = 0.0;
             double y = 0.0;
+            double factor = outerRadius / beamDiaFWHM;
 
             TwoGaussianDistributedRandomNumbers(
                 ref x,
                 ref y,
-                GetLowerLimit(stdev),
-                GetUpperLimit(innerRadius, outerRadius, stdev),
+                GetLowerLimit(factor),
                 rng);
 
             return (new Position(
-                center.X + x,
-                center.Y + y,
+                center.X + 0.8493218 * beamDiaFWHM * x,
+                center.Y + 0.8493218 * beamDiaFWHM * y,
                 center.Z));
         }
 
@@ -514,7 +518,7 @@ namespace Vts.MonteCarlo.Helpers
             Position center,
             double a,
             double b,
-            double stdev,
+            double beamDiaFWHM,
             Random rng)
         {
             if ((a == 0.0) && (b == 0.0))
@@ -523,16 +527,18 @@ namespace Vts.MonteCarlo.Helpers
             }
 
             double x, y;
+            double factor1 = 2 * a / beamDiaFWHM;
+            double factor2 = 2 * b / beamDiaFWHM;
+
+
             /*eliminate points outside the ellipse */
             do
             {
                 x = OneGaussianDistributedRandomNumber(
-                    GetLowerLimit(stdev),
-                    GetUpperLimit(0, a, stdev),
+                    GetLowerLimit(factor1),
                     rng);
                 y = OneGaussianDistributedRandomNumber(
-                    GetLowerLimit(stdev),
-                    GetUpperLimit(0, b, stdev),
+                    GetLowerLimit(factor2),
                     rng);
             }
             while ((x * x / (a * a)) + (y * y / (b * b)) <= 1.0);
@@ -604,19 +610,24 @@ namespace Vts.MonteCarlo.Helpers
         {
             double cost, sint, phi, cosp, sinp;
 
-            //sampling cost           
-            cost = rng.NextDouble(Math.Cos(polarAngleEmissionRange.Start), Math.Cos(polarAngleEmissionRange.Stop));
-            sint = Math.Sqrt(1.0 - cost * cost);
+            if ((polarAngleEmissionRange.Start == polarAngleEmissionRange.Stop) && (azimuthalAngleEmissionRange.Start == azimuthalAngleEmissionRange.Stop))
+                return (new Direction(0.0, 0.0, 1.0));
+            else
+            {
+                //sampling cost           
+                cost = rng.NextDouble(Math.Cos(polarAngleEmissionRange.Start), Math.Cos(polarAngleEmissionRange.Stop));
+                sint = Math.Sqrt(1.0 - cost * cost);
 
-            //sampling phi
-            phi = rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop);
-            cosp = Math.Cos(phi);
-            sinp = Math.Sin(phi);
+                //sampling phi
+                phi = rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop);
+                cosp = Math.Cos(phi);
+                sinp = Math.Sin(phi);
 
-            return (new Direction(
-                sint * cosp,
-                sint * sinp,
-                cost));
+                return (new Direction(
+                    sint * cosp,
+                    sint * sinp,
+                    cost));
+            }
         }
 
 
@@ -1021,14 +1032,12 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="nrng1">normally distributed random number</param>
         /// <param name="lowerLimit">lower limit of the uniform random number</param>
-        /// <param name="upperLimit">upper limit of the uniform random number</param>
         /// <param name="rng">The random number generator</param>
         public static double OneGaussianDistributedRandomNumber(
             double lowerLimit,
-            double upperLimit,
             Random rng)
         {
-            return Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, upperLimit))) * Math.Cos(2 * Math.PI * rng.NextDouble());
+            return Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, 1.0))) * Math.Cos(2 * Math.PI * rng.NextDouble());
         }
 
         /// <summary>
@@ -1036,20 +1045,18 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="nrng1">normally distributed random number 1</param>
         /// <param name="nrng2">normally distributed random number 2</param>
-        /// <param name="lowerBound">lower limit of the uniform random number</param>
-        /// <param name="upperBound">upper limit of the uniform random number</param>
+        /// <param name="lowerLimit">lower limit of the uniform random number</param>
         /// <param name="rng">The random number generator</param>
         public static void TwoGaussianDistributedRandomNumbers(
             ref double nrng1,
             ref double nrng2,
             double lowerLimit,
-            double upperLimit,
             Random rng)
         {
             double RN1, RN2;
 
             RN1 = 2 * Math.PI * rng.NextDouble();
-            RN2 = Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, upperLimit)));
+            RN2 = Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, 1.0)));
 
             nrng1 = RN2 * Math.Cos(RN1);
             nrng2 = RN2 * Math.Sin(RN1);
@@ -1062,19 +1069,17 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="nrng1">normally distributed random number 1</param>
         /// <param name="nrng2">normally distributed random number 2</param>
         /// <param name="nrng3">normally distributed random number 3</param>
-        /// <param name="lowerBound">lower limit of the uniform random number</param>
-        /// <param name="upperBound">upper limit of the uniform random number</param>
+        /// <param name="lowerLimit">lower limit of the uniform random number</param>
         /// <param name="rng">The random number generator</param>
         public static void ThreeGaussianDistributedRandomNumbers(
             ref double nrng1,
             ref double nrng2,
             ref double nrng3,
             double lowerLimit,
-            double upperLimit,
             Random rng)
         {
-            nrng1 = OneGaussianDistributedRandomNumber(lowerLimit, upperLimit, rng);
-            TwoGaussianDistributedRandomNumbers(ref nrng2, ref nrng3, lowerLimit, upperLimit, rng);
+            nrng1 = OneGaussianDistributedRandomNumber(lowerLimit, rng);
+            TwoGaussianDistributedRandomNumbers(ref nrng2, ref nrng3, lowerLimit, rng);
         }
 
 
@@ -1099,14 +1104,10 @@ namespace Vts.MonteCarlo.Helpers
             return Math.Asin(numericalAperture);
         }
 
-        public static double GetUpperLimit(double start, double end, double stdev)
+        
+        public static double GetLowerLimit(double factor)
         {
-            return (Math.Exp(-start * start / (end * end * stdev * stdev)));
-        }
-
-        public static double GetLowerLimit(double stdev)
-        {
-            return (Math.Exp(-1.0 / (stdev * stdev)));
+            return (Math.Exp(-0.5*factor*factor));
         }
     }
 }
