@@ -43,7 +43,7 @@ namespace Vts.MonteCarlo.Sources
             Direction finalDirection = GetFinalDirection();
 
             //Rotation and translation
-            SourceToolbox.DoRotationandTranslationForGivenFlags(
+            SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
                 _translationFromOrigin,
@@ -88,7 +88,7 @@ namespace Vts.MonteCarlo.Sources
                         cubeLengthX,
                         cubeWidthY,
                         cubeHeightZ,
-                        gaussianProfile.BeamFWHM,
+                        gaussianProfile.BeamDiaFWHM,
                         rng);
                     break;
             }

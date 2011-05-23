@@ -17,9 +17,8 @@ namespace Vts.MonteCarlo.Sources
         #region Constructors
 
        /// <summary>
-        /// Returns an instance of directional (diverging/converging/collimated) Line Source with a specified length, 
-        /// source profile (Flat/Gaussian), polar and azimuthal angle range, translation, inward normal rotation, 
-        /// and source axis rotation
+        /// Returns an instance of directional (diverging/converging/collimated) Line Source with a specified length, and
+        /// source profile (Flat/Gaussian)
        /// </summary>
        /// <param name="thetaConvOrDiv"></param>
        /// <param name="lineLength"></param>
@@ -31,9 +30,9 @@ namespace Vts.MonteCarlo.Sources
             double thetaConvOrDiv,
             double lineLength,
             ISourceProfile sourceProfile,
-            Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
+            Position translationFromOrigin = null,
+            PolarAzimuthalAngles rotationFromInwardNormal =null,
+            ThreeAxisRotation rotationOfPrincipalSourceAxis = null)
                 : base(
                     lineLength,
                     sourceProfile,
@@ -41,186 +40,15 @@ namespace Vts.MonteCarlo.Sources
                     rotationFromInwardNormal,
                     rotationOfPrincipalSourceAxis)
         {
-            _thetaConvOrDiv = thetaConvOrDiv;// SourceToolbox.NAToPolarAngle(numericalAperture);
+            _thetaConvOrDiv = thetaConvOrDiv;
+            if (translationFromOrigin == null)
+                translationFromOrigin = SourceDefaults.DefaultTranslationFromOrigin;
+            if (rotationFromInwardNormal == null)
+                rotationFromInwardNormal = SourceDefaults.DefaultRoationFromInwardNormal;
+            if (rotationOfPrincipalSourceAxis == null)
+                rotationOfPrincipalSourceAxis = SourceDefaults.DefaultRotationOfPrincipalSourceAxis;
         }
-
-        /// <summary>
-        /// Returns an instance of directional (diverging/converging/collimated) Line Source with a specified length, 
-        /// source profile (Flat/Gaussian), polar and azimuthal angle range, translation, and inward normal rotation.
-        /// </summary>
-        /// <param name="thetaConvOrDiv"></param>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public DirectionalLineSource(
-            double thetaConvOrDiv, 
-            double lineLength,                         
-            ISourceProfile sourceProfile,
-            Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal)
-                : this(
-                    thetaConvOrDiv, 
-                    lineLength,
-                    sourceProfile,
-                    translationFromOrigin,                
-                    rotationFromInwardNormal,
-                    new ThreeAxisRotation(0, 0, 0))
-        {            
-            _rotationAndTranslationFlags = new SourceFlags(true, true, false);
-        }
-
-        /// <summary>
-        /// Returns an instance of directional (diverging/converging/collimated) Line Source with a specified length, 
-        /// source profile (Flat/Gaussian), polar and azimuthal angle range, translation,  and source axis rotation.
-        /// </summary>
-        /// <param name="thetaConvOrDiv"></param>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public DirectionalLineSource(
-            double thetaConvOrDiv, 
-            double lineLength,
-            ISourceProfile sourceProfile,
-            Position translationFromOrigin,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
-            : this(
-                thetaConvOrDiv,
-                lineLength,
-                sourceProfile,
-                translationFromOrigin,
-                new PolarAzimuthalAngles(0, 0),
-                rotationOfPrincipalSourceAxis)
-        {
-            _rotationAndTranslationFlags = new SourceFlags(true, false, true);
-        }
-
-
-        /// <summary>
-        /// Returns an instance of directional (diverging/converging/collimated) Line Source with a specified length, 
-        /// source profile (Flat/Gaussian), polar and azimuthal angle range, and translation.
-        /// </summary>
-        /// <param name="thetaConvOrDiv"></param>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        public DirectionalLineSource(
-            double thetaConvOrDiv, 
-            double lineLength,
-            ISourceProfile sourceProfile,
-            Position translationFromOrigin)
-            : this(
-                thetaConvOrDiv,
-                lineLength,
-                sourceProfile,
-                translationFromOrigin,
-                new PolarAzimuthalAngles(0, 0),
-                new ThreeAxisRotation(0, 0, 0))
-        {
-            _rotationAndTranslationFlags = new SourceFlags(true, false, false);
-        }
-
-        /// <summary>
-        /// Returns an instance of directional (diverging/converging/collimated) Line Source with a specified length, 
-        /// source profile (Flat/Gaussian), polar and azimuthal angle range,  inward normal rotation, and source axis rotation.
-        /// </summary>
-        /// <param name="thetaConvOrDiv"></param>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public DirectionalLineSource(
-            double thetaConvOrDiv, 
-            double lineLength,
-            ISourceProfile sourceProfile,
-            PolarAzimuthalAngles rotationFromInwardNormal,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
-            : this(
-                thetaConvOrDiv,
-                lineLength,
-                sourceProfile,
-                new Position(0, 0, 0),
-                rotationFromInwardNormal,
-                rotationOfPrincipalSourceAxis)
-        {
-            _rotationAndTranslationFlags = new SourceFlags(false, true, true);
-        }
-
-        /// <summary>
-        /// Returns an instance of directional (diverging/converging/collimated) Line Source with a specified length, 
-        /// source profile (Flat/Gaussian), polar and azimuthal angle range and inward normal rotation.
-        /// </summary>        
-        /// <param name="thetaConvOrDiv"></param>
-        /// <param name="lineLength"></param> 
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public DirectionalLineSource(
-            double thetaConvOrDiv, 
-            double lineLength,
-            ISourceProfile sourceProfile,
-            PolarAzimuthalAngles rotationFromInwardNormal)
-            : this(
-                thetaConvOrDiv,
-                lineLength,
-                sourceProfile,
-                new Position(0, 0, 0),
-                rotationFromInwardNormal,
-                new ThreeAxisRotation(0, 0, 0))
-        {
-            _rotationAndTranslationFlags = new SourceFlags(false, true, false);
-        }
-
-
-        /// <summary>
-        /// Returns an instance of directional (diverging/converging/collimated) Line Source with a specified length, 
-        /// source profile (Flat/Gaussian), polar and azimuthal angle range and source axis rotation.
-        /// </summary>        
-        /// <param name="thetaConvOrDiv"></param>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public DirectionalLineSource(
-            double thetaConvOrDiv, 
-            double lineLength,
-            ISourceProfile sourceProfile,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
-            : this(
-                thetaConvOrDiv,
-                lineLength,
-                sourceProfile,
-                new Position(0, 0, 0),
-                new PolarAzimuthalAngles(0, 0),
-                rotationOfPrincipalSourceAxis)
-        {
-            _rotationAndTranslationFlags = new SourceFlags(false, false, true);
-        }
-        
-        /// <summary>
-        /// Returns an instance of directional (diverging/converging/collimated) Line Source with a specified length, 
-        /// source profile (Flat/Gaussian), polar and azimuthal angle range.
-        /// </summary>
-        /// <param name="thetaConvOrDiv"></param>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public DirectionalLineSource(
-            double thetaConvOrDiv, 
-            double lineLength,
-            ISourceProfile sourceProfile)
-            : this(
-                thetaConvOrDiv,
-                lineLength,
-                sourceProfile,
-                new Position(0, 0, 0),
-                new PolarAzimuthalAngles(0, 0),
-                new ThreeAxisRotation(0, 0, 0))
-        {
-            _rotationAndTranslationFlags = new SourceFlags(false, false, false);
-        }
+                
 
 
         #endregion

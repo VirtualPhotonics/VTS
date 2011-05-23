@@ -7,6 +7,7 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
+
 namespace Vts.MonteCarlo
 {
 #if !SILVERLIGHT
@@ -15,6 +16,11 @@ namespace Vts.MonteCarlo
     // todo: Can we do this programmatcially? DataContractResolver? Automatically via convention?
     
     [KnownType(typeof(DirectionalPointSourceInput))]
+    [KnownType(typeof(IsotropicPointSourceInput))]
+    [KnownType(typeof(CustomPointSourceInput))]
+
+    [KnownType(typeof(DirectionalLineSourceInput))]
+
 
     // Tissue inputs
     [KnownType(typeof(MultiLayerTissueInput))]

@@ -36,7 +36,8 @@ namespace Vts.MonteCarlo.Sources
                 translationFromOrigin,
                 rotationFromInwardNormal,
                 rotationOfPrincipalSourceAxis)
-        { }        
+        { 
+        }        
 
         /// <summary>
         /// Returns an instance of isotropic Line Source with a specified length, source profile (Flat/Gaussian), 
@@ -58,7 +59,6 @@ namespace Vts.MonteCarlo.Sources
                 rotationFromInwardNormal,
                 new ThreeAxisRotation(0, 0, 0))
         {
-            _rotationAndTranslationFlags = new SourceFlags(true, true, false);
         }
 
         /// <summary>
@@ -81,7 +81,6 @@ namespace Vts.MonteCarlo.Sources
                 new PolarAzimuthalAngles(0, 0),
                 rotationOfPrincipalSourceAxis)
         {
-            _rotationAndTranslationFlags = new SourceFlags(true, false, true);
         }
 
 
@@ -104,7 +103,6 @@ namespace Vts.MonteCarlo.Sources
                 new PolarAzimuthalAngles(0, 0),
                 new ThreeAxisRotation(0, 0, 0))
         {
-            _rotationAndTranslationFlags = new SourceFlags(true, false, false);
         }
 
         /// <summary>
@@ -127,7 +125,6 @@ namespace Vts.MonteCarlo.Sources
                 rotationFromInwardNormal,
                 rotationOfPrincipalSourceAxis)
         {
-            _rotationAndTranslationFlags = new SourceFlags(false, true, true);
         }
 
         /// <summary>
@@ -149,7 +146,6 @@ namespace Vts.MonteCarlo.Sources
                 rotationFromInwardNormal,
                 new ThreeAxisRotation(0, 0, 0))
         {
-            _rotationAndTranslationFlags = new SourceFlags(false, true, false);
         }
 
 
@@ -172,7 +168,6 @@ namespace Vts.MonteCarlo.Sources
                 new PolarAzimuthalAngles(0, 0),
                 rotationOfPrincipalSourceAxis)
         {
-            _rotationAndTranslationFlags = new SourceFlags(false, false, true);
         }
 
         /// <summary>
@@ -193,7 +188,6 @@ namespace Vts.MonteCarlo.Sources
                 new PolarAzimuthalAngles(0, 0),
                 new ThreeAxisRotation(0, 0, 0))
         {
-            _rotationAndTranslationFlags = new SourceFlags(false, false, false);
         }
         
         

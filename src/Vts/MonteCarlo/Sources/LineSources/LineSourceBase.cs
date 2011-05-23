@@ -23,6 +23,11 @@ namespace Vts.MonteCarlo.Sources
             PolarAzimuthalAngles rotationFromInwardNormal,
             ThreeAxisRotation rotationOfPrincipalSourceAxis)
         {
+            _rotationAndTranslationFlags = new SourceFlags(
+                translationFromOrigin != SourceDefaults.DefaultTranslationFromOrigin,
+                rotationFromInwardNormal != SourceDefaults.DefaultRoationFromInwardNormal,
+                rotationOfPrincipalSourceAxis != SourceDefaults.DefaultRotationOfPrincipalSourceAxis);
+
             _lineLength = lineLength;
             _sourceProfile = sourceProfile;
             _translationFromOrigin = translationFromOrigin.Clone();
@@ -40,7 +45,7 @@ namespace Vts.MonteCarlo.Sources
             Direction finalDirection = GetFinalDirection(finalPosition);
 
             //Rotation and translation
-            SourceToolbox.DoRotationandTranslationForGivenFlags(
+            SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
                 _translationFromOrigin,
@@ -82,7 +87,7 @@ namespace Vts.MonteCarlo.Sources
                     finalPosition = SourceToolbox.GetRandomGaussianLinePosition(
                         new Position(0, 0, 0),
                         lineLength,
-                        gaussianProfile.BeamFWHM,
+                        gaussianProfile.BeamDiaFWHM,
                         rng);
                     break;                
             }

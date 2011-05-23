@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo.Sources
             SourceToolbox.DoSourceRotationByGivenPolarAndAzimuthalAngle(polarAzimuthalPair, ref finalDirection, ref dummyPosition);
             
             //Translation and source rotation
-            SourceToolbox.DoRotationandTranslationForGivenFlags(
+            SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
                 _translationFromOrigin,

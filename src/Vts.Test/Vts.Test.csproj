@@ -226,6 +226,7 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs" />
     <Compile Include="MonteCarlo\Detectors\AnalogDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -280,6 +281,7 @@
   <ItemGroup>
     <Folder Include="Modeling\Optimizers\" />
     <Folder Include="Modeling\Tools\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

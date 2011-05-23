@@ -969,7 +969,7 @@ namespace Vts.MonteCarlo.Helpers
         public static PolarAzimuthalAngles GetPolarAndAzimuthalAnglesFromDirection(
             Direction direction)
         {
-            if (direction == SourceDefaults.InwardNormal)
+            if (direction == SourceDefaults.DefaultDirection)
             {
                 return new PolarAzimuthalAngles(0.0, 0.0);
             }

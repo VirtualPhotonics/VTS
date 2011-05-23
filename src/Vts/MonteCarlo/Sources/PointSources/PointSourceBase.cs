@@ -50,7 +50,7 @@ namespace Vts.MonteCarlo.Sources
                 Rng);
             
             //Rotation and translation
-            SourceToolbox.DoRotationandTranslationForGivenFlags(
+            SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
                 _translationFromOrigin,

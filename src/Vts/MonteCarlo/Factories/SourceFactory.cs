@@ -12,19 +12,37 @@ namespace Vts.MonteCarlo.Factories
         public static ISource GetSource(ISourceInput input, ITissue tissue, Random rng)
         {
             switch (input.SourceType)
-            {
-                case SourceType.IsotropicPoint:
-                    var ipInput = (IsotropicPointSourceInput)input;
-                    return new IsotropicPointSource(
-                        ipInput.PointLocation); 
+            {                
                 case SourceType.DirectionalPoint:
                     var dpInput = (DirectionalPointSourceInput)input;
                     return new DirectionalPointSource(
                         dpInput.PointLocation, 
                         dpInput.Direction);
+
+                case SourceType.IsotropicPoint:
+                    var ipInput = (IsotropicPointSourceInput)input;
+                    return new IsotropicPointSource(
+                        ipInput.PointLocation); 
+
                 case SourceType.CustomPoint:
+                    var cpInput = (CustomPointSourceInput)input;
+                    return new CustomPointSource(
+                        cpInput.PolarAngleEmissionRange,
+                        cpInput.AzimuthalAngleEmissionRange,
+                        cpInput.PointLocation, 
+                        cpInput.Direction);
+
                 case SourceType.IsotropicLine:
                 case SourceType.DirectionalLine:
+                    
+                    var dlInput = (DirectionalLineSourceInput)input;
+                    return new DirectionalLineSource(
+                          dlInput.ThetaConvOrDiv,
+                          dlInput.LineLength,
+                          dlInput.SourceProfile,
+                          dlInput.TranslationFromOrigin,
+                          dlInput.RotationFromInwardNormal,
+                          dlInput.RotationOfPrincipalSourceAxis);
                 case SourceType.CustomLine:
                 case SourceType.DirectionalCircular:
                 case SourceType.CustomCircular:
