@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin,
             PolarAzimuthalAngles beamRotationFromInwardNormal)
         {
-            SourceType = SourceType.DirectionalLine;
+            SourceType = SourceType.CustomLine;
             LineLength = lineLength;
             SourceProfile = sourceProfile;
             PolarAngleEmissionRange = polarAngleEmissionRange;

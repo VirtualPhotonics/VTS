@@ -7,7 +7,7 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
-    public abstract class SurfaceEmittingTubeSourceBase : ISource
+    public abstract class SurfaceEmittingTubularSourceBase : ISource
     {        
         protected Direction _newDirectionOfPrincipalSourceAxis;
         protected Position _translationFromOrigin;        
@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo.Sources
         protected double _tubeHeightZ;
         
 
-        protected SurfaceEmittingTubeSourceBase(
+        protected SurfaceEmittingTubularSourceBase(
             double tubeRadius,
             double tubeHeightZ,  
             Direction newDirectionOfPrincipalSourceAxis,                  

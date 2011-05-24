@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// 
     /// </summary>
-    public class LambertianSurfaceEmittingTubeSource : SurfaceEmittingTubeSourceBase
+    public class LambertianSurfaceEmittingTubularSource : SurfaceEmittingTubularSourceBase
     {      
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="tubeHeightZ">Tube height</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
-        public LambertianSurfaceEmittingTubeSource(
+        public LambertianSurfaceEmittingTubularSource(
             double tubeRadius,
             double tubeHeightZ,
             Direction newDirectionOfPrincipalSourceAxis = null,

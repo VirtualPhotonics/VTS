@@ -268,6 +268,7 @@
     <Compile Include="MonteCarlo\Controllers\DetectorController.cs" />
     <Compile Include="MonteCarlo\Controllers\pMCDetectorController.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\TubularSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs" />
     <Compile Include="MonteCarlo\Factories\AbsorptionActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
     <Compile Include="MonteCarlo\Factories\SourceProfileFactory.cs" />
@@ -336,8 +337,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\Sources\PointSources\IsotropicPointSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Tube\LambertianSurfaceEmittingTubeSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Tube\SurfaceEmittingTubeSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Tubular\LambertianSurfaceEmittingTubularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Tubular\SurfaceEmittingTubularSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\SurfaceEmittingCuboidalSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\CustomSurfaceEmittingCuboidalSource.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\LambertianSurfaceEmittingCuboidalSource.cs" />
@@ -481,7 +482,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CircularSourceInputs\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CylindricalSourceInputs\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\RectangularSourceInputs\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\SphericalSourceInputs\" />
     <Folder Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\" />
     <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Cylindrical\" />
   </ItemGroup>

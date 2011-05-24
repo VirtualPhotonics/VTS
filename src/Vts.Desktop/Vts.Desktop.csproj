@@ -544,6 +544,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\TubularSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\TubularSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs</Link>
     </Compile>
@@ -826,11 +829,11 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Spherical\SurfaceEmittingSphericalSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingSources\Spherical\SurfaceEmittingSphericalSourceBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Tube\LambertianSurfaceEmittingTubeSource.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Tube\LambertianSurfaceEmittingTubeSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Tubular\LambertianSurfaceEmittingTubularSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Tube\LambertianSurfaceEmittingTubularSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Tube\SurfaceEmittingTubeSourceBase.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Tube\SurfaceEmittingTubeSourceBase.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Tubular\SurfaceEmittingTubularSourceBase.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\Tube\SurfaceEmittingTubularSourceBase.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\CuboidalSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\CuboidalSourceBase.cs</Link>
@@ -1006,7 +1009,14 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CircularSourceInputs\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CylindricalSourceInputs\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\RectangularSourceInputs\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\SphericalSourceInputs\" />
+  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

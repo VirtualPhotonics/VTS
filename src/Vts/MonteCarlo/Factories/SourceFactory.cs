@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo.Factories
                         ilInput.BeamRotationFromInwardNormal);                   
 
                 case SourceType.CustomLine:
-                     var clInput = (CustomLineSourceInput)input;
+                    var clInput = (CustomLineSourceInput)input;
                     return new CustomLineSource(
                         clInput.LineLength,
                         clInput.SourceProfile,
@@ -72,7 +72,15 @@ namespace Vts.MonteCarlo.Factories
                 case SourceType.CustomRectangular:
                 case SourceType.LambertianSurfaceEmittingSpherical:
                 case SourceType.CustomSurfaceEmittingShperical:
-                case SourceType.LambertianSurfaceEmittingTube:
+
+                case SourceType.LambertianSurfaceEmittingTubular:
+                    var lsetInput = (LambertianSurfaceEmittingTubularSourceInput)input;
+                    return new LambertianSurfaceEmittingTubularSource(
+                        lsetInput.TubeRadius,
+                        lsetInput.TubeHeightZ,
+                        lsetInput.NewDirectionOfPrincipalSourceAxis,
+                        lsetInput.TranslationFromOrigin);
+
                 case SourceType.IsotropicCuboidal:
                 case SourceType.CustomCubiodal:
                 case SourceType.IsotropicEllipsoidal:

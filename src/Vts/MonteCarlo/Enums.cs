@@ -59,7 +59,7 @@ namespace Vts.MonteCarlo
         CustomSurfaceEmittingShperical,
 
         // Tube Sources
-        LambertianSurfaceEmittingTube,
+        LambertianSurfaceEmittingTubular,
 
         // 3D Volumetric Sources
 
