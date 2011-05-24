@@ -9,8 +9,8 @@ namespace Vts.MonteCarlo.Sources
 {
     public abstract class SurfaceEmittingTubeSourceBase : ISource
     {        
-        protected Position _translationFromOrigin;
-        protected ThreeAxisRotation _rotationOfPrincipalSourceAxis;
+        protected Direction _newDirectionOfPrincipalSourceAxis;
+        protected Position _translationFromOrigin;        
         protected SourceFlags _rotationAndTranslationFlags;
         protected double _tubeRadius;
         protected double _tubeHeightZ;
@@ -18,25 +18,27 @@ namespace Vts.MonteCarlo.Sources
 
         protected SurfaceEmittingTubeSourceBase(
             double tubeRadius,
-            double tubeHeightZ,                               
-            Position translationFromOrigin,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
+            double tubeHeightZ,  
+            Direction newDirectionOfPrincipalSourceAxis,                  
+            Position translationFromOrigin)
         {
+            _rotationAndTranslationFlags = new SourceFlags(
+                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
+                 translationFromOrigin != SourceDefaults.DefaultPosition,
+                 false);
+            
             _tubeRadius = tubeRadius;
-            _tubeHeightZ = tubeHeightZ;           
-            _translationFromOrigin = translationFromOrigin.Clone();
-            _rotationOfPrincipalSourceAxis = rotationOfPrincipalSourceAxis.Clone();
-            _rotationAndTranslationFlags = new SourceFlags(true, false, true); //??           
+            _tubeHeightZ = tubeHeightZ;
+            _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone();
+            _translationFromOrigin = translationFromOrigin.Clone();      
         }
 
         public Photon GetNextPhoton(ITissue tissue)
         {
-            
-
             //sample angular distribution
             Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
-                new DoubleRange(0, 0.5 * Math.PI), 
-                new DoubleRange(0, 2.0 * Math.PI),
+                SourceDefaults.DefaultHalfPolarAngleRange, 
+                SourceDefaults.DefaultAzimuthalAngleRange,
                 Rng);
 
             //Translate the photon to _tubeRadius length below the origin. Ring lies on yz plane.
@@ -57,14 +59,15 @@ namespace Vts.MonteCarlo.Sources
             //Sample tube height
             finalPosition.Z = _tubeHeightZ * (2.0 * Rng.NextDouble() -1.0);
 
-            
+            //Find the relevent polar and azimuthal pair for the direction
+            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Translation and source rotation
             SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
-                _translationFromOrigin,
-                _rotationOfPrincipalSourceAxis,
+                _rotationalAnglesOfPrincipalSourceAxis,
+                _translationFromOrigin,                
                 _rotationAndTranslationFlags);
 
             // the handling of specular needs work

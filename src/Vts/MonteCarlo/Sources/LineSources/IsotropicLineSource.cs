@@ -11,193 +11,43 @@ namespace Vts.MonteCarlo.Sources
     /// 
     /// </summary>
     public class IsotropicLineSource : LineSourceBase
-    {       
-
-        #region Constructors
-
+    {     
         /// <summary>
         /// Returns an instance of isotropic Line Source with a specified length, source profile (Flat/Gaussian),
-        ///  polar and azimuthal angle range, translation, inward normal rotation, and source axis rotation
+        /// polar and azimuthal angle range, new source axis direction, translation, and  inward normal ray rotation
         /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        /// <param name="rotationOfPrincipalSourceAxis"></param>
+        /// <param name="lineLength">The length of the line source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="beamRotationFromInwardNormal">Ray rotation from inward normal</param>
         public IsotropicLineSource(
             double lineLength,
             ISourceProfile sourceProfile,
+            Direction newDirectionOfPrincipalSourceAxis,
             Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
+            PolarAzimuthalAngles beamRotationFromInwardNormal)
             : base(
                 lineLength,
                 sourceProfile,
+                newDirectionOfPrincipalSourceAxis,
                 translationFromOrigin,
-                rotationFromInwardNormal,
-                rotationOfPrincipalSourceAxis)
-        { 
+                beamRotationFromInwardNormal)
+        {
+            if (newDirectionOfPrincipalSourceAxis == null)
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis;
+            if (translationFromOrigin == null)
+                translationFromOrigin = SourceDefaults.DefaultPosition;
+            if (beamRotationFromInwardNormal == null)
+                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal;
         }        
 
-        /// <summary>
-        /// Returns an instance of isotropic Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range, translation, and inward normal rotation.
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public IsotropicLineSource(
-            double lineLength,
-            ISourceProfile sourceProfile,
-            Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal)
-            : this(
-                lineLength,
-                sourceProfile,
-                translationFromOrigin,
-                rotationFromInwardNormal,
-                new ThreeAxisRotation(0, 0, 0))
-        {
-        }
-
-        /// <summary>
-        /// Returns an instance of isotropic Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range, translation,  and source axis rotation.
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public IsotropicLineSource(
-            double lineLength,            
-            ISourceProfile sourceProfile,
-            Position translationFromOrigin,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
-            : this(
-                lineLength,
-                sourceProfile,
-                translationFromOrigin,
-                new PolarAzimuthalAngles(0, 0),
-                rotationOfPrincipalSourceAxis)
-        {
-        }
-
-
-        /// <summary>
-        /// Returns an instance of isotropic Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range, and translation.
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public IsotropicLineSource(
-            double lineLength,            
-            ISourceProfile sourceProfile,
-            Position translationFromOrigin)
-            : this(
-                lineLength,
-                sourceProfile,
-                translationFromOrigin,
-                new PolarAzimuthalAngles(0, 0),
-                new ThreeAxisRotation(0, 0, 0))
-        {
-        }
-
-        /// <summary>
-        /// Returns an instance of isotropic Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range,  inward normal rotation, and source axis rotation.
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public IsotropicLineSource(
-            double lineLength,           
-            ISourceProfile sourceProfile,
-            PolarAzimuthalAngles rotationFromInwardNormal,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
-            : this(
-                lineLength,
-                sourceProfile,
-                new Position(0, 0, 0),
-                rotationFromInwardNormal,
-                rotationOfPrincipalSourceAxis)
-        {
-        }
-
-        /// <summary>
-        /// Returns an instance of isotropic Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range and inward normal rotation.
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public IsotropicLineSource(
-            double lineLength,
-            ISourceProfile sourceProfile,
-            PolarAzimuthalAngles rotationFromInwardNormal)
-            : this(
-                lineLength,
-                sourceProfile,
-                new Position(0, 0, 0),
-                rotationFromInwardNormal,
-                new ThreeAxisRotation(0, 0, 0))
-        {
-        }
-
-
-        /// <summary>
-        /// Returns an instance of isotropic Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range and source axis rotation.
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public IsotropicLineSource(
-            double lineLength,            
-            ISourceProfile sourceProfile,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
-            : this(
-                lineLength,
-                sourceProfile,
-                new Position(0, 0, 0),
-                new PolarAzimuthalAngles(0, 0),
-                rotationOfPrincipalSourceAxis)
-        {
-        }
-
-        /// <summary>
-        /// Returns an instance of isotropic Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range.
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public IsotropicLineSource(
-            double lineLength,
-            ISourceProfile sourceProfile)
-            : this(                
-                lineLength,
-                sourceProfile,
-                new Position(0, 0, 0),
-                new PolarAzimuthalAngles(0, 0),
-                new ThreeAxisRotation(0, 0, 0))
-        {
-        }
         
-        
-        #endregion
-
         //Isotropic line source
         protected override Direction GetFinalDirection(Position finalPosition)
         {                   
-            var azimuthalAngleEmissionRange = new DoubleRange(0.0, 2 * Math.PI);
-            var polarAngleEmissionRange = new DoubleRange(0.0, Math.PI);
+            var azimuthalAngleEmissionRange = SourceDefaults.DefaultAzimuthalAngleRange;
+            var polarAngleEmissionRange = SourceDefaults.DefaultFullPolarAngleRange;
 
             //Sample angular distribution
             Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(polarAngleEmissionRange, azimuthalAngleEmissionRange, Rng);

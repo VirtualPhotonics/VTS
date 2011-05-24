@@ -18,43 +18,47 @@ namespace Vts.MonteCarlo.Sources
         protected DoubleRange _polarAngleEmissionRange;
         protected DoubleRange _azimuthalAngleEmissionRange;
         protected Position _translationFromOrigin;
-        protected PolarAzimuthalAngles _rotationFromInwardNormal;        
+        protected Direction _newDirectionOfPrincipalSourceAxis;
+        protected PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis;
         protected SourceFlags _rotationAndTranslationFlags;       
 
         protected PointSourceBase( 
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
-            Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal)
+            Direction newDirectionOfPrincipalSourceAxis,
+            Position translationFromOrigin)
         {
             _rotationAndTranslationFlags = new SourceFlags(
-                translationFromOrigin != SourceDefaults.DefaultTranslationFromOrigin,
-                rotationFromInwardNormal != SourceDefaults.DefaultRoationFromInwardNormal,
+                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
+                translationFromOrigin != SourceDefaults.DefaultPosition,
                 false);
 
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
             _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();    
             _translationFromOrigin = translationFromOrigin.Clone();
-            _rotationFromInwardNormal = rotationFromInwardNormal.Clone();                   
+            _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone();                   
         }
 
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts at the origin
-            Position finalPosition = new Position(0, 0, 0);
+            Position finalPosition = SourceDefaults.DefaultPosition;
 
             // sample angular distribution
             Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
                 _polarAngleEmissionRange,
                 _azimuthalAngleEmissionRange,
                 Rng);
+
+            //Find the relevent polar and azimuthal pair for the direction
+            _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Rotation and translation
             SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
-                _translationFromOrigin,
-                _rotationFromInwardNormal,                
+                _rotationalAnglesOfPrincipalSourceAxis, 
+                _translationFromOrigin,                               
                 _rotationAndTranslationFlags);
             
 

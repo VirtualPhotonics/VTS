@@ -10,9 +10,9 @@ namespace Vts.MonteCarlo.Sources
     public abstract class SurfaceEmittingSphericalSourceBase : ISource
     {
         protected DoubleRange _polarAngleRangeToDefineSphericalSurface;  
-        protected DoubleRange _azimuthalAngleRangeToDefineSphericalSurface;        
+        protected DoubleRange _azimuthalAngleRangeToDefineSphericalSurface;
+        protected Direction _newDirectionOfPrincipalSourceAxis;
         protected Position _translationFromOrigin;
-        protected ThreeAxisRotation _rotationOfPrincipalSourceAxis;
         protected SourceFlags _rotationAndTranslationFlags;
         protected double _radius;
 
@@ -20,15 +20,14 @@ namespace Vts.MonteCarlo.Sources
             double radius,
             DoubleRange polarAngleRangeToDefineSphericalSurface,  
             DoubleRange azimuthalAngleRangeToDefineSphericalSurface,            
-            Position translationFromOrigin,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
+            Direction newDirectionOfPrincipalSourceAxis,
+            Position translationFromOrigin)
         {
             _radius = radius;
             _polarAngleRangeToDefineSphericalSurface = polarAngleRangeToDefineSphericalSurface.Clone();
-            _azimuthalAngleRangeToDefineSphericalSurface = azimuthalAngleRangeToDefineSphericalSurface.Clone();            
-            _translationFromOrigin = translationFromOrigin.Clone();
-            _rotationOfPrincipalSourceAxis = rotationOfPrincipalSourceAxis.Clone();
-            _rotationAndTranslationFlags = new SourceFlags(true, false, true); //??           
+            _azimuthalAngleRangeToDefineSphericalSurface = azimuthalAngleRangeToDefineSphericalSurface.Clone();
+            _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone(); 
+            _translationFromOrigin = translationFromOrigin.Clone();        
         }
 
         public Photon GetNextPhoton(ITissue tissue)
@@ -41,8 +40,8 @@ namespace Vts.MonteCarlo.Sources
 
             //Lambertian distribution (uniform hemispherical distribution)
             PolarAzimuthalAngles polarAzimuthalPair = SourceToolbox.GetRandomPolarAzimuthalForUniformPolarAndAzimuthalAngleRange(
-                new DoubleRange (0.0, 0.5 * Math.PI),
-                new DoubleRange(0.0, 2.0 * Math.PI),
+                SourceDefaults.DefaultHalfPolarAngleRange,
+                SourceDefaults.DefaultAzimuthalAngleRange,
                 Rng);
 
             //Avoid updating the finalDirection during following rotation
@@ -50,13 +49,16 @@ namespace Vts.MonteCarlo.Sources
 
             //Rotate polar azimutahl angle by polarAzimuthalPair vector
             SourceToolbox.DoSourceRotationByGivenPolarAndAzimuthalAngle(polarAzimuthalPair, ref finalDirection, ref dummyPosition);
-            
+
+            //Find the relevent polar and azimuthal pair for the direction
+            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
+
             //Translation and source rotation
             SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
+                _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,
-                _rotationOfPrincipalSourceAxis,
                 _rotationAndTranslationFlags);
 
             // the handling of specular needs work

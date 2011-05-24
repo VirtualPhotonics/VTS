@@ -14,26 +14,17 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns an instance of Isotropic Point Source at a given location
         /// </summary>        
-        /// <param name="pointLocation">New source location</param> 
+        /// <param name="pointLocation">Location of the point source</param> 
         public IsotropicPointSource(
-            Position pointLocation)
+            Position pointLocation = null)
             : base(
-                new DoubleRange(0.0, Math.PI),
-                new DoubleRange(0.0, 2.0 * Math.PI),
-                pointLocation,
-                new PolarAzimuthalAngles(0.0, 0.0))
+                SourceDefaults.DefaultFullPolarAngleRange,
+                SourceDefaults.DefaultAzimuthalAngleRange,                
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
+                pointLocation)
         {
-        }
-
- 
-        /// <summary>
-        ///  Returns an instance of Isotropic Point Source emitting at the origin (0,0,0).
-        /// </summary>
-        public IsotropicPointSource()
-            : this(
-                new Position(0.0, 0.0, 0.0))
-        {
-        }
-
+            if (pointLocation == null)
+                pointLocation = SourceDefaults.DefaultPosition;
+        }    
     }
 }

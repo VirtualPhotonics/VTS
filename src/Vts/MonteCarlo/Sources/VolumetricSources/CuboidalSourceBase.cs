@@ -10,8 +10,8 @@ namespace Vts.MonteCarlo.Sources
     public abstract class CuboidalSourceBase : ISource
     {
         protected ISourceProfile _sourceProfile;
-        protected Position _translationFromOrigin;
-        protected ThreeAxisRotation _rotationOfPrincipalSourceAxis;
+        protected Direction _newDirectionOfPrincipalSourceAxis;
+        protected Position _translationFromOrigin;        
         protected SourceFlags _rotationAndTranslationFlags;
         protected double _cubeLengthX;
         protected double _cubeWidthY;
@@ -22,16 +22,20 @@ namespace Vts.MonteCarlo.Sources
             double cubeWidthY,
             double cubeHeightZ,
             ISourceProfile sourceProfile,
-            Position translationFromOrigin,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
+            Direction newDirectionOfPrincipalSourceAxis,
+            Position translationFromOrigin)
         {
+            _rotationAndTranslationFlags = new SourceFlags(
+                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
+                translationFromOrigin != SourceDefaults.DefaultPosition,
+                false);
+
             _cubeLengthX = cubeLengthX;
             _cubeWidthY = cubeWidthY;
             _cubeHeightZ = cubeHeightZ;
             _sourceProfile = sourceProfile;
-            _translationFromOrigin = translationFromOrigin.Clone();
-            _rotationOfPrincipalSourceAxis = rotationOfPrincipalSourceAxis.Clone();
-            _rotationAndTranslationFlags = new SourceFlags(true, false, true); //??           
+            _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone();
+            _translationFromOrigin = translationFromOrigin.Clone();          
         }
 
         public Photon GetNextPhoton(ITissue tissue)
@@ -42,12 +46,15 @@ namespace Vts.MonteCarlo.Sources
             // sample angular distribution
             Direction finalDirection = GetFinalDirection();
 
+            //Find the relevent polar and azimuthal pair for the direction
+            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
+
             //Rotation and translation
             SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
+                _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,
-                _rotationOfPrincipalSourceAxis,
                 _rotationAndTranslationFlags);
 
             // the handling of specular needs work
@@ -75,7 +82,7 @@ namespace Vts.MonteCarlo.Sources
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
                     SourceToolbox.GetRandomFlatCuboidPosition(
-                        new Position(0, 0, 0),
+                        SourceDefaults.DefaultPosition,
                         cubeLengthX,
                         cubeWidthY,
                         cubeHeightZ,
@@ -84,7 +91,7 @@ namespace Vts.MonteCarlo.Sources
                 case SourceProfileType.Gaussian:
                     var gaussianProfile = sourceProfile as GaussianSourceProfile;
                     finalPosition = SourceToolbox.GetRandomGaussianCuboidPosition(
-                        new Position(0, 0, 0),
+                        SourceDefaults.DefaultPosition,
                         cubeLengthX,
                         cubeWidthY,
                         cubeHeightZ,

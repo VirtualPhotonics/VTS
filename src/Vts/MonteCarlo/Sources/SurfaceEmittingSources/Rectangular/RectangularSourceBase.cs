@@ -10,9 +10,9 @@ namespace Vts.MonteCarlo.Sources
     public abstract class RectangularSourceBase : ISource
     {
         protected ISourceProfile _sourceProfile;
+        protected Direction _newDirectionOfPrincipalSourceAxis;
         protected Position _translationFromOrigin;
-        protected PolarAzimuthalAngles _rotationFromInwardNormal;
-        protected ThreeAxisRotation _rotationOfPrincipalSourceAxis;
+        protected PolarAzimuthalAngles _beamRotationFromInwardNormal;
         protected SourceFlags _rotationAndTranslationFlags;
         protected double _rectLengthX;
         protected double _rectWidthY;
@@ -21,17 +21,21 @@ namespace Vts.MonteCarlo.Sources
             double rectLengthX,
             double rectWidthY,
             ISourceProfile sourceProfile,
+            Direction newDirectionOfPrincipalSourceAxis,
             Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
+            PolarAzimuthalAngles beamRotationFromInwardNormal)
         {
+            _rotationAndTranslationFlags = new SourceFlags(
+                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
+                 translationFromOrigin != SourceDefaults.DefaultPosition,
+                 beamRotationFromInwardNormal != SourceDefaults.DefaultBeamRoationFromInwardNormal);
+            
             _rectLengthX = rectLengthX;
             _rectWidthY = rectWidthY;
             _sourceProfile = sourceProfile;
+            _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone();
             _translationFromOrigin = translationFromOrigin.Clone();
-            _rotationFromInwardNormal = rotationFromInwardNormal.Clone();
-            _rotationOfPrincipalSourceAxis = rotationOfPrincipalSourceAxis.Clone();
-            _rotationAndTranslationFlags = new SourceFlags(true, true, true); //??           
+            _beamRotationFromInwardNormal = beamRotationFromInwardNormal.Clone();         
         }
 
         public Photon GetNextPhoton(ITissue tissue)
@@ -42,13 +46,16 @@ namespace Vts.MonteCarlo.Sources
             // sample angular distribution
             Direction finalDirection = GetFinalDirection(finalPosition);
 
+            //Find the relevent polar and azimuthal pair for the direction
+            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
+            
             //Rotation and translation
             SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
+                _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,
-                _rotationFromInwardNormal,
-                _rotationOfPrincipalSourceAxis,
+                _beamRotationFromInwardNormal,
                 _rotationAndTranslationFlags);
 
             // the handling of specular needs work
@@ -76,7 +83,7 @@ namespace Vts.MonteCarlo.Sources
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
                     SourceToolbox.GetRandomFlatRectangulePosition(
-                        new Position(0, 0, 0),
+                        SourceDefaults.DefaultPosition,
                         rectLengthX,
                         rectWidthY,
                         rng);
@@ -84,7 +91,7 @@ namespace Vts.MonteCarlo.Sources
                 case SourceProfileType.Gaussian:
                     var gaussianProfile = sourceProfile as GaussianSourceProfile;
                     finalPosition = SourceToolbox.GetRandomGaussianRectangulePosition(
-                        new Position(0, 0, 0),
+                        SourceDefaults.DefaultPosition,
                         rectLengthX,
                         rectWidthY,
                         gaussianProfile.BeamDiaFWHM,

@@ -11,8 +11,8 @@ namespace Vts.MonteCarlo.Sources
     {
         protected ISourceProfile _sourceProfile;
         protected DoubleRange _polarAngleEmissionRange;
+        protected Direction _newDirectionOfPrincipalSourceAxis;
         protected Position _translationFromOrigin;
-        protected ThreeAxisRotation _rotationOfPrincipalSourceAxis;
         protected SourceFlags _rotationAndTranslationFlags;
         protected double _cubeLengthX;
         protected double _cubeWidthY;
@@ -23,18 +23,22 @@ namespace Vts.MonteCarlo.Sources
             double cubeWidthY,
             double cubeHeightZ,
             ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange,                                   
-            Position translationFromOrigin,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
+            DoubleRange polarAngleEmissionRange,
+            Direction newDirectionOfPrincipalSourceAxis,                     
+            Position translationFromOrigin)
         {
+            _rotationAndTranslationFlags = new SourceFlags(
+                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
+                 translationFromOrigin != SourceDefaults.DefaultPosition,
+                 false);
+            
             _cubeLengthX = cubeLengthX;
             _cubeWidthY = cubeWidthY;
             _cubeHeightZ = cubeHeightZ;
             _sourceProfile = sourceProfile;
+            _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone();
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();  
-            _translationFromOrigin = translationFromOrigin.Clone();
-            _rotationOfPrincipalSourceAxis = rotationOfPrincipalSourceAxis.Clone();
-            _rotationAndTranslationFlags = new SourceFlags(true, false, true); //??           
+            _translationFromOrigin = translationFromOrigin.Clone();           
         }
 
         public Photon GetNextPhoton(ITissue tissue)
@@ -49,7 +53,7 @@ namespace Vts.MonteCarlo.Sources
             //sample angular distribution
             Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
                 _polarAngleEmissionRange, 
-                new DoubleRange(0, 2.0 * Math.PI),
+                SourceDefaults.DefaultAzimuthalAngleRange,
                 Rng);
 
             Position tempPosition = null;               
@@ -100,13 +104,16 @@ namespace Vts.MonteCarlo.Sources
                     finalDirection.Uz = -finalDirection.Uz;
                     break;
             }
+
+            //Find the relevent polar and azimuthal pair for the direction
+            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Translation and source rotation
             SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
+                _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,
-                _rotationOfPrincipalSourceAxis,
                 _rotationAndTranslationFlags);
 
             // the handling of specular needs work
@@ -133,7 +140,7 @@ namespace Vts.MonteCarlo.Sources
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
                     SourceToolbox.GetRandomFlatRectangulePosition(
-                        new Position(0, 0, 0),
+                        SourceDefaults.DefaultPosition,
                         rectLengthX,
                         rectWidthY,
                         rng);
@@ -141,7 +148,7 @@ namespace Vts.MonteCarlo.Sources
                 case SourceProfileType.Gaussian:
                     var gaussianProfile = sourceProfile as GaussianSourceProfile;
                     finalPosition = SourceToolbox.GetRandomGaussianRectangulePosition(
-                        new Position(0, 0, 0),
+                        SourceDefaults.DefaultPosition,
                         rectLengthX,
                         rectWidthY,
                         gaussianProfile.BeamDiaFWHM,

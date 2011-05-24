@@ -11,126 +11,39 @@ namespace Vts.MonteCarlo.Sources
     /// 
     /// </summary>
     public class CustomSurfaceEmittingCuboidalSource : SurfaceEmittingCuboidalSourceBase
-    {
-        #region Constructors
-
+    {        
         /// <summary>
         /// Returns an instance of Custom Surface Emitting Cuboidal Source with a given source profile, polar angle range,
-        /// source axis rotation and translation
+        /// new source axis direction, and translation,
         /// </summary>
         /// <param name="cubeLengthX">The length of cube (along x axis)</param>
         /// <param name="cubeWidthY">The  width of cube (along y axis)</param>
         /// <param name="cubeHeightZ">The height of cube (along z axis)</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian(1D/2D/3D)}</param>
-        /// <param name="polarAngleEmissionRange">Polar angle emission range</param>
-        /// <param name="translationFromOrigin">Source axis rotation</param>
-        /// <param name="rotationOfPrincipalSourceAxis">New source location</param>
+        /// <param name="polarAngleEmissionRange">Polar angle emission range {0 - 90degrees}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>  
         public CustomSurfaceEmittingCuboidalSource(
             double cubeLengthX,
             double cubeWidthY,
             double cubeHeightZ,
             ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange,  
-            Position translationFromOrigin,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
+            DoubleRange polarAngleEmissionRange,
+            Direction newDirectionOfPrincipalSourceAxis = null,
+            Position translationFromOrigin = null)
             : base(
             cubeLengthX,
             cubeWidthY, 
             cubeHeightZ,
             sourceProfile, 
             polarAngleEmissionRange,
-            translationFromOrigin,
-            rotationOfPrincipalSourceAxis)
+            newDirectionOfPrincipalSourceAxis,
+            translationFromOrigin)
         {
-            _rotationAndTranslationFlags = new SourceFlags(true, false, true);
-        }
-
-        /// <summary>
-        /// Returns an instance of Custom Surface Emitting Cuboidal Source with a given source profile, polar angle range,
-        /// and source axis rotation.
-        /// </summary>
-        /// <param name="cubeLengthX"></param>
-        /// <param name="cubeWidthY"></param>
-        /// <param name="cubeHeightZ"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public CustomSurfaceEmittingCuboidalSource(
-            double cubeLengthX,
-            double cubeWidthY,
-            double cubeHeightZ,
-            ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
-            : this(
-            cubeLengthX,
-            cubeWidthY,
-            cubeHeightZ,
-            sourceProfile,
-            polarAngleEmissionRange,
-            new Position (0,0,0),
-            rotationOfPrincipalSourceAxis)
-        {
-            _rotationAndTranslationFlags = new SourceFlags(false, false, true);
-        }
-
-        /// <summary>
-        /// Returns an instance of Custom Surface Emitting Cuboidal Source with a given source profile, polar angle range,
-        /// and translation
-        /// </summary>
-        /// <param name="cubeLengthX"></param>
-        /// <param name="cubeWidthY"></param>
-        /// <param name="cubeHeightZ"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="translationFromOrigin"></param>
-        public CustomSurfaceEmittingCuboidalSource(
-            double cubeLengthX,
-            double cubeWidthY,
-            double cubeHeightZ,
-            ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange,
-            Position translationFromOrigin)
-            : this(
-            cubeLengthX,
-            cubeWidthY,
-            cubeHeightZ,
-            sourceProfile,
-            polarAngleEmissionRange,
-            translationFromOrigin,
-            new ThreeAxisRotation (0,0,0))
-        {
-            _rotationAndTranslationFlags = new SourceFlags(true, false, false);
-        }
-
-        /// <summary>
-        /// Returns an instance of Custom Surface Emitting Cuboidal Source with a given source profile, and polar angle range,
-        /// </summary>
-        /// <param name="cubeLengthX"></param>
-        /// <param name="cubeWidthY"></param>
-        /// <param name="cubeHeightZ"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
-        public CustomSurfaceEmittingCuboidalSource(
-            double cubeLengthX,
-            double cubeWidthY,
-            double cubeHeightZ,
-            ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange)
-            : this(
-            cubeLengthX,
-            cubeWidthY,
-            cubeHeightZ,
-            sourceProfile,
-            polarAngleEmissionRange,
-            new Position (0,0,0),
-            new ThreeAxisRotation (0,0,0))
-        {
-            _rotationAndTranslationFlags = new SourceFlags(false, false, false);
-        }
-        
-
-        #endregion
+            if (newDirectionOfPrincipalSourceAxis == null)
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis;
+            if (translationFromOrigin == null)
+                translationFromOrigin = SourceDefaults.DefaultPosition;
+        }        
     }
-
 }

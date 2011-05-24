@@ -10,28 +10,33 @@ namespace Vts.MonteCarlo.Sources
     public abstract class CircularSourceBase : ISource
     {
         protected ISourceProfile _sourceProfile;
+        protected Direction _newDirectionOfPrincipalSourceAxis;
         protected Position _translationFromOrigin;
-        protected PolarAzimuthalAngles _rotationFromInwardNormal;
-        protected ThreeAxisRotation _rotationOfPrincipalSourceAxis;
+        protected PolarAzimuthalAngles _beamRotationFromInwardNormal;
         protected SourceFlags _rotationAndTranslationFlags;
-        protected double _innerRadius;
         protected double _outerRadius;
+        protected double _innerRadius;
+        
 
-        protected CircularSourceBase(
-            double innerRadius,
+        protected CircularSourceBase(            
             double outerRadius,
+            double innerRadius,
             ISourceProfile sourceProfile,
+            Direction newDirectionOfPrincipalSourceAxis,
             Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
+            PolarAzimuthalAngles beamRotationFromInwardNormal)
         {
-            _innerRadius = innerRadius;
+            _rotationAndTranslationFlags = new SourceFlags(
+                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
+                translationFromOrigin != SourceDefaults.DefaultPosition,
+                beamRotationFromInwardNormal != SourceDefaults.DefaultBeamRoationFromInwardNormal);
+
             _outerRadius = outerRadius;
+            _innerRadius = innerRadius;            
             _sourceProfile = sourceProfile;
+            _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone();
             _translationFromOrigin = translationFromOrigin.Clone();
-            _rotationFromInwardNormal = rotationFromInwardNormal.Clone();
-            _rotationOfPrincipalSourceAxis = rotationOfPrincipalSourceAxis.Clone();
-            _rotationAndTranslationFlags = new SourceFlags(true, true, true); //??           
+            _beamRotationFromInwardNormal = beamRotationFromInwardNormal.Clone();           
         }
 
         public Photon GetNextPhoton(ITissue tissue)
@@ -42,13 +47,16 @@ namespace Vts.MonteCarlo.Sources
             // sample angular distribution
             Direction finalDirection = GetFinalDirection(finalPosition);
 
+            //Find the relevent polar and azimuthal pair for the direction
+            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
+
             //Rotation and translation
             SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
+                _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,
-                _rotationFromInwardNormal,
-                _rotationOfPrincipalSourceAxis,
+                _beamRotationFromInwardNormal,                
                 _rotationAndTranslationFlags);
 
             // the handling of specular needs work
@@ -76,7 +84,7 @@ namespace Vts.MonteCarlo.Sources
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
                     SourceToolbox.GetRandomFlatCirclePosition(
-                        new Position(0, 0, 0),
+                        SourceDefaults.DefaultPosition,
                         innerRadius,
                         outerRadius,
                         rng);
@@ -84,7 +92,7 @@ namespace Vts.MonteCarlo.Sources
                  case SourceProfileType.Gaussian:
                     var gaussianProfile = sourceProfile as GaussianSourceProfile;
                     finalPosition = SourceToolbox.GetRandomGaussianCirclePosition(
-                        new Position(0, 0, 0),
+                        SourceDefaults.DefaultPosition,
                         outerRadius,                        
                         gaussianProfile.BeamDiaFWHM,
                         rng);

@@ -16,8 +16,8 @@ namespace Vts.MonteCarlo.Factories
                 case SourceType.DirectionalPoint:
                     var dpInput = (DirectionalPointSourceInput)input;
                     return new DirectionalPointSource(
-                        dpInput.PointLocation, 
-                        dpInput.Direction);
+                        dpInput.Direction,
+                        dpInput.PointLocation);
 
                 case SourceType.IsotropicPoint:
                     var ipInput = (IsotropicPointSourceInput)input;
@@ -29,20 +29,22 @@ namespace Vts.MonteCarlo.Factories
                     return new CustomPointSource(
                         cpInput.PolarAngleEmissionRange,
                         cpInput.AzimuthalAngleEmissionRange,
-                        cpInput.PointLocation, 
-                        cpInput.Direction);
+                        cpInput.Direction,
+                        cpInput.PointLocation);
 
                 case SourceType.IsotropicLine:
-                case SourceType.DirectionalLine:
-                    
+
+
+                case SourceType.DirectionalLine:                    
                     var dlInput = (DirectionalLineSourceInput)input;
                     return new DirectionalLineSource(
                           dlInput.ThetaConvOrDiv,
                           dlInput.LineLength,
                           dlInput.SourceProfile,
+                          dlInput.NewDirectionOfPrincipalSourceAxis,
                           dlInput.TranslationFromOrigin,
-                          dlInput.RotationFromInwardNormal,
-                          dlInput.RotationOfPrincipalSourceAxis);
+                          dlInput.beamRotationFromInwardNormal);
+
                 case SourceType.CustomLine:
                 case SourceType.DirectionalCircular:
                 case SourceType.CustomCircular:

@@ -12,8 +12,6 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class LambertianSurfaceEmittingSphericalSource : SurfaceEmittingSphericalSourceBase
     {
-        #region Constructors
-
         /// <summary>
         /// Returns an instance of Lambertian Spherical Surface Emitting Source with a specified translation.
         /// </summary>
@@ -21,32 +19,16 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="translationFromOrigin">New source location</param>
         public LambertianSurfaceEmittingSphericalSource(
             double radius,
-            Position translationFromOrigin)
+            Position translationFromOrigin = null)
             : base(
                 radius,
-                new DoubleRange(0, Math.PI),
-                new DoubleRange(0, 2.0 *Math.PI),
-                translationFromOrigin,
-                new ThreeAxisRotation(0, 0, 0))
+                SourceDefaults.DefaultFullPolarAngleRange,
+                SourceDefaults.DefaultAzimuthalAngleRange,
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
+                translationFromOrigin)
         {
-            _rotationAndTranslationFlags = new SourceFlags(true, false, false);
-        }
-
-        /// <summary>
-        /// Returns an instance of Lambertian Spherical Surface Emitting Source.
-        /// </summary>
-        /// <param name="radius"></param>
-        public LambertianSurfaceEmittingSphericalSource(
-            double radius)
-            : this(
-                radius,                
-                new Position(0, 0, 0))
-                
-        {
-            _rotationAndTranslationFlags = new SourceFlags(false, false, false);
-        }
-
-        #endregion
+            if (translationFromOrigin == null)
+                translationFromOrigin = SourceDefaults.DefaultPosition;
+        }        
     }
-
 }

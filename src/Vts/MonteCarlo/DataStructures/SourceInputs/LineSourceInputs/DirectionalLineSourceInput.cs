@@ -12,17 +12,17 @@ namespace Vts.MonteCarlo.Sources
             double thetaConvOrDiv,
             double lineLength,
             ISourceProfile sourceProfile,
+            Direction newDirectionOfPrincipalSourceAxis,
             Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis) 
+            PolarAzimuthalAngles beamRotationFromInwardNormal) 
         {
             SourceType = SourceType.DirectionalLine;
             ThetaConvOrDiv = thetaConvOrDiv;
             LineLength = lineLength;
             SourceProfile = sourceProfile;
+            NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
-            RotationFromInwardNormal = rotationFromInwardNormal;
-            RotationOfPrincipalSourceAxis = RotationOfPrincipalSourceAxis;
+            beamRotationFromInwardNormal = beamRotationFromInwardNormal;
         }
 
         public DirectionalLineSourceInput(
@@ -33,17 +33,18 @@ namespace Vts.MonteCarlo.Sources
                 thetaConvOrDiv,
                 lineLength,
                 sourceProfile,
-                new Position (0.0, 0.0, 0.0),
-                new PolarAzimuthalAngles (0.0, 0.0),
-                new ThreeAxisRotation(0.0, 0.0, 0.0)) { }
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
+                SourceDefaults.DefaultPosition,
+                SourceDefaults.DefaultBeamRoationFromInwardNormal) { }
 
         public SourceType SourceType { get; set; }
         public double ThetaConvOrDiv { get; set; }
         public double LineLength { get; set; }
         public ISourceProfile SourceProfile { get; set; }
+        public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
         public Position TranslationFromOrigin { get; set; }
-        public PolarAzimuthalAngles RotationFromInwardNormal { get; set; }
-        public ThreeAxisRotation RotationOfPrincipalSourceAxis { get; set; }
+        public PolarAzimuthalAngles beamRotationFromInwardNormal { get; set; }
+        
 
   
 

@@ -15,226 +15,42 @@ namespace Vts.MonteCarlo.Sources
         private DoubleRange _polarAngleEmissionRange;
         private DoubleRange _azimuthalAngleEmissionRange;
 
-        #region Constructors
         /// <summary>
         /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range, translation, inward normal rotation, and source axis rotation
+        /// polar and azimuthal angle range, new source axis direction, translation, and  inward normal ray rotation
         /// </summary>
         /// <param name="lineLength">The length of the line source</param>
-        /// <param name="sourceProfile">Source Profile {Flat / Gaussian(1D/2D/3D)}</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="polarAngleEmissionRange">Polar angle emission range</param>
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle emission range</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="rotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
-        /// <param name="rotationOfPrincipalSourceAxis">Source rotation</param>
+        /// <param name="beamRotationFromInwardNormal">Ray rotation from inward normal</param>
         public CustomLineSource(
             double lineLength,
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
-            Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
+            Direction newDirectionOfPrincipalSourceAxis = null,
+            Position translationFromOrigin = null,
+            PolarAzimuthalAngles beamRotationFromInwardNormal = null)
             : base(
                 lineLength,
                 sourceProfile,
+                newDirectionOfPrincipalSourceAxis,
                 translationFromOrigin, 
-                rotationFromInwardNormal, 
-                rotationOfPrincipalSourceAxis)
+                beamRotationFromInwardNormal)
         {
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
-            _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();         
+            _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();
+            if (newDirectionOfPrincipalSourceAxis == null)
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis;
+            if (translationFromOrigin == null)
+                translationFromOrigin = SourceDefaults.DefaultPosition;
+            if (beamRotationFromInwardNormal == null)
+                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal;
         }
 
-        /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range, translation, and inward normal rotation.
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public CustomLineSource(
-            double lineLength,
-            ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange,
-            DoubleRange azimuthalAngleEmissionRange,
-            Position translationFromOrigin,
-            PolarAzimuthalAngles rotationFromInwardNormal)
-            : this(
-                lineLength,
-                sourceProfile,
-                polarAngleEmissionRange,
-                azimuthalAngleEmissionRange,
-                translationFromOrigin,
-                rotationFromInwardNormal,
-                new ThreeAxisRotation(0, 0, 0))
-        {
-        }
-
-        /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range, translation, and source axis rotation.
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="translationFromOrigin"></param>
-        /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public CustomLineSource(
-            double lineLength,
-            ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange,
-            DoubleRange azimuthalAngleEmissionRange,
-            Position translationFromOrigin,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis
-            )
-            : this(
-                lineLength,
-                sourceProfile,
-                polarAngleEmissionRange,
-                azimuthalAngleEmissionRange,
-                translationFromOrigin,
-                new PolarAzimuthalAngles(0, 0),
-                rotationOfPrincipalSourceAxis)
-        {
-        }
-
-        /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range, and translation
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="translationFromOrigin"></param>
-        public CustomLineSource(
-            double lineLength,
-            ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange,
-            DoubleRange azimuthalAngleEmissionRange,
-            Position translationFromOrigin)
-            : this(
-                lineLength,
-                sourceProfile,
-                polarAngleEmissionRange,
-                azimuthalAngleEmissionRange,
-                translationFromOrigin,
-                new PolarAzimuthalAngles(0, 0),
-                new ThreeAxisRotation(0, 0, 0))
-        {
-        }
-
-        /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range, inward normal rotation, and source axis rotation
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public CustomLineSource(
-            double lineLength,
-            ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange,
-            DoubleRange azimuthalAngleEmissionRange,
-            PolarAzimuthalAngles rotationFromInwardNormal,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
-            : this(
-                lineLength,
-                sourceProfile,
-                polarAngleEmissionRange,
-                azimuthalAngleEmissionRange,
-                new Position(0, 0, 0),
-                rotationFromInwardNormal,
-                rotationOfPrincipalSourceAxis)
-        {
-        }
-
-        /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range and inward normal rotation.
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="rotationFromInwardNormal"></param>
-        public CustomLineSource(
-            double lineLength,
-            ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange,
-            DoubleRange azimuthalAngleEmissionRange,
-            PolarAzimuthalAngles rotationFromInwardNormal)
-            : this(
-                lineLength,
-                sourceProfile,
-                polarAngleEmissionRange,
-                azimuthalAngleEmissionRange,
-                new Position(0, 0, 0),
-                rotationFromInwardNormal,
-                new ThreeAxisRotation(0, 0, 0))
-        {
-        }
-
-        /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range, and source axis rotation
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        /// <param name="rotationOfPrincipalSourceAxis"></param>
-        public CustomLineSource(
-            double lineLength,
-            ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange,
-            DoubleRange azimuthalAngleEmissionRange,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis)
-            : this(
-                lineLength,
-                sourceProfile,
-                polarAngleEmissionRange,
-                azimuthalAngleEmissionRange,
-                new Position(0, 0, 0),
-                new PolarAzimuthalAngles(0, 0),
-                rotationOfPrincipalSourceAxis)
-        {
-        }
-
-        /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range.
-        /// </summary>
-        /// <param name="lineLength"></param>
-        /// <param name="sourceProfile"></param>
-        /// <param name="polarAngleEmissionRange"></param>
-        /// <param name="azimuthalAngleEmissionRange"></param>
-        public CustomLineSource(
-            double lineLength,
-            ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange,
-            DoubleRange azimuthalAngleEmissionRange)
-            : this(
-                lineLength,
-                sourceProfile,
-                polarAngleEmissionRange,
-                azimuthalAngleEmissionRange,
-                new Position(0, 0, 0),
-                new PolarAzimuthalAngles(0, 0),
-                new ThreeAxisRotation(0, 0, 0))
-        {
-        }
-
-        #endregion
-        
         //CustomLineSource
         protected override Direction GetFinalDirection(Position finalPosition)
         {

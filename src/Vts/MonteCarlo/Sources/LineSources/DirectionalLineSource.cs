@@ -12,65 +12,65 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class DirectionalLineSource : LineSourceBase
     {
-        private double _thetaConvOrDiv;   //convergence:positive, divergence:negative
+        private double _thetaConvOrDiv;   //convergence:positive, divergence:negative  collimated:zero
 
-        #region Constructors
-
+       
        /// <summary>
         /// Returns an instance of directional (diverging/converging/collimated) Line Source with a specified length, and
-        /// source profile (Flat/Gaussian)
+        /// source profile (Flat/Gaussian), new source axis direction, translation, and  inward normal ray rotation
        /// </summary>
-       /// <param name="thetaConvOrDiv"></param>
-       /// <param name="lineLength"></param>
-       /// <param name="sourceProfile"></param>
-       /// <param name="translationFromOrigin"></param>
-       /// <param name="rotationFromInwardNormal"></param>
-       /// <param name="rotationOfPrincipalSourceAxis"></param>
+        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle</param>
+        /// <param name="lineLength">The length of the line source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="beamRotationFromInwardNormal">Ray rotation from inward normal</param>
         public DirectionalLineSource(
             double thetaConvOrDiv,
             double lineLength,
             ISourceProfile sourceProfile,
+            Direction newDirectionOfPrincipalSourceAxis = null,
             Position translationFromOrigin = null,
-            PolarAzimuthalAngles rotationFromInwardNormal =null,
-            ThreeAxisRotation rotationOfPrincipalSourceAxis = null)
+            PolarAzimuthalAngles beamRotationFromInwardNormal =null)
                 : base(
                     lineLength,
                     sourceProfile,
+                    newDirectionOfPrincipalSourceAxis,
                     translationFromOrigin,
-                    rotationFromInwardNormal,
-                    rotationOfPrincipalSourceAxis)
+                    beamRotationFromInwardNormal)
         {
             _thetaConvOrDiv = thetaConvOrDiv;
+            if (newDirectionOfPrincipalSourceAxis == null)
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis;
             if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultTranslationFromOrigin;
-            if (rotationFromInwardNormal == null)
-                rotationFromInwardNormal = SourceDefaults.DefaultRoationFromInwardNormal;
-            if (rotationOfPrincipalSourceAxis == null)
-                rotationOfPrincipalSourceAxis = SourceDefaults.DefaultRotationOfPrincipalSourceAxis;
+                translationFromOrigin = SourceDefaults.DefaultPosition;
+            if (beamRotationFromInwardNormal == null)
+                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal;            
         }
                 
 
 
-        #endregion
-
         //Converging / diveriging or collimated line source
         protected override Direction GetFinalDirection(Position finalPosition)
         {
-            //Calculate polar angle           
-            var azimuthalAngleEmissionRange = new DoubleRange(0.0, 2 * Math.PI);
-            var polarAngle = 0.0;    //for collimated line source
+            if (_lineLength == 0.0)
+                return (SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
+                            new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
+                            SourceDefaults.DefaultAzimuthalAngleRange,
+                            Rng));
+            else
+            {
+                //Calculate polar angle                      
+                var polarAngle = 0.0;    //for collimated line source
 
-            // sign is negative for diverging and positive positive for converging 
-            if (_thetaConvOrDiv != 0.0)            
-            {               
-                var height = 0.5 * _lineLength / Math.Tan(_thetaConvOrDiv);               
-                polarAngle = Math.Atan(finalPosition.X / height);
+                // sign is negative for diverging and positive positive for converging 
+                if (_thetaConvOrDiv != 0.0)
+                {
+                    var height = 0.5 * _lineLength / Math.Tan(_thetaConvOrDiv);
+                    polarAngle = Math.Atan(finalPosition.X / height);
+                }
+                return (SourceToolbox.GetDirectionForGiven2DPositionAndPolarAngle(polarAngle, finalPosition));
             }
-
-            //Get final direction
-            Direction finalDirection = SourceToolbox.GetDirectionForGiven2DPositionAndPolarAngle(polarAngle, finalPosition);
-
-            return finalDirection;
         }
     }
 }

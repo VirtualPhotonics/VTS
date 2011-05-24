@@ -16,24 +16,24 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="pos"></param>
         /// <param name="dir"></param>
+        /// <param name="beamRotation"></param>
         /// <param name="translate"></param>
-        /// <param name="rotateBeam"></param>
-        /// <param name="rotateAxis"></param>
+        /// <param name="sourceAxisRotation"></param>
         /// <param name="flags"></param>
         public static void UpdateDirectionAndPositionAfterGivenFlags(
             ref Position pos,
             ref Direction dir,
+            PolarAzimuthalAngles sourceAxisRotation,
             Position translate,
-            PolarAzimuthalAngles rotateBeam,
-            ThreeAxisRotation rotateAxis,
+            PolarAzimuthalAngles beamRotation,
             SourceFlags flags)
         {
-            if (flags.rotationFromInwardNormalFlag)
-                UpdateDirectionAfterRotationByGivenPolarAndAzimuthalAngles(rotateBeam, dir);
             if (flags.RotationOfPrincipalSourceAxisFlag)
-                UpdateDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, dir);
+                UpdateDirectionAfterRotationByGivenPolarAndAzimuthalAngles(beamRotation, dir); 
+            if (flags.beamRotationFromInwardNormalFlag)
+                DoSourceRotationByGivenPolarAndAzimuthalAngle(sourceAxisRotation, ref dir, ref pos);            
             if (flags.TranslationFromOriginFlag)
-                UpdatePositionafterTranslation(pos, translate);
+                UpdatePositionAfterTranslation(ref pos, translate);
         }
 
         /// <summary>
@@ -47,77 +47,17 @@ namespace Vts.MonteCarlo.Helpers
         public static void UpdateDirectionAndPositionAfterGivenFlags(
             ref Position pos,
             ref Direction dir,
-            Position translate,
-            PolarAzimuthalAngles rotateBeam,
-            SourceFlags flags)
-        {
-            if (flags.rotationFromInwardNormalFlag)
-                UpdateDirectionAfterRotationByGivenPolarAndAzimuthalAngles(rotateBeam, dir);
-            if (flags.TranslationFromOriginFlag)
-                UpdatePositionafterTranslation(pos, translate);
-        }
-
-
-        /// <summary>
-        /// Update the direction and position after source axis rotation and translation
-        /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="dir"></param>
-        /// <param name="translate"></param>
-        /// <param name="rotateAxis"></param>
-        /// <param name="flags"></param>
-        public static void UpdateDirectionAndPositionAfterGivenFlags(
-            ref Position pos,
-            ref Direction dir,
-            Position translate,
-            ThreeAxisRotation rotateAxis,
-            SourceFlags flags)
-        {
-            if (flags.RotationOfPrincipalSourceAxisFlag)
-                UpdateDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, dir);
-            if (flags.TranslationFromOriginFlag)
-                UpdatePositionafterTranslation(pos, translate);
-        }
-
-        /// <summary>
-        /// Update the direction and position after translation or beam rotation
-        /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="dir"></param>
-        /// <param name="translate"></param>
-        /// <param name="rotateAxis"></param>
-        /// <param name="flags"></param>
-        public static void UpdateDirectionAndPositionAfterGivenFlags(
-            ref Position pos,
-            ref Direction dir,
-            PolarAzimuthalAngles rotateBeam,
-            ThreeAxisRotation rotateAxis,
-            SourceFlags flags)
-        {
-            if (flags.rotationFromInwardNormalFlag)
-                UpdateDirectionAfterRotationByGivenPolarAndAzimuthalAngles(rotateBeam, dir);
-            if (flags.RotationOfPrincipalSourceAxisFlag)
-                DoSourceRotationAroundThreeAxisClockwiseLeftHanded(rotateAxis, ref dir, ref pos);
-        }
-
-        // <summary>
-        /// Update the direction and position after translation or beam rotation
-        /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="dir"></param>
-        /// <param name="translate"></param>
-        /// <param name="rotateAxis"></param>
-        /// <param name="flags"></param>
-        public static void UpdateDirectionAndPositionAfterGivenFlags(
-            ref Position pos,
-            ref Direction dir,
+            PolarAzimuthalAngles sourceAxisRotation,
             Position translate,
             SourceFlags flags)
         {
+            if (flags.beamRotationFromInwardNormalFlag)
+                DoSourceRotationByGivenPolarAndAzimuthalAngle(sourceAxisRotation, ref dir, ref pos); 
             if (flags.TranslationFromOriginFlag)
-                UpdatePositionafterTranslation(pos, translate);
+                UpdatePositionAfterTranslation(ref pos, translate);
         }
 
+                
         /// <summary>
         /// Returns a random position in a line (Flat distribution)        
         /// </summary>
@@ -141,30 +81,7 @@ namespace Vts.MonteCarlo.Helpers
             center.Z));
         }
 
-        /// <summary>
-        /// Returns a random position in a line (Flat distribution)    {overload}    
-        /// </summary>
-        /// <param name="center">The center coordiantes of the line</param>
-        /// <param name="paraX">Minmum and maximum parameters of the line</param>        
-        /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
-        public static Position GetRandomFlatLinePosition(
-            Position center,
-            DoubleRange paraX,
-            Random rng)
-        {
-            if (paraX.Start == paraX.Stop)
-            {
-                return (center);
-            }
-
-            return (new Position(
-            center.X + GetRandomFlatLocationOfAnyLine(paraX, rng),
-            center.Y,
-            center.Z));
-        }
-
-
+        
         /// <summary>
         /// Returns a random position in a line (Flat distribution)        
         /// </summary>
@@ -562,46 +479,24 @@ namespace Vts.MonteCarlo.Helpers
         {
             double radius = Math.Sqrt(position.X * position.X + position.Y * position.Y);
 
-            return (new Direction(
-                position.X / radius,
-                position.Y / radius,
-                Math.Cos(polarAngle)));
+            if (radius == 0.0)
+                return(new Direction(
+                    0.0,
+                    0.0,
+                    Math.Cos(polarAngle)));
+            else
+                return (new Direction(
+                    position.X / radius,
+                    position.Y / radius,
+                    Math.Cos(polarAngle)));
         }
-
-        /// <summary>
-        /// Provides a direction for a given random polar angle range and constant azimuthal angle
-        /// </summary>
-        /// <param name="polarAngleEmissionRange">The polar angle range</param>
-        /// <param name="azimuthalAngle">Constant azimuthal angle</param>
-        /// <param name="rng">The random number generato</param>
-        /// <returns></returns>
-        public static Direction GetRandomDirectionForAPolarAngle(
-            DoubleRange polarAngleEmissionRange,
-            double azimuthalAngle,
-            Random rng)
-        {
-            double cost, sint, cosp, sinp;
-
-            //sampling cost           
-            cost = rng.NextDouble(Math.Cos(polarAngleEmissionRange.Start), Math.Cos(polarAngleEmissionRange.Stop));
-            sint = Math.Sqrt(1.0 - cost * cost);
-
-            cosp = Math.Cos(azimuthalAngle);
-            sinp = Math.Sin(azimuthalAngle);
-
-            return (new Direction(
-                sint * cosp,
-                sint * sinp,
-                cost));
-        }
-
 
         /// <summary>
         /// Provides a direction for a given random polar angle range and random azimuthal angle range
         /// </summary>
         /// <param name="polarAngleEmissionRange">The polar angle range</param>
         /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
-        /// <param name="rng">The random number generato</param>
+        /// <param name="rng">The random number generator</param>
         /// <returns></returns>
         public static Direction GetRandomDirectionForPolarAndAzimuthalAngleRange(
             DoubleRange polarAngleEmissionRange,
@@ -630,7 +525,7 @@ namespace Vts.MonteCarlo.Helpers
             }
         }
 
-
+        
         /// <summary>
         /// Provides a polarazimuthal angle pair for a given uniform random polar angle range and random azimuthal angle range
         /// </summary>
@@ -760,44 +655,6 @@ namespace Vts.MonteCarlo.Helpers
         }
 
 
-        /// <summary>
-        /// Update the direction and position of the source after 3-axis rotation
-        /// </summary>
-        /// <param name="xRotation">rotation angle around the x-axis</param>
-        /// <param name="yRotation">rotation angle around the y-axis</param>
-        /// <param name="zRotation">rotation angle around the z-axis</param>
-        /// <param name="currentDirection">The direction to be updated</param>
-        /// <param name="currentPosition">The position to be updated</param>
-        public static void DoSourceRotationAroundThreeAxisClockwiseLeftHanded(
-            ThreeAxisRotation threeAxisRotation,
-            ref Direction currentDirection,
-            ref Position currentPosition)
-        {
-            // readability eased with local copies of following
-            double ux = currentDirection.Ux;
-            double uy = currentDirection.Uy;
-            double uz = currentDirection.Uz;
-            double x = currentPosition.X;
-            double y = currentPosition.Y;
-            double z = currentPosition.Z;
-
-            double cosx, sinx, cosy, siny, cosz, sinz;    /* cosine and sine of rotation angles */
-
-            cosx = Math.Cos(threeAxisRotation.XRotation);
-            cosy = Math.Cos(threeAxisRotation.YRotation);
-            cosz = Math.Cos(threeAxisRotation.ZRotation);
-            sinx = Math.Sqrt(1.0 - cosx * cosx);
-            siny = Math.Sqrt(1.0 - cosy * cosy);
-            sinz = Math.Sqrt(1.0 - cosz * cosz);
-
-            currentDirection.Ux = ux * cosy * cosz + uy * (-cosx * sinz + sinx * siny * cosz) + uz * (sinx * sinz + cosx * siny * cosz);
-            currentDirection.Uy = ux * cosy * sinz + uy * (cosx * cosz + sinx * siny * sinz) + uz * (-sinx * cosz + cosx * siny * sinz);
-            currentDirection.Uz = ux * siny + uy * sinx * cosy + uz * cosx * cosy;
-
-            currentPosition.X = x * cosy * cosz + y * (-cosx * sinz + sinx * siny * cosz) + z * (sinx * sinz + cosx * siny * cosz);
-            currentPosition.Y = x * cosy * sinz + y * (cosx * cosz + sinx * siny * sinz) + z * (-sinx * cosz + cosx * siny * sinz);
-            currentPosition.Z = x * siny + y * sinx * cosy + z * cosx * cosy;
-        }
 
         /// <summary>
         /// Update the direction and position of the source after rotating by a given polar and azimuthal angle
@@ -907,36 +764,36 @@ namespace Vts.MonteCarlo.Helpers
             return currentDirection;
         }
 
-        /// <summary>
-        /// Provide the direction after rotating around three axis
-        /// </summary>
-        /// <param name="xRotation">rotation angle around the x-axis</param>
-        /// <param name="yRotation">rotation angle around the y-axis</param>
-        /// <param name="zRotation">rotation angle around the z-axis</param>
-        /// <param name="currentDirection">The direction to be updated</param>
-        /// <returns></returns>
-        public static void UpdateDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(
-            ThreeAxisRotation rotationAngles,
-            Direction currentDirection)
-        {
-            // readability eased with local copies of following
-            double ux = currentDirection.Ux;
-            double uy = currentDirection.Uy;
-            double uz = currentDirection.Uz;
+        ///// <summary>
+        ///// Provide the direction after rotating around three axis
+        ///// </summary>
+        ///// <param name="xRotation">rotation angle around the x-axis</param>
+        ///// <param name="yRotation">rotation angle around the y-axis</param>
+        ///// <param name="zRotation">rotation angle around the z-axis</param>
+        ///// <param name="currentDirection">The direction to be updated</param>
+        ///// <returns></returns>
+        //public static void UpdateDirectionAfterRotationAroundThreeAxisClockwiseLeftHanded(
+        //    ThreeAxisRotation rotationAngles,
+        //    Direction currentDirection)
+        //{
+        //    // readability eased with local copies of following
+        //    double ux = currentDirection.Ux;
+        //    double uy = currentDirection.Uy;
+        //    double uz = currentDirection.Uz;
 
-            double cosx, sinx, cosy, siny, cosz, sinz;    /* cosine and sine of rotation angles */
+        //    double cosx, sinx, cosy, siny, cosz, sinz;    /* cosine and sine of rotation angles */
 
-            cosx = Math.Cos(rotationAngles.XRotation);
-            cosy = Math.Cos(rotationAngles.YRotation);
-            cosz = Math.Cos(rotationAngles.ZRotation);
-            sinx = Math.Sqrt(1.0 - cosx * cosx);
-            siny = Math.Sqrt(1.0 - cosy * cosy);
-            sinz = Math.Sqrt(1.0 - cosz * cosz);
+        //    cosx = Math.Cos(rotationAngles.XRotation);
+        //    cosy = Math.Cos(rotationAngles.YRotation);
+        //    cosz = Math.Cos(rotationAngles.ZRotation);
+        //    sinx = Math.Sqrt(1.0 - cosx * cosx);
+        //    siny = Math.Sqrt(1.0 - cosy * cosy);
+        //    sinz = Math.Sqrt(1.0 - cosz * cosz);
 
-            currentDirection.Ux = ux * cosy * cosz + uy * (-cosx * sinz + sinx * siny * cosz) + uz * (sinx * sinz + cosx * siny * cosz);
-            currentDirection.Uy = ux * cosy * sinz + uy * (cosx * cosz + sinx * siny * sinz) + uz * (-sinx * cosz + cosx * siny * sinz);
-            currentDirection.Uz = ux * siny + uy * sinx * cosy + uz * cosx * cosy;
-        }
+        //    currentDirection.Ux = ux * cosy * cosz + uy * (-cosx * sinz + sinx * siny * cosz) + uz * (sinx * sinz + cosx * siny * cosz);
+        //    currentDirection.Uy = ux * cosy * sinz + uy * (cosx * cosz + sinx * siny * sinz) + uz * (-sinx * cosz + cosx * siny * sinz);
+        //    currentDirection.Uz = ux * siny + uy * sinx * cosy + uz * cosx * cosy;
+        //}
 
         /// <summary>
         /// Provide the direction after rotating by given polar and azimuthal angle
@@ -969,7 +826,7 @@ namespace Vts.MonteCarlo.Helpers
         public static PolarAzimuthalAngles GetPolarAndAzimuthalAnglesFromDirection(
             Direction direction)
         {
-            if (direction == SourceDefaults.DefaultDirection)
+            if (direction == SourceDefaults.DefaultDirectionOfPrincipalSourceAxis)
             {
                 return new PolarAzimuthalAngles(0.0, 0.0);
             }
@@ -999,20 +856,7 @@ namespace Vts.MonteCarlo.Helpers
 
             return polarAzimuthalAngles;
         }
-
-        /// <summary>
-        /// Provides a random location of a non - symmetrical line
-        /// </summary>
-        /// <param name="linepara">Start and end parameters of the line</param>
-        /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
-        public static double GetRandomFlatLocationOfAnyLine(
-            DoubleRange linepara,
-            Random rng)
-        {
-            return rng.NextDouble(linepara.Start, linepara.Stop);
-        }
-
+              
         /// <summary>
         /// Provides a flat random location of a symmetrical line
         /// </summary>
@@ -1071,16 +915,16 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="nrng3">normally distributed random number 3</param>
         /// <param name="lowerLimit">lower limit of the uniform random number</param>
         /// <param name="rng">The random number generator</param>
-        public static void ThreeGaussianDistributedRandomNumbers(
-            ref double nrng1,
-            ref double nrng2,
-            ref double nrng3,
-            double lowerLimit,
-            Random rng)
-        {
-            nrng1 = OneGaussianDistributedRandomNumber(lowerLimit, rng);
-            TwoGaussianDistributedRandomNumbers(ref nrng2, ref nrng3, lowerLimit, rng);
-        }
+        //public static void ThreeGaussianDistributedRandomNumbers(
+        //    ref double nrng1,
+        //    ref double nrng2,
+        //    ref double nrng3,
+        //    double lowerLimit,
+        //    Random rng)
+        //{
+        //    nrng1 = OneGaussianDistributedRandomNumber(lowerLimit, rng);
+        //    TwoGaussianDistributedRandomNumbers(ref nrng2, ref nrng3, lowerLimit, rng);
+        //}
 
 
         /// <summary>
@@ -1089,8 +933,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="oldPosition">The old location</param>
         /// <param name="translation">Translation coordinats relative to the origin</param>
         /// <returns></returns>
-        public static void UpdatePositionafterTranslation(
-            Position oldPosition,
+        public static void UpdatePositionAfterTranslation(
+            ref Position oldPosition,
             Position translation)
         {
             oldPosition.X += translation.X;
