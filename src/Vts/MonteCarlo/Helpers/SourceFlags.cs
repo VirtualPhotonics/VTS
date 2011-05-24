@@ -30,13 +30,13 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         public bool TranslationFromOriginFlag { get { return _translationFromOriginFlag; } set { _translationFromOriginFlag = value; } }
-        public bool beamRotationFromInwardNormalFlag { get { return _beamRotationFromInwardNormalFlag; } set { _beamRotationFromInwardNormalFlag = value; } }
+        public bool BeamRotationFromInwardNormalFlag { get { return _beamRotationFromInwardNormalFlag; } set { _beamRotationFromInwardNormalFlag = value; } }
         public bool RotationOfPrincipalSourceAxisFlag { get { return _rotationOfPrincipalSourceAxisFlag; } set { _rotationOfPrincipalSourceAxisFlag = value; } }
         
 
         public SourceFlags Clone()
         {
-            return new SourceFlags(RotationOfPrincipalSourceAxisFlag, TranslationFromOriginFlag, beamRotationFromInwardNormalFlag);
+            return new SourceFlags(RotationOfPrincipalSourceAxisFlag, TranslationFromOriginFlag, BeamRotationFromInwardNormalFlag);
         }
 
 

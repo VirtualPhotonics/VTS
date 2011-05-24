@@ -526,8 +526,14 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs">
       <Link>MonteCarlo\DataStructures\SimulationOptions.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\CustomLineSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\CustomLineSourceInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\DirectionalLineSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\DirectionalLineSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\IsotropicLineSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\IsotropicLineSourceInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\CustomPointSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\CustomPointSourceInput.cs</Link>

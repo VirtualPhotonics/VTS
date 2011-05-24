@@ -5,19 +5,17 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
-    public class DirectionalLineSourceInput : ISourceInput
+    public class IsotropicLineSourceInput : ISourceInput
     {
-        // this handles directional line
-        public DirectionalLineSourceInput(
-            double thetaConvOrDiv,
+        // this handles isotropic line
+        public IsotropicLineSourceInput(
             double lineLength,
             ISourceProfile sourceProfile,
             Direction newDirectionOfPrincipalSourceAxis,
             Position translationFromOrigin,
-            PolarAzimuthalAngles beamRotationFromInwardNormal) 
+            PolarAzimuthalAngles beamRotationFromInwardNormal)
         {
             SourceType = SourceType.DirectionalLine;
-            ThetaConvOrDiv = thetaConvOrDiv;
             LineLength = lineLength;
             SourceProfile = sourceProfile;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
@@ -25,12 +23,10 @@ namespace Vts.MonteCarlo.Sources
             BeamRotationFromInwardNormal = beamRotationFromInwardNormal;
         }
 
-        public DirectionalLineSourceInput(
-            double thetaConvOrDiv,
+        public IsotropicLineSourceInput(
             double lineLength,
             ISourceProfile sourceProfile)
             : this(
-                thetaConvOrDiv,
                 lineLength,
                 sourceProfile,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
@@ -38,7 +34,6 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultBeamRoationFromInwardNormal) { }
 
         public SourceType SourceType { get; set; }
-        public double ThetaConvOrDiv { get; set; }
         public double LineLength { get; set; }
         public ISourceProfile SourceProfile { get; set; }
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }

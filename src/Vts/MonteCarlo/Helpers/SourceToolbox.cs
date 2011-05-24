@@ -30,7 +30,7 @@ namespace Vts.MonteCarlo.Helpers
         {
             if (flags.RotationOfPrincipalSourceAxisFlag)
                 UpdateDirectionAfterRotationByGivenPolarAndAzimuthalAngles(beamRotation, dir); 
-            if (flags.beamRotationFromInwardNormalFlag)
+            if (flags.BeamRotationFromInwardNormalFlag)
                 DoSourceRotationByGivenPolarAndAzimuthalAngle(sourceAxisRotation, ref dir, ref pos);            
             if (flags.TranslationFromOriginFlag)
                 UpdatePositionAfterTranslation(ref pos, translate);
@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo.Helpers
             Position translate,
             SourceFlags flags)
         {
-            if (flags.beamRotationFromInwardNormalFlag)
+            if (flags.BeamRotationFromInwardNormalFlag)
                 DoSourceRotationByGivenPolarAndAzimuthalAngle(sourceAxisRotation, ref dir, ref pos); 
             if (flags.TranslationFromOriginFlag)
                 UpdatePositionAfterTranslation(ref pos, translate);

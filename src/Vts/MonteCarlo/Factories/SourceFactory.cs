@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo.Factories
                 case SourceType.DirectionalPoint:
                     var dpInput = (DirectionalPointSourceInput)input;
                     return new DirectionalPointSource(
-                        dpInput.Direction,
+                        dpInput.EmittingDirection,
                         dpInput.PointLocation);
 
                 case SourceType.IsotropicPoint:
@@ -29,23 +29,39 @@ namespace Vts.MonteCarlo.Factories
                     return new CustomPointSource(
                         cpInput.PolarAngleEmissionRange,
                         cpInput.AzimuthalAngleEmissionRange,
-                        cpInput.Direction,
+                        cpInput.EmittingDirection,
                         cpInput.PointLocation);
 
-                case SourceType.IsotropicLine:
-
-
-                case SourceType.DirectionalLine:                    
+                case SourceType.DirectionalLine:
                     var dlInput = (DirectionalLineSourceInput)input;
                     return new DirectionalLineSource(
-                          dlInput.ThetaConvOrDiv,
-                          dlInput.LineLength,
-                          dlInput.SourceProfile,
-                          dlInput.NewDirectionOfPrincipalSourceAxis,
-                          dlInput.TranslationFromOrigin,
-                          dlInput.beamRotationFromInwardNormal);
+                        dlInput.ThetaConvOrDiv,
+                        dlInput.LineLength,
+                        dlInput.SourceProfile,
+                        dlInput.NewDirectionOfPrincipalSourceAxis,
+                        dlInput.TranslationFromOrigin,
+                        dlInput.BeamRotationFromInwardNormal);
+
+                case SourceType.IsotropicLine:
+                    var ilInput = (IsotropicLineSourceInput)input;
+                    return new IsotropicLineSource(
+                        ilInput.LineLength,
+                        ilInput.SourceProfile,
+                        ilInput.NewDirectionOfPrincipalSourceAxis,
+                        ilInput.TranslationFromOrigin,
+                        ilInput.BeamRotationFromInwardNormal);                   
 
                 case SourceType.CustomLine:
+                     var clInput = (CustomLineSourceInput)input;
+                    return new CustomLineSource(
+                        clInput.LineLength,
+                        clInput.SourceProfile,
+                        clInput.PolarAngleEmissionRange,
+                        clInput.AzimuthalAngleEmissionRange,
+                        clInput.NewDirectionOfPrincipalSourceAxis,
+                        clInput.TranslationFromOrigin,
+                        clInput.BeamRotationFromInwardNormal);  
+
                 case SourceType.DirectionalCircular:
                 case SourceType.CustomCircular:
                 case SourceType.LambertianSurfaceEmittingCubiodal:

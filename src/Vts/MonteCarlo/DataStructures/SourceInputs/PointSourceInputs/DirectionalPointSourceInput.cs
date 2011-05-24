@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.Sources
         {
             SourceType = SourceType.DirectionalPoint;
             PointLocation = pointLocation;
-            Direction = direction;
+            EmittingDirection = direction;
         }
 
         public DirectionalPointSourceInput()
@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.Sources
                 new Direction(0, 0, 1)) { }
 
         public Position PointLocation { get; set; }
-        public Direction Direction { get; set; }
+        public Direction EmittingDirection { get; set; }
         public SourceType SourceType { get; set; }
     }
 }

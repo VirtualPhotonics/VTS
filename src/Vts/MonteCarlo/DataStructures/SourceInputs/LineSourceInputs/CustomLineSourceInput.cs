@@ -5,42 +5,47 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
-    public class DirectionalLineSourceInput : ISourceInput
+    public class CustomLineSourceInput : ISourceInput
     {
-        // this handles directional line
-        public DirectionalLineSourceInput(
-            double thetaConvOrDiv,
+        // this handles custom line
+        public CustomLineSourceInput(
             double lineLength,
             ISourceProfile sourceProfile,
+            DoubleRange polarAngleEmissionRange,
+            DoubleRange azimuthalAngleEmissionRange,
             Direction newDirectionOfPrincipalSourceAxis,
             Position translationFromOrigin,
-            PolarAzimuthalAngles beamRotationFromInwardNormal) 
+            PolarAzimuthalAngles beamRotationFromInwardNormal)
         {
             SourceType = SourceType.DirectionalLine;
-            ThetaConvOrDiv = thetaConvOrDiv;
             LineLength = lineLength;
             SourceProfile = sourceProfile;
+            PolarAngleEmissionRange = polarAngleEmissionRange;
+            AzimuthalAngleEmissionRange = azimuthalAngleEmissionRange;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
             BeamRotationFromInwardNormal = beamRotationFromInwardNormal;
         }
 
-        public DirectionalLineSourceInput(
-            double thetaConvOrDiv,
+        public CustomLineSourceInput(            
             double lineLength,
-            ISourceProfile sourceProfile)
+            ISourceProfile sourceProfile,
+            DoubleRange polarAngleEmissionRange,
+            DoubleRange azimuthalAngleEmissionRange)
             : this(
-                thetaConvOrDiv,
                 lineLength,
                 sourceProfile,
+                polarAngleEmissionRange,
+                azimuthalAngleEmissionRange,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
                 SourceDefaults.DefaultPosition,
                 SourceDefaults.DefaultBeamRoationFromInwardNormal) { }
 
         public SourceType SourceType { get; set; }
-        public double ThetaConvOrDiv { get; set; }
         public double LineLength { get; set; }
         public ISourceProfile SourceProfile { get; set; }
+        public DoubleRange PolarAngleEmissionRange { get; set; }
+        public DoubleRange AzimuthalAngleEmissionRange { get; set; }       
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
         public Position TranslationFromOrigin { get; set; }
         public PolarAzimuthalAngles BeamRotationFromInwardNormal { get; set; }

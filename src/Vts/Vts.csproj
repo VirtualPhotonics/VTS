@@ -240,6 +240,8 @@
     <Compile Include="Modeling\Spectroscopy\Tissue.cs" />
     <Compile Include="Modeling\Tools\CalculatorToolbox.cs" />
     <Compile Include="Modeling\Tools\HankelTransform.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\IsotropicLineSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\CustomLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\DirectionalLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\Output.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInput.cs" />
