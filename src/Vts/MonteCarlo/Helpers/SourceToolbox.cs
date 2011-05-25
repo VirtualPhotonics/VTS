@@ -291,21 +291,21 @@ namespace Vts.MonteCarlo.Helpers
         /// Returns a random position in an ellipsoid volume (Gaussian distribution)
         /// </summary>
         /// <param name="center">The center coordiantes of the cuboid</param>
-        /// <param name="lengthX">The x-length of the cuboid</param>        
-        /// <param name="lengthY">The y-length of the cuboid</param>
-        /// <param name="lengthZ">The z-length of the cuboid</param>
-        /// <param name="stdev">The standard deviation of the distribution along the z-axis</param>
+        /// <param name="a2Parameter">2 x aParameter</param>        
+        /// <param name="b2Parameter">2 x bParameter</param>
+        /// <param name="c2Parameter">2 x cParameter</param>
+        /// <param name="beamDiaFWHM">beamDiameter</param>
         /// <param name="rng">The random number generator</param>
         /// <returns></returns>
         public static Position GetRandomGaussianEllipsoidPosition(
             Position center,
-            double lengthX,
-            double lengthY,
-            double lengthZ,
-            double stdev,
+            double a2Parameter,
+            double b2Parameter,
+            double c2Parameter,
+            double beamDiaFWHM,
             Random rng)
         {
-            if ((lengthX == 0.0) && (lengthY == 0.0) && (lengthZ == 0.0))
+            if ((a2Parameter == 0.0) && (b2Parameter == 0.0) && (c2Parameter == 0.0))
             {
                 return (center);
             }
@@ -315,15 +315,15 @@ namespace Vts.MonteCarlo.Helpers
             do
             {
                 position = GetRandomGaussianCuboidPosition(center,
-                    lengthX,
-                    lengthY,
-                    lengthZ,
-                    stdev,
+                    a2Parameter,
+                    b2Parameter,
+                    c2Parameter,
+                    beamDiaFWHM,
                     rng);
 
-                radius = (4.0 * position.X * position.X / (lengthX * lengthX) +
-                          4.0 * position.Y * position.Y / (lengthY * lengthY) +
-                          4.0 * position.Z * position.Z / (lengthZ * lengthZ));
+                radius = (4.0 * position.X * position.X / (a2Parameter * a2Parameter) +
+                          4.0 * position.Y * position.Y / (b2Parameter * b2Parameter) +
+                          4.0 * position.Z * position.Z / (c2Parameter * c2Parameter));
             } while (radius <= 1.0);
             return position;
         }
@@ -905,26 +905,6 @@ namespace Vts.MonteCarlo.Helpers
             nrng1 = RN2 * Math.Cos(RN1);
             nrng2 = RN2 * Math.Sin(RN1);
         }
-
-
-        /// <summary>
-        /// Generate three normally (Gaussian) distributed random numbers by using Box Muller Algorithm (with sine/cosine)
-        /// </summary>
-        /// <param name="nrng1">normally distributed random number 1</param>
-        /// <param name="nrng2">normally distributed random number 2</param>
-        /// <param name="nrng3">normally distributed random number 3</param>
-        /// <param name="lowerLimit">lower limit of the uniform random number</param>
-        /// <param name="rng">The random number generator</param>
-        //public static void ThreeGaussianDistributedRandomNumbers(
-        //    ref double nrng1,
-        //    ref double nrng2,
-        //    ref double nrng3,
-        //    double lowerLimit,
-        //    Random rng)
-        //{
-        //    nrng1 = OneGaussianDistributedRandomNumber(lowerLimit, rng);
-        //    TwoGaussianDistributedRandomNumbers(ref nrng2, ref nrng3, lowerLimit, rng);
-        //}
 
 
         /// <summary>

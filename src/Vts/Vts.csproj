@@ -279,6 +279,10 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\SphericalSourceInputs\CustomSurfaceEmittingSphericalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\SphericalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\TubularSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\IsotropicVolumetricEllipsoidalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\CustomVolumetricCuboidaldalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\IsotropicVolumetricCuboidaldalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\CustomVolumetricEllipsoidalSourceInput.cs" />
     <Compile Include="MonteCarlo\Factories\AbsorptionActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
     <Compile Include="MonteCarlo\Factories\SourceProfileFactory.cs" />
@@ -360,12 +364,12 @@
     <Compile Include="MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\SurfaceEmittingSphericalSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\LambertianSurfaceEmittingSphericalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\CustomCuboidalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\IsotropicEllipsoidalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\CuboidalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\IsotropicCuboidalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\CustomEllipsoidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\CustomVolumetricCuboidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\IsotropicVolumetricEllipsoidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\VolumetricCuboidalSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\IsotropicVolumetricCuboidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\VolumetricEllipsoidalSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\CustomVolumetricEllipsoidalSource.cs" />
     <Compile Include="MonteCarlo\Detectors\AOfRhoAndZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ATotalDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs" />
@@ -493,7 +497,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CylindricalSourceInputs\" />
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\" />
     <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Cylindrical\" />
   </ItemGroup>
   <ItemGroup />

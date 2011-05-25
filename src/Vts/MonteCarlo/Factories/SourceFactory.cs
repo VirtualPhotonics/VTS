@@ -175,10 +175,50 @@ namespace Vts.MonteCarlo.Factories
                         lsetInput.NewDirectionOfPrincipalSourceAxis,
                         lsetInput.TranslationFromOrigin);
 
-                case SourceType.IsotropicCuboidal:
-                case SourceType.CustomCubiodal:
-                case SourceType.IsotropicEllipsoidal:
-                case SourceType.CustomEllipsoidal:
+                case SourceType.IsotropicVolumetricCuboidal:
+                    var ivcInput = (IsotropicVolumetricCuboidalSourceInput)input;
+                    return new IsotropicVolumetricCuboidalSource(
+                        ivcInput.CubeLengthX,
+                        ivcInput.CubeWidthY,
+                        ivcInput.CubeHeightZ,
+                        ivcInput.SourceProfile,
+                        ivcInput.NewDirectionOfPrincipalSourceAxis,
+                        ivcInput.TranslationFromOrigin);
+
+                case SourceType.CustomVolumetricCubiodal:
+                    var cvcInput = (CustomVolumetricCuboidalSourceInput)input;
+                    return new CustomVolumetricCuboidalSource(
+                        cvcInput.CubeLengthX,
+                        cvcInput.CubeWidthY,
+                        cvcInput.CubeHeightZ,
+                        cvcInput.SourceProfile,
+                        cvcInput.PolarAngleEmissionRange,
+                        cvcInput.AzimuthalAngleEmissionRange,
+                        cvcInput.NewDirectionOfPrincipalSourceAxis,
+                        cvcInput.TranslationFromOrigin);
+
+                case SourceType.IsotropicVolumetricEllipsoidal:
+                    var iveInput = (IsotropicVolumetricEllipsoidalSourceInput)input;
+                    return new IsotropicVolumetricEllipsoidalSource(
+                        iveInput.AParameter,
+                        iveInput.BParameter,
+                        iveInput.CParameter,
+                        iveInput.SourceProfile,
+                        iveInput.NewDirectionOfPrincipalSourceAxis,
+                        iveInput.TranslationFromOrigin);
+
+                case SourceType.CustomVolumetricEllipsoidal:
+                    var cveInput = (CustomVolumetricEllipsoidalSourceInput)input;
+                    return new CustomVolumetricEllipsoidalSource(
+                        cveInput.AParameter,
+                        cveInput.BParameter,
+                        cveInput.CParameter,
+                        cveInput.SourceProfile,
+                        cveInput.PolarAngleEmissionRange,
+                        cveInput.AzimuthalAngleEmissionRange,
+                        cveInput.NewDirectionOfPrincipalSourceAxis,
+                        cveInput.TranslationFromOrigin);
+
                 default: 
                     throw new NotImplementedException(
                         "Problem generating ISource instance. Check that SourceInput, si, has a matching ISource definition.");

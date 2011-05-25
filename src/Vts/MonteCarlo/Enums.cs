@@ -64,12 +64,12 @@ namespace Vts.MonteCarlo
         // 3D Volumetric Sources
 
         // Cubiodal Volume Sources
-        IsotropicCuboidal,
-        CustomCubiodal,
+        IsotropicVolumetricCuboidal,
+        CustomVolumetricCubiodal,
 
         // Ellipsoidal Volume Sources
-        IsotropicEllipsoidal,
-        CustomEllipsoidal,
+        IsotropicVolumetricEllipsoidal,
+        CustomVolumetricEllipsoidal,
 
         // ...others, based on Fluence or Radiance?
     }

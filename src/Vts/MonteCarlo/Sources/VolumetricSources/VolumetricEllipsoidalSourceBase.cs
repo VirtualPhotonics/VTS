@@ -7,7 +7,7 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
-    public abstract class EllipsoidalSourceBase : ISource
+    public abstract class VolumetricEllipsoidalSourceBase : ISource
     {
         protected ISourceProfile _sourceProfile;
         protected Direction _newDirectionOfPrincipalSourceAxis;
@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.Sources
         protected double _bParameter;
         protected double _cParameter;
 
-        protected EllipsoidalSourceBase(
+        protected VolumetricEllipsoidalSourceBase(
             double aParameter,
             double bParameter,
             double cParameter,            

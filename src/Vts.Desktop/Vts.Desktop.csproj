@@ -577,6 +577,18 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\TubularSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\TubularSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\VolumetricSources\CustomVolumetricCuboidaldalSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\VolumetricSources\CustomVolumetricCuboidaldalSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\VolumetricSources\CustomVolumetricEllipsoidalSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\VolumetricSources\CustomVolumetricEllipsoidalSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\VolumetricSources\IsotropicVolumetricCuboidaldalSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\VolumetricSources\IsotropicVolumetricCuboidaldalSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\VolumetricSources\IsotropicVolumetricEllipsoidalSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\VolumetricSources\IsotropicVolumetricEllipsoidalSourceInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs</Link>
     </Compile>
@@ -865,23 +877,23 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Tubular\SurfaceEmittingTubularSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingSources\Tube\SurfaceEmittingTubularSourceBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\CuboidalSourceBase.cs">
-      <Link>MonteCarlo\Sources\VolumetricSources\CuboidalSourceBase.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\CustomVolumetricCuboidalSource.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\CustomVolumetricCuboidalSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\CustomCuboidalSource.cs">
-      <Link>MonteCarlo\Sources\VolumetricSources\CustomCuboidalSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\CustomVolumetricEllipsoidalSource.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\CustomVolumetricEllipsoidalSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\CustomEllipsoidalSource.cs">
-      <Link>MonteCarlo\Sources\VolumetricSources\CustomEllipsoidalSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\IsotropicVolumetricCuboidalSource.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\IsotropicVolumetricCuboidalSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceBase.cs">
-      <Link>MonteCarlo\Sources\VolumetricSources\EllipsoidalSourceBase.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\IsotropicVolumetricEllipsoidalSource.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\IsotropicVolumetricEllipsoidalSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\IsotropicCuboidalSource.cs">
-      <Link>MonteCarlo\Sources\VolumetricSources\IsotropicCuboidalSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumetricCuboidalSourceBase.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\VolumetricCuboidalSourceBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\IsotropicEllipsoidalSource.cs">
-      <Link>MonteCarlo\Sources\VolumetricSources\IsotropicEllipsoidalSource.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumetricEllipsoidalSourceBase.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\VolumetricEllipsoidalSourceBase.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\CylinderRegion.cs">
       <Link>MonteCarlo\Tissues\CylinderRegion.cs</Link>

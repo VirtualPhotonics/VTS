@@ -7,7 +7,7 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
-    public abstract class CuboidalSourceBase : ISource
+    public abstract class VolumetricCuboidalSourceBase : ISource
     {
         protected ISourceProfile _sourceProfile;
         protected Direction _newDirectionOfPrincipalSourceAxis;
@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.Sources
         protected double _cubeWidthY;
         protected double _cubeHeightZ;
 
-        protected CuboidalSourceBase(
+        protected VolumetricCuboidalSourceBase(
             double cubeLengthX,
             double cubeWidthY,
             double cubeHeightZ,
