@@ -63,15 +63,109 @@ namespace Vts.MonteCarlo.Factories
                         clInput.BeamRotationFromInwardNormal);  
 
                 case SourceType.DirectionalCircular:
+                    var dcInput = (DirectionalCircularSourceInput)input;
+                    return new DirectionalCircularSource(
+                        dcInput.ThetaConvOrDiv,
+                        dcInput.OuterRadius,
+                        dcInput.InnerRadius,
+                        dcInput.SourceProfile,
+                        dcInput.NewDirectionOfPrincipalSourceAxis,
+                        dcInput.TranslationFromOrigin,
+                        dcInput.BeamRotationFromInwardNormal);
+
                 case SourceType.CustomCircular:
+                    var ccInput = (CustomCircularSourceInput)input;
+                    return new CustomCircularSource(
+                        ccInput.OuterRadius,
+                        ccInput.InnerRadius,
+                        ccInput.SourceProfile,
+                        ccInput.PolarAngleEmissionRange,
+                        ccInput.AzimuthalAngleEmissionRange,
+                        ccInput.NewDirectionOfPrincipalSourceAxis,
+                        ccInput.TranslationFromOrigin,
+                        ccInput.BeamRotationFromInwardNormal);
+
                 case SourceType.LambertianSurfaceEmittingCubiodal:
+                    var lsecInput = (LambertianSurfaceEmittingCuboidalSourceInput)input;
+                    return new LambertianSurfaceEmittingCuboidalSource(
+                        lsecInput.CubeLengthX,
+                        lsecInput.CubeWidthY,
+                        lsecInput.CubeHeightZ,
+                        lsecInput.SourceProfile,
+                        lsecInput.NewDirectionOfPrincipalSourceAxis,
+                        lsecInput.TranslationFromOrigin);
+
                 case SourceType.CustomSurfaceEmittingCuboidal:
+                    var csecInput = (CustomSurfaceEmittingCuboidalSourceInput)input;
+                    return new CustomSurfaceEmittingCuboidalSource(
+                        csecInput.CubeLengthX,
+                        csecInput.CubeWidthY,
+                        csecInput.CubeHeightZ,
+                        csecInput.SourceProfile,
+                        csecInput.PolarAngleEmissionRange,
+                        csecInput.NewDirectionOfPrincipalSourceAxis,
+                        csecInput.TranslationFromOrigin);
+
                 case SourceType.DirectionalElliptical:
+                    var deInput = (DirectionalEllipticalSourceInput)input;
+                    return new DirectionalEllipticalSource(
+                        deInput.ThetaConvOrDiv,
+                        deInput.AParameter,
+                        deInput.BParameter,
+                        deInput.SourceProfile,
+                        deInput.NewDirectionOfPrincipalSourceAxis,
+                        deInput.TranslationFromOrigin,
+                        deInput.BeamRotationFromInwardNormal);
+
                 case SourceType.CustomElliptical:
+                    var ceInput = (CustomEllipticalSourceInput)input;
+                    return new CustomEllipticalSource(
+                        ceInput.AParameter,
+                        ceInput.BParameter,
+                        ceInput.SourceProfile,
+                        ceInput.PolarAngleEmissionRange,
+                        ceInput.AzimuthalAngleEmissionRange,
+                        ceInput.NewDirectionOfPrincipalSourceAxis,
+                        ceInput.TranslationFromOrigin,
+                        ceInput.BeamRotationFromInwardNormal);
+
                 case SourceType.DirectionalRectangular:
+                    var drInput = (DirectionalRectangularSourceInput)input;
+                    return new DirectionalRectangularSource(
+                        drInput.ThetaConvOrDiv,
+                        drInput.RectLengthX,
+                        drInput.RectWidthY,
+                        drInput.SourceProfile,
+                        drInput.NewDirectionOfPrincipalSourceAxis,
+                        drInput.TranslationFromOrigin,
+                        drInput.BeamRotationFromInwardNormal);
+
                 case SourceType.CustomRectangular:
+                    var crInput = (CustomRectangularSourceInput)input;
+                    return new CustomRectangularSource(
+                        crInput.RectLengthX,
+                        crInput.RectWidthY,
+                        crInput.SourceProfile,
+                        crInput.PolarAngleEmissionRange,
+                        crInput.AzimuthalAngleEmissionRange,
+                        crInput.NewDirectionOfPrincipalSourceAxis,
+                        crInput.TranslationFromOrigin,
+                        crInput.BeamRotationFromInwardNormal);
+
                 case SourceType.LambertianSurfaceEmittingSpherical:
-                case SourceType.CustomSurfaceEmittingShperical:
+                    var lsesInput = (LambertianSurfaceEmittingSphericalSourceInput)input;
+                    return new LambertianSurfaceEmittingSphericalSource(
+                        lsesInput.Radius,
+                        lsesInput.TranslationFromOrigin);
+
+                case SourceType.CustomSurfaceEmittingSpherical:
+                    var csesInput = (CustomSurfaceEmittingSphericalSourceInput)input;
+                    return new CustomSurfaceEmittingSphericalSource(
+                        csesInput.Radius,
+                        csesInput.PolarAngleRangeToDefineSphericalSurface,
+                        csesInput.AzimuthalAngleRangeToDefineSphericalSurface,
+                        csesInput.NewDirectionOfPrincipalSourceAxis,
+                        csesInput.TranslationFromOrigin);
 
                 case SourceType.LambertianSurfaceEmittingTubular:
                     var lsetInput = (LambertianSurfaceEmittingTubularSourceInput)input;

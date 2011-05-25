@@ -544,6 +544,36 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CircularSourceInputs\CustomCircularSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CircularSourceInputs\CustomCircularSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CircularSourceInputs\DirectionalCircularSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CircularSourceInputs\DirectionalCircularSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\CustomSurfaceEmittingCuboidalSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\CustomSurfaceEmittingCuboidalSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\CustomEllipticalSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\CustomEllipticalSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\DirectionalEllipticalSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\DirectionalEllipticalSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\RectangularSourceInputs\CustomRectangularSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\RectangularSourceInputs\CustomRectangularSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\RectangularSourceInputs\DirectionalRectangularSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\RectangularSourceInputs\DirectionalRectangularSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\SphericalSourceInputs\CustomSurfaceEmittingSphericalSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\SphericalSourceInputs\CustomSurfaceEmittingSphericalSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\SphericalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\SphericalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\TubularSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\TubularSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs</Link>
     </Compile>
@@ -1010,12 +1040,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CircularSourceInputs\" />
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\" />
     <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CylindricalSourceInputs\" />
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\" />
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\RectangularSourceInputs\" />
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\SphericalSourceInputs\" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

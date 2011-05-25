@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="aParameter">"a" parameter of the ellipse source</param>
         /// <param name="bParameter">"b" parameter of the ellipse source</param>
-        /// <param name="sourceProfile">Source Profile {Flat / Gaussian(1D/2D/3D)}</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="polarAngleEmissionRange">Polar angle emission range</param>
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle emission range</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>

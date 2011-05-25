@@ -56,7 +56,7 @@ namespace Vts.MonteCarlo
 
         // Spherical Surface Sources
         LambertianSurfaceEmittingSpherical, // e.g. change to LambertianSphericalSurface
-        CustomSurfaceEmittingShperical,
+        CustomSurfaceEmittingSpherical,
 
         // Tube Sources
         LambertianSurfaceEmittingTubular,

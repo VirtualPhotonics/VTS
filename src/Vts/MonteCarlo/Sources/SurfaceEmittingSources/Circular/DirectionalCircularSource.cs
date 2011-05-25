@@ -21,21 +21,21 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="thetaConvOrDiv">Covergence or Divergance Angle</param>
         /// <param name="innerRadius">The inner radius of the circular source</param>
         /// <param name="outerRadius">The outer radius of the circular source</param>
-        /// <param name="sourceProfile">Source Profile {Flat / Gaussian(1D/2D/3D)}</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
         public DirectionalCircularSource(
-            double thetaConvOrDiv,
-            double innerRadius,
+            double thetaConvOrDiv,            
             double outerRadius,
+            double innerRadius,
             ISourceProfile sourceProfile, 
             Direction newDirectionOfPrincipalSourceAxis = null,
             Position translationFromOrigin = null,
             PolarAzimuthalAngles beamRotationFromInwardNormal = null)
             : base(
-                innerRadius,
                 outerRadius,
+                innerRadius,
                 sourceProfile,
                 newDirectionOfPrincipalSourceAxis,
                 translationFromOrigin,

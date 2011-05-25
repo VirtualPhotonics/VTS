@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo.Sources
             Position pointLocation,
             Direction emittingDirection)
         {
-            SourceType = SourceType.DirectionalPoint;
+            SourceType = SourceType.CustomPoint;
             PolarAngleEmissionRange = polarAngleEmissionRange;
             AzimuthalAngleEmissionRange = azimuthalAngleEmissionRange;
             PointLocation = pointLocation;
@@ -29,8 +29,8 @@ namespace Vts.MonteCarlo.Sources
             : this(
                 new DoubleRange(0.0, 0.0),
                 new DoubleRange(0.0, 0.0),
-                new Position(0, 0, 0),
-                new Direction(0, 0, 1)) { }
+                SourceDefaults.DefaultPosition,
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis) { }
 
         public DoubleRange PolarAngleEmissionRange { get; set; }
         public DoubleRange AzimuthalAngleEmissionRange { get; set; }
