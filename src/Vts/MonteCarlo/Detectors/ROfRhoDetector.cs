@@ -16,15 +16,24 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfRhoDetector : ITerminationDetector<double[]>
     {
+        private bool _tallySecondMoment;
         /// <summary>
         /// Returns an instance of ROfRhoDetector
         /// </summary>
         /// <param name="rho"></param>
-        public ROfRhoDetector(DoubleRange rho, String name)
+        public ROfRhoDetector(DoubleRange rho, bool tallySecondMoment, String name)
         {
             Rho = rho;
+            _tallySecondMoment = tallySecondMoment;
             Mean = new double[Rho.Count - 1];
-            SecondMoment = new double[Rho.Count - 1];
+            if (_tallySecondMoment)
+            {
+                SecondMoment = new double[Rho.Count - 1];
+            }
+            else
+            {
+                SecondMoment = null;
+            }
             TallyType = TallyType.ROfRho;
             Name = name;
             TallyCount = 0;
@@ -34,7 +43,7 @@ namespace Vts.MonteCarlo.Detectors
         ///  Returns a default instance of ROfRhoDetector (for serialization purposes only)
         /// </summary>
         public ROfRhoDetector()
-            : this(new DoubleRange(), TallyType.ROfRho.ToString())
+            : this(new DoubleRange(), true, TallyType.ROfRho.ToString())
         {
         }
 
@@ -57,16 +66,24 @@ namespace Vts.MonteCarlo.Detectors
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
             Mean[ir] += dp.Weight;
-            SecondMoment[ir] += dp.Weight * dp.Weight;
+            if (_tallySecondMoment)
+            {
+                SecondMoment[ir] += dp.Weight * dp.Weight;
+            }
             TallyCount++;
         }
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta * numPhotons;
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                Mean[ir] /= (ir + 0.5) * normalizationFactor;
+                var areaNorm = (ir + 0.5) * normalizationFactor;
+                Mean[ir] /= areaNorm * numPhotons;
+                if (_tallySecondMoment)
+                {
+                    SecondMoment[ir] /= areaNorm * areaNorm * numPhotons;
+                }
             }
         }
 

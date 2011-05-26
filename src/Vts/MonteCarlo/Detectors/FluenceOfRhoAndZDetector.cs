@@ -21,6 +21,7 @@ namespace Vts.MonteCarlo.Detectors
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
         private ITissue _tissue;
+        private bool _tallySecondMoment;
         private IList<OpticalProperties> _ops;
         /// <summary>
         /// Returns an instance of FluenceOfRhoAndZDetector
@@ -28,13 +29,26 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="rho"></param>
         /// <param name="z"></param>
         /// <param name="tissue"></param>
-        public FluenceOfRhoAndZDetector(DoubleRange rho, DoubleRange z, ITissue tissue, String name)
+        public FluenceOfRhoAndZDetector(
+            DoubleRange rho, 
+            DoubleRange z, 
+            ITissue tissue, 
+            bool tallySecondMoment,
+            String name
+            )
         {
             Rho = rho;
             Z = z;
-
+            _tallySecondMoment = tallySecondMoment;
             Mean = new double[Rho.Count - 1, Z.Count - 1];
-            SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
+            if (_tallySecondMoment)
+            {
+                SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
+            }
+            else
+            {
+                SecondMoment = null;
+            }
             TallyType = TallyType.FluenceOfRhoAndZ;
             Name = name;
             TallyCount = 0;
@@ -47,7 +61,12 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns an instance of FluenceOfRhoAndZDetector (for serialization purposes only)
         /// </summary>
         public FluenceOfRhoAndZDetector()
-            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue(), TallyType.FluenceOfRhoAndZ.ToString())
+            : this(
+            new DoubleRange(), 
+            new DoubleRange(), 
+            new MultiLayerTissue(), 
+            true, // tally SecondMoment
+            TallyType.FluenceOfRhoAndZ.ToString())
         {
         }
 
@@ -100,7 +119,10 @@ namespace Vts.MonteCarlo.Detectors
             var regionIndex = _tissue.GetRegionIndex(dp.Position);
 
             Mean[ir, iz] += weight / _ops[regionIndex].Mua;
-            SecondMoment[ir, iz] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
+            if (_tallySecondMoment)
+            {
+                SecondMoment[ir, iz] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
+            }
             TallyCount++;
         }
 
@@ -137,12 +159,17 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta * Z.Delta * numPhotons;
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta * Z.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
                 for (int iz = 0; iz < Z.Count - 1; iz++)
                 {
-                    Mean[ir, iz] /= (ir + 0.5) * normalizationFactor;
+                    var areaNorm = (ir + 0.5) * normalizationFactor;
+                    Mean[ir, iz] /= areaNorm * numPhotons;
+                    if (_tallySecondMoment)
+                    {
+                        SecondMoment[ir, iz] /= areaNorm * areaNorm * numPhotons;
+                    }
                 }
             }
         }

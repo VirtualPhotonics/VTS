@@ -13,15 +13,18 @@ namespace Vts.MonteCarlo.Controllers
     public class pMCDetectorController : IDetectorController
     {
         private ITissue _tissue;
+        private bool _tallySecondMoment;
         private IList<IDetector> _detectors;
         private IList<IpMCTerminationDetector> _terminationDetectors;
         private IList<IpMCHistoryDetector> _historyDetectors;
 
         public pMCDetectorController(
             IList<IpMCDetectorInput> detectorInputs,
-            ITissue tissue)
+            ITissue tissue,
+            bool tallySecondMoment)
         {
             _tissue = tissue;
+            _tallySecondMoment = tallySecondMoment;
             _detectors = GetDetectors(detectorInputs);
 
             _terminationDetectors =
@@ -42,7 +45,7 @@ namespace Vts.MonteCarlo.Controllers
             var detectorList = new List<IDetector>(detectorInputs.Count);
             foreach (var detectorInput in detectorInputs)
             {
-                var detector = DetectorFactory.GetpMCDetector(detectorInput, _tissue);
+                var detector = DetectorFactory.GetpMCDetector(detectorInput, _tissue, _tallySecondMoment);
                 detectorList.Add(detector);
             }
 

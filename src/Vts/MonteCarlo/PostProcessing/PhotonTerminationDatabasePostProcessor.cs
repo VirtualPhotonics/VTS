@@ -32,7 +32,8 @@ namespace Vts.MonteCarlo.PostProcessing
                 databaseInput.Options.AbsorptionWeightingType,
                 databaseInput.Options.PhaseFunctionType);
 
-            DetectorController detectorController = Factories.DetectorControllerFactory.GetStandardDetectorController(detectorInputs, tissue);
+            DetectorController detectorController = Factories.DetectorControllerFactory.GetStandardDetectorController(
+                detectorInputs, tissue, databaseInput.Options.TallySecondMoment);
 
             foreach (var dp in database.DataPoints)
             {
@@ -68,7 +69,8 @@ namespace Vts.MonteCarlo.PostProcessing
                 databaseInput.Options.PhaseFunctionType);
 
             pMCDetectorController detectorController = 
-                Factories.DetectorControllerFactory.GetpMCDetectorController(detectorInputs, tissue);
+                Factories.DetectorControllerFactory.GetpMCDetectorController(
+                detectorInputs, tissue, databaseInput.Options.TallySecondMoment);
             foreach (var dp in database.DataPoints)
             {
                 detectorController.TerminationTally(dp.PhotonDataPoint, dp.CollisionInfo);

@@ -15,15 +15,19 @@ namespace Vts.MonteCarlo.Controllers
     public class DetectorController : IDetectorController
     {
         private ITissue _tissue;
+        private bool _tallySecondMoment;
         private IList<IDetector> _detectors;
         private IList<ITerminationDetector> _terminationDetectors;
         private IList<IHistoryDetector> _historyDetectors;
 
         public DetectorController(
             IList<IDetectorInput> detectorInputs,
-            ITissue tissue)
+            ITissue tissue,
+            bool tallySecondMoment)
         {
             _tissue = tissue;
+
+            _tallySecondMoment = tallySecondMoment;
 
             _detectors = GetDetectors(detectorInputs);
 
@@ -110,11 +114,11 @@ namespace Vts.MonteCarlo.Controllers
                 IDetector detector;
                 if (detectorInput.TallyType.IsTerminationTally())
                 {
-                    detector = DetectorFactory.GetTerminationDetector(detectorInput, _tissue);
+                    detector = DetectorFactory.GetTerminationDetector(detectorInput, _tissue, _tallySecondMoment);
                 }
                 else
                 {
-                    detector = DetectorFactory.GetHistoryDetector(detectorInput, _tissue);
+                    detector = DetectorFactory.GetHistoryDetector(detectorInput, _tissue, _tallySecondMoment);
                 }
                 detectorList.Add(detector);
             }

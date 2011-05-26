@@ -18,17 +18,19 @@ namespace Vts.MonteCarlo.Detectors
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
         private ITissue _tissue;
+        private bool _tallySecondMoment;
         private IList<OpticalProperties> _ops;
         /// <summary>
         /// Returns am instance of ATotalDetector
         /// </summary>
         /// <param name="tissue"></param>
-        public ATotalDetector(ITissue tissue, String name)
+        public ATotalDetector(ITissue tissue, bool tallySecondMoment, String name)
         {
             TallyType = TallyType.ATotal;
             Name = name;
             TallyCount = 0;
             _tissue = tissue;
+            _tallySecondMoment = tallySecondMoment;
             SetAbsorbAction(_tissue.AbsorptionWeightingType);
             _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
         }
@@ -37,7 +39,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of ATotalDetector (for serialization purposes only)
         /// </summary>
         public ATotalDetector()
-            : this(new MultiLayerTissue(), TallyType.ATotal.ToString())
+            : this(new MultiLayerTissue(), true, TallyType.ATotal.ToString())
         {
         }
 
@@ -77,14 +79,21 @@ namespace Vts.MonteCarlo.Detectors
                 dp.Weight,
                 dp.StateFlag);
 
-            Mean += weight; 
-            SecondMoment += weight * weight;
+            Mean += weight;
+            if (_tallySecondMoment)
+            {
+                SecondMoment += weight * weight;
+            }
             TallyCount++;
         }
         
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;
+            if (_tallySecondMoment)
+            {
+                SecondMoment /= numPhotons;
+            }
         }
 
         public bool ContainsPoint(PhotonDataPoint dp)

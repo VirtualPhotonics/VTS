@@ -16,14 +16,23 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfAngleDetector : ITerminationDetector<double[]>
     {
+        private bool _tallySecondMoment;
         /// <summary>
         /// Returns an instance of RDiffuseDetector
         /// </summary>
-        public ROfAngleDetector(DoubleRange angle, String name)
+        public ROfAngleDetector(DoubleRange angle, bool tallySecondMoment, String name)
         {
             Angle = angle;
             Mean = new double[Angle.Count - 1];
-            SecondMoment = new double[Angle.Count - 1];
+            _tallySecondMoment = tallySecondMoment;
+            if (_tallySecondMoment)
+            {
+                SecondMoment = new double[Angle.Count - 1];
+            }
+            else
+            {
+                SecondMoment = null;
+            }
             TallyType = TallyType.ROfAngle;
             Name = name;
             TallyCount = 0;
@@ -33,7 +42,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of ROfAngleDetector (for serialization purposes only)
         /// </summary>
         public ROfAngleDetector()
-            : this(new DoubleRange(), TallyType.ROfAngle.ToString())
+            : this(new DoubleRange(), true, TallyType.ROfAngle.ToString())
         {
         }
         [IgnoreDataMember]
@@ -55,16 +64,24 @@ namespace Vts.MonteCarlo.Detectors
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
 
             Mean[ia] += dp.Weight;
-            SecondMoment[ia] += dp.Weight * dp.Weight;
+            if (_tallySecondMoment)
+            {
+                SecondMoment[ia] += dp.Weight * dp.Weight;
+            }
             TallyCount++;
         }
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Angle.Delta * numPhotons;
+            var normalizationFactor = 2.0 * Math.PI * Angle.Delta;
             for (int ia = 0; ia < Angle.Count - 1; ia++)
             {
-                Mean[ia] /= Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor;
+                var areaNorm = Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor;
+                Mean[ia] /= areaNorm * numPhotons;
+                if (_tallySecondMoment)
+                {
+                    SecondMoment[ia] /= areaNorm * areaNorm * numPhotons;
+                }
             }
         }
 

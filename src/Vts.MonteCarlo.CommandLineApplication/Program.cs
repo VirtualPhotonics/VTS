@@ -84,7 +84,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
     class MonteCarloSetup
     {
         private string path = "";
-        private string basename = "newinfile";
+        private string basename = "infile";
 
         public bool ValidSimulation { get; set; }
 
@@ -133,8 +133,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
             }
             else
             {
-                Console.WriteLine("\nNo input file specified. Using newinfile.xml from resources... ");
-                Input = SimulationInput.FromFile("newinfile.xml");
+                Console.WriteLine("\nNo input file specified. Using infile.xml from resources... ");
+                Input = SimulationInput.FromFile("infile.xml");
             }
             BatchQuery = Input.AsEnumerable();
             BatchNameQuery = new[] { "" };
@@ -287,6 +287,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                      PhaseFunctionType.HenyeyGreenstein,
                      new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
                      //null,
+                     true, // tally Second Moment
                      0),
                 new CustomPointSourceInput(
                     new Position(0, 0, 0),
@@ -332,7 +333,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, Math.PI / 2, 2))
                 });
-            tempInput.ToFile("newinfile.xml");
+            tempInput.ToFile("infile.xml");
 #endif
             #endregion
 
@@ -401,7 +402,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
         private static SimulationInput LoadDefaultInputFile()
         {
-            return SimulationInput.FromFileInResources("newinfile.xml", "mc");
+            return SimulationInput.FromFileInResources("infile.xml", "mc");
         }
     }
 }
