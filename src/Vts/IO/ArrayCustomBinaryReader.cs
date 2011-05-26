@@ -28,31 +28,31 @@ namespace Vts.IO
 
             var dataType = typeof(T);
 
-            if (dataType == typeof(double))
+            if (dataType.Equals(typeof(double)))
             {
                 dataOut.PopulateFromEnumerable(ReadDoubles(br, dataOut.Length));
                 return dataOut;
             }
 
-            if (dataType == typeof(float))
+            if (dataType.Equals(typeof(float)))
             {
                 dataOut.PopulateFromEnumerable(ReadFloats(br, dataOut.Length));
                 return dataOut;
             }
 
-            if (dataType == typeof(ushort))
+            if (dataType.Equals(typeof(ushort)))
             {
                 dataOut.PopulateFromEnumerable(ReadUShorts(br, dataOut.Length));
                 return dataOut;
             }
 
-            if (dataType == typeof(byte))
+            if (dataType.Equals(typeof(byte)))
             {
                 dataOut.PopulateFromEnumerable(ReadBytes(br, dataOut.Length));
                 return dataOut;
             }
 
-            if (dataType == typeof(Complex))
+            if (dataType.Equals(typeof(Complex)))
             {
                 dataOut.PopulateFromEnumerable(ReadComplices(br, dataOut.Length));
                 return dataOut;
