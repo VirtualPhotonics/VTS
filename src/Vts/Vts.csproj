@@ -391,7 +391,9 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\timeValues1EXAMPLE.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Modeling\Spectroscopy\Resources\SpectraData1.xml" />
+    <Resource Include="Modeling\Spectroscopy\Resources\SpectraData1.xml">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml" />
