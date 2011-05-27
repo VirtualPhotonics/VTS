@@ -35,7 +35,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var input = GenerateReferenceInput();
             var onTheFlyOutput = GenerateReferenceOutput(input);
 
-            var database = PhotonDatabase.FromFile("postprocessing_photonExitDatabase");
+            var database = PhotonDatabase.FromFile("photonExitDatabase");
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
                 input.DetectorInputs, database, onTheFlyOutput.Input);
 
@@ -49,7 +49,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         {
             return new SimulationInput(
                 100,
-                "postprocessing",
+                "", // can't give folder name when writing to isolated storage
                 new SimulationOptions(
                     0,
                     RandomNumberGeneratorType.MersenneTwister,

@@ -179,7 +179,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                             BatchNameQuery =
                                             (from b in BatchNameQuery
                                              from s in sweep
-                                             select (b + inputParameterString + "_" + String.Format("{0:f}", s) + "_")).ToArray();
+                                             //select (b + inputParameterString + "_" + String.Format("{0:f}", s) + "_")).ToArray();
+                                            select (b + inputParameterString + "_" + String.Format("{0:f}", s))).ToArray();
                         }
                     }
                 }
@@ -207,33 +208,40 @@ namespace Vts.MonteCarlo.CommandLineApplication
         {
             SimulationInput[] inputBatch = BatchQuery.ToArray();
             string[] outNames = BatchNameQuery
-                .Select(s => path + basename + "_" + OutputFolder + "\\" + basename + "_" + OutputFolder + s)
+                //.Select(s => path + basename + "_" + OutputFolder + "\\" + basename + "_" + OutputFolder + s)
+                .Select(s => path + basename + "_" + OutputFolder + "\\" + s)
                 .ToArray();
 
             for (int i = 0; i < inputBatch.Length; i++)
             {
-                inputBatch[i].OutputFileName = outNames[i];
+                inputBatch[i].OutputFolder = outNames[i];
             }
 
             Parallel.ForEach(inputBatch, input =>
             {
                 var mc = new MonteCarloSimulation(input);
 
-                var p = Path.GetDirectoryName(input.OutputFileName);
-
+                var p = Path.GetDirectoryName(input.OutputFolder);
+                // create folder for output
                 if (!Directory.Exists(p))
                 {
                     Directory.CreateDirectory(p);
                 }
+                // create subfolder for each batch input
+                var subfolder = input.OutputFolder;
+                if (!Directory.Exists(subfolder))
+                {
+                    Directory.CreateDirectory(subfolder);
+                }
 
                 Output detectorResults = mc.Run();
 
-                input.ToFile(p + "\\" + basename + ".xml");
+                input.ToFile(subfolder + "\\" + basename + ".xml");
 
                 foreach (var result in detectorResults.ResultsDictionary.Values)
                 {
                     // save all detector data to the specified folder
-                    DetectorIO.WriteDetectorToFile(result, input.OutputFileName);
+                    DetectorIO.WriteDetectorToFile(result, input.OutputFolder);
                 }
             });
         }
@@ -253,8 +261,13 @@ namespace Vts.MonteCarlo.CommandLineApplication
             Console.WriteLine();
             Console.WriteLine("list of input parameters (inputparam):");
             Console.WriteLine();
-            Console.WriteLine("mua1\t\tdescription of mua1 and possible values");
-            Console.WriteLine("mus1\t\tdescription of mus1 and possible values");
+            Console.WriteLine("mua1\t\tdescription of tissue layer 1 mua and possible values");
+            Console.WriteLine("mus1\t\tdescription of tissue layer 1 mus and possible values");
+            Console.WriteLine("n1\t\tdescription of tissue layer 1 n and possible values");
+            Console.WriteLine("g1\t\tdescription of tissue layer 1 g and possible values");
+            Console.WriteLine();
+            Console.WriteLine("mua2\t\tdescription of tissue layer 2 mua and possible values");
+            Console.WriteLine("mus2\t\tdescription of tissue layer 2 mus and possible values");
             Console.WriteLine();
             Console.WriteLine("sample usage:");
             Console.WriteLine();
@@ -278,7 +291,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
             MonteCarloSetup MonteCarloSetup = new MonteCarloSetup();
 
             bool _showHelp = false;
-
 
             #region Infile Generation (optional)
             //To Generate an infile when running a simulation, uncomment the first line of code in this file
@@ -363,17 +375,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    Console.WriteLine("output tag specified as {0}", val.First());
                    MonteCarloSetup.OutputFolder = val.First();
                }),
-               new CommandLine.Switch("/unmanaged", "/u", val =>
-               {
-                   Console.WriteLine("Run unmanaged code");
-                   MonteCarloSetup.RunUnmanagedCode = true;
-               }),
-               // ckh comment out until decide whether writing the database should be
-               // added.
-               //new CommandLine.Switch("/database", "/d", val =>
+               //new CommandLine.Switch("/unmanaged", "/u", val =>
                //{
-               //    Console.WriteLine("Database type");
-               //    MonteCarloSetup.WriteHistories = val.GetType;
+               //    Console.WriteLine("Run unmanaged code");
+               //    MonteCarloSetup.RunUnmanagedCode = true;
                //}),
                new CommandLine.Switch("inputparam", val =>
                {

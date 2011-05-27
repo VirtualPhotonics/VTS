@@ -41,7 +41,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]  
         public void validate_pMC_DAW_ROfRhoAndTime_zero_perturbation()
         {
-            var database = pMCDatabase.FromFile("pMC_photonExitDatabase", "pMC_collisionInfoDatabase");
+            var database = pMCDatabase.FromFile("photonExitDatabase", "collisionInfoDatabase");
             var postProcessedOutput = 
                 PhotonTerminationDatabasePostProcessor.GenerateOutput(   
                     new List<IpMCDetectorInput>()
@@ -67,7 +67,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_pMC_DAW_ROfRho_zero_perturbation()
         {
-            var database = pMCDatabase.FromFile("pMC_photonExitDatabase", "pMC_collisionInfoDatabase");
+            var database = pMCDatabase.FromFile("photonExitDatabase", "collisionInfoDatabase");
             var postProcessedOutput =
                 PhotonTerminationDatabasePostProcessor.GenerateOutput(
                     new List<IpMCDetectorInput>()
@@ -97,7 +97,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             _referenceInput = new SimulationInput(
                 100,
-                "pMC",
+                "", // can't give folder name when writing to isolated storage
                 new SimulationOptions(
                     0,
                     RandomNumberGeneratorType.MersenneTwister,
