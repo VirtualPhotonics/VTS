@@ -89,8 +89,13 @@
                         <local:MonteCarloSolverView
                             DataContext="{Binding MonteCarloSolverVM}"
                             Background="LightSteelBlue"/>
-                    </controls:TabItem>
-                </controls:TabControl>
+                </controls:TabItem>
+                <controls:TabItem Header="FEM Solver Panel">
+                    <local:FemSolverView
+                            DataContext="{Binding FemSolverVM}"
+                            Background="LightSteelBlue"/>
+                </controls:TabItem>
+            </controls:TabControl>
 
                 <controls:TabControl x:Name="outputTabControl"
                     HorizontalAlignment="Left"

@@ -11,6 +11,7 @@ namespace Vts.SiteVisit.ViewModel
         public InverseSolverViewModel InverseSolverVM { get; private set; }
         public FluenceSolverViewModel FluenceSolverVM { get; private set; }
         public MonteCarloSolverViewModel MonteCarloSolverVM { get; private set; }
+        public FemSolverViewModel FemSolverVM { get; private set; }
         public SpectralMappingViewModel SpectralMappingVM { get; private set; }
         public PlotViewModel PlotVM { get; private set; }
         public MapViewModel MapVM { get; private set; }
@@ -22,6 +23,7 @@ namespace Vts.SiteVisit.ViewModel
             InverseSolverVM = new InverseSolverViewModel();
             FluenceSolverVM = new FluenceSolverViewModel();
             MonteCarloSolverVM = new MonteCarloSolverViewModel();
+            FemSolverVM = new FemSolverViewModel();
             SpectralMappingVM = new SpectralMappingViewModel();
             PlotVM = new PlotViewModel();
             MapVM = new MapViewModel();

@@ -1,0 +1,100 @@
+﻿<UserControl 
+    x:Class="Vts.SiteVisit.View.FemSolverView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:v="clr-namespace:Vts.SiteVisit.View"
+    xmlns:vm="clr-namespace:Vts.SiteVisit.ViewModel"
+    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
+
+    <UserControl.DataContext>
+        <vm:FemSolverViewModel/>
+    </UserControl.DataContext>
+
+    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+
+        <TextBlock Text="EXECUTE A SIMULATION:" FontSize="16" />
+        
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="G:" Margin="5"/>
+            <TextBox Text="{Binding G}" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="L:" Margin="5"/>
+            <TextBox Text="{Binding L}" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Index i:" Margin="5"/>
+            <TextBox Text="{Binding Index_i}" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Index o:" Margin="5"/>
+            <TextBox Text="{Binding Index_o}" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="A Level:" Margin="5"/>
+            <TextBox Text="{Binding Alevel}" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="A Level 0:" Margin="5"/>
+            <TextBox Text="{Binding Alevel0}" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="S Level:" Margin="5"/>
+            <TextBox Text="{Binding Slevel}" Margin="5"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="S Level 0:" Margin="5"/>
+            <TextBox Text="{Binding Slevel0}" Margin="5"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Which Multi Grid:" Margin="5"/>
+            <TextBox Text="{Binding Whichmg}" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="N1:" Margin="5"/>
+            <TextBox Text="{Binding N1}" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="N2:" Margin="5"/>
+            <TextBox Text="{Binding N2}" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="N3:" Margin="5"/>
+            <TextBox Text="{Binding N3}" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Fmg:" Margin="5"/>
+            <TextBox Text="{Binding Fmg}" Margin="5"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="N Max:" Margin="5"/>
+            <TextBox Text="{Binding N_max}" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Tl:" Margin="5"/>
+            <TextBox Text="{Binding Tol}" Margin="5"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal">
+            
+            <Button VerticalAlignment="Bottom" Command="{Binding ExecuteFemSolverCommand}"
+                Background="{Binding StackPanel.Background}" Content="Run Monte Carlo"  
+                Width="100" Height="30" Margin="5"/>
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>

@@ -1,4 +1,4 @@
-﻿namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
+﻿namespace Vts.Fem.MGRTE._2D.DataStructures
 {
     public struct SpatialMesh  // angular mesh
     {

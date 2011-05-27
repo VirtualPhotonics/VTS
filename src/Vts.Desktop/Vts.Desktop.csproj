@@ -241,6 +241,51 @@
     <Compile Include="..\Vts\Factories\SolverFactory.cs">
       <Link>Factories\SolverFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\AngularMesh.cs">
+      <Link>Fem\MGRTE\2D\DataStructures\AngularMesh.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\BoundaryCoupling.cs">
+      <Link>Fem\MGRTE\2D\DataStructures\BoundaryCoupling.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\LightSource.cs">
+      <Link>Fem\MGRTE\2D\DataStructures\LightSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\Measurement.cs">
+      <Link>Fem\MGRTE\2D\DataStructures\Measurement.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\Output.cs">
+      <Link>Fem\MGRTE\2D\DataStructures\Output.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\Parameters.cs">
+      <Link>Fem\MGRTE\2D\DataStructures\Parameters.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\SpatialMesh.cs">
+      <Link>Fem\MGRTE\2D\DataStructures\SpatialMesh.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\Enums.cs">
+      <Link>Fem\MGRTE\2D\Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\Initialization.cs">
+      <Link>Fem\MGRTE\2D\Initialization.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\IO\ParametersIO.cs">
+      <Link>Fem\MGRTE\2D\IO\ParametersIO.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\IO\ReadFiles.cs">
+      <Link>Fem\MGRTE\2D\IO\ReadFiles.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\IO\Source.cs">
+      <Link>Fem\MGRTE\2D\IO\Source.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\MathFunctions.cs">
+      <Link>Fem\MGRTE\2D\MathFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\MultiGridCycle.cs">
+      <Link>Fem\MGRTE\2D\MultiGridCycle.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Fem\MGRTE\2D\SolverMGRTE.cs">
+      <Link>Fem\MGRTE\2D\SolverMGRTE.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\IO\ArrayCustomBinaryReader.cs">
       <Link>IO\ArrayCustomBinaryReader.cs</Link>
     </Compile>
@@ -309,48 +354,6 @@
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs">
       <Link>Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\AngularMesh.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\AngularMesh.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\BoundaryCoupling.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\BoundaryCoupling.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\LightSource.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\LightSource.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Measurement.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Measurement.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Output.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Output.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Parameters.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Parameters.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\SpatialMesh.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\SpatialMesh.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\Initialization.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\Initialization.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\ParametersIO.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\ParametersIO.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\ReadFiles.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\ReadFiles.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\MathFunctions.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\MathFunctions.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\MultiGridCycle.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\MultiGridCycle.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\SolverMGRTE.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\SolverMGRTE.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\MonteCarloForwardSolver.cs">
       <Link>Modeling\ForwardSolvers\MonteCarloForwardSolver.cs</Link>

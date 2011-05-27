@@ -19,9 +19,14 @@ namespace Vts.SiteVisit.Input
             IS_CalculateInitialGuess = new Command("IS_CalculateInitialGuess");
             IS_SolveInverse = new Command("IS_SolveInverse");
 
+
+
             MC_ExecuteMonteCarloSolver = new Command("MC_ExecuteMonteCarloSolver");
             MC_PlotDataInResources = new Command("MC_PlotDataInResources");
             MC_PlotScaledMC = new Command("MC_PlotScaledMC");
+
+
+            FEM_ExecuteFemSolver = new Command("FEM_ExecuteMonteCarloSolver");
             
             PlotMuaSpectra = new Command("PlotMuaSpectra");
             PlotMusprimeSpectra = new Command("PlotMusprimeSpectra");
@@ -62,6 +67,9 @@ namespace Vts.SiteVisit.Input
         public static Command MC_ExecuteMonteCarloSolver { get; private set; }
         public static Command MC_PlotDataInResources { get; private set; }
         public static Command MC_PlotScaledMC { get; private set; }
+
+        // FEM Solver commands
+        public static Command FEM_ExecuteFemSolver { get; private set; }
 
         //Spectra view commands
         public static Command PlotMuaSpectra { get; private set; }

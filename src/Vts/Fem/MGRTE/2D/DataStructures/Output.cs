@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
+namespace Vts.Fem.MGRTE._2D.DataStructures
 {
     public class Output
     {

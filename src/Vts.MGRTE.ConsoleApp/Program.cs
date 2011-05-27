@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Vts.Modeling.ForwardSolvers.MGRTE._2D;
-using Vts.Modeling.ForwardSolvers.MGRTE._2D.IO;
+using Vts.Fem.MGRTE._2D;
+using Vts.Fem.MGRTE._2D.IO;
 
 namespace Vts.MGRTE.ConsoleApp
 {

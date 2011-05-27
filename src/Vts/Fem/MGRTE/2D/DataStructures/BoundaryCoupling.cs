@@ -1,4 +1,4 @@
-﻿namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
+﻿namespace Vts.Fem.MGRTE._2D.DataStructures
 {
     public struct BoundaryCoupling  // boundary reflection or refraction coupling (see "bc_reflection")
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
+namespace Vts.Fem.MGRTE._2D
 {
     // Multigrid Type enums
     public enum WhichMultiGridType

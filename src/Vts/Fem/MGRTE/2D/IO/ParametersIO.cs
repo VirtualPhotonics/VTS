@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System;
-namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
+namespace Vts.Fem.MGRTE._2D.IO
 {
     public class ParametersIO
     {

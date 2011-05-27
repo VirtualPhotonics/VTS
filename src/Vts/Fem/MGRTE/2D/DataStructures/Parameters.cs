@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
+namespace Vts.Fem.MGRTE._2D
 {
-    public class Parameters
+    public class Parameters : BindableObject
     {
         private double g, l, index_i, index_o;
         private int alevel, alevel0;
@@ -24,6 +24,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 g = value;
+                this.OnPropertyChanged("G");
             }
         }
 
@@ -37,6 +38,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 l = value;
+                this.OnPropertyChanged("L");
             }
         }
 
@@ -50,6 +52,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 index_i = value;
+                this.OnPropertyChanged("Index_i");
             }
         }
 
@@ -63,9 +66,9 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 index_o = value;
+                this.OnPropertyChanged("Index_o");
             }
         }
-
 
         public int Alevel
         {
@@ -77,6 +80,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 alevel = value;
+                this.OnPropertyChanged("Alevel");
             }
         }
 
@@ -90,6 +94,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 alevel0 = value;
+                this.OnPropertyChanged("Alevel0");
             }
         }        
 
@@ -103,6 +108,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 slevel = value;
+                this.OnPropertyChanged("Slevel");
             }
         }
 
@@ -116,6 +122,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 slevel0 = value;
+                this.OnPropertyChanged("Slevel0");
             }
         }
 
@@ -129,10 +136,10 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 whichmg = value;
+                this.OnPropertyChanged("Whichmg");
             }
         }        
        
-
         public int N1
         {
             get
@@ -143,6 +150,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 n1 = value;
+                this.OnPropertyChanged("N1");
             }
         }
 
@@ -156,6 +164,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 n2 = value;
+                this.OnPropertyChanged("N2");
             }
         }
 
@@ -169,6 +178,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 n3 = value;
+                this.OnPropertyChanged("N3");
             }
         }
 
@@ -182,6 +192,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 fmg = value;
+                this.OnPropertyChanged("Fmg");
             }
         }
 
@@ -195,6 +206,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 n_max = value;
+                this.OnPropertyChanged("N_max");
             }
         }
         
@@ -208,16 +220,8 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D
             set
             {
                 tol = value;
+                this.OnPropertyChanged("Tol");
             }
         }
-
-
-
-
-
-
-
-
-
     }
 }
