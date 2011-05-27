@@ -10,8 +10,8 @@ XML Notepad 2007 - download http://www.microsoft.com/downloads/en/details.aspx?F
 
 Usages:
 mc (runs the application with the default infile.xml)
-mc infile=myinput outfile=myoutput inputparam=mua1,0.01,0.09,0.01 inputparam=mus1,10,20,1
-
+mc infile=myinput outputtag=myoutput inputparam=mua1,0.01,0.04,0.01 inputparam=mus1,10,20,10
+mc infile=ROfRhoinput inputparam=mua1,0.01,0.04,0.01 inputparam=mus1,10,20,10
 
 
 For more information about the VTS and the Virtual Photonics effort visit:

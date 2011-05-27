@@ -185,12 +185,18 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 }
                 catch
                 {
-                    Console.WriteLine("Could not parse the input arguments.");
+                    Console.WriteLine("*** Could not parse the input arguments ***");
+                    Console.WriteLine("\tIgnoring this input parameter");
+                    Console.WriteLine();
                 }
             }
             else
             {
-                Console.WriteLine("Input parameters should have 4 values in the format inputparam=<InputParameterType>,Start,Stop,Delta.");
+                Console.WriteLine("*** Invalid input parameter ***");
+                Console.WriteLine("\tinput parameters should have 4 values in the format:");
+                Console.WriteLine("\tinputparam=<InputParameterType>,Start,Stop,Delta");
+                Console.WriteLine("\tIgnoring this input parameter");
+                Console.WriteLine();
             }
         }
 
@@ -242,7 +248,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             Console.WriteLine("list of arguments:");
             Console.WriteLine();
             Console.WriteLine("infile\t\tthe input file.");
-            Console.WriteLine("outfile\t\tthe output file.");
+            Console.WriteLine("outputtag\t\tthe name of the results folder (infile_outputtag).");
             Console.WriteLine("inputparam\tthe input parameter name and value(s).");
             Console.WriteLine();
             Console.WriteLine("list of input parameters (inputparam):");
@@ -252,7 +258,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             Console.WriteLine();
             Console.WriteLine("sample usage:");
             Console.WriteLine();
-            Console.WriteLine("mc infile=myinput outfile=myoutput inputparam=mua1,0.01,0.09,0.01 inputparam=mus1,10,20,1");
+            Console.WriteLine("mc infile=myinput outputtag=myoutput inputparam=mua1,0.01,0.04,0.01 inputparam=mus1,10,20,5");
         }
 
         /// <summary>
@@ -339,7 +345,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             args.Process(() =>
                {
                    Console.WriteLine("Usages are:");
-                   Console.WriteLine("mc infile=myinput outfile=myoutput");
+                   Console.WriteLine("mc infile=myinput outputtag=myoutput");
                    Console.WriteLine("inputparam=mua1,0.01,0.09,0.01 inputparam=mus1,10,20,1");
                    Console.WriteLine();
                },
@@ -352,9 +358,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    Console.WriteLine("input file specified as {0}", val.First());
                    MonteCarloSetup.InputFile = val.First();
                }),
-               new CommandLine.Switch("outfile", val =>
+               new CommandLine.Switch("outputtag", val =>
                {
-                   Console.WriteLine("output file specified as {0}", val.First());
+                   Console.WriteLine("output tag specified as {0}", val.First());
                    MonteCarloSetup.OutputFolder = val.First();
                }),
                new CommandLine.Switch("/unmanaged", "/u", val =>
