@@ -42,7 +42,7 @@ namespace Vts.MonteCarlo
             _tissue = TissueFactory.GetTissue(
                 input.TissueInput, 
                 input.Options.AbsorptionWeightingType, 
-                PhaseFunctionType.HenyeyGreenstein);
+                input.Options.PhaseFunctionType);
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
             _detectorController = DetectorControllerFactory.GetStandardDetectorController(
                 input.DetectorInputs, 
