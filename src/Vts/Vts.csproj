@@ -338,6 +338,7 @@
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\CircularSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\CustomCircularSource.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\DirectionalCircularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Cylindrical\DiffusingFiberSource.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\EllipticalSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\DirectionalEllipticalSource.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\CustomEllipticalSource.cs" />
@@ -497,7 +498,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CylindricalSourceInputs\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Cylindrical\" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />

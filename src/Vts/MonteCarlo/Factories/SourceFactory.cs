@@ -174,6 +174,8 @@ namespace Vts.MonteCarlo.Factories
                         lsetInput.TubeHeightZ,
                         lsetInput.NewDirectionOfPrincipalSourceAxis,
                         lsetInput.TranslationFromOrigin);
+                
+
 
                 case SourceType.IsotropicVolumetricCuboidal:
                     var ivcInput = (IsotropicVolumetricCuboidalSourceInput)input;

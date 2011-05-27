@@ -60,6 +60,7 @@ namespace Vts.MonteCarlo
 
         // Tube Sources
         LambertianSurfaceEmittingTubular,
+        DiffusingFiber, // e.g. a LambertianSurfaceEmittingTubularSource + CustomCircularSource (for the fiber face)
 
         // 3D Volumetric Sources
 
