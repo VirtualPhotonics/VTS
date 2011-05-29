@@ -526,6 +526,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInputProvider.cs">
       <Link>MonteCarlo\DataStructures\SimulationInputProvider.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInputValidation.cs">
+      <Link>MonteCarlo\DataStructures\SimulationInputValidation.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs">
       <Link>MonteCarlo\DataStructures\SimulationOptions.cs</Link>
     </Compile>

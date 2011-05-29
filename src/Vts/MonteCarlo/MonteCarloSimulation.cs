@@ -28,6 +28,7 @@ namespace Vts.MonteCarlo
         {
             // all field/property defaults should be set here
             _input = input;
+            SimulationInputValidation.ValidateInput(_input);
             numberOfPhotons = input.N;
 
             WRITE_DATABASES = input.Options.WriteDatabases; // modified ckh 4/9/11

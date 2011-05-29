@@ -52,10 +52,10 @@ namespace Vts.MonteCarlo
      
         /// <summary>
         /// This verifies that the layers do not overlap.  It assumes that the layers are
-        /// adjacent and defined in order.
+        /// adjacent and defined in order. Public because SimulationInputValidation calls it.
         /// </summary>
         /// <param name="layers"></param>
-        private void ValidateInput(IList<ITissueRegion> layers)
+        public static void ValidateInput(IList<ITissueRegion> layers)
         {
             for (int i = 0; i < layers.Count() - 1; i++)
             {

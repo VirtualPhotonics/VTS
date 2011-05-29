@@ -244,6 +244,7 @@
     <Compile Include="Modeling\Spectroscopy\Tissue.cs" />
     <Compile Include="Modeling\Tools\CalculatorToolbox.cs" />
     <Compile Include="Modeling\Tools\HankelTransform.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SimulationInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructures\Output.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensions.cs" />
