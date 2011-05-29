@@ -299,12 +299,12 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 100,  // FIX 1e6 takes about 70 minutes my laptop
                 "Output",
                 new SimulationOptions(
-                     0,
+                     0, // random number generator seed
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Discrete,
                      PhaseFunctionType.HenyeyGreenstein,
-                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
-                     //null,
+                     //new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
+                     null,
                      true, // tally Second Moment
                      0),
                 new CustomPointSourceInput(
@@ -320,7 +320,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
@@ -328,27 +328,27 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 ),
                 new List<IDetectorInput>()
                 {
-                    new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    //new RDiffuseDetectorInput(),
+                    //new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    new ROfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
-                    new ROfXAndYDetectorInput(
-                        new DoubleRange(-200.0, 200.0, 401), // x
-                        new DoubleRange(-200.0, 200.0, 401)), // y,
-                    new ROfRhoAndOmegaDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 1000, 21)),
-                    new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    new TOfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 2))
+                    //new ROfRhoAndAngleDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, Math.PI / 2, 2)),
+                    //new ROfRhoAndTimeDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101)),
+                    //new ROfXAndYDetectorInput(
+                    //    new DoubleRange(-200.0, 200.0, 401), // x
+                    //    new DoubleRange(-200.0, 200.0, 401)), // y,
+                    //new ROfRhoAndOmegaDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 1000, 21)),
+                    //new TDiffuseDetectorInput(),
+                    //new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    //new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    //new TOfRhoAndAngleDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, Math.PI / 2, 2))
                 });
             tempInput.ToFile("infile.xml");
 #endif
