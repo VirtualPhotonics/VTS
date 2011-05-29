@@ -148,12 +148,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ArrayExtensionsTests.cs">
+    <Compile Include="Common\Extension Methods\ArrayExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\DirectionTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\Extension Methods\RNGExtensionsTests.cs" />
     <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs">
       <SubType>Code</SubType>
     </Compile>
