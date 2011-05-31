@@ -4,19 +4,21 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using Vts.IO;
+using System.Runtime.Serialization;
 
 namespace Vts.SpectralMapping
 {
+    //[KnownType(typeof(ChromophoreSpectrum))]
     public static class SpectralDatabaseLoader
     {
-        public static Dictionary<string, ISpectrum> GetDatabaseFromFile()
+        public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile()
         {
             return GetDatabaseFromFile("SpectraData1.xml");
         }
-        public static Dictionary<string, ISpectrum> GetDatabaseFromFile(string filename)
+        public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile(string filename)
          {
              // Keyed by name, so that it's extensible by other users (other users can't create new enums...)
-            Dictionary<string, ISpectrum> chromDictionary = new Dictionary<string, ISpectrum>();
+             Dictionary<string, ChromophoreSpectrum> chromDictionary = new Dictionary<string, ChromophoreSpectrum>();
             Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/" + filename, "Vts");
             if (stream == null)
                 throw new NullReferenceException("Can not open database file");
