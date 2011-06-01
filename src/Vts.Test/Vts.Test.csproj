@@ -217,6 +217,7 @@
     <Compile Include="MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructures\SimulationOptionsTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
