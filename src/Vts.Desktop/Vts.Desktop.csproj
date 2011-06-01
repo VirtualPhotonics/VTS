@@ -463,6 +463,15 @@
     <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDetectorController.cs">
       <Link>MonteCarlo\Controllers\pMCDetectorController.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\ValidationResult.cs">
+      <Link>MonteCarlo\DataStructuresValidation\ValidationResult.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs</Link>
     </Compile>
@@ -525,9 +534,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInputProvider.cs">
       <Link>MonteCarlo\DataStructures\SimulationInputProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInputValidation.cs">
-      <Link>MonteCarlo\DataStructures\SimulationInputValidation.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs">
       <Link>MonteCarlo\DataStructures\SimulationOptions.cs</Link>

@@ -28,12 +28,16 @@ namespace Vts.MonteCarlo
         {
             // all field/property defaults should be set here
             _input = input;
-            SimulationInputValidation.ValidateInput(_input);
+            var result = SimulationInputValidation.ValidateInput(_input);
+            if (result.IsValid == false)
+            {
+                throw new ArgumentException(result.ErrorMessage + "; " + result.Remarks);
+                // not sure this is best way to code
+            }
             numberOfPhotons = input.N;
 
             WRITE_DATABASES = input.Options.WriteDatabases; // modified ckh 4/9/11
             ABSORPTION_WEIGHTING = input.Options.AbsorptionWeightingType; // CKH add 12/14/09
-
 
             _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                 input.Options.RandomNumberGeneratorType, input.Options.Seed);
