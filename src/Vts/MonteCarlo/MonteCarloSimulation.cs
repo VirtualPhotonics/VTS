@@ -103,12 +103,12 @@ namespace Vts.MonteCarlo
                 {
                     if (WRITE_DATABASES.Contains(DatabaseType.PhotonExitDataPoints))
                     {
-                        terminationWriter = new PhotonDatabaseWriter(_input.OutputFolder + "\\photonExitDatabase");
+                        terminationWriter = new PhotonDatabaseWriter(_input.OutputName + "\\photonExitDatabase");
                     }
                     if (WRITE_DATABASES.Contains(DatabaseType.CollisionInfo))
                     {
                         collisionWriter = new CollisionInfoDatabaseWriter(
-                            _input.OutputFolder + "\\collisionInfoDatabase", _tissue.Regions.Count());
+                            _input.OutputName + "\\collisionInfoDatabase", _tissue.Regions.Count());
                     }
                 }
 

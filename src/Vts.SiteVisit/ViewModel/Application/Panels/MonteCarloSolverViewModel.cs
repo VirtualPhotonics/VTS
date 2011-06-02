@@ -50,7 +50,7 @@ namespace Vts.SiteVisit.ViewModel
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
                     }
                 ),
-                OutputFolder = "MonteCarloOutput",
+                OutputName = "MonteCarloOutput",
                 N = 1000,
                 Options = new SimulationOptions(
                     0, // Note seed = 0 is -1 in linux

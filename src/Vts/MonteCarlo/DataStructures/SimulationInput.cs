@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo
         // todo: replace DataContractSerializer loading this class with Linq to XML reading
         // of a "pure" XML input class (and make all the fields properties again). This should
         // make it much easier for users to define simulations without wading through XML namespaces, etc.
-        public string OutputFolder;
+        public string OutputName;
         public long N;
         public SimulationOptions Options;
         public ISourceInput SourceInput;
@@ -63,14 +63,14 @@ namespace Vts.MonteCarlo
         /// </summary>
         public SimulationInput(
             long numberOfPhotons, 
-            string outputFolder,
+            string outputName,
             SimulationOptions simulationOptions,
             ISourceInput sourceInput, 
             ITissueInput tissueInput,  
             IList<IDetectorInput> detectorInputs)
         {
             N = numberOfPhotons;
-            OutputFolder = outputFolder;
+            OutputName = outputName;
             Options = simulationOptions;
             SourceInput = sourceInput;
             TissueInput = tissueInput;

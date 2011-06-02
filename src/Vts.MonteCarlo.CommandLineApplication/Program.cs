@@ -179,8 +179,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                             BatchNameQuery =
                                             (from b in BatchNameQuery
                                              from s in sweep
-                                             //select (b + inputParameterString + "_" + String.Format("{0:f}", s) + "_")).ToArray();
-                                            select (b + inputParameterString + "_" + String.Format("{0:f}", s))).ToArray();
+                                             select (b + inputParameterString + "_" + String.Format("{0:f}", s) + "_")).ToArray();
                         }
                     }
                 }
@@ -209,39 +208,33 @@ namespace Vts.MonteCarlo.CommandLineApplication
             SimulationInput[] inputBatch = BatchQuery.ToArray();
             string[] outNames = BatchNameQuery
                 //.Select(s => path + basename + "_" + OutputFolder + "\\" + basename + "_" + OutputFolder + s)
-                .Select(s => path + basename + "_" + OutputFolder + "\\" + s)
+                .Select(s => path + basename + "_" + OutputFolder + "_" + s)
                 .ToArray();
 
             for (int i = 0; i < inputBatch.Length; i++)
             {
-                inputBatch[i].OutputFolder = outNames[i];
+                inputBatch[i].OutputName = outNames[i];
             }
 
             Parallel.ForEach(inputBatch, input =>
             {
                 var mc = new MonteCarloSimulation(input);
 
-                var p = Path.GetDirectoryName(input.OutputFolder);
+                //var p = Path.GetDirectoryName(input.OutputName);
                 // create folder for output
-                if (!Directory.Exists(p))
+                if (!Directory.Exists(input.OutputName))
                 {
-                    Directory.CreateDirectory(p);
-                }
-                // create subfolder for each batch input
-                var subfolder = input.OutputFolder;
-                if (!Directory.Exists(subfolder))
-                {
-                    Directory.CreateDirectory(subfolder);
+                    Directory.CreateDirectory(input.OutputName);
                 }
 
                 Output detectorResults = mc.Run();
 
-                input.ToFile(subfolder + "\\" + basename + ".xml");
+                input.ToFile(input.OutputName +  "\\" + basename + ".xml");
 
                 foreach (var result in detectorResults.ResultsDictionary.Values)
                 {
                     // save all detector data to the specified folder
-                    DetectorIO.WriteDetectorToFile(result, input.OutputFolder);
+                    DetectorIO.WriteDetectorToFile(result, input.OutputName);
                 }
             });
         }
@@ -303,8 +296,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Discrete,
                      PhaseFunctionType.HenyeyGreenstein,
-                     //new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
-                     null,
+                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
+                     //null,
                      true, // tally Second Moment
                      0),
                 new CustomPointSourceInput(

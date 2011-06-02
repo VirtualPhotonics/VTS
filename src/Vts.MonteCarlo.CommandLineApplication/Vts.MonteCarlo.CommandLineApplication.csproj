@@ -102,6 +102,9 @@
     <Content Include="infile.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="infile_database.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="infile_ROfRho.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
