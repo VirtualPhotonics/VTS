@@ -56,7 +56,7 @@ namespace Vts.MonteCarlo
         // todo: replace DataContractSerializer loading this class with Linq to XML reading
         // of a "pure" XML input class (and make all the fields properties again). This should
         // make it much easier for users to define simulations without wading through XML namespaces, etc.
-        public string OutputFileName;
+        public string OutputName;
         public long N;
         public SimulationOptions Options;
         public ISourceInput SourceInput;
@@ -68,14 +68,14 @@ namespace Vts.MonteCarlo
         /// </summary>
         public SimulationInput(
             long numberOfPhotons, 
-            string outputFilename,
+            string outputName,
             SimulationOptions simulationOptions,
             ISourceInput sourceInput,
             ITissueInput tissueInput,  
             IList<IDetectorInput> detectorInputs)
         {
             N = numberOfPhotons;
-            OutputFileName = outputFilename;
+            OutputName = outputName;
             Options = simulationOptions;
             SourceInput = sourceInput;
             TissueInput = tissueInput;
@@ -85,13 +85,14 @@ namespace Vts.MonteCarlo
         public SimulationInput()
             : this(
                 1000000,  // FIX 1e6 takes about 70 minutes my laptop
-                "Output",
+                "results",
                 new SimulationOptions(
                     SimulationOptions.GetRandomSeed(), 
                     RandomNumberGeneratorType.MersenneTwister, 
                     AbsorptionWeightingType.Discrete, 
                     PhaseFunctionType.HenyeyGreenstein,
-                    null, 
+                    null, // databases written
+                    true, // compute Second Moment
                     0),
                 new DirectionalPointSourceInput(),
                 new MultiLayerTissueInput(

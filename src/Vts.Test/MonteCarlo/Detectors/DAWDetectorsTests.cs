@@ -36,10 +36,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                      AbsorptionWeightingType.Discrete,
                      PhaseFunctionType.HenyeyGreenstein,
                      null,
+                     true,
                      0),
                 new DirectionalPointSourceInput(
-                    new Position(0.0, 0.0, 0.0),
-                    new Direction(0.0, 0.0, 1.0)
+                     new Position(0.0, 0.0, 0.0),
+                     new Direction(0.0, 0.0, 1.0),
+                     new DoubleRange(0.0, 0.0, 1),
+                     new DoubleRange(0.0, 0.0, 1)
                 ),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
@@ -59,31 +62,31 @@ namespace Vts.Test.MonteCarlo.Detectors
                 {
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
                     new ROfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, Math.PI / 2, 2)),
                     new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 1, 101)),
                     new ROfXAndYDetectorInput(
                         new DoubleRange(-200.0, 200.0, 401), // x
                         new DoubleRange(-200.0, 200.0, 401)), // y,
                     new ROfRhoAndOmegaDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 1000, 21)),                        
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 1000.0, 21)),                        
                     new AOfRhoAndZDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101)),
                     new ATotalDetectorInput(),
                     new FluenceOfRhoAndZDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101)),
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
                     new TOfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, Math.PI / 2, 2))
                 });
                 
@@ -109,6 +112,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_ROfRho()
         {
             Assert.Less(Math.Abs(_output.R_r[0] - 0.615238307), 0.000000001);
+        }
+        // Reflection R(rho) 2nd moment, linux value output in printf statement
+        [Test]
+        public void validate_CAW_ROfRho_second_moment()
+        {
+            Assert.Less(Math.Abs(_output.R_r2[0] - 18.92598), 0.00001);
         }
         // Reflection R(angle)
         [Test]

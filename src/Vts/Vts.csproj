@@ -243,6 +243,9 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\IsotropicLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\CustomLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\DirectionalLineSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\ValidationResult.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructures\Output.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensions.cs" />
@@ -308,6 +311,7 @@
     <Compile Include="MonteCarlo\IO\DatabaseReader.cs" />
     <Compile Include="MonteCarlo\IO\DatabaseWriter.cs" />
     <Compile Include="MonteCarlo\IO\DetectorIO.cs" />
+    <Compile Include="MonteCarlo\Helpers\ErrorCalculation.cs" />
     <Compile Include="MonteCarlo\PhotonData\CollisionInfo.cs" />
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabase.cs" />
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseWriter.cs" />
@@ -444,7 +448,9 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\timeValues1EXAMPLE.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Modeling\Spectroscopy\Resources\SpectraData1.xml" />
+    <Resource Include="Modeling\Spectroscopy\Resources\SpectraData1.xml">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml" />

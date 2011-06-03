@@ -41,14 +41,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]  
         public void validate_pMC_DAW_ROfRhoAndTime_zero_perturbation()
         {
-            var database = pMCDatabase.FromFile("pMC_photonExitDatabase", "pMC_collisionInfoDatabase");
+            var database = pMCDatabase.FromFile("photonExitDatabase", "collisionInfoDatabase");
             var postProcessedOutput = 
                 PhotonTerminationDatabasePostProcessor.GenerateOutput(   
                     new List<IpMCDetectorInput>()
                     {
                         new pMCROfRhoAndTimeDetectorInput(
-                            new DoubleRange(0.0, 10, 101),
-                            new DoubleRange(0.0, 1, 101),
+                            new DoubleRange(0.0, 10.0, 101),
+                            new DoubleRange(0.0, 1.0, 101),
                             // set perturbed ops to reference ops
                             new List<OpticalProperties>() { 
                                 _referenceInput.TissueInput.Regions[0].RegionOP,
@@ -67,7 +67,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_pMC_DAW_ROfRho_zero_perturbation()
         {
-            var database = pMCDatabase.FromFile("pMC_photonExitDatabase", "pMC_collisionInfoDatabase");
+            var database = pMCDatabase.FromFile("photonExitDatabase", "collisionInfoDatabase");
             var postProcessedOutput =
                 PhotonTerminationDatabasePostProcessor.GenerateOutput(
                     new List<IpMCDetectorInput>()
@@ -97,17 +97,20 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             _referenceInput = new SimulationInput(
                 100,
-                "pMC",
+                "", // can't give folder name when writing to isolated storage
                 new SimulationOptions(
                     0,
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },  // write histories 
+                    true,
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
-                    new Direction(0.0, 0.0, 1.0)
+                    new Direction(0.0, 0.0, 1.0),
+                    new DoubleRange(0.0, 0.0, 1),
+                    new DoubleRange(0.0, 0.0, 1)
                 ),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
@@ -125,10 +128,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                 ),
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
                     new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 1, 101)),
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 1.0, 101)),
                 }
             );
             return new MonteCarloSimulation(_referenceInput).Run();

@@ -17,19 +17,26 @@ namespace Vts.MonteCarlo
             AbsorptionWeightingType absWeightingType, 
             PhaseFunctionType phaseFunctionType,
             IList<DatabaseType> writeDatabases,
+            bool tallySecondMoment,
             int simulationIndex)
         {
             RandomNumberGeneratorType = rngType;
             AbsorptionWeightingType = absWeightingType;
             PhaseFunctionType = phaseFunctionType;
             Seed = seed;
+            if (Seed == -1)
+            {
+                Seed = GetRandomSeed();
+            }
             SimulationIndex = simulationIndex;
             WriteDatabases = writeDatabases;
+            TallySecondMoment = tallySecondMoment;
         }
 
         public RandomNumberGeneratorType RandomNumberGeneratorType { get; set; }
         public AbsorptionWeightingType AbsorptionWeightingType { get; set; }
         public PhaseFunctionType PhaseFunctionType { get; set; }
+        public bool TallySecondMoment { get; set; }
         public int Seed { get; set; }
         public int SimulationIndex { get; set; }
 
@@ -44,6 +51,7 @@ namespace Vts.MonteCarlo
                 absWeightingType, 
                 PhaseFunctionType.HenyeyGreenstein, 
                 null, 
+                true,
                 0) { }
 
         public SimulationOptions(int seed)
@@ -52,6 +60,7 @@ namespace Vts.MonteCarlo
                 AbsorptionWeightingType.Discrete, 
                 PhaseFunctionType.HenyeyGreenstein, 
                 null, 
+                true,
                 0) { }
 
         public SimulationOptions()
@@ -60,6 +69,7 @@ namespace Vts.MonteCarlo
                 AbsorptionWeightingType.Discrete, 
                 PhaseFunctionType.HenyeyGreenstein,
                 null, 
+                true,
                 0) { }
 
         public static int GetRandomSeed()  // ckh 12/15/09 made this public so Photon can see

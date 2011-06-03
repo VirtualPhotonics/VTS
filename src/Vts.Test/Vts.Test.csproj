@@ -148,12 +148,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ArrayExtensionsTests.cs">
+    <Compile Include="Common\Extension Methods\ArrayExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\DirectionTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\Extension Methods\RNGExtensionsTests.cs" />
     <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -205,6 +206,8 @@
     <Compile Include="Modeling\MetaNumericsZeroOrderBesselFunction.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumTest.cs" />
+    <Compile Include="Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs" />
     <Compile Include="Modeling\ValidateInverseSolution.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -214,6 +217,7 @@
     <Compile Include="MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructures\SimulationOptionsTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -236,7 +240,6 @@
     <Compile Include="MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\DAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -246,15 +249,24 @@
     <Compile Include="MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MonteCarlo\IO\DetectorIOTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\MonteCarloFactoriesTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs" />
-    <Compile Include="MonteCarlo\PhotonData\pMCDatabaseTests.cs" />
-    <Compile Include="MonteCarlo\PhotonData\PhotonDatabaseTests.cs" />
+    <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\PhotonData\PhotonDatabaseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\PhotonData\pMCDatabaseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -282,6 +294,7 @@
     <Folder Include="Modeling\Optimizers\" />
     <Folder Include="Modeling\Tools\" />
     <Folder Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\" />
+    <Folder Include="MonteCarlo\TallyActions\pMCTallies\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

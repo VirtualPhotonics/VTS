@@ -23,6 +23,7 @@ namespace Vts.MonteCarlo.Detectors
         private double _rhoDelta;  // need to keep this because DoubleRange adjusts deltas automatically
         // note: bins accommodate noncontiguous and also single bins
         private double[] _rhoCenters;
+        private bool _tallySecondMoment;
         private Func<IList<long>, double, IList<OpticalProperties>, double> _absorbAction;
 
         /// <summary>
@@ -38,11 +39,20 @@ namespace Vts.MonteCarlo.Detectors
             ITissue tissue,
             IList<OpticalProperties> perturbedOps,
             IList<int> perturbedRegionIndices,
+            bool tallySecondMoment,
             String name)
         {
             Rho = rho;
+            _tallySecondMoment = tallySecondMoment;
             Mean = new double[Rho.Count - 1];
-            SecondMoment = new double[Rho.Count - 1];
+            if (_tallySecondMoment)
+            {
+                SecondMoment = new double[Rho.Count - 1];
+            }
+            else
+            {
+                SecondMoment = null;
+            }
             TallyType = TallyType.pMCROfRho;
             Name = name;
             _perturbedOps = perturbedOps;
@@ -77,6 +87,7 @@ namespace Vts.MonteCarlo.Detectors
             new MultiLayerTissue(), 
             new List<OpticalProperties>(), 
             new List<int>(), 
+            true, // tallySecondMoment
             TallyType.pMCROfRho.ToString() )
         {
         }
@@ -128,7 +139,10 @@ namespace Vts.MonteCarlo.Detectors
                     _perturbedOps);
 
                 Mean[ir] += dp.Weight * weightFactor;
-                SecondMoment[ir] += dp.Weight * weightFactor * dp.Weight * weightFactor;
+                if (_tallySecondMoment)
+                {
+                    SecondMoment[ir] += dp.Weight * weightFactor * dp.Weight * weightFactor;
+                }
                 TallyCount++;
             }
         }
@@ -168,12 +182,16 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta * numPhotons;
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                Mean[ir] /= (ir + 0.5) * normalizationFactor;
+                var areaNorm = (ir + 0.5) * normalizationFactor;
+                Mean[ir] /= areaNorm * numPhotons;
                 // the above is pi(rmax*rmax-rmin*rmin) * rhoDelta * N
-
+                if (_tallySecondMoment)
+                {
+                    SecondMoment[ir] /= areaNorm * areaNorm * numPhotons;
+                }
             }
         }
 

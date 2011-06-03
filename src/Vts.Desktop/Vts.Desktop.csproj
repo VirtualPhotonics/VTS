@@ -460,6 +460,15 @@
     <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDetectorController.cs">
       <Link>MonteCarlo\Controllers\pMCDetectorController.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\ValidationResult.cs">
+      <Link>MonteCarlo\DataStructuresValidation\ValidationResult.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs</Link>
     </Compile>

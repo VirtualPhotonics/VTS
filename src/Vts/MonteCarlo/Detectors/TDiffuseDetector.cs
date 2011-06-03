@@ -12,11 +12,13 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class TDiffuseDetector : ITerminationDetector<double>
     {
+        private bool _tallySecondMoment;
         /// <summary>
         /// Returns an instance of TDiffuseDetector
         /// </summary>
-        public TDiffuseDetector(String name)
+        public TDiffuseDetector(bool tallySecondMoment, String name)
         {
+            _tallySecondMoment = tallySecondMoment;
             Mean = 0.0;
             SecondMoment = 0.0;
             TallyType = TallyType.TDiffuse;
@@ -26,7 +28,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instaf TDiffuseDetector (for serialization purposes only)
         /// </summary>
         public TDiffuseDetector()
-            : this(TallyType.TDiffuse.ToString())
+            : this(true, TallyType.TDiffuse.ToString())
         {
         }
         public double Mean { get; set; }
@@ -42,13 +44,20 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(PhotonDataPoint dp)
         {
             Mean += dp.Weight;
-            SecondMoment += dp.Weight * dp.Weight;
+            if (_tallySecondMoment)
+            {
+                SecondMoment += dp.Weight * dp.Weight;
+            }
             TallyCount++;
         }
 
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;
+            if (_tallySecondMoment)
+            {
+                SecondMoment /= numPhotons;
+            }
         }
 
         public bool ContainsPoint(PhotonDataPoint dp)

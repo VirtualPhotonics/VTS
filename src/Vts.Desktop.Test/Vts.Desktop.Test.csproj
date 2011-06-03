@@ -110,8 +110,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Vts.Test\Common\ArrayExtensionsTests.cs">
-      <Link>Common\ArrayExtensionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\Common\Extension Methods\ArrayExtensionsTests.cs">
+      <Link>Common\Extension Methods\ArrayExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Common\Extension Methods\RNGExtensionsTests.cs">
+      <Link>Common\Extension Methods\RNGExtensionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Common\Helpers\Range\DoubleRangeTests.cs">
       <Link>Common\Helpers\Range\DoubleRangeTests.cs</Link>
@@ -164,6 +167,12 @@
     <Compile Include="..\Vts.Test\Modeling\MetaNumericsZeroOrderBesselFunction.cs">
       <Link>Modeling\MetaNumericsZeroOrderBesselFunction.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\ChromophoreSpectrumTest.cs">
+      <Link>Modeling\Spectroscopy\ChromophoreSpectrumTest.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs">
+      <Link>Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Modeling\ValidateInverseSolution.cs">
       <Link>Modeling\ValidateInverseSolution.cs</Link>
     </Compile>
@@ -184,6 +193,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputTests.cs">
       <Link>MonteCarlo\DataStructures\SimulationInputTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationOptionsTests.cs">
+      <Link>MonteCarlo\DataStructures\SimulationOptionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\AnalogDetectorsTests.cs</Link>

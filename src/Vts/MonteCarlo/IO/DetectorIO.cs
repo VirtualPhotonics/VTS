@@ -45,30 +45,36 @@ namespace Vts.MonteCarlo.IO
                     var d = detector as IDetector<double[]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
+                    // output of 2nd moment 
+                    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<double[,]>)
                 {
                     var d = detector as IDetector<double[,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<double[, ,]>)
                 {
                     var d = detector as IDetector<double[, ,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<double[, , ,]>)
                 {
                     var d = detector as IDetector<double[, , ,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<double[, , , ,]>)
                 {
                     var d = detector as IDetector<double[, , , ,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex>)
                 {
@@ -80,30 +86,35 @@ namespace Vts.MonteCarlo.IO
                     var d = detector as IDetector<Complex[]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex[,]>)
                 {
                     var d = detector as IDetector<Complex[,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex[, ,]>)
                 {
                     var d = detector as IDetector<Complex[, ,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex[, , ,]>)
                 {
                     var d = detector as IDetector<Complex[, , ,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex[, , , ,]>)
                 {
                     var d = detector as IDetector<Complex[, , , ,]>;
                     FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
             }
             catch (Exception e)

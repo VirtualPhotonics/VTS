@@ -11,7 +11,7 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// Private property to store the loaded database
         /// </summary>
-        private static Dictionary<string, ISpectrum> InternalDictionary
+        private static Dictionary<string, ChromophoreSpectrum> InternalDictionary
         {
             get
             {
@@ -20,8 +20,8 @@ namespace Vts.SpectralMapping
                 return _InternalDictionary;
             }
         }
-        
-        private static Dictionary<string, ISpectrum> _InternalDictionary;
+
+        private static Dictionary<string, ChromophoreSpectrum> _InternalDictionary;
         //private static Dictionary<string, ChromophoreCoefficientType> _InternalDictionaryCoefficientType;
         /// <summary>
         /// Method to retrieve a spectral value keyed by it's name in the database
@@ -31,7 +31,7 @@ namespace Vts.SpectralMapping
         /// <returns></returns>
         public static double GetSpectrumValue(string name, double wavelength)
         {
-            ISpectrum spectrum = null;
+            ChromophoreSpectrum spectrum = null;
             InternalDictionary.TryGetValue(name, out spectrum);
             if (spectrum != null)
             {

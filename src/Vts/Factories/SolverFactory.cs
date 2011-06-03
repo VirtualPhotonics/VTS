@@ -53,7 +53,7 @@ namespace Vts.Factories
                 var interfaceType = typeof(TInterface);
                 var interfaceBasename = interfaceType.Name.Substring(1);
                 var classType = Type.GetType(namespaceString + @"." + enumValue + interfaceBasename, false, true);
-                if (classType != null)
+                if (!object.Equals(classType, null))
                 {
                     _container.RegisterType(
                      interfaceType,

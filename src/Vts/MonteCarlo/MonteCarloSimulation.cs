@@ -29,21 +29,31 @@ namespace Vts.MonteCarlo
         {
             // all field/property defaults should be set here
             _input = input;
+            var result = SimulationInputValidation.ValidateInput(_input);
+            if (result.IsValid == false)
+            {
+                throw new ArgumentException(result.ErrorMessage + "; " + result.Remarks);
+                // not sure this is best way to code
+            }
             numberOfPhotons = input.N;
 
             WRITE_DATABASES = input.Options.WriteDatabases; // modified ckh 4/9/11
             ABSORPTION_WEIGHTING = input.Options.AbsorptionWeightingType; // CKH add 12/14/09
-
 
             _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                 input.Options.RandomNumberGeneratorType, input.Options.Seed);
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, PhaseFunctionType.HenyeyGreenstein);
+            _tissue = TissueFactory.GetTissue(
+                input.TissueInput, 
+                input.Options.AbsorptionWeightingType, 
+                input.Options.PhaseFunctionType);
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
-            _detectorController = DetectorControllerFactory.GetStandardDetectorController(input.DetectorInputs, _tissue);
-
+            _detectorController = DetectorControllerFactory.GetStandardDetectorController(
+                input.DetectorInputs, 
+                _tissue,
+                input.Options.TallySecondMoment);
         }
 
         /// <summary>
@@ -94,12 +104,12 @@ namespace Vts.MonteCarlo
                 {
                     if (WRITE_DATABASES.Contains(DatabaseType.PhotonExitDataPoints))
                     {
-                        terminationWriter = new PhotonDatabaseWriter(_input.OutputFileName + "_photonExitDatabase");
+                        terminationWriter = new PhotonDatabaseWriter(_input.OutputName + "\\photonExitDatabase");
                     }
                     if (WRITE_DATABASES.Contains(DatabaseType.CollisionInfo))
                     {
                         collisionWriter = new CollisionInfoDatabaseWriter(
-                            _input.OutputFileName + "_collisionInfoDatabase", _tissue.Regions.Count());
+                            _input.OutputName + "\\collisionInfoDatabase", _tissue.Regions.Count());
                     }
                 }
 

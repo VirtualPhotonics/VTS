@@ -110,7 +110,7 @@ namespace Vts.MonteCarlo.PostProcessor
         private pMCDatabase pmcDatabase;
 
         public string InputFilename { get; set; }
-        public string OutputFolder { get; set; }      
+        public string OutputFolder { get; set; }
         public PostProcessorInput Input { get; set; }
 
         public bool ValidInput { get; set; }
@@ -147,8 +147,8 @@ namespace Vts.MonteCarlo.PostProcessor
             else
             {
                 Console.WriteLine("\nNo detector input file specified. Using newinfile.xml from resources.");
-                Input = FileIO.ReadFromXML<PostProcessorInput>("newinfile.xml"); 
-                
+                Input = FileIO.ReadFromXML<PostProcessorInput>("newinfile.xml");
+
             }
             // read in SimulationInput that generated database
             if (Input.DatabaseSimulationInputFilename.Length > 0)
@@ -161,7 +161,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 }
                 else
                 {
-                    Console.WriteLine("\nThe following input file could not be found: " + 
+                    Console.WriteLine("\nThe following input file could not be found: " +
                         Input.DatabaseSimulationInputFilename + ".xml");
                     return false;
                 }
@@ -189,7 +189,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     }
                     else
                     {
-                        Console.WriteLine("\nOne of the following database files could not be found: " + 
+                        Console.WriteLine("\nOne of the following database files could not be found: " +
                             photonDatabaseName + ".xml or" + collisionInfoDatabaseName + ".xml");
                         return false;
                     }
@@ -205,11 +205,11 @@ namespace Vts.MonteCarlo.PostProcessor
                     }
                     else
                     {
-                        Console.WriteLine("\nThe following database file could not be found: " + 
+                        Console.WriteLine("\nThe following database file could not be found: " +
                                 photonDatabaseName + ".xml");
                         return false;
                     }
-                }    
+                }
             }
             return true;
         }
@@ -235,6 +235,10 @@ namespace Vts.MonteCarlo.PostProcessor
             var folderPath = OutputFolder;
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
+
+            // save input file to output folder with results
+            Input.ToFile(path + "\\" + folderPath + "\\" + infileName + ".xml");
+
             foreach (var result in postProcessedOutput.ResultsDictionary.Values)
             {
                 // save all detector data to the specified folder
@@ -242,14 +246,32 @@ namespace Vts.MonteCarlo.PostProcessor
             }
 
         }
+
+        /// <summary>
+        /// Displays the help text for detailed usage of the application
+        /// </summary>
+        public void ShowHelp()
+        {
+            Console.WriteLine("Virtual Photonics MC 1.0");
+            Console.WriteLine();
+            Console.WriteLine("list of arguments:");
+            Console.WriteLine();
+            Console.WriteLine("infile\t\tthe input file.");
+            Console.WriteLine("outfile\t\tthe output file.");
+            Console.WriteLine();
+            Console.WriteLine("sample usage:");
+            Console.WriteLine();
+            Console.WriteLine("mc_post infile=myinput outfile=myoutput");
+        }
     }
 
-    
     class Program
     {
         static void Main(string[] args)
         {
             PostProcessorSetup PostProcessorSetup = new PostProcessorSetup();
+
+            bool _showHelp = false;
             
     #region Infile Generation (optional)
         //To Generate an infile, uncomment the first line of code in this file
@@ -257,45 +279,65 @@ namespace Vts.MonteCarlo.PostProcessor
             var tempInput = new PostProcessorInput(
                 new List<IDetectorInput>()
                 {
-                    new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    new ROfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
-                    new ROfXAndYDetectorInput(
-                        new DoubleRange(-200.0, 200.0, 401), // x
-                        new DoubleRange(-200.0, 200.0, 401)), // y,
-                    new ROfRhoAndOmegaDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 1000, 21)),
-                    new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    new TOfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 2))
-                    //new pMCROfRhoDetectorInput(
+                    //new RDiffuseDetectorInput(),
+                    //new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    //new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    //new ROfRhoAndAngleDetectorInput(
                     //    new DoubleRange(0.0, 10, 101),
-                    //    new List<OpticalProperties>() { 
-                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                    //            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                    //    new List<int>() { 1 },
-                    //    TallyType.pMCROfRho.ToString())
+                    //    new DoubleRange(0.0, Math.PI / 2, 2)),
+                    //new ROfRhoAndTimeDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101)),
+                    //new ROfXAndYDetectorInput(
+                    //    new DoubleRange(-200.0, 200.0, 401), // x
+                    //    new DoubleRange(-200.0, 200.0, 401)), // y,
+                    //new ROfRhoAndOmegaDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 1000, 21)),
+                    //new TDiffuseDetectorInput(),
+                    //new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    //new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    //new TOfRhoAndAngleDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, Math.PI / 2, 2))
+                    // NOTE: can run different perturbations by adding detectors
+                    new pMCROfRhoDetectorInput(
+                        new DoubleRange(0.0, 40, 21),
+                        new List<OpticalProperties>() { 
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        new List<int>() { 1 },
+                        TallyType.pMCROfRho.ToString()),
+                    new pMCROfRhoDetectorInput(
+                        new DoubleRange(0.0, 40, 21),
+                        new List<OpticalProperties>() { 
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        new List<int>() { 1 },
+                        "pMCROfRho_mus1p5"),
+                    new pMCROfRhoDetectorInput(
+                        new DoubleRange(0.0, 40, 21),
+                        new List<OpticalProperties>() { 
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 0.5, 0.8, 1.4),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        new List<int>() { 1 },
+                        "pMCROfRho_mus0p5"),
                 },
                 new List<string>()
                 {
                     "infile_photonExitDatabase",
-                    //"infile_collisionInfoDatabase"
+                    "infile_collisionInfoDatabase"
                 },
                 new List<DatabaseType>()
                 {
                     DatabaseType.PhotonExitDataPoints,
-                    //DatabaseType.CollisionInfo
+                    DatabaseType.CollisionInfo
                 },
                 "infile");
             tempInput.WriteToXML<PostProcessorInput>("newinfile.xml");
@@ -308,6 +350,10 @@ namespace Vts.MonteCarlo.PostProcessor
                         Console.WriteLine("mc_post infile=myinput outfile=myoutfile");
                         Console.WriteLine();
                     },
+                new CommandLine.Switch("help", val =>
+                    {
+                        _showHelp = true;
+                    }),
                 new CommandLine.Switch("infile", val =>
                     {
                         Console.WriteLine("input file specified as {0}", val.First());
@@ -324,18 +370,25 @@ namespace Vts.MonteCarlo.PostProcessor
                 //        PostProcessorSetup.DatabaseFile = val.First();
                 //    })
             );
-
-            PostProcessorSetup.ReadPostProcessorInputFromFile();
-
-            if (PostProcessorSetup.ValidInput)
+            //if help is passed as an agument do not run PP, just display the help for the topic
+            if (_showHelp)
             {
-                PostProcessorSetup.RunPostProcessor();
-                Console.Write("\nPostProcessor complete.");
+                PostProcessorSetup.ShowHelp();
             }
             else
             {
-                Console.Write("\nPostProcessor completed with errors. Press enter key to exit.");
-                Console.Read();
+                PostProcessorSetup.ReadPostProcessorInputFromFile();
+
+                if (PostProcessorSetup.ValidInput)
+                {
+                    PostProcessorSetup.RunPostProcessor();
+                    Console.Write("\nPostProcessor complete.");
+                }
+                else
+                {
+                    Console.Write("\nPostProcessor completed with errors. Press enter key to exit.");
+                    Console.Read();
+                }
             }
         }
 
