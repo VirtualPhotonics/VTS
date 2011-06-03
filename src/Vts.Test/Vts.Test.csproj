@@ -270,7 +270,6 @@
     <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Sources\PointSourceIsotropicTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -294,6 +293,7 @@
     <Folder Include="Modeling\Optimizers\" />
     <Folder Include="Modeling\Tools\" />
     <Folder Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\" />
+    <Folder Include="MonteCarlo\Sources\" />
     <Folder Include="MonteCarlo\TallyActions\pMCTallies\" />
   </ItemGroup>
   <ItemGroup>
