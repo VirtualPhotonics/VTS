@@ -46,6 +46,9 @@ namespace Vts.MonteCarlo
         LambertianSurfaceEmittingCubiodal,
         CustomSurfaceEmittingCuboidal,
 
+        //Cylindrical Fiber Source
+        LambertianCylindricalFiber,
+
         // Elliptical Surface Sources
         DirectionalElliptical,
         CustomElliptical,

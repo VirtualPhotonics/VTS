@@ -105,6 +105,16 @@ namespace Vts.MonteCarlo.Factories
                         csecInput.PolarAngleEmissionRange,
                         csecInput.NewDirectionOfPrincipalSourceAxis,
                         csecInput.TranslationFromOrigin);
+                
+                case SourceType.LambertianCylindricalFiber:
+                    var lsecfInput = (LambertianSurfaceEmittingCylindricalFiberSourceInput)input;
+                    return new LambertianSurfaceEmittingCylindricalFiberSource(
+                        lsecfInput.TubeRadius,
+                        lsecfInput.TubeHeightZ,
+                        lsecfInput.CurvedSurfaceEfficiency,
+                        lsecfInput.BottomSurfaceEfficiency,
+                        lsecfInput.NewDirectionOfPrincipalSourceAxis,
+                        lsecfInput.TranslationFromOrigin);
 
                 case SourceType.DirectionalElliptical:
                     var deInput = (DirectionalEllipticalSourceInput)input;
@@ -173,9 +183,7 @@ namespace Vts.MonteCarlo.Factories
                         lsetInput.TubeRadius,
                         lsetInput.TubeHeightZ,
                         lsetInput.NewDirectionOfPrincipalSourceAxis,
-                        lsetInput.TranslationFromOrigin);
-                
-
+                        lsetInput.TranslationFromOrigin);  
 
                 case SourceType.IsotropicVolumetricCuboidal:
                     var ivcInput = (IsotropicVolumetricCuboidalSourceInput)input;

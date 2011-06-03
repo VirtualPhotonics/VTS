@@ -556,6 +556,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\CustomEllipticalSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\CustomEllipticalSourceInput.cs</Link>
     </Compile>
@@ -844,6 +847,12 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\SurfaceEmittingCuboidalSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\SurfaceEmittingCuboidalSourceBase.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\CylindricalFiber\SurfaceEmittingCylindricalFiberSourceBase.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingSources\CylindricalFiber\SurfaceEmittingCylindricalFiberSourceBase.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\CustomEllipticalSource.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\CustomEllipticalSource.cs</Link>
     </Compile>
@@ -1051,9 +1060,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CylindricalSourceInputs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

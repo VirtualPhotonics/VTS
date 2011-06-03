@@ -272,6 +272,7 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CircularSourceInputs\DirectionalCircularSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\CustomSurfaceEmittingCuboidalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\CustomEllipticalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\DirectionalEllipticalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\RectangularSourceInputs\CustomRectangularSourceInput.cs" />
@@ -338,7 +339,8 @@
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\CircularSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\CustomCircularSource.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\DirectionalCircularSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Cylindrical\DiffusingFiberSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\CylindricalFiber\SurfaceEmittingCylindricalFiberSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\EllipticalSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\DirectionalEllipticalSource.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\CustomEllipticalSource.cs" />
@@ -496,9 +498,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CylindricalSourceInputs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
