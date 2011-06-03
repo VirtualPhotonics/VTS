@@ -236,8 +236,8 @@
     <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <Link>MonteCarlo\PostProcessing\PostProcessingTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\PointSourceIsotropicTests.cs">
-      <Link>MonteCarlo\Sources\PointSources\PointSourceIsotropicTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\IsotropicPointSourceTests.cs">
+      <Link>MonteCarlo\Sources\PointSources\IsotropicPointSourceTests.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
