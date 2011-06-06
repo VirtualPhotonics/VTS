@@ -189,23 +189,25 @@ namespace Vts.MonteCarlo
         /********************************************************/
         void DisplayIntro()
         {
+            var header = _input.OutputName + "(" + SimulationIndex + ")";
             string intro = "\n" +
-                SimulationIndex + ":                                                  \n" +
-                SimulationIndex + ":      Monte Carlo Simulation of Light Propagation \n" +
-                SimulationIndex + ":              in a multi-region tissue            \n" +
-                SimulationIndex + ":                                                  \n" +
-                SimulationIndex + ":         written by the Virtual Photonics Team    \n" +
-                SimulationIndex + ":              Beckman Laser Institute             \n" +
-                SimulationIndex + ":";
+                header + ":                                                  \n" +
+                header + ":      Monte Carlo Simulation of Light Propagation \n" +
+                header + ":              in a multi-region tissue            \n" +
+                header + ":                                                  \n" +
+                header + ":         written by the Virtual Photonics Team    \n" +
+                header + ":              Beckman Laser Institute             \n" +
+                header + ":";
             Console.WriteLine(intro);
         }
 
         /*****************************************************************/
         void DisplayStatus(long n, long num_phot)
         {
+            var header = _input.OutputName + "(" + SimulationIndex + ")";
             /* fraction of photons completed */
             double frac = 100 * n / num_phot;
-            Console.WriteLine(SimulationIndex + ": " + frac + " percent complete, " + DateTime.Now);
+            Console.WriteLine(header + ": " + frac + " percent complete, " + DateTime.Now);
         }
 
         // Keep this commented section for reference

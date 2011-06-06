@@ -177,7 +177,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                new CommandLine.Switch("outname", val =>
                {
                    outName = val.First();
-                   Console.WriteLine("output tag specified as {0}", outName);
+                   Console.WriteLine("output name overridden as {0}", outName);
                    //MonteCarloSetup.OutputFolder = val.First();
                }),
                new CommandLine.Switch("outpath", val =>

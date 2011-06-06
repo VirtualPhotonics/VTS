@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo
         private static ValidationResult ValidateN(long N)
         {
             return new ValidationResult(
-                N < 10,
+                N >= 10,
                 "Number of photons must be greater than 9",
                 "This is an implementation detail of the MC simulation");
         }

@@ -126,7 +126,12 @@ namespace Vts.MonteCarlo.CommandLineApplication
         /// </summary>
         public static void RunSimulations(IEnumerable<SimulationInput> inputs, string outputFolderPath)
         {
-            Parallel.ForEach(inputs, input => RunSimulation(input, outputFolderPath));
+            Parallel.ForEach(inputs, (input, state, index) =>
+            {
+                input.Options.SimulationIndex = (int)index;
+                // todo: should we do something about the seed to avoid correlation? or fix by making wall-clock seed the default?
+                RunSimulation(input, outputFolderPath);
+            });
         }
     }
 }
