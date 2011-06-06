@@ -27,14 +27,19 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             // var basename = Path.GetFileNameWithoutExtension(inputFile);
 
-            var fullFilePath = path + "\\" + inputFile;
+            var fullFilePath = Path.Combine(path, inputFile);
 
-            if (!File.Exists(fullFilePath))
+            if (File.Exists(fullFilePath))
             {
-                throw new FileNotFoundException("\nThe following input file could not be found: " + inputFile);
+                return SimulationInput.FromFile(fullFilePath);
             }
 
-            return SimulationInput.FromFile(fullFilePath);
+            if (File.Exists(fullFilePath + ".xml"))
+            {
+                return SimulationInput.FromFile(fullFilePath + ".xml");
+            }
+
+            throw new FileNotFoundException("\nThe following input file could not be found: " + inputFile);
         }
 
         public static ParameterSweep CreateParameterSweep(string[] parameterSweepString) // todo: check for null returns
@@ -52,7 +57,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
             try
             {
                 var inputParameterType = parameterSweepString[0];
-                //var inputParameterType = (InputParameterType)Enum.Parse(typeof(InputParameterType), parameterSweepString[0], true);
 
                 // batch parameter values should come in fours 
                 // eg. inputparam=mua1,-4.0,4.0,0.05 inputparam=mus1,0.5,1.5,0.1 inputparam=mus2,0.5,1.5,0.1 ...
@@ -73,24 +77,18 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
         public static IEnumerable<SimulationInput> ApplyParameterSweeps(SimulationInput input, IEnumerable<ParameterSweep> parameterSweeps)
         {
-            //IEnumerable<string> batchNames = input.OutputName.AsEnumerable();
             IEnumerable<SimulationInput> batchInputs = input.AsEnumerable();
 
             foreach (var parameterSweep in parameterSweeps)
             {
                 var sweepValues = parameterSweep.Range.AsEnumerable();
 
-                //batchNames =
-                //    (from bn in batchNames
-                //     from s in sweepValues
-                //     select (bn + "_" + String.Format("{0:f}", s))).ToArray();
-
                 // todo: make more dynamic/flexible by removing requirment for enum value, and instead rely on parsing string name and index djc 2011-06-03
                 // var inputParameterType = (InputParameterType)Enum.Parse(typeof(InputParameterType), parameterSweep.Name, true);
                 batchInputs = batchInputs.WithParameterSweep(sweepValues, parameterSweep.Name.ToLower());
             }
 
-            return batchInputs;
+            return batchInputs.ToArray();
         }
 
         public static ValidationResult ValidateSimulationInput(SimulationInput input)
@@ -102,9 +100,17 @@ namespace Vts.MonteCarlo.CommandLineApplication
         {
             var mc = new MonteCarloSimulation(input);
 
-            var resultsFolder = outputFolderPath + "\\" + input.OutputName;
-            //var p = Path.GetDirectoryName(input.OutputName);
-            // create folder for output
+            // locate root folder for output, creating it if necessary
+            var path = string.IsNullOrEmpty(outputFolderPath) 
+                ? Path.GetFullPath(Directory.GetCurrentDirectory()) 
+                : Path.GetFullPath(outputFolderPath);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            
+            // locate destination folder for output, creating it if necessary
+            var resultsFolder = Path.Combine(path, input.OutputName);
             if (!Directory.Exists(resultsFolder))
             {
                 Directory.CreateDirectory(resultsFolder);
