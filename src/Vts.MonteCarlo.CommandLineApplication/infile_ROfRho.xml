@@ -22,7 +22,7 @@
     <TallySecondMoment>true</TallySecondMoment>
     <WriteDatabases i:nil="true" xmlns:a="http://schemas.datacontract.org/2004/07/Vts" />
   </Options>
-  <OutputFolder>Output</OutputFolder>
+  <OutputFolder>infile_ROfRho_results</OutputFolder>
   <SourceInput i:type="a:CustomPointSourceInput" xmlns:a="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo.Sources">
     <a:PhiRange xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
       <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">1</Count>

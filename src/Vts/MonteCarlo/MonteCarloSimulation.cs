@@ -28,12 +28,13 @@ namespace Vts.MonteCarlo
         {
             // all field/property defaults should be set here
             _input = input;
+
             var result = SimulationInputValidation.ValidateInput(_input);
             if (result.IsValid == false)
             {
-                throw new ArgumentException(result.ErrorMessage + "; " + result.Remarks);
-                // not sure this is best way to code
+                throw new ArgumentException(result.ValidationRule + (!string.IsNullOrEmpty(result.Remarks) ? "; " + result.Remarks : ""));
             }
+
             numberOfPhotons = input.N;
 
             WRITE_DATABASES = input.Options.WriteDatabases; // modified ckh 4/9/11
@@ -65,7 +66,6 @@ namespace Vts.MonteCarlo
 
         // public properties
         private IList<DatabaseType> WRITE_DATABASES { get; set; }  // modified ckh 4/9/11
-        //private bool WRITE_ALL_HISTORIES { get; set; }  // Added by DC 2011-03-03
         private AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
         public PhaseFunctionType PHASE_FUNCTION { get; set; }
 
