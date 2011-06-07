@@ -23,11 +23,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 return ReadSimulationInputFromFile("infile.xml");
             }
 
-            var path = Path.GetDirectoryName(Path.GetFullPath(inputFile));
-
-            // var basename = Path.GetFileNameWithoutExtension(inputFile);
-
-            var fullFilePath = Path.Combine(path, inputFile);
+            //get the full path for the input file
+            var fullFilePath = Path.GetFullPath(inputFile);
 
             if (File.Exists(fullFilePath))
             {
@@ -39,16 +36,26 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 return SimulationInput.FromFile(fullFilePath + ".xml");
             }
 
-            throw new FileNotFoundException("\nThe following input file could not be found: " + inputFile);
+            Console.WriteLine("\nThe following input file could not be found: " + fullFilePath);
+            Console.WriteLine("If you have spaces in your input file path, enclose it in quotes");
+            Console.WriteLine("For relative paths omit the first slash <folder>\\<filename>");
+            return null;
         }
 
-        public static ParameterSweep CreateParameterSweep(string[] parameterSweepString) // todo: check for null returns
+        public static ParameterSweep CreateParameterSweep(string[] parameterSweepString, bool useDelta) // todo: check for null returns
         {
             if (parameterSweepString.Length != 4)
             {
                 Console.WriteLine("*** Invalid input parameter ***");
                 Console.WriteLine("\tinput parameters should have 4 values in the format:");
-                Console.WriteLine("\tinputparam=<InputParameterType>,Start,Stop,Delta");
+                if (useDelta)
+                {
+                    Console.WriteLine("\tinputparamdelta=<ParameterSweepType>,Start,Stop,Delta");
+                }
+                else
+                {
+                    Console.WriteLine("\tinputparam=<ParameterSweepType>,Start,Stop,Count");
+                }
                 Console.WriteLine("\tIgnoring this input parameter");
                 Console.WriteLine();
                 return null;
@@ -57,14 +64,27 @@ namespace Vts.MonteCarlo.CommandLineApplication
             try
             {
                 var inputParameterType = parameterSweepString[0];
+                DoubleRange sweepRange = null;
+                // batch parameter values should come in fours
+                if (useDelta)
+                {
+                    // eg. paramsweepdelta=mua1,-4.0,4.0,0.05 paramsweepdelta=mus1,0.5,1.5,0.1 paramsweepdelta=mus2,0.5,1.5,0.1 ...
+                    var start = double.Parse(parameterSweepString[1]);
+                    var stop = double.Parse(parameterSweepString[2]);
+                    var delta = double.Parse(parameterSweepString[3]);
 
-                // batch parameter values should come in fours 
-                // eg. inputparam=mua1,-4.0,4.0,0.05 inputparam=mus1,0.5,1.5,0.1 inputparam=mus2,0.5,1.5,0.1 ...
-                var start = double.Parse(parameterSweepString[1]);
-                var stop = double.Parse(parameterSweepString[2]);
-                var delta = double.Parse(parameterSweepString[3]);
+                    sweepRange = new DoubleRange(start, stop, (int)((stop - start) / delta) + 1);
+                }
+                else
+                {
+                    // batch parameter values should come in fours 
+                    // eg. paramsweep=mua1,-4.0,4.0,101 paramsweep=mus1,0.5,1.5,3 paramsweep=mus2,0.5,1.5,3 ...
+                    var start = double.Parse(parameterSweepString[1]);
+                    var stop = double.Parse(parameterSweepString[2]);
+                    var count = int.Parse(parameterSweepString[3]);
 
-                var sweepRange = new DoubleRange(start, stop, (int)((stop - start) / delta) + 1);
+                    sweepRange = new DoubleRange(start, stop, count);
+                }
 
                 return new ParameterSweep(inputParameterType, sweepRange);
             }
@@ -116,7 +136,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 Directory.CreateDirectory(resultsFolder);
             }
 
-            Output detectorResults = mc.Run();
+            Output detectorResults = mc.Run(path);
 
             input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
 

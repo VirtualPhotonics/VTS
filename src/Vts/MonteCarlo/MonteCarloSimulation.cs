@@ -5,6 +5,7 @@ using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Controllers;
+using System.IO;
 
 namespace Vts.MonteCarlo
 {
@@ -24,8 +25,12 @@ namespace Vts.MonteCarlo
         protected SimulationInput _input;
         private Random _rng;
 
+        private string _outputPath;
+
         public MonteCarloSimulation(SimulationInput input)
         {
+            _outputPath = "";
+
             // all field/property defaults should be set here
             _input = input;
 
@@ -71,6 +76,12 @@ namespace Vts.MonteCarlo
 
         public Output Results { get; private set; }
 
+        public Output Run(string outputPath)
+        {
+            _outputPath = outputPath;
+            return Run();
+        }
+
         /// <summary>
         /// Run the simulation
         /// </summary>
@@ -103,12 +114,13 @@ namespace Vts.MonteCarlo
                 {
                     if (WRITE_DATABASES.Contains(DatabaseType.PhotonExitDataPoints))
                     {
-                        terminationWriter = new PhotonDatabaseWriter(_input.OutputName + "\\photonExitDatabase");
+                        terminationWriter = new PhotonDatabaseWriter(
+                            Path.Combine(_outputPath, _input.OutputName, "photonExitDatabase"));
                     }
                     if (WRITE_DATABASES.Contains(DatabaseType.CollisionInfo))
                     {
                         collisionWriter = new CollisionInfoDatabaseWriter(
-                            _input.OutputName + "\\collisionInfoDatabase", _tissue.Regions.Count());
+                            Path.Combine(_outputPath, _input.OutputName, "collisionInfoDatabase"), _tissue.Regions.Count());
                     }
                 }
 
