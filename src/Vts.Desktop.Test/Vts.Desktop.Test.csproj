@@ -113,9 +113,6 @@
     <Compile Include="..\Vts.Test\Common\Extension Methods\ArrayExtensionsTests.cs">
       <Link>Common\Extension Methods\ArrayExtensionsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Common\Extension Methods\RNGExtensionsTests.cs">
-      <Link>Common\Extension Methods\RNGExtensionsTests.cs</Link>
-    </Compile>
     <Compile Include="..\Vts.Test\Common\Helpers\Range\DoubleRangeTests.cs">
       <Link>Common\Helpers\Range\DoubleRangeTests.cs</Link>
     </Compile>
@@ -235,6 +232,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <Link>MonteCarlo\PostProcessing\PostProcessingTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
+      <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\CustomPointSourceTests.cs">
       <Link>MonteCarlo\Sources\CustomPointSourceTests.cs</Link>

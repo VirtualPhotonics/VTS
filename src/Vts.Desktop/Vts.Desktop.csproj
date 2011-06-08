@@ -730,6 +730,12 @@
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PostProcessorInput.cs">
       <Link>MonteCarlo\PostProcessing\PostProcessorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs">
+      <Link>MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Rng\SerializableMersenneTwister.cs">
+      <Link>MonteCarlo\Rng\SerializableMersenneTwister.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\CollimatedLineSource.cs">
       <Link>MonteCarlo\Sources\CollimatedLineSource.cs</Link>
     </Compile>
