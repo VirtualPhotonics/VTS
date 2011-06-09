@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 using NUnit.Framework;
@@ -97,13 +98,16 @@ namespace Vts.Test.MonteCarlo
         public void verify_WithValue_method_modifies_d1_correctly()
         {
             // if change top layer to 99, second layer should be same thickness but start at 99
-            var originalRegions = (IList<LayerRegion>)_input.TissueInput.Regions;
+            var originalRegions = _input.TissueInput.Regions;
+
             var inputWithChange = _input.WithValue(InputParameterType.D1.ToString(), 99.0);
-            var regionsWithChange = (IList<LayerRegion>)inputWithChange.TissueInput.Regions;
-            Assert.AreEqual(regionsWithChange[1].ZRange.Start, 0.0);
-            Assert.AreEqual(regionsWithChange[1].ZRange.Stop, 99.0);
-            Assert.AreEqual(regionsWithChange[2].ZRange.Start, 99.0);
-            Assert.AreEqual(regionsWithChange[2].ZRange.Delta, originalRegions[2].ZRange.Delta);
+
+            var regionsWithChange = inputWithChange.TissueInput.Regions;
+
+            Assert.AreEqual(((LayerRegion)regionsWithChange[1]).ZRange.Start, 0.0);
+            Assert.AreEqual(((LayerRegion)regionsWithChange[1]).ZRange.Stop, 99.0);
+            Assert.AreEqual(((LayerRegion)regionsWithChange[2]).ZRange.Start, 99.0);
+            Assert.AreEqual(((LayerRegion)regionsWithChange[2]).ZRange.Delta, ((LayerRegion)originalRegions[2]).ZRange.Delta);
         }
     }
 }

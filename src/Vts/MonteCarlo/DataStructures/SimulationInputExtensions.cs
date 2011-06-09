@@ -128,25 +128,23 @@ namespace Vts.MonteCarlo
                     var multiLayerTissueInput = result.TissueInput as MultiLayerTissueInput;
                     if (multiLayerTissueInput != null && multiLayerTissueInput.Regions.Count() > regionIndex)
                     {
-                        // ckh comment out 6/8/11 unit test error:
-                        // Object reference not set to an instance of an object: regions
-                        //var regions = multiLayerTissueInput.Regions as IList<LayerRegion>;
-                        var regions = (IList<LayerRegion>)multiLayerTissueInput.Regions;
+                        var layerRegion = (LayerRegion)multiLayerTissueInput.Regions.Skip(regionIndex).First();
 
                         // keep a separate copy of the range before we modify it
-                        var previousRange = regions[regionIndex].ZRange.Clone();
+                        var previousRange = layerRegion.ZRange.Clone();
 
                         // modify the target layer thickness by specifying Stop (which internally updtes Delta as well)
-                        regions[regionIndex].ZRange.Stop = regions[regionIndex].ZRange.Start + value;
+                        layerRegion.ZRange.Stop = layerRegion.ZRange.Start + value;
 
                         // then, update the rest of the following layers with an adjusted thickness
-                        var changeInThickness = regions[regionIndex].ZRange.Delta - previousRange.Delta;
-                        for (int i = regionIndex + 1; i < regions.Count; i++)
+                        var changeInThickness = layerRegion.ZRange.Delta - previousRange.Delta;
+                        foreach (var region in multiLayerTissueInput.Regions.Skip(regionIndex+1).Select(r => (LayerRegion)r))
                         {
-                            regions[i].ZRange = new DoubleRange(
-                                regions[i].ZRange.Start + changeInThickness,
-                                regions[i].ZRange.Stop + changeInThickness,
-                                regions[i].ZRange.Count);
+
+                            region.ZRange = new DoubleRange(
+                                region.ZRange.Start + changeInThickness,
+                                region.ZRange.Stop + changeInThickness,
+                                region.ZRange.Count);
                         }
                     }
                     break;
