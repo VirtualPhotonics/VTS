@@ -538,6 +538,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs">
       <Link>MonteCarlo\DataStructures\SimulationOptions.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\CustomPointSourceInput.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\CustomPointSourceInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs</Link>
     </Compile>
@@ -745,9 +748,6 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSource.cs">
       <Link>MonteCarlo\Sources\CustomPointSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\CustomPointSourceInput.cs">
-      <Link>MonteCarlo\Sources\CustomPointSourceInput.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\IsotropicLineSource.cs">
       <Link>MonteCarlo\Sources\IsotropicLineSource.cs</Link>
     </Compile>
@@ -913,9 +913,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

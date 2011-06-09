@@ -188,6 +188,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\OutputTests.cs">
       <Link>MonteCarlo\DataStructures\OutputTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs">
+      <Link>MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputTests.cs">
       <Link>MonteCarlo\DataStructures\SimulationInputTests.cs</Link>
     </Compile>

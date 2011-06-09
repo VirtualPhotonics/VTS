@@ -319,7 +319,7 @@
     <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PostProcessorInput.cs" />
     <Compile Include="MonteCarlo\Sources\CollimatedLineSource.cs" />
-    <Compile Include="MonteCarlo\Sources\CustomPointSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\CustomPointSourceInput.cs" />
     <Compile Include="MonteCarlo\Sources\IsotropicLineSource.cs" />
     <Compile Include="MonteCarlo\Sources\LineSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\CollimatedRectangularSource.cs" />
@@ -452,9 +452,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MonteCarlo\DataStructures\SourceInputs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

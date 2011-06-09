@@ -128,7 +128,10 @@ namespace Vts.MonteCarlo
                     var multiLayerTissueInput = result.TissueInput as MultiLayerTissueInput;
                     if (multiLayerTissueInput != null && multiLayerTissueInput.Regions.Count() > regionIndex)
                     {
-                        var regions = multiLayerTissueInput.Regions as IList<LayerRegion>;
+                        // ckh comment out 6/8/11 unit test error:
+                        // Object reference not set to an instance of an object: regions
+                        //var regions = multiLayerTissueInput.Regions as IList<LayerRegion>;
+                        var regions = (IList<LayerRegion>)multiLayerTissueInput.Regions;
 
                         // keep a separate copy of the range before we modify it
                         var previousRange = regions[regionIndex].ZRange.Clone();
