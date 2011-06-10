@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System;
-using Vts.Common;
+using System.Linq;
 using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo.Factories
@@ -10,9 +10,12 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public class DetectorFactory
     {
-        // todo: collapse all into one static factory method?
+        public static IList<IDetector> GetDetectors(IEnumerable<IDetectorInput> detectorInputs, ITissue tissue, bool tallySecondMoment)
+        {
+            return detectorInputs.Select(detectorInput => GetDetector(detectorInput, tissue, tallySecondMoment)).ToList();
+        }
 
-        public static ITerminationDetector GetTerminationDetector(
+        public static IDetector GetDetector(
             IDetectorInput detectorInput,
             ITissue tissue,
             bool tallySecondMoment)
@@ -20,6 +23,7 @@ namespace Vts.MonteCarlo.Factories
             switch (detectorInput.TallyType)
             {
                 default:
+                // ITerminationDetector(s):
                 case TallyType.RDiffuse:
                     var rdinput = (RDiffuseDetectorInput)detectorInput;
                     return new RDiffuseDetector(tallySecondMoment, rdinput.Name);
@@ -53,17 +57,8 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.TOfRhoAndAngle:
                     var trainput = (TOfRhoAndAngleDetectorInput)detectorInput;
                     return new TOfRhoAndAngleDetector(trainput.Rho, trainput.Angle, tallySecondMoment, trainput.Name);
-            }
-        }
 
-        public static IHistoryDetector GetHistoryDetector(
-            IDetectorInput detectorInput,
-            ITissue tissue,
-            bool tallySecondMoment)
-        {
-            switch (detectorInput.TallyType)
-            {
-                default:
+                // IHistoryDetector(s):
                 case TallyType.FluenceOfRhoAndZ:
                     var frzinput = (FluenceOfRhoAndZDetectorInput)detectorInput;
                     return new FluenceOfRhoAndZDetector(frzinput.Rho, frzinput.Z, tissue, tallySecondMoment, frzinput.Name);

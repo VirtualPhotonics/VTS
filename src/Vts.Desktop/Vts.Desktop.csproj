@@ -463,6 +463,15 @@
     <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDetectorController.cs">
       <Link>MonteCarlo\Controllers\pMCDetectorController.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\ValidationResult.cs">
+      <Link>MonteCarlo\DataStructuresValidation\ValidationResult.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs</Link>
     </Compile>
@@ -726,6 +735,12 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PostProcessorInput.cs">
       <Link>MonteCarlo\PostProcessing\PostProcessorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs">
+      <Link>MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Rng\SerializableMersenneTwister.cs">
+      <Link>MonteCarlo\Rng\SerializableMersenneTwister.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\CollimatedLineSource.cs">
       <Link>MonteCarlo\Sources\CollimatedLineSource.cs</Link>

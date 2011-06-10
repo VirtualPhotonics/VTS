@@ -4,19 +4,22 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using Vts.IO;
+using System.Runtime.Serialization;
 
 namespace Vts.SpectralMapping
 {
+    //[KnownType(typeof(ChromophoreSpectrum))]
     public static class SpectralDatabaseLoader
     {
-        public static Dictionary<string, ISpectrum> GetDatabaseFromFile()
+        public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile()
         {
             return GetDatabaseFromFile("SpectraData1.xml");
         }
-        public static Dictionary<string, ISpectrum> GetDatabaseFromFile(string filename)
+
+        public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile(string filename)
          {
              // Keyed by name, so that it's extensible by other users (other users can't create new enums...)
-            Dictionary<string, ISpectrum> chromDictionary = new Dictionary<string, ISpectrum>();
+             Dictionary<string, ChromophoreSpectrum> chromDictionary = new Dictionary<string, ChromophoreSpectrum>();
             Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/" + filename, "Vts");
             if (stream == null)
                 throw new NullReferenceException("Can not open database file");
@@ -65,7 +68,77 @@ namespace Vts.SpectralMapping
             
             return chromDictionary;
         }
-        
+
+        public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile(Stream fileStream)
+        {
+            //create a new dictionary
+            Dictionary<string, ChromophoreSpectrum> chromDictionary = new Dictionary<string, ChromophoreSpectrum>();
+            string name = "";
+            string coeffString = "";
+            string dataUnits = "";
+
+            // create a list of wavelengths
+            List<double> wavelengths = new List<double>();
+            // create a list of values
+            List<double> values = new List<double>();
+
+            AbsorptionCoefficientUnits muaUnits;
+            ChromophoreCoefficientType coeffType;
+
+            if (fileStream == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                using (StreamReader readFile = new StreamReader(fileStream))
+                {
+                    string line;
+                    string[] row;
+
+                    //read the first line to get the name, coeffitient and data units
+                    line = readFile.ReadLine();
+                    row = line.Split(',');
+                    name = row[0];
+                    coeffString = row[1];
+                    dataUnits = row[2];
+
+                    muaUnits = (AbsorptionCoefficientUnits)Enum.Parse(typeof(AbsorptionCoefficientUnits), dataUnits, true);
+                    coeffType = (ChromophoreCoefficientType)Enum.Parse(typeof(ChromophoreCoefficientType), coeffString, true);
+
+                    //need to multiply MolarAbsorptionCoefficients by ln(10)
+                    double k = 1.0;
+                    if (coeffType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
+                    {
+                        k = Math.Log(10);
+
+                    }
+
+                    while ((line = readFile.ReadLine()) != null)
+                    {
+                        if (!line.StartsWith("//"))
+                        {
+                            row = line.Split(',');
+                            double wlEntry = Convert.ToDouble(row[0]);
+                            double valEntry = Convert.ToDouble(row[1]);
+                            wavelengths.Add((double)wlEntry);
+                            values.Add((double)valEntry * k);
+                        }
+                    }
+
+                    ChromophoreSpectrum c = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnits);
+                    chromDictionary.Add(name, c);
+                }
+            }
+            catch (Exception e)
+            {
+                //catch the error
+            }
+
+            return chromDictionary;
+        }
+
         //public static Dictionary<ChromType, Chromophore> ChromDataDC = new Dictionary<ChromType, Chromophore>();
 
 

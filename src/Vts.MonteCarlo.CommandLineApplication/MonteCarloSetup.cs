@@ -1,0 +1,163 @@
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Vts.Common;
+using Vts.Extensions;
+using Vts.MonteCarlo.IO;
+using Vts.MonteCarlo.DataStructuresValidation;
+
+namespace Vts.MonteCarlo.CommandLineApplication
+{
+    public class MonteCarloSetup
+    {
+        /// <summary>
+        /// method to read the simulation input from a specified or default file
+        /// </summary>
+        public static SimulationInput ReadSimulationInputFromFile(string inputFile)
+        {
+            if (string.IsNullOrEmpty(inputFile))
+            {
+                Console.WriteLine("\nNo input file specified. Using infile.xml from root mc.exe folder... ");
+                return ReadSimulationInputFromFile("infile.xml");
+            }
+
+            //get the full path for the input file
+            var fullFilePath = Path.GetFullPath(inputFile);
+
+            if (File.Exists(fullFilePath))
+            {
+                return SimulationInput.FromFile(fullFilePath);
+            }
+
+            if (File.Exists(fullFilePath + ".xml"))
+            {
+                return SimulationInput.FromFile(fullFilePath + ".xml");
+            }
+
+            Console.WriteLine("\nThe following input file could not be found: " + fullFilePath);
+            Console.WriteLine("If you have spaces in your input file path, enclose it in quotes");
+            Console.WriteLine("For relative paths omit the first slash <folder>\\<filename>");
+            return null;
+        }
+
+        public static ParameterSweep CreateParameterSweep(string[] parameterSweepString, bool useDelta) // todo: check for null returns
+        {
+            if (parameterSweepString.Length != 4)
+            {
+                Console.WriteLine("*** Invalid input parameter ***");
+                Console.WriteLine("\tinput parameters should have 4 values in the format:");
+                if (useDelta)
+                {
+                    Console.WriteLine("\tinputparamdelta=<ParameterSweepType>,Start,Stop,Delta");
+                }
+                else
+                {
+                    Console.WriteLine("\tinputparam=<ParameterSweepType>,Start,Stop,Count");
+                }
+                Console.WriteLine("\tIgnoring this input parameter");
+                Console.WriteLine();
+                return null;
+            }
+
+            try
+            {
+                var inputParameterType = parameterSweepString[0];
+                DoubleRange sweepRange = null;
+                // batch parameter values should come in fours
+                if (useDelta)
+                {
+                    // eg. paramsweepdelta=mua1,-4.0,4.0,0.05 paramsweepdelta=mus1,0.5,1.5,0.1 paramsweepdelta=mus2,0.5,1.5,0.1 ...
+                    var start = double.Parse(parameterSweepString[1]);
+                    var stop = double.Parse(parameterSweepString[2]);
+                    var delta = double.Parse(parameterSweepString[3]);
+
+                    sweepRange = new DoubleRange(start, stop, (int)((stop - start) / delta) + 1);
+                }
+                else
+                {
+                    // batch parameter values should come in fours 
+                    // eg. paramsweep=mua1,-4.0,4.0,101 paramsweep=mus1,0.5,1.5,3 paramsweep=mus2,0.5,1.5,3 ...
+                    var start = double.Parse(parameterSweepString[1]);
+                    var stop = double.Parse(parameterSweepString[2]);
+                    var count = int.Parse(parameterSweepString[3]);
+
+                    sweepRange = new DoubleRange(start, stop, count);
+                }
+
+                return new ParameterSweep(inputParameterType, sweepRange);
+            }
+            catch
+            {
+                Console.WriteLine("Could not parse the input arguments.\n\tIgnoring the following input parameter sweep: " + parameterSweepString);
+                return null;
+            }
+        }
+
+        public static IEnumerable<SimulationInput> ApplyParameterSweeps(SimulationInput input, IEnumerable<ParameterSweep> parameterSweeps)
+        {
+            IEnumerable<SimulationInput> batchInputs = input.AsEnumerable();
+
+            foreach (var parameterSweep in parameterSweeps)
+            {
+                var sweepValues = parameterSweep.Range.AsEnumerable();
+
+                // todo: make more dynamic/flexible by removing requirment for enum value, and instead rely on parsing string name and index djc 2011-06-03
+                // var inputParameterType = (InputParameterType)Enum.Parse(typeof(InputParameterType), parameterSweep.Name, true);
+                batchInputs = batchInputs.WithParameterSweep(sweepValues, parameterSweep.Name.ToLower());
+            }
+
+            return batchInputs.ToArray();
+        }
+
+        public static ValidationResult ValidateSimulationInput(SimulationInput input)
+        {
+            return SimulationInputValidation.ValidateInput(input);
+        }
+
+        public static void RunSimulation(SimulationInput input, string outputFolderPath)
+        {
+            var mc = new MonteCarloSimulation(input);
+
+            // locate root folder for output, creating it if necessary
+            var path = string.IsNullOrEmpty(outputFolderPath) 
+                ? Path.GetFullPath(Directory.GetCurrentDirectory()) 
+                : Path.GetFullPath(outputFolderPath);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            
+            // locate destination folder for output, creating it if necessary
+            var resultsFolder = Path.Combine(path, input.OutputName);
+            if (!Directory.Exists(resultsFolder))
+            {
+                Directory.CreateDirectory(resultsFolder);
+            }
+
+            Output detectorResults = mc.Run(path);
+
+            input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
+
+            foreach (var result in detectorResults.ResultsDictionary.Values)
+            {
+                // save all detector data to the specified folder
+                DetectorIO.WriteDetectorToFile(result, resultsFolder);
+            }
+        }
+
+        /// <summary>
+        /// Runs multiple Monte Carlo simulations in parallel using all available CPU cores
+        /// </summary>
+        public static void RunSimulations(IEnumerable<SimulationInput> inputs, string outputFolderPath)
+        {
+            Parallel.ForEach(inputs, (input, state, index) =>
+            {
+                input.Options.SimulationIndex = (int)index;
+                // todo: should we do something about the seed to avoid correlation? or fix by making wall-clock seed the default?
+                RunSimulation(input, outputFolderPath);
+            });
+        }
+    }
+}

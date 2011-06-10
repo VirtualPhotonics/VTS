@@ -1,6 +1,7 @@
-//#define GENERATE_INFILE
+//#define PROCESS_ATTACH_DEBUG
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -9,13 +10,9 @@ using System.Threading.Tasks;
 using Vts.Common;
 using Vts.Extensions;
 using System.IO;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
-
-// ParallelFx June '08 CTP
-//using System.Threading.Collections;
 
 namespace Vts.MonteCarlo.CommandLineApplication
 {
@@ -81,199 +78,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
     #endregion
 
-    class MonteCarloSetup
-    {
-        private string path = "";
-        private string basename = "infile";
-
-        public bool ValidSimulation { get; set; }
-
-        public string InputFile { get; set; }
-        public string OutputFolder { get; set; }
-
-        public bool RunUnmanagedCode { get; set; }
-        public IList<DatabaseType> WriteDatabases { get; set; }
-
-        public IEnumerable<SimulationInput> BatchQuery { get; set; }
-        public string[] BatchNameQuery { get; set; }
-        public SimulationInput Input { get; set; }
-
-        public MonteCarloSetup()
-        {
-            ValidSimulation = true;
-            InputFile = "";
-            OutputFolder = "results";
-            RunUnmanagedCode = false;
-            WriteDatabases = null;
-            BatchQuery = null;
-            BatchNameQuery = null;
-            Input = null;
-        }
-
-        /// <summary>
-        /// method to read the simulation input from a specified or default file
-        /// </summary>
-        public bool ReadSimulationInputFromFile()
-        {
-            if (InputFile.Length > 0)
-            {
-                path = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(InputFile)) + "\\";
-                basename = System.IO.Path.GetFileNameWithoutExtension(InputFile);
-                InputFile = path + basename + ".xml";
-
-                if (System.IO.File.Exists(InputFile))
-                {
-                    Input = SimulationInput.FromFile(InputFile);
-                }
-                else
-                {
-                    Console.WriteLine("\nThe following input file could not be found: " + basename + ".xml");
-                    return false;
-                }
-            }
-            else
-            {
-                Console.WriteLine("\nNo input file specified. Using infile.xml from resources... ");
-                Input = SimulationInput.FromFile("infile.xml");
-            }
-            BatchQuery = Input.AsEnumerable();
-            BatchNameQuery = new[] { "" };
-            return true;
-        }
-
-        /// <summary>
-        /// method for seting the range values for a specific InputParameterType
-        /// </summary>
-        /// <param name="val">IEnumerable of string values representing the InputParameterType and the range</param>
-        public void SetRangeValues(IEnumerable<string> val)
-        {
-            IEnumerable<double> sweep = null;
-            InputParameterType inputParameterType;
-
-            if (val.Count() == 4)
-            {
-                try
-                {
-                    inputParameterType = (InputParameterType)Enum.Parse(typeof(InputParameterType), val.ElementAt(0), true);
-
-                    // batch parameter values should come in fours 
-                    // eg. inputparam=mua1,-4.0,4.0,0.05 inputparam=mus1,0.5,1.5,0.1 inputparam=mus2,0.5,1.5,0.1 ...
-                    var start = double.Parse(val.ElementAt(1));
-                    var stop = double.Parse(val.ElementAt(2));
-                    var delta = double.Parse(val.ElementAt(3));
-
-                    sweep = new DoubleRange(start, stop, (int)((stop - start) / delta) + 1).AsEnumerable();
-
-                    if (BatchQuery == null)
-                    {
-                        ValidSimulation = ReadSimulationInputFromFile();
-                    }
-
-                    if (ValidSimulation)
-                    {
-                        string inputParameterString = inputParameterType.ToString().ToLower();
-
-                        if (inputParameterString.Length > 0)
-                        {
-                            BatchQuery = BatchQuery.WithParameterSweep(sweep, inputParameterType);
-                            BatchNameQuery =
-                                            (from b in BatchNameQuery
-                                             from s in sweep
-                                             select (b + inputParameterString + "_" + String.Format("{0:f}", s) + "_")).ToArray();
-                        }
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine("Could not parse the input arguments.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Input parameters should have 4 values in the format inputparam=<InputParameterType>,Start,Stop,Delta.");
-            }
-        }
-
-        /// <summary>
-        /// Runs the Monte Carlo simulation
-        /// </summary>
-        public void RunSimulation()
-        {
-            SimulationInput[] inputBatch = BatchQuery.ToArray();
-            string[] outNames = BatchNameQuery
-                .Select(s => path + basename + "_" + OutputFolder + "\\" + basename + "_" + OutputFolder + s)
-                .ToArray();
-
-            for (int i = 0; i < inputBatch.Length; i++)
-            {
-                inputBatch[i].OutputFileName = outNames[i];
-            }
-
-            Parallel.ForEach(inputBatch, input =>
-            {
-                var mc = new MonteCarloSimulation(input);
-
-                var p = Path.GetDirectoryName(input.OutputFileName);
-
-                if (!Directory.Exists(p))
-                {
-                    Directory.CreateDirectory(p);
-                }
-
-                Output detectorResults = mc.Run();
-
-                input.ToFile(p + "\\" + basename + ".xml");
-
-                foreach (var result in detectorResults.ResultsDictionary.Values)
-                {
-                    // save all detector data to the specified folder
-                    DetectorIO.WriteDetectorToFile(result, input.OutputFileName);
-                }
-            });
-        }
-
-        /// <summary>
-        /// Displays the help text for detailed usage of the application
-        /// </summary>
-        public void ShowHelp()
-        {
-            Console.WriteLine("Virtual Photonics MC 1.0");
-            Console.WriteLine();
-            Console.WriteLine("list of arguments:");
-            Console.WriteLine();
-            Console.WriteLine("infile\t\tthe input file.");
-            Console.WriteLine("outfile\t\tthe output file.");
-            Console.WriteLine("inputparam\tthe input parameter name and value(s).");
-            Console.WriteLine();
-            Console.WriteLine("list of input parameters (inputparam):");
-            Console.WriteLine();
-            Console.WriteLine("mua1\t\tdescription of mua1 and possible values");
-            Console.WriteLine("mus1\t\tdescription of mus1 and possible values");
-            Console.WriteLine();
-            Console.WriteLine("sample usage:");
-            Console.WriteLine();
-            Console.WriteLine("mc infile=myinput outfile=myoutput inputparam=mua1,0.01,0.09,0.01 inputparam=mus1,10,20,1");
-        }
-
-        /// <summary>
-        /// Displays the help text for the topic passed as a parameter
-        /// </summary>
-        /// <param name="helpTopic">Help topic</param>
-        public void ShowHelp(string helpTopic)
-        {
-
-        }
-    }
-
     class Program
     {
         static void Main(string[] args)
         {
-            MonteCarloSetup MonteCarloSetup = new MonteCarloSetup();
-
-            bool _showHelp = false;
-
-
             #region Infile Generation (optional)
             //To Generate an infile when running a simulation, uncomment the first line of code in this file
 #if GENERATE_INFILE
@@ -281,7 +89,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 100,  // FIX 1e6 takes about 70 minutes my laptop
                 "Output",
                 new SimulationOptions(
-                     0,
+                     0, // random number generator seed
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Discrete,
                      PhaseFunctionType.HenyeyGreenstein,
@@ -303,7 +111,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
@@ -311,98 +119,297 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 ),
                 new List<IDetectorInput>()
                 {
-                    new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    //new RDiffuseDetectorInput(),
+                    //new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    new ROfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
-                    new ROfXAndYDetectorInput(
-                        new DoubleRange(-200.0, 200.0, 401), // x
-                        new DoubleRange(-200.0, 200.0, 401)), // y,
-                    new ROfRhoAndOmegaDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 1000, 21)),
-                    new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    new TOfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 2))
+                    //new ROfRhoAndAngleDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, Math.PI / 2, 2)),
+                    //new ROfRhoAndTimeDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101)),
+                    //new ROfXAndYDetectorInput(
+                    //    new DoubleRange(-200.0, 200.0, 401), // x
+                    //    new DoubleRange(-200.0, 200.0, 401)), // y,
+                    //new ROfRhoAndOmegaDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 1000, 21)),
+                    //new TDiffuseDetectorInput(),
+                    //new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    //new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    //new TOfRhoAndAngleDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, Math.PI / 2, 2))
                 });
             tempInput.ToFile("infile.xml");
 #endif
             #endregion
+#if PROCESS_ATTACH_DEBUG
+            Console.Read();
+#endif
+            string inFile = "infile.xml";
+            string outName = "";
+            string outPath = "";
+            bool displayHelp = false;
+            IList<ParameterSweep> paramSweep = new List<ParameterSweep>();
 
             args.Process(() =>
                {
-                   Console.WriteLine("Usages are:");
-                   Console.WriteLine("mc infile=myinput outfile=myoutput");
-                   Console.WriteLine("inputparam=mua1,0.01,0.09,0.01 inputparam=mus1,10,20,1");
-                   Console.WriteLine();
-               },
+                Console.WriteLine("Viirtual Photonics MC 1.0");
+                Console.WriteLine();
+                Console.WriteLine("For more information type mc help");
+                Console.WriteLine("For help on a specific topic type mc help=<topicname>");
+                Console.WriteLine();
+            },
                new CommandLine.Switch("help", val =>
                {
-                   _showHelp = true;
+                   var helpTopic = val.First();
+                   if (helpTopic != "")
+                       ShowHelp(helpTopic);
+                   else
+                       ShowHelp();
+                   displayHelp = true;
+                   return;
+               }),
+               new CommandLine.Switch("geninfile", val =>
+               {
+                   GenerateDefaultInputFile();
+                   return;
                }),
                new CommandLine.Switch("infile", val =>
                {
-                   Console.WriteLine("input file specified as {0}", val.First());
-                   MonteCarloSetup.InputFile = val.First();
+                   inFile = val.First();
+                   Console.WriteLine("input file specified as {0}", inFile);
+                   // MonteCarloSetup.InputFile = val.First();
                }),
-               new CommandLine.Switch("outfile", val =>
+               new CommandLine.Switch("outname", val =>
                {
-                   Console.WriteLine("output file specified as {0}", val.First());
-                   MonteCarloSetup.OutputFolder = val.First();
+                   outName = val.First();
+                   Console.WriteLine("output name overridden as {0}", outName);
+                   //MonteCarloSetup.OutputFolder = val.First();
                }),
-               new CommandLine.Switch("/unmanaged", "/u", val =>
+               new CommandLine.Switch("outpath", val =>
                {
-                   Console.WriteLine("Run unmanaged code");
-                   MonteCarloSetup.RunUnmanagedCode = true;
+                   outPath = val.First();
+                   Console.WriteLine("output path specified as {0}", outPath);
+                   //MonteCarloSetup.OutputFolder = val.First();
                }),
-               // ckh comment out until decide whether writing the database should be
-               // added.
-               //new CommandLine.Switch("/database", "/d", val =>
-               //{
-               //    Console.WriteLine("Database type");
-               //    MonteCarloSetup.WriteHistories = val.GetType;
-               //}),
-               new CommandLine.Switch("inputparam", val =>
+               new CommandLine.Switch("paramsweep", val =>
                {
-                   MonteCarloSetup.SetRangeValues(val);
+                   var sweepString = val.ToArray();
+                   var sweep = MonteCarloSetup.CreateParameterSweep(sweepString, false);
+                   paramSweep.Add(sweep);
+                   Console.WriteLine("parameter sweep specified as {0},{1},{2},{3}", sweepString);
+               }),
+               new CommandLine.Switch("paramsweepdelta", val =>
+               {
+                   var sweepString = val.ToArray();
+                   var sweep = MonteCarloSetup.CreateParameterSweep(sweepString, true);
+                   paramSweep.Add(sweep);
+                   Console.WriteLine("parameter sweep specified as {0},{1},{2},{3}", sweepString);
                }));
 
-            //if help is passed as an agument do not run the Monte Carlo, just display the help for the topic
-            if (_showHelp)
+            if (!displayHelp)
             {
-                MonteCarloSetup.ShowHelp();
-            }
-            else
-            {
-                if (MonteCarloSetup.BatchQuery == null && MonteCarloSetup.ValidSimulation)
-                {
-                    MonteCarloSetup.ValidSimulation = MonteCarloSetup.ReadSimulationInputFromFile();
-                }
+                var input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
 
-                if (MonteCarloSetup.ValidSimulation)
-                {
-                    MonteCarloSetup.RunSimulation();
-                    Console.Write("\nSimulation(s) complete.");
-                }
-                else
+                var validationResult = MonteCarloSetup.ValidateSimulationInput(input);
+                if (!validationResult.IsValid)
                 {
                     Console.Write("\nSimulation(s) completed with errors. Press enter key to exit.");
                     Console.Read();
+                    return;
+                }
+
+                // override the output name with the user-specified name
+                if (!string.IsNullOrEmpty(outName))
+                {
+                    input.OutputName = outName;
+                }
+                if (paramSweep.Count() > 0)
+                {
+                    //var sweeps = paramSweep.Select(sweep => MonteCarloSetup.CreateParameterSweep(sweep));
+                    var inputs = MonteCarloSetup.ApplyParameterSweeps(input, paramSweep);
+
+                    MonteCarloSetup.RunSimulations(inputs, outPath);
+                    Console.WriteLine("\nSimulations complete.");
+                }
+                else
+                {
+                    MonteCarloSetup.RunSimulation(input, outPath);
+                    Console.WriteLine("\nSimulation complete.");
                 }
             }
+            return;
         }
 
-        private static SimulationInput LoadDefaultInputFile()
+        private static void GenerateDefaultInputFile()
         {
-            return SimulationInput.FromFileInResources("infile.xml", "mc");
+            var tempInput = new SimulationInput(
+                100,  // FIX 1e6 takes about 70 minutes my laptop
+                "Output",
+                new SimulationOptions(
+                     0, // random number generator seed
+                     RandomNumberGeneratorType.MersenneTwister,
+                     AbsorptionWeightingType.Discrete,
+                     PhaseFunctionType.HenyeyGreenstein,
+                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
+                //null,
+                     true, // tally Second Moment
+                     0),
+                new CustomPointSourceInput(
+                    new Position(0, 0, 0),
+                    new Direction(0, 0, 1),
+                    new DoubleRange(0.0, 0, 1),
+                    new DoubleRange(0.0, 0, 1)),
+                new MultiLayerTissueInput(
+                    new LayerRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    //new RDiffuseDetectorInput(),
+                    //new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    //new ROfRhoAndAngleDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, Math.PI / 2, 2)),
+                    //new ROfRhoAndTimeDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101)),
+                    //new ROfXAndYDetectorInput(
+                    //    new DoubleRange(-200.0, 200.0, 401), // x
+                    //    new DoubleRange(-200.0, 200.0, 401)), // y,
+                    //new ROfRhoAndOmegaDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 1000, 21)),
+                    //new TDiffuseDetectorInput(),
+                    //new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    //new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    //new TOfRhoAndAngleDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, Math.PI / 2, 2))
+                });
+            tempInput.ToFile("infile.xml");
+        }
+
+        //private static SimulationInput LoadDefaultInputFile()
+        //{
+        //    return SimulationInput.FromFileInResources("infile.xml", "mc");
+        //}
+
+        /// <summary>
+        /// Displays the help text for detailed usage of the application
+        /// </summary>
+        private static void ShowHelp()
+        {
+            Console.WriteLine("Virtual Photonics MC 1.0");
+            Console.WriteLine();
+            Console.WriteLine("For more detailed help type mc help=<topicname>");
+            Console.WriteLine();
+            Console.WriteLine("list of arguments:");
+            Console.WriteLine();
+            Console.WriteLine("infile\t\tthe input file, accepts relative and absolute paths");
+            Console.WriteLine("outpath\t\tthe output path, accepts relative and absolute paths");
+            Console.WriteLine("outname\t\toutput name, this value is appended for a parameter sweep");
+            Console.WriteLine("paramsweep\ttakes the sweep parameter name and values in the format:");
+            Console.WriteLine("\t\tparamsweep=<SweepParameterType>,Start,Stop,Count");
+            Console.WriteLine("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
+            Console.WriteLine("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
+            Console.WriteLine();
+            Console.WriteLine("list of sweep parameters (paramsweep):");
+            Console.WriteLine();
+            Console.WriteLine("mua1\t\tabsorption coefficient for tissue layer 1");
+            Console.WriteLine("mus1\t\tscattering coefficient for tissue layer 1");
+            Console.WriteLine("n1\t\trefractive index for tissue layer 1");
+            Console.WriteLine("g1\t\tanisotropy for tissue layer 1");
+            Console.WriteLine();
+            Console.WriteLine("mua2\t\tabsorption coefficient for tissue layer 2");
+            Console.WriteLine("mus2\t\tscattering coefficient for tissue layer 2");
+            Console.WriteLine("n2\t\trefractive index for tissue layer 2");
+            Console.WriteLine("g2\t\tanisotropy for tissue layer 2");
+            Console.WriteLine();
+            Console.WriteLine("muai\t\tabsorption coefficient for tissue layer i");
+            Console.WriteLine("musi\t\tscattering coefficient for tissue layer i");
+            Console.WriteLine("ni\t\trefractive index for tissue layer i");
+            Console.WriteLine("gi\t\tanisotropy for tissue layer i");
+            Console.WriteLine();
+            Console.WriteLine("sample usage:");
+            Console.WriteLine();
+            Console.WriteLine("mc infile=myinput outname=myoutput paramsweep=mua1,0.01,0.04,4 paramsweep=mus1,10,20,2");
+        }
+
+        /// <summary>
+        /// Displays the help text for the topic passed as a parameter
+        /// </summary>
+        /// <param name="helpTopic">Help topic</param>
+        private static void ShowHelp(string helpTopic)
+        {
+            switch (helpTopic)
+            {
+                case "infile":
+                    Console.WriteLine();
+                    Console.WriteLine("INFILE");
+                    Console.WriteLine("This is the name of the input file, it can be a relative or absolute path.");
+                    Console.WriteLine("If the path name has any spaces enclose it in double quotes.");
+                    Console.WriteLine("For relative paths, omit the leading slash.");
+                    Console.WriteLine("EXAMPLES:");
+                    Console.WriteLine("\tinfile=C:\\MonteCarlo\\InputFiles\\myinfile.xml");
+                    Console.WriteLine("\tinfile=\"C:\\Monte Carlo\\InputFiles\\myinfile.xml\"");
+                    Console.WriteLine("\tinfile=InputFiles\\myinfile.xml");
+                    Console.WriteLine("\tinfile=myinfile.xml");
+                    break;
+                case "outpath":
+                    Console.WriteLine();
+                    Console.WriteLine("OUTPATH");
+                    Console.WriteLine("This is the name of the output path, it can be a relative or absolute path.");
+                    Console.WriteLine("If the path name has any spaces enclose it in double quotes.");
+                    Console.WriteLine("For relative paths, omit the leading slash.");
+                    Console.WriteLine("EXAMPLES:");
+                    Console.WriteLine("\tinfile=C:\\MonteCarlo\\OutputFiles");
+                    Console.WriteLine("\tinfile=OutputFiles");
+                    break;
+                case "outname":
+                    Console.WriteLine();
+                    Console.WriteLine("OUTNAME");
+                    Console.WriteLine("The outname is appended to the folder names if there is a parameter sweep.");
+                    Console.WriteLine("EXAMPLE:");
+                    Console.WriteLine("\toutname=mcResults");
+                    break;
+                case "paramsweep":
+                    Console.WriteLine();
+                    Console.WriteLine("PARAMSWEEP");
+                    Console.WriteLine("Defines the parameter sweep and its values.");
+                    Console.WriteLine("FORMAT:");
+                    Console.WriteLine("\tparamsweep=<SweepParameterType>,Start,Stop,Count");
+                    Console.WriteLine("EXAMPLES:");
+                    Console.WriteLine("\tparamsweep=mua1,0.01,0.04,4");
+                    Console.WriteLine("\tparamsweep=mus1,10,20,2");
+                    break;
+                case "paramsweepdelta":
+                    Console.WriteLine();
+                    Console.WriteLine("PARAMSWEEPDELTA");
+                    Console.WriteLine("Defines the parameter sweep and its values.");
+                    Console.WriteLine("FORMAT:");
+                    Console.WriteLine("\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
+                    Console.WriteLine("EXAMPLES:");
+                    Console.WriteLine("\tparamsweep=mua1,0.01,0.04,0.01");
+                    Console.WriteLine("\tparamsweep=mus1,10,20,5");
+                    break;
+                default:
+                    ShowHelp();
+                    break;
+            }
         }
     }
 }

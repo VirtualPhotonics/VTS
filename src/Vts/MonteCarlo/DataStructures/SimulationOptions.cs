@@ -24,6 +24,10 @@ namespace Vts.MonteCarlo
             AbsorptionWeightingType = absWeightingType;
             PhaseFunctionType = phaseFunctionType;
             Seed = seed;
+            if (Seed == -1)
+            {
+                Seed = GetRandomSeed();
+            }
             SimulationIndex = simulationIndex;
             WriteDatabases = writeDatabases;
             TallySecondMoment = tallySecondMoment;

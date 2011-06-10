@@ -41,7 +41,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]  
         public void validate_pMC_DAW_ROfRhoAndTime_zero_perturbation_of_top_layer()
         {
-            var database = pMCDatabase.FromFile("pMC2layer_photonExitDatabase", "pMC2layer_collisionInfoDatabase");
+            var database = pMCDatabase.FromFile("photonExitDatabase", "collisionInfoDatabase");
             var postProcessedOutput = 
                 PhotonTerminationDatabasePostProcessor.GenerateOutput(   
                     new List<IpMCDetectorInput>()
@@ -74,7 +74,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Double _layerThickness = 1.0;
             _referenceInput = new SimulationInput(
                 100,
-                "pMC2layer",
+                "", // can't give folder name when writing to isolated storage
                 new SimulationOptions(
                     0,
                     RandomNumberGeneratorType.MersenneTwister,

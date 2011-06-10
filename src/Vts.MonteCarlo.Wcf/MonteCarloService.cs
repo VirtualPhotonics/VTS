@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo.Wcf
                 foreach (var result in detectorResults.ResultsDictionary.Values)
                 {
                     // save all detector data to the specified folder
-                    DetectorIO.WriteDetectorToFile(result, inputs[i].OutputFileName);
+                    DetectorIO.WriteDetectorToFile(result, inputs[i].OutputName);
                 }
 
                 success[i] = true;

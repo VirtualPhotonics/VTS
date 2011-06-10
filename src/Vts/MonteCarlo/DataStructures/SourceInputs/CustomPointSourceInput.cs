@@ -1,6 +1,6 @@
 using Vts.Common;
 
-namespace Vts.MonteCarlo.Sources
+namespace Vts.MonteCarlo
 {   
     /// <summary>
     /// Implements ISourceInput.  Defines input data for PointSource implementation

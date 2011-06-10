@@ -1,4 +1,6 @@
 ﻿using System;
+using Vts.IO;
+using System.Runtime.Serialization;
 
 namespace Vts.Extensions
 {
@@ -20,5 +22,6 @@ namespace Vts.Extensions
 
             return rng.NextDouble() * span + minValue;
         }
+
     }
 }
