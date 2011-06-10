@@ -35,7 +35,7 @@ namespace Vts.MonteCarlo.Sources
                 bParameter,
                 cParameter,
                 sourceProfile,
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone()) { }
 
         public SourceType SourceType { get; set; }

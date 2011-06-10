@@ -44,9 +44,9 @@ namespace Vts.MonteCarlo.Sources
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
             _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();
 
-            newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis ?? SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone();
+            newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis ?? SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
             translationFromOrigin = translationFromOrigin ?? SourceDefaults.DefaultPosition.Clone();
-            beamRotationFromInwardNormal = beamRotationFromInwardNormal ?? SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone().Clone();
+            beamRotationFromInwardNormal = beamRotationFromInwardNormal ?? SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
         }
 
         //CustomLineSource

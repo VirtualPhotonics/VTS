@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin)
         {
             _rotationAndTranslationFlags = new SourceFlags(
-                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                  translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
                  false);
             
@@ -54,8 +54,8 @@ namespace Vts.MonteCarlo.Sources
                 {
                     //sample angular distribution
                     finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
-                        SourceDefaults.DefaultHalfPolarAngleRange.Clone().Clone(),
-                        SourceDefaults.DefaultAzimuthalAngleRange.Clone().Clone(),
+                        SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
+                        SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                         Rng);
 
                     //Translate the photon to _tubeRadius length below the origin. Ring lies on yz plane.
@@ -85,8 +85,8 @@ namespace Vts.MonteCarlo.Sources
                         Rng);
 
                     finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
-                        SourceDefaults.DefaultHalfPolarAngleRange.Clone().Clone(),
-                        SourceDefaults.DefaultAzimuthalAngleRange.Clone().Clone(),
+                        SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
+                        SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                         Rng);
                 }
             }
@@ -99,8 +99,8 @@ namespace Vts.MonteCarlo.Sources
                         Rng);
 
                 finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
-                        SourceDefaults.DefaultFullPolarAngleRange.Clone().Clone(),
-                        SourceDefaults.DefaultAzimuthalAngleRange.Clone().Clone(),
+                        SourceDefaults.DefaultFullPolarAngleRange.Clone(),
+                        SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                         Rng);
 
                 //Rotate 90degrees around y axis

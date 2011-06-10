@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin)
         {
             _rotationAndTranslationFlags = new SourceFlags(
-                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
                 false);
 

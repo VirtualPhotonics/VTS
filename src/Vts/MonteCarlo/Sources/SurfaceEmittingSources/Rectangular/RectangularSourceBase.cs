@@ -26,9 +26,9 @@ namespace Vts.MonteCarlo.Sources
             PolarAzimuthalAngles beamRotationFromInwardNormal)
         {
             _rotationAndTranslationFlags = new SourceFlags(
-                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                  translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
-                 beamRotationFromInwardNormal != SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone().Clone());
+                 beamRotationFromInwardNormal != SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone());
             
             _rectLengthX = rectLengthX;
             _rectWidthY = rectWidthY;

@@ -18,9 +18,9 @@ namespace Vts.MonteCarlo.Sources
         public IsotropicPointSource(
             Position location = null)
             : base(
-                SourceDefaults.DefaultFullPolarAngleRange.Clone().Clone(),
-                SourceDefaults.DefaultAzimuthalAngleRange.Clone().Clone(),                
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                SourceDefaults.DefaultFullPolarAngleRange.Clone(),
+                SourceDefaults.DefaultAzimuthalAngleRange.Clone(),                
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 location)
         {
             if (location == null)

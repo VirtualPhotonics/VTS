@@ -30,7 +30,7 @@ namespace Vts.MonteCarlo.Sources
                 new DoubleRange(0.0, 0.0),
                 new DoubleRange(0.0, 0.0),
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone()) { }
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone()) { }
 
         public DoubleRange PolarAngleEmissionRange { get; set; }
         public DoubleRange AzimuthalAngleEmissionRange { get; set; }

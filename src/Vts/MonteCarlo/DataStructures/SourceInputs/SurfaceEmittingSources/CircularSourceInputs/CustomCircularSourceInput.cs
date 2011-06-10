@@ -41,9 +41,9 @@ namespace Vts.MonteCarlo.Sources
                 sourceProfile,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone().Clone()) { }
+                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone()) { }
 
         public SourceType SourceType { get; set; }
         public double OuterRadius { get; set; }

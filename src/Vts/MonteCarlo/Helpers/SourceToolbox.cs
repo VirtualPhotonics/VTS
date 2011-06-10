@@ -820,7 +820,7 @@ namespace Vts.MonteCarlo.Helpers
         public static PolarAzimuthalAngles GetPolarAndAzimuthalAnglesFromDirection(
             Direction direction)
         {
-            if (direction == SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone())
+            if (direction == SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone())
             {
                 return new PolarAzimuthalAngles(0.0, 0.0);
             }

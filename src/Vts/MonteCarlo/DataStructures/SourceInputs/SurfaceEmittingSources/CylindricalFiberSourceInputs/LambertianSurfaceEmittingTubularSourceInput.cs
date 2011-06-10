@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.Sources
                 tubeHeightZ,
                 1.0,
                 1.0,
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone()) { }
 
         public SourceType SourceType { get; set; }

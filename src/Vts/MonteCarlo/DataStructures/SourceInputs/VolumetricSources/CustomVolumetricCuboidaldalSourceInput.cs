@@ -43,7 +43,7 @@ namespace Vts.MonteCarlo.Sources
                 sourceProfile,
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone()) { }
 
         public SourceType SourceType { get; set; }

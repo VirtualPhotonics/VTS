@@ -31,7 +31,7 @@ namespace Vts.MonteCarlo.Sources
                 radius,
                 polarAngleRangeToDefineSphericalSurface,
                 azimuthalAngleRangeToDefineSphericalSurface,
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone()) { }
 
         public SourceType SourceType { get; set; }

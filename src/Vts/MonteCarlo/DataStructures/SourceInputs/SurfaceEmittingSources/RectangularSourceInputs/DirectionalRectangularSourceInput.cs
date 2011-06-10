@@ -37,9 +37,9 @@ namespace Vts.MonteCarlo.Sources
                 rectLengthX,
                 rectWidthY,
                 sourceProfile,
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone().Clone()) { }
+                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone()) { }
 
         public SourceType SourceType { get; set; }
         public double ThetaConvOrDiv { get; set; }

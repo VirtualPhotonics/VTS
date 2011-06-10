@@ -45,11 +45,11 @@ namespace Vts.MonteCarlo.Sources
         {
             _thetaConvOrDiv = thetaConvOrDiv;
             if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone();
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
             if (translationFromOrigin == null)
                 translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
             if (beamRotationFromInwardNormal == null)
-                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone().Clone();
+                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
         }
                 
 
@@ -59,7 +59,7 @@ namespace Vts.MonteCarlo.Sources
             if ((_aParameter == 0.0) && (_bParameter == 0.0))
                 return (SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
                             new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
-                            SourceDefaults.DefaultAzimuthalAngleRange.Clone().Clone(),
+                            SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                             Rng));
 
             else

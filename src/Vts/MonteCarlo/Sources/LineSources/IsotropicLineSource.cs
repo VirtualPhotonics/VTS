@@ -35,19 +35,19 @@ namespace Vts.MonteCarlo.Sources
                 beamRotationFromInwardNormal)
         {
             if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone();
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
             if (translationFromOrigin == null)
                 translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
             if (beamRotationFromInwardNormal == null)
-                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone().Clone();
+                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
         }        
 
         
         //Isotropic line source
         protected override Direction GetFinalDirection(Position finalPosition)
         {                   
-            var azimuthalAngleEmissionRange = SourceDefaults.DefaultAzimuthalAngleRange.Clone().Clone();
-            var polarAngleEmissionRange = SourceDefaults.DefaultFullPolarAngleRange.Clone().Clone();
+            var azimuthalAngleEmissionRange = SourceDefaults.DefaultAzimuthalAngleRange.Clone();
+            var polarAngleEmissionRange = SourceDefaults.DefaultFullPolarAngleRange.Clone();
 
             //Sample angular distribution
             Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(polarAngleEmissionRange, azimuthalAngleEmissionRange, Rng);

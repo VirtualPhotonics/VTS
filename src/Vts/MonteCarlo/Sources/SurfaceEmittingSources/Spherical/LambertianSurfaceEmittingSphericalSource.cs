@@ -22,9 +22,9 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin = null)
             : base(
                 radius,
-                SourceDefaults.DefaultFullPolarAngleRange.Clone().Clone(),
-                SourceDefaults.DefaultAzimuthalAngleRange.Clone().Clone(),
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                SourceDefaults.DefaultFullPolarAngleRange.Clone(),
+                SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 translationFromOrigin)
         {
             if (translationFromOrigin == null)

@@ -32,7 +32,7 @@ namespace Vts.MonteCarlo.Sources
                 location)
         {
             if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone();
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
             if (location == null)
                 location = SourceDefaults.DefaultPosition.Clone();
         }

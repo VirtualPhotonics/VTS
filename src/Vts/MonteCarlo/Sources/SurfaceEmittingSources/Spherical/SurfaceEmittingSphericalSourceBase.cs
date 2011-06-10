@@ -40,8 +40,8 @@ namespace Vts.MonteCarlo.Sources
 
             //Lambertian distribution (uniform hemispherical distribution)
             PolarAzimuthalAngles polarAzimuthalPair = SourceToolbox.GetRandomPolarAzimuthalPairForGivenPolarAndAzimuthalAngleRangeRandom(
-                SourceDefaults.DefaultHalfPolarAngleRange.Clone().Clone(),
-                SourceDefaults.DefaultAzimuthalAngleRange.Clone().Clone(),
+                SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
+                SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 Rng);
 
             //Avoid updating the finalDirection during following rotation
