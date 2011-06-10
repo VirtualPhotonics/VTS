@@ -432,7 +432,7 @@
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt" />
     <None Include="Sources.cd" />
-    <None Include="Modeling\Spectroscopy\Fat.csv" />
+    <Resource Include="Modeling\Spectroscopy\Resources\Fat.csv" />
     <None Include="Vts.snk" />
   </ItemGroup>
   <ItemGroup>
