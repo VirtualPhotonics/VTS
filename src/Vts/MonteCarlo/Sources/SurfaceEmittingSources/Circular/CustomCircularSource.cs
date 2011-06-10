@@ -48,18 +48,18 @@ namespace Vts.MonteCarlo.Sources
             _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();
 
             if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis;
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone();
             if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition;
+                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
             if (beamRotationFromInwardNormal == null)
-                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal;
+                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone().Clone();
         }
               
 
         //CustomCircularSource
         protected override Direction GetFinalDirection(Position finalPosition)
         {
-            return SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
+            return SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange,
                 _azimuthalAngleEmissionRange,
                 Rng);

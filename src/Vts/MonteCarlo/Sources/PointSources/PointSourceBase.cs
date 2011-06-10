@@ -29,8 +29,8 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin)
         {
             _rotationAndTranslationFlags = new SourceFlags(
-                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
-                translationFromOrigin != SourceDefaults.DefaultPosition,
+                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
                 false);
 
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
@@ -41,24 +41,25 @@ namespace Vts.MonteCarlo.Sources
 
         public Photon GetNextPhoton(ITissue tissue)
         {
-            //Source starts at the origin
-            Position finalPosition = SourceDefaults.DefaultPosition;
+            //Source starts at the origin            
+            //Position finalPosition =  new Position(0.0, 0.0, 0.0);
+            Position finalPosition = SourceDefaults.DefaultPosition.Clone();
 
             // sample angular distribution
-            Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
+            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange,
                 _azimuthalAngleEmissionRange,
                 Rng);
 
             //Find the relevent polar and azimuthal pair for the direction
             _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
-            
+
             //Rotation and translation
             SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
-                ref finalPosition,
+                finalPosition,
                 ref finalDirection,
-                _rotationalAnglesOfPrincipalSourceAxis, 
-                _translationFromOrigin,                               
+                _rotationalAnglesOfPrincipalSourceAxis,
+                _translationFromOrigin,
                 _rotationAndTranslationFlags);
             
 

@@ -29,8 +29,8 @@ namespace Vts.MonteCarlo.Sources
             : this(
                 new DoubleRange(0.0, 0.0),
                 new DoubleRange(0.0, 0.0),
-                SourceDefaults.DefaultPosition,
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone()) { }
 
         public DoubleRange PolarAngleEmissionRange { get; set; }
         public DoubleRange AzimuthalAngleEmissionRange { get; set; }

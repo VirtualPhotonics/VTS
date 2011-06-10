@@ -28,8 +28,8 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin)
         {
             _rotationAndTranslationFlags = new SourceFlags(
-                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
-                 translationFromOrigin != SourceDefaults.DefaultPosition,
+                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                 translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
                  false);
             
             _cubeLengthX = cubeLengthX;
@@ -51,9 +51,9 @@ namespace Vts.MonteCarlo.Sources
                 Rng);
 
             //sample angular distribution
-            Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
+            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange, 
-                SourceDefaults.DefaultAzimuthalAngleRange,
+                SourceDefaults.DefaultAzimuthalAngleRange.Clone().Clone(),
                 Rng);
 
             Position tempPosition = null;               
@@ -66,28 +66,28 @@ namespace Vts.MonteCarlo.Sources
                     finalPosition.X = 0.5 * _cubeLengthX;
                     finalPosition.Y = tempPosition.Y;
                     finalPosition.Z = tempPosition.X;
-                    finalDirection = SourceToolbox.GetDirectionAfterRotationAroundXAxis(0.5 * Math.PI, finalDirection);
+                    finalDirection = SourceToolbox.UpdateDirectionAfterRotatingAroundXAxis(0.5 * Math.PI, ref finalDirection);
                     break;
                 case "xneg":
                     tempPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeHeightZ, _cubeWidthY, Rng);
                     finalPosition.X = -0.5 * _cubeLengthX;
                     finalPosition.Y = tempPosition.Y;
                     finalPosition.Z = tempPosition.X;
-                    finalDirection = SourceToolbox.GetDirectionAfterRotationAroundXAxis(-0.5 * Math.PI, finalDirection);
+                    finalDirection = SourceToolbox.UpdateDirectionAfterRotatingAroundXAxis(-0.5 * Math.PI, ref finalDirection);
                     break;
                 case "ypos":
                     tempPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeLengthX, _cubeHeightZ, Rng);
                     finalPosition.X = tempPosition.X;
                     finalPosition.Y = 0.5 * _cubeWidthY;
                     finalPosition.Z = tempPosition.Y;
-                    finalDirection = SourceToolbox.GetDirectionAfterRotationAroundYAxis(0.5 * Math.PI, finalDirection);
+                    finalDirection = SourceToolbox.UpdateDirectionAfterRotatingAroundYAxis(0.5 * Math.PI, ref finalDirection);
                     break;
                 case "yneg":
                     tempPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeLengthX, _cubeHeightZ, Rng);
                     finalPosition.X = tempPosition.X;
                     finalPosition.Y = -0.5 * _cubeWidthY;
                     finalPosition.Z = tempPosition.Y;
-                    finalDirection = SourceToolbox.GetDirectionAfterRotationAroundYAxis(-0.5 * Math.PI, finalDirection);
+                    finalDirection = SourceToolbox.UpdateDirectionAfterRotatingAroundYAxis(-0.5 * Math.PI, ref finalDirection);
                     break;
                 case "zpos":
                     tempPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeLengthX, _cubeWidthY, Rng);
@@ -110,7 +110,7 @@ namespace Vts.MonteCarlo.Sources
             
             //Translation and source rotation
             SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
-                ref finalPosition,
+                finalPosition,
                 ref finalDirection,
                 _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,
@@ -139,16 +139,16 @@ namespace Vts.MonteCarlo.Sources
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
-                    SourceToolbox.GetRandomFlatRectangulePosition(
-                        SourceDefaults.DefaultPosition,
+                    SourceToolbox.GetPositionInARectangleRandomFlat(
+                        SourceDefaults.DefaultPosition.Clone(),
                         rectLengthX,
                         rectWidthY,
                         rng);
                     break;
                 case SourceProfileType.Gaussian:
                     var gaussianProfile = sourceProfile as GaussianSourceProfile;
-                    finalPosition = SourceToolbox.GetRandomGaussianRectangulePosition(
-                        SourceDefaults.DefaultPosition,
+                    finalPosition = SourceToolbox.GetPositionInARectangleRandomGaussian(
+                        SourceDefaults.DefaultPosition.Clone(),
                         rectLengthX,
                         rectWidthY,
                         gaussianProfile.BeamDiaFWHM,

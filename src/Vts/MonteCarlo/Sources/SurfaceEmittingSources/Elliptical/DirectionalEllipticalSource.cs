@@ -45,11 +45,11 @@ namespace Vts.MonteCarlo.Sources
         {
             _thetaConvOrDiv = thetaConvOrDiv;
             if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis;
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone();
             if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition;
+                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
             if (beamRotationFromInwardNormal == null)
-                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal;
+                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone().Clone();
         }
                 
 
@@ -57,9 +57,9 @@ namespace Vts.MonteCarlo.Sources
         protected override Direction GetFinalDirection(Position finalPosition)
         {
             if ((_aParameter == 0.0) && (_bParameter == 0.0))
-                return (SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
+                return (SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
                             new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
-                            SourceDefaults.DefaultAzimuthalAngleRange,
+                            SourceDefaults.DefaultAzimuthalAngleRange.Clone().Clone(),
                             Rng));
 
             else
@@ -73,7 +73,7 @@ namespace Vts.MonteCarlo.Sources
                     var height = _aParameter / Math.Tan(_thetaConvOrDiv);
                     polarAngle = Math.Atan(Math.Sqrt(finalPosition.X * finalPosition.X + finalPosition.Y * finalPosition.Y) / height);
                 }
-                return (SourceToolbox.GetDirectionForGiven2DPositionAndPolarAngle(polarAngle, finalPosition));
+                return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, finalPosition));
             }
         }
     }

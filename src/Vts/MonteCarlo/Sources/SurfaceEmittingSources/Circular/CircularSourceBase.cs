@@ -27,9 +27,9 @@ namespace Vts.MonteCarlo.Sources
             PolarAzimuthalAngles beamRotationFromInwardNormal)
         {
             _rotationAndTranslationFlags = new SourceFlags(
-                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
-                translationFromOrigin != SourceDefaults.DefaultPosition,
-                beamRotationFromInwardNormal != SourceDefaults.DefaultBeamRoationFromInwardNormal);
+                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
+                beamRotationFromInwardNormal != SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone().Clone());
 
             _outerRadius = outerRadius;
             _innerRadius = innerRadius;            
@@ -83,16 +83,16 @@ namespace Vts.MonteCarlo.Sources
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
-                    SourceToolbox.GetRandomFlatCirclePosition(
-                        SourceDefaults.DefaultPosition,
+                    SourceToolbox.GetPositionInACircleRandomFlat(
+                        SourceDefaults.DefaultPosition.Clone(),
                         innerRadius,
                         outerRadius,
                         rng);
                     break;
                  case SourceProfileType.Gaussian:
                     var gaussianProfile = sourceProfile as GaussianSourceProfile;
-                    finalPosition = SourceToolbox.GetRandomGaussianCirclePosition(
-                        SourceDefaults.DefaultPosition,
+                    finalPosition = SourceToolbox.GetPositonInACircleRandomGaussian(
+                        SourceDefaults.DefaultPosition.Clone(),
                         outerRadius,                        
                         gaussianProfile.BeamDiaFWHM,
                         rng);

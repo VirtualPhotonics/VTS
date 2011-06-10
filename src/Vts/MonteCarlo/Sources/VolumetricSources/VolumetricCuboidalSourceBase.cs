@@ -26,8 +26,8 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin)
         {
             _rotationAndTranslationFlags = new SourceFlags(
-                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
-                translationFromOrigin != SourceDefaults.DefaultPosition,
+                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
                 false);
 
             _cubeLengthX = cubeLengthX;
@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo.Sources
 
             //Rotation and translation
             SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
-                ref finalPosition,
+                finalPosition,
                 ref finalDirection,
                 _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,
@@ -81,8 +81,8 @@ namespace Vts.MonteCarlo.Sources
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
-                    SourceToolbox.GetRandomFlatCuboidPosition(
-                        SourceDefaults.DefaultPosition,
+                    SourceToolbox.GetPositionInACuboidRandomFlat(
+                        SourceDefaults.DefaultPosition.Clone(),
                         cubeLengthX,
                         cubeWidthY,
                         cubeHeightZ,
@@ -90,8 +90,8 @@ namespace Vts.MonteCarlo.Sources
                     break;
                 case SourceProfileType.Gaussian:
                     var gaussianProfile = sourceProfile as GaussianSourceProfile;
-                    finalPosition = SourceToolbox.GetRandomGaussianCuboidPosition(
-                        SourceDefaults.DefaultPosition,
+                    finalPosition = SourceToolbox.GetPositionInACuboidRandomGaussian(
+                        SourceDefaults.DefaultPosition.Clone(),
                         cubeLengthX,
                         cubeWidthY,
                         cubeHeightZ,

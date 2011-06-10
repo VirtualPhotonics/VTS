@@ -22,8 +22,8 @@ namespace Vts.MonteCarlo.Sources
 
         public DirectionalPointSourceInput()
             : this(
-                SourceDefaults.DefaultPosition,
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone()) { }
 
         public Position PointLocation { get; set; }
         public Direction EmittingDirection { get; set; }

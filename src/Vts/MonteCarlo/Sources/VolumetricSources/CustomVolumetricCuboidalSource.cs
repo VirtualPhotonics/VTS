@@ -48,16 +48,16 @@ namespace Vts.MonteCarlo.Sources
             _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();
 
             if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis;
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone();
             if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition;
+                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
         }
         
 
         //CustomCuboidalSource
         protected override Direction GetFinalDirection()
         {
-            return SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
+            return SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange,
                 _azimuthalAngleEmissionRange,
                 Rng);

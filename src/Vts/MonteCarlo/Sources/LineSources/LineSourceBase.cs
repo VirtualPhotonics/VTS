@@ -24,9 +24,9 @@ namespace Vts.MonteCarlo.Sources
             PolarAzimuthalAngles beamRotationFromInwardNormal)
         {
             _rotationAndTranslationFlags = new SourceFlags(
-                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
-                translationFromOrigin != SourceDefaults.DefaultPosition,
-                beamRotationFromInwardNormal != SourceDefaults.DefaultBeamRoationFromInwardNormal);
+                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
+                beamRotationFromInwardNormal != SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone().Clone());
 
             _lineLength = lineLength;
             _sourceProfile = sourceProfile;
@@ -79,15 +79,15 @@ namespace Vts.MonteCarlo.Sources
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
-                    SourceToolbox.GetRandomFlatLinePosition(
-                        SourceDefaults.DefaultPosition,
+                    SourceToolbox.GetPositionInALineRandomFlat(
+                        SourceDefaults.DefaultPosition.Clone(),
                         lineLength,
                         rng);
                     break;
                 case SourceProfileType.Gaussian:
                     var gaussianProfile = sourceProfile as GaussianSourceProfile;
-                    finalPosition = SourceToolbox.GetRandomGaussianLinePosition(
-                        SourceDefaults.DefaultPosition,
+                    finalPosition = SourceToolbox.GetPositionInALineRandomGaussian(
+                        SourceDefaults.DefaultPosition.Clone(),
                         lineLength,
                         gaussianProfile.BeamDiaFWHM,
                         rng);

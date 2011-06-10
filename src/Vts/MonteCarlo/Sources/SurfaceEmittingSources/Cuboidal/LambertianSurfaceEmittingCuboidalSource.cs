@@ -34,14 +34,14 @@ namespace Vts.MonteCarlo.Sources
             cubeWidthY,
             cubeHeightZ,
             sourceProfile,
-            SourceDefaults.DefaultHalfPolarAngleRange,
+            SourceDefaults.DefaultHalfPolarAngleRange.Clone().Clone(),
             newDirectionOfPrincipalSourceAxis,
             translationFromOrigin)
         {
             if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis;
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone();
             if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition;
+                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
         }        
     }
 }

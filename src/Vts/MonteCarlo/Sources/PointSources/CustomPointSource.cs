@@ -18,23 +18,23 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="polarAngleEmissionRange">Polar angle emission range</param>
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle emission range</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
-        /// <param name="pointLocation">New position</param>        
+        /// <param name="location">New position</param>        
         public CustomPointSource(
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Direction newDirectionOfPrincipalSourceAxis = null,
-            Position pointLocation = null
+            Position location = null
             )
             : base(
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,                
                 newDirectionOfPrincipalSourceAxis,
-                pointLocation)
+                location)
         {
             if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis;
-            if (pointLocation == null)
-                pointLocation = SourceDefaults.DefaultPosition;
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone();
+            if (location == null)
+                location = SourceDefaults.DefaultPosition.Clone();
         }
     }
 }

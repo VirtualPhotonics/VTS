@@ -339,7 +339,9 @@
     <Compile Include="Common\Extension Methods\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PostProcessorInput.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceFlags.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceDefaults.cs" />
+    <Compile Include="MonteCarlo\Sources\SourceDefaults.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\CircularSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\CustomCircularSource.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\DirectionalCircularSource.cs" />

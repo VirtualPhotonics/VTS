@@ -23,8 +23,8 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin)
         {
             _rotationAndTranslationFlags = new SourceFlags(
-                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
-                 translationFromOrigin != SourceDefaults.DefaultPosition,
+                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                 translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
                  false);
             
             _tubeRadius = tubeRadius;
@@ -36,22 +36,22 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //sample angular distribution
-            Direction finalDirection = SourceToolbox.GetRandomDirectionForPolarAndAzimuthalAngleRange(
-                SourceDefaults.DefaultHalfPolarAngleRange, 
-                SourceDefaults.DefaultAzimuthalAngleRange,
+            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
+                SourceDefaults.DefaultHalfPolarAngleRange.Clone().Clone(), 
+                SourceDefaults.DefaultAzimuthalAngleRange.Clone().Clone(),
                 Rng);
 
             //Translate the photon to _tubeRadius length below the origin. Ring lies on yz plane.
             Position finalPosition = new Position(0.0, 0.0, _tubeRadius);
 
             //Sample a ring that emits photons outside.
-            SourceToolbox.DoSourceRotationAroundXAxis(
+            SourceToolbox.UpdateDireactionAndPositionAfterRotatingAroundXAxis(
                 2.0 * Math.PI * Rng.NextDouble(),
                 ref finalDirection,
                 ref finalPosition);
 
             //Ring lies on xy plane. z= 0;
-            SourceToolbox.DoSourceRotationAroundYAxis(
+            SourceToolbox.UpdateDireactionAndPositionAfterRotatingAroundYAxis(
                 0.5 * Math.PI,
                 ref finalDirection,
                 ref finalPosition);
@@ -64,7 +64,7 @@ namespace Vts.MonteCarlo.Sources
             
             //Translation and source rotation
             SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
-                ref finalPosition,
+                finalPosition,
                 ref finalDirection,
                 _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,                

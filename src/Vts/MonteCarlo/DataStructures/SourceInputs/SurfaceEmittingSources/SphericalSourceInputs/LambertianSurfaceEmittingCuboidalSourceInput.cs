@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.Sources
             double radius)
             : this(
                 radius,
-                SourceDefaults.DefaultPosition) { }
+                SourceDefaults.DefaultPosition.Clone()) { }
 
         public SourceType SourceType { get; set; }
         public double Radius { get; set; }        

@@ -39,8 +39,8 @@ namespace Vts.MonteCarlo.Sources
                 cubeHeightZ,
                 sourceProfile,
                 polarAngleEmissionRange,
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
-                SourceDefaults.DefaultPosition) { }
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                SourceDefaults.DefaultPosition.Clone()) { }
 
         public SourceType SourceType { get; set; }
         public double CubeLengthX { get; set; }

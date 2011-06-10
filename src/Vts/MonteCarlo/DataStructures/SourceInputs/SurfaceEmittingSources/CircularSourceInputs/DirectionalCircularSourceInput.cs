@@ -37,9 +37,9 @@ namespace Vts.MonteCarlo.Sources
                 outerRadius,
                 innerRadius,
                 sourceProfile,
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis,
-                SourceDefaults.DefaultPosition,
-                SourceDefaults.DefaultBeamRoationFromInwardNormal) { }
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone().Clone(),
+                SourceDefaults.DefaultPosition.Clone(),
+                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone().Clone()) { }
 
         public SourceType SourceType { get; set; }
         public double ThetaConvOrDiv { get; set; }
