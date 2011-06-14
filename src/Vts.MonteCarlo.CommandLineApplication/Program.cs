@@ -78,9 +78,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
     #endregion
 
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             #region Infile Generation (optional)
             //To Generate an infile when running a simulation, uncomment the first line of code in this file

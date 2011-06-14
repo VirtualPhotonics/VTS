@@ -11,11 +11,11 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
     public class ProgramTest
     {
         [Test]
-        public void validate_command_line_no_parameters()
+        public void validate_generate_infile()
         {
-            //string[] arguments = new string[0];
-            //CommandLineApplication.Program.Main(arguments);
-            //Assert.Pass();
+            string[] arguments = new string[] {"geninfile"};
+            CommandLineApplication.Program.Main(arguments);
+            Assert.Pass();
         }
     }
 }
