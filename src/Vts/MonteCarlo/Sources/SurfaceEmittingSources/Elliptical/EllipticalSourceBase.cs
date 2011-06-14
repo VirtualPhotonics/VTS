@@ -47,10 +47,10 @@ namespace Vts.MonteCarlo.Sources
             Direction finalDirection = GetFinalDirection(finalPosition);
 
             //Find the relevent polar and azimuthal pair for the direction
-            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
+            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Rotation and translation
-            SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
+            SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
                 _rotationalAnglesOfPrincipalSourceAxis,
@@ -82,7 +82,7 @@ namespace Vts.MonteCarlo.Sources
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
-                    SourceToolbox.GetPositonInAnEllipseRandomFlat(
+                    SourceToolbox.GetPositionInAnEllipseRandomFlat(
                         SourceDefaults.DefaultPosition.Clone(),
                         aParameter,
                         bParameter,
@@ -90,7 +90,7 @@ namespace Vts.MonteCarlo.Sources
                     break;
                 case SourceProfileType.Gaussian:
                     var gaussianProfile = sourceProfile as GaussianSourceProfile;
-                    finalPosition = SourceToolbox.GetPositonInAnEllipseRandomGaussian(
+                    finalPosition = SourceToolbox.GetPositionInAnEllipseRandomGaussian(
                         SourceDefaults.DefaultPosition.Clone(),
                         aParameter,
                         bParameter,

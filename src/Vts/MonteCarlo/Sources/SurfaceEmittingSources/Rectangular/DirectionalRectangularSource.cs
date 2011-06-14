@@ -57,7 +57,7 @@ namespace Vts.MonteCarlo.Sources
             
 
             if ((_rectLengthX == 0.0) && (_rectWidthY == 0.0))
-                return (SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
+                return (SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                             new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
                             SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                             Rng));

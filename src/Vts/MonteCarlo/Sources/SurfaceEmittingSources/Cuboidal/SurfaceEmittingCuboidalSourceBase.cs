@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo.Sources
                 Rng);
 
             //sample angular distribution
-            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
+            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange, 
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 Rng);
@@ -66,28 +66,28 @@ namespace Vts.MonteCarlo.Sources
                     finalPosition.X = 0.5 * _cubeLengthX;
                     finalPosition.Y = tempPosition.Y;
                     finalPosition.Z = tempPosition.X;
-                    finalDirection = SourceToolbox.UpdateDirectionAfterRotatingAroundXAxis(0.5 * Math.PI, ref finalDirection);
+                    finalDirection = SourceToolbox.UpdateDirectionAfterRotatingAroundXAxis(0.5 * Math.PI, finalDirection);
                     break;
                 case "xneg":
                     tempPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeHeightZ, _cubeWidthY, Rng);
                     finalPosition.X = -0.5 * _cubeLengthX;
                     finalPosition.Y = tempPosition.Y;
                     finalPosition.Z = tempPosition.X;
-                    finalDirection = SourceToolbox.UpdateDirectionAfterRotatingAroundXAxis(-0.5 * Math.PI, ref finalDirection);
+                    finalDirection = SourceToolbox.UpdateDirectionAfterRotatingAroundXAxis(-0.5 * Math.PI, finalDirection);
                     break;
                 case "ypos":
                     tempPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeLengthX, _cubeHeightZ, Rng);
                     finalPosition.X = tempPosition.X;
                     finalPosition.Y = 0.5 * _cubeWidthY;
                     finalPosition.Z = tempPosition.Y;
-                    finalDirection = SourceToolbox.UpdateDirectionAfterRotatingAroundYAxis(0.5 * Math.PI, ref finalDirection);
+                    finalDirection = SourceToolbox.UpdateDirectionAfterRotatingAroundYAxis(0.5 * Math.PI, finalDirection);
                     break;
                 case "yneg":
                     tempPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeLengthX, _cubeHeightZ, Rng);
                     finalPosition.X = tempPosition.X;
                     finalPosition.Y = -0.5 * _cubeWidthY;
                     finalPosition.Z = tempPosition.Y;
-                    finalDirection = SourceToolbox.UpdateDirectionAfterRotatingAroundYAxis(-0.5 * Math.PI, ref finalDirection);
+                    finalDirection = SourceToolbox.UpdateDirectionAfterRotatingAroundYAxis(-0.5 * Math.PI, finalDirection);
                     break;
                 case "zpos":
                     tempPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeLengthX, _cubeWidthY, Rng);
@@ -106,11 +106,11 @@ namespace Vts.MonteCarlo.Sources
             }
 
             //Find the relevent polar and azimuthal pair for the direction
-            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
+            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Translation and source rotation
-            SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
-                finalPosition,
+            SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
+                ref finalPosition,
                 ref finalDirection,
                 _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,

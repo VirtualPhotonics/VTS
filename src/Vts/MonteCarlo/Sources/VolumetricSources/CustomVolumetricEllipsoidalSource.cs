@@ -57,7 +57,7 @@ namespace Vts.MonteCarlo.Sources
         //CustomEllipsoidalSource
         protected override Direction GetFinalDirection()
         {
-            return SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
+            return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange,
                 _azimuthalAngleEmissionRange,
                 Rng);

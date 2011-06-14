@@ -36,7 +36,7 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //sample angular distribution
-            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
+            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                 SourceDefaults.DefaultHalfPolarAngleRange.Clone(), 
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 Rng);
@@ -45,13 +45,13 @@ namespace Vts.MonteCarlo.Sources
             Position finalPosition = new Position(0.0, 0.0, _tubeRadius);
 
             //Sample a ring that emits photons outside.
-            SourceToolbox.UpdateDireactionAndPositionAfterRotatingAroundXAxis(
+            SourceToolbox.UpdateDirectionPositionAfterRotatingAroundXAxis(
                 2.0 * Math.PI * Rng.NextDouble(),
                 ref finalDirection,
                 ref finalPosition);
 
             //Ring lies on xy plane. z= 0;
-            SourceToolbox.UpdateDireactionAndPositionAfterRotatingAroundYAxis(
+            SourceToolbox.UpdateDirectionPositionAfterRotatingAroundYAxis(
                 0.5 * Math.PI,
                 ref finalDirection,
                 ref finalPosition);
@@ -60,11 +60,11 @@ namespace Vts.MonteCarlo.Sources
             finalPosition.Z = _tubeHeightZ * (2.0 * Rng.NextDouble() -1.0);
 
             //Find the relevent polar and azimuthal pair for the direction
-            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
+            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Translation and source rotation
-            SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
-                finalPosition,
+            SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
+                ref finalPosition,
                 ref finalDirection,
                 _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,                

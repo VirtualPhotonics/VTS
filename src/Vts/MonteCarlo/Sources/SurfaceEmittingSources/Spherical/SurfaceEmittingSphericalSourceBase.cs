@@ -33,13 +33,13 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             // sample angular distribution
-            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(_polarAngleRangeToDefineSphericalSurface, _azimuthalAngleRangeToDefineSphericalSurface, Rng);
+            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(_polarAngleRangeToDefineSphericalSurface, _azimuthalAngleRangeToDefineSphericalSurface, Rng);
                         
             //Source starts from anywhere in the sphere
             Position finalPosition = GetFinalPositionFromProfileType(finalDirection, _radius, Rng);
 
             //Lambertian distribution (uniform hemispherical distribution)
-            PolarAzimuthalAngles polarAzimuthalPair = SourceToolbox.GetRandomPolarAzimuthalPairForGivenPolarAndAzimuthalAngleRangeRandom(
+            PolarAzimuthalAngles polarAzimuthalPair = SourceToolbox.GetPolarAzimuthalPairForGivenAngleRangeRandom(
                 SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 Rng);
@@ -48,14 +48,14 @@ namespace Vts.MonteCarlo.Sources
             Position dummyPosition = finalPosition;
 
             //Rotate polar azimutahl angle by polarAzimuthalPair vector
-            SourceToolbox.UpdateDireactionAndPositionAfterRotatingByGivenPolarAndAzimuthalAngle(polarAzimuthalPair, ref finalDirection, ref dummyPosition);
+            SourceToolbox.UpdateDirectionPositionAfterRotatingByGivenAnglePair(polarAzimuthalPair, ref finalDirection, ref dummyPosition);
 
             //Find the relevent polar and azimuthal pair for the direction
-            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
+            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
 
             //Translation and source rotation
-            SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
-                finalPosition,
+            SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
+                ref finalPosition,
                 ref finalDirection,
                 _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,

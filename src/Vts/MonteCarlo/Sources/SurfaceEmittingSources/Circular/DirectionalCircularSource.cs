@@ -55,7 +55,7 @@ namespace Vts.MonteCarlo.Sources
         protected override Direction GetFinalDirection(Position finalPosition)
         {
             if (_outerRadius == 0.0)
-                return (SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
+                return (SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                             new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
                             SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                             Rng));

@@ -53,7 +53,7 @@ namespace Vts.MonteCarlo.Sources
                 if (Rng.NextDouble() > bottom / (curved + bottom))
                 {
                     //sample angular distribution
-                    finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
+                    finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                         SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
                         SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                         Rng);
@@ -62,13 +62,13 @@ namespace Vts.MonteCarlo.Sources
                     finalPosition = new Position(0.0, 0.0, _fiberRadius);
 
                     //Sample a ring that emits photons outside.
-                    SourceToolbox.UpdateDireactionAndPositionAfterRotatingAroundXAxis(
+                    SourceToolbox.UpdateDirectionPositionAfterRotatingAroundXAxis(
                         2.0 * Math.PI * Rng.NextDouble(),
                         ref finalDirection,
                         ref finalPosition);
 
                     //Ring lies on xy plane. z= 0;
-                    SourceToolbox.UpdateDireactionAndPositionAfterRotatingAroundYAxis(
+                    SourceToolbox.UpdateDirectionPositionAfterRotatingAroundYAxis(
                         0.5 * Math.PI,
                         ref finalDirection,
                         ref finalPosition);
@@ -84,7 +84,7 @@ namespace Vts.MonteCarlo.Sources
                         _fiberRadius,
                         Rng);
 
-                    finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
+                    finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                         SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
                         SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                         Rng);
@@ -98,13 +98,13 @@ namespace Vts.MonteCarlo.Sources
                         _fiberHeightZ,
                         Rng);
 
-                finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
+                finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                         SourceDefaults.DefaultFullPolarAngleRange.Clone(),
                         SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                         Rng);
 
                 //Rotate 90degrees around y axis
-                SourceToolbox.UpdateDireactionAndPositionAfterRotatingAroundYAxis(
+                SourceToolbox.UpdateDirectionPositionAfterRotatingAroundYAxis(
                         0.5 * Math.PI,
                         ref finalDirection,
                         ref finalPosition);
@@ -112,11 +112,11 @@ namespace Vts.MonteCarlo.Sources
 
 
             //Find the relevent polar and azimuthal pair for the direction
-            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
+            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Translation and source rotation
-            SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
-                finalPosition,
+            SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
+                ref finalPosition,
                 ref finalDirection,
                 _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,                

@@ -41,22 +41,21 @@ namespace Vts.MonteCarlo.Sources
 
         public Photon GetNextPhoton(ITissue tissue)
         {
-            //Source starts at the origin            
-            //Position finalPosition =  new Position(0.0, 0.0, 0.0);
+            //Source starts at the origin 
             Position finalPosition = SourceDefaults.DefaultPosition.Clone();
 
             // sample angular distribution
-            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAndAzimuthalAngleRangeRandom(
+            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange,
                 _azimuthalAngleEmissionRange,
                 Rng);
 
             //Find the relevent polar and azimuthal pair for the direction
-            _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAndAzimuthalAnglesFromDirection(_newDirectionOfPrincipalSourceAxis);
+            _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
 
             //Rotation and translation
-            SourceToolbox.UpdateDirectionAndPositionAfterGivenFlags(
-                finalPosition,
+            SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
+                ref finalPosition,
                 ref finalDirection,
                 _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,
