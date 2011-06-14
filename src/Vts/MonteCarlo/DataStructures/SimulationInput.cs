@@ -84,7 +84,7 @@ namespace Vts.MonteCarlo
 
         public SimulationInput()
             : this(
-                1000000,  // FIX 1e6 takes about 70 minutes my laptop
+                1000000,
                 "results",
                 new SimulationOptions(
                     SimulationOptions.GetRandomSeed(), 
@@ -112,7 +112,10 @@ namespace Vts.MonteCarlo
                     {
                         new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
                     }
-                ) {}
+                )
+        {
+            
+        }
 
         public static SimulationInput FromFile(string filename)
         {

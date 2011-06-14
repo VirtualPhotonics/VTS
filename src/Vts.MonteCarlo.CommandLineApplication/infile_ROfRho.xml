@@ -22,25 +22,25 @@
     <TallySecondMoment>true</TallySecondMoment>
     <WriteDatabases i:nil="true" xmlns:a="http://schemas.datacontract.org/2004/07/Vts" />
   </Options>
-  <OutputFolder>Output</OutputFolder>
-  <SourceInput i:type="a:CustomPointSourceInput" xmlns:a="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo.Sources">
-    <a:PhiRange xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+  <OutputName>infile_ROfRho_results</OutputName>
+  <SourceInput i:type="CustomPointSourceInput">
+    <a:PhiRange xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common" xmlns:a="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo.Sources">
       <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">1</Count>
       <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Delta>
       <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Start>
       <Stop xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Stop>
     </a:PhiRange>
-    <a:PointLocation xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+    <a:PointLocation xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common" xmlns:a="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo.Sources">
       <b:X>0</b:X>
       <b:Y>0</b:Y>
       <b:Z>0</b:Z>
     </a:PointLocation>
-    <a:SolidAngleAxis xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+    <a:SolidAngleAxis xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common" xmlns:a="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo.Sources">
       <b:Ux>0</b:Ux>
       <b:Uy>0</b:Uy>
       <b:Uz>1</b:Uz>
     </a:SolidAngleAxis>
-    <a:ThetaRange xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common">
+    <a:ThetaRange xmlns:b="http://schemas.datacontract.org/2004/07/Vts.Common" xmlns:a="http://schemas.datacontract.org/2004/07/Vts.MonteCarlo.Sources">
       <Count xmlns="http://schemas.datacontract.org/2004/07/Vts">1</Count>
       <Delta xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Delta>
       <Start xmlns="http://schemas.datacontract.org/2004/07/Vts">0</Start>

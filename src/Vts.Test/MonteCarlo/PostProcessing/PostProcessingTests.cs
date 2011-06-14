@@ -33,7 +33,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         public void validate_photon_termination_database_postprocessor()
         {
             var input = GenerateReferenceInput();
-            var onTheFlyOutput = GenerateReferenceOutput(input);
+            var onTheFlyOutput =  new MonteCarloSimulation(input).Run();
 
             var database = PhotonDatabase.FromFile("photonExitDatabase");
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
@@ -83,15 +83,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                 }
             );
         }
-        /// <summary>
-        /// method to execute the MC and return the output from the tallies
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns>Output</returns>
-        private static Output GenerateReferenceOutput(SimulationInput input)
-        {
-            return new MonteCarloSimulation(input).Run();
-        }
+        
         /// <summary>
         /// method that takes two Output classes, output1 and output2, and
         /// compares their R(rho,time) results

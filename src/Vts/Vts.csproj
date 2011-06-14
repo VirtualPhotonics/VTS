@@ -164,6 +164,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs" />
+    <Compile Include="MonteCarlo\Rng\SerializableMersenneTwister.cs" />
     <Compile Include="Factories\ComputationFactory.cs" />
     <Compile Include="Factories\Extensions\EnumExtensions.cs" />
     <Compile Include="Factories\SolverFactory.cs" />
@@ -486,7 +488,7 @@
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt" />
     <None Include="Sources.cd" />
-    <None Include="Modeling\Spectroscopy\Fat.csv" />
+    <Resource Include="Modeling\Spectroscopy\Resources\Fat.csv" />
     <None Include="Vts.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -506,7 +508,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

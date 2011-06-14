@@ -208,6 +208,8 @@ namespace Vts.MonteCarlo
                     DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                         nCurrent, nNext, cosThetaSnell);
                 }
+
+                // flag virtual boundaries too...can't be mutually exlusive with OnDomainBoundary
             }
             else  // don't cross, reflect
             {

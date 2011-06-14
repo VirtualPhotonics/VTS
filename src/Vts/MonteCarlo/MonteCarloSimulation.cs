@@ -6,6 +6,7 @@ using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Sources;
+using System.IO;
 
 namespace Vts.MonteCarlo
 {
@@ -25,16 +26,21 @@ namespace Vts.MonteCarlo
         protected SimulationInput _input;
         private Random _rng;
 
+        private string _outputPath;
+
         public MonteCarloSimulation(SimulationInput input)
         {
+            _outputPath = "";
+
             // all field/property defaults should be set here
             _input = input;
+
             var result = SimulationInputValidation.ValidateInput(_input);
             if (result.IsValid == false)
             {
-                throw new ArgumentException(result.ErrorMessage + "; " + result.Remarks);
-                // not sure this is best way to code
+                throw new ArgumentException(result.ValidationRule + (!string.IsNullOrEmpty(result.Remarks) ? "; " + result.Remarks : ""));
             }
+
             numberOfPhotons = input.N;
 
             WRITE_DATABASES = input.Options.WriteDatabases; // modified ckh 4/9/11
@@ -66,11 +72,16 @@ namespace Vts.MonteCarlo
 
         // public properties
         private IList<DatabaseType> WRITE_DATABASES { get; set; }  // modified ckh 4/9/11
-        //private bool WRITE_ALL_HISTORIES { get; set; }  // Added by DC 2011-03-03
         private AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
         public PhaseFunctionType PHASE_FUNCTION { get; set; }
 
         public Output Results { get; private set; }
+
+        public Output Run(string outputPath)
+        {
+            _outputPath = outputPath;
+            return Run();
+        }
 
         /// <summary>
         /// Run the simulation
@@ -104,12 +115,13 @@ namespace Vts.MonteCarlo
                 {
                     if (WRITE_DATABASES.Contains(DatabaseType.PhotonExitDataPoints))
                     {
-                        terminationWriter = new PhotonDatabaseWriter(_input.OutputName + "\\photonExitDatabase");
+                        terminationWriter = new PhotonDatabaseWriter(
+                            Path.Combine(_outputPath, _input.OutputName, "photonExitDatabase"));
                     }
                     if (WRITE_DATABASES.Contains(DatabaseType.CollisionInfo))
                     {
                         collisionWriter = new CollisionInfoDatabaseWriter(
-                            _input.OutputName + "\\collisionInfoDatabase", _tissue.Regions.Count());
+                            Path.Combine(_outputPath, _input.OutputName, "collisionInfoDatabase"), _tissue.Regions.Count());
                     }
                 }
 
@@ -190,23 +202,25 @@ namespace Vts.MonteCarlo
         /********************************************************/
         void DisplayIntro()
         {
+            var header = _input.OutputName + "(" + SimulationIndex + ")";
             string intro = "\n" +
-                SimulationIndex + ":                                                  \n" +
-                SimulationIndex + ":      Monte Carlo Simulation of Light Propagation \n" +
-                SimulationIndex + ":              in a multi-region tissue            \n" +
-                SimulationIndex + ":                                                  \n" +
-                SimulationIndex + ":         written by the Virtual Photonics Team    \n" +
-                SimulationIndex + ":              Beckman Laser Institute             \n" +
-                SimulationIndex + ":";
+                header + ":                                                  \n" +
+                header + ":      Monte Carlo Simulation of Light Propagation \n" +
+                header + ":              in a multi-region tissue            \n" +
+                header + ":                                                  \n" +
+                header + ":         written by the Virtual Photonics Team    \n" +
+                header + ":              Beckman Laser Institute             \n" +
+                header + ":";
             Console.WriteLine(intro);
         }
 
         /*****************************************************************/
         void DisplayStatus(long n, long num_phot)
         {
+            var header = _input.OutputName + "(" + SimulationIndex + ")";
             /* fraction of photons completed */
             double frac = 100 * n / num_phot;
-            Console.WriteLine(SimulationIndex + ": " + frac + " percent complete, " + DateTime.Now);
+            Console.WriteLine(header + ": " + frac + " percent complete, " + DateTime.Now);
         }
 
         // Keep this commented section for reference

@@ -14,8 +14,6 @@ namespace Vts.MonteCarlo.Controllers
 {
     public class DetectorController : IDetectorController
     {
-        private ITissue _tissue;
-        private bool _tallySecondMoment;
         private IList<IDetector> _detectors;
         private IList<ITerminationDetector> _terminationDetectors;
         private IList<IHistoryDetector> _historyDetectors;
@@ -25,11 +23,8 @@ namespace Vts.MonteCarlo.Controllers
             ITissue tissue,
             bool tallySecondMoment)
         {
-            _tissue = tissue;
-
-            _tallySecondMoment = tallySecondMoment;
-
-            _detectors = GetDetectors(detectorInputs);
+            // todo: move this out of DetectorController and change constructor dependency to "IList<IDetector> detectors" djc 2011-06-03
+            _detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
 
             _terminationDetectors =
                 (from detector in _detectors
@@ -103,26 +98,6 @@ namespace Vts.MonteCarlo.Controllers
             {
                 detector.Normalize(N);
             }
-        }
-
-        private IList<IDetector> GetDetectors(IList<IDetectorInput> detectorInputs)
-        {
-            var detectorList = new List<IDetector>(detectorInputs.Count);
-            foreach (var detectorInput in detectorInputs)
-            {
-                // ckh change 3/14/11 added GetHistoryDetector
-                IDetector detector;
-                if (detectorInput.TallyType.IsTerminationTally())
-                {
-                    detector = DetectorFactory.GetTerminationDetector(detectorInput, _tissue, _tallySecondMoment);
-                }
-                else
-                {
-                    detector = DetectorFactory.GetHistoryDetector(detectorInput, _tissue, _tallySecondMoment);
-                }
-                detectorList.Add(detector);
-            }
-            return detectorList;
         }
     }
 }

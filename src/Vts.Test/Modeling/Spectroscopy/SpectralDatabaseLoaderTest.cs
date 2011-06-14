@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 using Vts.SpectralMapping;
 using Vts.IO;
@@ -16,6 +17,15 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void validate_Loading_Spectral_Database()
         {
             var _testDictionary = Vts.SpectralMapping.SpectralDatabaseLoader.GetDatabaseFromFile();
+            Assert.IsNotNull(_testDictionary);
+        }
+
+        [Test]
+        [Ignore("this test fails on desktop, need to remove file location dependency")]
+        public void validate_Loading_Spectral_Database_from_csv()
+        {
+            Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Fat.csv", "Vts");
+            var _testDictionary = Vts.SpectralMapping.SpectralDatabaseLoader.GetDatabaseFromFile(stream);
             Assert.IsNotNull(_testDictionary);
         }
 

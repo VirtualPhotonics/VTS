@@ -154,7 +154,8 @@
     <Compile Include="Common\DirectionTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Common\Extension Methods\RNGExtensionsTests.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs" />
+    <Compile Include="MonteCarlo\Rng\SerializableMersenneTwisterTests.cs" />
     <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -206,8 +207,12 @@
     <Compile Include="Modeling\MetaNumericsZeroOrderBesselFunction.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumTest.cs" />
-    <Compile Include="Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs" />
+    <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Modeling\ValidateInverseSolution.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -217,7 +222,6 @@
     <Compile Include="MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\DataStructures\SimulationOptionsTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -228,6 +232,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\DataStructures\SimulationInputTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\DataStructures\SimulationOptionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs" />

@@ -17,20 +17,22 @@ namespace Vts.MonteCarlo
     {
         public static ValidationResult ValidateInput(IList<ITissueRegion> layers)
         {
-            var result = new ValidationResult();
             for (int i = 0; i < layers.Count() - 1; i++)
             {
                 var thisLayer = (LayerRegion)layers[i];
                 var nextLayer = (LayerRegion)layers[i + 1];
                 if (thisLayer.ZRange.Stop != nextLayer.ZRange.Start)
                 {
-                    result.IsValid = false;
-                    result.ErrorMessage =
-                        "MultiLayerTissueInput: layers start/stop definition in error";
-                    result.Remarks = "Make sure layer stop is next layer start";
+                    return new ValidationResult(
+                        false,
+                        "MultiLayerTissueInput: each layer must start where the previous layer stopped",
+                        "Error occured between layer " + i + " and layer " + (i+1));
                 }
             }
-            return result;
+
+            return new ValidationResult(
+                true,
+                "MultiLayerTissueInput: each layer must start where the previous layer stopped");
         }
     }
 }

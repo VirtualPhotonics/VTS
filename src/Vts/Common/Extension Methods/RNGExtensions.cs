@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 
 namespace Vts.Extensions
 {
-    [KnownType(typeof(Random))]
     /// <summary>
     /// Class for adding functionality to the .NET Random base class
     /// </summary>
@@ -23,19 +22,6 @@ namespace Vts.Extensions
 
             return rng.NextDouble() * span + minValue;
         }
-        /// <summary>
-        /// methods to save current state of random number generator
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public static Random FromFile(string filename)
-        {
-            return FileIO.ReadFromXML<Random>(filename);
-        }
 
-        public static void ToFile(this Random rng, string filename)
-        {
-            FileIO.WriteToXML(rng, filename);
-        }
     }
 }
