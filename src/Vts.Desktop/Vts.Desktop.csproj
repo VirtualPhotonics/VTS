@@ -807,12 +807,12 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs">
       <Link>MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\CustomLineSource.cs">
       <Link>MonteCarlo\Sources\LineSources\CustomLineSource.cs</Link>
      </Compile>
     <Compile Include="..\Vts\MonteCarlo\Rng\SerializableMersenneTwister.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwister.cs</Link>
-    </Compile>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\DirectionalLineSource.cs">
       <Link>MonteCarlo\Sources\LineSources\DirectionalLineSource.cs</Link>
@@ -822,6 +822,7 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\LineSourceBase.cs">
       <Link>MonteCarlo\Sources\LineSources\LineSourceBase.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\PointSources\CustomPointSource.cs">
       <Link>MonteCarlo\Sources\PointSources\CustomPointSource.cs</Link>
     </Compile>
