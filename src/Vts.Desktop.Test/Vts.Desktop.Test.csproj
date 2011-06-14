@@ -239,6 +239,15 @@
     <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <Link>MonteCarlo\PostProcessing\PostProcessingTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs">
+      <Link>MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSources\IsotropicLineSourceTests.cs">
+      <Link>MonteCarlo\Sources\LineSources\IsotropicLineSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\CustomPointSourceTests.cs">
+      <Link>MonteCarlo\Sources\PointSources\CustomPointSourceTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\DirectionalPointSourceTests.cs">
       <Link>MonteCarlo\Sources\PointSources\DirectionalPointSourceTests.cs</Link>
     </Compile>
@@ -256,7 +265,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modeling\Optimizers\" />
-    <Folder Include="MonteCarlo\Sources\LineSources\" />
     <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\" />
     <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\" />
     <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\CylindricalFiber\" />

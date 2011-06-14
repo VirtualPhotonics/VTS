@@ -23,6 +23,13 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin,
             PolarAzimuthalAngles beamRotationFromInwardNormal)
         {
+            if (newDirectionOfPrincipalSourceAxis == null)
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
+            if (translationFromOrigin == null)
+                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
+            if (beamRotationFromInwardNormal == null)
+                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
+
             _rotationAndTranslationFlags = new SourceFlags(
                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
@@ -74,20 +81,20 @@ namespace Vts.MonteCarlo.Sources
 
         private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double lineLength, Random rng)
         {
-            Position finalPosition = null;
+            Position finalPosition = SourceDefaults.DefaultPosition.Clone();
             switch (sourceProfile.ProfileType)
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
-                    SourceToolbox.GetPositionInALineRandomFlat(
-                        SourceDefaults.DefaultPosition.Clone(),
+                    finalPosition = SourceToolbox.GetPositionInALineRandomFlat(
+                        finalPosition,
                         lineLength,
                         rng);
                     break;
                 case SourceProfileType.Gaussian:
                     var gaussianProfile = sourceProfile as GaussianSourceProfile;
                     finalPosition = SourceToolbox.GetPositionInALineRandomGaussian(
-                        SourceDefaults.DefaultPosition.Clone(),
+                        finalPosition,
                         lineLength,
                         gaussianProfile.BeamDiaFWHM,
                         rng);

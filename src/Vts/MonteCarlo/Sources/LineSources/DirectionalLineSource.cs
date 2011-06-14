@@ -39,13 +39,7 @@ namespace Vts.MonteCarlo.Sources
                     translationFromOrigin,
                     beamRotationFromInwardNormal)
         {
-            _thetaConvOrDiv = thetaConvOrDiv;
-            if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
-            if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
-            if (beamRotationFromInwardNormal == null)
-                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();            
+            _thetaConvOrDiv = thetaConvOrDiv;                     
         }
                 
 

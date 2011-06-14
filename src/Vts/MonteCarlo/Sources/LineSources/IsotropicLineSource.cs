@@ -24,9 +24,9 @@ namespace Vts.MonteCarlo.Sources
         public IsotropicLineSource(
             double lineLength,
             ISourceProfile sourceProfile,
-            Direction newDirectionOfPrincipalSourceAxis,
-            Position translationFromOrigin,
-            PolarAzimuthalAngles beamRotationFromInwardNormal)
+            Direction newDirectionOfPrincipalSourceAxis = null,
+            Position translationFromOrigin = null,
+            PolarAzimuthalAngles beamRotationFromInwardNormal = null)
             : base(
                 lineLength,
                 sourceProfile,
@@ -34,12 +34,7 @@ namespace Vts.MonteCarlo.Sources
                 translationFromOrigin,
                 beamRotationFromInwardNormal)
         {
-            if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
-            if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
-            if (beamRotationFromInwardNormal == null)
-                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
+            
         }        
 
         

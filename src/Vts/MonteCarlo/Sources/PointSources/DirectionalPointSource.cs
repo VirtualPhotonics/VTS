@@ -24,9 +24,7 @@ namespace Vts.MonteCarlo.Sources
                 new DoubleRange(0.0, 0.0),                
                 newDirectionOfPrincipalSourceAxis,
                 location)
-        {            
-            if (location == null)
-                location = SourceDefaults.DefaultPosition.Clone();            
+        {         
         }        
     }
 }

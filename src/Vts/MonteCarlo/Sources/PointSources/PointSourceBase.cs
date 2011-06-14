@@ -28,15 +28,20 @@ namespace Vts.MonteCarlo.Sources
             Direction newDirectionOfPrincipalSourceAxis,
             Position translationFromOrigin)
         {
-            _rotationAndTranslationFlags = new SourceFlags(
-                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
-                false);
+            if (newDirectionOfPrincipalSourceAxis == null)
+                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
+            if (translationFromOrigin == null)
+                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();       
 
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
             _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();    
             _translationFromOrigin = translationFromOrigin.Clone();
-            _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone();                   
+            _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone();
+
+            _rotationAndTranslationFlags = new SourceFlags(
+                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
+                false);
         }
 
         public Photon GetNextPhoton(ITissue tissue)

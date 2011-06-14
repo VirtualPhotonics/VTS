@@ -30,11 +30,7 @@ namespace Vts.MonteCarlo.Sources
                 azimuthalAngleEmissionRange,                
                 newDirectionOfPrincipalSourceAxis,
                 location)
-        {
-            if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
-            if (location == null)
-                location = SourceDefaults.DefaultPosition.Clone();
+        {            
         }
     }
 }

@@ -782,9 +782,9 @@ namespace Vts.MonteCarlo.Helpers
             PolarAzimuthalAngles beamRotation,
             SourceFlags flags)
         {
-            if (flags.RotationOfPrincipalSourceAxisFlag)
-                dir = UpdateDirectionAfterRotatingByGivenAnglePair(beamRotation, dir);
             if (flags.BeamRotationFromInwardNormalFlag)
+                dir = UpdateDirectionAfterRotatingByGivenAnglePair(beamRotation, dir);
+            if (flags.RotationOfPrincipalSourceAxisFlag)
                 UpdateDirectionPositionAfterRotatingByGivenAnglePair(sourceAxisRotation, ref dir, ref pos);
             if (flags.TranslationFromOriginFlag)
                 pos = UpdatePositionAfterTranslation(pos, translate);
@@ -805,7 +805,7 @@ namespace Vts.MonteCarlo.Helpers
             Position translate,
             SourceFlags flags)
         {
-            if (flags.BeamRotationFromInwardNormalFlag)
+            if (flags.RotationOfPrincipalSourceAxisFlag)
                 UpdateDirectionPositionAfterRotatingByGivenAnglePair(sourceAxisRotation, ref dir, ref pos);
             if (flags.TranslationFromOriginFlag)
                 pos = UpdatePositionAfterTranslation(pos, translate);      
