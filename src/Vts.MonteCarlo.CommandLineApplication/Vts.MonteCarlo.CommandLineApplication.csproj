@@ -101,6 +101,10 @@
       <Link>Acknowledgements.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\license.txt">
+      <Link>license.txt</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="infile.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
