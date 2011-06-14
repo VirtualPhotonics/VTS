@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Windows.Controls;
 using System.IO;
 using NUnit.Framework;
 using Vts.SpectralMapping;
