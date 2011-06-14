@@ -32,6 +32,16 @@ namespace Vts.Common
         /// <returns></returns>
         public static bool operator ==(Direction d1, Direction d2)
         {
+            if (object.ReferenceEquals(d1, d2))
+            {
+                // handles if both are null as well as object identity
+                return true;
+            }
+
+            if ((object)d1 == null || (object)d2 == null)
+            {
+                return false;
+            }
             return d1.Equals(d2);
         }
 
@@ -43,7 +53,7 @@ namespace Vts.Common
         /// <returns></returns>
         public static bool operator !=(Direction d1, Direction d2)
         {
-            return !d1.Equals(d2);
+            return !(d1 == d2);
         }
 
         /// <summary>
