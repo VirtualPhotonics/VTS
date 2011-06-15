@@ -17,29 +17,35 @@ namespace Vts.MonteCarlo.CommandLineApplication
         /// </summary>
         public static SimulationInput ReadSimulationInputFromFile(string inputFile)
         {
-            if (string.IsNullOrEmpty(inputFile))
+            try
             {
-                Console.WriteLine("\nNo input file specified. Using infile.xml from root mc.exe folder... ");
-                return ReadSimulationInputFromFile("infile.xml");
+                if (string.IsNullOrEmpty(inputFile))
+                {
+                    Console.WriteLine("\nNo input file specified. Using infile.xml from root mc.exe folder... ");
+                    return ReadSimulationInputFromFile("infile.xml");
+                }
+
+                //get the full path for the input file
+                var fullFilePath = Path.GetFullPath(inputFile);
+
+                if (File.Exists(fullFilePath))
+                {
+                    return SimulationInput.FromFile(fullFilePath);
+                }
+
+                if (File.Exists(fullFilePath + ".xml"))
+                {
+                    return SimulationInput.FromFile(fullFilePath + ".xml");
+                }
+
+                //throw a file not found exception
+                throw new FileNotFoundException("\nThe following input file could not be found: " + fullFilePath + " - type mc help=infile for correct syntax");
             }
-
-            //get the full path for the input file
-            var fullFilePath = Path.GetFullPath(inputFile);
-
-            if (File.Exists(fullFilePath))
+            catch (Exception e)
             {
-                return SimulationInput.FromFile(fullFilePath);
+                Console.WriteLine(e.Message);
+                return null;
             }
-
-            if (File.Exists(fullFilePath + ".xml"))
-            {
-                return SimulationInput.FromFile(fullFilePath + ".xml");
-            }
-
-            Console.WriteLine("\nThe following input file could not be found: " + fullFilePath);
-            Console.WriteLine("If you have spaces in your input file path, enclose it in quotes");
-            Console.WriteLine("For relative paths omit the first slash <folder>\\<filename>");
-            return null;
         }
 
         public static ParameterSweep CreateParameterSweep(string[] parameterSweepString, bool useDelta) // todo: check for null returns

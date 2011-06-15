@@ -25,12 +25,11 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     null, // databases generated
                     true, // compute Second Moment
                     1),
-                new CustomPointSourceInput(
-                    new Position(0, 0, 0),
-                    new Direction(0, 0, 1),
-                    new DoubleRange(0.0, 0, 1),
-                    new DoubleRange(0.0, 0, 1),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
                     0),
+                   
                 new MultiLayerTissueInput(
                     new LayerRegion[]
                     { 

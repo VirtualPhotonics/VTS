@@ -43,5 +43,10 @@ namespace Vts.Common
         {
             return d => d + Delta;
         }
+
+        public LongRange Clone()
+        {
+            return new LongRange(Start, Stop, Count);
+        }
     }
 }

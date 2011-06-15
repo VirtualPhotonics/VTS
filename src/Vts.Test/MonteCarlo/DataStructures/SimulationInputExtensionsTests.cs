@@ -8,6 +8,7 @@ using Vts.Common;
 using Vts.Extensions;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Sources;
 
 namespace Vts.Test.MonteCarlo
 {
@@ -23,7 +24,7 @@ namespace Vts.Test.MonteCarlo
                 10,
                 "Output",
                 new SimulationOptions(),
-                new CustomPointSourceInput(),
+                new DirectionalPointSourceInput(),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
 					{ 

@@ -221,6 +221,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Helpers\SourceToolboxTests.cs">
+      <Link>MonteCarlo\Helpers\SourceToolboxTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\IO\DetectorIOTests.cs">
       <Link>MonteCarlo\IO\DetectorIOTests.cs</Link>
     </Compile>
@@ -242,8 +245,20 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\CustomPointSourceTests.cs">
-      <Link>MonteCarlo\Sources\CustomPointSourceTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs">
+      <Link>MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSources\IsotropicLineSourceTests.cs">
+      <Link>MonteCarlo\Sources\LineSources\IsotropicLineSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\CustomPointSourceTests.cs">
+      <Link>MonteCarlo\Sources\PointSources\CustomPointSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\DirectionalPointSourceTests.cs">
+      <Link>MonteCarlo\Sources\PointSources\DirectionalPointSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\IsotropicPointSourceTests.cs">
+      <Link>MonteCarlo\Sources\PointSources\IsotropicPointSourceTests.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -256,6 +271,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modeling\Optimizers\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\CylindricalFiber\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Tubular\" />
+    <Folder Include="MonteCarlo\Sources\VolumetricSources\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

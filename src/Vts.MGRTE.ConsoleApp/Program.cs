@@ -31,7 +31,7 @@ namespace Vts.MGRTE.ConsoleApp
             //       starting from "0" to "nt-1" with increasing "x" coordinate;
             //       the top boundary with bigger "x" is labeled as "1" and the bottom as "0";
             //       in each interval, the node with the smaller "x" is labeled as "0" and the node with the bigger "x" is labeled as "1".
-            SolverMGRTE.ExecuteMGRTE(para);
+            Solver.ExecuteMGRTE(para);
 
             Console.ReadLine();
         }

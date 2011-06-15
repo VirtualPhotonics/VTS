@@ -43,5 +43,10 @@ namespace Vts.Common
         {
             return d => d + Delta;
         }
+
+        public FloatRange Clone()
+        {
+            return new FloatRange(Start, Stop, Count);
+        }
     }
 }

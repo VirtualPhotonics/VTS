@@ -78,9 +78,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
     #endregion
 
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             #region Infile Generation (optional)
             //To Generate an infile when running a simulation, uncomment the first line of code in this file
@@ -212,6 +212,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
             if (!displayHelp)
             {
                 var input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
+                if (input == null)
+                {
+                    return;
+                }
 
                 var validationResult = MonteCarloSetup.ValidateSimulationInput(input);
                 if (!validationResult.IsValid)
@@ -257,11 +261,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 //null,
                      true, // tally Second Moment
                      0),
-                new CustomPointSourceInput(
-                    new Position(0, 0, 0),
-                    new Direction(0, 0, 1),
-                    new DoubleRange(0.0, 0, 1),
-                    new DoubleRange(0.0, 0, 1),
+                new DirectionalPointSourceInput(),
                     0),
                 new MultiLayerTissueInput(
                     new LayerRegion[]

@@ -12,7 +12,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
 
         
 
-        public void RteOutput(double[][][] flux, double[][][] q, AngularMesh amesh, SpatialMesh smesh, BoundaryCoupling b, int vacuum)
+        public void RteOutput(double[][][] flux, double[][][] q, AngularMesh amesh, SpatialMesh smesh, BoundaryCoupling b, bool vacuum)
 
         // Purpose: this function is to write measurements to three ".txt" files given the input file "det.txt".
         //          Input:
@@ -158,14 +158,14 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
                     x = Det.coord[i][0]; y = Det.coord[i][1];
                     for (j = 0; j < nt; j++)
                     {
-                        tri = MathFunctions.FindMin(nt, distance);
+                        tri =  MultiGridCycle.FindMin(nt, distance);
                         distance[tri] = 1e10;
                         x1 = p[t[tri][0] - 1][0]; y1 = p[t[tri][0] - 1][1];
                         x2 = p[t[tri][1] - 1][0]; y2 = p[t[tri][1] - 1][1];
                         x3 = p[t[tri][2] - 1][0]; y3 = p[t[tri][2] - 1][1];
-                        area[0] = MathFunctions.Area(x, y, x2, y2, x3, y3);
-                        area[1] = MathFunctions.Area(x1, y1, x, y, x3, y3);
-                        area[2] = MathFunctions.Area(x1, y1, x2, y2, x, y);
+                        area[0] =  MultiGridCycle.Area(x, y, x2, y2, x3, y3);
+                        area[1] =  MultiGridCycle.Area(x1, y1, x, y, x3, y3);
+                        area[2] =  MultiGridCycle.Area(x1, y1, x2, y2, x, y);
                         tempd = area[0] + area[1] + area[2];
                         if (Math.Abs(tempd - a[tri]) / a[tri] < 1e-2)
                         {
@@ -192,7 +192,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
                     }
                     else// angular-resolved measurement (flux)
                     {
-                        MathFunctions.Intepolation_a(Det.coord[i][2], dtheta, ns, w_a, w_a2, 1.0);//angular interpolation
+                         MultiGridCycle.Intepolation_a(Det.coord[i][2], dtheta, ns, w_a, w_a2, 1.0);//angular interpolation
                         for (k = 0; k < 3; k++)
                         {
                             temp = 0;
@@ -222,11 +222,11 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
                         }
                     }
                     x = Det.coord[i][0]; y = Det.coord[i][1];
-                    edge = MathFunctions.FindMin(ne, distance);
+                    edge =  MultiGridCycle.FindMin(ne, distance);
                     x1 = p[e[edge][1]][0]; y1 = p[e[edge][1]][1];
                     x2 = p[e[edge][2]][0]; y2 = p[e[edge][2]][1];
-                    l[0] = MathFunctions.Length(x, y, x2, y2);
-                    l[1] = MathFunctions.Length(x1, y1, x, y);
+                    l[0] =  MultiGridCycle.Length(x, y, x2, y2);
+                    l[1] =  MultiGridCycle.Length(x1, y1, x, y);
                     tempd = l[0] + l[1];
                     for (k = 0; k < 2; k++)
                     { w_s[k] = l[k] / tempd; }
@@ -234,7 +234,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
                     tri = e[edge][0];
 
                     Det.output[i] = 0;
-                    if (vacuum == 1)// vacuum B.C.
+                    if (vacuum)// vacuum B.C.
                     {
                         if (Det.A == 1)
                         {
@@ -253,7 +253,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
                         }
                         else
                         {
-                            MathFunctions.Intepolation_a(Det.coord[i][2], dtheta, ns, w_a, w_a2, 1.0);
+                             MultiGridCycle.Intepolation_a(Det.coord[i][2], dtheta, ns, w_a, w_a2, 1.0);
                             for (k = 0; k < 2; k++)// boundary interpolation
                             {
                                 temp = 0;
@@ -291,7 +291,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
                         }
                         else
                         {
-                            MathFunctions.Intepolation_a(Det.coord[i][2], dtheta, ns, w_a, w_a2, 1.0);// angular weights
+                             MultiGridCycle.Intepolation_a(Det.coord[i][2], dtheta, ns, w_a, w_a2, 1.0);// angular weights
                             for (k = 0; k < 2; k++)// boundary interpolation
                             {
                                 temp2 = 0;
@@ -321,9 +321,6 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.DataStructures
             writer.Close();
 
         }
-
-        
-
     }
 }
 
