@@ -38,5 +38,10 @@ namespace Vts.Common
         {
             return d => (d + Delta);
         }
+
+        public UIntRange Clone()
+        {
+            return new UIntRange(Start, Stop, Count);
+        }
     }
 }

@@ -237,6 +237,7 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationOptionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs" />
     <Compile Include="MonteCarlo\Detectors\AnalogDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -258,6 +259,7 @@
     <Compile Include="MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\Helpers\SourceToolboxTests.cs" />
     <Compile Include="MonteCarlo\IO\DetectorIOTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -276,9 +278,11 @@
     <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Sources\CustomPointSourceTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\IsotropicLineSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSources\CustomPointSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSources\DirectionalPointSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSources\IsotropicPointSourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -290,6 +294,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +306,7 @@
   <ItemGroup>
     <Folder Include="Modeling\Optimizers\" />
     <Folder Include="Modeling\Tools\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\" />
     <Folder Include="MonteCarlo\TallyActions\pMCTallies\" />
   </ItemGroup>
   <ItemGroup>

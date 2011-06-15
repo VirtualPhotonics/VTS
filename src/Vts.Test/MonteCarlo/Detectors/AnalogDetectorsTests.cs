@@ -37,11 +37,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                     null, 
                     true, // tally SecondMoment
                     0),
-                new CustomPointSourceInput(
+                new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
-                    new DoubleRange(0.0, 0.0, 1),
-                    new DoubleRange(0.0, 0.0, 1)
+                    0
                 ),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>

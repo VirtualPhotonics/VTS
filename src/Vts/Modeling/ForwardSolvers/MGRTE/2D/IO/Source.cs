@@ -48,8 +48,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
             double[] area = new double[3];
 
             LightSource Source = new LightSource();
-            MultiGridCycle Mgrid = new MultiGridCycle();
-
+           
             nt = smesh[slevel].nt;
             ne = smesh[slevel].ne;
             ns = amesh[alevel].ns;
@@ -139,7 +138,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                                 x = s_xy[i][0]; y = s_xy[i][1];
                                 for (j = 0; j < nt; j++)
                                 {
-                                    tri = MathFunctions.FindMin(nt, distance);
+                                    tri =  MultiGridCycle.FindMin(nt, distance);
                                     distance[tri] = 1e10;
                                     x1 = smesh[slevel].p[smesh[slevel].t[tri][0]][0];
                                     x2 = smesh[slevel].p[smesh[slevel].t[tri][1]][0];
@@ -147,9 +146,9 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                                     y1 = smesh[slevel].p[smesh[slevel].t[tri][0]][1];
                                     y2 = smesh[slevel].p[smesh[slevel].t[tri][1]][1];
                                     y3 = smesh[slevel].p[smesh[slevel].t[tri][2]][1];
-                                    area[0] = MathFunctions.Area(x, y, x2, y2, x3, y3);
-                                    area[1] = MathFunctions.Area(x1, y1, x, y, x3, y3);
-                                    area[2] = MathFunctions.Area(x1, y1, x2, y2, x, y);
+                                    area[0] =  MultiGridCycle.Area(x, y, x2, y2, x3, y3);
+                                    area[1] =  MultiGridCycle.Area(x1, y1, x, y, x3, y3);
+                                    area[2] =  MultiGridCycle.Area(x1, y1, x2, y2, x, y);
                                     temp = area[0] + area[1] + area[2];
                                     if (Math.Abs(temp - smesh[slevel].a[tri]) / smesh[slevel].a[tri] < 1e-2)
                                     {
@@ -334,11 +333,11 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                                 }
                             }
                             x = s_xy[i][0]; y = s_xy[i][1];
-                            edge = MathFunctions.FindMin(ne, distance);
+                            edge =  MultiGridCycle.FindMin(ne, distance);
                             x1 = smesh[slevel].p[smesh[slevel].e[edge][1]][0]; y1 = smesh[slevel].p[smesh[slevel].e[edge][1]][1];
                             x2 = smesh[slevel].p[smesh[slevel].e[edge][2]][0]; y2 = smesh[slevel].p[smesh[slevel].e[edge][2]][1];
-                            area[0] = MathFunctions.Length(x, y, x2, y2);
-                            area[1] = MathFunctions.Length(x1, y1, x, y);
+                            area[0] =  MultiGridCycle.Length(x, y, x2, y2);
+                            area[1] =  MultiGridCycle.Length(x1, y1, x, y);
                             temp = area[0] + area[1];
                             Source.e[i] = edge;
                             for (k = 0; k < 2; k++)
@@ -374,7 +373,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                                     edge = Source.e[i];
                                     x1 = smesh[slevel].p[smesh[slevel].e[edge][1]][0]; y1 = smesh[slevel].p[smesh[slevel].e[edge][1]][1];
                                     x2 = smesh[slevel].p[smesh[slevel].e[edge][2]][0]; y2 = smesh[slevel].p[smesh[slevel].e[edge][2]][1];
-                                    source_corr = MathFunctions.Length(x1, y1, x2, y2) / 6;
+                                    source_corr =  MultiGridCycle.Length(x1, y1, x2, y2) / 6;
                                     temp = 0;
                                     for (k = 0; k < 2; k++)
                                     {
@@ -403,7 +402,7 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                                     edge = Source.e[i];
                                     x1 = smesh[slevel].p[smesh[slevel].e[edge][1]][0]; y1 = smesh[slevel].p[smesh[slevel].e[edge][1]][1];
                                     x2 = smesh[slevel].p[smesh[slevel].e[edge][2]][0]; y2 = smesh[slevel].p[smesh[slevel].e[edge][2]][1];
-                                    source_corr = MathFunctions.Length(x1, y1, x2, y2) / 6;
+                                    source_corr =  MultiGridCycle.Length(x1, y1, x2, y2) / 6;
                                     temp = 0;
                                     for (k = 0; k < 2; k++)
                                     {
@@ -431,7 +430,5 @@ namespace Vts.Modeling.ForwardSolvers.MGRTE._2D.IO
                 Console.WriteLine(boundarySourceFile + " does not exist!"); 
             }
         }
-
-
     }    
 }

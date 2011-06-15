@@ -2,12 +2,12 @@ using System.IO;
 
 namespace Vts.Common
 {
-    public class Direction 
+    public class Direction
     {
         private double _Ux;
         private double _Uy;
         private double _Uz;
-                      
+
         public Direction(double ux, double uy, double uz)
         {
             _Ux = ux;
@@ -15,7 +15,8 @@ namespace Vts.Common
             _Uz = uz;
         }
 
-        public Direction() : this(0.0, 0.0, 1.0)
+        public Direction()
+            : this(0.0, 0.0, 1.0)
         {
         }
 
@@ -31,6 +32,16 @@ namespace Vts.Common
         /// <returns></returns>
         public static bool operator ==(Direction d1, Direction d2)
         {
+            if (object.ReferenceEquals(d1, d2))
+            {
+                // handles if both are null as well as object identity
+                return true;
+            }
+
+            if ((object)d1 == null || (object)d2 == null)
+            {
+                return false;
+            }
             return d1.Equals(d2);
         }
 
@@ -42,7 +53,7 @@ namespace Vts.Common
         /// <returns></returns>
         public static bool operator !=(Direction d1, Direction d2)
         {
-            return !d1.Equals(d2);
+            return !(d1 == d2);
         }
 
         /// <summary>
@@ -64,7 +75,7 @@ namespace Vts.Common
         }
         public static double GetDotProduct(Direction d1, Direction d2)
         {
-            return  (d1.Ux * d2.Ux +
+            return (d1.Ux * d2.Ux +
                      d1.Uy * d2.Uy +
                      d1.Uz * d2.Uz);
         }
@@ -82,6 +93,21 @@ namespace Vts.Common
                 br.ReadDouble(), // Ux
                 br.ReadDouble(), // Uy
                 br.ReadDouble()); // Uz
+        }
+
+        public static Direction AlongPositiveXAxis
+        {
+            get { return new Direction(1.0, 0.0, 0.0); }
+        }
+
+        public static Direction AlongPositiveYAxis
+        {
+            get { return new Direction(0.0, 1.0, 0.0); }
+        }
+
+        public static Direction AlongPositiveZAxis
+        {
+            get { return new Direction(0.0, 0.0, 1.0); }
         }
 
         public Direction Clone()
