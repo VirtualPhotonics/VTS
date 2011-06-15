@@ -34,6 +34,14 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone()) { }
 
+        public CustomSurfaceEmittingSphericalSourceInput()
+            : this(
+                1.0,
+                SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
+                SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                SourceDefaults.DefaultPosition.Clone()) { }
+
         public SourceType SourceType { get; set; }
         public double Radius { get; set; }
         public DoubleRange PolarAngleRangeToDefineSphericalSurface { get; set; }

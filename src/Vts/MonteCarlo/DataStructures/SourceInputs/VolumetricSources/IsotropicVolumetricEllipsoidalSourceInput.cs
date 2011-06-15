@@ -38,6 +38,15 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone()) { }
 
+        public IsotropicVolumetricEllipsoidalSourceInput()
+            : this(
+                1.0,
+                1.0,
+                2.0,
+                new FlatSourceProfile(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                SourceDefaults.DefaultPosition.Clone()) { }
+
         public SourceType SourceType { get; set; }
         public double AParameter { get; set; }
         public double BParameter { get; set; }

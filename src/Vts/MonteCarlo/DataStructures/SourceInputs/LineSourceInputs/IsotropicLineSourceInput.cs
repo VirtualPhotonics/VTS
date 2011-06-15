@@ -33,6 +33,14 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultPosition.Clone(),
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone()) { }
 
+        public IsotropicLineSourceInput()
+            : this(
+                1.0,
+                new FlatSourceProfile(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                SourceDefaults.DefaultPosition.Clone(),
+                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone()) { }
+
         public SourceType SourceType { get; set; }
         public double LineLength { get; set; }
         public ISourceProfile SourceProfile { get; set; }

@@ -36,6 +36,15 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone()) { }
 
+        public LambertianSurfaceEmittingCylindricalFiberSourceInput()
+            : this(
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                SourceDefaults.DefaultPosition.Clone()) { }
+
         public SourceType SourceType { get; set; }
         public double TubeRadius { get; set; }
         public double TubeHeightZ { get; set; }   

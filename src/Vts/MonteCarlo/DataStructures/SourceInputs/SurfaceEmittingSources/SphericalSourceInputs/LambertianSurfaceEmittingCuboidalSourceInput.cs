@@ -23,6 +23,11 @@ namespace Vts.MonteCarlo.Sources
                 radius,
                 SourceDefaults.DefaultPosition.Clone()) { }
 
+        public LambertianSurfaceEmittingSphericalSourceInput()
+            : this(
+                1.0,
+                SourceDefaults.DefaultPosition.Clone()) { }
+
         public SourceType SourceType { get; set; }
         public double Radius { get; set; }        
         public Position TranslationFromOrigin { get; set; }

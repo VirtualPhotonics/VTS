@@ -41,6 +41,16 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultPosition.Clone(),
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone()) { }
 
+        public DirectionalCircularSourceInput()            
+            : this(
+                0.0,
+                1.0,
+                0.0,
+                new FlatSourceProfile(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                SourceDefaults.DefaultPosition.Clone(),
+                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone()) { }
+
         public SourceType SourceType { get; set; }
         public double ThetaConvOrDiv { get; set; }
         public double OuterRadius { get; set; }

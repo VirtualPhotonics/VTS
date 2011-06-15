@@ -40,8 +40,8 @@ namespace Vts.MonteCarlo.Sources
 
         public DirectionalLineSourceInput()
             : this(
-                 0,
-                 1,
+                0.0,
+                1.0,
                 new FlatSourceProfile(),
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),

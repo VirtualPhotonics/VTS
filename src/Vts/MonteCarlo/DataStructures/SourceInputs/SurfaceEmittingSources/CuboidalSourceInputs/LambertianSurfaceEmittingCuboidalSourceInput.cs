@@ -38,6 +38,15 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone()) { }
 
+        public LambertianSurfaceEmittingCuboidalSourceInput()            
+            : this(
+                1.0,
+                1.0,
+                1.0,
+                new FlatSourceProfile(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                SourceDefaults.DefaultPosition.Clone()) { }
+
         public SourceType SourceType { get; set; }
         public double CubeLengthX { get; set; }
         public double CubeWidthY { get; set; }

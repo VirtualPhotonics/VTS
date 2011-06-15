@@ -46,6 +46,17 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone()) { }
 
+        public CustomVolumetricCuboidalSourceInput()
+            : this(
+                1.0,
+                1.0,
+                1.0,
+                new FlatSourceProfile(),
+                SourceDefaults.DefaultFullPolarAngleRange.Clone(),
+                SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                SourceDefaults.DefaultPosition.Clone()) { }
+
         public SourceType SourceType { get; set; }
         public double CubeLengthX { get; set; }
         public double CubeWidthY { get; set; }
