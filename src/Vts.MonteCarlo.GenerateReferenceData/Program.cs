@@ -27,7 +27,8 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     1),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
-                    new Direction(0.0, 0.0, 1.0)),
+                    new Direction(0.0, 0.0, 1.0),
+                    0),
                 new MultiLayerTissueInput(
                     new LayerRegion[]
                     { 
