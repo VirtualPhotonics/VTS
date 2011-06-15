@@ -17,12 +17,12 @@ namespace Vts.MonteCarlo.Factories
                     var dpInput = (DirectionalPointSourceInput)input;
                     return new DirectionalPointSource(
                         dpInput.EmittingDirection,
-                        dpInput.PointLocation);
+                        dpInput.PointLocation) { Rng = rng };
 
                 case SourceType.IsotropicPoint:
                     var ipInput = (IsotropicPointSourceInput)input;
                     return new IsotropicPointSource(
-                        ipInput.PointLocation); 
+                        ipInput.PointLocation) { Rng = rng }; 
 
                 case SourceType.CustomPoint:
                     var cpInput = (CustomPointSourceInput)input;
@@ -30,7 +30,7 @@ namespace Vts.MonteCarlo.Factories
                         cpInput.PolarAngleEmissionRange,
                         cpInput.AzimuthalAngleEmissionRange,
                         cpInput.EmittingDirection,
-                        cpInput.PointLocation);
+                        cpInput.PointLocation) { Rng = rng };
 
                 case SourceType.DirectionalLine:
                     var dlInput = (DirectionalLineSourceInput)input;
@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo.Factories
                         dlInput.SourceProfile,
                         dlInput.NewDirectionOfPrincipalSourceAxis,
                         dlInput.TranslationFromOrigin,
-                        dlInput.BeamRotationFromInwardNormal);
+                        dlInput.BeamRotationFromInwardNormal) { Rng = rng };
 
                 case SourceType.IsotropicLine:
                     var ilInput = (IsotropicLineSourceInput)input;
@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo.Factories
                         ilInput.SourceProfile,
                         ilInput.NewDirectionOfPrincipalSourceAxis,
                         ilInput.TranslationFromOrigin,
-                        ilInput.BeamRotationFromInwardNormal);                   
+                        ilInput.BeamRotationFromInwardNormal) { Rng = rng };                   
 
                 case SourceType.CustomLine:
                     var clInput = (CustomLineSourceInput)input;
@@ -60,7 +60,7 @@ namespace Vts.MonteCarlo.Factories
                         clInput.AzimuthalAngleEmissionRange,
                         clInput.NewDirectionOfPrincipalSourceAxis,
                         clInput.TranslationFromOrigin,
-                        clInput.BeamRotationFromInwardNormal);  
+                        clInput.BeamRotationFromInwardNormal) { Rng = rng };  
 
                 case SourceType.DirectionalCircular:
                     var dcInput = (DirectionalCircularSourceInput)input;
@@ -71,7 +71,7 @@ namespace Vts.MonteCarlo.Factories
                         dcInput.SourceProfile,
                         dcInput.NewDirectionOfPrincipalSourceAxis,
                         dcInput.TranslationFromOrigin,
-                        dcInput.BeamRotationFromInwardNormal);
+                        dcInput.BeamRotationFromInwardNormal) { Rng = rng };
 
                 case SourceType.CustomCircular:
                     var ccInput = (CustomCircularSourceInput)input;
@@ -83,7 +83,7 @@ namespace Vts.MonteCarlo.Factories
                         ccInput.AzimuthalAngleEmissionRange,
                         ccInput.NewDirectionOfPrincipalSourceAxis,
                         ccInput.TranslationFromOrigin,
-                        ccInput.BeamRotationFromInwardNormal);
+                        ccInput.BeamRotationFromInwardNormal) { Rng = rng };
 
                 case SourceType.LambertianSurfaceEmittingCubiodal:
                     var lsecInput = (LambertianSurfaceEmittingCuboidalSourceInput)input;
@@ -93,7 +93,7 @@ namespace Vts.MonteCarlo.Factories
                         lsecInput.CubeHeightZ,
                         lsecInput.SourceProfile,
                         lsecInput.NewDirectionOfPrincipalSourceAxis,
-                        lsecInput.TranslationFromOrigin);
+                        lsecInput.TranslationFromOrigin) { Rng = rng };
 
                 case SourceType.CustomSurfaceEmittingCuboidal:
                     var csecInput = (CustomSurfaceEmittingCuboidalSourceInput)input;
@@ -104,7 +104,7 @@ namespace Vts.MonteCarlo.Factories
                         csecInput.SourceProfile,
                         csecInput.PolarAngleEmissionRange,
                         csecInput.NewDirectionOfPrincipalSourceAxis,
-                        csecInput.TranslationFromOrigin);
+                        csecInput.TranslationFromOrigin) { Rng = rng };
                 
                 case SourceType.LambertianCylindricalFiber:
                     var lsecfInput = (LambertianSurfaceEmittingCylindricalFiberSourceInput)input;
@@ -114,7 +114,7 @@ namespace Vts.MonteCarlo.Factories
                         lsecfInput.CurvedSurfaceEfficiency,
                         lsecfInput.BottomSurfaceEfficiency,
                         lsecfInput.NewDirectionOfPrincipalSourceAxis,
-                        lsecfInput.TranslationFromOrigin);
+                        lsecfInput.TranslationFromOrigin) { Rng = rng };
 
                 case SourceType.DirectionalElliptical:
                     var deInput = (DirectionalEllipticalSourceInput)input;
@@ -125,7 +125,7 @@ namespace Vts.MonteCarlo.Factories
                         deInput.SourceProfile,
                         deInput.NewDirectionOfPrincipalSourceAxis,
                         deInput.TranslationFromOrigin,
-                        deInput.BeamRotationFromInwardNormal);
+                        deInput.BeamRotationFromInwardNormal) { Rng = rng };
 
                 case SourceType.CustomElliptical:
                     var ceInput = (CustomEllipticalSourceInput)input;
@@ -137,7 +137,7 @@ namespace Vts.MonteCarlo.Factories
                         ceInput.AzimuthalAngleEmissionRange,
                         ceInput.NewDirectionOfPrincipalSourceAxis,
                         ceInput.TranslationFromOrigin,
-                        ceInput.BeamRotationFromInwardNormal);
+                        ceInput.BeamRotationFromInwardNormal) { Rng = rng };
 
                 case SourceType.DirectionalRectangular:
                     var drInput = (DirectionalRectangularSourceInput)input;
@@ -148,7 +148,7 @@ namespace Vts.MonteCarlo.Factories
                         drInput.SourceProfile,
                         drInput.NewDirectionOfPrincipalSourceAxis,
                         drInput.TranslationFromOrigin,
-                        drInput.BeamRotationFromInwardNormal);
+                        drInput.BeamRotationFromInwardNormal) { Rng = rng };
 
                 case SourceType.CustomRectangular:
                     var crInput = (CustomRectangularSourceInput)input;
@@ -160,13 +160,13 @@ namespace Vts.MonteCarlo.Factories
                         crInput.AzimuthalAngleEmissionRange,
                         crInput.NewDirectionOfPrincipalSourceAxis,
                         crInput.TranslationFromOrigin,
-                        crInput.BeamRotationFromInwardNormal);
+                        crInput.BeamRotationFromInwardNormal) { Rng = rng };
 
                 case SourceType.LambertianSurfaceEmittingSpherical:
                     var lsesInput = (LambertianSurfaceEmittingSphericalSourceInput)input;
                     return new LambertianSurfaceEmittingSphericalSource(
                         lsesInput.Radius,
-                        lsesInput.TranslationFromOrigin);
+                        lsesInput.TranslationFromOrigin) { Rng = rng };
 
                 case SourceType.CustomSurfaceEmittingSpherical:
                     var csesInput = (CustomSurfaceEmittingSphericalSourceInput)input;
@@ -175,7 +175,7 @@ namespace Vts.MonteCarlo.Factories
                         csesInput.PolarAngleRangeToDefineSphericalSurface,
                         csesInput.AzimuthalAngleRangeToDefineSphericalSurface,
                         csesInput.NewDirectionOfPrincipalSourceAxis,
-                        csesInput.TranslationFromOrigin);
+                        csesInput.TranslationFromOrigin) { Rng = rng };
 
                 case SourceType.LambertianSurfaceEmittingTubular:
                     var lsetInput = (LambertianSurfaceEmittingTubularSourceInput)input;
@@ -183,7 +183,7 @@ namespace Vts.MonteCarlo.Factories
                         lsetInput.TubeRadius,
                         lsetInput.TubeHeightZ,
                         lsetInput.NewDirectionOfPrincipalSourceAxis,
-                        lsetInput.TranslationFromOrigin);  
+                        lsetInput.TranslationFromOrigin) { Rng = rng };  
 
                 case SourceType.IsotropicVolumetricCuboidal:
                     var ivcInput = (IsotropicVolumetricCuboidalSourceInput)input;
@@ -193,7 +193,7 @@ namespace Vts.MonteCarlo.Factories
                         ivcInput.CubeHeightZ,
                         ivcInput.SourceProfile,
                         ivcInput.NewDirectionOfPrincipalSourceAxis,
-                        ivcInput.TranslationFromOrigin);
+                        ivcInput.TranslationFromOrigin) { Rng = rng };
 
                 case SourceType.CustomVolumetricCubiodal:
                     var cvcInput = (CustomVolumetricCuboidalSourceInput)input;
@@ -205,7 +205,7 @@ namespace Vts.MonteCarlo.Factories
                         cvcInput.PolarAngleEmissionRange,
                         cvcInput.AzimuthalAngleEmissionRange,
                         cvcInput.NewDirectionOfPrincipalSourceAxis,
-                        cvcInput.TranslationFromOrigin);
+                        cvcInput.TranslationFromOrigin) { Rng = rng };
 
                 case SourceType.IsotropicVolumetricEllipsoidal:
                     var iveInput = (IsotropicVolumetricEllipsoidalSourceInput)input;
@@ -215,7 +215,7 @@ namespace Vts.MonteCarlo.Factories
                         iveInput.CParameter,
                         iveInput.SourceProfile,
                         iveInput.NewDirectionOfPrincipalSourceAxis,
-                        iveInput.TranslationFromOrigin);
+                        iveInput.TranslationFromOrigin) { Rng = rng };
 
                 case SourceType.CustomVolumetricEllipsoidal:
                     var cveInput = (CustomVolumetricEllipsoidalSourceInput)input;
@@ -227,7 +227,7 @@ namespace Vts.MonteCarlo.Factories
                         cveInput.PolarAngleEmissionRange,
                         cveInput.AzimuthalAngleEmissionRange,
                         cveInput.NewDirectionOfPrincipalSourceAxis,
-                        cveInput.TranslationFromOrigin);
+                        cveInput.TranslationFromOrigin) { Rng = rng };
 
                 default: 
                     throw new NotImplementedException(

@@ -65,23 +65,25 @@ namespace Vts.MonteCarlo.Sources
                 _rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,
                 _rotationAndTranslationFlags);
-            
+
+            var photon = new Photon(finalPosition, finalDirection, tissue, Rng);
 
             // the handling of specular needs work
-            var weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
+            //var weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
+            photon.DP.Weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
 
-            var dataPoint = new PhotonDataPoint(
-                finalPosition,
-                finalDirection,
-                weight,
-                0.0,
-                PhotonStateType.NotSet);
+            //var dataPoint = new PhotonDataPoint(
+            //    finalPosition,
+            //    finalDirection,
+            //    weight,
+            //    0.0,
+            //    PhotonStateType.NotSet);
 
-            var photon = new Photon { DP = dataPoint };
+            //var photon = new Photon { DP = dataPoint };
 
             return photon;
         }
-        
+
         #region Random number generator code (copy-paste into all sources)
         /// <summary>
         /// The random number generator used to create photons. If not assigned externally,
