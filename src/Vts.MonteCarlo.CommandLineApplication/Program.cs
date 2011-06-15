@@ -211,6 +211,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
             if (!displayHelp)
             {
                 var input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
+                if (input == null)
+                {
+                    return;
+                }
 
                 var validationResult = MonteCarloSetup.ValidateSimulationInput(input);
                 if (!validationResult.IsValid)
