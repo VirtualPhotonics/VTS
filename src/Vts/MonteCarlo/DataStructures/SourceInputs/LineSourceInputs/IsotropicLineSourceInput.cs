@@ -13,7 +13,8 @@ namespace Vts.MonteCarlo.Sources
             ISourceProfile sourceProfile,
             Direction newDirectionOfPrincipalSourceAxis,
             Position translationFromOrigin,
-            PolarAzimuthalAngles beamRotationFromInwardNormal)
+            PolarAzimuthalAngles beamRotationFromInwardNormal,
+            int initialTissueRegionIndex)
         {
             SourceType = SourceType.IsotropicLine;
             LineLength = lineLength;
@@ -21,6 +22,7 @@ namespace Vts.MonteCarlo.Sources
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
             BeamRotationFromInwardNormal = beamRotationFromInwardNormal;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public IsotropicLineSourceInput(
@@ -31,7 +33,8 @@ namespace Vts.MonteCarlo.Sources
                 sourceProfile,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone()) { }
+                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+                0) { }
 
         public IsotropicLineSourceInput()
             : this(
@@ -39,7 +42,8 @@ namespace Vts.MonteCarlo.Sources
                 new FlatSourceProfile(),
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone()) { }
+                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(), 
+                0) { }
 
         public SourceType SourceType { get; set; }
         public double LineLength { get; set; }
@@ -47,5 +51,6 @@ namespace Vts.MonteCarlo.Sources
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
         public Position TranslationFromOrigin { get; set; }
         public PolarAzimuthalAngles BeamRotationFromInwardNormal { get; set; }
+        public int InitialTissueRegionIndex { get; set; }
     }
 }

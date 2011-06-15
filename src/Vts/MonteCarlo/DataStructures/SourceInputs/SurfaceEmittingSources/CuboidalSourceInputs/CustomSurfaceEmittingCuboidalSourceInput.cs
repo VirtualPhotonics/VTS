@@ -15,7 +15,8 @@ namespace Vts.MonteCarlo.Sources
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             Direction newDirectionOfPrincipalSourceAxis,
-            Position translationFromOrigin)
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
         {
             SourceType = SourceType.CustomSurfaceEmittingCuboidal;
             CubeLengthX = cubeLengthX;
@@ -25,6 +26,7 @@ namespace Vts.MonteCarlo.Sources
             PolarAngleEmissionRange = polarAngleEmissionRange;           
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public CustomSurfaceEmittingCuboidalSourceInput(
@@ -40,7 +42,8 @@ namespace Vts.MonteCarlo.Sources
                 sourceProfile,
                 polarAngleEmissionRange,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                SourceDefaults.DefaultPosition.Clone()) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                0) { }
 
         public CustomSurfaceEmittingCuboidalSourceInput()            
             : this(
@@ -50,7 +53,8 @@ namespace Vts.MonteCarlo.Sources
                 new FlatSourceProfile(),
                 SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                SourceDefaults.DefaultPosition.Clone()) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                0) { }
 
         public SourceType SourceType { get; set; }
         public double CubeLengthX { get; set; }
@@ -60,5 +64,6 @@ namespace Vts.MonteCarlo.Sources
         public DoubleRange PolarAngleEmissionRange { get; set; }      
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
         public Position TranslationFromOrigin { get; set; }
+        public int InitialTissueRegionIndex { get; set; }
     }
 }

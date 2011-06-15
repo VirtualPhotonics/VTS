@@ -14,7 +14,8 @@ namespace Vts.MonteCarlo.Sources
             double cubeHeightZ,
             ISourceProfile sourceProfile,
             Direction newDirectionOfPrincipalSourceAxis,
-            Position translationFromOrigin)
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
         {
             SourceType = SourceType.CustomVolumetricCubiodal;
             CubeLengthX = cubeLengthX;
@@ -23,6 +24,7 @@ namespace Vts.MonteCarlo.Sources
             SourceProfile = sourceProfile;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public IsotropicVolumetricCuboidalSourceInput(
@@ -36,7 +38,8 @@ namespace Vts.MonteCarlo.Sources
                 cubeHeightZ,
                 sourceProfile,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                SourceDefaults.DefaultPosition.Clone()) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                0) { }
 
         public IsotropicVolumetricCuboidalSourceInput()
             : this(
@@ -45,7 +48,8 @@ namespace Vts.MonteCarlo.Sources
                 1.0,
                 new FlatSourceProfile(),
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                SourceDefaults.DefaultPosition.Clone()) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                0) { }
 
         public SourceType SourceType { get; set; }
         public double CubeLengthX { get; set; }
@@ -54,5 +58,6 @@ namespace Vts.MonteCarlo.Sources
         public ISourceProfile SourceProfile { get; set; }      
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
         public Position TranslationFromOrigin { get; set; }
+        public int InitialTissueRegionIndex { get; set; }
     }
 }

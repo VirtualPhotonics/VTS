@@ -23,7 +23,8 @@ namespace Vts.MonteCarlo.Factories
                 case SourceType.IsotropicPoint:
                     var ipInput = (IsotropicPointSourceInput)input;
                     return new IsotropicPointSource(
-                        ipInput.PointLocation) { Rng = rng }; 
+                        ipInput.PointLocation,
+                        ipInput.InitialTissueRegionIndex) { Rng = rng }; 
 
                 case SourceType.CustomPoint:
                     var cpInput = (CustomPointSourceInput)input;
@@ -31,7 +32,8 @@ namespace Vts.MonteCarlo.Factories
                         cpInput.PolarAngleEmissionRange,
                         cpInput.AzimuthalAngleEmissionRange,
                         cpInput.EmittingDirection,
-                        cpInput.PointLocation) { Rng = rng };
+                        cpInput.PointLocation,
+                        cpInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.DirectionalLine:
                     var dlInput = (DirectionalLineSourceInput)input;
@@ -41,7 +43,8 @@ namespace Vts.MonteCarlo.Factories
                         dlInput.SourceProfile,
                         dlInput.NewDirectionOfPrincipalSourceAxis,
                         dlInput.TranslationFromOrigin,
-                        dlInput.BeamRotationFromInwardNormal) { Rng = rng };
+                        dlInput.BeamRotationFromInwardNormal,
+                        dlInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.IsotropicLine:
                     var ilInput = (IsotropicLineSourceInput)input;
@@ -61,7 +64,8 @@ namespace Vts.MonteCarlo.Factories
                         clInput.AzimuthalAngleEmissionRange,
                         clInput.NewDirectionOfPrincipalSourceAxis,
                         clInput.TranslationFromOrigin,
-                        clInput.BeamRotationFromInwardNormal) { Rng = rng };  
+                        clInput.BeamRotationFromInwardNormal,
+                        clInput.InitialTissueRegionIndex) { Rng = rng };  
 
                 case SourceType.DirectionalCircular:
                     var dcInput = (DirectionalCircularSourceInput)input;
@@ -72,7 +76,8 @@ namespace Vts.MonteCarlo.Factories
                         dcInput.SourceProfile,
                         dcInput.NewDirectionOfPrincipalSourceAxis,
                         dcInput.TranslationFromOrigin,
-                        dcInput.BeamRotationFromInwardNormal) { Rng = rng };
+                        dcInput.BeamRotationFromInwardNormal,
+                        dcInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.CustomCircular:
                     var ccInput = (CustomCircularSourceInput)input;
@@ -84,7 +89,8 @@ namespace Vts.MonteCarlo.Factories
                         ccInput.AzimuthalAngleEmissionRange,
                         ccInput.NewDirectionOfPrincipalSourceAxis,
                         ccInput.TranslationFromOrigin,
-                        ccInput.BeamRotationFromInwardNormal) { Rng = rng };
+                        ccInput.BeamRotationFromInwardNormal,
+                        ccInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.LambertianSurfaceEmittingCubiodal:
                     var lsecInput = (LambertianSurfaceEmittingCuboidalSourceInput)input;
@@ -94,7 +100,8 @@ namespace Vts.MonteCarlo.Factories
                         lsecInput.CubeHeightZ,
                         lsecInput.SourceProfile,
                         lsecInput.NewDirectionOfPrincipalSourceAxis,
-                        lsecInput.TranslationFromOrigin) { Rng = rng };
+                        lsecInput.TranslationFromOrigin,
+                        lsecInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.CustomSurfaceEmittingCuboidal:
                     var csecInput = (CustomSurfaceEmittingCuboidalSourceInput)input;
@@ -105,7 +112,8 @@ namespace Vts.MonteCarlo.Factories
                         csecInput.SourceProfile,
                         csecInput.PolarAngleEmissionRange,
                         csecInput.NewDirectionOfPrincipalSourceAxis,
-                        csecInput.TranslationFromOrigin) { Rng = rng };
+                        csecInput.TranslationFromOrigin,
+                        csecInput.InitialTissueRegionIndex) { Rng = rng };
                 
                 case SourceType.LambertianCylindricalFiber:
                     var lsecfInput = (LambertianSurfaceEmittingCylindricalFiberSourceInput)input;
@@ -115,7 +123,8 @@ namespace Vts.MonteCarlo.Factories
                         lsecfInput.CurvedSurfaceEfficiency,
                         lsecfInput.BottomSurfaceEfficiency,
                         lsecfInput.NewDirectionOfPrincipalSourceAxis,
-                        lsecfInput.TranslationFromOrigin) { Rng = rng };
+                        lsecfInput.TranslationFromOrigin,
+                        lsecfInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.DirectionalElliptical:
                     var deInput = (DirectionalEllipticalSourceInput)input;
@@ -126,7 +135,8 @@ namespace Vts.MonteCarlo.Factories
                         deInput.SourceProfile,
                         deInput.NewDirectionOfPrincipalSourceAxis,
                         deInput.TranslationFromOrigin,
-                        deInput.BeamRotationFromInwardNormal) { Rng = rng };
+                        deInput.BeamRotationFromInwardNormal,
+                        deInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.CustomElliptical:
                     var ceInput = (CustomEllipticalSourceInput)input;
@@ -138,7 +148,8 @@ namespace Vts.MonteCarlo.Factories
                         ceInput.AzimuthalAngleEmissionRange,
                         ceInput.NewDirectionOfPrincipalSourceAxis,
                         ceInput.TranslationFromOrigin,
-                        ceInput.BeamRotationFromInwardNormal) { Rng = rng };
+                        ceInput.BeamRotationFromInwardNormal,
+                        ceInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.DirectionalRectangular:
                     var drInput = (DirectionalRectangularSourceInput)input;
@@ -149,7 +160,8 @@ namespace Vts.MonteCarlo.Factories
                         drInput.SourceProfile,
                         drInput.NewDirectionOfPrincipalSourceAxis,
                         drInput.TranslationFromOrigin,
-                        drInput.BeamRotationFromInwardNormal) { Rng = rng };
+                        drInput.BeamRotationFromInwardNormal,
+                        drInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.CustomRectangular:
                     var crInput = (CustomRectangularSourceInput)input;
@@ -161,13 +173,15 @@ namespace Vts.MonteCarlo.Factories
                         crInput.AzimuthalAngleEmissionRange,
                         crInput.NewDirectionOfPrincipalSourceAxis,
                         crInput.TranslationFromOrigin,
-                        crInput.BeamRotationFromInwardNormal) { Rng = rng };
+                        crInput.BeamRotationFromInwardNormal,
+                        crInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.LambertianSurfaceEmittingSpherical:
                     var lsesInput = (LambertianSurfaceEmittingSphericalSourceInput)input;
                     return new LambertianSurfaceEmittingSphericalSource(
                         lsesInput.Radius,
-                        lsesInput.TranslationFromOrigin) { Rng = rng };
+                        lsesInput.TranslationFromOrigin,
+                        lsesInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.CustomSurfaceEmittingSpherical:
                     var csesInput = (CustomSurfaceEmittingSphericalSourceInput)input;
@@ -176,7 +190,8 @@ namespace Vts.MonteCarlo.Factories
                         csesInput.PolarAngleRangeToDefineSphericalSurface,
                         csesInput.AzimuthalAngleRangeToDefineSphericalSurface,
                         csesInput.NewDirectionOfPrincipalSourceAxis,
-                        csesInput.TranslationFromOrigin) { Rng = rng };
+                        csesInput.TranslationFromOrigin,
+                        csesInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.LambertianSurfaceEmittingTubular:
                     var lsetInput = (LambertianSurfaceEmittingTubularSourceInput)input;
@@ -184,7 +199,8 @@ namespace Vts.MonteCarlo.Factories
                         lsetInput.TubeRadius,
                         lsetInput.TubeHeightZ,
                         lsetInput.NewDirectionOfPrincipalSourceAxis,
-                        lsetInput.TranslationFromOrigin) { Rng = rng };  
+                        lsetInput.TranslationFromOrigin,
+                        lsetInput.InitialTissueRegionIndex) { Rng = rng };  
 
                 case SourceType.IsotropicVolumetricCuboidal:
                     var ivcInput = (IsotropicVolumetricCuboidalSourceInput)input;
@@ -194,7 +210,8 @@ namespace Vts.MonteCarlo.Factories
                         ivcInput.CubeHeightZ,
                         ivcInput.SourceProfile,
                         ivcInput.NewDirectionOfPrincipalSourceAxis,
-                        ivcInput.TranslationFromOrigin) { Rng = rng };
+                        ivcInput.TranslationFromOrigin,
+                        ivcInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.CustomVolumetricCubiodal:
                     var cvcInput = (CustomVolumetricCuboidalSourceInput)input;
@@ -206,7 +223,8 @@ namespace Vts.MonteCarlo.Factories
                         cvcInput.PolarAngleEmissionRange,
                         cvcInput.AzimuthalAngleEmissionRange,
                         cvcInput.NewDirectionOfPrincipalSourceAxis,
-                        cvcInput.TranslationFromOrigin) { Rng = rng };
+                        cvcInput.TranslationFromOrigin,
+                        cvcInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.IsotropicVolumetricEllipsoidal:
                     var iveInput = (IsotropicVolumetricEllipsoidalSourceInput)input;
@@ -216,7 +234,8 @@ namespace Vts.MonteCarlo.Factories
                         iveInput.CParameter,
                         iveInput.SourceProfile,
                         iveInput.NewDirectionOfPrincipalSourceAxis,
-                        iveInput.TranslationFromOrigin) { Rng = rng };
+                        iveInput.TranslationFromOrigin,
+                        iveInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.CustomVolumetricEllipsoidal:
                     var cveInput = (CustomVolumetricEllipsoidalSourceInput)input;
@@ -228,7 +247,8 @@ namespace Vts.MonteCarlo.Factories
                         cveInput.PolarAngleEmissionRange,
                         cveInput.AzimuthalAngleEmissionRange,
                         cveInput.NewDirectionOfPrincipalSourceAxis,
-                        cveInput.TranslationFromOrigin) { Rng = rng };
+                        cveInput.TranslationFromOrigin,
+                        cveInput.InitialTissueRegionIndex) { Rng = rng };
 
                 default: 
                     throw new NotImplementedException(

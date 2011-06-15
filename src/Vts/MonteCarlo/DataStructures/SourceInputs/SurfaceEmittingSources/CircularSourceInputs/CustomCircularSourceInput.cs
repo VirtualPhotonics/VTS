@@ -16,7 +16,8 @@ namespace Vts.MonteCarlo.Sources
             DoubleRange azimuthalAngleEmissionRange,
             Direction newDirectionOfPrincipalSourceAxis,
             Position translationFromOrigin,
-            PolarAzimuthalAngles beamRotationFromInwardNormal)
+            PolarAzimuthalAngles beamRotationFromInwardNormal,
+            int initialTissueRegionIndex)
         {
             SourceType = SourceType.CustomCircular;
             OuterRadius = outerRadius;
@@ -27,6 +28,7 @@ namespace Vts.MonteCarlo.Sources
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
             BeamRotationFromInwardNormal = beamRotationFromInwardNormal;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public CustomCircularSourceInput(
@@ -43,7 +45,8 @@ namespace Vts.MonteCarlo.Sources
                 azimuthalAngleEmissionRange,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone()) { }
+                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+                0) { }
 
         public CustomCircularSourceInput()            
             : this(
@@ -54,7 +57,8 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone()) { }
+                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+                0) { }
 
         public SourceType SourceType { get; set; }
         public double OuterRadius { get; set; }
@@ -65,5 +69,6 @@ namespace Vts.MonteCarlo.Sources
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
         public Position TranslationFromOrigin { get; set; }
         public PolarAzimuthalAngles BeamRotationFromInwardNormal { get; set; }
+        public int InitialTissueRegionIndex { get; set; }
     }
 }

@@ -15,19 +15,22 @@ namespace Vts.MonteCarlo.Sources
         protected Position _translationFromOrigin;
         protected SourceFlags _rotationAndTranslationFlags;
         protected double _radius;
+        protected int _initialTissueRegionIndex;
 
         protected SurfaceEmittingSphericalSourceBase(
             double radius,
             DoubleRange polarAngleRangeToDefineSphericalSurface,  
             DoubleRange azimuthalAngleRangeToDefineSphericalSurface,            
             Direction newDirectionOfPrincipalSourceAxis,
-            Position translationFromOrigin)
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
         {
             _radius = radius;
             _polarAngleRangeToDefineSphericalSurface = polarAngleRangeToDefineSphericalSurface.Clone();
             _azimuthalAngleRangeToDefineSphericalSurface = azimuthalAngleRangeToDefineSphericalSurface.Clone();
             _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone(); 
-            _translationFromOrigin = translationFromOrigin.Clone();        
+            _translationFromOrigin = translationFromOrigin.Clone();
+            _initialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public Photon GetNextPhoton(ITissue tissue)
@@ -61,17 +64,7 @@ namespace Vts.MonteCarlo.Sources
                 _translationFromOrigin,
                 _rotationAndTranslationFlags);
 
-            // the handling of specular needs work
-            var weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
-
-            var dataPoint = new PhotonDataPoint(
-                finalPosition,
-                finalDirection,
-                weight,
-                0.0,
-                PhotonStateType.NotSet);
-
-            var photon = new Photon { DP = dataPoint };
+            var photon = new Photon(finalPosition, finalDirection, tissue, 0, Rng);
 
             return photon;
         }

@@ -19,13 +19,15 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="translationFromOrigin">New source location</param>
         public LambertianSurfaceEmittingSphericalSource(
             double radius,
-            Position translationFromOrigin = null)
+            Position translationFromOrigin = null,
+            int initialTissueRegionIndex = 0)
             : base(
                 radius,
                 SourceDefaults.DefaultFullPolarAngleRange.Clone(),
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                translationFromOrigin)
+                translationFromOrigin,
+                initialTissueRegionIndex)
         {
             if (translationFromOrigin == null)
                 translationFromOrigin = SourceDefaults.DefaultPosition.Clone();

@@ -16,7 +16,8 @@ namespace Vts.MonteCarlo.Sources
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Direction newDirectionOfPrincipalSourceAxis,
-            Position translationFromOrigin)
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
         {
             SourceType = SourceType.CustomVolumetricCubiodal;
             CubeLengthX = cubeLengthX;
@@ -27,6 +28,7 @@ namespace Vts.MonteCarlo.Sources
             AzimuthalAngleEmissionRange = azimuthalAngleEmissionRange;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public CustomVolumetricCuboidalSourceInput(
@@ -44,7 +46,8 @@ namespace Vts.MonteCarlo.Sources
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                SourceDefaults.DefaultPosition.Clone()) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                0) { }
 
         public CustomVolumetricCuboidalSourceInput()
             : this(
@@ -55,7 +58,8 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultFullPolarAngleRange.Clone(),
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                SourceDefaults.DefaultPosition.Clone()) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                0) { }
 
         public SourceType SourceType { get; set; }
         public double CubeLengthX { get; set; }
@@ -66,5 +70,6 @@ namespace Vts.MonteCarlo.Sources
         public DoubleRange AzimuthalAngleEmissionRange { get; set; }       
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
         public Position TranslationFromOrigin { get; set; }
+        public int InitialTissueRegionIndex { get; set; }
     }
 }

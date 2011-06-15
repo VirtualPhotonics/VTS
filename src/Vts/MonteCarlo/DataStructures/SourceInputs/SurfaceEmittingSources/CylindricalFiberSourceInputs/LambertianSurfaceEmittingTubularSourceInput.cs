@@ -14,7 +14,8 @@ namespace Vts.MonteCarlo.Sources
             double curvedSurfaceEfficiency,
             double bottomSurfaceEfficiency,
             Direction newDirectionOfPrincipalSourceAxis,
-            Position translationFromOrigin)
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
         {
             SourceType = SourceType.LambertianSurfaceEmittingTubular;
             TubeRadius = tubeRadius;
@@ -23,6 +24,7 @@ namespace Vts.MonteCarlo.Sources
             BottomSurfaceEfficiency = bottomSurfaceEfficiency;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public LambertianSurfaceEmittingCylindricalFiberSourceInput(
@@ -34,7 +36,8 @@ namespace Vts.MonteCarlo.Sources
                 1.0,
                 1.0,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                SourceDefaults.DefaultPosition.Clone()) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                0) { }
 
         public LambertianSurfaceEmittingCylindricalFiberSourceInput()
             : this(
@@ -43,7 +46,8 @@ namespace Vts.MonteCarlo.Sources
                 1.0,
                 1.0,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                SourceDefaults.DefaultPosition.Clone()) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                0) { }
 
         public SourceType SourceType { get; set; }
         public double TubeRadius { get; set; }
@@ -52,5 +56,6 @@ namespace Vts.MonteCarlo.Sources
         public double BottomSurfaceEfficiency { get; set; }  
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
         public Position TranslationFromOrigin { get; set; }
+        public int InitialTissueRegionIndex { get; set; }
     }
 }

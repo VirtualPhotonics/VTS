@@ -16,6 +16,7 @@ namespace Vts.MonteCarlo.Sources
         protected double _fiberHeightZ;
         protected double _curvedSurfaceEfficiency;
         protected double _bottomSurfaceEfficiency;
+        protected int _initialTissueRegionIndex;
         
         protected SurfaceEmittingCylindricalFiberSourceBase(
             double fiberRadius,
@@ -23,7 +24,8 @@ namespace Vts.MonteCarlo.Sources
             double curvedSurfaceEfficiency,
             double bottomSurfaceEfficiency,
             Direction newDirectionOfPrincipalSourceAxis,                  
-            Position translationFromOrigin)
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
         {
             _rotationAndTranslationFlags = new SourceFlags(
                  newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
@@ -35,7 +37,8 @@ namespace Vts.MonteCarlo.Sources
             _curvedSurfaceEfficiency = curvedSurfaceEfficiency;
             _bottomSurfaceEfficiency = bottomSurfaceEfficiency;
             _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone();
-            _translationFromOrigin = translationFromOrigin.Clone();      
+            _translationFromOrigin = translationFromOrigin.Clone();
+            _initialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public Photon GetNextPhoton(ITissue tissue)
@@ -122,17 +125,7 @@ namespace Vts.MonteCarlo.Sources
                 _translationFromOrigin,                
                 _rotationAndTranslationFlags);
 
-            // the handling of specular needs work
-            var weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
-
-            var dataPoint = new PhotonDataPoint(
-                finalPosition,
-                finalDirection,
-                weight,
-                0.0,
-                PhotonStateType.NotSet);
-
-            var photon = new Photon { DP = dataPoint };
+            var photon = new Photon(finalPosition, finalDirection, tissue, 0, Rng);
 
             return photon;
         }

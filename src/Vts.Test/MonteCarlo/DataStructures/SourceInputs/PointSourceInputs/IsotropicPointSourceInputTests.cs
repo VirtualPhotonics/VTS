@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var position = new Position(1.0, 2.0, 3.0);
 
-            var ps = new IsotropicPointSourceInput(position)
+            var ps = new IsotropicPointSourceInput(position, 0)
             {                
             };
            

@@ -10,26 +10,31 @@ namespace Vts.MonteCarlo.Sources
         // this handles custom circular
         public LambertianSurfaceEmittingSphericalSourceInput(
             double radius,
-            Position translationFromOrigin)
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
         {
             SourceType = SourceType.LambertianSurfaceEmittingSpherical;
             Radius = radius;            
             TranslationFromOrigin = translationFromOrigin;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public LambertianSurfaceEmittingSphericalSourceInput(
             double radius)
             : this(
                 radius,
-                SourceDefaults.DefaultPosition.Clone()) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                0) { }
 
         public LambertianSurfaceEmittingSphericalSourceInput()
             : this(
                 1.0,
-                SourceDefaults.DefaultPosition.Clone()) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                0) { }
 
         public SourceType SourceType { get; set; }
-        public double Radius { get; set; }        
+        public double Radius { get; set; }
         public Position TranslationFromOrigin { get; set; }
+        public int InitialTissueRegionIndex { get; set; }
     }
 }

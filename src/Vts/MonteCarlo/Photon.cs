@@ -40,16 +40,24 @@ namespace Vts.MonteCarlo
 
             S = 0.0;
             SLeft = 0.0;
-            //CurrentRegionIndex = tissue.GetRegionIndex(DP.Position);
            
             CurrentRegionIndex = currentTissueRegionIndex;
-
-            var onBoundary = true;
+            // sanity check index against tissue, not sure following will work
+            //if (CurrentRegionIndex != tissue.GetRegionIndex(DP.Position))
+            //{
+            //    throw new ArgumentException("InitialTissueRegionIndex not valid given tissue definition");
+            //}
+            var onBoundary = tissue.OnDomainBoundary(this);
+            DP.Weight = 1.0;
             if (onBoundary)
             {
-                // if on tissue not on boundary Weight = 1;
-                // else get neighbor based on direction
-                DP.Weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[CurrentRegionIndex].RegionOP.N, tissue.Regions[1].RegionOP.N);
+                if (CurrentRegionIndex == 0)
+                {
+                    DP.Weight = 1.0 - Helpers.Optics.Specular( // quick fix 6/16/11 ckh
+                        tissue.Regions[0].RegionOP.N, // index needs to be CurrentRegionIndex
+                        tissue.Regions[1].RegionOP.N); // index needs to be NeighborRegionIndex
+                    CurrentRegionIndex = 1;
+                }
             }
 
             CurrentTrackIndex = 0;

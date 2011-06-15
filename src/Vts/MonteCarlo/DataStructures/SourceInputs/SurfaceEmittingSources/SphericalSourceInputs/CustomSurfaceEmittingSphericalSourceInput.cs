@@ -13,7 +13,8 @@ namespace Vts.MonteCarlo.Sources
             DoubleRange polarAngleRangeToDefineSphericalSurface,
             DoubleRange azimuthalAngleRangeToDefineSphericalSurface,
             Direction newDirectionOfPrincipalSourceAxis,
-            Position translationFromOrigin)
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
         {
             SourceType = SourceType.CustomSurfaceEmittingSpherical;
             Radius = radius;
@@ -21,6 +22,7 @@ namespace Vts.MonteCarlo.Sources
             AzimuthalAngleRangeToDefineSphericalSurface = azimuthalAngleRangeToDefineSphericalSurface;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public CustomSurfaceEmittingSphericalSourceInput(
@@ -32,7 +34,8 @@ namespace Vts.MonteCarlo.Sources
                 polarAngleRangeToDefineSphericalSurface,
                 azimuthalAngleRangeToDefineSphericalSurface,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                SourceDefaults.DefaultPosition.Clone()) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                0) { }
 
         public CustomSurfaceEmittingSphericalSourceInput()
             : this(
@@ -40,7 +43,8 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                SourceDefaults.DefaultPosition.Clone()) { }
+                SourceDefaults.DefaultPosition.Clone(),
+                0) { }
 
         public SourceType SourceType { get; set; }
         public double Radius { get; set; }
@@ -48,5 +52,6 @@ namespace Vts.MonteCarlo.Sources
         public DoubleRange AzimuthalAngleRangeToDefineSphericalSurface { get; set; }    
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
         public Position TranslationFromOrigin { get; set; }
+        public int InitialTissueRegionIndex { get; set; }
     }
 }

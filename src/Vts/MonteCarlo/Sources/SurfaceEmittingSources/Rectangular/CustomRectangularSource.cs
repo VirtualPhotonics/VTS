@@ -35,14 +35,16 @@ namespace Vts.MonteCarlo.Sources
             DoubleRange azimuthalAngleEmissionRange,
             Direction newDirectionOfPrincipalSourceAxis = null,
             Position translationFromOrigin = null,
-            PolarAzimuthalAngles beamRotationFromInwardNormal = null)
+            PolarAzimuthalAngles beamRotationFromInwardNormal = null,
+            int initialTissueRegionIndex = 0)
             : base(
                 rectLengthX,
                 rectWidthY,
                 sourceProfile,
                 newDirectionOfPrincipalSourceAxis,
                 translationFromOrigin,
-                beamRotationFromInwardNormal)
+                beamRotationFromInwardNormal,
+                initialTissueRegionIndex)
         {
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
             _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();

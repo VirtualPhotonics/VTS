@@ -28,7 +28,8 @@ namespace Vts.MonteCarlo.Sources
             double cubeHeightZ,
             ISourceProfile sourceProfile, 
             Direction newDirectionOfPrincipalSourceAxis = null, 
-            Position translationFromOrigin = null)
+            Position translationFromOrigin = null,
+            int initialTissueRegionIndex = 0)
             : base(
             cubeLengthX,
             cubeWidthY,
@@ -36,7 +37,8 @@ namespace Vts.MonteCarlo.Sources
             sourceProfile,
             SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
             newDirectionOfPrincipalSourceAxis,
-            translationFromOrigin)
+            translationFromOrigin,
+            initialTissueRegionIndex)
         {
             if (newDirectionOfPrincipalSourceAxis == null)
                 newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
