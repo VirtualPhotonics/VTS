@@ -14,20 +14,24 @@ namespace Vts.MonteCarlo
         // this handles point
         public DirectionalPointSourceInput(
             Position pointLocation,
-            Direction direction) 
+            Direction direction,
+            int initialTissueRegionIndex) 
         {
             SourceType = SourceType.DirectionalPoint;
             PointLocation = pointLocation;
             EmittingDirection = direction;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public DirectionalPointSourceInput()
             : this(
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone()) { }
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                0) { }
 
         public Position PointLocation { get; set; }
         public Direction EmittingDirection { get; set; }
         public SourceType SourceType { get; set; }
+        public int InitialTissueRegionIndex { get; set; }
     }
 }

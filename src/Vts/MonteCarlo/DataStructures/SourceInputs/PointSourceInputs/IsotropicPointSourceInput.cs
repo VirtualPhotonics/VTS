@@ -12,17 +12,21 @@ namespace Vts.MonteCarlo.Sources
     {
         // this handles point
         public IsotropicPointSourceInput(
-            Position pointLocation) 
+            Position pointLocation,
+            int initialTissueRegionIndex) 
         {
             SourceType = SourceType.IsotropicPoint;
-            PointLocation = pointLocation;            
+            PointLocation = pointLocation;
+            InitialTissueRegionIndex = initialTissueRegionIndex;            
         }
 
         public IsotropicPointSourceInput()
             : this(
-                new Position (0, 0, 0)) { }
+                new Position (0, 0, 0),
+                0) { }
 
         public Position PointLocation { get; set; }
         public SourceType SourceType { get; set; }
+        public int InitialTissueRegionIndex { get; set; }
     }
 }

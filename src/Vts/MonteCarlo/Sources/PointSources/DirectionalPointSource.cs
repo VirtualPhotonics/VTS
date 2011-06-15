@@ -18,12 +18,14 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="location">New position</param>
         public DirectionalPointSource(
             Direction newDirectionOfPrincipalSourceAxis,
-            Position location = null)
+            Position location = null,
+            int initialTissueRegionIndex = 0)
             : base(
                 new DoubleRange(0.0, 0.0),
                 new DoubleRange(0.0, 0.0),                
                 newDirectionOfPrincipalSourceAxis,
-                location)
+                location,
+                initialTissueRegionIndex)
         {         
         }        
     }

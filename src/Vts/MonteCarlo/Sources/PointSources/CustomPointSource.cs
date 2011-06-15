@@ -23,13 +23,15 @@ namespace Vts.MonteCarlo.Sources
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Direction newDirectionOfPrincipalSourceAxis = null,
-            Position location = null
+            Position location = null,
+            int initialTissueRegionIndex = 0
             )
             : base(
                 polarAngleEmissionRange,
                 azimuthalAngleEmissionRange,                
                 newDirectionOfPrincipalSourceAxis,
-                location)
+                location,
+                initialTissueRegionIndex)
         {            
         }
     }

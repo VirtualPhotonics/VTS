@@ -15,13 +15,15 @@ namespace Vts.MonteCarlo.Sources
         protected PolarAzimuthalAngles _beamRotationFromInwardNormal;        
         protected SourceFlags _rotationAndTranslationFlags;
         protected double _lineLength;
+        protected int _initialTissueRegionIndex;
 
         protected LineSourceBase(
             double lineLength,
             ISourceProfile sourceProfile,
             Direction newDirectionOfPrincipalSourceAxis,
             Position translationFromOrigin,
-            PolarAzimuthalAngles beamRotationFromInwardNormal)
+            PolarAzimuthalAngles beamRotationFromInwardNormal,
+            int initialTissueRegionIndex)
         {
             if (newDirectionOfPrincipalSourceAxis == null)
                 newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
@@ -39,7 +41,8 @@ namespace Vts.MonteCarlo.Sources
             _sourceProfile = sourceProfile;
             _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone();
             _translationFromOrigin = translationFromOrigin.Clone();
-            _beamRotationFromInwardNormal = beamRotationFromInwardNormal.Clone();           
+            _beamRotationFromInwardNormal = beamRotationFromInwardNormal.Clone();
+            _initialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public Photon GetNextPhoton(ITissue tissue)

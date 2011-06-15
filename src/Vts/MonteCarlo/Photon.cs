@@ -27,6 +27,7 @@ namespace Vts.MonteCarlo
             Position p,
             Direction d,
             ITissue tissue,
+            int currentTissueRegionIndex,
             Random generator)
         {
             DP = new PhotonDataPoint(
@@ -39,7 +40,18 @@ namespace Vts.MonteCarlo
 
             S = 0.0;
             SLeft = 0.0;
-            CurrentRegionIndex = tissue.GetRegionIndex(DP.Position);
+            //CurrentRegionIndex = tissue.GetRegionIndex(DP.Position);
+           
+            CurrentRegionIndex = currentTissueRegionIndex;
+
+            var onBoundary = true;
+            if (onBoundary)
+            {
+                // if on tissue not on boundary Weight = 1;
+                // else get neighbor based on direction
+                DP.Weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[CurrentRegionIndex].RegionOP.N, tissue.Regions[1].RegionOP.N);
+            }
+
             CurrentTrackIndex = 0;
             _tissue = tissue;
             SetAbsorbAction(_tissue.AbsorptionWeightingType);
@@ -52,6 +64,7 @@ namespace Vts.MonteCarlo
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
                 new MultiLayerTissue(),
+                0, 
                 RandomNumberGeneratorFactory.GetRandomNumberGenerator(RandomNumberGeneratorType.MersenneTwister)
                 ) { }
 

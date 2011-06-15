@@ -7,5 +7,6 @@ namespace Vts.MonteCarlo
     public interface ISourceInput
     {
         SourceType SourceType { get; set; }
+        int InitialTissueRegionIndex { get; set; }
     }
 }

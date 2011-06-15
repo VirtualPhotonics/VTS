@@ -26,13 +26,15 @@ namespace Vts.MonteCarlo.Sources
             ISourceProfile sourceProfile,
             Direction newDirectionOfPrincipalSourceAxis = null,
             Position translationFromOrigin = null,
-            PolarAzimuthalAngles beamRotationFromInwardNormal = null)
+            PolarAzimuthalAngles beamRotationFromInwardNormal = null,
+            int initialTissueRegionIndex = 0)
             : base(
                 lineLength,
                 sourceProfile,
                 newDirectionOfPrincipalSourceAxis,
                 translationFromOrigin,
-                beamRotationFromInwardNormal)
+                beamRotationFromInwardNormal,
+                initialTissueRegionIndex)
         {
             
         }        

@@ -17,7 +17,8 @@ namespace Vts.MonteCarlo.Factories
                     var dpInput = (DirectionalPointSourceInput)input;
                     return new DirectionalPointSource(
                         dpInput.EmittingDirection,
-                        dpInput.PointLocation) { Rng = rng };
+                        dpInput.PointLocation,
+                        dpInput.InitialTissueRegionIndex) { Rng = rng };
 
                 case SourceType.IsotropicPoint:
                     var ipInput = (IsotropicPointSourceInput)input;

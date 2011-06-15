@@ -20,13 +20,15 @@ namespace Vts.MonteCarlo.Sources
         protected Position _translationFromOrigin;
         protected Direction _newDirectionOfPrincipalSourceAxis;
         protected PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis;
-        protected SourceFlags _rotationAndTranslationFlags;       
+        protected SourceFlags _rotationAndTranslationFlags;
+        protected int _initialTissueRegionIndex;
 
         protected PointSourceBase( 
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Direction newDirectionOfPrincipalSourceAxis,
-            Position translationFromOrigin)
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
         {
             if (newDirectionOfPrincipalSourceAxis == null)
                 newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
@@ -42,6 +44,7 @@ namespace Vts.MonteCarlo.Sources
                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
                 false);
+            _initialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public Photon GetNextPhoton(ITissue tissue)
@@ -66,11 +69,11 @@ namespace Vts.MonteCarlo.Sources
                 _translationFromOrigin,
                 _rotationAndTranslationFlags);
 
-            var photon = new Photon(finalPosition, finalDirection, tissue, Rng);
+            var photon = new Photon(finalPosition, finalDirection, tissue, _initialTissueRegionIndex, Rng);
 
             // the handling of specular needs work
             //var weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
-            photon.DP.Weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
+            //photon.DP.Weight = 1.0 - Helpers.Optics.Specular(tissue.Regions[0].RegionOP.N, tissue.Regions[1].RegionOP.N);
 
             //var dataPoint = new PhotonDataPoint(
             //    finalPosition,

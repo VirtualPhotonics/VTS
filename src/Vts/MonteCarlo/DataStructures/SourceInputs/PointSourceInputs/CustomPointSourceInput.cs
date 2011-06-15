@@ -16,13 +16,15 @@ namespace Vts.MonteCarlo.Sources
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
             Position pointLocation,
-            Direction emittingDirection)
+            Direction emittingDirection,
+            int initialTissueRegionIndex)
         {
             SourceType = SourceType.CustomPoint;
             PolarAngleEmissionRange = polarAngleEmissionRange;
             AzimuthalAngleEmissionRange = azimuthalAngleEmissionRange;
             PointLocation = pointLocation;
             EmittingDirection = emittingDirection;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         public CustomPointSourceInput()
@@ -30,12 +32,14 @@ namespace Vts.MonteCarlo.Sources
                 new DoubleRange(0.0, 0.0),
                 new DoubleRange(0.0, 0.0),
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone()) { }
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                0) { }
 
         public DoubleRange PolarAngleEmissionRange { get; set; }
         public DoubleRange AzimuthalAngleEmissionRange { get; set; }
         public Position PointLocation { get; set; }
         public Direction EmittingDirection { get; set; }
         public SourceType SourceType { get; set; }
+        public int InitialTissueRegionIndex { get; set; }
     }
 }

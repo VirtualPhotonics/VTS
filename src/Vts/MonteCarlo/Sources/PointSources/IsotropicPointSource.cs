@@ -16,12 +16,14 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>        
         /// <param name="location">Location of the point source</param> 
         public IsotropicPointSource(
-            Position location = null)
+            Position location = null,
+            int initialTissueRegionIndex = 0)
             : base(
                 SourceDefaults.DefaultFullPolarAngleRange.Clone(),
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),                
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                location)
+                location,
+                initialTissueRegionIndex)
         {
             if (location == null)
                 location = SourceDefaults.DefaultPosition.Clone();
