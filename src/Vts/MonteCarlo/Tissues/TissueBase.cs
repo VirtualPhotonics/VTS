@@ -9,10 +9,13 @@ namespace Vts.MonteCarlo.Tissues
 
     public abstract class TissueBase : ITissue
     {
-        public TissueBase(IList<ITissueRegion> regions, AbsorptionWeightingType absorptionWeightingType)
+        public TissueBase(IList<ITissueRegion> regions, 
+            AbsorptionWeightingType absorptionWeightingType,
+            PhaseFunctionType phaseFunctionType)
         {
             Regions = regions;
             AbsorptionWeightingType = absorptionWeightingType;
+            PhaseFunctionType = phaseFunctionType;
             RegionScatterLengths = regions.Select(region => region.RegionOP.GetScatterLength(absorptionWeightingType)).ToArray();
         }
 

@@ -12,8 +12,12 @@ namespace Vts.MonteCarlo.Tissues
     {
         private EllipsoidRegion _ellipsoidRegion;
 
-        public SingleEllipsoidTissue(VoxelRegion slab, EllipsoidRegion ellipsoid, AbsorptionWeightingType absorptionWeightingType)
-            : base(new ITissueRegion[] { slab, ellipsoid }, absorptionWeightingType)
+        public SingleEllipsoidTissue(
+            VoxelRegion slab, 
+            EllipsoidRegion ellipsoid, 
+            AbsorptionWeightingType absorptionWeightingType,
+            PhaseFunctionType phaseFunctionType)
+            : base(new ITissueRegion[] { slab, ellipsoid }, absorptionWeightingType, phaseFunctionType)
         {
             _ellipsoidRegion = ellipsoid;
         }
@@ -22,7 +26,8 @@ namespace Vts.MonteCarlo.Tissues
             : this(
                 new VoxelRegion(),
                 new EllipsoidRegion(),
-                AbsorptionWeightingType.Discrete) { }
+                AbsorptionWeightingType.Discrete,
+                PhaseFunctionType.HenyeyGreenstein) { }
 
         public override int GetRegionIndex(Position position)
         {
