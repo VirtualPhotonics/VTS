@@ -45,8 +45,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
-                    0
-                    
+                    0                   
                 ),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>

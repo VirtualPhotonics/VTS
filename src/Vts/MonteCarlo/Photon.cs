@@ -207,31 +207,31 @@ namespace Vts.MonteCarlo
             /* Decide whether or not photon goes to next region */
             if (_rng.NextDouble() > probOfCrossing)
             {
-                //// if at border of system but not first time entering, then exit
+                // if at border of system but not first time entering, then exit
                 //if (_tissue.OnDomainBoundary(this) && _inTissue) 
-                ////if (_tissue.OnDomainBoundary(this))
-                //{
-                //    DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
-                //    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                //    // add updated final DP to History
-                //    History.AddDPToHistory(DP);
-                //    // adjust CAW weight for portion of track prior to exit
-                //    if (Absorb == AbsorbContinuous)
-                //    {
-                //        AbsorbContinuous();
-                //    }
-                //    //don't need to update these unless photon not dead upon exiting tissue
-                //    //DP.Direction.Ux *= nCurrent / nNext;
-                //    //DP.Direction.Uy *= nCurrent / nNext;
-                //    //DP.Direction.Uz = uZSnell;
-                //}
-                //else // not on domain boundary, at internal interface, pass to next
-                //{
+                if (_tissue.OnDomainBoundary(this))
+                {
+                    DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
+                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    // add updated final DP to History
+                    History.AddDPToHistory(DP);
+                    // adjust CAW weight for portion of track prior to exit
+                    if (Absorb == AbsorbContinuous)
+                    {
+                        AbsorbContinuous();
+                    }
+                    //don't need to update these unless photon not dead upon exiting tissue
+                    //DP.Direction.Ux *= nCurrent / nNext;
+                    //DP.Direction.Uy *= nCurrent / nNext;
+                    //DP.Direction.Uz = uZSnell;
+                }
+                else // not on domain boundary, at internal interface, pass to next
+                {
                     CurrentRegionIndex = neighborIndex;
                     DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                         nCurrent, nNext, cosThetaSnell);
                     DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.OnBoundary);
-                //}
+                }
                 // flag virtual boundaries too...can't be mutually exlusive with OnDomainBoundary
             }
             else  // don't cross, reflect
