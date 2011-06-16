@@ -28,7 +28,6 @@ namespace Vts.MonteCarlo
             Direction d,
             ITissue tissue,
             int currentTissueRegionIndex,
-            int startingRegionIndex,
             Random generator)
         {
             DP = new PhotonDataPoint(
