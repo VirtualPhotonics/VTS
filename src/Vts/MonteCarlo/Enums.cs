@@ -132,7 +132,7 @@ namespace Vts.MonteCarlo
         ROfRhoAndTime,
         ROfXAndY,
         RDiffuse,
-        Specular,
+        SpecularReflectance,
         TOfRhoAndAngle,
         TOfRho,
         TOfAngle,

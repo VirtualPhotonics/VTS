@@ -39,6 +39,24 @@ namespace Vts.MonteCarlo
                 "This is an implementation detail of the MC simulation");
         }
 
+        private static ValidationResult ValidateSourceInput(ISourceInput sourceInput, ITissueInput tissueInput)
+        {
+            if ((sourceInput.InitialTissueRegionIndex < 0) ||
+                (sourceInput.InitialTissueRegionIndex > tissueInput.Regions.Count - 1))
+            {
+                return new ValidationResult(
+                    false,
+                    "Source input not valid given tissue definition",
+                    "Alter sourceInput.InitialTissueRegionIndex to be consistent with tissue definition");
+            }
+            else
+            {
+                return new ValidationResult(
+                    true,
+                    "Starting photons in region " + sourceInput.InitialTissueRegionIndex);
+            }
+        }
+
         private static ValidationResult ValidateTissueInput(ITissueInput tissueInput)
         {
             if (tissueInput is MultiLayerTissueInput)

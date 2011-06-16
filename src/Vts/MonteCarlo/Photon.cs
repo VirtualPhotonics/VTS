@@ -41,23 +41,24 @@ namespace Vts.MonteCarlo
             SLeft = 0.0;
            
             CurrentRegionIndex = currentTissueRegionIndex;
-            // sanity check index against tissue, not sure following will work
-            //if (CurrentRegionIndex != tissue.GetRegionIndex(DP.Position))
-            //{
-            //    throw new ArgumentException("InitialTissueRegionIndex not valid given tissue definition");
-            //}
             var onBoundary = tissue.OnDomainBoundary(this);
             DP.Weight = 1.0;
+
+            #region employ this section only to match linux results with coll. point source
             if (onBoundary)
             {
                 if (CurrentRegionIndex == 0)
                 {
-                    DP.Weight = 1.0 - Helpers.Optics.Specular( // quick fix 6/16/11 ckh
-                        tissue.Regions[0].RegionOP.N, // index needs to be CurrentRegionIndex
-                        tissue.Regions[1].RegionOP.N); // index needs to be NeighborRegionIndex
-                    CurrentRegionIndex = 1;
+                    // quick fix 6/16/11 ckh
+                    var neighborRegionIndex = tissue.GetNeighborRegionIndex(this);
+                    DP.Weight = 1.0 - Helpers.Optics.Specular( 
+                        tissue.Regions[CurrentRegionIndex].RegionOP.N,    
+                        tissue.Regions[neighborRegionIndex].RegionOP.N);  
+                    // move to neighbor region
+                    CurrentRegionIndex = neighborRegionIndex;
                 }
             }
+            #endregion
 
             CurrentTrackIndex = 0;
             _tissue = tissue;
@@ -181,7 +182,9 @@ namespace Vts.MonteCarlo
             // reassign S to be distance that takes track to boundary
             S = distanceToBoundary;
         }
-
+        /// <summary>
+        /// method that determines whether photon reflects or refracts across interface
+        /// </summary>
         public void CrossRegionOrReflect()
         {
             double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(this);
@@ -205,10 +208,11 @@ namespace Vts.MonteCarlo
             //    probOfCrossing = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
 
             /* Decide whether or not photon goes to next region */
+            // perform first check so that rng not called on pseudo-collisions
+            //if ((probOfCrossing == 0.0) || (_rng.NextDouble() > probOfCrossing))
             if (_rng.NextDouble() > probOfCrossing)
             {
-                // if at border of system but not first time entering, then exit
-                //if (_tissue.OnDomainBoundary(this) && _inTissue) 
+                // if at border of system  
                 if (_tissue.OnDomainBoundary(this))
                 {
                     DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
