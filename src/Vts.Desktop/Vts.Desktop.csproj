@@ -439,6 +439,9 @@
     <Compile Include="..\Vts\Modeling\Spectroscopy\PowerLawScatterer.cs">
       <Link>Modeling\Spectroscopy\PowerLawScatterer.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Modeling\Spectroscopy\SpectralConverter.cs">
+      <Link>Modeling\Spectroscopy\SpectralConverter.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Modeling\Spectroscopy\SpectralDatabase.cs">
       <Link>Modeling\Spectroscopy\SpectralDatabase.cs</Link>
     </Compile>
@@ -813,7 +816,7 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\CustomLineSource.cs">
       <Link>MonteCarlo\Sources\LineSources\CustomLineSource.cs</Link>
-     </Compile>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Rng\SerializableMersenneTwister.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwister.cs</Link>
     </Compile>
@@ -927,9 +930,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\EllipsoidRegion.cs">
       <Link>MonteCarlo\Tissues\EllipsoidRegion.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Tissues\Enums.cs">
-      <Link>MonteCarlo\Tissues\Enums.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\LayerRegion.cs">
       <Link>MonteCarlo\Tissues\LayerRegion.cs</Link>
@@ -1056,8 +1056,8 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt</Link>
     </EmbeddedResource>
-    <None Include="..\Vts\Modeling\Spectroscopy\Fat.csv">
-      <Link>Modeling\Spectroscopy\Fat.csv</Link>
+    <None Include="..\Vts\Modeling\Spectroscopy\Resources\Fat.csv">
+      <Link>Modeling\Spectroscopy\Resources\Fat.csv</Link>
     </None>
     <None Include="Vts.snk" />
   </ItemGroup>

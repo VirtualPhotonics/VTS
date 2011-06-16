@@ -170,6 +170,9 @@
     <Compile Include="..\Vts.Test\Modeling\Spectroscopy\ChromophoreSpectrumTest.cs">
       <Link>Modeling\Spectroscopy\ChromophoreSpectrumTest.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralConverterTest.cs">
+      <Link>Modeling\Spectroscopy\SpectralConverterTest.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs">
       <Link>Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs</Link>
     </Compile>

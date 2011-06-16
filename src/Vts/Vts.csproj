@@ -164,6 +164,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
     <Compile Include="MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs" />
     <Compile Include="MonteCarlo\Rng\SerializableMersenneTwister.cs" />
     <Compile Include="Factories\ComputationFactory.cs" />

@@ -100,7 +100,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 1, // direction 1=down
                 _slabThickness); // position at slab end
 
-            Assert.Less(Math.Abs(_output.Td - analyticSolution), 0.03);
+            Assert.Less(Math.Abs(_output.Td - analyticSolution), 0.02);
         }
         //// Fluence Flu(rho,z)
         //[Test]
