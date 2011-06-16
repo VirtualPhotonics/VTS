@@ -125,7 +125,7 @@ namespace Vts.MonteCarlo.Sources
                 _translationFromOrigin,                
                 _rotationAndTranslationFlags);
 
-            var photon = new Photon(finalPosition, finalDirection, tissue, 0, Rng);
+            var photon = new Photon(finalPosition, finalDirection, tissue, _initialTissueRegionIndex, Rng);
 
             return photon;
         }

@@ -256,11 +256,14 @@ namespace Vts.MonteCarlo.CommandLineApplication
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Discrete,
                      PhaseFunctionType.HenyeyGreenstein,
-                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
-                //null,
+                     //new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
+                     null,
                      true, // tally Second Moment
                      0),
-                new DirectionalPointSourceInput(),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0),
                 new MultiLayerTissueInput(
                     new LayerRegion[]
                     { 
@@ -277,8 +280,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 ),
                 new List<IDetectorInput>()
                 {
-                    //new RDiffuseDetectorInput(),
-                    //new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                //    new RDiffuseDetectorInput(),
+                //    new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
                     //new ROfRhoAndAngleDetectorInput(
                     //    new DoubleRange(0.0, 10, 101),
