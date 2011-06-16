@@ -813,7 +813,7 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\LineSources\CustomLineSource.cs">
       <Link>MonteCarlo\Sources\LineSources\CustomLineSource.cs</Link>
-     </Compile>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Rng\SerializableMersenneTwister.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwister.cs</Link>
     </Compile>
@@ -927,9 +927,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\EllipsoidRegion.cs">
       <Link>MonteCarlo\Tissues\EllipsoidRegion.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Tissues\Enums.cs">
-      <Link>MonteCarlo\Tissues\Enums.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\LayerRegion.cs">
       <Link>MonteCarlo\Tissues\LayerRegion.cs</Link>
