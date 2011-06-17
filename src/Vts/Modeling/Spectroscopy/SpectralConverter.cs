@@ -49,13 +49,13 @@
                 default:
                     return WavelengthValue;
                 case Wavelength_Unit.Micrometers:
-                    return WavelengthValue * 1000; 
+                    return WavelengthValue * 1000; //10^3
                 case Wavelength_Unit.Meters:
-                    return WavelengthValue * 1000000000;
+                    return WavelengthValue * 1000000000; //10^9
                 case Wavelength_Unit.InverseMeters:
-                    return 1000000000 / WavelengthValue;
+                    return 1000000000 / WavelengthValue; //10^9
                 case Wavelength_Unit.InverseCentimeters:
-                    return 10000000 / WavelengthValue;
+                    return 10000000 / WavelengthValue; //10^7
             }
         }
 
@@ -76,13 +76,13 @@
                     coeff = CoefficientValue;
                     break;
                 case Coefficient_Unit.InverseMeters:
-                    coeff = CoefficientValue / 1000;
+                    coeff = CoefficientValue / 1000; //10^3
                     break;
                 case Coefficient_Unit.InverseCentimeters:
                     coeff = CoefficientValue / 10;
                     break;
                 case Coefficient_Unit.InverseMicrometers:
-                    coeff = CoefficientValue * 1000;
+                    coeff = CoefficientValue * 1000; //10^3
                     break;
             }
 
@@ -93,10 +93,22 @@
                 default:
                     return coeff;
                 case Molar_Unit.MilliMolar:
-                    return coeff / 1000;
+                    return coeff / 1000; //10^3
                 case Molar_Unit.Molar:
-                    return coeff / 1000000;
+                    return coeff / 1000000; //10^6
             }
         }
+
+        /// <summary>
+        /// Method to convert coefficient values with a default MolarUnit of MicroMolar
+        /// </summary>
+        /// <param name="CoefficientValue">The coefficient value to convert</param>
+        /// <param name="Unit">An enum representing the units of the value to convert</param>
+        /// <returns>The converted value as a double</returns>
+        public static double ConvertCoefficient(this double CoefficientValue, Coefficient_Unit Unit)
+        {
+            return ConvertCoefficient(CoefficientValue, Unit, Molar_Unit.MicroMolar);
+        }
+
     }
 }

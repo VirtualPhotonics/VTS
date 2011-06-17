@@ -961,6 +961,7 @@
   <ItemGroup>
     <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectraData1.xml">
       <Link>Modeling\Spectroscopy\Resources\SpectraData1.xml</Link>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml">
       <Link>Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml</Link>
