@@ -23,8 +23,12 @@ namespace Vts.MonteCarlo.Factories
             IList<IDetector> detectors,
             ITissue tissue)  
         {
-            // how to instantiate only those needed?
             var VBList = new List<IVirtualBoundary>() { };
+
+            // how to instantiate only those needed?
+            IVirtualBoundary reflectionVB = null;
+            IVirtualBoundary transmissionVB = null;
+            IVirtualBoundary specularVB = null;
 
             foreach (var detector in detectors)
             {
@@ -39,10 +43,13 @@ namespace Vts.MonteCarlo.Factories
                     case TallyType.ROfRhoAndAngle:
                     case TallyType.ROfXAndY:
                     case TallyType.ROfRhoAndOmega:
-                        var reflectionVB = new PlanarTransmissionVB(
-                            VirtualBoundaryAxisType.Z,
-                            VirtualBoundaryDirectionType.Decreasing,
-                            0.0);
+                        if (reflectionVB == null)
+                        {
+                            reflectionVB = new PlanarTransmissionVirtualBoundary(
+                                VirtualBoundaryAxisType.Z,
+                                VirtualBoundaryDirectionType.Decreasing,
+                                0.0);
+                        }
                         reflectionVB.DetectorController.Detectors.Add(detector);
                         break;
  
@@ -51,17 +58,23 @@ namespace Vts.MonteCarlo.Factories
                     case TallyType.TOfRho:
                     case TallyType.TOfRhoAndAngle:
                     // DC: this only works for MultiLayerTissue, need sub case for tissue type?
-                        var transmissionVB = new PlanarTransmissionVB(
-                            VirtualBoundaryAxisType.Z,
-                            VirtualBoundaryDirectionType.Increasing,
-                            ((LayerRegion)tissue.Regions[tissue.Regions.Count - 1]).ZRange.Stop);
+                        if (transmissionVB == null)
+                        {
+                            transmissionVB = new PlanarTransmissionVirtualBoundary(
+                                VirtualBoundaryAxisType.Z,
+                                VirtualBoundaryDirectionType.Increasing,
+                                ((LayerRegion)tissue.Regions[tissue.Regions.Count - 1]).ZRange.Stop);
+                        }
                         transmissionVB.DetectorController.Detectors.Add(detector);
                         break;
                     case TallyType.RSpecular:
-                        var specularVB = new PlanarReflectionVB(
-                            VirtualBoundaryAxisType.Z,
-                            VirtualBoundaryDirectionType.Decreasing,
-                            0.0);
+                        if (specularVB == null)
+                        {
+                            specularVB = new PlanarReflectionVirtualBoundary(
+                                VirtualBoundaryAxisType.Z,
+                                VirtualBoundaryDirectionType.Decreasing,
+                                0.0);
+                        }
                         specularVB.DetectorController.Detectors.Add(detector);
                         break;
 

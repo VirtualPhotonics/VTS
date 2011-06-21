@@ -417,8 +417,8 @@
     <Compile Include="MonteCarlo\Tissues\SingleEllipsoidTissue.cs" />
     <Compile Include="MonteCarlo\Tissues\TissueBase.cs" />
     <Compile Include="MonteCarlo\Tissues\VoxelRegion.cs" />
-    <Compile Include="MonteCarlo\VirtualBoundaries\PlanarReflectionVB.cs" />
-    <Compile Include="MonteCarlo\VirtualBoundaries\PlanarTransmissionVB.cs" />
+    <Compile Include="MonteCarlo\VirtualBoundaries\PlanarReflectionVirtualBoundary.cs" />
+    <Compile Include="MonteCarlo\VirtualBoundaries\PlanarTransmissionVirtualBoundary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

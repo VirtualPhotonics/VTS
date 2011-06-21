@@ -967,11 +967,11 @@
     <Compile Include="..\Vts\MonteCarlo\Tissues\VoxelRegion.cs">
       <Link>MonteCarlo\Tissues\VoxelRegion.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\PlanarReflectionVB.cs">
-      <Link>MonteCarlo\VirtualBoundaries\PlanarReflectionVB.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\PlanarReflectionVirtualBoundary.cs">
+      <Link>MonteCarlo\VirtualBoundaries\PlanarReflectionVirtualBoundary.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\PlanarTransmissionVB.cs">
-      <Link>MonteCarlo\VirtualBoundaries\PlanarTransmissionVB.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\PlanarTransmissionVirtualBoundary.cs">
+      <Link>MonteCarlo\VirtualBoundaries\PlanarTransmissionVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedDetectorDefinition.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedFlags.cs" />

@@ -9,25 +9,25 @@ namespace Vts.MonteCarlo
     /// or http://stackoverflow.com/questions/93744/most-common-c-bitwise-operations
     public enum PhotonStateType 
     {
+        ///     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+        ///   8000 4000 2000 1000 0800 0400 0200 0100 0080 0040 0020 0010 0008 0004 0002 0001
+        ///   <- virtual boundary flags            -> <- transport flags                   ->
         None = 0x0,
+        // transport flags
         Alive = 0x1,
-        OnBoundary = 0x2,
-        ExitedOutTop = 0x4, // these next enums mean Alive = 0
-        ExitedOutBottom = 0x8, 
-        Absorbed = 0x10,
-        KilledOverMaximumPathLength = 0x20,
-        KilledOverMaximumCollisions = 0x40,
-        KilledRussianRoulette = 0x80,
-        ReflectedOffTop = 0x100,
-        //NotSet,
-        //ExitedOutTop,
-        //ExitedOutBottom,
-        //ExitedOutSides,
-        //Absorbed,
-        //KilledOverMaximumPathLength,
-        //KilledOverMaximumCollisions,
-        //KilledRussianRoulette,
-        //PseudoCollision, can't add until change while check in main MC
+        ExitedDomain = 0x2, // do I need this?
+        Absorbed = 0x4,
+        KilledOverMaximumPathLength = 0x8,
+        KilledOverMaximumCollisions = 0x10,
+        KilledRussianRoulette = 0x20,
+        // virtual boundary flags
+        PseudoReflectDomainBoundary = 0x100,
+        PseudoTransmitDomainBoundary = 0x200, // these next enums mean Alive = 0
+        PseudoReflectInternalBoundary = 0x400,
+        PseudoTransmitInternalBoundary = 0x800,
+        // DC: these might need to be descriptive enough to pass ContainsPoint
+        // or should we redesign transmittance tallies to take z=depth parameter?
+        PseudoTransmitTopDomainBoundary = 0x1000, // do I need this?
     }
 
     // Source enums

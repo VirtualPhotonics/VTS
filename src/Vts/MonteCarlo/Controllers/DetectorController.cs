@@ -34,11 +34,14 @@ namespace Vts.MonteCarlo.Controllers
             //     where detector.TallyType.IsTerminationTally()
             //     select (ITerminationDetector)detector).ToArray();
 
-            // DC what to do about history detectors for now?
-            _historyDetectors =
-                (from detector in _detectors
-                 where detector.TallyType.IsHistoryTally()
-                 select (IHistoryDetector)detector).ToArray();
+            // DC what to do about history detectors for now?  I could make generic VB and add them to it.
+            if (detectors != null)
+            {
+                _historyDetectors =
+                    (from detector in _detectors
+                     where detector.TallyType.IsHistoryTally()
+                     select (IHistoryDetector)detector).ToArray();
+            }
 
         }
 

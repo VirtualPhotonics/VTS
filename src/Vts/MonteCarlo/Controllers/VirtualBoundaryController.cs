@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Controllers
 {
     public class VirtualBoundaryController 
     {
-        private IList<IVirtualBoundary> _virtualBoundaries;
+        private static IList<IVirtualBoundary> _virtualBoundaries;
 
         public VirtualBoundaryController(
             IList<IVirtualBoundary> virtualBoundaries)
@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.Controllers
         public IList<IVirtualBoundary> VirtualBoundaries { get { return _virtualBoundaries; } }
 
         // the following handles a list of VBs
-        public double GetDistanceToClosestVirtualBoundary(Photon photon)
+        public static double GetDistanceToClosestVirtualBoundary(Photon photon)
         {
             var distance = double.PositiveInfinity;
 

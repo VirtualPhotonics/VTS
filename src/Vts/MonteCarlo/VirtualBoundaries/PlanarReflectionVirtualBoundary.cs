@@ -1,27 +1,22 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using Vts.Common;
-using Vts.Extensions;
-using Vts.MonteCarlo;
 using Vts.MonteCarlo.Controllers;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
     /// <summary>
-    /// Implements IVirtualBoundary.  Used to capture all reflectance/transmittance detectors
+    /// Implements IVirtualBoundary.  Used to capture specular detector for example
     /// </summary>
-    public class PlanarTransmissionVB : IVirtualBoundary
+    public class PlanarReflectionVirtualBoundary : IVirtualBoundary
     {
         private VirtualBoundaryAxisType _axis;
         private double _planeValue;
         private VirtualBoundaryDirectionType _direction;
         private IDetectorController _detectorController;
+
         /// <summary>
         /// Creates an instance of a plane tranmission virtual boundary in direction given
         /// </summary>
-        public PlanarTransmissionVB(
+        public PlanarReflectionVirtualBoundary(
             VirtualBoundaryAxisType axis,
             VirtualBoundaryDirectionType direction,
             double planeValue)
@@ -29,14 +24,14 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             _axis = axis;
             _direction = direction;
             _planeValue = planeValue;
-            _detectorController = new DetectorController(null);
+            _detectorController = new DetectorController(new List<IDetector>());
         }       
 
         /// <summary>
-        /// Creates a default instance of a PlanarTransmissionVB based on a plane at z=0, 
-        /// exiting tissue (in direction of z decreasing)
+        /// Creates a default instance of a PlanarReflectionVB based on a plane at z=0, 
+        /// reflecting off tissue (in direction of z decreasing)
         /// </summary>
-        public PlanarTransmissionVB() 
+        public PlanarReflectionVirtualBoundary() 
             : this(
             VirtualBoundaryAxisType.Z, 
             VirtualBoundaryDirectionType.Decreasing, 
@@ -45,7 +40,6 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         }
 
         public IDetectorController DetectorController { get { return _detectorController; } set { _detectorController = value; } }
-       
         /// <summary>
         /// Finds the distance to the virtual boundary 
         /// </summary>
@@ -65,6 +59,25 @@ namespace Vts.MonteCarlo.VirtualBoundaries
 
             return distanceToBoundary;
         }
+        // the following handles a list of VBs
+        //public double GetDistanceToClosestVirtualBoundary(Photon photon)
+        //{
+        //    var distance = double.PositiveInfinity;
 
+        //    //if (_virtualBoundaries != null && _virtualBoundaries.Count > 0)
+        //    //{
+        //    //    foreach (var virtualBoundary in _virtualBoundaries)
+        //    //    {
+        //    //        var distanceToVB = virtualBoundary.GetDistanceToBoundary(photon);
+
+        //    //        if(distanceToVB <= distance)
+        //    //        {
+        //    //            distance = distanceToVB;
+        //    //        }
+        //    //    }
+        //    //}
+
+        //    return distance;
+        //}
     }
 }

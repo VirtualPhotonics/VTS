@@ -133,74 +133,78 @@ namespace Vts.MonteCarlo
                     }
 
                     var photon = _source.GetNextPhoton(_tissue);
-                    do
-                    { /* begin do while  */
-                        photon.SetStepSize(_rng);
-
-                        var distance = _tissue.GetDistanceToBoundary(photon);
-
-                        bool hitBoundary = photon.Move(distance);
-
-                        if (hitBoundary)
-                        {
-                            photon.CrossRegionOrReflect();
-                        }
-                        else
-                        {
-                            photon.Absorb();
-                            if (photon.DP.StateFlag != PhotonStateType.Absorbed)
-                            {
-                                photon.Scatter();
-                            }
-                        }
-
-                        /*Test_Distance(); */
-                        photon.TestWeightAndDistance();
-
-                    } while (photon.DP.StateFlag.Has(PhotonStateType.Alive)); /* end do while */
-
                     //do
                     //{ /* begin do while  */
                     //    photon.SetStepSize(_rng);
 
-                    //    // listen to and flag VP PSTs
-
-                    //    // photon.Move(distance) would call tissuebase code; instead of:
                     //    var distance = _tissue.GetDistanceToBoundary(photon);
-                        
+
                     //    bool hitBoundary = photon.Move(distance);
-                    //    // for each "hit" virtual boundary, tally respective detectors. 
 
-                    //    // kill photon for various reasons, including possible VB crossings
-
-                    //    // death happens here.
-                    //    photon.TestWeightAndDistance(); // and VB death?
-
-                    //    if (photon.DP.StateFlag == "contains a virtual boundary collision")
-                    //    {
-                    //        continue;
-                    //    }
-
-                    //    // or else if...
                     //    if (hitBoundary)
                     //    {
                     //        photon.CrossRegionOrReflect();
-                    //        continue;
                     //    }
-
-                    //    //else
-                    //    //{
+                    //    else
+                    //    {
                     //        photon.Absorb();
-                    //        if ((photon.DP.StateFlag & PhotonStateType.Absorbed) != PhotonStateType.Absorbed)
+                    //        if (photon.DP.StateFlag != PhotonStateType.Absorbed)
                     //        {
                     //            photon.Scatter();
                     //        }
-                    //    //}
+                    //    }
 
                     //    /*Test_Distance(); */
-                    //    //photon.TestWeightAndDistance();
+                    //    photon.TestWeightAndDistance();
 
                     //} while (photon.DP.StateFlag.Has(PhotonStateType.Alive)); /* end do while */
+
+                    do
+                    { /* begin do while  */
+                        photon.SetStepSize(_rng);
+
+                        // listen to and flag VP PSTs
+                        bool virtualBoundary = photon.ListenToPhotonStateType();
+
+                        // photon.Move(distance) would call tissuebase code; instead of:
+                        //var distance = _tissue.GetDistanceToBoundary(photon);
+
+                        //bool hitBoundary = photon.Move(distance);
+                        bool hitBoundary = photon.Move();
+                        // for each "hit" virtual boundary, tally respective detectors. 
+
+                        // kill photon for various reasons, including possible VB crossings
+
+                        // death happens here.
+                        //photon.TestWeightAndDistance(); // and VB death?
+                        photon.TestDeath(); // check for weight, distance, VB death (transmit domain boundary)
+
+                        // check if virtual boundary
+                        if (virtualBoundary)
+                        {
+                            continue;
+                        }
+
+                        // or else if...
+                        if (hitBoundary)
+                        {
+                            photon.CrossRegionOrReflect();
+                            continue;
+                        }
+
+                        //else
+                        //{
+                        photon.Absorb();
+                        if ((photon.DP.StateFlag & PhotonStateType.Absorbed) != PhotonStateType.Absorbed)
+                        {
+                            photon.Scatter();
+                        }
+                        //}
+
+                        /*Test_Distance(); */
+                        //photon.TestWeightAndDistance();
+
+                    } while (photon.DP.StateFlag.Has(PhotonStateType.Alive)); /* end do while */
 
                     //_detectorController.TerminationTally(photon.DP);
 

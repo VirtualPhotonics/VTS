@@ -5,6 +5,10 @@ using Vts.Extensions;
 
 namespace Vts.Test.Common
 {
+    /// <summary>
+    /// test check that bitmap definitions in Enums are setup correctly
+    /// ref: http://msdn.microsoft.com/en-us/library/cc138362.aspx
+    /// </summary>
     [TestFixture] 
     public class EnumExtensionsTests
     {
