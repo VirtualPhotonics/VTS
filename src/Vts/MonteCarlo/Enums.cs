@@ -4,6 +4,9 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// All Monte Carlo enums.
     /// </summary>
+
+    /// ref: http://www.codeproject.com/Articles/37921/Enums-Flags-and-Csharp-Oh-my-bad-pun.aspx
+    /// or http://stackoverflow.com/questions/93744/most-common-c-bitwise-operations
     public enum PhotonStateType 
     {
         None = 0x0,
@@ -15,7 +18,7 @@ namespace Vts.MonteCarlo
         KilledOverMaximumPathLength = 0x20,
         KilledOverMaximumCollisions = 0x40,
         KilledRussianRoulette = 0x80,
-        SpecularReflection = 0x100,
+        ReflectedOffTop = 0x100,
         //NotSet,
         //ExitedOutTop,
         //ExitedOutBottom,
@@ -132,7 +135,7 @@ namespace Vts.MonteCarlo
         ROfRhoAndTime,
         ROfXAndY,
         RDiffuse,
-        SpecularReflectance,
+        RSpecular,
         TOfRhoAndAngle,
         TOfRho,
         TOfAngle,
@@ -144,5 +147,17 @@ namespace Vts.MonteCarlo
         MomentumTransferOfRhoAndZ,
         pMCROfRhoAndTime, // maybe these should be in separate enum?
         pMCROfRho,
+    }
+
+    public enum VirtualBoundaryAxisType
+    {
+        X,
+        Y,
+        Z
+    }
+    public enum VirtualBoundaryDirectionType
+    {
+        Increasing,
+        Decreasing
     }
 }

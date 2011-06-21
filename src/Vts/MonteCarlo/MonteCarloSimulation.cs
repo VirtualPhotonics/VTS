@@ -2,10 +2,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Controllers;
-using Vts.MonteCarlo.Sources;
 using System.IO;
 
 namespace Vts.MonteCarlo
@@ -21,6 +19,7 @@ namespace Vts.MonteCarlo
         private ISource _source;
         private ITissue _tissue;
         private DetectorController _detectorController;
+        private VirtualBoundaryController _virtualBoundaryController;
         private long numberOfPhotons;
 
         protected SimulationInput _input;
@@ -54,9 +53,12 @@ namespace Vts.MonteCarlo
             _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType);
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
             _detectorController = DetectorControllerFactory.GetStandardDetectorController(
-                input.DetectorInputs, 
+                input.DetectorInputs,
                 _tissue,
                 input.Options.TallySecondMoment);
+            _virtualBoundaryController = VirtualBoundaryControllerFactory.GetVirtualBoundaryController(
+                _detectorController.Detectors, _tissue);
+            
         }
 
         /// <summary>
@@ -131,7 +133,6 @@ namespace Vts.MonteCarlo
                     }
 
                     var photon = _source.GetNextPhoton(_tissue);
-
                     do
                     { /* begin do while  */
                         photon.SetStepSize(_rng);
@@ -147,7 +148,7 @@ namespace Vts.MonteCarlo
                         else
                         {
                             photon.Absorb();
-                            if ((photon.DP.StateFlag & PhotonStateType.Absorbed) != PhotonStateType.Absorbed)
+                            if (photon.DP.StateFlag != PhotonStateType.Absorbed)
                             {
                                 photon.Scatter();
                             }
@@ -158,7 +159,50 @@ namespace Vts.MonteCarlo
 
                     } while (photon.DP.StateFlag.Has(PhotonStateType.Alive)); /* end do while */
 
-                    _detectorController.TerminationTally(photon.DP);
+                    //do
+                    //{ /* begin do while  */
+                    //    photon.SetStepSize(_rng);
+
+                    //    // listen to and flag VP PSTs
+
+                    //    // photon.Move(distance) would call tissuebase code; instead of:
+                    //    var distance = _tissue.GetDistanceToBoundary(photon);
+                        
+                    //    bool hitBoundary = photon.Move(distance);
+                    //    // for each "hit" virtual boundary, tally respective detectors. 
+
+                    //    // kill photon for various reasons, including possible VB crossings
+
+                    //    // death happens here.
+                    //    photon.TestWeightAndDistance(); // and VB death?
+
+                    //    if (photon.DP.StateFlag == "contains a virtual boundary collision")
+                    //    {
+                    //        continue;
+                    //    }
+
+                    //    // or else if...
+                    //    if (hitBoundary)
+                    //    {
+                    //        photon.CrossRegionOrReflect();
+                    //        continue;
+                    //    }
+
+                    //    //else
+                    //    //{
+                    //        photon.Absorb();
+                    //        if ((photon.DP.StateFlag & PhotonStateType.Absorbed) != PhotonStateType.Absorbed)
+                    //        {
+                    //            photon.Scatter();
+                    //        }
+                    //    //}
+
+                    //    /*Test_Distance(); */
+                    //    //photon.TestWeightAndDistance();
+
+                    //} while (photon.DP.StateFlag.Has(PhotonStateType.Alive)); /* end do while */
+
+                    //_detectorController.TerminationTally(photon.DP);
 
                     if (terminationWriter != null)
                     {

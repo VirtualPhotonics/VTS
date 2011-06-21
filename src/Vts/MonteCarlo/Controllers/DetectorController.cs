@@ -9,73 +9,49 @@ using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.VirtualBoundaries;
 
 namespace Vts.MonteCarlo.Controllers
 {
     public class DetectorController : IDetectorController
     {
         private IList<IDetector> _detectors;
-        private IList<ITerminationDetector> _terminationDetectors;
+        //private IList<ITerminationDetector> _terminationDetectors;
         private IList<IHistoryDetector> _historyDetectors;
 
         public DetectorController(
-            IList<IDetectorInput> detectorInputs,
-            ITissue tissue,
-            bool tallySecondMoment)
+            IList<IDetector> detectors)
+            //IList<IDetectorInput> detectorInputs,
+            //ITissue tissue,
+            //bool tallySecondMoment)
         {
+            _detectors = detectors;
             // todo: move this out of DetectorController and change constructor dependency to "IList<IDetector> detectors" djc 2011-06-03
-            _detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
+            //_detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
 
-            _terminationDetectors =
-                (from detector in _detectors
-                 where detector.TallyType.IsTerminationTally()
-                 select (ITerminationDetector)detector).ToArray();
+            //_terminationDetectors =
+            //    (from detector in _detectors
+            //     where detector.TallyType.IsTerminationTally()
+            //     select (ITerminationDetector)detector).ToArray();
 
+            // DC what to do about history detectors for now?
             _historyDetectors =
                 (from detector in _detectors
                  where detector.TallyType.IsHistoryTally()
                  select (IHistoryDetector)detector).ToArray();
-        }
 
-        // Commented unused overload
-        ///// <summary>
-        ///// Default constructor tallies all tallies with default ranges
-        ///// </summary>
-        //public DetectorController()
-        //    : this(
-        //        new IDetectorInput[] 
-        //        { 
-        //            new AOfRhoAndZDetectorInput(),
-        //            new ATotalDetectorInput(),
-        //            new FluenceOfRhoAndZAndTimeDetectorInput(),
-        //            new FluenceOfRhoAndZDetectorInput(),
-        //            new RDiffuseDetectorInput(),
-        //            new ROfAngleDetectorInput(),
-        //            new ROfRhoAndAngleDetectorInput(),
-        //            new ROfRhoAndOmegaDetectorInput(),
-        //            new ROfRhoAndTimeDetectorInput(),
-        //            new ROfRhoDetectorInput(),
-        //            new ROfXAndYDetectorInput(),
-        //            new TDiffuseDetectorInput(),
-        //            new TOfAngleDetectorInput(),
-        //            new TOfRhoAndAngleDetectorInput(),
-        //            new TOfRhoDetectorInput(),
-        //            new ROfRhoDetectorInput() 
-        //        },
-        //        new MultiLayerTissue() )
-        //{
-        //}
+        }
 
         public IList<IDetector> Detectors { get { return _detectors; } }
 
-        public void TerminationTally(PhotonDataPoint dp)
-        {
-            foreach (var tally in _terminationDetectors)
-            {
-                if (tally.ContainsPoint(dp))
-                    tally.Tally(dp);
-            }
-        }
+        //public void TerminationTally(PhotonDataPoint dp)
+        //{
+        //    foreach (var tally in _terminationDetectors)
+        //    {
+        //        if (tally.ContainsPoint(dp))
+        //            tally.Tally(dp);
+        //    }
+        //}
 
         public void HistoryTally(PhotonHistory history)
         {

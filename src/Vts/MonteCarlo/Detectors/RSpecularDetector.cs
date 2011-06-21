@@ -5,29 +5,29 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(SpecularReflectanceDetector))]
+    [KnownType(typeof(RSpecularDetector))]
     /// <summary>
     /// Implements ITerminationDetector<double>.  Tally for diffuse reflectance.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
-    public class SpecularReflectanceDetector : ITerminationDetector<double>
+    public class RSpecularDetector : ITerminationDetector<double>
     {
         /// <summary>
         /// Returns an instance of SpecularDetector
         /// </summary>
-        public SpecularReflectanceDetector(String name)
+        public RSpecularDetector(String name)
         {
             Mean = 0;
             SecondMoment = 0;
-            TallyType = TallyType.SpecularReflectance;
+            TallyType = TallyType.RSpecular;
             Name = name;
             TallyCount = 0;
         }
         /// <summary>
         /// Returns a default instance of RDiffuseDetector (for serialization purposes only)
         /// </summary>
-        public SpecularReflectanceDetector()
-            : this(TallyType.SpecularReflectance.ToString())
+        public RSpecularDetector()
+            : this(TallyType.RSpecular.ToString())
         {
         }
 
@@ -55,7 +55,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public bool ContainsPoint(PhotonDataPoint dp)
         {
-            return (dp.StateFlag.Has(PhotonStateType.ExitedOutTop));
+            return (dp.StateFlag.Has(PhotonStateType.ReflectedOffTop));
         }
     }
 }

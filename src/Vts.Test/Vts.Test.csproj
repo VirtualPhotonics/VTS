@@ -148,13 +148,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ExtensionMethods\ArrayExtensionsTests.cs">
+    <Compile Include="Common\Extension Methods\ArrayExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\DirectionTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Common\ExtensionMethods\EnumExtensionsTests.cs" />
+    <Compile Include="Common\Extension Methods\EnumExtensionsTests.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverterTest.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs" />
     <Compile Include="MonteCarlo\Rng\SerializableMersenneTwisterTests.cs" />

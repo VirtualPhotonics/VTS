@@ -41,7 +41,8 @@ namespace Vts
             }
         }
         // The following set of extension methods aid in accessing enums set up to
-        // be bit maps
+        // be bit maps ref:http://www.codeproject.com/Articles/37921/Enums-Flags-and-Csharp-Oh-my-bad-pun.aspx
+        // or http://stackoverflow.com/questions/93744/most-common-c-bitwise-operations
         /// <summary>
         /// Has checks whether enum has this bit turned on
         /// </summary>

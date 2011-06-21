@@ -51,9 +51,9 @@ namespace Vts.MonteCarlo
                 {
                     // quick fix 6/16/11 ckh
                     var neighborRegionIndex = tissue.GetNeighborRegionIndex(this);
-                    DP.Weight = 1.0 - Helpers.Optics.Specular( 
-                        tissue.Regions[CurrentRegionIndex].RegionOP.N,    
-                        tissue.Regions[neighborRegionIndex].RegionOP.N);  
+                    DP.Weight = 1.0 - Helpers.Optics.Specular(
+                        tissue.Regions[CurrentRegionIndex].RegionOP.N,
+                        tissue.Regions[neighborRegionIndex].RegionOP.N);
                     // move to neighbor region
                     CurrentRegionIndex = neighborRegionIndex;
                 }
@@ -131,7 +131,7 @@ namespace Vts.MonteCarlo
 
         public bool Move(double distance)
         {
-            bool willHitBoundary = WillHitBoundary(distance);
+            bool willHitBoundary = S >= distance;
 
             if (willHitBoundary)
             {
@@ -168,10 +168,10 @@ namespace Vts.MonteCarlo
             return willHitBoundary;
         }
 
-        private bool WillHitBoundary(double distanceToBoundary)
-        {
-            return S >= distanceToBoundary;
-        }
+        //private bool WillHitBoundary(double distanceToBoundary)
+        //{
+        //    return S >= distanceToBoundary;
+        //}
 
         private void AdjustTrackLength(double distanceToBoundary)
         {
@@ -201,6 +201,7 @@ namespace Vts.MonteCarlo
             double probOfCrossing;
             double cosThetaSnell;
             // call Fresnel be default to have uZSnell set, used to be within else
+            // probOFReflecting?
             probOfCrossing = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
             if (cosTheta <= coscrit)
                 probOfCrossing = 1.0;

@@ -7,18 +7,18 @@ namespace Vts.MonteCarlo.Factories
     /// <summary>
     /// Instantiates appropriate Detector given IDetectorInput and ITissue
     /// </summary>
-    public static class DetectorControllerFactory
+    public static class VirtualBoundaryControllerFactory
     {
-        public static DetectorController GetStandardDetectorController(
-            IList<IDetectorInput> inputs, ITissue tissue, bool tallySecondMoment)
+        public static VirtualBoundaryController GetVirtualBoundaryController(
+            IList<IDetector> detectors, ITissue tissue)
         {
-            DetectorController controller = null;
-            //controller = new DetectorController(inputs, tissue, tallySecondMoment);
-            controller = new DetectorController(DetectorFactory.GetDetectors(inputs, tissue, tallySecondMoment));
+            VirtualBoundaryController controller = null;
+            controller = new VirtualBoundaryController(
+                VirtualBoundaryFactory.GetVirtualBoundaries(detectors, tissue));
 
             if (controller == null)
                 throw new ArgumentException(
-                    "Problem generating detector controller. Check that each XXXDetectorInput has a matching XXXDetector definition.");
+                    "Problem generating virtual boundary controller. Check that each XXXDetectorInput has a matching XXXDetector definition.");
 
             return controller;
         }

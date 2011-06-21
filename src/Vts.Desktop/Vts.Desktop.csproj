@@ -463,6 +463,9 @@
     <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDetectorController.cs">
       <Link>MonteCarlo\Controllers\pMCDetectorController.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\VirtualBoundaryController.cs">
+      <Link>MonteCarlo\Controllers\VirtualBoundaryController.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs</Link>
     </Compile>
@@ -510,6 +513,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfXAndYDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\ROfXAndYDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\TDiffuseDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\TDiffuseDetectorInput.cs</Link>
@@ -649,8 +655,8 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\RofXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\RofXAndYDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\SpecularDetector.cs">
-      <Link>MonteCarlo\Detectors\SpecularDetector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RSpecularDetector.cs">
+      <Link>MonteCarlo\Detectors\RSpecularDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TallyExtensionMethods.cs">
       <Link>MonteCarlo\Detectors\TallyExtensionMethods.cs</Link>
@@ -685,8 +691,17 @@
     <Compile Include="..\Vts\MonteCarlo\Factories\SourceFactory.cs">
       <Link>MonteCarlo\Factories\SourceFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\SourceProfileFactory.cs">
+      <Link>MonteCarlo\Factories\SourceProfileFactory.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\TissueFactory.cs">
       <Link>MonteCarlo\Factories\TissueFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\VirtualBoundaryControllerFactory.cs">
+      <Link>MonteCarlo\Factories\VirtualBoundaryControllerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\VirtualBoundaryFactory.cs">
+      <Link>MonteCarlo\Factories\VirtualBoundaryFactory.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\DetectorBinning.cs">
       <Link>MonteCarlo\Helpers\DetectorBinning.cs</Link>
@@ -747,6 +762,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissueRegion.cs">
       <Link>MonteCarlo\Interfaces\ITissueRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IVirtualBoundary.cs">
+      <Link>MonteCarlo\Interfaces\IVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\IO\DatabaseOfT.cs">
       <Link>MonteCarlo\IO\DatabaseOfT.cs</Link>
@@ -948,6 +966,12 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\VoxelRegion.cs">
       <Link>MonteCarlo\Tissues\VoxelRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\PlanarReflectionVB.cs">
+      <Link>MonteCarlo\VirtualBoundaries\PlanarReflectionVB.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\PlanarTransmissionVB.cs">
+      <Link>MonteCarlo\VirtualBoundaries\PlanarTransmissionVB.cs</Link>
     </Compile>
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedDetectorDefinition.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedFlags.cs" />

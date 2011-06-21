@@ -35,10 +35,11 @@ namespace Vts.MonteCarlo.PostProcessing
             DetectorController detectorController = Factories.DetectorControllerFactory.GetStandardDetectorController(
                 detectorInputs, tissue, databaseInput.Options.TallySecondMoment);
 
-            foreach (var dp in database.DataPoints)
-            {
-                detectorController.TerminationTally(dp);     
-            }
+            // CKH comment out for now but need to FIX!
+            //foreach (var dp in database.DataPoints)
+            //{
+            //    detectorController.TerminationTally(dp);     
+            //}
 
             detectorController.NormalizeDetectors(databaseInput.N);
 
