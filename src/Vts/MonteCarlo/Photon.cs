@@ -118,11 +118,11 @@ namespace Vts.MonteCarlo
             }
         }
 
-        public void SetStepSize(Random rng)
+        public void SetStepSize()
         {
             if (SLeft == 0.0)
             {
-                S = -Math.Log(rng.NextDouble()) / _tissue.RegionScatterLengths[CurrentRegionIndex];
+                S = -Math.Log(_rng.NextDouble()) / _tissue.RegionScatterLengths[CurrentRegionIndex];
             }
             else
             {
@@ -130,17 +130,8 @@ namespace Vts.MonteCarlo
                 SLeft = 0.0;
             }
         }
-        // will combine with 2nd move if works
-        public bool Move()
-        {
-            // get distance to any tissue boundary
-            var tissueDistance = _tissue.GetDistanceToBoundary(this);
-            // get distance to any VB
-            var vbDistance = Controllers.VirtualBoundaryController.GetDistanceToClosestVirtualBoundary(this);
 
-            return Move(Math.Min(tissueDistance, vbDistance));
-        }
-        public bool Move(double distance)
+         public bool Move(double distance)
          {
             bool willHitBoundary = S >= distance;
 
@@ -174,9 +165,9 @@ namespace Vts.MonteCarlo
 
             History.AddDPToHistory(DP);
 
-            //DP.StateFlag = PhotonStateType.NotSet; // reset state back to not set
-
             return willHitBoundary;
+
+            //DP.StateFlag = PhotonStateType.NotSet; // reset state back to not set
         }
 
         //private bool WillHitBoundary(double distanceToBoundary)
@@ -391,6 +382,7 @@ namespace Vts.MonteCarlo
             if (DP.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary) ||
                 DP.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainBottomBoundary))
             {
+                // todo: revisit performance of the bitwise operations
                 DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                 History.AddDPToHistory(DP);
             }

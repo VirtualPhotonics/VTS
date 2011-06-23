@@ -18,16 +18,19 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         private double _planeValue;
         private VirtualBoundaryDirectionType _direction;
         private IDetectorController _detectorController;
+
         /// <summary>
         /// Creates an instance of a plane tranmission virtual boundary in direction given
         /// </summary>
         public PlanarTransmissionVirtualBoundary(
+            Predicate<PhotonDataPoint> willHitBoundary,
             VirtualBoundaryAxisType axis,
             VirtualBoundaryDirectionType direction,
             double planeValue,
             VirtualBoundaryType type,
             string name)
         {
+            WillHitBoundary = willHitBoundary;
             _axis = axis;
             _direction = direction;
             _planeValue = planeValue;
@@ -42,6 +45,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// </summary>
         public PlanarTransmissionVirtualBoundary() 
             : this(
+            dp => true,
             VirtualBoundaryAxisType.Z, 
             VirtualBoundaryDirectionType.Decreasing, 
             0.0,
@@ -53,26 +57,28 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         public IDetectorController DetectorController { get { return _detectorController; } set { _detectorController = value; } }
         public string Name { get; set; }
         public VirtualBoundaryType VirtualBoundaryType { get; set; }
+        public PhotonStateType PhotonStateType { get; private set; }
+        public Predicate<PhotonDataPoint> WillHitBoundary { get; set; }
 
         /// <summary>
         /// Finds the distance to the virtual boundary given direction of VB and photon
         /// </summary>
         /// <param name="photon"></param>
-        public double GetDistanceToVirtualBoundary(Photon photon)
+        public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
             double distanceToBoundary = double.PositiveInfinity;
-            if (photon.DP.Direction.Uz == 0.0)
+            if (dp.Direction.Uz == 0.0)
             {
                 return double.PositiveInfinity;
             }
             // going "up" in negative z-direction
-            bool goingUp = photon.DP.Direction.Uz < 0.0;
+            bool goingUp = dp.Direction.Uz < 0.0;
             // check that photon is directed in direction of VB
             if ((goingUp && (_direction == VirtualBoundaryDirectionType.Decreasing)) ||
                 !goingUp && (_direction == VirtualBoundaryDirectionType.Increasing))
             {
                 // calculate distance to boundary based on z-projection of photon trajectory
-                distanceToBoundary = (_planeValue - photon.DP.Position.Z) / photon.DP.Direction.Uz;
+                distanceToBoundary = (_planeValue - dp.Position.Z) / dp.Direction.Uz;
             }
             return distanceToBoundary;
         }

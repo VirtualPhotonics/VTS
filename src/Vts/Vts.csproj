@@ -417,6 +417,7 @@
     <Compile Include="MonteCarlo\Tissues\SingleEllipsoidTissue.cs" />
     <Compile Include="MonteCarlo\Tissues\TissueBase.cs" />
     <Compile Include="MonteCarlo\Tissues\VoxelRegion.cs" />
+    <Compile Include="MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\PlanarReflectionVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\PlanarTransmissionVirtualBoundary.cs" />

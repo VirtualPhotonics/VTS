@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo
             _detectorController = DetectorControllerFactory.GetStandardDetectorController(detectors);
 
             _virtualBoundaryController = VirtualBoundaryControllerFactory.GetVirtualBoundaryController(
-                _detectorController.Detectors, _tissue);            
+                _detectorController.Detectors, _tissue);
         }
 
         /// <summary>
@@ -136,31 +136,32 @@ namespace Vts.MonteCarlo
 
                     do
                     { /* begin do while  */
-                        photon.SetStepSize(_rng);
+                        photon.SetStepSize(); // only calls rng if SLeft == 0.0
 
                         // listen to and flag VP PSTs
                         // can I listen just to transport flags here?
-                        bool hitvirtualBoundary = _virtualBoundaryController.ListenToPhotonStateType(photon.DP);
+                        // bool hitvirtualBoundary = _virtualBoundaryController.ListenToPhotonStateType(photon.DP);
 
                         //bool hitBoundary = photon.Move(distance);
-                        bool hitBoundary = photon.Move();
+                        BoundaryHitType hitType = Move(photon); // in-line?
+
                         // for each "hit" virtual boundary, tally respective detectors. 
-                        if (hitvirtualBoundary) 
+                        if (hitType == BoundaryHitType.Virtual)
                         {
                             _virtualBoundaryController.TallyToTerminationDetectors(photon.DP);
                         }
 
                         // kill photon for various reasons, including possible VB crossings
-                        photon.TestDeath(); 
+                        photon.TestDeath();
 
                         // check if virtual boundary SHOULD ONLY CONTINUE IF NOT REAL BOUNDARY!
-                        if (hitvirtualBoundary)
+                        if (hitType == BoundaryHitType.Virtual)
                         {
                             continue;
                         }
 
                         // or else if...
-                        if (hitBoundary)
+                        if (hitType == BoundaryHitType.Tissue)
                         {
                             photon.CrossRegionOrReflect();
                             continue;
@@ -168,7 +169,7 @@ namespace Vts.MonteCarlo
 
                         //else
                         //{
-                        photon.Absorb();
+                        photon.Absorb(); // can be added to TestDeath?
                         if (!photon.DP.StateFlag.Has(PhotonStateType.Absorbed))
                         {
                             photon.Scatter();
@@ -203,6 +204,30 @@ namespace Vts.MonteCarlo
 
             // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
             _detectorController.NormalizeDetectors(numberOfPhotons);
+        }
+
+        private BoundaryHitType Move(Photon photon)
+        {
+            bool willHitTissueBoundary = false;
+
+            // get distance to any tissue boundary
+            var tissueDistance = _tissue.GetDistanceToBoundary(photon);
+            // get distance to any VB
+
+            double vbDistance = double.PositiveInfinity;
+            var vb =_virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out vbDistance);
+
+            if (tissueDistance < vbDistance) // determine if will hit tissue boundary first
+            {
+                var hitTissueBoundary = photon.Move(tissueDistance);
+                return hitTissueBoundary ? BoundaryHitType.Tissue : BoundaryHitType.None;
+            }
+            else // otherwise, move to the closest virtual boundary
+            {
+                var hitVirtualBoundary = photon.Move(vbDistance);
+                photon.DP.StateFlag.Add(vb.PhotonStateType); // add pseudo-collision for vb
+                return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
+            }
         }
 
         public void ReportResults()

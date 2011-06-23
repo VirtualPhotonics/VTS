@@ -20,9 +20,20 @@ namespace Vts.MonteCarlo
         KilledOverMaximumPathLength = 0x8,
         KilledOverMaximumCollisions = 0x10,
         KilledRussianRoulette = 0x20,
+
+        Reflected = 0x40,
+        Transmitted = 0x80,
+
         // reflected/refracted(transmitted?) here in transport flags
         // virtual boundary flags, can we 1-1 map to virtualBoundary "Name"
         // NEED TO FIX, I think I need direction in these enums
+        // move up to 16th position
+
+        DiffuseReflectanceVirtualBoundary   = 0x00010000,
+        DiffuseTransmittanceVirtualBoundary = 0x00020000,
+        SpecularReflectanceVirtualBoundary  = 0x00040000,
+        GenericVirtualBoundary              = 0x00080000,
+
         PseudoReflectionDomainTopBoundary = 0x100,
         PseudoTransmissionDomainTopBoundary = 0x200,
         PseudoReflectionDomainBottomBoundary = 0x400,
@@ -30,6 +41,13 @@ namespace Vts.MonteCarlo
         PseudoReflectionInternalBoundary = 0x1000,
         PseudoTransmissionInternalBoundary = 0x2000,
         GenericVolumeBoundary = 0x4000,
+    }
+
+    public enum BoundaryHitType
+    {
+        None,
+        Virtual,
+        Tissue
     }
 
     // Source enums
@@ -150,8 +168,13 @@ namespace Vts.MonteCarlo
         pMCROfRhoAndTime, // maybe these should be in separate enum?
         pMCROfRho,
     }
+
     public enum VirtualBoundaryType
     {
+        DiffuseReflectance,
+        DiffuseTransmittance,
+        SpecularReflectance,
+
         PlanarReflectionDomainTopBoundary,
         PlanarTransmissionDomainTopBoundary,
         PlanarReflectionDomainBottomBoundary,

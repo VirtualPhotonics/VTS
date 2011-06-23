@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Vts.Common;
+using Vts.MonteCarlo.PhotonData;
+using System;
 
 namespace Vts.MonteCarlo
 {
@@ -8,9 +10,11 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface IVirtualBoundary
     {
-        IDetectorController DetectorController { get; set; } // need set for VBFactory
-        double GetDistanceToVirtualBoundary(Photon photon);
-        string Name { get; set; }
-        VirtualBoundaryType VirtualBoundaryType { get; set; }
+        IDetectorController DetectorController { get; }
+        Predicate<PhotonDataPoint> WillHitBoundary { get; }
+        double GetDistanceToVirtualBoundary(PhotonDataPoint dp);
+        string Name { get; }
+        VirtualBoundaryType VirtualBoundaryType { get; }
+        PhotonStateType PhotonStateType { get; }
     }
 }

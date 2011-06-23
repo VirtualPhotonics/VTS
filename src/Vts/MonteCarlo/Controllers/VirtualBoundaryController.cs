@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Controllers
 {
     public class VirtualBoundaryController
     {
-        private static IList<IVirtualBoundary> _virtualBoundaries;
+        private IList<IVirtualBoundary> _virtualBoundaries;
         private IList<ITerminationDetector> _terminationDetectors;
         private IList<IHistoryDetector> _historyDetectors;
 
@@ -28,22 +28,25 @@ namespace Vts.MonteCarlo.Controllers
         public IList<IVirtualBoundary> VirtualBoundaries { get { return _virtualBoundaries; } }
 
         // the following handles a list of VBs
-        public static double GetDistanceToClosestVirtualBoundary(Photon photon)
+        public IVirtualBoundary GetClosestVirtualBoundary(PhotonDataPoint dp, out double distance)
         {
-            var distance = double.PositiveInfinity;
+            IVirtualBoundary vb = null;
+            distance = double.PositiveInfinity;
             if (_virtualBoundaries != null && _virtualBoundaries.Count > 0)
             {
                 foreach (var virtualBoundary in _virtualBoundaries)
                 {
                     // each VB takes direction of VB into consideration when determining distance
-                    var distanceToVB = virtualBoundary.GetDistanceToVirtualBoundary(photon);
-                    if (distanceToVB <= distance)
+                    var distanceToVB = virtualBoundary.GetDistanceToVirtualBoundary(dp);
+                    if (distanceToVB < distance)
                     {
                         distance = distanceToVB;
+                        vb = virtualBoundary;
                     }
                 }
             }
-            return distance;
+
+            return vb;
         }
 
         public void TallyToTerminationDetectors(PhotonDataPoint dp)
@@ -62,6 +65,7 @@ namespace Vts.MonteCarlo.Controllers
             }
             // need to add processing for history tallies
         }
+
         public void TallyToHistoryDetectors(PhotonHistory history)
         {
             //var lastDP = history.HistoryData.Last();
@@ -77,6 +81,7 @@ namespace Vts.MonteCarlo.Controllers
                 }
             }
         }
+
         public void TerminationTally(PhotonDataPoint dp)
         {
             foreach (var tally in _terminationDetectors)
@@ -100,13 +105,14 @@ namespace Vts.MonteCarlo.Controllers
                 previousDP = dp;
             }
         }
+
         public bool ListenToPhotonStateType(PhotonDataPoint dp)
         {
             bool virtualBoundary = false;
             // check if PST and VB agree
             foreach (var vb in _virtualBoundaries)
             {
-                // virtualBoundary = vb.WillHitBoundary(dp);
+                virtualBoundary = vb.WillHitBoundary(dp);
                 switch (vb.VirtualBoundaryType)
                 {
                         // these cases would be in specific VB class and based on direction too
