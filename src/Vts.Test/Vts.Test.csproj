@@ -211,7 +211,7 @@
     <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs">
+    <Compile Include="Modeling\Spectroscopy\SpectralDatabaseTest.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Modeling\ValidateInverseSolution.cs">

@@ -11,12 +11,12 @@ namespace Vts.Test.Modeling.Spectroscopy
 {
     [KnownType(typeof(ChromophoreSpectrum))]
     [TestFixture]
-    public class SpectralDatabaseLoaderTest
+    public class SpectralDatabaseTest
     {
         [Test]
         public void validate_Loading_Spectral_Database()
         {
-            var _testDictionary = Vts.SpectralMapping.SpectralDatabaseLoader.GetDatabaseFromFile();
+            var _testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
             Assert.IsNotNull(_testDictionary);
         }
 
@@ -25,14 +25,14 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void validate_Loading_Spectral_Database_from_csv()
         {
             Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Fat.csv", "Vts");
-            var _testDictionary = Vts.SpectralMapping.SpectralDatabaseLoader.GetDatabaseFromFile(stream);
+            var _testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile(stream);
             Assert.IsNotNull(_testDictionary);
         }
 
         [Test]
         public void validate_Serializing_Spectral_Database()
         {
-            var testDictionary = Vts.SpectralMapping.SpectralDatabaseLoader.GetDatabaseFromFile();
+            var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
             
             // "ToFile" static method in SpectralDatabaseLoader
             //var values = testDictionary.Select(di => di.Value).ToList();
@@ -46,7 +46,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         [Test]
         public void validate_Deserializing_Spectral_Database()
         {
-            var testDictionary = Vts.SpectralMapping.SpectralDatabaseLoader.GetDatabaseFromFile();
+            var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
             testDictionary.WriteToXML("dictionary2.xml");
             var Dvalues = FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>("dictionary2.xml"); 
             Assert.IsTrue(true);

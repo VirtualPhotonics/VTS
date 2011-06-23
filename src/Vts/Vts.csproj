@@ -239,7 +239,6 @@
     <Compile Include="Modeling\Spectroscopy\MieScatterer.cs" />
     <Compile Include="Modeling\Spectroscopy\PowerLawScatterer.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralDatabase.cs" />
-    <Compile Include="Modeling\Spectroscopy\SpectralDatabaseLoader.cs" />
     <Compile Include="Modeling\Spectroscopy\Tissue.cs" />
     <Compile Include="Modeling\Tools\CalculatorToolbox.cs" />
     <Compile Include="Modeling\Tools\HankelTransform.cs" />

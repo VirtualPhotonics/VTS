@@ -170,8 +170,8 @@
     <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralConverterTest.cs">
       <Link>Modeling\Spectroscopy\SpectralConverterTest.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs">
-      <Link>Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralDatabaseTest.cs">
+      <Link>Modeling\Spectroscopy\SpectralDatabaseTest.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\ValidateInverseSolution.cs">
       <Link>Modeling\ValidateInverseSolution.cs</Link>
