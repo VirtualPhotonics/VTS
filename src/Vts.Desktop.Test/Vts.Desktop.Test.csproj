@@ -110,8 +110,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Vts.Test\Common\Extension Methods\ArrayExtensionsTests.cs">
-      <Link>Common\Extension Methods\ArrayExtensionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\Common\Extensions\ArrayExtensionsTests.cs">
+      <Link>Common\Extensions\ArrayExtensionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Common\Helpers\Range\DoubleRangeTests.cs">
       <Link>Common\Helpers\Range\DoubleRangeTests.cs</Link>

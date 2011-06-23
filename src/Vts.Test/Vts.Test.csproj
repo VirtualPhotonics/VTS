@@ -148,7 +148,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\Extension Methods\ArrayExtensionsTests.cs">
+    <Compile Include="Common\Extensions\ArrayExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\DirectionTests.cs">

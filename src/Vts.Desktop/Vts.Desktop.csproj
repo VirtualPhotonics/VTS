@@ -142,26 +142,26 @@
     <Compile Include="..\Vts\Common\Enums.cs">
       <Link>Common\Enums.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\ArrayExtensions.cs">
-      <Link>Common\Extension Methods\ArrayExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\ArrayExtensions.cs">
+      <Link>Common\Extensions\ArrayExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\DataExtensions.cs">
-      <Link>Common\Extension Methods\DataExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\DataExtensions.cs">
+      <Link>Common\Extensions\DataExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\EnumerableExtensions.cs">
-      <Link>Common\Extension Methods\EnumerableExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\EnumerableExtensions.cs">
+      <Link>Common\Extensions\EnumerableExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\EnumExtensions.cs">
-      <Link>Common\Extension Methods\EnumExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\EnumExtensions.cs">
+      <Link>Common\Extensions\EnumExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\IEnumerableArrayExtensions.cs">
-      <Link>Common\Extension Methods\IEnumerableArrayExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\IEnumerableArrayExtensions.cs">
+      <Link>Common\Extensions\IEnumerableArrayExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\OpticalPropertiesExtensions.cs">
-      <Link>Common\Extension Methods\OpticalPropertiesExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\OpticalPropertiesExtensions.cs">
+      <Link>Common\Extensions\OpticalPropertiesExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\RNGExtensions.cs">
-      <Link>Common\Extension Methods\RNGExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\RNGExtensions.cs">
+      <Link>Common\Extensions\RNGExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Common\GlobalConstants.cs">
       <Link>Common\GlobalConstants.cs</Link>
