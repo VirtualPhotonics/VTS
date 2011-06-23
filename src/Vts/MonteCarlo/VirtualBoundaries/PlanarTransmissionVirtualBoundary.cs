@@ -24,12 +24,16 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         public PlanarTransmissionVirtualBoundary(
             VirtualBoundaryAxisType axis,
             VirtualBoundaryDirectionType direction,
-            double planeValue)
+            double planeValue,
+            VirtualBoundaryType type,
+            string name)
         {
             _axis = axis;
             _direction = direction;
             _planeValue = planeValue;
             _detectorController = new DetectorController(new List<IDetector>());
+            Name = name;
+            VirtualBoundaryType = type;
         }       
 
         /// <summary>
@@ -40,29 +44,36 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             : this(
             VirtualBoundaryAxisType.Z, 
             VirtualBoundaryDirectionType.Decreasing, 
-            0.0)
+            0.0,
+            VirtualBoundaryType.PlanarTransmissionDomainTopBoundary,
+            VirtualBoundaryType.PlanarTransmissionDomainTopBoundary.ToString())
         {
         }
 
         public IDetectorController DetectorController { get { return _detectorController; } set { _detectorController = value; } }
-       
+        public string Name { get; set; }
+        public VirtualBoundaryType VirtualBoundaryType { get; set; }
+
         /// <summary>
-        /// Finds the distance to the virtual boundary 
+        /// Finds the distance to the virtual boundary given direction of VB and photon
         /// </summary>
         /// <param name="photon"></param>
         public double GetDistanceToVirtualBoundary(Photon photon)
         {
+            double distanceToBoundary = double.PositiveInfinity;
             if (photon.DP.Direction.Uz == 0.0)
             {
                 return double.PositiveInfinity;
             }
-            // THE FOLLOWING NEEDS WORK TO BE CORRECT
             // going "up" in negative z-direction
             bool goingUp = photon.DP.Direction.Uz < 0.0;
-
-            // calculate distance to boundary based on z-projection of photon trajectory
-            double distanceToBoundary = (_planeValue - photon.DP.Position.Z) / photon.DP.Direction.Uz;
-
+            // check that photon is directed in direction of VB
+            if ((goingUp && (_direction == VirtualBoundaryDirectionType.Decreasing)) ||
+                !goingUp && (_direction == VirtualBoundaryDirectionType.Increasing))
+            {
+                // calculate distance to boundary based on z-projection of photon trajectory
+                distanceToBoundary = (_planeValue - photon.DP.Position.Z) / photon.DP.Direction.Uz;
+            }
             return distanceToBoundary;
         }
 

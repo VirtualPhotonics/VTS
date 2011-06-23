@@ -8,5 +8,7 @@ namespace Vts.MonteCarlo
     {
         IList<IDetector> Detectors { get; }
         void NormalizeDetectors(long N);
+        //void TerminationTally(PhotonDataPoint dp);
+        //void HistoryTally(PhotonHistory history);
     }
 }

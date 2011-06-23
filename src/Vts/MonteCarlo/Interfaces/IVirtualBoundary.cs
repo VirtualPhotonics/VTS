@@ -8,7 +8,9 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface IVirtualBoundary
     {
-        IDetectorController DetectorController { get; set; }
-        double GetDistanceToVirtualBoundary(Photon photon);  
+        IDetectorController DetectorController { get; set; } // need set for VBFactory
+        double GetDistanceToVirtualBoundary(Photon photon);
+        string Name { get; set; }
+        VirtualBoundaryType VirtualBoundaryType { get; set; }
     }
 }

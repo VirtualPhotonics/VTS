@@ -37,7 +37,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
 
             var database = PhotonDatabase.FromFile("photonExitDatabase");
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                input.DetectorInputs, database, onTheFlyOutput.Input);
+                input.DetectorInputs, false, database, onTheFlyOutput.Input);
 
             ValidateROfRhoAndTime(onTheFlyOutput, postProcessedOutput);
         }

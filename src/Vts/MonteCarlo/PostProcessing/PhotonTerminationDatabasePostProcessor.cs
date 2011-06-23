@@ -1,10 +1,7 @@
-using System.Runtime.Serialization;
 using System.Collections.Generic;
-using System.Linq;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Controllers;
+using Vts.MonteCarlo.Factories;
 
 namespace Vts.MonteCarlo.PostProcessing
 {
@@ -24,6 +21,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <returns></returns>
         public static Output GenerateOutput(
             IList<IDetectorInput> detectorInputs, 
+            bool tallySecondMoment,
             PhotonDatabase database, 
             SimulationInput databaseInput)
         {
@@ -32,13 +30,21 @@ namespace Vts.MonteCarlo.PostProcessing
                 databaseInput.Options.AbsorptionWeightingType,
                 databaseInput.Options.PhaseFunctionType);
 
-            DetectorController detectorController = Factories.DetectorControllerFactory.GetStandardDetectorController(
-                detectorInputs, tissue, databaseInput.Options.TallySecondMoment);
+            var detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
+ 
+            var detectorController = 
+                Factories.DetectorControllerFactory.GetStandardDetectorController(detectors);
 
+            var virtualBoundaryController = VirtualBoundaryControllerFactory.GetVirtualBoundaryController(
+                detectorController.Detectors, tissue); 
+ 
             // CKH comment out for now but need to FIX!
             //foreach (var dp in database.DataPoints)
             //{
-            //    detectorController.TerminationTally(dp);     
+            //    foreach (var vb in virtualBoundaryController.VirtualBoundaries)
+            //    {
+            //        vb.DetectorController(dp);
+            //    }
             //}
 
             detectorController.NormalizeDetectors(databaseInput.N);

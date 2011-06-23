@@ -52,13 +52,13 @@ namespace Vts.MonteCarlo
 
             _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType);
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
-            _detectorController = DetectorControllerFactory.GetStandardDetectorController(
-                input.DetectorInputs,
-                _tissue,
-                input.Options.TallySecondMoment);
+
+            // instantiate detector controller for the detectors that apply to each virtual boundary 
+            var detectors = DetectorFactory.GetDetectors(input.DetectorInputs, _tissue, input.Options.TallySecondMoment);
+            _detectorController = DetectorControllerFactory.GetStandardDetectorController(detectors);
+
             _virtualBoundaryController = VirtualBoundaryControllerFactory.GetVirtualBoundaryController(
-                _detectorController.Detectors, _tissue);
-            
+                _detectorController.Detectors, _tissue);            
         }
 
         /// <summary>
@@ -133,60 +133,33 @@ namespace Vts.MonteCarlo
                     }
 
                     var photon = _source.GetNextPhoton(_tissue);
-                    //do
-                    //{ /* begin do while  */
-                    //    photon.SetStepSize(_rng);
-
-                    //    var distance = _tissue.GetDistanceToBoundary(photon);
-
-                    //    bool hitBoundary = photon.Move(distance);
-
-                    //    if (hitBoundary)
-                    //    {
-                    //        photon.CrossRegionOrReflect();
-                    //    }
-                    //    else
-                    //    {
-                    //        photon.Absorb();
-                    //        if (photon.DP.StateFlag != PhotonStateType.Absorbed)
-                    //        {
-                    //            photon.Scatter();
-                    //        }
-                    //    }
-
-                    //    /*Test_Distance(); */
-                    //    photon.TestWeightAndDistance();
-
-                    //} while (photon.DP.StateFlag.Has(PhotonStateType.Alive)); /* end do while */
 
                     do
                     { /* begin do while  */
                         photon.SetStepSize(_rng);
 
                         // listen to and flag VP PSTs
-                        bool virtualBoundary = photon.ListenToPhotonStateType();
-
-                        // photon.Move(distance) would call tissuebase code; instead of:
-                        //var distance = _tissue.GetDistanceToBoundary(photon);
+                        bool hitvirtualBoundary = _virtualBoundaryController.ListenToPhotonStateType(photon.DP);
 
                         //bool hitBoundary = photon.Move(distance);
-                        bool hitBoundary = photon.Move();
+                        bool hitTissueBoundary = photon.Move();
                         // for each "hit" virtual boundary, tally respective detectors. 
+                        if (hitvirtualBoundary) 
+                        {
+                            _virtualBoundaryController.TallyToTerminationDetectors(photon.DP);
+                        }
 
                         // kill photon for various reasons, including possible VB crossings
+                        photon.TestDeath(); 
 
-                        // death happens here.
-                        //photon.TestWeightAndDistance(); // and VB death?
-                        photon.TestDeath(); // check for weight, distance, VB death (transmit domain boundary)
-
-                        // check if virtual boundary
-                        if (virtualBoundary)
+                        // check if virtual boundary SHOULD ONLY CONTINUE IF NOT REAL BOUNDARY!
+                        if (hitvirtualBoundary)
                         {
                             continue;
                         }
 
                         // or else if...
-                        if (hitBoundary)
+                        if (hitTissueBoundary)
                         {
                             photon.CrossRegionOrReflect();
                             continue;
@@ -195,13 +168,12 @@ namespace Vts.MonteCarlo
                         //else
                         //{
                         photon.Absorb();
-                        if ((photon.DP.StateFlag & PhotonStateType.Absorbed) != PhotonStateType.Absorbed)
+                        if (!photon.DP.StateFlag.Has(PhotonStateType.Absorbed))
                         {
                             photon.Scatter();
                         }
                         //}
 
-                        /*Test_Distance(); */
                         //photon.TestWeightAndDistance();
 
                     } while (photon.DP.StateFlag.Has(PhotonStateType.Alive)); /* end do while */
@@ -218,7 +190,7 @@ namespace Vts.MonteCarlo
                         collisionWriter.Write(photon.History.SubRegionInfoList);
                     }
 
-                    _detectorController.HistoryTally(photon.History);
+                    _virtualBoundaryController.TallyToHistoryDetectors(photon.History);
 
                 } /* end of for n loop */
             }

@@ -32,14 +32,14 @@ namespace Vts.Test.MonteCarlo.PhotonData
                                    new Direction(0, 0, 1),
                                    1.0, // weight
                                    10, // time
-                                   PhotonStateType.ExitedOutBottom));
+                                   PhotonStateType.PseudoTransmissionDomainBottomBoundary));
 
                 dbWriter.Write(new PhotonDataPoint(
                                    new Position(4, 5, 6),
                                    new Direction(1, 0, 0),
                                    0.50,
                                    100,
-                                   PhotonStateType.ExitedOutTop));
+                                   PhotonStateType.PseudoTransmissionDomainTopBoundary));
             }
 
             // read the database from file, and verify the correct number of photons were written
@@ -59,7 +59,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             Assert.AreEqual(dp1.Direction, new Direction(0, 0, 1));
             Assert.AreEqual(dp1.Weight, 1.0);
             Assert.AreEqual(dp1.TotalTime, 10);
-            Assert.AreEqual(dp1.StateFlag, PhotonStateType.ExitedOutBottom);
+            Assert.AreEqual(dp1.StateFlag, PhotonStateType.PseudoTransmissionDomainBottomBoundary);
 
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
@@ -68,7 +68,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             Assert.AreEqual(dp2.Direction, new Direction(1, 0, 0));
             Assert.AreEqual(dp2.Weight, 0.5);
             Assert.AreEqual(dp2.TotalTime, 100);
-            Assert.AreEqual(dp2.StateFlag, PhotonStateType.ExitedOutTop);
+            Assert.AreEqual(dp2.StateFlag, PhotonStateType.PseudoTransmissionDomainTopBoundary);
         }
     }
 }

@@ -1,11 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.Controllers;
 
 namespace Vts.MonteCarlo
 {
@@ -132,13 +132,17 @@ namespace Vts.MonteCarlo
         public bool Move()
         {
             // get distance to any tissue boundary
-            var distance = _tissue.GetDistanceToBoundary(this);
+            var tissueDistance = _tissue.GetDistanceToBoundary(this);
             // get distance to any VB
             var vbDistance = Controllers.VirtualBoundaryController.GetDistanceToClosestVirtualBoundary(this);
-            return Move(Math.Min(distance, vbDistance));
+            var minDistance = Math.Min(tissueDistance, vbDistance);
+            var hit = Move(minDistance);
+            if (minDistance == tissueDistance) return hit;
+            else return false;
+
         }
         public bool Move(double distance)
-        {
+         {
             bool willHitBoundary = S >= distance;
 
             if (willHitBoundary)
@@ -224,7 +228,7 @@ namespace Vts.MonteCarlo
                 // if at border of system  
                 if (_tissue.OnDomainBoundary(this))
                 {
-                    //DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
+                    DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
                     //DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                     // add updated final DP to History
                     History.AddDPToHistory(DP);
@@ -243,29 +247,17 @@ namespace Vts.MonteCarlo
                     CurrentRegionIndex = neighborIndex;
                     DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                         nCurrent, nNext, cosThetaSnell);
-                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoTransmitInternalBoundary);
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoTransmissionInternalBoundary);
                 }
                 // flag virtual boundaries too...can't be mutually exlusive with OnDomainBoundary
             }
             else  // don't cross, reflect
             {
                 DP.Direction = _tissue.GetReflectedDirection(DP.Position, DP.Direction);
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoReflectInternalBoundary);
+                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoReflectionInternalBoundary);
             }
         }
-        public bool ListenToPhotonStateType()
-        {
-            bool virtualBoundary = false;
-            // all VB bits above PseudoReflectDomainBoundary - will rework with more optimal code
-            if (DP.StateFlag.Has(PhotonStateType.PseudoReflectDomainBoundary) ||
-                DP.StateFlag.Has(PhotonStateType.PseudoReflectInternalBoundary) ||
-                DP.StateFlag.Has(PhotonStateType.PseudoTransmitDomainBoundary) ||
-                DP.StateFlag.Has(PhotonStateType.PseudoTransmitInternalBoundary))
-            {
-                virtualBoundary = true;
-            }
-            return virtualBoundary;
-        }
+
 
         /*****************************************************************/
         public void AbsorbAnalog()
@@ -381,7 +373,8 @@ namespace Vts.MonteCarlo
         {
             TestWeightAndDistance();
             // test VB death
-            if (DP.StateFlag.Has(PhotonStateType.PseudoTransmitDomainBoundary))
+            if (DP.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary) ||
+                DP.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainBottomBoundary))
             {
                 DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                 History.AddDPToHistory(DP);

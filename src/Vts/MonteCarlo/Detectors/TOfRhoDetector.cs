@@ -89,7 +89,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public bool ContainsPoint(PhotonDataPoint dp)
         {
-            return (dp.StateFlag.Has(PhotonStateType.PseudoTransmitDomainBoundary));
+            return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainBottomBoundary));
         }
     }
 }

@@ -29,6 +29,7 @@ namespace Vts.MonteCarlo.Factories
             IVirtualBoundary reflectionVB = null;
             IVirtualBoundary transmissionVB = null;
             IVirtualBoundary specularVB = null;
+            IVirtualBoundary genericVB = null;
 
             foreach (var detector in detectors)
             {
@@ -48,11 +49,13 @@ namespace Vts.MonteCarlo.Factories
                             reflectionVB = new PlanarTransmissionVirtualBoundary(
                                 VirtualBoundaryAxisType.Z,
                                 VirtualBoundaryDirectionType.Decreasing,
-                                0.0);
+                                0.0,
+                                VirtualBoundaryType.PlanarTransmissionDomainTopBoundary,
+                                VirtualBoundaryType.PlanarTransmissionDomainTopBoundary.ToString());
+                            VBList.Add(reflectionVB);
                         }
                         reflectionVB.DetectorController.Detectors.Add(detector);
-                        break;
- 
+                        break; 
                     case TallyType.TDiffuse:
                     case TallyType.TOfAngle:
                     case TallyType.TOfRho:
@@ -63,7 +66,10 @@ namespace Vts.MonteCarlo.Factories
                             transmissionVB = new PlanarTransmissionVirtualBoundary(
                                 VirtualBoundaryAxisType.Z,
                                 VirtualBoundaryDirectionType.Increasing,
-                                ((LayerRegion)tissue.Regions[tissue.Regions.Count - 1]).ZRange.Stop);
+                                ((LayerRegion)tissue.Regions[tissue.Regions.Count - 1]).ZRange.Stop,
+                                VirtualBoundaryType.PlanarTransmissionDomainBottomBoundary,
+                                VirtualBoundaryType.PlanarTransmissionDomainBottomBoundary.ToString());
+                            VBList.Add(transmissionVB);
                         }
                         transmissionVB.DetectorController.Detectors.Add(detector);
                         break;
@@ -73,20 +79,30 @@ namespace Vts.MonteCarlo.Factories
                             specularVB = new PlanarReflectionVirtualBoundary(
                                 VirtualBoundaryAxisType.Z,
                                 VirtualBoundaryDirectionType.Decreasing,
-                                0.0);
+                                0.0,
+                                VirtualBoundaryType.PlanarReflectionDomainTopBoundary,
+                                VirtualBoundaryType.PlanarReflectionDomainTopBoundary.ToString());
+                            VBList.Add(specularVB);
                         }
                         specularVB.DetectorController.Detectors.Add(detector);
                         break;
-
                     // IHistoryDetector(s):
-                    //case TallyType.FluenceOfRhoAndZ:
-                    //case TallyType.FluenceOfRhoAndZAndTime:
-                    //case TallyType.AOfRhoAndZ:
-                    //case TallyType.ATotal:
+                    case TallyType.FluenceOfRhoAndZ:
+                    case TallyType.FluenceOfRhoAndZAndTime:
+                    case TallyType.AOfRhoAndZ:
+                    case TallyType.ATotal:
+                    if (genericVB == null)
+                        {
+                            genericVB = new GenericVolumeVirtualBoundary(
+                                VirtualBoundaryType.GenericVolumeBoundary,
+                                VirtualBoundaryType.GenericVolumeBoundary.ToString());
+                            VBList.Add(genericVB);
+                        }
+                        genericVB.DetectorController.Detectors.Add(detector);
+                        break; 
                 }
             }
-            // get rid of duplicate instantiations
-            return VBList.Distinct().ToList();
+            return VBList;
         }
 
         // pMC overload - not sure need yet

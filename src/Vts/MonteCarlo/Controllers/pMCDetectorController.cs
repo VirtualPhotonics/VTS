@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo.Controllers
 {
-    public class pMCDetectorController : IDetectorController
+    public class pMCDetectorController //: IDetectorController // ckh need to fix this after reg. MC working
     {
         private ITissue _tissue;
         private bool _tallySecondMoment;

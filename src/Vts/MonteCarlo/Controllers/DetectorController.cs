@@ -17,31 +17,26 @@ namespace Vts.MonteCarlo.Controllers
     {
         private IList<IDetector> _detectors;
         //private IList<ITerminationDetector> _terminationDetectors;
-        private IList<IHistoryDetector> _historyDetectors;
+        //private IList<IHistoryDetector> _historyDetectors;
 
         public DetectorController(
             IList<IDetector> detectors)
-            //IList<IDetectorInput> detectorInputs,
-            //ITissue tissue,
-            //bool tallySecondMoment)
         {
             _detectors = detectors;
-            // todo: move this out of DetectorController and change constructor dependency to "IList<IDetector> detectors" djc 2011-06-03
-            //_detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
 
             //_terminationDetectors =
             //    (from detector in _detectors
             //     where detector.TallyType.IsTerminationTally()
             //     select (ITerminationDetector)detector).ToArray();
 
-            // DC what to do about history detectors for now?  I could make generic VB and add them to it.
-            if (detectors != null)
-            {
-                _historyDetectors =
-                    (from detector in _detectors
-                     where detector.TallyType.IsHistoryTally()
-                     select (IHistoryDetector)detector).ToArray();
-            }
+            //// DC what to do about history detectors for now?  I could make generic VB and add them to it.
+            //if (detectors != null)
+            //{
+            //    _historyDetectors =
+            //        (from detector in _detectors
+            //         where detector.TallyType.IsHistoryTally()
+            //         select (IHistoryDetector)detector).ToArray();
+            //}
 
         }
 
@@ -56,20 +51,20 @@ namespace Vts.MonteCarlo.Controllers
         //    }
         //}
 
-        public void HistoryTally(PhotonHistory history)
-        {
-            // loop through the photon history. history tallies require information 
-            // from previous and "current" collision points (including pseudo-collisions)
-            PhotonDataPoint previousDP = history.HistoryData.First();
-            foreach (PhotonDataPoint dp in history.HistoryData.Skip(1))
-            {
-                foreach (var tally in _historyDetectors)
-                {
-                    tally.Tally(previousDP, dp);
-                }
-                previousDP = dp;
-            }
-        }
+        //public void HistoryTally(PhotonHistory history)
+        //{
+        //    // loop through the photon history. history tallies require information 
+        //    // from previous and "current" collision points (including pseudo-collisions)
+        //    PhotonDataPoint previousDP = history.HistoryData.First();
+        //    foreach (PhotonDataPoint dp in history.HistoryData.Skip(1))
+        //    {
+        //        foreach (var tally in _historyDetectors)
+        //        {
+        //            tally.Tally(previousDP, dp);
+        //        }
+        //        previousDP = dp;
+        //    }
+        //}
 
         public virtual void NormalizeDetectors(long N)
         {

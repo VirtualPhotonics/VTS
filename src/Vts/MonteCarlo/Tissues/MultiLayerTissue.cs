@@ -120,10 +120,10 @@ namespace Vts.MonteCarlo.Tissues
         {
             if (position.Z < 1e-10)
             {
-                return PhotonStateType.ExitedOutTop;
+                return PhotonStateType.PseudoTransmissionDomainTopBoundary;
             }
             
-            return PhotonStateType.ExitedOutBottom;
+            return PhotonStateType.PseudoTransmissionDomainBottomBoundary;
         }
 
         public override Direction GetReflectedDirection(

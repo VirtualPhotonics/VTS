@@ -9,12 +9,11 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public static class DetectorControllerFactory
     {
-        public static DetectorController GetStandardDetectorController(
-            IList<IDetectorInput> inputs, ITissue tissue, bool tallySecondMoment)
+        public static DetectorController GetStandardDetectorController(IList<IDetector> detectors)
         {
             DetectorController controller = null;
             //controller = new DetectorController(inputs, tissue, tallySecondMoment);
-            controller = new DetectorController(DetectorFactory.GetDetectors(inputs, tissue, tallySecondMoment));
+            controller = new DetectorController(detectors);
 
             if (controller == null)
                 throw new ArgumentException(

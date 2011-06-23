@@ -967,6 +967,9 @@
     <Compile Include="..\Vts\MonteCarlo\Tissues\VoxelRegion.cs">
       <Link>MonteCarlo\Tissues\VoxelRegion.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs">
+      <Link>MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\PlanarReflectionVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\PlanarReflectionVirtualBoundary.cs</Link>
     </Compile>

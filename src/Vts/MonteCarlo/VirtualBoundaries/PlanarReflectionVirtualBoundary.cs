@@ -19,12 +19,16 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         public PlanarReflectionVirtualBoundary(
             VirtualBoundaryAxisType axis,
             VirtualBoundaryDirectionType direction,
-            double planeValue)
+            double planeValue,
+            VirtualBoundaryType type,
+            string name)
         {
             _axis = axis;
             _direction = direction;
             _planeValue = planeValue;
             _detectorController = new DetectorController(new List<IDetector>());
+            Name = name;
+            VirtualBoundaryType = type;
         }       
 
         /// <summary>
@@ -35,11 +39,16 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             : this(
             VirtualBoundaryAxisType.Z, 
             VirtualBoundaryDirectionType.Decreasing, 
-            0.0)
+            0.0,
+            VirtualBoundaryType.PlanarReflectionDomainTopBoundary,
+            VirtualBoundaryType.PlanarReflectionDomainTopBoundary.ToString())
         {
         }
 
         public IDetectorController DetectorController { get { return _detectorController; } set { _detectorController = value; } }
+        public string Name { get; set; }
+        public VirtualBoundaryType VirtualBoundaryType { get; set; }
+
         /// <summary>
         /// Finds the distance to the virtual boundary 
         /// </summary>

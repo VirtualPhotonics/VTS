@@ -20,14 +20,14 @@ namespace Vts.MonteCarlo
         KilledOverMaximumPathLength = 0x8,
         KilledOverMaximumCollisions = 0x10,
         KilledRussianRoulette = 0x20,
-        // virtual boundary flags
-        PseudoReflectDomainBoundary = 0x100,
-        PseudoTransmitDomainBoundary = 0x200, // these next enums mean Alive = 0
-        PseudoReflectInternalBoundary = 0x400,
-        PseudoTransmitInternalBoundary = 0x800,
-        // DC: these might need to be descriptive enough to pass ContainsPoint
-        // or should we redesign transmittance tallies to take z=depth parameter?
-        PseudoTransmitTopDomainBoundary = 0x1000, // do I need this?
+        // virtual boundary flags, can we 1-1 map to virtualBoundary "Name"
+        PseudoReflectionDomainTopBoundary = 0x100,
+        PseudoTransmissionDomainTopBoundary = 0x200,
+        PseudoReflectionDomainBottomBoundary = 0x400,
+        PseudoTransmissionDomainBottomBoundary = 0x800,
+        PseudoReflectionInternalBoundary = 0x1000,
+        PseudoTransmissionInternalBoundary = 0x2000,
+        GenericVolumeBoundary = 0x4000,
     }
 
     // Source enums
@@ -148,7 +148,16 @@ namespace Vts.MonteCarlo
         pMCROfRhoAndTime, // maybe these should be in separate enum?
         pMCROfRho,
     }
-
+    public enum VirtualBoundaryType
+    {
+        PlanarReflectionDomainTopBoundary,
+        PlanarTransmissionDomainTopBoundary,
+        PlanarReflectionDomainBottomBoundary,
+        PlanarTransmissionDomainBottomBoundary,
+        PlanarReflectionInternalBoundary,
+        PlanarTransmissionInternalBoundary,
+        GenericVolumeBoundary,
+    }
     public enum VirtualBoundaryAxisType
     {
         X,
