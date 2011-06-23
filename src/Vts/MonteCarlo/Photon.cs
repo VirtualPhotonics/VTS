@@ -22,6 +22,7 @@ namespace Vts.MonteCarlo
         // could add layer of indirection to not expose Absorb;
         private ITissue _tissue;
         private Random _rng;
+        private bool _firstTimeEnteringDomain;
 
         public Photon(
             Position p,
@@ -43,22 +44,23 @@ namespace Vts.MonteCarlo
             CurrentRegionIndex = currentTissueRegionIndex;
             var onBoundary = tissue.OnDomainBoundary(this);
             DP.Weight = 1.0;
-
-            #region employ this section only to match linux results with coll. point source
-            if (onBoundary)
-            {
-                if (CurrentRegionIndex == 0)
-                {
-                    // quick fix 6/16/11 ckh
-                    var neighborRegionIndex = tissue.GetNeighborRegionIndex(this);
-                    DP.Weight = 1.0 - Helpers.Optics.Specular(
-                        tissue.Regions[CurrentRegionIndex].RegionOP.N,
-                        tissue.Regions[neighborRegionIndex].RegionOP.N);
-                    // move to neighbor region
-                    CurrentRegionIndex = neighborRegionIndex;
-                }
-            }
-            #endregion
+            _firstTimeEnteringDomain = true;
+            //#region employ this section only to match linux results with coll. point source
+            //if (onBoundary)
+            //{
+            //    if (CurrentRegionIndex == 0)
+            //    {
+            //        // quick fix 6/16/11 ckh
+            //        var neighborRegionIndex = tissue.GetNeighborRegionIndex(this);
+            //        DP.Weight = 1.0 - Helpers.Optics.Specular(
+            //            tissue.Regions[CurrentRegionIndex].RegionOP.N,
+            //            tissue.Regions[neighborRegionIndex].RegionOP.N);
+            //        // move to neighbor region
+            //        CurrentRegionIndex = neighborRegionIndex;
+            //        _firstTimeEnteringDomain = false;
+            //    }
+            //}
+            //#endregion
 
             CurrentTrackIndex = 0;
             _tissue = tissue;
@@ -207,23 +209,22 @@ namespace Vts.MonteCarlo
             else
                 coscrit = 0.0;
 
-            double probOfCrossing;
+            double probOfReflecting;
             double cosThetaSnell;
             // call Fresnel be default to have uZSnell set, used to be within else
-            // probOFReflecting?
-            probOfCrossing = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
+            probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
             if (cosTheta <= coscrit)
-                probOfCrossing = 1.0;
+                probOfReflecting = 1.0;
             //else
-            //    probOfCrossing = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
+            //    probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
 
             /* Decide whether or not photon goes to next region */
             // perform first check so that rng not called on pseudo-collisions
             //if ((probOfCrossing == 0.0) || (_rng.NextDouble() > probOfCrossing))
-            if (_rng.NextDouble() > probOfCrossing)
+            if (_rng.NextDouble() > probOfReflecting) // transmitted
             {
                 // if at border of system  
-                if (_tissue.OnDomainBoundary(this))
+                if (_tissue.OnDomainBoundary(this) && !_firstTimeEnteringDomain)
                 {
                     DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
                     //DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
@@ -239,19 +240,36 @@ namespace Vts.MonteCarlo
                     //DP.Direction.Uy *= nCurrent / nNext;
                     //DP.Direction.Uz = uZSnell;
                 }
-                else // not on domain boundary, at internal interface, pass to next
+                else // not on domain boundary, at internal interface or first time enter tissue, pass to next
                 {
                     CurrentRegionIndex = neighborIndex;
                     DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                         nCurrent, nNext, cosThetaSnell);
-                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoTransmissionInternalBoundary);
+                    if (_firstTimeEnteringDomain)
+                    {
+                        DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoTransmissionDomainTopBoundary);
+                        _firstTimeEnteringDomain = false;
+                    }
+                    else
+                    {
+                        DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoTransmissionInternalBoundary);
+                    }
                 }
                 // flag virtual boundaries too...can't be mutually exlusive with OnDomainBoundary
             }
             else  // don't cross, reflect
             {
                 DP.Direction = _tissue.GetReflectedDirection(DP.Position, DP.Direction);
+                // check if specular reflection
+                if (_firstTimeEnteringDomain)
+                {
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoReflectionDomainTopBoundary);
+                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                }
+                else 
+                {
                 DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoReflectionInternalBoundary);
+                }
             }
         }
 

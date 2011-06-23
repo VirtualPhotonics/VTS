@@ -139,6 +139,7 @@ namespace Vts.MonteCarlo
                         photon.SetStepSize(_rng);
 
                         // listen to and flag VP PSTs
+                        // can I listen just to transport flags here?
                         bool hitvirtualBoundary = _virtualBoundaryController.ListenToPhotonStateType(photon.DP);
 
                         //bool hitBoundary = photon.Move(distance);

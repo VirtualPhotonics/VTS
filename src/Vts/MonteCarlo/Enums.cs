@@ -20,7 +20,9 @@ namespace Vts.MonteCarlo
         KilledOverMaximumPathLength = 0x8,
         KilledOverMaximumCollisions = 0x10,
         KilledRussianRoulette = 0x20,
+        // reflected/refracted(transmitted?) here in transport flags
         // virtual boundary flags, can we 1-1 map to virtualBoundary "Name"
+        // NEED TO FIX, I think I need direction in these enums
         PseudoReflectionDomainTopBoundary = 0x100,
         PseudoTransmissionDomainTopBoundary = 0x200,
         PseudoReflectionDomainBottomBoundary = 0x400,

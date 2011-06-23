@@ -106,8 +106,10 @@ namespace Vts.MonteCarlo.Controllers
             // check if PST and VB agree
             foreach (var vb in _virtualBoundaries)
             {
+                // virtualBoundary = vb.WillHitBoundary(dp);
                 switch (vb.VirtualBoundaryType)
                 {
+                        // these cases would be in specific VB class and based on direction too
                     case VirtualBoundaryType.PlanarTransmissionDomainTopBoundary:
                         if (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary))
                             virtualBoundary = true;
