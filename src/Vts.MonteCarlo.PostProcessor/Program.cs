@@ -223,7 +223,7 @@ namespace Vts.MonteCarlo.PostProcessor
             if (!doPMC)
             {
                 postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                    Input.DetectorInputs, photonDatabase, databaseSimulationInput);
+                    Input.DetectorInputs, false, photonDatabase, databaseSimulationInput);
             }
             else
             {

@@ -135,11 +135,8 @@ namespace Vts.MonteCarlo
             var tissueDistance = _tissue.GetDistanceToBoundary(this);
             // get distance to any VB
             var vbDistance = Controllers.VirtualBoundaryController.GetDistanceToClosestVirtualBoundary(this);
-            var minDistance = Math.Min(tissueDistance, vbDistance);
-            var hit = Move(minDistance);
-            if (minDistance == tissueDistance) return hit;
-            else return false;
 
+            return Move(Math.Min(tissueDistance, vbDistance));
         }
         public bool Move(double distance)
          {

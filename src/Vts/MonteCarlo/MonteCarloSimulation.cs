@@ -142,7 +142,7 @@ namespace Vts.MonteCarlo
                         bool hitvirtualBoundary = _virtualBoundaryController.ListenToPhotonStateType(photon.DP);
 
                         //bool hitBoundary = photon.Move(distance);
-                        bool hitTissueBoundary = photon.Move();
+                        bool hitBoundary = photon.Move();
                         // for each "hit" virtual boundary, tally respective detectors. 
                         if (hitvirtualBoundary) 
                         {
@@ -159,7 +159,7 @@ namespace Vts.MonteCarlo
                         }
 
                         // or else if...
-                        if (hitTissueBoundary)
+                        if (hitBoundary)
                         {
                             photon.CrossRegionOrReflect();
                             continue;
