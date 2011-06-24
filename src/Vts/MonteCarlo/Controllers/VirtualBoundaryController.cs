@@ -53,8 +53,10 @@ namespace Vts.MonteCarlo.Controllers
         {
             foreach (var vb in _virtualBoundaries)
             {
-                if (dp.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) ||
-                    dp.StateFlag.Has(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary))
+                if ((dp.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) &&
+                    vb.PhotonStateType == PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) ||
+                    (dp.StateFlag.Has(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) &&
+                    vb.PhotonStateType == PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary))
                 {
                     _terminationDetectors =
                         (from detector in vb.DetectorController.Detectors
@@ -63,7 +65,6 @@ namespace Vts.MonteCarlo.Controllers
                     TerminationTally(dp);
                 }
             }
-            // need to add processing for history tallies
         }
 
         public void TallyToHistoryDetectors(PhotonHistory history)

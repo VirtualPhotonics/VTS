@@ -44,7 +44,8 @@ namespace Vts.Test.Common
         public void validate_Add_returns_correct_values()
         {
             Days meetingDays = Days.Tuesday;
-            Assert.IsTrue(meetingDays.Add(Days.Thursday) == (Days.Tuesday | Days.Thursday));
+            meetingDays = meetingDays.Add(Days.Thursday);
+            Assert.IsTrue(meetingDays == (Days.Tuesday | Days.Thursday));
         }
         [Test]
         public void validate_Remove_returns_correct_values()

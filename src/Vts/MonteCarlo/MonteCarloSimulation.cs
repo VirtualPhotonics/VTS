@@ -225,7 +225,7 @@ namespace Vts.MonteCarlo
             else // otherwise, move to the closest virtual boundary
             {
                 var hitVirtualBoundary = photon.Move(vbDistance);
-                photon.DP.StateFlag.Add(vb.PhotonStateType); // add pseudo-collision for vb
+                photon.DP.StateFlag = photon.DP.StateFlag.Add(vb.PhotonStateType); // add pseudo-collision for vb
                 return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
             }
         }

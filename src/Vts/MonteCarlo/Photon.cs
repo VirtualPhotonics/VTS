@@ -236,7 +236,6 @@ namespace Vts.MonteCarlo
                     CurrentRegionIndex = neighborIndex;
                     DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                         nCurrent, nNext, cosThetaSnell);
-                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.Transmitted);
                     if (_firstTimeEnteringDomain)
                     {
                         _firstTimeEnteringDomain = false;
@@ -247,11 +246,11 @@ namespace Vts.MonteCarlo
             else  // don't cross, reflect
             {
                 DP.Direction = _tissue.GetReflectedDirection(DP.Position, DP.Direction);
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.Reflected);
                 // check if specular reflection
                 if (_firstTimeEnteringDomain)
                 {
                     DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoReflectedTissueBoundary);
                 }
             }
         }

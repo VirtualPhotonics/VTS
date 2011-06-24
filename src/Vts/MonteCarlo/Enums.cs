@@ -23,18 +23,24 @@ namespace Vts.MonteCarlo
         KilledOverMaximumPathLength = 0x8,
         KilledOverMaximumCollisions = 0x10,
         KilledRussianRoulette = 0x20,
-        Reflected = 0x40,
-        Transmitted = 0x80,
+        PseudoReflectedTissueBoundary = 0x40,
+        PseudoTransmittedTissueBoundary = 0x80,
 
         // virtual boundary flags, can we 1-1 map to virtualBoundary "Name"
         // move up to 16th position
-        // having trouble using EnumExtensions with int, make smaller for now and fix later
-        PseudoDiffuseReflectanceVirtualBoundary   = 0x100,
-        PseudoDiffuseTransmittanceVirtualBoundary = 0x200,
-        PseudoSpecularReflectanceVirtualBoundary  = 0x400,
-        PseudoGenericVirtualBoundary              = 0x800,
+        PseudoDiffuseReflectanceVirtualBoundary   = 0x10000, 
+        PseudoDiffuseTransmittanceVirtualBoundary = 0x20000,
+        PseudoSpecularReflectanceVirtualBoundary  = 0x40000,
+        PseudoGenericVirtualBoundary              = 0x80000,
     }
 
+    public enum VirtualBoundaryType
+    {
+        DiffuseReflectance,
+        DiffuseTransmittance,
+        SpecularReflectance,
+        GenericVolumeBoundary,
+    }
     public enum BoundaryHitType
     {
         None,
@@ -161,22 +167,4 @@ namespace Vts.MonteCarlo
         pMCROfRho,
     }
 
-    public enum VirtualBoundaryType
-    {
-        DiffuseReflectance,
-        DiffuseTransmittance,
-        SpecularReflectance,
-        GenericVolumeBoundary,
-    }
-    public enum VirtualBoundaryAxisType
-    {
-        X,
-        Y,
-        Z
-    }
-    public enum VirtualBoundaryDirectionType
-    {
-        Increasing,
-        Decreasing
-    }
 }

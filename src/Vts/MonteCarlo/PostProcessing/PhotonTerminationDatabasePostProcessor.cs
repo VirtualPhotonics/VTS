@@ -38,14 +38,14 @@ namespace Vts.MonteCarlo.PostProcessing
             var virtualBoundaryController = VirtualBoundaryControllerFactory.GetVirtualBoundaryController(
                 detectorController.Detectors, tissue); 
  
-            // CKH comment out for now but need to FIX!
-            //foreach (var dp in database.DataPoints)
-            //{
-            //    foreach (var vb in virtualBoundaryController.VirtualBoundaries)
-            //    {
-            //        vb.DetectorController(dp);
-            //    }
-            //}
+            // CKH need to FIX!
+            foreach (var dp in database.DataPoints)
+            {
+                foreach (var vb in virtualBoundaryController.VirtualBoundaries)
+                {
+                    virtualBoundaryController.TallyToTerminationDetectors(dp);
+                }
+            }
 
             detectorController.NormalizeDetectors(databaseInput.N);
 
