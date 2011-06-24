@@ -142,26 +142,26 @@
     <Compile Include="..\Vts\Common\Enums.cs">
       <Link>Common\Enums.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\ArrayExtensions.cs">
-      <Link>Common\Extension Methods\ArrayExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\ExtensionMethods\ArrayExtensions.cs">
+      <Link>Common\ExtensionMethods\ArrayExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\DataExtensions.cs">
-      <Link>Common\Extension Methods\DataExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\ExtensionMethods\DataExtensions.cs">
+      <Link>Common\ExtensionMethods\DataExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\EnumerableExtensions.cs">
-      <Link>Common\Extension Methods\EnumerableExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\ExtensionMethods\EnumerableExtensions.cs">
+      <Link>Common\ExtensionMethods\EnumerableExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\EnumExtensions.cs">
-      <Link>Common\Extension Methods\EnumExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\ExtensionMethods\EnumExtensions.cs">
+      <Link>Common\ExtensionMethods\EnumExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\IEnumerableArrayExtensions.cs">
-      <Link>Common\Extension Methods\IEnumerableArrayExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\ExtensionMethods\IEnumerableArrayExtensions.cs">
+      <Link>Common\ExtensionMethods\IEnumerableArrayExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\OpticalPropertiesExtensions.cs">
-      <Link>Common\Extension Methods\OpticalPropertiesExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\ExtensionMethods\OpticalPropertiesExtensions.cs">
+      <Link>Common\ExtensionMethods\OpticalPropertiesExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Extension Methods\RNGExtensions.cs">
-      <Link>Common\Extension Methods\RNGExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\ExtensionMethods\RNGExtensions.cs">
+      <Link>Common\ExtensionMethods\RNGExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Common\GlobalConstants.cs">
       <Link>Common\GlobalConstants.cs</Link>
@@ -463,6 +463,9 @@
     <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDetectorController.cs">
       <Link>MonteCarlo\Controllers\pMCDetectorController.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\VirtualBoundaryController.cs">
+      <Link>MonteCarlo\Controllers\VirtualBoundaryController.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs</Link>
     </Compile>
@@ -685,6 +688,12 @@
     <Compile Include="..\Vts\MonteCarlo\Factories\TissueFactory.cs">
       <Link>MonteCarlo\Factories\TissueFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\VirtualBoundaryControllerFactory.cs">
+      <Link>MonteCarlo\Factories\VirtualBoundaryControllerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\VirtualBoundaryFactory.cs">
+      <Link>MonteCarlo\Factories\VirtualBoundaryFactory.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\DetectorBinning.cs">
       <Link>MonteCarlo\Helpers\DetectorBinning.cs</Link>
     </Compile>
@@ -744,6 +753,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissueRegion.cs">
       <Link>MonteCarlo\Interfaces\ITissueRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IVirtualBoundary.cs">
+      <Link>MonteCarlo\Interfaces\IVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\IO\DatabaseOfT.cs">
       <Link>MonteCarlo\IO\DatabaseOfT.cs</Link>
@@ -949,14 +961,14 @@
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs">
+      <Link>MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\PlanarReflectionVirtualBoundary.cs">
-      <Link>MonteCarlo\VirtualBoundaries\PlanarReflectionVirtualBoundary.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\PlanarTransmissionVirtualBoundary.cs">
-      <Link>MonteCarlo\VirtualBoundaries\PlanarTransmissionVirtualBoundary.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs">
+      <Link>MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedDetectorDefinition.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedFlags.cs" />

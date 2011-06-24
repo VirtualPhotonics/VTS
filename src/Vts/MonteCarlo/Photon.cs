@@ -45,22 +45,22 @@ namespace Vts.MonteCarlo
             var onBoundary = tissue.OnDomainBoundary(this);
             DP.Weight = 1.0;
             _firstTimeEnteringDomain = true;
-            //#region employ this section only to match linux results with coll. point source
-            //if (onBoundary)
-            //{
-            //    if (CurrentRegionIndex == 0)
-            //    {
-            //        // quick fix 6/16/11 ckh
-            //        var neighborRegionIndex = tissue.GetNeighborRegionIndex(this);
-            //        DP.Weight = 1.0 - Helpers.Optics.Specular(
-            //            tissue.Regions[CurrentRegionIndex].RegionOP.N,
-            //            tissue.Regions[neighborRegionIndex].RegionOP.N);
-            //        // move to neighbor region
-            //        CurrentRegionIndex = neighborRegionIndex;
-            //        _firstTimeEnteringDomain = false;
-            //    }
-            //}
-            //#endregion
+            #region employ this section only to match linux results with coll. point source
+            if (onBoundary)
+            {
+                if (CurrentRegionIndex == 0)
+                {
+                    // quick fix 6/16/11 ckh
+                    var neighborRegionIndex = tissue.GetNeighborRegionIndex(this);
+                    DP.Weight = 1.0 - Helpers.Optics.Specular(
+                        tissue.Regions[CurrentRegionIndex].RegionOP.N,
+                        tissue.Regions[neighborRegionIndex].RegionOP.N);
+                    // move to neighbor region
+                    CurrentRegionIndex = neighborRegionIndex;
+                    _firstTimeEnteringDomain = false;
+                }
+            }
+            #endregion
 
             CurrentTrackIndex = 0;
             _tissue = tissue;
@@ -236,14 +236,10 @@ namespace Vts.MonteCarlo
                     CurrentRegionIndex = neighborIndex;
                     DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                         nCurrent, nNext, cosThetaSnell);
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.Transmitted);
                     if (_firstTimeEnteringDomain)
                     {
-                        DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoTransmissionDomainTopBoundary);
                         _firstTimeEnteringDomain = false;
-                    }
-                    else
-                    {
-                        DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoTransmissionInternalBoundary);
                     }
                 }
                 // flag virtual boundaries too...can't be mutually exlusive with OnDomainBoundary
@@ -251,15 +247,11 @@ namespace Vts.MonteCarlo
             else  // don't cross, reflect
             {
                 DP.Direction = _tissue.GetReflectedDirection(DP.Position, DP.Direction);
+                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.Reflected);
                 // check if specular reflection
                 if (_firstTimeEnteringDomain)
                 {
-                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoReflectionDomainTopBoundary);
                     DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                }
-                else 
-                {
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoReflectionInternalBoundary);
                 }
             }
         }
@@ -379,8 +371,8 @@ namespace Vts.MonteCarlo
         {
             TestWeightAndDistance();
             // test VB death
-            if (DP.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary) ||
-                DP.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainBottomBoundary))
+            if (DP.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) ||
+                DP.StateFlag.Has(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary))
             {
                 // todo: revisit performance of the bitwise operations
                 DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);

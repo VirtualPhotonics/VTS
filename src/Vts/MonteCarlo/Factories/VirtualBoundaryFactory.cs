@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Factories
         {
             switch (vbType)
             {
-                case VirtualBoundaryType.PlanarReflectionDomainTopBoundary:
+                case VirtualBoundaryType.DiffuseReflectance:
                     return
                         tallyType == TallyType.RDiffuse ||
                         tallyType == TallyType.ROfRho ||
@@ -24,12 +24,15 @@ namespace Vts.MonteCarlo.Factories
                         tallyType == TallyType.ROfXAndY ||
                         tallyType == TallyType.ROfRhoAndOmega;
 
-                case VirtualBoundaryType.PlanarTransmissionDomainBottomBoundary:
+                case VirtualBoundaryType.DiffuseTransmittance:
                     return
                         tallyType == TallyType.TDiffuse ||
                         tallyType == TallyType.TOfAngle ||
                         tallyType == TallyType.TOfRho ||
                         tallyType == TallyType.TOfRhoAndAngle;
+
+                case VirtualBoundaryType.SpecularReflectance:
+                    return tallyType == TallyType.RSpecular;
 
                 case VirtualBoundaryType.GenericVolumeBoundary:
                     return
@@ -37,6 +40,7 @@ namespace Vts.MonteCarlo.Factories
                         tallyType == TallyType.FluenceOfRhoAndZAndTime ||
                         tallyType == TallyType.AOfRhoAndZ ||
                         tallyType == TallyType.ATotal;
+
                 default:
                     throw new ArgumentOutOfRangeException(tallyType.ToString());
             }
@@ -68,72 +72,34 @@ namespace Vts.MonteCarlo.Factories
             return virtualBoundaries.ToList();
         }
 
-        public static IVirtualBoundary GetVirtualBoundary(VirtualBoundaryType vbType, ITissue tissue, IList<IDetector> vbDetectors)
+        public static IVirtualBoundary GetVirtualBoundary(
+            VirtualBoundaryType vbType, ITissue tissue, IList<IDetector> vbDetectors)
         {
             IVirtualBoundary vb = null;
 
             // todo: predicate defines 
             switch (vbType)
             {
-
                 case VirtualBoundaryType.DiffuseReflectance:
-                    vb = new DiffuseReflectanceVirtualBoundary(tissue, vbDetectors, VirtualBoundaryType.DiffuseReflectance.ToString());
+                    vb = new DiffuseReflectanceVirtualBoundary(
+                        tissue, vbDetectors, VirtualBoundaryType.DiffuseReflectance.ToString());
                     break;
-
-
-                case VirtualBoundaryType.PlanarTransmissionDomainTopBoundary: // aka diffuse reflectance
-                    Predicate<PhotonDataPoint> willHitBoundary = dp =>
-                        dp.StateFlag.Has(PhotonStateType.Transmitted) &&
-                        dp.Direction.Uz < 0 &&
-                        Math.Abs(dp.Position.Z - ((LayerRegion)tissue.Regions[0]).ZRange.Stop) < 10E-16;
-
-                    vb = new PlanarTransmissionVirtualBoundary(
-                        willHitBoundary,
-                        VirtualBoundaryAxisType.Z,
-                        VirtualBoundaryDirectionType.Decreasing,
-                        0.0,
-                        VirtualBoundaryType.PlanarTransmissionDomainTopBoundary,
-                        VirtualBoundaryType.PlanarTransmissionDomainTopBoundary.ToString());
+                case VirtualBoundaryType.DiffuseTransmittance:
+                    vb = new DiffuseTransmittanceVirtualBoundary(
+                        tissue, vbDetectors, VirtualBoundaryType.DiffuseTransmittance.ToString());
                     break;
-
-                case VirtualBoundaryType.PlanarTransmissionDomainBottomBoundary: // aka diffuse transmittance
-                    willHitBoundary = dp =>
-                                dp.StateFlag.Has(PhotonStateType.Transmitted) &&
-                                dp.Direction.Uz > 0 &&
-                                Math.Abs(dp.Position.Z - ((LayerRegion)tissue.Regions[tissue.Regions.Count - 1]).ZRange.Start) < 10E-16;
-                    vb = new PlanarTransmissionVirtualBoundary(
-                              willHitBoundary,
-                              VirtualBoundaryAxisType.Z,
-                              VirtualBoundaryDirectionType.Increasing,
-                              ((LayerRegion)tissue.Regions[tissue.Regions.Count - 1]).ZRange.Stop,
-                              VirtualBoundaryType.PlanarTransmissionDomainBottomBoundary,
-                              VirtualBoundaryType.PlanarTransmissionDomainBottomBoundary.ToString());
-                    break;
-                case VirtualBoundaryType.PlanarReflectionDomainTopBoundary: // aka specular reflectance
+                case VirtualBoundaryType.SpecularReflectance: 
                     // reflecting off first layer without transporting in medium
-                    willHitBoundary = dp =>
-                        dp.StateFlag.Has(PhotonStateType.Reflected) &&
-                        dp.Direction.Uz < 0 &&
-                        Math.Abs(dp.Position.Z - ((LayerRegion)tissue.Regions[0]).ZRange.Stop) < 10E-16 &&
-                        Math.Abs(dp.TotalTime) < 10E-16; // todo: revisit for "off-boundary" sources
-
-                    vb = new PlanarReflectionVirtualBoundary(
-                          willHitBoundary,
-                          VirtualBoundaryAxisType.Z,
-                          VirtualBoundaryDirectionType.Decreasing,
-                          0.0,
-                          VirtualBoundaryType.PlanarReflectionDomainTopBoundary,
-                          VirtualBoundaryType.PlanarReflectionDomainTopBoundary.ToString());
+                    vb = new SpecularReflectanceVirtualBoundary(
+                         tissue, vbDetectors, VirtualBoundaryType.SpecularReflectance.ToString());
+                    break;
+                case VirtualBoundaryType.GenericVolumeBoundary:
+                    vb = new GenericVolumeVirtualBoundary(
+                        tissue, vbDetectors, VirtualBoundaryType.GenericVolumeBoundary.ToString());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Virtual boundary type not recognized: " + vbType);
             }
-
-            foreach (var detector in vbDetectors)
-            {
-                vb.DetectorController.Detectors.Add(detector);
-            }
-
             return vb;
         }
     }

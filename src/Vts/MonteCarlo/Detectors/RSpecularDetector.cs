@@ -53,9 +53,9 @@ namespace Vts.MonteCarlo.Detectors
             Mean /= numPhotons;
         }
 
-        public bool ContainsPoint(PhotonDataPoint dp)
-        {
-            return (dp.StateFlag.Has(PhotonStateType.PseudoReflectionDomainTopBoundary));
-        }
+        //public bool ContainsPoint(PhotonDataPoint dp)
+        //{
+        //    return (dp.StateFlag.Has(PhotonStateType.PseudoReflectionDomainTopBoundary));
+        //}
     }
 }

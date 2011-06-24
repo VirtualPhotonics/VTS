@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Vts.Common;
-using Vts.Extensions;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Factories;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
@@ -18,33 +14,36 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <summary>
         /// Creates an instance of a volume virtual boundary
         /// </summary>
-        public GenericVolumeVirtualBoundary(
-            Predicate<PhotonDataPoint> willHitBoundary,
-            VirtualBoundaryType type,
-            string name)
+        public GenericVolumeVirtualBoundary(ITissue tissue, IList<IDetector> detectors, string name)
         {
-            WillHitBoundary = willHitBoundary;
-            _detectorController = new DetectorController(new List<IDetector>());
+            //_zPlanePosition = ((LayerRegion)tissue.Regions[0]).ZRange.Stop;
+
+            //WillHitBoundary = dp =>
+            //            dp.StateFlag.Has(PhotonStateType.Transmitted) &&
+            //            dp.Direction.Uz < 0 &&
+            //            Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
+
+            VirtualBoundaryType = VirtualBoundaryType.GenericVolumeBoundary;
+            PhotonStateType = PhotonStateType.PseudoGenericVirtualBoundary;
+
+            DetectorController = DetectorControllerFactory.GetStandardDetectorController(detectors);
+
             Name = name;
-            VirtualBoundaryType = type;
-        }       
+        }      
 
-        /// <summary>
-        /// Creates a default instance of a GenericVolumeVB 
-        /// </summary>
-        public GenericVolumeVirtualBoundary() 
-            : this(
-            dp => true,
-            VirtualBoundaryType.GenericVolumeBoundary,
-            VirtualBoundaryType.GenericVolumeBoundary.ToString())
-        {
-        }
+        ///// <summary>
+        ///// Creates a default instance of a GenericVolumeVB 
+        ///// </summary>
+        //public GenericVolumeVirtualBoundary() 
+        //    : this(null, null, null)
+        //{
+        //}
 
-        public IDetectorController DetectorController { get { return _detectorController; } set { _detectorController = value; } }
-        public string Name { get; set; }
-        public VirtualBoundaryType VirtualBoundaryType { get; set; }
+        public VirtualBoundaryType VirtualBoundaryType { get; private set; }
         public PhotonStateType PhotonStateType { get; private set; }
-        public Predicate<PhotonDataPoint> WillHitBoundary { get; set; }
+        public string Name { get; private set; }
+        public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
+        public IDetectorController DetectorController { get; private set; }
 
         /// <summary>
         /// Finds the distance to the virtual boundary 

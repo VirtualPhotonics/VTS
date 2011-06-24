@@ -75,7 +75,7 @@ namespace Vts.MonteCarlo.Controllers
         {
             foreach (var detector in _terminationDetectors)
             {
-                if (detector.ContainsPoint(dp))
+                //if (detector.ContainsPoint(dp))
                     detector.Tally(dp, collisionInfo);
             }
         }

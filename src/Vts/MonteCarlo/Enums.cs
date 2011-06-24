@@ -1,3 +1,4 @@
+using System;
 namespace Vts.MonteCarlo
 {
 
@@ -7,11 +8,13 @@ namespace Vts.MonteCarlo
 
     /// ref: http://www.codeproject.com/Articles/37921/Enums-Flags-and-Csharp-Oh-my-bad-pun.aspx
     /// or http://stackoverflow.com/questions/93744/most-common-c-bitwise-operations
+    //[Flags]
     public enum PhotonStateType 
     {
         ///     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
         ///   8000 4000 2000 1000 0800 0400 0200 0100 0080 0040 0020 0010 0008 0004 0002 0001
-        ///   <- virtual boundary flags            -> <- transport flags                   ->
+        ///   <- transport flags                                                           ->
+        ///   <- virtual flags these with "0000" added in lowest bits                      ->
         None = 0x0,
         // transport flags
         Alive = 0x1,
@@ -20,27 +23,16 @@ namespace Vts.MonteCarlo
         KilledOverMaximumPathLength = 0x8,
         KilledOverMaximumCollisions = 0x10,
         KilledRussianRoulette = 0x20,
-
         Reflected = 0x40,
         Transmitted = 0x80,
 
-        // reflected/refracted(transmitted?) here in transport flags
         // virtual boundary flags, can we 1-1 map to virtualBoundary "Name"
-        // NEED TO FIX, I think I need direction in these enums
         // move up to 16th position
-
-        DiffuseReflectanceVirtualBoundary   = 0x00010000,
-        DiffuseTransmittanceVirtualBoundary = 0x00020000,
-        SpecularReflectanceVirtualBoundary  = 0x00040000,
-        GenericVirtualBoundary              = 0x00080000,
-
-        PseudoReflectionDomainTopBoundary = 0x100,
-        PseudoTransmissionDomainTopBoundary = 0x200,
-        PseudoReflectionDomainBottomBoundary = 0x400,
-        PseudoTransmissionDomainBottomBoundary = 0x800,
-        PseudoReflectionInternalBoundary = 0x1000,
-        PseudoTransmissionInternalBoundary = 0x2000,
-        GenericVolumeBoundary = 0x4000,
+        // having trouble using EnumExtensions with int, make smaller for now and fix later
+        PseudoDiffuseReflectanceVirtualBoundary   = 0x100,
+        PseudoDiffuseTransmittanceVirtualBoundary = 0x200,
+        PseudoSpecularReflectanceVirtualBoundary  = 0x400,
+        PseudoGenericVirtualBoundary              = 0x800,
     }
 
     public enum BoundaryHitType
@@ -174,13 +166,6 @@ namespace Vts.MonteCarlo
         DiffuseReflectance,
         DiffuseTransmittance,
         SpecularReflectance,
-
-        PlanarReflectionDomainTopBoundary,
-        PlanarTransmissionDomainTopBoundary,
-        PlanarReflectionDomainBottomBoundary,
-        PlanarTransmissionDomainBottomBoundary,
-        PlanarReflectionInternalBoundary,
-        PlanarTransmissionInternalBoundary,
         GenericVolumeBoundary,
     }
     public enum VirtualBoundaryAxisType

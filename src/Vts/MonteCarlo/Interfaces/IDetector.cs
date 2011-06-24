@@ -19,6 +19,6 @@ namespace Vts.MonteCarlo
         string Name { get; set; }
         long TallyCount { get; set; }
         void Normalize(long numPhotons);
-        bool ContainsPoint(PhotonDataPoint dp);
+        //bool ContainsPoint(PhotonDataPoint dp);
     }
 }

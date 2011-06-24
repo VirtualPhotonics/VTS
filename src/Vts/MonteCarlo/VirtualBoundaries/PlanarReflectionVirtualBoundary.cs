@@ -45,8 +45,8 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             VirtualBoundaryAxisType.Z, 
             VirtualBoundaryDirectionType.Decreasing, 
             0.0,
-            VirtualBoundaryType.PlanarReflectionDomainTopBoundary,
-            VirtualBoundaryType.PlanarReflectionDomainTopBoundary.ToString())
+            VirtualBoundaryType.DiffuseReflectance,
+            VirtualBoundaryType.DiffuseReflectance.ToString())
         {
         }
 

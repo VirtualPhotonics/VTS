@@ -52,7 +52,8 @@ namespace Vts.MonteCarlo.Tissues
         public override PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
             return position.Z < 1e-10 ? 
-                PhotonStateType.PseudoTransmissionDomainTopBoundary : PhotonStateType.PseudoTransmissionDomainBottomBoundary;
+                PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary : 
+                PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary;
         }
 
         public override double GetDistanceToBoundary(Photon photon)

@@ -53,8 +53,8 @@ namespace Vts.MonteCarlo.Controllers
         {
             foreach (var vb in _virtualBoundaries)
             {
-                if (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary) ||
-                    dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainBottomBoundary))
+                if (dp.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) ||
+                    dp.StateFlag.Has(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary))
                 {
                     _terminationDetectors =
                         (from detector in vb.DetectorController.Detectors
@@ -86,7 +86,7 @@ namespace Vts.MonteCarlo.Controllers
         {
             foreach (var tally in _terminationDetectors)
             {
-                if (tally.ContainsPoint(dp))
+                //if (tally.ContainsPoint(dp))
                     tally.Tally(dp);
             }
         }
@@ -106,43 +106,43 @@ namespace Vts.MonteCarlo.Controllers
             }
         }
 
-        public bool ListenToPhotonStateType(PhotonDataPoint dp)
-        {
-            bool virtualBoundary = false;
-            // check if PST and VB agree
-            foreach (var vb in _virtualBoundaries)
-            {
-                virtualBoundary = vb.WillHitBoundary(dp);
-                switch (vb.VirtualBoundaryType)
-                {
-                        // these cases would be in specific VB class and based on direction too
-                    case VirtualBoundaryType.PlanarTransmissionDomainTopBoundary:
-                        if (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary))
-                            virtualBoundary = true;
-                        break;
-                    case VirtualBoundaryType.PlanarTransmissionDomainBottomBoundary:
-                        if (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainBottomBoundary))
-                            virtualBoundary = true;
-                        break;
-                    case VirtualBoundaryType.PlanarReflectionDomainTopBoundary:
-                        if (dp.StateFlag.Has(PhotonStateType.PseudoReflectionDomainTopBoundary))
-                            virtualBoundary = true;
-                        break;
-                    case VirtualBoundaryType.PlanarReflectionDomainBottomBoundary:
-                        if (dp.StateFlag.Has(PhotonStateType.PseudoReflectionDomainBottomBoundary))
-                            virtualBoundary = true;
-                        break;
-                    case VirtualBoundaryType.PlanarTransmissionInternalBoundary:
-                        if (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionInternalBoundary))
-                            virtualBoundary = true;
-                        break;
-                    case VirtualBoundaryType.PlanarReflectionInternalBoundary:
-                        if (dp.StateFlag.Has(PhotonStateType.PseudoReflectionInternalBoundary))
-                            virtualBoundary = true;
-                        break;
-                }
-            }
-            return virtualBoundary;
-        }
+        //public bool ListenToPhotonStateType(PhotonDataPoint dp)
+        //{
+        //    bool virtualBoundary = false;
+        //    // check if PST and VB agree
+        //    foreach (var vb in _virtualBoundaries)
+        //    {
+        //        virtualBoundary = vb.WillHitBoundary(dp);
+        //        switch (vb.VirtualBoundaryType)
+        //        {
+        //                // these cases would be in specific VB class and based on direction too
+        //            case VirtualBoundaryType.PlanarTransmissionDomainTopBoundary:
+        //                if (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary))
+        //                    virtualBoundary = true;
+        //                break;
+        //            case VirtualBoundaryType.DiffuseTranmittance:
+        //                if (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainBottomBoundary))
+        //                    virtualBoundary = true;
+        //                break;
+        //            case VirtualBoundaryType.DiffuseReflectance:
+        //                if (dp.StateFlag.Has(PhotonStateType.PseudoReflectionDomainTopBoundary))
+        //                    virtualBoundary = true;
+        //                break;
+        //            case VirtualBoundaryType.PlanarReflectionDomainBottomBoundary:
+        //                if (dp.StateFlag.Has(PhotonStateType.PseudoReflectionDomainBottomBoundary))
+        //                    virtualBoundary = true;
+        //                break;
+        //            case VirtualBoundaryType.PlanarTransmissionInternalBoundary:
+        //                if (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionInternalBoundary))
+        //                    virtualBoundary = true;
+        //                break;
+        //            case VirtualBoundaryType.PlanarReflectionInternalBoundary:
+        //                if (dp.StateFlag.Has(PhotonStateType.PseudoReflectionInternalBoundary))
+        //                    virtualBoundary = true;
+        //                break;
+        //        }
+        //    }
+        //    return virtualBoundary;
+        //}
     }
 }
