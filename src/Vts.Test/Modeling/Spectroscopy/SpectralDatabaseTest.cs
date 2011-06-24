@@ -44,15 +44,6 @@ namespace Vts.Test.Modeling.Spectroscopy
         }
 
         [Test]
-//        [Ignore("this test fails on desktop, need to remove file location dependency")]
-        public void validate_Loading_Spectral_Database_from_csv()
-        {
-            Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Fat.csv", "Vts");
-            var _testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile(stream);
-            Assert.IsNotNull(_testDictionary);
-        }
-
-        [Test]
         public void validate_Loading_Spectral_Database_from_tsv()
         {
             Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
