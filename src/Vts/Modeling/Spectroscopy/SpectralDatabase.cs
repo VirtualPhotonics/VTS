@@ -108,6 +108,124 @@ namespace Vts.SpectralMapping
             return chromDictionary;
         }
 
+        public static Dictionary<string, ChromophoreSpectrum> CreateDatabaseFromFile(List<ChromophoreSpectrum> chromophoreSpectrumData, Stream fileStream, int startLine)
+        {
+            //Get the number of items in the List of ChromophoreSpectrum
+            int spectra = chromophoreSpectrumData.Count;
+            if (spectra < 1)
+            {
+                return null;
+            }
+
+            if (fileStream == null)
+            {
+                return null;
+            }
+
+            //create a new dictionary
+            Dictionary<string, ChromophoreSpectrum> chromDictionary = new Dictionary<string, ChromophoreSpectrum>();
+            string name = "";
+
+            // create a list of wavelengths
+            List<double> wavelengths = new List<double>();
+            // create a list of list of values
+            List<List<double>> valuesList = new List<List<double>>();
+
+            try
+            {
+                using (StreamReader readFile = new StreamReader(fileStream))
+                {
+                    string line;
+                    string[] row;
+
+                    //read the first lines to the start of the data
+                    for (int i = 1; i < startLine; i++)
+                    {
+                        line = readFile.ReadLine();
+                    }
+
+                    line = readFile.ReadLine();
+                    row = line.Split('\t'); //file is separated by tabs
+
+                    //get the number of columns in the first line of data
+                    int columns = row.Length - 1;
+
+                    //the number of columns of data is equal to the number of columns - 1
+                    if (spectra == columns)
+                    {
+                        //loop through the columns and create the lists
+                        for (int i = 0; i < columns; i++)
+                        {
+                            //create a list of doubles in the value list
+                            List<double> values = new List<double>();
+                            valuesList.Add(values);
+                        }
+
+                        //write the wavelength once
+                        double wlEntry = Convert.ToDouble(row[0]);
+                        wavelengths.Add((double)wlEntry);
+
+                        //loop through the spectra and get the data
+                        for (int i = 0; i < spectra; i++)
+                        {
+                            //need to multiply MolarAbsorptionCoefficients by ln(10)
+                            double k = 1.0;
+                            if (chromophoreSpectrumData[i].ChromophoreCoefficientType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
+                            {
+                                k = Math.Log(10);
+                            }
+
+                            double valEntry = Convert.ToDouble(row[i]);
+                            valuesList[i].Add((double)valEntry * k);
+                        }
+
+                        while ((line = readFile.ReadLine()) != null)
+                        {
+                            if (!line.StartsWith("%"))
+                            {
+                                row = line.Split('\t');
+
+                                //write the wavelength value once
+                                wlEntry = Convert.ToDouble(row[0]);
+                                wavelengths.Add((double)wlEntry);
+
+                                //loop through the spectra and get the data
+                                for (int i = 0; i < spectra; i++)
+                                {
+                                    //need to multiply MolarAbsorptionCoefficients by ln(10)
+                                    double k = 1.0;
+                                    if (chromophoreSpectrumData[i].ChromophoreCoefficientType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
+                                    {
+                                        k = Math.Log(10);
+                                    }
+
+                                    double valEntry = Convert.ToDouble(row[i]);
+                                    valuesList[i].Add((double)valEntry * k);
+                                }
+                            }
+                        }
+                        //loop through the spectra and create the dictionary
+                        for (int i = 0; i < spectra; i++)
+                        {
+                            chromophoreSpectrumData[i].Wavelengths = wavelengths;
+                            chromophoreSpectrumData[i].Spectrum = valuesList[i];
+                            chromDictionary.Add(chromophoreSpectrumData[i].Name, chromophoreSpectrumData[i]);
+                        }
+                    }
+                    else
+                    {
+                        //error, the data and values do not match
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                //catch the error
+            }
+
+            return chromDictionary;
+        }
+
         public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile(Stream fileStream)
         {
             //create a new dictionary
@@ -138,7 +256,7 @@ namespace Vts.SpectralMapping
 
                     //read the first line to get the name, coeffitient and data units
                     line = readFile.ReadLine();
-                    row = line.Split(',');
+                    row = line.Split('\t');
                     name = row[0];
                     coeffString = row[1];
                     dataUnits = row[2];
@@ -156,7 +274,7 @@ namespace Vts.SpectralMapping
 
                     while ((line = readFile.ReadLine()) != null)
                     {
-                        if (!line.StartsWith("//"))
+                        if (!line.StartsWith("%"))
                         {
                             row = line.Split(',');
                             double wlEntry = Convert.ToDouble(row[0]);
