@@ -21,7 +21,6 @@ namespace Vts
             else
                 return "";
         }
-
         
         public static ChromophoreCoefficientType GetCoefficientType(this ChromophoreType chromophoreType)
         {
@@ -40,5 +39,90 @@ namespace Vts
                     return ChromophoreCoefficientType.FractionalAbsorptionCoefficient;
             }
         }
+        
+        // The following set of extension methods aid in accessing enums set up to
+        // be bit maps
+        /// <summary>
+        /// Has checks whether enum has this bit turned on
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool Has<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                return (((int)(object)type & (int)(object)value) == (int)(object)value);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// Is checks whether enum is exclusively a particular type(s)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool Is<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                return (int)(object)type == (int)(object)value;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// Add turns on this bit
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static T Add<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                //return (T)(object)(((int)(object)type | (int)(object)value));
+                return (T)(object)(((int)(object)type | (int)(object)value));
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        "Could not append value from enumerated type '{0}'.",
+                        typeof(T).Name
+                        ), ex);
+            }
+        }
+        /// <summary>
+        /// Remove turns off this bit
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static T Remove<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                return (T)(object)(((int)(object)type ^ (int)(object)value));
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        "Could not remove value from enumerated type '{0}'.",
+                        typeof(T).Name
+                        ), ex);
+            }
+        }
+
     }
 }

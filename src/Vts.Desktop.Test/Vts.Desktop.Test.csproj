@@ -113,8 +113,8 @@
     <Compile Include="..\Vts.Test\Common\Extensions\ArrayExtensionsTests.cs">
       <Link>Common\Extensions\ArrayExtensionsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Common\Extension Methods\EnumExtensionsTests.cs">
-      <Link>Common\Extension Methods\EnumExtensionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\Common\Extensions\EnumExtensionsTests.cs">
+      <Link>Common\Extensions\EnumExtensionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Common\Helpers\Range\DoubleRangeTests.cs">
       <Link>Common\Helpers\Range\DoubleRangeTests.cs</Link>
