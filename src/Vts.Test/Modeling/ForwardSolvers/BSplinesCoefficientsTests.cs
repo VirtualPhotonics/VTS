@@ -6,7 +6,7 @@ using Vts.Modeling.ForwardSolvers;
 namespace Vts.Test.Modeling.ForwardSolvers
 {
     [TestFixture]
-    public class BSplinesCoefficientsTest
+    public class BSplinesCoefficientsTests
     {
         private BSplinesCoefficients bSplinesCoefficients = null;
 

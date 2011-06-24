@@ -142,26 +142,26 @@
     <Compile Include="..\Vts\Common\Enums.cs">
       <Link>Common\Enums.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\ExtensionMethods\ArrayExtensions.cs">
-      <Link>Common\ExtensionMethods\ArrayExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\ArrayExtensions.cs">
+      <Link>Common\Extensions\ArrayExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\ExtensionMethods\DataExtensions.cs">
-      <Link>Common\ExtensionMethods\DataExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\DataExtensions.cs">
+      <Link>Common\Extensions\DataExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\ExtensionMethods\EnumerableExtensions.cs">
-      <Link>Common\ExtensionMethods\EnumerableExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\EnumerableExtensions.cs">
+      <Link>Common\Extensions\EnumerableExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\ExtensionMethods\EnumExtensions.cs">
-      <Link>Common\ExtensionMethods\EnumExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\EnumExtensions.cs">
+      <Link>Common\Extensions\EnumExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\ExtensionMethods\IEnumerableArrayExtensions.cs">
-      <Link>Common\ExtensionMethods\IEnumerableArrayExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\IEnumerableArrayExtensions.cs">
+      <Link>Common\Extensions\IEnumerableArrayExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\ExtensionMethods\OpticalPropertiesExtensions.cs">
-      <Link>Common\ExtensionMethods\OpticalPropertiesExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\OpticalPropertiesExtensions.cs">
+      <Link>Common\Extensions\OpticalPropertiesExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\ExtensionMethods\RNGExtensions.cs">
-      <Link>Common\ExtensionMethods\RNGExtensions.cs</Link>
+    <Compile Include="..\Vts\Common\Extensions\RNGExtensions.cs">
+      <Link>Common\Extensions\RNGExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Common\GlobalConstants.cs">
       <Link>Common\GlobalConstants.cs</Link>
@@ -444,9 +444,6 @@
     </Compile>
     <Compile Include="..\Vts\Modeling\Spectroscopy\SpectralDatabase.cs">
       <Link>Modeling\Spectroscopy\SpectralDatabase.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\Spectroscopy\SpectralDatabaseLoader.cs">
-      <Link>Modeling\Spectroscopy\SpectralDatabaseLoader.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\Spectroscopy\Tissue.cs">
       <Link>Modeling\Spectroscopy\Tissue.cs</Link>
@@ -992,6 +989,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\Spectra.txt">
+      <Link>Modeling\Spectroscopy\Resources\Spectra.txt</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml">
       <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml</Link>
     </EmbeddedResource>
@@ -1078,9 +1078,9 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt</Link>
     </EmbeddedResource>
-    <None Include="..\Vts\Modeling\Spectroscopy\Resources\Fat.csv">
+    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\Fat.csv">
       <Link>Modeling\Spectroscopy\Resources\Fat.csv</Link>
-    </None>
+    </EmbeddedResource>
     <None Include="Vts.snk" />
   </ItemGroup>
   <ItemGroup>

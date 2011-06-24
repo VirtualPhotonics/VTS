@@ -148,14 +148,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\Extension Methods\ArrayExtensionsTests.cs">
+    <Compile Include="Common\Extensions\ArrayExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\DirectionTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Common\Extension Methods\EnumExtensionsTests.cs" />
-    <Compile Include="Modeling\Spectroscopy\SpectralConverterTest.cs" />
+    <Compile Include="Common\Extensions\EnumExtensionsTests.cs" />
+     <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs" />
+
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs" />
     <Compile Include="MonteCarlo\Rng\SerializableMersenneTwisterTests.cs" />
     <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs">
@@ -179,40 +180,40 @@
     <Compile Include="Common\PositionTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Factories\ComputationFactoryTest.cs">
+    <Compile Include="Factories\ComputationFactoryTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Factories\SolverFactoryTest.cs">
+    <Compile Include="Factories\SolverFactoryTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\BSplinesCoefficientsTest.cs">
+    <Compile Include="Modeling\ForwardSolvers\BSplinesCoefficientsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\DiffusionGreensFunctionsTest.cs">
+    <Compile Include="Modeling\ForwardSolvers\DiffusionGreensFunctionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolverTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\NurbsForwardSolverTest.cs">
+    <Compile Include="Modeling\ForwardSolvers\NurbsForwardSolverTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\NurbsGeneratorTest.cs">
+    <Compile Include="Modeling\ForwardSolvers\NurbsGeneratorTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Modeling\ForwardSolvers\pMCForwardSolverTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs">
+    <Compile Include="Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\MetaNumericsZeroOrderBesselFunction.cs">
+    <Compile Include="Modeling\MetaNumericsZeroOrderBesselFunctionTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumTest.cs">
+    <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs">
+    <Compile Include="Modeling\Spectroscopy\SpectralDatabaseTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Modeling\ValidateInverseSolution.cs">

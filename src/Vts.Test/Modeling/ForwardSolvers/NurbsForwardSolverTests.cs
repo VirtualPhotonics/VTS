@@ -8,7 +8,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
     /// Class used to test NurbsForwardSolver methods
     /// </summary>
     [TestFixture]
-    public class NurbsForwardSolverTest
+    public class NurbsForwardSolverTests
     {
         private NurbsForwardSolver nurbsForwardSolver = null;
 

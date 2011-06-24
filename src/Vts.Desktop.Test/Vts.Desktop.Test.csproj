@@ -110,8 +110,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Vts.Test\Common\Extension Methods\ArrayExtensionsTests.cs">
-      <Link>Common\Extension Methods\ArrayExtensionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\Common\Extensions\ArrayExtensionsTests.cs">
+      <Link>Common\Extensions\ArrayExtensionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Common\Extension Methods\EnumExtensionsTests.cs">
       <Link>Common\Extension Methods\EnumExtensionsTests.cs</Link>
@@ -137,44 +137,44 @@
     <Compile Include="..\Vts.Test\Common\PositionTests.cs">
       <Link>Common\PositionTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Factories\ComputationFactoryTest.cs">
-      <Link>Factories\ComputationFactoryTest.cs</Link>
+    <Compile Include="..\Vts.Test\Factories\ComputationFactoryTests.cs">
+      <Link>Factories\ComputationFactoryTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Factories\SolverFactoryTest.cs">
-      <Link>Factories\SolverFactoryTest.cs</Link>
+    <Compile Include="..\Vts.Test\Factories\SolverFactoryTests.cs">
+      <Link>Factories\SolverFactoryTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\BSplinesCoefficientsTest.cs">
-      <Link>Modeling\ForwardSolvers\BSplinesCoefficientsTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\BSplinesCoefficientsTests.cs">
+      <Link>Modeling\ForwardSolvers\BSplinesCoefficientsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\DiffusionGreensFunctionsTest.cs">
-      <Link>Modeling\ForwardSolvers\DiffusionGreensFunctionsTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\DiffusionGreensFunctionsTests.cs">
+      <Link>Modeling\ForwardSolvers\DiffusionGreensFunctionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\MonteCarloForwardSolverTests.cs">
       <Link>Modeling\ForwardSolvers\MonteCarloForwardSolverTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsForwardSolverTest.cs">
-      <Link>Modeling\ForwardSolvers\NurbsForwardSolverTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsForwardSolverTests.cs">
+      <Link>Modeling\ForwardSolvers\NurbsForwardSolverTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsGeneratorTest.cs">
-      <Link>Modeling\ForwardSolvers\NurbsGeneratorTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsGeneratorTests.cs">
+      <Link>Modeling\ForwardSolvers\NurbsGeneratorTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\pMCForwardSolverTests.cs">
       <Link>Modeling\ForwardSolvers\pMCForwardSolverTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs">
-      <Link>Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTests.cs">
+      <Link>Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\MetaNumericsZeroOrderBesselFunction.cs">
-      <Link>Modeling\MetaNumericsZeroOrderBesselFunction.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\MetaNumericsZeroOrderBesselFunctionTests.cs">
+      <Link>Modeling\MetaNumericsZeroOrderBesselFunctionTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\ChromophoreSpectrumTest.cs">
-      <Link>Modeling\Spectroscopy\ChromophoreSpectrumTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\ChromophoreSpectrumTests.cs">
+      <Link>Modeling\Spectroscopy\ChromophoreSpectrumTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralConverterTest.cs">
-      <Link>Modeling\Spectroscopy\SpectralConverterTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralConverterTests.cs">
+      <Link>Modeling\Spectroscopy\SpectralConverterTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs">
-      <Link>Modeling\Spectroscopy\SpectralDatabaseLoaderTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralDatabaseTests.cs">
+      <Link>Modeling\Spectroscopy\SpectralDatabaseTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\ValidateInverseSolution.cs">
       <Link>Modeling\ValidateInverseSolution.cs</Link>

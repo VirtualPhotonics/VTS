@@ -5,7 +5,7 @@ using System;
 namespace Vts.Test.Modeling.ForwardSolvers
 {
     [TestFixture]
-    public class NurbsGeneratorTest
+    public class NurbsGeneratorTests
     {
         private NurbsGenerator nurbsGenerator;
 

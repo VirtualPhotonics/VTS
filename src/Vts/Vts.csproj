@@ -131,12 +131,12 @@
     <Compile Include="Common\DependsOnAttribute.cs" />
     <Compile Include="Common\Direction.cs" />
     <Compile Include="Common\Enums.cs" />
-    <Compile Include="Common\ExtensionMethods\ArrayExtensions.cs" />
-    <Compile Include="Common\ExtensionMethods\DataExtensions.cs" />
-    <Compile Include="Common\ExtensionMethods\EnumerableExtensions.cs" />
-    <Compile Include="Common\ExtensionMethods\EnumExtensions.cs" />
-    <Compile Include="Common\ExtensionMethods\IEnumerableArrayExtensions.cs" />
-    <Compile Include="Common\ExtensionMethods\OpticalPropertiesExtensions.cs" />
+    <Compile Include="Common\Extensions\ArrayExtensions.cs" />
+    <Compile Include="Common\Extensions\DataExtensions.cs" />
+    <Compile Include="Common\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Common\Extensions\EnumExtensions.cs" />
+    <Compile Include="Common\Extensions\IEnumerableArrayExtensions.cs" />
+    <Compile Include="Common\Extensions\OpticalPropertiesExtensions.cs" />
     <Compile Include="Common\GlobalConstants.cs" />
     <Compile Include="Common\Helpers\EnumHelper.cs" />
     <Compile Include="Common\Helpers\FuncOfT.cs" />
@@ -245,7 +245,6 @@
     <Compile Include="Modeling\Spectroscopy\MieScatterer.cs" />
     <Compile Include="Modeling\Spectroscopy\PowerLawScatterer.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralDatabase.cs" />
-    <Compile Include="Modeling\Spectroscopy\SpectralDatabaseLoader.cs" />
     <Compile Include="Modeling\Spectroscopy\Tissue.cs" />
     <Compile Include="Modeling\Tools\CalculatorToolbox.cs" />
     <Compile Include="Modeling\Tools\HankelTransform.cs" />
@@ -345,7 +344,7 @@
     <Compile Include="MonteCarlo\PhotonData\PhotonDataPointSerializer.cs" />
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfo.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
-    <Compile Include="Common\ExtensionMethods\RNGExtensions.cs" />
+    <Compile Include="Common\Extensions\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PostProcessorInput.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceFlags.cs" />
     <Compile Include="MonteCarlo\Sources\SourceDefaults.cs">
@@ -471,6 +470,7 @@
     <Resource Include="Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Modeling\Spectroscopy\Resources\Spectra.txt" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml" />

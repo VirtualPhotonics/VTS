@@ -8,7 +8,7 @@ using System.Numerics;
 namespace Vts.Test.Modeling.ForwardSolvers
 {
     [TestFixture]
-    public class DiffusionGreensFunctionsTest
+    public class DiffusionGreensFunctionsTests
     {
         const double thresholdValue = 1e-5;
         const double n = 1.4;

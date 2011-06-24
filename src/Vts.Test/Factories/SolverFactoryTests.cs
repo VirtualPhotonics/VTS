@@ -6,7 +6,7 @@ using Vts.Factories;
 namespace Vts.Test.Factories
 {
     [TestFixture]
-    public class SolverFactoryTest
+    public class SolverFactoryTests
     {
         /// <summary>
         /// Setup for the SolverFactory tests.

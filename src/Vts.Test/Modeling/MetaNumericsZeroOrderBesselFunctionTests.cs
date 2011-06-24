@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Vts.Test.Modeling
 {
     [TestFixture]
-    public class MetaNumericsZeroOrderBesselFunction
+    public class MetaNumericsZeroOrderBesselFunctionTests
     {
         [Test]
         public void ZeroOrderBesselFunction()
