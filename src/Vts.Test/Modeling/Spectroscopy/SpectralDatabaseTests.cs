@@ -11,7 +11,7 @@ namespace Vts.Test.Modeling.Spectroscopy
 {
     [KnownType(typeof(ChromophoreSpectrum))]
     [TestFixture]
-    public class SpectralDatabaseTest
+    public class SpectralDatabaseTests
     {
         [Test]
         public void validate_Loading_Spectral_Database()

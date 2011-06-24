@@ -6,7 +6,7 @@ using Vts.Factories;
 namespace Vts.Test.Factories
 {
     [TestFixture]
-    public class ComputationFactoryTest
+    public class ComputationFactoryTests
     {
         [SetUp]
         public void Setup()

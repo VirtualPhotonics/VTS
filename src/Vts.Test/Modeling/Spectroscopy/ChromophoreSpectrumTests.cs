@@ -7,7 +7,7 @@ using Vts.IO;
 namespace Vts.Test.Modeling.Spectroscopy
 {
     [TestFixture]
-    public class ChromophoreSpectrumTest
+    public class ChromophoreSpectrumTests
     {
         [Test]
         public void validate_Serializing_Chromophore_Spectrum()

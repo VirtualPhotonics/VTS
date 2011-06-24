@@ -6,7 +6,7 @@ using Vts.Modeling.ForwardSolvers;
 namespace Vts.Test.Modeling.ForwardSolvers
 {
     [TestFixture]
-    public class ValidateDiffusionReflectanceModelsTest
+    public class ValidateDiffusionReflectanceModelsTests
     {
         //const double thresholdValue = 1e-5;
         const double thresholdValue = 1e-2;

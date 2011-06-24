@@ -4,7 +4,7 @@ using Vts.SpectralMapping;
 namespace Vts.Test.Modeling.Spectroscopy
 {
     [TestFixture]
-    public class SpectralConverterTest
+    public class SpectralConverterTests
     {
         [Test]
         public void verify_convert_wavelength_nm_returns_self()

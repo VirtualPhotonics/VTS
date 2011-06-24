@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Vts.MonteCarlo.CommandLineApplication;
 
 namespace Vts.MonteCarlo.CommandLineApplication.Test
 {
@@ -14,7 +13,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         public void validate_generate_infile()
         {
             string[] arguments = new string[] {"geninfile"};
-            CommandLineApplication.Program.Main(arguments);
+            Program.Main(arguments);
             Assert.Pass();
         }
     }
