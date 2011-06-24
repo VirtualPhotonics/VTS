@@ -32,11 +32,22 @@ namespace Vts.IO
             }
         }
 
+        public static void WriteToStream<T>(this T myObject, Stream stream)
+        {
+            new DataContractSerializer(typeof(T)).WriteObject(stream, myObject);
+        }
+
+        public static T ReadFromStream<T>(Stream stream)
+        {
+            return (T)new DataContractSerializer(typeof(T)).ReadObject(stream);
+        }
+        
         public static void WriteToXML<T>(this T myObject, string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
             {
-                new DataContractSerializer(typeof(T)).WriteObject(stream, myObject);
+                //new DataContractSerializer(typeof(T)).WriteObject(stream, myObject);
+                myObject.WriteToStream(stream);
             }
         }
 
@@ -44,7 +55,8 @@ namespace Vts.IO
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
             {
-                return (T)new DataContractSerializer(typeof(T)).ReadObject(stream);
+                return ReadFromStream<T>(stream);
+                //return (T)new DataContractSerializer(typeof(T)).ReadObject(stream);
             }
         }
 
@@ -52,7 +64,8 @@ namespace Vts.IO
         {
             using (Stream stream = StreamFinder.GetFileStreamFromResources(fileName, projectName))
             {
-                return (T)new DataContractSerializer(typeof(T)).ReadObject(stream);
+                return ReadFromStream<T>(stream);
+                //return (T)new DataContractSerializer(typeof(T)).ReadObject(stream);
             }
         }
 
@@ -319,11 +332,12 @@ namespace Vts.IO
 
 #if SILVERLIGHT // stuff that currently only works on the Silverlight/CoreCLR platform
 #else // stuff that currently only works on the .NET desktop/CLR platform
+        // todo: investigate Silverlight Binary serializer: http://whydoidoit.com/silverlight-serializer/
         public static T ReadFromBinary<T>(string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename,FileMode.Open))
             {
-                return ReadFromBinaryInternal<T>(filename, stream);
+                return ReadFromBinaryStream<T>(stream);
             }
         }                
 
@@ -331,7 +345,7 @@ namespace Vts.IO
         {
             using (Stream stream = StreamFinder.GetFileStreamFromResources(filename, projectName))
             {
-                return ReadFromBinaryInternal<T>(filename, stream);
+                return ReadFromBinaryStream<T>(stream);
             }
         }        
 
@@ -339,11 +353,11 @@ namespace Vts.IO
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
             {
-                WriteToBinaryInternal<T>(myObject, filename, stream);
+                WriteToBinaryStream<T>(myObject, stream);
             }
         }
      
-        private static T ReadFromBinaryInternal<T>(String filename, Stream s)
+        public static T ReadFromBinaryStream<T>(Stream s)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             try
@@ -356,8 +370,8 @@ namespace Vts.IO
                 throw;
             }
         }
-  
-        private static void WriteToBinaryInternal<T>(T myObject, string filename, Stream s)
+
+        public static void WriteToBinaryStream<T>(T myObject, Stream s)
         {
                 BinaryFormatter formatter = new BinaryFormatter();
                 try
