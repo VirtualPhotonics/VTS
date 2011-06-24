@@ -161,32 +161,14 @@ namespace Vts.SpectralMapping
                             valuesList.Add(values);
                         }
 
-                        //write the wavelength once
-                        double wlEntry = Convert.ToDouble(row[0]);
-                        wavelengths.Add((double)wlEntry);
-
-                        //loop through the spectra and get the data
-                        for (int i = 0; i < spectra; i++)
-                        {
-                            //need to multiply MolarAbsorptionCoefficients by ln(10)
-                            double k = 1.0;
-                            if (chromophoreSpectrumData[i].ChromophoreCoefficientType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
-                            {
-                                k = Math.Log(10);
-                            }
-
-                            double valEntry = Convert.ToDouble(row[i]);
-                            valuesList[i].Add((double)valEntry * k);
-                        }
-
-                        while ((line = readFile.ReadLine()) != null)
+                        do
                         {
                             if (!line.StartsWith("%"))
                             {
                                 row = line.Split('\t');
 
                                 //write the wavelength value once
-                                wlEntry = Convert.ToDouble(row[0]);
+                                double wlEntry = Convert.ToDouble(row[0]);
                                 wavelengths.Add((double)wlEntry);
 
                                 //loop through the spectra and get the data
@@ -203,7 +185,8 @@ namespace Vts.SpectralMapping
                                     valuesList[i].Add((double)valEntry * k);
                                 }
                             }
-                        }
+                        } while ((line = readFile.ReadLine()) != null);
+
                         //loop through the spectra and create the dictionary
                         for (int i = 0; i < spectra; i++)
                         {
