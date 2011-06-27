@@ -27,6 +27,9 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.RDiffuse:
                     var rdinput = (RDiffuseDetectorInput)detectorInput;
                     return new RDiffuseDetector(tallySecondMoment, rdinput.Name);
+                case TallyType.RSpecular:
+                    var rsinput = (RSpecularDetectorInput)detectorInput;
+                    return new RSpecularDetector(tallySecondMoment, rsinput.Name);
                 case TallyType.ROfRho:
                     var rrinput = (ROfRhoDetectorInput)detectorInput;
                     return new ROfRhoDetector(rrinput.Rho, tallySecondMoment, rrinput.Name);

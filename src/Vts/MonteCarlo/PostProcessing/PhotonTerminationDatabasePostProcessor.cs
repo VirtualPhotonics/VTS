@@ -66,7 +66,8 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <param name="perturbedRegionsIndices">Indices of regions being perturbed</param>
         /// <returns></returns>
         public static Output GenerateOutput(
-            IList<IpMCDetectorInput> detectorInputs, 
+            IList<IpMCDetectorInput> detectorInputs,
+            bool tallySecondMoment,
             pMCDatabase database, 
             SimulationInput databaseInput)
         {

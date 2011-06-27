@@ -511,6 +511,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfXAndYDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\ROfXAndYDetectorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\TDiffuseDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\TDiffuseDetectorInput.cs</Link>
     </Compile>
@@ -648,6 +651,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RofXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\RofXAndYDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RSpecularDetector.cs">
+      <Link>MonteCarlo\Detectors\RSpecularDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TallyExtensionMethods.cs">
       <Link>MonteCarlo\Detectors\TallyExtensionMethods.cs</Link>

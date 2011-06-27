@@ -24,6 +24,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = TallyType.RDiffuse;
             Name = name;
             TallyCount = 0;
+            _tallySecondMoment = tallySecondMoment;
         }
         /// <summary>
         /// Returns a default instance of RDiffuseDetector (for serialization purposes only)

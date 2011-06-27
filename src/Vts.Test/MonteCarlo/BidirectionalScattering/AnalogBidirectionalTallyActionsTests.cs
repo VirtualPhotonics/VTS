@@ -32,7 +32,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
         public void execute_Monte_Carlo()
         {
             var input = new SimulationInput(
-                100,
+                10000, // number needed to get enough photons to Td 
                 "Output",
                 new SimulationOptions(
                     0, 
@@ -71,6 +71,8 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             _output = new MonteCarloSimulation(input).Run();
         }
 
+        // todo: add analytic variance and use this for error bounds
+
         // Diffuse Reflectance
         [Test]
         public void validate_bidirectional_analog_RDiffuse()
@@ -81,14 +83,29 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 -1, // direction -1=up
                 0); // position at surface
 
-            Assert.Less(Math.Abs(_output.Rd - analyticSolution), 0.02);
+            Assert.Less(Math.Abs(_output.Rd - analyticSolution), 0.01);
         }
         // Total Absorption
-        //[Test]
-        //public void validate_bidirectional_analog_ATotal()
-        //{
-        //    Assert.Less(Math.Abs(_output.Atot - 0.000562763362), 0.000000000001);
-        //}
+        [Test]
+        public void validate_bidirectional_analog_ATotal()
+        {
+            var analyticSolutionRight =
+                BidirectionalAnalyticSolutions.GetBidirectionalRadianceIntegratedOverInterval(
+                _slabThickness,
+                new OpticalProperties(_mua, _musp, _g, 1.0),
+                1,
+                0,
+                _slabThickness);
+            var analyticSolutionLeft = 
+                BidirectionalAnalyticSolutions.GetBidirectionalRadianceIntegratedOverInterval(
+                _slabThickness,
+                new OpticalProperties(_mua, _musp, _g, 1.0),
+                -1,
+                0,
+                _slabThickness);
+            var analyticSolution = analyticSolutionRight - analyticSolutionLeft; // directional net
+            Assert.Less(Math.Abs(_output.Atot - _mua * analyticSolution), 0.01);
+        }
         // Diffuse Transmittance
         [Test]
         public void validate_bidirectional_analog_TDiffuse()
@@ -99,14 +116,13 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 1, // direction 1=down
                 _slabThickness); // position at slab end
 
-            Assert.Less(Math.Abs(_output.Td - analyticSolution), 0.02);
+            Assert.Less(Math.Abs(_output.Td - analyticSolution), 0.01);
         }
-        //// Fluence Flu(rho,z)
-        //[Test]
-        //public void validate_bidirectional_analog_FluenceOfRhoAndZ()
-        //{
-        //    Assert.Less(Math.Abs(_output.Flu_rz[0, 6] - 0.617700489), 0.000000001);
-        //}
-
+        // with no refractive index mismatch, Rd + Atot + Td should equal 1
+        [Test]
+        public void validate_bidirectional_analog_detector_sum_equals_one()
+        {
+            Assert.Less(Math.Abs(_output.Rd + _output.Atot + _output.Td - 1.0), 0.1);
+        }
     }
 }

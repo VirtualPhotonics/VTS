@@ -157,6 +157,7 @@
     <Compile Include="Common\Extensions\EnumExtensionsTests.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\SpecularDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Rng\SerializableMersenneTwisterTests.cs" />
     <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs">
       <SubType>Code</SubType>
@@ -246,19 +247,10 @@
     <Compile Include="MonteCarlo\Detectors\CAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="MonteCarlo\Detectors\DAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\DAWTwoLayerDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\Helpers\SourceToolboxTests.cs" />

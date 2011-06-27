@@ -209,20 +209,14 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\CAWDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs</Link>
-    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWDetectorsTests.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWTwoLayerDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\DAWTwoLayerDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\pMCDAWDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\SpecularDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Helpers\SourceToolboxTests.cs">
       <Link>MonteCarlo\Helpers\SourceToolboxTests.cs</Link>

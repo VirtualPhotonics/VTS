@@ -12,22 +12,24 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class RSpecularDetector : ITerminationDetector<double>
     {
+        private bool _tallySecondMoment;
         /// <summary>
         /// Returns an instance of SpecularDetector
         /// </summary>
-        public RSpecularDetector(String name)
+        public RSpecularDetector(bool tallySecondMoment, String name)
         {
             Mean = 0;
             SecondMoment = 0;
             TallyType = TallyType.RSpecular;
             Name = name;
             TallyCount = 0;
+            _tallySecondMoment = tallySecondMoment;
         }
         /// <summary>
         /// Returns a default instance of RDiffuseDetector (for serialization purposes only)
         /// </summary>
         public RSpecularDetector()
-            : this(TallyType.RSpecular.ToString())
+            : this(true, TallyType.RSpecular.ToString())
         {
         }
 
@@ -44,13 +46,20 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(PhotonDataPoint dp)
         {
             Mean += dp.Weight;
-            SecondMoment += dp.Weight * dp.Weight;
+            if (_tallySecondMoment)
+            {
+                SecondMoment += dp.Weight * dp.Weight;
+            }
             TallyCount++;
         }
 
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;
+            if (_tallySecondMoment)
+            {
+                SecondMoment /= numPhotons;
+            }
         }
 
         //public bool ContainsPoint(PhotonDataPoint dp)

@@ -23,6 +23,7 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = 0.0;
             TallyType = TallyType.TDiffuse;
             Name = name;
+            TallyCount = 0;
         }
         /// <summary>
         /// Returns a default instaf TDiffuseDetector (for serialization purposes only)

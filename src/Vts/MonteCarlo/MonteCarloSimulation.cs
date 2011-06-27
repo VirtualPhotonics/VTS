@@ -138,10 +138,6 @@ namespace Vts.MonteCarlo
                     { /* begin do while  */
                         photon.SetStepSize(); // only calls rng if SLeft == 0.0
 
-                        // listen to and flag VP PSTs
-                        // can I listen just to transport flags here?
-                        // bool hitvirtualBoundary = _virtualBoundaryController.ListenToPhotonStateType(photon.DP);
-
                         //bool hitBoundary = photon.Move(distance);
                         BoundaryHitType hitType = Move(photon); // in-line?
 
@@ -154,29 +150,23 @@ namespace Vts.MonteCarlo
                         // kill photon for various reasons, including possible VB crossings
                         photon.TestDeath();
 
-                        // check if virtual boundary SHOULD ONLY CONTINUE IF NOT REAL BOUNDARY!
+                        // check if virtual boundary 
                         if (hitType == BoundaryHitType.Virtual)
                         {
                             continue;
                         }
 
-                        // or else if...
                         if (hitType == BoundaryHitType.Tissue)
                         {
                             photon.CrossRegionOrReflect();
                             continue;
                         }
 
-                        //else
-                        //{
                         photon.Absorb(); // can be added to TestDeath?
                         if (!photon.DP.StateFlag.Has(PhotonStateType.Absorbed))
                         {
                             photon.Scatter();
                         }
-                        //}
-
-                        //photon.TestWeightAndDistance();
 
                     } while (photon.DP.StateFlag.Has(PhotonStateType.Alive)); /* end do while */
 
@@ -224,6 +214,8 @@ namespace Vts.MonteCarlo
             }
             else // otherwise, move to the closest virtual boundary
             {
+                // what if both tissueDistance and vbDistance are both infinity?
+
                 var hitVirtualBoundary = photon.Move(vbDistance);
                 photon.DP.StateFlag = photon.DP.StateFlag.Add(vb.PhotonStateType); // add pseudo-collision for vb
                 return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
@@ -232,14 +224,10 @@ namespace Vts.MonteCarlo
 
         public void ReportResults()
         {
-            // CKH TODO: fix this when these classes are updated
-            //for (int i = 0; i < input.detector.det_ctr.Length; ++i)  
-            //    Console.WriteLine(SimulationIndex + ": det at {0} -> {1} photons written",
-            //        detector.det_ctr[i], detector.);
-
-            //Console.WriteLine(SimulationIndex + ": tot phot out top={0}({1}) bot={2}({3})",
-            //  photptr.tot_out_top, (double)photptr.tot_out_top / source.num_photons,
-            //  photptr.tot_out_bot, (double)photptr.tot_out_bot / source.num_photons);
+            // write out how many photons written to each detector
+            for (int i = 0; i < _detectorController.Detectors.Count; ++i)  
+                Console.WriteLine(SimulationIndex + ": detector named {0} -> {1} photons written",
+                    _detectorController.Detectors[i].TallyType, _detectorController.Detectors[i].TallyCount);
         }
 
         /********************************************************/
@@ -265,64 +253,5 @@ namespace Vts.MonteCarlo
             double frac = 100 * n / num_phot;
             Console.WriteLine(header + ": " + frac + " percent complete, " + DateTime.Now);
         }
-
-        // Keep this commented section for reference
-        ///// <summary>
-        ///// This function encapsulates the managed loop. Can be overridden in derived classes.
-        ///// </summary>
-        //protected virtual void ExecuteMCLoop(ITissue tissptr, Photon photptr, History histptr, 
-        //    SourceDefinition source, Banana bananaptr, Output outptr, DetectorDefinition detector)
-        //{
-        //    // DC: should the writer output go to same folder as Output?
-        //    using (var photonTerminationDatabaseWriter = new PhotonTerminationDatabaseWriter(
-        //            "photonBiographies", new PhotonDatabase() { NumberOfPhotons = 0,
-        //            NumberOfSubRegions = tissptr.num_layers}))
-        //    {
-        //        if (WRITE_EXIT_HISTORIES) photonTerminationDatabaseWriter.Open(); // only open file if we want to write
-
-        //        SetScatterLength(tissptr, photptr);
-        //        for (long n = 1; n <= source.num_photons; n++)
-        //        {
-        //            // todo: bug - num photons is assumed to be over 10 :)
-        //            if (n % (source.num_photons / 10) == 0)
-        //                DisplayStatus(n, source.num_photons);
-        //            init_photon(tissptr, photptr, source, outptr);
-        //            do
-        //            { /* begin do while  */
-        //                SetStepSize(tissptr, photptr);
-
-        //                switch (HitBoundary(tissptr, photptr))
-        //                {
-        //                    case 1:  // hit layer
-        //                        Move_Photon(photptr, outptr);
-        //                        CrossRegion(tissptr, photptr, outptr, detector);
-        //                        break;
-        //                    case 2:  // hit ellipse from outside
-        //                    case 4:  // hit ellipse from inside
-        //                        Move_Photon(photptr, outptr);
-        //                        CrossEllip(photptr);
-        //                        break;
-        //                    case 0:  // hit nothing in homo. medium
-        //                    case 3:  // hit nothing (inside ellipse)
-        //                        Move_Photon(photptr, outptr);
-        //                        // Call action (Discrete, Analog or Continuous absorption weighting)
-        //                        ScatterAndAbsorb(tissptr, photptr, outptr, detector);
-        //                        break;
-        //                }
-        //                /*Test_Distance(); */
-        //                TestWeight(photptr);
-        //            } while (photptr.DP.StateFlag == PhotonData.PhotonStateType.NotSet); /* end do while */
-        //            //pert();  // ckh deleted processing done in MovePhoton
-
-        //            if (WRITE_EXIT_HISTORIES)
-        //            {
-        //                WritePhotonTerminationData(photonTerminationDatabaseWriter, photptr, tissptr, outptr);
-        //            }
-
-        //            if (DO_ALLVOX) Compute_Prob_allvox(source, tissptr, photptr, bananaptr, outptr, detector);  /* DCFIX */
-        //        } /* end of for n loop */
-
-        //    } /* end exit history using scope*/
-        //}
     }
 }

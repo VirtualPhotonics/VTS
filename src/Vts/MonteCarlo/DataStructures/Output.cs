@@ -45,6 +45,9 @@ namespace Vts.MonteCarlo
 
         public double Rd { get { return ((RDiffuseDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RDiffuse).First().Name]).Mean; } }
         public double Rd2 { get { return ((RDiffuseDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RDiffuse).First().Name]).SecondMoment; } }
+        
+        public double Rspec { get { return ((RSpecularDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RSpecular).First().Name]).Mean; } }
+        public double Rspec2 { get { return ((RSpecularDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RSpecular).First().Name]).SecondMoment; } }
 
         //public double Rtot { get { return ((RTotalDetector)ResultsDictionary[TallyType.RTotal]).Mean; } }
         //public double Rtot2 { get { return ((RTotalDetector)ResultsDictionary[TallyType.RTotal]).SecondMoment; } }

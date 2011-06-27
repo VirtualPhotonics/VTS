@@ -44,22 +44,28 @@ namespace Vts.MonteCarlo
             CurrentRegionIndex = currentTissueRegionIndex;
             var onBoundary = tissue.OnDomainBoundary(this);
             DP.Weight = 1.0;
+            // flag to determin whether passing through specular or not
             _firstTimeEnteringDomain = true;
-            #region employ this section only to match linux results with coll. point source
-            if (onBoundary)
+            if (CurrentRegionIndex == 1) // photon does not go through specular
             {
-                if (CurrentRegionIndex == 0)
-                {
-                    // quick fix 6/16/11 ckh
-                    var neighborRegionIndex = tissue.GetNeighborRegionIndex(this);
-                    DP.Weight = 1.0 - Helpers.Optics.Specular(
-                        tissue.Regions[CurrentRegionIndex].RegionOP.N,
-                        tissue.Regions[neighborRegionIndex].RegionOP.N);
-                    // move to neighbor region
-                    CurrentRegionIndex = neighborRegionIndex;
-                    _firstTimeEnteringDomain = false;
-                }
+                _firstTimeEnteringDomain = false;
             }
+            // dc: how to opt in and out of including this region?
+            #region employ this section only to match linux results with coll. point source
+            //if (onBoundary)
+            //{
+            //    if (CurrentRegionIndex == 0)
+            //    {
+            //        // quick fix 6/16/11 ckh
+            //        var neighborRegionIndex = tissue.GetNeighborRegionIndex(this);
+            //        DP.Weight = 1.0 - Helpers.Optics.Specular(
+            //            tissue.Regions[CurrentRegionIndex].RegionOP.N,
+            //            tissue.Regions[neighborRegionIndex].RegionOP.N);
+            //        // move to neighbor region
+            //        CurrentRegionIndex = neighborRegionIndex;
+            //        _firstTimeEnteringDomain = false;
+            //    }
+            //}
             #endregion
 
             CurrentTrackIndex = 0;
@@ -211,14 +217,12 @@ namespace Vts.MonteCarlo
 
             /* Decide whether or not photon goes to next region */
             // perform first check so that rng not called on pseudo-collisions
-            //if ((probOfCrossing == 0.0) || (_rng.NextDouble() > probOfCrossing))
-            if (_rng.NextDouble() > probOfReflecting) // transmitted
+            if ((probOfReflecting == 0.0) || (_rng.NextDouble() > probOfReflecting)) // transmitted
             {
                 // if at border of system  
                 if (_tissue.OnDomainBoundary(this) && !_firstTimeEnteringDomain)
                 {
                     DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
-                    //DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                     // add updated final DP to History
                     History.AddDPToHistory(DP);
                     // adjust CAW weight for portion of track prior to exit
@@ -241,7 +245,6 @@ namespace Vts.MonteCarlo
                         _firstTimeEnteringDomain = false;
                     }
                 }
-                // flag virtual boundaries too...can't be mutually exlusive with OnDomainBoundary
             }
             else  // don't cross, reflect
             {
