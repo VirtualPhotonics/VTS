@@ -57,12 +57,11 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints },
                     true, // compute Second Moment
-                    0),
+                    1),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
-                    0),
-                  
+                    1),                 
                 new MultiLayerTissueInput(
                     new List<ITissueRegion> 
                     { 
@@ -70,18 +69,18 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
                         new LayerRegion(
-                            new DoubleRange(0.0, 100.0),
+                            new DoubleRange(0.0, 20.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
                 new List<IDetectorInput>()
                 {
                     new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 40.0, 201),
-                        new DoubleRange(0.0, 1, 101)),
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 1, 101))
                 }
             );
         }
@@ -95,7 +94,9 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         private void ValidateROfRhoAndTime(Output output1, Output output2)
         {
             var detector = (ROfRhoAndTimeDetectorInput)output1.Input.DetectorInputs.
-                Where(d => d.TallyType == TallyType.ROfRhoAndTime).First();
+                Where(d => d.TallyType == TallyType.ROfRhoAndTime).First(); 
+            // currently these are agreeing EXCEPT for last bin i=99, j=99 because VBController not used here
+            // and no ContainsPoint is getting executed.
             for (int i = 0; i < detector.Rho.Count - 1; i++)
             {
                 for (int j = 0; j < detector.Time.Count - 1; j++)

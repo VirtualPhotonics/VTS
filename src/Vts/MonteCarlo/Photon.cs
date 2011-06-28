@@ -252,7 +252,6 @@ namespace Vts.MonteCarlo
                 // check if specular reflection
                 if (_firstTimeEnteringDomain)
                 {
-                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                     DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoReflectedTissueBoundary);
                 }
             }

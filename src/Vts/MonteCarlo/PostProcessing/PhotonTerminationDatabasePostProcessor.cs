@@ -34,23 +34,17 @@ namespace Vts.MonteCarlo.PostProcessing
  
             var detectorController = 
                 Factories.DetectorControllerFactory.GetStandardDetectorController(detectors);
-
-            var virtualBoundaryController = VirtualBoundaryControllerFactory.GetVirtualBoundaryController(
-                detectorController.Detectors, tissue); 
  
-            // CKH need to FIX!
+            // DetectorController tallies for post-processing
             foreach (var dp in database.DataPoints)
-            {
-                foreach (var vb in virtualBoundaryController.VirtualBoundaries)
-                {
-                    virtualBoundaryController.TallyToTerminationDetectors(dp);
-                }
+            {             
+                    detectorController.TerminationTally(dp);   
             }
 
             detectorController.NormalizeDetectors(databaseInput.N);
 
             var postProcessedOutput = new Output(databaseInput, detectorController.Detectors);
-            // todo: call output generation method on detectorController (once it's implemented)
+
             return postProcessedOutput;
         }
 

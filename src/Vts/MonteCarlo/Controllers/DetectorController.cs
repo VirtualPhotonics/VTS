@@ -13,58 +13,64 @@ using Vts.MonteCarlo.VirtualBoundaries;
 
 namespace Vts.MonteCarlo.Controllers
 {
+    /// <summary>
+    /// Controller for detectors.  
+    /// Currently _terminationDetectors and _historyDetectors in BOTH
+    /// DetectorController and VirtualBoundaryController.  This is because
+    /// VBController needs to tally to those detectors attached to a VB.
+    /// For post-processing and pMC needs, DetectorController handles the
+    /// tallying.
+    /// </summary>
     public class DetectorController : IDetectorController
     {
         private IList<IDetector> _detectors;
-        //private IList<ITerminationDetector> _terminationDetectors;
-        //private IList<IHistoryDetector> _historyDetectors;
+        private IList<ITerminationDetector> _terminationDetectors;
+        private IList<IHistoryDetector> _historyDetectors;
 
         public DetectorController(
             IList<IDetector> detectors)
         {
             _detectors = detectors;
 
-            //_terminationDetectors =
-            //    (from detector in _detectors
-            //     where detector.TallyType.IsTerminationTally()
-            //     select (ITerminationDetector)detector).ToArray();
+            _terminationDetectors =
+                (from detector in _detectors
+                 where detector.TallyType.IsTerminationTally()
+                 select (ITerminationDetector)detector).ToArray();
 
-            //// DC what to do about history detectors for now?  I could make generic VB and add them to it.
-            //if (detectors != null)
-            //{
-            //    _historyDetectors =
-            //        (from detector in _detectors
-            //         where detector.TallyType.IsHistoryTally()
-            //         select (IHistoryDetector)detector).ToArray();
-            //}
-
+            if (detectors != null)
+            {
+                _historyDetectors =
+                    (from detector in _detectors
+                     where detector.TallyType.IsHistoryTally()
+                     select (IHistoryDetector)detector).ToArray();
+            }
         }
 
         public IList<IDetector> Detectors { get { return _detectors; } }
+        
+        public void TerminationTally(PhotonDataPoint dp)
+        {
+            foreach (var tally in _terminationDetectors)
+            {
+                //if (tally.ContainsPoint(dp))
+                    tally.Tally(dp);
+            }
+        }
 
-        //public void TerminationTally(PhotonDataPoint dp)
-        //{
-        //    foreach (var tally in _terminationDetectors)
-        //    {
-        //        if (tally.ContainsPoint(dp))
-        //            tally.Tally(dp);
-        //    }
-        //}
-
-        //public void HistoryTally(PhotonHistory history)
-        //{
-        //    // loop through the photon history. history tallies require information 
-        //    // from previous and "current" collision points (including pseudo-collisions)
-        //    PhotonDataPoint previousDP = history.HistoryData.First();
-        //    foreach (PhotonDataPoint dp in history.HistoryData.Skip(1))
-        //    {
-        //        foreach (var tally in _historyDetectors)
-        //        {
-        //            tally.Tally(previousDP, dp);
-        //        }
-        //        previousDP = dp;
-        //    }
-        //}
+        public void HistoryTally(PhotonHistory history)
+        {
+            // loop through the photon history. history tallies require information 
+            // from previous and "current" collision points (including pseudo-collisions)
+            PhotonDataPoint previousDP = history.HistoryData.First();
+            foreach (PhotonDataPoint dp in history.HistoryData.Skip(1))
+            {
+                foreach (var tally in _historyDetectors)
+                {
+                    tally.Tally(previousDP, dp);
+                }
+                previousDP = dp;
+            }
+        }
 
         public virtual void NormalizeDetectors(long N)
         {

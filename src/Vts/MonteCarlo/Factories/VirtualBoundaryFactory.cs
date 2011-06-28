@@ -63,12 +63,13 @@ namespace Vts.MonteCarlo.Factories
             IList<IDetector> detectors,
             ITissue tissue)
         {
+            // this sql returns all VBs even when only RSpecularDetector in detectors
             var virtualBoundaries =
                 from vb in EnumHelper.GetValues<VirtualBoundaryType>() // for each virtual boundary type
                 where detectors.Select(d => d.TallyType.AppliesToBoundary(vb)).Any() // where any detectors apply
                 let vbDetectors = detectors.Where(d => d.TallyType.AppliesToBoundary(vb)).ToList() // gather the appropriate detectors
                 select GetVirtualBoundary(vb, tissue, vbDetectors); // and instantiate the vb with the appropriate detectors
-
+                
             return virtualBoundaries.ToList();
         }
 
@@ -76,6 +77,11 @@ namespace Vts.MonteCarlo.Factories
             VirtualBoundaryType vbType, ITissue tissue, IList<IDetector> vbDetectors)
         {
             IVirtualBoundary vb = null;
+            // ckh's attempt to fix problem above, doesn't work
+            //if (vbDetectors.Count == 0)
+            //{
+            //    return vb;
+            //}
 
             // todo: predicate defines 
             switch (vbType)

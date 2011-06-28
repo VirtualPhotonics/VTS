@@ -52,21 +52,6 @@ namespace Vts.MonteCarlo.Controllers
             return detectorList;
         }
 
-        // commented unused overload
-        ///// <summary>
-        ///// Default constructor tallies all tallies
-        ///// </summary>
-        //public pMCDetectorController()
-        //    : this(
-        //        new IpMCDetectorInput[]
-        //        { 
-        //            new pMCROfRhoAndTimeDetectorInput(),
-        //            new pMCROfRhoDetectorInput(),
-        //        },
-        //        new MultiLayerTissue())
-        //{
-        //}
-
         public IList<IDetector> Detectors { get { return _detectors; } }
         public IList<OpticalProperties> ReferenceOps { get; set; }
         public IList<int> PerturbedRegionsIndices { get; set; }
