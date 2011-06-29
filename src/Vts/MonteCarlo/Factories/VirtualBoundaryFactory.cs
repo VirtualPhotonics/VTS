@@ -66,10 +66,24 @@ namespace Vts.MonteCarlo.Factories
             // this sql returns all VBs even when only RSpecularDetector in detectors
             var virtualBoundaries =
                 from vb in EnumHelper.GetValues<VirtualBoundaryType>() // for each virtual boundary type
-                where detectors.Select(d => d.TallyType.AppliesToBoundary(vb)).Any() // where any detectors apply
+                where detectors.Select(d => d.TallyType.AppliesToBoundary(vb)).Any()  // where any detectors apply
                 let vbDetectors = detectors.Where(d => d.TallyType.AppliesToBoundary(vb)).ToList() // gather the appropriate detectors
                 select GetVirtualBoundary(vb, tissue, vbDetectors); // and instantiate the vb with the appropriate detectors
+
+            // the following doesn't work either
+            //var virtualBoundaries = new List<IVirtualBoundary>();
+            //foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
+            //{
+            //    bool anyDetectors = detectors.Select(d => d.TallyType.AppliesToBoundary(vbType)).Any();
+            //    IList<IDetector> vbDetectors = detectors.Where(d => d.TallyType.AppliesToBoundary(vbType)).ToList();
+            //    if (anyDetectors && (vbDetectors.Count > 0))
+            //    {
+            //        var vb = GetVirtualBoundary(vbType, tissue, vbDetectors);
+            //        if (vb != null)
+            //            virtualBoundaries.Add(vb);
+            //    }
                 
+            //}
             return virtualBoundaries.ToList();
         }
 
