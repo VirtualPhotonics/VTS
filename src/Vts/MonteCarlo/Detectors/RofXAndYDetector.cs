@@ -27,13 +27,10 @@ namespace Vts.MonteCarlo.Detectors
             Y = y;
             _tallySecondMoment = tallySecondMoment;
             Mean = new double[X.Count - 1, Y.Count - 1];
+            SecondMoment = null;
             if (_tallySecondMoment)
             {
                 SecondMoment = new double[X.Count - 1, Y.Count - 1];
-            }
-            else
-            {
-                SecondMoment = null;
             }
             TallyType = TallyType.ROfXAndY;
             Name = name;

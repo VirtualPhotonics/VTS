@@ -60,7 +60,9 @@ namespace Vts.MonteCarlo.Controllers
         {
             foreach (var detector in _terminationDetectors)
             {
-                //if (detector.ContainsPoint(dp))
+                // only set up reflectance tallies for now, NEED TO FIX
+                if (dp.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) &&
+                    detector.TallyType.IsTerminationTally()) 
                     detector.Tally(dp, collisionInfo);
             }
         }

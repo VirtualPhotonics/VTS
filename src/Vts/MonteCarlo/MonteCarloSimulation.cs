@@ -148,7 +148,7 @@ namespace Vts.MonteCarlo
                         }
 
                         // kill photon for various reasons, including possible VB crossings
-                        photon.TestDeath();
+                        photon.TestDeath(_virtualBoundaryController);
 
                         // check if virtual boundary 
                         if (hitType == BoundaryHitType.Virtual)

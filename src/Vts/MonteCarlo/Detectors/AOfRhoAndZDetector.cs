@@ -38,13 +38,10 @@ namespace Vts.MonteCarlo.Detectors
             Z = z;
             Mean = new double[Rho.Count - 1, Z.Count - 1];
             _tallySecondMoment = tallySecondMoment;
+            SecondMoment = null;
             if (tallySecondMoment)
             {
                 SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
-            }
-            else
-            {
-                SecondMoment = null;
             }
             TallyType = TallyType.AOfRhoAndZ;
             Name = name;

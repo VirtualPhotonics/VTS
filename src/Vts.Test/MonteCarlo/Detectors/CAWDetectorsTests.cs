@@ -35,7 +35,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// through specular and deweights photon by specular.  This test starts photon 
         /// inside tissue and then multiplies result by specular deweighting to match.
         /// NOTE: currently two region executes same photon biography except for pauses
-        /// at layer interface, BUT results have greater variance.  Why? CKH to look into?
+        /// at layer interface, BUT CAW results have greater variance.  Why? CKH to look into.
         /// </summary>
         [TestFixtureSetUp]
         public void execute_Monte_Carlo()

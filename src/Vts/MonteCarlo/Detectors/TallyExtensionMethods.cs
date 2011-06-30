@@ -19,6 +19,7 @@ namespace Vts.MonteCarlo.Detectors
                 case TallyType.RDiffuse:
                 case TallyType.pMCROfRhoAndTime:
                 case TallyType.pMCROfRho:
+                case TallyType.RSpecular:
                     return true;
                 default:
                     return false;

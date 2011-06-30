@@ -368,17 +368,43 @@ namespace Vts.MonteCarlo
             History.HistoryData[index].Weight = DP.Weight;
         }
         // merge following with TestWeightAndDistance if working
-        public void TestDeath()
+        public void TestDeath(VirtualBoundaryController vbc)
         {
             TestWeightAndDistance();
-            // test VB death
-            if (DP.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) ||
-                DP.StateFlag.Has(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary))
-            {
-                // todo: revisit performance of the bitwise operations
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                History.AddDPToHistory(DP);
-            }
+            // test VB or actual death
+            //foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
+            //{
+            
+                // if VB crossing flagged
+                if (DP.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary)  ||
+                    DP.StateFlag.Has(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
+                    DP.StateFlag.Has(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary))
+                {
+                    //todo: revisit performance of the bitwise operations
+                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    History.AddDPToHistory(DP);
+                }
+                // check if VB type is in list of active VBs
+                //if (vbc.VirtualBoundaries.Select(t => t.VirtualBoundaryType).Contains(vbType))
+                //{
+                //    if (DP.StateFlag.Has(vbType)) // if VB crossing flagged
+                //    {
+                //        //todo: revisit performance of the bitwise operations
+                //        DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                //        History.AddDPToHistory(DP);
+                //    }
+                //}
+                //else // VB is not active, so have to check tissue boundary crossings
+                //{
+                //    if (DP.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) ||
+                //        DP.StateFlag.Has(PhotonStateType.PseudoTransmittedTissueBoundary))
+                //    {
+                //        DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                //        History.AddDPToHistory(DP);
+                //    }
+                //}
+
+            //}
         }
         public void TestWeightAndDistance()
         {

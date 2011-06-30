@@ -32,7 +32,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// through specular and deweights photon by specular.  This test starts photon 
         /// inside tissue and then multiplies result by specular deweighting to match.
         /// NOTE: currently two region executes same photon biography except for pauses
-        /// at layer interface, BUT results have greater variance.  Why? CKH to look into?
+        /// at layer interface.  Variance for DAW results not degraded.
         /// </summary>
         [TestFixtureSetUp]
         public void execute_Monte_Carlo()
@@ -43,7 +43,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Discrete,
                      PhaseFunctionType.HenyeyGreenstein,
-                     null,
+                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
+                     //null,
                      true,
                      0);
             var source = new DirectionalPointSourceInput(
@@ -83,7 +84,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 };
             var inputOneLayerTissue = new SimulationInput(
                 100,
-                "Output",
+                "",
                 simulationOptions,
                 source,
                 new MultiLayerTissueInput(
@@ -105,7 +106,7 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             var inputTwoLayer = new SimulationInput(
                 100,
-                "Output",
+                "",
                 simulationOptions,
                 source,
                 new MultiLayerTissueInput(

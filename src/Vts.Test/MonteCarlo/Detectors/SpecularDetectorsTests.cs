@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
@@ -18,6 +19,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     public class SpecularDetectorTests
     {
         private Output _output;
+        private double _specularReflectance;
 
         /// <summary>
         /// Setup input to the MC, SimulationInput, and execute MC
@@ -60,7 +62,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 {
                     new RSpecularDetectorInput()
                 });
-
+            _specularReflectance = Optics.Specular(input.TissueInput.Regions[0].RegionOP.N,
+               input.TissueInput.Regions[1].RegionOP.N);
             _output = new MonteCarloSimulation(input).Run();
         }
         
@@ -68,7 +71,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_RSpecular()
         {
-            Assert.Less(Math.Abs(_output.Rspec - 1), 0.000000001);
+            // _output.Rspec = 0.6, why?
+            Assert.Less(Math.Abs(_output.Rspec - _specularReflectance), 0.001);
         }
     }
 }

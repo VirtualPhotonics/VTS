@@ -53,6 +53,8 @@ namespace Vts.MonteCarlo.Controllers
             foreach (var tally in _terminationDetectors)
             {
                 //if (tally.ContainsPoint(dp))
+                if (dp.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) &&
+                    tally.TallyType.IsTerminationTally())
                     tally.Tally(dp);
             }
         }

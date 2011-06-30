@@ -10,6 +10,7 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
+    // NOTE: these tests won't pass until pMCController and pMC detectors ContainsPoint figured out
     /// <summary>
     /// These tests executes a MC simulation with 100 photons and verify
     /// that the tally results match either the reference results (no 
@@ -27,6 +28,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         private Output _referenceOutputTwoLayerTissue;
         private double _layerThickness = 1.0;
         private double _factor;
+        private pMCDatabase _databaseOneLayerTissue;
+        private pMCDatabase _databaseTwoLayerTissue;
 
         /// <summary>
     /// These tests execute perturbation Monte Carlo (pMC) on a discrete absorption weighting (DAW)
@@ -40,8 +43,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [TestFixtureSetUp]
         public void execute_reference_Monte_Carlo()
         {
-            // generate reference output for homogeneous one layer and two layer tissues
-            GenerateReferenceOutputs();
+            // generate reference database for homogeneous and one layer tissue
+            GenerateReferenceDatabases();
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
@@ -50,7 +53,6 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]  
         public void validate_pMC_DAW_ROfRhoAndTime_zero_perturbation_one_layer_tissue()
         {
-            var database = pMCDatabase.FromFile("photonExitDatabase", "collisionInfoDatabase");
             var postProcessedOutput = 
                 PhotonTerminationDatabasePostProcessor.GenerateOutput(   
                     new List<IpMCDetectorInput>()
@@ -66,7 +68,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new List<int>() { 1 })
                     },
                     false,
-                    database,
+                    _databaseOneLayerTissue,
                     _referenceInputOneLayerTissue);
 
             // validation value obtained from reference non-pMC run
@@ -77,8 +79,7 @@ namespace Vts.Test.MonteCarlo.Detectors
        }
         [Test]
         public void validate_pMC_DAW_ROfRho_zero_perturbation_one_layer_tissue()
-        {
-            var database = pMCDatabase.FromFile("photonExitDatabase", "collisionInfoDatabase");
+        {            
             var postProcessedOutput =
                 PhotonTerminationDatabasePostProcessor.GenerateOutput(
                     new List<IpMCDetectorInput>()
@@ -93,7 +94,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new List<int>() { 1 })
                     },
                     false,
-                    database,
+                    _databaseOneLayerTissue,
                     _referenceInputOneLayerTissue);
             // validation value obtained from reference non-pMC run
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] - _referenceOutputOneLayerTissue.R_r[0]), 0.00000000001);
@@ -107,7 +108,6 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_pMC_DAW_ROfRhoAndTime_zero_perturbation_of_top_layer()
         {
-            var database = pMCDatabase.FromFile("photonExitDatabase", "collisionInfoDatabase");
             var postProcessedOutput =
                 PhotonTerminationDatabasePostProcessor.GenerateOutput(
                     new List<IpMCDetectorInput>()
@@ -123,7 +123,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new List<int>() { 1 })
                     },
                     false,
-                    database,
+                    _databaseTwoLayerTissue,
                     _referenceInputTwoLayerTissue);
             // validation value obtained from reference results
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - _referenceOutputTwoLayerTissue.R_rt[0, 0]), 0.00000000001);
@@ -131,24 +131,24 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
         }
         /// <summary>
-        /// Define SimulationInput to describe homogeneous media
+        /// Define SimulationInput to describe homogeneous and two layer tissue 
         /// </summary>
         /// <returns></returns>
-        private void GenerateReferenceOutputs()
+        private void GenerateReferenceDatabases()
         {
             var simulationOptions = new SimulationOptions(
-                    0,
-                    RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },  // write histories 
-                    true,
-                    0);
-            var source = new DirectionalPointSourceInput(
+                0,
+                RandomNumberGeneratorType.MersenneTwister,
+                AbsorptionWeightingType.Discrete,
+                PhaseFunctionType.HenyeyGreenstein,
+                new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },  // write histories 
+                true,
+                0);
+            var sourceInput = new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
                     1);
-            var detectors = new List<IDetectorInput>()
+            var detectorInputs = new List<IDetectorInput>()
                 {
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
                     new ROfRhoAndTimeDetectorInput(
@@ -157,9 +157,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                 };
             _referenceInputOneLayerTissue = new SimulationInput(
                 100,
-                "", // can't give folder name when writing to isolated storage
+                "",  // can't create folder in isolated storage
                 simulationOptions,
-                source,
+                sourceInput,
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
                     { 
@@ -174,23 +174,25 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                detectors);
+                detectorInputs);
             _factor = 1.0 - Optics.Specular(
                             _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP.N,
                             _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.N);
             _referenceOutputOneLayerTissue =  new MonteCarloSimulation(_referenceInputOneLayerTissue).Run();
 
+            _databaseOneLayerTissue = pMCDatabase.FromFile("photonExitDatabase", "collisionInfoDatabase");
+
             _referenceInputTwoLayerTissue = new SimulationInput(
                 100,
                 "",
                 simulationOptions,
-                source,
+                sourceInput,
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(1e-10, 0.0, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerRegion(
                             new DoubleRange(0.0, _layerThickness),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
@@ -199,11 +201,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(1e-10, 0.0, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                detectors);
+                detectorInputs);
             _referenceOutputTwoLayerTissue = new MonteCarloSimulation(_referenceInputTwoLayerTissue).Run();
+            _databaseTwoLayerTissue = pMCDatabase.FromFile("photonExitDatabase", "collisionInfoDatabase");
 
         }
     }

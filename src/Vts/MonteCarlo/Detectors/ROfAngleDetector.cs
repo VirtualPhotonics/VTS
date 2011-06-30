@@ -25,13 +25,10 @@ namespace Vts.MonteCarlo.Detectors
             Angle = angle;
             Mean = new double[Angle.Count - 1];
             _tallySecondMoment = tallySecondMoment;
+            SecondMoment = null;
             if (_tallySecondMoment)
             {
                 SecondMoment = new double[Angle.Count - 1];
-            }
-            else
-            {
-                SecondMoment = null;
             }
             TallyType = TallyType.ROfAngle;
             Name = name;

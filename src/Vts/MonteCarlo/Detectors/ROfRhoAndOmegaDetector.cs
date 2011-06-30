@@ -31,13 +31,10 @@ namespace Vts.MonteCarlo.Detectors
             Omega = omega;
             _tallySecondMoment = tallySecondMoment;
             Mean = new Complex[Rho.Count - 1, Omega.Count - 1];
+            SecondMoment = null;
             if (_tallySecondMoment)
             {
                 SecondMoment = new Complex[Rho.Count - 1, Omega.Count - 1];
-            }
-            else
-            {
-                SecondMoment = null;
             }
             TallyType = TallyType.ROfRhoAndOmega;
             Name = name;
