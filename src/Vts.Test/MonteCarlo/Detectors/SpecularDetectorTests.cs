@@ -48,8 +48,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            //new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)), // FIX for now
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerRegion(
                             new DoubleRange(0.0, 20.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
@@ -71,8 +70,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_RSpecular()
         {
-            // _output.Rspec = 0.6, why?
-            Assert.Less(Math.Abs(_output.Rspec - _specularReflectance), 0.001);
+            Assert.Less(Math.Abs(_output.Rspec - _specularReflectance), 0.003);
         }
     }
 }

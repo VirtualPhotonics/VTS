@@ -157,7 +157,7 @@
     <Compile Include="Common\Extensions\EnumExtensionsTests.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\SpecularDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\SpecularDetectorTests.cs" />
     <Compile Include="MonteCarlo\Rng\SerializableMersenneTwisterTests.cs" />
     <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs">
       <SubType>Code</SubType>

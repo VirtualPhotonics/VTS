@@ -230,6 +230,8 @@ namespace Vts.MonteCarlo
                     {
                         AbsorbContinuous();
                     }
+
+                    CurrentRegionIndex = neighborIndex;
                     //don't need to update these unless photon not dead upon exiting tissue
                     //DP.Direction.Ux *= nCurrent / nNext;
                     //DP.Direction.Uy *= nCurrent / nNext;
@@ -252,7 +254,7 @@ namespace Vts.MonteCarlo
                 // check if specular reflection
                 if (_firstTimeEnteringDomain)
                 {
-                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoReflectedTissueBoundary);
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoSpecularTissueBoundary);
                 }
             }
         }

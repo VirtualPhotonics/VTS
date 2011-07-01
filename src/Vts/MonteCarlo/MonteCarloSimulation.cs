@@ -214,11 +214,18 @@ namespace Vts.MonteCarlo
             }
             else // otherwise, move to the closest virtual boundary
             {
-                // what if both tissueDistance and vbDistance are both infinity?
-
-                var hitVirtualBoundary = photon.Move(vbDistance);
-                photon.DP.StateFlag = photon.DP.StateFlag.Add(vb.PhotonStateType); // add pseudo-collision for vb
-                return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
+                // if both tissueDistance and vbDistance are both infinity, then photon dead
+                if (vbDistance == double.PositiveInfinity)
+                {
+                    photon.DP.StateFlag = photon.DP.StateFlag.Remove(PhotonStateType.Alive);
+                    return BoundaryHitType.Virtual; // set to virtual so fall out of loop
+                }
+                else
+                {
+                    var hitVirtualBoundary = photon.Move(vbDistance);
+                    photon.DP.StateFlag = photon.DP.StateFlag.Add(vb.PhotonStateType); // add pseudo-collision for vb
+                    return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
+                }
             }
         }
 

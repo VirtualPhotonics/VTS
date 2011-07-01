@@ -23,7 +23,10 @@
         public OpticalProperties(double mua, double musp, double g, double n)
         {
             this._Mua = mua;
-            this._Mus = musp / (1 - g);
+            if (g == 1) // ckh quick fix 6/27/11
+                this._Mus = musp;
+            else 
+                this._Mus = musp / (1 - g);
             this._G = g;
             this._N = n;
         }

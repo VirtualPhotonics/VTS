@@ -25,6 +25,7 @@ namespace Vts.MonteCarlo
         KilledRussianRoulette = 0x20,
         PseudoReflectedTissueBoundary = 0x40,
         PseudoTransmittedTissueBoundary = 0x80,
+        PseudoSpecularTissueBoundary = 0x100,
 
         // virtual boundary flags, can we 1-1 map to virtualBoundary "Name"
         // move up to 16th position

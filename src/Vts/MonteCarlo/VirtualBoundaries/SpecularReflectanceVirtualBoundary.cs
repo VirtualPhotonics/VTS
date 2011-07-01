@@ -57,7 +57,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             double distanceToBoundary = double.PositiveInfinity;
 
             // check if VB not applied
-            if (!dp.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) ||
+            if (!dp.StateFlag.Has(PhotonStateType.PseudoSpecularTissueBoundary) ||
                 dp.Direction.Uz >= 0.0)
             {
                 return distanceToBoundary;

@@ -215,8 +215,8 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\pMCDAWDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\SpecularDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularDetectorTests.cs">
+      <Link>MonteCarlo\Detectors\SpecularDetectorTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Helpers\SourceToolboxTests.cs">
       <Link>MonteCarlo\Helpers\SourceToolboxTests.cs</Link>
