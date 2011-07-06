@@ -23,16 +23,20 @@ namespace Vts.MonteCarlo
         KilledOverMaximumPathLength = 0x8,
         KilledOverMaximumCollisions = 0x10,
         KilledRussianRoulette = 0x20,
+        // the following get set during photon transport in tissue
         PseudoReflectedTissueBoundary = 0x40,
         PseudoTransmittedTissueBoundary = 0x80,
         PseudoSpecularTissueBoundary = 0x100,
+        PseudoDosimetryTissueBoundary = 0x200,
 
         // virtual boundary flags, can we 1-1 map to virtualBoundary "Name"
         // move up to 16th position
+        // the following get set when VB hit (after hit tissue boundary)
         PseudoDiffuseReflectanceVirtualBoundary   = 0x10000, 
         PseudoDiffuseTransmittanceVirtualBoundary = 0x20000,
         PseudoSpecularReflectanceVirtualBoundary  = 0x40000,
         PseudoGenericVirtualBoundary              = 0x80000,
+        PseudoDosimetryVirtualBoundary            = 0x100000,
     }
 
     public enum VirtualBoundaryType
@@ -41,6 +45,7 @@ namespace Vts.MonteCarlo
         DiffuseTransmittance,
         SpecularReflectance,
         GenericVolumeBoundary,
+        Dosimetry,
     }
     public enum BoundaryHitType
     {
@@ -164,6 +169,7 @@ namespace Vts.MonteCarlo
         AOfRhoAndZ,
         ATotal,
         MomentumTransferOfRhoAndZ,
+        DosimetryOfRho,
         pMCROfRhoAndTime, // maybe these should be in separate enum?
         pMCROfRho,
     }

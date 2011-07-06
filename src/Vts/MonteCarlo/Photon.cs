@@ -39,8 +39,7 @@ namespace Vts.MonteCarlo
                     PhotonStateType.Alive);
             History = new PhotonHistory(tissue.Regions.Count);
             S = 0.0;
-            SLeft = 0.0;
-           
+            SLeft = 0.0;        
             CurrentRegionIndex = currentTissueRegionIndex;
             var onBoundary = tissue.OnDomainBoundary(this);
             DP.Weight = 1.0;
@@ -50,24 +49,6 @@ namespace Vts.MonteCarlo
             {
                 _firstTimeEnteringDomain = false;
             }
-            // dc: how to opt in and out of including this region?
-            #region employ this section only to match linux results with coll. point source
-            //if (onBoundary)
-            //{
-            //    if (CurrentRegionIndex == 0)
-            //    {
-            //        // quick fix 6/16/11 ckh
-            //        var neighborRegionIndex = tissue.GetNeighborRegionIndex(this);
-            //        DP.Weight = 1.0 - Helpers.Optics.Specular(
-            //            tissue.Regions[CurrentRegionIndex].RegionOP.N,
-            //            tissue.Regions[neighborRegionIndex].RegionOP.N);
-            //        // move to neighbor region
-            //        CurrentRegionIndex = neighborRegionIndex;
-            //        _firstTimeEnteringDomain = false;
-            //    }
-            //}
-            #endregion
-
             CurrentTrackIndex = 0;
             _tissue = tissue;
             SetAbsorbAction(_tissue.AbsorptionWeightingType);
@@ -372,41 +353,16 @@ namespace Vts.MonteCarlo
         // merge following with TestWeightAndDistance if working
         public void TestDeath(VirtualBoundaryController vbc)
         {
-            TestWeightAndDistance();
-            // test VB or actual death
-            //foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
-            //{
-            
-                // if VB crossing flagged
-                if (DP.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary)  ||
-                    DP.StateFlag.Has(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
-                    DP.StateFlag.Has(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary))
-                {
-                    //todo: revisit performance of the bitwise operations
-                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                    History.AddDPToHistory(DP);
-                }
-                // check if VB type is in list of active VBs
-                //if (vbc.VirtualBoundaries.Select(t => t.VirtualBoundaryType).Contains(vbType))
-                //{
-                //    if (DP.StateFlag.Has(vbType)) // if VB crossing flagged
-                //    {
-                //        //todo: revisit performance of the bitwise operations
-                //        DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                //        History.AddDPToHistory(DP);
-                //    }
-                //}
-                //else // VB is not active, so have to check tissue boundary crossings
-                //{
-                //    if (DP.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) ||
-                //        DP.StateFlag.Has(PhotonStateType.PseudoTransmittedTissueBoundary))
-                //    {
-                //        DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                //        History.AddDPToHistory(DP);
-                //    }
-                //}
-
-            //}
+            TestWeightAndDistance();         
+            // if VB crossing flagged
+            if (DP.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary)  ||
+                DP.StateFlag.Has(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
+                DP.StateFlag.Has(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary))
+            {
+                //todo: revisit performance of the bitwise operations
+                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                History.AddDPToHistory(DP);
+            }
         }
         public void TestWeightAndDistance()
         {

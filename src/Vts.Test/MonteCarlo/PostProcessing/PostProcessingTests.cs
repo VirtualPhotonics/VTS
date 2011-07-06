@@ -57,6 +57,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints },
                     true, // compute Second Moment
+                    false, // track statistics
                     1),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),

@@ -46,6 +46,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                      new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
                      //null,
                      true,
+                    false, // track statistics
                      0);
             var source = new DirectionalPointSourceInput(
                      new Position(0.0, 0.0, 0.0),

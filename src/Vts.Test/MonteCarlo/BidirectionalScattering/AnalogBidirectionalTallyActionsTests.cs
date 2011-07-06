@@ -20,10 +20,12 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
     public class AnalogBidirectionalTallyActionsTests
     {
         Output _output;
+        SimulationInput _input;
         Double _slabThickness = 10;
         Double _mua = 0.01;
         Double _musp = 0.198;  // mus = 0.99
         Double _g = 0.8;
+        SimulationStatistics _simulationStatistics;
 
         /// <summary>
         /// Setup input to the MC, SimulationInput, and execute MC
@@ -31,7 +33,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
         [TestFixtureSetUp]
         public void execute_Monte_Carlo()
         {
-            var input = new SimulationInput(
+            _input = new SimulationInput(
                 10000, // number needed to get enough photons to Td 
                 "Output",
                 new SimulationOptions(
@@ -39,8 +41,9 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Analog, 
                     PhaseFunctionType.Bidirectional,
-                    null, 
-                    true,
+                    null, // databases to be written
+                    true, // tally 2nd moment
+                    true, // track statistics
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -68,7 +71,9 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     new ATotalDetectorInput()
                 }
             );
-            _output = new MonteCarloSimulation(input).Run();
+            _output = new MonteCarloSimulation(_input).Run();
+
+            _simulationStatistics = SimulationStatistics.FromFile("statistics");
         }
 
         // todo: add analytic variance and use this for error bounds
@@ -123,6 +128,14 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
         public void validate_bidirectional_analog_detector_sum_equals_one()
         {
             Assert.Less(Math.Abs(_output.Rd + _output.Atot + _output.Td - 1.0), 0.1);
+        }
+        // validate statistics against tallies
+        [Test]
+        public void validate_Analog_Statistics()
+        {
+            Assert.Less(Math.Abs((double)_simulationStatistics.NumberOfPhotonsOutTopOfTissue / _input.N - _output.Rd), 1e-6);
+            Assert.Less(Math.Abs((double)_simulationStatistics.NumberOfPhotonsOutBottomOfTissue / _input.N - _output.Td), 1e-6);
+            //Assert.Less(Math.Abs((double)_simulationStatistics.NumberOfPhotonsAbsorbed / _input.N - _output.Atot), 1e-6);
         }
     }
 }

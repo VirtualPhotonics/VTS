@@ -22,6 +22,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     {
         private Output _output;
         private double _factor;
+        private SimulationStatistics _simulationStatistics;
 
         /// <summary>
         /// Setup input to the MC, SimulationInput, and execute MC
@@ -39,6 +40,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     PhaseFunctionType.HenyeyGreenstein,
                     null, 
                     true, // tally SecondMoment
+                    true, // track statistics
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -92,6 +94,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 });
 
             _output = new MonteCarloSimulation(input).Run();
+
+            _simulationStatistics = SimulationStatistics.FromFile("statistics");
 
             _factor = 1.0 - Optics.Specular(
                             input.TissueInput.Regions[0].RegionOP.N,
@@ -202,6 +206,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_Analog_ROfXAndY()
         {
             Assert.Less(Math.Abs(_output.R_xy[198, 201] * _factor - 0.0097222222), 0.0000000001);
+        }
+        // statistics
+        [Test]
+        public void validate_Analog_Statistics()
+        {
+            Assert.IsTrue(_simulationStatistics.NumberOfPhotonsOutTopOfTissue == 69);
+            Assert.IsTrue(_simulationStatistics.NumberOfPhotonsOutBottomOfTissue == 2);
+            Assert.IsTrue(_simulationStatistics.NumberOfPhotonsAbsorbed == 29);
         }
     }
 }

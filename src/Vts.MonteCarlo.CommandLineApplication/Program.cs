@@ -258,6 +258,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                      new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
                 //null,
                      true, // tally Second Moment
+                    false, // track statistics
                      0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),

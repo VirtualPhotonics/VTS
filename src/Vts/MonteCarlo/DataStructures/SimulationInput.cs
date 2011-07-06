@@ -93,6 +93,7 @@ namespace Vts.MonteCarlo
                     PhaseFunctionType.HenyeyGreenstein,
                     null, // databases written
                     true, // compute Second Moment
+                    false, // track statistics
                     0),
                 new DirectionalPointSourceInput(),
                     

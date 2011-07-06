@@ -9,24 +9,24 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// <summary>
     /// Implements IVirtualBoundary.  Used to capture specular reflectance detectors
     /// </summary>
-    public class SpecularReflectanceVirtualBoundary : IVirtualBoundary
+    public class DosimetryVirtualBoundary : IVirtualBoundary
     {
         private double _zPlanePosition;
 
         /// <summary>
-        /// Creates an instance of specular virtual boundary 
+        /// Creates an instance of a plane tranmission virtual boundary in direction given
         /// </summary>
-        public SpecularReflectanceVirtualBoundary(ITissue tissue, IList<IDetector> detectors, string name)
+        public DosimetryVirtualBoundary(double zLocation, IList<IDetector> detectors, string name)
         {
-            _zPlanePosition = ((LayerRegion)tissue.Regions[0]).ZRange.Stop;
+            _zPlanePosition = zLocation;
 
             WillHitBoundary = dp =>
                         dp.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) &&
-                        dp.Direction.Uz < 0 &&
+                        dp.Direction.Uz > 0 &&
                         Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
-            VirtualBoundaryType = VirtualBoundaryType.SpecularReflectance;
-            PhotonStateType = PhotonStateType.PseudoSpecularReflectanceVirtualBoundary;
+            VirtualBoundaryType = VirtualBoundaryType.Dosimetry;
+            PhotonStateType = PhotonStateType.PseudoDosimetryVirtualBoundary;
 
             DetectorController = DetectorControllerFactory.GetStandardDetectorController(detectors);
 
@@ -34,9 +34,10 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         }       
 
         ///// <summary>
-        ///// Creates a default instance of a SpecularVB 
+        ///// Creates a default instance of a DosimetryVB based on a plane at z=0, 
+        ///// exiting tissue (in direction of z decreasing)
         ///// </summary>
-        //public SpecularReflectanceVirtualBoundary() 
+        //public DosimetryVirtualBoundary() 
         //    : this(null, null, null)
         //{
         //}
@@ -56,13 +57,13 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             double distanceToBoundary = double.PositiveInfinity;
 
             // check if VB not applied
-            if (!dp.StateFlag.Has(PhotonStateType.PseudoSpecularTissueBoundary) ||
-                dp.Direction.Uz >= 0.0)
+            if (!dp.StateFlag.Has(PhotonStateType.PseudoDosimetryTissueBoundary) ||
+                dp.Direction.Uz <= 0.0)
             {
                 return distanceToBoundary;
             }
             // VB applies
-            distanceToBoundary = (_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;
+            distanceToBoundary = Math.Abs(_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;
           
             return distanceToBoundary;
         }

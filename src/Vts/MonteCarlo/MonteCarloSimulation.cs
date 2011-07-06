@@ -20,7 +20,8 @@ namespace Vts.MonteCarlo
         private ITissue _tissue;
         private DetectorController _detectorController;
         private VirtualBoundaryController _virtualBoundaryController;
-        private long numberOfPhotons;
+        private long _numberOfPhotons;
+        private SimulationStatistics _simulationStatistics;
 
         protected SimulationInput _input;
         private Random _rng;
@@ -40,10 +41,13 @@ namespace Vts.MonteCarlo
                 throw new ArgumentException(result.ValidationRule + (!string.IsNullOrEmpty(result.Remarks) ? "; " + result.Remarks : ""));
             }
 
-            numberOfPhotons = input.N;
+            _numberOfPhotons = input.N;
 
             WRITE_DATABASES = input.Options.WriteDatabases; // modified ckh 4/9/11
             ABSORPTION_WEIGHTING = input.Options.AbsorptionWeightingType; // CKH add 12/14/09
+            TRACK_STATISTICS = input.Options.TrackStatistics;
+            if (TRACK_STATISTICS)
+                _simulationStatistics = new SimulationStatistics();
 
             _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                 input.Options.RandomNumberGeneratorType, input.Options.Seed);
@@ -73,6 +77,7 @@ namespace Vts.MonteCarlo
         private IList<DatabaseType> WRITE_DATABASES { get; set; }  // modified ckh 4/9/11
         private AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
         public PhaseFunctionType PHASE_FUNCTION { get; set; }
+        private bool TRACK_STATISTICS { get; set; }
 
         public Output Results { get; private set; }
 
@@ -92,7 +97,6 @@ namespace Vts.MonteCarlo
 
             ExecuteMCLoop();
 
-            // todo: consider statistics, other checks for reporting. SimulationOutput class?
             Results = new Output(_input, _detectorController.Detectors);
 
             ReportResults();
@@ -124,12 +128,12 @@ namespace Vts.MonteCarlo
                     }
                 }
 
-                for (long n = 1; n <= numberOfPhotons; n++)
+                for (long n = 1; n <= _numberOfPhotons; n++)
                 {
                     // todo: bug - num photons is assumed to be over 10 :)
-                    if (n % (numberOfPhotons / 10) == 0)
+                    if (n % (_numberOfPhotons / 10) == 0)
                     {
-                        DisplayStatus(n, numberOfPhotons);
+                        DisplayStatus(n, _numberOfPhotons);
                     }
 
                     var photon = _source.GetNextPhoton(_tissue);
@@ -184,6 +188,11 @@ namespace Vts.MonteCarlo
 
                     _virtualBoundaryController.TallyToHistoryDetectors(photon.History);
 
+                    if (TRACK_STATISTICS)
+                    {
+                        _simulationStatistics.TrackStatistics(photon.History);
+                    }
+
                 } /* end of for n loop */
             }
             finally
@@ -193,7 +202,11 @@ namespace Vts.MonteCarlo
             }
 
             // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
-            _detectorController.NormalizeDetectors(numberOfPhotons);
+            _detectorController.NormalizeDetectors(_numberOfPhotons);
+            if (TRACK_STATISTICS)
+            {
+                _simulationStatistics.ToFile("statistics");
+            }
         }
 
         private BoundaryHitType Move(Photon photon)

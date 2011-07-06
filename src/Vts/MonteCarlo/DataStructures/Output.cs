@@ -1,9 +1,6 @@
 using System;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Numerics;
-using Vts.IO;
 using System.Collections.Generic;
 using Vts.MonteCarlo.Detectors;
 

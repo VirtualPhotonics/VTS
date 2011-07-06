@@ -24,6 +24,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     PhaseFunctionType.HenyeyGreenstein,
                     null, // databases generated
                     true, // compute Second Moment
+                    false, // track statistics
                     1),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),

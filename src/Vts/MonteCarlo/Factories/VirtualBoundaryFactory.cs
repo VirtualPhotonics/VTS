@@ -41,6 +41,10 @@ namespace Vts.MonteCarlo.Factories
                         tallyType == TallyType.AOfRhoAndZ ||
                         tallyType == TallyType.ATotal;
 
+                case VirtualBoundaryType.Dosimetry:
+                    return
+                        tallyType == TallyType.DosimetryOfRho;
+
                 default:
                     throw new ArgumentOutOfRangeException(tallyType.ToString());
             }

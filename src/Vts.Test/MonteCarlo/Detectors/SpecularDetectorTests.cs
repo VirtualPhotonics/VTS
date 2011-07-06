@@ -37,6 +37,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     PhaseFunctionType.HenyeyGreenstein,
                     null, 
                     true, // tally SecondMoment
+                    false, // track statistics
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),

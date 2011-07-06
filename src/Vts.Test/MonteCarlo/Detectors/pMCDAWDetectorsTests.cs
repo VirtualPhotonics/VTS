@@ -142,7 +142,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
                 new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },  // write histories 
-                true,
+                true, // tally 2nd moment
+                false, // track statistics
                 0);
             var sourceInput = new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),

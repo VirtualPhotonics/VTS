@@ -166,7 +166,9 @@
     </Compile>
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
     <Compile Include="MonteCarlo\Controllers\VirtualBoundaryController.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SimulationStatistics.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs" />
+    <Compile Include="MonteCarlo\Detectors\DosimetryOfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RSpecularDetector.cs" />
     <Compile Include="MonteCarlo\Factories\VirtualBoundaryControllerFactory.cs" />
     <Compile Include="MonteCarlo\Factories\VirtualBoundaryFactory.cs" />
@@ -416,6 +418,8 @@
     <Compile Include="MonteCarlo\Tissues\SingleEllipsoidTissue.cs" />
     <Compile Include="MonteCarlo\Tissues\TissueBase.cs" />
     <Compile Include="MonteCarlo\Tissues\VoxelRegion.cs" />
+    <Compile Include="MonteCarlo\StatisticsExtensions.cs" />
+    <Compile Include="MonteCarlo\VirtualBoundaries\DosimetryVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs" />

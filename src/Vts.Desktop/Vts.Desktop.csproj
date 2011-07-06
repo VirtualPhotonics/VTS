@@ -541,6 +541,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs">
       <Link>MonteCarlo\DataStructures\SimulationOptions.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationStatistics.cs">
+      <Link>MonteCarlo\DataStructures\SimulationStatistics.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\CustomLineSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\CustomLineSourceInput.cs</Link>
     </Compile>
@@ -615,6 +618,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ATotalDetector.cs">
       <Link>MonteCarlo\Detectors\ATotalDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\DosimetryOfRhoDetector.cs">
+      <Link>MonteCarlo\Detectors\DosimetryOfRhoDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs</Link>
@@ -937,6 +943,9 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumetricEllipsoidalSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\VolumetricEllipsoidalSourceBase.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\StatisticsExtensions.cs">
+      <Link>MonteCarlo\StatisticsExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\CylinderRegion.cs">
       <Link>MonteCarlo\Tissues\CylinderRegion.cs</Link>
     </Compile>
@@ -966,6 +975,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DosimetryVirtualBoundary.cs">
+      <Link>MonteCarlo\VirtualBoundaries\DosimetryVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs</Link>

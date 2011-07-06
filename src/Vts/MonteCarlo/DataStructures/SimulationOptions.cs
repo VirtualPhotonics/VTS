@@ -18,6 +18,7 @@ namespace Vts.MonteCarlo
             PhaseFunctionType phaseFunctionType,
             IList<DatabaseType> writeDatabases,
             bool tallySecondMoment,
+            bool trackStatistics,
             int simulationIndex)
         {
             RandomNumberGeneratorType = rngType;
@@ -31,12 +32,14 @@ namespace Vts.MonteCarlo
             SimulationIndex = simulationIndex;
             WriteDatabases = writeDatabases;
             TallySecondMoment = tallySecondMoment;
+            TrackStatistics = trackStatistics;
         }
 
         public RandomNumberGeneratorType RandomNumberGeneratorType { get; set; }
         public AbsorptionWeightingType AbsorptionWeightingType { get; set; }
         public PhaseFunctionType PhaseFunctionType { get; set; }
         public bool TallySecondMoment { get; set; }
+        public bool TrackStatistics { get; set; }
         public int Seed { get; set; }
         public int SimulationIndex { get; set; }
 
@@ -50,8 +53,9 @@ namespace Vts.MonteCarlo
                 rngType, 
                 absWeightingType, 
                 PhaseFunctionType.HenyeyGreenstein, 
-                null, 
-                true,
+                null, // databases to be written
+                true, // tally 2nd moment
+                false, // track statistics
                 0) { }
 
         public SimulationOptions(int seed)
@@ -61,6 +65,7 @@ namespace Vts.MonteCarlo
                 PhaseFunctionType.HenyeyGreenstein, 
                 null, 
                 true,
+                false,
                 0) { }
 
         public SimulationOptions()
@@ -70,6 +75,7 @@ namespace Vts.MonteCarlo
                 PhaseFunctionType.HenyeyGreenstein,
                 null, 
                 true,
+                false,
                 0) { }
 
         public static int GetRandomSeed()  // ckh 12/15/09 made this public so Photon can see
