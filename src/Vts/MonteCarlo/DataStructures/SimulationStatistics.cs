@@ -9,10 +9,23 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class SimulationStatistics
     {
-        public SimulationStatistics()
+        public SimulationStatistics(
+            long numberOfPhotonsOutTopOfTissue,
+            long numberOfPhotonsOutBottomOfTissue,
+            long numberOfPhotonsAbsorbed,
+            long numberOfPhotonsKilledOverMaximumPathLength,
+            long numberOfPhotonsKilledOverMaximumCollisions,
+            long numberOfPhotonsKilledByRussianRoulette)
         {
-
+            NumberOfPhotonsOutTopOfTissue = numberOfPhotonsOutTopOfTissue;
+            NumberOfPhotonsOutBottomOfTissue = numberOfPhotonsOutBottomOfTissue;
+            NumberOfPhotonsAbsorbed = numberOfPhotonsAbsorbed;
+            NumberOfPhotonsKilledOverMaximumPathLength = numberOfPhotonsKilledOverMaximumPathLength;
+            NumberOfPhotonsKilledOverMaximumCollisions = numberOfPhotonsKilledOverMaximumCollisions;
+            NumberOfPhotonsKilledByRussianRoulette = numberOfPhotonsKilledByRussianRoulette;
         }
+
+        public SimulationStatistics() : this(0, 0, 0, 0, 0, 0) { }
 
         public long NumberOfPhotonsOutTopOfTissue { get; set; }
         public long NumberOfPhotonsOutBottomOfTissue { get; set; }
