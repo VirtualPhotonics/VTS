@@ -73,7 +73,8 @@ namespace Vts.MonteCarlo.Controllers
             //var lastDP = history.HistoryData.Last();
             foreach (var vb in _virtualBoundaries)
             {
-                if (vb.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary)  
+                if ((vb.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary) ||
+                    (vb.VirtualBoundaryType == VirtualBoundaryType.Dosimetry))
                 {
                     _historyDetectors =
                         (from detector in vb.DetectorController.Detectors

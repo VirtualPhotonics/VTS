@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
@@ -16,9 +18,11 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <summary>
         /// Creates an instance of a plane tranmission virtual boundary in direction given
         /// </summary>
-        public DosimetryVirtualBoundary(double zLocation, IList<IDetector> detectors, string name)
+        public DosimetryVirtualBoundary(IList<IDetector> detectors, string name)
         {
-            _zPlanePosition = zLocation;
+            IDetector dosimetryDetector = detectors.Where(d => d.TallyType == TallyType.DosimetryOfRho).First();
+
+            _zPlanePosition = ((DosimetryOfRhoDetector)dosimetryDetector).ZDepth;
 
             WillHitBoundary = dp =>
                         dp.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) &&

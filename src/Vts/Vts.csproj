@@ -166,6 +166,7 @@
     </Compile>
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
     <Compile Include="MonteCarlo\Controllers\VirtualBoundaryController.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DosimetryOfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationStatistics.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs" />
     <Compile Include="MonteCarlo\Detectors\DosimetryOfRhoDetector.cs" />

@@ -478,6 +478,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ATotalDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\ATotalDetectorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\DosimetryOfRhoDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\DosimetryOfRhoDetectorInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZAndTimeDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZAndTimeDetectorInput.cs</Link>
     </Compile>

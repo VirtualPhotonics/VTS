@@ -66,6 +66,7 @@ namespace Vts.MonteCarlo.Detectors
                 case TallyType.AOfRhoAndZ:
                 case TallyType.ATotal:
                 case TallyType.MomentumTransferOfRhoAndZ:
+                case TallyType.DosimetryOfRho:
                     return true;
                 default:
                     return false;

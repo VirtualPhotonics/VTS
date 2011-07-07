@@ -81,7 +81,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
                     new TOfRhoAndAngleDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 2))
+                        new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new DosimetryOfRhoDetectorInput(
+                        5.5, // z depth
+                        new DoubleRange(0.0, 10.0, 101))
                 };
             var inputOneLayerTissue = new SimulationInput(
                 100,
@@ -243,5 +246,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[198, 201] * _factor - 0.00825301), 0.00000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[198, 201] * _factor - 0.00825301), 0.00000001);
         }
+        // Dosimetry(rho)
+        //[Test]
+        //public void validate_DAW_DosimetryOfRho()
+        //{
+        // need radiance detector to compare results
+        //    Assert.Less(Math.Abs(_outputOneLayerTissue.Dos_r[0] - _outputOneLayerTissue.Flu_rz[0, 5]), 0.0000001); 
+        //}
     }
 }

@@ -74,6 +74,10 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.ATotal:
                     var ainput = (ATotalDetectorInput)detectorInput;
                     return new ATotalDetector(tissue, tallySecondMoment, ainput.Name);
+
+                case TallyType.DosimetryOfRho:
+                    var drinput = (DosimetryOfRhoDetectorInput)detectorInput;
+                    return new DosimetryOfRhoDetector(drinput.ZDepth, drinput.Rho, tissue, tallySecondMoment, drinput.Name);
             }
         }
 

@@ -94,11 +94,6 @@ namespace Vts.MonteCarlo.Factories
             VirtualBoundaryType vbType, ITissue tissue, IList<IDetector> vbDetectors)
         {
             IVirtualBoundary vb = null;
-            // ckh's attempt to fix problem above, doesn't work
-            //if (vbDetectors.Count == 0)
-            //{
-            //    return vb;
-            //}
 
             // todo: predicate defines 
             switch (vbType)
@@ -119,6 +114,10 @@ namespace Vts.MonteCarlo.Factories
                 case VirtualBoundaryType.GenericVolumeBoundary:
                     vb = new GenericVolumeVirtualBoundary(
                         tissue, vbDetectors, VirtualBoundaryType.GenericVolumeBoundary.ToString());
+                    break;
+                case VirtualBoundaryType.Dosimetry:
+                    vb = new DosimetryVirtualBoundary( 
+                        vbDetectors, VirtualBoundaryType.Dosimetry.ToString());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Virtual boundary type not recognized: " + vbType);
