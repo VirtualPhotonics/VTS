@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Vts.Fem.MGRTE._2D.DataStructures;
+using Vts.FemModeling.MGRTE._2D.DataStructures;
 
 
-namespace Vts.Fem.MGRTE._2D
+namespace Vts.FemModeling.MGRTE._2D
 {
     class ReadFiles
     {

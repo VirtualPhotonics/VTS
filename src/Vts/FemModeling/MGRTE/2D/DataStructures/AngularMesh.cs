@@ -1,4 +1,4 @@
-﻿namespace Vts.Fem.MGRTE._2D.DataStructures
+﻿namespace Vts.FemModeling.MGRTE._2D.DataStructures
 {
     public struct AngularMesh  // angular mesh  
     {

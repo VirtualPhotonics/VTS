@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Vts.Fem.MGRTE._2D.DataStructures;
+using Vts.FemModeling.MGRTE._2D.DataStructures;
 
-namespace Vts.Fem.MGRTE._2D
+namespace Vts.FemModeling.MGRTE._2D
 {
     /// <summary>
     /// This class contains numerical algorithms required to solve MG-RTE. 

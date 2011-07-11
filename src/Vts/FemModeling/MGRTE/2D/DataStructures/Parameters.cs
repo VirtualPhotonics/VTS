@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Vts.Fem.MGRTE._2D
+namespace Vts.FemModeling.MGRTE._2D
 {
     public class Parameters : BindableObject
     {

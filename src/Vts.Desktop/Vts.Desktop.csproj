@@ -241,50 +241,50 @@
     <Compile Include="..\Vts\Factories\SolverFactory.cs">
       <Link>Factories\SolverFactory.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\AngularMesh.cs">
-      <Link>Fem\MGRTE\2D\DataStructures\AngularMesh.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\AngularMesh.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\AngularMesh.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\BoundaryCoupling.cs">
-      <Link>Fem\MGRTE\2D\DataStructures\BoundaryCoupling.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\BoundaryCoupling.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\BoundaryCoupling.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\LightSource.cs">
-      <Link>Fem\MGRTE\2D\DataStructures\LightSource.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\LightSource.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\LightSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\Measurement.cs">
-      <Link>Fem\MGRTE\2D\DataStructures\Measurement.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Measurement.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\Measurement.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\Output.cs">
-      <Link>Fem\MGRTE\2D\DataStructures\Output.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Output.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\Output.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\Parameters.cs">
-      <Link>Fem\MGRTE\2D\DataStructures\Parameters.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Parameters.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\Parameters.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\DataStructures\SpatialMesh.cs">
-      <Link>Fem\MGRTE\2D\DataStructures\SpatialMesh.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SpatialMesh.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\SpatialMesh.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\Enums.cs">
-      <Link>Fem\MGRTE\2D\Enums.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Enums.cs">
+      <Link>FemModeling\MGRTE\2D\Enums.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\Initialization.cs">
-      <Link>Fem\MGRTE\2D\Initialization.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Initialization.cs">
+      <Link>FemModeling\MGRTE\2D\Initialization.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\IO\ParametersIO.cs">
-      <Link>Fem\MGRTE\2D\IO\ParametersIO.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\IO\ParametersIO.cs">
+      <Link>FemModeling\MGRTE\2D\IO\ParametersIO.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\IO\ReadFiles.cs">
-      <Link>Fem\MGRTE\2D\IO\ReadFiles.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\IO\ReadFiles.cs">
+      <Link>FemModeling\MGRTE\2D\IO\ReadFiles.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\IO\Source.cs">
-      <Link>Fem\MGRTE\2D\IO\Source.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\IO\Source.cs">
+      <Link>FemModeling\MGRTE\2D\IO\Source.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\MathFunctions.cs">
-      <Link>Fem\MGRTE\2D\MathFunctions.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\MathFunctions.cs">
+      <Link>FemModeling\MGRTE\2D\MathFunctions.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\MultiGridCycle.cs">
-      <Link>Fem\MGRTE\2D\MultiGridCycle.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\MultiGridCycle.cs">
+      <Link>FemModeling\MGRTE\2D\MultiGridCycle.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Fem\MGRTE\2D\SolverMGRTE.cs">
-      <Link>Fem\MGRTE\2D\SolverMGRTE.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\SolverMGRTE.cs">
+      <Link>FemModeling\MGRTE\2D\SolverMGRTE.cs</Link>
     </Compile>
     <Compile Include="..\Vts\IO\ArrayCustomBinaryReader.cs">
       <Link>IO\ArrayCustomBinaryReader.cs</Link>
