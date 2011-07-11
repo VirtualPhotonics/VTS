@@ -11,15 +11,15 @@ namespace Vts.MonteCarlo.Detectors
 {
     [KnownType(typeof(DosimetryOfRhoDetector))]
     /// <summary>
-    /// Implements IHistoryTally<double[]>.  Tally for dosimetry as a function 
+    /// Implements ISurfaceTally<double[]>.  Tally for dosimetry as a function 
     /// of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     /// 
     
-    public class DosimetryOfRhoDetector : IHistoryDetector<double[]>
+    public class DosimetryOfRhoDetector : ISurfaceDetector<double[]>
     {
-        private Func<double, PhotonDataPoint, double> _absorbAction;
+        private Func<PhotonDataPoint, double> _absorbAction;
         
         private bool _tallySecondMoment;
         private ITissue _tissue;
@@ -96,52 +96,37 @@ namespace Vts.MonteCarlo.Detectors
                     throw new ArgumentException("AbsorptionWeightingType not set");
             }
         }
-        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
+        public void Tally(PhotonDataPoint dp)
         {
-            // check if two DPs pass through ZDepth plane in downward direction
-            if ((previousDP.Position.Z < ZDepth) && (dp.Position.Z > ZDepth))
-            {
-                // determine x,y intercept with plane
-                 var s = (ZDepth - previousDP.Position.Z) / (dp.Position.Z - previousDP.Position.Z);
-                _xIntercept = previousDP.Position.X + (dp.Position.X - previousDP.Position.X) * s;
-                _yIntercept = previousDP.Position.Y = (dp.Position.Y - previousDP.Position.Y) * s;
+            // update weight
+            var weight = _absorbAction(
+                dp);
 
-                // update weight
-                var weight = _absorbAction(
-                    _ops[_tissue.GetRegionIndex(dp.Position)].Mua,
-                    previousDP);
-
-                var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(_xIntercept, _yIntercept), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
                 
-                // update tally
-                Mean[ir] += weight;
-                if (_tallySecondMoment)
-                {
-                    SecondMoment[ir] += weight * weight;
-                }
-                TallyCount++;
+            // update tally
+            Mean[ir] += weight;
+            if (_tallySecondMoment)
+            {
+                SecondMoment[ir] += weight * weight;
             }
-
+            TallyCount++;
+        }
+         
+        // need to check following Absorb actions
+        private double AbsorbAnalog(PhotonDataPoint dp)
+        {
+            return dp.Weight;
         }
 
-        private double AbsorbAnalog(double mua, PhotonDataPoint previousDP)
+        private double AbsorbDiscrete(PhotonDataPoint dp)
         {
-            return previousDP.Weight;
+            return dp.Weight;
         }
 
-        private double AbsorbDiscrete(double mua, PhotonDataPoint previousDP)
+        private double AbsorbContinuous(PhotonDataPoint dp)
         {
-            return previousDP.Weight;
-        }
-
-        private double AbsorbContinuous(double mua, PhotonDataPoint previousDP)
-        {
-            // determine length of track portion from previousDP to intersection with ZDepth        
-            var partialTrackLength = Math.Sqrt(
-                (_xIntercept - previousDP.Position.X) * (_xIntercept - previousDP.Position.X) +
-                (_yIntercept - previousDP.Position.Y) * (_yIntercept - previousDP.Position.Y) +
-                (ZDepth - previousDP.Position.Z) * (ZDepth - previousDP.Position.Z));
-            return previousDP.Weight * Math.Exp(-mua * partialTrackLength);
+            return dp.Weight;
         }
         public void Normalize(long numPhotons)
         {

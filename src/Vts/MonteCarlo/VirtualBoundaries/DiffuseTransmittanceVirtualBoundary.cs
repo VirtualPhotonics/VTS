@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <summary>
         /// Creates an instance of a plane tranmission virtual boundary in direction given
         /// </summary>
-        public DiffuseTransmittanceVirtualBoundary(ITissue tissue, IList<IDetector> detectors, string name)
+        public DiffuseTransmittanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             _zPlanePosition = ((LayerRegion)tissue.Regions[tissue.Regions.Count - 1]).ZRange.Start;
 
@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             VirtualBoundaryType = VirtualBoundaryType.DiffuseTransmittance;
             PhotonStateType = PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary;
 
-            DetectorController = DetectorControllerFactory.GetStandardDetectorController(detectors);
+            DetectorController = (ISurfaceDetectorController)detectorController;
 
             Name = name;
         }       
@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         public PhotonStateType PhotonStateType { get; private set; }
         public string Name { get; private set; }
         public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
-        public IDetectorController DetectorController { get; private set; }
+        public ISurfaceDetectorController DetectorController { get; private set; }
 
         /// <summary>
         /// Finds the distance to the virtual boundary given direction of VB and photon

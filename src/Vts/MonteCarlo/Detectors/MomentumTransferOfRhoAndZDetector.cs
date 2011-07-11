@@ -11,7 +11,7 @@ namespace Vts.MonteCarlo.Detectors
     /// <summary>
     /// Implements IHistoryTally<double[,]>.  Tally for MomentumTransfer(rho,z).
     /// </summary>
-    public class MomentumTransferOfRhoAndZDetector : IHistoryDetector<double[,]>
+    public class MomentumTransferOfRhoAndZDetector : IVolumeDetector<double[,]>
     {
         private bool _tallySecondMoment;
 

@@ -47,6 +47,11 @@ namespace Vts.MonteCarlo
         GenericVolumeBoundary,
         Dosimetry,
     }
+    //public enum VirtualBoundaryGroupType
+    //{
+    //    SurfaceBoundaryGroup,
+    //    GenericVolumeGroup,
+    //}
     public enum BoundaryHitType
     {
         None,

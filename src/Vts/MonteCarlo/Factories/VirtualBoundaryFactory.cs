@@ -56,42 +56,43 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public class VirtualBoundaryFactory
     {
-        /// <summary>
-        /// This static method instantiates a list of virtual boundaries given a list of detector.
-        /// If the VB is not already instantiated, it is created and the appropriate detectors are 
-        /// deposited into it.  
-        /// </summary>
-        /// <param name="detectors"></param>
-        /// <returns></returns>
-        public static IList<IVirtualBoundary> GetVirtualBoundaries(
-            IList<IDetector> detectors,
-            ITissue tissue)
-        {
-            // this sql returns all VBs even when only RSpecularDetector in detectors
-            //var virtualBoundaries =
-            //    from vb in EnumHelper.GetValues<VirtualBoundaryType>() // for each virtual boundary type
-            //    where detectors.Select(d => d.TallyType.AppliesToBoundary(vb)).First()  // where any detectors apply
-            //    let vbDetectors = detectors.Where(d => d.TallyType.AppliesToBoundary(vb)).ToList() // gather the appropriate detectors
-            //    select GetVirtualBoundary(vb, tissue, vbDetectors); // and instantiate the vb with the appropriate detectors
+        // This method is obsolete for now but may be handy in future
+        ///// <summary>
+        ///// This static method instantiates a list of virtual boundaries given a list of detector.
+        ///// If the VB is not already instantiated, it is created and the appropriate detectors are 
+        ///// deposited into it.  
+        ///// </summary>
+        ///// <param name="detectors"></param>
+        ///// <returns></returns>
+        //public static IList<IVirtualBoundary> GetVirtualBoundaries(
+        //    IList<IDetector> detectors,
+        //    ITissue tissue)
+        //{
+        //    // this sql returns all VBs even when only RSpecularDetector in detectors
+        //    //var virtualBoundaries =
+        //    //    from vb in EnumHelper.GetValues<VirtualBoundaryType>() // for each virtual boundary type
+        //    //    where detectors.Select(d => d.TallyType.AppliesToBoundary(vb)).First()  // where any detectors apply
+        //    //    let vbDetectors = detectors.Where(d => d.TallyType.AppliesToBoundary(vb)).ToList() // gather the appropriate detectors
+        //    //    select GetVirtualBoundary(vb, tissue, vbDetectors); // and instantiate the vb with the appropriate detectors
 
-            var virtualBoundaries = new List<IVirtualBoundary>();
-            foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
-            {
-                bool anyDetectors = detectors.Select(d => d.TallyType.AppliesToBoundary(vbType)).Any();
-                IList<IDetector> vbDetectors = detectors.Where(d => d.TallyType.AppliesToBoundary(vbType)).ToList();
-                if (anyDetectors && (vbDetectors.Count > 0))
-                {
-                    var vb = GetVirtualBoundary(vbType, tissue, vbDetectors);
-                    if (vb != null)
-                        virtualBoundaries.Add(vb);
-                }
+        //    var virtualBoundaries = new List<IVirtualBoundary>();
+        //    foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
+        //    {
+        //        bool anyDetectors = detectors.Select(d => d.TallyType.AppliesToBoundary(vbType)).Any();
+        //        IList<IDetector> vbDetectors = detectors.Where(d => d.TallyType.AppliesToBoundary(vbType)).ToList();
+        //        if (anyDetectors && (vbDetectors.Count > 0))
+        //        {
+        //            var vb = GetVirtualBoundary(vbType, tissue, vbDetectors);
+        //            if (vb != null)
+        //                virtualBoundaries.Add(vb);
+        //        }
 
-            }
-            return virtualBoundaries.ToList();
-        }
+        //    }
+        //    return virtualBoundaries.ToList();
+        //}
 
         public static IVirtualBoundary GetVirtualBoundary(
-            VirtualBoundaryType vbType, ITissue tissue, IList<IDetector> vbDetectors)
+            VirtualBoundaryType vbType, ITissue tissue, IDetectorController detectorController)
         {
             IVirtualBoundary vb = null;
 
@@ -100,24 +101,24 @@ namespace Vts.MonteCarlo.Factories
             {
                 case VirtualBoundaryType.DiffuseReflectance:
                     vb = new DiffuseReflectanceVirtualBoundary(
-                        tissue, vbDetectors, VirtualBoundaryType.DiffuseReflectance.ToString());
+                        tissue, detectorController, VirtualBoundaryType.DiffuseReflectance.ToString());
                     break;
                 case VirtualBoundaryType.DiffuseTransmittance:
                     vb = new DiffuseTransmittanceVirtualBoundary(
-                        tissue, vbDetectors, VirtualBoundaryType.DiffuseTransmittance.ToString());
+                        tissue, detectorController, VirtualBoundaryType.DiffuseTransmittance.ToString());
                     break;
-                case VirtualBoundaryType.SpecularReflectance: 
+                case VirtualBoundaryType.SpecularReflectance:
                     // reflecting off first layer without transporting in medium
                     vb = new SpecularReflectanceVirtualBoundary(
-                         tissue, vbDetectors, VirtualBoundaryType.SpecularReflectance.ToString());
+                         tissue, detectorController, VirtualBoundaryType.SpecularReflectance.ToString());
+                    break;
+                case VirtualBoundaryType.Dosimetry:
+                    vb = new DosimetryVirtualBoundary(
+                        detectorController, VirtualBoundaryType.Dosimetry.ToString());
                     break;
                 case VirtualBoundaryType.GenericVolumeBoundary:
                     vb = new GenericVolumeVirtualBoundary(
-                        tissue, vbDetectors, VirtualBoundaryType.GenericVolumeBoundary.ToString());
-                    break;
-                case VirtualBoundaryType.Dosimetry:
-                    vb = new DosimetryVirtualBoundary( 
-                        vbDetectors, VirtualBoundaryType.Dosimetry.ToString());
+                        tissue, detectorController, VirtualBoundaryType.GenericVolumeBoundary.ToString());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Virtual boundary type not recognized: " + vbType);

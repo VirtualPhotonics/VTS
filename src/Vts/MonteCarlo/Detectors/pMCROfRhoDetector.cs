@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Detectors
     /// as a function of Rho.
     /// </summary>
     // do I need classes pMuaInROfRhoTally and pMusInROfRhoTally?
-    public class pMCROfRhoDetector : IpMCTerminationDetector<double[]>
+    public class pMCROfRhoDetector : IpMCSurfaceDetector<double[]>
     {
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;

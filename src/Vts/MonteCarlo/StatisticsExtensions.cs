@@ -4,7 +4,7 @@ namespace Vts.MonteCarlo
 {
     public static class StatisticsExtensions
     {
-        public static void TrackStatistics(this SimulationStatistics statistics, PhotonHistory history)
+        public static void TrackDeathStatistics(this SimulationStatistics statistics, PhotonHistory history) // DP here?
         {
             if (history.HistoryData[history.HistoryData.Count - 1].StateFlag.
                 Has(PhotonStateType.PseudoReflectedTissueBoundary))

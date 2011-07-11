@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        public static bool IsTerminationTally(this TallyType tallyType)
+        public static bool IsSurfaceTally(this TallyType tallyType)
         {
             return tallyType.IsTransmittanceTally() || tallyType.IsReflectanceTally();
         }
@@ -57,7 +57,7 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        public static bool IsHistoryTally(this TallyType tallyType)
+        public static bool IsVolumeTally(this TallyType tallyType)
         {
             switch (tallyType)
             {

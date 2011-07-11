@@ -37,7 +37,8 @@ namespace Vts.Test.MonteCarlo.PostProcessing
 
             var database = PhotonDatabase.FromFile("photonExitDatabase");
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                input.DetectorInputs, false, database, onTheFlyOutput.Input);
+                input.VirtualBoundaryGroups, 
+                false, database, onTheFlyOutput.Input);
 
             ValidateROfRhoAndTime(onTheFlyOutput, postProcessedOutput);
         }
@@ -77,11 +78,16 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IVirtualBoundaryGroup>
                 {
-                    new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1, 101))
+                    new SurfaceBoundaryGroup(
+                        new List<IDetectorInput>()
+                        {
+                            new ROfRhoAndTimeDetectorInput(
+                                new DoubleRange(0.0, 10.0, 101),
+                                new DoubleRange(0.0, 1, 101))
+                        },
+                        true)
                 }
             );
         }

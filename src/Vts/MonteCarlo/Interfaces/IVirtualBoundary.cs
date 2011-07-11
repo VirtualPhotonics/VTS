@@ -10,7 +10,6 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface IVirtualBoundary
     {
-        IDetectorController DetectorController { get; }
         Predicate<PhotonDataPoint> WillHitBoundary { get; }
         double GetDistanceToVirtualBoundary(PhotonDataPoint dp);
         string Name { get; }

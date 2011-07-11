@@ -204,8 +204,6 @@ namespace Vts.MonteCarlo
                 if (_tissue.OnDomainBoundary(this) && !_firstTimeEnteringDomain)
                 {
                     DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
-                    // add updated final DP to History
-                    History.AddDPToHistory(DP);
                     // adjust CAW weight for portion of track prior to exit
                     if (Absorb == AbsorbContinuous)
                     {
@@ -351,7 +349,7 @@ namespace Vts.MonteCarlo
             History.HistoryData[index].Weight = DP.Weight;
         }
         // merge following with TestWeightAndDistance if working
-        public void TestDeath(VirtualBoundaryController vbc)
+        public void TestDeath()
         {
             TestWeightAndDistance();         
             // if VB crossing flagged

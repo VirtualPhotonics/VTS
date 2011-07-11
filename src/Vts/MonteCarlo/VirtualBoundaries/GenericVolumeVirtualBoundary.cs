@@ -2,19 +2,20 @@ using System;
 using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.Controllers;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
     /// <summary>
     /// Implements IVirtualBoundary.  Used to capture all internal volume detectors
     /// </summary>
-    public class GenericVolumeVirtualBoundary : IVirtualBoundary
+    public class GenericVolumeVirtualBoundary : IVolumeVirtualBoundary
     {
-        private IDetectorController _detectorController;
+        private IVolumeDetectorController _detectorController;
         /// <summary>
         /// Creates an instance of a volume virtual boundary
         /// </summary>
-        public GenericVolumeVirtualBoundary(ITissue tissue, IList<IDetector> detectors, string name)
+        public GenericVolumeVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             //_zPlanePosition = ((LayerRegion)tissue.Regions[0]).ZRange.Stop;
 
@@ -26,7 +27,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             VirtualBoundaryType = VirtualBoundaryType.GenericVolumeBoundary;
             PhotonStateType = PhotonStateType.PseudoGenericVirtualBoundary;
 
-            DetectorController = DetectorControllerFactory.GetStandardDetectorController(detectors);
+            DetectorController = (IVolumeDetectorController)detectorController;
 
             Name = name;
         }      
@@ -43,7 +44,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         public PhotonStateType PhotonStateType { get; private set; }
         public string Name { get; private set; }
         public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
-        public IDetectorController DetectorController { get; private set; }
+        public IVolumeDetectorController DetectorController { get; private set; }
 
         /// <summary>
         /// Finds the distance to the virtual boundary 

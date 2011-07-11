@@ -15,8 +15,8 @@ namespace Vts.MonteCarlo.Controllers
         private ITissue _tissue;
         private bool _tallySecondMoment;
         private IList<IDetector> _detectors;
-        private IList<IpMCTerminationDetector> _terminationDetectors;
-        private IList<IpMCHistoryDetector> _historyDetectors;
+        private IList<IpMCSurfaceDetector> _terminationDetectors;
+        private IList<IpMCVolumeDetector> _historyDetectors;
 
         public pMCDetectorController(
             IList<IpMCDetectorInput> detectorInputs,
@@ -29,13 +29,13 @@ namespace Vts.MonteCarlo.Controllers
 
             _terminationDetectors =
                 (from detector in _detectors
-                 where detector.TallyType.IsTerminationTally()
-                 select (IpMCTerminationDetector)detector).ToArray();
+                 where detector.TallyType.IsSurfaceTally()
+                 select (IpMCSurfaceDetector)detector).ToArray();
 
             _historyDetectors =
                 (from detector in _detectors
-                 where detector.TallyType.IsHistoryTally()
-                 select (IpMCHistoryDetector)detector).ToArray();
+                 where detector.TallyType.IsVolumeTally()
+                 select (IpMCVolumeDetector)detector).ToArray();
 
             ReferenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
         }
@@ -62,7 +62,7 @@ namespace Vts.MonteCarlo.Controllers
             {
                 // only set up reflectance tallies for now, NEED TO FIX
                 if (dp.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) &&
-                    detector.TallyType.IsTerminationTally()) 
+                    detector.TallyType.IsSurfaceTally()) 
                     detector.Tally(dp, collisionInfo);
             }
         }

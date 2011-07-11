@@ -20,7 +20,8 @@ namespace Vts.Test.MonteCarlo
 
             try
             {
-                new SimulationInput() { DetectorInputs = { (ROfRhoDetectorInput)detectorInput } }.WriteToXML("test");
+                new SimulationInput() { new SurfaceBoundaryGroup() {
+                    DetectorInputs = { (ROfRhoDetectorInput)detectorInput } } }.WriteToXML("test");
             }
             catch(SerializationException se)
             {

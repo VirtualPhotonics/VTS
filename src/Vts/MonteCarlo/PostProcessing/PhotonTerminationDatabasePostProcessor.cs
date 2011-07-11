@@ -31,19 +31,21 @@ namespace Vts.MonteCarlo.PostProcessing
                 databaseInput.Options.PhaseFunctionType);
 
             var detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
- 
+
+            // need to work following, only works for pp-ing surface detectors
             var detectorController = 
-                Factories.DetectorControllerFactory.GetStandardDetectorController(detectors);
+                Factories.DetectorControllerFactory.GetDetectorController(
+                VirtualBoundaryType.SpecularReflectance, detectors);
  
             // DetectorController tallies for post-processing
             foreach (var dp in database.DataPoints)
             {             
-                    detectorController.TerminationTally(dp);   
+                    ((ISurfaceDetectorController)detectorController).Tally(dp);   
             }
 
             detectorController.NormalizeDetectors(databaseInput.N);
 
-            var postProcessedOutput = new Output(databaseInput, detectorController.Detectors);
+            var postProcessedOutput = new Output(databaseInput, detectors);
 
             return postProcessedOutput;
         }

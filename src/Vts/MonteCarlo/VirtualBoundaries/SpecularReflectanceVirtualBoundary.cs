@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.Controllers;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
     /// <summary>
     /// Implements IVirtualBoundary.  Used to capture specular reflectance detectors
     /// </summary>
-    public class SpecularReflectanceVirtualBoundary : IVirtualBoundary
+    public class SpecularReflectanceVirtualBoundary : ISurfaceVirtualBoundary
     {
         private double _zPlanePosition;
 
         /// <summary>
         /// Creates an instance of specular virtual boundary 
         /// </summary>
-        public SpecularReflectanceVirtualBoundary(ITissue tissue, IList<IDetector> detectors, string name)
+        public SpecularReflectanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             _zPlanePosition = ((LayerRegion)tissue.Regions[0]).ZRange.Stop;
 
@@ -28,7 +29,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             VirtualBoundaryType = VirtualBoundaryType.SpecularReflectance;
             PhotonStateType = PhotonStateType.PseudoSpecularReflectanceVirtualBoundary;
 
-            DetectorController = DetectorControllerFactory.GetStandardDetectorController(detectors);
+            DetectorController = (ISurfaceDetectorController)detectorController;
 
             Name = name;
         }       
@@ -45,7 +46,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         public PhotonStateType PhotonStateType { get; private set; }
         public string Name { get; private set; }
         public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
-        public IDetectorController DetectorController { get; private set; }
+        public ISurfaceDetectorController DetectorController { get; private set; }
 
         /// <summary>
         /// Finds the distance to the virtual boundary given direction of VB and photon

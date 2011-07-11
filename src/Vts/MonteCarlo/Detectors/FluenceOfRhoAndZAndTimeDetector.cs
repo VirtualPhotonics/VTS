@@ -11,10 +11,10 @@ namespace Vts.MonteCarlo.Detectors
 {
     [KnownType(typeof(FluenceOfRhoAndZAndTimeDetector))]
     /// <summary>
-    /// Implements IHistoryDetector<double[,,]>.  Tally for Fluence(rho,z,t).
+    /// Implements IVolumeDetector<double[,,]>.  Tally for Fluence(rho,z,t).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
-    public class FluenceOfRhoAndZAndTimeDetector : IHistoryDetector<double[, ,]>
+    public class FluenceOfRhoAndZAndTimeDetector : IVolumeDetector<double[, ,]>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 

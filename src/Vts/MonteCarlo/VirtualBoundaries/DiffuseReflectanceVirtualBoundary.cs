@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.Controllers;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
@@ -14,9 +15,9 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         private double _zPlanePosition;
 
         /// <summary>
-        /// Creates an instance of a plane tranmission virtual boundary in direction given
+        /// Creates an instance of a reflectance VB
         /// </summary>
-        public DiffuseReflectanceVirtualBoundary(ITissue tissue, IList<IDetector> detectors, string name)
+        public DiffuseReflectanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             _zPlanePosition = ((LayerRegion)tissue.Regions[0]).ZRange.Stop;
 
@@ -28,7 +29,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             VirtualBoundaryType = VirtualBoundaryType.DiffuseReflectance;
             PhotonStateType = PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary;
 
-            DetectorController = DetectorControllerFactory.GetStandardDetectorController(detectors);
+            DetectorController = (ISurfaceDetectorController)detectorController;
 
             Name = name;
         }       
@@ -46,7 +47,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         public PhotonStateType PhotonStateType { get; private set; }
         public string Name { get; private set; }
         public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
-        public IDetectorController DetectorController { get; private set; }
+        public ISurfaceDetectorController DetectorController { get; private set; }
 
         /// <summary>
         /// Finds the distance to the virtual boundary given direction of VB and photon

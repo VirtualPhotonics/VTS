@@ -12,11 +12,11 @@ namespace Vts.MonteCarlo.Detectors
 {
     [KnownType(typeof(ROfRhoAndOmegaDetector))]
     /// <summary>
-    /// Implements ITerminationDetector<double[,]>.  Tally for reflectance as a function 
+    /// Implements ISurfaceDetector<double[,]>.  Tally for reflectance as a function 
     /// of Rho and Omega.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
-    public class ROfRhoAndOmegaDetector : ITerminationDetector<Complex[,]>
+    public class ROfRhoAndOmegaDetector : ISurfaceDetector<Complex[,]>
     {
         private bool _tallySecondMoment;
         /// <summary>

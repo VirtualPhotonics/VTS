@@ -11,9 +11,9 @@ namespace Vts.MonteCarlo.Detectors
 {
     [KnownType(typeof(ATotalDetector))]
     /// <summary>
-    /// Implements IHistoryDetector<double[,]>.  Tally for Absorption(rho,z).
+    /// Implements IVolumeDetector<double[,]>.  Tally for Absorption(rho,z).
     /// </summary>
-    public class ATotalDetector : IHistoryDetector<double>
+    public class ATotalDetector : IVolumeDetector<double>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 

@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Note: this tally currently only works with discrete absorption weighting
     /// </summary>
     public class FluenceOfRhoAndZDetector
-        : IHistoryDetector<double[,]>
+        : IVolumeDetector<double[,]>
     {
 
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;

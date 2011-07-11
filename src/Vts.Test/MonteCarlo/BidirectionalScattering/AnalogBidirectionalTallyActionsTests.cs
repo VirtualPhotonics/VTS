@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
@@ -41,7 +42,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Analog, 
                     PhaseFunctionType.Bidirectional,
-                    null, // databases to be written
+                    //null, // databases to be written
                     true, // tally 2nd moment
                     true, // track statistics
                     0),
@@ -64,12 +65,22 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IVirtualBoundaryGroup>() 
                 {
-                    new RDiffuseDetectorInput(),
-                    new TDiffuseDetectorInput(),
-                    new ATotalDetectorInput()
+                    new SurfaceBoundaryGroup(
+                        new List<IDetectorInput>() { new RDiffuseDetectorInput() }, false),
+                    new SurfaceBoundaryGroup(
+                        new List<IDetectorInput>() { new TDiffuseDetectorInput() }, false),
+                    new GenericVolumeGroup(
+                        new List<IDetectorInput>() { new ATotalDetectorInput() }, false)
                 }
+
+                //new List<IDetectorInput>()
+                //{
+                //    new RDiffuseDetectorInput(),
+                //    new TDiffuseDetectorInput(),
+                //    new ATotalDetectorInput()
+                //}
             );
             _output = new MonteCarloSimulation(_input).Run();
 
@@ -87,9 +98,9 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 new OpticalProperties(_mua, _musp, _g, 1.0),
                 -1, // direction -1=up
                 0); // position at surface
-
-            Assert.Less(Math.Abs(_output.Rd - analyticSolution), 0.01);
-        }
+            var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Rd, _output.Rd2);
+            Assert.Less(Math.Abs(_output.Rd - analyticSolution), 3 * sd); 
+        } 
         // Total Absorption
         [Test]
         public void validate_bidirectional_analog_ATotal()
@@ -108,7 +119,9 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 -1,
                 0,
                 _slabThickness);
-            var analyticSolution = analyticSolutionRight - analyticSolutionLeft; // directional net
+            var analyticSolution = analyticSolutionRight - analyticSolutionLeft; // directional netvar sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Rd, _output.Rd2);
+            var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Atot, _output.Atot2);
+            //Assert.Less(Math.Abs(_output.Atot - _mua * analyticSolution), 3 * sd); not sure why not passing 3SD
             Assert.Less(Math.Abs(_output.Atot - _mua * analyticSolution), 0.01);
         }
         // Diffuse Transmittance
@@ -120,8 +133,8 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 new OpticalProperties(_mua, _musp, _g, 1.0),
                 1, // direction 1=down
                 _slabThickness); // position at slab end
-
-            Assert.Less(Math.Abs(_output.Td - analyticSolution), 0.01);
+            var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Td, _output.Td2);
+            Assert.Less(Math.Abs(_output.Td - analyticSolution), 3 * sd);
         }
         // with no refractive index mismatch, Rd + Atot + Td should equal 1
         [Test]

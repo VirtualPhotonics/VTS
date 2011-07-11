@@ -5,22 +5,26 @@ using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Controllers;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
     /// <summary>
     /// Implements IVirtualBoundary.  Used to capture specular reflectance detectors
     /// </summary>
-    public class DosimetryVirtualBoundary : IVirtualBoundary
+    public class DosimetryVirtualBoundary : ISurfaceVirtualBoundary
     {
         private double _zPlanePosition;
 
         /// <summary>
         /// Creates an instance of a plane tranmission virtual boundary in direction given
         /// </summary>
-        public DosimetryVirtualBoundary(IList<IDetector> detectors, string name)
+        public DosimetryVirtualBoundary(IDetectorController detectorController, string name)
         {
-            IDetector dosimetryDetector = detectors.Where(d => d.TallyType == TallyType.DosimetryOfRho).First();
+            DetectorController = (ISurfaceDetectorController)detectorController;
+
+            // not sure following is best design
+            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyType == TallyType.DosimetryOfRho).First();
 
             _zPlanePosition = ((DosimetryOfRhoDetector)dosimetryDetector).ZDepth;
 
@@ -31,8 +35,6 @@ namespace Vts.MonteCarlo.VirtualBoundaries
 
             VirtualBoundaryType = VirtualBoundaryType.Dosimetry;
             PhotonStateType = PhotonStateType.PseudoDosimetryVirtualBoundary;
-
-            DetectorController = DetectorControllerFactory.GetStandardDetectorController(detectors);
 
             Name = name;
         }       
@@ -50,7 +52,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         public PhotonStateType PhotonStateType { get; private set; }
         public string Name { get; private set; }
         public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
-        public IDetectorController DetectorController { get; private set; }
+        public ISurfaceDetectorController DetectorController { get; private set; }
 
         /// <summary>
         /// Finds the distance to the virtual boundary given direction of VB and photon

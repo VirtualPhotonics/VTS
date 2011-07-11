@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements ITerminationTally<double>.  Tally for diffuse transmittance.
     /// This implemenation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class TDiffuseDetector : ITerminationDetector<double>
+    public class TDiffuseDetector : ISurfaceDetector<double>
     {
         private bool _tallySecondMoment;
         /// <summary>

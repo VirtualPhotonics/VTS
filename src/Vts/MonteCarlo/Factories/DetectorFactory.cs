@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Factories
         {
             return detectorInputs.Select(detectorInput => GetDetector(detectorInput, tissue, tallySecondMoment)).ToList();
         }
-
+       
         public static IDetector GetDetector(
             IDetectorInput detectorInput,
             ITissue tissue,
@@ -23,7 +23,7 @@ namespace Vts.MonteCarlo.Factories
             switch (detectorInput.TallyType)
             {
                 default:
-                // ITerminationDetector(s):
+                // ISurfaceDetector(s):
                 case TallyType.RDiffuse:
                     var rdinput = (RDiffuseDetectorInput)detectorInput;
                     return new RDiffuseDetector(tallySecondMoment, rdinput.Name);
@@ -60,8 +60,11 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.TOfRhoAndAngle:
                     var trainput = (TOfRhoAndAngleDetectorInput)detectorInput;
                     return new TOfRhoAndAngleDetector(trainput.Rho, trainput.Angle, tallySecondMoment, trainput.Name);
+                case TallyType.DosimetryOfRho:
+                    var drinput = (DosimetryOfRhoDetectorInput)detectorInput;
+                    return new DosimetryOfRhoDetector(drinput.ZDepth, drinput.Rho, tissue, tallySecondMoment, drinput.Name);
 
-                // IHistoryDetector(s):
+                // IVolumeDetector(s):
                 case TallyType.FluenceOfRhoAndZ:
                     var frzinput = (FluenceOfRhoAndZDetectorInput)detectorInput;
                     return new FluenceOfRhoAndZDetector(frzinput.Rho, frzinput.Z, tissue, tallySecondMoment, frzinput.Name);
@@ -74,15 +77,10 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.ATotal:
                     var ainput = (ATotalDetectorInput)detectorInput;
                     return new ATotalDetector(tissue, tallySecondMoment, ainput.Name);
-
-                case TallyType.DosimetryOfRho:
-                    var drinput = (DosimetryOfRhoDetectorInput)detectorInput;
-                    return new DosimetryOfRhoDetector(drinput.ZDepth, drinput.Rho, tissue, tallySecondMoment, drinput.Name);
             }
         }
-
         // pMC overload
-        public static IpMCTerminationDetector GetpMCDetector(
+        public static IpMCSurfaceDetector GetpMCDetector(
             IpMCDetectorInput detectorInput,
             ITissue tissue,
             bool tallySecondMoment)
@@ -113,7 +111,7 @@ namespace Vts.MonteCarlo.Factories
             }
         }
  
-        public static IHistoryDetector GetHistoryDetector(
+        public static IVolumeDetector GetHistoryDetector(
             IDetectorInput detectorInput,
             ITissue tissue,
             IList<OpticalProperties> perturbedOps,

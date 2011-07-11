@@ -7,10 +7,10 @@ namespace Vts.MonteCarlo.Detectors
 {
     [KnownType(typeof(RDiffuseDetector))]
     /// <summary>
-    /// Implements ITerminationDetector<double>.  Tally for diffuse reflectance.
+    /// Implements ISurfaceDetector<double>.  Tally for diffuse reflectance.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
-    public class RDiffuseDetector : ITerminationDetector<double>
+    public class RDiffuseDetector : ISurfaceDetector<double>
     {
         private bool _tallySecondMoment;
 

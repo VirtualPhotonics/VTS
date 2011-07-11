@@ -6,15 +6,15 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Defines a contract for Monte Carlo History Tallies.
     /// </summary>
-    public interface IpMCHistoryDetector : IDetector
+    public interface IpMCSurfaceDetector : IDetector
     {
-        void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp, IList<SubRegionCollisionInfo> infoList);
+        void Tally(PhotonDataPoint dp, CollisionInfo infoList);
     }
 
     /// <summary>
     /// Defines a contract for Monte Carlo History Tallies.
     /// </summary>
-    public interface IpMCHistoryDetector<T> : IDetector<T>, IpMCTerminationDetector
+    public interface IpMCSurfaceDetector<T> : IDetector<T>, IpMCSurfaceDetector
     {
     }
 }

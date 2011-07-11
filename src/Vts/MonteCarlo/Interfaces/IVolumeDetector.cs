@@ -4,17 +4,17 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo
 {
     /// <summary>
-    /// Defines a contract for Monte Carlo History Tallies.
+    /// Defines a contract for Monte Carlo Volume Tallies.
     /// </summary>
-    public interface IHistoryDetector : IDetector
+    public interface IVolumeDetector : IDetector
     {
         void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp);  
     }
 
     /// <summary>
-    /// Defines a contract for Monte Carlo History Tallies.
+    /// Defines a contract for Monte Carlo Volume Tallies.
     /// </summary>
-    public interface IHistoryDetector<T> : IDetector<T>, IHistoryDetector
+    public interface IVolumeDetector<T> : IDetector<T>, IVolumeDetector
     {
     }
 }

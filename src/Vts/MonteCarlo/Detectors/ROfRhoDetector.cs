@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Detectors
     /// of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class ROfRhoDetector : ITerminationDetector<double[]>
+    public class ROfRhoDetector : ISurfaceDetector<double[]>
     {
         private bool _tallySecondMoment;
         /// <summary>

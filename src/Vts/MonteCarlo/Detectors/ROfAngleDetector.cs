@@ -10,11 +10,11 @@ namespace Vts.MonteCarlo.Detectors
 {
     [KnownType(typeof(ROfAngleDetector))]
     /// <summary>
-    /// Implements ITerminationDetector<double[]>.  Tally for reflectance as a function 
+    /// Implements ISurfaceDetector<double[]>.  Tally for reflectance as a function 
     /// of Angle.
     /// This works for Analog, DAW and CAW.
     /// </summary>
-    public class ROfAngleDetector : ITerminationDetector<double[]>
+    public class ROfAngleDetector : ISurfaceDetector<double[]>
     {
         private bool _tallySecondMoment;
         /// <summary>

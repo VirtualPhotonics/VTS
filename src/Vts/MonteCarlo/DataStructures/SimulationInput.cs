@@ -61,7 +61,8 @@ namespace Vts.MonteCarlo
         public SimulationOptions Options;
         public ISourceInput SourceInput;
         public ITissueInput TissueInput;
-        public IList<IDetectorInput> DetectorInputs;
+        //public IList<IDetectorInput> DetectorInputs;
+        public IList<IVirtualBoundaryGroup> VirtualBoundaryGroups;
 
         /// <summary>
         /// Default constructor loads default values for InputData
@@ -72,14 +73,16 @@ namespace Vts.MonteCarlo
             SimulationOptions simulationOptions,
             ISourceInput sourceInput,
             ITissueInput tissueInput,  
-            IList<IDetectorInput> detectorInputs)
+            //IList<IDetectorInput> detectorInputs)
+            IList<IVirtualBoundaryGroup> virtualBoundaryGroups)
         {
             N = numberOfPhotons;
             OutputName = outputName;
             Options = simulationOptions;
             SourceInput = sourceInput;
             TissueInput = tissueInput;
-            DetectorInputs = detectorInputs;
+            //DetectorInputs = detectorInputs;
+            VirtualBoundaryGroups = virtualBoundaryGroups;
         }
 
         public SimulationInput()
@@ -87,37 +90,40 @@ namespace Vts.MonteCarlo
                 1000000,
                 "results",
                 new SimulationOptions(
-                    SimulationOptions.GetRandomSeed(), 
-                    RandomNumberGeneratorType.MersenneTwister, 
-                    AbsorptionWeightingType.Discrete, 
+                    SimulationOptions.GetRandomSeed(),
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    null, // databases written
+                //null, // databases written
                     true, // compute Second Moment
                     false, // track statistics
                     0),
                 new DirectionalPointSourceInput(),
-                    
+
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }),
-                new List<IDetectorInput>
+
+                new List<IVirtualBoundaryGroup>
                     {
-                        new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+                        new SurfaceBoundaryGroup(
+                            new List<IDetectorInput>
+                            {
+                                new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+                            },
+                            false) // write to database bool
                     }
-                )
-        {
-            
-        }
+                ) { }
 
         public static SimulationInput FromFile(string filename)
         {

@@ -132,12 +132,15 @@ namespace Vts.Test.MonteCarlo.Detectors
                            inputOneLayerTissue.TissueInput.Regions[1].RegionOP.N);
         }
 
-        // validation values obtained from linux run using above input and 
-        // seeded the same for:
+        // validation values obtained from linux run using above input and seeded the same
         // Diffuse Reflectance
         [Test]
         public void validate_CAW_RDiffuse()
         {
+            var sdOneLayerTissue = ErrorCalculation.StandardDeviation(
+                _outputOneLayerTissue.Input.N, _outputOneLayerTissue.Rd, _outputOneLayerTissue.Rd2);
+            var sdTwoLayerTissue = ErrorCalculation.StandardDeviation(
+                _outputTwoLayerTissue.Input.N, _outputTwoLayerTissue.Rd, _outputTwoLayerTissue.Rd2);
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rd * _factor - 0.573738839), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Rd * _factor - 0.573738839), 0.003);
         }
