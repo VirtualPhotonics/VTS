@@ -110,8 +110,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Vts.Test\Common\ArrayExtensionsTests.cs">
-      <Link>Common\ArrayExtensionsTests.cs</Link>
+    <Compile Include="..\Vts.Test\Common\Extensions\ArrayExtensionsTests.cs">
+      <Link>Common\Extensions\ArrayExtensionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Common\Helpers\Range\DoubleRangeTests.cs">
       <Link>Common\Helpers\Range\DoubleRangeTests.cs</Link>
@@ -134,35 +134,44 @@
     <Compile Include="..\Vts.Test\Common\PositionTests.cs">
       <Link>Common\PositionTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Factories\ComputationFactoryTest.cs">
-      <Link>Factories\ComputationFactoryTest.cs</Link>
+    <Compile Include="..\Vts.Test\Factories\ComputationFactoryTests.cs">
+      <Link>Factories\ComputationFactoryTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Factories\SolverFactoryTest.cs">
-      <Link>Factories\SolverFactoryTest.cs</Link>
+    <Compile Include="..\Vts.Test\Factories\SolverFactoryTests.cs">
+      <Link>Factories\SolverFactoryTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\BSplinesCoefficientsTest.cs">
-      <Link>Modeling\ForwardSolvers\BSplinesCoefficientsTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\BSplinesCoefficientsTests.cs">
+      <Link>Modeling\ForwardSolvers\BSplinesCoefficientsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\DiffusionGreensFunctionsTest.cs">
-      <Link>Modeling\ForwardSolvers\DiffusionGreensFunctionsTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\DiffusionGreensFunctionsTests.cs">
+      <Link>Modeling\ForwardSolvers\DiffusionGreensFunctionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\MonteCarloForwardSolverTests.cs">
       <Link>Modeling\ForwardSolvers\MonteCarloForwardSolverTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsForwardSolverTest.cs">
-      <Link>Modeling\ForwardSolvers\NurbsForwardSolverTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsForwardSolverTests.cs">
+      <Link>Modeling\ForwardSolvers\NurbsForwardSolverTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsGeneratorTest.cs">
-      <Link>Modeling\ForwardSolvers\NurbsGeneratorTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsGeneratorTests.cs">
+      <Link>Modeling\ForwardSolvers\NurbsGeneratorTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\pMCForwardSolverTests.cs">
       <Link>Modeling\ForwardSolvers\pMCForwardSolverTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs">
-      <Link>Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTests.cs">
+      <Link>Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\MetaNumericsZeroOrderBesselFunction.cs">
-      <Link>Modeling\MetaNumericsZeroOrderBesselFunction.cs</Link>
+    <Compile Include="..\Vts.Test\Modeling\MetaNumericsZeroOrderBesselFunctionTests.cs">
+      <Link>Modeling\MetaNumericsZeroOrderBesselFunctionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\ChromophoreSpectrumTests.cs">
+      <Link>Modeling\Spectroscopy\ChromophoreSpectrumTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralConverterTests.cs">
+      <Link>Modeling\Spectroscopy\SpectralConverterTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralDatabaseTests.cs">
+      <Link>Modeling\Spectroscopy\SpectralDatabaseTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\ValidateInverseSolution.cs">
       <Link>Modeling\ValidateInverseSolution.cs</Link>
@@ -182,8 +191,14 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\OutputTests.cs">
       <Link>MonteCarlo\DataStructures\OutputTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs">
+      <Link>MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputTests.cs">
       <Link>MonteCarlo\DataStructures\SimulationInputTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationOptionsTests.cs">
+      <Link>MonteCarlo\DataStructures\SimulationOptionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\AnalogDetectorsTests.cs</Link>
@@ -206,6 +221,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Helpers\SourceToolboxTests.cs">
+      <Link>MonteCarlo\Helpers\SourceToolboxTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\IO\DetectorIOTests.cs">
       <Link>MonteCarlo\IO\DetectorIOTests.cs</Link>
     </Compile>
@@ -224,8 +242,23 @@
     <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <Link>MonteCarlo\PostProcessing\PostProcessingTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\CustomPointSourceTests.cs">
-      <Link>MonteCarlo\Sources\CustomPointSourceTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
+      <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs">
+      <Link>MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSources\IsotropicLineSourceTests.cs">
+      <Link>MonteCarlo\Sources\LineSources\IsotropicLineSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\CustomPointSourceTests.cs">
+      <Link>MonteCarlo\Sources\PointSources\CustomPointSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\DirectionalPointSourceTests.cs">
+      <Link>MonteCarlo\Sources\PointSources\DirectionalPointSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\IsotropicPointSourceTests.cs">
+      <Link>MonteCarlo\Sources\PointSources\IsotropicPointSourceTests.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -238,6 +271,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modeling\Optimizers\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\CylindricalFiber\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Tubular\" />
+    <Folder Include="MonteCarlo\Sources\VolumetricSources\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

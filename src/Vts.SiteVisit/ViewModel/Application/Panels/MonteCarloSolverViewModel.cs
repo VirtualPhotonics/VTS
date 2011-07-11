@@ -50,13 +50,13 @@ namespace Vts.SiteVisit.ViewModel
                             new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
                     }
                 ),
-                OutputFileName = "MonteCarloOutput",
+                OutputName = "MonteCarloOutput",
                 N = 1000,
                 Options = new SimulationOptions(
                     0, // Note seed = 0 is -1 in linux
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete),
-                SourceInput = new CustomPointSourceInput(),
+                SourceInput = new DirectionalPointSourceInput(),
                 DetectorInputs = new List<IDetectorInput>
                     {
                         new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)

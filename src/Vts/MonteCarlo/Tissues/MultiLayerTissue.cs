@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="absorptionWeightingType"></param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiLayerTissue(IList<ITissueRegion> regions, AbsorptionWeightingType absorptionWeightingType, PhaseFunctionType phaseFunctionType)
-            : base( regions, absorptionWeightingType)
+            : base(regions, absorptionWeightingType, phaseFunctionType)
         {
         }
 

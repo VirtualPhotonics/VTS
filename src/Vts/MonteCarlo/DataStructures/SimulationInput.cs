@@ -7,6 +7,7 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
+
 namespace Vts.MonteCarlo
 {
 #if !SILVERLIGHT
@@ -14,8 +15,12 @@ namespace Vts.MonteCarlo
 #endif
     // todo: Can we do this programmatcially? DataContractResolver? Automatically via convention?
     
-    // Source inputs
+    [KnownType(typeof(DirectionalPointSourceInput))]
+    [KnownType(typeof(IsotropicPointSourceInput))]
     [KnownType(typeof(CustomPointSourceInput))]
+
+    [KnownType(typeof(DirectionalLineSourceInput))]
+
 
     // Tissue inputs
     [KnownType(typeof(MultiLayerTissueInput))]
@@ -51,7 +56,7 @@ namespace Vts.MonteCarlo
         // todo: replace DataContractSerializer loading this class with Linq to XML reading
         // of a "pure" XML input class (and make all the fields properties again). This should
         // make it much easier for users to define simulations without wading through XML namespaces, etc.
-        public string OutputFileName;
+        public string OutputName;
         public long N;
         public SimulationOptions Options;
         public ISourceInput SourceInput;
@@ -63,14 +68,14 @@ namespace Vts.MonteCarlo
         /// </summary>
         public SimulationInput(
             long numberOfPhotons, 
-            string outputFilename,
+            string outputName,
             SimulationOptions simulationOptions,
-            ISourceInput sourceInput, 
+            ISourceInput sourceInput,
             ITissueInput tissueInput,  
             IList<IDetectorInput> detectorInputs)
         {
             N = numberOfPhotons;
-            OutputFileName = outputFilename;
+            OutputName = outputName;
             Options = simulationOptions;
             SourceInput = sourceInput;
             TissueInput = tissueInput;
@@ -79,8 +84,8 @@ namespace Vts.MonteCarlo
 
         public SimulationInput()
             : this(
-                1000000,  // FIX 1e6 takes about 70 minutes my laptop
-                "Output",
+                1000000,
+                "results",
                 new SimulationOptions(
                     SimulationOptions.GetRandomSeed(), 
                     RandomNumberGeneratorType.MersenneTwister, 
@@ -89,11 +94,7 @@ namespace Vts.MonteCarlo
                     null, // databases written
                     true, // compute Second Moment
                     0),
-                new CustomPointSourceInput(
-                    new Position(0, 0, 0),
-                    new Direction(0, 0, 1),
-                    new DoubleRange(0.0, 0, 1),
-                    new DoubleRange(0.0, 0, 1)),
+                new DirectionalPointSourceInput(),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
                     { 
@@ -111,7 +112,10 @@ namespace Vts.MonteCarlo
                     {
                         new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
                     }
-                ) {}
+                )
+        {
+            
+        }
 
         public static SimulationInput FromFile(string filename)
         {

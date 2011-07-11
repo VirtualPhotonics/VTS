@@ -148,12 +148,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ArrayExtensionsTests.cs">
+    <Compile Include="Common\Extensions\ArrayExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\DirectionTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs" />
+    <Compile Include="MonteCarlo\Rng\SerializableMersenneTwisterTests.cs" />
     <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -175,34 +178,40 @@
     <Compile Include="Common\PositionTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Factories\ComputationFactoryTest.cs">
+    <Compile Include="Factories\ComputationFactoryTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Factories\SolverFactoryTest.cs">
+    <Compile Include="Factories\SolverFactoryTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\BSplinesCoefficientsTest.cs">
+    <Compile Include="Modeling\ForwardSolvers\BSplinesCoefficientsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\DiffusionGreensFunctionsTest.cs">
+    <Compile Include="Modeling\ForwardSolvers\DiffusionGreensFunctionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolverTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\NurbsForwardSolverTest.cs">
+    <Compile Include="Modeling\ForwardSolvers\NurbsForwardSolverTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\NurbsGeneratorTest.cs">
+    <Compile Include="Modeling\ForwardSolvers\NurbsGeneratorTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Modeling\ForwardSolvers\pMCForwardSolverTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTest.cs">
+    <Compile Include="Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\MetaNumericsZeroOrderBesselFunction.cs">
+    <Compile Include="Modeling\MetaNumericsZeroOrderBesselFunctionTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modeling\Spectroscopy\SpectralDatabaseTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Modeling\ValidateInverseSolution.cs">
@@ -226,6 +235,10 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructures\SimulationOptionsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs" />
     <Compile Include="MonteCarlo\Detectors\AnalogDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -235,7 +248,6 @@
     <Compile Include="MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\DAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -245,21 +257,33 @@
     <Compile Include="MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Helpers\SourceToolboxTests.cs" />
     <Compile Include="MonteCarlo\IO\DetectorIOTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\MonteCarloFactoriesTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs" />
-    <Compile Include="MonteCarlo\PhotonData\pMCDatabaseTests.cs" />
-    <Compile Include="MonteCarlo\PhotonData\PhotonDatabaseTests.cs" />
+    <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\PhotonData\PhotonDatabaseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\PhotonData\pMCDatabaseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Sources\CustomPointSourceTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSources\IsotropicLineSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSources\CustomPointSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSources\DirectionalPointSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSources\IsotropicPointSourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +295,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +307,8 @@
   <ItemGroup>
     <Folder Include="Modeling\Optimizers\" />
     <Folder Include="Modeling\Tools\" />
+    <Folder Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\" />
+    <Folder Include="MonteCarlo\TallyActions\pMCTallies\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

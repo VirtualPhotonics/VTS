@@ -1,0 +1,9 @@
+﻿Fat,FractionalAbsorptionCoefficient,perMillimeter
+429,0.00828
+430,0.008216
+431,0.008158
+432,0.008069
+433,0.007927
+434,0.007832
+435,0.007721
+//etc... First column: wavelengths, second column: spectra data

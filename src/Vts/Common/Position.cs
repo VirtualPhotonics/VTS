@@ -92,8 +92,19 @@ namespace Vts.Common
         /// <returns></returns>
         public static bool operator ==(Position p1, Position p2)
         {
+            if (object.ReferenceEquals(p1, p2))
+            {
+                // handles if both are null as well as object identity
+                return true;
+            }
+
+            if ((object)p1 == null || (object)p2 == null)
+            {
+                return false;
+            }
+
             return p1.Equals(p2);
-        }
+        }            
 
         /// <summary>
         /// Inequality overload for two 3D cartesian coordinates
@@ -103,7 +114,7 @@ namespace Vts.Common
         /// <returns></returns>
         public static bool operator !=(Position p1, Position p2)
         {
-            return !p1.Equals(p2);
+            return !(p1 == p2);
         }
 
         public void WriteBinary(BinaryWriter bw)
@@ -131,10 +142,16 @@ namespace Vts.Common
             if (obj is Position)
             {
                 var p = obj as Position;
-                return
-                    X == p.X &&
-                    Y == p.Y &&
-                    Z == p.Z;
+                if (p == null)
+                    return
+                        X == 0.0 &&
+                        Y == 0.0 &&
+                        Z == 0.0;
+                else
+                    return
+                        X == p.X &&
+                        Y == p.Y &&
+                        Z == p.Z;
             }
             return false;
         }

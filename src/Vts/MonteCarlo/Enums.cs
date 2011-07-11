@@ -1,5 +1,6 @@
 namespace Vts.MonteCarlo
 {
+
     /// <summary>
     /// All Monte Carlo enums.
     /// </summary>
@@ -15,14 +16,74 @@ namespace Vts.MonteCarlo
         KilledRussianRoulette,
         //PseudoCollision, can't add until change while check in main MC
     }
+
     // Source enums
     public enum SourceType
     {
-        Planar,
-        Point,
-        Cylindrical,
-        Line,
+        // 0D Sources:
+
+        // Point Sources
+        IsotropicPoint,
+        DirectionalPoint,
+        CustomPoint,
+
+        // 1D Sources:
+
+        // Line Sources
+        IsotropicLine,
+        DirectionalLine,
+        CustomLine,
+
+        // Ring Sources
+
+        // 2D Surface Sources:
+
+        // Circular Surface Sources
+        DirectionalCircular,
+        CustomCircular,
+
+        // Cubiodal Surface Sources
+        LambertianSurfaceEmittingCubiodal,
+        CustomSurfaceEmittingCuboidal,
+
+        //Cylindrical Fiber Source
+        LambertianCylindricalFiber,
+
+        // Elliptical Surface Sources
+        DirectionalElliptical,
+        CustomElliptical,
+
+        // Rectangular Surface Sources
+        DirectionalRectangular,
+        CustomRectangular,
+
+        // Spherical Surface Sources
+        LambertianSurfaceEmittingSpherical, // e.g. change to LambertianSphericalSurface
+        CustomSurfaceEmittingSpherical,
+
+        // Tube Sources
+        LambertianSurfaceEmittingTubular,
+        DiffusingFiber, // e.g. a LambertianSurfaceEmittingTubularSource + CustomCircularSource (for the fiber face)
+
+        // 3D Volumetric Sources
+
+        // Cubiodal Volume Sources
+        IsotropicVolumetricCuboidal,
+        CustomVolumetricCubiodal,
+
+        // Ellipsoidal Volume Sources
+        IsotropicVolumetricEllipsoidal,
+        CustomVolumetricEllipsoidal,
+
+        // ...others, based on Fluence or Radiance?
     }
+
+    public enum SourceProfileType
+    {
+        Flat,
+        Gaussian,
+    }
+
     public enum BeamType
     {
         Gaussian,

@@ -33,9 +33,9 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         public void validate_photon_termination_database_postprocessor()
         {
             var input = GenerateReferenceInput();
-            var onTheFlyOutput = GenerateReferenceOutput(input);
+            var onTheFlyOutput =  new MonteCarloSimulation(input).Run();
 
-            var database = PhotonDatabase.FromFile("postprocessing_photonExitDatabase");
+            var database = PhotonDatabase.FromFile("photonExitDatabase");
             var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
                 input.DetectorInputs, database, onTheFlyOutput.Input);
 
@@ -49,7 +49,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         {
             return new SimulationInput(
                 100,
-                "postprocessing",
+                "", // can't give folder name when writing to isolated storage
                 new SimulationOptions(
                     0,
                     RandomNumberGeneratorType.MersenneTwister,
@@ -58,11 +58,10 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints },
                     true, // compute Second Moment
                     0),
-                new CustomPointSourceInput(
-                    new Position(0, 0, 0),
-                    new Direction(0, 0, 1),
-                    new DoubleRange(0.0, 0, 1),
-                    new DoubleRange(0.0, 0, 1)),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0),
                 new MultiLayerTissueInput(
                     new List<ITissueRegion> 
                     { 
@@ -85,15 +84,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                 }
             );
         }
-        /// <summary>
-        /// method to execute the MC and return the output from the tallies
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns>Output</returns>
-        private static Output GenerateReferenceOutput(SimulationInput input)
-        {
-            return new MonteCarloSimulation(input).Run();
-        }
+        
         /// <summary>
         /// method that takes two Output classes, output1 and output2, and
         /// compares their R(rho,time) results

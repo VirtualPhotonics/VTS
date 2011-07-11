@@ -27,6 +27,7 @@ namespace Vts.MonteCarlo
             Position p,
             Direction d,
             ITissue tissue,
+            int currentTissueRegionIndex,
             Random generator)
         {
             DP = new PhotonDataPoint(
@@ -39,7 +40,26 @@ namespace Vts.MonteCarlo
 
             S = 0.0;
             SLeft = 0.0;
-            CurrentRegionIndex = tissue.GetRegionIndex(DP.Position);
+           
+            CurrentRegionIndex = currentTissueRegionIndex;
+            // sanity check index against tissue, not sure following will work
+            //if (CurrentRegionIndex != tissue.GetRegionIndex(DP.Position))
+            //{
+            //    throw new ArgumentException("InitialTissueRegionIndex not valid given tissue definition");
+            //}
+            var onBoundary = tissue.OnDomainBoundary(this);
+            DP.Weight = 1.0;
+            if (onBoundary)
+            {
+                if (CurrentRegionIndex == 0)
+                {
+                    DP.Weight = 1.0 - Helpers.Optics.Specular( // quick fix 6/16/11 ckh
+                        tissue.Regions[0].RegionOP.N, // index needs to be CurrentRegionIndex
+                        tissue.Regions[1].RegionOP.N); // index needs to be NeighborRegionIndex
+                    CurrentRegionIndex = 1;
+                }
+            }
+
             CurrentTrackIndex = 0;
             _tissue = tissue;
             SetAbsorbAction(_tissue.AbsorptionWeightingType);
@@ -52,6 +72,7 @@ namespace Vts.MonteCarlo
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
                 new MultiLayerTissue(),
+                0, 
                 RandomNumberGeneratorFactory.GetRandomNumberGenerator(RandomNumberGeneratorType.MersenneTwister)
                 ) { }
 
@@ -208,6 +229,8 @@ namespace Vts.MonteCarlo
                     DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                         nCurrent, nNext, cosThetaSnell);
                 }
+
+                // flag virtual boundaries too...can't be mutually exlusive with OnDomainBoundary
             }
             else  // don't cross, reflect
             {

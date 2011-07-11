@@ -9,6 +9,6 @@ namespace Vts.MonteCarlo
     {
         Photon GetNextPhoton(ITissue tissue);
 
-        Random Rng { get; set; }
+        Random Rng { get; }
     }
 }

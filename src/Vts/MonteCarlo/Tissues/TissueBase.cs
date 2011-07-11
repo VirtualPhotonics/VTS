@@ -9,11 +9,34 @@ namespace Vts.MonteCarlo.Tissues
 
     public abstract class TissueBase : ITissue
     {
-        public TissueBase(IList<ITissueRegion> regions, AbsorptionWeightingType absorptionWeightingType)
+        public TissueBase(IList<ITissueRegion> regions, 
+            AbsorptionWeightingType absorptionWeightingType,
+            PhaseFunctionType phaseFunctionType)
         {
             Regions = regions;
             AbsorptionWeightingType = absorptionWeightingType;
+            PhaseFunctionType = phaseFunctionType;
             RegionScatterLengths = regions.Select(region => region.RegionOP.GetScatterLength(absorptionWeightingType)).ToArray();
+        }
+
+        public double GetDistanceToClosestVirtualBoundary(Photon photon)
+        {
+            var distance = double.PositiveInfinity;
+
+            //if (_virtualBoundaries != null && _virtualBoundaries.Count > 0)
+            //{
+            //    foreach (var virtualBoundary in _virtualBoundaries)
+            //    {
+            //        var distanceToVB = virtualBoundary.GetDistanceToBoundary(photon);
+                                
+            //        if(distanceToVB <= distance)
+            //        {
+            //            distance = distanceToVB;
+            //        }
+            //    }
+            //}
+
+            return distance;
         }
 
         public IList<ITissueRegion> Regions { get; protected set; }
