@@ -1,36 +1,6 @@
 ﻿namespace Vts.SpectralMapping
 {
     /// <summary>
-    /// Enum to represent the possible wavelength and wavenumber inputs
-    /// </summary>
-    public enum Wavelength_Unit
-    {
-        Nanometers,
-        Micrometers,
-        Meters,
-        InverseMeters,
-        InverseCentimeters,
-    }
-
-    /// <summary>
-    /// Enum to represent the possible coefficient inputs
-    /// </summary>
-    public enum Coefficient_Unit
-    {
-        InverseMillimeters,
-        InverseMeters,
-        InverseCentimeters,
-        InverseMicrometers,
-    }
-
-    public enum Molar_Unit
-    {
-        Molar,
-        MilliMolar,
-        MicroMolar,
-    }
-
-    /// <summary>
     /// Class to convert imported spectral data to uniform values
     /// </summary>
     public static class SpectralConverter
@@ -41,20 +11,20 @@
         /// <param name="WavelengthValue">The wavelength value to convert</param>
         /// <param name="Unit">An enum representing the units of the value to convert</param>
         /// <returns>The converted value as a double</returns>
-        public static double ConvertWavelength(this double WavelengthValue, Wavelength_Unit Unit)
+        public static double ConvertWavelength(this double WavelengthValue, WavelengthUnit Unit)
         {
             switch (Unit)
             {
-                case Wavelength_Unit.Nanometers:
+                case WavelengthUnit.Nanometers:
                 default:
                     return WavelengthValue;
-                case Wavelength_Unit.Micrometers:
+                case WavelengthUnit.Micrometers:
                     return WavelengthValue * 1000; //10^3
-                case Wavelength_Unit.Meters:
+                case WavelengthUnit.Meters:
                     return WavelengthValue * 1000000000; //10^9
-                case Wavelength_Unit.InverseMeters:
+                case WavelengthUnit.InverseMeters:
                     return 1000000000 / WavelengthValue; //10^9
-                case Wavelength_Unit.InverseCentimeters:
+                case WavelengthUnit.InverseCentimeters:
                     return 10000000 / WavelengthValue; //10^7
             }
         }
@@ -66,22 +36,22 @@
         /// <param name="Unit">An enum representing the units of the value to convert</param>
         /// <param name="MolarUnit">An enum to represent a molar based coefficient</param>
         /// <returns>The converted value as a double</returns>
-        public static double ConvertCoefficient(this double CoefficientValue, Coefficient_Unit Unit, Molar_Unit MolarUnit)
+        public static double ConvertCoefficient(this double CoefficientValue, AbsorptionCoefficientUnit Unit, MolarUnit MolarUnit)
         {
             double coeff;
             switch (Unit)
             {
-                case Coefficient_Unit.InverseMillimeters:
+                case AbsorptionCoefficientUnit.InverseMillimeters:
                 default:
                     coeff = CoefficientValue;
                     break;
-                case Coefficient_Unit.InverseMeters:
+                case AbsorptionCoefficientUnit.InverseMeters:
                     coeff = CoefficientValue / 1000; //10^3
                     break;
-                case Coefficient_Unit.InverseCentimeters:
+                case AbsorptionCoefficientUnit.InverseCentimeters:
                     coeff = CoefficientValue / 10;
                     break;
-                case Coefficient_Unit.InverseMicrometers:
+                case AbsorptionCoefficientUnit.InverseMicrometers:
                     coeff = CoefficientValue * 1000; //10^3
                     break;
             }
@@ -89,12 +59,12 @@
             //molar coefficient applied
             switch (MolarUnit)
             {
-                case Molar_Unit.MicroMolar:
+                case MolarUnit.MicroMolar:
                 default:
                     return coeff;
-                case Molar_Unit.MilliMolar:
+                case MolarUnit.MilliMolar:
                     return coeff / 1000; //10^3
-                case Molar_Unit.Molar:
+                case MolarUnit.Molar:
                     return coeff / 1000000; //10^6
             }
         }
@@ -105,9 +75,9 @@
         /// <param name="CoefficientValue">The coefficient value to convert</param>
         /// <param name="Unit">An enum representing the units of the value to convert</param>
         /// <returns>The converted value as a double</returns>
-        public static double ConvertCoefficient(this double CoefficientValue, Coefficient_Unit Unit)
+        public static double ConvertCoefficient(this double CoefficientValue, AbsorptionCoefficientUnit Unit)
         {
-            return ConvertCoefficient(CoefficientValue, Unit, Molar_Unit.MicroMolar);
+            return ConvertCoefficient(CoefficientValue, Unit, MolarUnit.MicroMolar);
         }
 
     }
