@@ -1,10 +1,10 @@
 using NUnit.Framework;
 using Vts.Extensions;
 
-namespace Vts.Test.MonteCarlo
+namespace Vts.Test.Common
 {
     [TestFixture]
-    public class MonteCarloFactoriesTests // todo: how is this testing factories? -dc
+    public class OpticalPropertiesExtensionsTests 
     {
         [Test]
         public void validate_GetScatterLength_returns_correct_values()

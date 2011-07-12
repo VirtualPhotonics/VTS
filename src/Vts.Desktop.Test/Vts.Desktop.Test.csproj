@@ -108,6 +108,9 @@
     <Compile Include="..\Vts.Test\Common\Extensions\EnumExtensionsTests.cs">
       <Link>Common\Extensions\EnumExtensionsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\Common\Extensions\OpticalPropertiesExtensionsTests.cs">
+      <Link>Common\Extensions\OpticalPropertiesExtensionsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Common\Helpers\Range\DoubleRangeTests.cs">
       <Link>Common\Helpers\Range\DoubleRangeTests.cs</Link>
     </Compile>
@@ -215,9 +218,6 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\IO\DetectorIOTests.cs">
       <Link>MonteCarlo\IO\DetectorIOTests.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\MonteCarloFactoriesTests.cs">
-      <Link>MonteCarlo\MonteCarloFactoriesTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
       <Link>MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs</Link>
