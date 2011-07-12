@@ -264,7 +264,7 @@
     <Compile Include="MonteCarlo\IO\DetectorIOTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\MonteCarloFactoriesTests.cs">
+    <Compile Include="Common\Extensions\OpticalPropertiesExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
