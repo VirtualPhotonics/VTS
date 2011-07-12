@@ -454,8 +454,8 @@
     <Compile Include="..\Vts\Modeling\Tools\HankelTransform.cs">
       <Link>Modeling\Tools\HankelTransform.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDetectorController.cs">
-      <Link>MonteCarlo\Controllers\pMCDetectorController.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\pMCSurfaceDetectorController.cs">
+      <Link>MonteCarlo\Controllers\pMCSurfaceDetectorController.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\SurfaceDetectorController.cs">
       <Link>MonteCarlo\Controllers\SurfaceDetectorController.cs</Link>
@@ -619,6 +619,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\VirtualBoundaryGroups\GenericVolumeGroup.cs">
       <Link>MonteCarlo\DataStructures\VirtualBoundaryGroups\GenericVolumeGroup.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\VirtualBoundaryGroups\pMCSurfaceBoundaryGroup.cs">
+      <Link>MonteCarlo\DataStructures\VirtualBoundaryGroups\pMCSurfaceBoundaryGroup.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\VirtualBoundaryGroups\SurfaceBoundaryGroup.cs">
       <Link>MonteCarlo\DataStructures\VirtualBoundaryGroups\SurfaceBoundaryGroup.cs</Link>
     </Compile>
@@ -745,6 +748,9 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCSurfaceDetector.cs">
       <Link>MonteCarlo\Interfaces\IpMCSurfaceDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCSurfaceDetectorController.cs">
+      <Link>MonteCarlo\Interfaces\IpMCSurfaceDetectorController.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCVolumeDetector.cs">
       <Link>MonteCarlo\Interfaces\IpMCVolumeDetector.cs</Link>
     </Compile>
@@ -847,8 +853,8 @@
     <Compile Include="..\Vts\MonteCarlo\PhotonHistory.cs">
       <Link>MonteCarlo\PhotonHistory.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs">
-      <Link>MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonSurfaceBoundaryGroupDatabasePostProcessor.cs">
+      <Link>MonteCarlo\PostProcessing\PhotonSurfaceBoundaryGroupDatabasePostProcessor.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PostProcessorInput.cs">
       <Link>MonteCarlo\PostProcessing\PostProcessorInput.cs</Link>
@@ -1005,6 +1011,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\pMCDiffuseReflectanceVirtualBoundary.cs">
+      <Link>MonteCarlo\VirtualBoundaries\pMCDiffuseReflectanceVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs</Link>

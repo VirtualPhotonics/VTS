@@ -57,16 +57,26 @@ namespace Vts.SiteVisit.ViewModel
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete),
                 SourceInput = new DirectionalPointSourceInput(),
-                DetectorInputs = new List<IDetectorInput>
-                    {
-                        new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
-                    }
+                VirtualBoundaryGroups = new List<IVirtualBoundaryGroup>
+                {
+                    new SurfaceBoundaryGroup(
+                        VirtualBoundaryType.DiffuseReflectance,
+                        new List<IDetectorInput>
+                        {
+                            new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+                        },
+                        false, // write database
+                        VirtualBoundaryType.DiffuseReflectance.ToString()
+                    )
+                }
             };
 
             _simulationInputVM = new SimulationInputViewModel(_simulationInput); 
 
-            var rho = ((ROfRhoDetectorInput)_simulationInput.DetectorInputs.
-                Where(d => d.TallyType == TallyType.ROfRho).First()).Rho;
+            var rho = ((ROfRhoDetectorInput)_simulationInput.VirtualBoundaryGroups.
+                Where(g => g.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance).First().
+                DetectorInputs.Where(d => d.TallyType == TallyType.ROfRho).First()).Rho;
+                //Where(d => d.TallyType == TallyType.ROfRho).First()).Rho;
 
             _independentVariableRangeVM = new RangeViewModel(rho, "mm", "Independent Variable Range");
 

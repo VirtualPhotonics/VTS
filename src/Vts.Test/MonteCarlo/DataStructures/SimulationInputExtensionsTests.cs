@@ -42,10 +42,18 @@ namespace Vts.Test.MonteCarlo
 							new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
 					}
                 ),
-                new List<IDetectorInput>()
-				{
-					new RDiffuseDetectorInput()
-				});
+                new List<IVirtualBoundaryGroup>
+                    {
+                        new SurfaceBoundaryGroup(
+                            VirtualBoundaryType.DiffuseReflectance,
+                            new List<IDetectorInput>
+                            {
+                                new RDiffuseDetectorInput(), 
+                            },
+                            false,
+                            VirtualBoundaryType.DiffuseReflectance.ToString()) // write to database bool
+                    }
+                );
         }
         [Test]
         public void verify_WithValue_method_modifies_mua1_correctly()

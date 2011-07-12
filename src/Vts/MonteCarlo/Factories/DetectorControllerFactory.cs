@@ -47,11 +47,25 @@ namespace Vts.MonteCarlo.Factories
 
             return controller;
         }
-
-        public static pMCDetectorController GetpMCDetectorController(IList<IpMCDetectorInput> inputs, ITissue tissue, bool tallySecondMoment)
+        // pMC methods
+        public static IDetectorController GetpMCDetectorController(
+            VirtualBoundaryType virtualBoundaryType, IList<IDetector> detectors,
+            ITissue tissue, bool tallySecondMoment)
         {
-            pMCDetectorController controller = null;
-            controller = new pMCDetectorController(inputs, tissue, tallySecondMoment);
+            switch (virtualBoundaryType)
+            {
+                default:
+                case VirtualBoundaryType.pMCDiffuseReflectance:
+                    return GetpMCSurfaceDetectorController(
+                        (from d in detectors select d as IpMCSurfaceDetector).ToList(),
+                        tissue, tallySecondMoment);
+            }
+        }
+        public static pMCSurfaceDetectorController GetpMCSurfaceDetectorController(
+            IList<IpMCSurfaceDetector> detectors, ITissue tissue, bool tallySecondMoment)
+        {
+            pMCSurfaceDetectorController controller = null;
+            controller = new pMCSurfaceDetectorController(detectors, tissue, tallySecondMoment);
 
             if (controller == null)
                 throw new ArgumentException(

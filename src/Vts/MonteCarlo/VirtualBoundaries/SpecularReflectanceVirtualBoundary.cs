@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
 
             // check if VB not applied
             if (!dp.StateFlag.Has(PhotonStateType.PseudoSpecularTissueBoundary) ||
-                dp.Direction.Uz >= 0.0)
+                dp.Direction.Uz >= 0.0) // if specular Uz will be negative
             {
                 return distanceToBoundary;
             }

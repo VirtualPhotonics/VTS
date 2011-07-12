@@ -255,7 +255,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Discrete,
                      PhaseFunctionType.HenyeyGreenstein,
-                     new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
+                //new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
                 //null,
                      true, // tally Second Moment
                     false, // track statistics
@@ -278,29 +278,45 @@ namespace Vts.MonteCarlo.CommandLineApplication
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IVirtualBoundaryGroup>
                 {
-                    //new RDiffuseDetectorInput(),
-                    //new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    //new ROfRhoAndAngleDetectorInput(
-                    //    new DoubleRange(0.0, 10, 101),
-                    //    new DoubleRange(0.0, Math.PI / 2, 2)),
-                    //new ROfRhoAndTimeDetectorInput(
-                    //    new DoubleRange(0.0, 10, 101),
-                    //    new DoubleRange(0.0, 10, 101)),
-                    //new ROfXAndYDetectorInput(
-                    //    new DoubleRange(-200.0, 200.0, 401), // x
-                    //    new DoubleRange(-200.0, 200.0, 401)), // y,
-                    //new ROfRhoAndOmegaDetectorInput(
-                    //    new DoubleRange(0.0, 10, 101),
-                    //    new DoubleRange(0.0, 1000, 21)),
-                    //new TDiffuseDetectorInput(),
-                    //new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    //new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    //new TOfRhoAndAngleDetectorInput(
-                    //    new DoubleRange(0.0, 10, 101),
-                    //    new DoubleRange(0.0, Math.PI / 2, 2))
+                    new SurfaceBoundaryGroup(
+                        VirtualBoundaryType.DiffuseReflectance,
+                        new List<IDetectorInput>()
+                        {
+                            //new RDiffuseDetectorInput(),
+                            //new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                            new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                            //new ROfRhoAndAngleDetectorInput(
+                            //    new DoubleRange(0.0, 10, 101),
+                            //    new DoubleRange(0.0, Math.PI / 2, 2)),
+                            //new ROfRhoAndTimeDetectorInput(
+                            //    new DoubleRange(0.0, 10, 101),
+                            //    new DoubleRange(0.0, 10, 101)),
+                            //new ROfXAndYDetectorInput(
+                            //    new DoubleRange(-200.0, 200.0, 401), // x
+                            //    new DoubleRange(-200.0, 200.0, 401)), // y,
+                            //new ROfRhoAndOmegaDetectorInput(
+                            //    new DoubleRange(0.0, 10, 101),
+                            //    new DoubleRange(0.0, 1000, 21))
+                        },
+                        false, // write to database
+                        VirtualBoundaryType.DiffuseReflectance.ToString()
+                    ),
+                    new SurfaceBoundaryGroup(
+                        VirtualBoundaryType.DiffuseTransmittance,
+                        new List<IDetectorInput>()
+                        {
+                            //new TDiffuseDetectorInput(),
+                            //new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                            //new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                            //new TOfRhoAndAngleDetectorInput(
+                            //    new DoubleRange(0.0, 10, 101),
+                            //    new DoubleRange(0.0, Math.PI / 2, 2))
+                        },
+                        false, // write to database
+                        VirtualBoundaryType.DiffuseTransmittance.ToString()
+                    )
                 });
             tempInput.ToFile("infile.xml");
         }

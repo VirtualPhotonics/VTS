@@ -5,12 +5,16 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Virtual boundary group that contains surface detectors;
     /// </summary>
-   public class GenericVolumeGroup : IVirtualBoundaryGroup
+   public class pMCSurfaceBoundaryGroup //: IVirtualBoundaryGroup need to add IpMCVirtualBoundaryGroup?
    {
        /// <summary>
        /// Surface Boundary Group constructor 
        /// </summary>
-       public GenericVolumeGroup(VirtualBoundaryType type, IList<IDetectorInput> detectorInputs, bool writeToDatabase, string name)
+       public pMCSurfaceBoundaryGroup(
+           VirtualBoundaryType type, 
+           IList<IpMCDetectorInput> detectorInputs, 
+           bool writeToDatabase, 
+           string name)
        {
            DetectorInputs = detectorInputs;
            WriteToDatabase = writeToDatabase;
@@ -21,22 +25,21 @@ namespace Vts.MonteCarlo
        /// <summary>
        /// Surface Boundary Group default constructor provides R(rho) detector list
        /// </summary>
-       public GenericVolumeGroup()
+       public pMCSurfaceBoundaryGroup()
            : this(
-                VirtualBoundaryType.GenericVolumeBoundary,
-                new List<IDetectorInput> 
+           VirtualBoundaryType.pMCDiffuseReflectance,
+               new List<IpMCDetectorInput> 
                 { 
-                    new ROfRhoDetectorInput(),
+                    new pMCROfRhoDetectorInput(),
                 },
-                false,
-                VirtualBoundaryType.GenericVolumeBoundary.ToString())
+               false,
+               VirtualBoundaryType.pMCDiffuseReflectance.ToString())
        {
        }
 
-       public IList<IDetectorInput> DetectorInputs { get; set; }
+       public IList<IpMCDetectorInput> DetectorInputs { get; set; }
        public bool WriteToDatabase { get; set; }
        public VirtualBoundaryType VirtualBoundaryType { get; set; }
        public string Name { get; set; }
-
    }
 }

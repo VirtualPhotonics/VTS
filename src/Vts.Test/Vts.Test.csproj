@@ -158,6 +158,9 @@
     <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\SpecularDetectorTests.cs" />
+    <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MonteCarlo\Rng\SerializableMersenneTwisterTests.cs" />
     <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs">
       <SubType>Code</SubType>
@@ -267,9 +270,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\PhotonData\pMCDatabaseTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs" />

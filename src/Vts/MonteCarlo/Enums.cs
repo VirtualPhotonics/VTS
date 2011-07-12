@@ -46,6 +46,7 @@ namespace Vts.MonteCarlo
         SpecularReflectance,
         GenericVolumeBoundary,
         Dosimetry,
+        pMCDiffuseReflectance,
     }
     //public enum VirtualBoundaryGroupType
     //{

@@ -57,15 +57,15 @@ namespace Vts.MonteCarlo
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
 
             // instantiate vb (and associated detectors) for each vb group
-            _virtualBoundaryController = new VirtualBoundaryController(null);
-            _detectorControllers = null;
-            _detectors = null;
+            _detectorControllers = new List<IDetectorController>();
+            _detectors = new List<IDetector>(); // need these for Output
+            _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
             foreach (var vbg in input.VirtualBoundaryGroups)
             {
                 var detectors = DetectorFactory.GetDetectors(vbg.DetectorInputs, _tissue, input.Options.TallySecondMoment);
                 foreach (var detector in detectors)
                 {
-                    _detectors.Add(detector);          
+                    _detectors.Add(detector);
                 }
                 var detectorController = DetectorControllerFactory.GetDetectorController(vbg.VirtualBoundaryType, detectors);
                 _detectorControllers.Add(detectorController);
@@ -74,7 +74,11 @@ namespace Vts.MonteCarlo
                 var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbg.VirtualBoundaryType,
                     _tissue, detectorController);
                 _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
-            }            
+            }  
+
+            //_virtualBoundaryController.VirtualBoundaries = VirtualBoundaryFactory.GetVirtualBoundaries(
+            //    input.VirtualBoundaryGroups, _tissue, input.Options.TallySecondMoment);
+
             //// instantiate detector controller for the detectors that apply to each virtual boundary 
             //var detectors = DetectorFactory.GetDetectors(input.DetectorInputs, _tissue, input.Options.TallySecondMoment);
             //_surfaceDetectorController = DetectorControllerFactory.GetStandardSurfaceDetectorController(detectors);
@@ -152,7 +156,12 @@ namespace Vts.MonteCarlo
                                 terminationWriter = new PhotonDatabaseWriter(
                                     Path.Combine(_outputPath, _input.OutputName, "photonSpecularDatabase"));
                                 break;
-                             // how do I handle pMC database?
+                            case VirtualBoundaryType.pMCDiffuseReflectance:
+                                terminationWriter = new PhotonDatabaseWriter(
+                                    Path.Combine(_outputPath, _input.OutputName, "photonReflectanceDatabase"));
+                                collisionWriter = new CollisionInfoDatabaseWriter(
+                                    Path.Combine(_outputPath, _input.OutputName, "collisionInfoDatabase"), _tissue.Regions.Count());
+                                break;
                         }
                     }
                 }
@@ -189,7 +198,7 @@ namespace Vts.MonteCarlo
                         // for each "hit" virtual boundary, tally respective detectors. 
                         if (hitType == BoundaryHitType.Virtual)
                         {   
-                               ((ISurfaceDetectorController)_virtualBoundaryController.ClosestVirtualBoundary).Tally(photon.DP);     
+                               ((ISurfaceVirtualBoundary)_virtualBoundaryController.ClosestVirtualBoundary).DetectorController.Tally(photon.DP);     
                         }
 
                         // kill photon for various reasons, including possible VB crossings
@@ -230,12 +239,12 @@ namespace Vts.MonteCarlo
                     // note History has possibly 2 more DPs than linux code due to 
                     // final crossing of PseudoReflectedTissueBoundary and then
                     // PseudoDiffuseReflectanceVB
-                    var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Select(
+                    var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
                         v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
-                    //foreach (var vb in volumeVBs)
-                    //{         
-                    //    ((IVolumeDetectorController)vb.DetectorController).Tally(photon.History);   
-                    //}
+                    foreach (var vb in volumeVBs)
+                    {
+                        ((IVolumeVirtualBoundary)vb).DetectorController.Tally(photon.History);
+                    }
 
                     if (TrackStatistics)
                     {

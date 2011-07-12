@@ -10,11 +10,12 @@ namespace Vts.MonteCarlo
        /// <summary>
        /// Surface Boundary Group constructor 
        /// </summary>
-       public SurfaceBoundaryGroup(IList<IDetectorInput> detectorInputs, bool writeToDatabase)
+       public SurfaceBoundaryGroup(VirtualBoundaryType type, IList<IDetectorInput> detectorInputs, bool writeToDatabase, string name)
        {
            DetectorInputs = detectorInputs;
            WriteToDatabase = writeToDatabase;
-           VirtualBoundaryType = VirtualBoundaryType.DiffuseReflectance;
+           VirtualBoundaryType = type;
+           Name = name;
        }
 
        /// <summary>
@@ -22,16 +23,19 @@ namespace Vts.MonteCarlo
        /// </summary>
        public SurfaceBoundaryGroup()
            : this(
+           VirtualBoundaryType.DiffuseReflectance,
                new List<IDetectorInput> 
                 { 
                     new ROfRhoDetectorInput(),
                 },
-               false)
+               false,
+               VirtualBoundaryType.DiffuseReflectance.ToString())
        {
        }
 
        public IList<IDetectorInput> DetectorInputs { get; set; }
        public bool WriteToDatabase { get; set; }
        public VirtualBoundaryType VirtualBoundaryType { get; set; }
+       public string Name { get; set; }
    }
 }

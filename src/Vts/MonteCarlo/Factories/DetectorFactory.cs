@@ -12,6 +12,7 @@ namespace Vts.MonteCarlo.Factories
     {
         public static IList<IDetector> GetDetectors(IEnumerable<IDetectorInput> detectorInputs, ITissue tissue, bool tallySecondMoment)
         {
+            // what if detectorInputs is null?
             return detectorInputs.Select(detectorInput => GetDetector(detectorInput, tissue, tallySecondMoment)).ToList();
         }
        
@@ -22,7 +23,6 @@ namespace Vts.MonteCarlo.Factories
         {
             switch (detectorInput.TallyType)
             {
-                default:
                 // ISurfaceDetector(s):
                 case TallyType.RDiffuse:
                     var rdinput = (RDiffuseDetectorInput)detectorInput;
@@ -77,17 +77,23 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.ATotal:
                     var ainput = (ATotalDetectorInput)detectorInput;
                     return new ATotalDetector(tissue, tallySecondMoment, ainput.Name);
+
+                default:
+                    return null;
             }
         }
-        // pMC overload
-        public static IpMCSurfaceDetector GetpMCDetector(
+        // pMC methods
+        public static IList<IDetector> GetDetectors(IEnumerable<IpMCDetectorInput> detectorInputs, ITissue tissue, bool tallySecondMoment)
+        {
+            return detectorInputs.Select(detectorInput => GetpMCDetector(detectorInput, tissue, tallySecondMoment)).ToList();
+        }
+        public static IDetector GetpMCDetector(
             IpMCDetectorInput detectorInput,
             ITissue tissue,
             bool tallySecondMoment)
         {
             switch (detectorInput.TallyType)
             {
-                default:
                 case TallyType.pMCROfRhoAndTime:
                     var prrtinput = (pMCROfRhoAndTimeDetectorInput)detectorInput;
                     return new pMCROfRhoAndTimeDetector(
@@ -108,6 +114,9 @@ namespace Vts.MonteCarlo.Factories
                         tallySecondMoment,
                         prrinput.Name
                         );
+
+                default:
+                    return null;
             }
         }
  

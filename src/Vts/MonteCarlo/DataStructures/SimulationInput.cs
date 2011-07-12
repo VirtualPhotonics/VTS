@@ -18,14 +18,16 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(DirectionalPointSourceInput))]
     [KnownType(typeof(IsotropicPointSourceInput))]
     [KnownType(typeof(CustomPointSourceInput))]
-
     [KnownType(typeof(DirectionalLineSourceInput))]
-
 
     // Tissue inputs
     [KnownType(typeof(MultiLayerTissueInput))]
     
     // Detector inputs
+    [KnownType(typeof(SurfaceBoundaryGroup))]
+    [KnownType(typeof(GenericVolumeGroup))]
+    [KnownType(typeof(pMCSurfaceBoundaryGroup))]
+
     [KnownType(typeof(AOfRhoAndZDetectorInput))]
     [KnownType(typeof(ATotalDetectorInput))]
     [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
@@ -117,11 +119,13 @@ namespace Vts.MonteCarlo
                 new List<IVirtualBoundaryGroup>
                     {
                         new SurfaceBoundaryGroup(
+                            VirtualBoundaryType.DiffuseReflectance,
                             new List<IDetectorInput>
                             {
                                 new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
                             },
-                            false) // write to database bool
+                            false,
+                            VirtualBoundaryType.DiffuseReflectance.ToString()) // write to database bool
                     }
                 ) { }
 

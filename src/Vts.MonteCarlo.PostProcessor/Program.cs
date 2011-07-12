@@ -222,15 +222,32 @@ namespace Vts.MonteCarlo.PostProcessor
             Output postProcessedOutput;
             if (!doPMC)
             {
-                postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                    Input.DetectorInputs, false, photonDatabase, databaseSimulationInput);
+                // the following only works for surface boundary detectors
+                postProcessedOutput = PhotonSurfaceBoundaryGroupDatabasePostProcessor.GenerateOutput(
+                    new SurfaceBoundaryGroup(
+                        VirtualBoundaryType.DiffuseReflectance,
+                        Input.DetectorInputs, 
+                        false, 
+                        VirtualBoundaryType.DiffuseReflectance.ToString()
+                    ),
+                    false,
+                    photonDatabase, 
+                    databaseSimulationInput);
             }
             else
             {
                 IList<IpMCDetectorInput> pMCDetectorInputs;
                 pMCDetectorInputs = Input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
-                postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                    pMCDetectorInputs, false, pmcDatabase, databaseSimulationInput);
+                postProcessedOutput = PhotonSurfaceBoundaryGroupDatabasePostProcessor.GenerateOutput(
+                    new pMCSurfaceBoundaryGroup(
+                        VirtualBoundaryType.pMCDiffuseReflectance,
+                        pMCDetectorInputs, 
+                        false, 
+                        VirtualBoundaryType.pMCDiffuseReflectance.ToString()
+                    ),
+                    false,
+                    pmcDatabase, 
+                    databaseSimulationInput);
             }
             var folderPath = OutputFolder;
             if (!Directory.Exists(folderPath))

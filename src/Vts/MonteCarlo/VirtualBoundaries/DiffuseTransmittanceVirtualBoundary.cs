@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// <summary>
     /// Implements IVirtualBoundary.  Used to capture all diffuse transmittance detectors
     /// </summary>
-    public class DiffuseTransmittanceVirtualBoundary : IVirtualBoundary
+    public class DiffuseTransmittanceVirtualBoundary : ISurfaceVirtualBoundary
     {
         private double _zPlanePosition;
 

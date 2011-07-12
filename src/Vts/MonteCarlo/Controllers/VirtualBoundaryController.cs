@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.Controllers
             _virtualBoundaries = virtualBoundaries;
         }
 
-        public IList<IVirtualBoundary> VirtualBoundaries { get { return _virtualBoundaries; } }
+        public IList<IVirtualBoundary> VirtualBoundaries { get { return _virtualBoundaries; } set { _virtualBoundaries = value; } }
         public IVirtualBoundary ClosestVirtualBoundary { get; set; }
 
         // the following handles a list of VBs
@@ -46,6 +46,7 @@ namespace Vts.MonteCarlo.Controllers
                     }
                 }
             }
+  
             ClosestVirtualBoundary = vb;
             return vb;
         }

@@ -170,11 +170,13 @@
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DosimetryOfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationStatistics.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\VirtualBoundaryGroups\pMCSurfaceBoundaryGroup.cs" />
     <Compile Include="MonteCarlo\DataStructures\VirtualBoundaryGroups\GenericVolumeGroup.cs" />
     <Compile Include="MonteCarlo\DataStructures\VirtualBoundaryGroups\SurfaceBoundaryGroup.cs" />
     <Compile Include="MonteCarlo\Detectors\DosimetryOfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RSpecularDetector.cs" />
     <Compile Include="MonteCarlo\Factories\VirtualBoundaryFactory.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IpMCSurfaceDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVolumeVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\Interfaces\ISurfaceVirtualBoundary.cs" />
@@ -286,7 +288,7 @@
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndTimeDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs" />
     <Compile Include="MonteCarlo\Controllers\SurfaceDetectorController.cs" />
-    <Compile Include="MonteCarlo\Controllers\pMCDetectorController.cs" />
+    <Compile Include="MonteCarlo\Controllers\pMCSurfaceDetectorController.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CircularSourceInputs\CustomCircularSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CircularSourceInputs\DirectionalCircularSourceInput.cs" />
@@ -352,7 +354,7 @@
     <Compile Include="MonteCarlo\PhotonData\PhotonDatabaseWriter.cs" />
     <Compile Include="MonteCarlo\PhotonData\PhotonDataPointSerializer.cs" />
     <Compile Include="MonteCarlo\PhotonData\SubRegionCollisionInfo.cs" />
-    <Compile Include="MonteCarlo\PostProcessing\PhotonTerminationDatabasePostProcessor.cs" />
+    <Compile Include="MonteCarlo\PostProcessing\PhotonSurfaceBoundaryGroupDatabasePostProcessor.cs" />
     <Compile Include="Common\Extensions\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PostProcessorInput.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceFlags.cs" />
@@ -426,6 +428,7 @@
     <Compile Include="MonteCarlo\Tissues\TissueBase.cs" />
     <Compile Include="MonteCarlo\Tissues\VoxelRegion.cs" />
     <Compile Include="MonteCarlo\StatisticsExtensions.cs" />
+    <Compile Include="MonteCarlo\VirtualBoundaries\pMCDiffuseReflectanceVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\DosimetryVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs" />

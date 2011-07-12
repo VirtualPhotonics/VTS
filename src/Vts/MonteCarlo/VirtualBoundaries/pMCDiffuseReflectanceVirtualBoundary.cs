@@ -10,14 +10,14 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// <summary>
     /// Implements IVirtualBoundary.  Used to capture all diffuse reflectance detectors
     /// </summary>
-    public class DiffuseReflectanceVirtualBoundary : ISurfaceVirtualBoundary
+    public class pMCDiffuseReflectanceVirtualBoundary : ISurfaceVirtualBoundary
     {
         private double _zPlanePosition;
 
         /// <summary>
         /// Creates an instance of a reflectance VB
         /// </summary>
-        public DiffuseReflectanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
+        public pMCDiffuseReflectanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             _zPlanePosition = ((LayerRegion)tissue.Regions[0]).ZRange.Stop;
 
@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
                         dp.Direction.Uz < 0 &&
                         Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
-            VirtualBoundaryType = VirtualBoundaryType.DiffuseReflectance;
+            VirtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
             PhotonStateType = PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary;
 
             DetectorController = (ISurfaceDetectorController)detectorController;

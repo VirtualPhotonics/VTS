@@ -9,10 +9,10 @@ namespace Vts.MonteCarlo.PostProcessing
     /// Sets up and postprocesses Monte Carlo termination data that has been 
     /// saved in a database.
     /// </summary>
-    public class PhotonTerminationDatabasePostProcessor
+    public class PhotonSurfaceBoundaryGroupDatabasePostProcessor
     {
         /// <summary>
-        /// GenerateOutput takes IDetectorInput (which designates tallies), reads PhotonExitHistory, and generates 
+        /// GenerateOutput takes surface boundary group (which designates tallies), reads PhotonExitHistory, and generates 
         /// Output.  This runs the conventional post-processing.
         /// </summary>
         /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
@@ -20,7 +20,8 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <param name="databaseInput">Database information needed for post-processing</param>
         /// <returns></returns>
         public static Output GenerateOutput(
-            IList<IDetectorInput> detectorInputs, 
+            SurfaceBoundaryGroup surfaceBoundaryGroup,
+            //IList<IDetectorInput> detectorInputs, 
             bool tallySecondMoment,
             PhotonDatabase database, 
             SimulationInput databaseInput)
@@ -30,7 +31,7 @@ namespace Vts.MonteCarlo.PostProcessing
                 databaseInput.Options.AbsorptionWeightingType,
                 databaseInput.Options.PhaseFunctionType);
 
-            var detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
+            var detectors = DetectorFactory.GetDetectors(surfaceBoundaryGroup.DetectorInputs, tissue, tallySecondMoment);
 
             // need to work following, only works for pp-ing surface detectors
             var detectorController = 
@@ -62,7 +63,8 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <param name="perturbedRegionsIndices">Indices of regions being perturbed</param>
         /// <returns></returns>
         public static Output GenerateOutput(
-            IList<IpMCDetectorInput> detectorInputs,
+            pMCSurfaceBoundaryGroup surfaceBoundaryGroup,
+            //IList<IpMCDetectorInput> detectorInputs,
             bool tallySecondMoment,
             pMCDatabase database, 
             SimulationInput databaseInput)
@@ -72,17 +74,21 @@ namespace Vts.MonteCarlo.PostProcessing
                 databaseInput.Options.AbsorptionWeightingType,
                 databaseInput.Options.PhaseFunctionType);
 
-            pMCDetectorController detectorController = 
-                Factories.DetectorControllerFactory.GetpMCDetectorController(
-                detectorInputs, tissue, databaseInput.Options.TallySecondMoment);
+            var detectors = DetectorFactory.GetDetectors(surfaceBoundaryGroup.DetectorInputs, tissue, tallySecondMoment);
+
+            pMCSurfaceDetectorController detectorController = 
+                (pMCSurfaceDetectorController)Factories.DetectorControllerFactory.GetpMCDetectorController(
+                VirtualBoundaryType.pMCDiffuseReflectance,
+                detectors, tissue, databaseInput.Options.TallySecondMoment);
+
             foreach (var dp in database.DataPoints)
             {
-                detectorController.TerminationTally(dp.PhotonDataPoint, dp.CollisionInfo);
+                detectorController.Tally(dp.PhotonDataPoint, dp.CollisionInfo);
             }
 
             detectorController.NormalizeDetectors(databaseInput.N);
 
-            var postProcessedOutput = new Output(databaseInput, detectorController.Detectors);
+            var postProcessedOutput = new Output(databaseInput, detectors);
 
             return postProcessedOutput;
         }

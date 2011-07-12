@@ -51,8 +51,13 @@ namespace Vts.Modeling.ForwardSolvers
                         TallyType.pMCROfRho.ToString())
                 };
                 var _postProcessedOutput =
-                    PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                        detectorInputs, 
+                    PhotonSurfaceBoundaryGroupDatabasePostProcessor.GenerateOutput(
+                        new pMCSurfaceBoundaryGroup(
+                            VirtualBoundaryType.pMCDiffuseReflectance,
+                            detectorInputs,
+                            false,
+                            VirtualBoundaryType.pMCDiffuseReflectance.ToString()
+                        ),     
                         false,
                         pMCLoader.PhotonTerminationDatabase,
                         pMCLoader.databaseOutput.Input);
@@ -88,8 +93,13 @@ namespace Vts.Modeling.ForwardSolvers
                      )                       
                 };
                 var _postProcessedOutput =
-                    PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                        detectorInputs, 
+                    PhotonSurfaceBoundaryGroupDatabasePostProcessor.GenerateOutput(
+                        new pMCSurfaceBoundaryGroup(
+                            VirtualBoundaryType.pMCDiffuseReflectance,
+                            detectorInputs, 
+                            false,
+                            VirtualBoundaryType.pMCDiffuseReflectance.ToString()
+                        ),
                         false,
                         pMCLoader.PhotonTerminationDatabase,
                         pMCLoader.databaseOutput.Input);

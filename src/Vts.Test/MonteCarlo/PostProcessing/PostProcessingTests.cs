@@ -20,6 +20,8 @@ namespace Vts.Test.MonteCarlo.PostProcessing
     [TestFixture]
     public class PhotonTerminationDatabasePostProcessorTests
     {
+        private static SurfaceBoundaryGroup _surfaceBoundaryGroup;
+
         /// <summary>
         /// validate_photon_termination_database_postprocessor reads the output data 
         /// generated on the fly by MonteCarloSimulation and using the same binning 
@@ -36,9 +38,11 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var onTheFlyOutput =  new MonteCarloSimulation(input).Run();
 
             var database = PhotonDatabase.FromFile("photonExitDatabase");
-            var postProcessedOutput = PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                input.VirtualBoundaryGroups, 
-                false, database, onTheFlyOutput.Input);
+            var postProcessedOutput = PhotonSurfaceBoundaryGroupDatabasePostProcessor.GenerateOutput(
+                _surfaceBoundaryGroup,
+                false, // tally second moment
+                database,
+                onTheFlyOutput.Input);
 
             ValidateROfRhoAndTime(onTheFlyOutput, postProcessedOutput);
         }
@@ -46,8 +50,18 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         /// method to generate input to the MC simulation
         /// </summary>
         /// <returns>SimulationInput</returns>
-        private static SimulationInput GenerateReferenceInput()
+        public static SimulationInput GenerateReferenceInput()
         {
+            _surfaceBoundaryGroup = new SurfaceBoundaryGroup(
+                    VirtualBoundaryType.DiffuseReflectance,
+                    new List<IDetectorInput>()
+                    {
+                        new ROfRhoAndTimeDetectorInput(
+                            new DoubleRange(0.0, 10.0, 101),
+                            new DoubleRange(0.0, 1, 101))
+                    },
+                    true, // write to database
+                    VirtualBoundaryType.DiffuseReflectance.ToString());
             return new SimulationInput(
                 100,
                 "", // can't give folder name when writing to isolated storage
@@ -56,7 +70,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints },
+                    //new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints },
                     true, // compute Second Moment
                     false, // track statistics
                     1),
@@ -78,17 +92,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryGroup>
-                {
-                    new SurfaceBoundaryGroup(
-                        new List<IDetectorInput>()
-                        {
-                            new ROfRhoAndTimeDetectorInput(
-                                new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(0.0, 1, 101))
-                        },
-                        true)
-                }
+                new List<IVirtualBoundaryGroup> { _surfaceBoundaryGroup }
             );
         }
         
@@ -100,7 +104,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         /// <param name="output2"></param>
         private void ValidateROfRhoAndTime(Output output1, Output output2)
         {
-            var detector = (ROfRhoAndTimeDetectorInput)output1.Input.DetectorInputs.
+            var detector = (ROfRhoAndTimeDetectorInput)_surfaceBoundaryGroup.DetectorInputs.
                 Where(d => d.TallyType == TallyType.ROfRhoAndTime).First(); 
             // currently these are agreeing EXCEPT for last bin i=99, j=99 because VBController not used here
             // and no ContainsPoint is getting executed.
