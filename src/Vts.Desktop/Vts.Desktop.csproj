@@ -769,9 +769,6 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISurfaceDetectorController.cs">
       <Link>MonteCarlo\Interfaces\ISurfaceDetectorController.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISurfaceVirtualBoundary.cs">
-      <Link>MonteCarlo\Interfaces\ISurfaceVirtualBoundary.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissue.cs">
       <Link>MonteCarlo\Interfaces\ITissue.cs</Link>
     </Compile>
@@ -792,9 +789,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IVolumeDetectorController.cs">
       <Link>MonteCarlo\Interfaces\IVolumeDetectorController.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IVolumeVirtualBoundary.cs">
-      <Link>MonteCarlo\Interfaces\IVolumeVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\IO\DatabaseOfT.cs">
       <Link>MonteCarlo\IO\DatabaseOfT.cs</Link>

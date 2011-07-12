@@ -7,7 +7,7 @@ namespace Vts.MonteCarlo
     /// Defines a contract for Monte Carlo tallies.
     /// </summary>
     /// <typeparam name="T">type of tally return (e.g. double[])</typeparam>
-    public interface IDetector<T> : IDetector
+    public interface IDetector<out T> : IDetector
     {
         T Mean { get; }
         T SecondMoment { get; }

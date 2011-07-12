@@ -10,15 +10,15 @@ namespace Vts.MonteCarlo.Controllers
     /// </summary>
     public class SurfaceDetectorController : ISurfaceDetectorController
     {
-        private IList<ISurfaceDetector> _detectors;
+        private IList<IDetector> _detectors;
 
         public SurfaceDetectorController(
             IList<ISurfaceDetector> detectors)
         {
-            _detectors = detectors;
+            _detectors = detectors.Select(d => (IDetector)d).ToList();
         }
 
-        public IList<ISurfaceDetector> Detectors { get { return _detectors; } }
+        public IList<IDetector> Detectors { get { return _detectors; } }
         
         public void Tally(PhotonDataPoint dp)
         {
@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.Controllers
             {
                 //if (dp.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) &&
                 //    tally.TallyType.IsSurfaceTally())
-                    detector.Tally(dp);
+                    ((ISurfaceDetector)detector).Tally(dp);
             }
         }
 

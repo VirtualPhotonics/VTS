@@ -6,7 +6,6 @@ namespace Vts.MonteCarlo
 {
     public interface IVolumeDetectorController : IDetectorController
     {
-        IList<IVolumeDetector> Detectors { get; }
         void Tally(PhotonHistory history);
     }
 }

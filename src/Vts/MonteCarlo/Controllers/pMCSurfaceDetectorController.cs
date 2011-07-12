@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Controllers
     {
         private ITissue _tissue;
         private bool _tallySecondMoment;
-        private IList<IpMCSurfaceDetector> _detectors;
+        private IList<IDetector> _detectors;
 
         public pMCSurfaceDetectorController(
             IList<IpMCSurfaceDetector> detectors,
@@ -23,11 +23,12 @@ namespace Vts.MonteCarlo.Controllers
         {
             _tissue = tissue;
             _tallySecondMoment = tallySecondMoment;
-            _detectors = detectors;
+            _detectors = detectors.Select(d => (IDetector)d).ToList();
             ReferenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
         }
 
-        public IList<IpMCSurfaceDetector> Detectors { get { return _detectors; } }
+        //public IList<IpMCSurfaceDetector> Detectors { get { return _detectors; } }
+        public IList<IDetector> Detectors { get { return _detectors; } }
         public IList<OpticalProperties> ReferenceOps { get; set; }
         public IList<int> PerturbedRegionsIndices { get; set; }
         
@@ -38,7 +39,7 @@ namespace Vts.MonteCarlo.Controllers
                 // only set up reflectance tallies for now, NEED TO FIX
                 if (dp.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) &&
                     detector.TallyType.IsSurfaceTally()) 
-                    detector.Tally(dp, collisionInfo);
+                    ((IpMCSurfaceDetector)detector).Tally(dp, collisionInfo);
             }
         }
 

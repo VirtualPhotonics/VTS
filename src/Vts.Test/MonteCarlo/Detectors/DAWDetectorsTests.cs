@@ -280,8 +280,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         //[Test]
         //public void validate_DAW_DosimetryOfRho()
         //{
-        // need radiance detector to compare results
-        //    Assert.Less(Math.Abs(_outputOneLayerTissue.Dos_r[0] - _outputOneLayerTissue.Flu_rz[0, 5]), 0.0000001); 
+        // //need radiance detector to compare results
+        //    Assert.Less(Math.Abs(_outputOneLayerTissue.Dos_r[0] - 0.006), 0.0000001); 
         //}
     }
 }

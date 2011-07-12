@@ -6,7 +6,7 @@ namespace Vts.MonteCarlo
 {
     public interface IpMCSurfaceDetectorController : IDetectorController
     {
-        IList<IpMCSurfaceDetector> Detectors { get; }
+        // IList<IpMCSurfaceDetector> Detectors { get; }
         void Tally(PhotonDataPoint dp, CollisionInfo info);
     }
 }

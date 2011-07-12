@@ -10,15 +10,15 @@ namespace Vts.MonteCarlo.Controllers
     /// </summary>
     public class VolumeDetectorController : IVolumeDetectorController
     {
-        private IList<IVolumeDetector> _detectors;
+        private IList<IDetector> _detectors;
 
         public VolumeDetectorController(
             IList<IVolumeDetector> detectors)
         {
-            _detectors = detectors;
+            _detectors = detectors.Select(d => (IDetector)d).ToList();
         }
 
-        public IList<IVolumeDetector> Detectors { get { return _detectors; } }      
+        public IList<IDetector> Detectors { get { return _detectors; } }      
 
         public void Tally(PhotonHistory history)
         {
@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.Controllers
             {
                 foreach (var tally in _detectors)
                 {
-                    tally.Tally(previousDP, dp);
+                    ((IVolumeDetector)tally).Tally(previousDP, dp);
                 }
                 previousDP = dp;
             }

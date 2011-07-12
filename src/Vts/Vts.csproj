@@ -178,8 +178,6 @@
     <Compile Include="MonteCarlo\Factories\VirtualBoundaryFactory.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCSurfaceDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
-    <Compile Include="MonteCarlo\Interfaces\IVolumeVirtualBoundary.cs" />
-    <Compile Include="MonteCarlo\Interfaces\ISurfaceVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVolumeDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVirtualBoundaryGroup.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVirtualBoundary.cs" />

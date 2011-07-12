@@ -6,7 +6,6 @@ namespace Vts.MonteCarlo
 {
     public interface ISurfaceDetectorController : IDetectorController
     {
-        IList<ISurfaceDetector> Detectors { get; }
         void Tally(PhotonDataPoint dp);
     }
 }

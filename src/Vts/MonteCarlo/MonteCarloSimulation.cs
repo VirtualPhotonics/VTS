@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo
         private ISource _source;
         private ITissue _tissue;
         private VirtualBoundaryController _virtualBoundaryController;
-        private IList<IDetector> _detectors;  // this is total list of detectors indep. of VBs
+        //private IList<IDetector> _detectors;  // this is total list of detectors indep. of VBs
         private IList<IDetectorController> _detectorControllers; // total list of detectors Controllers indep. of VBs
         private long _numberOfPhotons;
         private SimulationStatistics _simulationStatistics;
@@ -58,15 +58,16 @@ namespace Vts.MonteCarlo
 
             // instantiate vb (and associated detectors) for each vb group
             _detectorControllers = new List<IDetectorController>();
-            _detectors = new List<IDetector>(); // need these for Output
+            //_detectors = new List<IDetector>(); // need these for Output
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
             foreach (var vbg in input.VirtualBoundaryGroups)
             {
+                // put in VBFactory
                 var detectors = DetectorFactory.GetDetectors(vbg.DetectorInputs, _tissue, input.Options.TallySecondMoment);
-                foreach (var detector in detectors)
-                {
-                    _detectors.Add(detector);
-                }
+                //foreach (var detector in detectors)
+                //{
+                //    _detectors.Add(detector);
+                //}
                 var detectorController = DetectorControllerFactory.GetDetectorController(vbg.VirtualBoundaryType, detectors);
                 _detectorControllers.Add(detectorController);
                 //var virtualBoundaryController = VirtualBoundaryControllerFactory.GetVirtualBoundaryController(
@@ -119,9 +120,10 @@ namespace Vts.MonteCarlo
 
             ExecuteMCLoop();
 
-            Results = new Output(_input, _detectors);
+            var detectors = _virtualBoundaryController.VirtualBoundaries.SelectMany(vb =>
+                vb.DetectorController.Detectors).ToList();
 
-            ReportResults();
+            Results = new Output(_input, detectors);
 
             return Results;
         }
@@ -195,10 +197,11 @@ namespace Vts.MonteCarlo
                         //bool hitBoundary = photon.Move(distance);
                         BoundaryHitType hitType = Move(photon); // in-line?
 
+                        // todo: consider moving actual calls to Tally after do-while
                         // for each "hit" virtual boundary, tally respective detectors. 
                         if (hitType == BoundaryHitType.Virtual)
                         {   
-                               ((ISurfaceVirtualBoundary)_virtualBoundaryController.ClosestVirtualBoundary).DetectorController.Tally(photon.DP);     
+                            ((ISurfaceDetectorController)_virtualBoundaryController.ClosestVirtualBoundary.DetectorController).Tally(photon.DP);     
                         }
 
                         // kill photon for various reasons, including possible VB crossings
@@ -243,7 +246,7 @@ namespace Vts.MonteCarlo
                         v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
                     foreach (var vb in volumeVBs)
                     {
-                        ((IVolumeVirtualBoundary)vb).DetectorController.Tally(photon.History);
+                        ((IVolumeDetectorController)vb.DetectorController).Tally(photon.History);
                     }
 
                     if (TrackStatistics)
@@ -301,14 +304,6 @@ namespace Vts.MonteCarlo
                     return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
                 }
             }
-        }
-
-        public void ReportResults()
-        {
-            // write out how many photons written to each detector
-            for (int i = 0; i < _detectors.Count; ++i)  
-                Console.WriteLine(SimulationIndex + ": detector named {0} -> {1} photons written",
-                    _detectors[i].TallyType, _detectors[i].TallyCount);
         }
 
         /********************************************************/

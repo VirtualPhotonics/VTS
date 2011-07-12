@@ -15,5 +15,6 @@ namespace Vts.MonteCarlo
         string Name { get; }
         VirtualBoundaryType VirtualBoundaryType { get; }
         PhotonStateType PhotonStateType { get; }
+        IDetectorController DetectorController { get; }
     }
 }

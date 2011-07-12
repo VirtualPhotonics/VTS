@@ -6,6 +6,7 @@ namespace Vts.MonteCarlo
 {
     public interface IDetectorController
     {
+        IList<IDetector> Detectors { get; }
         void NormalizeDetectors(long N);
     }
 }
