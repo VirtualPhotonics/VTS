@@ -15,6 +15,7 @@ namespace Vts.SiteVisit.ViewModel
         public SpectralMappingViewModel SpectralMappingVM { get; private set; }
         public PlotViewModel PlotVM { get; private set; }
         public MapViewModel MapVM { get; private set; }
+        public MeshViewModel MeshVM { get; private set; }
         public TextOutputViewModel TextOutputVM { get; private set; }
 
         public SolverDemoViewModel()
@@ -27,6 +28,7 @@ namespace Vts.SiteVisit.ViewModel
             SpectralMappingVM = new SpectralMappingViewModel();
             PlotVM = new PlotViewModel();
             MapVM = new MapViewModel();
+            MeshVM = new MeshViewModel();
             TextOutputVM = new TextOutputViewModel();
         }
     }

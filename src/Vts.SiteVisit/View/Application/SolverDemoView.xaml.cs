@@ -41,11 +41,19 @@ namespace Vts.SiteVisit.View
                             outputTabControl.SelectedItem = outputTabControl.Items[0];
                             ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Visible;
                             ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Collapsed;
+                            ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Collapsed;
                             break;
                         case "tabFluence":
                             outputTabControl.SelectedItem = outputTabControl.Items[1];
                             ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Visible;
                             ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Collapsed;
+                            ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Collapsed;
+                            break;
+                        case "tabFem":
+                            outputTabControl.SelectedItem = outputTabControl.Items[1];
+                            ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Visible;
+                            ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Collapsed;
+                            ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Collapsed;
                             break;
                     }
                 }

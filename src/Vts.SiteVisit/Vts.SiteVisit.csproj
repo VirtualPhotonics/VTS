@@ -175,6 +175,7 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="ViewModel\Application\Panels\FemSolverViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\MeshViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MultiLayerTissueViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\LayerRegionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SimulationInputViewModel.cs" />
@@ -182,13 +183,16 @@
     <Compile Include="Converters\DoubleToStringConverter.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\FluenceSolutionDomainOptionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\FluenceSolverViewModel.cs" />
-    <Compile Include="ViewModel\Application\Panels\MapViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarloSolverViewModel.cs" />
     <Compile Include="Model\PlotData.cs" />
+    <Compile Include="ViewModel\Application\Panels\MapViewModel.cs" />
     <Compile Include="ViewModel\Application\WhiteList.cs" />
     <Compile Include="ViewModel\Helpers\PlotAxesLabels.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\SolutionDomainOptionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SpectralMappingViewModel.cs" />
+    <Compile Include="View\Application\Panels\MeshView.xaml.cs">
+      <DependentUpon>MeshView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Application\Panels\FemSolverView.xaml.cs">
       <DependentUpon>FemSolverView.xaml</DependentUpon>
     </Compile>
@@ -298,6 +302,10 @@
     <Page Include="Resources\ControlResourceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Application\Panels\MeshView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

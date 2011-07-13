@@ -90,7 +90,7 @@
                             DataContext="{Binding MonteCarloSolverVM}"
                             Background="LightSteelBlue"/>
                 </controls:TabItem>
-                <controls:TabItem Header="FEM Solver Panel">
+                <controls:TabItem Name="tabFem" Header="FEM Solver Panel">
                     <local:FemSolverView
                             DataContext="{Binding FemSolverVM}"
                             Background="LightSteelBlue"/>
@@ -115,7 +115,12 @@
                             DataContext="{Binding MapVM}"
                             Background="LightSteelBlue"/>
                     </controls:TabItem>
-                </controls:TabControl>
+                <controls:TabItem Name="tabMesh" Header="Mesh Map View" Visibility="Collapsed">
+                    <local:MapView
+                            DataContext="{Binding MeshVM}"
+                            Background="LightSteelBlue"/>
+                </controls:TabItem>
+            </controls:TabControl>
 
                 <local:TextOutputView
                     DataContext="{Binding TextOutputVM}"
