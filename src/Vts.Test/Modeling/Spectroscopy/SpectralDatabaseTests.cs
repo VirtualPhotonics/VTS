@@ -52,12 +52,14 @@ namespace Vts.Test.Modeling.Spectroscopy
             //create 2 sets of values for the tab delimeted file
             ChromophoreSpectrum c = new ChromophoreSpectrum();
             c.Name = "HbO2";
-            c.AbsorptionCoefficientUnits = AbsorptionCoefficientUnits.PerMillimeter;
+            c.AbsorptionCoefficientUnit = AbsorptionCoefficientUnit.InverseMillimeters;
+            c.MolarUnit = MolarUnit.None;
             c.ChromophoreCoefficientType = ChromophoreCoefficientType.MolarAbsorptionCoefficient;
             myChromophoreList.Add(c);
             ChromophoreSpectrum c2 = new ChromophoreSpectrum();
             c2.Name = "Hb";
-            c2.AbsorptionCoefficientUnits = AbsorptionCoefficientUnits.PerMillimeter;
+            c2.AbsorptionCoefficientUnit = AbsorptionCoefficientUnit.InverseMillimeters;
+            c2.MolarUnit = MolarUnit.None;
             c2.ChromophoreCoefficientType = ChromophoreCoefficientType.MolarAbsorptionCoefficient;
             myChromophoreList.Add(c2);
             var testDictionary = SpectralDatabase.CreateDatabaseFromFile(myChromophoreList, stream, 2);

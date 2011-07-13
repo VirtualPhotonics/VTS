@@ -337,6 +337,7 @@ namespace Vts
 
     public enum MolarUnit
     {
+        None,
         Molar,
         MilliMolar,
         MicroMolar,
