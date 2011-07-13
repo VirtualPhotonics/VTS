@@ -67,6 +67,5 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             distanceToBoundary = (_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;
             return distanceToBoundary;
         }
-
     }
 }

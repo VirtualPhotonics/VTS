@@ -57,35 +57,16 @@ namespace Vts.MonteCarlo
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
 
             // instantiate vb (and associated detectors) for each vb group
-            _detectorControllers = new List<IDetectorController>();
-            //_detectors = new List<IDetector>(); // need these for Output
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
             foreach (var vbg in input.VirtualBoundaryGroups)
             {
-                // put in VBFactory
                 var detectors = DetectorFactory.GetDetectors(vbg.DetectorInputs, _tissue, input.Options.TallySecondMoment);
-                //foreach (var detector in detectors)
-                //{
-                //    _detectors.Add(detector);
-                //}
                 var detectorController = DetectorControllerFactory.GetDetectorController(vbg.VirtualBoundaryType, detectors);
-                _detectorControllers.Add(detectorController);
-                //var virtualBoundaryController = VirtualBoundaryControllerFactory.GetVirtualBoundaryController(
-                //    vbg.VirtualBoundaryGroupType, detectorController, _tissue);
-                var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbg.VirtualBoundaryType,
-                    _tissue, detectorController);
+                var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbg.VirtualBoundaryType,_tissue, detectorController);
                 _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
-            }  
-
-            //_virtualBoundaryController.VirtualBoundaries = VirtualBoundaryFactory.GetVirtualBoundaries(
-            //    input.VirtualBoundaryGroups, _tissue, input.Options.TallySecondMoment);
-
-            //// instantiate detector controller for the detectors that apply to each virtual boundary 
-            //var detectors = DetectorFactory.GetDetectors(input.DetectorInputs, _tissue, input.Options.TallySecondMoment);
-            //_surfaceDetectorController = DetectorControllerFactory.GetStandardSurfaceDetectorController(detectors);
-
-            //_virtualBoundaryController = VirtualBoundaryControllerFactory.GetVirtualBoundaryController(
-            //    _detectorController.Detectors, _tissue);
+            }
+            // needed?
+            _detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
         }
 
         /// <summary>
@@ -194,14 +175,15 @@ namespace Vts.MonteCarlo
                     { /* begin do while  */
                         photon.SetStepSize(); // only calls rng if SLeft == 0.0
 
-                        //bool hitBoundary = photon.Move(distance);
-                        BoundaryHitType hitType = Move(photon); // in-line?
+                        IVirtualBoundary closestVirtualBoundary;
+
+                        BoundaryHitType hitType = Move(photon, out closestVirtualBoundary);
 
                         // todo: consider moving actual calls to Tally after do-while
                         // for each "hit" virtual boundary, tally respective detectors. 
                         if (hitType == BoundaryHitType.Virtual)
-                        {   
-                            ((ISurfaceDetectorController)_virtualBoundaryController.ClosestVirtualBoundary.DetectorController).Tally(photon.DP);     
+                        {
+                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP);     
                         }
 
                         // kill photon for various reasons, including possible VB crossings
@@ -263,17 +245,18 @@ namespace Vts.MonteCarlo
             }
 
             // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
-            foreach (var detectorController in _detectorControllers)
-            {                
-                detectorController.NormalizeDetectors(_numberOfPhotons);
+            foreach (var vb in _virtualBoundaryController.VirtualBoundaries)
+            {     
+                vb.DetectorController.NormalizeDetectors(_numberOfPhotons);
             }
+            
             if (TrackStatistics)
             {
                 _simulationStatistics.ToFile("statistics");
             }
         }
 
-        private BoundaryHitType Move(Photon photon)
+        private BoundaryHitType Move(Photon photon, out IVirtualBoundary closestVirtualBoundary)
         {
             bool willHitTissueBoundary = false;
 
@@ -282,7 +265,9 @@ namespace Vts.MonteCarlo
             // get distance to any VB
 
             double vbDistance = double.PositiveInfinity;
-            var vb =_virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out vbDistance);
+            
+            // find closest VB (will return null if no closest VB exists)
+            closestVirtualBoundary = _virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out vbDistance);
 
             if (tissueDistance < vbDistance) // determine if will hit tissue boundary first
             {
@@ -300,7 +285,7 @@ namespace Vts.MonteCarlo
                 else
                 {
                     var hitVirtualBoundary = photon.Move(vbDistance);
-                    photon.DP.StateFlag = photon.DP.StateFlag.Add(vb.PhotonStateType); // add pseudo-collision for vb
+                    photon.DP.StateFlag = photon.DP.StateFlag.Add(closestVirtualBoundary.PhotonStateType); // add pseudo-collision for vb
                     return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
                 }
             }

@@ -25,7 +25,8 @@ namespace Vts.MonteCarlo.Factories
 
             }
         }
-        public static SurfaceDetectorController GetStandardSurfaceDetectorController(IList<ISurfaceDetector> detectors)
+
+        private static SurfaceDetectorController GetStandardSurfaceDetectorController(IList<ISurfaceDetector> detectors)
         {
             SurfaceDetectorController controller = null;
             controller = new SurfaceDetectorController(detectors);
@@ -36,7 +37,8 @@ namespace Vts.MonteCarlo.Factories
 
             return controller;
         }
-        public static VolumeDetectorController GetStandardVolumeDetectorController(IList<IVolumeDetector> detectors)
+
+        private static VolumeDetectorController GetStandardVolumeDetectorController(IList<IVolumeDetector> detectors)
         {
             VolumeDetectorController controller = null;
             controller = new VolumeDetectorController(detectors);
@@ -47,6 +49,7 @@ namespace Vts.MonteCarlo.Factories
 
             return controller;
         }
+
         // pMC methods
         public static IDetectorController GetpMCDetectorController(
             VirtualBoundaryType virtualBoundaryType, IList<IDetector> detectors,
@@ -61,7 +64,8 @@ namespace Vts.MonteCarlo.Factories
                         tissue, tallySecondMoment);
             }
         }
-        public static pMCSurfaceDetectorController GetpMCSurfaceDetectorController(
+
+        private static pMCSurfaceDetectorController GetpMCSurfaceDetectorController(
             IList<IpMCSurfaceDetector> detectors, ITissue tissue, bool tallySecondMoment)
         {
             pMCSurfaceDetectorController controller = null;

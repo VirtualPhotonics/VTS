@@ -26,7 +26,6 @@ namespace Vts.MonteCarlo.Controllers
         }
 
         public IList<IVirtualBoundary> VirtualBoundaries { get { return _virtualBoundaries; } set { _virtualBoundaries = value; } }
-        public IVirtualBoundary ClosestVirtualBoundary { get; set; }
 
         // the following handles a list of VBs
         public IVirtualBoundary GetClosestVirtualBoundary(PhotonDataPoint dp, out double distance)
@@ -46,8 +45,6 @@ namespace Vts.MonteCarlo.Controllers
                     }
                 }
             }
-  
-            ClosestVirtualBoundary = vb;
             return vb;
         }
 
