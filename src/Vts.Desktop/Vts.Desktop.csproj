@@ -475,6 +475,15 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\ValidationResult.cs">
       <Link>MonteCarlo\DataStructuresValidation\ValidationResult.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInputValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInputValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\SurfaceVirtualBoundaryInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\SurfaceVirtualBoundaryInputValidation.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs</Link>
     </Compile>
@@ -688,6 +697,9 @@
     <Compile Include="..\Vts\MonteCarlo\Enums.cs">
       <Link>MonteCarlo\Enums.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Extensions\DetectorExtensionMethods.cs">
+      <Link>MonteCarlo\Extensions\DetectorExtensionMethods.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Extensions\PhotonDataExtensionMethods.cs">
       <Link>MonteCarlo\Extensions\PhotonDataExtensionMethods.cs</Link>
     </Compile>
@@ -696,9 +708,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Extensions\StatisticsExtensions.cs">
       <Link>MonteCarlo\Extensions\StatisticsExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Extensions\TallyExtensionMethods.cs">
-      <Link>MonteCarlo\Extensions\TallyExtensionMethods.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Extensions\VirtualBoundariesExtensionMethods.cs">
       <Link>MonteCarlo\Extensions\VirtualBoundariesExtensionMethods.cs</Link>

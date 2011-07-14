@@ -167,6 +167,9 @@
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
     <Compile Include="MonteCarlo\Controllers\VirtualBoundaryController.cs" />
     <Compile Include="MonteCarlo\Controllers\VolumeDetectorController.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInputValidation.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInputValidation.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\SurfaceVirtualBoundaryInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DosimetryOfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationStatistics.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs" />
@@ -413,7 +416,7 @@
     <Compile Include="MonteCarlo\Detectors\ROfRhoAndTimeDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ROfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ROfXAndYDetector.cs" />
-    <Compile Include="MonteCarlo\Extensions\TallyExtensionMethods.cs" />
+    <Compile Include="MonteCarlo\Extensions\DetectorExtensionMethods.cs" />
     <Compile Include="MonteCarlo\Detectors\TDiffuseDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs" />

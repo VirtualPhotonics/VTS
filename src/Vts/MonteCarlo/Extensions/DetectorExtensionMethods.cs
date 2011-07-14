@@ -4,7 +4,7 @@ namespace Vts.MonteCarlo.Extensions
     /// Methods used to determine if tally is reflectance or 
     /// transmittance tally.
     /// </summary>
-    public static class TallyExtensionMethods
+    public static class DetectorExtensionMethods
     {
         public static bool IsReflectanceTally(this TallyType type)
         {
@@ -34,6 +34,16 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.TOfRho:
                 case TallyType.TOfAngle:
                 case TallyType.TDiffuse:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        public static bool IsInternalTally(this TallyType type)
+        {
+            switch (type)
+            {
+                case TallyType.DosimetryOfRho:
                     return true;
                 default:
                     return false;

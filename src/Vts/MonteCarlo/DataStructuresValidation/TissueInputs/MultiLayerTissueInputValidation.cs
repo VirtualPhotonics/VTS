@@ -15,8 +15,9 @@ namespace Vts.MonteCarlo
     /// <param name="layers"></param>
     public class MultiLayerTissueInputValidation
     {
-        public static ValidationResult ValidateInput(IList<ITissueRegion> layers)
+        public static ValidationResult ValidateInput(ITissueInput input)
         {
+            var layers = input.Regions;
             for (int i = 0; i < layers.Count() - 1; i++)
             {
                 var thisLayer = (LayerRegion)layers[i];

@@ -20,7 +20,19 @@ namespace Vts.MonteCarlo
                 return tempResult;
             }
 
+            tempResult = ValidateSourceInput(input.SourceInput, input.TissueInput);
+            if (!tempResult.IsValid)
+            {
+                return tempResult;
+            }
+            
             tempResult = ValidateTissueInput(input.TissueInput);
+            if (!tempResult.IsValid)
+            {
+                return tempResult;
+            }
+
+            tempResult = ValidateVirtualBoundaryInput(input.VirtualBoundaryInputs);
             if (!tempResult.IsValid)
             {
                 return tempResult;
@@ -61,13 +73,42 @@ namespace Vts.MonteCarlo
         {
             if (tissueInput is MultiLayerTissueInput)
             {
-                return MultiLayerTissueInputValidation.ValidateInput(tissueInput.Regions);
+                return MultiLayerTissueInputValidation.ValidateInput(tissueInput);
             }  
 
             return new ValidationResult(
                 true,
                 "Tissue input must be valid",
                 "Validation skipped for tissue input " + tissueInput + ". No matching validation rules were found.");
+        }
+
+        private static ValidationResult ValidateVirtualBoundaryInput(IList<IVirtualBoundaryInput> virtualBoundaryInputs)
+        {
+            foreach (var virtualBoundaryInput in virtualBoundaryInputs)
+            {
+                if (virtualBoundaryInput is SurfaceVirtualBoundaryInput)
+                {
+                    return SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
+                }
+                if (virtualBoundaryInput is GenericVolumeVirtualBoundaryInput)
+                {
+                    return GenericVolumeVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
+                }
+                if (virtualBoundaryInput is pMCSurfaceVirtualBoundaryInput)
+                {
+                    return pMCSurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
+                }
+
+                return new ValidationResult(
+                    true,
+                    "Virtual Boundary input must be valid",
+                    "Validation skipped for virtual boundary input " + virtualBoundaryInput + ". No matching validation rules were found.");
+            }
+
+            return new ValidationResult(
+                true,
+                "Virtual Boundary input must be valid",
+                "");
         }
     }
 }
