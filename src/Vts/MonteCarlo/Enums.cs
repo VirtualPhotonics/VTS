@@ -167,6 +167,7 @@ namespace Vts.MonteCarlo
         TDiffuse,
         FluenceOfRhoAndZ,
         FluenceOfRhoAndZAndTime,
+        RadianceOfRhoAndZAndAngle,
         AOfRhoAndZ,
         ATotal,
         MomentumTransferOfRhoAndZ,

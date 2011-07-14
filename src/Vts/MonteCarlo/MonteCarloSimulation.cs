@@ -146,7 +146,9 @@ namespace Vts.MonteCarlo
                         if ((hitType == BoundaryHitType.Virtual) &&
                             (closestVirtualBoundary.DetectorController != null))
                         {
-                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP);     
+                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP); 
+                            // reset PhotonStateType after tallying
+                            photon.DP.StateFlag.Remove(closestVirtualBoundary.PhotonStateType);
                         }
 
                         // kill photon for various reasons, including possible VB crossings

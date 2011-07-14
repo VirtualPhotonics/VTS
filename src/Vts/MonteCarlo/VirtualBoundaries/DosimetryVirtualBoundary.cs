@@ -64,16 +64,16 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             double distanceToBoundary = double.PositiveInfinity;
 
             // check if VB not applied
-            if (!dp.StateFlag.Has(PhotonStateType.PseudoDosimetryVirtualBoundary) ||
-                dp.Direction.Uz <= 0.0)
+            //if (!dp.StateFlag.Has(PhotonStateType.PseudoDosimetryVirtualBoundary) ||
+            //    dp.Direction.Uz <= 0.0)
 
             // since no tissue boundary here, need other checks for whether VB is applied
-            //if ((dp.Direction.Uz <= 0.0) || (dp.Position.Z > _zPlanePosition))
+            if ((dp.Direction.Uz <= 0.0) || (dp.Position.Z >= _zPlanePosition)) // >= is key here
             {
                 return distanceToBoundary;
             }
             // VB applies
-            distanceToBoundary = Math.Abs(_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;
+            distanceToBoundary = (_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;
           
             return distanceToBoundary;
         }

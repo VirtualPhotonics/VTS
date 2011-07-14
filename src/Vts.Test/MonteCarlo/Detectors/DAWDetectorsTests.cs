@@ -10,17 +10,20 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Detectors
 {
     /// <summary>
-    /// These tests execute a discrete absorption weighting (DAW)
-    /// MC simulation with 100 photons and verify
-    /// that the tally results match the linux results given the same seed
-    /// mersenne twister STANDARD_TEST
+    /// These tests execute a discrete absorption weighting (DAW) MC simulation with 
+    /// 100 photons and verify that the tally results match the linux results given the 
+    /// same seed using mersenne twister STANDARD_TEST.  The tests then run a simulation
+    /// through a homogeneous two layer tissue (both layers have the same optical properties)
+    /// and verify that the detector tallies are the same.  This tests whether the pseudo-
+    /// collision pausing at the layer interface does not change the results.
     /// </summary>
     [TestFixture]
     public class DAWDetectorsTests
     {
         private Output _outputOneLayerTissue;
         private Output _outputTwoLayerTissue;
-        private double _layerThickness = 2.0;
+        private double _layerThickness = 1.0; // tissue is homogeneous (both layer opt. props same)
+        private double _dosimetryDepth = 2.0;
         private double _factor;
 
         /// <summary>
@@ -95,7 +98,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         VirtualBoundaryType.Dosimetry,
                         new List<IDetectorInput>()
                         {
-                            new DosimetryOfRhoDetectorInput(_layerThickness, new DoubleRange(0.0, 10.0, 101))
+                            new DosimetryOfRhoDetectorInput(_dosimetryDepth, new DoubleRange(0.0, 10.0, 101))
                         },
                         false,
                         VirtualBoundaryType.Dosimetry.ToString()
@@ -138,30 +141,30 @@ namespace Vts.Test.MonteCarlo.Detectors
                 detectors);             
             _outputOneLayerTissue = new MonteCarloSimulation(inputOneLayerTissue).Run();
 
-            var inputTwoLayer = new SimulationInput(
+            var inputTwoLayerTissue = new SimulationInput(
                 100,
                 "",
                 simulationOptions,
                 source,
                 new MultiLayerTissueInput(
                     new List<ITissueRegion>
-                                { 
-                                    new LayerRegion(
-                                        new DoubleRange(double.NegativeInfinity, 0.0),
-                                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                                    new LayerRegion(
-                                        new DoubleRange(0.0, _layerThickness),
-                                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                                    new LayerRegion(
-                                        new DoubleRange(_layerThickness, 20.0),
-                                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                                    new LayerRegion(
-                                        new DoubleRange(20.0, double.PositiveInfinity),
-                                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                                }
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, _layerThickness),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(_layerThickness, 20.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(20.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
                 ),
                 detectors);
-            _outputTwoLayerTissue = new MonteCarloSimulation(inputTwoLayer).Run();
+            _outputTwoLayerTissue = new MonteCarloSimulation(inputTwoLayerTissue).Run();
 
             _factor = 1.0 - Optics.Specular(
                             inputOneLayerTissue.TissueInput.Regions[0].RegionOP.N,
@@ -277,11 +280,11 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[198, 201] * _factor - 0.00825301), 0.00000001);
         }
         // Dosimetry(rho)
-        //[Test]
-        //public void validate_DAW_DosimetryOfRho()
-        //{
-        // //need radiance detector to compare results
-        //    Assert.Less(Math.Abs(_outputOneLayerTissue.Dos_r[0] - 0.006), 0.0000001); 
-        //}
+        [Test]
+        public void validate_DAW_DosimetryOfRho()
+        {
+            //need radiance detector to compare results, for now make sure both simulations give same results
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Dos_r[0] - _outputTwoLayerTissue.Dos_r[0]), 0.0000001);
+        }
     }
 }
