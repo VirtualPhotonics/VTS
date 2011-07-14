@@ -11,10 +11,10 @@ namespace Vts.MonteCarlo.Detectors
 {
     [KnownType(typeof(FluenceOfRhoAndZAndTimeDetector))]
     /// <summary>
-    /// Implements IHistoryDetector<double[,,]>.  Tally for Fluence(rho,z,t).
+    /// Implements IVolumeDetector<double[,,]>.  Tally for Fluence(rho,z,t).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
-    public class FluenceOfRhoAndZAndTimeDetector : IHistoryDetector<double[, ,]>
+    public class FluenceOfRhoAndZAndTimeDetector : IVolumeDetector<double[, ,]>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
@@ -42,13 +42,10 @@ namespace Vts.MonteCarlo.Detectors
             Time = time;
             Mean = new double[Rho.Count - 1, Z.Count - 1, Time.Count - 1];
             _tallySecondMoment = tallySecondMoment;
+            SecondMoment = null;
             if (_tallySecondMoment)
             {
                 SecondMoment = new double[Rho.Count - 1, Z.Count - 1, Time.Count - 1];
-            }
-            else
-            {
-                SecondMoment = null;
             }
             TallyType = TallyType.FluenceOfRhoAndZAndTime;
             Name = name;
@@ -133,13 +130,13 @@ namespace Vts.MonteCarlo.Detectors
 
         private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (photonStateType != PhotonStateType.Absorbed)
+            if (photonStateType.Has(PhotonStateType.Absorbed))
             {
-                weight = 0.0;
+                weight = previousWeight * mua / (mua + mus); 
             }
             else
             {
-                weight = previousWeight * mua / (mua + mus);
+                weight = 0.0;
             }
             return weight;
         }

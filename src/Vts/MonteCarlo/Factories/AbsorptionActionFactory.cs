@@ -4,7 +4,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Factories
 {
     /// <summary>
-    /// Instantiates appropriate ITissue given ITissueInput.
+    /// Instantiates appropriate Absorption method given AbsorptionWeightingType.
     /// </summary>
     public static class AbsorptionActionFactory
     {

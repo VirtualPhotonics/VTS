@@ -1,11 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.Controllers;
 
 namespace Vts.MonteCarlo
 {
@@ -22,6 +22,7 @@ namespace Vts.MonteCarlo
         // could add layer of indirection to not expose Absorb;
         private ITissue _tissue;
         private Random _rng;
+        private bool _firstTimeEnteringDomain;
 
         public Photon(
             Position p,
@@ -33,33 +34,21 @@ namespace Vts.MonteCarlo
             DP = new PhotonDataPoint(
                     p,
                     d,
-                    1.0,
-                    0.0,
-                    PhotonStateType.NotSet);
+                    1.0, // weight
+                    0.0, // total time
+                    PhotonStateType.Alive);
             History = new PhotonHistory(tissue.Regions.Count);
-
             S = 0.0;
-            SLeft = 0.0;
-           
+            SLeft = 0.0;        
             CurrentRegionIndex = currentTissueRegionIndex;
-            // sanity check index against tissue, not sure following will work
-            //if (CurrentRegionIndex != tissue.GetRegionIndex(DP.Position))
-            //{
-            //    throw new ArgumentException("InitialTissueRegionIndex not valid given tissue definition");
-            //}
             var onBoundary = tissue.OnDomainBoundary(this);
             DP.Weight = 1.0;
-            if (onBoundary)
+            // flag to determin whether passing through specular or not
+            _firstTimeEnteringDomain = true;
+            if (CurrentRegionIndex == 1) // photon does not go through specular
             {
-                if (CurrentRegionIndex == 0)
-                {
-                    DP.Weight = 1.0 - Helpers.Optics.Specular( // quick fix 6/16/11 ckh
-                        tissue.Regions[0].RegionOP.N, // index needs to be CurrentRegionIndex
-                        tissue.Regions[1].RegionOP.N); // index needs to be NeighborRegionIndex
-                    CurrentRegionIndex = 1;
-                }
+                _firstTimeEnteringDomain = false;
             }
-
             CurrentTrackIndex = 0;
             _tissue = tissue;
             SetAbsorbAction(_tissue.AbsorptionWeightingType);
@@ -116,11 +105,11 @@ namespace Vts.MonteCarlo
             }
         }
 
-        public void SetStepSize(Random rng)
+        public void SetStepSize()
         {
             if (SLeft == 0.0)
             {
-                S = -Math.Log(rng.NextDouble()) / _tissue.RegionScatterLengths[CurrentRegionIndex];
+                S = -Math.Log(_rng.NextDouble()) / _tissue.RegionScatterLengths[CurrentRegionIndex];
             }
             else
             {
@@ -129,9 +118,9 @@ namespace Vts.MonteCarlo
             }
         }
 
-        public bool Move(double distance)
-        {
-            bool willHitBoundary = WillHitBoundary(distance);
+         public bool Move(double distance)
+         {
+            bool willHitBoundary = S >= distance;
 
             if (willHitBoundary)
             {
@@ -163,15 +152,15 @@ namespace Vts.MonteCarlo
 
             History.AddDPToHistory(DP);
 
-            DP.StateFlag = PhotonStateType.NotSet; // reset state back to not set
-
             return willHitBoundary;
+
+            //DP.StateFlag = PhotonStateType.NotSet; // reset state back to not set
         }
 
-        private bool WillHitBoundary(double distanceToBoundary)
-        {
-            return S >= distanceToBoundary;
-        }
+        //private bool WillHitBoundary(double distanceToBoundary)
+        //{
+        //    return S >= distanceToBoundary;
+        //}
 
         private void AdjustTrackLength(double distanceToBoundary)
         {
@@ -182,7 +171,9 @@ namespace Vts.MonteCarlo
             // reassign S to be distance that takes track to boundary
             S = distanceToBoundary;
         }
-
+        /// <summary>
+        /// method that determines whether photon reflects or refracts across interface
+        /// </summary>
         public void CrossRegionOrReflect()
         {
             double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(this);
@@ -196,47 +187,57 @@ namespace Vts.MonteCarlo
             else
                 coscrit = 0.0;
 
-            double probOfCrossing;
+            double probOfReflecting;
             double cosThetaSnell;
             // call Fresnel be default to have uZSnell set, used to be within else
-            probOfCrossing = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
+            probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
             if (cosTheta <= coscrit)
-                probOfCrossing = 1.0;
+                probOfReflecting = 1.0;
             //else
-            //    probOfCrossing = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
+            //    probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
 
             /* Decide whether or not photon goes to next region */
-            if (_rng.NextDouble() > probOfCrossing)
+            // perform first check so that rng not called on pseudo-collisions
+            if ((probOfReflecting == 0.0) || (_rng.NextDouble() > probOfReflecting)) // transmitted
             {
-                if (_tissue.OnDomainBoundary(this)) // if at border of system, exit
+                // if at border of system  
+                if (_tissue.OnDomainBoundary(this) && !_firstTimeEnteringDomain)
                 {
-                    DP.StateFlag = _tissue.GetPhotonDataPointStateOnExit(DP.Position);
-                    // add updated final DP to History
-                    History.AddDPToHistory(DP);
+                    DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
                     // adjust CAW weight for portion of track prior to exit
                     if (Absorb == AbsorbContinuous)
                     {
                         AbsorbContinuous();
                     }
+
+                    CurrentRegionIndex = neighborIndex;
                     //don't need to update these unless photon not dead upon exiting tissue
                     //DP.Direction.Ux *= nCurrent / nNext;
                     //DP.Direction.Uy *= nCurrent / nNext;
                     //DP.Direction.Uz = uZSnell;
                 }
-                else // not on domain boundary, at internal interface, pass to next
+                else // not on domain boundary, at internal interface or first time enter tissue, pass to next
                 {
                     CurrentRegionIndex = neighborIndex;
                     DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                         nCurrent, nNext, cosThetaSnell);
+                    if (_firstTimeEnteringDomain)
+                    {
+                        _firstTimeEnteringDomain = false;
+                    }
                 }
-
-                // flag virtual boundaries too...can't be mutually exlusive with OnDomainBoundary
             }
             else  // don't cross, reflect
             {
                 DP.Direction = _tissue.GetReflectedDirection(DP.Position, DP.Direction);
+                // check if specular reflection
+                if (_firstTimeEnteringDomain)
+                {
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoSpecularTissueBoundary);
+                }
             }
         }
+
 
         /*****************************************************************/
         public void AbsorbAnalog()
@@ -245,7 +246,8 @@ namespace Vts.MonteCarlo
                 (_tissue.Regions[CurrentRegionIndex].RegionOP.Mus +
                  _tissue.Regions[CurrentRegionIndex].RegionOP.Mua))
             {
-                DP.StateFlag = PhotonStateType.Absorbed;
+                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.Absorbed);
+                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive); 
                 History.AddDPToHistory(DP);
             }
         }
@@ -346,7 +348,20 @@ namespace Vts.MonteCarlo
             // update weight for current DP in History 
             History.HistoryData[index].Weight = DP.Weight;
         }
-
+        // merge following with TestWeightAndDistance if working
+        public void TestDeath()
+        {
+            TestWeightAndDistance();         
+            // if VB crossing flagged
+            if (DP.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary)  ||
+                DP.StateFlag.Has(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
+                DP.StateFlag.Has(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary))
+            {
+                //todo: revisit performance of the bitwise operations
+                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                History.AddDPToHistory(DP);
+            }
+        }
         public void TestWeightAndDistance()
         {
             //   if (photptr.w < Weight_Limit) 
@@ -354,14 +369,16 @@ namespace Vts.MonteCarlo
             // kill photon if it has had too many collisions
             if (History.HistoryData.Count >= MAX_HISTORY_PTS)
             {
-                DP.StateFlag = PhotonStateType.KilledOverMaximumCollisions;
+                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumCollisions);
+                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                 History.AddDPToHistory(DP);
             }
             /* kill photon if it has gone too far */
             var totalPathLength = History.SubRegionInfoList.Select((pl, c) => pl.PathLength).Sum();
             if (totalPathLength >= MAX_PHOTON_PATHLENGTH)
             {
-                DP.StateFlag = PhotonStateType.KilledOverMaximumPathLength;
+                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
+                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                 History.AddDPToHistory(DP);
             }
         }
@@ -370,12 +387,20 @@ namespace Vts.MonteCarlo
         void Roulette()
         {
             if (DP.Weight == 0.0)
-                DP.StateFlag = PhotonStateType.KilledRussianRoulette;
+            {
+                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
+                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+            }
             else if (_rng.NextDouble() < CHANCE)
+            {
                 DP.Weight = DP.Weight / CHANCE;
+            }
             else
-                DP.StateFlag = PhotonStateType.KilledRussianRoulette;
-            if (DP.StateFlag == PhotonStateType.KilledRussianRoulette)
+            {
+                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
+                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+            } 
+            if (DP.StateFlag.Has(PhotonStateType.KilledRussianRoulette))
             {
                 History.AddDPToHistory(DP);
             }

@@ -14,23 +14,25 @@ namespace Vts.MonteCarlo.GenerateReferenceData
         static void Main(string[] args)
         {
             try{
-            var input = new SimulationInput(
-                100,  // FIX 1e6 takes about 70 minutes my laptop
-                "Output",
-                 new SimulationOptions(
-                    0, 
-                    RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Continuous,
-                    PhaseFunctionType.HenyeyGreenstein,
-                    null, // databases generated
-                    true, // compute Second Moment
-                    1),
-                new DirectionalPointSourceInput(
-                    new Position(0.0, 0.0, 0.0),
-                    new Direction(0.0, 0.0, 1.0),
-                    0),
-                new MultiLayerTissueInput(
-                    new LayerRegion[]
+                var input = new SimulationInput(
+                    100,  // FIX 1e6 takes about 70 minutes my laptop
+                    "Output",
+                     new SimulationOptions(
+                        0,
+                        RandomNumberGeneratorType.MersenneTwister,
+                        AbsorptionWeightingType.Continuous,
+                        PhaseFunctionType.HenyeyGreenstein,
+                    //null, // databases generated
+                        true, // compute Second Moment
+                        false, // track statistics
+                        1),
+                    new DirectionalPointSourceInput(
+                        new Position(0.0, 0.0, 0.0),
+                        new Direction(0.0, 0.0, 1.0),
+                        0),
+
+                    new MultiLayerTissueInput(
+                        new LayerRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -49,14 +51,22 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                             new OpticalProperties(0, 1e-10, 0.0, 1.0)
                             )
                     }
-                ),
-                new List<IDetectorInput>()
-                {
-                    new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 40, 201), // numbers for scaled MC
-                        new DoubleRange(0.0, 4, 801)) // numbers for scaled MC
-                });
-
+                    ),
+                    new List<IVirtualBoundaryInput>
+                    {
+                        new SurfaceVirtualBoundaryInput(
+                            VirtualBoundaryType.DiffuseReflectance,
+                            new List<IDetectorInput>()
+                            {
+                                new ROfRhoAndTimeDetectorInput(
+                                    new DoubleRange(0.0, 40, 201), // numbers for scaled MC
+                                    new DoubleRange(0.0, 4, 801)) // numbers for scaled MC
+                            },
+                            false,
+                            VirtualBoundaryType.DiffuseReflectance.ToString()
+                        )
+                    }
+                );
             //var FS = Vts.Factories.SolverFactory.GetForwardSolver(ForwardSolverType.MonteCarlo);
             //var OP = new OpticalProperties();
             //var RHO = 1.0;

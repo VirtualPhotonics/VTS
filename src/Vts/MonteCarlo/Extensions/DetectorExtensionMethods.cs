@@ -1,10 +1,10 @@
-namespace Vts.MonteCarlo.Detectors
+namespace Vts.MonteCarlo.Extensions
 {
     /// <summary>
     /// Methods used to determine if tally is reflectance or 
     /// transmittance tally.
     /// </summary>
-    public static class TallyExtensionMethods
+    public static class DetectorExtensionMethods
     {
         public static bool IsReflectanceTally(this TallyType type)
         {
@@ -19,6 +19,7 @@ namespace Vts.MonteCarlo.Detectors
                 case TallyType.RDiffuse:
                 case TallyType.pMCROfRhoAndTime:
                 case TallyType.pMCROfRho:
+                case TallyType.RSpecular:
                     return true;
                 default:
                     return false;
@@ -38,8 +39,18 @@ namespace Vts.MonteCarlo.Detectors
                     return false;
             }
         }
+        public static bool IsInternalTally(this TallyType type)
+        {
+            switch (type)
+            {
+                case TallyType.DosimetryOfRho:
+                    return true;
+                default:
+                    return false;
+            }
+        }
 
-        public static bool IsTerminationTally(this TallyType tallyType)
+        public static bool IsSurfaceTally(this TallyType tallyType)
         {
             return tallyType.IsTransmittanceTally() || tallyType.IsReflectanceTally();
         }
@@ -56,7 +67,7 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        public static bool IsHistoryTally(this TallyType tallyType)
+        public static bool IsVolumeTally(this TallyType tallyType)
         {
             switch (tallyType)
             {
@@ -65,6 +76,7 @@ namespace Vts.MonteCarlo.Detectors
                 case TallyType.AOfRhoAndZ:
                 case TallyType.ATotal:
                 case TallyType.MomentumTransferOfRhoAndZ:
+                case TallyType.DosimetryOfRho:
                     return true;
                 default:
                     return false;

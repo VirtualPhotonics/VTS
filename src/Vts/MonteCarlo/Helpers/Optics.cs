@@ -7,6 +7,8 @@ namespace Vts.MonteCarlo.Helpers
     /// </summary>
     public class Optics
     {
+        private const double COS90D = 1.0E-6;
+        private const double COSZERO = (1.0 - 1e-12);
         /// <summary>
         /// Fresnel calculates the reflection coefficient when light moves from one medium to
         /// another
@@ -26,12 +28,12 @@ namespace Vts.MonteCarlo.Helpers
                 uz_snell = ci;
                 return 0.0;
             }
-            else if (ci > MonteCarloSimulation.COSZERO)
+            else if (ci > COSZERO)
             {     /* normal incidence */
                 uz_snell = ci;
                 return (n2 - n1) * (n2 - n1) / ((n2 + n1) * (n2 + n1));
             }
-            else if (ci < MonteCarloSimulation.COS90D)
+            else if (ci < COS90D)
             {
                 uz_snell = 0.0;
                 return 1.0;

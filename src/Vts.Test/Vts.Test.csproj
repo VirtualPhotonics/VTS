@@ -154,8 +154,13 @@
     <Compile Include="Common\DirectionTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\Extensions\EnumExtensionsTests.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\SpecularDetectorTests.cs" />
+    <Compile Include="MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MonteCarlo\Rng\SerializableMersenneTwisterTests.cs" />
     <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs">
       <SubType>Code</SubType>
@@ -245,19 +250,10 @@
     <Compile Include="MonteCarlo\Detectors\CAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="MonteCarlo\Detectors\DAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\DAWTwoLayerDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\Helpers\SourceToolboxTests.cs" />
@@ -274,9 +270,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\PhotonData\pMCDatabaseTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs" />
@@ -308,7 +301,6 @@
     <Folder Include="Modeling\Optimizers\" />
     <Folder Include="Modeling\Tools\" />
     <Folder Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\" />
-    <Folder Include="MonteCarlo\TallyActions\pMCTallies\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

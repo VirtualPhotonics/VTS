@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Detectors
     /// as a function of Rho and Time.  Perturbations of just mua or mus alone are also
     /// handled by this class.
     /// </summary>
-    public class pMCROfRhoAndTimeDetector : IpMCTerminationDetector<double[,]>
+    public class pMCROfRhoAndTimeDetector : IpMCSurfaceDetector<double[,]>
     {
         private AbsorptionWeightingType _awt;
         private IList<OpticalProperties> _referenceOps;
@@ -56,13 +56,10 @@ namespace Vts.MonteCarlo.Detectors
             _timeDelta = Time.Delta;
             _tallySecondMoment = tallySecondMoment;
             Mean = new double[Rho.Count - 1, Time.Count - 1];
+            SecondMoment = null;
             if (_tallySecondMoment)
             {
                 SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
-            }
-            else
-            {
-                SecondMoment = null;
             }
             TallyType = TallyType.pMCROfRhoAndTime;
             Name = name;
@@ -254,7 +251,8 @@ namespace Vts.MonteCarlo.Detectors
 
         public bool ContainsPoint(PhotonDataPoint dp)
         {
-            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
+            return true; // or, possibly test for NA or confined position, etc
+            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
     }
 }

@@ -51,8 +51,10 @@ namespace Vts.Modeling.ForwardSolvers
                         TallyType.pMCROfRho.ToString())
                 };
                 var _postProcessedOutput =
-                    PhotonTerminationDatabasePostProcessor.GenerateOutput(
-                        detectorInputs, 
+                    PhotonDatabasePostProcessor.GenerateOutput(
+                        VirtualBoundaryType.pMCDiffuseReflectance,
+                        detectorInputs,
+                        false,
                         pMCLoader.PhotonTerminationDatabase,
                         pMCLoader.databaseOutput.Input);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
@@ -87,8 +89,10 @@ namespace Vts.Modeling.ForwardSolvers
                      )                       
                 };
                 var _postProcessedOutput =
-                    PhotonTerminationDatabasePostProcessor.GenerateOutput(
+                    PhotonDatabasePostProcessor.GenerateOutput(
+                        VirtualBoundaryType.pMCDiffuseReflectance,
                         detectorInputs, 
+                        false,
                         pMCLoader.PhotonTerminationDatabase,
                         pMCLoader.databaseOutput.Input);
                 // yield return method won't work here because want to process all rhos and times during one pass of db

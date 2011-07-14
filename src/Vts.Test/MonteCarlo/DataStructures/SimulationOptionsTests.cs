@@ -14,7 +14,7 @@ namespace Vts.Test.MonteCarlo
             var random1 = new SimulationOptions(-1);
             var deterministic = new SimulationOptions(1);
             Assert.AreNotEqual(random1.Seed, deterministic.Seed);
-            System.Threading.Thread.Sleep(5000);
+            System.Threading.Thread.Sleep(1000);
             var random2 = new SimulationOptions(-1);
             Assert.AreNotEqual(random1.Seed, random2.Seed);
         }

@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Detectors
     /// as a function of Rho.
     /// </summary>
     // do I need classes pMuaInROfRhoTally and pMusInROfRhoTally?
-    public class pMCROfRhoDetector : IpMCTerminationDetector<double[]>
+    public class pMCROfRhoDetector : IpMCSurfaceDetector<double[]>
     {
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
@@ -45,13 +45,10 @@ namespace Vts.MonteCarlo.Detectors
             Rho = rho;
             _tallySecondMoment = tallySecondMoment;
             Mean = new double[Rho.Count - 1];
+            SecondMoment = null;
             if (_tallySecondMoment)
             {
                 SecondMoment = new double[Rho.Count - 1];
-            }
-            else
-            {
-                SecondMoment = null;
             }
             TallyType = TallyType.pMCROfRho;
             Name = name;
@@ -197,7 +194,8 @@ namespace Vts.MonteCarlo.Detectors
 
         public bool ContainsPoint(PhotonDataPoint dp)
         {
-            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
+            return true; // or, possibly test for NA or confined position, etc
+            // return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
     }
 }
