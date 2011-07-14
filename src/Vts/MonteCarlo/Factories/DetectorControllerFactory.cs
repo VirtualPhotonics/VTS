@@ -19,9 +19,17 @@ namespace Vts.MonteCarlo.Factories
                 case VirtualBoundaryType.DiffuseReflectance:
                 case VirtualBoundaryType.DiffuseTransmittance:
                 case VirtualBoundaryType.Dosimetry:
-                    return GetStandardSurfaceDetectorController((from d in detectors select d as ISurfaceDetector).ToList());
+                    if (detectors == null)
+                    {
+                        return GetStandardSurfaceDetectorController(null);
+                    }
+                    return GetStandardSurfaceDetectorController(detectors.Select(d => (ISurfaceDetector)d).ToList());
                 case VirtualBoundaryType.GenericVolumeBoundary:
-                    return GetStandardVolumeDetectorController((from d in detectors select d as IVolumeDetector).ToList());
+                    if (detectors == null)
+                    {
+                        return GetStandardSurfaceDetectorController(null);
+                    }
+                    return GetStandardVolumeDetectorController(detectors.Select(d => (IVolumeDetector)d).ToList());
 
             }
         }
@@ -29,6 +37,10 @@ namespace Vts.MonteCarlo.Factories
         private static SurfaceDetectorController GetStandardSurfaceDetectorController(IList<ISurfaceDetector> detectors)
         {
             SurfaceDetectorController controller = null;
+            if (detectors == null)
+            {
+                return controller;
+            }
             controller = new SurfaceDetectorController(detectors);
 
             if (controller == null)
@@ -41,6 +53,10 @@ namespace Vts.MonteCarlo.Factories
         private static VolumeDetectorController GetStandardVolumeDetectorController(IList<IVolumeDetector> detectors)
         {
             VolumeDetectorController controller = null;
+            if (detectors == null)
+            {
+                return controller;
+            }
             controller = new VolumeDetectorController(detectors);
 
             if (controller == null)
@@ -73,7 +89,7 @@ namespace Vts.MonteCarlo.Factories
 
             if (controller == null)
                 throw new ArgumentException(
-                    "Problem generating detector controller. Check that each XXXDetectorInput has a matching XXXDetector definition.");
+                    "Problem generating pMC detector controller. Check that each XXXDetectorInput has a matching XXXDetector definition.");
 
             return controller;
         }

@@ -6,14 +6,16 @@ namespace Vts.MonteCarlo.PhotonData
 {
     /// <summary>
     /// Implements CustomBinaryStreamWriter(Of PhotonDataPoint). Handles writing photon
-    /// terminating data to database.
+    /// data to database.
     /// </summary>
     public class PhotonDatabaseWriter : DatabaseWriter<PhotonDatabase, PhotonDataPoint>
     {
-        public PhotonDatabaseWriter(string filename)
+        public PhotonDatabaseWriter(VirtualBoundaryType virtualBoundaryType, string filename)
             //: base(filename, new PhotonDatabase(), new PhotonDataPointSerializer())
             : base(filename, new PhotonDatabase(), new PhotonDataPointSerializer())
         {
+            VirtualBoundaryType = virtualBoundaryType;
         }
+        public VirtualBoundaryType VirtualBoundaryType { get; set; }
     }
 }

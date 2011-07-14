@@ -3,7 +3,7 @@ using Vts.MonteCarlo.Interfaces;
 
 namespace Vts.MonteCarlo
 {
-    public interface IVirtualBoundaryGroup
+    public interface IVirtualBoundaryInput
     {
         IList<IDetectorInput> DetectorInputs { get; }
         bool WriteToDatabase { get; }

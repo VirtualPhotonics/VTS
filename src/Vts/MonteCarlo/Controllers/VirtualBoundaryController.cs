@@ -16,8 +16,6 @@ namespace Vts.MonteCarlo.Controllers
     public class VirtualBoundaryController
     {
         private IList<IVirtualBoundary> _virtualBoundaries;
-        //private IList<ISurfaceDetector> _surfaceDetectors;
-        //private IList<IVolumeDetector> _volumeDetectors;
 
         public VirtualBoundaryController(
             IList<IVirtualBoundary> virtualBoundaries)

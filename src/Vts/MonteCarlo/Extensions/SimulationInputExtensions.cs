@@ -6,7 +6,7 @@ using Vts.Extensions;
 using Vts.MonteCarlo.Tissues;
 using Vts.Common;
 
-namespace Vts.MonteCarlo
+namespace Vts.MonteCarlo.Extensions
 {
     public static class SimulationInputExtensions
     {

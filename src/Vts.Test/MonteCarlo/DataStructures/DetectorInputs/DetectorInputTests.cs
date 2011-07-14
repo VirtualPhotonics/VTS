@@ -26,9 +26,9 @@ namespace Vts.Test.MonteCarlo
                     new SimulationOptions(),
                     new DirectionalPointSourceInput(),
                     new MultiLayerTissueInput(),
-                    new List<IVirtualBoundaryGroup>
+                    new List<IVirtualBoundaryInput>
                     {
-                        new SurfaceBoundaryGroup(
+                        new SurfaceVirtualBoundaryInput(
                             VirtualBoundaryType.DiffuseReflectance,
                             new List<IDetectorInput>
                             {

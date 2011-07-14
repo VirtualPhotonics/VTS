@@ -63,7 +63,7 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="detectors"></param>
         /// <returns></returns>
         public static IList<IVirtualBoundary> GetVirtualBoundaries(
-            IList<IVirtualBoundaryGroup> virtualBoundaryGroups, ITissue tissue, bool tallySecondMoment)
+            IList<IVirtualBoundaryInput> virtualBoundaryGroups, ITissue tissue, bool tallySecondMoment)
         {
             // this sql returns all VBs even when only RSpecularDetector in detectors
             //var virtualBoundaries =
@@ -72,20 +72,6 @@ namespace Vts.MonteCarlo.Factories
             //    let vbDetectors = detectors.Where(d => d.TallyType.AppliesToBoundary(vb)).ToList() // gather the appropriate detectors
             //    select GetVirtualBoundary(vb, tissue, vbDetectors); // and instantiate the vb with the appropriate detectors
 
-            //var virtualBoundaries = new List<IVirtualBoundary>();
-            //foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
-            //{
-            //    bool anyDetectors = detectors.Select(d => d.TallyType.AppliesToBoundary(vbType)).Any();
-            //    IList<IDetector> vbDetectors = detectors.Where(d => d.TallyType.AppliesToBoundary(vbType)).ToList();
-            //    if (anyDetectors && (vbDetectors.Count > 0))
-            //    {
-            //        var vb = GetVirtualBoundary(vbType, tissue, vbDetectors);
-            //        if (vb != null)
-            //            virtualBoundaries.Add(vb);
-            //    }
-
-            //}
-            //return virtualBoundaries.ToList();
             var virtualBoundaries = new List<IVirtualBoundary>();
             foreach (var vbg in virtualBoundaryGroups)
             {

@@ -48,11 +48,6 @@ namespace Vts.MonteCarlo
         Dosimetry,
         pMCDiffuseReflectance,
     }
-    //public enum VirtualBoundaryGroupType
-    //{
-    //    SurfaceBoundaryGroup,
-    //    GenericVolumeGroup,
-    //}
     public enum BoundaryHitType
     {
         None,

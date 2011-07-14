@@ -1,10 +1,11 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Controllers;
-using System.IO;
+using Vts.MonteCarlo.Extensions;
 
 namespace Vts.MonteCarlo
 {
@@ -16,10 +17,11 @@ namespace Vts.MonteCarlo
         private ISource _source;
         private ITissue _tissue;
         private VirtualBoundaryController _virtualBoundaryController;
-        //private IList<IDetector> _detectors;  // this is total list of detectors indep. of VBs
-        private IList<IDetectorController> _detectorControllers; // total list of detectors Controllers indep. of VBs
+        private IList<IDetectorController> _detectorControllers; // total list indep. of VBs
         private long _numberOfPhotons;
         private SimulationStatistics _simulationStatistics;
+        private IList<PhotonDatabaseWriter> _surfaceVirtualBoundaryDatabaseWriters = null;
+        private IList<CollisionInfoDatabaseWriter> _collisionInfoDatabaseWriters = null;
 
         protected SimulationInput _input;
         private Random _rng;
@@ -41,7 +43,6 @@ namespace Vts.MonteCarlo
 
             _numberOfPhotons = input.N;
 
-            //WRITE_DATABASES = input.Options.WriteDatabases; // modified ckh 4/9/11
             AbsorptionWeightingType = input.Options.AbsorptionWeightingType; // CKH add 12/14/09
             TrackStatistics = input.Options.TrackStatistics;
             if (TrackStatistics)
@@ -58,7 +59,7 @@ namespace Vts.MonteCarlo
 
             // instantiate vb (and associated detectors) for each vb group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
-            foreach (var vbg in input.VirtualBoundaryGroups)
+            foreach (var vbg in input.VirtualBoundaryInputs)
             {
                 var detectors = DetectorFactory.GetDetectors(vbg.DetectorInputs, _tissue, input.Options.TallySecondMoment);
                 var detectorController = DetectorControllerFactory.GetDetectorController(vbg.VirtualBoundaryType, detectors);
@@ -78,7 +79,6 @@ namespace Vts.MonteCarlo
         private int SimulationIndex { get; set; }
 
         // public properties
-        //private IList<DatabaseType> WRITE_DATABASES { get; set; }  // modified ckh 4/9/11
         private AbsorptionWeightingType AbsorptionWeightingType { get; set; }
         public PhaseFunctionType PhaseFunctionType { get; set; }
         private bool TrackStatistics { get; set; }
@@ -101,8 +101,8 @@ namespace Vts.MonteCarlo
 
             ExecuteMCLoop();
 
-            var detectors = _virtualBoundaryController.VirtualBoundaries.SelectMany(vb =>
-                vb.DetectorController.Detectors).ToList();
+            var detectors = _virtualBoundaryController.VirtualBoundaries.Select(vb =>
+                vb.DetectorController).Where(dc => dc != null).SelectMany(dc => dc.Detectors).ToList();
 
             Results = new Output(_input, detectors);
 
@@ -114,53 +114,15 @@ namespace Vts.MonteCarlo
         /// </summary>
         protected virtual void ExecuteMCLoop()
         {
-            PhotonDatabaseWriter terminationWriter = null;
-            CollisionInfoDatabaseWriter collisionWriter = null;
-
             try
             {
-                // move out to method if works out
-                foreach (var vbg in _input.VirtualBoundaryGroups)
-                {
-                    if (vbg.WriteToDatabase)
-                    {
-                        switch (vbg.VirtualBoundaryType)
-                        {
-                            default:
-                            case VirtualBoundaryType.DiffuseReflectance:
-                                terminationWriter = new PhotonDatabaseWriter(
-                                    Path.Combine(_outputPath, _input.OutputName, "photonReflectanceDatabase"));
-                                break;
-                            case VirtualBoundaryType.DiffuseTransmittance:
-                                terminationWriter = new PhotonDatabaseWriter(
-                                    Path.Combine(_outputPath, _input.OutputName, "photonTransmittanceDatabase"));
-                                break;
-                            case VirtualBoundaryType.SpecularReflectance:
-                                terminationWriter = new PhotonDatabaseWriter(
-                                    Path.Combine(_outputPath, _input.OutputName, "photonSpecularDatabase"));
-                                break;
-                            case VirtualBoundaryType.pMCDiffuseReflectance:
-                                terminationWriter = new PhotonDatabaseWriter(
-                                    Path.Combine(_outputPath, _input.OutputName, "photonReflectanceDatabase"));
-                                collisionWriter = new CollisionInfoDatabaseWriter(
-                                    Path.Combine(_outputPath, _input.OutputName, "collisionInfoDatabase"), _tissue.Regions.Count());
-                                break;
-                        }
-                    }
-                }
-                //{
-                //    if (WRITE_DATABASES.Contains(DatabaseType.PhotonExitDataPoints))
-                //    {
-                //        terminationWriter = new PhotonDatabaseWriter(
-                //            Path.Combine(_outputPath, _input.OutputName, "photonExitDatabase"));
-                //    }
-                //    if (WRITE_DATABASES.Contains(DatabaseType.CollisionInfo))
-                //    {
-                //        collisionWriter = new CollisionInfoDatabaseWriter(
-                //            Path.Combine(_outputPath, _input.OutputName, "collisionInfoDatabase"), _tissue.Regions.Count());
-                //    }
-                //}
-
+                _surfaceVirtualBoundaryDatabaseWriters = DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
+                    _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
+                    Select(v => v.VirtualBoundaryType).ToList(), _outputPath, _input.OutputName);
+                _collisionInfoDatabaseWriters = DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
+                    _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
+                    Select(v => v.VirtualBoundaryType).ToList(), _tissue, _outputPath, _input.OutputName);
+                
                 for (long n = 1; n <= _numberOfPhotons; n++)
                 {
                     // todo: bug - num photons is assumed to be over 10 :)
@@ -180,8 +142,9 @@ namespace Vts.MonteCarlo
                         BoundaryHitType hitType = Move(photon, out closestVirtualBoundary);
 
                         // todo: consider moving actual calls to Tally after do-while
-                        // for each "hit" virtual boundary, tally respective detectors. 
-                        if (hitType == BoundaryHitType.Virtual)
+                        // for each "hit" virtual boundary, tally respective detectors if exist
+                        if ((hitType == BoundaryHitType.Virtual) &&
+                            (closestVirtualBoundary.DetectorController != null))
                         {
                             ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP);     
                         }
@@ -211,15 +174,8 @@ namespace Vts.MonteCarlo
 
                     //_detectorController.TerminationTally(photon.DP);
 
-                    if (terminationWriter != null)
-                    {
-                        //dc: how to check if detector contains DP  ckh: check is on reading side, may need to fix
-                        terminationWriter.Write(photon.DP);
-                    }
-                    if (collisionWriter != null)
-                    {
-                        collisionWriter.Write(photon.History.SubRegionInfoList);
-                    }
+                    _surfaceVirtualBoundaryDatabaseWriters.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
+                    _collisionInfoDatabaseWriters.WriteToCollisionInfoDatabases(photon.DP, photon.History.SubRegionInfoList);
 
                     // note History has possibly 2 more DPs than linux code due to 
                     // final crossing of PseudoReflectedTissueBoundary and then
@@ -233,21 +189,26 @@ namespace Vts.MonteCarlo
 
                     if (TrackStatistics)
                     {
-                        _simulationStatistics.TrackDeathStatistics(photon.History);
+                        _simulationStatistics.TrackDeathStatistics(photon.DP);
                     }
 
                 } /* end of for n loop */
             }
             finally
             {
-                if (terminationWriter != null) terminationWriter.Dispose();
-                if (collisionWriter != null) collisionWriter.Dispose();
+                _surfaceVirtualBoundaryDatabaseWriters.Dispose();
+                _collisionInfoDatabaseWriters.Dispose();
+                //if (terminationWriter != null) terminationWriter.Dispose();
+                //if (collisionWriter != null) collisionWriter.Dispose();
             }
 
             // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
             foreach (var vb in _virtualBoundaryController.VirtualBoundaries)
-            {     
-                vb.DetectorController.NormalizeDetectors(_numberOfPhotons);
+            {
+                if (vb.DetectorController != null) // check that VB has detectors
+                {
+                    vb.DetectorController.NormalizeDetectors(_numberOfPhotons);
+                }
             }
             
             if (TrackStatistics)

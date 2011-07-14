@@ -58,9 +58,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                  ),
-                 new List<IVirtualBoundaryGroup>
+                 new List<IVirtualBoundaryInput>
                 {
-                    new SurfaceBoundaryGroup(
+                    new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.SpecularReflectance,
                         new List<IDetectorInput>
                         {
@@ -69,18 +69,18 @@ namespace Vts.Test.MonteCarlo.Detectors
                         false,
                         VirtualBoundaryType.SpecularReflectance.ToString()
                     ),
-                    //new SurfaceBoundaryGroup(
-                    //    VirtualBoundaryType.DiffuseReflectance,
-                    //    null,
-                    //    false,
-                    //    VirtualBoundaryType.DiffuseReflectance.ToString()
-                    //),
-                    //new SurfaceBoundaryGroup(
-                    //    VirtualBoundaryType.DiffuseTransmittance,
-                    //    null,
-                    //    false,
-                    //    VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    //)
+                    new SurfaceVirtualBoundaryInput(
+                        VirtualBoundaryType.DiffuseReflectance,
+                        null,
+                        false,
+                        VirtualBoundaryType.DiffuseReflectance.ToString()
+                    ),
+                    new SurfaceVirtualBoundaryInput(
+                        VirtualBoundaryType.DiffuseTransmittance,
+                        null,
+                        false,
+                        VirtualBoundaryType.DiffuseTransmittance.ToString()
+                    )
                 }
             );
                    

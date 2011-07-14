@@ -52,9 +52,9 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                             )
                     }
                     ),
-                    new List<IVirtualBoundaryGroup>
+                    new List<IVirtualBoundaryInput>
                     {
-                        new SurfaceBoundaryGroup(
+                        new SurfaceVirtualBoundaryInput(
                             VirtualBoundaryType.DiffuseReflectance,
                             new List<IDetectorInput>()
                             {

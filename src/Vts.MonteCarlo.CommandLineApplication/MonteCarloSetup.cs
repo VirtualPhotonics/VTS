@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Vts.Common;
 using Vts.Extensions;
 using Vts.MonteCarlo.IO;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.DataStructuresValidation;
 
 namespace Vts.MonteCarlo.CommandLineApplication

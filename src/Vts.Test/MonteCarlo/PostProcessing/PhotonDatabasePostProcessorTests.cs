@@ -18,9 +18,9 @@ namespace Vts.Test.MonteCarlo.PostProcessing
     /// the same results as the on the fly results.
     /// </summary>
     [TestFixture]
-    public class PhotonTerminationDatabasePostProcessorTests
+    public class PhotonDatabasePostProcessorTests
     {
-        private static SurfaceBoundaryGroup _surfaceBoundaryGroup;
+        private static IList<IDetectorInput> _detectorInputs;
 
         /// <summary>
         /// validate_photon_termination_database_postprocessor reads the output data 
@@ -32,14 +32,15 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         /// validates the R(rho,time) tally.
         /// </summary>
         [Test]
-        public void validate_photon_termination_database_postprocessor()
+        public void validate_photon_database_postprocessor()
         {
             var input = GenerateReferenceInput();
             var onTheFlyOutput =  new MonteCarloSimulation(input).Run();
 
-            var database = PhotonDatabase.FromFile("photonExitDatabase");
-            var postProcessedOutput = PhotonSurfaceBoundaryGroupDatabasePostProcessor.GenerateOutput(
-                _surfaceBoundaryGroup,
+            var database = PhotonDatabase.FromFile("photonReflectanceDatabase");
+            var postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                VirtualBoundaryType.DiffuseReflectance,
+                _detectorInputs,
                 false, // tally second moment
                 database,
                 onTheFlyOutput.Input);
@@ -52,16 +53,12 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         /// <returns>SimulationInput</returns>
         public static SimulationInput GenerateReferenceInput()
         {
-            _surfaceBoundaryGroup = new SurfaceBoundaryGroup(
-                    VirtualBoundaryType.DiffuseReflectance,
-                    new List<IDetectorInput>()
-                    {
-                        new ROfRhoAndTimeDetectorInput(
-                            new DoubleRange(0.0, 10.0, 101),
-                            new DoubleRange(0.0, 1, 101))
-                    },
-                    true, // write to database
-                    VirtualBoundaryType.DiffuseReflectance.ToString());
+            _detectorInputs = new List<IDetectorInput>()
+            {
+                new ROfRhoAndTimeDetectorInput(
+                    new DoubleRange(0.0, 10.0, 101),
+                    new DoubleRange(0.0, 1, 101))
+            };
             return new SimulationInput(
                 100,
                 "", // can't give folder name when writing to isolated storage
@@ -92,7 +89,21 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryGroup> { _surfaceBoundaryGroup }
+                new List<IVirtualBoundaryInput> 
+                {
+                    new SurfaceVirtualBoundaryInput(
+                        VirtualBoundaryType.DiffuseReflectance,
+                        _detectorInputs,
+                        true,
+                        VirtualBoundaryType.DiffuseReflectance.ToString()
+                    ),
+                    new SurfaceVirtualBoundaryInput(
+                        VirtualBoundaryType.DiffuseTransmittance,
+                        null,
+                        false,
+                        VirtualBoundaryType.DiffuseTransmittance.ToString()
+                    )
+                }
             );
         }
         
@@ -104,10 +115,12 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         /// <param name="output2"></param>
         private void ValidateROfRhoAndTime(Output output1, Output output2)
         {
-            var detector = (ROfRhoAndTimeDetectorInput)_surfaceBoundaryGroup.DetectorInputs.
+            var detector = (ROfRhoAndTimeDetectorInput)_detectorInputs.
                 Where(d => d.TallyType == TallyType.ROfRhoAndTime).First(); 
-            // currently these are agreeing EXCEPT for last bin i=99, j=99 because VBController not used here
-            // and no ContainsPoint is getting executed.
+            // currently these are agreeing EXCEPT for last bin i=99, j=99
+            var out1 = output1.R_rt[99, 99];
+            var out2 = output2.R_rt[99, 99];
+            Assert.Less(Math.Abs(out2 - out1)/out1, 1e-10);
             for (int i = 0; i < detector.Rho.Count - 1; i++)
             {
                 for (int j = 0; j < detector.Time.Count - 1; j++)

@@ -24,9 +24,7 @@ namespace Vts.MonteCarlo.Controllers
         {
             foreach (var detector in _detectors)
             {
-                //if (dp.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) &&
-                //    tally.TallyType.IsSurfaceTally())
-                    ((ISurfaceDetector)detector).Tally(dp);
+                ((ISurfaceDetector)detector).Tally(dp);
             }
         }
 

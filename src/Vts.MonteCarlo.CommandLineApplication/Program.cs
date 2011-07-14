@@ -278,9 +278,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryGroup>
+                new List<IVirtualBoundaryInput>
                 {
-                    new SurfaceBoundaryGroup(
+                    new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseReflectance,
                         new List<IDetectorInput>()
                         {
@@ -303,7 +303,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         false, // write to database
                         VirtualBoundaryType.DiffuseReflectance.ToString()
                     ),
-                    new SurfaceBoundaryGroup(
+                    new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseTransmittance,
                         new List<IDetectorInput>()
                         {

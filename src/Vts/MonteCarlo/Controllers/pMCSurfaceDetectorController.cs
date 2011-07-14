@@ -7,6 +7,7 @@ using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Extensions;
 
 namespace Vts.MonteCarlo.Controllers
 {
@@ -27,7 +28,6 @@ namespace Vts.MonteCarlo.Controllers
             ReferenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
         }
 
-        //public IList<IpMCSurfaceDetector> Detectors { get { return _detectors; } }
         public IList<IDetector> Detectors { get { return _detectors; } }
         public IList<OpticalProperties> ReferenceOps { get; set; }
         public IList<int> PerturbedRegionsIndices { get; set; }
@@ -36,10 +36,7 @@ namespace Vts.MonteCarlo.Controllers
         {
             foreach (var detector in _detectors)
             {
-                // only set up reflectance tallies for now, NEED TO FIX
-                if (dp.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) &&
-                    detector.TallyType.IsSurfaceTally()) 
-                    ((IpMCSurfaceDetector)detector).Tally(dp, collisionInfo);
+                ((IpMCSurfaceDetector)detector).Tally(dp, collisionInfo);
             }
         }
 

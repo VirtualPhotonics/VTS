@@ -24,9 +24,9 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(MultiLayerTissueInput))]
     
     // Detector inputs
-    [KnownType(typeof(SurfaceBoundaryGroup))]
-    [KnownType(typeof(GenericVolumeGroup))]
-    [KnownType(typeof(pMCSurfaceBoundaryGroup))]
+    [KnownType(typeof(SurfaceVirtualBoundaryInput))]
+    [KnownType(typeof(GenericVolumeVirtualBoundaryInput))]
+    [KnownType(typeof(pMCSurfaceVirtualBoundaryInput))]
 
     [KnownType(typeof(AOfRhoAndZDetectorInput))]
     [KnownType(typeof(ATotalDetectorInput))]
@@ -64,7 +64,7 @@ namespace Vts.MonteCarlo
         public ISourceInput SourceInput;
         public ITissueInput TissueInput;
         //public IList<IDetectorInput> DetectorInputs;
-        public IList<IVirtualBoundaryGroup> VirtualBoundaryGroups;
+        public IList<IVirtualBoundaryInput> VirtualBoundaryInputs;
 
         /// <summary>
         /// Default constructor loads default values for InputData
@@ -76,7 +76,7 @@ namespace Vts.MonteCarlo
             ISourceInput sourceInput,
             ITissueInput tissueInput,  
             //IList<IDetectorInput> detectorInputs)
-            IList<IVirtualBoundaryGroup> virtualBoundaryGroups)
+            IList<IVirtualBoundaryInput> virtualBoundaryInputs)
         {
             N = numberOfPhotons;
             OutputName = outputName;
@@ -84,7 +84,7 @@ namespace Vts.MonteCarlo
             SourceInput = sourceInput;
             TissueInput = tissueInput;
             //DetectorInputs = detectorInputs;
-            VirtualBoundaryGroups = virtualBoundaryGroups;
+            VirtualBoundaryInputs = virtualBoundaryInputs;
         }
 
         public SimulationInput()
@@ -116,9 +116,9 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }),
 
-                new List<IVirtualBoundaryGroup>
+                new List<IVirtualBoundaryInput>
                     {
-                        new SurfaceBoundaryGroup(
+                        new SurfaceVirtualBoundaryInput(
                             VirtualBoundaryType.DiffuseReflectance,
                             new List<IDetectorInput>
                             {

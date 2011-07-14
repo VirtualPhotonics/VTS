@@ -12,7 +12,10 @@ namespace Vts.MonteCarlo.Factories
     {
         public static IList<IDetector> GetDetectors(IEnumerable<IDetectorInput> detectorInputs, ITissue tissue, bool tallySecondMoment)
         {
-            // what if detectorInputs is null?
+            if (detectorInputs == null)
+            {
+                return null;
+            }
             return detectorInputs.Select(detectorInput => GetDetector(detectorInput, tissue, tallySecondMoment)).ToList();
         }
        

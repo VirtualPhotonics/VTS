@@ -27,10 +27,11 @@ namespace Vts.Test.MonteCarlo.PhotonData
             string collisionDbFilename = "testpmccollisiondatabase";
             int numberOfSubregions = 3;
 
-            using(var dbWriter = new PhotonDatabaseWriter(photonDbFilename))
+            using(var dbWriter = new PhotonDatabaseWriter(
+                VirtualBoundaryType.pMCDiffuseReflectance, photonDbFilename))
             {
                 using (var collisionDbWriter = new CollisionInfoDatabaseWriter(
-                    collisionDbFilename, numberOfSubregions))
+                    VirtualBoundaryType.pMCDiffuseReflectance, collisionDbFilename, numberOfSubregions))
                     {
                         // write data for first photon (exit DP and collision info)
                         dbWriter.Write(new PhotonDataPoint(

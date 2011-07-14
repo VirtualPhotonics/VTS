@@ -5,12 +5,12 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Virtual boundary group that contains surface detectors;
     /// </summary>
-   public class SurfaceBoundaryGroup : IVirtualBoundaryGroup
+   public class SurfaceVirtualBoundaryInput : IVirtualBoundaryInput
    {
        /// <summary>
        /// Surface Boundary Group constructor 
        /// </summary>
-       public SurfaceBoundaryGroup(VirtualBoundaryType type, IList<IDetectorInput> detectorInputs, bool writeToDatabase, string name)
+       public SurfaceVirtualBoundaryInput(VirtualBoundaryType type, IList<IDetectorInput> detectorInputs, bool writeToDatabase, string name)
        {
            DetectorInputs = detectorInputs;
            WriteToDatabase = writeToDatabase;
@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo
        /// <summary>
        /// Surface Boundary Group default constructor provides R(rho) detector list
        /// </summary>
-       public SurfaceBoundaryGroup()
+       public SurfaceVirtualBoundaryInput()
            : this(
            VirtualBoundaryType.DiffuseReflectance,
                new List<IDetectorInput> 

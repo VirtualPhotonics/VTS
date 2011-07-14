@@ -223,13 +223,9 @@ namespace Vts.MonteCarlo.PostProcessor
             if (!doPMC)
             {
                 // the following only works for surface boundary detectors
-                postProcessedOutput = PhotonSurfaceBoundaryGroupDatabasePostProcessor.GenerateOutput(
-                    new SurfaceBoundaryGroup(
-                        VirtualBoundaryType.DiffuseReflectance,
-                        Input.DetectorInputs, 
-                        false, 
-                        VirtualBoundaryType.DiffuseReflectance.ToString()
-                    ),
+                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                    VirtualBoundaryType.DiffuseReflectance,
+                    Input.DetectorInputs, 
                     false,
                     photonDatabase, 
                     databaseSimulationInput);
@@ -238,13 +234,9 @@ namespace Vts.MonteCarlo.PostProcessor
             {
                 IList<IpMCDetectorInput> pMCDetectorInputs;
                 pMCDetectorInputs = Input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
-                postProcessedOutput = PhotonSurfaceBoundaryGroupDatabasePostProcessor.GenerateOutput(
-                    new pMCSurfaceBoundaryGroup(
-                        VirtualBoundaryType.pMCDiffuseReflectance,
-                        pMCDetectorInputs, 
-                        false, 
-                        VirtualBoundaryType.pMCDiffuseReflectance.ToString()
-                    ),
+                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                    VirtualBoundaryType.pMCDiffuseReflectance,
+                    pMCDetectorInputs, 
                     false,
                     pmcDatabase, 
                     databaseSimulationInput);

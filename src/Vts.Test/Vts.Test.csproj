@@ -158,7 +158,7 @@
     <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\SpecularDetectorTests.cs" />
-    <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs">
+    <Compile Include="MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\Rng\SerializableMersenneTwisterTests.cs" />

@@ -53,24 +53,20 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_pMC_DAW_ROfRhoAndTime_zero_perturbation_one_layer_tissue()
         {
             var postProcessedOutput = 
-                PhotonSurfaceBoundaryGroupDatabasePostProcessor.GenerateOutput( 
-                    new pMCSurfaceBoundaryGroup(
-                        VirtualBoundaryType.pMCDiffuseReflectance,
-                        new List<IpMCDetectorInput>()
-                        {
-                            new pMCROfRhoAndTimeDetectorInput(
-                                new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(0.0, 1.0, 101),
-                                // set perturbed ops to reference ops
-                                new List<OpticalProperties>() { 
-                                    _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
-                                    _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
-                                    _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
-                                new List<int>() { 1 })
-                        },
-                        false,
-                        VirtualBoundaryType.pMCDiffuseReflectance.ToString()
-                    ),
+                PhotonDatabasePostProcessor.GenerateOutput( 
+                    VirtualBoundaryType.pMCDiffuseReflectance,
+                    new List<IpMCDetectorInput>()
+                    {
+                        new pMCROfRhoAndTimeDetectorInput(
+                            new DoubleRange(0.0, 10.0, 101),
+                            new DoubleRange(0.0, 1.0, 101),
+                            // set perturbed ops to reference ops
+                            new List<OpticalProperties>() { 
+                                _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
+                            new List<int>() { 1 })
+                    },
                     false,
                     _databaseOneLayerTissue,
                     _referenceInputOneLayerTissue);
@@ -85,24 +81,20 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_pMC_DAW_ROfRho_zero_perturbation_one_layer_tissue()
         {            
             var postProcessedOutput =
-                PhotonSurfaceBoundaryGroupDatabasePostProcessor.GenerateOutput(
-                    new pMCSurfaceBoundaryGroup(
-                        VirtualBoundaryType.pMCDiffuseReflectance,
-                        new List<IpMCDetectorInput>()
-                        {
-                            new pMCROfRhoDetectorInput(
-                                new DoubleRange(0.0, 10, 101),
-                                // set perturbed ops to reference ops
-                                new List<OpticalProperties>() { 
-                                    _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
-                                    _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
-                                    _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
-                                new List<int>() { 1 })
-                        },
-                        false,
-                        VirtualBoundaryType.pMCDiffuseReflectance.ToString()
-                     ),
-                     false,
+                PhotonDatabasePostProcessor.GenerateOutput(
+                    VirtualBoundaryType.pMCDiffuseReflectance,
+                    new List<IpMCDetectorInput>()
+                    {
+                        new pMCROfRhoDetectorInput(
+                            new DoubleRange(0.0, 10, 101),
+                            // set perturbed ops to reference ops
+                            new List<OpticalProperties>() { 
+                                _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
+                            new List<int>() { 1 })
+                    },
+                    false,
                     _databaseOneLayerTissue,
                     _referenceInputOneLayerTissue);
             // validation value obtained from reference non-pMC run
@@ -118,25 +110,21 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_pMC_DAW_ROfRhoAndTime_zero_perturbation_of_top_layer()
         {
             var postProcessedOutput =
-                PhotonSurfaceBoundaryGroupDatabasePostProcessor.GenerateOutput(
-                    new pMCSurfaceBoundaryGroup(
-                        VirtualBoundaryType.pMCDiffuseReflectance,
-                        new List<IpMCDetectorInput>()
-                        {
-                            new pMCROfRhoAndTimeDetectorInput(
-                                new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(0.0, 1.0, 101),
-                                new List<OpticalProperties>() { // perturbed ops
-                                    _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
-                                    _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
-                                    _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
-                                    _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
-                                new List<int>() { 1 })
-                        },
-                        false,
-                        VirtualBoundaryType.pMCDiffuseReflectance.ToString()
-                     ),
-                     false,
+                PhotonDatabasePostProcessor.GenerateOutput(
+                    VirtualBoundaryType.pMCDiffuseReflectance,
+                    new List<IpMCDetectorInput>()
+                    {
+                        new pMCROfRhoAndTimeDetectorInput(
+                            new DoubleRange(0.0, 10.0, 101),
+                            new DoubleRange(0.0, 1.0, 101),
+                            new List<OpticalProperties>() { // perturbed ops
+                                _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
+                                _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
+                                _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
+                                _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
+                            new List<int>() { 1 })
+                    },
+                    false,
                     _databaseTwoLayerTissue,
                     _referenceInputTwoLayerTissue);
             // validation value obtained from reference results
@@ -163,9 +151,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
                     1);
-            var detectorInputs = new List<IVirtualBoundaryGroup>
+            var detectorInputs = new List<IVirtualBoundaryInput>
             {
-                new SurfaceBoundaryGroup(
+                new SurfaceVirtualBoundaryInput(
                     VirtualBoundaryType.DiffuseReflectance,
                     new List<IDetectorInput>()
                     {
@@ -176,6 +164,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                     },
                     true,
                     VirtualBoundaryType.DiffuseReflectance.ToString()
+                ),
+                new SurfaceVirtualBoundaryInput(
+                    VirtualBoundaryType.DiffuseTransmittance,
+                    null,
+                    false,
+                    VirtualBoundaryType.DiffuseTransmittance.ToString()
                 )
             };
             _referenceInputOneLayerTissue = new SimulationInput(

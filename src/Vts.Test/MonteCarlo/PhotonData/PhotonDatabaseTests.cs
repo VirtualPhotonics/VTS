@@ -26,7 +26,8 @@ namespace Vts.Test.MonteCarlo.PhotonData
 
             string databaseFilename = "testphotondatabase";
 
-            using(var dbWriter = new PhotonDatabaseWriter(databaseFilename))
+            using(var dbWriter = new PhotonDatabaseWriter(
+                VirtualBoundaryType.DiffuseReflectance, databaseFilename))
             {
                 dbWriter.Write(new PhotonDataPoint(
                                    new Position(1, 2, 3),

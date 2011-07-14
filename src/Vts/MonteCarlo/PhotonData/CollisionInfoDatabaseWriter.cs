@@ -10,9 +10,11 @@ namespace Vts.MonteCarlo.PhotonData
     /// </summary>
     public class CollisionInfoDatabaseWriter : DatabaseWriter<CollisionInfoDatabase, CollisionInfo>
     {
-        public CollisionInfoDatabaseWriter(string filename, int numberOfSubRegions)
+        public CollisionInfoDatabaseWriter(VirtualBoundaryType virtualBoundaryType, string filename, int numberOfSubRegions)
             : base(filename, new CollisionInfoDatabase(numberOfSubRegions), new CollisionInfoSerializer(numberOfSubRegions))
         {
+            VirtualBoundaryType = virtualBoundaryType;
         }
+        public VirtualBoundaryType VirtualBoundaryType { get; set; }
     }
 }

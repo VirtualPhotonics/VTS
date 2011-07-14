@@ -65,19 +65,19 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryGroup>() 
+                new List<IVirtualBoundaryInput>() 
                 {
-                    new SurfaceBoundaryGroup(
+                    new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseReflectance,
                         new List<IDetectorInput>() { new RDiffuseDetectorInput() }, 
                         false,
                         VirtualBoundaryType.DiffuseReflectance.ToString()),
-                    new SurfaceBoundaryGroup(
+                    new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseTransmittance,
                         new List<IDetectorInput>() { new TDiffuseDetectorInput() }, 
                         false,
                         VirtualBoundaryType.DiffuseTransmittance.ToString()),
-                    new GenericVolumeGroup(
+                    new GenericVolumeVirtualBoundaryInput(
                         VirtualBoundaryType.GenericVolumeBoundary,
                         new List<IDetectorInput>() { new ATotalDetectorInput() }, 
                         false,

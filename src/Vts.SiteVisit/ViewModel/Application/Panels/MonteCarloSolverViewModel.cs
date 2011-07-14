@@ -57,9 +57,9 @@ namespace Vts.SiteVisit.ViewModel
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete),
                 SourceInput = new DirectionalPointSourceInput(),
-                VirtualBoundaryGroups = new List<IVirtualBoundaryGroup>
+                VirtualBoundaryInputs = new List<IVirtualBoundaryInput>
                 {
-                    new SurfaceBoundaryGroup(
+                    new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseReflectance,
                         new List<IDetectorInput>
                         {
@@ -73,7 +73,7 @@ namespace Vts.SiteVisit.ViewModel
 
             _simulationInputVM = new SimulationInputViewModel(_simulationInput); 
 
-            var rho = ((ROfRhoDetectorInput)_simulationInput.VirtualBoundaryGroups.
+            var rho = ((ROfRhoDetectorInput)_simulationInput.VirtualBoundaryInputs.
                 Where(g => g.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance).First().
                 DetectorInputs.Where(d => d.TallyType == TallyType.ROfRho).First()).Rho;
                 //Where(d => d.TallyType == TallyType.ROfRho).First()).Rho;

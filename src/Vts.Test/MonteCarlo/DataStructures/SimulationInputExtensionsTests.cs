@@ -1,14 +1,9 @@
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Vts;
 using Vts.Common;
-using Vts.Extensions;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.Extensions;
 
 namespace Vts.Test.MonteCarlo
 {
@@ -42,9 +37,9 @@ namespace Vts.Test.MonteCarlo
 							new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
 					}
                 ),
-                new List<IVirtualBoundaryGroup>
+                new List<IVirtualBoundaryInput>
                     {
-                        new SurfaceBoundaryGroup(
+                        new SurfaceVirtualBoundaryInput(
                             VirtualBoundaryType.DiffuseReflectance,
                             new List<IDetectorInput>
                             {

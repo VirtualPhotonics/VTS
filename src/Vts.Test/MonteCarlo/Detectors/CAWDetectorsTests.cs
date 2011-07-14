@@ -54,9 +54,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
                     1); // start inside tissue
-            var detectors = new List<IVirtualBoundaryGroup>
+            var detectors = new List<IVirtualBoundaryInput>
                 {
-                    new SurfaceBoundaryGroup(
+                    new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseReflectance,
                         new List<IDetectorInput>
                         {
@@ -79,7 +79,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         false,
                         VirtualBoundaryType.DiffuseReflectance.ToString()
                     ), 
-                    new SurfaceBoundaryGroup(
+                    new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseTransmittance,
                         new List<IDetectorInput>()
                         {
