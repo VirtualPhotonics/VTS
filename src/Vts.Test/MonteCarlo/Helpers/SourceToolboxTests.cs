@@ -38,7 +38,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
         public void read_data()
         {
-            string testpara = "UnitTests_SourceToolbox.txt";     
+            string testpara = "../../../../matlab/test/monte_carlo/source_test_data_generation/UnitTests_SourceToolbox.txt";     
               
             using (TextReader reader = File.OpenText(testpara))
             {
