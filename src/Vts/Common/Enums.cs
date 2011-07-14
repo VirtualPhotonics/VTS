@@ -311,5 +311,36 @@ namespace Vts
         Fluence,
         Inverse,
     }
+
+    /// <summary>
+    /// Enum to represent the possible wavelength and wavenumber inputs
+    /// </summary>
+    public enum WavelengthUnit
+    {
+        Nanometers,
+        Micrometers,
+        Meters,
+        InverseMeters,
+        InverseCentimeters,
+    }
+
+    /// <summary>
+    /// Enum to represent the possible absorption coefficient inputs
+    /// </summary>
+    public enum AbsorptionCoefficientUnit
+    {
+        InverseMillimeters,
+        InverseMeters,
+        InverseCentimeters,
+        InverseMicrometers,
+    }
+
+    public enum MolarUnit
+    {
+        None,
+        Molar,
+        MilliMolar,
+        MicroMolar,
+    }
     #endregion
 }

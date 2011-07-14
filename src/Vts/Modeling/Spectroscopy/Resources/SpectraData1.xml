@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ChromophoreEntries>
-  <ChromophoreEntry Name="Melanin" DataContent="FractionalAbsorptionCoefficient" DataUnits="PerMillimeter">
+  <ChromophoreEntry Name="Melanin" DataContent="FractionalAbsorptionCoefficient" AbsorptionCoefficientUnits="InverseMillimeters" MolarUnits="None">
     <Wavelengths>
       <Wavelength>600</Wavelength>
       <Wavelength>602</Wavelength>
@@ -408,7 +408,7 @@
       <Value>6.172326931</Value>
     </Values>
   </ChromophoreEntry>
-  <ChromophoreEntry Name="Nigrosin" DataContent="MolarAbsorptionCoefficient" DataUnits="PerMillimeter">
+  <ChromophoreEntry Name="Nigrosin" DataContent="MolarAbsorptionCoefficient" AbsorptionCoefficientUnits="InverseMillimeters" MolarUnits="None">
     <Wavelengths>
       <Wavelength>600</Wavelength>
       <Wavelength>602</Wavelength>
@@ -816,7 +816,7 @@
       <Value>0.032923015</Value>
     </Values>
   </ChromophoreEntry>
-  <ChromophoreEntry Name="CPTA" DataContent="FractionalAbsorptionCoefficient" DataUnits="PerMillimeter">
+  <ChromophoreEntry Name="CPTA" DataContent="FractionalAbsorptionCoefficient" AbsorptionCoefficientUnits="InverseMillimeters" MolarUnits="None">
     <Wavelengths>
       <Wavelength>600</Wavelength>
       <Wavelength>602</Wavelength>
@@ -1224,7 +1224,7 @@
       <Value>0.22827912</Value>
     </Values>
   </ChromophoreEntry>
-  <ChromophoreEntry Name="H2O" DataContent="FractionalAbsorptionCoefficient" DataUnits="PerMillimeter">
+  <ChromophoreEntry Name="H2O" DataContent="FractionalAbsorptionCoefficient" AbsorptionCoefficientUnits="InverseMillimeters" MolarUnits="None">
     <Wavelengths>
       <Wavelength>600</Wavelength>
       <Wavelength>602</Wavelength>
@@ -1632,7 +1632,7 @@
       <Value>0.040679</Value>
     </Values>
   </ChromophoreEntry>
-  <ChromophoreEntry Name="Fat" DataContent="FractionalAbsorptionCoefficient" DataUnits="PerMillimeter">
+  <ChromophoreEntry Name="Fat" DataContent="FractionalAbsorptionCoefficient" AbsorptionCoefficientUnits="InverseMillimeters" MolarUnits="None">
     <Wavelengths>
       <Wavelength>600</Wavelength>
       <Wavelength>602</Wavelength>
@@ -2040,7 +2040,7 @@
       <Value>0.001963354</Value>
     </Values>
   </ChromophoreEntry>
-  <ChromophoreEntry Name="Hb" DataContent="MolarAbsorptionCoefficient" DataUnits="PerMillimeterPerMicroMolar">
+  <ChromophoreEntry Name="Hb" DataContent="MolarAbsorptionCoefficient" AbsorptionCoefficientUnits="InverseMillimeters" MolarUnits="MicroMolar">
     <Wavelengths>
       <Wavelength>600</Wavelength>
       <Wavelength>602</Wavelength>
@@ -2448,7 +2448,7 @@
       <Value>2.06784E-05</Value>
     </Values>
   </ChromophoreEntry>
-  <ChromophoreEntry Name="HbO2" DataContent="MolarAbsorptionCoefficient" DataUnits="PerMillimeterPerMicroMolar">
+  <ChromophoreEntry Name="HbO2" DataContent="MolarAbsorptionCoefficient" AbsorptionCoefficientUnits="InverseMillimeters" MolarUnits="MicroMolar">
     <Wavelengths>
       <Wavelength>600</Wavelength>
       <Wavelength>602</Wavelength>

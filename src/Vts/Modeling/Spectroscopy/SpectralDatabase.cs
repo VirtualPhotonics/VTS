@@ -68,7 +68,9 @@ namespace Vts.SpectralMapping
             {
                 string name = chromEntry.Attribute("Name").Value;
                 var coeffString = chromEntry.Attribute("DataContent").Value;
-                AbsorptionCoefficientUnits muaUnits = (AbsorptionCoefficientUnits)Enum.Parse(typeof(AbsorptionCoefficientUnits), chromEntry.Attribute("DataUnits").Value, true);
+                AbsorptionCoefficientUnit muaUnit = (AbsorptionCoefficientUnit)Enum.Parse(typeof(AbsorptionCoefficientUnit), chromEntry.Attribute("AbsorptionCoefficientUnits").Value, true);
+                MolarUnit molarUnit = (MolarUnit)Enum.Parse(typeof(MolarUnit), chromEntry.Attribute("MolarUnits").Value, true);
+                //AbsorptionCoefficientUnits muaUnits = (AbsorptionCoefficientUnits)Enum.Parse(typeof(AbsorptionCoefficientUnits), chromEntry.Attribute("DataUnits").Value, true);
                 var coeffType = (ChromophoreCoefficientType)Enum.Parse(typeof(ChromophoreCoefficientType), coeffString, true);
                 //need to multiply MolarAbsorptionCoefficients by ln(10)
                 double k = 1.0;
@@ -100,7 +102,7 @@ namespace Vts.SpectralMapping
                     values.Add((double)valEntry * k);
                 }
 
-                ChromophoreSpectrum c = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnits);
+                ChromophoreSpectrum c = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit);
 
                 chromDictionary.Add(name, c);
             }

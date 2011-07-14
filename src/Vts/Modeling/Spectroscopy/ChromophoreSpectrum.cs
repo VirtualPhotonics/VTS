@@ -9,13 +9,16 @@ namespace Vts.SpectralMapping
         public IList<double> Spectrum { get; set; }
         public IList<double> Wavelengths { get; set; }
         public ChromophoreCoefficientType ChromophoreCoefficientType { get; set; }      
-        public AbsorptionCoefficientUnits AbsorptionCoefficientUnits { get; set; }
+        //public AbsorptionCoefficientUnits AbsorptionCoefficientUnits { get; set; }
+        public AbsorptionCoefficientUnit AbsorptionCoefficientUnit { get; set; }
+        public MolarUnit MolarUnit { get; set; }
         public string Name { get; set; }
 
-        public ChromophoreSpectrum(IList<double> wavelengths, IList<double> spectrum, string name, ChromophoreCoefficientType coeffType, AbsorptionCoefficientUnits absUnits)
+        public ChromophoreSpectrum(IList<double> wavelengths, IList<double> spectrum, string name, ChromophoreCoefficientType coeffType, AbsorptionCoefficientUnit absUnits, MolarUnit molarUnit)
         {
             ChromophoreCoefficientType = coeffType;
-            AbsorptionCoefficientUnits = absUnits;
+            AbsorptionCoefficientUnit = absUnits;
+            MolarUnit = molarUnit;
             Name = name;
             Spectrum = spectrum;
             Wavelengths = wavelengths;
@@ -26,7 +29,8 @@ namespace Vts.SpectralMapping
                    new List<double>(), 
                    "", 
                    ChromophoreCoefficientType.FractionalAbsorptionCoefficient,
-                   AbsorptionCoefficientUnits.PerMillimeterPerMicroMolar)
+                   AbsorptionCoefficientUnit.InverseMillimeters,
+                   MolarUnit.Molar)
 	    {
 	    }
 

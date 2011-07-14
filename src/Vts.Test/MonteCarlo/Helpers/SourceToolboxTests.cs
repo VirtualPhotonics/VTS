@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using Vts.Common;
+using System.IO;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo;
@@ -10,64 +11,111 @@ namespace Vts.Test.MonteCarlo.Sources
     [TestFixture]
     public class SourceToolboxTests
     {
-        Position _position = new Position(1.0, 2.0, 3.0);
-        Direction _direction = new Direction(0.707106781186548, 0.707106781186548, 0.0);
-        Position _translation = new Position(1.0, -2.5, 1.2);
-        PolarAzimuthalAngles _angPair = new PolarAzimuthalAngles(0.25 * Math.PI, 0.25 * Math.PI);        
-        DoubleRange _polRange = new DoubleRange(0.0, 0.5 * Math.PI);
-        DoubleRange _aziRange = new DoubleRange(0.0,  Math.PI);
-        ThreeAxisRotation _angRot = new ThreeAxisRotation(0.5 * Math.PI, 0.5 * Math.PI, 0.25 * Math.PI);
-        SourceFlags _flags = new SourceFlags(true, true, true);
-        double _aParameter = 2.0;
-        double _bParameter = 2.5;
-        double _cParameter = 3.0;
-        double _lengthX = 1.0;
-        double _widthY = 2.0;
-        double _heightZ = 3.0;
-        double _innerRadius = 1.0;
-        double _outerRadius = 2.0;
-        double _bdFWHM = 0.8;
-        double _limit = 0.5;
-        double _factor = 0.5;
-        double _polarAngle = 0.25 * Math.PI;
-       
-        //Validating "GetDirectionForGiven2DPositionAndGivenPolarAngle"     
-        [Test]
-        public void validate_static_method_getgirectionforgiven2dpositionandgivenpolarangle()
+        Position _position;
+        Direction _direction;
+        Position _translation;
+        PolarAzimuthalAngles _angPair;
+        DoubleRange _polRange;
+        DoubleRange _aziRange;
+        ThreeAxisRotation _angRot;
+        SourceFlags _flags;
+        double _aParameter;
+        double _bParameter;
+        double _cParameter;
+        double _lengthX ;
+        double _widthY;
+        double _heightZ;
+        double _innerRadius;
+        double _outerRadius;
+        double _bdFWHM;
+        double _limit;
+        double _factor;
+        double _polarAngle;
+        double[] _tp = new double[138];
+
+        /// <summary>
+        /// Read text data file that has input and output data
+        /// </summary>
+        public void read_data()
         {
+            string testpara = "UnitTests_SourceToolbox.txt";     
+              
+            using (TextReader reader = File.OpenText(testpara))
+            {
+                string text = reader.ReadToEnd();
+                string[] bits = text.Split('\t');
+                for (int i = 0; i <138; i++)                
+                     _tp[i] = double.Parse(bits[i]);     
+            } 
+            _position = new Position(_tp[0], _tp[1], _tp[2]);
+            _direction = new Direction(_tp[3], _tp[4], _tp[5]);
+            _translation = new Position(_tp[6], _tp[7], _tp[8]);
+            _angPair = new PolarAzimuthalAngles(_tp[9], _tp[10]);
+            _polRange = new DoubleRange(_tp[11], _tp[12]);
+            _aziRange = new DoubleRange(_tp[13], _tp[14]);
+            _angRot = new ThreeAxisRotation(_tp[15], _tp[16], _tp[17]);
+            _flags = new SourceFlags(true, true, true);
+            _aParameter = _tp[18];
+            _bParameter = _tp[19];
+            _cParameter = _tp[20];
+            _lengthX = _tp[21];
+            _widthY = _tp[22];
+            _heightZ = _tp[23];
+            _innerRadius = _tp[24];
+            _outerRadius = _tp[25];
+            _bdFWHM = _tp[26];
+            _limit = _tp[27];
+            _factor = _tp[28];
+            _polarAngle = _tp[29];
+        }
+
+       
+        /// <summary>
+        /// Validating "GetDirectionForGiven2DPositionAndGivenPolarAngle"     
+        /// </summary>
+        [Test]
+        public void validate_static_method_getdirectionforgiven2dpositionandgivenpolarangle()
+        {
+            read_data();
             var pos = _position.Clone();
             var dir = SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(_polarAngle, pos);
 
-            Assert.Less(Math.Abs(dir.Ux - 0.447213595499958), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 0.894427190999916), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - 0.707106781186548), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[30]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[31]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[32]), 0.0000000001);
         }
 
-        //Validating "GetDirectionForGivenPolarAzimuthalAngleRangeRandom"
+        /// <summary>
+        /// Validating "GetDirectionForGivenPolarAzimuthalAngleRangeRandom"
+        /// </summary>
         [Test]
         public void validate_static_method_getdirectionforgivenpolarazimuthalanglerangerandom()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var dir = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(_polRange, _aziRange, rng);
 
-            Assert.Less(Math.Abs(dir.Ux + 0.240385660610712), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 0.800636293032631), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - 0.548813502432037), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[33]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[34]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[35]), 0.0000000001);
         }
 
-        //Validating "GetDirectionForIsotropicDistributionRandom"
+        /// <summary>
+        /// Validating "GetDirectionForIsotropicDistributionRandom"
+        /// </summary>
         [Test]
         public void validate_static_method_getdirectionforisotropicdistributionrandom()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var dir = SourceToolbox.GetDirectionForIsotropicDistributionRandom(rng);
 
-            Assert.Less(Math.Abs(dir.Ux + 0.830629708217707), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy + 0.548200014362858), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - 0.097627004864073), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[36]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[37]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[38]), 0.0000000001);
         }
 
-        //Validating "GetDoubleNormallyDistributedRandomNumbers"
+        /// <summary>
+        /// Validating "GetDoubleNormallyDistributedRandomNumbers"
+        /// </summary>
         [Test]
         public void validate_static_method_getdoublenormallydistributedrandomnumbers()
         {
@@ -77,47 +125,53 @@ namespace Vts.Test.MonteCarlo.Sources
 
            SourceToolbox.GetDoubleNormallyDistributedRandomNumbers(ref nrng1, ref nrng2, _limit, rng);
 
-           Assert.Less(Math.Abs(nrng1 + 0.596804014735343), 0.0000000001);
-           Assert.Less(Math.Abs(nrng2 + 0.393879446175523), 0.0000000001);            
+           Assert.Less(Math.Abs(nrng1 - _tp[39]), 0.0000000001);
+           Assert.Less(Math.Abs(nrng2 - _tp[40]), 0.0000000001);            
         }
-
-
-        //Validating "GetLowerLimit"
+        
+        /// <summary>
+        /// Validating "GetLowerLimit"
+        /// </summary>
         [Test]
         public void validate_static_method_getlowerlimit()
         {
             var limit = SourceToolbox.GetLowerLimit(_factor);
 
-            Assert.Less(Math.Abs(limit - 0.882496902584596), 0.0000000001);
+            Assert.Less(Math.Abs(limit - _tp[41]), 0.0000000001);
         }
 
-
-        //Validating "GetPolarAzimuthalPairForGivenAngleRangeRandom"
+        /// <summary>
+        /// Validating "GetPolarAzimuthalPairForGivenAngleRangeRandom"
+        /// </summary>        
         [Test]
         public void validate_static_method_getpolarazimuthalpairforgivenanglerangerandom()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var angPair = SourceToolbox.GetPolarAzimuthalPairForGivenAngleRangeRandom(_polRange, _aziRange,rng);
 
-            Assert.Less(Math.Abs(angPair.Theta - 0.989852100466779), 0.0000000001);
-            Assert.Less(Math.Abs(angPair.Phi - 1.862476292001275), 0.0000000001);
+            Assert.Less(Math.Abs(angPair.Theta - _tp[42]), 0.0000000001);
+            Assert.Less(Math.Abs(angPair.Phi - _tp[43]), 0.0000000001);
         }
 
 
-        //Validating "GetPolarAzimuthalPairFromDirection"
+        /// <summary>
+        /// Validating "GetPolarAzimuthalPairFromDirection"
+        /// </summary>
         [Test]
         public void validate_static_method_getpolarazimuthalpairfromdirection()
         {
-            Direction dir = new Direction (0.707106781, -0.707106781, 0.0);
+            Direction dir = _direction;
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var angPair = SourceToolbox.GetPolarAzimuthalPairFromDirection(dir);
 
-            Assert.Less(Math.Abs(angPair.Theta - 1.570796326794897), 0.0000000001);
-            Assert.Less(Math.Abs(angPair.Phi - 5.497787143782138), 0.0000000001);
+            Assert.Less(Math.Abs(angPair.Theta - _tp[44]), 0.0000000001);
+            Assert.Less(Math.Abs(angPair.Phi - _tp[45]), 0.0000000001);
         }
 
-        //Validating "GetPositionInACircleRandomFlat"
+        /// <summary>
+        /// Validating "GetPositionInACircleRandomFlat"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositioninacirclerandomflat()
         {         
@@ -125,13 +179,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInACircleRandomFlat(_position, _innerRadius, _outerRadius, rng);
 
-            Assert.Less(Math.Abs(pos.X + 0.589105861127424), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 1.496734253389650), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _position.Z), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[46]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[47]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[48]), 0.0000000001);
         }
-
-
-        //Validating "GetPositionInACircleRandomGaussian"
+        
+        /// <summary>
+        /// Validating "GetPositionInACircleRandomGaussian"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositioninacirclerandomgaussian()
         {
@@ -139,12 +194,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInACircleRandomGaussian(_position, _outerRadius, _bdFWHM, rng);
 
-            Assert.Less(Math.Abs(pos.X - 0.397438907668953), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 1.602320990686500), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _position.Z), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[49]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[50]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[51]), 0.0000000001);
         }
 
-        //Validating "GetPositionInACuboidRandomFlat"
+        /// <summary>
+        /// Validating "GetPositionInACuboidRandomFlat"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositioninacuboidrandomflat()
         {
@@ -152,12 +209,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInACuboidRandomFlat(_position, _lengthX, _widthY, _heightZ, rng);
 
-            Assert.Less(Math.Abs(pos.X - 1.048813502432036), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 2.185689233053869), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - 3.645568095414333), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[52]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[53]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[54]), 0.0000000001);
         }
 
-        //Validating "GetPositionInACuboidRandomGaussian"
+        /// <summary>
+        /// Validating "GetPositionInACuboidRandomGaussian"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositioninacuboidrandomgaussian()
         {
@@ -165,12 +224,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInACuboidRandomGaussian(_position, _lengthX, _widthY, _heightZ, _bdFWHM, rng);
 
-            Assert.Less(Math.Abs(pos.X - 0.575228350861814), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 2.302436722670088), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - 3.428709966910891), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[55]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[56]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[57]), 0.0000000001);
         }
 
-        //Validating "GetPositionInALineRandomFlat"
+        /// <summary>
+        /// Validating "GetPositionInALineRandomFlat"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositioninalinerandomflat()
         {
@@ -178,12 +239,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInALineRandomFlat(_position, _lengthX, rng);
 
-            Assert.Less(Math.Abs(pos.X - 1.048813502432036), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _position.Y), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _position.Z), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[58]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[59]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[60]), 0.0000000001);
         }
 
-        //Validating "GetPositionInALineRandomGaussian"
+        /// <summary>
+        /// Validating "GetPositionInALineRandomGaussian"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositioninalinerandomgaussian()
         {
@@ -191,12 +254,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInALineRandomGaussian(_position, _lengthX, _bdFWHM, rng);
 
-            Assert.Less(Math.Abs(pos.X - 0.575228350861814), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _position.Y), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _position.Z), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[61]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[62]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[63]), 0.0000000001);
         }
 
-        //Validating "GetPositionInAnEllipseRandomFlat"
+        /// <summary>
+        /// Validating "GetPositionInAnEllipseRandomFlat"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositioninanellipserandomflat()
         {
@@ -204,13 +269,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInAnEllipseRandomFlat(_position, _aParameter, _bParameter, rng);
 
-            Assert.Less(Math.Abs(pos.X - 1.195254009728146), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 2.464223082634672), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _position.Z), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[64]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[65]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[66]), 0.0000000001);
         }
-
-
-        //Validating "GetPositionInAnEllipseRandomGaussian"
+        
+        /// <summary>
+        /// Validating "GetPositionInAnEllipseRandomGaussian"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositioninanellipserandomgaussian()
         {
@@ -218,12 +284,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInAnEllipseRandomGaussian(_position, _aParameter, _bParameter, _bdFWHM, rng);
 
-            Assert.Less(Math.Abs(pos.X - 1.857911404818847), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 3.073949041976430), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _position.Z), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[67]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[68]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[69]), 0.0000000001);
         }
 
-        //Validating "GetPositionInAnEllipsoidRandomFlat"
+        /// <summary>
+        /// Validating "GetPositionInAnEllipsoidRandomFlat"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositioninanellipsoidrandomflat()
         {
@@ -231,13 +299,15 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInAnEllipsoidRandomFlat(_position, _aParameter, _bParameter, _cParameter, rng);
 
-            Assert.Less(Math.Abs(pos.X - 1.19525400972815), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 2.464223082634672), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - 4.29113619082867), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[70]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[71]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[72]), 0.0000000001);
         }
 
 
-        //Validating "GetPositionInAnEllipsoidRandomGaussian"
+        /// <summary>
+        /// Validating "GetPositionInAnEllipsoidRandomGaussian"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositioninanellipsoidrandomgaussian()
         {
@@ -245,12 +315,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInAnEllipsoidRandomGaussian(_position, _aParameter, _bParameter, _cParameter, _bdFWHM, rng);
 
-            Assert.Less(Math.Abs(pos.X - 0.485914096439413), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 2.761949256696024), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - 2.92131684799626), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[73]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[74]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[75]), 0.0000000001);
         }
 
-        //Validating "GetPositionInARectangleRandomFlat"
+        /// <summary>
+        /// Validating "GetPositionInARectangleRandomFlat"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositioninarectanglerandomflat()
         {
@@ -258,12 +330,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInARectangleRandomFlat(_position, _lengthX, _widthY, rng);
 
-            Assert.Less(Math.Abs(pos.X - 1.048813502432036), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 2.185689233053869), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _position.Z), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[76]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[77]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[78]), 0.0000000001);
         }
 
-        //Validating "GetPositionInARectangleRandomGaussian"
+        /// <summary>
+        /// Validating "GetPositionInARectangleRandomGaussian"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositioninarectanglerandomgaussian()
         {
@@ -271,12 +345,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInARectangleRandomGaussian(_position, _lengthX, _widthY, _bdFWHM, rng);
 
-            Assert.Less(Math.Abs(pos.X - 0.575228350861814), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 2.302436722670088), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _position.Z), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[79]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[80]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[81]), 0.0000000001);
         }
 
-        //Validating "GetPositionOfASymmetricalLineRandomFlat"
+        /// <summary>
+        /// Validating "GetPositionOfASymmetricalLineRandomFlat"
+        /// </summary>
         [Test]
         public void validate_static_method_getpositionofasymmetricallinerandomflat()
         {
@@ -284,10 +360,12 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var loc = SourceToolbox.GetPositionOfASymmetricalLineRandomFlat(_lengthX, rng);
 
-            Assert.Less(Math.Abs(loc - 0.048813502432037), 0.0000000001);            
+            Assert.Less(Math.Abs(loc - _tp[82]), 0.0000000001);            
         }
 
-        //Validating "GetSingleNormallyDistributedRandomNumber"
+        /// <summary>
+        /// Validating "GetSingleNormallyDistributedRandomNumber"
+        /// </summary>
         [Test]
         public void validate_static_method_getsinglenormallydistributedrandomnumber()
         {
@@ -295,70 +373,86 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var nrng = SourceToolbox.GetSingleNormallyDistributedRandomNumber(_limit, rng);
 
-            Assert.Less(Math.Abs(nrng - -0.596804014735343), 0.0000000001);
+            Assert.Less(Math.Abs(nrng - _tp[83]), 0.0000000001);
         }
 
-        //Validating "UpdateDirectionAfterRotatingAroundThreeAxis"     
+        /// <summary>
+        /// Validating "UpdateDirectionAfterRotatingAroundThreeAxis"   
+        /// </summary>
+  
         [Test]
         public void validate_static_method_updatedirectionafterrotatingaroundthreeaxis()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundThreeAxis(_angRot, dir);
 
-            Assert.Less(Math.Abs(dir.Ux - 0.5), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 0.5), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz -  0.707106781186548), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[84]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[85]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[86]), 0.0000000001);
         }
 
-        //Validating "UpdateDirectionAfterRotatingAroundXAxis"     
+        /// <summary>
+        /// Validating "UpdateDirectionAfterRotatingAroundXAxis"  
+        /// </summary>
+   
         [Test]
         public void validate_static_method_updatedirectionafterrotatingaroundxaxis()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundXAxis(_angRot.XRotation, dir);
 
-            Assert.Less(Math.Abs(dir.Ux - 0.707106781186548), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 0.0), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - 0.707106781186548), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[87]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[88]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[89]), 0.0000000001);
         }
 
-        //Validating "UpdateDirectionAfterRotatingAroundYAxis"     
+        /// <summary>
+        /// Validating "UpdateDirectionAfterRotatingAroundYAxis"  
+        /// </summary>
+   
         [Test]
         public void validate_static_method_updatedirectionafterrotatingaroundyaxis()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundYAxis(_angRot.YRotation, dir);
 
-            Assert.Less(Math.Abs(dir.Ux - 0.0), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 0.707106781186548), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz + 0.707106781186548), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[90]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[91]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[92]), 0.0000000001);
         }
 
-        //Validating "UpdateDirectionAfterRotatingAroundZAxis"     
+        /// <summary>
+        /// Validating "UpdateDirectionAfterRotatingAroundZAxis"     
+        /// </summary>
         [Test]
         public void validate_static_method_updatedirectionafterrotatingaroundzaxis()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundZAxis(_angRot.ZRotation, dir);
 
-            Assert.Less(Math.Abs(dir.Ux - 0.0), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 1.0), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - 0.0), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[93]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[94]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[95]), 0.0000000001);
         }
 
-        //Validating "UpdateDirectionAfterRotatingByGivenAnglePair"     
+        /// <summary>
+        /// Validating "UpdateDirectionAfterRotatingByGivenAnglePair"   
+        /// </summary>
+  
         [Test]
         public void validate_static_method_updatedirectionafterrotatingbygivenanglepair()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingByGivenAnglePair(_angPair, dir);
 
-            Assert.Less(Math.Abs(dir.Ux + 0.146446609406726), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 0.853553390593274), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz + 0.5), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[96]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[97]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[98]), 0.0000000001);
         }
 
-        //Validating "UpdateDirectionPositionAfterGivenFlags"     
+        /// <summary>
+        /// //Validating "UpdateDirectionPositionAfterGivenFlags"  
+        /// </summary>   
         [Test]
         public void validate_static_method_updatedirectionpositionaftergivenflags1()
         {
@@ -366,16 +460,18 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(ref pos, ref dir, _angPair, _translation, _flags);
 
-            Assert.Less(Math.Abs(dir.Ux + 0.146446609406726), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 0.853553390593274), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz + 0.5), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[99]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[100]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[101]), 0.0000000001);
 
-            Assert.Less(Math.Abs(pos.X - 1.585786437626905), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 0.914213562373095), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - 2.614213562373095), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[102]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[103]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[104]), 0.0000000001);
         }
 
-        //Validating "UpdateDirectionPositionAfterGivenFlags"     
+        /// <summary>
+        /// Validating "UpdateDirectionPositionAfterGivenFlags"   
+        /// </summary>  
         [Test]
         public void validate_static_method_updatedirectionpositionaftergivenflags2()
         {
@@ -383,16 +479,18 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(ref pos, ref dir, _angPair, _translation, _angPair, _flags);
 
-            Assert.Less(Math.Abs(dir.Ux + 0.926776695296637), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 0.280330085889911), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz + 0.25), 0.0000000001);
-            
-            Assert.Less(Math.Abs(pos.X - 1.585786437626905), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 0.914213562373095), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - 2.614213562373095), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[105]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[106]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[107]), 0.0000000001);
+
+            Assert.Less(Math.Abs(pos.X - _tp[108]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[109]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[110]), 0.0000000001);
         }
 
-        //Validating "UpdateDirectionPositionAfterRotatingAroundXAxis"     
+        /// <summary>
+        /// Validating "UpdateDirectionPositionAfterGivenFlags"   
+        /// </summary>
         [Test]
         public void validate_static_method_updatedirectionpositionafterrotatingaroundxaxis()
         {
@@ -400,16 +498,18 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             SourceToolbox.UpdateDirectionPositionAfterRotatingAroundXAxis(_angRot.XRotation, ref dir, ref pos);
 
-            Assert.Less(Math.Abs(dir.Ux - 0.707106781186548), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 0.0), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - 0.707106781186548), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[111]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[112]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[113]), 0.0000000001);
 
-            Assert.Less(Math.Abs(pos.X - 1.0), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y + 3.0), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - 2.0), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[114]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[115]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[116]), 0.0000000001);
         }
 
-        //Validating "UpdateDirectionPositionAfterRotatingAroundYAxis"     
+        /// <summary>
+        /// Validating "UpdateDirectionPositionAfterRotatingAroundYAxis"  
+        /// </summary>   
         [Test]
         public void validate_static_method_updatedirectionpositionafterrotatingaroundyaxis()
         {
@@ -417,16 +517,18 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             SourceToolbox.UpdateDirectionPositionAfterRotatingAroundYAxis(_angRot.YRotation, ref dir, ref pos);
 
-            Assert.Less(Math.Abs(dir.Ux - 0.0), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 0.707106781186548), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz + 0.707106781186548), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[117]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[118]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[119]), 0.0000000001);
 
-            Assert.Less(Math.Abs(pos.X - 3.0), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 2.0), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z + 1.0), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[120]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[121]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[122]), 0.0000000001);
         }
 
-        //Validating "UpdateDirectionPositionAfterRotatingAroundZAxis"     
+        /// <summary>
+        /// Validating "UpdateDirectionPositionAfterRotatingAroundZAxis"     
+        /// </summary>
         [Test]
         public void validate_static_method_updatedirectionpositionafterrotatingaroundzaxis()
         {
@@ -434,16 +536,18 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             SourceToolbox.UpdateDirectionPositionAfterRotatingAroundZAxis(_angRot.ZRotation, ref dir, ref pos);
 
-            Assert.Less(Math.Abs(dir.Ux - 0.0), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 1.0), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - 0.0), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[123]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[124]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[125]), 0.0000000001);
 
-            Assert.Less(Math.Abs(pos.X + 0.707106781186548), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 2.121320343559643), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - 3.0), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[126]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[127]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[128]), 0.0000000001);
         }
 
-        //Validating "UpdateDirectionPositionAfterRotatingByGivenAnglePair"     
+        /// <summary>
+        /// //Validating "UpdateDirectionPositionAfterRotatingByGivenAnglePair"
+        /// </summary>     
         [Test]
         public void validate_static_method_updatedirectionpositionafterrotatingbygivenanglepair()
         {
@@ -451,26 +555,28 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             SourceToolbox.UpdateDirectionPositionAfterRotatingByGivenAnglePair(_angPair, ref dir, ref pos);
 
-            Assert.Less(Math.Abs(dir.Ux + 0.146446609406726), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - 0.853553390593274), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz + 0.5), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[129]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uy - _tp[130]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Uz - _tp[131]), 0.0000000001);
 
-            Assert.Less(Math.Abs(pos.X - 0.585786437626905), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - 3.414213562373095), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - 1.414213562373095), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[132]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[133]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[134]), 0.0000000001);
         }
 
-        //Validating "UpdatePositionAfterTranslation"     
+        /// <summary>
+        /// Validating "UpdatePositionAfterTranslation"     
+        /// </summary>
         [Test]
         public void validate_static_method_updatepositionaftertranslation()
         {
             
             var pos = _position.Clone();
-            pos = SourceToolbox.UpdatePositionAfterTranslation(pos, _translation);           
+            pos = SourceToolbox.UpdatePositionAfterTranslation(pos, _translation);
 
-            Assert.Less(Math.Abs(pos.X - 2.0), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y + 0.5), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - 4.2), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[135]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Y - _tp[136]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.Z - _tp[137]), 0.0000000001);
         }
     }
 }

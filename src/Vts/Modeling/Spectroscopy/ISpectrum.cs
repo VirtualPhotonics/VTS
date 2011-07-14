@@ -8,6 +8,7 @@ namespace Vts.SpectralMapping
         string Name { get; set; }
         double GetSpectralValue(double wavelength);
         ChromophoreCoefficientType ChromophoreCoefficientType { get; set; }
-        AbsorptionCoefficientUnits AbsorptionCoefficientUnits { get; set; }
+        AbsorptionCoefficientUnit AbsorptionCoefficientUnit { get; set; }
+        MolarUnit MolarUnit { get; set; }
     }
 }

@@ -13,7 +13,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void validate_Serializing_Chromophore_Spectrum()
         {
             string name = "Melanin";
-            AbsorptionCoefficientUnits muaUnits = AbsorptionCoefficientUnits.PerMillimeter;
+            AbsorptionCoefficientUnit muaUnit = AbsorptionCoefficientUnit.InverseMillimeters;
+            MolarUnit molarUnit = MolarUnit.None;
             ChromophoreCoefficientType coeffType = ChromophoreCoefficientType.FractionalAbsorptionCoefficient;
 
             // populate list of wavelengths
@@ -28,7 +29,7 @@ namespace Vts.Test.Modeling.Spectroscopy
             values.Add(1.1);
             values.Add(2.1);
 
-            ChromophoreSpectrum chromophoreSpectrum = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnits);
+            ChromophoreSpectrum chromophoreSpectrum = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit);
             chromophoreSpectrum.WriteToXML("ChromophoreSpectrum.xml");
         }
 
@@ -36,7 +37,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void validate_Deserializing_Chromophore_Spectrum()
         {
             string name = "Melanin";
-            AbsorptionCoefficientUnits muaUnits = AbsorptionCoefficientUnits.PerMillimeter;
+            AbsorptionCoefficientUnit muaUnit = AbsorptionCoefficientUnit.InverseMillimeters;
+            MolarUnit molarUnit = MolarUnit.None;
             ChromophoreCoefficientType coeffType = ChromophoreCoefficientType.FractionalAbsorptionCoefficient;
 
             // populate list of wavelengths
@@ -51,7 +53,7 @@ namespace Vts.Test.Modeling.Spectroscopy
             values.Add(1.1);
             values.Add(2.1);
 
-            ChromophoreSpectrum chromophoreSpectrum = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnits);
+            ChromophoreSpectrum chromophoreSpectrum = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit);
             chromophoreSpectrum.WriteToXML("ChromophoreSpectrum.xml");
 
             var chromophoreSpectrumRead = FileIO.ReadFromXML<ChromophoreSpectrum>("ChromophoreSpectrum.xml");
