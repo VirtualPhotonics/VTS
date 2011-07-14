@@ -143,7 +143,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
-                //new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },  // write histories 
                 true, // tally 2nd moment
                 false, // track statistics
                 0);
@@ -223,7 +222,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 ),
                 detectorInputs);
             _referenceOutputTwoLayerTissue = new MonteCarloSimulation(_referenceInputTwoLayerTissue).Run();
-            _databaseTwoLayerTissue = pMCDatabase.FromFile("photonExitDatabase", "collisionInfoDatabase");
+            _databaseTwoLayerTissue = pMCDatabase.FromFile("photonReflectanceDatabase", "collisionInfoDatabase");
 
         }
     }
