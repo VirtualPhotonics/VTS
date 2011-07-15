@@ -10,9 +10,9 @@ sint = sqrt(1-cost*cost);
 cosp = cos(AngPair(2));
 sinp = sin(AngPair(2));
 
-UOUT(1) = ux * cosp * cost - uy * sint + uz * sinp * cost;
-UOUT(2) = ux * cosp * sint + uy * cost + uz * sinp * sint;
-UOUT(3) = -ux * sinp + uz * cost;
+UOUT(1) = ux * cost * cosp - uy * sinp + uz * sint * cosp;
+UOUT(2) = ux * cost * sinp + uy * cosp + uz * sint * sinp;
+UOUT(3) = -ux * sint + uz * cost;
 
 
 
