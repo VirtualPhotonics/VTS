@@ -272,11 +272,8 @@
     <Compile Include="MonteCarlo\PhotonData\pMCDatabaseTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSources\IsotropicLineSourceTests.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSources\CustomPointSourceTests.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSources\DirectionalPointSourceTests.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSources\IsotropicPointSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSourceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
