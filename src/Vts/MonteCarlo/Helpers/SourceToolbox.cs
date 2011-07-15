@@ -30,8 +30,8 @@ namespace Vts.MonteCarlo.Helpers
                     Math.Cos(polarAngle)));
             else
                 return (new Direction(
-                    position.X / radius,
-                    position.Y / radius,
+                    Math.Sin(polarAngle) * position.X / radius,
+                    Math.Sin(polarAngle) * position.Y / radius,
                     Math.Cos(polarAngle)));
         }
         
@@ -934,6 +934,27 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         /// <summary>
+        /// Update the polar angle based on incidnet location
+        /// </summary>
+        /// <param name="FullLength">Maximum length</param>
+        /// <param name="curLength">Current Length</param>
+        /// <param name="thetaConvOrDiv">Convergence or Diveregence Angle</param>
+        /// <returns></returns>
+        public static double UpdatePolarAngleForDirectionalSources(
+            double FullLength,
+            double curLength,
+            double thetaConvOrDiv)
+        {
+            if (thetaConvOrDiv == 0.0)
+                return thetaConvOrDiv;
+            else
+            {
+                var height = FullLength / Math.Tan(thetaConvOrDiv);
+                return (Math.Atan(curLength) / height);
+            }
+        }
+
+        /// <summary>
         /// Update the position after translation
         /// </summary>
         /// <param name="currentPosition">The old location</param>
@@ -949,19 +970,7 @@ namespace Vts.MonteCarlo.Helpers
 
             return currentPosition;
         }
-
-        
-       
-
-        
-              
-        
-
-        
-
-
-        
-        
+             
         
     }
 }

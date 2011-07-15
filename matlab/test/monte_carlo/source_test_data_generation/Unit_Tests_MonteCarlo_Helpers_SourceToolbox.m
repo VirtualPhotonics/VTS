@@ -127,7 +127,8 @@ Flags = [true, true, true];
 [Test30_U, Test30_V] = Func_UpdateDirectionPositionAfterRotatingAroundYAxis(U, V, AngRotY);
 [Test31_U, Test31_V] = Func_UpdateDirectionPositionAfterRotatingAroundZAxis(U, V, AngRotZ);
 [Test32_U, Test32_V] = Func_UpdateDirectionPositionAfterRotatingByAnglePair(U, V, AngPair);
-Test33 = Func_UpdatePositionAfterTranslation(V, T);
+Test33 = Func_UpdatePolarAngleForDirectionalSources(r2, r1, polAngle);
+Test34 = Func_UpdatePositionAfterTranslation(V, T);
 
 fid = fopen('UnitTests_SourceToolbox.txt', 'w');
 fprintf(fid,'%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t',...
@@ -138,9 +139,9 @@ fprintf(fid,'%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10
 fprintf(fid,'%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t',...
     Test14,Test15,Test16,Test17,Test18,Test19,Test20,Test21,...
     Test22,Test23,Test24,Test25,Test26);
-fprintf(fid,'%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t',...
+fprintf(fid,'%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t%.10e\t',...
     Test27_U,Test27_V,Test28_U,Test28_V,Test29_U,Test29_V,...
-    Test30_U,Test30_V,Test31_U,Test31_V,Test32_U,Test32_V,Test33);
+    Test30_U,Test30_V,Test31_U,Test31_V,Test32_U,Test32_V,Test33, Test34);
 fclose(fid);
 
 

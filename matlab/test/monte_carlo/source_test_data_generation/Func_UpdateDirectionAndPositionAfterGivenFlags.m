@@ -1,5 +1,5 @@
 %UpdateDirectionAndPositionAfterGivenFlags
-function [UOUT, VOUT] = Func_UpdateDirectionAndPositionAfterGivenFlags(U, V,  SAngPair, P, BAngPair, Flags)
+function [UOUT, VOUT] = Func_UpdateDirectionAndPositionAfterGivenFlags(U, V,  SAngPair, T, BAngPair, Flags)
 
 if (Flags(3))    
     U = Func_UpdateDirectionAfterRotatingByGivenAnglePair(U, BAngPair);
@@ -10,7 +10,7 @@ if (Flags(1))
 end
 
 if (Flags(2))     
-    [V] = Func_UpdatePositionAfterTranslation(V, P);
+    [V] = Func_UpdatePositionAfterTranslation(V, T);
 end
 
 UOUT = U;
