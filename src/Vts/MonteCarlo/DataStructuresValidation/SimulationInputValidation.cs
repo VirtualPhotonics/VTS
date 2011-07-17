@@ -84,10 +84,17 @@ namespace Vts.MonteCarlo
 
         private static ValidationResult ValidateVirtualBoundaryInput(IList<IVirtualBoundaryInput> virtualBoundaryInputs)
         {
+            bool hasDiffuseReflectanceVB = false;
+            bool hasDiffuseTransmittanceVB = false;
+
             foreach (var virtualBoundaryInput in virtualBoundaryInputs)
             {
                 if (virtualBoundaryInput is SurfaceVirtualBoundaryInput)
                 {
+                    hasDiffuseReflectanceVB =
+                        virtualBoundaryInput.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance;
+                    hasDiffuseTransmittanceVB =
+                        virtualBoundaryInput.VirtualBoundaryType == VirtualBoundaryType.DiffuseTransmittance;
                     return SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
                 }
                 if (virtualBoundaryInput is GenericVolumeVirtualBoundaryInput)
@@ -103,6 +110,13 @@ namespace Vts.MonteCarlo
                     true,
                     "Virtual Boundary input must be valid",
                     "Validation skipped for virtual boundary input " + virtualBoundaryInput + ". No matching validation rules were found.");
+            }
+            if (!hasDiffuseReflectanceVB || !hasDiffuseTransmittanceVB)
+            {
+                return new ValidationResult(
+                    false,
+                    "DiffuseReflectance and DiffuseTransmittance VirtualBoundaryInput are required (can have null list of detectors)",
+                    "Add SurfaceVirtualBoundary for both VirtualBoundaryType.DiffuseReflectance and .DiffuseTransmittance");
             }
 
             return new ValidationResult(

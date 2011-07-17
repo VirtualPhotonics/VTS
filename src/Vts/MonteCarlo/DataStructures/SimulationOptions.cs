@@ -16,7 +16,6 @@ namespace Vts.MonteCarlo
             RandomNumberGeneratorType rngType, 
             AbsorptionWeightingType absWeightingType,
             PhaseFunctionType phaseFunctionType,
-            //IList<DatabaseType> writeDatabases,
             bool tallySecondMoment,
             bool trackStatistics,
             int simulationIndex)
@@ -30,7 +29,6 @@ namespace Vts.MonteCarlo
                 Seed = GetRandomSeed();
             }
             SimulationIndex = simulationIndex;
-            //WriteDatabases = writeDatabases;
             TallySecondMoment = tallySecondMoment;
             TrackStatistics = trackStatistics;
         }
@@ -43,8 +41,6 @@ namespace Vts.MonteCarlo
         public int Seed { get; set; }
         public int SimulationIndex { get; set; }
 
-        //public IList<DatabaseType> WriteDatabases { get; set; }  // modified ckh 4/12/11
-
         public SimulationOptions(
             int seed, 
             RandomNumberGeneratorType rngType, 
@@ -53,7 +49,6 @@ namespace Vts.MonteCarlo
                 rngType, 
                 absWeightingType, 
                 PhaseFunctionType.HenyeyGreenstein, 
-                //null, // databases to be written
                 true, // tally 2nd moment
                 false, // track statistics
                 0) { }
@@ -63,7 +58,6 @@ namespace Vts.MonteCarlo
                 RandomNumberGeneratorType.MersenneTwister,  
                 AbsorptionWeightingType.Discrete, 
                 PhaseFunctionType.HenyeyGreenstein, 
-                //null, 
                 true,
                 false,
                 0) { }
@@ -72,8 +66,7 @@ namespace Vts.MonteCarlo
             : this(GetRandomSeed(), 
                 RandomNumberGeneratorType.MersenneTwister, 
                 AbsorptionWeightingType.Discrete, 
-                PhaseFunctionType.HenyeyGreenstein,
-                //null, 
+                PhaseFunctionType.HenyeyGreenstein, 
                 true,
                 false,
                 0) { }

@@ -200,8 +200,6 @@ namespace Vts.MonteCarlo
             {
                 _surfaceVirtualBoundaryDatabaseWriters.Dispose();
                 _collisionInfoDatabaseWriters.Dispose();
-                //if (terminationWriter != null) terminationWriter.Dispose();
-                //if (collisionWriter != null) collisionWriter.Dispose();
             }
 
             // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
@@ -221,8 +219,6 @@ namespace Vts.MonteCarlo
 
         private BoundaryHitType Move(Photon photon, out IVirtualBoundary closestVirtualBoundary)
         {
-            bool willHitTissueBoundary = false;
-
             // get distance to any tissue boundary
             var tissueDistance = _tissue.GetDistanceToBoundary(photon);
             // get distance to any VB
@@ -243,7 +239,7 @@ namespace Vts.MonteCarlo
                 if (vbDistance == double.PositiveInfinity)
                 {
                     photon.DP.StateFlag = photon.DP.StateFlag.Remove(PhotonStateType.Alive);
-                    return BoundaryHitType.Virtual; // set to virtual so fall out of loop
+                    return BoundaryHitType.None; 
                 }
                 else
                 {

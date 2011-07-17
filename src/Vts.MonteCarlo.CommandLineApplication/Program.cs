@@ -77,7 +77,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
     }
 
     #endregion
-
+    /// <summary>
+    /// Monte Carlo command line application program.  Type "mc help" for
+    /// a description of the different command line parameters.
+    /// </summary>
     public static class Program
     {
         public static void Main(string[] args)
@@ -251,19 +254,17 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 100,  // FIX 1e6 takes about 70 minutes my laptop
                 "Output",
                 new SimulationOptions(
-                     0, // random number generator seed
-                     RandomNumberGeneratorType.MersenneTwister,
-                     AbsorptionWeightingType.Discrete,
-                     PhaseFunctionType.HenyeyGreenstein,
-                //new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
-                //null,
-                     true, // tally Second Moment
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    true, // tally Second Moment
                     false, // track statistics
-                     0),
+                    0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
-                    0),
+                    0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
                     new LayerRegion[]
                     { 
@@ -305,15 +306,16 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     ),
                     new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseTransmittance,
-                        new List<IDetectorInput>()
-                        {
-                            //new TDiffuseDetectorInput(),
-                            //new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                            //new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                            //new TOfRhoAndAngleDetectorInput(
-                            //    new DoubleRange(0.0, 10, 101),
-                            //    new DoubleRange(0.0, Math.PI / 2, 2))
-                        },
+                        null,
+                        //new List<IDetectorInput>()
+                        //{
+                        //    new TDiffuseDetectorInput(),
+                        //    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                        //    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                        //    new TOfRhoAndAngleDetectorInput(
+                        //        new DoubleRange(0.0, 10, 101),
+                        //        new DoubleRange(0.0, Math.PI / 2, 2))
+                        //},
                         false, // write to database
                         VirtualBoundaryType.DiffuseTransmittance.ToString()
                     )
