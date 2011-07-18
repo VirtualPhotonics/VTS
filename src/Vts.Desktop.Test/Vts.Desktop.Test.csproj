@@ -231,11 +231,14 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSourceTests.cs">
-      <Link>MonteCarlo\Sources\LineSourceTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSourcesTests.cs">
+      <Link>MonteCarlo\Sources\LineSourcesTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSourceTests.cs">
-      <Link>MonteCarlo\Sources\PointSourceTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSourcesTests.cs">
+      <Link>MonteCarlo\Sources\PointSourcesTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmitting2DSourcesTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmitting2DSourcesTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs</Link>

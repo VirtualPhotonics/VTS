@@ -70,12 +70,12 @@ namespace Vts.MonteCarlo.Sources
 
         private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double rectLengthX, double rectWidthY, Random rng)
         {
-            Position finalPosition = null;
+            Position finalPosition = SourceDefaults.DefaultPosition.Clone();
             switch (sourceProfile.ProfileType)
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
-                    SourceToolbox.GetPositionInARectangleRandomFlat(
+                    finalPosition = SourceToolbox.GetPositionInARectangleRandomFlat(
                         SourceDefaults.DefaultPosition.Clone(),
                         rectLengthX,
                         rectWidthY,

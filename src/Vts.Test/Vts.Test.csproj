@@ -272,8 +272,9 @@
     <Compile Include="MonteCarlo\PhotonData\pMCDatabaseTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Sources\LineSourceTests.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmitting2DSourcesTests.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSourcesTests.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSourcesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

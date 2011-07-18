@@ -200,11 +200,11 @@ namespace Vts.MonteCarlo.Helpers
             {
                 return (center);
             }
-            double RN1 = 2 * Math.PI * rng.NextDouble();
-            double RN2 = Math.Sqrt(innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble());
+            double T1 = 2 * Math.PI * rng.NextDouble();
+            double T2 = Math.Sqrt(innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble());
             return (new Position(
-                center.X + RN2 * Math.Cos(RN1),
-                center.Y + RN2 * Math.Sin(RN1),
+                center.X + T2 * Math.Cos(T1),
+                center.Y + T2 * Math.Sin(T1),
                 center.Z));
         }
         

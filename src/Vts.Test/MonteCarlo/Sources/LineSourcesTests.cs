@@ -15,7 +15,7 @@ namespace Vts.Test.MonteCarlo.Sources
     /// Unit tests for Line Sources
     /// </summary>
     [TestFixture]
-    public class LineSourceTests
+    public class LineSourcesTests
     {
         Position _position;
         Direction _direction;
