@@ -164,6 +164,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="IO\KnownTypes.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
     <Compile Include="MonteCarlo\Controllers\VirtualBoundaryController.cs" />
     <Compile Include="MonteCarlo\Controllers\VolumeDetectorController.cs" />

@@ -259,6 +259,9 @@
     <Compile Include="..\Vts\IO\ICustomBinaryWriterOfT.cs">
       <Link>IO\ICustomBinaryWriterOfT.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\IO\KnownTypes.cs">
+      <Link>IO\KnownTypes.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\IO\LibraryIO.cs">
       <Link>IO\LibraryIO.cs</Link>
     </Compile>

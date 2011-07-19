@@ -10,6 +10,7 @@ using Vts.MonteCarlo;
 #if !SILVERLIGHT
 using System.Runtime.Serialization.Formatters.Binary;
 #endif
+using Vts.MonteCarlo.Detectors;
 
 
 namespace Vts.IO
@@ -34,14 +35,16 @@ namespace Vts.IO
 
         public static void WriteToStream<T>(this T myObject, Stream stream)
         {
-            new DataContractSerializer(typeof(T)).WriteObject(stream, myObject);
+            var dcs = new DataContractSerializer(typeof(T), KnownTypes.CurrentKnownTypes.Values);
+            dcs.WriteObject(stream, myObject);
         }
 
         public static T ReadFromStream<T>(Stream stream)
         {
-            return (T)new DataContractSerializer(typeof(T)).ReadObject(stream);
+            var dcs = new DataContractSerializer(typeof(T), KnownTypes.CurrentKnownTypes.Values);
+            return (T)dcs.ReadObject(stream);
         }
-        
+
         public static void WriteToXML<T>(this T myObject, string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
@@ -151,13 +154,13 @@ namespace Vts.IO
         /// <param name="dims"></param>
         /// <returns></returns>
         public static Array ReadArrayFromBinary<T>(string filename, params int[] dims) where T : struct
-        {           
+        {
             using (Stream s = StreamFinder.GetFileStream(filename, FileMode.Open))
             {
                 using (BinaryReader br = new BinaryReader(s))
                 {
                     //Array dataOut = Array.CreateInstance(typeof(T), dims);
-                    
+
                     return new ArrayCustomBinaryReader<T>(dims).ReadFromBinary(br);
                     //ReadArrayFromBinaryInternal<T>(br, ref dataOut);
 
@@ -335,11 +338,11 @@ namespace Vts.IO
         // todo: investigate Silverlight Binary serializer: http://whydoidoit.com/silverlight-serializer/
         public static T ReadFromBinary<T>(string filename)
         {
-            using (Stream stream = StreamFinder.GetFileStream(filename,FileMode.Open))
+            using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
             {
                 return ReadFromBinaryStream<T>(stream);
             }
-        }                
+        }
 
         public static T ReadFromBinaryInResources<T>(string filename, string projectName)
         {
@@ -347,7 +350,7 @@ namespace Vts.IO
             {
                 return ReadFromBinaryStream<T>(stream);
             }
-        }        
+        }
 
         public static void WriteToBinary<T>(this T myObject, string filename)
         {
@@ -356,7 +359,7 @@ namespace Vts.IO
                 WriteToBinaryStream<T>(myObject, stream);
             }
         }
-     
+
         public static T ReadFromBinaryStream<T>(Stream s)
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -373,16 +376,16 @@ namespace Vts.IO
 
         public static void WriteToBinaryStream<T>(T myObject, Stream s)
         {
-                BinaryFormatter formatter = new BinaryFormatter();
-                try
-                {
-                    formatter.Serialize(s, myObject);
-                }
-                catch (SerializationException e)
-                {
-                    Console.WriteLine("Failed to serialize. Reason: " + e.Message);
-                    throw;
-                }
+            BinaryFormatter formatter = new BinaryFormatter();
+            try
+            {
+                formatter.Serialize(s, myObject);
+            }
+            catch (SerializationException e)
+            {
+                Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+                throw;
+            }
         }
 #endif
         #endregion
