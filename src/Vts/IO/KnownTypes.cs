@@ -14,8 +14,26 @@ namespace Vts.IO
         {
             var knownTypesArray = new[]
                 {
+					typeof (AOfRhoAndZDetector),
+					typeof (ATotalDetector),
+					typeof (FluenceOfRhoAndZDetector),
+					typeof (FluenceOfRhoAndZAndTimeDetector),
+					typeof (MomentumTransferOfRhoAndZDetector),
+					typeof (pMCROfRhoDetector),
+					typeof (pMCROfRhoAndTimeDetector),
+					typeof (RadianceOfRhoAndZAndAngleDetector),
                     typeof (RDiffuseDetector),
+					typeof (ROfAngleDetector),
+					typeof (ROfRhoAndAngleDetector),
+					typeof (ROfRhoAndOmegaDetector),
+					typeof (ROfRhoAndTimeDetector),
+					typeof (ROfRhoDetector),
+					typeof (ROfXAndYDetector),
+					typeof (RSpecularDetector),
 					typeof (TDiffuseDetector),
+					typeof (TOfAngleDetector),
+					typeof (TOfRhoAndAngleDetector),
+					typeof (TOfRhoDetector),
                 };
 
             _types = knownTypesArray.ToDictionary(type => type.ToString());
