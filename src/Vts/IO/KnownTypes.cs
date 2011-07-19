@@ -15,6 +15,7 @@ namespace Vts.IO
             var knownTypesArray = new[]
                 {
                     typeof (RDiffuseDetector),
+					typeof (TDiffuseDetector),
                 };
 
             _types = knownTypesArray.ToDictionary(type => type.ToString());
