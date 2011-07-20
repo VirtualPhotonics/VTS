@@ -11,9 +11,9 @@ namespace Vts.MonteCarlo.Detectors
 {
     [KnownType(typeof(AOfRhoAndZDetector))]
     /// <summary>
-    /// Implements IHistoryDetector<double[,]>.  Tally for Absorption(rho,z).
+    /// Implements IVolumeDetector<double[,]>.  Tally for Absorption(rho,z).
     /// </summary>
-    public class AOfRhoAndZDetector : IHistoryDetector<double[,]>
+    public class AOfRhoAndZDetector : IVolumeDetector<double[,]>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
@@ -38,13 +38,10 @@ namespace Vts.MonteCarlo.Detectors
             Z = z;
             Mean = new double[Rho.Count - 1, Z.Count - 1];
             _tallySecondMoment = tallySecondMoment;
+            SecondMoment = null;
             if (tallySecondMoment)
             {
                 SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
-            }
-            else
-            {
-                SecondMoment = null;
             }
             TallyType = TallyType.AOfRhoAndZ;
             Name = name;
@@ -140,13 +137,13 @@ namespace Vts.MonteCarlo.Detectors
 
         private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (photonStateType != PhotonStateType.Absorbed)
+            if (photonStateType.Has(PhotonStateType.Absorbed))
             {
-                weight = 0.0;
+                weight = previousWeight * mua / (mua + mus);
             }
             else
             {
-                weight = previousWeight * mua / (mua + mus);
+                weight = 0.0;
             }
             return weight;
         }

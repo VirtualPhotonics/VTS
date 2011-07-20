@@ -19,26 +19,6 @@ namespace Vts.MonteCarlo.Tissues
             RegionScatterLengths = regions.Select(region => region.RegionOP.GetScatterLength(absorptionWeightingType)).ToArray();
         }
 
-        public double GetDistanceToClosestVirtualBoundary(Photon photon)
-        {
-            var distance = double.PositiveInfinity;
-
-            //if (_virtualBoundaries != null && _virtualBoundaries.Count > 0)
-            //{
-            //    foreach (var virtualBoundary in _virtualBoundaries)
-            //    {
-            //        var distanceToVB = virtualBoundary.GetDistanceToBoundary(photon);
-                                
-            //        if(distanceToVB <= distance)
-            //        {
-            //            distance = distanceToVB;
-            //        }
-            //    }
-            //}
-
-            return distance;
-        }
-
         public IList<ITissueRegion> Regions { get; protected set; }
         public IList<double> RegionScatterLengths { get; protected set; }
         public AbsorptionWeightingType AbsorptionWeightingType { get; protected set; }

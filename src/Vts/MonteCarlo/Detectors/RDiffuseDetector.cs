@@ -7,10 +7,10 @@ namespace Vts.MonteCarlo.Detectors
 {
     [KnownType(typeof(RDiffuseDetector))]
     /// <summary>
-    /// Implements ITerminationDetector<double>.  Tally for diffuse reflectance.
+    /// Implements ISurfaceDetector<double>.  Tally for diffuse reflectance.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
-    public class RDiffuseDetector : ITerminationDetector<double>
+    public class RDiffuseDetector : ISurfaceDetector<double>
     {
         private bool _tallySecondMoment;
 
@@ -24,6 +24,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = TallyType.RDiffuse;
             Name = name;
             TallyCount = 0;
+            _tallySecondMoment = tallySecondMoment;
         }
         /// <summary>
         /// Returns a default instance of RDiffuseDetector (for serialization purposes only)
@@ -64,7 +65,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public bool ContainsPoint(PhotonDataPoint dp)
         {
-            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
+            return true; // or, possibly test for NA or confined position, etc
         }
     }
 }

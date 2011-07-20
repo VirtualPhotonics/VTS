@@ -65,15 +65,11 @@ namespace Vts.MonteCarlo.Sources
                             Rng));
             else
             {
-                //Calculate polar angle                       
-                var polarAngle = 0.0;    //for collimated rectangular source
-                
                 // sign is negative for diverging and positive positive for converging 
-                if (_thetaConvOrDiv != 0.0)
-                {
-                    var height = 0.5 * Math.Sqrt(_rectLengthX * _rectLengthX + _rectWidthY * _rectWidthY) / Math.Tan(_thetaConvOrDiv);
-                    polarAngle = Math.Atan(Math.Sqrt(finalPosition.X * finalPosition.X + finalPosition.Y * finalPosition.Y) / height);
-                }
+                var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
+                    _rectLengthX,
+                    Math.Sqrt(finalPosition.X * finalPosition.X + finalPosition.Y * finalPosition.Y),
+                    _thetaConvOrDiv);              
                 return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, finalPosition));
             }
         }

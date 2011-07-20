@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Vts.MonteCarlo;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.IO;
 
@@ -32,7 +33,8 @@ namespace Vts.Test.MonteCarlo.PhotonData
             //    new CollisionInfoSerializer(numberOfSubregions)))
             #endregion
 
-            using (var dbWriter = new CollisionInfoDatabaseWriter("testcollisioninfodatabase", numberOfSubregions))
+            using (var dbWriter = new CollisionInfoDatabaseWriter(
+                VirtualBoundaryType.pMCDiffuseReflectance,"testcollisioninfodatabase", numberOfSubregions))
             {
                 dbWriter.Write(
                     new CollisionInfo(numberOfSubregions)

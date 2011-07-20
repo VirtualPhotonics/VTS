@@ -43,7 +43,7 @@ namespace Vts.MonteCarlo.Sources
 
         public Photon GetNextPhoton(ITissue tissue)
         {
-            //Source starts from anywhere in the line
+            //Source starts from anywhere in the circle
             Position finalPosition = GetFinalPositionFromProfileType(_sourceProfile, _innerRadius, _outerRadius, Rng);
 
             // sample angular distribution
@@ -70,12 +70,12 @@ namespace Vts.MonteCarlo.Sources
 
         private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double innerRadius, double outerRadius, Random rng)
         {
-            Position finalPosition = null;
+            Position finalPosition = SourceDefaults.DefaultPosition.Clone();
             switch (sourceProfile.ProfileType)
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
-                    SourceToolbox.GetPositionInACircleRandomFlat(
+                    finalPosition = SourceToolbox.GetPositionInACircleRandomFlat(
                         SourceDefaults.DefaultPosition.Clone(),
                         innerRadius,
                         outerRadius,

@@ -66,15 +66,11 @@ namespace Vts.MonteCarlo.Sources
 
             else
             {
-                //Calculate polar angle                      
-                var polarAngle = 0.0;    //for collimated elliptical source
-
                 // sign is negative for diverging and positive positive for converging 
-                if (_thetaConvOrDiv != 0.0)
-                {
-                    var height = _aParameter / Math.Tan(_thetaConvOrDiv);
-                    polarAngle = Math.Atan(Math.Sqrt(finalPosition.X * finalPosition.X + finalPosition.Y * finalPosition.Y) / height);
-                }
+                var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
+                    _aParameter,
+                    Math.Sqrt(finalPosition.X * finalPosition.X + finalPosition.Y * finalPosition.Y),
+                    _thetaConvOrDiv);
                 return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, finalPosition));
             }
         }

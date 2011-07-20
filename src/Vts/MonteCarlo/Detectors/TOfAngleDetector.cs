@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Detectors
     /// of Angle. 
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class TOfAngleDetector : ITerminationDetector<double[]>
+    public class TOfAngleDetector : ISurfaceDetector<double[]>
     {
         private bool _tallySecondMoment;
         /// <summary>
@@ -26,13 +26,10 @@ namespace Vts.MonteCarlo.Detectors
             Angle = angle;
             _tallySecondMoment = tallySecondMoment;
             Mean = new double[Angle.Count];
+            SecondMoment = null;
             if (_tallySecondMoment)
             {
                 SecondMoment = new double[Angle.Count];
-            }
-            else
-            {
-                SecondMoment = null;
             }
             TallyType = TallyType.TOfAngle;
             Name = name;
@@ -88,9 +85,9 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        public bool ContainsPoint(PhotonDataPoint dp)
-        {
-            return (dp.StateFlag == PhotonStateType.ExitedOutBottom);
-        }
+        //public bool ContainsPoint(PhotonDataPoint dp)
+        //{
+        //    return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainBottomBoundary));
+        //}
     }
 }

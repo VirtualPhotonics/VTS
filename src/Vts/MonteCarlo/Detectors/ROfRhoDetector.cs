@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Detectors
     /// of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class ROfRhoDetector : ITerminationDetector<double[]>
+    public class ROfRhoDetector : ISurfaceDetector<double[]>
     {
         private bool _tallySecondMoment;
         /// <summary>
@@ -26,13 +26,10 @@ namespace Vts.MonteCarlo.Detectors
             Rho = rho;
             _tallySecondMoment = tallySecondMoment;
             Mean = new double[Rho.Count - 1];
+            SecondMoment = null;
             if (_tallySecondMoment)
             {
                 SecondMoment = new double[Rho.Count - 1];
-            }
-            else
-            {
-                SecondMoment = null;
             }
             TallyType = TallyType.ROfRho;
             Name = name;
@@ -89,7 +86,8 @@ namespace Vts.MonteCarlo.Detectors
 
         public bool ContainsPoint(PhotonDataPoint dp)
         {
-            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
+            return true; // or, possibly test for NA or confined position, etc
+            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
 
     }

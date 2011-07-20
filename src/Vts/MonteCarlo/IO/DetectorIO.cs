@@ -4,6 +4,7 @@ using System.IO;
 using System.Numerics;
 using Vts.IO;
 using Vts.MonteCarlo.Detectors;
+using System.Runtime.Serialization;
 
 namespace Vts.MonteCarlo.IO
 {

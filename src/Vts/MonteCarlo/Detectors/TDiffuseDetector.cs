@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements ITerminationTally<double>.  Tally for diffuse transmittance.
     /// This implemenation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class TDiffuseDetector : ITerminationDetector<double>
+    public class TDiffuseDetector : ISurfaceDetector<double>
     {
         private bool _tallySecondMoment;
         /// <summary>
@@ -23,6 +23,7 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = 0.0;
             TallyType = TallyType.TDiffuse;
             Name = name;
+            TallyCount = 0;
         }
         /// <summary>
         /// Returns a default instaf TDiffuseDetector (for serialization purposes only)
@@ -60,9 +61,9 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        public bool ContainsPoint(PhotonDataPoint dp)
-        {
-            return (dp.StateFlag == PhotonStateType.ExitedOutBottom);
-        }
+        //public bool ContainsPoint(PhotonDataPoint dp)
+        //{
+        //    return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainBottomBoundary));
+        //}
     }
 }

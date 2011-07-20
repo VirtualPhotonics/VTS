@@ -154,8 +154,13 @@
     <Compile Include="Common\DirectionTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\Extensions\EnumExtensionsTests.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\SpecularDetectorTests.cs" />
+    <Compile Include="MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MonteCarlo\Rng\SerializableMersenneTwisterTests.cs" />
     <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs">
       <SubType>Code</SubType>
@@ -245,26 +250,17 @@
     <Compile Include="MonteCarlo\Detectors\CAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="MonteCarlo\Detectors\DAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\DAWTwoLayerDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\Helpers\SourceToolboxTests.cs" />
     <Compile Include="MonteCarlo\IO\DetectorIOTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\MonteCarloFactoriesTests.cs">
+    <Compile Include="Common\Extensions\OpticalPropertiesExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
@@ -276,14 +272,9 @@
     <Compile Include="MonteCarlo\PhotonData\pMCDatabaseTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\PostProcessing\PostProcessingTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSources\IsotropicLineSourceTests.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSources\CustomPointSourceTests.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSources\DirectionalPointSourceTests.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSources\IsotropicPointSourceTests.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmitting2DSourcesTests.cs" />
+    <Compile Include="MonteCarlo\Sources\LineSourcesTests.cs" />
+    <Compile Include="MonteCarlo\Sources\PointSourcesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -308,7 +299,6 @@
     <Folder Include="Modeling\Optimizers\" />
     <Folder Include="Modeling\Tools\" />
     <Folder Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\" />
-    <Folder Include="MonteCarlo\TallyActions\pMCTallies\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

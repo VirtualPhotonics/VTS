@@ -10,63 +10,63 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void verify_convert_wavelength_nm_returns_self()
         {
             double wavelength = 500;
-            Assert.AreEqual(wavelength, wavelength.ConvertWavelength(Wavelength_Unit.Nanometers));
+            Assert.AreEqual(wavelength, wavelength.ConvertWavelength(WavelengthUnit.Nanometers));
         }
 
         [Test]
         public void verify_convert_wavelength_um_to_nm()
         {
             double wavelength = 0.5;
-            Assert.AreEqual(500, wavelength.ConvertWavelength(Wavelength_Unit.Micrometers));
+            Assert.AreEqual(500, wavelength.ConvertWavelength(WavelengthUnit.Micrometers));
         }
 
         [Test]
         public void verify_convert_wavelength_m_to_nm()
         {
             double wavelength = 0.0000005;
-            Assert.AreEqual(500, wavelength.ConvertWavelength(Wavelength_Unit.Meters));
+            Assert.AreEqual(500, wavelength.ConvertWavelength(WavelengthUnit.Meters));
         }
 
         [Test]
         public void verify_convert_wavelength_inv_m_to_nm()
         {
             double wavelength = 2000000;
-            Assert.AreEqual(500, wavelength.ConvertWavelength(Wavelength_Unit.InverseMeters));
+            Assert.AreEqual(500, wavelength.ConvertWavelength(WavelengthUnit.InverseMeters));
         }
 
         [Test]
         public void verify_convert_wavelength_inv_cm_to_nm()
         {
             double wavelength = 20000;
-            Assert.AreEqual(500, wavelength.ConvertWavelength(Wavelength_Unit.InverseCentimeters));
+            Assert.AreEqual(500, wavelength.ConvertWavelength(WavelengthUnit.InverseCentimeters));
         }
 
         [Test]
         public void verify_convert_coefficient_inv_mm_returns_self()
         {
             double coefficient = 0.001;
-            Assert.AreEqual(coefficient, coefficient.ConvertCoefficient(Coefficient_Unit.InverseMillimeters));
+            Assert.AreEqual(coefficient, coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseMillimeters));
         }
 
         [Test]
         public void test_convert_coefficient_inv_m_to_inv_mm()
         {
             double coefficient = 1000;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseMeters), 1);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseMeters), 1);
         }
 
         [Test]
         public void test_convert_coefficient_inv_cm_to_inv_mm()
         {
             double coefficient = 10;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseCentimeters), 1);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseCentimeters), 1);
         }
 
         [Test]
         public void test_convert_coefficient_inv_um_to_inv_mm()
         {
             double coefficient = 0.001;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseMicrometers), 1);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseMicrometers), 1);
         }
         
         //Tests with micro molar coefficient applied
@@ -74,28 +74,28 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void verify_convert_coefficient_inv_mm_with_molar_uM_returns_self()
         {
             double coefficient = 0.001;
-            Assert.AreEqual(coefficient, coefficient.ConvertCoefficient(Coefficient_Unit.InverseMillimeters, Molar_Unit.MicroMolar));
+            Assert.AreEqual(coefficient, coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseMillimeters, MolarUnit.MicroMolar));
         }
 
         [Test]
         public void test_convert_coefficient_inv_m_to_inv_mm_with_molar_uM()
         {
             double coefficient = 1000;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseMeters, Molar_Unit.MicroMolar), 1);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseMeters, MolarUnit.MicroMolar), 1);
         }
 
         [Test]
         public void test_convert_coefficient_inv_cm_to_inv_mm_with_molar_uM()
         {
             double coefficient = 10;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseCentimeters, Molar_Unit.MicroMolar), 1);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseCentimeters, MolarUnit.MicroMolar), 1);
         }
 
         [Test]
         public void test_convert_coefficient_inv_um_to_inv_mm_with_molar_uM()
         {
             double coefficient = 0.001;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseMicrometers, Molar_Unit.MicroMolar), 1);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseMicrometers, MolarUnit.MicroMolar), 1);
         }
 
         //Tests with millimolar coefficient applied
@@ -103,28 +103,28 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void verify_convert_coefficient_inv_mm_with_molar_mM()
         {
             double coefficient = 1;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseMillimeters, Molar_Unit.MilliMolar), 0.001);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseMillimeters, MolarUnit.MilliMolar), 0.001);
         }
 
         [Test]
         public void test_convert_coefficient_inv_m_to_inv_mm_with_molar_mM()
         {
             double coefficient = 1000;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseMeters, Molar_Unit.MilliMolar), 0.001);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseMeters, MolarUnit.MilliMolar), 0.001);
         }
 
         [Test]
         public void test_convert_coefficient_inv_cm_to_inv_mm_with_molar_mM()
         {
             double coefficient = 10;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseCentimeters, Molar_Unit.MilliMolar), 0.001);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseCentimeters, MolarUnit.MilliMolar), 0.001);
         }
 
         [Test]
         public void test_convert_coefficient_inv_um_to_inv_mm_with_molar_mM()
         {
             double coefficient = 0.001;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseMicrometers, Molar_Unit.MilliMolar), 0.001);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseMicrometers, MolarUnit.MilliMolar), 0.001);
         }
 
         //Tests with molar coefficient applied
@@ -132,28 +132,28 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void verify_convert_coefficient_inv_mm_with_molar_M()
         {
             double coefficient = 1;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseMillimeters, Molar_Unit.Molar), 0.000001);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseMillimeters, MolarUnit.Molar), 0.000001);
         }
 
         [Test]
         public void test_convert_coefficient_inv_m_to_inv_mm_with_molar_M()
         {
             double coefficient = 1000;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseMeters, Molar_Unit.Molar), 0.000001);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseMeters, MolarUnit.Molar), 0.000001);
         }
 
         [Test]
         public void test_convert_coefficient_inv_cm_to_inv_mm_with_molar_M()
         {
             double coefficient = 10;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseCentimeters, Molar_Unit.Molar), 0.000001);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseCentimeters, MolarUnit.Molar), 0.000001);
         }
 
         [Test]
         public void test_convert_coefficient_inv_um_to_inv_mm_with_molar_M()
         {
             double coefficient = 0.001;
-            Assert.AreEqual(coefficient.ConvertCoefficient(Coefficient_Unit.InverseMicrometers, Molar_Unit.Molar), 0.000001);
+            Assert.AreEqual(coefficient.ConvertCoefficient(AbsorptionCoefficientUnit.InverseMicrometers, MolarUnit.Molar), 0.000001);
         }
     }
 }

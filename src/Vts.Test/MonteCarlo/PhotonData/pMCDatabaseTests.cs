@@ -27,10 +27,11 @@ namespace Vts.Test.MonteCarlo.PhotonData
             string collisionDbFilename = "testpmccollisiondatabase";
             int numberOfSubregions = 3;
 
-            using(var dbWriter = new PhotonDatabaseWriter(photonDbFilename))
+            using(var dbWriter = new PhotonDatabaseWriter(
+                VirtualBoundaryType.pMCDiffuseReflectance, photonDbFilename))
             {
                 using (var collisionDbWriter = new CollisionInfoDatabaseWriter(
-                    collisionDbFilename, numberOfSubregions))
+                    VirtualBoundaryType.pMCDiffuseReflectance, collisionDbFilename, numberOfSubregions))
                     {
                         // write data for first photon (exit DP and collision info)
                         dbWriter.Write(new PhotonDataPoint(
@@ -38,7 +39,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
                                            new Direction(0, 0, 1),
                                            1.0, // weight
                                            10, // time
-                                           PhotonStateType.ExitedOutBottom));
+                                           PhotonStateType.None));
                         collisionDbWriter.Write(new CollisionInfo(numberOfSubregions)
                                 {
                                     new SubRegionCollisionInfo(10.0, 1000),
@@ -51,7 +52,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
                                            new Direction(1, 0, 0),
                                            0.50,
                                            100,
-                                                   PhotonStateType.ExitedOutTop));
+                                           PhotonStateType.None));
                         collisionDbWriter.Write(new CollisionInfo(numberOfSubregions)
                                 {
                                     new SubRegionCollisionInfo(40.0, 4000),
@@ -79,7 +80,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             Assert.AreEqual(dp1.PhotonDataPoint.Direction, new Direction(0, 0, 1));
             Assert.AreEqual(dp1.PhotonDataPoint.Weight, 1.0);
             Assert.AreEqual(dp1.PhotonDataPoint.TotalTime, 10);
-            Assert.AreEqual(dp1.PhotonDataPoint.StateFlag, PhotonStateType.ExitedOutBottom);
+            Assert.IsTrue(dp1.PhotonDataPoint.StateFlag.HasFlag(PhotonStateType.None));
             // verify collision info for first photon
             Assert.AreEqual(dp1.CollisionInfo[0].PathLength, 10.0);
             Assert.AreEqual(dp1.CollisionInfo[0].NumberOfCollisions, 1000);
@@ -96,7 +97,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             Assert.AreEqual(dp2.PhotonDataPoint.Direction, new Direction(1, 0, 0));
             Assert.AreEqual(dp2.PhotonDataPoint.Weight, 0.5);
             Assert.AreEqual(dp2.PhotonDataPoint.TotalTime, 100);
-            Assert.AreEqual(dp2.PhotonDataPoint.StateFlag, PhotonStateType.ExitedOutTop);
+            Assert.IsTrue(dp2.PhotonDataPoint.StateFlag.HasFlag(PhotonStateType.None));
             // verify collision info for second photon
             Assert.AreEqual(dp2.CollisionInfo[0].PathLength, 40.0);
             Assert.AreEqual(dp2.CollisionInfo[0].NumberOfCollisions, 4000);

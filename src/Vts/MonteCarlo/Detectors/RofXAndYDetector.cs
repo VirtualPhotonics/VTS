@@ -9,11 +9,11 @@ namespace Vts.MonteCarlo.Detectors
 {
     [KnownType(typeof(ROfXAndYDetector))]
     /// <summary>
-    /// Implements ITerminationDetector<double[,]>.  Tally for reflectance as a function 
+    /// Implements ISurfaceDetector<double[,]>.  Tally for reflectance as a function 
     /// of X and Y.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class ROfXAndYDetector : ITerminationDetector<double[,]>
+    public class ROfXAndYDetector : ISurfaceDetector<double[,]>
     {
         private bool _tallySecondMoment;
         /// <summary>
@@ -27,13 +27,10 @@ namespace Vts.MonteCarlo.Detectors
             Y = y;
             _tallySecondMoment = tallySecondMoment;
             Mean = new double[X.Count - 1, Y.Count - 1];
+            SecondMoment = null;
             if (_tallySecondMoment)
             {
                 SecondMoment = new double[X.Count - 1, Y.Count - 1];
-            }
-            else
-            {
-                SecondMoment = null;
             }
             TallyType = TallyType.ROfXAndY;
             Name = name;
@@ -93,7 +90,8 @@ namespace Vts.MonteCarlo.Detectors
 
         public bool ContainsPoint(PhotonDataPoint dp)
         {
-            return (dp.StateFlag == PhotonStateType.ExitedOutTop);
+            return true; // or, possibly test for NA or confined position, etc
+            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
     }
 }

@@ -85,17 +85,9 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.CoreEx, Version=1.0.2521.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.CoreEx.dll</HintPath>
-    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Threading, Version=1.0.2521.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\RxFramework\Desktop (3.5 SP1)\System.Threading.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -112,6 +104,12 @@
   <ItemGroup>
     <Compile Include="..\Vts.Test\Common\Extensions\ArrayExtensionsTests.cs">
       <Link>Common\Extensions\ArrayExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Common\Extensions\EnumExtensionsTests.cs">
+      <Link>Common\Extensions\EnumExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Common\Extensions\OpticalPropertiesExtensionsTests.cs">
+      <Link>Common\Extensions\OpticalPropertiesExtensionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Common\Helpers\Range\DoubleRangeTests.cs">
       <Link>Common\Helpers\Range\DoubleRangeTests.cs</Link>
@@ -206,29 +204,20 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\CAWDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\CAWTwoLayerDetectorsTests.cs</Link>
-    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWDetectorsTests.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWTwoLayerDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\DAWTwoLayerDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\pMCDAWDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\pMCDAWTwoLayerDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularDetectorTests.cs">
+      <Link>MonteCarlo\Detectors\SpecularDetectorTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Helpers\SourceToolboxTests.cs">
       <Link>MonteCarlo\Helpers\SourceToolboxTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\IO\DetectorIOTests.cs">
       <Link>MonteCarlo\IO\DetectorIOTests.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\MonteCarloFactoriesTests.cs">
-      <Link>MonteCarlo\MonteCarloFactoriesTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
       <Link>MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs</Link>
@@ -239,26 +228,20 @@
     <Compile Include="..\Vts.Test\MonteCarlo\PhotonData\pMCDatabaseTests.cs">
       <Link>MonteCarlo\PhotonData\pMCDatabaseTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PostProcessingTests.cs">
-      <Link>MonteCarlo\PostProcessing\PostProcessingTests.cs</Link>
-    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs">
-      <Link>MonteCarlo\Sources\LineSources\CustomLineSourceTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSourcesTests.cs">
+      <Link>MonteCarlo\Sources\LineSourcesTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSources\IsotropicLineSourceTests.cs">
-      <Link>MonteCarlo\Sources\LineSources\IsotropicLineSourceTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSourcesTests.cs">
+      <Link>MonteCarlo\Sources\PointSourcesTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\CustomPointSourceTests.cs">
-      <Link>MonteCarlo\Sources\PointSources\CustomPointSourceTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmitting2DSourcesTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmitting2DSourcesTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\DirectionalPointSourceTests.cs">
-      <Link>MonteCarlo\Sources\PointSources\DirectionalPointSourceTests.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSources\IsotropicPointSourceTests.cs">
-      <Link>MonteCarlo\Sources\PointSources\IsotropicPointSourceTests.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs">
+      <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -271,14 +254,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modeling\Optimizers\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\CylindricalFiber\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingSources\Tubular\" />
-    <Folder Include="MonteCarlo\Sources\VolumetricSources\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

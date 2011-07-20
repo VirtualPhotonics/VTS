@@ -1,10 +1,10 @@
 using System.IO;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
 
 namespace Vts.Test.MonteCarlo
 {
@@ -20,7 +20,25 @@ namespace Vts.Test.MonteCarlo
 
             try
             {
-                new SimulationInput() { DetectorInputs = { (ROfRhoDetectorInput)detectorInput } }.WriteToXML("test");
+                new SimulationInput(
+                    10,
+                    "",
+                    new SimulationOptions(),
+                    new DirectionalPointSourceInput(),
+                    new MultiLayerTissueInput(),
+                    new List<IVirtualBoundaryInput>
+                    {
+                        new SurfaceVirtualBoundaryInput(
+                            VirtualBoundaryType.DiffuseReflectance,
+                            new List<IDetectorInput>
+                            {
+                                (ROfRhoDetectorInput)detectorInput 
+                            },
+                            false,
+                            VirtualBoundaryType.DiffuseReflectance.ToString()
+                        )
+                    }
+                ).WriteToXML("test");
             }
             catch(SerializationException se)
             {

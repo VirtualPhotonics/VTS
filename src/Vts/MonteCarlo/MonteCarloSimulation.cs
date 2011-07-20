@@ -1,12 +1,11 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Controllers;
-using Vts.MonteCarlo.Sources;
-using System.IO;
+using Vts.MonteCarlo.Extensions;
 
 namespace Vts.MonteCarlo
 {
@@ -15,13 +14,14 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class MonteCarloSimulation
     {
-        public const double COS90D = 1.0E-6;
-        public const double COSZERO = (1.0 - 1e-12);
-
         private ISource _source;
         private ITissue _tissue;
-        private DetectorController _detectorController;
-        private long numberOfPhotons;
+        private VirtualBoundaryController _virtualBoundaryController;
+        private IList<IDetectorController> _detectorControllers; // total list indep. of VBs
+        private long _numberOfPhotons;
+        private SimulationStatistics _simulationStatistics;
+        private IList<PhotonDatabaseWriter> _surfaceVirtualBoundaryDatabaseWriters = null;
+        private IList<CollisionInfoDatabaseWriter> _collisionInfoDatabaseWriters = null;
 
         protected SimulationInput _input;
         private Random _rng;
@@ -41,25 +41,33 @@ namespace Vts.MonteCarlo
                 throw new ArgumentException(result.ValidationRule + (!string.IsNullOrEmpty(result.Remarks) ? "; " + result.Remarks : ""));
             }
 
-            numberOfPhotons = input.N;
+            _numberOfPhotons = input.N;
 
-            WRITE_DATABASES = input.Options.WriteDatabases; // modified ckh 4/9/11
-            ABSORPTION_WEIGHTING = input.Options.AbsorptionWeightingType; // CKH add 12/14/09
-
+            AbsorptionWeightingType = input.Options.AbsorptionWeightingType; // CKH add 12/14/09
+            TrackStatistics = input.Options.TrackStatistics;
+            if (TrackStatistics)
+            {
+                _simulationStatistics = new SimulationStatistics();
+            }
             _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                 input.Options.RandomNumberGeneratorType, input.Options.Seed);
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            _tissue = TissueFactory.GetTissue(
-                input.TissueInput, 
-                input.Options.AbsorptionWeightingType, 
-                input.Options.PhaseFunctionType);
+            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType);
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
-            _detectorController = DetectorControllerFactory.GetStandardDetectorController(
-                input.DetectorInputs, 
-                _tissue,
-                input.Options.TallySecondMoment);
+
+            // instantiate vb (and associated detectors) for each vb group
+            _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
+            foreach (var vbg in input.VirtualBoundaryInputs)
+            {
+                var detectors = DetectorFactory.GetDetectors(vbg.DetectorInputs, _tissue, input.Options.TallySecondMoment);
+                var detectorController = DetectorControllerFactory.GetDetectorController(vbg.VirtualBoundaryType, detectors);
+                var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbg.VirtualBoundaryType,_tissue, detectorController);
+                _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
+            }
+            // needed?
+            _detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
         }
 
         /// <summary>
@@ -71,9 +79,9 @@ namespace Vts.MonteCarlo
         private int SimulationIndex { get; set; }
 
         // public properties
-        private IList<DatabaseType> WRITE_DATABASES { get; set; }  // modified ckh 4/9/11
-        private AbsorptionWeightingType ABSORPTION_WEIGHTING { get; set; }
-        public PhaseFunctionType PHASE_FUNCTION { get; set; }
+        private AbsorptionWeightingType AbsorptionWeightingType { get; set; }
+        public PhaseFunctionType PhaseFunctionType { get; set; }
+        private bool TrackStatistics { get; set; }
 
         public Output Results { get; private set; }
 
@@ -93,10 +101,10 @@ namespace Vts.MonteCarlo
 
             ExecuteMCLoop();
 
-            // todo: consider statistics, other checks for reporting. SimulationOutput class?
-            Results = new Output(_input, _detectorController.Detectors);
+            var detectors = _virtualBoundaryController.VirtualBoundaries.Select(vb =>
+                vb.DetectorController).Where(dc => dc != null).SelectMany(dc => dc.Detectors).ToList();
 
-            ReportResults();
+            Results = new Output(_input, detectors);
 
             return Results;
         }
@@ -106,97 +114,140 @@ namespace Vts.MonteCarlo
         /// </summary>
         protected virtual void ExecuteMCLoop()
         {
-            PhotonDatabaseWriter terminationWriter = null;
-            CollisionInfoDatabaseWriter collisionWriter = null;
-
             try
             {
-                if (WRITE_DATABASES != null)
-                {
-                    if (WRITE_DATABASES.Contains(DatabaseType.PhotonExitDataPoints))
-                    {
-                        terminationWriter = new PhotonDatabaseWriter(
-                            Path.Combine(_outputPath, _input.OutputName, "photonExitDatabase"));
-                    }
-                    if (WRITE_DATABASES.Contains(DatabaseType.CollisionInfo))
-                    {
-                        collisionWriter = new CollisionInfoDatabaseWriter(
-                            Path.Combine(_outputPath, _input.OutputName, "collisionInfoDatabase"), _tissue.Regions.Count());
-                    }
-                }
-
-                for (long n = 1; n <= numberOfPhotons; n++)
+                _surfaceVirtualBoundaryDatabaseWriters = DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
+                    _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
+                    Select(v => v.VirtualBoundaryType).ToList(), _outputPath, _input.OutputName);
+                _collisionInfoDatabaseWriters = DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
+                    _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
+                    Select(v => v.VirtualBoundaryType).ToList(), _tissue, _outputPath, _input.OutputName);
+                
+                for (long n = 1; n <= _numberOfPhotons; n++)
                 {
                     // todo: bug - num photons is assumed to be over 10 :)
-                    if (n % (numberOfPhotons / 10) == 0)
+                    if (n % (_numberOfPhotons / 10) == 0)
                     {
-                        DisplayStatus(n, numberOfPhotons);
+                        DisplayStatus(n, _numberOfPhotons);
                     }
 
                     var photon = _source.GetNextPhoton(_tissue);
 
                     do
                     { /* begin do while  */
-                        photon.SetStepSize(_rng);
+                        photon.SetStepSize(); // only calls rng if SLeft == 0.0
 
-                        var distance = _tissue.GetDistanceToBoundary(photon);
+                        IVirtualBoundary closestVirtualBoundary;
 
-                        bool hitBoundary = photon.Move(distance);
+                        BoundaryHitType hitType = Move(photon, out closestVirtualBoundary);
 
-                        if (hitBoundary)
+                        // todo: consider moving actual calls to Tally after do-while
+                        // for each "hit" virtual boundary, tally respective detectors if exist
+                        if ((hitType == BoundaryHitType.Virtual) &&
+                            (closestVirtualBoundary.DetectorController != null))
+                        {
+                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP); 
+                            // reset PhotonStateType after tallying
+                            photon.DP.StateFlag.Remove(closestVirtualBoundary.PhotonStateType);
+                        }
+
+                        // kill photon for various reasons, including possible VB crossings
+                        photon.TestDeath();
+
+                        // check if virtual boundary 
+                        if (hitType == BoundaryHitType.Virtual)
+                        {
+                            continue;
+                        }
+
+                        if (hitType == BoundaryHitType.Tissue)
                         {
                             photon.CrossRegionOrReflect();
+                            continue;
                         }
-                        else
+
+                        photon.Absorb(); // can be added to TestDeath?
+                        if (!photon.DP.StateFlag.Has(PhotonStateType.Absorbed))
                         {
-                            photon.Absorb();
-                            if (photon.DP.StateFlag != PhotonStateType.Absorbed)
-                            {
-                                photon.Scatter();
-                            }
+                            photon.Scatter();
                         }
 
-                        /*Test_Distance(); */
-                        photon.TestWeightAndDistance();
+                    } while (photon.DP.StateFlag.Has(PhotonStateType.Alive)); /* end do while */
 
-                    } while (photon.DP.StateFlag == PhotonStateType.NotSet); /* end do while */
+                    //_detectorController.TerminationTally(photon.DP);
 
-                    _detectorController.TerminationTally(photon.DP);
+                    _surfaceVirtualBoundaryDatabaseWriters.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
+                    _collisionInfoDatabaseWriters.WriteToCollisionInfoDatabases(photon.DP, photon.History.SubRegionInfoList);
 
-                    if (terminationWriter != null)
+                    // note History has possibly 2 more DPs than linux code due to 
+                    // final crossing of PseudoReflectedTissueBoundary and then
+                    // PseudoDiffuseReflectanceVB
+                    var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
+                        v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
+                    foreach (var vb in volumeVBs)
                     {
-                        //dc: how to check if detector contains DP  ckh: check is on reading side, may need to fix
-                        terminationWriter.Write(photon.DP);
-                    }
-                    if (collisionWriter != null)
-                    {
-                        collisionWriter.Write(photon.History.SubRegionInfoList);
+                        ((IVolumeDetectorController)vb.DetectorController).Tally(photon.History);
                     }
 
-                    _detectorController.HistoryTally(photon.History);
+                    if (TrackStatistics)
+                    {
+                        _simulationStatistics.TrackDeathStatistics(photon.DP);
+                    }
 
                 } /* end of for n loop */
             }
             finally
             {
-                if (terminationWriter != null) terminationWriter.Dispose();
-                if (collisionWriter != null) collisionWriter.Dispose();
+                _surfaceVirtualBoundaryDatabaseWriters.Dispose();
+                _collisionInfoDatabaseWriters.Dispose();
             }
 
             // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
-            _detectorController.NormalizeDetectors(numberOfPhotons);
+            foreach (var vb in _virtualBoundaryController.VirtualBoundaries)
+            {
+                if (vb.DetectorController != null) // check that VB has detectors
+                {
+                    vb.DetectorController.NormalizeDetectors(_numberOfPhotons);
+                }
+            }
+            
+            if (TrackStatistics)
+            {
+                _simulationStatistics.ToFile("statistics");
+            }
         }
 
-        public void ReportResults()
+        private BoundaryHitType Move(Photon photon, out IVirtualBoundary closestVirtualBoundary)
         {
-            // CKH TODO: fix this when these classes are updated
-            //for (int i = 0; i < input.detector.det_ctr.Length; ++i)  
-            //    Console.WriteLine(SimulationIndex + ": det at {0} -> {1} photons written",
-            //        detector.det_ctr[i], detector.);
+            // get distance to any tissue boundary
+            var tissueDistance = _tissue.GetDistanceToBoundary(photon);
+            // get distance to any VB
 
-            //Console.WriteLine(SimulationIndex + ": tot phot out top={0}({1}) bot={2}({3})",
-            //  photptr.tot_out_top, (double)photptr.tot_out_top / source.num_photons,
-            //  photptr.tot_out_bot, (double)photptr.tot_out_bot / source.num_photons);
+            double vbDistance = double.PositiveInfinity;
+            
+            // find closest VB (will return null if no closest VB exists)
+            closestVirtualBoundary = _virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out vbDistance);
+
+            if (tissueDistance < vbDistance) // determine if will hit tissue boundary first
+            {
+                var hitTissueBoundary = photon.Move(tissueDistance);
+                return hitTissueBoundary ? BoundaryHitType.Tissue : BoundaryHitType.None;
+            }
+            else // otherwise, move to the closest virtual boundary
+            {
+                // if both tissueDistance and vbDistance are both infinity, then photon dead
+                if (vbDistance == double.PositiveInfinity)
+                {
+                    photon.DP.StateFlag = photon.DP.StateFlag.Remove(PhotonStateType.Alive);
+                    return BoundaryHitType.None; 
+                }
+                else
+                {
+                    var hitVirtualBoundary = photon.Move(vbDistance);
+                    photon.DP.StateFlag = photon.DP.StateFlag.Add(closestVirtualBoundary.PhotonStateType); // add pseudo-collision for vb
+                    return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
+                }
+            }
         }
 
         /********************************************************/
@@ -222,64 +273,5 @@ namespace Vts.MonteCarlo
             double frac = 100 * n / num_phot;
             Console.WriteLine(header + ": " + frac + " percent complete, " + DateTime.Now);
         }
-
-        // Keep this commented section for reference
-        ///// <summary>
-        ///// This function encapsulates the managed loop. Can be overridden in derived classes.
-        ///// </summary>
-        //protected virtual void ExecuteMCLoop(ITissue tissptr, Photon photptr, History histptr, 
-        //    SourceDefinition source, Banana bananaptr, Output outptr, DetectorDefinition detector)
-        //{
-        //    // DC: should the writer output go to same folder as Output?
-        //    using (var photonTerminationDatabaseWriter = new PhotonTerminationDatabaseWriter(
-        //            "photonBiographies", new PhotonDatabase() { NumberOfPhotons = 0,
-        //            NumberOfSubRegions = tissptr.num_layers}))
-        //    {
-        //        if (WRITE_EXIT_HISTORIES) photonTerminationDatabaseWriter.Open(); // only open file if we want to write
-
-        //        SetScatterLength(tissptr, photptr);
-        //        for (long n = 1; n <= source.num_photons; n++)
-        //        {
-        //            // todo: bug - num photons is assumed to be over 10 :)
-        //            if (n % (source.num_photons / 10) == 0)
-        //                DisplayStatus(n, source.num_photons);
-        //            init_photon(tissptr, photptr, source, outptr);
-        //            do
-        //            { /* begin do while  */
-        //                SetStepSize(tissptr, photptr);
-
-        //                switch (HitBoundary(tissptr, photptr))
-        //                {
-        //                    case 1:  // hit layer
-        //                        Move_Photon(photptr, outptr);
-        //                        CrossRegion(tissptr, photptr, outptr, detector);
-        //                        break;
-        //                    case 2:  // hit ellipse from outside
-        //                    case 4:  // hit ellipse from inside
-        //                        Move_Photon(photptr, outptr);
-        //                        CrossEllip(photptr);
-        //                        break;
-        //                    case 0:  // hit nothing in homo. medium
-        //                    case 3:  // hit nothing (inside ellipse)
-        //                        Move_Photon(photptr, outptr);
-        //                        // Call action (Discrete, Analog or Continuous absorption weighting)
-        //                        ScatterAndAbsorb(tissptr, photptr, outptr, detector);
-        //                        break;
-        //                }
-        //                /*Test_Distance(); */
-        //                TestWeight(photptr);
-        //            } while (photptr.DP.StateFlag == PhotonData.PhotonStateType.NotSet); /* end do while */
-        //            //pert();  // ckh deleted processing done in MovePhoton
-
-        //            if (WRITE_EXIT_HISTORIES)
-        //            {
-        //                WritePhotonTerminationData(photonTerminationDatabaseWriter, photptr, tissptr, outptr);
-        //            }
-
-        //            if (DO_ALLVOX) Compute_Prob_allvox(source, tissptr, photptr, bananaptr, outptr, detector);  /* DCFIX */
-        //        } /* end of for n loop */
-
-        //    } /* end exit history using scope*/
-        //}
     }
 }

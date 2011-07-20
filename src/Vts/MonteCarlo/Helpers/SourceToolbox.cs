@@ -30,8 +30,8 @@ namespace Vts.MonteCarlo.Helpers
                     Math.Cos(polarAngle)));
             else
                 return (new Direction(
-                    position.X / radius,
-                    position.Y / radius,
+                    Math.Sin(polarAngle) * position.X / radius,
+                    Math.Sin(polarAngle) * position.Y / radius,
                     Math.Cos(polarAngle)));
         }
         
@@ -200,11 +200,11 @@ namespace Vts.MonteCarlo.Helpers
             {
                 return (center);
             }
-            double RN1 = 2 * Math.PI * rng.NextDouble();
-            double RN2 = Math.Sqrt(innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble());
+            double T1 = 2 * Math.PI * rng.NextDouble();
+            double T2 = Math.Sqrt(innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble());
             return (new Position(
-                center.X + RN2 * Math.Cos(RN1),
-                center.Y + RN2 * Math.Sin(RN1),
+                center.X + T2 * Math.Cos(T1),
+                center.Y + T2 * Math.Sin(T1),
                 center.Z));
         }
         
@@ -934,6 +934,27 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         /// <summary>
+        /// Update the polar angle based on incidnet location
+        /// </summary>
+        /// <param name="FullLength">Maximum length</param>
+        /// <param name="curLength">Current Length</param>
+        /// <param name="thetaConvOrDiv">Convergence or Diveregence Angle</param>
+        /// <returns></returns>
+        public static double UpdatePolarAngleForDirectionalSources(
+            double FullLength,
+            double curLength,
+            double thetaConvOrDiv)
+        {
+            if (thetaConvOrDiv == 0.0)
+                return thetaConvOrDiv;
+            else
+            {
+                var height = FullLength / Math.Tan(thetaConvOrDiv);
+                return (Math.Atan(curLength) / height);
+            }
+        }
+
+        /// <summary>
         /// Update the position after translation
         /// </summary>
         /// <param name="currentPosition">The old location</param>
@@ -949,19 +970,7 @@ namespace Vts.MonteCarlo.Helpers
 
             return currentPosition;
         }
-
-        
-       
-
-        
-              
-        
-
-        
-
-
-        
-        
+             
         
     }
 }

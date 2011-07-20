@@ -11,9 +11,9 @@ namespace Vts.MonteCarlo.Detectors
 {
     [KnownType(typeof(ATotalDetector))]
     /// <summary>
-    /// Implements IHistoryDetector<double[,]>.  Tally for Absorption(rho,z).
+    /// Implements IVolumeDetector<double[,]>.  Tally for Absorption(rho,z).
     /// </summary>
-    public class ATotalDetector : IHistoryDetector<double>
+    public class ATotalDetector : IVolumeDetector<double>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
@@ -103,13 +103,13 @@ namespace Vts.MonteCarlo.Detectors
 
         private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (photonStateType != PhotonStateType.Absorbed)
+            if (photonStateType.Has(PhotonStateType.Absorbed))
             {
-                weight = 0.0;
+                weight = previousWeight * mua / (mua + mus);
             }
             else
             {
-                weight = previousWeight * mua / (mua + mus);
+                weight = 0.0;
             }
             return weight;
         }

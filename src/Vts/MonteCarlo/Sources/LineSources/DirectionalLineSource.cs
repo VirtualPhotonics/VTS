@@ -55,16 +55,12 @@ namespace Vts.MonteCarlo.Sources
                             SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                             Rng));
             else
-            {
-                //Calculate polar angle                      
-                var polarAngle = 0.0;    //for collimated line source
-
+            {   
                 // sign is negative for diverging and positive positive for converging 
-                if (_thetaConvOrDiv != 0.0)
-                {
-                    var height = 0.5 * _lineLength / Math.Tan(_thetaConvOrDiv);
-                    polarAngle = Math.Atan(finalPosition.X / height);
-                }
+                var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
+                    0.5 * _lineLength,
+                    finalPosition.X,
+                    _thetaConvOrDiv);           
                 return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, finalPosition));
             }
         }
