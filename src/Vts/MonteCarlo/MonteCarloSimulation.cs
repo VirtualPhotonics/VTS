@@ -20,8 +20,9 @@ namespace Vts.MonteCarlo
         private IList<IDetectorController> _detectorControllers; // total list indep. of VBs
         private long _numberOfPhotons;
         private SimulationStatistics _simulationStatistics;
-        private IList<PhotonDatabaseWriter> _surfaceVirtualBoundaryDatabaseWriters = null;
-        private IList<CollisionInfoDatabaseWriter> _collisionInfoDatabaseWriters = null;
+        private DatabaseWriterController _databaseWriterController = null;
+        private pMCDatabaseWriterController _pMCDatabaseWriterController = null;
+        private bool doPMC = false;
 
         protected SimulationInput _input;
         private Random _rng;
@@ -68,6 +69,12 @@ namespace Vts.MonteCarlo
             }
             // needed?
             _detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
+            
+            // set doPMC flag
+            if (_input.VirtualBoundaryInputs.Any(v => v.VirtualBoundaryType.IspMCVirtualBoundary()))
+            {
+                doPMC = true;
+            }
         }
 
         /// <summary>
@@ -116,13 +123,21 @@ namespace Vts.MonteCarlo
         {
             try
             {
-                _surfaceVirtualBoundaryDatabaseWriters = DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
+                _databaseWriterController = new DatabaseWriterController(
+                    DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
                     _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
-                    Select(v => v.VirtualBoundaryType).ToList(), _outputPath, _input.OutputName);
-                _collisionInfoDatabaseWriters = DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
-                    _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
-                    Select(v => v.VirtualBoundaryType).ToList(), _tissue, _outputPath, _input.OutputName);
-                
+                    Select(v => v.VirtualBoundaryType).ToList(), _outputPath, _input.OutputName));
+                if (doPMC)
+                {
+                    _pMCDatabaseWriterController = new pMCDatabaseWriterController(
+                        DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
+                        _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
+                        Select(v => v.VirtualBoundaryType).ToList(), _outputPath, _input.OutputName),
+                        DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
+                        _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
+                        Select(v => v.VirtualBoundaryType).ToList(), _tissue, _outputPath, _input.OutputName));
+                }
+
                 for (long n = 1; n <= _numberOfPhotons; n++)
                 {
                     // todo: bug - num photons is assumed to be over 10 :)
@@ -176,9 +191,11 @@ namespace Vts.MonteCarlo
 
                     //_detectorController.TerminationTally(photon.DP);
 
-                    _surfaceVirtualBoundaryDatabaseWriters.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
-                    _collisionInfoDatabaseWriters.WriteToCollisionInfoDatabases(photon.DP, photon.History.SubRegionInfoList);
-
+                    _databaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
+                    if (doPMC)
+                    {
+                        _pMCDatabaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP, photon.History.SubRegionInfoList);
+                    }
                     // note History has possibly 2 more DPs than linux code due to 
                     // final crossing of PseudoReflectedTissueBoundary and then
                     // PseudoDiffuseReflectanceVB
@@ -198,8 +215,11 @@ namespace Vts.MonteCarlo
             }
             finally
             {
-                _surfaceVirtualBoundaryDatabaseWriters.Dispose();
-                _collisionInfoDatabaseWriters.Dispose();
+                _databaseWriterController.Dispose();
+                if (doPMC)
+                {
+                    _pMCDatabaseWriterController.Dispose();
+                }
             }
 
             // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)

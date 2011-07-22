@@ -457,6 +457,12 @@
     <Compile Include="..\Vts\Modeling\Tools\HankelTransform.cs">
       <Link>Modeling\Tools\HankelTransform.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\DatabaseWriterController.cs">
+      <Link>MonteCarlo\Controllers\DatabaseWriterController.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDatabaseWriterController.cs">
+      <Link>MonteCarlo\Controllers\pMCDatabaseWriterController.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\pMCSurfaceDetectorController.cs">
       <Link>MonteCarlo\Controllers\pMCSurfaceDetectorController.cs</Link>
     </Compile>

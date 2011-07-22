@@ -198,6 +198,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationOptionsTests.cs">
       <Link>MonteCarlo\DataStructures\SimulationOptionsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\AnalogDetectorsTests.cs</Link>
     </Compile>
