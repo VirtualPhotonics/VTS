@@ -1,0 +1,131 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.IO;
+using Vts.MonteCarlo.PostProcessing;
+using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.IO;
+using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.DataStructuresValidation;
+
+namespace Vts.MonteCarlo.PostProcessor
+{
+    public class PostProcessorSetup
+    {
+        /// <summary>
+        /// method to read the post processor input from a specified or default files
+        /// </summary>
+        public static PostProcessorInput ReadPostProcessorInputFromFile(string inputFile)
+        {
+            try
+            {
+                // read input file then read in elements of input file
+                if (string.IsNullOrEmpty(inputFile))
+                {
+                        Console.WriteLine("\nNo input file specified. Using infile.xml from root mc_post.exe folder... ");
+                        return ReadPostProcessorInputFromFile("infile.xml");
+                }
+            
+                //get the full path for the input file
+                var fullFilePath = Path.GetFullPath(inputFile);
+
+                if (File.Exists(fullFilePath))
+                {
+                    return PostProcessorInput.FromFile(fullFilePath);
+                }
+
+                if (File.Exists(fullFilePath + ".xml"))
+                {
+                    return PostProcessorInput.FromFile(fullFilePath + ".xml");
+                }
+
+                //throw a file not found exception
+                throw new FileNotFoundException("\nThe following input file could not be found: " + fullFilePath + " - type mc_post help=infile for correct syntax");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public static ValidationResult ValidatePostProcessorInput(PostProcessorInput input)
+        {
+            return PostProcessorInputValidation.ValidateInput(input);
+        }
+
+        // need to work on following
+        /// <summary>
+        /// Runs the Monte Carlo Post-processor
+        /// </summary>
+        public static void RunPostProcessor(PostProcessorInput input, string outputFolderPath)
+        {
+            // set for now, need to fix by determining from input file
+            bool doPMC = false;
+            // locate root folder for output, creating it if necessary
+            var path = string.IsNullOrEmpty(outputFolderPath)
+                ? Path.GetFullPath(Directory.GetCurrentDirectory())
+                : Path.GetFullPath(outputFolderPath);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            // locate destination folder for output, creating it if necessary
+            var resultsFolder = Path.Combine(path, input.OutputName);
+            if (!Directory.Exists(resultsFolder))
+            {
+                Directory.CreateDirectory(resultsFolder);
+            }
+
+            Output postProcessedOutput;
+            //if (!doPMC)
+            //{
+                // the following only works for surface boundary detectors
+                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                    VirtualBoundaryType.DiffuseReflectance,
+                    input.DetectorInputs, 
+                    false,
+                    PhotonDatabaseFactory.GetPhotonDatabase(
+                        VirtualBoundaryType.DiffuseReflectance,
+                        input.OutputName,
+                        input.DatabaseFilenames[0]),
+                    SimulationInput.FromFile(input.DatabaseSimulationInputFilename)
+                );
+            //}
+            //else
+            //{
+                // need to work
+                //IList<IpMCDetectorInput> pMCDetectorInputs;
+                //pMCDetectorInputs = input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
+                //postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                //    VirtualBoundaryType.pMCDiffuseReflectance,
+                //    pMCDetectorInputs, 
+                //    false,
+                //    PhotonDatabaseFactory.GetpMCDatabase(
+                //        VirtualBoundaryType.pMCDiffuseReflectance,
+                //        input.tissue,
+                //        input.OutputName,
+                //        input.DatabaseFilenames[0],
+                //        input.DatabaseFilenames[1]),
+                //    SimulationInput.FromFile(input.DatabaseSimulationInputFilename));
+            //}
+            var folderPath = input.OutputName;
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
+            // save input file to output folder with results
+            input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
+
+            foreach (var result in postProcessedOutput.ResultsDictionary.Values)
+            {
+                // save all detector data to the specified folder
+                DetectorIO.WriteDetectorToFile(result, folderPath);
+            }
+
+        }
+    }
+}
+
+

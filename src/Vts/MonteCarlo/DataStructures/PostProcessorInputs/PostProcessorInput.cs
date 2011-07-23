@@ -17,8 +17,6 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(ATotalDetectorInput))]
     [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
     [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
-    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(pMCROfRhoDetectorInput))]
     [KnownType(typeof(RDiffuseDetectorInput))]
     [KnownType(typeof(ROfAngleDetectorInput))]
     [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
@@ -42,20 +40,24 @@ namespace Vts.MonteCarlo
         public IList<string> DatabaseFilenames;
         public IList<DatabaseType> DatabaseTypes;
         public IList<IDetectorInput> DetectorInputs;
+        public string OutputName;
 
         /// <summary>
         /// Default constructor loads default values for InputData
         /// </summary>
         public PostProcessorInput(
             IList<IDetectorInput> detectorInputs,
+            string inputFolder,
             IList<string> databaseFilenames,
             IList<DatabaseType> databaseTypes,
-            string databaseSimulationInputFilename)
+            string databaseSimulationInputFilename,
+            string outputName)
         {
             DetectorInputs = detectorInputs;
             DatabaseFilenames = databaseFilenames;
             DatabaseTypes = databaseTypes;
             DatabaseSimulationInputFilename = databaseSimulationInputFilename;
+            outputName = OutputName;
         }
 
         public PostProcessorInput()
@@ -64,6 +66,7 @@ namespace Vts.MonteCarlo
                     {
                         new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
                     },
+                "results",
                 new List<string> 
                     {
                         "_photonExitDataPoints"
@@ -72,7 +75,8 @@ namespace Vts.MonteCarlo
                 {
                     DatabaseType.PhotonExitDataPoints
                 },
-                "infile"
+                "infile",
+                "Output"
                 ) {}
 
         public static PostProcessorInput FromFile(string filename)
