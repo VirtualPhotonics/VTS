@@ -174,36 +174,36 @@ namespace Vts.MonteCarlo.PostProcessor
                 VirtualBoundaryType.DiffuseReflectance,
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    //new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
 
                     // NOTE: can run different perturbations by adding detectors
-                    //new pMCROfRhoDetectorInput(
-                    //    new DoubleRange(0.0, 40, 21),
-                    //    new List<OpticalProperties>() { 
-                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                    //            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                    //            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                    //    new List<int>() { 1 },
-                    //    TallyType.pMCROfRho.ToString()),
-                    //new pMCROfRhoDetectorInput(
-                    //    new DoubleRange(0.0, 40, 21),
-                    //    new List<OpticalProperties>() { 
-                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                    //            new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                    //            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                    //    new List<int>() { 1 },
-                    //    "pMCROfRho_mus1p5"),
-                    //new pMCROfRhoDetectorInput(
-                    //    new DoubleRange(0.0, 40, 21),
-                    //    new List<OpticalProperties>() { 
-                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                    //            new OpticalProperties(0.01, 0.5, 0.8, 1.4),
-                    //            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                    //    new List<int>() { 1 },
-                    //    "pMCROfRho_mus0p5"),
+                    new pMCROfRhoDetectorInput(
+                        new DoubleRange(0.0, 40, 21),
+                        new List<OpticalProperties>() { 
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        new List<int>() { 1 },
+                        TallyType.pMCROfRho.ToString()),
+                    new pMCROfRhoDetectorInput(
+                        new DoubleRange(0.0, 40, 21),
+                        new List<OpticalProperties>() { 
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        new List<int>() { 1 },
+                        "pMCROfRho_mus1p5"),
+                    new pMCROfRhoDetectorInput(
+                        new DoubleRange(0.0, 40, 21),
+                        new List<OpticalProperties>() { 
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 0.5, 0.8, 1.4),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        new List<int>() { 1 },
+                        "pMCROfRho_mus0p5"),
                 },
                 true, // tally second moment
                 "results",

@@ -123,11 +123,14 @@ namespace Vts.MonteCarlo
         {
             try
             {
-                _databaseWriterController = new DatabaseWriterController(
-                    DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                    _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
-                    Select(v => v.VirtualBoundaryType).ToList(), _outputPath, _input.OutputName));
-                if (doPMC)
+                if (!doPMC)
+                {
+                    _databaseWriterController = new DatabaseWriterController(
+                        DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
+                        _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
+                        Select(v => v.VirtualBoundaryType).ToList(), _outputPath, _input.OutputName));
+                }
+                else
                 {
                     _pMCDatabaseWriterController = new pMCDatabaseWriterController(
                         DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
@@ -191,8 +194,11 @@ namespace Vts.MonteCarlo
 
                     //_detectorController.TerminationTally(photon.DP);
 
-                    _databaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
-                    if (doPMC)
+                    if (!doPMC)
+                    {
+                        _databaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
+                    }
+                    else
                     {
                         _pMCDatabaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP, photon.History.SubRegionInfoList);
                     }
@@ -215,8 +221,11 @@ namespace Vts.MonteCarlo
             }
             finally
             {
-                _databaseWriterController.Dispose();
-                if (doPMC)
+                if (!doPMC)
+                {
+                    _databaseWriterController.Dispose();
+                }
+                else
                 {
                     _pMCDatabaseWriterController.Dispose();
                 }
