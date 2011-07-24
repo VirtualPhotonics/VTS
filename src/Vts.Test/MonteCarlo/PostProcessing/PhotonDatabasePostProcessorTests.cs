@@ -37,7 +37,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var input = GenerateReferenceInput();
             var onTheFlyOutput =  new MonteCarloSimulation(input).Run();
 
-            var database = PhotonDatabase.FromFile("photonReflectanceDatabase");
+            var database = PhotonDatabase.FromFile("DiffuseReflectanceDatabase");
             var postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                 VirtualBoundaryType.DiffuseReflectance,
                 _detectorInputs,

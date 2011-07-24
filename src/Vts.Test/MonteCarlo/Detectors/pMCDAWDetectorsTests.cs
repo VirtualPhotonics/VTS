@@ -196,7 +196,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.N);
             _referenceOutputOneLayerTissue =  new MonteCarloSimulation(_referenceInputOneLayerTissue).Run();
 
-            _databaseOneLayerTissue = pMCDatabase.FromFile("photonReflectanceDatabase", "collisionInfoDatabase");
+            _databaseOneLayerTissue = pMCDatabase.FromFile("DiffuseReflectanceDatabase", "CollisionInfoDatabase");
 
             _referenceInputTwoLayerTissue = new SimulationInput(
                 100,
@@ -222,7 +222,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 ),
                 detectorInputs);
             _referenceOutputTwoLayerTissue = new MonteCarloSimulation(_referenceInputTwoLayerTissue).Run();
-            _databaseTwoLayerTissue = pMCDatabase.FromFile("photonReflectanceDatabase", "collisionInfoDatabase");
+            _databaseTwoLayerTissue = pMCDatabase.FromFile("DiffuseReflectanceDatabase", "CollisionInfoDatabase");
 
         }
     }

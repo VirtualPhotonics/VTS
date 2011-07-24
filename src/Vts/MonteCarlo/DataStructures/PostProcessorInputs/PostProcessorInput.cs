@@ -17,6 +17,8 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(ATotalDetectorInput))]
     [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
     [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
+    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
+    [KnownType(typeof(pMCROfRhoDetectorInput))]
     [KnownType(typeof(RDiffuseDetectorInput))]
     [KnownType(typeof(ROfAngleDetectorInput))]
     [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
@@ -36,47 +38,43 @@ namespace Vts.MonteCarlo
     ///</summary>
     public class PostProcessorInput
     {
-        public string DatabaseSimulationInputFilename;
-        public IList<string> DatabaseFilenames;
-        public IList<DatabaseType> DatabaseTypes;
         public IList<IDetectorInput> DetectorInputs;
+        public bool TallySecondMoment;
+        public string InputFolder;
+        public VirtualBoundaryType VirtualBoundaryType;
+        public string DatabaseSimulationInputFilename;
         public string OutputName;
 
         /// <summary>
         /// Default constructor loads default values for InputData
         /// </summary>
         public PostProcessorInput(
+            VirtualBoundaryType virtualBoundaryType,
             IList<IDetectorInput> detectorInputs,
+            bool tallySecondMoment,
             string inputFolder,
-            IList<string> databaseFilenames,
-            IList<DatabaseType> databaseTypes,
             string databaseSimulationInputFilename,
             string outputName)
         {
             DetectorInputs = detectorInputs;
-            DatabaseFilenames = databaseFilenames;
-            DatabaseTypes = databaseTypes;
+            TallySecondMoment = tallySecondMoment;
+            InputFolder = inputFolder;
+            VirtualBoundaryType = virtualBoundaryType;
             DatabaseSimulationInputFilename = databaseSimulationInputFilename;
-            outputName = OutputName;
+            OutputName = outputName;
         }
 
         public PostProcessorInput()
             : this(
+                VirtualBoundaryType.DiffuseReflectance,
                 new List<IDetectorInput>
                     {
                         new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
                     },
+                false, // tally second moment
                 "results",
-                new List<string> 
-                    {
-                        "_photonExitDataPoints"
-                    },
-                new List<DatabaseType>
-                {
-                    DatabaseType.PhotonExitDataPoints
-                },
                 "infile",
-                "Output"
+                "ppresults"
                 ) {}
 
         public static PostProcessorInput FromFile(string filename)

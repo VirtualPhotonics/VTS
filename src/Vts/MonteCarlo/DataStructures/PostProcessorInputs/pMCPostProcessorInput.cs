@@ -34,26 +34,16 @@ namespace Vts.MonteCarlo
             VirtualBoundaryType virtualBoundaryType,
             IList<IDetectorInput> detectorInputs,
             bool tallySecondMoment,
-            IList<string> databaseFilenames,
-            string databaseFilePath,
-            string databaseInputFilename)
+            string inputFolder,
+            string databaseSimulationInputFilename,
+            string outputName)
         {
             DetectorInputs = detectorInputs;
-            VirtualBoundaryType = virtualBoundaryType;
-            var simulationInputFilename = databaseInputFilename;
-            DatabaseInput = SimulationInput.FromFile(simulationInputFilename);
-            var tissue = TissueFactory.GetTissue(DatabaseInput.TissueInput, 
-                DatabaseInput.Options.AbsorptionWeightingType, DatabaseInput.Options.PhaseFunctionType);
             TallySecondMoment = tallySecondMoment;
-            DatabaseFilenames = databaseFilenames;
-            Database = PhotonDatabaseFactory.GetpMCDatabase(
-                VirtualBoundaryType.pMCDiffuseReflectance,
-                tissue, 
-                "",
-                Path.Combine(databaseFilePath, databaseFilenames[0]),
-                Path.Combine(databaseFilePath, databaseFilenames[1])
-            );               
-        }
+            InputFolder = inputFolder;
+            VirtualBoundaryType = virtualBoundaryType;
+            DatabaseSimulationInputFilename = databaseSimulationInputFilename;
+            }
 
         public pMCPostProcessorInput()
             : this(
@@ -72,21 +62,15 @@ namespace Vts.MonteCarlo
                             TallyType.pMCROfRho.ToString())
                     },
                 false,
-                new List<string>
-                {
-                    "photonReflectanceDatabase",
-                    "collisionInfoDatabase"
-                },
-                "",
-                "infile") {}
+                "results",
+                "infile",
+                "pMCresults") {}
 
-        public SimulationInput DatabaseInput { get; set; }
-        public pMCDatabase Database { get; set; }
-        public IList<string> DatabaseFilenames { get; set; }
-        public VirtualBoundaryType VirtualBoundaryType { get; set; }
         public IList<IDetectorInput> DetectorInputs { get; set; }
         public bool TallySecondMoment { get; set; }
-        public string DatabaseFilePath { get; set; }
+        public VirtualBoundaryType VirtualBoundaryType { get; set; }
+        public string DatabaseSimulationInputFilename { get; set; }
+        public string InputFolder { get; set; }
 
         public static PostProcessorInput FromFile(string filename)
         {

@@ -61,8 +61,6 @@ namespace Vts.MonteCarlo.PostProcessor
         /// </summary>
         public static void RunPostProcessor(PostProcessorInput input, string outputFolderPath)
         {
-            // set for now, need to fix by determining from input file
-            bool doPMC = false;
             // locate root folder for output, creating it if necessary
             var path = string.IsNullOrEmpty(outputFolderPath)
                 ? Path.GetFullPath(Directory.GetCurrentDirectory())
@@ -80,37 +78,33 @@ namespace Vts.MonteCarlo.PostProcessor
             }
 
             Output postProcessedOutput;
-            //if (!doPMC)
-            //{
+            if (input.VirtualBoundaryType != VirtualBoundaryType.pMCDiffuseReflectance)
+            {
                 // the following only works for surface boundary detectors
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.DiffuseReflectance,
                     input.DetectorInputs, 
                     false,
-                    PhotonDatabaseFactory.GetPhotonDatabase(
+                    PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                         VirtualBoundaryType.DiffuseReflectance,
-                        input.OutputName,
-                        input.DatabaseFilenames[0]),
-                    SimulationInput.FromFile(input.DatabaseSimulationInputFilename)
+                        input.InputFolder),
+                    SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"))
                 );
-            //}
-            //else
-            //{
-                // need to work
-                //IList<IpMCDetectorInput> pMCDetectorInputs;
-                //pMCDetectorInputs = input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
-                //postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
-                //    VirtualBoundaryType.pMCDiffuseReflectance,
-                //    pMCDetectorInputs, 
-                //    false,
-                //    PhotonDatabaseFactory.GetpMCDatabase(
-                //        VirtualBoundaryType.pMCDiffuseReflectance,
-                //        input.tissue,
-                //        input.OutputName,
-                //        input.DatabaseFilenames[0],
-                //        input.DatabaseFilenames[1]),
-                //    SimulationInput.FromFile(input.DatabaseSimulationInputFilename));
-            //}
+            }
+            else
+            {
+                IList<IpMCDetectorInput> pMCDetectorInputs;
+                pMCDetectorInputs = input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
+                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                    VirtualBoundaryType.pMCDiffuseReflectance,
+                    pMCDetectorInputs, 
+                    false,
+                    PhotonDatabaseFactory.GetpMCDatabase( // database filenames are assumed to be convention
+                        VirtualBoundaryType.pMCDiffuseReflectance,
+                        input.InputFolder),
+                    SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"))
+                );
+            }
             var folderPath = input.OutputName;
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);

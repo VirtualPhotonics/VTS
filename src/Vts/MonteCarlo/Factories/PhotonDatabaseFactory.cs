@@ -11,32 +11,41 @@ namespace Vts.MonteCarlo.Factories
     public class PhotonDatabaseFactory
     {
         public static PhotonDatabase GetPhotonDatabase(
-            VirtualBoundaryType virtualBoundaryType, string filePath, string fileName)
+            VirtualBoundaryType virtualBoundaryType, string filePath)
         {
+            string dbFilename;
             switch (virtualBoundaryType)
             {
                 case VirtualBoundaryType.DiffuseReflectance:
-                    return PhotonDatabase.FromFile(Path.Combine(filePath, fileName));
+                    dbFilename = Path.Combine(filePath, "DiffuseReflectanceDatabase");
+                    break;
                 case VirtualBoundaryType.DiffuseTransmittance:
-                    return PhotonDatabase.FromFile(Path.Combine(filePath, fileName));
+                    dbFilename = Path.Combine(filePath, "DiffuseTransmittanceDatabase");
+                    break;
                 case VirtualBoundaryType.SpecularReflectance:
-                    return PhotonDatabase.FromFile(Path.Combine(filePath, fileName));
-                case VirtualBoundaryType.pMCDiffuseReflectance:
-                    return PhotonDatabase.FromFile(Path.Combine(filePath, fileName));
+                    dbFilename = Path.Combine(filePath, "SpecularReflectanceDatabase");
+                    break;
+                case VirtualBoundaryType.pMCDiffuseReflectance: //pMC uses same exit db as regular post-processing
+                    dbFilename = Path.Combine(filePath, "DiffuseReflectanceDatabase");
+                    break;
                 default:
                     return null;
             }
+            if (!File.Exists(dbFilename))
+            {
+                throw new FileNotFoundException("\nThe database file could not be found: " + dbFilename);
+            }
+            return PhotonDatabase.FromFile(dbFilename);
         }
 
         public static pMCDatabase GetpMCDatabase(
-            VirtualBoundaryType virtualBoundaryType, ITissue tissue, string filePath, 
-            string photonDatabaseFilename, string collisionInfoFilename)
+            VirtualBoundaryType virtualBoundaryType, string filePath)
         {
             switch (virtualBoundaryType)
             {
                 case VirtualBoundaryType.pMCDiffuseReflectance:
-                    return pMCDatabase.FromFile(Path.Combine(filePath, photonDatabaseFilename),
-                        Path.Combine(filePath, collisionInfoFilename));
+                    return pMCDatabase.FromFile(Path.Combine(filePath, "DiffuseReflectanceDatabase"),
+                        Path.Combine(filePath, "CollisionInfoDatabase"));
                 default:
                     return null;
             }

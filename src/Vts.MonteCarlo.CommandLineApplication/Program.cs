@@ -260,7 +260,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         VirtualBoundaryType.DiffuseTransmittance.ToString()
                     )
                 });
-            tempInput.ToFile("infile.xml");
+            tempInput.ToFile("newinfile.xml");
         }
 
         //private static SimulationInput LoadDefaultInputFile()
