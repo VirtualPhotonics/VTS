@@ -258,6 +258,21 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         //},
                         false, // write to database
                         VirtualBoundaryType.DiffuseTransmittance.ToString()
+                    ),
+                    new GenericVolumeVirtualBoundaryInput(
+                        VirtualBoundaryType.GenericVolumeBoundary,
+                        new List<IDetectorInput>()
+                        {
+                            new ATotalDetectorInput(),
+                            new AOfRhoAndZDetectorInput(                            
+                                new DoubleRange(0.0, 10, 101),
+                                new DoubleRange(0.0, 10, 101)),
+                            new FluenceOfRhoAndZDetectorInput(                            
+                                new DoubleRange(0.0, 10, 101),
+                                new DoubleRange(0.0, 10, 101))
+                        },
+                        false,
+                        VirtualBoundaryType.GenericVolumeBoundary.ToString()
                     )
                 });
             tempInput.ToFile("newinfile.xml");
