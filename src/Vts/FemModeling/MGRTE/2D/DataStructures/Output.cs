@@ -27,7 +27,8 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
 
             double temp, temp2;
             int i, j, k, m, ang, tri = -1, edge, count;
-            int nt = smesh.nt, ne = smesh.ne, ns = amesh.ns;
+            int nt = smesh.nt, ne = smesh.ne, ns = amesh.ns, np = smesh.np;
+            int nxy;
             int[][] t;
             int[][] e;
             int[][] e2;
@@ -55,8 +56,21 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             a = smesh.a; theta = amesh.a;
             so = b.so; so2 = b.so2; ro = b.ro; ro2 = b.ro2;
 
+            nxy = (int)Math.Ceiling(Math.Sqrt(nt / 2.0)) + 1;
+
             Det.density = new double[nt];
             Det.flux = new double[ns][];
+            Det.fluence = new double[np];
+
+            Det.radiance = new double[np][];
+            for (i = 0; i < np; i++)
+                Det.radiance[i] = new double[ns];
+
+            Det.uxy = new double[nxy][];
+            for (i = 0; i < nxy; i++)
+                Det.uxy[i] = new double[nxy];
+
+
             for (i = 0; i < ns; i++)
             { Det.flux[i] = new double[nt]; }
 
@@ -116,6 +130,50 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
                 }
                 Det.density[j] *= dtheta;
             }
+
+            // compute and save density and flux
+            for (j = 0; j < nt; j++)
+            {
+                Det.density[j] = 0;
+                for (i = 0; i < ns; i++)
+                {
+                    Det.flux[i][j] = (flux[i][j][0] + flux[i][j][1] + flux[i][j][2]) / 3;
+                    Det.density[j] += Det.flux[i][j];
+                }
+                Det.density[j] *= dtheta;
+            }
+
+
+            // compute radiance at each node
+            for (i = 0; i < nt; i++)
+            {                
+                for (j = 0; j < ns; j++)
+                {
+                    for (k = 0; k < 3; k++)
+                    {
+                        Det.radiance[t[i][k]][j] = flux[j][i][k];
+                    }
+                }
+            }
+
+            // compute fluence at each node
+            for (i = 0; i < np; i++)
+            {
+                Det.fluence[i] = 0;
+                for (j = 0; j < ns; j++)
+                {
+                    Det.fluence[i] += Det.radiance[i][j];                    
+                }
+                Det.fluence[i] *= dtheta;
+            }
+
+            writer = new StreamWriter("fluence.txt");
+            for (i = 0; i < np; i++)
+            {
+                writer.Write("{0}\t", Det.fluence[i]);
+            }
+            writer.Close();
+
 
             writer = new StreamWriter("flux.txt");
             for (i = 0; i < ns; i++)

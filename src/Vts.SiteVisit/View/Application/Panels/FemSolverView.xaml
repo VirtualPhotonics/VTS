@@ -92,7 +92,7 @@
         <StackPanel Orientation="Horizontal">
             
             <Button VerticalAlignment="Bottom" Command="{Binding ExecuteFemSolverCommand}"
-                Background="{Binding StackPanel.Background}" Content="Run Monte Carlo"  
+                Background="{Binding StackPanel.Background}" Content="Run 2D MG-RTE"  
                 Width="100" Height="30" Margin="5"/>
         </StackPanel>
 

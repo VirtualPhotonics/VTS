@@ -5,9 +5,9 @@ using Vts.Extensions;
 
 namespace Vts.SiteVisit.Model
 {
-    public class MeshData : BindableObject
+    public class MapData : BindableObject
     {
-        public MeshData(double[] rawData, double[] xValues, double[] yValues)
+        public MapData(double[] rawData, double[] xValues, double[] yValues)
         {
             this.XValues = xValues;
             this.YValues = yValues;

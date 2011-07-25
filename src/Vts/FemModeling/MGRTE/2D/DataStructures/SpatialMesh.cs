@@ -1,14 +1,14 @@
 ﻿namespace Vts.FemModeling.MGRTE._2D.DataStructures
 {
     public struct SpatialMesh  // angular mesh
-    {
-        public int nt;                   // number of triangles (data from MATLAB)
-        public int np;                   // number of nodes (data from MATLAB)
-        public int ne;                   // number of edges (data from MATLAB)
-        public int[][] so;               // sweep ordering: so[ns][nt] (data from MATLAB)
-        public double[][] p;             // nodal coordinates: p[np][2] (data from MATLAB)
-        public int[][] t;                // nodes contained in one triangle: t[nt][3] (data from MATLAB)
-        public int[][] e;                // nodes contained in one boundary edge: e[ne][4] (data from MATLAB and see "boundary")
+    {        
+        public int np;                   // number of node points 
+        public int ne;                   // number of boundary edges     
+        public int nt;                   // number of triangles 
+        public double[][] p;             // nodal coordinates: p[np][2] 
+        public int[][] t;                // nodes contained in one triangle: t[nt][3] 
+        public int[][] e;                // nodes contained in one boundary edge: e[ne][4] 
+        public int[][] so;               // sweep ordering: so[ns][nt] 
         public double[][] c;             // center of triangles: c[nt][2] (see "initialization")
         public double[][] ec;            // center of edges: ec[ne][2] (see "initialization")
         public double[] a;               // area of triangles: a[nt] (see "initialization")

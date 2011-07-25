@@ -16,6 +16,9 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
         public double[] output;     // output[n]:       the output
         public double[][] flux;     // flux[ns][nt]:    the averaged flux at each interval for each direction
         public double[] density;    // density[nt]:     the averaged density at each interval
+        public double[] fluence;  //fluence at each node
+        public double[][] radiance;  //fluence at each node
+        public double[][] uxy;   //rect grid
     }
 }
 

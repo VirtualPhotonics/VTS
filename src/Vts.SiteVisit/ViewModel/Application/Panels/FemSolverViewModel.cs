@@ -21,7 +21,20 @@ namespace Vts.SiteVisit.ViewModel
         public FemSolverViewModel()
             : this(new Parameters
             {
-                 //Alevel = ...
+                G = 0.9,
+                Index_i = 1.5,
+                Index_o = 1.0,
+                Alevel = 4,
+                Alevel0 = 2,
+                Slevel = 4,
+                Slevel0 = 1,
+                Tol = 1e-4,
+                Whichmg = 6,
+                Fmg = 1,
+                N1 = 3,
+                N2 = 3,
+                N3 = 3,
+                N_max = 100,
             })
         {
         }
