@@ -556,9 +556,6 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\Output.cs">
       <Link>MonteCarlo\DataStructures\Output.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\pMCPostProcessorInput.cs">
-      <Link>MonteCarlo\DataStructures\PostProcessorInputs\pMCPostProcessorInput.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs">
       <Link>MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs</Link>
     </Compile>

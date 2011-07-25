@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -17,74 +18,74 @@ namespace Vts.MonteCarlo
     {
         public static ValidationResult ValidateInput(PostProcessorInput input)
         {
-            //        // read in Simulationinput that generated database
-            //        if (input.DatabaseSimulationinputFilename.Length > 0)
-            //        {
-            //            var SimulationinputFile = path + input.DatabaseSimulationinputFilename + ".xml";
+            ValidationResult tempResult;
 
-            //            if (System.IO.File.Exists(SimulationinputFile))
-            //            {
-            //                databaseSimulationinput = Simulationinput.FromFile(SimulationinputFile);
-            //            }
-            //            else
-            //            {
-            //                Console.WriteLine("\nThe following input file could not be found: " +
-            //                    input.DatabaseSimulationinputFilename + ".xml");
-            //                return false;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            Console.WriteLine("\nNo Simulationinput file specified in PostProcessorinput. ");
-            //        }
-            //        // read in database names
-            //        if (input.DatabaseFilenames != null)
-            //        {
-            //            // check if pMC databases first
-            //            if (input.DatabaseTypes.Contains(DatabaseType.PhotonExitDataPoints) &&
-            //                input.DatabaseTypes.Contains(DatabaseType.CollisionInfo))
-            //            {
-            //                doPMC = true;
-            //                int pdindex = input.DatabaseTypes.IndexOf(DatabaseType.PhotonExitDataPoints);
-            //                var photonDatabaseName = path + input.DatabaseFilenames[pdindex];
-            //                int ciindex = input.DatabaseTypes.IndexOf(DatabaseType.CollisionInfo);
-            //                var collisionInfoDatabaseName = path + input.DatabaseFilenames[ciindex];
-            //                if (System.IO.File.Exists(photonDatabaseName) &&
-            //                    System.IO.File.Exists(collisionInfoDatabaseName))
-            //                {
-            //                    pmcDatabase = pMCDatabase.FromFile(photonDatabaseName, collisionInfoDatabaseName);
-            //                }
-            //                else
-            //                {
-            //                    Console.WriteLine("\nOne of the following database files could not be found: " +
-            //                        photonDatabaseName + ".xml or" + collisionInfoDatabaseName + ".xml");
-            //                    return false;
-            //                }
-            //            }
-            //            if (input.DatabaseTypes.Contains(DatabaseType.PhotonExitDataPoints) &&
-            //                !input.DatabaseTypes.Contains(DatabaseType.CollisionInfo))
-            //            {
-            //                int index = input.DatabaseTypes.IndexOf(DatabaseType.PhotonExitDataPoints);
-            //                var photonDatabaseName = path + input.DatabaseFilenames[index];
-            //                if (System.IO.File.Exists(photonDatabaseName))
-            //                {
-            //                    photonDatabase = PhotonDatabase.FromFile(photonDatabaseName);
-            //                }
-            //                else
-            //                {
-            //                    Console.WriteLine("\nThe following database file could not be found: " +
-            //                            photonDatabaseName + ".xml");
-            //                    return false;
-            //                }
-            //            }
-            //        }
-            //        return true;
-            //    }
+            tempResult = ValidateInputFolderExistence(input.InputFolder);
+            if (!tempResult.IsValid)
+            {
+                return tempResult;
+            }
 
+            tempResult = ValidatePhotonDatabaseExistence(input.VirtualBoundaryType, input.InputFolder);
+            if (!tempResult.IsValid)
+            {
+                return tempResult;
+            }
+
+            tempResult = ValidateSimulationInputExistence(input.DatabaseSimulationInputFilename, input.InputFolder);
+            if (!tempResult.IsValid)
+            {
+                return tempResult;
+            }
 
             return new ValidationResult(
                 true,
-                "PostProcessorinput: file not found");
-        }  
+                "PostProcessorinput: input must be valid");
+        }
+        private static ValidationResult ValidateInputFolderExistence(string inputFolder)
+        {
+            // check if results folder exists or not
+            return new ValidationResult(
+                !Directory.Exists(inputFolder),
+                "PostProcessorInput: the input folder does not exist",
+                "check that the input folder name agrees with the folder name on system");            
+        }
+        private static ValidationResult ValidatePhotonDatabaseExistence(
+            VirtualBoundaryType virtualBoundaryType, string inputFolder)
+        {
+            switch (virtualBoundaryType)
+            {
+                case VirtualBoundaryType.DiffuseReflectance:
+                    return new ValidationResult(
+                        !File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")),
+                        "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
+                        "check that VirtualBoundaryType and database type agree");
+                case VirtualBoundaryType.DiffuseTransmittance:
+                    return new ValidationResult(
+                        !File.Exists(Path.Combine(inputFolder, "DiffuseTransmittanceDatabase")),
+                        "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
+                        "check that VirtualBoundaryType and database type agree");
+                case VirtualBoundaryType.SpecularReflectance:
+                    return new ValidationResult(
+                        !File.Exists(Path.Combine(inputFolder, "SpecularReflectanceDatabase")),
+                        "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
+                        "check that VirtualBoundaryType and database type agree");
+                case VirtualBoundaryType.pMCDiffuseReflectance: //pMC uses same exit db as regular post-processing
+                    return new ValidationResult(
+                          !File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")),
+                          "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
+                          "check that VirtualBoundaryType and database type agree");
+                default:
+                    return null;
+            }
+        }
+        private static ValidationResult ValidateSimulationInputExistence(
+            string simulationInputFilename, string inputFolder)
+        {
+            return new ValidationResult(
+                !File.Exists(Path.Combine(inputFolder, simulationInputFilename)),
+                "PostProcessorInput:  SimulationInput filename does not exist",
+                "check that a SimulationInput file exists in inputFolder");
+        }
     }
 }
