@@ -195,12 +195,12 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             //writer.Close();
 
 
-             writer = new StreamWriter("fluence.txt");
-             for (i = 0; i < np; i++)
-             {
-                 writer.Write("{0}\t", Det.fluence[i]);
-             }
-             writer.Close();
+             //writer = new StreamWriter("fluence.txt");
+             //for (i = 0; i < np; i++)
+             //{
+             //    writer.Write("{0}\t", Det.fluence[i]);
+             //}
+             //writer.Close();
 
             // given "det.coord", compute and save "output"
             // Case 1.1: boundary outgoing angular-weighted measurement with weight "s dot n"
@@ -385,10 +385,10 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
 
             }
 
-            writer = new StreamWriter("output.txt");
-            for (j = 0; j < Det.n; j++)
-            { writer.Write("{0}\t", Det.output[j]); }
-            writer.Close();
+            //writer = new StreamWriter("output.txt");
+            //for (j = 0; j < Det.n; j++)
+            //{ writer.Write("{0}\t", Det.output[j]); }
+            //writer.Close();
 
             return Det;
         }

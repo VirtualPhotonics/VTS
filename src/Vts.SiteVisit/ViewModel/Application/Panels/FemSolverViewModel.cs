@@ -26,18 +26,18 @@ namespace Vts.SiteVisit.ViewModel
             : this(new Parameters
             {
                 G = 0.9,
-                Index_i = 1.5,
+                Index_i = 1.0,
                 Index_o = 1.0,
                 Alevel = 3,
                 Alevel0 = 1,
-                Slevel = 1,
+                Slevel = 3,
                 Slevel0 = 0,
                 Tol = 1e-4,
                 Whichmg = 6,
                 Fmg = 1,
                 N1 = 3,
                 N2 = 3,
-                N3 = 3,
+                N3 = 1,
                 N_max = 100,
             })
         {

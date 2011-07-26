@@ -4,97 +4,110 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:v="clr-namespace:Vts.SiteVisit.View"
     xmlns:vm="clr-namespace:Vts.SiteVisit.ViewModel"
-    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignWidth="496" d:DesignHeight="779">
+    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignWidth="600" d:DesignHeight="700">
 
     <UserControl.DataContext>
         <vm:FemSolverViewModel/>
     </UserControl.DataContext>
 
-    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
 
-        <TextBlock Text="EXECUTE A SIMULATION:" FontSize="16" />
-        
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="G:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.G}" Margin="5"/>
-        </StackPanel>
+        <TextBlock Text="EXECUTE A SIMULATION:" FontSize="16" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" />
+        <TextBlock Text="" FontSize="16" Grid.Column="0" Grid.Row="1" />
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="G:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.G, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="L:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.L}" Margin="5"/>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="L:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.L, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Index i:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.Index_i}" Margin="5"/>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Index i:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.Index_i, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Index o:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.Index_o}" Margin="5"/>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Index o:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.Index_o, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
         </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="A Level:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.Alevel}" Margin="5"/>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="A Level:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.Alevel, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="A Level 0:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.Alevel0}" Margin="5"/>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="A Level 0:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.Alevel0, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="S Level:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.Slevel}" Margin="5"/>
-        </StackPanel>
-        
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="S Level 0:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.Slevel0}" Margin="5"/>
-        </StackPanel>
-        
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Which Multi Grid:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.Whichmg}" Margin="5"/>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="S Level:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.Slevel, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="N1:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.N1}" Margin="5"/>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="S Level 0:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.Slevel0, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
         </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Which Multi Grid:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.Whichmg, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="N2:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.N2}" Margin="5"/>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="N1:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.N1, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="N3:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.N3}" Margin="5"/>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="N2:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.N2, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Fmg:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.Fmg}" Margin="5"/>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="N3:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.N3, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
         </StackPanel>
-        
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="N Max:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.N_max}" Margin="5"/>
-        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Fmg:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.Fmg, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Tl:" Margin="5"/>
-            <TextBox Text="{Binding Parameters.Tol}" Margin="5"/>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="N Max:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.N_max, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Tl:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.Tol, Mode=TwoWay}" Margin="5"/>
+            </StackPanel>
         </StackPanel>
-        
-        <StackPanel Orientation="Horizontal">
-            
-            <Button VerticalAlignment="Bottom" Command="{Binding ExecuteFemSolverCommand}"
-                Background="{Binding StackPanel.Background}" Content="Run 2D MG-RTE"  
+        <Button Grid.Column="1" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding ExecuteFemSolverCommand}"
+                Content="Run 2D MG-RTE"  
                 Width="100" Height="30" Margin="5"/>
-        </StackPanel>
-
-    </StackPanel>
+    </Grid>
 </UserControl>
