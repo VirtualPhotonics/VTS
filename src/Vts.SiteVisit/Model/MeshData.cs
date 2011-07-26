@@ -5,9 +5,9 @@ using Vts.Extensions;
 
 namespace Vts.SiteVisit.Model
 {
-    public class MapData : BindableObject
+    public class MeshData : BindableObject
     {
-        public MapData(double[] rawData, double[] xValues, double[] yValues)
+        public MeshData(double[] rawData, double[] xValues, double[] yValues)
         {
             this.XValues = xValues;
             this.YValues = yValues;
@@ -25,20 +25,28 @@ namespace Vts.SiteVisit.Model
         public double Max { get; private set; }
         public double YExpectationValue { get { return Statistics.MeanSamplingDepth(RawData, XValues, YValues); } }
 
-        public static MapData Create(double[,] rawData, double[] x, double[] y)
+        public static MeshData Create(double[,] rawData, double[] x, double[] y)
         {
             if (rawData.GetLength(0) != x.Length || rawData.GetLength(1) != y.Length)
                 throw new ArgumentException("Array lengths do not match.");
 
-            return new MapData(rawData.ToEnumerable<double>().ToArray(), x, y);
+            return new MeshData(rawData.ToEnumerable<double>().ToArray(), x, y);
         }
 
-        public static MapData Create(double[] rawData, double[] x, double[] y)
+        public static MeshData Create(double[][] rawData, double[] x, double[] y)
+        {
+            if (rawData.GetLength(0) != x.Length || rawData.GetLength(1) != y.Length)
+                throw new ArgumentException("Array lengths do not match.");
+
+            return new MeshData(rawData.ToEnumerable<double>().ToArray(), x, y);
+        }
+
+        public static MeshData Create(double[] rawData, double[] x, double[] y)
         {
             if (rawData.Length != x.Length * y.Length)
                 throw new ArgumentException("Array lengths do not match.");
 
-            return new MapData(rawData.ToArray(), x, y);
+            return new MeshData(rawData.ToArray(), x, y);
         }
     }
 }
