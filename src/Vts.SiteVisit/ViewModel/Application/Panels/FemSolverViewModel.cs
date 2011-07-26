@@ -30,7 +30,7 @@ namespace Vts.SiteVisit.ViewModel
                 Index_o = 1.0,
                 Alevel = 3,
                 Alevel0 = 1,
-                Slevel = 3,
+                Slevel = 1,
                 Slevel0 = 0,
                 Tol = 1e-4,
                 Whichmg = 6,

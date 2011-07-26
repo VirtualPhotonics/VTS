@@ -74,6 +74,8 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             for (i = 0; i < nxy; i++)
                 Det.uxy[i] = new double[nxy];
 
+            Det.xloc = new double[nxy];
+            Det.yloc = new double[nxy];
 
             for (i = 0; i < ns; i++)
             { Det.flux[i] = new double[nt]; }
@@ -171,11 +173,11 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
                 Det.fluence[i] *= dtheta;
             }
 
-            // MathFunctions.SquareTriMeshToGrid(ref smesh, Det.fluence, Det.uxy, nxy);
+            MathFunctions.SquareTriMeshToGrid(ref smesh, ref Det.xloc, ref Det.yloc, Det.fluence, Det.uxy, nxy);
 
-            Det.xloc = temp11;
-            Det.yloc = temp22;
-            Det.inten =temp33;
+            //Det.xloc = temp11;
+            //Det.yloc = temp22;
+            //Det.inten =temp33;
 
             //writer = new StreamWriter("flux.txt");
             //for (i = 0; i < ns; i++)

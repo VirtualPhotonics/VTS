@@ -175,13 +175,11 @@ namespace Vts.FemModeling.MGRTE._2D
             }
         }
 
-        public static void SquareTriMeshToGrid(ref SpatialMesh smesh, double[] inten, double[][] uxy, int nxy)
+        public static void SquareTriMeshToGrid(ref SpatialMesh smesh, ref double[] x, ref double[] y, double[] inten, double[][] uxy, int nxy)
         {
             int i, j, k;
             int np, nt;
             double dx, dy;
-            double[] x;
-            double[] y;
             int[][] tn;
             double[][] a12;
             double[][] a13;
@@ -219,13 +217,8 @@ namespace Vts.FemModeling.MGRTE._2D
                 ymax = Math.Max(smesh.p[i][1], ymax);
             }
 
-
-
             dx = (xmax - xmin) / (nxy - 1);
-            dy = (ymax - ymin) / (nxy - 1);
-
-            x = new double[nxy];
-            y = new double[nxy];
+            dy = (ymax - ymin) / (nxy - 1);           
 
             for (i = 0; i < nxy; i++)
             {
