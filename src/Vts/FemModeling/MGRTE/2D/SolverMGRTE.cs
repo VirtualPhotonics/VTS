@@ -42,9 +42,9 @@ namespace Vts.FemModeling.MGRTE._2D
 
         //    Console.ReadLine();
         //}
-                
 
-        public static void ExecuteMGRTE(Parameters para)
+
+        public static Measurement ExecuteMGRTE(Parameters para)
         {
 
             int level = -1;
@@ -114,6 +114,12 @@ namespace Vts.FemModeling.MGRTE._2D
             Output Rteout = new Output();
             Source Insource = new Source();
 
+            //MathFunctions.CreateSquareMesh(ref smesh, para.Slevel);
+            //MathFunctions.CreateAnglularMesh(ref amesh, para.Alevel, para.Alevel0, para.G);
+            //MathFunctions.SweepOrdering(ref smesh, amesh, para.Slevel, para.Alevel);
+            //MathFunctions.SetMus(ref us, para.Slevel, smesh[para.Slevel-1].nt);
+            //MathFunctions.SetMua(ref ua, para.Slevel, smesh[para.Slevel-1].nt);
+
             ReadFiles.ReadAmesh(ref amesh, para.Alevel);
             ReadFiles.ReadSmesh(ref smesh, para.Slevel, para.Alevel, amesh);
             ReadFiles.ReadMua(ref ua, para.Slevel, smesh[para.Slevel].nt);
@@ -130,6 +136,18 @@ namespace Vts.FemModeling.MGRTE._2D
 
             // initialize internal and boundary sources 
             Insource.Inputsource(para.Alevel, amesh, para.Slevel, smesh, level, RHS, q);
+
+
+            ////Hard coded source allocation
+            //double sourceval = 2 * 2 / (3 * smesh[para.Slevel - 1].nt);
+
+            //for (i = 0; i < amesh[para.Alevel-1].ns; i++)
+            //    for (k = 0; k < 3; k++)               
+            //        RHS[level][i][10][k] = sourceval;
+               
+            
+           
+
 
             /* Read the end time. */
             DateTime stopTime1 = DateTime.Now;
@@ -314,10 +332,9 @@ namespace Vts.FemModeling.MGRTE._2D
 
             // step 3: postprocessing
             // 3.1. output
-            Rteout.RteOutput(flux[level], q[level], amesh[para.Alevel], smesh[para.Slevel], b[level], vacuum);
+            Measurement measurement = Rteout.RteOutput(flux[level], q[level], amesh[para.Alevel], smesh[para.Slevel], b[level], vacuum);
+
+            return measurement;
         }
-
-        
-
     }
 }

@@ -19,6 +19,10 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
         public double[] fluence;  //fluence at each node
         public double[][] radiance;  //fluence at each node
         public double[][] uxy;   //rect grid
+        public double[] xloc;     // x cordinates for mapping
+        public double[] yloc;     //y coordinates for mapping
+        public double[] inten;     // data
+        
     }
 }
 

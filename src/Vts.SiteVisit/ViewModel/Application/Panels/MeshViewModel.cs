@@ -46,9 +46,9 @@ namespace Vts.SiteVisit.ViewModel
                 UpdateImages();
             };
 
-            Commands.Maps_PlotMap.Executed += Maps_PlotMap_Executed;
+            Commands.Mesh_PlotMap.Executed += Mesh_PlotMap_Executed;
 
-            Commands.Maps_ExportDataToText.Executed += Maps_ExportDataToText_Executed;
+            Commands.Mesh_ExportDataToText.Executed += Mesh_ExportDataToText_Executed;
         }
 
         public WriteableBitmap Bitmap { get; private set; }
@@ -133,7 +133,7 @@ namespace Vts.SiteVisit.ViewModel
         //    }
         //}
 
-        void Maps_PlotMap_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
+        void Mesh_PlotMap_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
         {
             var mapData = e.Parameter as MapData;
             if (mapData != null)
@@ -143,7 +143,7 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
-        private void Maps_ExportDataToText_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
+        private void Mesh_ExportDataToText_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
         {
             if (_mapData != null && _mapData.RawData != null && _mapData.XValues != null && _mapData.YValues != null)
             {

@@ -135,13 +135,13 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
 
-        public static void SweepOrdering(ref SpatialMesh[] smesh, int nAngle, int sLevel)
+        public static void SweepOrdering(ref SpatialMesh[] smesh, AngularMesh[] amesh, int slevel, int alevel)
         {
             int i, j, k;
             double[][] centOfTri;
-
-
-            for (i = 0; i < sLevel; i++)
+            double[] temp;
+            int[] idxtemp;           
+            for (i = 0; i < slevel; i++)
             {
                 centOfTri = new double[smesh[i].nt][];
                 for (j = 0; j < smesh[i].nt; j++)
@@ -154,10 +154,27 @@ namespace Vts.FemModeling.MGRTE._2D
                             + smesh[i].p[smesh[i].t[j][2]][k]) / 3;
 
                 }
+
+                temp = new double [smesh[i].nt];
+                idxtemp = new int[smesh[i].nt];
+                smesh[i].so = new int[amesh[alevel-1].ns][];
+                for (j = 0; j < amesh[alevel-1].ns; j++)                        
+                    smesh[i].so[j] = new int[smesh[i].nt];
+
+                for (j = 0; j < amesh[alevel-1].ns; j++)
+                {
+                    for (k = 0; k < smesh[i].nt; k++)
+                    {
+                        temp[k] = Math.Cos(amesh[alevel-1].a[j][2]) * centOfTri[k][0] + Math.Sin(amesh[alevel-1].a[j][2]) * centOfTri[k][1];
+                        idxtemp[k] = k;
+                    }
+                    QuickSort(temp, idxtemp, 0, smesh[i].nt - 1);
+                    smesh[i].so[j] = idxtemp;
+                }
             }
         }
 
-        public static void SquareTriMeshToGrid(ref SpatialMesh[] smesh, double[] inten, double[][] uxy, int nxy, int sLevel)
+        public static void SquareTriMeshToGrid(ref SpatialMesh smesh, double[] inten, double[][] uxy, int nxy)
         {
             int i, j, k;
             int np, nt;
@@ -190,15 +207,15 @@ namespace Vts.FemModeling.MGRTE._2D
 
             xmin = 1e10; xmax = -1e10; ymin = 1e10; ymax = -1e10;
 
-            np = smesh[sLevel].np;
-            nt = smesh[sLevel].nt;
+            np = smesh.np;
+            nt = smesh.nt;
 
             for (i = 0; i < np; i++)
             {
-                xmin = Math.Min(smesh[sLevel].p[i][0], xmin);
-                xmax = Math.Max(smesh[sLevel].p[i][0], xmax);
-                ymin = Math.Min(smesh[sLevel].p[i][1], ymin);
-                ymax = Math.Max(smesh[sLevel].p[i][1], ymax);
+                xmin = Math.Min(smesh.p[i][0], xmin);
+                xmax = Math.Max(smesh.p[i][0], xmax);
+                ymin = Math.Min(smesh.p[i][1], ymin);
+                ymax = Math.Max(smesh.p[i][1], ymax);
             }
 
 
@@ -229,21 +246,21 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 xmin = 1e10; xmax = -1e10; ymin = 1e10; ymax = -1e10;
 
-                xmin = Math.Min(smesh[sLevel].p[smesh[sLevel].t[i][0]][0], xmin);
-                xmin = Math.Min(smesh[sLevel].p[smesh[sLevel].t[i][1]][0], xmin);
-                xmin = Math.Min(smesh[sLevel].p[smesh[sLevel].t[i][2]][0], xmin);
+                xmin = Math.Min(smesh.p[smesh.t[i][0]][0], xmin);
+                xmin = Math.Min(smesh.p[smesh.t[i][1]][0], xmin);
+                xmin = Math.Min(smesh.p[smesh.t[i][2]][0], xmin);
 
-                xmax = Math.Max(smesh[sLevel].p[smesh[sLevel].t[i][0]][0], xmax);
-                xmax = Math.Max(smesh[sLevel].p[smesh[sLevel].t[i][1]][0], xmax);
-                xmax = Math.Max(smesh[sLevel].p[smesh[sLevel].t[i][2]][0], xmax);
+                xmax = Math.Max(smesh.p[smesh.t[i][0]][0], xmax);
+                xmax = Math.Max(smesh.p[smesh.t[i][1]][0], xmax);
+                xmax = Math.Max(smesh.p[smesh.t[i][2]][0], xmax);
 
-                ymin = Math.Min(smesh[sLevel].p[smesh[sLevel].t[i][0]][1], ymin);
-                ymin = Math.Min(smesh[sLevel].p[smesh[sLevel].t[i][1]][1], ymin);
-                ymin = Math.Min(smesh[sLevel].p[smesh[sLevel].t[i][2]][1], ymin);
+                ymin = Math.Min(smesh.p[smesh.t[i][0]][1], ymin);
+                ymin = Math.Min(smesh.p[smesh.t[i][1]][1], ymin);
+                ymin = Math.Min(smesh.p[smesh.t[i][2]][1], ymin);
 
-                ymax = Math.Max(smesh[sLevel].p[smesh[sLevel].t[i][0]][1], ymax);
-                ymax = Math.Max(smesh[sLevel].p[smesh[sLevel].t[i][1]][1], ymax);
-                ymax = Math.Max(smesh[sLevel].p[smesh[sLevel].t[i][2]][1], ymax);
+                ymax = Math.Max(smesh.p[smesh.t[i][0]][1], ymax);
+                ymax = Math.Max(smesh.p[smesh.t[i][1]][1], ymax);
+                ymax = Math.Max(smesh.p[smesh.t[i][2]][1], ymax);
 
                 xminArray[i] = xmin;
                 xmaxArray[i] = xmax;
@@ -327,15 +344,6 @@ namespace Vts.FemModeling.MGRTE._2D
             RearrangeArray(ref yminArray, idxyminArray, nt);
             RearrangeArray(ref ymaxArray, idxymaxArray, nt);
 
-            //double[] temp1 = {0.0000, 1.0000,	1.0000,	2.0000,	3.0000,	3.0000,	2.0000,	3.0000,	2.0000,	1.0000,	1.0000,	0.0000,	0.0000,	0.0000,	1.0000,	0.0000};
-            //double[] temp2 = {1.0000, 2.0000,	2.0000,	3.0000,	3.0000,	3.0000,	2.0000,	3.0000,	3.0000,	2.0000,	2.0000,	1.0000,	0.0000,	0.0000,	1.0000,	0.0000};
-            //double[] temp3 = {3.0000, 3.0000,	2.0000,	3.0000,	2.0000,	1.0000,	1.0000,	0.0000,	0.0000,	0.0000,	1.0000,	0.0000,	0.0000,	1.0000,	1.0000,	2.0000};
-            //double[] temp4 = {3.0000, 3.0000,	2.0000,	3.0000,	3.0000,	2.0000,	2.0000,	1.0000,	0.0000,	0.0000,	1.0000,	0.0000,	1.0000,	2.0000,	2.0000,	3.0000};
-
-            //xminArray = temp1;
-            //xmaxArray = temp2;
-            //yminArray = temp3;
-            //ymaxArray = temp4;
 
             tn = new int[nxy][];
             a12 = new double[nxy][];
@@ -361,8 +369,8 @@ namespace Vts.FemModeling.MGRTE._2D
                 {
                     for (j = 0; j < 2; j++)
                     {
-                        a2[j] = smesh[sLevel].p[smesh[sLevel].t[i][1]][j] - smesh[sLevel].p[smesh[sLevel].t[i][0]][j];
-                        a3[j] = smesh[sLevel].p[smesh[sLevel].t[i][2]][j] - smesh[sLevel].p[smesh[sLevel].t[i][0]][j];
+                        a2[j] = smesh.p[smesh.t[i][1]][j] - smesh.p[smesh.t[i][0]][j];
+                        a3[j] = smesh.p[smesh.t[i][2]][j] - smesh.p[smesh.t[i][0]][j];
                     }
 
                     temp = a2[0] * a3[1] - a2[1] * a3[0];
@@ -377,8 +385,8 @@ namespace Vts.FemModeling.MGRTE._2D
                         {
                             if (tn[k][j] == -1)
                             {
-                                r1p[0] = x[j] - smesh[sLevel].p[smesh[sLevel].t[i][0]][0];
-                                r1p[1] = y[k] - smesh[sLevel].p[smesh[sLevel].t[i][0]][1];
+                                r1p[0] = x[j] - smesh.p[smesh.t[i][0]][0];
+                                r1p[1] = y[k] - smesh.p[smesh.t[i][0]][1];
                                 d2 = b2[0] * r1p[0] + b2[1] * r1p[1];
                                 if ((d2 >= -tiny) && (d2 <= 1 + tiny))
                                 {
@@ -403,9 +411,9 @@ namespace Vts.FemModeling.MGRTE._2D
             for (i = 0; i < nxy; i++)
                 for (j = 0; j < nxy; j++)
                 {
-                    tt1 = (1 - a12[i][j] - a13[i][j]) * inten[(int)smesh[sLevel].t[tn[i][j]][0]];
-                    tt2 = a12[i][j] * inten[(int)smesh[sLevel].t[tn[i][j]][1]];
-                    tt3 = a13[i][j] * inten[(int)smesh[sLevel].t[tn[i][j]][2]];
+                    tt1 = (1 - a12[i][j] - a13[i][j]) * inten[(int)smesh.t[tn[i][j]][0]];
+                    tt2 = a12[i][j] * inten[(int)smesh.t[tn[i][j]][1]];
+                    tt3 = a13[i][j] * inten[(int)smesh.t[tn[i][j]][2]];
                     uxy[i][j] = tt1 + tt2 + tt3;
 
                 }
@@ -475,5 +483,406 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
 
+
+        public static void CreateAnglularMesh(ref AngularMesh[] amesh, int aLevel, int aLevel0, double g)
+        {
+            int i,j;
+            for (i = aLevel0-1; i < aLevel; i++)
+            {
+                amesh[i].ns = (int)Math.Pow(2.0, (double)(i+1));
+                amesh[i].a = new double[amesh[i].ns][];
+                amesh[i].w = new double[amesh[i].ns][];
+                for (j = 0; j < amesh[i].ns; j++)
+                {
+                    amesh[i].a[j] = new double[3];
+                    amesh[i].w[j] = new double[amesh[i].ns];
+                }
+                Weight_2D(amesh[i].w, amesh[i].a, amesh[i].ns, g);
+            }
+
+        }
+
+        //hard coded mua
+        public static void SetMua(ref double[][][] ua, int slevel, int nt)
+        {
+            int j, k;
+
+            ua[slevel - 1] = new double[nt][];
+            for (j = 0; j < nt; j++)
+            {
+                ua[slevel - 1][j] = new double[3];
+                for (k = 0; k < 3; k++)
+                    ua[slevel - 1][j][k] = 0.1;
+            }
+        }
+
+        //hard coded mus
+        public static void SetMus(ref double[][][] us, int slevel, int nt)
+        {
+            int j, k;
+
+            us[slevel - 1] = new double[nt][];
+            for (j = 0; j < nt; j++)
+            {
+                us[slevel - 1][j] = new double[3];
+                for (k = 0; k < 3; k++)
+                    us[slevel - 1][j][k] = 100;
+            }
+        }
+
+
+        /// <summary>
+        /// Create a squarte mesh for given spatial mesh level
+        /// </summary>
+        /// <param name="slevel">number of spatial mesh levels</param>
+        public static void CreateSquareMesh(ref SpatialMesh[] smesh, int slevel)
+        {
+            int i;
+            int np, nt, ne;
+
+            //SQUARE MESH
+            np = 5;
+            ne = 4;
+            nt = 4;
+
+            double[][] pts = new double[np][];
+            for (i = 0; i < np; i++)
+                pts[i] = new double[4];
+
+            int[][] edge = new int[ne][];
+            for (i = 0; i < ne; i++)
+                edge[i] = new int[4];
+
+            int[][] tri = new int[nt][];
+            for (i = 0; i < nt; i++)
+                tri[i] = new int[3];
+
+            //create the basic square mesh
+            BasicSquareMesh(pts, edge, tri);
+
+            AssignSpatialMesh(ref smesh, pts, edge, tri, np, ne, nt, 0);
+
+            //string str = "PET" + 0;
+            //str = str + ".txt";
+            //WritePTEData(str, pts, edge, tri, np, ne, nt);
+
+            if (slevel > 0)
+                CreateMultigrid(ref smesh, pts, edge, tri, np, ne, nt, slevel);
+
+        }
+
+        /// <summary>
+        /// Define Basic Square Mesh
+        /// </summary>
+        /// <param name="pts">points data</param>
+        /// <param name="edge">edge data</param>
+        /// <param name="tri">triangle data</param>
+        public static void BasicSquareMesh(
+            double[][] pts,
+            int[][] edge,
+            int[][] tri)
+        {
+            pts[0][0] = -1; pts[0][1] = 1; pts[0][2] = 0; pts[0][3] = 1;
+            pts[1][0] = 1; pts[1][1] = 1; pts[1][2] = 1; pts[1][3] = 1;
+            pts[2][0] = 1; pts[2][1] = -1; pts[2][2] = 2; pts[2][3] = 1;
+            pts[3][0] = -1; pts[3][1] = -1; pts[3][2] = 3; pts[3][3] = 1;
+            pts[4][0] = 0; pts[4][1] = 0; pts[4][2] = 4; pts[4][3] = 0;
+
+            edge[0][0] = -1; edge[0][1] = (int)pts[0][2]; edge[0][2] = (int)pts[1][2]; edge[0][3] = -1;
+            edge[1][0] = -1; edge[1][1] = (int)pts[1][2]; edge[1][2] = (int)pts[2][2]; edge[1][3] = -1;
+            edge[2][0] = -1; edge[2][1] = (int)pts[2][2]; edge[2][2] = (int)pts[3][2]; edge[2][3] = -1;
+            edge[3][0] = -1; edge[3][1] = (int)pts[3][2]; edge[3][2] = (int)pts[0][2]; edge[3][3] = -1;
+
+            tri[0][0] = (int)pts[0][2]; tri[0][1] = (int)pts[1][2]; tri[0][2] = (int)pts[4][2];
+            tri[1][0] = (int)pts[1][2]; tri[1][1] = (int)pts[2][2]; tri[1][2] = (int)pts[4][2];
+            tri[2][0] = (int)pts[2][2]; tri[2][1] = (int)pts[3][2]; tri[2][2] = (int)pts[4][2];
+            tri[3][0] = (int)pts[3][2]; tri[3][1] = (int)pts[0][2]; tri[3][2] = (int)pts[4][2];
+        }
+
+
+        /// <summary>
+        /// Create Multigrid based on spatial mesh level
+        /// </summary>
+        /// <param name="p">points data</param>
+        /// <param name="t">edge data</param>
+        /// <param name="e">edge data</param>
+        /// <param name="np">number of points</param>
+        /// <param name="nt">number of triangles</param>
+        /// <param name="ne">number of edges</param>
+        ///  <param name="nebound">number of boundary edges</param>
+        /// <param name="slevel">spatial mesh levels</param>
+        public static void CreateMultigrid(ref SpatialMesh[] smesh, double[][] p, int[][] e, int[][] t, int np, int ne, int nt, int slevel)
+        {
+            int i, j, nt2, ne2, np2, npt, trint;
+
+            //Input arrays
+            double[][] oldp = p;
+            int[][] oldt = t;
+            int[][] olde = e;
+
+            //char[] str[80];
+            //char[] level[4];	       
+
+            for (j = 1; j < slevel; j++)
+            {
+                //npt gets the total number of point after division
+                npt = 0;
+
+                trint = 3 * nt;
+
+                double[][] ptemp = new double[trint][];
+                for (i = 0; i < trint; i++)
+                    ptemp[i] = new double[6];
+
+                FindPTemp(ptemp, oldp, oldt, nt);
+                ReindexingPTemp(ptemp, ref npt, trint, np);
+
+                np2 = npt;
+                ne2 = 2 * ne;
+                nt2 = 4 * nt;
+
+                double[][] newp = new double[np2][];
+                for (i = 0; i < np2; i++)
+                    newp[i] = new double[4];
+
+                int[][] newe = new int[ne2][];
+                for (i = 0; i < ne2; i++)
+                    newe[i] = new int[4];
+
+                int[][] newt = new int[nt2][];
+                for (i = 0; i < nt2; i++)
+                    newt[i] = new int[3];
+
+                NewPET(newp, oldp, newe, newt, oldt, ptemp, np, nt, trint);
+
+                //Update np, nt and ne
+                np = np2;
+                ne = ne2;
+                nt = nt2;
+
+                //Assign output arrays to input arrays
+                oldp = newp;
+                olde = newe;
+                oldt = newt;
+
+                //string str = "PET" + j;
+                //str = str + ".txt";
+                //WritePTEData(str, newp, newe, newt, np, ne, nt);
+
+                AssignSpatialMesh(ref smesh, oldp, olde, oldt, np, ne, nt, j);
+            }
+        }
+
+        public static void FindPTemp(double[][] ptemp, double[][] p, int[][] t, int nt)
+        {
+            int i;
+            int p0, p1, p2;
+
+            for (i = 0; i < nt; i++)
+            {
+                //x cordinates
+                ptemp[3 * i][0] = 0.5 * (p[t[i][0]][0] + p[t[i][1]][0]);
+                ptemp[3 * i + 1][0] = 0.5 * (p[t[i][0]][0] + p[t[i][2]][0]);
+                ptemp[3 * i + 2][0] = 0.5 * (p[t[i][1]][0] + p[t[i][2]][0]);
+
+                //y cordinates
+                ptemp[3 * i][1] = 0.5 * (p[t[i][0]][1] + p[t[i][1]][1]);
+                ptemp[3 * i + 1][1] = 0.5 * (p[t[i][0]][1] + p[t[i][2]][1]);
+                ptemp[3 * i + 2][1] = 0.5 * (p[t[i][1]][1] + p[t[i][2]][1]);
+
+                //P index - initialize to negative values
+                ptemp[3 * i][2] = -1;
+                ptemp[3 * i + 1][2] = -1;
+                ptemp[3 * i + 2][2] = -1;
+
+                //find the edge vertex of a triangle
+                p0 = (int)p[t[i][0]][3];
+                p1 = (int)p[t[i][1]][3];
+                p2 = (int)p[t[i][2]][3];
+
+                if (p0 + p1 == 2)
+                {
+                    ptemp[3 * i][3] = 1;
+                    ptemp[3 * i][4] = p[t[i][0]][2];
+                    ptemp[3 * i][5] = p[t[i][1]][2];
+                }
+                else if (p0 + p2 == 2)
+                {
+                    ptemp[3 * i + 1][3] = 1;
+                    ptemp[3 * i + 1][4] = p[t[i][0]][2];
+                    ptemp[3 * i + 1][5] = p[t[i][2]][2];
+                }
+                else if (p1 + p2 == 2)
+                {
+                    ptemp[3 * i + 2][3] = 1;
+                    ptemp[3 * i + 2][4] = p[t[i][1]][2];
+                    ptemp[3 * i + 2][5] = p[t[i][2]][2];
+                }
+            }
+
+        }
+
+        public static void ReindexingPTemp(double[][] ptemp, ref int count, int trint, int np)
+        {
+            int i, j;
+
+            count = np;
+            for (i = 0; i < trint - 1; i++)
+            {
+                for (j = i + 1; j < trint; j++)
+                {
+                    if (ptemp[i][0] == ptemp[j][0])
+                        if (ptemp[i][1] == ptemp[j][1])
+                        {
+                            ptemp[j][2] = count;
+                            ptemp[i][2] = count;
+                            count++;
+                        }
+                }
+            }
+            for (i = 0; i < trint; i++)
+            {
+                if (ptemp[i][2] < 0)
+                {
+                    ptemp[i][2] = count;
+                    count++;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Assign P E T
+        /// </summary>
+        /// <param name="newp"></param>
+        /// <param name="newe"></param>
+        /// <param name="newt"></param>
+        /// <param name="oldt"></param>
+        /// <param name="ptemp"></param>
+        /// <param name="np"></param>
+        /// <param name="nt"></param>
+        /// <param name="trint"></param>
+        public static void NewPET(double[][] newp, double[][] oldp, int[][] newe, int[][] newt, int[][] oldt, double[][] ptemp, int np, int nt, int trint)
+        {
+            int i, count;
+
+            //Assign P
+            for (i = 0; i < np; i++)
+            {
+                count = (int)oldp[i][2];
+                newp[count][0] = oldp[i][0];
+                newp[count][1] = oldp[i][1];
+                newp[count][2] = oldp[i][2];
+                newp[count][3] = oldp[i][3];
+            }
+
+            for (i = 0; i < trint; i++)
+            {
+                count = (int)ptemp[i][2];
+                newp[count][0] = ptemp[i][0];
+                newp[count][1] = ptemp[i][1];
+                newp[count][2] = ptemp[i][2];
+                newp[count][3] = ptemp[i][3];
+            }
+
+
+            //Assign E
+            count = 0;
+            for (i = 0; i < trint; i++)
+            {
+                if (ptemp[i][3] == 1)
+                {
+                    newe[count][0] = -1;
+                    newe[count][1] = (int)ptemp[i][4];
+                    newe[count][2] = (int)ptemp[i][2];
+                    newe[count][3] = -1;
+                    count++;
+                    newe[count][0] = -1;
+                    newe[count][1] = (int)ptemp[i][2];
+                    newe[count][2] = (int)ptemp[i][5];
+                    newe[count][3] = -1;
+                    count++;
+                }
+            }
+
+            //Assign T
+            for (i = 0; i < nt; i++)
+            {
+                newt[4 * i][0] = oldt[i][0]; newt[4 * i][1] = (int)ptemp[3 * i + 1][2]; newt[4 * i][2] = (int)ptemp[3 * i][2];
+                newt[4 * i + 3][0] = oldt[i][1]; newt[4 * i + 3][1] = (int)ptemp[3 * i][2]; newt[4 * i + 3][2] = (int)ptemp[3 * i + 2][2];
+                newt[4 * i + 2][0] = oldt[i][2]; newt[4 * i + 2][1] = (int)ptemp[3 * i + 2][2]; newt[4 * i + 2][2] = (int)ptemp[3 * i + 1][2];
+                newt[4 * i + 1][0] = (int)ptemp[3 * i][2]; newt[4 * i + 1][1] = (int)ptemp[3 * i + 1][2]; newt[4 * i + 1][2] = (int)ptemp[3 * i + 2][2];
+            }
+        }
+
+
+
+        public static void AssignSpatialMesh(ref SpatialMesh[] smesh, double[][] p, int[][] e, int[][] t, int np, int ne, int nt, int level)
+        {
+            int i, j, k;
+
+            smesh[level].np = np;
+            smesh[level].ne = ne;
+            smesh[level].nt = nt;
+
+            smesh[level].p = new double[np][];
+            for (i = 0; i < np; i++)
+            {
+                smesh[level].p[i] = new double[2];
+                for (j = 0; j < 2; j++)
+                    smesh[level].p[i][j] = p[i][j];
+            }
+
+            smesh[level].t = new int[nt][];
+            for (i = 0; i < nt; i++)
+            {
+                smesh[level].t[i] = new int[3];
+                for (j = 0; j < 3; j++)
+                    smesh[level].t[i][j] = t[i][j];
+            }
+
+
+            smesh[level].e = new int[ne][];
+            for (i = 0; i < ne; i++)
+            {
+                smesh[level].e[i] = new int[4];
+                for (j = 0; j < 4; j++)
+                    smesh[level].e[i][j] = e[i][j];
+            }
+
+        }
+
+        ///// <summary>
+        ///// Write output data (for debugging ONLY)
+        ///// </summary>
+        ///// <param name="filename"></param>
+        ///// <param name="p"></param>
+        ///// <param name="t"></param>
+        ///// <param name="e"></param>
+        ///// <param name="np"></param>
+        ///// <param name="nt"></param>
+        ///// <param name="ne"></param>
+        //public static void WritePTEData(string filename, double[][] p, int[][] e, int[][] t, int np, int ne, int nt)
+        //{
+        //    int i, j;
+        //    StreamWriter writer;
+
+        //    writer = new StreamWriter(filename);
+        //    writer.Write("{0}\t", np);
+        //    writer.Write("{0}\t", ne);
+        //    writer.Write("{0}\t", nt);
+
+        //    //write nodal points
+        //    for (i = 0; i < np; i++)
+        //        writer.Write("{0}\t{1}\t", p[i][0], p[i][1]);
+        //    //Write Egde indices
+        //    for (i = 0; i < ne; i++)
+        //        writer.Write("{0}\t{1}\t", e[i][0], e[i][1]);
+        //    //Write triangle indices
+        //    for (i = 0; i < nt; i++)
+        //        writer.Write("{0}\t{1}\t{2}\t", t[i][0], t[i][1], t[i][2]);
+
+        //    writer.Close();
+        //}
+               
     }
 }

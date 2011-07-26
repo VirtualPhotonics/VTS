@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Vts.FemModeling.MGRTE._2D;
 using GalaSoft.MvvmLight.Command;
 using Vts.SiteVisit.Input;
+using Vts.FemModeling.MGRTE._2D.DataStructures;
+using Vts.SiteVisit.Model;
 
 namespace Vts.SiteVisit.ViewModel
 {
@@ -11,10 +14,11 @@ namespace Vts.SiteVisit.ViewModel
 
         public FemSolverViewModel(Parameters parameters)
         {
+            _parameters = parameters;
+
             Commands.FEM_ExecuteFemSolver.Executed += FEM_ExecuteFemSolver_Executed;
 
-            ExecuteFemSolverCommand = new RelayCommand(() => FEM_ExecuteFemSolver_Executed(null, null));
-    
+            ExecuteFemSolverCommand = new RelayCommand(() => FEM_ExecuteFemSolver_Executed(null, null));    
         }
 
 
@@ -39,7 +43,6 @@ namespace Vts.SiteVisit.ViewModel
         {
         }
 
-
         public RelayCommand ExecuteFemSolverCommand { get; private set; }
 
         public Parameters Parameters
@@ -48,6 +51,7 @@ namespace Vts.SiteVisit.ViewModel
             set
             {
                 _parameters = value;
+                OnPropertyChanged("Parameters");
             }
         }
 
@@ -64,7 +68,18 @@ namespace Vts.SiteVisit.ViewModel
             //       starting from "0" to "nt-1" with increasing "x" coordinate;
             //       the top boundary with bigger "x" is labeled as "1" and the bottom as "0";
             //       in each interval, the node with the smaller "x" is labeled as "0" and the node with the bigger "x" is labeled as "1".
-            SolverMGRTE.ExecuteMGRTE(_parameters);
+            Measurement measurement = SolverMGRTE.ExecuteMGRTE(_parameters);
+
+            // intensity from FEM solution
+            var destinationArray = measurement.inten;
+
+            // todo: replace with measurement members to get 1D arrays of x and y spans
+            var xs = new double[measurement.xloc.Distinct().Count()];
+            var ys = new double[measurement.yloc.Distinct().Count()];
+
+            var mapData = new MapData(destinationArray, xs, ys);
+
+            Commands.Mesh_PlotMap.Execute(mapData);
         }
     }
 }

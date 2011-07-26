@@ -11,9 +11,9 @@ namespace Vts.FemModeling.MGRTE._2D
     /// </summary>
     class MultiGridCycle
     {
-        
+
         private double Pi = GlobalConstants.Pi;
-                    
+
         public void Boundary(int ne, int nt, int[][] t, int[][] p2, double[][] p, int[][] e, int[][] e2, int[][] so2, double[][] n, int[] ori)
         // Purpose: this function is to compute "e", "e2", "so2", "n", "sn" and "ori" with the data structure as follow:
         //
@@ -38,8 +38,8 @@ namespace Vts.FemModeling.MGRTE._2D
             for (i = 0; i < nt; i++)
             {
                 for (j = 0; j < 3; j++)
-                { 
-                    so2[i][j] = -1; 
+                {
+                    so2[i][j] = -1;
                 }
             }
             for (i = 0; i < ne; i++)
@@ -53,8 +53,8 @@ namespace Vts.FemModeling.MGRTE._2D
                     for (k = 0; k < 3; k++)
                     {
                         if (e[i][j + 1] == t[tri][k])
-                        { 
-                            e2[i][j] = k; goto stop; 
+                        {
+                            e2[i][j] = k; goto stop;
                         }
                     }
                 stop: ;
@@ -69,15 +69,15 @@ namespace Vts.FemModeling.MGRTE._2D
                         goto stop2;
                     }
                 }
-                stop2: ;
+            stop2: ;
 
                 // The following is to compute outgoing vector "n" on the boundary
                 nx = -(p[e[i][1]][1] - p[e[i][2]][1]);
                 ny = p[e[i][1]][0] - p[e[i][2]][0];
                 ori[i] = 1;
                 if (nx * (p[e[i][3]][0] - p[e[i][2]][0]) + ny * (p[e[i][3]][1] - p[e[i][2]][1]) > 0)// the normal is incoming.
-                { 
-                    nx = -nx; ny = -ny; ori[i] = 0; 
+                {
+                    nx = -nx; ny = -ny; ori[i] = 0;
                 }
                 temp = Math.Sqrt(nx * nx + ny * ny);
                 n[i][0] = nx / temp; n[i][1] = ny / temp;
@@ -89,7 +89,7 @@ namespace Vts.FemModeling.MGRTE._2D
         // Purpose: this fucntion is to find the coupling relation between directions on the boundary
         //          due to reflection and refraction in the presence of refraction index mismatch at the boundary.
         //          For the data structure of "b", see "struct boundarycoupling" in "solver".
-        {            
+        {
             int i, j;
             int[] sign = new int[2] { -1, 1 };
             double dx, dy, sn, dtheta = 2 * Pi / ns, ratio_reflection, ratio_refraction;
@@ -101,7 +101,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 dx = smesh.p[smesh.e[i][1]][0] - smesh.p[smesh.e[i][2]][0];
                 dy = smesh.p[smesh.e[i][1]][1] - smesh.p[smesh.e[i][2]][1];
                 if (smesh.ori[i] == 0)
-                { 
+                {
                     dx = -dx; dy = -dy; // to make sure that (dx,dy) goes clockwisely.
                 }
                 for (j = 0; j < ns; j++)
@@ -241,7 +241,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
             }
         }
-        
+
 
         private void CtoF_s2(int nt_c, double[][] f, double[][] cf2, int[][] smap, double[][][][] cf)
         // Purpose: this function describes spatial coarse-to-fine operator by linear interpolation for piecewise linear DG.
@@ -316,7 +316,7 @@ namespace Vts.FemModeling.MGRTE._2D
                         {
                             temp[ii] = 0;
                             for (k = 0; k < amesh.ns; k++)
-                            { temp[ii] += amesh.w[i, k] * flux[k][j][ii]; }
+                            { temp[ii] += amesh.w[i][k] * flux[k][j][ii]; }
                         }
 
                         source_corr = smesh.a[j] / 12;
@@ -417,7 +417,7 @@ namespace Vts.FemModeling.MGRTE._2D
                         {
                             temp[ii] = 0;
                             for (k = 0; k < amesh.ns; k++)
-                            { temp[ii] += amesh.w[i, k] * flux[k][j][ii]; }
+                            { temp[ii] += amesh.w[i][k] * flux[k][j][ii]; }
                         }
 
                         source_corr = smesh.a[j] / 12;
@@ -603,8 +603,8 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
 
-       
-        
+
+
 
         private int FindTri(int tri, int[] pt1, int[] pt2)
         // Purpose: this function is find the adjacent triangle of the current triangle "tri"
@@ -649,7 +649,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
             }
         stop: return tri;
-        }        
+        }
 
 
         public void FtoC(int nt_c, int ns_c, double[][][] flux, double[][][] cflux, int[][] smap, double[][][][] fc)
@@ -675,7 +675,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
             }
         }
-                
+
 
         public void FtoC_a(int nt, int ns_c, double[][][] flux, double[][][] cflux)
         // Purpose: this function describes angular fine-to-coarse operator by simple restriction.
@@ -693,7 +693,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
             }
         }
-                
+
 
         public void FtoC_s(int nt_c, int ns, double[][][] flux, double[][][] cflux, int[][] smap, double[][][][] fc)
         // Purpose: this function describes spatial fine-to-coarse operator by L2 projection for piecewise linear DG.
@@ -740,10 +740,10 @@ namespace Vts.FemModeling.MGRTE._2D
             }
         }
 
-        
+
         private void MatrixAbsorb(double a, double b, double c, double dettri, double[,] matrix)
         //Purpose of this matrix to assign absorption terms to the matrix
-        {            
+        {
             matrix[0, 0] = dettri / 60 * (3 * a + b + c);
             matrix[0, 1] = dettri / 120 * (2 * a + 2 * b + c);
             matrix[0, 2] = dettri / 120 * (2 * a + b + 2 * c);
@@ -758,7 +758,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
         private void MatrixConvec(double a, double b, double[,] matrix)
         //Purpose of this matrix to assign convection terms to the matrix
-        {            
+        {
             matrix[0, 0] = (a + b) / 6;
             matrix[0, 1] = matrix[0, 0];
             matrix[0, 2] = matrix[0, 0];
@@ -781,12 +781,12 @@ namespace Vts.FemModeling.MGRTE._2D
             if (A[0, 0] == 0)
             {
                 if (A[1, 0] == 0)
-                { 
-                    ind[0] = 2; ind[2] = 0; 
+                {
+                    ind[0] = 2; ind[2] = 0;
                 }
                 else
-                { 
-                    ind[0] = 1; ind[1] = 0; 
+                {
+                    ind[0] = 1; ind[1] = 0;
                 }
             }
 
@@ -804,8 +804,8 @@ namespace Vts.FemModeling.MGRTE._2D
                     temp = A[ind[i], 0];
                     B[ind[i]] = B[ind[i]] / temp - B[ind[0]];
                     for (j = 0; j < 3; j++)
-                    { 
-                        A[ind[i], j] = A[ind[i], j] / temp - A[ind[0], j]; 
+                    {
+                        A[ind[i], j] = A[ind[i], j] / temp - A[ind[0], j];
                     }
                 }
             }
@@ -824,8 +824,8 @@ namespace Vts.FemModeling.MGRTE._2D
                 temp = A[ind[2], 1];
                 B[ind[2]] = B[ind[2]] / temp - B[ind[1]];
                 for (j = 1; j < 3; j++)
-                { 
-                    A[ind[2], j] = A[ind[2], j] / temp - A[ind[1], j]; 
+                {
+                    A[ind[2], j] = A[ind[2], j] / temp - A[ind[1], j];
                 }
             }
 
@@ -835,7 +835,7 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
 
-        public double MgCycle(AngularMesh[] amesh, SpatialMesh[] smesh, BoundaryCoupling[] b, double[][][][] q, 
+        public double MgCycle(AngularMesh[] amesh, SpatialMesh[] smesh, BoundaryCoupling[] b, double[][][][] q,
             double[][][][] RHS, double[][][] ua, double[][][] us, double[][][][] flux, double[][][][] d,
             int n1, int n2, int alevel, int alevel0, int slevel, int slevel0, int NS, int vacuum, int whichmg)
 
@@ -851,10 +851,10 @@ namespace Vts.FemModeling.MGRTE._2D
         {
             int i, ns, nt, da, ds, level = -1;
             double res = 1e10;
- 
+
             nt = smesh[slevel].nt;
             ns = amesh[alevel].ns;
-            ds = slevel - slevel0; 
+            ds = slevel - slevel0;
             da = alevel - alevel0;
 
             switch (whichmg)
@@ -880,7 +880,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 case 7: //MG4_s:
                     level = ds + da;
                     break;
-            }                      
+            }
 
             for (i = 0; i < n1; i++)
             {
@@ -898,7 +898,7 @@ namespace Vts.FemModeling.MGRTE._2D
                             Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
                             res = Residual(nt, ns, d[level], smesh[slevel].a);
                             FtoC_a(nt, amesh[alevel - 1].ns, d[level], RHS[level - 1]);
-                            MgCycle(amesh, smesh,  b, q, RHS, ua, us, flux, d, n1, n2, alevel, alevel0, slevel -  1, slevel0, NS, vacuum, whichmg);
+                            MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel, alevel0, slevel - 1, slevel0, NS, vacuum, whichmg);
                             CtoF_a(nt, amesh[alevel - 1].ns, flux[level], flux[level - 1]);
                         }
                     }
@@ -1084,7 +1084,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 Relaxation(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], vacuum);
             }
 
-            return res;            
+            return res;
         }
 
         private double Mod2pi(double x)
@@ -1211,9 +1211,9 @@ namespace Vts.FemModeling.MGRTE._2D
                         MatrixConvec(a, b, matrix1);
 
                         // matrix2: absorption term
-                        a = ua[tri][0] + (1 - amesh.w[i, i]) * us[tri][0];
-                        b = ua[tri][1] + (1 - amesh.w[i, i]) * us[tri][1];
-                        c = ua[tri][2] + (1 - amesh.w[i, i]) * us[tri][2];
+                        a = ua[tri][0] + (1 - amesh.w[i][i]) * us[tri][0];
+                        b = ua[tri][1] + (1 - amesh.w[i][i]) * us[tri][1];
+                        c = ua[tri][2] + (1 - amesh.w[i][i]) * us[tri][2];
                         MatrixAbsorb(a, b, c, dettri, matrix2);
 
                         // left[][]: convection+absorption
@@ -1229,9 +1229,9 @@ namespace Vts.FemModeling.MGRTE._2D
                             temp[ii] = 0;
                             for (k = 0; k < ns; k++)
                             {
-                                temp[ii] += amesh.w[i, k] * flux[k][tri][ii];
+                                temp[ii] += amesh.w[i][k] * flux[k][tri][ii];
                             }
-                            temp[ii] += -amesh.w[i, i] * flux[i][tri][ii];
+                            temp[ii] += -amesh.w[i][i] * flux[i][tri][ii];
                         }
 
                         source_corr = smesh.a[tri] / 12;
@@ -1313,9 +1313,9 @@ namespace Vts.FemModeling.MGRTE._2D
                         b = cosi * (smesh.p[smesh.t[tri][0]][1] - smesh.p[smesh.t[tri][1]][1]) + sini * (smesh.p[smesh.t[tri][1]][0] - smesh.p[smesh.t[tri][0]][0]);
                         MatrixConvec(a, b, matrix1);
 
-                        a = ua[tri][0] + (1 - amesh.w[i, i]) * us[tri][0];
-                        b = ua[tri][1] + (1 - amesh.w[i, i]) * us[tri][1];
-                        c = ua[tri][2] + (1 - amesh.w[i, i]) * us[tri][2];
+                        a = ua[tri][0] + (1 - amesh.w[i][i]) * us[tri][0];
+                        b = ua[tri][1] + (1 - amesh.w[i][i]) * us[tri][1];
+                        c = ua[tri][2] + (1 - amesh.w[i][i]) * us[tri][2];
                         MatrixAbsorb(a, b, c, dettri, matrix2);
 
                         for (ii = 0; ii < 3; ii++)
@@ -1329,9 +1329,9 @@ namespace Vts.FemModeling.MGRTE._2D
                             temp[ii] = 0;
                             for (k = 0; k < ns; k++)
                             {
-                                temp[ii] += amesh.w[i, k] * flux[k][tri][ii];
+                                temp[ii] += amesh.w[i][k] * flux[k][tri][ii];
                             }
-                            temp[ii] += -amesh.w[i, i] * flux[i][tri][ii];
+                            temp[ii] += -amesh.w[i][i] * flux[i][tri][ii];
                         }
 
                         source_corr = smesh.a[tri] / 12;
@@ -1386,10 +1386,10 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
 
-        public double Residual(int nt, int ns, double[][][] d, double []a)
+        public double Residual(int nt, int ns, double[][][] d, double[] a)
         // Purpose: this function is to compute the residual.
         {
-            double res = 0,temp;
+            double res = 0, temp;
             int i, j, k;
 
             for (i = 0; i < nt; i++)
@@ -1665,7 +1665,7 @@ namespace Vts.FemModeling.MGRTE._2D
                     }
                 }
             }
-        }        
+        }
 
     }
 }

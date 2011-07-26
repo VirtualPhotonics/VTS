@@ -11,53 +11,53 @@ namespace Vts.FemModeling.MGRTE._2D
     {
         public static void Initial(
             ref AngularMesh[] amesh,
-            ref SpatialMesh[] smesh, 
+            ref SpatialMesh[] smesh,
             ref double[][][][] flux,
-            ref double[][][][] d, 
+            ref double[][][][] d,
             ref double[][][][] RHS,
-            ref double[][][][] q, 
-            ref int[][] noflevel, 
-            ref BoundaryCoupling[] b, 
-            int level, 
-            int whichmg, 
-            int vacuum, 
-            double index_i, 
-            double index_o, 
-            int alevel, 
+            ref double[][][][] q,
+            ref int[][] noflevel,
+            ref BoundaryCoupling[] b,
+            int level,
+            int whichmg,
+            int vacuum,
+            double index_i,
+            double index_o,
+            int alevel,
             int alevel0,
-            int slevel, 
+            int slevel,
             int slevel0,
-            double[][][] ua, 
+            double[][][] ua,
             double[][][] us,
             MultiGridCycle Mgrid)
         {
-           
 
-             //Purpose: in this function, we load the following four ".txt" files:
-             //             1) "amesh.txt": "ns", "a" and "w" for angular mesh
-             //             3) "ua.txt": absorption coefficient
-             //             4) "us.txt": scattering coefficient
-            
-             //         we first load the mesh files:
-             //             1.1. "amesh.txt": "ns", "a" and "w" for angular mesh
-            
-             //         and then we compute the following for spatial mesh:
-             //             2.1. "smap", "cf" and "fc"
-            
-             //         and finally malloc the following for multigrid algorithm:
-             //             3.1. "noflevel"
-             //             3.2. "ua", "us", "flux", "RHS", "d" and "q"
-             //             3.3.  "b"
+
+            //Purpose: in this function, we load the following four ".txt" files:
+            //             1) "amesh.txt": "ns", "a" and "w" for angular mesh
+            //             3) "ua.txt": absorption coefficient
+            //             4) "us.txt": scattering coefficient
+
+            //         we first load the mesh files:
+            //             1.1. "amesh.txt": "ns", "a" and "w" for angular mesh
+
+            //         and then we compute the following for spatial mesh:
+            //             2.1. "smap", "cf" and "fc"
+
+            //         and finally malloc the following for multigrid algorithm:
+            //             3.1. "noflevel"
+            //             3.2. "ua", "us", "flux", "RHS", "d" and "q"
+            //             3.3.  "b"
 
             int tempsize = 20, tempsize2 = 20;
-            int i, j, k,m, n, nt, np, ne, ns, da = alevel - alevel0, ds = slevel - slevel0;
-            double x1,x2,x3,y1,y2,y3;
+            int i, j, k, m, n, nt, np, ne, ns, da = alevel - alevel0, ds = slevel - slevel0;
+            double x1, x2, x3, y1, y2, y3;
             int[][] t;
             int[][] e;
             int[][] p2;
             int[][] smap;
             double[][] p;
-                                                   
+
 
             // 2.1. compute "c", "ec", "a" and "p2"
             //      p2[np][p2[np][0]+1]: triangles adjacent to one node
@@ -72,10 +72,10 @@ namespace Vts.FemModeling.MGRTE._2D
                 smesh[i].c = new double[nt][];
                 for (j = 0; j < nt; j++)
                 {
-                    smesh[i].c[j] = new double[2];                    
+                    smesh[i].c[j] = new double[2];
                     for (k = 0; k < 2; k++)
-                    { 
-                        smesh[i].c[j][k] = (p[t[j][0]][k] + p[t[j][1]][k] + p[t[j][2]][k]) / 3; 
+                    {
+                        smesh[i].c[j][k] = (p[t[j][0]][k] + p[t[j][1]][k] + p[t[j][2]][k]) / 3;
                     }// center of triangle
                 }
 
@@ -96,15 +96,15 @@ namespace Vts.FemModeling.MGRTE._2D
                     smesh[i].a[j] = MathFunctions.Area(x1, y1, x2, y2, x3, y3);//area of triangle
                 }
 
-                p2 = new int[np][];               
+                p2 = new int[np][];
                 for (j = 0; j < np; j++)
                 {
                     p2[j] = new int[tempsize];
                     // tempsize is the initial length of the second index of "p2", and it may cause problem if it is too small.
                     p2[j][0] = 0;
                     for (k = 1; k < tempsize; k++)
-                    { 
-                        p2[j][k] = -1; 
+                    {
+                        p2[j][k] = -1;
                     }
                 }
 
@@ -132,7 +132,7 @@ namespace Vts.FemModeling.MGRTE._2D
                     smesh[i].p2[j] = new int[(p2[j][0] + 1)];
                     for (k = 0; k <= p2[j][0]; k++)
                     { smesh[i].p2[j][k] = p2[j][k]; }
-                }               
+                }
             }
 
             // 2.2. compute "smap", "cf" and "fc"
@@ -142,7 +142,7 @@ namespace Vts.FemModeling.MGRTE._2D
             //      since they are always saved on the fine level instead of the coarse level.
             for (i = 1; i <= slevel; i++)
             {
-                smap = new int [smesh[i - 1].nt][];
+                smap = new int[smesh[i - 1].nt][];
                 for (j = 0; j < smesh[i - 1].nt; j++)
                 {
                     smap[j] = new int[tempsize2];
@@ -162,10 +162,10 @@ namespace Vts.FemModeling.MGRTE._2D
                     }
                 }
 
-                smesh[i].smap = new int [smesh[i - 1].nt][];
+                smesh[i].smap = new int[smesh[i - 1].nt][];
                 for (j = 0; j < smesh[i - 1].nt; j++)
                 {
-                    smesh[i].smap[j] = new int [smap[j][0] + 1];
+                    smesh[i].smap[j] = new int[smap[j][0] + 1];
                     for (k = 0; k <= smap[j][0]; k++)
                     { smesh[i].smap[j][k] = smap[j][k]; }
                 }
@@ -177,7 +177,7 @@ namespace Vts.FemModeling.MGRTE._2D
                     smesh[i].cf[j] = new double[3][][];
                     for (k = 0; k < 3; k++)
                     {
-                        smesh[i].cf[j][k] = new double[smesh[i].smap[j][0]][]; 
+                        smesh[i].cf[j][k] = new double[smesh[i].smap[j][0]][];
                         for (m = 0; m < smesh[i].smap[j][0]; m++)
                         { smesh[i].cf[j][k][m] = new double[3]; ; }
                     }
@@ -200,10 +200,10 @@ namespace Vts.FemModeling.MGRTE._2D
             //      For the data structure of "eo", "e2","so2", "n" and "ori", see "boundary".
             for (i = 0; i <= slevel; i++)
             {
-                smesh[i].e2 = new int [smesh[i].ne][];
+                smesh[i].e2 = new int[smesh[i].ne][];
                 for (j = 0; j < smesh[i].ne; j++)
                 { smesh[i].e2[j] = new int[2]; }
-                smesh[i].so2 = new int [smesh[i].nt][];
+                smesh[i].so2 = new int[smesh[i].nt][];
                 for (j = 0; j < smesh[i].nt; j++)
                 { smesh[i].so2[j] = new int[3]; }
                 smesh[i].n = new double[smesh[i].ne][];
@@ -221,10 +221,10 @@ namespace Vts.FemModeling.MGRTE._2D
                 smesh[i].bd = new int[amesh[alevel].ns][][];
                 for (j = 0; j < amesh[alevel].ns; j++)
                 {
-                    smesh[i].bd[j] = new int [smesh[i].nt][];;
+                    smesh[i].bd[j] = new int[smesh[i].nt][]; ;
                     for (k = 0; k < smesh[i].nt; k++)
                     {
-                        smesh[i].bd[j][k] = new int [9];
+                        smesh[i].bd[j][k] = new int[9];
                         for (m = 0; m < 9; m++)
                         { smesh[i].bd[j][k][m] = -1; }
                     }
@@ -232,19 +232,19 @@ namespace Vts.FemModeling.MGRTE._2D
             }
             for (i = 0; i <= slevel; i++)
             {
-                smesh[i].bd2 = new double [amesh[alevel].ns][][];
+                smesh[i].bd2 = new double[amesh[alevel].ns][][];
                 for (j = 0; j < amesh[alevel].ns; j++)
                 {
                     smesh[i].bd2[j] = new double[smesh[i].nt][];
                     for (k = 0; k < smesh[i].nt; k++)
-                    { smesh[i].bd2[j][k] = new double[3];}
+                    { smesh[i].bd2[j][k] = new double[3]; }
                 }
             }
             for (i = 0; i <= slevel; i++)
             {
                 for (j = 0; j < amesh[alevel].ns; j++)
-                { 
-                    Mgrid.EdgeTri(smesh[i].nt, amesh[alevel].a[j], smesh[i].p, smesh[i].p2, smesh[i].t, smesh[i].bd[j], smesh[i].bd2[j], smesh[i].so2); 
+                {
+                    Mgrid.EdgeTri(smesh[i].nt, amesh[alevel].a[j], smesh[i].p, smesh[i].p2, smesh[i].t, smesh[i].bd[j], smesh[i].bd2[j], smesh[i].so2);
                 }
             }
 
@@ -345,8 +345,8 @@ namespace Vts.FemModeling.MGRTE._2D
                         {
                             noflevel[ds - da + 2 * i - 1][0] = slevel0 + ds - da + i;
                             noflevel[ds - da + 2 * i - 1][1] = alevel0 + i - 1;
-                            noflevel[ds - da + 2 * i]    [0] = slevel0 + ds - da + i;
-                            noflevel[ds - da + 2 * i]    [1] = alevel0 + i;
+                            noflevel[ds - da + 2 * i][0] = slevel0 + ds - da + i;
+                            noflevel[ds - da + 2 * i][1] = alevel0 + i;
                         }
                     }
                     else
@@ -409,7 +409,7 @@ namespace Vts.FemModeling.MGRTE._2D
             //      d[level][ns][nt][2]: residual
             //      q[level][2][ns]: boundary source
             {
-                
+
 
                 for (i = slevel - 1; i >= 0; i--)
                 {
@@ -424,7 +424,7 @@ namespace Vts.FemModeling.MGRTE._2D
                     Mgrid.FtoC_s2(smesh[i].nt, us[i + 1], us[i], smesh[i + 1].smap, smesh[i + 1].fc);
                 }
 
-                
+
                 for (n = 0; n <= level; n++)
                 {
                     nt = smesh[noflevel[n][0]].nt;
@@ -488,7 +488,7 @@ namespace Vts.FemModeling.MGRTE._2D
                     q[n] = new double[ns][][];
                     for (i = 0; i < ns; i++)
                     {
-                        q[n][i] = new double [ne][];
+                        q[n][i] = new double[ne][];
                         for (j = 0; j < ne; j++)
                         {
                             q[n][i][j] = new double[2];
@@ -512,7 +512,7 @@ namespace Vts.FemModeling.MGRTE._2D
                     b[i].ri = new int[ne][][];
                     for (j = 0; j < ne; j++)
                     {
-                        b[i].ri[j] = new int [ns][];
+                        b[i].ri[j] = new int[ns][];
                         for (k = 0; k < ns; k++)
                             b[i].ri[j][k] = new int[2];
                     }
@@ -532,7 +532,7 @@ namespace Vts.FemModeling.MGRTE._2D
                         for (k = 0; k < ns; k++)
                             b[i].ro[j][k] = new int[2];
                     }
-                                        
+
 
                     b[i].so = new int[ne][][];
                     for (j = 0; j < ne; j++)

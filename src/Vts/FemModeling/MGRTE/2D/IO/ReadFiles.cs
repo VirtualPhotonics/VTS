@@ -10,6 +10,14 @@ namespace Vts.FemModeling.MGRTE._2D
 {
     class ReadFiles
     {
+//        private static TextReader GetTextReader()
+//        {
+////#if SILVERLIGHT
+////            File.OpenText(OpenText(angularMeshFile)
+////#else
+////            File.OpenText(angularMeshFile)
+////#endif
+//        }
 
         public static void ReadAmesh(ref AngularMesh[] amesh, int alevel)
         {
@@ -46,12 +54,13 @@ namespace Vts.FemModeling.MGRTE._2D
                             }
                         }
 
-                        amesh[i].w = new double[amesh[i].ns, amesh[i].ns];
+                        amesh[i].w = new double[amesh[i].ns][];
                         for (j = 0; j < amesh[i].ns; j++)
                         {
+                            amesh[i].w[j] = new double[amesh[i].ns];
                             for (k = 0; k < amesh[i].ns; k++)
                             {
-                                amesh[i].w[j, k] = double.Parse(bits[count]);
+                                amesh[i].w[j][k] = double.Parse(bits[count]);
                                 count++;
                             }
                         }

@@ -10,9 +10,9 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
     {
         public double Pi = GlobalConstants.Pi;
 
-        
 
-        public void RteOutput(double[][][] flux, double[][][] q, AngularMesh amesh, SpatialMesh smesh, BoundaryCoupling b, int vacuum)
+
+        public Measurement RteOutput(double[][][] flux, double[][][] q, AngularMesh amesh, SpatialMesh smesh, BoundaryCoupling b, int vacuum)
 
         // Purpose: this function is to write measurements to three ".txt" files given the input file "det.txt".
         //          Input:
@@ -49,6 +49,10 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             double[] l = new double[2];
             double x, y, x1, x2, x3, y1, y2, y3, sn;
             double dtheta = 2 * Pi / ns;
+
+            double[] temp11 = {0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3};
+            double[] temp22 = {0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3};
+            double[] temp33 = {1, 2, 2, 3, 1, 1, 2, 3, 2, 3, 4, 5, 1, 2, 3, 4};
 
             StreamWriter writer;            
 
@@ -119,29 +123,29 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             }
 
 
-            // compute and save density and flux
-            for (j = 0; j < nt; j++)
-            {
-                Det.density[j] = 0;
-                for (i = 0; i < ns; i++)
-                {
-                    Det.flux[i][j] = (flux[i][j][0] + flux[i][j][1] + flux[i][j][2]) / 3;
-                    Det.density[j] += Det.flux[i][j];
-                }
-                Det.density[j] *= dtheta;
-            }
+            //// compute and save density and flux
+            //for (j = 0; j < nt; j++)
+            //{
+            //    Det.density[j] = 0;
+            //    for (i = 0; i < ns; i++)
+            //    {
+            //        Det.flux[i][j] = (flux[i][j][0] + flux[i][j][1] + flux[i][j][2]) / 3;
+            //        Det.density[j] += Det.flux[i][j];
+            //    }
+            //    Det.density[j] *= dtheta;
+            //}
 
-            // compute and save density and flux
-            for (j = 0; j < nt; j++)
-            {
-                Det.density[j] = 0;
-                for (i = 0; i < ns; i++)
-                {
-                    Det.flux[i][j] = (flux[i][j][0] + flux[i][j][1] + flux[i][j][2]) / 3;
-                    Det.density[j] += Det.flux[i][j];
-                }
-                Det.density[j] *= dtheta;
-            }
+            //// compute and save density and flux
+            //for (j = 0; j < nt; j++)
+            //{
+            //    Det.density[j] = 0;
+            //    for (i = 0; i < ns; i++)
+            //    {
+            //        Det.flux[i][j] = (flux[i][j][0] + flux[i][j][1] + flux[i][j][2]) / 3;
+            //        Det.density[j] += Det.flux[i][j];
+            //    }
+            //    Det.density[j] *= dtheta;
+            //}
 
 
             // compute radiance at each node
@@ -167,28 +171,34 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
                 Det.fluence[i] *= dtheta;
             }
 
-            writer = new StreamWriter("fluence.txt");
-            for (i = 0; i < np; i++)
-            {
-                writer.Write("{0}\t", Det.fluence[i]);
-            }
-            writer.Close();
+            // MathFunctions.SquareTriMeshToGrid(ref smesh, Det.fluence, Det.uxy, nxy);
+
+            Det.xloc = temp11;
+            Det.yloc = temp22;
+            Det.inten =temp33;
+
+            //writer = new StreamWriter("flux.txt");
+            //for (i = 0; i < ns; i++)
+            //{
+            //    for (j = 0; j < nt; j++)
+            //    { writer.Write("{0}\t", Det.flux[i][j]); }
+            //}
+            //writer.Close();
+
+            //writer = new StreamWriter("density.txt");
+            //for (j = 0; j < nt; j++)
+            //{
+            //    writer.Write("{0}\t", Det.density[j]);
+            //}
+            //writer.Close();
 
 
-            writer = new StreamWriter("flux.txt");
-            for (i = 0; i < ns; i++)
-            {
-                for (j = 0; j < nt; j++)
-                { writer.Write("{0}\t", Det.flux[i][j]); }
-            }
-            writer.Close();
-
-            writer = new StreamWriter("density.txt");
-            for (j = 0; j < nt; j++)
-            {
-                writer.Write("{0}\t", Det.density[j]);
-            }
-            writer.Close();
+             writer = new StreamWriter("fluence.txt");
+             for (i = 0; i < np; i++)
+             {
+                 writer.Write("{0}\t", Det.fluence[i]);
+             }
+             writer.Close();
 
             // given "det.coord", compute and save "output"
             // Case 1.1: boundary outgoing angular-weighted measurement with weight "s dot n"
@@ -378,10 +388,8 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             { writer.Write("{0}\t", Det.output[j]); }
             writer.Close();
 
+            return Det;
         }
-
-        
-
     }
 }
 
