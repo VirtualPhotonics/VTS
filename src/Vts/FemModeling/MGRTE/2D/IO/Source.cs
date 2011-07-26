@@ -54,25 +54,15 @@ namespace Vts.FemModeling.MGRTE._2D.IO
             ne = smesh[slevel].ne;
             ns = amesh[alevel].ns;
 
-            // 1.1. load "source.txt"
-            if (File.Exists(internalSourceFile))
-            {
-                using (TextReader reader = File.OpenText(internalSourceFile))
-                {
-                    string text = reader.ReadToEnd();
-                    string[] bits = text.Split('\t');
-                    count = 0;
-
-                    temp = double.Parse(bits[count]);
-                    Source.S_TYPE = (int)temp;
-                    count++;
+           
+                   
+             //Todo: Hard coded source file for July 26meeting. Correct it
+                   
+                    Source.S_TYPE = 2;                
 
                     if (Source.S_TYPE != NO_SOURCE)
                     {
-                        temp = double.Parse(bits[count]);
-                        Source.n = (int)temp;
-                        count++;
-
+                        Source.n = 1;
                         Source.i = new double[Source.n, 3];
                         Source.a = new int[Source.n];
                         Source.t = new int[Source.n];
@@ -81,45 +71,33 @@ namespace Vts.FemModeling.MGRTE._2D.IO
                         {
                             for (i = 0; i < Source.n; i++)
                             {
-                                for (j = 0; j < 3; j++)
-                                {
-                                    Source.i[i, j] = double.Parse(bits[count]);
-                                    count++;
-                                }
+                                Source.i[i, 0] = 0;
+                                Source.i[i, 1] = 0;
+                                Source.i[i, 2] = 1;
                             }
-                            reader.Close();
+                                
                         }
                         else
                         {
                             if (Source.S_TYPE == POINT_SOURCE)
                             {
-                                for (i = 0; i < Source.n; i++)
-                                {
-                                    temp = double.Parse(bits[count]);
-                                    Source.a[i] = (int)temp - 1;
-                                    count++;
-                                }
+                                for (i = 0; i < Source.n; i++)                                                                  
+                                    Source.a[i] = 0;   
                             }
 
                             s_xy = new double[Source.n][];
                             for (i = 0; i < Source.n; i++)
                             {
                                 s_xy[i] = new double[2];
-                                for (j = 0; j < 2; j++)
-                                {
-                                    s_xy[i][j] = double.Parse(bits[count]);
-                                    count++;
-                                }
-
+                                s_xy[i][0] = 0;
+                                s_xy[i][1] = 0;
                             }
 
                             s_int = new double[Source.n];
                             for (i = 0; i < Source.n; i++)
                             {
-                                s_int[i] = double.Parse(bits[count]);
-                                count++;
+                                s_int[i] = 1;                                
                             }
-                            reader.Close();
 
                             //computation of "t" and "i"
                             distance = new double[nt];
@@ -239,16 +217,8 @@ namespace Vts.FemModeling.MGRTE._2D.IO
                             }
                         }
                     }
-                    else
-                    {
-                        reader.Close();
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine(internalSourceFile + " does not exist!");    
-            }            
+                    
+                   
 
             // 1.2. load "bsource.txt"
             if (File.Exists(boundarySourceFile))

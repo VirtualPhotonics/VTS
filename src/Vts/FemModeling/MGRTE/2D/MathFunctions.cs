@@ -141,7 +141,7 @@ namespace Vts.FemModeling.MGRTE._2D
             double[][] centOfTri;
             double[] temp;
             int[] idxtemp;           
-            for (i = 0; i < slevel; i++)
+            for (i = 0; i <= slevel; i++)
             {
                 centOfTri = new double[smesh[i].nt][];
                 for (j = 0; j < smesh[i].nt; j++)
@@ -157,19 +157,20 @@ namespace Vts.FemModeling.MGRTE._2D
 
                 temp = new double [smesh[i].nt];
                 idxtemp = new int[smesh[i].nt];
-                smesh[i].so = new int[amesh[alevel-1].ns][];
-                for (j = 0; j < amesh[alevel-1].ns; j++)                        
+                smesh[i].so = new int[amesh[alevel].ns][];
+                for (j = 0; j < amesh[alevel].ns; j++)                        
                     smesh[i].so[j] = new int[smesh[i].nt];
 
-                for (j = 0; j < amesh[alevel-1].ns; j++)
+                for (j = 0; j < amesh[alevel].ns; j++)
                 {
                     for (k = 0; k < smesh[i].nt; k++)
                     {
-                        temp[k] = Math.Cos(amesh[alevel-1].a[j][2]) * centOfTri[k][0] + Math.Sin(amesh[alevel-1].a[j][2]) * centOfTri[k][1];
+                        temp[k] = Math.Cos(amesh[alevel].a[j][2]) * centOfTri[k][0] + Math.Sin(amesh[alevel].a[j][2]) * centOfTri[k][1];
                         idxtemp[k] = k;
                     }
                     QuickSort(temp, idxtemp, 0, smesh[i].nt - 1);
-                    smesh[i].so[j] = idxtemp;
+                    for (k = 0; k < smesh[i].nt; k++)                    
+                         smesh[i].so[j][k] = idxtemp[k];
                 }
             }
         }
@@ -487,7 +488,7 @@ namespace Vts.FemModeling.MGRTE._2D
         public static void CreateAnglularMesh(ref AngularMesh[] amesh, int aLevel, int aLevel0, double g)
         {
             int i,j;
-            for (i = aLevel0-1; i < aLevel; i++)
+            for (i = aLevel0; i <=aLevel; i++)
             {
                 amesh[i].ns = (int)Math.Pow(2.0, (double)(i+1));
                 amesh[i].a = new double[amesh[i].ns][];
@@ -507,12 +508,12 @@ namespace Vts.FemModeling.MGRTE._2D
         {
             int j, k;
 
-            ua[slevel - 1] = new double[nt][];
+            ua[slevel] = new double[nt][];
             for (j = 0; j < nt; j++)
             {
-                ua[slevel - 1][j] = new double[3];
+                ua[slevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
-                    ua[slevel - 1][j][k] = 0.1;
+                    ua[slevel][j][k] = 0.01;
             }
         }
 
@@ -521,12 +522,12 @@ namespace Vts.FemModeling.MGRTE._2D
         {
             int j, k;
 
-            us[slevel - 1] = new double[nt][];
+            us[slevel] = new double[nt][];
             for (j = 0; j < nt; j++)
             {
-                us[slevel - 1][j] = new double[3];
+                us[slevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
-                    us[slevel - 1][j][k] = 100;
+                    us[slevel][j][k] = 1.0;
             }
         }
 
@@ -582,11 +583,11 @@ namespace Vts.FemModeling.MGRTE._2D
             int[][] edge,
             int[][] tri)
         {
-            pts[0][0] = -1; pts[0][1] = 1; pts[0][2] = 0; pts[0][3] = 1;
-            pts[1][0] = 1; pts[1][1] = 1; pts[1][2] = 1; pts[1][3] = 1;
-            pts[2][0] = 1; pts[2][1] = -1; pts[2][2] = 2; pts[2][3] = 1;
+            pts[0][0] = -1; pts[0][1] = 1;  pts[0][2] = 0; pts[0][3] = 1;
+            pts[1][0] = 1;  pts[1][1] = 1;  pts[1][2] = 1; pts[1][3] = 1;
+            pts[2][0] = 1;  pts[2][1] = -1; pts[2][2] = 2; pts[2][3] = 1;
             pts[3][0] = -1; pts[3][1] = -1; pts[3][2] = 3; pts[3][3] = 1;
-            pts[4][0] = 0; pts[4][1] = 0; pts[4][2] = 4; pts[4][3] = 0;
+            pts[4][0] = 0;  pts[4][1] = 0;  pts[4][2] = 4; pts[4][3] = 0;
 
             edge[0][0] = -1; edge[0][1] = (int)pts[0][2]; edge[0][2] = (int)pts[1][2]; edge[0][3] = -1;
             edge[1][0] = -1; edge[1][1] = (int)pts[1][2]; edge[1][2] = (int)pts[2][2]; edge[1][3] = -1;
@@ -623,7 +624,7 @@ namespace Vts.FemModeling.MGRTE._2D
             //char[] str[80];
             //char[] level[4];	       
 
-            for (j = 1; j < slevel; j++)
+            for (j = 1; j <= slevel; j++)
             {
                 //npt gets the total number of point after division
                 npt = 0;
@@ -818,7 +819,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
         public static void AssignSpatialMesh(ref SpatialMesh[] smesh, double[][] p, int[][] e, int[][] t, int np, int ne, int nt, int level)
         {
-            int i, j, k;
+            int i, j;
 
             smesh[level].np = np;
             smesh[level].ne = ne;
