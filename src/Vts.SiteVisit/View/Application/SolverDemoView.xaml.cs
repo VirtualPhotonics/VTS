@@ -50,7 +50,7 @@ namespace Vts.SiteVisit.View
                             ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Collapsed;
                             break;
                         case "tabFem":
-                            outputTabControl.SelectedItem = outputTabControl.Items[1];
+                            outputTabControl.SelectedItem = outputTabControl.Items[2];
                             ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Visible;
                             ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Collapsed;
                             ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Collapsed;

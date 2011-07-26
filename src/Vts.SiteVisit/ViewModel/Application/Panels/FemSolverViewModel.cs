@@ -28,7 +28,7 @@ namespace Vts.SiteVisit.ViewModel
                 G = 0.9,
                 Index_i = 1.0,
                 Index_o = 1.0,
-                Alevel = 4,
+                Alevel = 3,
                 Alevel0 = 1,
                 Slevel = 3,
                 Slevel0 = 0,

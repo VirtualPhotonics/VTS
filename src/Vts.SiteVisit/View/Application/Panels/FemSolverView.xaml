@@ -26,7 +26,7 @@
 
         <TextBlock Text="EXECUTE A SIMULATION:" FontSize="16" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" />
         <TextBlock Text="" FontSize="16" Grid.Column="0" Grid.Row="1" />
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="G:" Margin="5"/>
                 <TextBox Text="{Binding Parameters.G, Mode=TwoWay}" Margin="5"/>
@@ -47,7 +47,7 @@
                 <TextBox Text="{Binding Parameters.Index_o, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
 
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="A Level:" Margin="5"/>
@@ -69,7 +69,7 @@
                 <TextBox Text="{Binding Parameters.Slevel0, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right">
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="Which Multi Grid:" Margin="5"/>
                 <TextBox Text="{Binding Parameters.Whichmg, Mode=TwoWay}" Margin="5"/>
@@ -90,7 +90,7 @@
                 <TextBox Text="{Binding Parameters.N3, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right">
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="Fmg:" Margin="5"/>
                 <TextBox Text="{Binding Parameters.Fmg, Mode=TwoWay}" Margin="5"/>
