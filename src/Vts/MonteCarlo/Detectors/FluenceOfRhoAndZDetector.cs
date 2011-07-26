@@ -115,12 +115,15 @@ namespace Vts.MonteCarlo.Detectors
 
             var regionIndex = _tissue.GetRegionIndex(dp.Position);
 
-            Mean[ir, iz] += weight / _ops[regionIndex].Mua;
-            if (_tallySecondMoment)
+            if (weight != 0.0) // if weight = 0.0, then pseudo-collision and no tally
             {
-                SecondMoment[ir, iz] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
+                Mean[ir, iz] += weight / _ops[regionIndex].Mua;
+                if (_tallySecondMoment)
+                {
+                    SecondMoment[ir, iz] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
+                }
+                TallyCount++;
             }
-            TallyCount++;
         }
 
         private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
