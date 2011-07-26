@@ -28,7 +28,7 @@ namespace Vts.SiteVisit.ViewModel
                 G = 0.9,
                 Index_i = 1.0,
                 Index_o = 1.0,
-                Alevel = 3,
+                Alevel = 4,
                 Alevel0 = 1,
                 Slevel = 3,
                 Slevel0 = 0,
@@ -77,7 +77,7 @@ namespace Vts.SiteVisit.ViewModel
             var xs = new double[measurement.xloc.Distinct().Count()];
             var ys = new double[measurement.yloc.Distinct().Count()];
 
-            var meshData = new MeshData(measurement.inten, xs, ys);
+            var meshData = new MapData(destinationArray, xs, ys);
 
             Commands.Mesh_PlotMap.Execute(meshData);
         }
