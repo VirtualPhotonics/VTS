@@ -652,9 +652,6 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ATotalDetector.cs">
       <Link>MonteCarlo\Detectors\ATotalDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\DosimetryOfRhoDetector.cs">
-      <Link>MonteCarlo\Detectors\DosimetryOfRhoDetector.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs</Link>
     </Compile>
@@ -672,6 +669,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs">
       <Link>MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoDetector.cs">
+      <Link>MonteCarlo\Detectors\RadianceOfRhoDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>

@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// <summary>
     /// Implements IVirtualBoundary.  Used to capture specular reflectance detectors
     /// </summary>
-    public class DosimetryVirtualBoundary : IVirtualBoundary
+    public class RadianceVirtualBoundary : IVirtualBoundary
     {
         private ISurfaceDetectorController _detectorController;
         private double _zPlanePosition;
@@ -20,31 +20,31 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <summary>
         /// Creates an instance of a plane tranmission virtual boundary in direction given
         /// </summary>
-        public DosimetryVirtualBoundary(ISurfaceDetectorController detectorController, string name)
+        public RadianceVirtualBoundary(ISurfaceDetectorController detectorController, string name)
         {
             _detectorController = detectorController;
 
             // not sure following is best design
-            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyType == TallyType.DosimetryOfRho).First();
+            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyType == TallyType.RadianceOfRho).First();
 
-            _zPlanePosition = ((DosimetryOfRhoDetector)dosimetryDetector).ZDepth;
+            _zPlanePosition = ((RadianceOfRhoDetector)dosimetryDetector).ZDepth;
 
             WillHitBoundary = dp =>
                         dp.StateFlag.Has(PhotonStateType.PseudoReflectedTissueBoundary) &&
                         dp.Direction.Uz > 0 &&
                         Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
-            VirtualBoundaryType = VirtualBoundaryType.Dosimetry;
-            PhotonStateType = PhotonStateType.PseudoDosimetryVirtualBoundary;
+            VirtualBoundaryType = VirtualBoundaryType.SurfaceRadiance;
+            PhotonStateType = PhotonStateType.PseudoRadianceVirtualBoundary;
 
             Name = name;
         }       
 
         ///// <summary>
-        ///// Creates a default instance of a DosimetryVB based on a plane at z=0, 
+        ///// Creates a default instance of a RadianceVB based on a plane at z=0, 
         ///// exiting tissue (in direction of z decreasing)
         ///// </summary>
-        //public DosimetryVirtualBoundary() 
+        //public RadianceVirtualBoundary() 
         //    : this(null, null, null)
         //{
         //}
@@ -64,7 +64,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             double distanceToBoundary = double.PositiveInfinity;
 
             // check if VB not applied
-            //if (!dp.StateFlag.Has(PhotonStateType.PseudoDosimetryVirtualBoundary) ||
+            //if (!dp.StateFlag.Has(PhotonStateType.PseudoRadianceVirtualBoundary) ||
             //    dp.Direction.Uz <= 0.0)
 
             // since no tissue boundary here, need other checks for whether VB is applied

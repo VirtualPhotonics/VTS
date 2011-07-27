@@ -302,6 +302,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
             Console.WriteLine("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
             Console.WriteLine("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
             Console.WriteLine();
+            Console.WriteLine("geninfile\t\tgenerates a new infile and names it newinfile.xml");
+            Console.WriteLine();
             Console.WriteLine("list of sweep parameters (paramsweep):");
             Console.WriteLine();
             Console.WriteLine("mua1\t\tabsorption coefficient for tissue layer 1");

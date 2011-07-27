@@ -67,7 +67,7 @@ namespace Vts.MonteCarlo.Controllers
         //    foreach (var vb in _virtualBoundaries)
         //    {
         //        if ((vb.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary) ||
-        //            (vb.VirtualBoundaryType == VirtualBoundaryType.Dosimetry))
+        //            (vb.VirtualBoundaryType == VirtualBoundaryType.Current))
         //        {
         //            _volumeDetectors =
         //                (from detector in vb.DetectorController.Detectors

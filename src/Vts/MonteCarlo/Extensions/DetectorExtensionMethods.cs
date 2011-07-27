@@ -43,7 +43,7 @@ namespace Vts.MonteCarlo.Extensions
         {
             switch (type)
             {
-                case TallyType.DosimetryOfRho:
+                case TallyType.RadianceOfRho:
                     return true;
                 default:
                     return false;
@@ -76,7 +76,7 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.AOfRhoAndZ:
                 case TallyType.ATotal:
                 case TallyType.MomentumTransferOfRhoAndZ:
-                case TallyType.DosimetryOfRho:
+                case TallyType.RadianceOfRho:
                     return true;
                 default:
                     return false;

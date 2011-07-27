@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo.Factories
                 default:
                 case VirtualBoundaryType.DiffuseReflectance:
                 case VirtualBoundaryType.DiffuseTransmittance:
-                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.SurfaceRadiance:
                     if (detectors == null)
                     {
                         return GetStandardSurfaceDetectorController(null);

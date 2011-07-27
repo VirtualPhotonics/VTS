@@ -222,8 +222,11 @@ namespace Vts.MonteCarlo.PostProcessor
             Console.WriteLine();
             Console.WriteLine("list of arguments:");
             Console.WriteLine();
-            Console.WriteLine("infile\t\tthe input file.");
-            Console.WriteLine("outfile\t\tthe output file.");
+            Console.WriteLine("infile\t\tthe input file, accepts relative and absolute paths");
+            Console.WriteLine("outpath\t\tthe output path, accepts relative and absolute paths");
+            Console.WriteLine("outname\t\toutput name, this overwrites output name in input file");
+            Console.WriteLine();
+            Console.WriteLine("geninfile\t\tgenerates a new infile and names it newinfile.xml");
             Console.WriteLine();
             Console.WriteLine("sample usage:");
             Console.WriteLine();
