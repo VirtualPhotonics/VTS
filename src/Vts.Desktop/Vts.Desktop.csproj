@@ -1085,39 +1085,6 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\FemModeling\Resources\amesh.txt">
-      <Link>FemModeling\Resources\amesh.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\FemModeling\Resources\bsource.txt">
-      <Link>FemModeling\Resources\bsource.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\FemModeling\Resources\density.txt">
-      <Link>FemModeling\Resources\density.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\FemModeling\Resources\det.txt">
-      <Link>FemModeling\Resources\det.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\FemModeling\Resources\flux.txt">
-      <Link>FemModeling\Resources\flux.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\FemModeling\Resources\mua.txt">
-      <Link>FemModeling\Resources\mua.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\FemModeling\Resources\mus.txt">
-      <Link>FemModeling\Resources\mus.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\FemModeling\Resources\output.txt">
-      <Link>FemModeling\Resources\output.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\FemModeling\Resources\parameters.txt">
-      <Link>FemModeling\Resources\parameters.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\FemModeling\Resources\smesh.txt">
-      <Link>FemModeling\Resources\smesh.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\FemModeling\Resources\source.txt">
-      <Link>FemModeling\Resources\source.txt</Link>
-    </EmbeddedResource>
     <Content Include="..\Vts\Modeling\Spectroscopy\ChromophoreList.xml">
       <Link>Modeling\Spectroscopy\ChromophoreList.xml</Link>
     </Content>

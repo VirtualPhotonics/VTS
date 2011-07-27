@@ -53,7 +53,7 @@ namespace Vts.FemModeling.MGRTE._2D
             double res = 0, res0 = 1, rho = 1.0;
 
             // step 1: initialization
-
+           
             /* Read the initial time. */
             DateTime startTime1 = DateTime.Now;
 

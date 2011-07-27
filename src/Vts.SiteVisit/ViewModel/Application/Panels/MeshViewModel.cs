@@ -26,7 +26,7 @@ namespace Vts.SiteVisit.ViewModel
         public MeshViewModel()
         {
             MinValue = 1E-9;
-            MaxValue = 1.0;
+            MaxValue = 50.0;
             AutoScale = false;
 
             ScalingTypeOptionVM = new OptionViewModel<ScalingType>("Scaling Type:", false);
