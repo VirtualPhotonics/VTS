@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -560,7 +560,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>IF NOT EXIST "$(SolutionDir)..\build\core\Silverlight\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\core\Silverlight\$(ConfigurationName)"
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(SolutionDir)..\build\core\Silverlight\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\core\Silverlight\$(ConfigurationName)"
 copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\core\Silverlight\$(ConfigurationName)" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>
