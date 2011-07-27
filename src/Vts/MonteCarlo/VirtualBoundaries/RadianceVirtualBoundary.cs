@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Controllers;
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
     /// <summary>
-    /// Implements IVirtualBoundary.  Used to capture specular reflectance detectors
+    /// Implements IVirtualBoundary.  Used to capture surface radiance detectors
     /// </summary>
     public class RadianceVirtualBoundary : IVirtualBoundary
     {

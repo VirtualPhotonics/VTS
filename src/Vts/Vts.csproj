@@ -439,7 +439,7 @@
     <Compile Include="MonteCarlo\Extensions\StatisticsExtensions.cs" />
     <Compile Include="MonteCarlo\Extensions\VirtualBoundariesExtensionMethods.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\pMCDiffuseReflectanceVirtualBoundary.cs" />
-    <Compile Include="MonteCarlo\VirtualBoundaries\DosimetryVirtualBoundary.cs" />
+    <Compile Include="MonteCarlo\VirtualBoundaries\RadianceVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs" />

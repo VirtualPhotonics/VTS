@@ -1036,14 +1036,14 @@
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DosimetryVirtualBoundary.cs">
-      <Link>MonteCarlo\VirtualBoundaries\DosimetryVirtualBoundary.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\pMCDiffuseReflectanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\pMCDiffuseReflectanceVirtualBoundary.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\RadianceVirtualBoundary.cs">
+      <Link>MonteCarlo\VirtualBoundaries\RadianceVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs</Link>
