@@ -15,11 +15,12 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ATotalDetector : IVolumeDetector<double>
     {
-        private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
+        private Func<double, double, double, double, PhotonStateType, double, double> _absorbAction;
 
         private ITissue _tissue;
         private bool _tallySecondMoment;
         private IList<OpticalProperties> _ops;
+        private double _trackLength; // relies on previous call to Tally
         /// <summary>
         /// Returns am instance of ATotalDetector
         /// </summary>
@@ -72,12 +73,25 @@ namespace Vts.MonteCarlo.Detectors
  
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
+            // need to rework following to work for CAW
+            //// for CAW check if current dp is pseudo collision and if so then tally must be 
+            //// from previous->current->next to get variance correct         
+            //if ((dp.StateFlag == PhotonStateType.PseudoReflectedTissueBoundary) ||
+            //    (dp.StateFlag == PhotonStateType.PseudoTransmittedTissueBoundary))
+            //{
+                _trackLength = Math.Sqrt(
+                    (dp.Position.X - previousDP.Position.X) * (dp.Position.X - previousDP.Position.X) +
+                    (dp.Position.Y - previousDP.Position.Y) * (dp.Position.Y - previousDP.Position.Y) +
+                    (dp.Position.Z - previousDP.Position.Z) * (dp.Position.Z - previousDP.Position.Z));
+            //}
+
             var weight = _absorbAction(
                 _ops[_tissue.GetRegionIndex(dp.Position)].Mua, 
                 _ops[_tissue.GetRegionIndex(dp.Position)].Mus,
                 previousDP.Weight,
                 dp.Weight,
-                dp.StateFlag);
+                dp.StateFlag,
+                _trackLength);
 
             Mean += weight;
             if (_tallySecondMoment)
@@ -101,11 +115,12 @@ namespace Vts.MonteCarlo.Detectors
             return true;
         }
 
-        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
+        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, 
+            PhotonStateType photonStateType, double trackLength)
         {
             if (photonStateType.Has(PhotonStateType.Absorbed))
             {
-                weight = previousWeight * mua / (mua + mus);
+                weight = 1.0; // ref: my dissertation eq. (2.75)
             }
             else
             {
@@ -114,7 +129,8 @@ namespace Vts.MonteCarlo.Detectors
             return weight;
         }
 
-        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
+        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, 
+            PhotonStateType photonStateType, double trackLength)
         {
             if (previousWeight == weight) // pseudo collision, so no tally
             {
@@ -127,8 +143,19 @@ namespace Vts.MonteCarlo.Detectors
             return weight;
         }
         
-        private double AbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
+        private double AbsorbContinuous(double mua, double mus, double previousWeight, double weight, 
+            PhotonStateType photonStateType, double trackLength)
         {
+            //if ((photonStateType == PhotonStateType.PseudoReflectedTissueBoundary) ||
+            //    (photonStateType == PhotonStateType.PseudoTransmittedTissueBoundary))// pseudo collision, so no tally
+            //{
+            //    weight = 0.0;
+            //}
+            //else
+            //{
+            //    weight = previousWeight * (1 - Math.Exp(-mua * trackLength));
+            //}
+            //return weight;
             throw new NotImplementedException();
         }
     }

@@ -92,7 +92,16 @@ namespace Vts.Test.MonteCarlo.Detectors
                         },
                         false,
                         VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    )
+                    )//,
+                    //new GenericVolumeVirtualBoundaryInput(
+                    //    VirtualBoundaryType.GenericVolumeBoundary,
+                    //    new List<IDetectorInput>()
+                    //    {
+                    //        new ATotalDetectorInput()
+                    //    },
+                    //    false,
+                    //    VirtualBoundaryType.GenericVolumeBoundary.ToString()
+                    //)
                 };
             // one tissue layer
             var inputOneLayerTissue = new SimulationInput(
@@ -204,7 +213,12 @@ namespace Vts.Test.MonteCarlo.Detectors
            Assert.Less(Complex.Abs(
                    _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.0001);
         }
-        // Total Absorption not coded yet for CAW
+        // Total Absorption : wait on this test until CAW worked out for ATotal
+        //[Test]
+        //public void validate_CAW_ATotal()
+        //{
+        //    Assert.Less(Math.Abs(_outputOneLayerTissue.Atot * _factor - 0.37402175), 0.0000001);
+        //}
         // Absorption A(rho,z) not coded yet for CAW
 
         // Diffuse Transmittance
@@ -244,5 +258,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[198, 201] * _factor - 0.00827581), 0.00000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[198, 201] * _factor - 0.00827581), 0.00001);
         }
+        // sanity checks
+        //[Test] // wait on this until CAW ATotal worked out
+        //public void validate_CAW_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
+        //{
+        //    // no specular because photons started inside tissue
+        //    Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.00000000001);
+        //}
     }
 }

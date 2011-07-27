@@ -282,7 +282,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_RadianceOfRho()
         {
             //need radiance detector to compare results, for now make sure both simulations give same results
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Curr_r[0] - _outputTwoLayerTissue.Curr_r[0]), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[0] - _outputTwoLayerTissue.Rad_r[0]), 0.0000001);
+        }
+        // sanity checks
+        [Test]
+        public void validate_DAW_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
+        {
+            // no specular because photons started inside tissue
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.00000000001);
         }
     }
 }

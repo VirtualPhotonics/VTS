@@ -60,9 +60,9 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 //d2=b*Q0/denom;
                 // answer=(1/delta)*(d1*exp(delta*x)-d2*exp(-delta*x)); 
                 var d1 = (1.0 / delta) * ((delta - a) * Math.Exp(-2 * delta * slabThickness + delta * position2) -
-                         (delta + a) * Math.Exp(-delta * position2)) / denom;
+                                          (delta + a) * Math.Exp(-delta * position2)) / denom;
                 var d2 = (1.0 / delta) * ((delta - a) * Math.Exp(-2 * delta * slabThickness + delta * position1) -
-                                         (delta + a) * Math.Exp(-delta * position1)) / denom;
+                                          (delta + a) * Math.Exp(-delta * position1)) / denom;
                 return (d1 - d2);
             }
             else

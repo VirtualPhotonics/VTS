@@ -134,13 +134,6 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_output.Rd * _factor - 0.670833333), 0.000000001);
         }
-        // Diffuse Reflectance
-        // comment out for now, uncomment when we figure out specular handling
-        //[Test]
-        //public void validate_Analog_RTotal()
-        //{
-        //    Assert.Less(Math.Abs(_output.Rtot - 0.698611111), 0.000000001);
-        //}
         // Reflection R(rho)
         [Test]
         public void validate_Analog_ROfRho()
@@ -182,7 +175,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_Analog_ATotal()
         {
-            Assert.Less(Math.Abs(_output.Atot * _factor - 0.000562763362), 0.000000000001);
+            Assert.Less(Math.Abs(_output.Atot * _factor - 0.281944444), 0.000000001);
         }
         // Absorption A(rho,z)
         [Test]
@@ -230,6 +223,13 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_Analog_ROfXAndY()
         {
             Assert.Less(Math.Abs(_output.R_xy[198, 201] * _factor - 0.0097222222), 0.0000000001);
+        }
+        // sanity checks
+        [Test]
+        public void validate_Analog_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
+        {
+            // no specular because photons started inside tissue
+            Assert.Less(Math.Abs(_output.Rd + _output.Atot + _output.Td - 1), 0.00000000001);
         }
         // statistics
         [Test]
