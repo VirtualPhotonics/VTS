@@ -83,5 +83,19 @@ namespace Vts.MonteCarlo.Extensions
                     return false;
             }
         }
+        public static bool IspMCVirtualBoundary(this VirtualBoundaryType virtualBoundaryType)
+        {
+            switch (virtualBoundaryType)
+            {
+                case VirtualBoundaryType.pMCDiffuseReflectance:
+                    return true;
+                default:
+                case VirtualBoundaryType.DiffuseReflectance:
+                case VirtualBoundaryType.DiffuseTransmittance:
+                case VirtualBoundaryType.SpecularReflectance:
+                case VirtualBoundaryType.Dosimetry:
+                    return false;
+            }
+        }
     }
 }

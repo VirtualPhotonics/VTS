@@ -21,13 +21,13 @@ namespace Vts.MonteCarlo.PhotonData
             CollisionInfoDatabase = collisionInfoDatabase;
         }
 
-        ///// <summary>
-        ///// Do not use this overload, it is only for serialization purposes
-        ///// </summary>
-        //public pMCDatabase()
-        //    : this(new PhotonDatabase(new SimulationInput()), new CollisionInfoDatabase(0))
-        //{
-        //}
+        /// <summary>
+        /// Do not use this overload, it is only for serialization purposes
+        /// </summary>
+        public pMCDatabase()
+            : this(new PhotonDatabase(), new CollisionInfoDatabase(0))
+        {
+        }
 
         // these public members are available to be accessed by the user if necessary
         // (e.g. PhotonDatabase.SimulationInput to get RegionOP, ranges, etc)

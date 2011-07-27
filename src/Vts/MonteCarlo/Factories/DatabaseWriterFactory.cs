@@ -25,16 +25,16 @@ namespace Vts.MonteCarlo.Factories
                 default:
                 case VirtualBoundaryType.DiffuseReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseReflectance,
-                        Path.Combine(filePath, outputName, "photonReflectanceDatabase"));
+                        Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
                 case VirtualBoundaryType.DiffuseTransmittance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseTransmittance,
-                        Path.Combine(filePath, outputName, "photonTransmittanceDatabase"));
+                        Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
                 case VirtualBoundaryType.SpecularReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.SpecularReflectance,
-                        Path.Combine(filePath, outputName, "photonSpecularDatabase"));
+                        Path.Combine(filePath, outputName, "SpecularReflectanceDatabase"));
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,
-                        Path.Combine(filePath, outputName, "photonReflectanceDatabase"));
+                        Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
             }
         }
         public static IList<CollisionInfoDatabaseWriter> GetCollisionInfoDatabaseWriters(
@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo.Factories
                 default:
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                     return new CollisionInfoDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,
-                        Path.Combine(filePath, outputName, "collisionInfoDatabase"), 
+                        Path.Combine(filePath, outputName, "CollisionInfoDatabase"), 
                         tissue.Regions.Count());
             }
         }

@@ -11,7 +11,6 @@ namespace Vts.MonteCarlo.PhotonData
     public class PhotonDatabaseWriter : DatabaseWriter<PhotonDatabase, PhotonDataPoint>
     {
         public PhotonDatabaseWriter(VirtualBoundaryType virtualBoundaryType, string filename)
-            //: base(filename, new PhotonDatabase(), new PhotonDataPointSerializer())
             : base(filename, new PhotonDatabase(), new PhotonDataPointSerializer())
         {
             VirtualBoundaryType = virtualBoundaryType;

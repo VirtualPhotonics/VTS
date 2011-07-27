@@ -9,45 +9,17 @@ namespace Vts.MonteCarlo.Extensions
     /// </summary>
     public static class PhotonDataExtensionMethods
     {
-        public static void WriteToSurfaceVirtualBoundaryDatabases(
-            this IList<PhotonDatabaseWriter> photonDatabaseWriters, PhotonDataPoint dp)
-        {
-            foreach (var writer in photonDatabaseWriters)
-            {
-                WriteToSurfaceVirtualBoundaryDatabase(writer, dp);
-            };
-        }
-        public static void WriteToSurfaceVirtualBoundaryDatabase(
-            this PhotonDatabaseWriter photonDatabaseWriter, PhotonDataPoint dp)
-        {
-            if (dp.BelongsToSurfaceVirtualBoundary(photonDatabaseWriter))
-            {
-                photonDatabaseWriter.Write(dp);
-            }
-        }
-        public static bool BelongsToSurfaceVirtualBoundary(this PhotonDataPoint dp, 
-            PhotonDatabaseWriter photonDatabaseWriter)
-        {
-            if ((dp.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) &&
-                 photonDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance) ||
-                (dp.StateFlag.Has(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) &&
-                 photonDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.DiffuseTransmittance) ||
-                (dp.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) && // pMC uses regular PST
-                 photonDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseReflectance))
-            {    
-                return true;
-            }
-            return false;
-        }
-        public static void WriteToCollisionInfoDatabases(
+
+
+        public static void WriteToPMCSurfaceVirtualBoundaryDatabases(
             this IList<CollisionInfoDatabaseWriter> collisionInfoDatabaseWriters, PhotonDataPoint dp, CollisionInfo collisionInfo)
         {
             foreach (var writer in collisionInfoDatabaseWriters)
             {
-                WriteToCollisionInfoDatabase(writer, dp, collisionInfo);
+                WriteToPMCSurfaceVirtualBoundaryDatabase(writer, dp, collisionInfo);
             };
         }
-        public static void WriteToCollisionInfoDatabase(
+        public static void WriteToPMCSurfaceVirtualBoundaryDatabase(
             this CollisionInfoDatabaseWriter collisionInfoDatabaseWriter, PhotonDataPoint dp, CollisionInfo collisionInfo)
         {
             if (dp.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriter))
@@ -70,21 +42,7 @@ namespace Vts.MonteCarlo.Extensions
             return false;
         }
         
-        public static void Dispose(
-            this IList<PhotonDatabaseWriter> photonDatabaseWriters)
-        {
-            foreach (var writer in photonDatabaseWriters)
-            {
-                writer.Dispose();
-            }
-        }
-        public static void Dispose(
-            this IList<CollisionInfoDatabaseWriter> collisionInfoDatabaseWriters)
-        {
-            foreach (var writer in collisionInfoDatabaseWriters)
-            {
-                writer.Dispose();
-            }
-        }
+
+
     }
 }

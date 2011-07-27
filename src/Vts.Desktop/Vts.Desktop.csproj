@@ -463,6 +463,12 @@
     <Compile Include="..\Vts\Modeling\Tools\HankelTransform.cs">
       <Link>Modeling\Tools\HankelTransform.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\DatabaseWriterController.cs">
+      <Link>MonteCarlo\Controllers\DatabaseWriterController.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDatabaseWriterController.cs">
+      <Link>MonteCarlo\Controllers\pMCDatabaseWriterController.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\pMCSurfaceDetectorController.cs">
       <Link>MonteCarlo\Controllers\pMCSurfaceDetectorController.cs</Link>
     </Compile>
@@ -474,6 +480,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\VolumeDetectorController.cs">
       <Link>MonteCarlo\Controllers\VolumeDetectorController.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs</Link>
@@ -552,6 +561,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\Output.cs">
       <Link>MonteCarlo\DataStructures\Output.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs">
+      <Link>MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInput.cs">
       <Link>MonteCarlo\DataStructures\SimulationInput.cs</Link>
@@ -733,6 +745,9 @@
     <Compile Include="..\Vts\MonteCarlo\Factories\DetectorFactory.cs">
       <Link>MonteCarlo\Factories\DetectorFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\PhotonDatabaseFactory.cs">
+      <Link>MonteCarlo\Factories\PhotonDatabaseFactory.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\RandomNumberGeneratorFactory.cs">
       <Link>MonteCarlo\Factories\RandomNumberGeneratorFactory.cs</Link>
     </Compile>
@@ -882,9 +897,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\PostProcessing\PostProcessorInput.cs">
-      <Link>MonteCarlo\PostProcessing\PostProcessorInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs">
       <Link>MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs</Link>

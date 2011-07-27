@@ -1,21 +1,15 @@
-//#define GENERATE_INFILE
+//#define PROCESS_ATTACH_DEBUG
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using Vts.IO;
 using Vts.Common;
-using Vts.Extensions;
-using System.IO;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Sources;
-using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Controllers;
-using Vts.IO;
 using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.PostProcessor
@@ -37,7 +31,9 @@ namespace Vts.MonteCarlo.PostProcessor
     [KnownType(typeof(TDiffuseDetectorInput))]
     [KnownType(typeof(TOfAngleDetectorInput))]
     [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
-    [KnownType(typeof(TOfRhoDetectorInput))]
+    [KnownType(typeof(TOfRhoDetectorInput))] 
+
+    // put following into common class since MCCL also uses 
     #region CommandLine Arguments Parser
 
     /* Simple commandline argument parser written by Ananth B. http://www.ananthonline.net */
@@ -100,215 +96,86 @@ namespace Vts.MonteCarlo.PostProcessor
 
     #endregion
 
-    class PostProcessorSetup
+    public static class Program
     {
-        private string path = "";
-        public string infileName = "";
-        private bool doPMC = false;
-        private SimulationInput databaseSimulationInput;
-        private PhotonDatabase photonDatabase;
-        private pMCDatabase pmcDatabase;
-
-        public string InputFilename { get; set; }
-        public string OutputFolder { get; set; }
-        public PostProcessorInput Input { get; set; }
-
-        public bool ValidInput { get; set; }
-
-        public PostProcessorSetup()
+        public static void Main(string[] args)
         {
-            ValidInput = true;
-            InputFilename = "";
-            OutputFolder = "ppresults";
+#if PROCESS_ATTACH_DEBUG
+            Console.Read();
+#endif
+            string inFile = "infile.xml";
+            string outName = "";
+            string outPath = "";
+            bool displayHelp = false;
+            args.Process(() =>
+                {
+                    Console.WriteLine("Virtual Photonics MC Post-Processor 1.0");
+                    Console.WriteLine();
+                    Console.WriteLine("For more information type mc_post help");
+                    Console.WriteLine();
+                },
+                new CommandLine.Switch("help", val =>
+                {
+                    displayHelp = true;
+                    return;
+                }),
+                new CommandLine.Switch("geninfile", val =>
+                {
+                    GenerateDefaultInputFile();
+                    return;
+                }),
+                new CommandLine.Switch("infile", val =>
+                {
+                    inFile = val.First();
+                    Console.WriteLine("input file specified as {0}", val.First());
+                    //PostProcessorSetup.InputFilename = val.First();
+                }),
+                new CommandLine.Switch("outname", val =>
+                {
+                    outName = val.First();
+                    Console.WriteLine("output file specified as {0}", val.First());
+                    //PostProcessorSetup.OutputFolder = val.First();
+                }),
+                new CommandLine.Switch("outpath", val =>
+                {
+                    outPath = val.First();
+                    Console.WriteLine("output path specified as {0}", outPath);
+                })
+            );
+            //if help is passed as an agument do not run PP, just display the help for the topic
+            if (!displayHelp)
+            {
+                var input = PostProcessorSetup.ReadPostProcessorInputFromFile(inFile);
+                if (input == null)
+                {
+                    return;
+                }
+
+                var validationResult = PostProcessorSetup.ValidatePostProcessorInput(input);
+                if (!validationResult.IsValid)
+                {
+                    Console.Write("\nPost-processor) completed with errors. Press enter key to exit.");
+                    Console.Read();
+                    return;
+                }
+                // override the output name with the user-specified name
+                if (!string.IsNullOrEmpty(outName))
+                {
+                    input.OutputName = outName;
+                }
+                PostProcessorSetup.RunPostProcessor(input, outPath);
+                Console.WriteLine("\nPost-processing complete.");
+               
+            }
         }
-
-        /// <summary>
-        /// method to read the input from a specified or default files
-        /// </summary>
-        public bool ReadPostProcessorInputFromFile()
+        private static void GenerateDefaultInputFile()
         {
-            // read input file then read in elements of input file
-            if (InputFilename.Length > 0)
-            {
-                path = System.IO.Path.GetDirectoryName(System.IO.Path.GetFullPath(InputFilename)) + "\\";
-                infileName = System.IO.Path.GetFileNameWithoutExtension(InputFilename);
-                InputFilename = path + infileName + ".xml";
-
-                if (System.IO.File.Exists(InputFilename))
-                {
-                    Input = FileIO.ReadFromXML<PostProcessorInput>(InputFilename);
-                }
-                else
-                {
-                    Console.WriteLine("\nThe following input file could not be found: " + infileName + ".xml");
-                    return false;
-                }
-            }
-            else
-            {
-                Console.WriteLine("\nNo detector input file specified. Using newinfile.xml from resources.");
-                Input = FileIO.ReadFromXML<PostProcessorInput>("newinfile.xml");
-
-            }
-            // read in SimulationInput that generated database
-            if (Input.DatabaseSimulationInputFilename.Length > 0)
-            {
-                var SimulationInputFile = path + Input.DatabaseSimulationInputFilename + ".xml";
-
-                if (System.IO.File.Exists(SimulationInputFile))
-                {
-                    databaseSimulationInput = SimulationInput.FromFile(SimulationInputFile);
-                }
-                else
-                {
-                    Console.WriteLine("\nThe following input file could not be found: " +
-                        Input.DatabaseSimulationInputFilename + ".xml");
-                    return false;
-                }
-            }
-            else
-            {
-                Console.WriteLine("\nNo SimulationInput file specified in PostProcessorInput. ");
-            }
-            // read in database names
-            if (Input.DatabaseFilenames != null)
-            {
-                // check if pMC databases first
-                if (Input.DatabaseTypes.Contains(DatabaseType.PhotonExitDataPoints) &&
-                    Input.DatabaseTypes.Contains(DatabaseType.CollisionInfo))
-                {
-                    doPMC = true;
-                    int pdindex = Input.DatabaseTypes.IndexOf(DatabaseType.PhotonExitDataPoints);
-                    var photonDatabaseName = path + Input.DatabaseFilenames[pdindex];
-                    int ciindex = Input.DatabaseTypes.IndexOf(DatabaseType.CollisionInfo);
-                    var collisionInfoDatabaseName = path + Input.DatabaseFilenames[ciindex];
-                    if (System.IO.File.Exists(photonDatabaseName) &&
-                        System.IO.File.Exists(collisionInfoDatabaseName))
-                    {
-                        pmcDatabase = pMCDatabase.FromFile(photonDatabaseName, collisionInfoDatabaseName);
-                    }
-                    else
-                    {
-                        Console.WriteLine("\nOne of the following database files could not be found: " +
-                            photonDatabaseName + ".xml or" + collisionInfoDatabaseName + ".xml");
-                        return false;
-                    }
-                }
-                if (Input.DatabaseTypes.Contains(DatabaseType.PhotonExitDataPoints) &&
-                    !Input.DatabaseTypes.Contains(DatabaseType.CollisionInfo))
-                {
-                    int index = Input.DatabaseTypes.IndexOf(DatabaseType.PhotonExitDataPoints);
-                    var photonDatabaseName = path + Input.DatabaseFilenames[index];
-                    if (System.IO.File.Exists(photonDatabaseName))
-                    {
-                        photonDatabase = PhotonDatabase.FromFile(photonDatabaseName);
-                    }
-                    else
-                    {
-                        Console.WriteLine("\nThe following database file could not be found: " +
-                                photonDatabaseName + ".xml");
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Runs the Monte Carlo Post-processor
-        /// </summary>
-        public void RunPostProcessor()
-        {
-            Output postProcessedOutput;
-            if (!doPMC)
-            {
-                // the following only works for surface boundary detectors
-                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
-                    VirtualBoundaryType.DiffuseReflectance,
-                    Input.DetectorInputs, 
-                    false,
-                    photonDatabase, 
-                    databaseSimulationInput);
-            }
-            else
-            {
-                IList<IpMCDetectorInput> pMCDetectorInputs;
-                pMCDetectorInputs = Input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
-                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
-                    VirtualBoundaryType.pMCDiffuseReflectance,
-                    pMCDetectorInputs, 
-                    false,
-                    pmcDatabase, 
-                    databaseSimulationInput);
-            }
-            var folderPath = OutputFolder;
-            if (!Directory.Exists(folderPath))
-                Directory.CreateDirectory(folderPath);
-
-            // save input file to output folder with results
-            Input.ToFile(path + "\\" + folderPath + "\\" + infileName + ".xml");
-
-            foreach (var result in postProcessedOutput.ResultsDictionary.Values)
-            {
-                // save all detector data to the specified folder
-                DetectorIO.WriteDetectorToFile(result, folderPath);
-            }
-
-        }
-
-        /// <summary>
-        /// Displays the help text for detailed usage of the application
-        /// </summary>
-        public void ShowHelp()
-        {
-            Console.WriteLine("Virtual Photonics MC 1.0");
-            Console.WriteLine();
-            Console.WriteLine("list of arguments:");
-            Console.WriteLine();
-            Console.WriteLine("infile\t\tthe input file.");
-            Console.WriteLine("outfile\t\tthe output file.");
-            Console.WriteLine();
-            Console.WriteLine("sample usage:");
-            Console.WriteLine();
-            Console.WriteLine("mc_post infile=myinput outfile=myoutput");
-        }
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            PostProcessorSetup PostProcessorSetup = new PostProcessorSetup();
-
-            bool _showHelp = false;
-            
-    #region Infile Generation (optional)
-        //To Generate an infile, uncomment the first line of code in this file
-#if GENERATE_INFILE
-            var tempInput = new PostProcessorInput(
+           var tempInput = new PostProcessorInput(
+                VirtualBoundaryType.DiffuseReflectance,
                 new List<IDetectorInput>()
                 {
-                    //new RDiffuseDetectorInput(),
-                    //new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
                     //new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    //new ROfRhoAndAngleDetectorInput(
-                    //    new DoubleRange(0.0, 10, 101),
-                    //    new DoubleRange(0.0, Math.PI / 2, 2)),
-                    //new ROfRhoAndTimeDetectorInput(
-                    //    new DoubleRange(0.0, 10, 101),
-                    //    new DoubleRange(0.0, 10, 101)),
-                    //new ROfXAndYDetectorInput(
-                    //    new DoubleRange(-200.0, 200.0, 401), // x
-                    //    new DoubleRange(-200.0, 200.0, 401)), // y,
-                    //new ROfRhoAndOmegaDetectorInput(
-                    //    new DoubleRange(0.0, 10, 101),
-                    //    new DoubleRange(0.0, 1000, 21)),
-                    //new TDiffuseDetectorInput(),
-                    //new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    //new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    //new TOfRhoAndAngleDetectorInput(
-                    //    new DoubleRange(0.0, 10, 101),
-                    //    new DoubleRange(0.0, Math.PI / 2, 2))
+
                     // NOTE: can run different perturbations by adding detectors
                     new pMCROfRhoDetectorInput(
                         new DoubleRange(0.0, 40, 21),
@@ -338,74 +205,30 @@ namespace Vts.MonteCarlo.PostProcessor
                         new List<int>() { 1 },
                         "pMCROfRho_mus0p5"),
                 },
-                new List<string>()
-                {
-                    "infile_photonExitDatabase",
-                    "infile_collisionInfoDatabase"
-                },
-                new List<DatabaseType>()
-                {
-                    DatabaseType.PhotonExitDataPoints,
-                    DatabaseType.CollisionInfo
-                },
-                "infile");
-            tempInput.WriteToXML<PostProcessorInput>("newinfile.xml");
-#endif
-    #endregion
+                true, // tally second moment
+                "results",
+                "infile",
+                "postprocessorrsults");
+            tempInput.ToFile("newinfile.xml");
 
-            args.Process(() =>
-                    {
-                        Console.WriteLine("Usages are:");
-                        Console.WriteLine("mc_post infile=myinput outfile=myoutfile");
-                        Console.WriteLine();
-                    },
-                new CommandLine.Switch("help", val =>
-                    {
-                        _showHelp = true;
-                    }),
-                new CommandLine.Switch("infile", val =>
-                    {
-                        Console.WriteLine("input file specified as {0}", val.First());
-                        PostProcessorSetup.InputFilename = val.First();
-                    }),
-                new CommandLine.Switch("outfile", val =>
-                    {
-                        Console.WriteLine("output file specified as {0}", val.First());
-                        PostProcessorSetup.OutputFolder = val.First();
-                    })
-                //new CommandLine.Switch("datafile", val =>
-                //    {
-                //        Console.WriteLine("database file specified as {0}", val.First());
-                //        PostProcessorSetup.DatabaseFile = val.First();
-                //    })
-            );
-            //if help is passed as an agument do not run PP, just display the help for the topic
-            if (_showHelp)
-            {
-                PostProcessorSetup.ShowHelp();
-            }
-            else
-            {
-                PostProcessorSetup.ReadPostProcessorInputFromFile();
-
-                if (PostProcessorSetup.ValidInput)
-                {
-                    PostProcessorSetup.RunPostProcessor();
-                    Console.Write("\nPostProcessor complete.");
-                }
-                else
-                {
-                    Console.Write("\nPostProcessor completed with errors. Press enter key to exit.");
-                    Console.Read();
-                }
-            }
         }
 
-        // comment out for now ckh 3/23/11
-        //private static IList<IDetector> LoadDefaultInputFile()
-        //{
-        //    return new IList<IDetector>() { };
-        //}
+        /// <summary>
+        /// Displays the help text for detailed usage of the application
+        /// </summary>
+        private static void ShowHelp()
+        {
+            Console.WriteLine("Virtual Photonics MC 1.0");
+            Console.WriteLine();
+            Console.WriteLine("list of arguments:");
+            Console.WriteLine();
+            Console.WriteLine("infile\t\tthe input file.");
+            Console.WriteLine("outfile\t\tthe output file.");
+            Console.WriteLine();
+            Console.WriteLine("sample usage:");
+            Console.WriteLine();
+            Console.WriteLine("mc_post infile=myinput outfile=myoutput");
+        }
     }
 }
 

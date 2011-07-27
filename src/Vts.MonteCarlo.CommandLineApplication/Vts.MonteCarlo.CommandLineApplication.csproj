@@ -111,6 +111,7 @@
     <Content Include="infile_database.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="infile_pMC_database.xml" />
     <Content Include="infile_ROfRho.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
