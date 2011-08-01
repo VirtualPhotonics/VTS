@@ -23,7 +23,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>       
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianSurfaceEmittingCuboidalSource(
             double cubeLengthX,
             double cubeWidthY,

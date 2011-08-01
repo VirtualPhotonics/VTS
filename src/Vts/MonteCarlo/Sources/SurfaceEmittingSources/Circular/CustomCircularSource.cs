@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param> 
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomCircularSource(            
             double outerRadius,
             double innerRadius,
@@ -59,10 +59,13 @@ namespace Vts.MonteCarlo.Sources
             if (beamRotationFromInwardNormal == null)
                 beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
         }
-              
-
-        //CustomCircularSource
-        protected override Direction GetFinalDirection(Position finalPosition)
+        
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>  
+        protected override Direction GetFinalDirection(Position position)
         {
             return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange,

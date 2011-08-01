@@ -14,13 +14,13 @@ namespace Vts.MonteCarlo.SourceInputs
         /// <summary>
         /// Initializes a new instance of the DirectionalLineSourceInput class
         /// </summary>
-        /// <param name="thetaConvOrDiv">converging/diverging angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam} {= 0, for a collimated beam}</param>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public DirectionalLineSourceInput(
             double thetaConvOrDiv,
             double lineLength,
@@ -43,7 +43,7 @@ namespace Vts.MonteCarlo.SourceInputs
         /// <summary>
         /// Initializes a new instance of the DirectionalLineSourceInput class
         /// </summary>
-        /// <param name="thetaConvOrDiv">converging/diverging angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         public DirectionalLineSourceInput(
@@ -71,14 +71,38 @@ namespace Vts.MonteCarlo.SourceInputs
                 SourceDefaults.DefaultPosition.Clone(),
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
                 0) { }
-
-        public SourceType SourceType { get; set; }
+        
+        /// <summary>
+        /// Covergence or Divergance Angle {= 0, for a collimated beam}
+        /// </summary>
         public double ThetaConvOrDiv { get; set; }
+        /// <summary>
+        /// Line source type
+        /// </summary>
+        public SourceType SourceType { get; set; }
+        /// <summary>
+        /// The length of the line source
+        /// </summary>
         public double LineLength { get; set; }
+        /// <summary>
+        /// Source profile type
+        /// </summary>
         public ISourceProfile SourceProfile { get; set; }
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
+        /// <summary>
+        /// New source location
+        /// </summary>
         public Position TranslationFromOrigin { get; set; }
+        /// <summary>
+        /// Beam rotation from inward normal
+        /// </summary>
         public PolarAzimuthalAngles BeamRotationFromInwardNormal { get; set; }
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         public int InitialTissueRegionIndex { get; set; }
     }
 }

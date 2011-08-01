@@ -12,15 +12,49 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public abstract class RectangularSourceBase : ISource
     {
+        /// <summary>
+        /// Source profile type
+        /// </summary>
         protected ISourceProfile _sourceProfile;
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         protected Direction _newDirectionOfPrincipalSourceAxis;
+        /// <summary>
+        /// New source location
+        /// </summary>
         protected Position _translationFromOrigin;
+        /// <summary>
+        /// Beam rotation from inward normal
+        /// </summary>
         protected PolarAzimuthalAngles _beamRotationFromInwardNormal;
+        /// <summary>
+        /// Source rotation and translation flags
+        /// </summary>
         protected SourceFlags _rotationAndTranslationFlags;
+        /// <summary>
+        /// The length of the Rectangular Source
+        /// </summary>
         protected double _rectLengthX;
+        /// <summary>
+        /// The width of the Rectangular Source
+        /// </summary>
         protected double _rectWidthY;
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         protected int _initialTissueRegionIndex;
 
+        /// <summary>
+        /// Defines RectangularSourceBase class
+        /// </summary>
+        /// <param name="rectLengthX">The length of the Rectangular Source</param>
+        /// <param name="rectWidthY">The width of the Rectangular Source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>    
+        /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         protected RectangularSourceBase(
             double rectLengthX,
             double rectWidthY,
@@ -45,7 +79,7 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Implement Get next photon
+        /// Implements Get next photon
         /// </summary>
         /// <param name="tissue">tissue</param>
         /// <returns></returns>
@@ -74,7 +108,12 @@ namespace Vts.MonteCarlo.Sources
             return photon;
         }
 
-        protected abstract Direction GetFinalDirection(Position finalPosition); // position may or may not be needed
+        /// <summary>
+        /// Returns final direction for a given position
+        /// </summary>
+        /// <param name="position">Current position</param>
+        /// <returns></returns>
+        protected abstract Direction GetFinalDirection(Position position); // position may or may not be needed
 
         private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double rectLengthX, double rectWidthY, Random rng)
         {

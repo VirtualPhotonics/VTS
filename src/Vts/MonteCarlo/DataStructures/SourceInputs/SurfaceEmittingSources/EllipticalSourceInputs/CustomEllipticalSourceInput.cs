@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.SourceInputs
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomEllipticalSourceInput(
             double aParameter,
             double bParameter,
@@ -89,15 +89,45 @@ namespace Vts.MonteCarlo.SourceInputs
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
                 0) { }
 
+        /// <summary>
+        /// Elliptical source type
+        /// </summary>
         public SourceType SourceType { get; set; }
+        /// <summary>
+        /// "a" parameter of the ellipse source
+        /// </summary>
         public double AParameter { get; set; }
+        /// <summary>
+        /// "b" parameter of the ellipse source
+        /// </summary>
         public double BParameter { get; set; }
+        /// <summary>
+        /// Source profile type
+        /// </summary>
         public ISourceProfile SourceProfile { get; set; }
+        /// <summary>
+        /// Polar angle range
+        /// </summary>
         public DoubleRange PolarAngleEmissionRange { get; set; }
-        public DoubleRange AzimuthalAngleEmissionRange { get; set; }       
+        /// <summary>
+        /// Azimuthal angle range
+        /// </summary>
+        public DoubleRange AzimuthalAngleEmissionRange { get; set; }
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
+        /// <summary>
+        /// New source location
+        /// </summary>
         public Position TranslationFromOrigin { get; set; }
+        /// <summary>
+        /// Beam rotation from inward normal
+        /// </summary>
         public PolarAzimuthalAngles BeamRotationFromInwardNormal { get; set; }
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         public int InitialTissueRegionIndex { get; set; }
     }
 }

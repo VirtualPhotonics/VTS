@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle emission range</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomVolumetricEllipsoidalSource(
             double aParameter,
             double bParameter,
@@ -57,9 +57,11 @@ namespace Vts.MonteCarlo.Sources
             if (translationFromOrigin == null)
                 translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
         }
-        
 
-        //CustomEllipsoidalSource
+        /// <summary>
+        /// Returns direction
+        /// </summary>
+        /// <returns></returns>
         protected override Direction GetFinalDirection()
         {
             return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(

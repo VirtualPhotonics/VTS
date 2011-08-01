@@ -12,14 +12,44 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public abstract class LineSourceBase : ISource
     {
+        /// <summary>
+        /// Source profile type
+        /// </summary>
         protected ISourceProfile _sourceProfile;
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         protected Direction _newDirectionOfPrincipalSourceAxis;
+        /// <summary>
+        /// New source location
+        /// </summary>
         protected Position _translationFromOrigin;
-        protected PolarAzimuthalAngles _beamRotationFromInwardNormal;        
+        /// <summary>
+        /// Beam rotation from inward normal
+        /// </summary>
+        protected PolarAzimuthalAngles _beamRotationFromInwardNormal;  
+        /// <summary>
+        /// Source rotation and translation flags
+        /// </summary>
         protected SourceFlags _rotationAndTranslationFlags;
+        /// <summary>
+        /// The length of the line source
+        /// </summary>
         protected double _lineLength;
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         protected int _initialTissueRegionIndex;
 
+        /// <summary>
+        /// Defines LineSourceBase class
+        /// </summary>
+        /// <param name="lineLength">The length of the line source</param>
+        /// <param name="sourceProfile">Source profile type</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="beamRotationFromInwardNormal">Beam rotation from inward normal</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         protected LineSourceBase(
             double lineLength,
             ISourceProfile sourceProfile,
@@ -49,7 +79,7 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Implement Get next photon
+        /// Implements Get next photon
         /// </summary>
         /// <param name="tissue">tissue</param>
         /// <returns></returns>
@@ -78,8 +108,12 @@ namespace Vts.MonteCarlo.Sources
             return photon;
         }
 
-        protected abstract Direction GetFinalDirection(Position finalPosition); // position may or may not be needed
-
+        /// <summary>
+        /// Returns final direction for a given position
+        /// </summary>
+        /// <param name="position">Current position</param>
+        /// <returns></returns>
+        protected abstract Direction GetFinalDirection(Position position); // position may or may not be needed
 
         private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double lineLength, Random rng)
         {

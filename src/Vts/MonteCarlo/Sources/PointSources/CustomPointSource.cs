@@ -18,9 +18,9 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="polarAngleEmissionRange">Polar angle emission range</param>
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle emission range</param>
-        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">Point source emitting direction</param>
         /// <param name="pointLocation">New position</param>  
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomPointSource(
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,

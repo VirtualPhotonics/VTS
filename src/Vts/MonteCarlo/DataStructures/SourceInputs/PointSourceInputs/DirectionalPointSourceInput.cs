@@ -13,9 +13,9 @@ namespace Vts.MonteCarlo.SourceInputs
         /// <summary>
         /// Initializes a new instance of the DirectionalPointSourceInput class
         /// </summary>
-        /// <param name="pointLocation">position</param>
-        /// <param name="direction">direction</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="pointLocation">New position</param>
+        /// <param name="direction">Point source emitting direction</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public DirectionalPointSourceInput(
             Position pointLocation,
             Direction direction,
@@ -36,9 +36,21 @@ namespace Vts.MonteCarlo.SourceInputs
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 0) { }
 
-        public Position PointLocation { get; set; }
-        public Direction Direction { get; set; }
+        /// <summary>
+        /// Point source type
+        /// </summary>
         public SourceType SourceType { get; set; }
+        /// <summary>
+        /// New position
+        /// </summary>
+        public Position PointLocation { get; set; }
+        /// <summary>
+        /// Point source emitting direction
+        /// </summary>
+        public Direction Direction { get; set; }
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         public int InitialTissueRegionIndex { get; set; }
     }
 }

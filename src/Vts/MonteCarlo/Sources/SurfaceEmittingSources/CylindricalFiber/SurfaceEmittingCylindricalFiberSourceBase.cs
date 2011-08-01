@@ -11,16 +11,50 @@ namespace Vts.MonteCarlo.Sources
     /// Abstract class for SurfaceEmittingCylindricalFiberSourceBase
     /// </summary>
     public abstract class SurfaceEmittingCylindricalFiberSourceBase : ISource
-    {        
+    {
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         protected Direction _newDirectionOfPrincipalSourceAxis;
-        protected Position _translationFromOrigin;        
+        /// <summary>
+        /// New source location
+        /// </summary>
+        protected Position _translationFromOrigin;
+        /// <summary>
+        /// Source rotation and translation flags
+        /// </summary>
         protected SourceFlags _rotationAndTranslationFlags;
+        /// <summary>
+        /// Fiber radius
+        /// </summary>
         protected double _fiberRadius;
+        /// <summary>
+        /// Fiber height
+        /// </summary>
         protected double _fiberHeightZ;
+        /// <summary>
+        /// Efficciency of the curved surface (0-1)
+        /// </summary>
         protected double _curvedSurfaceEfficiency;
+        /// <summary>
+        /// Efficciency of the bottom surface (0-1)
+        /// </summary>
         protected double _bottomSurfaceEfficiency;
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         protected int _initialTissueRegionIndex;
-        
+
+        /// <summary>
+        /// Defines SurfaceEmittingCylindricalFiberSourceBase class
+        /// </summary>
+        /// <param name="fiberRadius">Fiber radius</param>
+        /// <param name="fiberHeightZ">Fiber height</param>
+        /// <param name="curvedSurfaceEfficiency">Efficciency of the curved surface (0-1)</param>
+        /// <param name="bottomSurfaceEfficiency">Efficciency of the bottom surface (0-1)</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         protected SurfaceEmittingCylindricalFiberSourceBase(
             double fiberRadius,
             double fiberHeightZ,  
@@ -45,7 +79,7 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Implement Get next photon
+        /// Implements Get next photon
         /// </summary>
         /// <param name="tissue">tissue</param>
         /// <returns></returns>
@@ -58,9 +92,7 @@ namespace Vts.MonteCarlo.Sources
             Position finalPosition;
 
             if (_fiberRadius > 0.0)
-            {
-                
-
+            {              
                 if (Rng.NextDouble() > bottom / (curved + bottom))
                 {
                     //sample angular distribution
@@ -103,7 +135,6 @@ namespace Vts.MonteCarlo.Sources
             }
             else                 
             {
-
                 finalPosition = SourceToolbox.GetPositionInALineRandomFlat(
                         SourceDefaults.DefaultPosition.Clone(),
                         _fiberHeightZ,

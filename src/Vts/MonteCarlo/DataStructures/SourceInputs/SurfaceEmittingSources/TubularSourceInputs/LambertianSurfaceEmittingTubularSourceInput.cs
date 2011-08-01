@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.SourceInputs
         /// <param name="tubeHeightZ">Tube height</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianSurfaceEmittingTubularSourceInput(
             double tubeRadius,
             double tubeHeightZ,
@@ -62,11 +62,29 @@ namespace Vts.MonteCarlo.SourceInputs
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
 
+        /// <summary>
+        /// Tubular source type
+        /// </summary>
         public SourceType SourceType { get; set; }
+        /// <summary>
+        /// Tube radius
+        /// </summary>
         public double TubeRadius { get; set; }
-        public double TubeHeightZ { get; set; }   
+        /// <summary>
+        /// Tube height
+        /// </summary>
+        public double TubeHeightZ { get; set; }
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
+        /// <summary>
+        /// New source location
+        /// </summary>
         public Position TranslationFromOrigin { get; set; }
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         public int InitialTissueRegionIndex { get; set; }
     }
 }

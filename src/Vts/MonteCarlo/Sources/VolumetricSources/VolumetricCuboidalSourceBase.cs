@@ -12,15 +12,49 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public abstract class VolumetricCuboidalSourceBase : ISource
     {
+        /// <summary>
+        /// Source profile type
+        /// </summary>
         protected ISourceProfile _sourceProfile;
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         protected Direction _newDirectionOfPrincipalSourceAxis;
-        protected Position _translationFromOrigin;        
+        /// <summary>
+        /// New source location
+        /// </summary>
+        protected Position _translationFromOrigin;
+        /// <summary>
+        /// Source rotation and translation flags
+        /// </summary>
         protected SourceFlags _rotationAndTranslationFlags;
+        /// <summary>
+        /// The length of the cuboid
+        /// </summary>
         protected double _cubeLengthX;
+        /// <summary>
+        /// The width of the cuboid
+        /// </summary>
         protected double _cubeWidthY;
+        /// <summary>
+        /// The height of the cuboid
+        /// </summary>
         protected double _cubeHeightZ;
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         protected int _initialTissueRegionIndex;
 
+        /// <summary>
+        /// Defines VolumetricCuboidalSourceBase class
+        /// </summary>
+        /// <param name="cubeLengthX">The length of the cuboid</param>
+        /// <param name="cubeWidthY">The width of the cuboid</param>
+        /// <param name="cubeHeightZ">The height of the cuboid</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         protected VolumetricCuboidalSourceBase(
             double cubeLengthX,
             double cubeWidthY,
@@ -45,7 +79,7 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Implement Get next photon
+        /// Implements Get next photon
         /// </summary>
         /// <param name="tissue">tissue</param>
         /// <returns></returns>
@@ -73,6 +107,10 @@ namespace Vts.MonteCarlo.Sources
             return photon;
         }
 
+        /// <summary>
+        /// Returns direction
+        /// </summary>
+        /// <returns></returns>
         protected abstract Direction GetFinalDirection(); // position may or may not be needed
 
         private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double cubeLengthX, double cubeWidthY, double cubeHeightZ, Random rng)

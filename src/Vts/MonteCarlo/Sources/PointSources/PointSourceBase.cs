@@ -11,15 +11,44 @@ namespace Vts.MonteCarlo.Sources
     /// Abstract class for PointSourceBase
     /// </summary>
     public abstract class PointSourceBase : ISource
-    {       
+    {      
+        /// <summary>
+        /// Polar angle range
+        /// </summary>
         protected DoubleRange _polarAngleEmissionRange;
+        /// <summary>
+        /// Azimuthal angle range
+        /// </summary>
         protected DoubleRange _azimuthalAngleEmissionRange;
+        /// <summary>
+        /// New position
+        /// </summary>
         protected Position _translationFromOrigin;
+        /// <summary>
+        /// Point source emitting direction
+        /// </summary>
         protected Direction _newDirectionOfPrincipalSourceAxis;
+        /// <summary>
+        /// Rotation angles pair(polar/azimuthal) of emitting direction
+        /// </summary>
         protected PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis;
+        /// <summary>
+        /// Source translation and rotation flags
+        /// </summary>
         protected SourceFlags _rotationAndTranslationFlags;
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         protected int _initialTissueRegionIndex;
-
+        
+        /// <summary>
+        /// Defines PointSourceBase class
+        /// </summary>
+        /// <param name="polarAngleEmissionRange">Polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">Point source emitting direction</param>
+        /// <param name="translationFromOrigin">New position</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         protected PointSourceBase( 
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
@@ -45,7 +74,7 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Implement Get next photon
+        /// Implements Get next photon
         /// </summary>
         /// <param name="tissue">tissue</param>
         /// <returns></returns>

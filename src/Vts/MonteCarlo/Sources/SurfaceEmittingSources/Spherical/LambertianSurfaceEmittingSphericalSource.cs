@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="radius">The radius of the sphere</param> 
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianSurfaceEmittingSphericalSource(
             double radius,
             Position translationFromOrigin = null,

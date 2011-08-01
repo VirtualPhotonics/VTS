@@ -15,9 +15,9 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns an instance of Directional Point Source with a given emission direction at a given location
         /// </summary>        
-        /// <param name="direction">Photon emitting direction</param>
+        /// <param name="direction">Point source emitting direction</param>
         /// <param name="pointLocation">New position</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public DirectionalPointSource(
             Direction direction,
             Position pointLocation = null,

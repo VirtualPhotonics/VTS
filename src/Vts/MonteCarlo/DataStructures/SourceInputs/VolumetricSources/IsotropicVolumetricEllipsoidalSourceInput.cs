@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.SourceInputs
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public IsotropicVolumetricEllipsoidalSourceInput(
             double aParameter,
             double bParameter,
@@ -74,13 +74,37 @@ namespace Vts.MonteCarlo.SourceInputs
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
 
+        /// <summary>
+        /// Ellipsoidal source type
+        /// </summary>
         public SourceType SourceType { get; set; }
+        /// <summary>
+        /// "a" parameter of the ellipsoid source
+        /// </summary>
         public double AParameter { get; set; }
+        /// <summary>
+        /// "b" parameter of the ellipsoid source
+        /// </summary>
         public double BParameter { get; set; }
+        /// <summary>
+        /// "c" parameter of the ellipsoid source
+        /// </summary>
         public double CParameter { get; set; }
-        public ISourceProfile SourceProfile { get; set; }     
+        /// <summary>
+        /// Source profile type
+        /// </summary>
+        public ISourceProfile SourceProfile { get; set; }
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
+        /// <summary>
+        /// New source location
+        /// </summary>
         public Position TranslationFromOrigin { get; set; }
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         public int InitialTissueRegionIndex { get; set; }
     }
 }

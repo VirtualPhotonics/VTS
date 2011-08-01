@@ -17,11 +17,11 @@ namespace Vts.MonteCarlo.SourceInputs
         /// Initializes a new instance of the CustomSurfaceEmittingSphericalSourceInput class
         /// </summary>
         /// <param name="radius">The radius of the sphere</param>
-        /// <param name="polarAngleRangeToDefineSphericalSurface">polar angle range to define spherical surface</param>
-        /// <param name="azimuthalAngleRangeToDefineSphericalSurface">azimuthal angle range to define spherical surface</param>
+        /// <param name="polarAngleRangeToDefineSphericalSurface">Polar angle range to define spherical surface</param>
+        /// <param name="azimuthalAngleRangeToDefineSphericalSurface">Azimuthal angle range to define spherical surface</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomSurfaceEmittingSphericalSourceInput(
             double radius,
             DoubleRange polarAngleRangeToDefineSphericalSurface,
@@ -69,12 +69,33 @@ namespace Vts.MonteCarlo.SourceInputs
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
 
+        /// <summary>
+        /// Spherical source type
+        /// </summary>
         public SourceType SourceType { get; set; }
+        /// <summary>
+        /// The radius of the sphere
+        /// </summary>
         public double Radius { get; set; }
+        /// <summary>
+        /// Polar angle range to define spherical surface
+        /// </summary>
         public DoubleRange PolarAngleRangeToDefineSphericalSurface { get; set; }
-        public DoubleRange AzimuthalAngleRangeToDefineSphericalSurface { get; set; }    
+        /// <summary>
+        /// Azimuthal angle range to define spherical surface
+        /// </summary>
+        public DoubleRange AzimuthalAngleRangeToDefineSphericalSurface { get; set; }
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
+        /// <summary>
+        /// New source location
+        /// </summary>
         public Position TranslationFromOrigin { get; set; }
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         public int InitialTissueRegionIndex { get; set; }
     }
 }

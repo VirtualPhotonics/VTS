@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.SourceInputs
         /// <param name="bottomSurfaceEfficiency">Efficiency of bottom surface (0 - 1)</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianSurfaceEmittingCylindricalFiberSourceInput(
             double fiberRadius,
             double fiberHeightZ,
@@ -72,13 +72,38 @@ namespace Vts.MonteCarlo.SourceInputs
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
 
+        /// <summary>
+        /// Surface emitting cylindrical fiber source type
+        /// </summary>
         public SourceType SourceType { get; set; }
+        /// <summary>
+        /// Fiber radius
+        /// </summary>
         public double FiberRadius { get; set; }
+        /// <summary>
+        /// Fiber height
+        /// </summary>
         public double FiberHeightZ { get; set; }   
+        /// <summary>
+        /// Efficiency of curved surface (0 - 1)
+        /// </summary>
         public double CurvedSurfaceEfficiency { get; set; }
-        public double BottomSurfaceEfficiency { get; set; }  
+        /// <summary>
+        /// Efficiency of bottom surface (0 - 1)
+        /// </summary>
+        public double BottomSurfaceEfficiency { get; set; }
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
+        /// <summary>
+        /// New source location
+        /// </summary>
         public Position TranslationFromOrigin { get; set; }
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         public int InitialTissueRegionIndex { get; set; }
+       
     }
 }

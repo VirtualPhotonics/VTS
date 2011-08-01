@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">Ray rotation from inward normal</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public IsotropicLineSource(
             double lineLength,
             ISourceProfile sourceProfile,
@@ -38,10 +38,14 @@ namespace Vts.MonteCarlo.Sources
                 beamRotationFromInwardNormal,
                 initialTissueRegionIndex)
         {            
-        }        
-                
-        //Isotropic line source
-        protected override Direction GetFinalDirection(Position finalPosition)
+        }
+
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>  
+        protected override Direction GetFinalDirection(Position position)
         {                   
             var azimuthalAngleEmissionRange = SourceDefaults.DefaultAzimuthalAngleRange.Clone();
             var polarAngleEmissionRange = SourceDefaults.DefaultFullPolarAngleRange.Clone();

@@ -11,14 +11,40 @@ namespace Vts.MonteCarlo.Sources
     /// Abstract class for SurfaceEmittingTubularSourceBase
     /// </summary>
     public abstract class SurfaceEmittingTubularSourceBase : ISource
-    {        
+    {
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         protected Direction _newDirectionOfPrincipalSourceAxis;
-        protected Position _translationFromOrigin;        
+        /// <summary>
+        /// New source location
+        /// </summary>
+        protected Position _translationFromOrigin;
+        /// <summary>
+        /// Source rotation and translation flags
+        /// </summary>
         protected SourceFlags _rotationAndTranslationFlags;
+        /// <summary>
+        /// Tube radius
+        /// </summary>
         protected double _tubeRadius;
+        /// <summary>
+        /// Tube height
+        /// </summary>
         protected double _tubeHeightZ;
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         protected int _initialTissueRegionIndex;
 
+        /// <summary>
+        /// Defines SurfaceEmittingTubularSourceBase class
+        /// </summary>
+        /// <param name="tubeRadius">Tube radius</param>
+        /// <param name="tubeHeightZ">Tube height</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         protected SurfaceEmittingTubularSourceBase(
             double tubeRadius,
             double tubeHeightZ,  
@@ -39,7 +65,7 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Implement Get next photon
+        /// Implements Get next photon
         /// </summary>
         /// <param name="tissue">tissue</param>
         /// <returns></returns>

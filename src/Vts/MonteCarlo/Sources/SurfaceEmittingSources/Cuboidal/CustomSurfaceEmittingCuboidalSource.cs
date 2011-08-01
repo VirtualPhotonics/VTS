@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="polarAngleEmissionRange">Polar angle emission range {0 - 90degrees}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>  
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomSurfaceEmittingCuboidalSource(
             double cubeLengthX,
             double cubeWidthY,

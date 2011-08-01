@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.SourceInputs
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public IsotropicLineSourceInput(
             double lineLength,
             ISourceProfile sourceProfile,
@@ -67,12 +67,33 @@ namespace Vts.MonteCarlo.SourceInputs
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(), 
                 0) { }
 
+        /// <summary>
+        /// Line source type
+        /// </summary>
         public SourceType SourceType { get; set; }
+        /// <summary>
+        /// The length of the line source
+        /// </summary>
         public double LineLength { get; set; }
+        /// <summary>
+        /// Source profile type
+        /// </summary>
         public ISourceProfile SourceProfile { get; set; }
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
+        /// <summary>
+        /// New source location
+        /// </summary>
         public Position TranslationFromOrigin { get; set; }
+        /// <summary>
+        /// Beam rotation from inward normal
+        /// </summary>
         public PolarAzimuthalAngles BeamRotationFromInwardNormal { get; set; }
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         public int InitialTissueRegionIndex { get; set; }
     }
 }

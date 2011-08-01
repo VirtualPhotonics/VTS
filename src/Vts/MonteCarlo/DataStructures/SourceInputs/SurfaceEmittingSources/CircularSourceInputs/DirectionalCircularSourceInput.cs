@@ -14,14 +14,14 @@ namespace Vts.MonteCarlo.SourceInputs
         /// <summary>
         /// Initializes a new instance of the DirectionalCircularSourceInput class
         /// </summary>
-        /// <param name="thetaConvOrDiv">converging/diverging angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
         /// <param name="outerRadius">The outer radius of the circular source</param>
         /// <param name="innerRadius">The inner radius of the circular source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public DirectionalCircularSourceInput(
             double thetaConvOrDiv,            
             double outerRadius,
@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo.SourceInputs
         /// <summary>
         /// Initializes a new instance of the DirectionalCircularSourceInput class
         /// </summary>
-        /// <param name="thetaConvOrDiv">converging/diverging angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
         /// <param name="outerRadius">The outer radius of the circular source</param>
         /// <param name="innerRadius">The inner radius of the circular source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -79,14 +79,41 @@ namespace Vts.MonteCarlo.SourceInputs
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
                 0) { }
 
-        public SourceType SourceType { get; set; }
+        /// <summary>
+        /// Covergence or Divergance Angle {= 0, for a collimated beam}
+        /// </summary>
         public double ThetaConvOrDiv { get; set; }
+        /// <summary>
+        /// Circular source type
+        /// </summary>
+        public SourceType SourceType { get; set; }
+        /// <summary>
+        /// The outer radius of the circular source
+        /// </summary>
         public double OuterRadius { get; set; }
+        /// <summary>
+        /// The inner radius of the circular source
+        /// </summary>
         public double InnerRadius { get; set; }
-        public ISourceProfile SourceProfile { get; set; }
+        /// <summary>
+        /// Source profile type
+        /// </summary>
+        public ISourceProfile SourceProfile { get; set; }        
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
+        /// <summary>
+        /// New source location
+        /// </summary>
         public Position TranslationFromOrigin { get; set; }
+        /// <summary>
+        /// Beam rotation from inward normal
+        /// </summary>
         public PolarAzimuthalAngles BeamRotationFromInwardNormal { get; set; }
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         public int InitialTissueRegionIndex { get; set; }
     }
 }

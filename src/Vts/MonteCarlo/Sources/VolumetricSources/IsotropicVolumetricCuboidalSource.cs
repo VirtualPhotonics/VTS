@@ -18,13 +18,13 @@ namespace Vts.MonteCarlo.Sources
         /// Returns an instance of  Isotropic Cuboidal Source with a given source profile (Flat/Gaussian), 
         /// translation, and source axis rotation
         /// </summary>
-        /// <param name="cubeLengthX">Length of the cuboid</param>
-        /// <param name="cubeWidthY">Width of the cuboid</param>
-        /// <param name="cubeHeightZ">Height of the cuboid</param>
+        /// <param name="cubeLengthX">The length of the cuboid</param>
+        /// <param name="cubeWidthY">The width of the cuboid</param>
+        /// <param name="cubeHeightZ">The height of the cuboid</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public IsotropicVolumetricCuboidalSource(
             double cubeLengthX,
             double cubeWidthY,
@@ -48,8 +48,10 @@ namespace Vts.MonteCarlo.Sources
                 translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
         }
 
-        
-        //Isotropic Cuboidal Source
+        /// <summary>
+        /// Returns direction
+        /// </summary>
+        /// <returns></returns>
         protected override Direction GetFinalDirection()
         {
             return SourceToolbox.GetDirectionForIsotropicDistributionRandom(Rng);

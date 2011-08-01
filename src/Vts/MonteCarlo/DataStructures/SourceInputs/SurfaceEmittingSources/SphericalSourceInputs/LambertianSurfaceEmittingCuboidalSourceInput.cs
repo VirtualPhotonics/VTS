@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.SourceInputs
         /// </summary>
         /// <param name="radius">The radius of the sphere</param>
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianSurfaceEmittingSphericalSourceInput(
             double radius,
             Position translationFromOrigin,
@@ -47,9 +47,21 @@ namespace Vts.MonteCarlo.SourceInputs
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
 
+        /// <summary>
+        /// Spherical source type
+        /// </summary>
         public SourceType SourceType { get; set; }
+        /// <summary>
+        /// The radius of the sphere
+        /// </summary>
         public double Radius { get; set; }
+        /// <summary>
+        /// New source location
+        /// </summary>
         public Position TranslationFromOrigin { get; set; }
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         public int InitialTissueRegionIndex { get; set; }
     }
 }

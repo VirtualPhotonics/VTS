@@ -25,8 +25,8 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle emission range</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="beamRotationFromInwardNormal">Ray rotation from inward normal</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="beamRotationFromInwardNormal">Beam rotation from inward normal</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomLineSource(
             double lineLength,
             ISourceProfile sourceProfile,
@@ -48,8 +48,12 @@ namespace Vts.MonteCarlo.Sources
             _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();            
         }
 
-        //CustomLineSource
-        protected override Direction GetFinalDirection(Position finalPosition)
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>  
+        protected override Direction GetFinalDirection(Position position)
         {
             return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange,

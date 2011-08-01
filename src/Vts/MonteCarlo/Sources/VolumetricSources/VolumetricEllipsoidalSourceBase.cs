@@ -12,15 +12,49 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public abstract class VolumetricEllipsoidalSourceBase : ISource
     {
+        /// <summary>
+        /// Source profile type
+        /// </summary>
         protected ISourceProfile _sourceProfile;
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         protected Direction _newDirectionOfPrincipalSourceAxis;
+        /// <summary>
+        /// New source location
+        /// </summary>
         protected Position _translationFromOrigin;
+        /// <summary>
+        /// Source rotation and translation flags
+        /// </summary>
         protected SourceFlags _rotationAndTranslationFlags;
+        /// <summary>
+        /// "a" parameter of the ellipsoid source
+        /// </summary>
         protected double _aParameter;
+        /// <summary>
+        /// "b" parameter of the ellipsoid source
+        /// </summary>
         protected double _bParameter;
+        /// <summary>
+        /// "c" parameter of the ellipsoid source
+        /// </summary>
         protected double _cParameter;
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         protected int _initialTissueRegionIndex;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aParameter">"a" parameter of the ellipsoid source</param>
+        /// <param name="bParameter">"b" parameter of the ellipsoid source</param>
+        /// <param name="cParameter">"c" parameter of the ellipsoid source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         protected VolumetricEllipsoidalSourceBase(
             double aParameter,
             double bParameter,
@@ -45,7 +79,7 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Implement Get next photon
+        /// Implements Get next photon
         /// </summary>
         /// <param name="tissue">tissue</param>
         /// <returns></returns>
@@ -73,6 +107,10 @@ namespace Vts.MonteCarlo.Sources
             return photon;
         }
 
+        /// <summary>
+        /// Returns direction
+        /// </summary>
+        /// <returns></returns>
         protected abstract Direction GetFinalDirection(); // position may or may not be needed
 
         private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double aParameter, double bParameter, double cParameter, Random rng)

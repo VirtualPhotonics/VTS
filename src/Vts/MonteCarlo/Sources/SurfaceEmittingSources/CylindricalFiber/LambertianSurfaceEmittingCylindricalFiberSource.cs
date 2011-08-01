@@ -24,7 +24,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="bottomSurfaceEfficiency">Efficciency of the bottom surface (0-1)</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianSurfaceEmittingCylindricalFiberSource(
             double fiberRadius,
             double fiberHeightZ,

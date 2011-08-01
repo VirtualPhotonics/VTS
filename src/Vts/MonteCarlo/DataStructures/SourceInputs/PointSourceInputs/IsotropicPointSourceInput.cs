@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.SourceInputs
         /// Initializes a new instance of the IsotropicPointSourceInput class
         /// </summary>
         /// <param name="pointLocation">position</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public IsotropicPointSourceInput(
             Position pointLocation,
             int initialTissueRegionIndex) 
@@ -30,8 +30,17 @@ namespace Vts.MonteCarlo.SourceInputs
                 new Position (0, 0, 0),
                 0) { }
 
-        public Position PointLocation { get; set; }
+        /// <summary>
+        /// Point source type
+        /// </summary>
         public SourceType SourceType { get; set; }
+        /// <summary>
+        /// New position
+        /// </summary>
+        public Position PointLocation { get; set; }
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         public int InitialTissueRegionIndex { get; set; }
     }
 }

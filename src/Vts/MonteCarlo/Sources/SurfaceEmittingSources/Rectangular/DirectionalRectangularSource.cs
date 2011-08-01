@@ -20,14 +20,14 @@ namespace Vts.MonteCarlo.Sources
         /// Returns an instance of directional (diverging/converging/collimated) Rectangular Source with specified length and width, 
         /// source profile (Flat/Gaussian), polar and azimuthal angle range, new source axis direction, translation, and  inward normal ray rotation
         /// </summary>
-        /// <param name="thetaConvOrDiv">Converging/diverging angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
         /// <param name="rectLengthX">The length of the Rectangular Source</param>
         /// <param name="rectWidthY">The width of the Rectangular Source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>    
         /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
-        /// <param name="initialTissueRegionIndex">Tissue region index</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public DirectionalRectangularSource(
             double thetaConvOrDiv,
             double rectLengthX,
@@ -55,9 +55,12 @@ namespace Vts.MonteCarlo.Sources
                 beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
         }
 
-        
-        //Converging / diveriging or collimated rectangular source
-        protected override Direction GetFinalDirection(Position finalPosition)
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>  
+        protected override Direction GetFinalDirection(Position position)
         {
             
 
@@ -71,9 +74,9 @@ namespace Vts.MonteCarlo.Sources
                 // sign is negative for diverging and positive positive for converging 
                 var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
                     _rectLengthX,
-                    Math.Sqrt(finalPosition.X * finalPosition.X + finalPosition.Y * finalPosition.Y),
+                    Math.Sqrt(position.X * position.X + position.Y * position.Y),
                     _thetaConvOrDiv);              
-                return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, finalPosition));
+                return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, position));
             }
         }
     }

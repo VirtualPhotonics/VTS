@@ -12,14 +12,44 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public abstract class SurfaceEmittingSphericalSourceBase : ISource
     {
+        /// <summary>
+        /// Polar angle range to define the emitting area of the sphere
+        /// </summary>
         protected DoubleRange _polarAngleRangeToDefineSphericalSurface;  
+        /// <summary>
+        /// Azimuthal angle range to define the emitting area of the sphere
+        /// </summary>
         protected DoubleRange _azimuthalAngleRangeToDefineSphericalSurface;
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         protected Direction _newDirectionOfPrincipalSourceAxis;
+        /// <summary>
+        /// New source location
+        /// </summary>
         protected Position _translationFromOrigin;
+        /// <summary>
+        /// Source rotation and translation flags
+        /// </summary>
         protected SourceFlags _rotationAndTranslationFlags;
+        /// <summary>
+        /// The radius of the sphere
+        /// </summary>
         protected double _radius;
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         protected int _initialTissueRegionIndex;
 
+        /// <summary>
+        /// Defines SurfaceEmittingSphericalSourceBase class
+        /// </summary>
+        /// <param name="radius">The radius of the sphere</param>
+        /// <param name="polarAngleRangeToDefineSphericalSurface">polar angle range to define the emitting area of the sphere</param>
+        /// <param name="azimuthalAngleRangeToDefineSphericalSurface">azimuthal angle range to define the emitting area of the sphere</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         protected SurfaceEmittingSphericalSourceBase(
             double radius,
             DoubleRange polarAngleRangeToDefineSphericalSurface,  
@@ -37,7 +67,7 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Implement Get next photon
+        /// Implements Get next photon
         /// </summary>
         /// <param name="tissue">tissue</param>
         /// <returns></returns>
@@ -77,7 +107,6 @@ namespace Vts.MonteCarlo.Sources
             return photon;
         }
                
-
         private static Position GetFinalPositionFromProfileType(Direction finalDirection, double radius, Random rng)
         {
             if (radius == 0.0)
