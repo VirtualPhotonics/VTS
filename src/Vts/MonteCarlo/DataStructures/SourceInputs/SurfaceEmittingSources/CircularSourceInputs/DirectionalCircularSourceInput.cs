@@ -6,13 +6,15 @@ using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.SourceInputs
 {
+    /// <summary>
     /// Implements ISourceInput. Defines input data for DirectionalCircularSource implementation 
     /// including converging/diverging angle, inner and outer radius, source profile, direction,
     /// position, inward normal beam rotation and initial tissue region index.
+    /// </summary>
     public class DirectionalCircularSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the DirectionalCircularSourceInput class
+        /// Initializes a new instance of DirectionalCircularSourceInput class
         /// </summary>
         /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
         /// <param name="outerRadius">The outer radius of the circular source</param>
@@ -44,7 +46,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the DirectionalCircularSourceInput class
+        /// Initializes a new instance of DirectionalCircularSourceInput class
         /// </summary>
         /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
         /// <param name="outerRadius">The outer radius of the circular source</param>
@@ -66,7 +68,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the DirectionalCircularSourceInput class
+        /// Initializes the default constructor of DirectionalCircularSourceInput class
         /// </summary>
         public DirectionalCircularSourceInput()            
             : this(

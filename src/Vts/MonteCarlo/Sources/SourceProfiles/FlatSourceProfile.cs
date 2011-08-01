@@ -7,6 +7,9 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
     /// </summary>
     public class FlatSourceProfile : ISourceProfile
     {
+        /// <summary>
+        /// Returns flat profile type
+        /// </summary>
         [IgnoreDataMember]
         public SourceProfileType ProfileType { get { return SourceProfileType.Flat; } }
     }

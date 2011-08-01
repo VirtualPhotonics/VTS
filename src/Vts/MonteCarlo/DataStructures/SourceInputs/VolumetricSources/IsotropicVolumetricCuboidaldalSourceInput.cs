@@ -6,13 +6,15 @@ using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.SourceInputs
 {
+    /// <summary>
     /// Implements ISourceInput. Defines input data for IsotropicVolumetricCuboidalSource
     /// implementation including length, width, height, source profile, direction, position, 
     /// and initial tissue region index.
+    /// </summary>
     public class IsotropicVolumetricCuboidalSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the IsotropicVolumetricCuboidalSourceInput class
+        /// Initializes a new instance of IsotropicVolumetricCuboidalSourceInput class
         /// </summary>
         /// <param name="cubeLengthX">Length of the cuboid</param>
         /// <param name="cubeWidthY">Width of the cuboid</param>
@@ -41,7 +43,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the IsotropicVolumetricCuboidalSourceInput class
+        /// Initializes a new instance of IsotropicVolumetricCuboidalSourceInput class
         /// </summary>
         /// <param name="cubeLengthX">Length of the cuboid</param>
         /// <param name="cubeWidthY">Width of the cuboid</param>
@@ -62,7 +64,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the IsotropicVolumetricCuboidalSourceInput class
+        /// Initializes the default constructor of IsotropicVolumetricCuboidalSourceInput class
         /// </summary>
         public IsotropicVolumetricCuboidalSourceInput()
             : this(

@@ -11,7 +11,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class DirectionalPointSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the DirectionalPointSourceInput class
+        /// Initializes a new instance of DirectionalPointSourceInput class
         /// </summary>
         /// <param name="pointLocation">New position</param>
         /// <param name="direction">Point source emitting direction</param>
@@ -28,7 +28,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the DirectionalPointSourceInput class
+        /// Initializes the default constructor of DirectionalPointSourceInput class
         /// </summary>
         public DirectionalPointSourceInput()
             : this(

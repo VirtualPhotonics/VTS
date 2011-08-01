@@ -3,13 +3,14 @@ using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.SourceInputs
 {
+    /// <summary>
     /// Implements ISourceInput. Defines input data for IsotropicPointSource implementation 
     /// including emitting position, direction and initial tissue region index.
     /// </summary>
     public class IsotropicPointSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the IsotropicPointSourceInput class
+        /// Initializes a new instance of IsotropicPointSourceInput class
         /// </summary>
         /// <param name="pointLocation">position</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
@@ -23,7 +24,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the IsotropicPointSourceInput class
+        /// Initializes the default constructor of IsotropicPointSourceInput class
         /// </summary>
         public IsotropicPointSourceInput()
             : this(

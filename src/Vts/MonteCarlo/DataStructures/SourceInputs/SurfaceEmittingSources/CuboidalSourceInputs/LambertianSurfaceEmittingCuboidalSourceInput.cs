@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class LambertianSurfaceEmittingCuboidalSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the LambertianSurfaceEmittingCuboidalSourceInput class
+        /// Initializes a new instance of LambertianSurfaceEmittingCuboidalSourceInput class
         /// </summary>
         /// <param name="cubeLengthX">The length of cube (along x axis)</param>
         /// <param name="cubeWidthY">The  width of cube (along y axis)</param>
@@ -43,7 +43,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the LambertianSurfaceEmittingCuboidalSourceInput class
+        /// Initializes a new instance of LambertianSurfaceEmittingCuboidalSourceInput class
         /// </summary>
         /// <param name="cubeLengthX">length</param>
         /// <param name="cubeWidthY">width</param>
@@ -64,7 +64,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the LambertianSurfaceEmittingCuboidalSourceInput class
+        /// Initializes the default constructor of LambertianSurfaceEmittingCuboidalSourceInput class
         /// </summary>
         public LambertianSurfaceEmittingCuboidalSourceInput()            
             : this(

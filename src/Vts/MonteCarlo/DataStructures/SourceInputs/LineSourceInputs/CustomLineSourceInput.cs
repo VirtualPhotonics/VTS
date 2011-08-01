@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class CustomLineSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the CustomLineSourceInput class
+        /// Initializes a new instance of CustomLineSourceInput class
         /// </summary>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the CustomLineSourceInput class
+        /// Initializes a new instance of CustomLineSourceInput class
         /// </summary>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -68,7 +68,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the CustomLineSourceInput class
+        /// Initializes the default constructor of CustomLineSourceInput class
         /// </summary>
         public CustomLineSourceInput()
             : this(

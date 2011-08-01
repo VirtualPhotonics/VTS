@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class CustomRectangularSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the CustomRectangularSourceInput class
+        /// Initializes a new instance of CustomRectangularSourceInput class
         /// </summary>
         /// <param name="rectLengthX">The length of the Rectangular Source</param>
         /// <param name="rectWidthY">The width of the Rectangular Source</param>
@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the CustomRectangularSourceInput class
+        /// Initializes a new instance of CustomRectangularSourceInput class
         /// </summary>
         /// <param name="rectLengthX">The length of the Rectangular Source</param>
         /// <param name="rectWidthY">The width of the Rectangular Source</param>
@@ -75,7 +75,7 @@ namespace Vts.MonteCarlo.SourceInputs
 
 
         /// <summary>
-        /// Initializes a new instance of the CustomRectangularSourceInput class
+        /// Initializes the default constructor of CustomRectangularSourceInput class
         /// </summary>
         public CustomRectangularSourceInput()
             : this(

@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class CustomPointSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the CustomPointSourceInput class
+        /// Initializes a new instance of CustomPointSourceInput class
         /// </summary>
         /// <param name="polarAngleEmissionRange">Polar angle range</param>
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the CustomPointSourceInput class
+        /// Initializes the default constructor of CustomPointSourceInput class
         /// </summary>
         public CustomPointSourceInput()
             : this(

@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class LambertianSurfaceEmittingTubularSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the LambertianSurfaceEmittingTubularSourceInput class
+        /// Initializes a new instance of LambertianSurfaceEmittingTubularSourceInput class
         /// </summary>
         /// <param name="tubeRadius">Tube radius</param>
         /// <param name="tubeHeightZ">Tube height</param>
@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the LambertianSurfaceEmittingTubularSourceInput class
+        /// Initializes a new instance of LambertianSurfaceEmittingTubularSourceInput class
         /// </summary>
         /// <param name="tubeRadius">Tube radius</param>
         /// <param name="tubeHeightZ">Tube height</param>
@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the LambertianSurfaceEmittingTubularSourceInput class
+        /// Initializes the default constructor of LambertianSurfaceEmittingTubularSourceInput class
         /// </summary>
         public LambertianSurfaceEmittingTubularSourceInput()
             : this(

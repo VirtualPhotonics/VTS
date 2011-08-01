@@ -6,12 +6,14 @@ using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.SourceInputs
 {
+    /// <summary>
     /// Implements ISourceInput. Defines input data for LambertianSurfaceEmittingSphericalSource 
     /// implementation including radius, position and initial tissue region index.
+    /// </summary>
     public class LambertianSurfaceEmittingSphericalSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the LambertianSurfaceEmittingSphericalSourceInput class
+        /// Initializes a new instance of LambertianSurfaceEmittingSphericalSourceInput class
         /// </summary>
         /// <param name="radius">The radius of the sphere</param>
         /// <param name="translationFromOrigin">New source location</param>
@@ -28,7 +30,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the LambertianSurfaceEmittingSphericalSourceInput class
+        /// Initializes a new instance of LambertianSurfaceEmittingSphericalSourceInput class
         /// </summary>
         /// <param name="radius">The radius of the sphere</param>
         public LambertianSurfaceEmittingSphericalSourceInput(
@@ -39,7 +41,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the LambertianSurfaceEmittingSphericalSourceInput class
+        /// Initializes the default constructor of LambertianSurfaceEmittingSphericalSourceInput class
         /// </summary>
         public LambertianSurfaceEmittingSphericalSourceInput()
             : this(

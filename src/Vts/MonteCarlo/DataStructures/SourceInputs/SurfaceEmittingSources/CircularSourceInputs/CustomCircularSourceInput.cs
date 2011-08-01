@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class CustomCircularSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the CustomCircularSourceInput class
+        /// Initializes a new instance of CustomCircularSourceInput class
         /// </summary>
         /// <param name="outerRadius">The outer radius of the circular source</param>
         /// <param name="innerRadius">The inner radius of the circular source</param>
@@ -23,7 +23,7 @@ namespace Vts.MonteCarlo.SourceInputs
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
+        /// <param name="beamRotationFromInwardNormal">Beam rotation from inward normal</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomCircularSourceInput(
             double outerRadius,
@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the CustomCircularSourceInput class
+        /// Initializes a new instance of CustomCircularSourceInput class
         /// </summary>
         /// <param name="outerRadius">The outer radius of the circular source</param>
         /// <param name="innerRadius">The inner radius of the circular source</param>
@@ -74,7 +74,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the CustomCircularSourceInput class
+        /// Initializes the default constructor of CustomCircularSourceInput class
         /// </summary>
         public CustomCircularSourceInput()            
             : this(

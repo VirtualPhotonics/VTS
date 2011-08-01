@@ -82,7 +82,7 @@ namespace Vts.MonteCarlo.Sources
         /// Implements Get next photon
         /// </summary>
         /// <param name="tissue">tissue</param>
-        /// <returns></returns>
+        /// <returns>photon</returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the line
@@ -112,7 +112,7 @@ namespace Vts.MonteCarlo.Sources
         /// Returns final direction for a given position
         /// </summary>
         /// <param name="position">Current position</param>
-        /// <returns></returns>
+        /// <returns>new direction</returns>
         protected abstract Direction GetFinalDirection(Position position); // position may or may not be needed
 
         private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double rectLengthX, double rectWidthY, Random rng)

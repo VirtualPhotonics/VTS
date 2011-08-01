@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class CustomVolumetricCuboidalSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the CustomVolumetricCuboidalSourceInput class
+        /// Initializes a new instance of CustomVolumetricCuboidalSourceInput class
         /// </summary>
         /// <param name="cubeLengthX">Length of the cuboid</param>
         /// <param name="cubeWidthY">Width of the cuboid</param>
@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the CustomVolumetricCuboidalSourceInput class
+        /// Initializes a new instance of CustomVolumetricCuboidalSourceInput class
         /// </summary>
         /// <param name="cubeLengthX">Length of the cuboid</param>
         /// <param name="cubeWidthY">Width of the cuboid</param>
@@ -76,7 +76,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the CustomVolumetricCuboidalSourceInput class
+        /// Initializes the default constructor of CustomVolumetricCuboidalSourceInput class
         /// </summary>
         public CustomVolumetricCuboidalSourceInput()
             : this(

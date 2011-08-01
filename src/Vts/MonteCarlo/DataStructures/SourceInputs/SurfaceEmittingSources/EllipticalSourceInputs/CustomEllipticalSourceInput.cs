@@ -9,13 +9,13 @@ namespace Vts.MonteCarlo.SourceInputs
     /// <summary>
     /// Implements ISourceInput. Defines input data for CustomEllipticalSource implementation 
     /// including a and b parameter, source profile, polar angle range, azimuthal angle 
-    /// range, direction, position and inward normal beam rotation, and initial tissue 
+    /// range, direction, position, inward normal beam rotation, and initial tissue 
     /// region index.
     /// </summary>
     public class CustomEllipticalSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the CustomEllipticalSourceInput class
+        /// Initializes a new instance of CustomEllipticalSourceInput class
         /// </summary>
         /// <param name="aParameter">"a" parameter of the ellipse source</param>
         /// <param name="bParameter">"b" parameter of the ellipse source</param>
@@ -50,7 +50,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the CustomEllipticalSourceInput class
+        /// Initializes a new instance of CustomEllipticalSourceInput class
         /// </summary>
         /// <param name="aParameter">"a" parameter of the ellipse source</param>
         /// <param name="bParameter">"b" parameter of the ellipse source</param>
@@ -75,7 +75,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the CustomEllipticalSourceInput class
+        /// Initializes the default constructor of CustomEllipticalSourceInput class
         /// </summary>
         public CustomEllipticalSourceInput()
             : this(

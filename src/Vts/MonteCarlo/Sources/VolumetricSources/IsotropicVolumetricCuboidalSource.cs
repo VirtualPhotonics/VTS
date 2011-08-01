@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns direction
         /// </summary>
-        /// <returns></returns>
+        /// <returns>new direction</returns>
         protected override Direction GetFinalDirection()
         {
             return SourceToolbox.GetDirectionForIsotropicDistributionRandom(Rng);

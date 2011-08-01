@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class CustomSurfaceEmittingCuboidalSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the CustomSurfaceEmittingCuboidalSourceInput class        
+        /// Initializes a new instance of CustomSurfaceEmittingCuboidalSourceInput class        
         /// </summary>
         /// <param name="cubeLengthX">The length of cube (along x axis)</param>
         /// <param name="cubeWidthY">The  width of cube (along y axis)</param>
@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the CustomSurfaceEmittingCuboidalSourceInput class
+        /// Initializes a new instance of CustomSurfaceEmittingCuboidalSourceInput class
         /// </summary>
         /// <param name="cubeLengthX">The length of cube (along x axis)</param>
         /// <param name="cubeWidthY">The  width of cube (along y axis)</param>
@@ -70,7 +70,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the CustomSurfaceEmittingCuboidalSourceInput class        
+        /// Initializes the default constructor of CustomSurfaceEmittingCuboidalSourceInput class        
         /// </summary>
         public CustomSurfaceEmittingCuboidalSourceInput()            
             : this(

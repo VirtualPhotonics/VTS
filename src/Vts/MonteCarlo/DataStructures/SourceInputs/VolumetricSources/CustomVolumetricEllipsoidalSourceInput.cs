@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class CustomVolumetricEllipsoidalSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the CustomVolumetricEllipsoidalSourceInput class
+        /// Initializes a new instance of CustomVolumetricEllipsoidalSourceInput class
         /// </summary>
         /// <param name="aParameter">"a" parameter of the ellipsoid source</param>
         /// <param name="bParameter">"b" parameter of the ellipsoid source</param>
@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the CustomVolumetricEllipsoidalSourceInput class
+        /// Initializes a new instance of CustomVolumetricEllipsoidalSourceInput class
         /// </summary>
         /// <param name="aParameter">"a" parameter of the ellipsoid source</param>
         /// <param name="bParameter">"b" parameter of the ellipsoid source</param>
@@ -76,7 +76,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the CustomVolumetricEllipsoidalSourceInput class
+        /// Initializes the default constructor of CustomVolumetricEllipsoidalSourceInput class
         /// </summary>
         public CustomVolumetricEllipsoidalSourceInput()
             : this(

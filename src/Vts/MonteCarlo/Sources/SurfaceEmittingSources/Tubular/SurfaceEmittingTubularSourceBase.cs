@@ -68,7 +68,7 @@ namespace Vts.MonteCarlo.Sources
         /// Implements Get next photon
         /// </summary>
         /// <param name="tissue">tissue</param>
-        /// <returns></returns>
+        /// <returns>photon</returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
             //sample angular distribution

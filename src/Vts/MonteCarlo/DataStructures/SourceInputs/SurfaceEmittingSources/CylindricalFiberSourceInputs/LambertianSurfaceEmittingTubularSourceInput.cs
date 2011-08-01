@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class LambertianSurfaceEmittingCylindricalFiberSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the LambertianSurfaceEmittingCylindricalFiberSourceInput class
+        /// Initializes a new instance of LambertianSurfaceEmittingCylindricalFiberSourceInput class
         /// </summary>
         /// <param name="fiberRadius">Fiber radius</param>
         /// <param name="fiberHeightZ">Fiber height</param>
@@ -43,7 +43,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the LambertianSurfaceEmittingCylindricalFiberSourceInput class
+        /// Initializes a new instance of LambertianSurfaceEmittingCylindricalFiberSourceInput class
         /// </summary>
         /// <param name="fiberRadius">Fiber radius</param>
         /// <param name="fiberHeightZ">Fiber height</param>
@@ -60,7 +60,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the LambertianSurfaceEmittingCylindricalFiberSourceInput class
+        /// Initializes the default constructor of LambertianSurfaceEmittingCylindricalFiberSourceInput class
         /// </summary>
         public LambertianSurfaceEmittingCylindricalFiberSourceInput()
             : this(

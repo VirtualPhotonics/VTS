@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class CustomSurfaceEmittingSphericalSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the CustomSurfaceEmittingSphericalSourceInput class
+        /// Initializes a new instance of CustomSurfaceEmittingSphericalSourceInput class
         /// </summary>
         /// <param name="radius">The radius of the sphere</param>
         /// <param name="polarAngleRangeToDefineSphericalSurface">Polar angle range to define spherical surface</param>
@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the CustomSurfaceEmittingSphericalSourceInput class
+        /// Initializes a new instance of CustomSurfaceEmittingSphericalSourceInput class
         /// </summary>
         /// <param name="radius">The radius of the sphere</param>
         /// <param name="polarAngleRangeToDefineSphericalSurface">polar angle range to define spherical surface</param>
@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the CustomSurfaceEmittingSphericalSourceInput class
+        /// Initializes the default constructor of CustomSurfaceEmittingSphericalSourceInput class
         /// </summary>
         public CustomSurfaceEmittingSphericalSourceInput()
             : this(

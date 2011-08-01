@@ -6,13 +6,15 @@ using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.SourceInputs
 {
+    /// <summary>
     /// Implements ISourceInput. Defines input data for DirectionalellipticalSource implementation 
     /// including converging/diverging angle, a and b parameters, source profile, direction, 
     /// position, inward normal beam rotation and initial tissue region index.
+    /// </summary>
     public class DirectionalEllipticalSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the DirectionalEllipticalSourceInput class
+        /// Initializes a new instance of DirectionalEllipticalSourceInput class
         /// </summary>
         /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
         /// <param name="aParameter">"a" parameter of the ellipse source</param>
@@ -44,7 +46,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the DirectionalEllipticalSourceInput class
+        /// Initializes a new instance of DirectionalEllipticalSourceInput class
         /// </summary>
         /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
         /// <param name="aParameter">"a" parameter of the ellipse source</param>
@@ -66,7 +68,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
         
         /// <summary>
-        /// Initializes a new instance of the DirectionalEllipticalSourceInput class
+        /// Initializes the default constructor of DirectionalEllipticalSourceInput class
         /// </summary>
         public DirectionalEllipticalSourceInput()
             : this(

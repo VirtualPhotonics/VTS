@@ -6,9 +6,11 @@ using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.SourceInputs
 {
+    /// <summary>
     /// Implements ISourceInput. Defines input data for DirectionalLineSource implementation 
     /// including converging/diverging angle, line length, source profile, direction, position, 
     /// inward normal beam rotation and initial tissue region index.
+    /// </summary>
     public class DirectionalLineSourceInput : ISourceInput
     {
         /// <summary>

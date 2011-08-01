@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.SourceInputs
     public class IsotropicLineSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the IsotropicLineSourceInput class
+        /// Initializes a new instance of IsotropicLineSourceInput class
         /// </summary>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the IsotropicLineSourceInput class
+        /// Initializes a new instance of IsotropicLineSourceInput class
         /// </summary>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -56,7 +56,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
 
         /// <summary>
-        /// Initializes a new instance of the IsotropicLineSourceInput class
+        /// Initializes the default constructor of IsotropicLineSourceInput class
         /// </summary>
         public IsotropicLineSourceInput()
             : this(

@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="polarAngle">Constant polar angle</param>
         /// <param name="position">The position </param>
-        /// <returns></returns>
+        /// <returns>direction</returns>
         public static Direction GetDirectionForGiven2DPositionAndGivenPolarAngle(
             double polarAngle,
             Position position)
@@ -41,7 +41,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="polarAngleEmissionRange">The polar angle range</param>
         /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
+        /// <returns>direction</returns>
         public static Direction GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
@@ -73,7 +73,7 @@ namespace Vts.MonteCarlo.Helpers
         /// Provides a random direction for a isotropic point source
         /// </summary>
         /// <param name="rng">The random number generato</param>
-        /// <returns></returns>
+        /// <returns>direction</returns>
         public static Direction GetDirectionForIsotropicDistributionRandom(Random rng)
         {
             double cost, sint, phi, cosp, sinp;     
@@ -118,7 +118,7 @@ namespace Vts.MonteCarlo.Helpers
         /// Provides the lower limit of a flat random distribution between 0 and 1
         /// </summary>
         /// <param name="factor">factor</param>
-        /// <returns></returns>
+        /// <returns>lower limit</returns>
         public static double GetLowerLimit(double factor)
         {
             return (Math.Exp(-0.5 * factor * factor));
@@ -130,7 +130,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="polarAngleEmissionRange">The polar angle range</param>
         /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
         /// <param name="rng">The random number generato</param>
-        /// <returns></returns>
+        /// <returns>polar azimuthal angle pair</returns>
         public static PolarAzimuthalAngles GetPolarAzimuthalPairForGivenAngleRangeRandom(
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
@@ -147,7 +147,7 @@ namespace Vts.MonteCarlo.Helpers
         /// Provide corresponding Polar Azimuthal Angle pair for a given direction
         /// </summary>
         /// <param name="direction">Current direction</param>
-        /// <returns></returns>
+        /// <returns>polar azimuthal angle pair</returns>
         public static PolarAzimuthalAngles GetPolarAzimuthalPairFromDirection(
             Direction direction)
         {
@@ -189,7 +189,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="innerRadius">The inner radius of the circle</param>
         /// <param name="outerRadius">The outer radius of the circle</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
+        /// <returns>position</returns>
         public static Position GetPositionInACircleRandomFlat(
             Position center,
             double innerRadius,
@@ -215,7 +215,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="outerRadius">The outer radius of the circle</param>
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>       
+        /// <returns>position</returns>       
         public static Position GetPositionInACircleRandomGaussian(
             Position center,
             double outerRadius,
@@ -254,7 +254,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="lengthY">The y-length of the cuboid</param>
         /// <param name="lengthZ">The z-length of the cuboid</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
+        /// <returns>position</returns>
         public static Position GetPositionInACuboidRandomFlat(
             Position center,
             double lengthX,
@@ -284,7 +284,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="lengthZ">The z-length of the cuboid</param>
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
+        /// <returns>position</returns>
         public static Position GetPositionInACuboidRandomGaussian(
             Position center,
             double lengthX,
@@ -326,7 +326,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="center">The center coordiantes of the line</param>
         /// <param name="lengthX">The x-length of the line</param>        
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
+        /// <returns>position</returns>
         public static Position GetPositionInALineRandomFlat(
             Position center,
             double lengthX,
@@ -350,7 +350,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="lengthX">The x-length of the line</param>   
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
+        /// <returns>position</returns>
         public static Position GetPositionInALineRandomGaussian(
             Position center,
             double lengthX,
@@ -384,7 +384,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="a">'a' parameter of the ellipse</param>
         /// <param name="b">'b' parameter of the ellipse</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
+        /// <returns>position</returns>
         public static Position GetPositionInAnEllipseRandomFlat(
             Position center,
             double a,
@@ -418,7 +418,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="b">'b' parameter of the ellipse</param>
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>   
+        /// <returns>position</returns>   
         public static Position GetPositionInAnEllipseRandomGaussian(
             Position center,
             double a,
@@ -465,7 +465,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="b">'b' parameter of the ellipsoid</param>
         /// <param name="c">'c' parameter of the ellipsoid</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
+        /// <returns>position</returns>
         public static Position GetPositionInAnEllipsoidRandomFlat(
             Position center,
             double a,
@@ -503,7 +503,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="c">'c' parameter of the ellipsoid</param>
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
+        /// <returns>position</returns>
         public static Position GetPositionInAnEllipsoidRandomGaussian(
             Position center,
             double a,
@@ -554,7 +554,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="lengthX">The x-length of the rectangle</param>
         /// <param name="lengthY">The y-length of the rectangle</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
+        /// <returns>position</returns>
         public static Position GetPositionInARectangleRandomFlat(
             Position center,
             double lengthX,
@@ -580,7 +580,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="lengthY">The y-length of the rectangle</param>
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
+        /// <returns>position</returns>
         public static Position GetPositionInARectangleRandomGaussian(
             Position center,
             double lengthX,
@@ -615,7 +615,7 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="length">The length of the line</param>
         /// <param name="rng">The random number generator</param>
-        /// <returns></returns>
+        /// <returns>position in a line</returns>
         public static double GetPositionOfASymmetricalLineRandomFlat(
             double length,
             Random rng)
@@ -640,7 +640,7 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="rotationAngles">x, y, z rotation angles </param>
         /// <param name="currentDirection">The direction to be updated</param>
-        /// <returns></returns>
+        /// <returns>direction</returns>
         public static Direction UpdateDirectionAfterRotatingAroundThreeAxis(
             ThreeAxisRotation rotationAngles,
             Direction currentDirection)
@@ -717,7 +717,7 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="zRotation">rotation angle around the z-axis</param>
         /// <param name="currentDirection">The direction to be updated</param>
-        /// <returns></returns>
+        /// <returns>direction</returns>
         public static Direction UpdateDirectionAfterRotatingAroundZAxis(
             double zRotation,
             Direction currentDirection)
@@ -741,7 +741,7 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="rotationAnglePair">polar and azimuthal angle pair</param>        
         /// <param name="currentDirection">The direction to be updated</param>
-        /// <returns></returns>
+        /// <returns>direction</returns>
         public static Direction UpdateDirectionAfterRotatingByGivenAnglePair(
             PolarAzimuthalAngles rotationAnglePair,
             Direction currentDirection)
@@ -939,7 +939,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="FullLength">Maximum length</param>
         /// <param name="curLength">Current Length</param>
         /// <param name="thetaConvOrDiv">Convergence or Diveregence Angle</param>
-        /// <returns></returns>
+        /// <returns>polar angle</returns>
         public static double UpdatePolarAngleForDirectionalSources(
             double FullLength,
             double curLength,
@@ -959,7 +959,7 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="currentPosition">The old location</param>
         /// <param name="translation">Translation coordinats relative to the origin</param>
-        /// <returns></returns>
+        /// <returns>position</returns>
         public static Position UpdatePositionAfterTranslation(
             Position currentPosition,
             Position translation)

@@ -6,13 +6,15 @@ using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.SourceInputs
 {
-    /// Implements ISourceInput. Defines input data for IsotropicVolumetricEllipsoidalSource
-    /// implementation including a,b and c parameters, source profile, direction, position, 
+    /// <summary>
+    /// Implements ISourceInput. Defines input data for IsotropicVolumetricCuboidalSource
+    /// implementation including length, width, height, source profile, direction, position, 
     /// and initial tissue region index.
+    /// </summary>
     public class IsotropicVolumetricEllipsoidalSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of the IsotropicVolumetricEllipsoidalSourceInput class
+        /// Initializes a new instance of IsotropicVolumetricEllipsoidalSourceInput class
         /// </summary>
         /// <param name="aParameter">"a" parameter of the ellipsoid source</param>
         /// <param name="bParameter">"b" parameter of the ellipsoid source</param>
@@ -41,7 +43,7 @@ namespace Vts.MonteCarlo.SourceInputs
         }
 
         /// <summary>
-        /// Initializes a new instance of the IsotropicVolumetricEllipsoidalSourceInput class
+        /// Initializes a new instance of IsotropicVolumetricEllipsoidalSourceInput class
         /// </summary>
         /// <param name="aParameter">"a" parameter of the ellipsoid source</param>
         /// <param name="bParameter">"b" parameter of the ellipsoid source</param>
@@ -62,7 +64,7 @@ namespace Vts.MonteCarlo.SourceInputs
                 0) { }
         
         /// <summary>
-        /// Initializes a new instance of the IsotropicVolumetricEllipsoidalSourceInput class
+        /// Initializes the default constructor of IsotropicVolumetricEllipsoidalSourceInput class
         /// </summary>
         public IsotropicVolumetricEllipsoidalSourceInput()
             : this(
