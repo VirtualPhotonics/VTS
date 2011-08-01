@@ -7,6 +7,9 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
+    /// <summary>
+    /// Abstract class for SurfaceEmittingCuboidalSourceBase
+    /// </summary>
     public abstract class SurfaceEmittingCuboidalSourceBase : ISource
     {
         protected ISourceProfile _sourceProfile;
@@ -44,6 +47,11 @@ namespace Vts.MonteCarlo.Sources
             _initialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Implement Get next photon
+        /// </summary>
+        /// <param name="tissue">tissue</param>
+        /// <returns></returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Sample emitting side

@@ -7,6 +7,9 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class CircularSourceBase : ISource
     {
         protected ISourceProfile _sourceProfile;

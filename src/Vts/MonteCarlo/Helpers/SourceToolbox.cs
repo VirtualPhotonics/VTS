@@ -969,8 +969,7 @@ namespace Vts.MonteCarlo.Helpers
             currentPosition.Z += translation.Z;
 
             return currentPosition;
-        }
-             
+        }           
         
     }
 }

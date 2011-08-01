@@ -7,6 +7,9 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
+    /// <summary>
+    /// Abstract class for LineSourceBase
+    /// </summary>
     public abstract class LineSourceBase : ISource
     {
         protected ISourceProfile _sourceProfile;
@@ -45,6 +48,11 @@ namespace Vts.MonteCarlo.Sources
             _initialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Implement Get next photon
+        /// </summary>
+        /// <param name="tissue">tissue</param>
+        /// <returns></returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the line
@@ -71,6 +79,7 @@ namespace Vts.MonteCarlo.Sources
         }
 
         protected abstract Direction GetFinalDirection(Position finalPosition); // position may or may not be needed
+
 
         private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double lineLength, Random rng)
         {

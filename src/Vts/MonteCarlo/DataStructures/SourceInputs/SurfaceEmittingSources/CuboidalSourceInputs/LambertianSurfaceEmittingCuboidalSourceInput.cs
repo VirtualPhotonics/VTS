@@ -2,12 +2,27 @@
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
+using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo.Sources
+namespace Vts.MonteCarlo.SourceInputs
 {
+    /// <summary>
+    /// Implements ISourceInput. Defines input data for LambertianSurfaceEmittingCuboidalSource 
+    /// implementation including length, width, height, source profile, direction, position, and
+    /// initial tissue region index.
+    /// </summary>
     public class LambertianSurfaceEmittingCuboidalSourceInput : ISourceInput
     {
-        // this handles custom circular
+        /// <summary>
+        /// Initializes a new instance of the LambertianSurfaceEmittingCuboidalSourceInput class
+        /// </summary>
+        /// <param name="cubeLengthX">The length of cube (along x axis)</param>
+        /// <param name="cubeWidthY">The  width of cube (along y axis)</param>
+        /// <param name="cubeHeightZ">The height of cube (along z axis)</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public LambertianSurfaceEmittingCuboidalSourceInput(
             double cubeLengthX,
             double cubeWidthY,
@@ -27,6 +42,13 @@ namespace Vts.MonteCarlo.Sources
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the LambertianSurfaceEmittingCuboidalSourceInput class
+        /// </summary>
+        /// <param name="cubeLengthX">length</param>
+        /// <param name="cubeWidthY">width</param>
+        /// <param name="cubeHeightZ">height</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         public LambertianSurfaceEmittingCuboidalSourceInput(
             double cubeLengthX,
             double cubeWidthY,
@@ -41,6 +63,9 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
 
+        /// <summary>
+        /// Initializes a new instance of the LambertianSurfaceEmittingCuboidalSourceInput class
+        /// </summary>
         public LambertianSurfaceEmittingCuboidalSourceInput()            
             : this(
                 1.0,

@@ -7,6 +7,9 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
+    /// <summary>
+    /// Abstract class for SurfaceEmittingTubularSourceBase
+    /// </summary>
     public abstract class SurfaceEmittingTubularSourceBase : ISource
     {        
         protected Direction _newDirectionOfPrincipalSourceAxis;
@@ -35,6 +38,11 @@ namespace Vts.MonteCarlo.Sources
             _initialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Implement Get next photon
+        /// </summary>
+        /// <param name="tissue">tissue</param>
+        /// <returns></returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
             //sample angular distribution

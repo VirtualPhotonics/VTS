@@ -2,12 +2,29 @@
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
+using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo.Sources
+namespace Vts.MonteCarlo.SourceInputs
 {
+    /// <summary>
+    /// Implements ISourceInput. Defines input data for CustomCircularSource implementation 
+    /// including inner and outer radius, source profile, polar angle range, azimuthal angle 
+    /// range, direction, position, inward normal beam rotation and initial tissue region index. 
+    /// </summary>
     public class CustomCircularSourceInput : ISourceInput
     {
-        // this handles custom circular
+        /// <summary>
+        /// Initializes a new instance of the CustomCircularSourceInput class
+        /// </summary>
+        /// <param name="outerRadius">The outer radius of the circular source</param>
+        /// <param name="innerRadius">The inner radius of the circular source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="polarAngleEmissionRange">Polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public CustomCircularSourceInput(
             double outerRadius,
             double innerRadius,
@@ -31,6 +48,14 @@ namespace Vts.MonteCarlo.Sources
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the CustomCircularSourceInput class
+        /// </summary>
+        /// <param name="outerRadius">The outer radius of the circular source</param>
+        /// <param name="innerRadius">The inner radius of the circular source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="polarAngleEmissionRange">Polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
         public CustomCircularSourceInput(
             double outerRadius,
             double innerRadius,
@@ -48,6 +73,9 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
                 0) { }
 
+        /// <summary>
+        /// Initializes a new instance of the CustomCircularSourceInput class
+        /// </summary>
         public CustomCircularSourceInput()            
             : this(
                 1.0,

@@ -6,6 +6,7 @@ using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.SourceInputs;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {

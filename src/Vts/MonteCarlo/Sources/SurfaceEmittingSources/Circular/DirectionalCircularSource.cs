@@ -8,7 +8,8 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements DirectionalCircularSource with converging/diverging angle, inner and outer radius,
+    /// source profile, direction, position, inward normal beam rotation and initial tissue region index.
     /// </summary>
     public class DirectionalCircularSource : CircularSourceBase
     {
@@ -25,6 +26,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public DirectionalCircularSource(
             double thetaConvOrDiv,            
             double outerRadius,

@@ -7,26 +7,28 @@ using Vts.MonteCarlo.Helpers;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements IsotropicPointSource with emitting position, direction and initial 
+    /// tissue region index.
     /// </summary>
     public class IsotropicPointSource : PointSourceBase
     {
         /// <summary>
         /// Returns an instance of Isotropic Point Source at a given location
         /// </summary>        
-        /// <param name="location">Location of the point source</param> 
+        /// <param name="pointLocation">Location of the point source</param> 
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public IsotropicPointSource(
-            Position location = null,
+            Position pointLocation = null,
             int initialTissueRegionIndex = 0)
             : base(
                 SourceDefaults.DefaultFullPolarAngleRange.Clone(),
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),                
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                location,
+                pointLocation,
                 initialTissueRegionIndex)
         {
-            if (location == null)
-                location = SourceDefaults.DefaultPosition.Clone();
+            if (pointLocation == null)
+                pointLocation = SourceDefaults.DefaultPosition.Clone();
         }    
     }
 }

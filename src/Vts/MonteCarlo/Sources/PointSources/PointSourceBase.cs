@@ -8,13 +8,10 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Abstract class for PointSourceBase
     /// </summary>
     public abstract class PointSourceBase : ISource
-    {
-        /// <summary>
-        /// 
-        /// </summary>
+    {       
         protected DoubleRange _polarAngleEmissionRange;
         protected DoubleRange _azimuthalAngleEmissionRange;
         protected Position _translationFromOrigin;
@@ -47,6 +44,11 @@ namespace Vts.MonteCarlo.Sources
             _initialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Implement Get next photon
+        /// </summary>
+        /// <param name="tissue">tissue</param>
+        /// <returns></returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts at the origin 

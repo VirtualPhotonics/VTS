@@ -2,12 +2,26 @@
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
+using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo.Sources
+namespace Vts.MonteCarlo.SourceInputs
 {
+    /// Implements ISourceInput. Defines input data for DirectionalRectangularSource implementation 
+    /// including converging/diverging angle, length, width, source profile, direction, position, 
+    /// inward normal beam rotation and initial tissue region index.
     public class DirectionalRectangularSourceInput : ISourceInput
     {
-        // this handles directional rectangular
+        /// <summary>
+        /// Initializes a new instance of the DirectionalRectangularSourceInput class
+        /// </summary>
+        /// <param name="thetaConvOrDiv">Converging/diverging angle {= 0, for a collimated beam}</param>
+        /// <param name="rectLengthX">The length of the Rectangular Source</param>
+        /// <param name="rectWidthY">The width of the Rectangular Source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public DirectionalRectangularSourceInput(
             double thetaConvOrDiv,
             double rectLengthX,
@@ -29,6 +43,13 @@ namespace Vts.MonteCarlo.Sources
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the DirectionalRectangularSourceInput class
+        /// </summary>
+        /// <param name="thetaConvOrDiv">converging/diverging angle {= 0, for a collimated beam}</param>
+        /// <param name="rectLengthX">The length of the Rectangular Source</param>
+        /// <param name="rectWidthY">The width of the Rectangular Source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         public DirectionalRectangularSourceInput(
             double thetaConvOrDiv,
             double rectLengthX,
@@ -44,6 +65,9 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
                 0) { }
 
+        /// <summary>
+        /// Initializes a new instance of the DirectionalRectangularSourceInput class
+        /// </summary>
         public DirectionalRectangularSourceInput()
             : this(
                 0.0,

@@ -2,12 +2,25 @@
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
+using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo.Sources
+namespace Vts.MonteCarlo.SourceInputs
 {
+    /// <summary>
+    /// Implements ISourceInput. Defines input data for LambertianSurfaceEmittingTubularSource 
+    /// implementation including tube radius, height, direction, position and initial tissue 
+    /// region index.
+    /// </summary>
     public class LambertianSurfaceEmittingTubularSourceInput : ISourceInput
     {
-        // this handles custom line
+        /// <summary>
+        /// Initializes a new instance of the LambertianSurfaceEmittingTubularSourceInput class
+        /// </summary>
+        /// <param name="tubeRadius">Tube radius</param>
+        /// <param name="tubeHeightZ">Tube height</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public LambertianSurfaceEmittingTubularSourceInput(
             double tubeRadius,
             double tubeHeightZ,
@@ -23,6 +36,11 @@ namespace Vts.MonteCarlo.Sources
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the LambertianSurfaceEmittingTubularSourceInput class
+        /// </summary>
+        /// <param name="tubeRadius">Tube radius</param>
+        /// <param name="tubeHeightZ">Tube height</param>
         public LambertianSurfaceEmittingTubularSourceInput(
             double tubeRadius,
             double tubeHeightZ)
@@ -33,6 +51,9 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
 
+        /// <summary>
+        /// Initializes a new instance of the LambertianSurfaceEmittingTubularSourceInput class
+        /// </summary>
         public LambertianSurfaceEmittingTubularSourceInput()
             : this(
                 1.0,

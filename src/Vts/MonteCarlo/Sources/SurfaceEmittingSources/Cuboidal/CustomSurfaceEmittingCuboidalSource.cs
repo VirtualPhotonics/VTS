@@ -8,7 +8,9 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements CustomSurfaceEmittingCuboidalSource with length, width, height, source profile,
+    /// polar angle range, azimuthal angle range, direction, position, and initial tissue region 
+    /// index.
     /// </summary>
     public class CustomSurfaceEmittingCuboidalSource : SurfaceEmittingCuboidalSourceBase
     {        
@@ -23,6 +25,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="polarAngleEmissionRange">Polar angle emission range {0 - 90degrees}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>  
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public CustomSurfaceEmittingCuboidalSource(
             double cubeLengthX,
             double cubeWidthY,

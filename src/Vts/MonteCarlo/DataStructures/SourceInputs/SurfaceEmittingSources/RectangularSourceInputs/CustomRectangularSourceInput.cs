@@ -2,12 +2,29 @@
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
+using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo.Sources
+namespace Vts.MonteCarlo.SourceInputs
 {
+    /// <summary>
+    /// Implements ISourceInput. Defines input data for CustomRectangularSource implementation 
+    /// including length, width, source profile, polar angle range, azimuthal angle 
+    /// range, direction, position, inward normal beam rotation and initial tissue region index.
+    /// </summary>
     public class CustomRectangularSourceInput : ISourceInput
     {
-        // this handles custom rectangular
+        /// <summary>
+        /// Initializes a new instance of the CustomRectangularSourceInput class
+        /// </summary>
+        /// <param name="rectLengthX">The length of the Rectangular Source</param>
+        /// <param name="rectWidthY">The width of the Rectangular Source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="polarAngleEmissionRange">Polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public CustomRectangularSourceInput(
             double rectLengthX,
             double rectWidthY,
@@ -31,6 +48,14 @@ namespace Vts.MonteCarlo.Sources
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the CustomRectangularSourceInput class
+        /// </summary>
+        /// <param name="rectLengthX">The length of the Rectangular Source</param>
+        /// <param name="rectWidthY">The width of the Rectangular Source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="polarAngleEmissionRange">Polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
         public CustomRectangularSourceInput(
             double rectLengthX,
             double rectWidthY,
@@ -48,6 +73,10 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
                 0) { }
 
+
+        /// <summary>
+        /// Initializes a new instance of the CustomRectangularSourceInput class
+        /// </summary>
         public CustomRectangularSourceInput()
             : this(
                 1.0,

@@ -2,12 +2,25 @@
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
+using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo.Sources
+namespace Vts.MonteCarlo.SourceInputs
 {
+    /// Implements ISourceInput. Defines input data for IsotropicVolumetricEllipsoidalSource
+    /// implementation including a,b and c parameters, source profile, direction, position, 
+    /// and initial tissue region index.
     public class IsotropicVolumetricEllipsoidalSourceInput : ISourceInput
     {
-        // this handles isotropic ellipsoidal (volumetric)
+        /// <summary>
+        /// Initializes a new instance of the IsotropicVolumetricEllipsoidalSourceInput class
+        /// </summary>
+        /// <param name="aParameter">"a" parameter of the ellipsoid source</param>
+        /// <param name="bParameter">"b" parameter of the ellipsoid source</param>
+        /// <param name="cParameter">"c" parameter of the ellipsoid source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public IsotropicVolumetricEllipsoidalSourceInput(
             double aParameter,
             double bParameter,
@@ -27,6 +40,13 @@ namespace Vts.MonteCarlo.Sources
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the IsotropicVolumetricEllipsoidalSourceInput class
+        /// </summary>
+        /// <param name="aParameter">"a" parameter of the ellipsoid source</param>
+        /// <param name="bParameter">"b" parameter of the ellipsoid source</param>
+        /// <param name="cParameter">"c" parameter of the ellipsoid source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         public IsotropicVolumetricEllipsoidalSourceInput(
             double aParameter,
             double bParameter,
@@ -40,7 +60,10 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
-
+        
+        /// <summary>
+        /// Initializes a new instance of the IsotropicVolumetricEllipsoidalSourceInput class
+        /// </summary>
         public IsotropicVolumetricEllipsoidalSourceInput()
             : this(
                 1.0,

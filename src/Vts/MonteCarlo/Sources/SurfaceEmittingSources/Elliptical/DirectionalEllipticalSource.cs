@@ -8,7 +8,9 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements DirectionalellipticalSource with converging/diverging angle, a and b
+    /// parameters, source profile, direction, position, inward normal beam rotation and
+    /// initial tissue region index.
     /// </summary>
     public class DirectionalEllipticalSource : EllipticalSourceBase
     {
@@ -20,13 +22,14 @@ namespace Vts.MonteCarlo.Sources
         /// Returns an instance of directional (diverging/converging/collimated) Elliptical Source with specified length and width, 
         /// source profile (Flat/Gaussian), polar and azimuthal angle range, new source axis direction, translation, and  inward normal ray rotation
         /// </summary>
-        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle</param>
+        /// <param name="thetaConvOrDiv">Converging/diverging angle {= 0, for a collimated beam}</param>
         /// <param name="aParameter">"a" parameter of the ellipse source</param>
         /// <param name="bParameter">"b" parameter of the ellipse source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>    
         /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public DirectionalEllipticalSource(
             double thetaConvOrDiv,
             double aParameter,

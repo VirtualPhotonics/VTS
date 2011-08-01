@@ -8,7 +8,7 @@ using Vts.Common;
 using Vts.Extensions;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.SourceInputs;
 using Vts.MonteCarlo.Tissues;
 using Vts.SiteVisit.Input;
 using Vts.SiteVisit.Model;

@@ -8,7 +8,9 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements CustomCircularSource with inner and outer radius, source profile, polar angle range, 
+    /// azimuthal angle range, direction, position, inward normal beam rotation and initial tissue region
+    /// index. 
     /// </summary>
     public class CustomCircularSource : CircularSourceBase
     {
@@ -27,6 +29,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param> 
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public CustomCircularSource(            
             double outerRadius,
             double innerRadius,

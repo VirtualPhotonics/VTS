@@ -4,6 +4,9 @@ using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Sources
 {
+    /// <summary>
+    /// Define SourceDefault values
+    /// </summary>
     public class SourceDefaults
     {
         public static Direction DefaultDirectionOfPrincipalSourceAxis = new Direction(0.0, 0.0, 1.0);

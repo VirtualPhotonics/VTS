@@ -2,6 +2,9 @@
 
 namespace Vts.MonteCarlo.Helpers
 {
+    /// <summary>
+    /// Implements SourceFlags class
+    /// </summary>
     public class SourceFlags
     {
         private bool _translationFromOriginFlag;

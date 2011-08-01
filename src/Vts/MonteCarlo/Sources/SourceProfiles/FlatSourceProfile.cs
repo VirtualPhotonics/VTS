@@ -2,6 +2,9 @@
 using Vts.MonteCarlo.Interfaces;
 namespace Vts.MonteCarlo.Sources.SourceProfiles
 {
+    /// <summary>
+    /// Defines Flat Source Profile
+    /// </summary>
     public class FlatSourceProfile : ISourceProfile
     {
         [IgnoreDataMember]

@@ -8,7 +8,8 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements LambertianSurfaceEmittingCuboidalSource with length, width, height, source profile, 
+    /// direction, position, and initial tissue region index.
     /// </summary>
     public class LambertianSurfaceEmittingCuboidalSource : SurfaceEmittingCuboidalSourceBase
     {
@@ -21,7 +22,8 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="cubeHeightZ">The height of cube (along z axis)</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
-        /// <param name="translationFromOrigin">New source location</param>        
+        /// <param name="translationFromOrigin">New source location</param>       
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public LambertianSurfaceEmittingCuboidalSource(
             double cubeLengthX,
             double cubeWidthY,

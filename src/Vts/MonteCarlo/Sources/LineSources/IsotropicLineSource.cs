@@ -8,19 +8,21 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements IsotropicLineSource with line length, source profile, direction, position, 
+    /// inward normal beam rotation and initial tissue region index.
     /// </summary>
     public class IsotropicLineSource : LineSourceBase
     {     
         /// <summary>
-        /// Returns an instance of isotropic Line Source with a specified length, source profile (Flat/Gaussian),
-        /// polar and azimuthal angle range, new source axis direction, translation, and  inward normal ray rotation
+        /// Returns an instance of isotropicLineSource with line length, source profile, direction, position, 
+        /// inward normal beam rotation and initial tissue region index.
         /// </summary>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">Ray rotation from inward normal</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public IsotropicLineSource(
             double lineLength,
             ISourceProfile sourceProfile,
@@ -35,11 +37,9 @@ namespace Vts.MonteCarlo.Sources
                 translationFromOrigin,
                 beamRotationFromInwardNormal,
                 initialTissueRegionIndex)
-        {
-            
+        {            
         }        
-
-        
+                
         //Isotropic line source
         protected override Direction GetFinalDirection(Position finalPosition)
         {                   

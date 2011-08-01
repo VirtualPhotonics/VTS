@@ -7,6 +7,9 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
+    /// <summary>
+    /// Abstract class for SurfaceEmittingCylindricalFiberSourceBase
+    /// </summary>
     public abstract class SurfaceEmittingCylindricalFiberSourceBase : ISource
     {        
         protected Direction _newDirectionOfPrincipalSourceAxis;
@@ -41,6 +44,11 @@ namespace Vts.MonteCarlo.Sources
             _initialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Implement Get next photon
+        /// </summary>
+        /// <param name="tissue">tissue</param>
+        /// <returns></returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
             double curved = 2 * Math.PI * _fiberRadius * _fiberHeightZ * _curvedSurfaceEfficiency;

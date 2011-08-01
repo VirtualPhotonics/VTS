@@ -11,7 +11,7 @@ using Vts.Common;
 using Vts.Extensions;
 using System.IO;
 using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.SourceInputs;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.CommandLineApplication

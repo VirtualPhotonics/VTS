@@ -2,12 +2,26 @@
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
+using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo.Sources
+namespace Vts.MonteCarlo.SourceInputs
 {
+    /// Implements ISourceInput. Defines input data for DirectionalellipticalSource implementation 
+    /// including converging/diverging angle, a and b parameters, source profile, direction, 
+    /// position, inward normal beam rotation and initial tissue region index.
     public class DirectionalEllipticalSourceInput : ISourceInput
     {
-        // this handles directional elliptical source
+        /// <summary>
+        /// Initializes a new instance of the DirectionalEllipticalSourceInput class
+        /// </summary>
+        /// <param name="thetaConvOrDiv">Converging/diverging angle {= 0, for a collimated beam}</param>
+        /// <param name="aParameter">"a" parameter of the ellipse source</param>
+        /// <param name="bParameter">"b" parameter of the ellipse source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public DirectionalEllipticalSourceInput(
             double thetaConvOrDiv,
             double aParameter,
@@ -29,6 +43,13 @@ namespace Vts.MonteCarlo.Sources
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the DirectionalEllipticalSourceInput class
+        /// </summary>
+        /// <param name="thetaConvOrDiv">converging/diverging angle {= 0, for a collimated beam}</param>
+        /// <param name="aParameter">"a" parameter of the ellipse source</param>
+        /// <param name="bParameter">"b" parameter of the ellipse source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         public DirectionalEllipticalSourceInput(
             double thetaConvOrDiv,
             double aParameter,
@@ -43,7 +64,10 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultPosition.Clone(),
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
                 0) { }
-
+        
+        /// <summary>
+        /// Initializes a new instance of the DirectionalEllipticalSourceInput class
+        /// </summary>
         public DirectionalEllipticalSourceInput()
             : this(
                 0.0,

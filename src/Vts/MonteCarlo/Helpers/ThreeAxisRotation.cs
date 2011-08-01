@@ -2,12 +2,21 @@
 
 namespace Vts.MonteCarlo.Helpers
 {
+    /// <summary>
+    /// Implements ThreeAxisRotation class
+    /// </summary>
     public class ThreeAxisRotation
     {
         private double _xRotation;
         private double _yRotation;
         private double _zRotation;
 
+        /// <summary>
+        /// Initializes a new instance of the ThreeAxisRotation class
+        /// </summary>
+        /// <param name="xRotation">Rotation angle around x-axis</param>
+        /// <param name="yRotation">Rotation angle around y-axis</param>
+        /// <param name="zRotation">Rotation angle around z-axis</param>
         public ThreeAxisRotation(double xRotation, double yRotation, double zRotation)
         {
             _xRotation = xRotation;
@@ -15,6 +24,9 @@ namespace Vts.MonteCarlo.Helpers
             _zRotation = zRotation;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the ThreeAxisRotation class
+        /// </summary>
         public ThreeAxisRotation()
             : this(0, 0, 0)
         {

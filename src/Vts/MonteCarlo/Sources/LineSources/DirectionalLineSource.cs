@@ -8,23 +8,24 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements DirectionalLineSource. Returns DirectionalLineSource with converging/diverging angle,
+    /// line length, source profile, direction, position, inward normal beam rotation and initial tissue
+    /// region index.
     /// </summary>
     public class DirectionalLineSource : LineSourceBase
     {
         private double _thetaConvOrDiv;   //convergence:positive, divergence:negative  collimated:zero
-
-       
-       /// <summary>
-        /// Returns an instance of directional (diverging/converging/collimated) Line Source with a specified length, and
-        /// source profile (Flat/Gaussian), new source axis direction, translation, and  inward normal ray rotation
-       /// </summary>
+               
+        /// <summary>
+        /// Initializes a new instance of the DirectionalLineSource class
+        /// </summary>
         /// <param name="thetaConvOrDiv">Covergence or Divergance Angle</param>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">Ray rotation from inward normal</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public DirectionalLineSource(
             double thetaConvOrDiv,
             double lineLength,

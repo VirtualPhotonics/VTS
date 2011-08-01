@@ -31,8 +31,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Equality overload for polar azimuthal angle pair
         /// </summary>
-        /// <param name="pa1></param>
-        /// <param name="pa2"></param>
+        /// <param name="pa1">polar angle 1</param>
+        /// <param name="pa2">polar angle 2</param>
         /// <returns></returns>
         public static bool operator ==(PolarAzimuthalAngles pa1, PolarAzimuthalAngles pa2)
         {
@@ -58,8 +58,8 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Inequality overload for polar azimuthal angle pair
         /// </summary>
-        /// <param name="pa1"></param>
-        /// <param name="pa2"></param>
+        /// <param name="pa1">polar angle 1</param>
+        /// <param name="pa2">polar angle 2</param>
         /// <returns></returns>
         public static bool operator !=(PolarAzimuthalAngles pa1, PolarAzimuthalAngles pa2)
         {

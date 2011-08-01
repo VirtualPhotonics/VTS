@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.SourceInputs;
 
 namespace Vts.Test.MonteCarlo
 {

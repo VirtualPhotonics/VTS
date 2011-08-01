@@ -2,12 +2,26 @@
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
+using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo.Sources
+namespace Vts.MonteCarlo.SourceInputs
 {
+    /// <summary>
+    /// Implements ISourceInput. Defines input data for IsotropicLineSource implementation 
+    /// including line length, source profile, direction, position, inward normal beam 
+    /// rotation and initial tissue region index.
+    /// </summary>
     public class IsotropicLineSourceInput : ISourceInput
     {
-        // this handles isotropic line
+        /// <summary>
+        /// Initializes a new instance of the IsotropicLineSourceInput class
+        /// </summary>
+        /// <param name="lineLength">The length of the line source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public IsotropicLineSourceInput(
             double lineLength,
             ISourceProfile sourceProfile,
@@ -25,6 +39,11 @@ namespace Vts.MonteCarlo.Sources
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the IsotropicLineSourceInput class
+        /// </summary>
+        /// <param name="lineLength">The length of the line source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         public IsotropicLineSourceInput(
             double lineLength,
             ISourceProfile sourceProfile)
@@ -36,6 +55,9 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
                 0) { }
 
+        /// <summary>
+        /// Initializes a new instance of the IsotropicLineSourceInput class
+        /// </summary>
         public IsotropicLineSourceInput()
             : this(
                 1.0,

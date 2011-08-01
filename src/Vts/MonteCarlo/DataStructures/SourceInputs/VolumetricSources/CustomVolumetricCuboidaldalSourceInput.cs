@@ -2,12 +2,29 @@
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
+using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo.Sources
+namespace Vts.MonteCarlo.SourceInputs
 {
+    /// <summary>
+    /// Implements ISourceInput. Defines input data for CustomVolumetricCuboidalSource 
+    /// implementation including length, width, height, source profile, polar angle range,
+    /// azimuthal angle range, direction, position and initial tissue region index.
+    /// </summary>
     public class CustomVolumetricCuboidalSourceInput : ISourceInput
     {
-        // this handles custom cuboidal (volumetric)
+        /// <summary>
+        /// Initializes a new instance of the CustomVolumetricCuboidalSourceInput class
+        /// </summary>
+        /// <param name="cubeLengthX">Length of the cuboid</param>
+        /// <param name="cubeWidthY">Width of the cuboid</param>
+        /// <param name="cubeHeightZ">Height of the cuboid</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="polarAngleEmissionRange">Polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public CustomVolumetricCuboidalSourceInput(
             double cubeLengthX,
             double cubeWidthY,
@@ -31,6 +48,15 @@ namespace Vts.MonteCarlo.Sources
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the CustomVolumetricCuboidalSourceInput class
+        /// </summary>
+        /// <param name="cubeLengthX">Length of the cuboid</param>
+        /// <param name="cubeWidthY">Width of the cuboid</param>
+        /// <param name="cubeHeightZ">Height of the cuboid</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="polarAngleEmissionRange">Polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
         public CustomVolumetricCuboidalSourceInput(
             double cubeLengthX,
             double cubeWidthY,
@@ -49,6 +75,9 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
 
+        /// <summary>
+        /// Initializes a new instance of the CustomVolumetricCuboidalSourceInput class
+        /// </summary>
         public CustomVolumetricCuboidalSourceInput()
             : this(
                 1.0,

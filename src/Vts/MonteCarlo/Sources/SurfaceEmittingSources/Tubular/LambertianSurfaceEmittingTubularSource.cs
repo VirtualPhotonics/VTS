@@ -8,7 +8,8 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements LambertianSurfaceEmittingTubularSource with tube radius, height, 
+    /// direction, position and initial tissue region index.
     /// </summary>
     public class LambertianSurfaceEmittingTubularSource : SurfaceEmittingTubularSourceBase
     {      
@@ -20,6 +21,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="tubeHeightZ">Tube height</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public LambertianSurfaceEmittingTubularSource(
             double tubeRadius,
             double tubeHeightZ,

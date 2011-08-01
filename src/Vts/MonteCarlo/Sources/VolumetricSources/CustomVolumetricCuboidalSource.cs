@@ -8,7 +8,9 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements CustomVolumetricCuboidalSource with length, width, height, source 
+    /// profile, polar angle range,azimuthal angle range, direction, position and 
+    /// initial tissue region index.
     /// </summary>
     public class CustomVolumetricCuboidalSource : VolumetricCuboidalSourceBase
     {
@@ -27,6 +29,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle emission range</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public CustomVolumetricCuboidalSource(
             double cubeLengthX,
             double cubeWidthY,
@@ -55,8 +58,7 @@ namespace Vts.MonteCarlo.Sources
                 translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
         }
         
-
-        //CustomCuboidalSource
+        
         protected override Direction GetFinalDirection()
         {
             return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(

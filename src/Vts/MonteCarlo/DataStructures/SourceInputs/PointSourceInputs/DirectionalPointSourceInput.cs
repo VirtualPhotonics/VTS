@@ -1,17 +1,21 @@
 using Vts.Common;
 using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo
+namespace Vts.MonteCarlo.SourceInputs
 {   
-    // todo: re-do this file for new sources
-
     /// <summary>
-    /// Implements ISourceInput.  Defines input data for Directional PointSource 
-    /// implementation including position, and direction.
+    /// Implements ISourceInput. Defines input data for CustomLineSource implementation 
+    /// including converging/diverging angle, emitting point location, direction and 
+    /// initial tissue region index.
     /// </summary>
     public class DirectionalPointSourceInput : ISourceInput
     {
-        // this handles point
+        /// <summary>
+        /// Initializes a new instance of the DirectionalPointSourceInput class
+        /// </summary>
+        /// <param name="pointLocation">position</param>
+        /// <param name="direction">direction</param>
+        /// <param name="initialTissueRegionIndex">Tissue region index</param>
         public DirectionalPointSourceInput(
             Position pointLocation,
             Direction direction,
@@ -19,10 +23,13 @@ namespace Vts.MonteCarlo
         {
             SourceType = SourceType.DirectionalPoint;
             PointLocation = pointLocation;
-            EmittingDirection = direction;
+            Direction = direction;
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the DirectionalPointSourceInput class
+        /// </summary>
         public DirectionalPointSourceInput()
             : this(
                 SourceDefaults.DefaultPosition.Clone(),
@@ -30,7 +37,7 @@ namespace Vts.MonteCarlo
                 0) { }
 
         public Position PointLocation { get; set; }
-        public Direction EmittingDirection { get; set; }
+        public Direction Direction { get; set; }
         public SourceType SourceType { get; set; }
         public int InitialTissueRegionIndex { get; set; }
     }

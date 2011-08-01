@@ -4,6 +4,7 @@ using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Extensions;
+using Vts.MonteCarlo.SourceInputs;
 
 namespace Vts.Test.MonteCarlo
 {
