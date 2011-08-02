@@ -12,7 +12,7 @@ namespace Vts.Extensions
         /// This extension method (static method "add-on" to the double[] class) adds noise to the input double array
         /// </summary>
         /// <param name="myDoubleArray"></param>
-        /// <param name="percentNoise"></param>p
+        /// <param name="percentNoise"></param>
         /// <returns></returns>
         public static double[] AddNoise(this double[] myDoubleArray, double percentNoise)
         {

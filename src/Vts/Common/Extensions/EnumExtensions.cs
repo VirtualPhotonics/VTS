@@ -7,6 +7,11 @@ namespace Vts
 {
     public static class EnumExtensions
     {
+        /// <summary>
+        /// Returns a string in the correct language representing the enum 
+        /// </summary>
+        /// <param name="enumType">The enum type</param>
+        /// <returns>A string representing the enum</returns>
         public static string GetInternationalizedString(this Enum enumType)
         {
             string baseString = enumType.GetType().ToString();

@@ -11,7 +11,7 @@ namespace Vts
     /// <summary>
     /// Immutable class that specifies a range of values and allows enumeration
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of the values in the range</typeparam>
     public abstract class Range<T> : BindableObject where T : struct
     {
         private T _Start;
@@ -19,6 +19,12 @@ namespace Vts
         private T _Delta;
         private int _Count;
 
+        /// <summary>
+        /// Defines the range
+        /// </summary>
+        /// <param name="start">The start of the range</param>
+        /// <param name="stop">The end of the range</param>
+        /// <param name="number">The number of values in the range, inclusive of the endpoints</param>
         public Range(T start, T stop, int number)
         {
             _Start = start;
@@ -28,8 +34,9 @@ namespace Vts
         }
 
         /// <summary>
-        /// todo: Figure out how to remove. The only reason this is here is to satisfy the DataContractSerializer
+        /// The only reason this is here is to satisfy the DataContractSerializer
         /// </summary>
+        /// todo: Figure out how to remove
         public Range()
             : this(default(T), default(T), 1)
         {
@@ -95,10 +102,26 @@ namespace Vts
             }
         }
 
+        /// <summary>
+        /// An abstract method to get the increment value. To be defined by the subclass
+        /// </summary>
+        /// <returns></returns>
         protected abstract Func<T, T> GetIncrement();
+        /// <summary>
+        /// An abstract method to get the delta value. To be defined by the subclass
+        /// </summary>
+        /// <returns>A value of type T</returns>
         protected abstract T GetDelta();
+        /// <summary>
+        /// An abstract method to get the count. To be defined by the subclass
+        /// </summary>
+        /// <returns>An integer representing the count</returns>
         protected abstract int GetNewCount();
 
+        /// <summary>
+        /// Returns a string that represents the range
+        /// </summary>
+        /// <returns>A string that represents the current range</returns>
         public override string ToString()
         {
             var a = this.AsEnumerable().ToArray();
@@ -111,6 +134,10 @@ namespace Vts
         }
 
         // todo: dc - revisit Ayende's INotifyPropertyChanged generics implementation
+        /// <summary>
+        /// Returns an IEnumerable of type T that represents the range
+        /// </summary>
+        /// <returns>An IEnumerable of type T that represents the range</returns>
         public IEnumerable<T> AsEnumerable()
         {
             var increment = GetIncrement();
