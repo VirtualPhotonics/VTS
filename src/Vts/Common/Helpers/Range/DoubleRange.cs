@@ -12,7 +12,7 @@ namespace Vts.Common
         /// </summary>
         /// <param name="start">The start of the range</param>
         /// <param name="stop">The end of the range</param>
-        /// <param name="number">The increment between successive numbers</param>
+        /// <param name="number">The The number of values in the range, inclusive of the endpoints</param>
         public DoubleRange(double start, double stop, int number)
             : base(start, stop, number)
         {
@@ -76,7 +76,7 @@ namespace Vts.Common
         /// <summary>
         /// Clones the double range
         /// </summary>
-        /// <returns>Returns a DoubleRange</returns>
+        /// <returns>A new DoubleRange</returns>
         public DoubleRange Clone()
         {
             return new DoubleRange(Start, Stop, Count);
