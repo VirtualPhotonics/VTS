@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             //            Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
             VirtualBoundaryType = VirtualBoundaryType.GenericVolumeBoundary;
-            PhotonStateType = PhotonStateType.PseudoGenericVirtualBoundary;
+            PhotonStateType = PhotonStateType.PseudoGenericVolumeVirtualBoundary;
 
             _detectorController = detectorController;
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
 using Vts.Common;
-using Vts.MonteCarlo.SourceInputs;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo;
 

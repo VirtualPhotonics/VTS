@@ -35,7 +35,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
                         Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
             VirtualBoundaryType = VirtualBoundaryType.SurfaceRadiance;
-            PhotonStateType = PhotonStateType.PseudoRadianceVirtualBoundary;
+            PhotonStateType = PhotonStateType.PseudoSurfaceRadianceVirtualBoundary;
 
             Name = name;
         }       

@@ -1,7 +1,7 @@
 using Vts.Common;
 using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo.SourceInputs
+namespace Vts.MonteCarlo
 {
     /// <summary>
     /// Implements ISourceInput. Defines input data for IsotropicPointSource implementation 

@@ -4,7 +4,7 @@ using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo.SourceInputs
+namespace Vts.MonteCarlo
 {
     /// <summary>
     /// Implements ISourceInput. Defines input data for IsotropicLineSource implementation 

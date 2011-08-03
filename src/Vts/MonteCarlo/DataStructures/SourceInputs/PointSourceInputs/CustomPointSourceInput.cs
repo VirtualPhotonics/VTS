@@ -2,7 +2,7 @@
 using Vts.Common;
 using Vts.MonteCarlo.Sources;
 
-namespace Vts.MonteCarlo.SourceInputs
+namespace Vts.MonteCarlo
 {
     // todo: re-do this file for new sources
 

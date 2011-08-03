@@ -1,7 +1,6 @@
 using System;
 using Vts.Common;
 using Vts.MonteCarlo.Sources;
-using Vts.MonteCarlo.SourceInputs;
 
 namespace Vts.MonteCarlo.Factories
 {

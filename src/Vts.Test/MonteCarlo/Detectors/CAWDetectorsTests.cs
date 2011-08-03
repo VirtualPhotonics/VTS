@@ -6,7 +6,6 @@ using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.SourceInputs;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -43,7 +42,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // instantiate common classes
             var simulationOptions = new SimulationOptions(
-                    0,
+                    0, // rng seed = same as linux (0)
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
@@ -93,16 +92,16 @@ namespace Vts.Test.MonteCarlo.Detectors
                         },
                         false,
                         VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    )//,
-                    //new GenericVolumeVirtualBoundaryInput(
-                    //    VirtualBoundaryType.GenericVolumeBoundary,
-                    //    new List<IDetectorInput>()
-                    //    {
-                    //        new ATotalDetectorInput()
-                    //    },
-                    //    false,
-                    //    VirtualBoundaryType.GenericVolumeBoundary.ToString()
-                    //)
+                    ),
+                    new GenericVolumeVirtualBoundaryInput(
+                        VirtualBoundaryType.GenericVolumeBoundary,
+                        new List<IDetectorInput>()
+                        {
+                            new ATotalDetectorInput()
+                        },
+                        false,
+                        VirtualBoundaryType.GenericVolumeBoundary.ToString()
+                    )
                 };
             // one tissue layer
             var inputOneLayerTissue = new SimulationInput(
@@ -168,6 +167,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             var sdTwoLayerTissue = ErrorCalculation.StandardDeviation(
                 _outputTwoLayerTissue.Input.N, _outputTwoLayerTissue.Rd, _outputTwoLayerTissue.Rd2);
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rd * _factor - 0.573738839), 0.000000001);
+            // figure out best check of two below 
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Rd * _factor - 0.573738839), 1 * sdOneLayerTissue);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Rd * _factor - 0.573738839), 0.003);
         }
         // Reflection R(rho)
@@ -215,11 +216,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                    _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.0001);
         }
         // Total Absorption : wait on this test until CAW worked out for ATotal
-        //[Test]
-        //public void validate_CAW_ATotal()
-        //{
-        //    Assert.Less(Math.Abs(_outputOneLayerTissue.Atot * _factor - 0.37402175), 0.0000001);
-        //}
+        [Test]
+        public void validate_CAW_ATotal()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Atot * _factor - 0.37402175), 0.002);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot * _factor - 0.37402175), 0.002);
+        }
         // Absorption A(rho,z) not coded yet for CAW
 
         // Diffuse Transmittance

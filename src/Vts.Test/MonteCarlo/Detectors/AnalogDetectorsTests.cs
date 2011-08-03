@@ -6,7 +6,6 @@ using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.SourceInputs;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -133,7 +132,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_Analog_RDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Rd * _factor - 0.670833333), 0.000000001);
+            Assert.Less(Math.Abs(_output.Rd * _factor - 0.670833333), 0.000000001); 
+            //var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Rd, _output.Rd2);
+            // for analog 1st and 2nd moment should be equal (since weight tallied is 1)
+            Assert.AreEqual(_output.Rd, _output.Rd2);
         }
         // Reflection R(rho)
         [Test]

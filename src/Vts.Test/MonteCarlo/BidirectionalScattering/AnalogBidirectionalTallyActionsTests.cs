@@ -6,7 +6,7 @@ using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.SourceInputs;
+using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.BidirectionalScattering
@@ -83,13 +83,6 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                         false,
                         VirtualBoundaryType.GenericVolumeBoundary.ToString())
                 }
-
-                //new List<IDetectorInput>()
-                //{
-                //    new RDiffuseDetectorInput(),
-                //    new TDiffuseDetectorInput(),
-                //    new ATotalDetectorInput()
-                //}
             );
             _output = new MonteCarloSimulation(_input).Run();
 
@@ -128,10 +121,10 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 -1,
                 0,
                 _slabThickness);
-            // take directional net
+            // take sum because absorbed energy independent of direction
             var analyticSolution = (analyticSolutionRight + analyticSolutionLeft);
             var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Atot, _output.Atot2);
-            //Assert.Less(Math.Abs(_output.Atot - _mua * analyticSolution), 3 * sd); // not sure why not passing
+            Assert.Less(Math.Abs(_output.Atot - _mua * analyticSolution), 3 * sd);
         }
         // Diffuse Transmittance
         [Test]

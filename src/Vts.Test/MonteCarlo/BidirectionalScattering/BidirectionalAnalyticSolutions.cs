@@ -50,7 +50,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             OpticalProperties ops, int direction, double position1, double position2)
         {
             double Pf = (1 + ops.G) / 2;
-            double a = (ops.Mua + ops.Mus) * ops.Mus * Pf;
+            double a = (ops.Mua + ops.Mus) - ops.Mus * Pf;
             double b = ops.Mus * (1 - Pf);
             double delta = Math.Sqrt(a * a - b * b);
             double denom = (delta + a) + (delta - a) * Math.Exp(-2 * delta * slabThickness);

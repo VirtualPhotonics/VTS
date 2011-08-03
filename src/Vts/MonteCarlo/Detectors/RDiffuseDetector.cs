@@ -44,6 +44,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public long TallyCount { get; set; }
 
+        // the following works for analog, DAW and CAW.  Weight is final surface exiting weight.
         public void Tally(PhotonDataPoint dp)
         {
             Mean += dp.Weight;
