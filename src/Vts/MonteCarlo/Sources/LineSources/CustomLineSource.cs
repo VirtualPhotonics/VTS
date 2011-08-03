@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns direction for a given position
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">position</param>
         /// <returns>new direction</returns>  
         protected override Direction GetFinalDirection(Position position)
         {

@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class DirectionalEllipticalSource : EllipticalSourceBase
     {
-        private double _thetaConvOrDiv;   //convergence:positive, divergence:negative       
+        private double _thetaConvOrDiv;   //convergence:positive, divergence:negative, collimated:zero;     
 
         /// <summary>
         /// Returns an instance of directional (diverging/converging/collimated) Elliptical Source with specified length and width, 
@@ -59,7 +59,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns direction for a given position
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">position</param>
         /// <returns>new direction</returns>  
         protected override Direction GetFinalDirection(Position position)
         {

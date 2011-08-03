@@ -111,7 +111,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns final direction for a given position
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">position</param>
         /// <returns>new direction</returns>
         protected abstract Direction GetFinalDirection(Position position); // position may or may not be needed
 

@@ -33,15 +33,15 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         protected SourceFlags _rotationAndTranslationFlags;
         /// <summary>
-        /// The length of cube (along x axis)
+        /// The length of the cube (along x axis)
         /// </summary>
         protected double _cubeLengthX;
         /// <summary>
-        /// The  width of cube (along y axis)
+        /// The width of the cube (along y axis)
         /// </summary>
         protected double _cubeWidthY;
         /// <summary>
-        /// The height of cube (along z axis)
+        /// The height of the cube (along z axis)
         /// </summary>
         protected double _cubeHeightZ;
         /// <summary>
@@ -52,9 +52,9 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Defines SurfaceEmittingCuboidalSourceBase class
         /// </summary>
-        /// <param name="cubeLengthX">The length of cube (along x axis)</param>
-        /// <param name="cubeWidthY">The  width of cube (along y axis)</param>
-        /// <param name="cubeHeightZ">The height of cube (along z axis)</param>
+        /// <param name="cubeLengthX">The length of the cube (along x axis)</param>
+        /// <param name="cubeWidthY">The width of the cube (along y axis)</param>
+        /// <param name="cubeHeightZ">The height of the cube (along z axis)</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="polarAngleEmissionRange">Polar angle emission range {0 - 90degrees}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
@@ -202,9 +202,9 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Select the cuboid surface after sampling
         /// </summary>
-        /// <param name="cubeLengthX">The length of cube (along x axis)</param>
-        /// <param name="cubeWidthY">The  width of cube (along y axis)</param>
-        /// <param name="cubeHeightZ">The height of cube (along z axis)</param>
+        /// <param name="cubeLengthX">The length of the cube (along x axis)</param>
+        /// <param name="cubeWidthY">The width of the cube (along y axis)</param>
+        /// <param name="cubeHeightZ">The height of the cube (along z axis)</param>
         /// <param name="rng"></param>
         public static String SelectEmittingSurface(            
             double lengthX,

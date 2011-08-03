@@ -81,15 +81,15 @@ namespace Vts.MonteCarlo
         /// </summary>
         public SourceType SourceType { get; set; }
         /// <summary>
-        /// The length of cube (along x axis)
+        /// The length of the cube (along x axis)
         /// </summary>
         public double CubeLengthX { get; set; }
         /// <summary>
-        /// The  width of cube (along y axis)
+        /// The width of the cube (along y axis)
         /// </summary>
         public double CubeWidthY { get; set; }
         /// <summary>
-        /// The height of cube (along z axis)
+        /// The height of the cube (along z axis)
         /// </summary>
         public double CubeHeightZ { get; set; }
         /// <summary>

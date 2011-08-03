@@ -8,13 +8,13 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// Implements DirectionalRectangularSource with onverging/diverging angle, length, width,
+    /// Implements DirectionalRectangularSource with converging/diverging angle, length, width,
     /// source profile, direction, position, inward normal beam rotation and initial tissue 
     /// region index.
     /// </summary>
     public class DirectionalRectangularSource : RectangularSourceBase
     {
-        private double _thetaConvOrDiv;  //convergence:positive, divergence:negative
+      private double _thetaConvOrDiv;  //convergence:positive, divergence:negative, collimated:zero;
 
         /// <summary>
         /// Returns an instance of directional (diverging/converging/collimated) Rectangular Source with specified length and width, 
@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns direction for a given position
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">position</param>
         /// <returns>new direction</returns>  
         protected override Direction GetFinalDirection(Position position)
         {

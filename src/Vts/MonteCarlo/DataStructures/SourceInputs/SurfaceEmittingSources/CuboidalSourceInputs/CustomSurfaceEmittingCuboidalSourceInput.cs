@@ -16,9 +16,9 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Initializes a new instance of CustomSurfaceEmittingCuboidalSourceInput class        
         /// </summary>
-        /// <param name="cubeLengthX">The length of cube (along x axis)</param>
-        /// <param name="cubeWidthY">The  width of cube (along y axis)</param>
-        /// <param name="cubeHeightZ">The height of cube (along z axis)</param>
+        /// <param name="cubeLengthX">The length of the cube (along x axis)</param>
+        /// <param name="cubeWidthY">The width of the cube (along y axis)</param>
+        /// <param name="cubeHeightZ">The height of the cube (along z axis)</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="polarAngleEmissionRange">Polar angle range</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
@@ -48,9 +48,9 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Initializes a new instance of CustomSurfaceEmittingCuboidalSourceInput class
         /// </summary>
-        /// <param name="cubeLengthX">The length of cube (along x axis)</param>
-        /// <param name="cubeWidthY">The  width of cube (along y axis)</param>
-        /// <param name="cubeHeightZ">The height of cube (along z axis)</param>
+        /// <param name="cubeLengthX">The length of the cube (along x axis)</param>
+        /// <param name="cubeWidthY">The width of the cube (along y axis)</param>
+        /// <param name="cubeHeightZ">The height of the cube (along z axis)</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="polarAngleEmissionRange">Polar angle range</param>
         public CustomSurfaceEmittingCuboidalSourceInput(
@@ -88,15 +88,15 @@ namespace Vts.MonteCarlo
         /// </summary>
         public SourceType SourceType { get; set; }
         /// <summary>
-        /// The length of cube (along x axis)
+        /// The length of the cube (along x axis)
         /// </summary>
         public double CubeLengthX { get; set; }
         /// <summary>
-        /// The  width of cube (along y axis)
+        /// The width of the cube (along y axis)
         /// </summary>
         public double CubeWidthY { get; set; }
         /// <summary>
-        /// The height of cube (along z axis)
+        /// The height of the cube (along z axis)
         /// </summary>
         public double CubeHeightZ { get; set; }
         /// <summary>
