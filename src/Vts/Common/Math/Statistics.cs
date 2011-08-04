@@ -4,20 +4,23 @@ using Vts.Extensions;
 
 namespace Vts.Common.Math
 {
+    /// <summary>
+    /// Statistics utilities
+    /// </summary>
     public static class Statistics
     {
         /// <summary>
-        /// Statistics utilities
-        /// </summary>
-        /// 
         /// method determines the discrete expected value given x and a probability density function, p(x)
+        /// </summary>
         public static double ExpectedValue(double[] x, double[] pOfX)
         {
             return Enumerable.Zip(x, pOfX, (left, right) => (left * right)).Sum();
         }
 
+        /// <sumary>
         /// method determines expected value of a 2D array given in 1D (row dominant) over the 2nd dimension 
         /// used to determine mean sampling depth
+        /// </sumary>
         public static double MeanSamplingDepth(double[] array, double[] x1, double[] x2)
         {
             if (array.Length != x1.Length * x2.Length)

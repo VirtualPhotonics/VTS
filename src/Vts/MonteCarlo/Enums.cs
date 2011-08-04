@@ -1,14 +1,12 @@
 using System;
 namespace Vts.MonteCarlo
 {
-
     /// <summary>
-    /// All Monte Carlo enums.
-    /// </summary>
-
+    /// PhotonStateType is a bitmap of Photon.StateFlag.  Combinations of bits indicate
+    /// the current state of the photon.  These states communicate what to do with the photon.
     /// ref: http://www.codeproject.com/Articles/37921/Enums-Flags-and-Csharp-Oh-my-bad-pun.aspx
     /// or http://stackoverflow.com/questions/93744/most-common-c-bitwise-operations
-    //[Flags]
+    /// </summary>
     public enum PhotonStateType 
     {
         ///     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
@@ -27,7 +25,7 @@ namespace Vts.MonteCarlo
         PseudoReflectedTissueBoundary = 0x40,
         PseudoTransmittedTissueBoundary = 0x80,
         PseudoSpecularTissueBoundary = 0x100,
-        //PseudoDosimetryTissueBoundary = 0x200,
+        //PseudoRadianceTissueBoundary = 0x200,
 
         // virtual boundary flags, can we 1-1 map to virtualBoundary "Name"
         // move up to 16th position
@@ -35,41 +33,94 @@ namespace Vts.MonteCarlo
         PseudoDiffuseReflectanceVirtualBoundary   = 0x10000, 
         PseudoDiffuseTransmittanceVirtualBoundary = 0x20000,
         PseudoSpecularReflectanceVirtualBoundary  = 0x40000,
-        PseudoGenericVirtualBoundary              = 0x80000,
-        PseudoDosimetryVirtualBoundary            = 0x100000,
+        PseudoGenericVolumeVirtualBoundary        = 0x80000,
+        PseudoSurfaceRadianceVirtualBoundary      = 0x100000,
     }
-
+    /// <summary>
+    /// Virtual boundaries are entities upon which detectors are attached.
+    /// Each detector is associated with one and only one of the following types.
+    /// The VBs have a spatial location (surface or volume) and sometimes have
+    /// a direction.
+    /// </summary>
     public enum VirtualBoundaryType
     {
+        /// <summary>
+        /// All diffuse reflectance detectors attach to this virtual boundary type
+        /// </summary>
         DiffuseReflectance,
+        /// <summary>
+        /// All diffuse transmittance detectors attach to this virtual boundary type
+        /// </summary>
         DiffuseTransmittance,
+        /// <summary>
+        /// Specular reflection detectors attach to this virtual boundary type
+        /// </summary>
         SpecularReflectance,
+        /// <summary>
+        /// Internal volume detectors attach to this virtual boundary type
+        /// </summary>
         GenericVolumeBoundary,
-        Dosimetry,
+        /// <summary>
+        /// Internal surface detectors attach to this virtual boundary type
+        /// </summary>
+        SurfaceRadiance,
+        /// <summary>
+        /// Virtual boundary used for pMC diffuse reflectance detectors
+        /// </summary>
         pMCDiffuseReflectance,
     }
+    /// <summary>
+    /// Flag indicating whether the photon hit a actual tissue boundary or a virtual boundary
+    /// </summary>
     public enum BoundaryHitType
     {
+        /// <summary>
+        /// No boundary hit
+        /// </summary>
         None,
+        /// <summary>
+        /// Virtual boundary hit by photon
+        /// </summary>
         Virtual,
+        /// <summary>
+        /// Actual (tissue) boundary hit by photon
+        /// </summary>
         Tissue
     }
-
-    // Source enums
+    /// <summary>
+    /// Source types defined organized by dimension and geometric type
+    /// </summary>
     public enum SourceType
     {
         // 0D Sources:
-
-        // Point Sources
+         
+        /// <summary>
+        /// 0D Point sources: isotropic
+        /// </summary>
         IsotropicPoint,
+        /// <summary>
+        /// 0D Point sources: directional point
+        /// </summary>
         DirectionalPoint,
+        /// <summary>
+        /// 0D Point sources: custom point
+        /// </summary>
         CustomPoint,
 
         // 1D Sources:
 
         // Line Sources
+        /// <summary>
+        /// 1D Line sources: isotropic line
+        /// </summary>
         IsotropicLine,
+        /// <summary>
+        /// 1D Line sources: directional line 
+        /// </summary>
         DirectionalLine,
+        /// <summary>
+        /// 1D Line sources: custom
+        /// </summary>
         CustomLine,
 
         // Ring Sources
@@ -77,102 +128,257 @@ namespace Vts.MonteCarlo
         // 2D Surface Sources:
 
         // Circular Surface Sources
+        /// <summary>
+        /// 2D Circular surface sources: directional 
+        /// </summary>
         DirectionalCircular,
+        /// <summary>
+        /// 2D Circular surface sources: custom
+        /// </summary>
         CustomCircular,
 
         // Cubiodal Surface Sources
+        /// <summary>
+        /// 2D Cubiodal surface sources: Lambertian surface emitting cubiodal
+        /// </summary>
         LambertianSurfaceEmittingCubiodal,
+        /// <summary>
+        /// 2D Cubiodal surface sources: custom
+        /// </summary>
         CustomSurfaceEmittingCuboidal,
 
         //Cylindrical Fiber Source
+        /// <summary>
+        /// 2D Cylindrical fiber sources: Lambertian cylindrial fiber
+        /// </summary>
         LambertianCylindricalFiber,
 
         // Elliptical Surface Sources
+        /// <summary>
+        /// 2D Elliptical surface sources: directional 
+        /// </summary>
         DirectionalElliptical,
+        /// <summary>
+        /// 2D Elliptical surface sources: custom
+        /// </summary>
         CustomElliptical,
 
         // Rectangular Surface Sources
+        /// <summary>
+        /// 2D Rectangular surface sources: directional
+        /// </summary>
         DirectionalRectangular,
+        /// <summary>
+        /// 2D Rectangular surface sources: custom
+        /// </summary>
         CustomRectangular,
 
         // Spherical Surface Sources
+        /// <summary>
+        /// 2D Spherical surface sources: Lambertian
+        /// </summary>
         LambertianSurfaceEmittingSpherical, // e.g. change to LambertianSphericalSurface
+        /// <summary>
+        /// 2D Spherical surface sources: custom
+        /// </summary>
         CustomSurfaceEmittingSpherical,
 
         // Tube Sources
+        /// <summary>
+        /// 2D Tube sources: Lambertian
+        /// </summary>
         LambertianSurfaceEmittingTubular,
+        /// <summary>
+        /// 2D Tube sources: diffusing fiber
+        /// </summary>
         DiffusingFiber, // e.g. a LambertianSurfaceEmittingTubularSource + CustomCircularSource (for the fiber face)
 
         // 3D Volumetric Sources
 
         // Cubiodal Volume Sources
+        /// <summary>
+        /// 3D Cubiodal volume sources: isotropic
+        /// </summary>
         IsotropicVolumetricCuboidal,
+        /// <summary>
+        /// 3D Cubiodal volume sources: custom
+        /// </summary>
         CustomVolumetricCubiodal,
 
         // Ellipsoidal Volume Sources
+        /// <summary>
+        /// 3D Ellipsoidal volume sources: isotropic
+        /// </summary>
         IsotropicVolumetricEllipsoidal,
+        /// <summary>
+        /// 3D Ellipsoidal volume sources: custom
+        /// </summary>
         CustomVolumetricEllipsoidal,
 
         // ...others, based on Fluence or Radiance?
     }
-
+    /// <summary>
+    /// Source beam profile types
+    /// </summary>
     public enum SourceProfileType
     {
+        /// <summary>
+        /// Flat beam source profile
+        /// </summary>
         Flat,
+        /// <summary>
+        /// Gaussian beam source profile
+        /// </summary>
         Gaussian,
     }
-
-    public enum BeamType
-    {
-        Gaussian,
-        Flat,
-    }
+    /// <summary>
+    /// Source angle distribution types
+    /// </summary>
     public enum AngleDistributionType
     {
+        /// <summary>
+        /// Collimated source distribution
+        /// </summary>
         Collimated,
+        /// <summary>
+        /// Isotropic source distribution
+        /// </summary>
         Isotropic,
+        /// <summary>
+        /// Angle distributed source distribution
+        /// </summary>
         AngleDistributed,
     }
+    /// <summary>
+    /// Orientation types of the source
+    /// </summary>
     public enum SourceOrientationType
     {
+        /// <summary>
+        /// Angled source type
+        /// </summary>
         Angled,
+        /// <summary>
+        /// Normally-oriented source type
+        /// </summary>
         Normal,
     }
-    // Tissue enums
+    /// <summary>
+    /// Tissue types
+    /// </summary>
     public enum TissueType
     {
-        MultiLayer,  // includes homogenous
+        /// <summary>
+        /// Multilayer tissue type.  Includes homogeneous tissues.
+        /// </summary>
+        MultiLayer,  
+        /// <summary>
+        /// Tissue slab with embedded ellipsoid
+        /// </summary>
         SingleEllipsoid,
     }
-    // Detector enums
+    /// <summary>
+    /// Detector types
+    /// </summary>
     public enum DetectorType
     {
+        /// <summary>
+        /// Normal processing detector types
+        /// </summary>
         Detector,
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) detector types
+        /// </summary>
         pMCDetector,
     }
-
+    /// <summary>
+    /// The different types of tallies available
+    /// </summary>
     public enum TallyType
     {
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) and angle
+        /// </summary>
         ROfRhoAndAngle,
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho)
+        /// </summary>
         ROfRho,
+        /// <summary>
+        /// Reflectance as a function of angle
+        /// </summary>
         ROfAngle,
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
+        /// </summary>
         ROfRhoAndOmega,
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) and time
+        /// </summary>
         ROfRhoAndTime,
+        /// <summary>
+        /// Reflectance as a function of Cartesian position on the surface of the tissue
+        /// </summary>
         ROfXAndY,
+        /// <summary>
+        /// Total diffuse reflectance
+        /// </summary>
         RDiffuse,
+        /// <summary>
+        /// Total specular reflectance
+        /// </summary>
         RSpecular,
+        /// <summary>
+        /// Transmittance as a function of source-detector separation (rho) and angle
+        /// </summary>
         TOfRhoAndAngle,
+        /// <summary>
+        /// Transmittance as a functino of source-detector separation (rho)
+        /// </summary>
         TOfRho,
+        /// <summary>
+        /// Transmittance as a function of angle
+        /// </summary>
         TOfAngle,
+        /// <summary>
+        /// Total diffuse transmittance
+        /// </summary>
         TDiffuse,
+        /// <summary>
+        /// Fluence as a function of source-detector separation (rho) and tissue depth (Z)
+        /// </summary>
         FluenceOfRhoAndZ,
+        /// <summary>
+        /// Fluence as a function of source-detector separation (rho) and tissue depth (Z) and time
+        /// </summary>
         FluenceOfRhoAndZAndTime,
+        /// <summary>
+        /// Volume radiance as a function source-detector (rho) and tissue depth (Z) and time
+        /// </summary>
         RadianceOfRhoAndZAndAngle,
+        /// <summary>
+        /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
+        /// </summary>
         AOfRhoAndZ,
+        /// <summary>
+        /// Total absorbed energy
+        /// </summary>
         ATotal,
+        /// <summary>
+        /// Momentum transfer as a function of source-detector separation (rho) and tissue depth (Z)
+        /// </summary>
         MomentumTransferOfRhoAndZ,
-        DosimetryOfRho,
+        /// <summary>
+        /// Surface radiance a a function of source-detector separation (rho)
+        /// </summary>
+        RadianceOfRho,
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
+        /// </summary>
         pMCROfRhoAndTime, // maybe these should be in separate enum?
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
+        /// </summary>
         pMCROfRho,
     }
 

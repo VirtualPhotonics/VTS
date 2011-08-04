@@ -153,7 +153,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var detectorInputs = new List<IVirtualBoundaryInput>
             {
                 new SurfaceVirtualBoundaryInput(
-                    VirtualBoundaryType.DiffuseReflectance,
+                    VirtualBoundaryType.pMCDiffuseReflectance,
                     new List<IDetectorInput>()
                     {
                         new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
@@ -162,7 +162,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new DoubleRange(0.0, 1.0, 101)),
                     },
                     true,
-                    VirtualBoundaryType.DiffuseReflectance.ToString()
+                    VirtualBoundaryType.pMCDiffuseReflectance.ToString()
                 ),
                 new SurfaceVirtualBoundaryInput(
                     VirtualBoundaryType.DiffuseTransmittance,

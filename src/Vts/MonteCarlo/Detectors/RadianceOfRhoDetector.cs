@@ -9,15 +9,15 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(DosimetryOfRhoDetector))]
+    [KnownType(typeof(RadianceOfRhoDetector))]
     /// <summary>
-    /// Implements ISurfaceTally<double[]>.  Tally for dosimetry as a function 
+    /// Implements ISurfaceTally<double[]>.  Tally for Surface Radiance as a function 
     /// of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     /// 
     
-    public class DosimetryOfRhoDetector : ISurfaceDetector<double[]>
+    public class RadianceOfRhoDetector : ISurfaceDetector<double[]>
     {
         private Func<PhotonDataPoint, double> _absorbAction;
         
@@ -28,10 +28,10 @@ namespace Vts.MonteCarlo.Detectors
         private double _yIntercept;
 
         /// <summary>
-        /// Returns an instance of DosimetryOfRhoDetector
+        /// Returns an instance of RadianceOfRhoDetector
         /// </summary>
         /// <param name="rho"></param>
-        public DosimetryOfRhoDetector(
+        public RadianceOfRhoDetector(
             double zDepth, 
             DoubleRange rho, 
             ITissue tissue,
@@ -47,7 +47,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[Rho.Count - 1];
             }
-            TallyType = TallyType.DosimetryOfRho;
+            TallyType = TallyType.RadianceOfRho;
             Name = name;
             TallyCount = 0;
             _tissue = tissue;
@@ -56,10 +56,10 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         /// <summary>
-        ///  Returns a default instance of DosimetryOfRhoDetector (for serialization purposes only)
+        ///  Returns a default instance of RadianceOfRhoDetector (for serialization purposes only)
         /// </summary>
-        public DosimetryOfRhoDetector()
-            : this(10.0, new DoubleRange(), new MultiLayerTissue(), true, TallyType.DosimetryOfRho.ToString())
+        public RadianceOfRhoDetector()
+            : this(10.0, new DoubleRange(), new MultiLayerTissue(), true, TallyType.RadianceOfRho.ToString())
         {
         }
 
@@ -105,10 +105,10 @@ namespace Vts.MonteCarlo.Detectors
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
                 
             // update tally
-            Mean[ir] += weight;
+            Mean[ir] += weight / dp.Direction.Uz;
             if (_tallySecondMoment)
             {
-                SecondMoment[ir] += weight * weight;
+                SecondMoment[ir] += (weight / dp.Direction.Uz) * (weight / dp.Direction.Uz);
             }
             TallyCount++;
         }

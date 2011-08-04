@@ -7,18 +7,59 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
+    /// <summary>
+    /// Abstract class for SurfaceEmittingCuboidalSourceBase
+    /// </summary>
     public abstract class SurfaceEmittingCuboidalSourceBase : ISource
     {
+        /// <summary>
+        /// Source profile type
+        /// </summary>
         protected ISourceProfile _sourceProfile;
+        /// <summary>
+        /// Polar angle emission range
+        /// </summary>
         protected DoubleRange _polarAngleEmissionRange;
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         protected Direction _newDirectionOfPrincipalSourceAxis;
+        /// <summary>
+        /// New source location
+        /// </summary>
         protected Position _translationFromOrigin;
+        /// <summary>
+        /// Source rotation and translation flags
+        /// </summary>
         protected SourceFlags _rotationAndTranslationFlags;
+        /// <summary>
+        /// The length of the cube (along x axis)
+        /// </summary>
         protected double _cubeLengthX;
+        /// <summary>
+        /// The width of the cube (along y axis)
+        /// </summary>
         protected double _cubeWidthY;
+        /// <summary>
+        /// The height of the cube (along z axis)
+        /// </summary>
         protected double _cubeHeightZ;
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         protected int _initialTissueRegionIndex;
 
+        /// <summary>
+        /// Defines SurfaceEmittingCuboidalSourceBase class
+        /// </summary>
+        /// <param name="cubeLengthX">The length of the cube (along x axis)</param>
+        /// <param name="cubeWidthY">The width of the cube (along y axis)</param>
+        /// <param name="cubeHeightZ">The height of the cube (along z axis)</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="polarAngleEmissionRange">Polar angle emission range {0 - 90degrees}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>  
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         protected SurfaceEmittingCuboidalSourceBase(
             double cubeLengthX,
             double cubeWidthY,
@@ -44,6 +85,11 @@ namespace Vts.MonteCarlo.Sources
             _initialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Implements Get next photon
+        /// </summary>
+        /// <param name="tissue">tissue</param>
+        /// <returns>photon</returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Sample emitting side
@@ -152,14 +198,13 @@ namespace Vts.MonteCarlo.Sources
 
             return finalPosition;
         }
-
-
+        
         /// <summary>
         /// Select the cuboid surface after sampling
         /// </summary>
-        /// <param name="lengthX"></param>
-        /// <param name="widthY"></param>
-        /// <param name="heightZ"></param>
+        /// <param name="cubeLengthX">The length of the cube (along x axis)</param>
+        /// <param name="cubeWidthY">The width of the cube (along y axis)</param>
+        /// <param name="cubeHeightZ">The height of the cube (along z axis)</param>
         /// <param name="rng"></param>
         public static String SelectEmittingSurface(            
             double lengthX,

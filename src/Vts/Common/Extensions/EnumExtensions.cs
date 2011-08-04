@@ -7,6 +7,11 @@ namespace Vts
 {
     public static class EnumExtensions
     {
+        /// <summary>
+        /// Returns a string in the correct language representing the enum 
+        /// </summary>
+        /// <param name="enumType">The enum type</param>
+        /// <returns>A string representing the enum</returns>
         public static string GetInternationalizedString(this Enum enumType)
         {
             string baseString = enumType.GetType().ToString();
@@ -21,7 +26,11 @@ namespace Vts
             else
                 return "";
         }
-        
+        /// <summary>
+        /// Factory method to return ChromophoreCoefficientType given a ChromophoreType
+        /// </summary>
+        /// <param name="chromophoreType">e.g. HbO2,Hb,Melanin,H2O,Fat</param>
+        /// <returns>The ChromophoreCoefficientType associated with the input</returns>
         public static ChromophoreCoefficientType GetCoefficientType(this ChromophoreType chromophoreType)
         {
             switch (chromophoreType)
@@ -40,14 +49,12 @@ namespace Vts
             }
         }
         
-        // The following set of extension methods aid in accessing enums set up to
-        // be bit maps
         /// <summary>
-        /// Has checks whether enum has this bit turned on
+        /// Method 'Has' checks whether enum has this bit turned on
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="type">Enum type</param>
+        /// <param name="value">value to compare</param>
         /// <returns></returns>
         public static bool Has<T>(this System.Enum type, T value)
         {
@@ -61,11 +68,11 @@ namespace Vts
             }
         }
         /// <summary>
-        /// Is checks whether enum is exclusively a particular type(s)
+        /// Method 'Is' checks whether enum is exclusively a particular type(s)
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="type">Enum type</param>
+        /// <param name="value">value to compare</param>
         /// <returns></returns>
         public static bool Is<T>(this System.Enum type, T value)
         {
@@ -79,11 +86,11 @@ namespace Vts
             }
         }
         /// <summary>
-        /// Add turns on this bit
+        /// Method 'Add' turns on this bit
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="type">Enum type</param>
+        /// <param name="value">value to add</param>
         /// <returns></returns>
         public static T Add<T>(this System.Enum type, T value)
         {
@@ -102,11 +109,11 @@ namespace Vts
             }
         }
         /// <summary>
-        /// Remove turns off this bit
+        /// Method 'Remove' turns off this bit
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
+        /// <param name="type">Enum type</param>
+        /// <param name="value">value to remove</param>
         /// <returns></returns>
         public static T Remove<T>(this System.Enum type, T value)
         {

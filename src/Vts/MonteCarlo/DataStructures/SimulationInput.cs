@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
 

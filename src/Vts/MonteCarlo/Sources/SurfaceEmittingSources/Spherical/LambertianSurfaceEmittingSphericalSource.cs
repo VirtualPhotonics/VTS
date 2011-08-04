@@ -8,7 +8,8 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements LambertianSurfaceEmittingSphericalSource with radius, position and
+    /// initial tissue region index.
     /// </summary>
     public class LambertianSurfaceEmittingSphericalSource : SurfaceEmittingSphericalSourceBase
     {
@@ -17,6 +18,7 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="radius">The radius of the sphere</param> 
         /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianSurfaceEmittingSphericalSource(
             double radius,
             Position translationFromOrigin = null,

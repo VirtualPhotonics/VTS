@@ -145,8 +145,8 @@ namespace Vts.Common.Math
         /// <summary>
         /// Interpolation in one dimension (assumes x are monotonically increasing)
         /// </summary>
-        /// <param name="x">The known dependent values</param>
-        /// <param name="y">The known independent values</param>
+        /// <param name="x">The known independent values</param>
+        /// <param name="y">The known dependent values</param>
         /// <param name="xs">Value to at which to interpolate</param>
         /// <returns>If xs outside range of x, returns NaN,
         ///     otherwide, returns linearly interpolated result</returns>
@@ -160,11 +160,11 @@ namespace Vts.Common.Math
         /// <summary>
         /// Interpolation in one dimension (assumes x are monotonically increasing)
         /// </summary>
-        /// <param name="x">The known dependent values</param>
-        /// <param name="y">The known independent values</param>
+        /// <param name="x">The known independent values</param>
+        /// <param name="y">The known dependent values</param>
         /// <param name="xs">Value to at which to interpolate</param>
         /// <returns>If xs outside range of x, returns NaN,
-        ///     otherwide, returns linearly interpolated result</returns>
+        ///     otherwide, returns linearly interpolated result as an IEnumerable of type float</returns>
         public static IEnumerable<float> interp1(IList<float> x, IList<float> y, IEnumerable<float> xs)
         {
             foreach (var xi in xs)
@@ -173,6 +173,16 @@ namespace Vts.Common.Math
             }
         }
 
+        /// <summary>
+        /// Interpolation in one dimension within a 2-dimensional array of values
+        /// </summary>
+        /// <param name="x">The known independent value</param>
+        /// <param name="y">The known dependent value</param>
+        /// <param name="xs">Value to at which to interpolate</param>
+        /// <param name="fixedDimension">The dimension of y in which to interpolate</param>
+        /// <param name="fixedIndex">The index within the dimension of y in which to interpolate</param>
+        /// <returns>If xs outside range of x, returns NaN,
+        ///     otherwide, returns linearly interpolated result as an IEnumerable of type double</returns>
         public static IEnumerable<double> interp1(IList<double> x, double[,] y, IEnumerable<double> xs, int fixedDimension, int fixedIndex)
         {
             foreach (var xi in xs)
@@ -181,6 +191,16 @@ namespace Vts.Common.Math
             }
         }
 
+        /// <summary>
+        /// Interpolation in one dimension within a 2-dimensional array of values
+        /// </summary>
+        /// <param name="x">The known independent value</param>
+        /// <param name="y">The known dependent value</param>
+        /// <param name="xs">Value to at which to interpolate</param>
+        /// <param name="fixedDimension">The dimension of y in which to interpolate</param>
+        /// <param name="fixedIndex">The index within the dimension of y in which to interpolate</param>
+        /// <returns>If xs outside range of x, returns NaN,
+        ///     otherwide, returns linearly interpolated result as an IEnumerable of type float</returns>
         public static IEnumerable<float> interp1(IList<float> x, float[,] y, IEnumerable<float> xs, int fixedDimension, int fixedIndex)
         {
             foreach (var xi in xs)
@@ -195,13 +215,17 @@ namespace Vts.Common.Math
         /// <summary>
         /// Interpolation in two dimensions 
         /// </summary>
-        /// <param name="f(x,y)">The known dependent values</param>
-        /// <param name="x,y">The known independent values</param>
-        /// <param name="xi,yi">Value to at which to interpolate</param>
-        /// <returns>The interpolated value (clamped to boundary values if xi are of range)</returns>
+        /// <remarks>
         /// Assumptions: 1) x and y are monotonically increasing, and
         ///              2) xi and yi are inclusive to x and y respectively for interpolated results,
         ///              otherwise return NaN
+        /// </remarks>
+        /// <param name="x">The known independent values</param>
+        /// <param name="y">The known independent values</param>
+        /// <param name="f">The known dependent values</param>
+        /// <param name="xi">x value to at which to interpolate</param>
+        /// <param name="yi">y value to at which to interpolate</param>
+        /// <returns>The interpolated value (clamped to boundary values if xi are of range)</returns>
         public static double interp2(IList<double> x, IList<double> y, double[,] f, double xi, double yi)
         {
             if ((x.Count != f.GetLength(0))||(y.Count != f.GetLength(1)))

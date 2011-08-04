@@ -8,7 +8,8 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements CustomLineSource with ine length, source profile, polar angle range, azimuthal 
+    /// angle range, direction, position, inward normal beam rotation and initial tissue region index.
     /// </summary>
     public class CustomLineSource : LineSourceBase
     {
@@ -16,8 +17,7 @@ namespace Vts.MonteCarlo.Sources
         private DoubleRange _azimuthalAngleEmissionRange;
 
         /// <summary>
-        /// Returns an instance of Custom Line Source with a specified length, source profile (Flat/Gaussian), 
-        /// polar and azimuthal angle range, new source axis direction, translation, and  inward normal ray rotation
+        /// Initializes a new instance of the CustomLineSource class
         /// </summary>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -25,7 +25,8 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle emission range</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="beamRotationFromInwardNormal">Ray rotation from inward normal</param>
+        /// <param name="beamRotationFromInwardNormal">Beam rotation from inward normal</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomLineSource(
             double lineLength,
             ISourceProfile sourceProfile,
@@ -47,8 +48,12 @@ namespace Vts.MonteCarlo.Sources
             _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();            
         }
 
-        //CustomLineSource
-        protected override Direction GetFinalDirection(Position finalPosition)
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <param name="position">position</param>
+        /// <returns>new direction</returns>  
+        protected override Direction GetFinalDirection(Position position)
         {
             return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange,

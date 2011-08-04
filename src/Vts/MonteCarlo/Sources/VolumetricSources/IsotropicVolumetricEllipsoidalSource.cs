@@ -8,7 +8,8 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements IsotropicVolumetricEllipsoidalSource with a,b and c parameters, 
+    /// source profile, direction, position, and initial tissue region index.
     /// </summary>
     public class IsotropicVolumetricEllipsoidalSource : VolumetricEllipsoidalSourceBase
     {
@@ -23,6 +24,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public IsotropicVolumetricEllipsoidalSource(
             double aParameter,
             double bParameter,
@@ -44,10 +46,12 @@ namespace Vts.MonteCarlo.Sources
                 newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
             if (translationFromOrigin == null)
                 translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
-        }
-                
+        }                
 
-        //Isotropic Ellipsoidal Source
+       /// <summary>
+       /// Returns direction
+       /// </summary>
+        /// <returns>new direction</returns>
         protected override Direction GetFinalDirection()
         {
             return SourceToolbox.GetDirectionForIsotropicDistributionRandom(Rng);

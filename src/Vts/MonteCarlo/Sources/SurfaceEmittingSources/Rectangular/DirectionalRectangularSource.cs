@@ -8,23 +8,26 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements DirectionalRectangularSource with converging/diverging angle, length, width,
+    /// source profile, direction, position, inward normal beam rotation and initial tissue 
+    /// region index.
     /// </summary>
     public class DirectionalRectangularSource : RectangularSourceBase
     {
-        private double _thetaConvOrDiv;  //convergence:positive, divergence:negative
+      private double _thetaConvOrDiv;  //convergence:positive, divergence:negative, collimated:zero;
 
         /// <summary>
         /// Returns an instance of directional (diverging/converging/collimated) Rectangular Source with specified length and width, 
         /// source profile (Flat/Gaussian), polar and azimuthal angle range, new source axis direction, translation, and  inward normal ray rotation
         /// </summary>
-        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle</param>
+        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
         /// <param name="rectLengthX">The length of the Rectangular Source</param>
         /// <param name="rectWidthY">The width of the Rectangular Source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>    
         /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public DirectionalRectangularSource(
             double thetaConvOrDiv,
             double rectLengthX,
@@ -52,9 +55,12 @@ namespace Vts.MonteCarlo.Sources
                 beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
         }
 
-        
-        //Converging / diveriging or collimated rectangular source
-        protected override Direction GetFinalDirection(Position finalPosition)
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <param name="position">position</param>
+        /// <returns>new direction</returns>  
+        protected override Direction GetFinalDirection(Position position)
         {
             
 
@@ -68,9 +74,9 @@ namespace Vts.MonteCarlo.Sources
                 // sign is negative for diverging and positive positive for converging 
                 var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
                     _rectLengthX,
-                    Math.Sqrt(finalPosition.X * finalPosition.X + finalPosition.Y * finalPosition.Y),
+                    Math.Sqrt(position.X * position.X + position.Y * position.Y),
                     _thetaConvOrDiv);              
-                return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, finalPosition));
+                return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, position));
             }
         }
     }

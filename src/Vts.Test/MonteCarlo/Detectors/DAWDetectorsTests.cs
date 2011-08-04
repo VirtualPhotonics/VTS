@@ -46,8 +46,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
-                //new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints, DatabaseType.CollisionInfo },
-                //null,
                 true,
                 false, // track statistics
                 0);
@@ -95,13 +93,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                         VirtualBoundaryType.DiffuseTransmittance.ToString()
                     ),        
                     new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.Dosimetry,
+                        VirtualBoundaryType.SurfaceRadiance,
                         new List<IDetectorInput>()
                         {
-                            new DosimetryOfRhoDetectorInput(_dosimetryDepth, new DoubleRange(0.0, 10.0, 101))
+                            new RadianceOfRhoDetectorInput(_dosimetryDepth, new DoubleRange(0.0, 10.0, 101))
                         },
                         false,
-                        VirtualBoundaryType.Dosimetry.ToString()
+                        VirtualBoundaryType.SurfaceRadiance.ToString()
                         ),
                     new GenericVolumeVirtualBoundaryInput(
                         VirtualBoundaryType.GenericVolumeBoundary,
@@ -279,12 +277,19 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[198, 201] * _factor - 0.00825301), 0.00000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[198, 201] * _factor - 0.00825301), 0.00000001);
         }
-        // Dosimetry(rho)
+        // Radiance(rho)
         [Test]
-        public void validate_DAW_DosimetryOfRho()
+        public void validate_DAW_RadianceOfRho()
         {
             //need radiance detector to compare results, for now make sure both simulations give same results
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Dos_r[0] - _outputTwoLayerTissue.Dos_r[0]), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[0] - _outputTwoLayerTissue.Rad_r[0]), 0.0000001);
+        }
+        // sanity checks
+        [Test]
+        public void validate_DAW_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
+        {
+            // no specular because photons started inside tissue
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.00000000001);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo.Factories
                 case SourceType.DirectionalPoint:
                     var dpInput = (DirectionalPointSourceInput)input;
                     return new DirectionalPointSource(
-                        dpInput.EmittingDirection,
+                        dpInput.Direction,
                         dpInput.PointLocation,
                         dpInput.InitialTissueRegionIndex) { Rng = rng };
 
@@ -31,7 +31,7 @@ namespace Vts.MonteCarlo.Factories
                     return new CustomPointSource(
                         cpInput.PolarAngleEmissionRange,
                         cpInput.AzimuthalAngleEmissionRange,
-                        cpInput.EmittingDirection,
+                        cpInput.Direction,
                         cpInput.PointLocation,
                         cpInput.InitialTissueRegionIndex) { Rng = rng };
 
@@ -118,8 +118,8 @@ namespace Vts.MonteCarlo.Factories
                 case SourceType.LambertianCylindricalFiber:
                     var lsecfInput = (LambertianSurfaceEmittingCylindricalFiberSourceInput)input;
                     return new LambertianSurfaceEmittingCylindricalFiberSource(
-                        lsecfInput.TubeRadius,
-                        lsecfInput.TubeHeightZ,
+                        lsecfInput.FiberRadius,
+                        lsecfInput.FiberHeightZ,
                         lsecfInput.CurvedSurfaceEfficiency,
                         lsecfInput.BottomSurfaceEfficiency,
                         lsecfInput.NewDirectionOfPrincipalSourceAxis,

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -655,9 +655,6 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ATotalDetector.cs">
       <Link>MonteCarlo\Detectors\ATotalDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\DosimetryOfRhoDetector.cs">
-      <Link>MonteCarlo\Detectors\DosimetryOfRhoDetector.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs</Link>
     </Compile>
@@ -675,6 +672,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs">
       <Link>MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoDetector.cs">
+      <Link>MonteCarlo\Detectors\RadianceOfRhoDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>
@@ -1039,14 +1039,14 @@
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DosimetryVirtualBoundary.cs">
-      <Link>MonteCarlo\VirtualBoundaries\DosimetryVirtualBoundary.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\pMCDiffuseReflectanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\pMCDiffuseReflectanceVirtualBoundary.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\RadianceVirtualBoundary.cs">
+      <Link>MonteCarlo\VirtualBoundaries\RadianceVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs</Link>
@@ -1194,7 +1194,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>IF NOT EXIST "$(SolutionDir)..\build\core\Desktop\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\core\Desktop\$(ConfigurationName)"
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(SolutionDir)..\build\core\Desktop\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\core\Desktop\$(ConfigurationName)"
 copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\core\Desktop\$(ConfigurationName)" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

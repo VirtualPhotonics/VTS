@@ -7,17 +7,54 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
+    /// <summary>
+    /// Abstract class for EllipticalSourceBase
+    /// </summary>
     public abstract class EllipticalSourceBase : ISource
     {
+        /// <summary>
+        /// Source profile type
+        /// </summary>
         protected ISourceProfile _sourceProfile;
+        /// <summary>
+        /// New source axis direction
+        /// </summary>
         protected Direction _newDirectionOfPrincipalSourceAxis;
+        /// <summary>
+        /// New source location
+        /// </summary>
         protected Position _translationFromOrigin;
-        protected PolarAzimuthalAngles _beamRotationFromInwardNormal;        
+        /// <summary>
+        /// Beam rotation from inward normal
+        /// </summary>
+        protected PolarAzimuthalAngles _beamRotationFromInwardNormal;
+        /// <summary>
+        /// Source rotation and translation flags
+        /// </summary>
         protected SourceFlags _rotationAndTranslationFlags;
+        /// <summary>
+        /// "a" parameter of the ellipse source
+        /// </summary>
         protected double _aParameter;
+        /// <summary>
+        /// "b" parameter of the ellipse source
+        /// </summary>
         protected double _bParameter;
+        /// <summary>
+        /// Initial tissue region index
+        /// </summary>
         protected int _initialTissueRegionIndex;
 
+        /// <summary>
+        /// Defines EllipticalSourceBase class
+        /// </summary>
+        /// <param name="aParameter">"a" parameter of the ellipse source</param>
+        /// <param name="bParameter">"b" parameter of the ellipse source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>    
+        /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         protected EllipticalSourceBase(
             double aParameter,
             double bParameter,
@@ -41,6 +78,11 @@ namespace Vts.MonteCarlo.Sources
             _initialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// Implements Get next photon
+        /// </summary>
+        /// <param name="tissue">tissue</param>
+        /// <returns>photon</returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the ellipse
@@ -66,7 +108,12 @@ namespace Vts.MonteCarlo.Sources
             return photon;
         }
 
-        protected abstract Direction GetFinalDirection(Position finalPosition); // position may or may not be needed
+        /// <summary>
+        /// Returns final direction for a given position
+        /// </summary>
+        /// <param name="position">position</param>
+        /// <returns>new direction</returns>
+        protected abstract Direction GetFinalDirection(Position position); // position may or may not be needed
 
         private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double aParameter, double bParameter, Random rng)
         {

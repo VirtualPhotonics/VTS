@@ -8,7 +8,9 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements CustomSurfaceEmittingSphericalSource with radius, source profile, 
+    /// polar angle range, azimuthal angle range, direction, position and initial 
+    /// tissue region index.
     /// </summary>
     public class CustomSurfaceEmittingSphericalSource : SurfaceEmittingSphericalSourceBase
     {
@@ -17,10 +19,11 @@ namespace Vts.MonteCarlo.Sources
         /// (based on polar azimuthal angle range), new source axis direction, and translation,
         /// </summary>
         /// <param name="radius">The radius of the sphere</param>
-        /// <param name="polarAngleRangeToDefineSphericalSurface">polar angle range to define the emitting area of the sphere</param>
-        /// <param name="azimuthalAngleRangeToDefineSphericalSurface">azimuthal angle range to define the emitting area of the sphere</param>
+        /// <param name="polarAngleRangeToDefineSphericalSurface">Polar angle range to define the emitting area of the sphere</param>
+        /// <param name="azimuthalAngleRangeToDefineSphericalSurface">Azimuthal angle range to define the emitting area of the sphere</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomSurfaceEmittingSphericalSource(
             double radius,
             DoubleRange polarAngleRangeToDefineSphericalSurface,

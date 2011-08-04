@@ -94,7 +94,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>IF NOT EXIST "$(SolutionDir)..\build\Desktop.Test\" (mkdir "$(SolutionDir)..\build\Desktop.Test\")
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(SolutionDir)..\build\Desktop.Test\" (mkdir "$(SolutionDir)..\build\Desktop.Test\")
 copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\Desktop.Test\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

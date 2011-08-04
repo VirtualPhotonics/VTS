@@ -31,9 +31,9 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Equality overload for polar azimuthal angle pair
         /// </summary>
-        /// <param name="pa1></param>
-        /// <param name="pa2"></param>
-        /// <returns></returns>
+        /// <param name="pa1">polar angle 1</param>
+        /// <param name="pa2">polar angle 2</param>
+        /// <returns>boolean</returns>
         public static bool operator ==(PolarAzimuthalAngles pa1, PolarAzimuthalAngles pa2)
         {
             if (object.ReferenceEquals(pa1, pa2))
@@ -58,9 +58,9 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Inequality overload for polar azimuthal angle pair
         /// </summary>
-        /// <param name="pa1"></param>
-        /// <param name="pa2"></param>
-        /// <returns></returns>
+        /// <param name="pa1">polar angle 1</param>
+        /// <param name="pa2">polar angle 2</param>
+        /// <returns>boolean</returns>
         public static bool operator !=(PolarAzimuthalAngles pa1, PolarAzimuthalAngles pa2)
         {
             return !(pa1 == pa2);
@@ -70,7 +70,7 @@ namespace Vts.MonteCarlo.Helpers
         /// Instance member for equality comparison
         /// </summary>
         /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <returns>boolean</returns>
         public override bool Equals(object obj)
         {
             if (obj is PolarAzimuthalAngles)

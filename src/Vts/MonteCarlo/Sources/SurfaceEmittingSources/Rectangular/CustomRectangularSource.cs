@@ -8,7 +8,9 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements CustomRectangularSource with length, width, source profile, polar angle range, 
+    /// azimuthal angle range, direction, position, inward normal beam rotation and initial tissue
+    /// region index.
     /// </summary>
     public class CustomRectangularSource : RectangularSourceBase
     {
@@ -27,6 +29,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>    
         /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomRectangularSource(
             double rectLengthX,
             double rectWidthY,
@@ -55,10 +58,13 @@ namespace Vts.MonteCarlo.Sources
             if (beamRotationFromInwardNormal == null)
                 beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
         }
-               
 
-        //CustomRectangularSource
-        protected override Direction GetFinalDirection(Position finalPosition)
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <param name="position">position</param>
+        /// <returns>new direction</returns>  
+        protected override Direction GetFinalDirection(Position position)
         {
             return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange,

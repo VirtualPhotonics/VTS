@@ -11,7 +11,6 @@ using Vts.Common;
 using Vts.Extensions;
 using System.IO;
 using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.CommandLineApplication
@@ -301,6 +300,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
             Console.WriteLine("\t\tparamsweep=<SweepParameterType>,Start,Stop,Count");
             Console.WriteLine("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
             Console.WriteLine("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
+            Console.WriteLine();
+            Console.WriteLine("geninfile\t\tgenerates a new infile and names it newinfile.xml");
             Console.WriteLine();
             Console.WriteLine("list of sweep parameters (paramsweep):");
             Console.WriteLine();

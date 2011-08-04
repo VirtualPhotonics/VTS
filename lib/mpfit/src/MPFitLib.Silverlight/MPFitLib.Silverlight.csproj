@@ -89,7 +89,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>IF NOT EXIST "$(SolutionDir)..\build\Silverlight\" (mkdir "$(SolutionDir)..\build\Silverlight\")
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(SolutionDir)..\build\Silverlight\" (mkdir "$(SolutionDir)..\build\Silverlight\")
 copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\Silverlight\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

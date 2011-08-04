@@ -63,9 +63,9 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.TOfRhoAndAngle:
                     var trainput = (TOfRhoAndAngleDetectorInput)detectorInput;
                     return new TOfRhoAndAngleDetector(trainput.Rho, trainput.Angle, tallySecondMoment, trainput.Name);
-                case TallyType.DosimetryOfRho:
-                    var drinput = (DosimetryOfRhoDetectorInput)detectorInput;
-                    return new DosimetryOfRhoDetector(drinput.ZDepth, drinput.Rho, tissue, tallySecondMoment, drinput.Name);
+                case TallyType.RadianceOfRho:
+                    var drinput = (RadianceOfRhoDetectorInput)detectorInput;
+                    return new RadianceOfRhoDetector(drinput.ZDepth, drinput.Rho, tissue, tallySecondMoment, drinput.Name);
 
                 // IVolumeDetector(s):
                 case TallyType.FluenceOfRhoAndZ:

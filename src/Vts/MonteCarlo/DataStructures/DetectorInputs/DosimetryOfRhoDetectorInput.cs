@@ -7,11 +7,11 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// DetectorInput for R(r)
     /// </summary>
-    public class DosimetryOfRhoDetectorInput : IDetectorInput
+    public class RadianceOfRhoDetectorInput : IDetectorInput
     {
-        public DosimetryOfRhoDetectorInput(double zDepth, DoubleRange rho, String name)
+        public RadianceOfRhoDetectorInput(double zDepth, DoubleRange rho, String name)
         {
-            TallyType = TallyType.DosimetryOfRho;
+            TallyType = TallyType.RadianceOfRho;
             Name = name;
             Rho = rho;
             ZDepth = zDepth;
@@ -21,14 +21,14 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="rho"></param>
         /// <param name="name"></param>
-        public DosimetryOfRhoDetectorInput(double zDepth, DoubleRange rho) 
-            : this (zDepth, rho, TallyType.DosimetryOfRho.ToString()) {}
+        public RadianceOfRhoDetectorInput(double zDepth, DoubleRange rho) 
+            : this (zDepth, rho, TallyType.RadianceOfRho.ToString()) {}
 
         /// <summary>
         /// Default constructor uses default rho bins
         /// </summary>
-        public DosimetryOfRhoDetectorInput() 
-            : this(5.5, new DoubleRange(0.0, 10, 101), TallyType.DosimetryOfRho.ToString()) {}
+        public RadianceOfRhoDetectorInput() 
+            : this(5.5, new DoubleRange(0.0, 10, 101), TallyType.RadianceOfRho.ToString()) {}
 
         public TallyType TallyType { get; set; }
         public String Name { get; set; }

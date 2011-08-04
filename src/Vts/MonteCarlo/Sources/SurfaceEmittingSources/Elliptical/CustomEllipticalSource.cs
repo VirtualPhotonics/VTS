@@ -8,7 +8,9 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// 
+    /// Implements CustomEllipticalSource with a and b parameter, source profile, polar
+    /// angle range, azimuthal angle range, direction, position and inward normal beam 
+    /// rotation, and initial tissue region index.
     /// </summary>
     public class CustomEllipticalSource : EllipticalSourceBase
     {
@@ -27,6 +29,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>    
         /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomEllipticalSource(
             double aParameter,
             double bParameter,
@@ -56,9 +59,12 @@ namespace Vts.MonteCarlo.Sources
                 beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
         }
 
-        
-        //CustomEllipticalSource
-        protected override Direction GetFinalDirection(Position finalPosition)
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <param name="position">position</param>
+        /// <returns>new direction</returns>  
+        protected override Direction GetFinalDirection(Position position)
         {
             return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange,
