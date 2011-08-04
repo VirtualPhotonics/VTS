@@ -19,7 +19,7 @@ namespace Vts.FemModeling.MGRTE._2D
 ////#endif
 //        }
 
-        public static void ReadAmesh(ref AngularMesh[] amesh, int alevel)
+        public static void ReadAmesh(ref AngularMesh[] amesh, int aMeshLevel)
         {
             string angularMeshFile = "amesh.txt";
 
@@ -38,7 +38,7 @@ namespace Vts.FemModeling.MGRTE._2D
                     string text = reader.ReadToEnd();
                     string[] bits = text.Split('\t');
                     count = 0;
-                    for (i = 0; i <= alevel; i++)
+                    for (i = 0; i <= aMeshLevel; i++)
                     {
                         tempd = double.Parse(bits[count]);
                         amesh[i].ns = (int)tempd;
@@ -77,7 +77,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
 
 
-        public static void ReadSmesh(ref SpatialMesh[] smesh, int slevel, int alevel, AngularMesh[] amesh)
+        public static void ReadSmesh(ref SpatialMesh[] smesh, int sMeshLevel, int aMeshLevel, AngularMesh[] amesh)
         {
             string spatialMeshFile = "smesh.txt";
 
@@ -101,14 +101,14 @@ namespace Vts.FemModeling.MGRTE._2D
                     string[] bits = text.Split('\t');
                     count = 0;
 
-                    for (i = 0; i <= slevel; i++)
+                    for (i = 0; i <= sMeshLevel; i++)
                     {
                         tempd = double.Parse(bits[count]); smesh[i].nt = (int)tempd; count++;
                         tempd = double.Parse(bits[count]); smesh[i].np = (int)tempd; count++;
                         tempd = double.Parse(bits[count]); smesh[i].ne = (int)tempd; count++;
 
-                        smesh[i].so = new int[amesh[alevel].ns][];
-                        for (j = 0; j < amesh[alevel].ns; j++)
+                        smesh[i].so = new int[amesh[aMeshLevel].ns][];
+                        for (j = 0; j < amesh[aMeshLevel].ns; j++)
                         {
                             smesh[i].so[j] = new int[smesh[i].nt];
                             for (k = 0; k < smesh[i].nt; k++)
@@ -167,14 +167,14 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
 
-        public static void ReadMua(ref double[][][] ua, int slevel, int nt)
+        public static void ReadMua(ref double[][][] ua, int sMeshLevel, int nt)
         {
             string absorptionFile = "mua.txt";
 
             int j, k, count;            
         
             //Collect ua data
-            ua[slevel] = new double[nt][];
+            ua[sMeshLevel] = new double[nt][];
             if (File.Exists(absorptionFile))
             {
                 using (TextReader reader = File.OpenText(absorptionFile))
@@ -185,10 +185,10 @@ namespace Vts.FemModeling.MGRTE._2D
 
                     for (j = 0; j < nt; j++)
                     {
-                        ua[slevel][j] = new double[3];
+                        ua[sMeshLevel][j] = new double[3];
                         for (k = 0; k < 3; k++)
                         {
-                            ua[slevel][j][k] = double.Parse(bits[count]);
+                            ua[sMeshLevel][j][k] = double.Parse(bits[count]);
                             count++;
                         }
                     }
@@ -203,14 +203,14 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
 
-        public static void ReadMus(ref double[][][] us, int slevel, int nt)
+        public static void ReadMus(ref double[][][] us, int sMeshLevel, int nt)
         {
             string absorptionFile = "mus.txt";
             
             int j, k, count;
 
             //Collect us data
-            us[slevel] = new double[nt][];
+            us[sMeshLevel] = new double[nt][];
             if (File.Exists(absorptionFile))
             {
                 using (TextReader reader = File.OpenText(absorptionFile))
@@ -221,10 +221,10 @@ namespace Vts.FemModeling.MGRTE._2D
 
                     for (j = 0; j < nt; j++)
                     {
-                        us[slevel][j] = new double[3];
+                        us[sMeshLevel][j] = new double[3];
                         for (k = 0; k < 3; k++)
                         {
-                            us[slevel][j][k] = double.Parse(bits[count]);
+                            us[sMeshLevel][j][k] = double.Parse(bits[count]);
                             count++;
                         }
                     }

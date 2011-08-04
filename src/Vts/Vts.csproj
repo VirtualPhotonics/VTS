@@ -164,6 +164,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="FemModeling\MGRTE\2D\SolverMGRTE.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IO\KnownTypes.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
     <Compile Include="MonteCarlo\Controllers\pMCDatabaseWriterController.cs" />
@@ -237,7 +240,6 @@
     <Compile Include="FemModeling\MGRTE\2D\MultiGridCycle.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\Output.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\Parameters.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\SolverMGRTE.cs" />
     <Compile Include="FemModeling\MGRTE\2D\IO\Source.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloLoader.cs">
@@ -454,6 +456,7 @@
     <EmbeddedResource Include="Common\Resources\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

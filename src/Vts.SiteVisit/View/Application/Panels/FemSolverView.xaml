@@ -38,56 +38,56 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Index i:" Margin="5"/>
-                <TextBox Text="{Binding Parameters.Index_i, Mode=TwoWay}" Margin="5"/>
+                <TextBlock Text="nTissue:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.NTissue, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Index o:" Margin="5"/>
-                <TextBox Text="{Binding Parameters.Index_o, Mode=TwoWay}" Margin="5"/>
+                <TextBlock Text="nExt:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.NExt, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
 
             <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="A Level:" Margin="5"/>
-                <TextBox Text="{Binding Parameters.Alevel, Mode=TwoWay}" Margin="5"/>
+                <TextBlock Text="Ang Mesh Level:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.AMeshLevel, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="A Level 0:" Margin="5"/>
-                <TextBox Text="{Binding Parameters.Alevel0, Mode=TwoWay}" Margin="5"/>
+                <TextBox Text="{Binding Parameters.AMeshLevel0, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="S Level:" Margin="5"/>
-                <TextBox Text="{Binding Parameters.Slevel, Mode=TwoWay}" Margin="5"/>
+                <TextBlock Text="S Mesh Level:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.SMeshLevel, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="S Level 0:" Margin="5"/>
-                <TextBox Text="{Binding Parameters.Slevel0, Mode=TwoWay}" Margin="5"/>
+                <TextBox Text="{Binding Parameters.SMeshLevel0, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right">
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="Which Multi Grid:" Margin="5"/>
-                <TextBox Text="{Binding Parameters.Whichmg, Mode=TwoWay}" Margin="5"/>
+                <TextBox Text="{Binding Parameters.MgMethod, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="N1:" Margin="5"/>
-                <TextBox Text="{Binding Parameters.N1, Mode=TwoWay}" Margin="5"/>
+                <TextBox Text="{Binding Parameters.NPreIteration, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="N2:" Margin="5"/>
-                <TextBox Text="{Binding Parameters.N2, Mode=TwoWay}" Margin="5"/>
+                <TextBox Text="{Binding Parameters.NPostIteration, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="N3:" Margin="5"/>
-                <TextBox Text="{Binding Parameters.N3, Mode=TwoWay}" Margin="5"/>
+                <TextBox Text="{Binding Parameters.NMgCycle, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right">
@@ -97,13 +97,13 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="N Max:" Margin="5"/>
+                <TextBlock Text="NIterations:" Margin="5"/>
                 <TextBox Text="{Binding Parameters.N_max, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Tl:" Margin="5"/>
-                <TextBox Text="{Binding Parameters.Tol, Mode=TwoWay}" Margin="5"/>
+                <TextBlock Text="Tol:" Margin="5"/>
+                <TextBox Text="{Binding Parameters.ConvTol, Mode=TwoWay}" Margin="5"/>
             </StackPanel>
         </StackPanel>
         <Button Grid.Column="1" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding ExecuteFemSolverCommand}"

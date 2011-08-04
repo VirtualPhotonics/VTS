@@ -19,14 +19,14 @@ namespace Vts.FemModeling.MGRTE._2D
             ref int[][] noflevel,
             ref BoundaryCoupling[] b,
             int level,
-            int whichmg,
+            int mgMethod,
             int vacuum,
-            double index_i,
-            double index_o,
-            int alevel,
-            int alevel0,
-            int slevel,
-            int slevel0,
+            double nTissue,
+            double nExt,
+            int aMeshLevel,
+            int aMeshLevel0,
+            int sMeshLevel,
+            int sMeshLevel0,
             double[][][] ua,
             double[][][] us,
             MultiGridCycle Mgrid)
@@ -50,7 +50,7 @@ namespace Vts.FemModeling.MGRTE._2D
             //             3.3.  "b"
 
             int tempsize = 20, tempsize2 = 20;
-            int i, j, k, m, n, nt, np, ne, ns, da = alevel - alevel0, ds = slevel - slevel0;
+            int i, j, k, m, n, nt, np, ne, ns, da = aMeshLevel - aMeshLevel0, ds = sMeshLevel - sMeshLevel0;
             double x1, x2, x3, y1, y2, y3;
             int[][] t;
             int[][] e;
@@ -65,7 +65,7 @@ namespace Vts.FemModeling.MGRTE._2D
             //      the corresponding triangles are saved from the 2nd.
             //      Example:    assume triangles [5 16 28 67] are adjacent to the node 10, then
             //                  p2[10][0]=4, p2[10][1]=5, p2[10][2]=16, p2[10][3]=28 and p2[10][4]=67.
-            for (i = 0; i <= slevel; i++)
+            for (i = 0; i <= sMeshLevel; i++)
             {
                 p = smesh[i].p; t = smesh[i].t; nt = smesh[i].nt; np = smesh[i].np; e = smesh[i].e; ne = smesh[i].ne;
 
@@ -140,7 +140,7 @@ namespace Vts.FemModeling.MGRTE._2D
             //      For the data structure of "cf" and "fc", see "spatialmapping2".
             //      Note: those arrays are not defined on the coarsest spatial mesh (i=0),
             //      since they are always saved on the fine level instead of the coarse level.
-            for (i = 1; i <= slevel; i++)
+            for (i = 1; i <= sMeshLevel; i++)
             {
                 smap = new int[smesh[i - 1].nt][];
                 for (j = 0; j < smesh[i - 1].nt; j++)
@@ -198,7 +198,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
             // 2.3. compute "e", "e2", "so2", "n" and "ori"
             //      For the data structure of "eo", "e2","so2", "n" and "ori", see "boundary".
-            for (i = 0; i <= slevel; i++)
+            for (i = 0; i <= sMeshLevel; i++)
             {
                 smesh[i].e2 = new int[smesh[i].ne][];
                 for (j = 0; j < smesh[i].ne; j++)
@@ -216,10 +216,10 @@ namespace Vts.FemModeling.MGRTE._2D
 
             // 2.4. compute "bd" and "bd2"
             //      For the data structure of "bd" and "bd2", see "edgeterm".
-            for (i = 0; i <= slevel; i++)
+            for (i = 0; i <= sMeshLevel; i++)
             {
-                smesh[i].bd = new int[amesh[alevel].ns][][];
-                for (j = 0; j < amesh[alevel].ns; j++)
+                smesh[i].bd = new int[amesh[aMeshLevel].ns][][];
+                for (j = 0; j < amesh[aMeshLevel].ns; j++)
                 {
                     smesh[i].bd[j] = new int[smesh[i].nt][]; ;
                     for (k = 0; k < smesh[i].nt; k++)
@@ -230,21 +230,21 @@ namespace Vts.FemModeling.MGRTE._2D
                     }
                 }
             }
-            for (i = 0; i <= slevel; i++)
+            for (i = 0; i <= sMeshLevel; i++)
             {
-                smesh[i].bd2 = new double[amesh[alevel].ns][][];
-                for (j = 0; j < amesh[alevel].ns; j++)
+                smesh[i].bd2 = new double[amesh[aMeshLevel].ns][][];
+                for (j = 0; j < amesh[aMeshLevel].ns; j++)
                 {
                     smesh[i].bd2[j] = new double[smesh[i].nt][];
                     for (k = 0; k < smesh[i].nt; k++)
                     { smesh[i].bd2[j][k] = new double[3]; }
                 }
             }
-            for (i = 0; i <= slevel; i++)
+            for (i = 0; i <= sMeshLevel; i++)
             {
-                for (j = 0; j < amesh[alevel].ns; j++)
+                for (j = 0; j < amesh[aMeshLevel].ns; j++)
                 {
-                    Mgrid.EdgeTri(smesh[i].nt, amesh[alevel].a[j], smesh[i].p, smesh[i].p2, smesh[i].t, smesh[i].bd[j], smesh[i].bd2[j], smesh[i].so2);
+                    Mgrid.EdgeTri(smesh[i].nt, amesh[aMeshLevel].a[j], smesh[i].p, smesh[i].p2, smesh[i].t, smesh[i].bd[j], smesh[i].bd2[j], smesh[i].so2);
                 }
             }
 
@@ -253,15 +253,15 @@ namespace Vts.FemModeling.MGRTE._2D
             //      noflevel[level][2]: the corresponding angular mesh level and spatial mesh level for each multigrid mesh level
             //      Example:    assume noflevel[i][0]=3 and noflevel[i][1]=2, then
             //                  the spatial mesh level is "3" and the angular mesh level is "2" on the multgrid mesh level "i".
-            switch (whichmg)
+            switch (mgMethod)
             {
                 case 1: //AMG
                     for (i = 0; i <= level; i++)
                     { noflevel[i] = new int[2]; }
                     for (i = 0; i <= da; i++)
                     {
-                        noflevel[i][0] = slevel;
-                        noflevel[i][1] = i + alevel0;
+                        noflevel[i][0] = sMeshLevel;
+                        noflevel[i][1] = i + aMeshLevel0;
                     }
                     break;
                 case 2: //SMG
@@ -269,8 +269,8 @@ namespace Vts.FemModeling.MGRTE._2D
                     { noflevel[i] = new int[2]; }
                     for (i = 0; i <= ds; i++)
                     {
-                        noflevel[i][0] = i + slevel0;
-                        noflevel[i][1] = alevel;
+                        noflevel[i][0] = i + sMeshLevel0;
+                        noflevel[i][1] = aMeshLevel;
                     }
                     break;
                 case 3: //MG1
@@ -280,55 +280,55 @@ namespace Vts.FemModeling.MGRTE._2D
                     {
                         for (i = 0; i < ds - da; i++)
                         {
-                            noflevel[i][0] = i + slevel0;
-                            noflevel[i][1] = alevel0;
+                            noflevel[i][0] = i + sMeshLevel0;
+                            noflevel[i][1] = aMeshLevel0;
                         }
                         for (i = 0; i <= da; i++)
                         {
-                            noflevel[i + ds - da][0] = i + ds - da + slevel0;
-                            noflevel[i + ds - da][1] = i + alevel0;
+                            noflevel[i + ds - da][0] = i + ds - da + sMeshLevel0;
+                            noflevel[i + ds - da][1] = i + aMeshLevel0;
                         }
                     }
                     else
                     {
                         for (i = 0; i < da - ds; i++)
                         {
-                            noflevel[i][0] = slevel0;
-                            noflevel[i][1] = i + alevel0;
+                            noflevel[i][0] = sMeshLevel0;
+                            noflevel[i][1] = i + aMeshLevel0;
                         }
                         for (i = 0; i <= ds; i++)
                         {
-                            noflevel[i + da - ds][0] = i + slevel0;
-                            noflevel[i + da - ds][1] = i + da - ds + alevel0;
+                            noflevel[i + da - ds][0] = i + sMeshLevel0;
+                            noflevel[i + da - ds][1] = i + da - ds + aMeshLevel0;
                         }
                     }
                     break;
                 case 4: //MG2
                     for (i = 0; i <= level; i++)
                     { noflevel[i] = new int[2]; }
-                    for (i = slevel0; i <= slevel; i++)
+                    for (i = sMeshLevel0; i <= sMeshLevel; i++)
                     {
-                        noflevel[i - slevel0][0] = i;
-                        noflevel[i - slevel0][1] = alevel0;
+                        noflevel[i - sMeshLevel0][0] = i;
+                        noflevel[i - sMeshLevel0][1] = aMeshLevel0;
                     }
-                    for (i = alevel0 + 1; i <= alevel; i++)
+                    for (i = aMeshLevel0 + 1; i <= aMeshLevel; i++)
                     {
-                        noflevel[i - alevel0 + slevel - slevel0][0] = slevel;
-                        noflevel[i - alevel0 + slevel - slevel0][1] = i;
+                        noflevel[i - aMeshLevel0 + sMeshLevel - sMeshLevel0][0] = sMeshLevel;
+                        noflevel[i - aMeshLevel0 + sMeshLevel - sMeshLevel0][1] = i;
                     }
                     break;
                 case 5: //MG3
                     for (i = 0; i <= level; i++)
                     { noflevel[i] = new int[2]; }
-                    for (i = alevel0; i <= alevel; i++)
+                    for (i = aMeshLevel0; i <= aMeshLevel; i++)
                     {
-                        noflevel[i - alevel0][0] = slevel0;
-                        noflevel[i - alevel0][1] = i;
+                        noflevel[i - aMeshLevel0][0] = sMeshLevel0;
+                        noflevel[i - aMeshLevel0][1] = i;
                     }
-                    for (i = slevel0 + 1; i <= slevel; i++)
+                    for (i = sMeshLevel0 + 1; i <= sMeshLevel; i++)
                     {
-                        noflevel[i - slevel0 + alevel - alevel0][0] = i;
-                        noflevel[i - slevel0 + alevel - alevel0][1] = alevel;
+                        noflevel[i - sMeshLevel0 + aMeshLevel - aMeshLevel0][0] = i;
+                        noflevel[i - sMeshLevel0 + aMeshLevel - aMeshLevel0][1] = aMeshLevel;
                     }
                     break;
                 case 6: //MG4_a
@@ -338,30 +338,30 @@ namespace Vts.FemModeling.MGRTE._2D
                     {
                         for (i = 0; i <= ds - da; i++)
                         {
-                            noflevel[i][0] = i + slevel0;
-                            noflevel[i][1] = alevel0;
+                            noflevel[i][0] = i + sMeshLevel0;
+                            noflevel[i][1] = aMeshLevel0;
                         }
                         for (i = 1; i <= da; i++)
                         {
-                            noflevel[ds - da + 2 * i - 1][0] = slevel0 + ds - da + i;
-                            noflevel[ds - da + 2 * i - 1][1] = alevel0 + i - 1;
-                            noflevel[ds - da + 2 * i][0] = slevel0 + ds - da + i;
-                            noflevel[ds - da + 2 * i][1] = alevel0 + i;
+                            noflevel[ds - da + 2 * i - 1][0] = sMeshLevel0 + ds - da + i;
+                            noflevel[ds - da + 2 * i - 1][1] = aMeshLevel0 + i - 1;
+                            noflevel[ds - da + 2 * i][0] = sMeshLevel0 + ds - da + i;
+                            noflevel[ds - da + 2 * i][1] = aMeshLevel0 + i;
                         }
                     }
                     else
                     {
                         for (i = 0; i <= da - ds; i++)
                         {
-                            noflevel[i][0] = slevel0;
-                            noflevel[i][1] = i + alevel0;
+                            noflevel[i][0] = sMeshLevel0;
+                            noflevel[i][1] = i + aMeshLevel0;
                         }
                         for (i = 1; i <= ds; i++)
                         {
-                            noflevel[da - ds + 2 * i - 1][0] = slevel0 + i;
-                            noflevel[da - ds + 2 * i - 1][1] = alevel0 + da - ds + i - 1;
-                            noflevel[da - ds + 2 * i][0] = slevel0 + i;
-                            noflevel[da - ds + 2 * i][1] = alevel0 + da - ds + i;
+                            noflevel[da - ds + 2 * i - 1][0] = sMeshLevel0 + i;
+                            noflevel[da - ds + 2 * i - 1][1] = aMeshLevel0 + da - ds + i - 1;
+                            noflevel[da - ds + 2 * i][0] = sMeshLevel0 + i;
+                            noflevel[da - ds + 2 * i][1] = aMeshLevel0 + da - ds + i;
                         }
                     }
                     break;
@@ -372,30 +372,30 @@ namespace Vts.FemModeling.MGRTE._2D
                     {
                         for (i = 0; i <= ds - da; i++)
                         {
-                            noflevel[i][0] = i + slevel0;
-                            noflevel[i][1] = alevel0;
+                            noflevel[i][0] = i + sMeshLevel0;
+                            noflevel[i][1] = aMeshLevel0;
                         }
                         for (i = 1; i <= da; i++)
                         {
-                            noflevel[ds - da + 2 * i - 1][0] = slevel0 + ds - da + i - 1;
-                            noflevel[ds - da + 2 * i - 1][1] = alevel0 + i;
-                            noflevel[ds - da + 2 * i][0] = slevel0 + ds - da + i;
-                            noflevel[ds - da + 2 * i][1] = alevel0 + i;
+                            noflevel[ds - da + 2 * i - 1][0] = sMeshLevel0 + ds - da + i - 1;
+                            noflevel[ds - da + 2 * i - 1][1] = aMeshLevel0 + i;
+                            noflevel[ds - da + 2 * i][0] = sMeshLevel0 + ds - da + i;
+                            noflevel[ds - da + 2 * i][1] = aMeshLevel0 + i;
                         }
                     }
                     else
                     {
                         for (i = 0; i <= da - ds; i++)
                         {
-                            noflevel[i][0] = slevel0;
-                            noflevel[i][1] = i + alevel0;
+                            noflevel[i][0] = sMeshLevel0;
+                            noflevel[i][1] = i + aMeshLevel0;
                         }
                         for (i = 1; i <= ds; i++)
                         {
-                            noflevel[da - ds + 2 * i - 1][0] = slevel0 + i - 1;
-                            noflevel[da - ds + 2 * i - 1][1] = alevel0 + da - ds + i;
-                            noflevel[da - ds + 2 * i][0] = slevel0 + i;
-                            noflevel[da - ds + 2 * i][1] = alevel0 + da - ds + i;
+                            noflevel[da - ds + 2 * i - 1][0] = sMeshLevel0 + i - 1;
+                            noflevel[da - ds + 2 * i - 1][1] = aMeshLevel0 + da - ds + i;
+                            noflevel[da - ds + 2 * i][0] = sMeshLevel0 + i;
+                            noflevel[da - ds + 2 * i][1] = aMeshLevel0 + da - ds + i;
                         }
                     }
                     break;
@@ -411,7 +411,7 @@ namespace Vts.FemModeling.MGRTE._2D
             {
 
 
-                for (i = slevel - 1; i >= 0; i--)
+                for (i = sMeshLevel - 1; i >= 0; i--)
                 {
                     ua[i] = new double[smesh[i].nt][];
                     us[i] = new double[smesh[i].nt][];
@@ -574,7 +574,7 @@ namespace Vts.FemModeling.MGRTE._2D
                             b[i].so2[j][k] = new double[2];
                     }
 
-                    Mgrid.BoundReflection(ns, amesh[noflevel[i][1]].a, smesh[noflevel[i][0]], index_i, index_o, b[i]);
+                    Mgrid.BoundReflection(ns, amesh[noflevel[i][1]].a, smesh[noflevel[i][0]], nTissue, nExt, b[i]);
                 }
             }
         stop: ;

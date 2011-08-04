@@ -85,7 +85,7 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
 
-        public void BoundReflection(int ns, double[][] theta, SpatialMesh smesh, double index_i, double index_o, BoundaryCoupling b)
+        public void BoundReflection(int ns, double[][] theta, SpatialMesh smesh, double nTissue, double nExt, BoundaryCoupling b)
         // Purpose: this fucntion is to find the coupling relation between directions on the boundary
         //          due to reflection and refraction in the presence of refraction index mismatch at the boundary.
         //          For the data structure of "b", see "struct boundarycoupling" in "solver".
@@ -110,8 +110,8 @@ namespace Vts.FemModeling.MGRTE._2D
                     if (sn < 0)
                     {
                         theta0 = Pi - Math.Acos(sn);
-                        ratio_reflection = Reflection(theta0, index_i, index_o);
-                        Refraction(temp, theta0, index_o, index_i);
+                        ratio_reflection = Reflection(theta0, nTissue, nExt);
+                        Refraction(temp, theta0, nExt, nTissue);
                         ratio_refraction = temp[0]; theta_i = temp[1];
 
                         if (theta[j][0] * dx + theta[j][1] * dy > 0)        // the ONLY place for clockwise (dx,dy)
@@ -132,8 +132,8 @@ namespace Vts.FemModeling.MGRTE._2D
                     else
                     {
                         theta0 = Math.Acos(sn);
-                        ratio_reflection = Reflection(theta0, index_o, index_i);
-                        Refraction(temp, theta0, index_i, index_o);
+                        ratio_reflection = Reflection(theta0, nExt, nTissue);
+                        Refraction(temp, theta0, nTissue, nExt);
                         ratio_refraction = temp[0]; theta_i = temp[1];
 
                         if (theta[j][0] * dx + theta[j][1] * dy > 0)    // the ONLY place for clockwise (dx,dy)
@@ -269,7 +269,7 @@ namespace Vts.FemModeling.MGRTE._2D
         // Purpose: this function is to compute the residual with vacuum or reflection boundary condition.
         //          see "relaxation" for more details.
         {
-            int i, j, k, m, ii, jj, bi, alevel, edge = 0;
+            int i, j, k, m, ii, jj, bi, aMeshLevel, edge = 0;
 
             double[,] left = new double[3, 3];
             double[] right = new double[3];
@@ -286,13 +286,13 @@ namespace Vts.FemModeling.MGRTE._2D
             index[1, 0] = 2; index[1, 1] = 0;
             index[2, 0] = 0; index[2, 1] = 1;
 
-            alevel = Ns / amesh.ns;
+            aMeshLevel = Ns / amesh.ns;
 
             if (vacuum == 0)
             {
                 for (i = 0; i < amesh.ns; i++)
                 {
-                    bi = i * alevel;
+                    bi = i * aMeshLevel;
                     for (j = 0; j < smesh.nt; j++)
                     {
                         dettri = 2 * smesh.a[j];
@@ -393,7 +393,7 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 for (i = 0; i < amesh.ns; i++)
                 {
-                    bi = i * alevel;
+                    bi = i * aMeshLevel;
                     for (j = 0; j < smesh.nt; j++)
                     {
                         dettri = 2 * smesh.a[j];
@@ -492,7 +492,7 @@ namespace Vts.FemModeling.MGRTE._2D
         //              Case 2.1 (internal triangle): the edge flux is incoming from the adjacent triangle.
         //              Case 2.2 (boundary triangle): the edge flux is incoming from the boundary source.
         //
-        //          For each angular direction "s" on each mesh "slevel", the edge integrals can be assembled from the following:
+        //          For each angular direction "s" on each mesh "sMeshLevel", the edge integrals can be assembled from the following:
         //
         //          bd[nt][9]:  in Case 2.1, it saves the adjacent triangle of the current triangle, the local order of shared nodes
         //                      in the adjacent triangle in the order of edges: index "0" to "2" for edge "1" in the current triangle,
@@ -507,7 +507,7 @@ namespace Vts.FemModeling.MGRTE._2D
         {
             int i, j;
             double a = theta[0], b = theta[1]; // a=cos(theta), b=sin(theta)
-            double x1 = 0, y1 = 0, x2 = 0, y2 = 0, x3 = 0, y3 = 0, dx, dy, tol = 1e-6;
+            double x1 = 0, y1 = 0, x2 = 0, y2 = 0, x3 = 0, y3 = 0, dx, dy, convConvConvTol = 1e-6;
             for (i = 0; i < nt; i++)
             {
                 x1 = p[t[i][0]][0]; y1 = p[t[i][0]][1];
@@ -520,7 +520,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 { dx = -dx; dy = -dy; }
 
                 bd2[i][0] = a * dx + b * dy;// s dot n * L
-                if (Math.Abs(bd2[i][0]) < tol)
+                if (Math.Abs(bd2[i][0]) < convConvConvTol)
                 { bd2[i][0] = 0; }
                 if (bd2[i][0] < 0 && so2[i][0] == -1)
                 // "bd2[i][n]<0 or s dot n <0" means that this edge has upwind flux from the other adjacent triangle or the boundary source.
@@ -550,7 +550,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 { dx = -dx; dy = -dy; }
 
                 bd2[i][1] = a * dx + b * dy;
-                if (Math.Abs(bd2[i][1]) < tol)
+                if (Math.Abs(bd2[i][1]) < convConvConvTol)
                 { bd2[i][1] = 0; }
                 if (bd2[i][1] < 0 && so2[i][1] == -1)
                 {
@@ -578,7 +578,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 { dx = -dx; dy = -dy; }
 
                 bd2[i][2] = a * dx + b * dy;
-                if (Math.Abs(bd2[i][2]) < tol)
+                if (Math.Abs(bd2[i][2]) < convConvConvTol)
                 { bd2[i][2] = 0; }
                 if (bd2[i][2] < 0 && so2[i][2] == -1)
                 {
@@ -837,7 +837,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
         public double MgCycle(AngularMesh[] amesh, SpatialMesh[] smesh, BoundaryCoupling[] b, double[][][][] q,
             double[][][][] RHS, double[][][] ua, double[][][] us, double[][][][] flux, double[][][][] d,
-            int n1, int n2, int alevel, int alevel0, int slevel, int slevel0, int NS, int vacuum, int whichmg)
+            int n1, int n2, int aMeshLevel, int aMeshLevel0, int sMeshLevel, int sMeshLevel0, int NS, int vacuum, int mgMethod)
 
         // Purpose: this function contains the multigrid methods with V-cycle.
         //     AMG: angular multigrid method.
@@ -852,12 +852,12 @@ namespace Vts.FemModeling.MGRTE._2D
             int i, ns, nt, da, ds, level = -1;
             double res = 1e10;
 
-            nt = smesh[slevel].nt;
-            ns = amesh[alevel].ns;
-            ds = slevel - slevel0;
-            da = alevel - alevel0;
+            nt = smesh[sMeshLevel].nt;
+            ns = amesh[aMeshLevel].ns;
+            ds = sMeshLevel - sMeshLevel0;
+            da = aMeshLevel - aMeshLevel0;
 
-            switch (whichmg)
+            switch (mgMethod)
             {
                 case 1: //AMG:
                     level = da;
@@ -884,195 +884,195 @@ namespace Vts.FemModeling.MGRTE._2D
 
             for (i = 0; i < n1; i++)
             {
-                Relaxation(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], vacuum);
+                Relaxation(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], vacuum);
             }
 
-            switch (whichmg)
+            switch (mgMethod)
             {
                 case 1://AMG:
                     {
-                        if (alevel == alevel0)
+                        if (aMeshLevel == aMeshLevel0)
                         { }
                         else
                         {
-                            Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                            res = Residual(nt, ns, d[level], smesh[slevel].a);
-                            FtoC_a(nt, amesh[alevel - 1].ns, d[level], RHS[level - 1]);
-                            MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel, alevel0, slevel - 1, slevel0, NS, vacuum, whichmg);
-                            CtoF_a(nt, amesh[alevel - 1].ns, flux[level], flux[level - 1]);
+                            Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                            res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                            FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                            MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
+                            CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
                         }
                     }
                     break;
                 case 2://SMG:
                     {
-                        if (slevel == slevel0)
+                        if (sMeshLevel == sMeshLevel0)
                         { }
                         else
                         {
-                            Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                            res = Residual(nt, ns, d[level], smesh[slevel].a);
-                            FtoC_s(smesh[slevel - 1].nt, ns, d[level], RHS[level - 1], smesh[slevel].smap, smesh[slevel].fc);
-                            MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel - 1, alevel0, slevel, slevel0, NS, vacuum, whichmg);
-                            CtoF_s(smesh[slevel - 1].nt, ns, flux[level], flux[level - 1], smesh[slevel].smap, smesh[slevel].cf);
+                            Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                            res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                            FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                            MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
+                            CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
                         }
                     }
                     break;
                 case 3://MG1:
                     {
-                        if (alevel == alevel0)
+                        if (aMeshLevel == aMeshLevel0)
                         {
-                            if (slevel == slevel0)
+                            if (sMeshLevel == sMeshLevel0)
                             { }
                             else
                             {
-                                Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[slevel].a);
-                                FtoC_s(smesh[slevel - 1].nt, ns, d[level], RHS[level - 1], smesh[slevel].smap, smesh[slevel].fc);
-                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel, alevel0, slevel - 1, slevel0, NS, vacuum, whichmg);
-                                CtoF_s(smesh[slevel - 1].nt, ns, flux[level], flux[level - 1], smesh[slevel].smap, smesh[slevel].cf);
+                                Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                                FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
+                                CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
                             }
                         }
                         else
                         {
-                            if (slevel == slevel0)
+                            if (sMeshLevel == sMeshLevel0)
                             {
-                                Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[slevel].a);
-                                FtoC_a(nt, amesh[alevel - 1].ns, d[level], RHS[level - 1]);
-                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel - 1, alevel0, slevel, slevel0, NS, vacuum, whichmg);
-                                CtoF_a(nt, amesh[alevel - 1].ns, flux[level], flux[level - 1]);
+                                Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                                FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
+                                CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
                             }
                             else
                             {
-                                Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[slevel].a);
-                                FtoC(smesh[slevel - 1].nt, amesh[alevel - 1].ns, d[level], RHS[level - 1], smesh[slevel].smap, smesh[slevel].fc);
-                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel - 1, alevel0, slevel, slevel0, NS, vacuum, whichmg);
-                                CtoF(smesh[slevel - 1].nt, amesh[alevel - 1].ns, flux[level], flux[level - 1], smesh[slevel].smap, smesh[slevel].cf);
+                                Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                                FtoC(smesh[sMeshLevel - 1].nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
+                                CtoF(smesh[sMeshLevel - 1].nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
                             }
                         }
                     }
                     break;
                 case 4://MG2:
                     {
-                        if (alevel == alevel0)
+                        if (aMeshLevel == aMeshLevel0)
                         {
-                            if (slevel == slevel0)
+                            if (sMeshLevel == sMeshLevel0)
                             { }
                             else
                             {
-                                Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[slevel].a);
-                                FtoC_s(smesh[slevel - 1].nt, ns, d[level], RHS[level - 1], smesh[slevel].smap, smesh[slevel].fc);
-                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel, alevel0, slevel - 1, slevel0, NS, vacuum, whichmg);
-                                CtoF_s(smesh[slevel - 1].nt, ns, flux[level], flux[level - 1], smesh[slevel].smap, smesh[slevel].cf);
+                                Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                                FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
+                                CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
                             }
                         }
                         else
                         {
-                            Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                            res = Residual(nt, ns, d[level], smesh[slevel].a);
-                            FtoC_a(nt, amesh[alevel - 1].ns, d[level], RHS[level - 1]);
-                            MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel - 1, alevel0, slevel, slevel0, NS, vacuum, whichmg);
-                            CtoF_a(nt, amesh[alevel - 1].ns, flux[level], flux[level - 1]);
+                            Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                            res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                            FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                            MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
+                            CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
                         }
                     }
                     break;
                 case 5://MG3:
                     {
-                        if (slevel == slevel0)
+                        if (sMeshLevel == sMeshLevel0)
                         {
-                            if (alevel == alevel0)
+                            if (aMeshLevel == aMeshLevel0)
                             { }
                             else
                             {
-                                Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[slevel].a);
-                                FtoC_a(nt, amesh[alevel - 1].ns, d[level], RHS[level - 1]);
-                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel - 1, alevel0, slevel, slevel0, NS, vacuum, whichmg);
-                                CtoF_a(nt, amesh[alevel - 1].ns, flux[level], flux[level - 1]);
+                                Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                                FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
+                                CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
                             }
                         }
                         else
                         {
-                            Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                            res = Residual(nt, ns, d[level], smesh[slevel].a);
-                            FtoC_s(smesh[slevel - 1].nt, ns, d[level], RHS[level - 1], smesh[slevel].smap, smesh[slevel].fc);
-                            MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel, alevel0, slevel - 1, slevel0, NS, vacuum, whichmg);
-                            CtoF_s(smesh[slevel - 1].nt, ns, flux[level], flux[level - 1], smesh[slevel].smap, smesh[slevel].cf);
+                            Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                            res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                            FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                            MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
+                            CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
                         }
                     }
                     break;
                 case 6://MG4_a:
                     {
-                        if (alevel == alevel0)
+                        if (aMeshLevel == aMeshLevel0)
                         {
-                            if (slevel == slevel0)
+                            if (sMeshLevel == sMeshLevel0)
                             { }
                             else
                             {
-                                Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[slevel].a);
-                                FtoC_s(smesh[slevel - 1].nt, ns, d[level], RHS[level - 1], smesh[slevel].smap, smesh[slevel].fc);
-                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel, alevel0, slevel - 1, slevel0, NS, vacuum, whichmg);
-                                CtoF_s(smesh[slevel - 1].nt, ns, flux[level], flux[level - 1], smesh[slevel].smap, smesh[slevel].cf);
+                                Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                                FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
+                                CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
                             }
                         }
                         else
                         {
-                            if (slevel == slevel0)
+                            if (sMeshLevel == sMeshLevel0)
                             {
-                                Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[slevel].a);
-                                FtoC_a(nt, amesh[alevel - 1].ns, d[level], RHS[level - 1]);
-                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel - 1, alevel0, slevel, slevel0, NS, vacuum, whichmg);
-                                CtoF_a(nt, amesh[alevel - 1].ns, flux[level], flux[level - 1]);
+                                Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                                FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
+                                CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
                             }
                             else
                             {
-                                whichmg = 7;//MG4_s
-                                Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[slevel].a);
-                                FtoC_a(nt, amesh[alevel - 1].ns, d[level], RHS[level - 1]);
-                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel - 1, alevel0, slevel, slevel0, NS, vacuum, whichmg);
-                                CtoF_a(nt, amesh[alevel - 1].ns, flux[level], flux[level - 1]);
+                                mgMethod = 7;//MG4_s
+                                Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                                FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
+                                CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
                             }
                         }
                     }
                     break;
                 case 7://MG4_s:
                     {
-                        if (alevel == alevel0)
+                        if (aMeshLevel == aMeshLevel0)
                         {
-                            if (slevel == slevel0)
+                            if (sMeshLevel == sMeshLevel0)
                             { }
                             else
                             {
-                                Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[slevel].a);
-                                FtoC_s(smesh[slevel - 1].nt, ns, d[level], RHS[level - 1], smesh[slevel].smap, smesh[slevel].fc);
-                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel, alevel0, slevel - 1, slevel0, NS, vacuum, whichmg);
-                                CtoF_s(smesh[slevel - 1].nt, ns, flux[level], flux[level - 1], smesh[slevel].smap, smesh[slevel].cf);
+                                Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                                FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
+                                CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
                             }
                         }
                         else
                         {
-                            if (slevel == slevel0)
+                            if (sMeshLevel == sMeshLevel0)
                             {
-                                Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[slevel].a);
-                                FtoC_a(nt, amesh[alevel - 1].ns, d[level], RHS[level - 1]);
-                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel - 1, alevel0, slevel, slevel0, NS, vacuum, whichmg);
-                                CtoF_a(nt, amesh[alevel - 1].ns, flux[level], flux[level - 1]);
+                                Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                                FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
+                                CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
                             }
                             else
                             {
-                                whichmg = 6;
-                                Defect(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[slevel].a);
-                                FtoC_s(smesh[slevel - 1].nt, ns, d[level], RHS[level - 1], smesh[slevel].smap, smesh[slevel].fc);
-                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, alevel, alevel0, slevel - 1, slevel0, NS, vacuum, whichmg);
-                                CtoF_s(smesh[slevel - 1].nt, ns, flux[level], flux[level - 1], smesh[slevel].smap, smesh[slevel].cf);
+                                mgMethod = 6;
+                                Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
+                                FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                                MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
+                                CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
                             }
                         }
                     }
@@ -1081,7 +1081,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
             for (i = 0; i < n2; i++)
             {
-                Relaxation(amesh[alevel], smesh[slevel], NS, RHS[level], ua[slevel], us[slevel], flux[level], b[level], q[level], vacuum);
+                Relaxation(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], vacuum);
             }
 
             return res;
@@ -1171,7 +1171,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
         // Purpose: this function is improved source-iteration (ISI) with vacuum or reflection boundary condition.
         {
-            int i, j, k, m, ii, jj, ns, nt, tri, bi, alevel, edge = 0;
+            int i, j, k, m, ii, jj, ns, nt, tri, bi, aMeshLevel, edge = 0;
             double[,] left = new double[3, 3];
             double[] right = new double[3];
             double[] temp = new double[3];
@@ -1184,7 +1184,7 @@ namespace Vts.FemModeling.MGRTE._2D
             int[,] index = new int[3, 2];
 
             ns = amesh.ns;
-            alevel = Ns / ns;
+            aMeshLevel = Ns / ns;
             nt = smesh.nt;
 
             index[0, 0] = 1; index[0, 1] = 2;
@@ -1196,7 +1196,7 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 for (i = 0; i < ns; i++)
                 {
-                    bi = i * alevel;
+                    bi = i * aMeshLevel;
                     // "bi" is the angular index of the coarse angle on the fine angular mesh
                     // since sweep ordering is saved on the finest angular mesh for each spatial mesh for simplicity.
                     for (j = 0; j < nt; j++)
@@ -1303,7 +1303,7 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 for (i = 0; i < ns; i++)
                 {
-                    bi = i * alevel;
+                    bi = i * aMeshLevel;
                     for (j = 0; j < nt; j++)
                     {
                         tri = smesh.so[bi][j];

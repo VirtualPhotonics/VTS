@@ -15,7 +15,7 @@ namespace Vts.FemModeling.MGRTE._2D.IO
         public const int POINT_SOURCE_ISO = 2;                     // case 2
         public const int NODAL_VALUED_SOURCE_ISO = 3;              // case 3
 
-        public void Inputsource(int alevel, AngularMesh[] amesh, int slevel, SpatialMesh[] smesh, int level, double[][][][] RHS, double[][][][] q)
+        public void Inputsource(int aMeshLevel, AngularMesh[] amesh, int sMeshLevel, SpatialMesh[] smesh, int level, double[][][][] RHS, double[][][][] q)
 
 
         // Purpose: this function is to load the light sources and assembly internal sources into "RHS" and boundary source into "q".
@@ -50,9 +50,9 @@ namespace Vts.FemModeling.MGRTE._2D.IO
             LightSource Source = new LightSource();
             MultiGridCycle Mgrid = new MultiGridCycle();
 
-            nt = smesh[slevel].nt;
-            ne = smesh[slevel].ne;
-            ns = amesh[alevel].ns;
+            nt = smesh[sMeshLevel].nt;
+            ne = smesh[sMeshLevel].ne;
+            ns = amesh[aMeshLevel].ns;
 
 
 
@@ -110,7 +110,7 @@ namespace Vts.FemModeling.MGRTE._2D.IO
                             temp = 0;
                             for (k = 0; k < 2; k++)
                             {
-                                temp = s_xy[i][k] - smesh[slevel].c[j][k];
+                                temp = s_xy[i][k] - smesh[sMeshLevel].c[j][k];
                                 distance[j] += temp * temp;
                             }
                         }
@@ -119,17 +119,17 @@ namespace Vts.FemModeling.MGRTE._2D.IO
                         {
                             tri = MathFunctions.FindMin(nt, distance);
                             distance[tri] = 1e10;
-                            x1 = smesh[slevel].p[smesh[slevel].t[tri][0]][0];
-                            x2 = smesh[slevel].p[smesh[slevel].t[tri][1]][0];
-                            x3 = smesh[slevel].p[smesh[slevel].t[tri][2]][0];
-                            y1 = smesh[slevel].p[smesh[slevel].t[tri][0]][1];
-                            y2 = smesh[slevel].p[smesh[slevel].t[tri][1]][1];
-                            y3 = smesh[slevel].p[smesh[slevel].t[tri][2]][1];
+                            x1 = smesh[sMeshLevel].p[smesh[sMeshLevel].t[tri][0]][0];
+                            x2 = smesh[sMeshLevel].p[smesh[sMeshLevel].t[tri][1]][0];
+                            x3 = smesh[sMeshLevel].p[smesh[sMeshLevel].t[tri][2]][0];
+                            y1 = smesh[sMeshLevel].p[smesh[sMeshLevel].t[tri][0]][1];
+                            y2 = smesh[sMeshLevel].p[smesh[sMeshLevel].t[tri][1]][1];
+                            y3 = smesh[sMeshLevel].p[smesh[sMeshLevel].t[tri][2]][1];
                             area[0] = MathFunctions.Area(x, y, x2, y2, x3, y3);
                             area[1] = MathFunctions.Area(x1, y1, x, y, x3, y3);
                             area[2] = MathFunctions.Area(x1, y1, x2, y2, x, y);
                             temp = area[0] + area[1] + area[2];
-                            if (Math.Abs(temp - smesh[slevel].a[tri]) / smesh[slevel].a[tri] < 1e-2)
+                            if (Math.Abs(temp - smesh[sMeshLevel].a[tri]) / smesh[sMeshLevel].a[tri] < 1e-2)
                             {
                                 Source.t[i] = tri;
                                 for (k = 0; k < 3; k++)
@@ -167,7 +167,7 @@ namespace Vts.FemModeling.MGRTE._2D.IO
                         for (i = 0; i < Source.n; i++)
                         {
                             tri = Source.t[i];
-                            source_corr = smesh[slevel].a[tri] / 12;
+                            source_corr = smesh[sMeshLevel].a[tri] / 12;
                             temp = 0;
                             for (k = 0; k < 3; k++)
                             {
@@ -192,11 +192,11 @@ namespace Vts.FemModeling.MGRTE._2D.IO
                     }
                     else
                     {
-                        nt = smesh[slevel].nt; ns = amesh[alevel].ns;
+                        nt = smesh[sMeshLevel].nt; ns = amesh[aMeshLevel].ns;
                         for (i = 0; i < Source.n; i++)
                         {
                             tri = Source.t[i];
-                            source_corr = smesh[slevel].a[tri] / 12;
+                            source_corr = smesh[sMeshLevel].a[tri] / 12;
                             temp = 0;
                             for (k = 0; k < 3; k++)
                             {
@@ -299,14 +299,14 @@ namespace Vts.FemModeling.MGRTE._2D.IO
             //                        temp = 0;
             //                        for (k = 0; k < 2; k++)
             //                        {
-            //                            temp = s_xy[i][k] - smesh[slevel].ec[j][k];
+            //                            temp = s_xy[i][k] - smesh[sMeshLevel].ec[j][k];
             //                            distance[j] += temp * temp;
             //                        }
             //                    }
             //                    x = s_xy[i][0]; y = s_xy[i][1];
             //                    edge = MathFunctions.FindMin(ne, distance);
-            //                    x1 = smesh[slevel].p[smesh[slevel].e[edge][1]][0]; y1 = smesh[slevel].p[smesh[slevel].e[edge][1]][1];
-            //                    x2 = smesh[slevel].p[smesh[slevel].e[edge][2]][0]; y2 = smesh[slevel].p[smesh[slevel].e[edge][2]][1];
+            //                    x1 = smesh[sMeshLevel].p[smesh[sMeshLevel].e[edge][1]][0]; y1 = smesh[sMeshLevel].p[smesh[sMeshLevel].e[edge][1]][1];
+            //                    x2 = smesh[sMeshLevel].p[smesh[sMeshLevel].e[edge][2]][0]; y2 = smesh[sMeshLevel].p[smesh[sMeshLevel].e[edge][2]][1];
             //                    area[0] = MathFunctions.Length(x, y, x2, y2);
             //                    area[1] = MathFunctions.Length(x1, y1, x, y);
             //                    temp = area[0] + area[1];
@@ -342,8 +342,8 @@ namespace Vts.FemModeling.MGRTE._2D.IO
             //                        for (i = 0; i < Source.n2; i++)
             //                        {
             //                            edge = Source.e[i];
-            //                            x1 = smesh[slevel].p[smesh[slevel].e[edge][1]][0]; y1 = smesh[slevel].p[smesh[slevel].e[edge][1]][1];
-            //                            x2 = smesh[slevel].p[smesh[slevel].e[edge][2]][0]; y2 = smesh[slevel].p[smesh[slevel].e[edge][2]][1];
+            //                            x1 = smesh[sMeshLevel].p[smesh[sMeshLevel].e[edge][1]][0]; y1 = smesh[sMeshLevel].p[smesh[sMeshLevel].e[edge][1]][1];
+            //                            x2 = smesh[sMeshLevel].p[smesh[sMeshLevel].e[edge][2]][0]; y2 = smesh[sMeshLevel].p[smesh[sMeshLevel].e[edge][2]][1];
             //                            source_corr = MathFunctions.Length(x1, y1, x2, y2) / 6;
             //                            temp = 0;
             //                            for (k = 0; k < 2; k++)
@@ -371,8 +371,8 @@ namespace Vts.FemModeling.MGRTE._2D.IO
             //                        for (i = 0; i < Source.n2; i++)
             //                        {
             //                            edge = Source.e[i];
-            //                            x1 = smesh[slevel].p[smesh[slevel].e[edge][1]][0]; y1 = smesh[slevel].p[smesh[slevel].e[edge][1]][1];
-            //                            x2 = smesh[slevel].p[smesh[slevel].e[edge][2]][0]; y2 = smesh[slevel].p[smesh[slevel].e[edge][2]][1];
+            //                            x1 = smesh[sMeshLevel].p[smesh[sMeshLevel].e[edge][1]][0]; y1 = smesh[sMeshLevel].p[smesh[sMeshLevel].e[edge][1]][1];
+            //                            x2 = smesh[sMeshLevel].p[smesh[sMeshLevel].e[edge][2]][0]; y2 = smesh[sMeshLevel].p[smesh[sMeshLevel].e[edge][2]][1];
             //                            source_corr = MathFunctions.Length(x1, y1, x2, y2) / 6;
             //                            temp = 0;
             //                            for (k = 0; k < 2; k++)

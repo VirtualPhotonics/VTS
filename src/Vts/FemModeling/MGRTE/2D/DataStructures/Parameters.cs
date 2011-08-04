@@ -7,221 +7,167 @@ namespace Vts.FemModeling.MGRTE._2D
 {
     public class Parameters : BindableObject
     {
-        private double g, l, index_i, index_o;
-        private int alevel, alevel0;
-        private int slevel, slevel0;
-        private int whichmg;
-        private int n1, n2, n3, fmg, n_max;
-        private double tol;
+        private double nTissue, nExt;
+        private int aMeshLevel, aMeshLevel0;
+        private int sMeshLevel, sMeshLevel0;
+        private int mgMethod, fullMg;
+        private int nPreIteration, nPostIteration, nMgCycle, nIterations;
+        private double convTol;
+        private double mua, musp, g;
+        private double length;
 
+        /// <summary>
+        /// Absorption coefficient of the tissue
+        /// </summary>
+        public double Mua
+        {
+            get { return mua; }
+            set { mua = value; this.OnPropertyChanged("Mua"); }
+        }
+
+        /// <summary>
+        /// Reduced scattering coefficient of the tissue
+        /// </summary>
+        public double Musp
+        {
+            get { return musp; }
+            set { musp = value; this.OnPropertyChanged("Musp"); }
+        }
+          
+        /// <summary>
+        /// Anisotropy factor of the tissue
+        /// </summary>
         public double G
         {
-            get 
-            {
-                return g;
-            }
+            get {return g;}
+            set{g = value;this.OnPropertyChanged("G");}
+        }                
 
-            set
-            {
-                g = value;
-                this.OnPropertyChanged("G");
-            }
+        /// <summary>
+        /// Refractive index of the tissue
+        /// </summary>
+        public double NTissue
+        {
+            get{return nTissue;}
+            set{nTissue = value;this.OnPropertyChanged("NTissue");}
         }
 
-        public double L
+        /// <summary>
+        /// Refractive index of the external medium
+        /// </summary>
+        public double NExt
         {
-            get
-            {
-                return l;
-            }
-
-            set
-            {
-                l = value;
-                this.OnPropertyChanged("L");
-            }
+            get{return nExt;}
+            set{nExt = value;this.OnPropertyChanged("NExt");}
         }
 
-        public double Index_i
+        /// <summary>
+        /// The finest layer of angular mesh generation
+        /// </summary>
+        public int AMeshLevel
         {
-            get
-            {
-                return index_i;
-            }
-
-            set
-            {
-                index_i = value;
-                this.OnPropertyChanged("Index_i");
-            }
+            get{return aMeshLevel;}
+            set{aMeshLevel = value;this.OnPropertyChanged("AMeshLevel");}
         }
 
-        public double Index_o
+        /// <summary>
+        /// The coarsest layer of angular mesh in RTE computation
+        /// </summary>
+        public int AMeshLevel0
         {
-            get
-            {
-                return index_o;
-            }
-
-            set
-            {
-                index_o = value;
-                this.OnPropertyChanged("Index_o");
-            }
-        }
-
-        public int Alevel
-        {
-            get
-            {
-                return alevel;
-            }
-
-            set
-            {
-                alevel = value;
-                this.OnPropertyChanged("Alevel");
-            }
-        }
-
-        public int Alevel0
-        {
-            get
-            {
-                return alevel0;
-            }
-
-            set
-            {
-                alevel0 = value;
-                this.OnPropertyChanged("Alevel0");
-            }
+            get{return aMeshLevel0;}
+            set{aMeshLevel0 = value;this.OnPropertyChanged("AMeshLevel0");}
         }        
 
-        public int Slevel
+        /// <summary>
+        /// The finest layer of spatial mesh generation
+        /// </summary>
+        public int SMeshLevel
         {
-            get
-            {
-                return slevel;
-            }
-
-            set
-            {
-                slevel = value;
-                this.OnPropertyChanged("Slevel");
-            }
+            get{return sMeshLevel;}
+            set { sMeshLevel = value; this.OnPropertyChanged("SMeshLevel"); }
         }
 
-        public int Slevel0
+        /// <summary>
+        /// The coarsest layer of spatial mesh in RTE computation
+        /// </summary>
+        public int SMeshLevel0
         {
-            get
-            {
-                return slevel0;
-            }
-
-            set
-            {
-                slevel0 = value;
-                this.OnPropertyChanged("Slevel0");
-            }
+            get{return sMeshLevel0;}
+            set { sMeshLevel0 = value; this.OnPropertyChanged("SMeshLevel0"); }
         }
 
-        public int Whichmg
+        /// <summary>
+        /// The choice of multigrid method,
+        /// </summary>
+        public int MgMethod
         {
-            get
-            {
-                return whichmg;
-            }
-
-            set
-            {
-                whichmg = value;
-                this.OnPropertyChanged("Whichmg");
-            }
-        }        
-       
-        public int N1
-        {
-            get
-            {
-                return n1;
-            }
-
-            set
-            {
-                n1 = value;
-                this.OnPropertyChanged("N1");
-            }
+            get{return mgMethod;}
+            set{mgMethod = value;this.OnPropertyChanged("MgMethod");}
         }
 
-        public int N2
+        /// <summary>
+        /// The number of pre-iterations with the suggested value "3", see the paper.
+        /// </summary>
+        public int NPreIteration
         {
-            get
-            {
-                return n2;
-            }
-
-            set
-            {
-                n2 = value;
-                this.OnPropertyChanged("N2");
-            }
+            get{return nPreIteration;}
+            set{nPreIteration = value;this.OnPropertyChanged("NPreIteration");}
         }
 
-        public int N3
+        /// <summary>
+        /// The number of post-iterations with the suggested value "3", see the paper.
+        /// </summary>
+        public int NPostIteration
         {
-            get
-            {
-                return n3;
-            }
-
-            set
-            {
-                n3 = value;
-                this.OnPropertyChanged("N3");
-            }
+            get{return nPostIteration;}
+            set{nPostIteration = value; this.OnPropertyChanged("NPostIteration");}
         }
 
-        public int Fmg
+        /// <summary>
+        /// The number of multigrid cycles on each level except the finest level in 
+        /// FMG with the suggested value "1", see the paper.
+        /// </summary>
+        public int NMgCycle
         {
-            get
-            {
-                return fmg;
-            }
-
-            set
-            {
-                fmg = value;
-                this.OnPropertyChanged("Fmg");
-            }
+            get{return nMgCycle;}
+            set{nMgCycle = value; this.OnPropertyChanged("NMgCycle");}
         }
 
-        public int N_max
+        /// <summary>
+        /// The indicator of full multigrid method (FMG) with the suggested value "1"
+        /// </summary>
+        public int FullMg
         {
-            get
-            {
-                return n_max;
-            }
+            get{ return fullMg;}
+            set{fullMg = value; this.OnPropertyChanged("FullMg");}
+        }
 
-            set
-            {
-                n_max = value;
-                this.OnPropertyChanged("N_max");
-            }
+        /// <summary>
+        /// The maximum number of iteration on the finest level in FMG
+        /// </summary>
+        public int NIterations
+        {
+            get {return nIterations;}
+            set {nIterations = value; this.OnPropertyChanged("NIterations");}            
         }
         
-        public double Tol   
+        /// <summary>
+        /// The residual value of the iteration for stopping criterion
+        /// </summary>
+        public double ConvTol   
         {
-            get
-            {
-                return tol;
-            }
+            get {return convTol;}
+            set {convTol = value; this.OnPropertyChanged("ConvTol");}
+        }
 
-            set
-            {
-                tol = value;
-                this.OnPropertyChanged("Tol");
-            }
+        /// <summary>
+        /// Length of the square mesh
+        /// </summary>
+        public double Length
+        {
+            get{return length;}
+            set{length = value;this.OnPropertyChanged("Length");}
         }
     }
 }

@@ -135,13 +135,13 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
 
-        public static void SweepOrdering(ref SpatialMesh[] smesh, AngularMesh[] amesh, int slevel, int alevel)
+        public static void SweepOrdering(ref SpatialMesh[] smesh, AngularMesh[] amesh, int sMeshLevel, int aMeshLevel)
         {
             int i, j, k;
             double[][] centOfTri;
             double[] temp;
             int[] idxtemp;           
-            for (i = 0; i <= slevel; i++)
+            for (i = 0; i <= sMeshLevel; i++)
             {
                 centOfTri = new double[smesh[i].nt][];
                 for (j = 0; j < smesh[i].nt; j++)
@@ -157,15 +157,15 @@ namespace Vts.FemModeling.MGRTE._2D
 
                 temp = new double [smesh[i].nt];
                 idxtemp = new int[smesh[i].nt];
-                smesh[i].so = new int[amesh[alevel].ns][];
-                for (j = 0; j < amesh[alevel].ns; j++)                        
+                smesh[i].so = new int[amesh[aMeshLevel].ns][];
+                for (j = 0; j < amesh[aMeshLevel].ns; j++)                        
                     smesh[i].so[j] = new int[smesh[i].nt];
 
-                for (j = 0; j < amesh[alevel].ns; j++)
+                for (j = 0; j < amesh[aMeshLevel].ns; j++)
                 {
                     for (k = 0; k < smesh[i].nt; k++)
                     {
-                        temp[k] = Math.Cos(amesh[alevel].a[j][2]) * centOfTri[k][0] + Math.Sin(amesh[alevel].a[j][2]) * centOfTri[k][1];
+                        temp[k] = Math.Cos(amesh[aMeshLevel].a[j][2]) * centOfTri[k][0] + Math.Sin(amesh[aMeshLevel].a[j][2]) * centOfTri[k][1];
                         idxtemp[k] = k;
                     }
                     QuickSort(temp, idxtemp, 0, smesh[i].nt - 1);
@@ -497,30 +497,30 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
         //hard coded mua
-        public static void SetMua(ref double[][][] ua, int slevel, int nt)
+        public static void SetMua(ref double[][][] ua, int sMeshLevel, int nt)
         {
             int j, k;
 
-            ua[slevel] = new double[nt][];
+            ua[sMeshLevel] = new double[nt][];
             for (j = 0; j < nt; j++)
             {
-                ua[slevel][j] = new double[3];
+                ua[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
-                    ua[slevel][j][k] = 0.01;
+                    ua[sMeshLevel][j][k] = 0.01;
             }
         }
 
         //hard coded mus
-        public static void SetMus(ref double[][][] us, int slevel, int nt)
+        public static void SetMus(ref double[][][] us, int sMeshLevel, int nt)
         {
             int j, k;
 
-            us[slevel] = new double[nt][];
+            us[sMeshLevel] = new double[nt][];
             for (j = 0; j < nt; j++)
             {
-                us[slevel][j] = new double[3];
+                us[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
-                    us[slevel][j][k] = 1.0;
+                    us[sMeshLevel][j][k] = 1.0;
             }
         }
 
@@ -528,8 +528,8 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// Create a squarte mesh for given spatial mesh level
         /// </summary>
-        /// <param name="slevel">number of spatial mesh levels</param>
-        public static void CreateSquareMesh(ref SpatialMesh[] smesh, int slevel)
+        /// <param name="sMeshLevel">number of spatial mesh levels</param>
+        public static void CreateSquareMesh(ref SpatialMesh[] smesh, int sMeshLevel)
         {
             int i;
             int np, nt, ne;
@@ -560,8 +560,8 @@ namespace Vts.FemModeling.MGRTE._2D
             //str = str + ".txt";
             //WritePTEData(str, pts, edge, tri, np, ne, nt);
 
-            if (slevel > 0)
-                CreateMultigrid(ref smesh, pts, edge, tri, np, ne, nt, slevel);
+            if (sMeshLevel > 0)
+                CreateMultigrid(ref smesh, pts, edge, tri, np, ne, nt, sMeshLevel);
 
         }
 
@@ -604,8 +604,8 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <param name="nt">number of triangles</param>
         /// <param name="ne">number of edges</param>
         ///  <param name="nebound">number of boundary edges</param>
-        /// <param name="slevel">spatial mesh levels</param>
-        public static void CreateMultigrid(ref SpatialMesh[] smesh, double[][] p, int[][] e, int[][] t, int np, int ne, int nt, int slevel)
+        /// <param name="sMeshLevel">spatial mesh levels</param>
+        public static void CreateMultigrid(ref SpatialMesh[] smesh, double[][] p, int[][] e, int[][] t, int np, int ne, int nt, int sMeshLevel)
         {
             int i, j, nt2, ne2, np2, npt, trint;
 
@@ -617,7 +617,7 @@ namespace Vts.FemModeling.MGRTE._2D
             //char[] str[80];
             //char[] level[4];	       
 
-            for (j = 1; j <= slevel; j++)
+            for (j = 1; j <= sMeshLevel; j++)
             {
                 //npt gets the total number of point after division
                 npt = 0;

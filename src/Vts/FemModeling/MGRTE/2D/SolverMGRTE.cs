@@ -52,12 +52,27 @@ namespace Vts.FemModeling.MGRTE._2D
             int i, j, k, m, n, ns, nt1, nt2, ns1, ns2, da, ds, nf = 0;
             double res = 0, res0 = 1, rho = 1.0;
 
+            para.G = 0.9;
+            para.NTissue = 1.0;
+            para.NExt = 1.0;
+            para.AMeshLevel = 3;
+            para.AMeshLevel0 = 1;
+            para.SMeshLevel = 3;
+            para.SMeshLevel0 = 0;
+            para.ConvTol = 1e-4;
+            para.MgMethod = 6;
+            para.FullMg = 1;
+            para.NPreIteration = 3;
+            para.NPostIteration = 3;
+            para.NMgCycle = 1;
+            para.NIterations = 100;
+
             // step 1: initialization
            
             /* Read the initial time. */
             DateTime startTime1 = DateTime.Now;
 
-            if (Math.Abs(para.Index_i - para.Index_o) / para.Index_i < 0.01) // refraction index mismatch at the boundary
+            if (Math.Abs(para.NTissue - para.NExt) / para.NTissue < 0.01) // refraction index mismatch at the boundary
             { 
                 vacuum = 1; 
             }
@@ -68,12 +83,12 @@ namespace Vts.FemModeling.MGRTE._2D
 
             // 1.2. compute "level"
             //      level: the indicator of mesh levels in multigrid
-            ds = para.Slevel - para.Slevel0;
-            da = para.Alevel - para.Alevel0;
+            ds = para.SMeshLevel - para.SMeshLevel0;
+            da = para.AMeshLevel - para.AMeshLevel0;
 
             
 
-            switch (para.Whichmg)
+            switch (para.MgMethod)
             {
                 case 1:
                     level = da;
@@ -98,13 +113,13 @@ namespace Vts.FemModeling.MGRTE._2D
                     break;
             }
 
-            AngularMesh[] amesh = new AngularMesh[para.Alevel + 1];
-            SpatialMesh[] smesh = new SpatialMesh[para.Slevel + 1];
+            AngularMesh[] amesh = new AngularMesh[para.AMeshLevel + 1];
+            SpatialMesh[] smesh = new SpatialMesh[para.SMeshLevel + 1];
             BoundaryCoupling[] b = new BoundaryCoupling[level + 1];
 
             int[][] noflevel = new int[level + 1][];
-            double[][][] ua = new double[para.Slevel + 1][][];
-            double[][][] us = new double[para.Slevel + 1][][];
+            double[][][] ua = new double[para.SMeshLevel + 1][][];
+            double[][][] us = new double[para.SMeshLevel + 1][][];
             double[][][][] RHS = new double[level + 1][][][];
             double[][][][] d = new double[level + 1][][][];
             double[][][][] flux = new double[level + 1][][][];
@@ -115,28 +130,28 @@ namespace Vts.FemModeling.MGRTE._2D
             Source Insource = new Source();
 
 
-            //ReadFiles.ReadAmesh(ref amesh, para.Alevel);
-            //ReadFiles.ReadSmesh(ref smesh, para.Slevel, para.Alevel, amesh);
-            //ReadFiles.ReadMua(ref ua, para.Slevel, smesh[para.Slevel].nt);
-            //ReadFiles.ReadMus(ref us, para.Slevel, smesh[para.Slevel].nt);
+            //ReadFiles.ReadAmesh(ref amesh, para.AMeshLevel);
+            //ReadFiles.ReadSmesh(ref smesh, para.SMeshLevel, para.AMeshLevel, amesh);
+            //ReadFiles.ReadMua(ref ua, para.SMeshLevel, smesh[para.SMeshLevel].nt);
+            //ReadFiles.ReadMus(ref us, para.SMeshLevel, smesh[para.SMeshLevel].nt);
 
-            MathFunctions.CreateAnglularMesh(ref amesh, para.Alevel, para.Alevel0, para.G);
-            MathFunctions.CreateSquareMesh(ref smesh, para.Slevel);
-            MathFunctions.SweepOrdering(ref smesh, amesh, para.Slevel, para.Alevel);  
-            MathFunctions.SetMus(ref us, para.Slevel, smesh[para.Slevel].nt);
-            MathFunctions.SetMua(ref ua, para.Slevel, smesh[para.Slevel].nt);
+            MathFunctions.CreateAnglularMesh(ref amesh, para.AMeshLevel, para.AMeshLevel0, para.G);
+            MathFunctions.CreateSquareMesh(ref smesh, para.SMeshLevel);
+            MathFunctions.SweepOrdering(ref smesh, amesh, para.SMeshLevel, para.AMeshLevel);  
+            MathFunctions.SetMus(ref us, para.SMeshLevel, smesh[para.SMeshLevel].nt);
+            MathFunctions.SetMua(ref ua, para.SMeshLevel, smesh[para.SMeshLevel].nt);
 
             // load optical property, angular mesh, and spatial mesh files
             Initialization.Initial(
                 ref amesh, ref smesh, ref flux, ref d, 
                 ref RHS, ref q, ref noflevel, ref b,
-                level, para.Whichmg,vacuum,para.Index_i,
-                para.Index_o,para.Alevel,para.Alevel0, 
-                para.Slevel,para.Slevel0, ua,us,Mgrid);           
+                level, para.MgMethod,vacuum,para.NTissue,
+                para.NExt,para.AMeshLevel,para.AMeshLevel0, 
+                para.SMeshLevel,para.SMeshLevel0, ua,us,Mgrid);           
 
 
             // initialize internal and boundary sources 
-            Insource.Inputsource(para.Alevel, amesh, para.Slevel, smesh, level, RHS, q);
+            Insource.Inputsource(para.AMeshLevel, amesh, para.SMeshLevel, smesh, level, RHS, q);
              
 
             /* Read the end time. */
@@ -149,9 +164,9 @@ namespace Vts.FemModeling.MGRTE._2D
 
             //step 2: RTE solver
             DateTime startTime2 = DateTime.Now;
-            ns = amesh[para.Alevel].ns;
+            ns = amesh[para.AMeshLevel].ns;
 
-            if (para.Fmg == 1)
+            if (para.FullMg == 1)
             {
                 nt2 = smesh[noflevel[level][0]].nt;
                 ns2 = amesh[noflevel[level][1]].ns;
@@ -183,47 +198,47 @@ namespace Vts.FemModeling.MGRTE._2D
 
                 for (n = 0; n < level; n++)
                 {
-                    if (para.Whichmg == 6)
+                    if (para.MgMethod == 6)
                     {
                         if (((level - n) % 2) == 0)
                         {
-                            for (i = 0; i < para.N3; i++)
+                            for (i = 0; i < para.NMgCycle; i++)
                             {
-                                res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 6);
+                                res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 6);
                             }
                         }
                         else
                         {
-                            for (i = 0; i < para.N3; i++)
+                            for (i = 0; i < para.NMgCycle; i++)
                             {
-                                Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 7);
+                                Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 7);
                             }
                         }
                     }
                     else
                     {
-                        if (para.Whichmg == 7)
+                        if (para.MgMethod == 7)
                         {
                             if (((level - n) % 2) == 0)
                             {
-                                for (i = 0; i < para.N3; i++)
+                                for (i = 0; i < para.NMgCycle; i++)
                                 {
-                                    Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 7);
+                                    Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 7);
                                 }
                             }
                             else
                             {
-                                for (i = 0; i < para.N3; i++)
+                                for (i = 0; i < para.NMgCycle; i++)
                                 {
-                                    Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, 6);
+                                    Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 6);
                                 }
                             }
                         }
                         else
                         {
-                            for (i = 0; i < para.N3; i++)
+                            for (i = 0; i < para.NMgCycle; i++)
                             {
-                                Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, noflevel[n][1], para.Alevel0, noflevel[n][0], para.Slevel0, ns, vacuum, para.Whichmg);
+                                Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, para.MgMethod);
                             }
                         }
                     }
@@ -266,13 +281,13 @@ namespace Vts.FemModeling.MGRTE._2D
             n = 0;
             Console.WriteLine("Iter\t\t Res\t Rho\t\t T (in seconds) ");
 
-            while (n < para.N_max)
+            while (n < para.NIterations)
             {
                 /* Read the start time. */
                 startTime1 = DateTime.Now;
 
                 n++;
-                res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.N1, para.N2, para.Alevel, para.Alevel0, para.Slevel, para.Slevel0, ns, vacuum, para.Whichmg);
+                res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, para.AMeshLevel, para.AMeshLevel0, para.SMeshLevel, para.SMeshLevel0, ns, vacuum, para.MgMethod);
                 for (m = 0; m < level; m++)
                 {
                     for (i = 0; i < amesh[noflevel[m][1]].ns; i++)
@@ -293,11 +308,11 @@ namespace Vts.FemModeling.MGRTE._2D
                     Console.Write("{0}\t{1:e6}\t{2:N6}\t", n, res, res / res0);
 
 
-                    if (res < para.Tol)
+                    if (res < para.ConvTol)
                     {
                         rho = Math.Pow(rho, 1.0 / (n - 1));
                         nf = n;
-                        n = para.N_max;
+                        n = para.NIterations;
                     }
                 }
                 else
@@ -311,8 +326,8 @@ namespace Vts.FemModeling.MGRTE._2D
             }
 
             // 2.3. compute the residual
-            Mgrid.Defect(amesh[para.Alevel], smesh[para.Slevel], ns, RHS[level], ua[para.Slevel], us[para.Slevel], flux[level], b[level], q[level], d[level], vacuum);
-            res = Mgrid.Residual(smesh[para.Slevel].nt, amesh[para.Alevel].ns, d[level], smesh[para.Slevel].a);
+            Mgrid.Defect(amesh[para.AMeshLevel], smesh[para.SMeshLevel], ns, RHS[level], ua[para.SMeshLevel], us[para.SMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+            res = Mgrid.Residual(smesh[para.SMeshLevel].nt, amesh[para.AMeshLevel].ns, d[level], smesh[para.SMeshLevel].a);
 
             /* Read the start time. */
             DateTime stopTime2 = DateTime.Now;
@@ -322,7 +337,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
             // step 3: postprocessing
             // 3.1. output
-            Measurement measurement = Rteout.RteOutput(flux[level], q[level], amesh[para.Alevel], smesh[para.Slevel], b[level], vacuum);
+            Measurement measurement = Rteout.RteOutput(flux[level], q[level], amesh[para.AMeshLevel], smesh[para.SMeshLevel], b[level], vacuum);
 
             return measurement;
         }

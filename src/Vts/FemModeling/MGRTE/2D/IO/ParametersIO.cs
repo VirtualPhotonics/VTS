@@ -18,19 +18,19 @@ namespace Vts.FemModeling.MGRTE._2D.IO
                     double temp = 0.0;
                     
                     para.G = double.Parse(bits[count]); count++;
-                    para.Index_i = double.Parse(bits[count]); count++;
-                    para.Index_o = double.Parse(bits[count]); count++;
-                    temp = double.Parse(bits[count]); para.Alevel = (int)temp - 1; count++;
-                    temp = double.Parse(bits[count]); para.Alevel0 = (int)temp - 1; count++;
-                    temp = double.Parse(bits[count]); para.Slevel = (int)temp - 1; count++;
-                    temp = double.Parse(bits[count]); para.Slevel0 = (int)temp - 1; count++;
-                    para.Tol = double.Parse(bits[count]); count++;
-                    temp = double.Parse(bits[count]); para.Whichmg = (int)temp; count++;
-                    temp = double.Parse(bits[count]); para.Fmg = (int)temp; count++;
-                    temp = double.Parse(bits[count]); para.N1 = (int)temp; count++;
-                    temp = double.Parse(bits[count]); para.N2 = (int)temp; count++;
-                    temp = double.Parse(bits[count]); para.N3 = (int)temp; count++;
-                    temp = double.Parse(bits[count]); para.N_max = (int)temp;
+                    para.NTissue = double.Parse(bits[count]); count++;
+                    para.NExt = double.Parse(bits[count]); count++;
+                    temp = double.Parse(bits[count]); para.AMeshLevel = (int)temp - 1; count++;
+                    temp = double.Parse(bits[count]); para.AMeshLevel0 = (int)temp - 1; count++;
+                    temp = double.Parse(bits[count]); para.SMeshLevel = (int)temp - 1; count++;
+                    temp = double.Parse(bits[count]); para.SMeshLevel0 = (int)temp - 1; count++;
+                    para.ConvTol = double.Parse(bits[count]); count++;
+                    temp = double.Parse(bits[count]); para.MgMethod = (int)temp; count++;
+                    temp = double.Parse(bits[count]); para.FullMg = (int)temp; count++;
+                    temp = double.Parse(bits[count]); para.NPreIteration = (int)temp; count++;
+                    temp = double.Parse(bits[count]); para.NPostIteration = (int)temp; count++;
+                    temp = double.Parse(bits[count]); para.NMgCycle = (int)temp; count++;
+                    temp = double.Parse(bits[count]); para.NIterations = (int)temp;
                     reader.Close();
 
                 }

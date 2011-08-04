@@ -26,19 +26,19 @@ namespace Vts.SiteVisit.ViewModel
             : this(new Parameters
             {
                 G = 0.9,
-                Index_i = 1.0,
-                Index_o = 1.0,
-                Alevel = 3,
-                Alevel0 = 1,
-                Slevel = 3,
-                Slevel0 = 0,
-                Tol = 1e-4,
-                Whichmg = 6,
-                Fmg = 1,
-                N1 = 3,
-                N2 = 3,
-                N3 = 1,
-                N_max = 100,
+                NTissue = 1.0,
+                NExt = 1.0,
+                AMeshLevel = 3,
+                AMeshLevel0 = 1,
+                SMeshLevel = 3,
+                SMeshLevel0 = 0,
+                ConvTol = 1e-4,
+                MgMethod = 6,
+                FullMg = 1,
+                NPreIteration = 3,
+                NPostIteration = 3,
+                NMgCycle = 1,
+                NIterations = 100,
             })
         {
         }

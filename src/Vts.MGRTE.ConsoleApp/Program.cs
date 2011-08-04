@@ -34,21 +34,21 @@ namespace Vts.MGRTE.ConsoleApp
 
             Parameters para = new Parameters();
 
-            para.Alevel = 4;
-            para.Alevel0 = 0;
-            para.Fmg = 1;
-            para.G = 0.9;
-            para.Index_i = 1.0;
-            para.Index_o = 1.0;
-            para.L = 1.0;
-            para.N_max = 100;
-            para.N1 = 3;
-            para.N2 = 3;
-            para.N3 = 1;
-            para.Slevel = 3;
-            para.Slevel0 = 0;
-            para.Tol = 1e-4;
-            para.Whichmg = 6;
+            //para.AMeshLevel = 4;
+            //para.AMeshLevel0 = 0;
+            //para.Fmg = 1;
+            //para.G = 0.9;
+            //para.NTissue = 1.0;
+            //para.NExt = 1.0;
+            //para.L = 1.0;
+            //para.NIterations = 100;
+            //para.NPreIteration = 3;
+            //para.NPostIteration = 3;
+            //para.NMgCycle = 1;
+            //para.SMeshLevel = 3;
+            //para.SMeshLevel0 = 0;
+            //para.ConvTol = 1e-4;
+            //para.MgMethod = 6;
            
             
             
