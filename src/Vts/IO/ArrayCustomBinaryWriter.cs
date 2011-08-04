@@ -7,9 +7,18 @@ using System.Collections;
 
 namespace Vts.IO
 {
+    /// <summary>
+    /// Class that implements the interface ICustomBinaryWriter to write different types of Array to a binary stream
+    /// </summary>
+    /// <typeparam name="T">Type of Array to be written</typeparam>
     public class ArrayCustomBinaryWriter<T>
         : ICustomBinaryWriter<Array> where T : struct
     {
+        /// <summary>
+        /// Write Array to a binary stream
+        /// </summary>
+        /// <param name="bw">The binary stream in which to write the data</param>
+        /// <param name="input">The Array to write</param>
         public void WriteToBinary(BinaryWriter bw, Array input)
         {
             IEnumerable<T> array = input.ToEnumerable<T>();

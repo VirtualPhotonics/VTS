@@ -9,14 +9,33 @@ namespace Vts.IO
     /// </summary>
     public class MetaData
     {
+        /// <summary>
+        /// The dimensions of the array
+        /// </summary>
         public int[] dims;
         //[IgnoreDataMember]
+        /// <summary>
+        /// Current data and time
+        /// </summary>
         public DateTime datetime = System.DateTime.Now;
+        /// <summary>
+        /// The type of the array
+        /// </summary>
         public string ObjectType;
+        /// <summary>
+        /// Name of the file
+        /// </summary>
         public string filename;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public MetaData() { }
 
+        /// <summary>
+        /// Constructor that passes the array and sets the object type and dimensions
+        /// </summary>
+        /// <param name="myArray">Array for which meta data is needed</param>
         public MetaData(Array myArray)
         {
             ObjectType = myArray.GetType().ToString();

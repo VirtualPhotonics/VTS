@@ -22,6 +22,12 @@ namespace Vts.IO
     /// </summary>
     public static class FileIO
     {
+        /// <summary>
+        /// Static method to clone an object
+        /// </summary>
+        /// <typeparam name="T">Type of the object</typeparam>
+        /// <param name="myObject">The object to clone</param>
+        /// <returns>A clone of the object</returns>
         public static T Clone<T>(this T myObject)
         {
             using (MemoryStream ms = new MemoryStream(1024))
@@ -33,18 +39,36 @@ namespace Vts.IO
             }
         }
 
+        /// <summary>
+        /// Static method to write an object to a stream
+        /// </summary>
+        /// <typeparam name="T">Type of the object to be written</typeparam>
+        /// <param name="myObject">Object to be written</param>
+        /// <param name="stream">Stream to which to write the object</param>
         public static void WriteToStream<T>(this T myObject, Stream stream)
         {
             var dcs = new DataContractSerializer(typeof(T), KnownTypes.CurrentKnownTypes.Values);
             dcs.WriteObject(stream, myObject);
         }
 
+        /// <summary>
+        /// Static method to read a specified type from a stream
+        /// </summary>
+        /// <typeparam name="T">Type of the data to be read</typeparam>
+        /// <param name="stream">Stream from which to read</param>
+        /// <returns>The data as the specified type</returns>
         public static T ReadFromStream<T>(Stream stream)
         {
             var dcs = new DataContractSerializer(typeof(T), KnownTypes.CurrentKnownTypes.Values);
             return (T)dcs.ReadObject(stream);
         }
 
+        /// <summary>
+        /// Writes data of a specified type to an XML file
+        /// </summary>
+        /// <typeparam name="T">Type of the data to be written</typeparam>
+        /// <param name="myObject">Object to be written</param>
+        /// <param name="filename">Name of the XML file to write</param>
         public static void WriteToXML<T>(this T myObject, string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
@@ -54,6 +78,12 @@ namespace Vts.IO
             }
         }
 
+        /// <summary>
+        /// Reads data of a specified type from an XML file
+        /// </summary>
+        /// <typeparam name="T">Type of the data</typeparam>
+        /// <param name="filename">Name of the XML file to be read</param>
+        /// <returns>The data as the specified type</returns>
         public static T ReadFromXML<T>(String filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
@@ -63,6 +93,13 @@ namespace Vts.IO
             }
         }
 
+        /// <summary>
+        /// Reads data of a specified type from an XML file in resources
+        /// </summary>
+        /// <typeparam name="T">Type of the data</typeparam>
+        /// <param name="fileName">Name of the XML file to be read</param>
+        /// <param name="projectName">Project name for the location of resources</param>
+        /// <returns>The data as the specified type</returns>
         public static T ReadFromXMLInResources<T>(string fileName, string projectName)
         {
             using (Stream stream = StreamFinder.GetFileStreamFromResources(fileName, projectName))
@@ -72,6 +109,13 @@ namespace Vts.IO
             }
         }
 
+        /// <summary>
+        /// Writes a scalar value to a binary file
+        /// </summary>
+        /// <typeparam name="T">Type of the data to be written</typeparam>
+        /// <param name="dataIN">Data to be written</param>
+        /// <param name="filename">Name of the binary file to write</param>
+        /// <param name="writeMap"></param>
         public static void WriteScalarValueToBinary<T>(T dataIN, string filename, Action<BinaryWriter, T> writeMap)
         {
             // Create a file to write binary data 
@@ -84,6 +128,13 @@ namespace Vts.IO
             }
         }
 
+        /// <summary>
+        /// Reads a scalar value from a binary file
+        /// </summary>
+        /// <typeparam name="T">Type of data to be read</typeparam>
+        /// <param name="filename">Name of the binary file</param>
+        /// <param name="readMap"></param>
+        /// <returns></returns>
         public static T ReadScalarValueFromBinary<T>(string filename, Func<BinaryReader, T> readMap)
         {
             // Create a file to write binary data 
@@ -100,10 +151,10 @@ namespace Vts.IO
         /// Writes an array to a binary file and optionally accompanying .xml file 
         /// (to store array dimensions) if includeMetaData = true
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dataIN"></param>
-        /// <param name="filename"></param>
-        /// <param name="includeMetaData"</param>
+        /// <typeparam name="T">Type of the array to be written</typeparam>
+        /// <param name="dataIN">Array to be written</param>
+        /// <param name="filename">Name of the file where the data is written</param>
+        /// <param name="includeMetaData">Boolean to determine whether to include meta data, if set to true, an accompanying XML file will be created with the same name</param>
         public static void WriteArrayToBinary<T>(Array dataIN, string filename, bool includeMetaData) where T : struct
         {
             // Write XML file to describe the contents of the binary file
@@ -125,9 +176,9 @@ namespace Vts.IO
         /// <summary>
         /// Writes an array to a binary file, as well as an accompanying .xml file to store array dimensions
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dataIN"></param>
-        /// <param name="filename"></param>
+        /// <typeparam name="T">Type of the array to be written</typeparam>
+        /// <param name="dataIN">Array to be written</param>
+        /// <param name="filename">Name of the file to which the array is written</param>
         public static void WriteArrayToBinary<T>(Array dataIN, string filename) where T : struct
         {
             WriteArrayToBinary<T>(dataIN, filename, true);
@@ -136,9 +187,9 @@ namespace Vts.IO
         /// <summary>
         /// Reads array from a binary file, using the accompanying .xml file to specify dimensions
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filename"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Type of the array being read</typeparam>
+        /// <param name="filename">Name of the file from which to read the array</param>
+        /// <returns>Array from the file</returns>
         public static Array ReadArrayFromBinary<T>(string filename) where T : struct
         {
             MetaData dataInfo = ReadFromXML<MetaData>(filename + ".xml");
@@ -149,10 +200,10 @@ namespace Vts.IO
         /// <summary>
         /// Reads array from a binary file using explicitly-set dimensions
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filename"></param>
-        /// <param name="dims"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Type of the array being read</typeparam>
+        /// <param name="filename">Name of the file from which to read the array</param>
+        /// <param name="dims">Dimensions of the array</param>
+        /// <returns>Array from the file</returns>
         public static Array ReadArrayFromBinary<T>(string filename, params int[] dims) where T : struct
         {
             using (Stream s = StreamFinder.GetFileStream(filename, FileMode.Open))
@@ -172,10 +223,10 @@ namespace Vts.IO
         /// <summary>
         /// Reads array from a binary file in resources, using the accompanying .xml file to specify dimensions
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filename"></param>
-        /// <param name="projectname"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Type of the array being read</typeparam>
+        /// <param name="filename">Name of the XML file containing the meta data</param>
+        /// <param name="projectname">Project name for the location of resources</param>
+        /// <returns>Array from the file</returns>
         public static Array ReadArrayFromBinaryInResources<T>(string filename, string projectname) where T : struct
         {
             // Read XML file that describes the contents of the binary file
@@ -188,11 +239,11 @@ namespace Vts.IO
         /// <summary>
         /// Reads array from a binary file in resources using explicitly-set dimensions
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filename"></param>
-        /// <param name="projectname"></param>
-        /// <param name="dims"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Type of the array being read</typeparam>
+        /// <param name="filename">Name of the XML file containing the meta data</param>
+        /// <param name="projectname">Project name for the location of resources</param>
+        /// <param name="dims">Dimensions of the array</param>
+        /// <returns>Array from the file</returns>
         public static Array ReadArrayFromBinaryInResources<T>(string filename, string projectname, params int[] dims) where T : struct
         {
             using (Stream stream = StreamFinder.GetFileStreamFromResources(filename, projectname))
@@ -285,6 +336,13 @@ namespace Vts.IO
 
         //#endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <param name="fileName">Name of the binary file to write</param>
+        /// <param name="writerMap"></param>
         public static void WriteToBinaryCustom<T>(this IEnumerable<T> data, string fileName, Func<BinaryWriter, T> writerMap)
         {
             // todo: convert to "push" method with System.Observable in Rx Extensions (write upon appearance of new datum)
@@ -297,6 +355,13 @@ namespace Vts.IO
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="fileName">Name of the binary file to read</param>
+        /// <param name="readerMap"></param>
+        /// <returns></returns>
         public static IEnumerable<T> ReadFromBinaryCustom<T>(string fileName, Func<BinaryReader, T> readerMap)
         {
             using (Stream s = StreamFinder.GetFileStream(fileName, FileMode.Open))
@@ -308,6 +373,14 @@ namespace Vts.IO
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="fileName">Name of the binary file to read</param>
+        /// <param name="projectName">Project name where resources is located</param>
+        /// <param name="readerMap"></param>
+        /// <returns></returns>
         public static IEnumerable<T> ReadFromBinaryInResourcesCustom<T>(string fileName, string projectName, Func<BinaryReader, T> readerMap)
         {
             using (Stream s = StreamFinder.GetFileStreamFromResources(fileName, projectName))
@@ -320,6 +393,13 @@ namespace Vts.IO
         }
 
         // both versions of ReadArrayFromBinary<T> call this method to actually read the data
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="s"></param>
+        /// <param name="readerMap"></param>
+        /// <returns></returns>
         private static IEnumerable<T> ReadStreamFromBinaryCustom<T>(Stream s, Func<BinaryReader, T> readerMap)
         {
             using (BinaryReader br = new BinaryReader(s))

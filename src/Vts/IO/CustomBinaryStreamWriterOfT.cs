@@ -4,6 +4,10 @@ using System.IO;
 
 namespace Vts.IO
 {
+    /// <summary>
+    /// Class to write specified types to a binary stream
+    /// </summary>
+    /// <typeparam name="T">Type of the data</typeparam>
     public class CustomBinaryStreamWriter<T> : IDisposable
     {
         private string _filename;
@@ -12,6 +16,11 @@ namespace Vts.IO
         private Stream _stream;
         private BinaryWriter _binaryWriter;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="fileName">Name of the binary file to write</param>
+        /// <param name="binaryWriter"></param>
         public CustomBinaryStreamWriter(
             string fileName,
             ICustomBinaryWriter<T> binaryWriter)
@@ -19,6 +28,11 @@ namespace Vts.IO
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName">Name of the binary file</param>
+        /// <param name="writeMap"></param>
         public CustomBinaryStreamWriter(
             string fileName,
             Action<BinaryWriter, T> writeMap)
@@ -32,7 +46,13 @@ namespace Vts.IO
             OpenStream();
         }
 
+        /// <summary>
+        /// Value to check if the file is open for writing
+        /// </summary>
         public bool IsOpen { get; private set; }
+        /// <summary>
+        /// The number of items that have been written
+        /// </summary>
         public int Count { get; private set; }
 
         /// <summary>
@@ -71,7 +91,7 @@ namespace Vts.IO
         /// <summary>
         /// Writes a single data point to the underlying filestream
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="item">Single data point to be written</param>
         public void Write(T item)
         {
             _writeMap(_binaryWriter, item);
@@ -81,7 +101,7 @@ namespace Vts.IO
         /// <summary>
         /// Writes an enumerable list of data points to the underlying filestream
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="items">A list of data points to be written</param>
         public void Write(IEnumerable<T> items)
         {
             foreach (var item in items)
