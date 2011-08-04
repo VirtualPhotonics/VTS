@@ -128,13 +128,7 @@ namespace Vts.FemModeling.MGRTE._2D
             MultiGridCycle Mgrid = new MultiGridCycle();
             Output Rteout = new Output();
             Source Insource = new Source();
-
-
-            //ReadFiles.ReadAmesh(ref amesh, para.AMeshLevel);
-            //ReadFiles.ReadSmesh(ref smesh, para.SMeshLevel, para.AMeshLevel, amesh);
-            //ReadFiles.ReadMua(ref ua, para.SMeshLevel, smesh[para.SMeshLevel].nt);
-            //ReadFiles.ReadMus(ref us, para.SMeshLevel, smesh[para.SMeshLevel].nt);
-
+            
             MathFunctions.CreateAnglularMesh(ref amesh, para.AMeshLevel, para.AMeshLevel0, para.G);
             MathFunctions.CreateSquareMesh(ref smesh, para.SMeshLevel);
             MathFunctions.SweepOrdering(ref smesh, amesh, para.SMeshLevel, para.AMeshLevel);  
@@ -147,8 +141,32 @@ namespace Vts.FemModeling.MGRTE._2D
                 ref RHS, ref q, ref noflevel, ref b,
                 level, para.MgMethod,vacuum,para.NTissue,
                 para.NExt,para.AMeshLevel,para.AMeshLevel0, 
-                para.SMeshLevel,para.SMeshLevel0, ua,us,Mgrid);           
+                para.SMeshLevel,para.SMeshLevel0, ua,us,Mgrid);
 
+
+            ////Debuging smesh
+            //int cur_np, cur_ne, cur_nt;
+            //StreamWriter writer;
+            //writer = new StreamWriter("smeshtest.txt");
+            //for (i = 0; i <= para.SML; i++)
+            //{
+            //    cur_np = smesh[i].np;
+            //    cur_ne = smesh[i].ne;
+            //    cur_nt = smesh[i].nt;
+            //    writer.Write("{0}\t{1}\t{2}\t", cur_np, cur_ne, cur_nt);
+            //    //for (j = 0; j < cur_np; j++)
+            //    //    for (k = 0; k < 2; k++)
+            //    //        writer.Write("{0}\t", smesh[i].p[j][k]);
+
+            //    for (j = 0; j < cur_ne; j++)
+            //        for (k = 1; k < 2; k++)
+            //            writer.Write("{0}\t", smesh[i].e[j][k]);
+
+            //    //for (j = 0; j < cur_nt; j++)
+            //    //    for (k = 0; k < 3; k++)
+            //    //        writer.Write("{0}\t", smesh[i].t[j][k]);
+            //}
+            //writer.Close();
 
             // initialize internal and boundary sources 
             Insource.Inputsource(para.AMeshLevel, amesh, para.SMeshLevel, smesh, level, RHS, q);

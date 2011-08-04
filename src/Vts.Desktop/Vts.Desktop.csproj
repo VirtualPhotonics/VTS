@@ -271,9 +271,6 @@
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\IO\ParametersIO.cs">
       <Link>FemModeling\MGRTE\2D\IO\ParametersIO.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\IO\ReadFiles.cs">
-      <Link>FemModeling\MGRTE\2D\IO\ReadFiles.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\IO\Source.cs">
       <Link>FemModeling\MGRTE\2D\IO\Source.cs</Link>
     </Compile>
