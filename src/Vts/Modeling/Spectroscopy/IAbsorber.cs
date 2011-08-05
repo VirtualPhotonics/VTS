@@ -9,7 +9,7 @@ namespace Vts.SpectralMapping
         /// Returns Mua (absorption coefficient) for a given wavelength
         /// </summary>
         /// <param name="wavelength">Wavelength</param>
-        /// <returns>Mua</returns>
+        /// <returns>The absorption coefficient Mua</returns>
         double GetMua(double wavelength);
     }
 }
