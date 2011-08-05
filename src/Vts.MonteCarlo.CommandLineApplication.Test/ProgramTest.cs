@@ -49,7 +49,6 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 Directory.Delete("myResults_mua1_0.03", true);
             }
         }
-        
         /// <summary>
         /// test to verify "geninfile" option works successfully"
         /// </summary>
