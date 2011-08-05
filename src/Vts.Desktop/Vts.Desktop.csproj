@@ -394,21 +394,6 @@
     <Compile Include="..\Vts\Modeling\Optimizers\MPFitLevenbergMarquardtOptimizer.cs">
       <Link>Modeling\Optimizers\MPFitLevenbergMarquardtOptimizer.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Modeling\ProblemDefinition\Enums.cs">
-      <Link>Modeling\ProblemDefinition\Enums.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ProblemDefinition\IBoundaryCondition.cs">
-      <Link>Modeling\ProblemDefinition\IBoundaryCondition.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ProblemDefinition\IDiffusionProblemDefinition.cs">
-      <Link>Modeling\ProblemDefinition\IDiffusionProblemDefinition.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ProblemDefinition\IMeasurement.cs">
-      <Link>Modeling\ProblemDefinition\IMeasurement.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ProblemDefinition\ISource.cs">
-      <Link>Modeling\ProblemDefinition\ISource.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\Modeling\Spectroscopy\ChromophoreAbsorber.cs">
       <Link>Modeling\Spectroscopy\ChromophoreAbsorber.cs</Link>
     </Compile>

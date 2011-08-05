@@ -254,10 +254,6 @@
     <Compile Include="Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs" />
     <Compile Include="Modeling\Input\Commands.cs" />
     <Compile Include="Modeling\Optimizers\MPFitLevenbergMarquardtOptimizer.cs" />
-    <Compile Include="Modeling\ProblemDefinition\Enums.cs" />
-    <Compile Include="Modeling\ProblemDefinition\IBoundaryCondition.cs" />
-    <Compile Include="Modeling\ProblemDefinition\IMeasurement.cs" />
-    <Compile Include="Modeling\ProblemDefinition\ISource.cs" />
     <Compile Include="Modeling\Spectroscopy\ChromophoreAbsorber.cs" />
     <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrum.cs" />
     <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumUnitConverter.cs" />
