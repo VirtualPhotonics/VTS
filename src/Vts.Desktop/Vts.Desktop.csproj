@@ -769,6 +769,12 @@
     <Compile Include="..\Vts\MonteCarlo\Helpers\SourceFlags.cs">
       <Link>MonteCarlo\Helpers\SourceFlags.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceProfiles\FlatSourceProfile.cs">
+      <Link>MonteCarlo\Helpers\SourceProfiles\FlatSourceProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceProfiles\GaussianSourceProfile.cs">
+      <Link>MonteCarlo\Helpers\SourceProfiles\GaussianSourceProfile.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\SourceToolbox.cs">
       <Link>MonteCarlo\Helpers\SourceToolbox.cs</Link>
     </Compile>
@@ -921,12 +927,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourceBase.cs">
       <Link>MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourceBase.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs">
-      <Link>MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SourceProfiles\GaussianSourceProfile.cs">
-      <Link>MonteCarlo\Sources\SourceProfiles\GaussianSourceProfile.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSource.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSource.cs</Link>
