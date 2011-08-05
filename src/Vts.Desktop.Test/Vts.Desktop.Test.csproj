@@ -240,8 +240,8 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSourcesTests.cs">
       <Link>MonteCarlo\Sources\PointSourcesTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmitting2DSourcesTests.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmitting2DSourcesTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs</Link>

@@ -936,12 +936,12 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Update the polar angle based on incidnet location
         /// </summary>
-        /// <param name="FullLength">Maximum length</param>
+        /// <param name="fullLength">Maximum length</param>
         /// <param name="curLength">Current Length</param>
         /// <param name="thetaConvOrDiv">Convergence or Diveregence Angle</param>
         /// <returns>polar angle</returns>
         public static double UpdatePolarAngleForDirectionalSources(
-            double FullLength,
+            double fullLength,
             double curLength,
             double thetaConvOrDiv)
         {
@@ -949,7 +949,7 @@ namespace Vts.MonteCarlo.Helpers
                 return thetaConvOrDiv;
             else
             {
-                var height = FullLength / Math.Tan(thetaConvOrDiv);
+                var height = fullLength / Math.Tan(thetaConvOrDiv);
                 return (Math.Atan(curLength) / height);
             }
         }
