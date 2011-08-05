@@ -185,12 +185,12 @@ namespace Vts.MonteCarlo
                         }
 
                         photon.Absorb(); // can be added to TestDeath?
-                        if (!photon.DP.StateFlag.Has(PhotonStateType.Absorbed))
+                        if (!photon.DP.StateFlag.HasFlag(PhotonStateType.Absorbed))
                         {
                             photon.Scatter();
                         }
 
-                    } while (photon.DP.StateFlag.Has(PhotonStateType.Alive)); /* end do while */
+                    } while (photon.DP.StateFlag.HasFlag(PhotonStateType.Alive)); /* end do while */
 
                     //_detectorController.TerminationTally(photon.DP);
 

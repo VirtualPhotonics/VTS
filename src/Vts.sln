@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MGRTE.ConsoleApp", "Vts
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MonteCarlo.CommandLineApplication.Test", "Vts.MonteCarlo.CommandLineApplication.Test\Vts.MonteCarlo.CommandLineApplication.Test.csproj", "{36DE9584-F033-4EC0-A18F-1AE60EE55754}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MonteCarlo.PostProcessor.Test", "Vts.MonteCarlo.PostProcessor.Test\Vts.MonteCarlo.PostProcessor.Test.csproj", "{8A1194A0-C773-483B-BD78-9D013105CEA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -411,6 +413,24 @@ Global
 		{36DE9584-F033-4EC0-A18F-1AE60EE55754}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{36DE9584-F033-4EC0-A18F-1AE60EE55754}.Release|Win32.ActiveCfg = Release|Any CPU
 		{36DE9584-F033-4EC0-A18F-1AE60EE55754}.Release|x86.ActiveCfg = Release|Any CPU
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Debug|Win32.ActiveCfg = Debug|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Debug|x86.ActiveCfg = Debug|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Debug|x86.Build.0 = Debug|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release (White List Gui Deployment)|Any CPU.ActiveCfg = Release|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release (White List Gui Deployment)|Mixed Platforms.ActiveCfg = Release|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release (White List Gui Deployment)|Mixed Platforms.Build.0 = Release|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release (White List Gui Deployment)|Win32.ActiveCfg = Release|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release (White List Gui Deployment)|x86.ActiveCfg = Release|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release (White List Gui Deployment)|x86.Build.0 = Release|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release|Any CPU.ActiveCfg = Release|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release|Mixed Platforms.Build.0 = Release|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release|Win32.ActiveCfg = Release|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release|x86.ActiveCfg = Release|x86
+		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -430,6 +450,7 @@ Global
 		{BA3C3229-E3D5-4B20-BB08-BC7DF0F4D91F} = {920000AB-D955-4399-AD00-78523C740E2A}
 		{2C5074CA-FBA8-46F1-A430-5437D67B63E5} = {920000AB-D955-4399-AD00-78523C740E2A}
 		{36DE9584-F033-4EC0-A18F-1AE60EE55754} = {920000AB-D955-4399-AD00-78523C740E2A}
+		{8A1194A0-C773-483B-BD78-9D013105CEA1} = {920000AB-D955-4399-AD00-78523C740E2A}
 		{A04010C3-E896-445B-AAA2-8FC12E6471AF} = {22E09293-1EF5-46A4-86FC-3B1CD9DD2977}
 		{BA3B54ED-FA93-43F2-8D78-C3AEB06D0193} = {22E09293-1EF5-46A4-86FC-3B1CD9DD2977}
 		{79A38678-1464-4E60-94AA-82B47DFDB334} = {AD94AF5F-2166-4DD5-B609-9FF108D9C31B}

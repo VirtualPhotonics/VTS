@@ -27,7 +27,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             _zPlanePosition = ((LayerRegion)tissue.Regions[tissue.Regions.Count - 1]).ZRange.Start;
 
             WillHitBoundary = dp =>
-                        dp.StateFlag.Has(PhotonStateType.PseudoTransmittedTissueBoundary) &&
+                        dp.StateFlag.HasFlag(PhotonStateType.PseudoTransmittedTissueBoundary) &&
                         dp.Direction.Uz > 0 &&
                         Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
@@ -63,7 +63,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             double distanceToBoundary = double.PositiveInfinity;
 
             // check if VB applies
-            if (!dp.StateFlag.Has(PhotonStateType.PseudoTransmittedTissueBoundary) ||
+            if (!dp.StateFlag.HasFlag(PhotonStateType.PseudoTransmittedTissueBoundary) ||
                 dp.Direction.Uz <= 0.0)
             {
                 return distanceToBoundary;

@@ -33,7 +33,6 @@ namespace Vts.MonteCarlo.PostProcessor
     [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
     [KnownType(typeof(TOfRhoDetectorInput))] 
 
-    // put following into common class since MCCL also uses 
     #region CommandLine Arguments Parser
 
     /* Simple commandline argument parser written by Ananth B. http://www.ananthonline.net */

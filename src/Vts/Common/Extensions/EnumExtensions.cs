@@ -50,42 +50,6 @@ namespace Vts
         }
         
         /// <summary>
-        /// Method 'Has' checks whether enum has this bit turned on
-        /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <param name="type">Enum type</param>
-        /// <param name="value">value to compare</param>
-        /// <returns></returns>
-        public static bool Has<T>(this System.Enum type, T value)
-        {
-            try
-            {
-                return (((int)(object)type & (int)(object)value) == (int)(object)value);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        /// <summary>
-        /// Method 'Is' checks whether enum is exclusively a particular type(s)
-        /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <param name="type">Enum type</param>
-        /// <param name="value">value to compare</param>
-        /// <returns></returns>
-        public static bool Is<T>(this System.Enum type, T value)
-        {
-            try
-            {
-                return (int)(object)type == (int)(object)value;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        /// <summary>
         /// Method 'Add' turns on this bit
         /// </summary>
         /// <typeparam name="T">generic type</typeparam>
@@ -108,8 +72,9 @@ namespace Vts
                         ), ex);
             }
         }
+
         /// <summary>
-        /// Method 'Remove' turns off this bit
+        /// Method 'Remove' turns off this bit, only if bit is on
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="type">Enum type</param>
@@ -130,6 +95,5 @@ namespace Vts
                         ), ex);
             }
         }
-
     }
 }
