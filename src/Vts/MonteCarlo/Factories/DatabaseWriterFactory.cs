@@ -8,6 +8,10 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Factories
 {
+    /// <summary>
+    /// Factory methods to provide the PhotonDatabaseWriter (or list of PhotonDatabaseWriters)
+    /// or CollisionInfoDatabaseWriter (or list).
+    /// </summary>
     public class DatabaseWriterFactory
     {
         public static IList<PhotonDatabaseWriter> GetSurfaceVirtualBoundaryDatabaseWriters(

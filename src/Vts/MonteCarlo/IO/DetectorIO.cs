@@ -14,8 +14,8 @@ namespace Vts.MonteCarlo.IO
         /// Writes Detector xml for scalar detectors, writes Detector xml and 
         /// binary for 1D and larger detectors.  Detector.Name is used for filename.
         /// </summary>
-        /// <param name="detector"></param>IDetector being written.
-        /// <param name="folderPath"></param>location of written file.
+        /// <param name="detector">IDetector being written.</param>
+        /// <param name="folderPath">location of written file.</param>
         public static void WriteDetectorToFile(IDetector detector, string folderPath)
         {
             try
@@ -126,9 +126,9 @@ namespace Vts.MonteCarlo.IO
         /// <summary>
         /// Reads Detector from File with given fileName.
         /// </summary>
-        /// <param name="tallyType"></param>
-        /// <param name="fileName"></param>
-        /// <param name="folderPath"></param>
+        /// <param name="tallyType">TallyType of IDetector being read</param>
+        /// <param name="fileName">filename string of file to be read</param>
+        /// <param name="folderPath">path string where file resides</param>
         /// <returns></returns>
         public static IDetector ReadDetectorFromFile(TallyType tallyType, string fileName, string folderPath)
         {
@@ -270,8 +270,8 @@ namespace Vts.MonteCarlo.IO
         /// <summary>
         /// Reads Detector from file with default fileName (TallyType.ToString).
         /// </summary>
-        /// <param name="tallyType"></param>
-        /// <param name="folderPath"></param>
+        /// <param name="tallyType">TallyType of IDetector being read</param>
+        /// <param name="folderPath">path string of folder where file to be read resides</param>
         /// <returns></returns>
         public static IDetector ReadDetectorFromFile(TallyType tallyType, string folderPath)
         {
@@ -280,10 +280,10 @@ namespace Vts.MonteCarlo.IO
         /// <summary>
         /// Reads Detector from a file in resources using given fileName.
         /// </summary>
-        /// <param name="tallyType"></param>
-        /// <param name="fileName"></param>
-        /// <param name="folderPath"></param>
-        /// <param name="projectName"></param>
+        /// <param name="tallyType">TallyType of IDetector being read</param>
+        /// <param name="fileName">filename string of file to be read</param>
+        /// <param name="folderPath">path string of folder where file to be read resides</param>
+        /// <param name="projectName">project name string where file resides in resources</param>
         /// <returns></returns>
         public static IDetector ReadDetectorFromFileInResources(TallyType tallyType, string fileName, string folderPath, string projectName)
         {
@@ -430,9 +430,9 @@ namespace Vts.MonteCarlo.IO
         /// <summary>
         /// Reads Detector from file in resources using default name (TallyType.ToString).
         /// </summary>
-        /// <param name="tallyType"></param>
-        /// <param name="folderPath"></param>
-        /// <param name="projectName"></param>
+        /// <param name="tallyType">TallyType of IDetector to be read</param>
+        /// <param name="folderPath">path string of folder where file to be read resides</param>
+        /// <param name="projectName">project name string where the file resides in resources</param>
         /// <returns></returns>
         public static IDetector ReadDetectorFromFileInResources(TallyType tallyType, string folderPath, string projectName)
         {

@@ -29,7 +29,10 @@ namespace Vts.MonteCarlo.Detectors
             Rho = rho;
             Z = z;
             Mean = new double[Rho.Count - 1, Z.Count - 1];
-            SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
+            if (_tallySecondMoment)
+            {
+                SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
+            }
             TallyType = TallyType.MomentumTransferOfRhoAndZ;
             _tallySecondMoment = tallySecondMoment;
             Name = name;
