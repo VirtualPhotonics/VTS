@@ -174,7 +174,8 @@
     <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\SurfaceVirtualBoundaryInputValidation.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DosimetryOfRhoDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoAndZAndAngleDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationStatistics.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs" />

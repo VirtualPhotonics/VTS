@@ -5,7 +5,7 @@ using Vts.Common;
 namespace Vts.MonteCarlo
 {
     /// <summary>
-    /// DetectorInput for R(r)
+    /// DetectorInput for surface detector Radiance(rho)
     /// </summary>
     public class RadianceOfRhoDetectorInput : IDetectorInput
     {
