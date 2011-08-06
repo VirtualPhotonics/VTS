@@ -8,6 +8,11 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Controllers
 {
+    /// <summary>
+    /// A controller of DatabaseWriter(s) for perturbation Monte Carlo (pMC).  It handles 
+    /// determining whether data should be written,
+    /// and if so, writing the data, and finally disposing of the database.
+    /// </summary>
     public class pMCDatabaseWriterController
     {
         IList<PhotonDatabaseWriter> _photonDatabaseWriters;

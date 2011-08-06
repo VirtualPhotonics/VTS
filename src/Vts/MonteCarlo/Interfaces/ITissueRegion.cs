@@ -7,6 +7,9 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface ITissueRegion 
     {
+        /// <summary>
+        /// Optical properties of tissue region.
+        /// </summary>
         OpticalProperties RegionOP { get; }
     }
 }

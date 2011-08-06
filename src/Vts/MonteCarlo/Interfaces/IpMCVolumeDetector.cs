@@ -4,7 +4,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo
 {
     /// <summary>
-    /// Defines a contract for Monte Carlo History Tallies.
+    /// Defines a contract for perturbation Monte Carlo (pMC) Volume tallies.
     /// </summary>
     public interface IpMCVolumeDetector : IDetector
     {
@@ -12,8 +12,9 @@ namespace Vts.MonteCarlo
     }
 
     /// <summary>
-    /// Defines a contract for Monte Carlo History Tallies.
+    /// Defines a contract for perturbation Monte Carlo (pMC) Volume tallies.
     /// </summary>
+    /// <typeparam name="T">type of tally return (e.g. double[])</typeparam>
     public interface IpMCVolumeDetector<T> : IDetector<T>, IpMCVolumeDetector
     {
     }

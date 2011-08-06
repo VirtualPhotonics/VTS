@@ -7,6 +7,9 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface ITissueInput
     {
+        /// <summary>
+        /// List of tissue regions comprising tissue.
+        /// </summary>
         IList<ITissueRegion> Regions { get; }
     }
 }

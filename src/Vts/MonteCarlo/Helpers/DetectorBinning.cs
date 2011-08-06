@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace Vts.MonteCarlo.Helpers
 {
+    /// <summary> 
+    /// Methods that aid in determining which detector bin to tally.
+    /// </summary>
     public class DetectorBinning
     {
         /// <summary>
@@ -54,7 +57,12 @@ namespace Vts.MonteCarlo.Helpers
         {
             return pathlength / (GlobalConstants.C / n);
         }
-
+        /// <summary>
+        /// Method to determine rho given x and y coordinates
+        /// </summary>
+        /// <param name="x">x coordinate</param>
+        /// <param name="y">y coordinate</param>
+        /// <returns>sqrt(x*x+y*y)</returns>
         public static double GetRho(double x, double y)
         {
             return Math.Sqrt(x * x + y * y);

@@ -8,8 +8,17 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Factories
 {
+    /// <summary>
+    /// Factory methods for PhotonDatabase class
+    /// </summary>
     public class PhotonDatabaseFactory
     {
+        /// <summary>
+        /// Method to read photon database from file
+        /// </summary>
+        /// <param name="virtualBoundaryType">VB type</param>
+        /// <param name="filePath">path to database file</param>
+        /// <returns>PhotonDatabase read</returns>
         public static PhotonDatabase GetPhotonDatabase(
             VirtualBoundaryType virtualBoundaryType, string filePath)
         {
@@ -37,7 +46,12 @@ namespace Vts.MonteCarlo.Factories
             }
             return PhotonDatabase.FromFile(dbFilename);
         }
-
+        /// <summary>
+        /// Method to read perturbation Monte Carlo (pMC) photon database from file
+        /// </summary>
+        /// <param name="virtualBoundaryType">VB type</param>
+        /// <param name="filePath">path to database file</param>
+        /// <returns>PhotonDatabase read</returns>
         public static pMCDatabase GetpMCDatabase(
             VirtualBoundaryType virtualBoundaryType, string filePath)
         {

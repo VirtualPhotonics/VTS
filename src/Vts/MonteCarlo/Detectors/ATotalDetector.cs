@@ -9,10 +9,10 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(ATotalDetector))]
     /// <summary>
     /// Implements IVolumeDetector<double>.  Tally for Total Absorption.
     /// </summary>
+    [KnownType(typeof(ATotalDetector))]
     public class ATotalDetector : IVolumeDetector<double>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;

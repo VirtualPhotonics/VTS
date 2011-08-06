@@ -9,7 +9,14 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface IDetectorController
     {
+        /// <summary>
+        /// List of detectors controller is managing
+        /// </summary>
         IList<IDetector> Detectors { get; }
+        /// <summary>
+        /// Method to normalize all detectors given the number of photons launched, N.
+        /// </summary>
+        /// <param name="N"></param>
         void NormalizeDetectors(long N);
     }
 }

@@ -8,6 +8,9 @@ using Vts.Common;
 
 namespace Vts.MonteCarlo.Extensions
 {
+    /// <summary>
+    /// Methods to aid in setting up Monte Carlo simulation input values. 
+    /// </summary>
     public static class SimulationInputExtensions
     {
         // Old strongly-typed version:
@@ -89,7 +92,14 @@ namespace Vts.MonteCarlo.Extensions
         //    }
         //    return result;
         //}
-
+        /// <summary>
+        /// Method to overwrite data in SimulationInput.  Used in MC CommandLineApplication 
+        /// paramsweep and paramsweepdelta.
+        /// </summary>
+        /// <param name="data">base SimulationInput</param>
+        /// <param name="inputParameter">parameter in SimulationInput to be overwritten</param>
+        /// <param name="value">value of parameter</param>
+        /// <returns>updated SimulationInput with new data</returns>
         public static SimulationInput WithValue(this SimulationInput data, string inputParameter, double value)
         {
             var result = data.Clone();
@@ -179,7 +189,13 @@ namespace Vts.MonteCarlo.Extensions
             }
             return result;
         }
-
+        /// <summary>
+        /// General implementation to perform Action to overwrite SimulationInput
+        /// </summary>
+        /// <param name="data">base SimulationInput</param>
+        /// <param name="assignmentAction">action to perform on data</param>
+        /// <param name="value">value to implement in action</param>
+        /// <returns>updated SimulationInput</returns>
         public static SimulationInput WithValue(this SimulationInput data, Action<SimulationInput, double> assignmentAction, double value)
         {
             var result = data.Clone();
@@ -188,7 +204,14 @@ namespace Vts.MonteCarlo.Extensions
 
             return result;
         }
-
+        /// <summary>
+        /// Method to perform parameter sweeps of data and create new SimulationInput with each data
+        /// value in sweep.
+        /// </summary>
+        /// <param name="input">base SimulationInput</param>
+        /// <param name="values">values to be used</param>
+        /// <param name="inputParameterType">parameter identifier</param>
+        /// <returns>updated IEnumerable of SimulationInput</returns>
         public static IEnumerable<SimulationInput> WithParameterSweep(this IEnumerable<SimulationInput> input, IEnumerable<double> values, string inputParameterType)
         {
             return input.SelectMany(i => values, (i, j) => i.WithValue(inputParameterType, j));

@@ -2,6 +2,9 @@
 
 namespace Vts.MonteCarlo.DataStructuresValidation
 {
+    /// <summary>
+    /// Class that holds the result of validating the Monte Carlo inputs.
+    /// </summary>
     public class ValidationResult
     {
         public ValidationResult(bool isValid, string validationRule, string remarks)
@@ -18,9 +21,17 @@ namespace Vts.MonteCarlo.DataStructuresValidation
             : this(false, "", "")
         {
         }
-
+        /// <summary>
+        /// Boolean indicating whether result is valid or not
+        /// </summary>
         public bool IsValid { get; set; }
+        /// <summary>
+        /// Rule that is being validated
+        /// </summary>
         public string ValidationRule { get; set; }
+        /// <summary>
+        /// Helpful remarks to correct violation
+        /// </summary>
         public string Remarks { get; set; }
     }
 }

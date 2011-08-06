@@ -10,7 +10,8 @@ namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
     /// Implements ITissue.  Defines tissue geometries comprised of layers
-    /// (including homogenous with air layers above and below).
+    /// (including homogenous with air layers above and below).  Layers are infinite along
+    /// x- and y- axes.
     /// </summary>
     public class MultiLayerTissue : TissueBase
     {
