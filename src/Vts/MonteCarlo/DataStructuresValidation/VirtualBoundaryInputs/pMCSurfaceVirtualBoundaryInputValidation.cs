@@ -31,7 +31,7 @@ namespace Vts.MonteCarlo
                     (vbInput.VirtualBoundaryType.IsTransmittanceSurfaceVirtualBoundary() &&
                     !detectorInput.TallyType.IsTransmittanceTally()) ||
                     (vbInput.VirtualBoundaryType.IsInternalSurfaceVirtualBoundary() &&
-                    !detectorInput.TallyType.IsInternalTally()))
+                    !detectorInput.TallyType.IsInternalSurfaceTally()))
                 {
                     return new ValidationResult(
                         false,

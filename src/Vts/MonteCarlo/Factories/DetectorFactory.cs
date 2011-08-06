@@ -10,6 +10,14 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public class DetectorFactory
     {
+        /// <summary>
+        /// Method to instantiate all detectors given list of IDetectorInputs.  This method calls
+        /// the method below that instantiates a single detector.
+        /// </summary>
+        /// <param name="detectorInputs">IEnumerable of IDetectorInput</param>
+        /// <param name="tissue">ITissue</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
+        /// <returns></returns>
         public static IList<IDetector> GetDetectors(IEnumerable<IDetectorInput> detectorInputs, ITissue tissue, bool tallySecondMoment)
         {
             if (detectorInputs == null)
@@ -18,7 +26,13 @@ namespace Vts.MonteCarlo.Factories
             }
             return detectorInputs.Select(detectorInput => GetDetector(detectorInput, tissue, tallySecondMoment)).ToList();
         }
-       
+        /// <summary>
+        /// Method that instantiates the correct detector class given a IDetectorInput
+        /// </summary>
+        /// <param name="detectorInput">IDetectorInput</param>
+        /// <param name="tissue">ITissue</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
+        /// <returns></returns>
         public static IDetector GetDetector(
             IDetectorInput detectorInput,
             ITissue tissue,
@@ -86,10 +100,24 @@ namespace Vts.MonteCarlo.Factories
             }
         }
         // pMC methods
+        /// <summary>
+        /// Method to instantiate a list of pMC IDetectors given a list of IDetectorInput
+        /// </summary>
+        /// <param name="detectorInputs">list of IDetectorInput</param>
+        /// <param name="tissue">ITissue</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
+        /// <returns></returns>
         public static IList<IDetector> GetDetectors(IEnumerable<IpMCDetectorInput> detectorInputs, ITissue tissue, bool tallySecondMoment)
         {
             return detectorInputs.Select(detectorInput => GetpMCDetector(detectorInput, tissue, tallySecondMoment)).ToList();
         }
+        /// <summary>
+        /// Method to instantiate a single pMC IDetector 
+        /// </summary>
+        /// <param name="detectorInput">IDetectorInput</param>
+        /// <param name="tissue">ITissue</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
+        /// <returns></returns>
         public static IDetector GetpMCDetector(
             IpMCDetectorInput detectorInput,
             ITissue tissue,
@@ -122,7 +150,16 @@ namespace Vts.MonteCarlo.Factories
                     return null;
             }
         }
- 
+        /// <summary>
+        /// Method to instantiate correct pMC history detector.
+        /// </summary>
+        /// <param name="detectorInput">IDetectorInput</param>
+        /// <param name="tissue">ITissue</param>
+        /// <param name="perturbedOps">list of perturbed optical properties that match in index
+        /// the tissue regions</param>
+        /// <param name="perturbedRegionsIndices">list of perturbed regions indices that match
+        /// in index with the tissue regions</param>
+        /// <returns></returns>
         public static IVolumeDetector GetHistoryDetector(
             IDetectorInput detectorInput,
             ITissue tissue,

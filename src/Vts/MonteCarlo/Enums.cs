@@ -353,10 +353,6 @@ namespace Vts.MonteCarlo
         /// </summary>
         FluenceOfRhoAndZAndTime,
         /// <summary>
-        /// Volume radiance as a function source-detector (rho) and tissue depth (Z) and time
-        /// </summary>
-        RadianceOfRhoAndZAndAngle,
-        /// <summary>
         /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
         /// </summary>
         AOfRhoAndZ,
@@ -369,9 +365,13 @@ namespace Vts.MonteCarlo
         /// </summary>
         MomentumTransferOfRhoAndZ,
         /// <summary>
-        /// Surface radiance a a function of source-detector separation (rho)
+        /// Surface radiance as a function of source-detector separation (rho)
         /// </summary>
         RadianceOfRho,
+        /// <summary>
+        /// Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
+        /// </summary>
+        RadianceOfRhoAndZAndAngle,
         /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
         /// </summary>

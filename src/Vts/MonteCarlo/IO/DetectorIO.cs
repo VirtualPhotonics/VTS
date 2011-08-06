@@ -8,6 +8,9 @@ using System.Runtime.Serialization;
 
 namespace Vts.MonteCarlo.IO
 {
+    /// <summary>
+    /// Class that handles IO for IDetectors.
+    /// </summary>
     public static class DetectorIO
     {
         /// <summary>

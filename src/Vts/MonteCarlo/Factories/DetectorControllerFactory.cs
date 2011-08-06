@@ -10,6 +10,12 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public static class DetectorControllerFactory
     {
+        /// <summary>
+        /// Static method to instantiate correct detector controller given a VirtualBoundaryType
+        /// </summary>
+        /// <param name="virtualBoundaryType">VirtualBoundaryType enum</param>
+        /// <param name="detectors">list of detectors to include in controller</param>
+        /// <returns></returns>
         public static IDetectorController GetDetectorController(
             VirtualBoundaryType virtualBoundaryType, IList<IDetector> detectors)
         {
@@ -33,7 +39,11 @@ namespace Vts.MonteCarlo.Factories
 
             }
         }
-
+        /// <summary>
+        /// This instantiates a standard surface detector controller.
+        /// </summary>
+        /// <param name="detectors"></param>
+        /// <returns></returns>
         private static SurfaceDetectorController GetStandardSurfaceDetectorController(IList<ISurfaceDetector> detectors)
         {
             SurfaceDetectorController controller = null;
@@ -49,7 +59,11 @@ namespace Vts.MonteCarlo.Factories
 
             return controller;
         }
-
+        /// <summary>
+        /// This instantiates a standard volume detector controller
+        /// </summary>
+        /// <param name="detectors">list of detectors to include in controller</param>
+        /// <returns></returns>
         private static VolumeDetectorController GetStandardVolumeDetectorController(IList<IVolumeDetector> detectors)
         {
             VolumeDetectorController controller = null;
@@ -66,7 +80,15 @@ namespace Vts.MonteCarlo.Factories
             return controller;
         }
 
-        // pMC methods
+        /// <summary>
+        /// Static method to instantiate correct pMC detector controller given
+        /// VirtualBoundaryType.
+        /// </summary>
+        /// <param name="virtualBoundaryType">VirtualBoundaryType enum</param>
+        /// <param name="detectors">list of detectors to include in controller</param>
+        /// <param name="tissue">ITissue needed to instantiate controller</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment</param>
+        /// <returns></returns>
         public static IDetectorController GetpMCDetectorController(
             VirtualBoundaryType virtualBoundaryType, IList<IDetector> detectors,
             ITissue tissue, bool tallySecondMoment)
