@@ -11,11 +11,13 @@ namespace Vts.SiteVisit.ViewModel
     public class FemSolverViewModel : BindableObject
     {
         private Parameters _parameters;
+        private OpticalPropertyViewModel _opticalPropertyVM;
 
         public FemSolverViewModel(Parameters parameters)
         {
             _parameters = parameters;
 
+            OpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Tissue Optical Properties:", G = 0.9, N = 1.0 };
             Commands.FEM_ExecuteFemSolver.Executed += FEM_ExecuteFemSolver_Executed;
 
             ExecuteFemSolverCommand = new RelayCommand(() => FEM_ExecuteFemSolver_Executed(null, null));    
@@ -44,6 +46,16 @@ namespace Vts.SiteVisit.ViewModel
         }
 
         public RelayCommand ExecuteFemSolverCommand { get; private set; }
+
+        public OpticalPropertyViewModel OpticalPropertyVM
+        {
+            get { return _opticalPropertyVM; }
+            set
+            {
+                _opticalPropertyVM = value;
+                OnPropertyChanged("OpticalPropertyVM");
+            }
+        }
 
         public Parameters Parameters
         {
