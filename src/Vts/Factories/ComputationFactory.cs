@@ -5,7 +5,6 @@ using System.Numerics;
 using Vts.Extensions;
 using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers.Extensions;
-using System.Numerics;
 
 #if DESKTOP
 using System.Runtime.InteropServices;

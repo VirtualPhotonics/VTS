@@ -9,10 +9,10 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(AOfRhoAndZDetector))]
     /// <summary>
-    /// Implements IVolumeDetector<double[,]>.  Tally for Absorption(rho,z).
+    /// Implements IVolumeDetector&lt;double[,]&gt;.  Tally for Absorption(rho,z).
     /// </summary>
+    [KnownType(typeof(AOfRhoAndZDetector))]
     public class AOfRhoAndZDetector : IVolumeDetector<double[,]>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;

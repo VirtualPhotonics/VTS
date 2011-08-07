@@ -8,12 +8,12 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(TOfRhoAndAngleDetector))]
     /// <summary>
     /// Implements ITerminationTally<double[,]>.  Tally for transmittance as a function 
     /// of Rho and Angle.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
+    [KnownType(typeof(TOfRhoAndAngleDetector))]
     public class TOfRhoAndAngleDetector : ISurfaceDetector<double[,]>
     {
         private bool _tallySecondMoment;

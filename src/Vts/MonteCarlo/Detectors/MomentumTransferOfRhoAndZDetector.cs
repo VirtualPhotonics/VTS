@@ -7,10 +7,10 @@ using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(MomentumTransferOfRhoAndZDetector))]
     /// <summary>
     /// Implements IHistoryTally<double[,]>.  Tally for MomentumTransfer(rho,z).
     /// </summary>
+    [KnownType(typeof(MomentumTransferOfRhoAndZDetector))]
     public class MomentumTransferOfRhoAndZDetector : IVolumeDetector<double[,]>
     {
         private bool _tallySecondMoment;

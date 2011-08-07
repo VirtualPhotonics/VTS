@@ -8,12 +8,12 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(ROfAngleDetector))]
     /// <summary>
     /// Implements ISurfaceDetector<double[]>.  Tally for reflectance as a function 
     /// of Angle.
     /// This works for Analog, DAW and CAW.
     /// </summary>
+    [KnownType(typeof(ROfAngleDetector))]
     public class ROfAngleDetector : ISurfaceDetector<double[]>
     {
         private bool _tallySecondMoment;

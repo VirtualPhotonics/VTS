@@ -9,11 +9,11 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(RadianceOfRhoAndZAndAngleDetector))]
     /// <summary>
     /// Implements IVolumeDetector<double[,,]>.  Tally for Radiance(rho,z,angle).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
+    [KnownType(typeof(RadianceOfRhoAndZAndAngleDetector))]
     public class RadianceOfRhoAndZAndAngleDetector : IVolumeDetector<double[, ,]>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;

@@ -9,12 +9,12 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(pMCROfRhoAndTimeDetector))]
     /// <summary>
     /// Implements ITerminationTally<double[,]>.  Tally for pMC estimation of reflectance 
     /// as a function of Rho and Time.  Perturbations of just mua or mus alone are also
     /// handled by this class.
     /// </summary>
+    [KnownType(typeof(pMCROfRhoAndTimeDetector))]
     public class pMCROfRhoAndTimeDetector : IpMCSurfaceDetector<double[,]>
     {
         private AbsorptionWeightingType _awt;

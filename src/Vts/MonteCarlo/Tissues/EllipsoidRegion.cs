@@ -81,7 +81,7 @@ namespace Vts.MonteCarlo.Tissues
         }
 
         //void CrossEllip(Photon photptr)   //---new
-        ///*based on CrossRegion, but without Fresnel (n doesn't change)=>no reflections at the boundary.*/
+        //*based on CrossRegion, but without Fresnel (n doesn't change)=>no reflections at the boundary.*/
         //{
         //    int CurrentRegionIndex = photptr.CurrentRegionIndex;
         //    if (CurrentRegionIndex == 2)
@@ -93,7 +93,7 @@ namespace Vts.MonteCarlo.Tissues
         # region ISource Members
 
         //public bool RayIntersectEllipse(Photon photptr, ref double distanceToBoundary)
-        ///* returns	2 if hit the ellipsoid from outside, 
+        //* returns	2 if hit the ellipsoid from outside, 
         //            3 if didn't hit nothing but ray is in the ellipsoid, 
         //            4 if hit ellip from inside, 
         //            0 else */
