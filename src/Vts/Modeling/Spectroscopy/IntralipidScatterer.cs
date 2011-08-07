@@ -10,18 +10,31 @@ namespace Vts.SpectralMapping
     {
         private double _volumeFraction;
 
+        /// <summary>
+        /// Constructor for an intralipid scatterer with the given volume fraction
+        /// </summary>
+        /// <param name="volumeFraction">Volume fraction</param>
         public IntralipidScatterer(double volumeFraction)
         {
             _volumeFraction = volumeFraction;
         }
 
+        /// <summary>
+        /// Default constructor for an intralipid scatterer with a volume fraction of 0.01
+        /// </summary>
         public IntralipidScatterer()
             : this (0.01)
         {
         }
 
+        /// <summary>
+        /// Scattering type of intralipid
+        /// </summary>
         public ScatteringType ScattererType { get { return ScatteringType.Intralipid; } }
 
+        /// <summary>
+        /// The volume fraction
+        /// </summary>
         public double VolumeFraction
         {
             get { return _volumeFraction; }
@@ -32,16 +45,31 @@ namespace Vts.SpectralMapping
             }
         }
 
+        /// <summary>
+        /// Returns the anisotropy coefficient for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The anisotropy coeffient g</returns>
         public double GetG(double wavelength)
         {
             return 1.1 - 5.8E-4 * wavelength;
         }
 
+        /// <summary>
+        /// Returns the scattering coefficient for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The scattering coefficient Mus</returns>
         public double GetMus(double wavelength)
         {
             return _volumeFraction * 2.54E9 * Math.Pow(wavelength, -2.4);
         }
 
+        /// <summary>
+        /// Returns the reduced scattering coefficient for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The reduced scattering coefficient Mus'</returns>
         public double GetMusp(double wavelength)
         {
             return GetMus(wavelength) * (1 - GetG(wavelength));
