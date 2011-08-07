@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IHistoryTally<double[,]>.  Tally for Fluence(rho,z).
+    /// Implements IHistoryTally&lt;double[,]&gt;.  Tally for Fluence(rho,z).
     /// Note: this tally currently only works with discrete absorption weighting
     /// </summary>
     [KnownType(typeof(FluenceOfRhoAndZDetector))]

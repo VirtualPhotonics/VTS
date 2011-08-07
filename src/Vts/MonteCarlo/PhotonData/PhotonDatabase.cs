@@ -6,7 +6,7 @@ using Vts.MonteCarlo.Sources;
 namespace Vts.MonteCarlo.PhotonData
 {
     /// <summary>
-    /// Describes database for storing and returning photon data points (position, direction, weight & total time).
+    /// Describes database for storing and returning photon data points (position, direction, weight &amp; total time).
     /// The base class, Database(OfT), exposes the IEnumerable(OfT) DataPoints list of PhotonDataPoint items
     /// </summary>
     public class PhotonDatabase : Database<PhotonDataPoint>

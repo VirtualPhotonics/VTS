@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IVolumeDetector<double>.  Tally for Total Absorption.
+    /// Implements IVolumeDetector&lt;double&gt;.  Tally for Total Absorption.
     /// </summary>
     [KnownType(typeof(ATotalDetector))]
     public class ATotalDetector : IVolumeDetector<double>

@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally<double[,]>.  Tally for reflectance as a function 
+    /// Implements ITerminationTally&lt;double[,]&gt;.  Tally for reflectance as a function 
     /// of Rho and Time.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>

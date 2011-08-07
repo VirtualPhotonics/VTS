@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceTally<double[]>.  Tally for Surface Radiance as a function 
+    /// Implements ISurfaceTally&lt;double[]&gt;.  Tally for Surface Radiance as a function 
     /// of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>

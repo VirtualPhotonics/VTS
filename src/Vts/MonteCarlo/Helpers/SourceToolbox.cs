@@ -210,7 +210,7 @@ namespace Vts.MonteCarlo.Helpers
         
         /// <summary>
         /// Provides a random position in a circle (Gaussisan distribution)
-        /// <summary>
+        /// </summary>
         /// <param name="center">The center coordiantes of the circle</param>
         /// <param name="outerRadius">The outer radius of the circle</param>
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>

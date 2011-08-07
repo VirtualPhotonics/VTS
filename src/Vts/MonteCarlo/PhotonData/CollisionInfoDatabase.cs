@@ -3,7 +3,7 @@ using Vts.MonteCarlo.IO;
 namespace Vts.MonteCarlo.PhotonData
 {
     /// <summary>
-    /// Describes database for storing and returning collision info (pathlength & number of collisions).
+    /// Describes database for storing and returning collision info (pathlength &amp; number of collisions).
     /// The base class, Database(OfT), exposes the IEnumerable(OfT) DataPoints list of CollisionInfo items
     /// </summary>
     public class CollisionInfoDatabase : Database<CollisionInfo> 

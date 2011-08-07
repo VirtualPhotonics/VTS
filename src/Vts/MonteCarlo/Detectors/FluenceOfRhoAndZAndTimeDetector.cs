@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IVolumeDetector<double[,,]>.  Tally for Fluence(rho,z,t).
+    /// Implements IVolumeDetector&lt;double[,,]&gt;.  Tally for Fluence(rho,z,t).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
     [KnownType(typeof(FluenceOfRhoAndZAndTimeDetector))]

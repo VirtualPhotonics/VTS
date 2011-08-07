@@ -6,7 +6,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceDetector<double>.  Tally for diffuse reflectance.
+    /// Implements ISurfaceDetector&lt;double&gt;.  Tally for diffuse reflectance.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
     [KnownType(typeof(RDiffuseDetector))]

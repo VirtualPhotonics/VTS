@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally<double[]>.  Tally for pMC estimation of reflectance 
+    /// Implements ITerminationTally&lt;double[]&gt;.  Tally for pMC estimation of reflectance 
     /// as a function of Rho.
     /// </summary>
     // do I need classes pMuaInROfRhoTally and pMusInROfRhoTally?

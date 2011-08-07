@@ -9,7 +9,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally<double[]>.  Tally for transmittance as a function 
+    /// Implements ITerminationTally&lt;double[]&gt;.  Tally for transmittance as a function 
     /// of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>

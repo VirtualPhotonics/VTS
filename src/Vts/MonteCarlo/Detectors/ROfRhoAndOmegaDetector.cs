@@ -11,7 +11,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceDetector<double[,]>.  Tally for reflectance as a function 
+    /// Implements ISurfaceDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
     /// of Rho and Omega.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
