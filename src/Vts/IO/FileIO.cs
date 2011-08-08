@@ -392,7 +392,7 @@ namespace Vts.IO
             }
         }
 
-        // both versions of ReadArrayFromBinary<T> call this method to actually read the data
+        // both versions of ReadArrayFromBinary<T> call this method to actually read the data - is this still true?
         /// <summary>
         /// 
         /// </summary>
@@ -414,8 +414,14 @@ namespace Vts.IO
         #region Platform-Specific Methods
 
 #if SILVERLIGHT // stuff that currently only works on the Silverlight/CoreCLR platform
-#else // stuff that currently only works on the .NET desktop/CLR platform
-        // todo: investigate Silverlight Binary serializer: http://whydoidoit.com/silverlight-serializer/
+#else           // stuff that currently only works on the .NET desktop/CLR platform
+                // todo: investigate Silverlight Binary serializer: http://whydoidoit.com/silverlight-serializer/
+        /// <summary>
+        /// Read from a binary stream
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public static T ReadFromBinary<T>(string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
@@ -424,6 +430,13 @@ namespace Vts.IO
             }
         }
 
+        /// <summary>
+        /// Read an object of type T from a binary file in resources
+        /// </summary>
+        /// <typeparam name="T">Type of the object</typeparam>
+        /// <param name="filename">Name of the binary file in resources</param>
+        /// <param name="projectName">Name of the project where the resources are located</param>
+        /// <returns>The object of type T</returns>
         public static T ReadFromBinaryInResources<T>(string filename, string projectName)
         {
             using (Stream stream = StreamFinder.GetFileStreamFromResources(filename, projectName))
@@ -432,6 +445,12 @@ namespace Vts.IO
             }
         }
 
+        /// <summary>
+        /// Write an object of type T to a binary file
+        /// </summary>
+        /// <typeparam name="T">Type of the object</typeparam>
+        /// <param name="myObject">Object</param>
+        /// <param name="filename">Name of the binary file</param>
         public static void WriteToBinary<T>(this T myObject, string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
@@ -440,6 +459,12 @@ namespace Vts.IO
             }
         }
 
+        /// <summary>
+        /// Deserializes a stream into an object
+        /// </summary>
+        /// <typeparam name="T">Type of the object</typeparam>
+        /// <param name="s">Stream to deserialize</param>
+        /// <returns>The object of type T</returns>
         public static T ReadFromBinaryStream<T>(Stream s)
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -454,6 +479,12 @@ namespace Vts.IO
             }
         }
 
+        /// <summary>
+        /// Serializes an object of type T to the given stream
+        /// </summary>
+        /// <typeparam name="T">Type of the object</typeparam>
+        /// <param name="myObject">Object</param>
+        /// <param name="s">Stream to which to write the object</param>
         public static void WriteToBinaryStream<T>(T myObject, Stream s)
         {
             BinaryFormatter formatter = new BinaryFormatter();

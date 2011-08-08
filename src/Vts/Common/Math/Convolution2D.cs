@@ -2,6 +2,10 @@
 
 namespace Vts.Common.Math
 {
+    /// <summary>
+    /// Class containing the 'Roll' Algorithm, Custom Integration based off Tom, et al, curtesy of Owen Yang, David Cuccia, and Bernard Choi, 
+    /// "Real-time blood flow imaging using the graphics processing unit," (paper in preparation)
+    /// </summary>
     public class Convolution2D
     {
         ////////////////////////////////////////////////////////////////////////////////
@@ -18,6 +22,22 @@ namespace Vts.Common.Math
         // the size of these 4 buffers are width*1
         // wR is the size of the sliding window radius
         // t is the exposure time of the camera used to obtain the raw speckle images
+        /// <summary>
+        /// 'Roll' Algorithm, Custom Integration based off Tom, et al, curtesy of Owen Yang
+        /// Owen Yang, David Cuccia, and Bernard Choi, "Real-time blood flow imaging using the
+        /// graphics processing unit," (paper in preparation)
+        /// </summary>
+        /// <param name="raw">Raw speckle image</param>
+        /// <param name="speckleContrast">Speckle contrast, preallocated 1D matrix</param>
+        /// <param name="speckleFlowIndex">Speckle flow index, preallocated 1D matrix</param>
+        /// <param name="rollRow">Preallocated buffer for holding the strip sum in the row</param>
+        /// <param name="rollColumn">Preallocated buffer for holding the strip sum in the column</param>
+        /// <param name="rollRowSquared">Preallocated buffer for holding the strip sums of squared values in the row</param>
+        /// <param name="rollColumnSquared">Preallocated buffer for holding the strip sums of squared values in the row</param>
+        /// <param name="width">Width of the raw speckle image. Also used for calculating the size of the preallocated buffers, the 4 buffers are width*1</param>
+        /// <param name="height">Height of the raw speckle image</param>
+        /// <param name="wR">Size of the sliding window radius</param>
+        /// <param name="t">Exposure time of the camera used to obtain the raw speckle images</param>
         public static void LsiRoll(
             int[] raw,
             float[] speckleContrast,

@@ -9,14 +9,14 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
     public static class PhotonHittingDensityExtensions
     {
         // Steady-State Domain...
-        /// <summary>
-        /// Steady-State centerline Photon Hitting Density by the Green's function multiplication
-        /// </summary>
-        /// <param name="ops">optical properties object</param>
-        /// <param name="rhos">Source Detector separation</param>
-        /// <param name="rProbe">Radial distance from source to "iterogation" location</param>
-        /// <param name="z">Depth being probed</param>
-        /// <returns>The Photon Hitting Density at specified location</returns>
+        ///// <summary>
+        ///// Steady-State centerline Photon Hitting Density by the Green's function multiplication
+        ///// </summary>
+        ///// <param name="ops">optical properties object</param>
+        ///// <param name="rhos">Source Detector separation</param>
+        ///// <param name="rProbe">Radial distance from source to "iterogation" location</param>
+        ///// <param name="z">Depth being probed</param>
+        ///// <returns>The Photon Hitting Density at specified location</returns>
         //public IEnumerable<double> SteadyStatePointSourceCenterlinePHD(IEnumerable<OpticalProperties> ops, IEnumerable<double> rProbes,
         //     IEnumerable<double> rhos, IEnumerable<double> zs)
         //{
@@ -62,6 +62,7 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
                 }
             }
         }
+
         public static IEnumerable<double> TemporalPointSourceCenterlinePHD(
             this IForwardSolver myForwardSolver,
             IEnumerable<OpticalProperties> ops, IEnumerable<double> rProbes,
@@ -101,17 +102,17 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
             }
         }
 
-        /// <summary>
-        /// Modified from a code of Fred's written in Matlab
-        /// </summary>
-        /// <param name="dp">diffusion parameters object</param>
-        /// <param name="k">complex diffusion constant, ((mua*cn +i*(ft*2*pi))/(D*cn)).^0.5</param>
-        /// <param name="rho">source-detector separation</param>
-        /// <param name="rProbe">radius from source</param>
-        /// <param name="y">omitted</param>
-        /// <param name="z">depth</param>
-        /// <param name="ft">temporal frequency</param>
-        /// <returns></returns>
+        ///// <summary>
+        ///// Modified from a code of Fred's written in Matlab
+        ///// </summary>
+        ///// <param name="dp">diffusion parameters object</param>
+        ///// <param name="k">complex diffusion constant, ((mua*cn +i*(ft*2*pi))/(D*cn)).^0.5</param>
+        ///// <param name="rho">source-detector separation</param>
+        ///// <param name="rProbe">radius from source</param>
+        ///// <param name="y">omitted</param>
+        ///// <param name="z">depth</param>
+        ///// <param name="ft">temporal frequency</param>
+        ///// <returns></returns>
         //public static double DepthProbFrequencyDomainPhotonMigration(DiffusionParameters dp, Complex k,
         //    double rho, double rProbe, double z, double ft)
         //{

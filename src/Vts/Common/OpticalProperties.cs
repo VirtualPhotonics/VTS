@@ -14,12 +14,10 @@
         /// <summary>
         /// Definition of optical properties
         /// </summary>
-        /// <param name="op">optical properties of the medium</param>
         /// <param name="mua">absorption coefficient = probability of absorption per unit distance traveled</param>
         /// <param name="musp">scattering coefficient = probability of having scattered per unit distance traveled</param>
         /// <param name="g">anisotropy coefficient = cosine of an average scattering angle (where the angle is relative to the incoming and outgoing unit direction vectors)</param>
         /// <param name="n">refractive index mismatch</param>
-
         public OpticalProperties(double mua, double musp, double g, double n)
         {
             this._Mua = mua;
@@ -31,12 +29,16 @@
             this._N = n;
         }
 
+        /// <summary>
+        /// Creates optical properties with values 0.01, 1.0, 0.8, 1.4 for mua, musp, g and n respectively
+        /// </summary>
         public OpticalProperties()
             : this(0.01, 1.0, 0.8, 1.4) { }
+
         /// <summary>
         /// Creates a new instance based on values from a previous instance
         /// </summary>
-        /// <param name="op"></param>
+        /// <param name="op">optical properties of the medium</param>
         public OpticalProperties(OpticalProperties op)
         {
             this.Mua = op.Mua;
@@ -48,6 +50,9 @@
 
         #region Properties
 
+        /// <summary>
+        /// absorption coefficient = probability of absorption per unit distance traveled
+        /// </summary>
         public double Mua
         {
             get { return _Mua; }
@@ -62,7 +67,7 @@
         }
 
         /// <summary>
-        /// 
+        /// reduced scattering coefficient = probability of having scattered per unit distance traveled
         /// </summary>
         /// <remarks>Warning - Setting this value also modifies Mus!</remarks>
         public double Musp
@@ -77,7 +82,7 @@
         }
 
         /// <summary>
-        /// 
+        /// scattering coefficient = probability of having scattered per unit distance traveled
         /// </summary>
         /// <remarks>Warning - Setting this value also modifies Musp!</remarks>
         public double Mus
@@ -92,7 +97,7 @@
         }
 
         /// <summary>
-        /// 
+        /// anisotropy coefficient = cosine of an average scattering angle (where the angle is relative to the incoming and outgoing unit direction vectors)
         /// </summary>
         /// <remarks>Warning - Setting this value also modifies Musp!</remarks>
         public double G
@@ -106,6 +111,9 @@
             }
         }
 
+        /// <summary>
+        /// refractive index mismatch
+        /// </summary>
         public double N
         {
             get { return _N; }
@@ -117,6 +125,10 @@
         }
         #endregion
 
+        /// <summary>
+        /// Writes the optical properties to a string in the order Mua, Musp, G and N
+        /// </summary>
+        /// <returns>String of optical properties</returns>
         public override string ToString()
         {
             return string.Format("μa={0:0.####} μs'={1:0.####} g={2:0.##} n={3:0.##}", Mua, Musp, G, N);
