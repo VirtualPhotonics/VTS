@@ -11,7 +11,7 @@ namespace Vts.SpectralMapping
         private double _volumeFraction;
 
         /// <summary>
-        /// Constructor for an intralipid scatterer with the given volume fraction
+        /// Creates an intralipid scatterer with the given volume fraction
         /// </summary>
         /// <param name="volumeFraction">Volume fraction</param>
         public IntralipidScatterer(double volumeFraction)
@@ -20,7 +20,7 @@ namespace Vts.SpectralMapping
         }
 
         /// <summary>
-        /// Default constructor for an intralipid scatterer with a volume fraction of 0.01
+        /// Creates an intralipid scatterer with a volume fraction of 0.01
         /// </summary>
         public IntralipidScatterer()
             : this (0.01)
@@ -28,7 +28,7 @@ namespace Vts.SpectralMapping
         }
 
         /// <summary>
-        /// Scattering type of intralipid
+        /// Scattering type, set to intralipid
         /// </summary>
         public ScatteringType ScattererType { get { return ScatteringType.Intralipid; } }
 

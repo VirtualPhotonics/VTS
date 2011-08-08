@@ -1,7 +1,7 @@
 namespace Vts.SpectralMapping
 {
     /// <summary>
-    /// An interface for an absorber
+    /// Interface contract for all absorber implementations
     /// </summary>
     public interface IAbsorber
     {

@@ -28,23 +28,41 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// Creates a power law scatterer; i.e. mus' = a*lambda^-b
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
+        /// <param name="a">The first prefactor</param>
+        /// <param name="b">The first exponent</param>
         public PowerLawScatterer(double a, double b)
             : this(a,b,0.0,0.0)
         {
         }
 
+        /// <summary>
+        /// Creates a power law scatterer using the specified tissue type
+        /// </summary>
+        /// <param name="tissueType">The tissue type as defined by the Enum <see cref="Vts.TissueType">TissueType</see></param>
         public PowerLawScatterer(TissueType tissueType)
         {
             SetTissueType(tissueType);
         }
 
+        /// <summary>
+        /// Creates a power law scatterer with a tissue type of Custom
+        /// </summary>
         public PowerLawScatterer() 
             : this(TissueType.Custom)
         {
         }
 
+        /// <summary>
+        /// Sets the values for the first prefactor, the first exponent, the second prefactor and the second exponent for the given tissue type
+        /// Skin: 1.2, 1.42, 0.0, 0.0
+        /// Breast (pre-menopause): 0.67, 0.95, 0.0, 0.0
+        /// Breast (post-menopause): 0.72, 0.58, 0.0, 0.0
+        /// Brain (white matter): 3.56, 0.84, 0.0, 0.0
+        /// Brain (grey matter): 0.56, 1.36, 0.0, 0.0
+        /// Liver: 0.84, 0.55, 0.0, 0.0
+        /// Custom: 1.0, 0.1, 0.0, 0.0
+        /// </summary>
+        /// <param name="tissueType">Tissue type</param>
         public void SetTissueType(TissueType tissueType)
         {
             switch (tissueType)
@@ -96,22 +114,37 @@ namespace Vts.SpectralMapping
             }
         }
 
+        /// <summary>
+        /// Scattering type, set to power law
+        /// </summary>
         public ScatteringType ScattererType { get { return ScatteringType.PowerLaw; } }
 
+        /// <summary>
+        /// The first prefactor
+        /// </summary>
         public double A { get; set; }
 
+        /// <summary>
+        /// The first exponent
+        /// </summary>
         public double B { get; set; }
 
+        /// <summary>
+        /// The second prefactor
+        /// </summary>
         public double C { get; set; }
 
+        /// <summary>
+        /// The second exponent
+        /// </summary>
         public double D { get; set; }
 
         /// <summary>
         /// Returns mus' based on Steve Jacques' Skin Optics Summary:
         /// http://omlc.ogi.edu/news/jan98/skinoptics.html
         /// </summary>
-        /// <param name="wavelength"></param>
-        /// <returns></returns>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The reduced scattering coefficient Mus'</returns>
         public double GetMusp(double wavelength)
         {
             return A * Math.Pow(wavelength/1000, - B) + C * Math.Pow(wavelength/1000, - D);
