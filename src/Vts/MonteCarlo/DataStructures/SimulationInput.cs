@@ -50,6 +50,7 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(TOfAngleDetectorInput))]
     [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
     [KnownType(typeof(TOfRhoDetectorInput))]
+    [KnownType(typeof(RSpecularDetectorInput))]
 
     // todo: add more types?
 

@@ -191,7 +191,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
         {
             var tempInput = new SimulationInput(
                 100,  // FIX 1e6 takes about 70 minutes my laptop
-                "Output",
+                "results",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -224,37 +224,37 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         VirtualBoundaryType.DiffuseReflectance,
                         new List<IDetectorInput>()
                         {
-                            //new RDiffuseDetectorInput(),
-                            //new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                            new RDiffuseDetectorInput(),
+                            new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
                             new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                            //new ROfRhoAndAngleDetectorInput(
-                            //    new DoubleRange(0.0, 10, 101),
-                            //    new DoubleRange(0.0, Math.PI / 2, 2)),
-                            //new ROfRhoAndTimeDetectorInput(
-                            //    new DoubleRange(0.0, 10, 101),
-                            //    new DoubleRange(0.0, 10, 101)),
-                            //new ROfXAndYDetectorInput(
-                            //    new DoubleRange(-200.0, 200.0, 401), // x
-                            //    new DoubleRange(-200.0, 200.0, 401)), // y,
-                            //new ROfRhoAndOmegaDetectorInput(
-                            //    new DoubleRange(0.0, 10, 101),
-                            //    new DoubleRange(0.0, 1000, 21))
+                            new ROfRhoAndAngleDetectorInput(
+                                new DoubleRange(0.0, 10, 101),
+                                new DoubleRange(0.0, Math.PI / 2, 2)),
+                            new ROfRhoAndTimeDetectorInput(
+                                new DoubleRange(0.0, 10, 101),
+                                new DoubleRange(0.0, 10, 101)),
+                            new ROfXAndYDetectorInput(
+                                new DoubleRange(-100.0, 100.0, 21), // x
+                                new DoubleRange(-100.0, 100.0, 21)), // y,
+                            new ROfRhoAndOmegaDetectorInput(
+                                new DoubleRange(0.0, 10, 101),
+                                new DoubleRange(0.0, 1000, 21))
                         },
                         false, // write to database
                         VirtualBoundaryType.DiffuseReflectance.ToString()
                     ),
                     new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseTransmittance,
-                        null,
-                        //new List<IDetectorInput>()
-                        //{
-                        //    new TDiffuseDetectorInput(),
-                        //    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                        //    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                        //    new TOfRhoAndAngleDetectorInput(
-                        //        new DoubleRange(0.0, 10, 101),
-                        //        new DoubleRange(0.0, Math.PI / 2, 2))
-                        //},
+                        //null,
+                        new List<IDetectorInput>()
+                        {
+                            new TDiffuseDetectorInput(),
+                            new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                            new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                            new TOfRhoAndAngleDetectorInput(
+                                new DoubleRange(0.0, 10, 101),
+                                new DoubleRange(0.0, Math.PI / 2, 2))
+                        },
                         false, // write to database
                         VirtualBoundaryType.DiffuseTransmittance.ToString()
                     ),
@@ -272,7 +272,16 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         },
                         false,
                         VirtualBoundaryType.GenericVolumeBoundary.ToString()
-                    )
+                    ),
+                    new SurfaceVirtualBoundaryInput(
+                        VirtualBoundaryType.SpecularReflectance,
+                        new List<IDetectorInput>
+                        {
+                            new RSpecularDetectorInput(), 
+                        },
+                        false,
+                        VirtualBoundaryType.SpecularReflectance.ToString()
+                    ),
                 });
             tempInput.ToFile("newinfile.xml");
         }
