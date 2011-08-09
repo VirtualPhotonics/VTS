@@ -83,6 +83,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\lib\DotNetZip\Silverlight\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="MathNet.Numerics">
       <HintPath>..\..\lib\Math.NET\lib\SL4\MathNet.Numerics.dll</HintPath>
     </Reference>
@@ -496,6 +499,18 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.xml" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml" />
+    <Content Include="..\..\files\SimulationInputFiles\infile.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile.xml</Link>
+    </Content>
+    <Content Include="..\..\files\SimulationInputFiles\infile_database.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile_database.xml</Link>
+    </Content>
+    <Content Include="..\..\files\SimulationInputFiles\infile_pMC_database.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile_pMC_database.xml</Link>
+    </Content>
+    <Content Include="..\..\files\SimulationInputFiles\infile_ROfRho.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile_ROfRho.xml</Link>
+    </Content>
     <Content Include="Modeling\Spectroscopy\ChromophoreList.xml" />
   </ItemGroup>
   <ItemGroup>

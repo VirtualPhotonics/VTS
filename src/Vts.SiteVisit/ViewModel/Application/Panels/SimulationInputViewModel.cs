@@ -16,11 +16,7 @@ namespace Vts.SiteVisit.ViewModel.Application.Panels
 
         public SimulationInputViewModel(SimulationInput input)
         {
-            _input = input;
-
-            // todo: in the future, delegate to AssignTissueInputViewModel(_input.TisueInput), where
-            // the assignment is done based on the input type
-            _tissueInputVM = new MultiLayerTissueViewModel((MultiLayerTissueInput)_input.TissueInput);
+            SimulationInput = input; // use the property to invoke the appropriate change notification
         }
 
         public SimulationInputViewModel()
@@ -38,9 +34,18 @@ namespace Vts.SiteVisit.ViewModel.Application.Panels
             }
         }
 
-        public SimulationInput GetSimulationInput()
+        public SimulationInput SimulationInput
         {
-            return _input;
+            get { return _input; }
+            set
+            {
+                _input = value;
+                // todo: in the future, delegate to AssignTissueInputViewModel(_input.TisueInput), where
+                // the assignment is done based on the input type
+                _tissueInputVM = new MultiLayerTissueViewModel((MultiLayerTissueInput)_input.TissueInput);
+                OnPropertyChanged("SimulationInput");
+                OnPropertyChanged("TissueInputVM");
+            }
         }
     }
 }

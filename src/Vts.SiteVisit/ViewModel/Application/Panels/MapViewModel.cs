@@ -147,7 +147,7 @@ namespace Vts.SiteVisit.ViewModel
         {
             if (_mapData != null && _mapData.RawData != null && _mapData.XValues != null && _mapData.YValues != null)
             {
-                using (var stream = StreamFinder.GetLocalFilestreamFromFileDialog(".txt"))
+                using (var stream = StreamFinder.GetLocalFilestreamFromSaveFileDialog(".txt"))
                 {
                     if (stream != null)
                     {

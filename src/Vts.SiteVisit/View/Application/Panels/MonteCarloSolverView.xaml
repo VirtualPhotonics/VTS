@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:v="clr-namespace:Vts.SiteVisit.View"
     xmlns:vm="clr-namespace:Vts.SiteVisit.ViewModel"
+    xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls" 
     xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
 
     <UserControl.DataContext>
@@ -13,66 +14,57 @@
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
         <TextBlock Text="EXECUTE A SIMULATION:" FontSize="16" />
+        <controls:TabControl>
+            <controls:TabItem Header="Input File Specification">
+                <StackPanel Orientation="Horizontal">
+                    <Button VerticalAlignment="Bottom" Command="{Binding LoadSimulationInputCommand}"
+                        Background="{Binding StackPanel.Background}" Content="Load Input File"  
+                        Width="180" Height="30" Margin="5"/>
+                    <Button VerticalAlignment="Bottom" Command="{Binding DownloadDefaultSimulationInputCommand}"
+                        Background="{Binding StackPanel.Background}" Content="Download Default Input File"  
+                        Width="180" Height="30" Margin="5"/>
+                </StackPanel>
+            </controls:TabItem>
+            <controls:TabItem Header="Multi-layer Tissue Properties Visualization">
+                <StackPanel Orientation="Vertical">
+                    <v:ListBox ItemsSource="{Binding SimulationInputVM.TissueInputVM.Regions}" Height="210" Margin="5">
+                        <v:ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Gray" BorderThickness="1.5">
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <TextBlock Text="Layer Height" />
+                                                <TextBlock Text="Start/Stop:" />
+                                            </StackPanel>
+                                            <v:RangeView DataContext="{Binding ZRangeVM}" Margin="3"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <TextBlock Text="Layer " />
+                                                <TextBlock Text="Optical" />
+                                                <TextBlock Text="Properties:" />
+                                            </StackPanel>
+                                            <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" Margin="3"/>
+                                        </StackPanel>
+                                    </StackPanel>
 
-        <v:ListBox ItemsSource="{Binding SimulationInputVM.TissueInputVM.Regions}" Height="210" Margin="5">
-            <v:ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="Gray" BorderThickness="1.5">
-                        <StackPanel Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal">
-                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock Text="Layer Height" />
-                                    <TextBlock Text="Start/Stop:" />                                    
-                                </StackPanel>
-                                <v:RangeView DataContext="{Binding ZRangeVM}" Margin="3"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock Text="Layer " />
-                                    <TextBlock Text="Optical" />
-                                    <TextBlock Text="Properties:" />
-                                </StackPanel>
-                                <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" Margin="3"/>
-                            </StackPanel>
-                        </StackPanel>
-                       
-                    </Border>
-                </DataTemplate>
-            </v:ListBox.ItemTemplate>
-        </v:ListBox>
+                                </Border>
+                            </DataTemplate>
+                        </v:ListBox.ItemTemplate>
+                    </v:ListBox>
+                </StackPanel>
+                
+            </controls:TabItem>
+        </controls:TabControl>
 
-        <StackPanel Orientation="Horizontal">
-            
-            <!--<v:OptionControlView DataContext="{Binding ForwardAnalysisTypeViewModel}" HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Button VerticalAlignment="Bottom" Command="{Binding ExecuteMonteCarloSolverCommand}"
-                Background="{Binding StackPanel.Background}" Content="Run Monte Carlo"  
-                Width="100" Height="30" Margin="5"/>
-        </StackPanel>
-
-        <TextBlock Text="PLOT SAVED RESULTS:" FontSize="16" />
-        <TextBlock Text="Todo: choice of file"/>
-
-        <v:SolutionDomainOptionView DataContext="{Binding SolutionDomainTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <!--<v:RangeControlView DataContext="{Binding RangeControlViewModel}"/>-->
-        <!--<v:OptionControlView DataContext="{Binding OptionControlTypeViewModel}"/>-->
-        <StackPanel>
-            <StackPanel>
-                <Button VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                    input:CommandService.Command="MC_PlotDataInResources"
-                    input:CommandService.CommandParameter="{Binding}"
-                    Background="{Binding StackPanel.Background}" Content="Plot Saved Data"  
-                    Width="100" Height="30" />
-                <v:RadioButtonOptionView 
-                    DataContext="{Binding ValidationTypeViewModel}" 
-                    VerticalAlignment="Bottom" 
-                    HorizontalAlignment="Left"/>
-            </StackPanel>
-
-            <Button VerticalAlignment="Bottom" HorizontalAlignment="Left"
-            input:CommandService.Command="MC_PlotScaledMC"
-            input:CommandService.CommandParameter="{Binding}"
-            Background="{Binding StackPanel.Background}" Content="Plot Scaled MC"  
-            Width="100" Height="30" />
+                Background="{Binding StackPanel.Background}" Content="Run Monte Carlo Simulation"  
+                Width="180" Height="30" Margin="5"/>
+            <Button VerticalAlignment="Bottom" Command="{Binding SaveSimulationResultsCommand}"
+                    Background="{Binding StackPanel.Background}" Content="Save Simulation Results"  
+                    Width="180" Height="30"  Margin="5"/>
         </StackPanel>
 
     </StackPanel>

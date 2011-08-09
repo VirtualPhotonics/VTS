@@ -83,7 +83,7 @@ namespace Vts.IO
             // save to IsolatedStorage with no user interaction
             var userstore = IsolatedStorageFile.GetUserStoreForApplication();
             var locations = userstore.GetDirectoryNames();
-            return new IsolatedStorageFileStream(filename, fileMode,
+            return new IsolatedStorageFileStream( filename, fileMode,
                 IsolatedStorageFile.GetUserStoreForApplication());
 #else
             FileStream fs = null;
@@ -128,15 +128,43 @@ namespace Vts.IO
         /// </summary>
         /// <param name="defaultExtension">A string representing the default file name extension of the file to be saved.</param>
         /// <returns>Stream of data</returns>
-        public static Stream GetLocalFilestreamFromFileDialog(string defaultExtension)
+        public static Stream GetLocalFilestreamFromSaveFileDialog(string defaultExtension)
         {
             var dialog = new SaveFileDialog();
             dialog.DefaultExt = defaultExtension;
-            dialog.Filter = dialog.DefaultExt + " File|*" + dialog.DefaultExt + "|All Files|*.*";
-
+            //dialog.Filter = dialog.DefaultExt + " File|*" + dialog.DefaultExt + "|All Files|*.*";
+            dialog.Filter = defaultExtension + " files (*." + defaultExtension + ")|*." + defaultExtension + "|All files (*.*)|*.*";
             if (dialog.ShowDialog() == true)
             {
                 return dialog.OpenFile();
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Displays the Load File dialog box to select or create a file, returns a file stream to write to that file.
+        /// </summary>
+        /// <param name="defaultExtension">A string representing the default file name extension of the file to be saved.</param>
+        /// <returns>Stream of data</returns>
+        public static Stream GetLocalFilestreamFromOpenFileDialog(string defaultExtension)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = defaultExtension + " files (*." + defaultExtension + ")|*." + defaultExtension + "|All files (*.*)|*.*";
+            //dialog.Filter = defaultExtension + " File|*" + defaultExtension + "|All Files|*.*"; //"Text Files (.txt)|*.txt|All Files (*.*)|*.*";
+
+            dialog.FilterIndex = 1;
+            dialog.Multiselect = false;
+
+            // Call the ShowDialog method to show the dialog box.
+            bool? userClickedOK = dialog.ShowDialog();
+
+            // Process input if the user clicked OK.
+            if (userClickedOK == true)
+            {
+                // Open the selected file to read.
+                System.IO.Stream fileStream = dialog.File.OpenRead();
+
+                return fileStream;
             }
             return null;
         }

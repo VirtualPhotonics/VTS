@@ -207,7 +207,7 @@ namespace Vts.SiteVisit.ViewModel
         {
             if (_Labels != null && _Labels.Count > 0 && _PlotSeriesCollection != null && _PlotSeriesCollection.Count > 0)
             {
-                using (var stream = StreamFinder.GetLocalFilestreamFromFileDialog(".txt"))
+                using (var stream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("txt"))
                 {
                     if (stream != null)
                     {

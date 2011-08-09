@@ -3,7 +3,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Runtime.Serialization;
+using System.Text;
+using Ionic.Zip;
 using Vts.Extensions;
 using Vts.MonteCarlo;
 
@@ -39,6 +42,22 @@ namespace Vts.IO
             }
         }
 
+        public static void CreateDirectory(string folderPath)
+        {
+
+#if SILVERLIGHT
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                store.CreateDirectory(folderPath);
+            }
+#else
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+#endif
+        }
+
         /// <summary>
         /// Static method to write an object to a stream
         /// </summary>
@@ -62,6 +81,8 @@ namespace Vts.IO
             var dcs = new DataContractSerializer(typeof(T), KnownTypes.CurrentKnownTypes.Values);
             return (T)dcs.ReadObject(stream);
         }
+
+        
 
         /// <summary>
         /// Writes data of a specified type to an XML file
@@ -408,6 +429,60 @@ namespace Vts.IO
                 {
                     yield return readerMap(br);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Writes one or more files to a compressed zip package
+        /// </summary>
+        /// <param name="fileNames">The files to be written (isolated storage files in Silverlight)</param>
+        /// <param name="folderPath">The root folder path where the files are located (can be null)</param>
+        /// <param name="zipFileStream">The stream of the destination zip file</param>
+        public static void ZipFiles(IEnumerable<string> fileNames, string folderPath, Stream zipFileStream)
+        {
+            // using Ionic DotNetZip v1.9.1.8, with changes documented here: http://dotnetzip.codeplex.com/discussions/268313
+            var streams = new List<Stream>();
+            try
+            {
+                // create a zip file instance to package all files
+                using (var zip = new ZipFile(Encoding.UTF8)) // todo: move zipping capability into FileIO?
+                {
+                    foreach (var fileName in fileNames)
+                    {
+                        // open a stream for each individual file
+                        var fileStream = StreamFinder.GetFileStream(Path.Combine(folderPath, fileName), FileMode.Open);
+                        // store that stream reference for future access (needed for closing)
+                        streams.Add(fileStream);
+                        // add the stream to the zip file
+                        zip.AddEntry(fileName, fileStream);
+                    }
+                    zip.Save(zipFileStream);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                foreach (var stream in streams)
+                {
+                    stream.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Writes one or more files to a compressed zip package
+        /// </summary>
+        /// <param name="fileNames">The files to be written (isolated storage files in Silverlight)</param>
+        /// <param name="folderPath">The root folder path where the files are located (can be null)</param>
+        /// <param name="zipFilePath">The destination zip file path</param>
+        public static void ZipFiles(IEnumerable<string> fileNames, string folderPath, string zipFilePath)
+        {
+            using (Stream stream = StreamFinder.GetFileStream(zipFilePath, FileMode.Create))
+            {
+                ZipFiles(fileNames, folderPath, stream);
             }
         }
 

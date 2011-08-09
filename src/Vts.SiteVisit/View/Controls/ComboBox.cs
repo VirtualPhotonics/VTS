@@ -84,6 +84,11 @@ namespace Vts.SiteVisit.View
 
         private object GetMemberValue(object item)
         {
+            if (string.IsNullOrEmpty(ValueMemberPath))
+            {
+                return item;
+            }
+
             return item.GetType().GetProperty(ValueMemberPath).GetValue(item, null);
         }
 
