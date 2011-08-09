@@ -42,9 +42,12 @@ namespace Vts.IO
             }
         }
 
+        /// <summary>
+        /// Platform-agnostic directory creation (uses isolated storage for Silverlight)
+        /// </summary>
+        /// <param name="folderPath">Path for new directory</param>
         public static void CreateDirectory(string folderPath)
         {
-
 #if SILVERLIGHT
             using (var store = IsolatedStorageFile.GetUserStoreForApplication())
             {
@@ -81,8 +84,6 @@ namespace Vts.IO
             var dcs = new DataContractSerializer(typeof(T), KnownTypes.CurrentKnownTypes.Values);
             return (T)dcs.ReadObject(stream);
         }
-
-        
 
         /// <summary>
         /// Writes data of a specified type to an XML file
