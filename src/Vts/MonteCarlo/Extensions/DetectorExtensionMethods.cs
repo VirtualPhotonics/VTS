@@ -22,9 +22,9 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.ROfRhoAndTime:
                 case TallyType.ROfXAndY:
                 case TallyType.RDiffuse:
+                case TallyType.RSpecular:
                 case TallyType.pMCROfRhoAndTime:
                 case TallyType.pMCROfRho:
-                case TallyType.RSpecular:
                     return true;
                 default:
                     return false;
@@ -43,6 +43,21 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.TOfRho:
                 case TallyType.TOfAngle:
                 case TallyType.TDiffuse:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        /// <summary>
+        /// Method to determine if IDetector is specular tally or not.
+        /// </summary>
+        /// <param name="type">TallyType enum</param>
+        /// <returns></returns>
+        public static bool IsSpecularReflectanceTally(this TallyType type)
+        {
+            switch (type)
+            {
+                case TallyType.RSpecular:
                     return true;
                 default:
                     return false;
@@ -70,7 +85,8 @@ namespace Vts.MonteCarlo.Extensions
         /// <returns></returns>
         public static bool IsSurfaceTally(this TallyType tallyType)
         {
-            return tallyType.IsTransmittanceTally() || tallyType.IsReflectanceTally();
+            return tallyType.IsTransmittanceTally() || tallyType.IsReflectanceTally() ||
+                tallyType.IsSpecularReflectanceTally() || tallyType.IsInternalSurfaceTally();
         }
         /// <summary>
         /// Method to determine if IDetector is pMC tally or not

@@ -156,6 +156,7 @@
     </Compile>
     <Compile Include="Common\Extensions\EnumExtensionsTests.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\SpecularDetectorTests.cs" />
     <Compile Include="MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs">

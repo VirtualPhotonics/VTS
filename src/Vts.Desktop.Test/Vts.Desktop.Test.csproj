@@ -180,6 +180,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
       <Link>MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs">
+      <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs</Link>
     </Compile>
