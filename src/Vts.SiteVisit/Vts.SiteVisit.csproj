@@ -105,6 +105,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\fjcore\build\Silverlight\FJ.Core.dll</HintPath>
     </Reference>
+    <Reference Include="FloatableWindow">
+      <HintPath>..\..\lib\gui\FloatableWindow\FloatableWindow.dll</HintPath>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight.Extras.SL4">
       <HintPath>..\..\lib\MVVMLight\Silverlight4\GalaSoft.MvvmLight.Extras.SL4.dll</HintPath>
     </Reference>

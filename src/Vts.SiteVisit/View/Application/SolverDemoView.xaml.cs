@@ -47,6 +47,14 @@ namespace Vts.SiteVisit.View
                             ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Visible;
                             ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Collapsed;
                             break;
+                        case "tabMonteCarlo":
+                                new FloatableWindow()
+                                    {
+                                        Content = new IsolatedStorageView(),
+                                        ParentLayoutRoot = this.layoutRoot,
+                                        VerticalAlignment = VerticalAlignment.Top
+                                    }.Show();
+                            break;
                     }
                 }
             }

@@ -11,17 +11,15 @@
     <UserControl.DataContext>
         <vm:SolverDemoViewModel/>
     </UserControl.DataContext>
-
-    <ScrollViewer 
-        VerticalScrollBarVisibility="Auto" 
-        HorizontalScrollBarVisibility="Auto">
+    <StackPanel x:Name="layoutRoot">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <Grid>
-            	<Grid.Background>
-            		<RadialGradientBrush RadiusX="1.01" RadiusY="1.1" Center="0.002,-0.001" GradientOrigin="-0.001,-0.006">
-            			<GradientStop Color="Black" Offset="0"/>
-            			<GradientStop Color="White" Offset="1"/>
-            		</RadialGradientBrush>
-            	</Grid.Background>
+                <Grid.Background>
+                    <RadialGradientBrush RadiusX="1.01" RadiusY="1.1" Center="0.002,-0.001" GradientOrigin="-0.001,-0.006">
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </RadialGradientBrush>
+                </Grid.Background>
                 <!--Create Grid with two rows and two columns-->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70"/>
@@ -85,7 +83,7 @@
                     <!--<controls:TabItem Name="tabTools" Header="Tools">
                         <local:IsolatedStorageView Background="LightSteelBlue" />
                     </controls:TabItem>-->
-                    <controls:TabItem Header="Monte Carlo Solver Panel">
+                    <controls:TabItem Name="tabMonteCarlo" Header="Monte Carlo Solver Panel">
                         <local:MonteCarloSolverView
                             DataContext="{Binding MonteCarloSolverVM}"
                             Background="LightSteelBlue"/>
@@ -119,5 +117,6 @@
                     Grid.Row="3" 
                     Grid.ColumnSpan="3" Margin="5,0,0,0" />
             </Grid>
-    </ScrollViewer>
+        </ScrollViewer>
+    </StackPanel>
 </UserControl>

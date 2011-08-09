@@ -6,6 +6,7 @@ using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using GalaSoft.MvvmLight.Command;
 using Ionic.Zip;
 using SLExtensions.Input;
@@ -18,6 +19,7 @@ using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Tissues;
 using Vts.SiteVisit.Input;
 using Vts.SiteVisit.Model;
+using Vts.SiteVisit.View;
 using Vts.SiteVisit.ViewModel.Application.Panels;
 
 namespace Vts.SiteVisit.ViewModel
@@ -242,13 +244,15 @@ namespace Vts.SiteVisit.ViewModel
                 string resultsFolder = input.OutputName;
                 FileIO.CreateDirectory(resultsFolder);
                 input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
+
+                var store = IsolatedStorageFile.GetUserStoreForApplication();
+
                 foreach (var result in _output.ResultsDictionary.Values)
                 {
                     // save all detector data to the specified folder
                     DetectorIO.WriteDetectorToFile(result, resultsFolder);
                 }
 
-                var store = IsolatedStorageFile.GetUserStoreForApplication();
                 if (store.DirectoryExists(resultsFolder))
                 {
                     var fileNames = store.GetFileNames(resultsFolder + @"\*");

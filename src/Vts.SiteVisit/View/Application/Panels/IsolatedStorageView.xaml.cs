@@ -28,7 +28,7 @@ namespace Vts.SiteVisit.View
         {
             using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                long newSpace = isf.Quota + spaceRequest;
+                long newSpace = isf.Quota + spaceRequest * 1048576; // 1MB = 1048576 bytes
                 try
                 {
                     if (true == isf.IncreaseQuotaTo(newSpace))
