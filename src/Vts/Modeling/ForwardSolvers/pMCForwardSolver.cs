@@ -22,7 +22,8 @@ namespace Vts.Modeling.ForwardSolvers
             if (_pMCLoader == null)
             {
                 // todo: create new databases with these names
-                _pMCLoader = new pMCLoader("Vts.Database", "", "photonBiographies1e6", "collisionInfo1e6");
+                _pMCLoader = new pMCLoader("Vts.Database", "", "DiffuseReflectanceDatabase", 
+                    "CollisionInfoDatabase");
             }
         }
 
@@ -55,12 +56,12 @@ namespace Vts.Modeling.ForwardSolvers
                         VirtualBoundaryType.pMCDiffuseReflectance,
                         detectorInputs,
                         false,
-                        pMCLoader.PhotonTerminationDatabase,
-                        pMCLoader.databaseOutput.Input);
+                        pMCLoader.PMCDatabase,
+                        pMCLoader.DatabaseInput);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
                 for (int r = 0; r < rhos.Count() - 1; r++)
                 {
-                    yield return _postProcessedOutput.R_r[r];
+                    yield return _postProcessedOutput.pMC_R_r[r];
                 }
                 //yield return (IEnumerable<double>)_postProcessedOutput.R_rt.ToEnumerable();
             }
@@ -93,14 +94,14 @@ namespace Vts.Modeling.ForwardSolvers
                         VirtualBoundaryType.pMCDiffuseReflectance,
                         detectorInputs, 
                         false,
-                        pMCLoader.PhotonTerminationDatabase,
-                        pMCLoader.databaseOutput.Input);
+                        pMCLoader.PMCDatabase,
+                        pMCLoader.DatabaseInput);
                 // yield return method won't work here because want to process all rhos and times during one pass of db
                 for (int r = 0; r < rhos.Count(); r++)
                 {
                     for (int t = 0; t < times.Count() - 1; t++) // omit last bin which captures all beyond
                     {
-                        yield return _postProcessedOutput.R_rt[r, t];
+                        yield return _postProcessedOutput.pMC_R_rt[r, t];
                     }
 
                 }

@@ -12,16 +12,15 @@ namespace Vts.MonteCarlo.GenerateReferenceData
     {
         static void Main(string[] args)
         {
-            try{
+            try {
                 var input = new SimulationInput(
-                    100,  // FIX 1e6 takes about 70 minutes my laptop
-                    "Output",
+                    1000000,  // FIX 1e6 takes about 110 minutes my laptop
+                    "", // if non-empty string here, need to create sub-folder
                      new SimulationOptions(
                         0,
                         RandomNumberGeneratorType.MersenneTwister,
                         AbsorptionWeightingType.Continuous,
                         PhaseFunctionType.HenyeyGreenstein,
-                    //null, // databases generated
                         true, // compute Second Moment
                         false, // track statistics
                         1),
@@ -29,7 +28,6 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                         new Position(0.0, 0.0, 0.0),
                         new Direction(0.0, 0.0, 1.0),
                         0),
-
                     new MultiLayerTissueInput(
                         new LayerRegion[]
                     { 
@@ -37,13 +35,13 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0)
                             ),
+                        //new LayerRegion(
+                        //    new DoubleRange(0.0, 0.1),
+                        //    new OpticalProperties(0.033, 1.0, 0.8, 1.38)
+                        //    ),
                         new LayerRegion(
-                            new DoubleRange(0.0, 0.1),
-                            new OpticalProperties(0.033, 1.0, 0.8, 1.38)
-                            ),
-                        new LayerRegion(
-                            new DoubleRange(0.1, 100.0),
-                            new OpticalProperties(0.033, 1.0, 0.8, 1.38)
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.0, 1.0, 0.8, 1.38)
                             ),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
@@ -54,32 +52,37 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     new List<IVirtualBoundaryInput>
                     {
                         new SurfaceVirtualBoundaryInput(
-                            VirtualBoundaryType.DiffuseReflectance,
+                            VirtualBoundaryType.pMCDiffuseReflectance,
+                            //VirtualBoundaryType.DiffuseReflectance,
                             new List<IDetectorInput>()
                             {
                                 new ROfRhoAndTimeDetectorInput(
                                     new DoubleRange(0.0, 40, 201), // numbers for scaled MC
                                     new DoubleRange(0.0, 4, 801)) // numbers for scaled MC
                             },
-                            false,
+                            true, // write to database
                             VirtualBoundaryType.DiffuseReflectance.ToString()
-                        )
+                        ),
+                        new SurfaceVirtualBoundaryInput(
+                        VirtualBoundaryType.DiffuseTransmittance,
+                        null,
+                        false, // write to database
+                        VirtualBoundaryType.DiffuseTransmittance.ToString()
+                    ),
                     }
                 );
-            //var FS = Vts.Factories.SolverFactory.GetForwardSolver(ForwardSolverType.MonteCarlo);
-            //var OP = new OpticalProperties();
-            //var RHO = 1.0;
-            //var R = FS.RofRho(OP, RHO);
 
             Output output = new MonteCarloSimulation(input).Run();
+            input.ToFile("infile.xml");
 
-            var rOfRhoAndTime = output.ResultsDictionary[TallyType.ROfRhoAndTime.ToString()];
+            // the following gets are R(rho,time) for scaled.
+            //var rOfRhoAndTime = output.ResultsDictionary[TallyType.ROfRhoAndTime.ToString()];
 
-            string folderPath = "results";
-            if (!Directory.Exists(folderPath))
-                Directory.CreateDirectory(folderPath);
+            //string folderPath = "results";
+            //if (!Directory.Exists(folderPath))
+            //    Directory.CreateDirectory(folderPath);
 
-            DetectorIO.WriteDetectorToFile(rOfRhoAndTime, folderPath);
+            //DetectorIO.WriteDetectorToFile(rOfRhoAndTime, folderPath);
         }
             catch (Exception e)
             {

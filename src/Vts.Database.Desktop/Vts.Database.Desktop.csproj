@@ -69,19 +69,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Vts.Database\photonBiographies1e6">
-      <Link>photonBiographies1e6</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Vts.Database\output.xml">
-      <Link>output.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Database\photonBiographies1e6.xml">
-      <Link>photonBiographies1e6.xml</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>

@@ -13,8 +13,8 @@ namespace Vts.Modeling.ForwardSolvers
     {
         # region fields
         public static OpticalProperties ReferenceOps;
-        public static pMCDatabase PhotonTerminationDatabase;
-        public static Output databaseOutput;
+        public static pMCDatabase PMCDatabase;
+        public static SimulationInput DatabaseInput;
         public static DoubleRange databaseRhoRange;
         public static DoubleRange databaseTimeRange;
         #endregion
@@ -27,39 +27,14 @@ namespace Vts.Modeling.ForwardSolvers
         /// InitializeDatabase reads in reference database and initializes data 
         /// </summary>
         private static void InitializeDatabase(string projectName,
-            string folderName, string PhotonDatabaseName, string collisionInfoDatabaseName)
-        {
-            // databaseOutput = Output.FromFolderInResources(folderName, projectName); // old IO
-            //var detector = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFileInResources(TallyType.ROfRhoAndTime, folderName, projectName); // new IO
-
-            // old IO
-            // need to add the setting up of other ranges
-            //// todo: temp code to make this work with the new structure. revisit.
-            //var input = (ROfRhoAndTimeDetectorInput) databaseOutput.Input.DetectorInputs.Where(di => di.TallyType == TallyType.ROfRhoAndTime).First();
-            //databaseRhoRange = new DoubleRange(
-            //    input.Rho.Start,
-            //    input.Rho.Stop,
-            //    input.Rho.Count);
-            //databaseTimeRange = new DoubleRange(
-            //    input.Time.Start,
-            //    input.Time.Stop,
-            //    input.Time.Count);
-
-            //// new IO
-            //databaseRhoRange = new DoubleRange(
-            //    detector.Rho.Start,
-            //    detector.Rho.Stop,
-            //    detector.Rho.Count);
-
-            //databaseTimeRange = new DoubleRange(
-            //    detector.Time.Start,
-            //    detector.Time.Stop,
-            //    detector.Time.Count);
-
-            //ReferenceOps = databaseOutput.Input.TissueInput.Regions[1].RegionOP;
-   
-            PhotonTerminationDatabase = pMCDatabase.FromFileInResources(
-                PhotonDatabaseName, collisionInfoDatabaseName, projectName);
+            string folderName, string photonDatabaseName, string collisionInfoDatabaseName)
+        {   
+            PMCDatabase = pMCDatabase.FromFileInResources(
+                photonDatabaseName, collisionInfoDatabaseName, projectName);
+            DatabaseInput = SimulationInput.FromFileInResources("infile.xml", projectName);
+            var detectorInput = (ROfRhoAndTimeDetectorInput)DatabaseInput.VirtualBoundaryInputs[0].DetectorInputs[0];
+            databaseRhoRange = detectorInput.Rho;
+            databaseTimeRange = detectorInput.Time;
         }
     }
 }
