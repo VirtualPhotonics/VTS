@@ -270,7 +270,7 @@ namespace Vts.MonteCarlo
                 dir.Uz = -sint * cosp * temp + uz * cost;
             }
 
-            DP.Direction = dir;
+            DP.Direction = dir; // DC - this isn't necessary
         }
         public void Scatter1D()
         {

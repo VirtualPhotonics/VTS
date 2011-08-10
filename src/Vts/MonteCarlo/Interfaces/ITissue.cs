@@ -12,19 +12,23 @@ namespace Vts.MonteCarlo
         /// AbsorptionWeightingType enum specifier indicating Analog, Discrete Absorption weighting, etc.
         /// </summary>
         AbsorptionWeightingType AbsorptionWeightingType { get; }
+
         /// <summary>
         /// PhaseFunctionType enum specifier indicating Henyey-Greenstein, Birdirectional, etc.
         /// </summary>
         PhaseFunctionType PhaseFunctionType { get; }
+
         /// <summary>
         /// A list of ITissueRegions that describes the entire system.
         /// </summary>
         IList<ITissueRegion> Regions { get; }
+
         /// <summary>
         /// The scattering lengths for each tissue region.  For discrete absorption weighting and
         /// analog, this is based on 1/mut, for continuous it is based on 1/mus.
         /// </summary>
         IList<double> RegionScatterLengths { get; }
+
         /// <summary>
         /// Method that gives the current region index within Regions list (above) at the current
         /// position of the photon.
@@ -32,6 +36,7 @@ namespace Vts.MonteCarlo
         /// <param name="position">current location of photon</param>
         /// <returns></returns>
         int GetRegionIndex(Position position);
+
         /// <summary>
         /// Method that provides the distance to the closest tissue boundary.
         /// </summary>
@@ -39,18 +44,21 @@ namespace Vts.MonteCarlo
         /// and current track length, S)</param>
         /// <returns></returns>
         double GetDistanceToBoundary(Photon photon);  
+
         /// <summary>
         /// Method to provide the angle relative to a tissue boundary.
         /// </summary>
         /// <param name="photon">Photon information (e.g. direction and position).</param>
         /// <returns></returns>
         double GetAngleRelativeToBoundaryNormal(Photon photon);
+
         /// <summary>
         /// Method that gives the region the photon is about to enter.
         /// </summary>
         /// <param name="photon">Photon information (e.g. direction and position)</param>
         /// <returns></returns>
         int GetNeighborRegionIndex(Photon photon);
+
         /// <summary>
         /// Method to determine whether on tissue domain boundary.  This method helps to
         /// determine when photon leaves the phase space and enters the air for example.
@@ -58,6 +66,7 @@ namespace Vts.MonteCarlo
         /// <param name="photon">PHoton information (e.g. direction and position)</param>
         /// <returns></returns>
         bool OnDomainBoundary(Photon photon); 
+
         /// <summary>
         /// Method to return updated PhotonStateType enum indicating type of photon exit
         /// from domain (e.g. reflectance boundary, transmittance boundary)
@@ -65,6 +74,7 @@ namespace Vts.MonteCarlo
         /// <param name="position"></param>
         /// <returns></returns>
         PhotonStateType GetPhotonDataPointStateOnExit(Position position);
+
         /// <summary>
         /// Method to provide reflected direction of photon given current position and direction.
         /// </summary>
@@ -72,6 +82,7 @@ namespace Vts.MonteCarlo
         /// <param name="currentDirection">current direction of photon</param>
         /// <returns></returns>
         Direction GetReflectedDirection(Position currentPosition, Direction currentDirection);
+
         /// <summary>
         /// Method to provide refracted direction of photon.
         /// </summary>

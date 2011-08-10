@@ -23,6 +23,11 @@ namespace Vts.MonteCarlo.Tissues
         public DoubleRange ZRange { get; set; }
         public OpticalProperties RegionOP { get; set; }
 
+        public bool ContainsPosition(Position p)
+        {
+            return p.Z >= ZRange.Start && p.Z < ZRange.Stop;
+        }
+
         //public bool RayExitBoundary(Photon photptr, ref double distanceToBoundary)
         //{
         //    distanceToBoundary = 0.0;  /* distance to boundary */

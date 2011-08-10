@@ -48,8 +48,6 @@
         }
 
 
-        #region Properties
-
         /// <summary>
         /// absorption coefficient = probability of absorption per unit distance traveled
         /// </summary>
@@ -123,7 +121,6 @@
                 this.OnPropertyChanged("N");
             }
         }
-        #endregion
 
         /// <summary>
         /// Writes the optical properties to a string in the order Mua, Musp, G and N

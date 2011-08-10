@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
         private ISource _source;
         private ITissue _tissue;
         private VirtualBoundaryController _virtualBoundaryController;
-        private IList<IDetectorController> _detectorControllers; // total list indep. of VBs
+        //private IList<IDetectorController> _detectorControllers; // total list indep. of VBs
         private long _numberOfPhotons;
         private SimulationStatistics _simulationStatistics;
         private DatabaseWriterController _databaseWriterController = null;
@@ -68,7 +68,7 @@ namespace Vts.MonteCarlo
                 _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
             }
             // needed?
-            _detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
+            //_detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
             
             // set doPMC flag
             if (_input.VirtualBoundaryInputs.Any(v => v.VirtualBoundaryType.IspMCVirtualBoundary()))
@@ -82,12 +82,12 @@ namespace Vts.MonteCarlo
         /// </summary>
         public MonteCarloSimulation() : this(new SimulationInput()) { }
 
+        // public properties
+        public PhaseFunctionType PhaseFunctionType { get; set; }
+
         // private properties
         private int SimulationIndex { get; set; }
-
-        // public properties
         private AbsorptionWeightingType AbsorptionWeightingType { get; set; }
-        public PhaseFunctionType PhaseFunctionType { get; set; }
         private bool TrackStatistics { get; set; }
 
         public Output Results { get; private set; }
@@ -108,8 +108,10 @@ namespace Vts.MonteCarlo
 
             ExecuteMCLoop();
 
-            var detectors = _virtualBoundaryController.VirtualBoundaries.Select(vb =>
-                vb.DetectorController).Where(dc => dc != null).SelectMany(dc => dc.Detectors).ToList();
+            var detectors = _virtualBoundaryController.VirtualBoundaries
+                .Select(vb => vb.DetectorController)
+                .Where(dc => dc != null)
+                .SelectMany(dc => dc.Detectors).ToList();
 
             Results = new Output(_input, detectors);
 
@@ -127,18 +129,28 @@ namespace Vts.MonteCarlo
                 {
                     _databaseWriterController = new DatabaseWriterController(
                         DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                        _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
-                        Select(v => v.VirtualBoundaryType).ToList(), _outputPath, _input.OutputName));
+                            _input.VirtualBoundaryInputs
+                            .Where(v => v.WriteToDatabase == true)
+                            .Select(v => v.VirtualBoundaryType).ToList(), 
+                            _outputPath, 
+                            _input.OutputName));
                 }
                 else
                 {
                     _pMCDatabaseWriterController = new pMCDatabaseWriterController(
                         DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                        _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
-                        Select(v => v.VirtualBoundaryType).ToList(), _outputPath, _input.OutputName),
+                            _input.VirtualBoundaryInputs
+                                .Where(v => v.WriteToDatabase == true)
+                                .Select(v => v.VirtualBoundaryType).ToList(),
+                                _outputPath, 
+                                _input.OutputName),
                         DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
-                        _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
-                        Select(v => v.VirtualBoundaryType).ToList(), _tissue, _outputPath, _input.OutputName));
+                            _input.VirtualBoundaryInputs
+                                .Where(v => v.WriteToDatabase == true)
+                                .Select(v => v.VirtualBoundaryType).ToList(), 
+                                _tissue, 
+                                _outputPath, 
+                                _input.OutputName));
                 }
 
                 for (long n = 1; n <= _numberOfPhotons; n++)

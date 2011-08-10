@@ -10,6 +10,7 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiLayerTissueProvider : MultiLayerTissue
     {
+        // todo: still needed?
         public static MultiLayerTissue HomogeneousTissueWithAirAboveAndBelowProvider()
         {
             // intersection points and optical properties
