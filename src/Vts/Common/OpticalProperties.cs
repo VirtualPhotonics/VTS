@@ -20,13 +20,10 @@
         /// <param name="n">refractive index mismatch</param>
         public OpticalProperties(double mua, double musp, double g, double n)
         {
-            this._Mua = mua;
-            if (g == 1) // ckh quick fix 6/27/11
-                this._Mus = musp;
-            else 
-                this._Mus = musp / (1 - g);
-            this._G = g;
-            this._N = n;
+            Mua = mua;
+            G = g;
+            N = n;
+            Musp = musp;
         }
 
         /// <summary>
@@ -40,13 +37,9 @@
         /// </summary>
         /// <param name="op">optical properties of the medium</param>
         public OpticalProperties(OpticalProperties op)
+            : this(op.Mua, op.Musp, op.G, op.N)
         {
-            this.Mua = op.Mua;
-            this.Musp = op.Musp;
-            this.G = op.G;
-            this.N = op.N;
         }
-
 
         /// <summary>
         /// absorption coefficient = probability of absorption per unit distance traveled
@@ -56,7 +49,7 @@
             get { return _Mua; }
             set
             {
-                if(value>=0)
+                if (value >= 0)
                 {
                     _Mua = value;
                     this.OnPropertyChanged("Mua");
@@ -70,10 +63,27 @@
         /// <remarks>Warning - Setting this value also modifies Mus!</remarks>
         public double Musp
         {
-            get { return _Mus*(1-_G); }
+            get
+            {
+                if (_G == 1)
+                {
+                    return _Mus;
+                }
+                else
+                {
+                    return _Mus * (1 - _G);
+                }
+            }
             set
             {
-                _Mus = value / (1 - _G);
+                if (_G == 1) 
+                {
+                    _Mus = value;
+                }
+                else
+                {
+                    _Mus = value / (1 - _G);
+                }
                 this.OnPropertyChanged("Musp");
                 this.OnPropertyChanged("Mus");
             }
