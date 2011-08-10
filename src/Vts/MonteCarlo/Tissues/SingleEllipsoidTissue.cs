@@ -28,12 +28,13 @@ namespace Vts.MonteCarlo.Tissues
             IList<ITissueRegion> layerRegions,
             AbsorptionWeightingType absorptionWeightingType,
             PhaseFunctionType phaseFunctionType)
-            : base(layerRegions.Concat(ellipsoidRegion).ToArray(), 
+            : base(layerRegions, 
                    absorptionWeightingType, 
                    phaseFunctionType)
         {
             // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
             Regions = layerRegions.Concat(ellipsoidRegion).ToArray();
+            RegionScatterLengths = Regions.Select(region => region.RegionOP.GetScatterLength(absorptionWeightingType)).ToArray();
 
             _ellipsoidRegion = (EllipsoidRegion)ellipsoidRegion;
             _ellipsoidRegionIndex = layerRegions.Count; // index is, by convention, after the layer region indices
@@ -62,7 +63,7 @@ namespace Vts.MonteCarlo.Tissues
         public override int GetNeighborRegionIndex(Photon photon)
         {
             // first, check what layer the photon is in
-            int layerRegionIndex = base.GetRegionIndex(photon.DP.Position); // todo: can I use photon.CurrentRegionIndex?
+            int layerRegionIndex = photon.CurrentRegionIndex;
             
             // if we're outside the layer containing the ellipsoid, then just call the base method
             if (layerRegionIndex != _layerRegionIndexOfElipsoid)
@@ -92,7 +93,7 @@ namespace Vts.MonteCarlo.Tissues
         public override double GetDistanceToBoundary(Photon photon)
         {
             // first, check what layer the photon is in
-            int layerRegionIndex = base.GetRegionIndex(photon.DP.Position); // todo: can I use photon.CurrentRegionIndex?
+            int layerRegionIndex = photon.CurrentRegionIndex;
 
             // if we're outside the layer containing the ellipsoid, then just call the base (layer) method
             if (layerRegionIndex != _layerRegionIndexOfElipsoid)
@@ -115,7 +116,16 @@ namespace Vts.MonteCarlo.Tissues
             Position currentPosition,
             Direction currentDirection)
         {
-            throw new NotImplementedException(); // hopefully, this won't happen when the tissue ellipsoid is index-matched
+            // needs to call MultiLayerTissue when crossing top and bottom layer
+            if (base.OnDomainBoundary(currentPosition))
+            {
+                return base.GetReflectedDirection(currentPosition, currentDirection);
+            }
+            else
+            {
+                return currentDirection;
+            }
+            //throw new NotImplementedException(); // hopefully, this won't happen when the tissue ellipsoid is index-matched
         }
 
         public override Direction GetRefractedDirection(
@@ -125,7 +135,16 @@ namespace Vts.MonteCarlo.Tissues
             double nNext,
             double cosThetaSnell)
         {
-            throw new NotImplementedException(); // hopefully, this won't happen when the tissue ellipsoid is index-matched
+            // needs to call MultiLayerTissue when crossing top and bottom layer
+            if (base.OnDomainBoundary(currentPosition))
+            {
+                return base.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
+            }
+            else
+            {
+                return currentDirection;
+            }
+                //throw new NotImplementedException(); // hopefully, this won't happen when the tissue ellipsoid is index-matched
         }
     }
 }

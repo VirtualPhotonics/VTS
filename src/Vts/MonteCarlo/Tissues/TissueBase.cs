@@ -67,7 +67,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">current Photon state</param>
         /// <returns>true if on boundary, false if not</returns>
-        public abstract bool OnDomainBoundary(Photon photon);
+        public abstract bool OnDomainBoundary(Position position);
         /// <summary>
         /// method to determine state of Photon upon exit from tissue domain
         /// </summary>

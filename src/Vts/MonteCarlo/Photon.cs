@@ -187,7 +187,7 @@ namespace Vts.MonteCarlo
             if ((probOfReflecting == 0.0) || (_rng.NextDouble() > probOfReflecting)) // transmitted
             {
                 // if at border of system  
-                if (_tissue.OnDomainBoundary(this) && !_firstTimeEnteringDomain)
+                if (_tissue.OnDomainBoundary(this.DP.Position) && !_firstTimeEnteringDomain)
                 {
                     DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
 

@@ -84,8 +84,13 @@ namespace Vts.MonteCarlo.Tissues
             bool goingUp = photon.DP.Direction.Uz < 0.0;
 
             // get current and adjacent regions
-            int currentRegionIndex = photon.CurrentRegionIndex;
-            LayerRegion currentRegion = _layerRegions[currentRegionIndex];
+            int currentRegionIndex = photon.CurrentRegionIndex; 
+            // check if in embedded tissue region ckh fix 8/10/11
+            LayerRegion currentRegion = _layerRegions[1];
+            if (currentRegionIndex < _layerRegions.Count)
+            {
+                currentRegion = _layerRegions[currentRegionIndex];
+            }
 
             // calculate distance to boundary based on z-projection of photon trajectory
             double distanceToBoundary =
@@ -97,12 +102,12 @@ namespace Vts.MonteCarlo.Tissues
             return distanceToBoundary;
         }
 
-        public override bool OnDomainBoundary(Photon photon)
+        public override bool OnDomainBoundary(Position position)
         {
             // this code assumes that the first and last layer is air
             return 
-                photon.DP.Position.Z < 1e-10 ||
-                (Math.Abs(photon.DP.Position.Z - (_layerRegions[Regions.Count() - 2]).ZRange.Stop) < 1e-10);
+                position.Z < 1e-10 ||
+                (Math.Abs(position.Z - (_layerRegions[Regions.Count() - 2]).ZRange.Stop) < 1e-10);
         }
 
         public override int GetNeighborRegionIndex(Photon photon)

@@ -63,9 +63,9 @@ namespace Vts.MonteCarlo
         /// Method to determine whether on tissue domain boundary.  This method helps to
         /// determine when photon leaves the phase space and enters the air for example.
         /// </summary>
-        /// <param name="photon">PHoton information (e.g. direction and position)</param>
+        /// <param name="position">Photon position</param>
         /// <returns></returns>
-        bool OnDomainBoundary(Photon photon); 
+        bool OnDomainBoundary(Position position); 
 
         /// <summary>
         /// Method to return updated PhotonStateType enum indicating type of photon exit

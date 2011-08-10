@@ -63,23 +63,23 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         /// test to verify correct folder name created for output
         /// </summary>
         [Test]
-        public void validate_output_folder_name_when_no_input_file_specified()
+        public void validate_output_folder_name_when_using_geninfile_infile()
         {
-            string[] arguments = new string[] { "" };
+            string[] arguments = new string[] { "infile=newinfile.xml" };
             Program.Main(arguments);
-            // the default infile.xml that is used has OutputName="results"
+            // newinfile.xml has OutputName="results"
             Assert.IsTrue(Directory.Exists("results"));
         }
         /// <summary>
         /// test to verify correct parameter sweep folder names created for output
         /// </summary>
         [Test]
-        public void validate_parameter_sweep_folder_names_when_no_input_file_specified()
+        public void validate_parameter_sweep_folder_names_when_using_geninfile_infile()
         {
             // the following string does not work because it sweeps 0.01, 0.03 due to round
             // off error in MonteCarloSetup
             //string[] arguments = new string[] { "paramsweepdelta=mua1,0.01,0.03,0.01" };
-            string[] arguments = new string[] { "paramsweep=mua1,0.01,0.03,3" };
+            string[] arguments = new string[] { "infile=newinfile.xml", "paramsweep=mua1,0.01,0.03,3" };
             Program.Main(arguments);
             // the default infile.xml that is used has OutputName="results"
             Assert.IsTrue(Directory.Exists("results_mua1_0.01"));
@@ -91,11 +91,11 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         /// </summary>
          //can't get following to work because of the string problem
         [Test]
-        public void validate_parameter_sweep_folder_names_when_no_input_file_specified_but_outname_given()
+        public void validate_parameter_sweep_folder_names_when_specifying_outname()
         {
             // have to break up arg. strings, otherwise outname taken to be "myResults paramsweep..."
-            string[] args1 = new string[] { "outname=myResults", "paramsweep=mua1,0.01,0.03,3" };
-            Program.Main(args1);
+            string[] arguments = new string[] { "infile=newinfile.xml", "outname=myResults", "paramsweep=mua1,0.01,0.03,3" };
+            Program.Main(arguments);
             // the default infile.xml that is used has OutputName="results" 
             // so following tests verify that that name got overwritten
             Assert.IsTrue(Directory.Exists("myResults_mua1_0.01"));
