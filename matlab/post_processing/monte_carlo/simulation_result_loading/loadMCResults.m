@@ -159,7 +159,7 @@ for vbi = 1:numVirtualBoundaries
                         ATotal_xml = xml_load([datadir '\' detectorName '.xml']);
                         ATotal.Mean = str2num(ATotal_xml.Mean);              
                         ATotal.SecondMoment = str2num(ATotal_xml.SecondMoment); 
-                        results.TDiffuse = TDiffuse;
+                        results.ATotal = ATotal;
                     case 'AOfRhoAndZ'
                         AOfRhoAndZ.Name = detectorName;
                         tempRho = vb.DetectorInputs(di).anyType.Rho;
