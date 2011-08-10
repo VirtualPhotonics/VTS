@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
     /// Implements ITissue.  Defines a tissue geometry comprised of an
-    /// ellipsoid embedded within a voxel slab.
+    /// ellipsoid embedded within a layered slab.
     /// </summary>
     public class SingleEllipsoidTissue : MultiLayerTissue
     {
@@ -25,20 +25,20 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="phaseFunctionType">The type of phase function</param>
         public SingleEllipsoidTissue(
             ITissueRegion ellipsoidRegion,
-            IList<ITissueRegion> layerReions,
+            IList<ITissueRegion> layerRegions,
             AbsorptionWeightingType absorptionWeightingType,
             PhaseFunctionType phaseFunctionType)
-            : base(layerReions.Concat(ellipsoidRegion).ToArray(), 
+            : base(layerRegions.Concat(ellipsoidRegion).ToArray(), 
                    absorptionWeightingType, 
                    phaseFunctionType)
         {
             // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
-            Regions = layerReions.Concat(ellipsoidRegion).ToArray();
+            Regions = layerRegions.Concat(ellipsoidRegion).ToArray();
 
             _ellipsoidRegion = (EllipsoidRegion)ellipsoidRegion;
-            _ellipsoidRegionIndex = layerReions.Count; // index is, by convention, after the layer region indices
-            _layerRegionIndexOfElipsoid = Enumerable.Range(0, layerReions.Count)
-                .FirstOrDefault(i => ((LayerRegion) layerReions[i]).ContainsPosition(_ellipsoidRegion.Center));
+            _ellipsoidRegionIndex = layerRegions.Count; // index is, by convention, after the layer region indices
+            _layerRegionIndexOfElipsoid = Enumerable.Range(0, layerRegions.Count)
+                .FirstOrDefault(i => ((LayerRegion) layerRegions[i]).ContainsPosition(_ellipsoidRegion.Center));
         }
 
         /// <summary>
