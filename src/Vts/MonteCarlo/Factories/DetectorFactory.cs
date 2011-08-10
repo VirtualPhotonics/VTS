@@ -94,6 +94,9 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.ATotal:
                     var ainput = (ATotalDetectorInput)detectorInput;
                     return new ATotalDetector(tissue, tallySecondMoment, ainput.Name);
+                case TallyType.RadianceOfRhoAndZAndAngle:
+                    var rrzainput = (RadianceOfRhoAndZAndAngleDetectorInput)detectorInput;
+                    return new RadianceOfRhoAndZAndAngleDetector(rrzainput.Rho, rrzainput.Z, rrzainput.Angle, tissue, tallySecondMoment, rrzainput.Name);
 
                 default:
                     return null;

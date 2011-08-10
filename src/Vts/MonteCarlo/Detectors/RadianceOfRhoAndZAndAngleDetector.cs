@@ -47,7 +47,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[Rho.Count - 1, Z.Count - 1, Angle.Count - 1];
             }
-            TallyType = TallyType.FluenceOfRhoAndZAndTime;
+            TallyType = TallyType.RadianceOfRhoAndZAndAngle;
             Name = name;
             TallyCount = 0;
             _tissue = tissue;

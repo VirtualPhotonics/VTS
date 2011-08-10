@@ -1,5 +1,6 @@
 using System;
 using System.Numerics;
+using System.Linq;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
@@ -21,6 +22,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     public class AnalogDetectorsTests
     {
         private Output _output;
+        private SimulationInput _input;
         private double _factor;
         private SimulationStatistics _simulationStatistics;
 
@@ -30,7 +32,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [TestFixtureSetUp]
         public void execute_Monte_Carlo()
         {
-           var input = new SimulationInput(
+           _input = new SimulationInput(
                 100,
                 "Output",
                 new SimulationOptions(
@@ -110,20 +112,24 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new ATotalDetectorInput(),
                             new FluenceOfRhoAndZDetectorInput(
                                 new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(0.0, 10.0, 101))
+                                new DoubleRange(0.0, 10.0, 101)),
+                            new RadianceOfRhoAndZAndAngleDetectorInput(
+                                new DoubleRange(0.0, 10.0, 101),
+                                new DoubleRange(0.0, 10.0, 101),
+                                new DoubleRange(-Math.PI / 2, Math.PI / 2, 5))
                         },
                         false,
                         VirtualBoundaryType.GenericVolumeBoundary.ToString()
                     )
                 });
 
-            _output = new MonteCarloSimulation(input).Run();
+            _output = new MonteCarloSimulation(_input).Run();
 
             _simulationStatistics = SimulationStatistics.FromFile("statistics");
 
             _factor = 1.0 - Optics.Specular(
-                            input.TissueInput.Regions[0].RegionOP.N,
-                            input.TissueInput.Regions[1].RegionOP.N);
+                            _input.TissueInput.Regions[0].RegionOP.N,
+                            _input.TissueInput.Regions[1].RegionOP.N);
         }
    
         // validation values obtained from linux run using above input and seeded 
@@ -174,18 +180,6 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Complex.Abs(
                 _output.R_rw[0, 0] * _factor - (0.9284030 - Complex.ImaginaryOne * 0.0007940711)), 0.000001);
         }
-        // Total Absorption
-        [Test]
-        public void validate_Analog_ATotal()
-        {
-            Assert.Less(Math.Abs(_output.Atot * _factor - 0.281944444), 0.000000001);
-        }
-        // Absorption A(rho,z)
-        [Test]
-        public void validate_Analog_AOfRhoAndZ()
-        {
-            Assert.Less(Math.Abs(_output.A_rz[0, 6] * _factor - 0.00617700489), 0.00000000001);
-        }
         // Diffuse Transmittance
         [Test]
         public void validate_Analog_TDiffuse()
@@ -210,11 +204,40 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_output.T_ra[46, 0] * _factor - 0.000476812876), 0.000000000001);
         }
+        // Total Absorption
+        [Test]
+        public void validate_Analog_ATotal()
+        {
+            Assert.Less(Math.Abs(_output.Atot * _factor - 0.281944444), 0.000000001);
+        }
+        // Absorption A(rho,z)
+        [Test]
+        public void validate_Analog_AOfRhoAndZ()
+        {
+            Assert.Less(Math.Abs(_output.A_rz[0, 6] * _factor - 0.00617700489), 0.00000000001);
+        }
         // Fluence Flu(rho,z)
         [Test]
         public void validate_Analog_FluenceOfRhoAndZ()
         {
             Assert.Less(Math.Abs(_output.Flu_rz[0, 6] * _factor - 0.617700489), 0.000000001);
+        }
+        // Volume Radiance Rad(rho,z,angle)
+        // Verify integral over angle of Radiance equals Fluence
+        [Test]
+        public void validate_Analog_RadianceOfRhoAndZAndAngle()
+        {
+            // undo angle bin normalization
+            var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_input.VirtualBoundaryInputs.
+                Where(g => g.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).First().
+                DetectorInputs.Where(d => d.TallyType == TallyType.RadianceOfRhoAndZAndAngle).First()).Angle;
+            var norm = 2 * Math.PI * angle.Delta;
+            var integral = 0.0;
+            for (int ia = 0; ia < angle.Count - 1; ia++)
+            {
+                integral += _output.Rad_rza[0, 6, ia] * Math.Sin((ia + 0.5) * angle.Delta);
+            }
+            Assert.Less(Math.Abs(integral * norm - _output.Flu_rz[0, 6]), 0.000000000001);
         }
         //[Test]
         //public void validate_Analog_FluenceOfRhoAndZAndTime()
