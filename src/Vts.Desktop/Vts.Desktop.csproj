@@ -469,6 +469,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\ValidationResult.cs">
       <Link>MonteCarlo\DataStructuresValidation\ValidationResult.cs</Link>
     </Compile>

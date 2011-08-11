@@ -174,6 +174,7 @@
     <Compile Include="MonteCarlo\Controllers\VirtualBoundaryController.cs" />
     <Compile Include="MonteCarlo\Controllers\VolumeDetectorController.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\SurfaceVirtualBoundaryInputValidation.cs" />

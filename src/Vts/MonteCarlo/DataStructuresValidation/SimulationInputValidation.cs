@@ -74,7 +74,11 @@ namespace Vts.MonteCarlo
             if (tissueInput is MultiLayerTissueInput)
             {
                 return MultiLayerTissueInputValidation.ValidateInput(tissueInput);
-            }  
+            }
+            if (tissueInput is SingleEllipsoidTissueInput)
+            {
+                return SingleEllipsoidTissueInputValidation.ValidateInput(tissueInput);
+            }
 
             return new ValidationResult(
                 true,

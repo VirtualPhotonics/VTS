@@ -12,9 +12,13 @@ namespace Vts.MonteCarlo
     /// This verifies that the layers do not overlap.  It assumes that the layers are
     /// adjacent and defined in order. Public because SimulationInputValidation calls it.
     /// </summary>
-    /// <param name="layers"></param>
     public class MultiLayerTissueInputValidation
     {
+        /// <summary>
+        /// Method to validate that the tissue layers are contiguous and don't overlap
+        /// </summary>
+        /// <param name="input">tissue input in SimulationInput</param>
+        /// <returns></returns>
         public static ValidationResult ValidateInput(ITissueInput input)
         {
             var layers = input.Regions;
