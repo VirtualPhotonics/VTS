@@ -34,12 +34,6 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(GenericVolumeVirtualBoundaryInput))]
     [KnownType(typeof(pMCSurfaceVirtualBoundaryInput))]
 
-    [KnownType(typeof(AOfRhoAndZDetectorInput))]
-    [KnownType(typeof(ATotalDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
-    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(pMCROfRhoDetectorInput))]
     [KnownType(typeof(RDiffuseDetectorInput))]
     [KnownType(typeof(ROfAngleDetectorInput))]
     [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
@@ -52,6 +46,13 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
     [KnownType(typeof(TOfRhoDetectorInput))]
     [KnownType(typeof(RSpecularDetectorInput))]
+    [KnownType(typeof(AOfRhoAndZDetectorInput))]
+    [KnownType(typeof(ATotalDetectorInput))]
+    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
+    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
+    [KnownType(typeof(RadianceOfRhoAndZAndAngleDetectorInput))]
+    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
+    [KnownType(typeof(pMCROfRhoDetectorInput))]
 
     // todo: add more types?
 

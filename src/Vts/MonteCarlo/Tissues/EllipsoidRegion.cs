@@ -10,12 +10,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class EllipsoidRegion : ITissueRegion
     {
-        private OpticalProperties _RegionOP;
-        private static Position _Center;
-        private static double _Dx;
-        private static double _Dy;
-        private static double _Dz;
-
         public EllipsoidRegion(Position center, double radiusX, double radiusY, double radiusZ,
             OpticalProperties op)
         {
@@ -23,49 +17,30 @@ namespace Vts.MonteCarlo.Tissues
             {
                 throw new System.ArgumentException("radiusX, Y or Z cannot be 0", "radiusX");
             }
-            _RegionOP = new OpticalProperties(op.Mua, op.Musp, op.G, op.N);
-            _Center = center;
-            _Dx = radiusX;
-            _Dy = radiusY;
-            _Dz = radiusZ;
+            RegionOP = op;
+            Center = center;
+            Dx = radiusX;
+            Dy = radiusY;
+            Dz = radiusZ;
         }
 
         public EllipsoidRegion() : this (new Position(0, 0, 1), 0.5, 0.5, 0.5,
             new OpticalProperties(0.05, 1.0, 0.8, 1.4)) {}
 
-        public OpticalProperties RegionOP
-        {
-            get { return _RegionOP; }
-        }
-        public Position Center
-        {
-            get { return _Center; }
-            set { _Center = value; }
-        }
-        public double Dx
-        {
-            get { return _Dx; }
-            set { _Dx = value; }
-        }
-        public double Dy
-        {
-            get { return _Dy; }
-            set { _Dy = value; }
-        }
-        public double Dz
-        {
-            get { return _Dz; }
-            set { _Dz = value; }
-        }
+        public OpticalProperties RegionOP { get; set; }
+        public Position Center { get; set; }
+        public double Dx { get; set; }
+        public double Dy { get; set; }
+        public double Dz { get; set; }
 
         public bool ContainsPosition(Position position)
         {
-                double inside = (position.X - _Center.X) * (position.X - _Center.X) /
-                          (_Dx * _Dx) +
-                    (position.Y - _Center.Y) * (position.Y - _Center.Y) /
-                          (_Dy * _Dy) +
-                    (position.Z - _Center.Z) * (position.Z - _Center.Z) /
-                          (_Dz * _Dz);
+                double inside = (position.X - Center.X) * (position.X - Center.X) /
+                          (Dx * Dx) +
+                    (position.Y - Center.Y) * (position.Y - Center.Y) /
+                          (Dy * Dy) +
+                    (position.Z - Center.Z) * (position.Z - Center.Z) /
+                          (Dz * Dz);
 
                 if (inside < 0.9999999)
                 {
@@ -95,9 +70,9 @@ namespace Vts.MonteCarlo.Tissues
 
             bool one_in = this.ContainsPosition(p1);
             
-            double area_x = _Dx * _Dx;
-            double area_y = _Dy * _Dy;
-            double area_z = _Dz * _Dz;
+            double area_x = Dx * Dx;
+            double area_y = Dy * Dy;
+            double area_z = Dz * Dz;
 
             double dx = (p2.X - p1.X);
             double dy = (p2.Y - p1.Y);
@@ -107,9 +82,9 @@ namespace Vts.MonteCarlo.Tissues
             double dySquared = dy * dy;
             double dzSquared = dz * dz;
 
-            double xOffset = p1.X - _Dx;
-            double yOffset = p1.Y - _Dy;
-            double zOffset = p1.Z - _Dz;
+            double xOffset = p1.X - Dx;
+            double yOffset = p1.Y - Dy;
+            double zOffset = p1.Z - Dz;
 
             double A =
                 dxSquared / area_x +
@@ -216,9 +191,9 @@ namespace Vts.MonteCarlo.Tissues
 
             //bool one_in = this.ContainsPosition(p1);
 
-            double area_x = _Dx * _Dx;
-            double area_y = _Dy * _Dy;
-            double area_z = _Dz * _Dz;
+            double area_x = Dx * Dx;
+            double area_y = Dy * Dy;
+            double area_z = Dz * Dz;
 
             double dx = (p2.X - p1.X);
             double dy = (p2.Y - p1.Y);
@@ -228,9 +203,9 @@ namespace Vts.MonteCarlo.Tissues
             double dySquared = dy * dy;
             double dzSquared = dz * dz;
 
-            double xOffset = p1.X - _Dx;
-            double yOffset = p1.Y - _Dy;
-            double zOffset = p1.Z - _Dz;
+            double xOffset = p1.X - Dx;
+            double yOffset = p1.Y - Dy;
+            double zOffset = p1.Z - Dz;
 
             double A =
                 dxSquared / area_x +
