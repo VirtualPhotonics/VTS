@@ -58,6 +58,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Tally(PhotonDataPoint dp)
         {
+            // if exiting tissue top surface, Uz < 0 => Acos in [pi/2, pi]
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
 
             Mean[ia] += dp.Weight;

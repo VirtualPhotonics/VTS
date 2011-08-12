@@ -63,6 +63,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public virtual void Tally(PhotonDataPoint dp)
         {
+            // if exiting tissue top surface, Uz < 0 => Acos in [pi/2, pi]
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 

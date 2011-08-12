@@ -61,11 +61,11 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new List<IDetectorInput>
                         {
                             new RDiffuseDetectorInput(),
-                            new ROfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                            new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
                             new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
                             new ROfRhoAndAngleDetectorInput(
                                 new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(0.0, Math.PI / 2, 2)),
+                                new DoubleRange(Math.PI / 2 , Math.PI, 2)),
                             new ROfRhoAndTimeDetectorInput(
                                 new DoubleRange(0.0, 10.0, 101),
                                 new DoubleRange(0.0, 1.0, 101)),

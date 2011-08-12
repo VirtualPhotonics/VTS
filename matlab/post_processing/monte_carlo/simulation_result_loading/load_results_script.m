@@ -9,21 +9,23 @@ addpath([cd '\xml_toolbox']);
 datanames = { 'results' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
-outdir = 'C:\Simulations';
+%outdir = 'C:\Simulations';
+outdir = 'C:\Users\hayakawa\Documents\Visual Studio 2010\Projects\vts-default\matlab\post_processing\monte_carlo\simulation_result_loading';
 
-show.RDiffuse =         1;
-show.ROfRho =           1;
-show.ROfAngle =         1;
-show.ROfXAndY =         1;
-show.ROfRhoAndTime =    1;
-show.ROfRhoAndAngle =   1;
-show.ROfRhoAndOmega =   1;
-show.TDiffuse =         1;
-show.TOfRho =           1;
-show.TOfRhoAndAngle =   1;
-show.ATotal =           1;
-show.AOfRhoAndZ =       1;
-show.FluenceOfRhoAndZ = 1;
+show.RDiffuse =                 0;
+show.ROfRho =                   0;
+show.ROfAngle =                 0;
+show.ROfXAndY =                 0;
+show.ROfRhoAndTime =            0;
+show.ROfRhoAndAngle =           0;
+show.ROfRhoAndOmega =           0;
+show.TDiffuse =                 0;
+show.TOfRho =                   0;
+show.TOfRhoAndAngle =           0;
+show.ATotal =                   0;
+show.AOfRhoAndZ =               0;
+show.FluenceOfRhoAndZ =         1;
+show.RadianceOfRhoAndZAndAngle = 1;
 
 for mci = 1:length(datanames)
     dataname = datanames{mci};
@@ -90,5 +92,13 @@ for mci = 1:length(datanames)
         %sum(results.FluenceOfRhoAndZ.Mean(2:end,2:end))
         figname = 'log(FluenceOfRhoAndZ)'; figure; imagesc(log(results.FluenceOfRhoAndZ.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
         disp(['Fluence captured by FluenceOfRhoAndZ detector: ' num2str(sum(results.FluenceOfRhoAndZ.Mean(:)))]);
+    end
+    if isfield(results, 'RadianceOfRhoAndZAndAngle') && show.RadianceOfRhoAndZAndAngle
+        %sum(results.RadianceOfRhoAndZAndAngle.Mean(2:end,2:end,2:end))
+        numangles = length(results.RadianceOfRhoAndZAndAngle.Angle) - 1;
+        for i=1:numangles
+            figname = sprintf('log(RadianceOfRhoAndZ) %5.3f<angle<%5.3f',(i-1)*pi/numangles,i*pi/numangles); figure; imagesc(log(results.RadianceOfRhoAndZAndAngle.Mean(:,:,i))); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
+        end
+        disp(['Radiance captured by RadianceOfRhoAndZ detector: ' num2str(sum(results.RadianceOfRhoAndZAndAngle.Mean(:)))]);
     end
 end

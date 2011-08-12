@@ -176,9 +176,15 @@ namespace Vts.SiteVisit.ViewModel
 
         private void MC_ExecuteMonteCarloSolver_Executed(object sender, ExecutedEventArgs e)
         {
-            IEnumerable<double> independentValues = IndependentVariableRangeVM.Values.ToList();
+            //IEnumerable<double> independentValues = IndependentVariableRangeVM.Values.ToList();
 
             var input = _simulationInputVM.SimulationInput;
+
+            ROfRhoDetectorInput rOfRho = (ROfRhoDetectorInput)(input.VirtualBoundaryInputs.Where(
+                v => v.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance).Select(
+                d => d.DetectorInputs.Where(i => i.Name == TallyType.ROfRho.ToString()).First()).First());
+
+            IEnumerable<double> independentValues = rOfRho.Rho.AsEnumerable();
 
             _simulation = new MonteCarloSimulation(input);
 
