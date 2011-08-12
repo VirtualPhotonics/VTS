@@ -10,7 +10,7 @@
     <TallySecondMoment>true</TallySecondMoment>
     <TrackStatistics>false</TrackStatistics>
   </Options>
-  <OutputName>results</OutputName>
+  <OutputName>results_ROfRho_CAW</OutputName>
   <SourceInput i:type="DirectionalPointSourceInput">
     <EmittingDirection xmlns:a="http://schemas.datacontract.org/2004/07/Vts.Common">
       <a:Ux>0</a:Ux>

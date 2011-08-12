@@ -27,6 +27,7 @@ for vbi = 1:numVirtualBoundaries
                         ROfRho.Mean = readBinaryData([datadir '\' detectorName],length(ROfRho.Rho)-1);              
                         if(exist([datadir '\' detectorName '_2'],'file'))
                             ROfRho.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],length(ROfRho.Rho)-1);
+                            ROfRho.Error = sqrt((ROfRho.SecondMoment - (ROfRho.Mean .* ROfRho.Mean)) / str2num(xml.N));
                         end
                         results.ROfRho = ROfRho;
                     case 'ROfAngle'
