@@ -232,8 +232,8 @@ namespace Vts.SiteVisit.ViewModel
                 if (stream != null)
                 {
                     // todo: fix
-                    // var simulationInput = FileIO.ReadFromXMLInResources<SimulationInput>("MonteCarlo/Resources/DataStructures/" + "infile_ROfRho.xml", "Vts");
-                    var simulationInput = GetDefaultSimulationInput();
+                    var simulationInput = FileIO.ReadFromXMLInResources<SimulationInput>("MonteCarlo/Resources/DataStructures/SimulationInput/" + "infile_ROfRho.xml", "Vts");
+                    //var simulationInput = GetDefaultSimulationInput();
 
                     FileIO.WriteToStream(simulationInput, stream);
 
