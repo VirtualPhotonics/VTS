@@ -6,7 +6,7 @@ clear all;
 addpath([cd '\xml_toolbox']);
 
 % names of individual MC simulations
-datanames = { 'results' };
+datanames = { 'results_Radiance_DAW' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 %outdir = 'C:\Simulations';
@@ -36,7 +36,7 @@ for mci = 1:length(datanames)
     end
     
     if isfield(results, 'ROfRho') && show.ROfRho
-        figname = 'log(R(\rho))'; figure; plot(results.ROfRho.Rho_Midpoints, log(results.ROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) [mm^-^2]');
+        figname = 'log(R(\rho))'; figure; if (results.ROfRho.Error > 0); errorbar(results.ROfRho.Rho_Midpoints, results.ROfRho.Mean, results.ROfRho.Error); else plot(results.ROfRho.Rho_Midpoints, log(results.ROfRho.Mean)); end; title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) [mm^-^2]');
         disp(['Total reflectance captured by ROfRho detector: ' num2str(sum(results.ROfRho.Mean(:)))]);
     end
     
