@@ -1,4 +1,6 @@
-﻿namespace Vts
+﻿// copy from before change:
+
+namespace Vts
 {
     /// <summary>
     /// Describes optical properties needed as input for various 
@@ -23,7 +25,7 @@
             Mua = mua;
             G = g;
             N = n;
-            Musp = musp;
+            Musp = musp; // sets _Mus under the hood
         }
 
         /// <summary>
@@ -41,6 +43,7 @@
         {
         }
 
+
         /// <summary>
         /// absorption coefficient = probability of absorption per unit distance traveled
         /// </summary>
@@ -49,11 +52,13 @@
             get { return _Mua; }
             set
             {
-                if (value >= 0)
-                {
+                // DC: This was creating problems with the optimization library
+                // constraints like this should be done at the optimizer/GUI level 
+                //if (value >= 0) 
+                //{
                     _Mua = value;
                     this.OnPropertyChanged("Mua");
-                }
+                //}
             }
         }
 
@@ -63,20 +68,20 @@
         /// <remarks>Warning - Setting this value also modifies Mus!</remarks>
         public double Musp
         {
-            get
+            get 
             {
-                if (_G == 1)
+                if(_G == 1)
                 {
                     return _Mus;
-                }
+                } 
                 else
                 {
                     return _Mus * (1 - _G);
-                }
+                } 
             }
             set
             {
-                if (_G == 1) 
+                if (_G == 1)
                 {
                     _Mus = value;
                 }
