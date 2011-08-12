@@ -6,14 +6,14 @@ clear all;
 addpath([cd '\xml_toolbox']);
 
 % names of individual MC simulations
-datanames = { 'results_Radiance_DAW' };
+datanames = { 'results_ROfRho_CAW' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 %outdir = 'C:\Simulations';
 outdir = 'C:\Users\hayakawa\Documents\Visual Studio 2010\Projects\vts-default\matlab\post_processing\monte_carlo\simulation_result_loading';
 
 show.RDiffuse =                 0;
-show.ROfRho =                   0;
+show.ROfRho =                   1;
 show.ROfAngle =                 0;
 show.ROfXAndY =                 0;
 show.ROfRhoAndTime =            0;
@@ -24,8 +24,8 @@ show.TOfRho =                   0;
 show.TOfRhoAndAngle =           0;
 show.ATotal =                   0;
 show.AOfRhoAndZ =               0;
-show.FluenceOfRhoAndZ =         1;
-show.RadianceOfRhoAndZAndAngle = 1;
+show.FluenceOfRhoAndZ =         0;
+show.RadianceOfRhoAndZAndAngle = 0;
 
 for mci = 1:length(datanames)
     dataname = datanames{mci};
@@ -36,7 +36,11 @@ for mci = 1:length(datanames)
     end
     
     if isfield(results, 'ROfRho') && show.ROfRho
-        figname = 'log(R(\rho))'; figure; if (results.ROfRho.Error > 0); errorbar(results.ROfRho.Rho_Midpoints, results.ROfRho.Mean, results.ROfRho.Error); else plot(results.ROfRho.Rho_Midpoints, log(results.ROfRho.Mean)); end; title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) [mm^-^2]');
+        figname = 'log(R(\rho))'; figure; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) [mm^-^2]');
+        if (results.ROfRho.Error > 0)
+            figname = 'Relative Error'; hold on; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean + results.ROfRho.Error)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('Relative Error');
+            figname = 'Relative Error'; hold on; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean - results.ROfRho.Error)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('Relative Error');
+        end
         disp(['Total reflectance captured by ROfRho detector: ' num2str(sum(results.ROfRho.Mean(:)))]);
     end
     
