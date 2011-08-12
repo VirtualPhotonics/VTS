@@ -103,19 +103,7 @@ namespace Vts.MonteCarlo.Factories
                         lsecInput.TranslationFromOrigin,
                         lsecInput.InitialTissueRegionIndex) { Rng = rng };
 
-                case SourceType.CustomSurfaceEmittingCuboidal:
-                    var csecInput = (CustomSurfaceEmittingCuboidalSourceInput)input;
-                    return new CustomSurfaceEmittingCuboidalSource(
-                        csecInput.CubeLengthX,
-                        csecInput.CubeWidthY,
-                        csecInput.CubeHeightZ,
-                        csecInput.SourceProfile,
-                        csecInput.PolarAngleEmissionRange,
-                        csecInput.NewDirectionOfPrincipalSourceAxis,
-                        csecInput.TranslationFromOrigin,
-                        csecInput.InitialTissueRegionIndex) { Rng = rng };
-                
-                case SourceType.LambertianCylindricalFiber:
+                case SourceType.LambertianSurfaceEmittingCylindricalFiber:
                     var lsecfInput = (LambertianSurfaceEmittingCylindricalFiberSourceInput)input;
                     return new LambertianSurfaceEmittingCylindricalFiberSource(
                         lsecfInput.FiberRadius,

@@ -92,22 +92,21 @@ namespace Vts.MonteCarlo
     /// </summary>
     public enum SourceType
     {
-        // 0D Sources:
+        //POINT AND LINE SOURCES
          
+        //Point Sources
         /// <summary>
-        /// 0D Point sources: isotropic
+        /// Point sources: isotropic
         /// </summary>
         IsotropicPoint,
         /// <summary>
-        /// 0D Point sources: directional point
+        /// Point sources: directional point
         /// </summary>
         DirectionalPoint,
         /// <summary>
-        /// 0D Point sources: custom point
+        /// Point sources: custom point
         /// </summary>
-        CustomPoint,
-
-        // 1D Sources:
+        CustomPoint,       
 
         // Line Sources
         /// <summary>
@@ -123,9 +122,8 @@ namespace Vts.MonteCarlo
         /// </summary>
         CustomLine,
 
-        // Ring Sources
 
-        // 2D Surface Sources:
+        // SURFACE EMITTING FLAT SOURCES (2D SURFACE SOURCES)
 
         // Circular Surface Sources
         /// <summary>
@@ -136,22 +134,6 @@ namespace Vts.MonteCarlo
         /// 2D Circular surface sources: custom
         /// </summary>
         CustomCircular,
-
-        // Cubiodal Surface Sources
-        /// <summary>
-        /// 2D Cubiodal surface sources: Lambertian surface emitting cubiodal
-        /// </summary>
-        LambertianSurfaceEmittingCubiodal,
-        /// <summary>
-        /// 2D Cubiodal surface sources: custom
-        /// </summary>
-        CustomSurfaceEmittingCuboidal,
-
-        //Cylindrical Fiber Source
-        /// <summary>
-        /// 2D Cylindrical fiber sources: Lambertian cylindrial fiber
-        /// </summary>
-        LambertianCylindricalFiber,
 
         // Elliptical Surface Sources
         /// <summary>
@@ -173,27 +155,39 @@ namespace Vts.MonteCarlo
         /// </summary>
         CustomRectangular,
 
+
+        // SURFACE EMITTING BULK SOURCES (3D SURFACE SOURCES)
+
         // Spherical Surface Sources
         /// <summary>
-        /// 2D Spherical surface sources: Lambertian
+        /// Spherical surface sources: Lambertian
         /// </summary>
         LambertianSurfaceEmittingSpherical, // e.g. change to LambertianSphericalSurface
         /// <summary>
-        /// 2D Spherical surface sources: custom
+        /// Spherical surface sources: custom
         /// </summary>
         CustomSurfaceEmittingSpherical,
 
-        // Tube Sources
+        // Cubiodal Surface Sources
         /// <summary>
-        /// 2D Tube sources: Lambertian
+        /// Cubiodal surface sources: Lambertian surface emitting cubiodal
+        /// </summary>
+        LambertianSurfaceEmittingCubiodal,
+
+        // Tubular Sources
+        /// <summary>
+        /// Tubular sources: Lambertian
         /// </summary>
         LambertianSurfaceEmittingTubular,
-        /// <summary>
-        /// 2D Tube sources: diffusing fiber
-        /// </summary>
-        DiffusingFiber, // e.g. a LambertianSurfaceEmittingTubularSource + CustomCircularSource (for the fiber face)
 
-        // 3D Volumetric Sources
+        //Cylindrical Fiber Source
+        /// <summary>
+        /// Cylindrical fiber sources: Lambertian cylindrial fiber
+        /// </summary>
+        LambertianSurfaceEmittingCylindricalFiber,  
+
+        
+        // VOLUMETRIC SOURCES (3D)
 
         // Cubiodal Volume Sources
         /// <summary>

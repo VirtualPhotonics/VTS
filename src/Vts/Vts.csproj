@@ -303,7 +303,6 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\IsotropicPointSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\CircularSourceInputs\CustomCircularSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\CircularSourceInputs\DirectionalCircularSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SurfaceEmittingCuboidalSourceInputs\CustomSurfaceEmittingCuboidalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SurfaceEmittingCuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\EllipticalSourceInputs\CustomEllipticalSourceInput.cs" />
@@ -391,7 +390,6 @@
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\LambertianSurfaceEmittingTubularSource.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\SurfaceEmittingTubularSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\SurfaceEmittingCuboidalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\CustomSurfaceEmittingCuboidalSource.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\LambertianSurfaceEmittingCuboidalSource.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\RectangularSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSource.cs" />

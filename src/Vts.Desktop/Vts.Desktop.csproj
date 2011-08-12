@@ -586,9 +586,6 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SurfaceEmittingCuboidalSourceInputs\CustomSurfaceEmittingCuboidalSourceInput.cs">
-      <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SurfaceEmittingCuboidalSourceInputs\CustomSurfaceEmittingCuboidalSourceInput.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SurfaceEmittingCuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SurfaceEmittingCuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs</Link>
     </Compile>
@@ -939,9 +936,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\SurfaceEmittingSphericalSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\SurfaceEmittingSphericalSourceBase.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\CustomSurfaceEmittingCuboidalSource.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\CustomSurfaceEmittingCuboidalSource.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\LambertianSurfaceEmittingCuboidalSource.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\LambertianSurfaceEmittingCuboidalSource.cs</Link>

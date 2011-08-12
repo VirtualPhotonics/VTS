@@ -23,11 +23,11 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// New position
         /// </summary>
-        protected Position _translationFromOrigin;
+        protected Position _pointLocation;
         /// <summary>
         /// Point source emitting direction
         /// </summary>
-        protected Direction _newDirectionOfPrincipalSourceAxis;
+        protected Direction _direction;
         /// <summary>
         /// Rotation angles pair(polar/azimuthal) of emitting direction
         /// </summary>
@@ -46,29 +46,29 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="polarAngleEmissionRange">Polar angle range</param>
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
-        /// <param name="newDirectionOfPrincipalSourceAxis">Point source emitting direction</param>
-        /// <param name="translationFromOrigin">New position</param>
+        /// <param name="direction">Point source emitting direction</param>
+        /// <param name="pointLocation">New position</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         protected PointSourceBase( 
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
-            Direction newDirectionOfPrincipalSourceAxis,
-            Position translationFromOrigin,
+            Direction direction,
+            Position pointLocation,
             int initialTissueRegionIndex)
         {
-            if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
-            if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();       
+            if (direction == null)
+                direction = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
+            if (pointLocation == null)
+                pointLocation = SourceDefaults.DefaultPosition.Clone();       
 
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
             _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();    
-            _translationFromOrigin = translationFromOrigin.Clone();
-            _newDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis.Clone();
+            _pointLocation = pointLocation.Clone();
+            _direction = direction.Clone();
 
             _rotationAndTranslationFlags = new SourceFlags(
-                newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
+                direction != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                pointLocation != SourceDefaults.DefaultPosition.Clone(),
                 false);
             _initialTissueRegionIndex = initialTissueRegionIndex;
         }
@@ -90,14 +90,14 @@ namespace Vts.MonteCarlo.Sources
                 Rng);
 
             //Find the relevent polar and azimuthal pair for the direction
-            _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
+            _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_direction);
 
             //Rotation and translation
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
                 _rotationalAnglesOfPrincipalSourceAxis,
-                _translationFromOrigin,
+                _pointLocation,
                 _rotationAndTranslationFlags);
 
             var photon = new Photon(finalPosition, finalDirection, tissue, _initialTissueRegionIndex, Rng);
