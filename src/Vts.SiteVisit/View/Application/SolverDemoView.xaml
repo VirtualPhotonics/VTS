@@ -11,7 +11,7 @@
     <UserControl.DataContext>
         <vm:SolverDemoViewModel/>
     </UserControl.DataContext>
-    <StackPanel x:Name="layoutRoot">
+    <Grid x:Name="layoutRoot">
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.Background>
@@ -118,5 +118,5 @@
                     Grid.ColumnSpan="3" Margin="5,0,0,0" />
             </Grid>
         </ScrollViewer>
-    </StackPanel>
+    </Grid>
 </UserControl>
