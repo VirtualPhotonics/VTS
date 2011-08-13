@@ -56,7 +56,7 @@ namespace Vts.MonteCarlo.Tissues
                 }
         }
         
-        public bool RayIntersectEllipsoid(Photon photon, out double distanceToBoundary)
+        public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
             distanceToBoundary = double.PositiveInfinity;
             double root1, root2, xto, yto, zto;
@@ -178,7 +178,8 @@ namespace Vts.MonteCarlo.Tissues
             /* roots imaginary -> no intersection */
             return false;
         }
-        public bool RayIntersectEllipsoid(Photon photon)
+
+        public bool RayIntersectBoundary(Photon photon)
         {
             double root1, root2;
             double root = 0;

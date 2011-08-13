@@ -60,6 +60,9 @@ namespace Vts.MonteCarlo
         }
 
         [IgnoreDataMember]
+        public TissueType TissueType { get { return TissueType.SingleEllipsoid; } }
+
+        [IgnoreDataMember]
         public IList<ITissueRegion> Regions { get { return _layerRegions.Concat(_ellipsoidRegion).ToArray(); } }
 
         public ITissueRegion EllipsoidRegion { get { return _ellipsoidRegion; } set { _ellipsoidRegion = value; } }

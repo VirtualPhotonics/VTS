@@ -18,10 +18,31 @@ namespace Vts.SiteVisit.View
 {
     public partial class TextOutputView : UserControl
     {
+        private TextOutputViewModel _textOutputVM;
         public TextOutputView()
         {
             InitializeComponent();
+
+            this.Loaded += TextOutputView_Loaded;
         }
+
+        void TextOutputView_Loaded(object sender, RoutedEventArgs e)
+        {
+            _textOutputVM = this.DataContext as TextOutputViewModel;
+            if (_textOutputVM != null)
+            {
+                _textOutputVM.PropertyChanged += textOutputVM_PropertyChanged;
+            }
+        }
+
+        void textOutputVM_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Text")
+            {
+                scrollViewer.ScrollToBottom();
+            }
+        }
+
 
         //public void AppendText(string s)
         //{

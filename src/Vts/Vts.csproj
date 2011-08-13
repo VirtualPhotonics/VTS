@@ -93,6 +93,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Meta.Numerics\build\Silverlight\Meta.Numerics.Silverlight.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Unity\Silverlight\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -431,7 +432,7 @@
     <Compile Include="MonteCarlo\Tissues\MultiLayerTissue.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInput.cs" />
     <Compile Include="MonteCarlo\Tissues\MultiLayerTissueProvider.cs" />
-    <Compile Include="MonteCarlo\Tissues\SingleEllipsoidTissue.cs" />
+    <Compile Include="MonteCarlo\Tissues\SingleInclusionTissue.cs" />
     <Compile Include="MonteCarlo\Tissues\TissueBase.cs" />
     <Compile Include="MonteCarlo\Tissues\VoxelRegion.cs" />
     <Compile Include="MonteCarlo\Extensions\StatisticsExtensions.cs" />

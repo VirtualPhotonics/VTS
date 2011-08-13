@@ -84,6 +84,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Meta.Numerics\build\Desktop\Meta.Numerics.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Unity\Desktop\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -1009,8 +1010,8 @@
     <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerTissueProvider.cs">
       <Link>MonteCarlo\Tissues\MultiLayerTissueProvider.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Tissues\SingleEllipsoidTissue.cs">
-      <Link>MonteCarlo\Tissues\SingleEllipsoidTissue.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SingleInclusionTissue.cs">
+      <Link>MonteCarlo\Tissues\SingleInclusionTissue.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\TissueBase.cs">
       <Link>MonteCarlo\Tissues\TissueBase.cs</Link>

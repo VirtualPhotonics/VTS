@@ -48,6 +48,9 @@ namespace Vts.MonteCarlo
         {
         }
 
+        [IgnoreDataMember]
+        public TissueType TissueType { get { return TissueType.MultiLayer; } }
+
         public IList<ITissueRegion> Regions { get { return _regions; } set { _regions = value; } }
     }
 }

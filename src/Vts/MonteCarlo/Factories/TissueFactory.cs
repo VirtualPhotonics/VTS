@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.Factories
             if (ti is SingleEllipsoidTissueInput)
             {
                 var singleEllipsoidTissueInput = (SingleEllipsoidTissueInput)ti;
-                return new SingleEllipsoidTissue(
+                return new SingleInclusionTissue(
                     singleEllipsoidTissueInput.EllipsoidRegion,
                     singleEllipsoidTissueInput.LayerRegions,
                     awt,

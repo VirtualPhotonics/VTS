@@ -24,7 +24,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// </summary>
         public DiffuseTransmittanceVirtualBoundary(ITissue tissue, ISurfaceDetectorController detectorController, string name)
         {
-             if (tissue is SingleEllipsoidTissue) // ckh addition 8/10/11
+             if (tissue is SingleInclusionTissue) // ckh addition 8/10/11
              {
                  _zPlanePosition = ((LayerRegion)tissue.Regions[tissue.Regions.Count - 2]).ZRange.Start;           
              }

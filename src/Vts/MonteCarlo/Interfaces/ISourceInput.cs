@@ -10,6 +10,7 @@ namespace Vts.MonteCarlo
         /// Type of source
         /// </summary>
         SourceType SourceType { get; set; }
+
         /// <summary>
         /// Index of region (according to Tissue definition) where photon first starts.
         /// </summary>

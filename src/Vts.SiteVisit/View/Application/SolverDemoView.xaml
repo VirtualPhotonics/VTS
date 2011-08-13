@@ -13,7 +13,7 @@
     </UserControl.DataContext>
     <Grid x:Name="layoutRoot">
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <Grid>
+            <Grid VerticalAlignment="Top" >
                 <Grid.Background>
                     <RadialGradientBrush RadiusX="1.01" RadiusY="1.1" Center="0.002,-0.001" GradientOrigin="-0.001,-0.006">
                         <GradientStop Color="Black" Offset="0"/>
