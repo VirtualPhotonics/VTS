@@ -4,14 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Vts.Common;
-using Vts.Extensions;
-using System.IO;
-using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.CommandLineApplication
 {
@@ -90,7 +83,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             string inFile = "infile.xml";
             string outName = "";
             string outPath = "";
-            bool displayHelp = false;
+            bool infoOnlyOption = false;
             IList<ParameterSweep> paramSweep = new List<ParameterSweep>();
 
             args.Process(() =>
@@ -108,12 +101,13 @@ namespace Vts.MonteCarlo.CommandLineApplication
                        ShowHelp(helpTopic);
                    else
                        ShowHelp();
-                   displayHelp = true;
+                   infoOnlyOption = true;
                    return;
                }),
-               new CommandLine.Switch("geninfile", val =>
+               new CommandLine.Switch("geninfiles", val =>
                {
-                   GenerateDefaultInputFile();
+                   GenerateDefaultInputFiles();
+                   infoOnlyOption = true;
                    return;
                }),
                new CommandLine.Switch("infile", val =>
@@ -149,7 +143,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    Console.WriteLine("parameter sweep specified as {0},{1},{2},{3}", sweepString);
                }));
 
-            if (!displayHelp)
+            if (!infoOnlyOption)
             {
                 var input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
                 if (input == null)
@@ -190,107 +184,13 @@ namespace Vts.MonteCarlo.CommandLineApplication
             return;
         }
 
-        private static void GenerateDefaultInputFile()
+        private static void GenerateDefaultInputFiles()
         {
-            var tempInput = new SimulationInput(
-                100,  // FIX 1e6 takes about 70 minutes my laptop
-                "results",
-                new SimulationOptions(
-                    0, // random number generator seed, -1=random seed, 0=fixed seed
-                    RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
-                    true, // tally Second Moment
-                    false, // track statistics
-                    0),
-                new DirectionalPointSourceInput(
-                    new Position(0.0, 0.0, 0.0),
-                    new Direction(0.0, 0.0, 1.0),
-                    0), // 0=start in air, 1=start in tissue
-                new MultiLayerTissueInput(
-                    new LayerRegion[]
-                    { 
-                        new LayerRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
-                            new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
-                ),
-                new List<IVirtualBoundaryInput>
-                {
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseReflectance,
-                        new List<IDetectorInput>()
-                        {
-                            new RDiffuseDetectorInput(),
-                            new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
-                            new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                            new ROfRhoAndAngleDetectorInput(
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(Math.PI / 2 , Math.PI, 2)),
-                            new ROfRhoAndTimeDetectorInput(
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 10, 101)),
-                            new ROfXAndYDetectorInput(
-                                new DoubleRange(-100.0, 100.0, 21), // x
-                                new DoubleRange(-100.0, 100.0, 21)), // y,
-                            new ROfRhoAndOmegaDetectorInput(
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 1000, 21))
-                        },
-                        false, // write to database
-                        VirtualBoundaryType.DiffuseReflectance.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseTransmittance,
-                        //null,
-                        new List<IDetectorInput>()
-                        {
-                            new TDiffuseDetectorInput(),
-                            new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                            new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                            new TOfRhoAndAngleDetectorInput(
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, Math.PI / 2, 2))
-                        },
-                        false, // write to database
-                        VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    ),
-                    new GenericVolumeVirtualBoundaryInput(
-                        VirtualBoundaryType.GenericVolumeBoundary,
-                        new List<IDetectorInput>()
-                        {
-                            new ATotalDetectorInput(),
-                            new AOfRhoAndZDetectorInput(                            
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 10, 101)),
-                            new FluenceOfRhoAndZDetectorInput(                            
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 10, 101)),
-                            new RadianceOfRhoAndZAndAngleDetectorInput(
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0, Math.PI, 5))
-                        },
-                        false,
-                        VirtualBoundaryType.GenericVolumeBoundary.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.SpecularReflectance,
-                        new List<IDetectorInput>
-                        {
-                            new RSpecularDetectorInput(), 
-                        },
-                        false,
-                        VirtualBoundaryType.SpecularReflectance.ToString()
-                    ),
-                });
-            tempInput.ToFile("newinfile.xml");
+            var infiles = SimulationInputProvider.GenerateAllSimulationInputs();
+            for (int i = 0; i < infiles.Count; i++)
+            {
+                infiles[i].ToFile("newinfile_" + i + ".xml"); 
+            }
         }
 
         //private static SimulationInput LoadDefaultInputFile()
@@ -317,7 +217,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             Console.WriteLine("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
             Console.WriteLine("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
             Console.WriteLine();
-            Console.WriteLine("geninfile\t\tgenerates a new infile and names it newinfile.xml");
+            Console.WriteLine("geninfiles\t\tgenerates example infiles and names them newinfile_#.xml");
             Console.WriteLine();
             Console.WriteLine("list of sweep parameters (paramsweep):");
             Console.WriteLine();

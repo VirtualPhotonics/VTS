@@ -578,6 +578,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInput.cs">
       <Link>MonteCarlo\DataStructures\SimulationInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInputProvider.cs">
+      <Link>MonteCarlo\DataStructures\SimulationInputProvider.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs">
       <Link>MonteCarlo\DataStructures\SimulationOptions.cs</Link>
     </Compile>
@@ -1030,9 +1033,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerTissue.cs">
       <Link>MonteCarlo\Tissues\MultiLayerTissue.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerTissueProvider.cs">
-      <Link>MonteCarlo\Tissues\MultiLayerTissueProvider.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SingleInclusionTissue.cs">
       <Link>MonteCarlo\Tissues\SingleInclusionTissue.cs</Link>

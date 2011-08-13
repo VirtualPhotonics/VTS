@@ -192,6 +192,7 @@
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoAndZAndAngleDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationStatistics.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\CustomLineSourceInput.cs" />
@@ -441,7 +442,6 @@
     <Compile Include="MonteCarlo\Tissues\LayerRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\MultiLayerTissue.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInput.cs" />
-    <Compile Include="MonteCarlo\Tissues\MultiLayerTissueProvider.cs" />
     <Compile Include="MonteCarlo\Tissues\SingleInclusionTissue.cs" />
     <Compile Include="MonteCarlo\Tissues\TissueBase.cs" />
     <Compile Include="MonteCarlo\Tissues\VoxelRegion.cs" />

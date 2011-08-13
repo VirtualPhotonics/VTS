@@ -24,14 +24,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// </summary>
         public DiffuseTransmittanceVirtualBoundary(ITissue tissue, ISurfaceDetectorController detectorController, string name)
         {
-             if (tissue is SingleInclusionTissue) // ckh addition 8/10/11
-             {
-                 _zPlanePosition = ((LayerRegion)tissue.Regions[tissue.Regions.Count - 2]).ZRange.Start;           
-             }
-             else
-             {
-                 _zPlanePosition = ((LayerRegion)tissue.Regions[tissue.Regions.Count - 1]).ZRange.Start;
-             }
+            _zPlanePosition = ((LayerRegion)tissue.Regions.Where(r => r is LayerRegion).Last()).ZRange.Start;
 
             WillHitBoundary = dp =>
                         dp.StateFlag.HasFlag(PhotonStateType.PseudoTransmittedTissueBoundary) &&
