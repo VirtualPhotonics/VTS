@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-
+using Vts.Common.Logging;
+using Vts.SiteVisit.Input;
 using Vts.SiteVisit.View;
 
 namespace Vts.SiteVisit
@@ -12,7 +13,7 @@ namespace Vts.SiteVisit
     /// </summary>
     public partial class App : Application
     {
-
+        private static ILogger logger;
         public App()
         {
             this.Startup += this.Application_Startup;
@@ -25,12 +26,26 @@ namespace Vts.SiteVisit
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             this.RootVisual = new SolverDemoView();
+
+            logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(App));
+
+            // todo: NLog-specific wiring...not ILogger-agnostic
+            var observableTarget = NLog.LogManager.Configuration.AllTargets.FirstOrDefault(target => target is ObservableTarget);
+            if (observableTarget != null)
+            {
+                ((ObservableTarget)observableTarget)
+                    .ObserveOnDispatcher()
+                    .Subscribe(message => Commands.TextOutput_PostMessage.Execute(message));
+            }
+
+            logger.Info(() => "Silverlight app initialized.");
         }
 
         private void Application_Exit(object sender, EventArgs e)
         {
 
         }
+
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
             // If the app is running outside of the debugger then report the exception using

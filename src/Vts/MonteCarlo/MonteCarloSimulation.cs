@@ -296,26 +296,26 @@ namespace Vts.MonteCarlo
         /********************************************************/
         void DisplayIntro()
         {
-            var header = _input.OutputName + "(" + SimulationIndex + ")";
-            string intro = "\n" +
-                header + ":                                                  \n" +
-                header + ":      Monte Carlo Simulation of Light Propagation \n" +
-                header + ":              in a multi-region tissue            \n" +
-                header + ":                                                  \n" +
-                header + ":         written by the Virtual Photonics Team    \n" +
-                header + ":              Beckman Laser Institute             \n" +
-                header + ":";
+            var header = SimulationIndex + ": ";
+            string intro =
+                header + "                                                  \n" +
+                header + "      Monte Carlo Simulation of Light Propagation \n" +
+                header + "              in a multi-region tissue            \n" +
+                header + "                                                  \n" +
+                header + "         written by the Virtual Photonics Team    \n" +
+                header + "              Beckman Laser Institute             \n" +
+                header + "                                                  \n";
             logger.Info(() => intro);
         }
 
         /*****************************************************************/
         void DisplayStatus(long n, long num_phot)
         {
-            var header = _input.OutputName + "(" + SimulationIndex + ")";
+            var header = SimulationIndex + ": ";
             /* fraction of photons completed */
             double frac = 100 * n / num_phot;
 
-            logger.Info(() => header + ": " + frac + " percent complete, " + DateTime.Now);
+            logger.Info(() => header + frac + " percent complete," +  "\n");
         }
     }
 }

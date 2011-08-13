@@ -166,6 +166,7 @@
     <Compile Include="Common\Logging\LoggerLevel.cs" />
     <Compile Include="Common\Logging\NLogFactory.cs" />
     <Compile Include="Common\Logging\NLogLogger.cs" />
+    <Compile Include="Common\Logging\ObservableTarget.cs" />
     <Compile Include="Common\Math\Convolution2D.cs" />
     <Compile Include="Common\Math\Integration.cs" />
     <Compile Include="Common\Math\Interpolation.cs" />

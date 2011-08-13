@@ -29,16 +29,17 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <summary>
         ///   Initializes a new instance of the <see cref = "NLogFactory" /> class.
         /// </summary>
-        //public NLogFactory()
-        //    : this("nlog.config")
-        //{
-        //}
-
         public NLogFactory()
         {
             var config = new LoggingConfiguration();
+            var observableTarget = new ObservableTarget();
 
-            config.AddTarget("console", new ConsoleTarget());
+            config.AddTarget("observable", observableTarget);
+            
+            observableTarget.Layout = "${date:format=HH\\:MM\\:ss} | ${message}";
+
+            LoggingRule rule1 = new LoggingRule("*", LogLevel.Info, observableTarget);
+            config.LoggingRules.Add(rule1);
 
             LogManager.Configuration = config;
         }

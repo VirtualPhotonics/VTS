@@ -115,7 +115,7 @@
                     VerticalAlignment="Top"
 					Grid.Column="0"
                     Grid.Row="3" 
-                    Grid.ColumnSpan="3" Margin="5,0,0,0" />
+                    Grid.ColumnSpan="3" Margin="3" />
             </Grid>
         </ScrollViewer>
     </Grid>

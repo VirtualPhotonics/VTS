@@ -5,16 +5,16 @@ using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using GalaSoft.MvvmLight.Command;
-using Ionic.Zip;
 using SLExtensions.Input;
 using Vts.Common;
+using Vts.Common.Logging;
 using Vts.Extensions;
 using Vts.IO;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Tissues;
 using Vts.SiteVisit.Input;
@@ -29,6 +29,8 @@ namespace Vts.SiteVisit.ViewModel
     /// </summary>
     public class MonteCarloSolverViewModel : BindableObject
     {
+        private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSolverViewModel));
+
         //private SimulationInput _simulationInput;
         private MonteCarloSimulation _simulation;
 
@@ -39,6 +41,8 @@ namespace Vts.SiteVisit.ViewModel
         private RangeViewModel _independentVariableRangeVM;
 
         private SolutionDomainOptionViewModel _solutionDomainTypeOptionVM;
+
+        private bool _firstTimeSaving = true;
 
         public MonteCarloSolverViewModel()
         {
@@ -176,8 +180,6 @@ namespace Vts.SiteVisit.ViewModel
 
         private void MC_ExecuteMonteCarloSolver_Executed(object sender, ExecutedEventArgs e)
         {
-            //IEnumerable<double> independentValues = IndependentVariableRangeVM.Values.ToList();
-
             var input = _simulationInputVM.SimulationInput;
 
             ROfRhoDetectorInput rOfRho = (ROfRhoDetectorInput)(input.VirtualBoundaryInputs.Where(
@@ -188,19 +190,39 @@ namespace Vts.SiteVisit.ViewModel
 
             _simulation = new MonteCarloSimulation(input);
 
-            _output = _simulation.Run();
+            //_output = _simulation.Run();
 
-            IEnumerable<Point> points = EnumerableEx.Zip(independentValues, _output.R_r, (x, y) => new Point(x, y));
+            var t = Task.Factory.StartNew(() => _simulation.Run());
 
-            //IEnumerable<Point> points = ExecuteMonteCarloSolver();
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
+            TaskScheduler scheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            PlotAxesLabels axesLabels = GetPlotLabels();
-            Commands.Plot_SetAxesLabels.Execute(axesLabels);
+            var c = t.ContinueWith((antecedent) =>
+                {
+                    SolverDemoView.Current.Dispatcher.BeginInvoke(delegate()
+                    {
 
-            string plotLabel = GetPlotLabel();
-            Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
+                        _output = antecedent.Result;
+                        IEnumerable<Point> points = EnumerableEx.Zip(
+                            independentValues,
+                            _output.R_r,
+                            (x, y) => new Point(x, y));
 
-            Commands.TextOutput_PostMessage.Execute("Monte Carlo Solver executed.\r");
+                        //IEnumerable<Point> points = ExecuteMonteCarloSolver();
+
+                        PlotAxesLabels axesLabels = GetPlotLabels();
+                        Commands.Plot_SetAxesLabels.Execute(axesLabels);
+
+                        string plotLabel = GetPlotLabel();
+                        Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
+
+                        logger.Info(() => "Monte Carlo Solver executed.\r");
+                    });
+                },
+                token,
+                TaskContinuationOptions.OnlyOnRanToCompletion,
+                scheduler);
         }
 
         private void MC_LoadSimulationInput_Executed(object sender, ExecutedEventArgs e)
@@ -215,11 +237,11 @@ namespace Vts.SiteVisit.ViewModel
                     if (validationResult.IsValid)
                     {
                         _simulationInputVM.SimulationInput = simulationInput;
-                        Commands.TextOutput_PostMessage.Execute("Simulation input loaded.\r");
+                        logger.Info(() => "Simulation input loaded.\r");
                     }
                     else
                     {
-                        Commands.TextOutput_PostMessage.Execute("Simulation input not loaded - XML format not valid.\r");
+                        logger.Info(() => "Simulation input not loaded - XML format not valid.\r");
                     }
                 }
             }
@@ -237,7 +259,7 @@ namespace Vts.SiteVisit.ViewModel
 
                     FileIO.WriteToStream(simulationInput, stream);
 
-                    Commands.TextOutput_PostMessage.Execute("Simulation input exported to file.\r");
+                    logger.Info(() => "Simulation input exported to file.\r");
                 }
             }
         }
@@ -252,6 +274,13 @@ namespace Vts.SiteVisit.ViewModel
                 input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
 
                 var store = IsolatedStorageFile.GetUserStoreForApplication();
+                
+                if (_firstTimeSaving)
+                {
+                    Commands.IsoStorage_IncreaseSpaceQuery.Execute();
+                    _firstTimeSaving = false;
+                    return;
+                }
 
                 foreach (var result in _output.ResultsDictionary.Values)
                 {
@@ -269,7 +298,7 @@ namespace Vts.SiteVisit.ViewModel
                         if (stream != null)
                         {
                             FileIO.ZipFiles(fileNames, resultsFolder, stream);
-                            Commands.TextOutput_PostMessage.Execute("Simulation results exported to file.\r");
+                            logger.Info(() => "Simulation results exported to file.\r");
                         }
                     }
                 }
@@ -297,10 +326,22 @@ namespace Vts.SiteVisit.ViewModel
 
         private string GetPlotLabel()
         {
-            return "Model - MC";// + 
-            //"\rμa=" + OpticalPropertyVM.Mua + 
-            //"\rμs'=" + OpticalPropertyVM.Musp + 
-            //"\rg=" + OpticalPropertyVM.G;
+            string nString = "N: " + _simulationInputVM.SimulationInput.N;
+            string awtString = "AWT: ";
+            switch (_simulationInputVM.SimulationInput.Options.AbsorptionWeightingType)
+            {
+                case AbsorptionWeightingType.Analog:
+                    awtString += "analog";
+                    break;
+                case AbsorptionWeightingType.Discrete:
+                    awtString += "discrete";
+                    break;
+                case AbsorptionWeightingType.Continuous:
+                    awtString += "continuous";
+                    break;
+            }
+
+            return "Model - MC\r" + nString + "\r" + awtString + "";
         }
     }
 }

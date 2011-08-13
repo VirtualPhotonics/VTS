@@ -40,6 +40,8 @@ namespace Vts.SiteVisit.Input
             Maps_ExportDataToText = new Command("Maps_ExportDataToText");
 
             TextOutput_PostMessage = new Command("TextOutput_PostMessage");
+
+            IsoStorage_IncreaseSpaceQuery = new Command("IsoStorage_IncreaseSpaceQuery");
         }
 
         //public static Command Modeling_SetGaussianBeamSize { get; private set; }
@@ -84,5 +86,8 @@ namespace Vts.SiteVisit.Input
 
         // Text output commands
         public static Command TextOutput_PostMessage { get; private set; }
+
+        // Isolated storage commands
+        public static Command IsoStorage_IncreaseSpaceQuery { get; private set; }
     }
 }
