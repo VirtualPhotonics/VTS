@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo
         /// <returns>ValidationResult</returns>
         public static ValidationResult ValidateInput(ITissueInput input)
         {
-            var layers = (List<LayerRegion>)((SingleEllipsoidTissueInput)input).LayerRegions;
+            var layers = ((SingleEllipsoidTissueInput)input).LayerRegions.Select(region => (LayerRegion)region).ToArray();
             var ellipsoid = (EllipsoidRegion)((SingleEllipsoidTissueInput)input).EllipsoidRegion;
             ValidationResult tempResult;
             tempResult = ValidateGeometry(layers, ellipsoid);
@@ -44,35 +44,52 @@ namespace Vts.MonteCarlo
         /// <param name="layers">list of LayerRegion</param>
         /// <param name="ellipsoid">EllipsoidRegion</param>
         /// <returns>ValidationResult</returns>
-        private static ValidationResult ValidateGeometry(List<LayerRegion> layers, EllipsoidRegion ellipsoid)
+        private static ValidationResult ValidateGeometry(IList<LayerRegion> layers, EllipsoidRegion ellipsoid)
         {            
             // check that layer definition is valid
-            var tempResult = MultiLayerTissueInputValidation.ValidateInput((ITissueInput)layers);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
-            // check that there is only one layer of tissue
-            if (layers.Count > 3)
-            {
-                tempResult = new ValidationResult(
-                    false,
-                    "SingleEllipsoidTissueInput: tissue layer is assumed to be single layer with air layer above and below",
-                    "SingleEllipsoidTissueInput: redefine tissue definition to be single layer of tissue");
-            }
-            // check that ellipsoid contained within tissue layer
-            LayerRegion tissueLayer = (LayerRegion)layers[1];
-            if (2 * ellipsoid.Dz > tissueLayer.ZRange.Delta)
+            var tempResult = MultiLayerTissueInputValidation.ValidateLayers(layers);
+
+            if (!tempResult.IsValid){ return tempResult; }
+            
+            // todo: don't like the assumption of air layers in general w/o it being a special case or test for air
+            // what happens if it's a homogeneous medium with an inclusion? -DC
+            Func<ITissueRegion, bool> isAir = region => region.RegionOP.Mua == 0D && region.RegionOP.Mus <= 1E-10; 
+            var tissueLayers = layers.Where(layer => !isAir(layer));
+
+            // check that there is at least one layer of tissue 
+            if (!tissueLayers.Any())
             {
                 tempResult = new ValidationResult(
                     false,
-                    "SingleEllipsoidTissueInput: ellipsoid must be entirely contained within tissue layer",
+                    "SingleEllipsoidTissueInput: tissue layer is assumed to be at least a single layer with air layer above and below",
+                    "SingleEllipsoidTissueInput: redefine tissue definition to contain at least a single layer of tissue");
+            }
+
+            if (!tempResult.IsValid) { return tempResult; }
+
+            // check that ellipsoid contained within a tissue layer
+            bool correctlyContainedInLayer = tissueLayers.Any(
+                layer =>
+                    layer.ContainsPosition(ellipsoid.Center) &&
+                    ellipsoid.Center.Z + ellipsoid.Dz <= layer.ZRange.Stop &&
+                    ellipsoid.Center.Z - ellipsoid.Dz >= layer.ZRange.Start
+                );
+
+            if (!correctlyContainedInLayer)
+            {
+                tempResult = new ValidationResult(
+                    false,
+                    "SingleEllipsoidTissueInput: ellipsoid must be entirely contained within a tissue layer",
                     "Resize Dz of Ellipsoid dimension so that 2*Dz<layer[1] depth");
             }
+
+            if (!tempResult.IsValid) { return tempResult; }
+
             return new ValidationResult(
                 true,
                 "SingleEllipsoidTissueInput: geometry and refractive index settings validated");
         }
+
         /// <summary>
         /// Method to verify refractive index of tissue layer and ellipsoid match.
         /// Code does not yet include reflecting/refracting off ellipsoid surface.
@@ -81,7 +98,7 @@ namespace Vts.MonteCarlo
         /// <param name="ellipsiod"EllipsoidRegion></param>
         /// <returns>ValidationResult</returns>
         private static ValidationResult ValidateRefractiveIndexMatch(
-            List<LayerRegion> layers, EllipsoidRegion ellipsiod)
+            IList<LayerRegion> layers, EllipsoidRegion ellipsiod)
         {
             if (layers[1].RegionOP.N != ellipsiod.RegionOP.N)
             {

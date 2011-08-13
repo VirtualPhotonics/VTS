@@ -103,15 +103,23 @@
     </Content>
     <Content Include="..\..\files\SimulationInputFiles\infile.xml">
       <Link>infile.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\files\SimulationInputFiles\infile_database.xml">
       <Link>infile_database.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\files\SimulationInputFiles\infile_ellip.xml">
+      <Link>infile_ellip.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\files\SimulationInputFiles\infile_pMC_database.xml">
       <Link>infile_pMC_database.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\files\SimulationInputFiles\infile_ROfRho.xml">
       <Link>infile_ROfRho.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\license.txt">
       <Link>license.txt</Link>

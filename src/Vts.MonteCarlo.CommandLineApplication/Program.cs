@@ -160,7 +160,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 var validationResult = MonteCarloSetup.ValidateSimulationInput(input);
                 if (!validationResult.IsValid)
                 {
-                    Console.Write("\nSimulation(s) completed with errors. Press enter key to exit.");
+                    Console.Write("\nSimulation(s) contained one or more errors. Details:");
+                    Console.Write("\nValidation rule:" + validationResult.ValidationRule);
+                    Console.Write("\nRemarks:" + validationResult.Remarks);
+                    Console.Write("\nPress enter key to exit.");
                     Console.Read();
                     return;
                 }
