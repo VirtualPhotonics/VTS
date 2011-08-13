@@ -188,17 +188,15 @@ namespace Vts.MonteCarlo.Extensions
                         case SourceType.CustomLine:
                         case SourceType.DirectionalCircular:
                         case SourceType.CustomCircular:
-                        case SourceType.LambertianSurfaceEmittingCubiodal:
-                        case SourceType.CustomSurfaceEmittingCuboidal:
-                        case SourceType.LambertianCylindricalFiber:
                         case SourceType.DirectionalElliptical:
                         case SourceType.CustomElliptical:
                         case SourceType.DirectionalRectangular:
                         case SourceType.CustomRectangular:
                         case SourceType.LambertianSurfaceEmittingSpherical:
                         case SourceType.CustomSurfaceEmittingSpherical:
+                        case SourceType.LambertianSurfaceEmittingCubiodal:
                         case SourceType.LambertianSurfaceEmittingTubular:
-                        case SourceType.DiffusingFiber:
+                        case SourceType.LambertianSurfaceEmittingCylindricalFiber:
                         case SourceType.IsotropicVolumetricCuboidal:
                         case SourceType.CustomVolumetricCubiodal:
                         case SourceType.IsotropicVolumetricEllipsoidal:
