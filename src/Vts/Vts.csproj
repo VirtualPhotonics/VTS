@@ -106,6 +106,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\mpfit\build\Silverlight\MPFitLib.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\lib\NLog\SL4\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System.CoreEx">
       <HintPath>..\..\lib\RxFramework\SL4\System.CoreEx.dll</HintPath>
     </Reference>
@@ -156,6 +159,13 @@
     <Compile Include="Common\Interfaces\INotifyPropertyChangedPlus.cs" />
     <Compile Include="Common\Interfaces\IOldForwardSolver.cs" />
     <Compile Include="Common\Interfaces\IOptimizer.cs" />
+    <Compile Include="Common\Logging\AbstractLoggerFactory.cs" />
+    <Compile Include="Common\Logging\ILogger.cs" />
+    <Compile Include="Common\Logging\ILoggerFactory.cs" />
+    <Compile Include="Common\Logging\LoggerFactoryLocator.cs" />
+    <Compile Include="Common\Logging\LoggerLevel.cs" />
+    <Compile Include="Common\Logging\NLogFactory.cs" />
+    <Compile Include="Common\Logging\NLogLogger.cs" />
     <Compile Include="Common\Math\Convolution2D.cs" />
     <Compile Include="Common\Math\Integration.cs" />
     <Compile Include="Common\Math\Interpolation.cs" />

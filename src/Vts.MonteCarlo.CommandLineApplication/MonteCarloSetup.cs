@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Vts.Common;
+using Vts.Common.Logging;
 using Vts.Extensions;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Extensions;
@@ -13,6 +14,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
 {
     public class MonteCarloSetup
     {
+        private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSetup));
+
         /// <summary>
         /// method to read the simulation input from a specified or default file
         /// </summary>
@@ -22,7 +25,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                    Console.WriteLine("\nNo input file specified. Using infile.xml from root mc.exe folder... ");
+                    logger.Warn(() => "\nNo input file specified. Using infile.xml from root mc.exe folder... ");
                     return ReadSimulationInputFromFile("infile.xml");
                 }
 
@@ -53,18 +56,22 @@ namespace Vts.MonteCarlo.CommandLineApplication
         {
             if (parameterSweepString.Length != 4)
             {
-                Console.WriteLine("*** Invalid input parameter ***");
-                Console.WriteLine("\tinput parameters should have 4 values in the format:");
+                string message = 
+                    "*** Invalid input parameter ***" +
+                    "\n\tinput parameters should have 4 values in the format:";
+
                 if (useDelta)
                 {
-                    Console.WriteLine("\tinputparamdelta=<ParameterSweepType>,Start,Stop,Delta");
+                    message += "\n\tinputparamdelta=<ParameterSweepType>,Start,Stop,Delta";
                 }
                 else
                 {
-                    Console.WriteLine("\tinputparam=<ParameterSweepType>,Start,Stop,Count");
+                     message += "\tinputparam=<ParameterSweepType>,Start,Stop,Count";
                 }
-                Console.WriteLine("\tIgnoring this input parameter");
-                Console.WriteLine();
+
+                message += "\n\tIgnoring this input parameter\n";
+
+                logger.Warn(() => message);
                 return null;
             }
 
@@ -97,7 +104,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             }
             catch
             {
-                Console.WriteLine("Could not parse the input arguments.\n\tIgnoring the following input parameter sweep: " + parameterSweepString);
+                logger.Error(() => "Could not parse the input arguments.\n\tIgnoring the following input parameter sweep: " + parameterSweepString);
                 return null;
             }
         }

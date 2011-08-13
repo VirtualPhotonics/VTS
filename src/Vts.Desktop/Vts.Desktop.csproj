@@ -97,6 +97,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\mpfit\build\Desktop\MPFitLib.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\lib\NLog\NET40\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -214,6 +217,27 @@
     </Compile>
     <Compile Include="..\Vts\Common\Interfaces\IOptimizer.cs">
       <Link>Common\Interfaces\IOptimizer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Logging\AbstractLoggerFactory.cs">
+      <Link>Common\Logging\AbstractLoggerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Logging\ILogger.cs">
+      <Link>Common\Logging\ILogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Logging\ILoggerFactory.cs">
+      <Link>Common\Logging\ILoggerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Logging\LoggerFactoryLocator.cs">
+      <Link>Common\Logging\LoggerFactoryLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Logging\LoggerLevel.cs">
+      <Link>Common\Logging\LoggerLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Logging\NLogFactory.cs">
+      <Link>Common\Logging\NLogFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Logging\NLogLogger.cs">
+      <Link>Common\Logging\NLogLogger.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Common\Math\Convolution2D.cs">
       <Link>Common\Math\Convolution2D.cs</Link>
@@ -1151,6 +1175,9 @@
     <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\Fat.csv">
       <Link>Modeling\Spectroscopy\Resources\Fat.csv</Link>
     </EmbeddedResource>
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Vts.snk" />
   </ItemGroup>
   <ItemGroup>

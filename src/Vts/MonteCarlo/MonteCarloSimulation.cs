@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using Vts.Common.Logging;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Controllers;
@@ -14,6 +15,7 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class MonteCarloSimulation
     {
+        private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
         private ISource _source;
         private ITissue _tissue;
         private VirtualBoundaryController _virtualBoundaryController;
@@ -303,7 +305,7 @@ namespace Vts.MonteCarlo
                 header + ":         written by the Virtual Photonics Team    \n" +
                 header + ":              Beckman Laser Institute             \n" +
                 header + ":";
-            Console.WriteLine(intro);
+            logger.Info(() => intro);
         }
 
         /*****************************************************************/
@@ -312,7 +314,8 @@ namespace Vts.MonteCarlo
             var header = _input.OutputName + "(" + SimulationIndex + ")";
             /* fraction of photons completed */
             double frac = 100 * n / num_phot;
-            Console.WriteLine(header + ": " + frac + " percent complete, " + DateTime.Now);
+
+            logger.Info(() => header + ": " + frac + " percent complete, " + DateTime.Now);
         }
     }
 }
