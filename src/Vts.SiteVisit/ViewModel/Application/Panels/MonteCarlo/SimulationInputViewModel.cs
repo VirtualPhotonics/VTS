@@ -51,7 +51,18 @@ namespace Vts.SiteVisit.ViewModel
             : this(new SimulationInput())
         {
         }
-        
+
+        public long N
+        {
+            get { return _simulationInput.N; }
+            set
+            {
+                _simulationInput.N = value;
+                OnPropertyChanged("N");
+            }
+        }
+
+
         public SimulationOptionsViewModel SimulationOptionsVM
         {
             get { return _simulationOptionsVM; }

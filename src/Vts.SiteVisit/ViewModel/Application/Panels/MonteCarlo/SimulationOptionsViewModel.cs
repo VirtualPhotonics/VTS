@@ -21,9 +21,9 @@ namespace Vts.SiteVisit.ViewModel
             _randomNumberGeneratorTypeVM = new OptionViewModel<RandomNumberGeneratorType>("Random Number Generator Type:", true, WhiteList.RandomNumberGeneratorTypes);
             _phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", true, WhiteList.PhaseFunctionTypes);
 #else
-            _absorptionWeightingTypeVM = new OptionViewModel<AbsorptionWeightingType>("Absorption Weighting Type:", true);
-            _randomNumberGeneratorTypeVM = new OptionViewModel<RandomNumberGeneratorType>("Random Number Generator:", true);
-            _phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", true);
+            _absorptionWeightingTypeVM = new OptionViewModel<AbsorptionWeightingType>("Absorption Weighting Type:", false);
+            _randomNumberGeneratorTypeVM = new OptionViewModel<RandomNumberGeneratorType>("Random Number Generator:", false);
+            _phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", false);
 #endif
             _absorptionWeightingTypeVM.PropertyChanged += (sender, args) =>
                 _simulationOptions.AbsorptionWeightingType = _absorptionWeightingTypeVM.SelectedValue;

@@ -25,34 +25,56 @@
                         Width="180" Height="30" Margin="5"/>
                 </StackPanel>
             </controls:TabItem>
-            <controls:TabItem Header="Simulation Input Visualization">
-                <StackPanel Orientation="Vertical">
-                    <v:ListBox ItemsSource="{Binding SimulationInputVM.TissueInputVM.LayerRegionsVM}" Height="210" Margin="5">
-                        <v:ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="Gray" BorderThickness="1.5">
-                                    <StackPanel Orientation="Vertical">
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                <TextBlock Text="Layer Height" />
-                                                <TextBlock Text="Start/Stop:" />
+            <controls:TabItem Header="Simulation Input Visualization" DataContext="{Binding SimulationInputVM}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Number of Photons:"/>
+                        <TextBox Text="{Binding N, Mode=TwoWay}" Width="100"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Simulation Options"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Absorption Weighting Type: "/>
+                            <v:RadioButtonOptionView DataContext="{Binding SimulationOptionsVM.AbsorptionWeightingTypeVM, Mode=TwoWay}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                            <TextBlock Text="Random NumberGenerator Type: "/>
+                            <v:RadioButtonOptionView DataContext="{Binding SimulationOptionsVM.RandomNumberGeneratorTypeVM, Mode=TwoWay}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Phase Function Type: "/>
+                            <v:RadioButtonOptionView DataContext="{Binding SimulationOptionsVM.PhaseFunctionTypeVM, Mode=TwoWay}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Tissue Input"/>
+                        <v:ListBox ItemsSource="{Binding TissueInputVM.LayerRegionsVM, Mode=TwoWay}" Height="210" Margin="5">
+                            <v:ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Gray" BorderThickness="1.5">
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <TextBlock Text="Layer Height" />
+                                                    <TextBlock Text="Start/Stop:" />
+                                                </StackPanel>
+                                                <v:RangeView DataContext="{Binding ZRangeVM}" Margin="3"/>
                                             </StackPanel>
-                                            <v:RangeView DataContext="{Binding ZRangeVM}" Margin="3"/>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                <TextBlock Text="Layer " />
-                                                <TextBlock Text="Optical" />
-                                                <TextBlock Text="Properties:" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <TextBlock Text="Layer " />
+                                                    <TextBlock Text="Optical" />
+                                                    <TextBlock Text="Properties:" />
+                                                </StackPanel>
+                                                <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" Margin="3"/>
                                             </StackPanel>
-                                            <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" Margin="3"/>
                                         </StackPanel>
-                                    </StackPanel>
 
-                                </Border>
-                            </DataTemplate>
-                        </v:ListBox.ItemTemplate>
-                    </v:ListBox>
+                                    </Border>
+                                </DataTemplate>
+                            </v:ListBox.ItemTemplate>
+                        </v:ListBox>
+                    </StackPanel>
                 </StackPanel>
                 
             </controls:TabItem>
