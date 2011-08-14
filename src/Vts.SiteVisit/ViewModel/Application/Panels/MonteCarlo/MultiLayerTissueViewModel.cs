@@ -5,19 +5,19 @@ using System.Linq;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 
-namespace Vts.SiteVisit.ViewModel.Application.Panels
+namespace Vts.SiteVisit.ViewModel
 {
     public class MultiLayerTissueViewModel : BindableObject
     {
         private MultiLayerTissueInput _input;
 
-        private ObservableCollection<LayerRegionViewModel> _regions;
+        private ObservableCollection<LayerRegionViewModel> _layerRegionsVM;
 
         public MultiLayerTissueViewModel(MultiLayerTissueInput input)
         {
             _input = input;
 
-            _regions = new ObservableCollection<LayerRegionViewModel>(
+            _layerRegionsVM = new ObservableCollection<LayerRegionViewModel>(
                 _input.Regions.Select(r => new LayerRegionViewModel((LayerRegion) r)));
         }
 
@@ -26,13 +26,13 @@ namespace Vts.SiteVisit.ViewModel.Application.Panels
         {
         }
 
-        public ObservableCollection<LayerRegionViewModel> Regions
+        public ObservableCollection<LayerRegionViewModel> LayerRegionsVM
         {
-            get { return _regions; }
+            get { return _layerRegionsVM; }
             set
             {
-                _regions = value;
-                OnPropertyChanged("Regions");
+                _layerRegionsVM = value;
+                OnPropertyChanged("LayerRegionsVM");
             }
         }
 

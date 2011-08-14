@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo.Tissues;
 
-namespace Vts.SiteVisit.ViewModel.Application.Panels
+namespace Vts.SiteVisit.ViewModel
 {
     public class LayerRegionViewModel : BindableObject
     {
@@ -11,15 +11,15 @@ namespace Vts.SiteVisit.ViewModel.Application.Panels
         private RangeViewModel _zRangeVM;
         private OpticalPropertyViewModel _opticalPropertyVM;
 
-        public LayerRegionViewModel() : this(new LayerRegion())
-        {
-        }
-
         public LayerRegionViewModel(LayerRegion region)
         {
             _region = region;
             _zRangeVM = new RangeViewModel(_region.ZRange, "mm", "");
             _opticalPropertyVM = new OpticalPropertyViewModel(_region.RegionOP, "mm-1", "");
+        }
+
+        public LayerRegionViewModel() : this(new LayerRegion())
+        {
         }
 
         public RangeViewModel ZRangeVM

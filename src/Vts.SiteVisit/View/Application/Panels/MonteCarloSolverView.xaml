@@ -25,9 +25,9 @@
                         Width="180" Height="30" Margin="5"/>
                 </StackPanel>
             </controls:TabItem>
-            <controls:TabItem Header="Multi-layer Tissue Properties Visualization">
+            <controls:TabItem Header="Simulation Input Visualization">
                 <StackPanel Orientation="Vertical">
-                    <v:ListBox ItemsSource="{Binding SimulationInputVM.TissueInputVM.Regions}" Height="210" Margin="5">
+                    <v:ListBox ItemsSource="{Binding SimulationInputVM.TissueInputVM.LayerRegionsVM}" Height="210" Margin="5">
                         <v:ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderBrush="Gray" BorderThickness="1.5">
@@ -60,11 +60,14 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Button VerticalAlignment="Bottom" Command="{Binding ExecuteMonteCarloSolverCommand}"
-                Background="{Binding StackPanel.Background}" Content="Run Monte Carlo Simulation"  
-                Width="180" Height="30" Margin="5"/>
+                Background="{Binding StackPanel.Background}" Content="Run Simulation"  
+                Width="120" Height="30" Margin="5"/>
+            <Button VerticalAlignment="Bottom" Command="{Binding CancelMonteCarloSolverCommand}" IsEnabled="False"
+                Background="{Binding StackPanel.Background}" Content="Cancel Simulation"  
+                Width="120" Height="30" Margin="5"/>
             <Button VerticalAlignment="Bottom" Command="{Binding SaveSimulationResultsCommand}"
                     Background="{Binding StackPanel.Background}" Content="Save Simulation Results"  
-                    Width="180" Height="30"  Margin="5"/>
+                    Width="160" Height="30"  Margin="5"/>
         </StackPanel>
 
     </StackPanel>

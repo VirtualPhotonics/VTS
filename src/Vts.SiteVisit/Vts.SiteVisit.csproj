@@ -176,17 +176,21 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="ViewModel\Application\Panels\MultiLayerTissueViewModel.cs" />
-    <Compile Include="ViewModel\Application\Panels\LayerRegionViewModel.cs" />
-    <Compile Include="ViewModel\Application\Panels\SimulationInputViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\MonteCarlo\SingleEllipsoidTissueViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\MonteCarlo\EllipsoidRegionViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\MonteCarlo\SimulationOptionsViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\MonteCarlo\MultiLayerTissueViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\MonteCarlo\LayerRegionViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\MonteCarlo\SimulationInputViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\BloodConcentrationViewModel.cs" />
     <Compile Include="Converters\DoubleToStringConverter.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\FluenceSolutionDomainOptionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\FluenceSolverViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MapViewModel.cs" />
-    <Compile Include="ViewModel\Application\Panels\MonteCarloSolverViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\MonteCarlo\MonteCarloSolverViewModel.cs" />
     <Compile Include="Model\PlotData.cs" />
     <Compile Include="ViewModel\Application\WhiteList.cs" />
+    <Compile Include="ViewModel\Controls\PositionViewModel.cs" />
     <Compile Include="ViewModel\Helpers\PlotAxesLabels.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\SolutionDomainOptionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SpectralMappingViewModel.cs" />
@@ -195,6 +199,9 @@
     </Compile>
     <Compile Include="View\Application\Panels\SubPanels\BloodConcentrationView.xaml.cs">
       <DependentUpon>BloodConcentrationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\PositionView.xaml.cs">
+      <DependentUpon>PositionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Helpers\Colormap.cs" />
     <Compile Include="View\Controls\ComboBox.cs" />
@@ -344,6 +351,10 @@
     <Page Include="View\Application\Panels\MapView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Controls\PositionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

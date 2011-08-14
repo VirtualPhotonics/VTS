@@ -20,7 +20,6 @@ using Vts.MonteCarlo.Tissues;
 using Vts.SiteVisit.Input;
 using Vts.SiteVisit.Model;
 using Vts.SiteVisit.View;
-using Vts.SiteVisit.ViewModel.Application.Panels;
 
 namespace Vts.SiteVisit.ViewModel
 {
@@ -44,6 +43,8 @@ namespace Vts.SiteVisit.ViewModel
 
         private bool _firstTimeSaving = true;
 
+        private CancellationTokenSource _currentCancellationTokenSource;
+
         public MonteCarloSolverViewModel()
         {
             var simulationInput = GetDefaultSimulationInput();
@@ -63,12 +64,14 @@ namespace Vts.SiteVisit.ViewModel
             Commands.FS_SetIndependentVariableRange.Executed += SetIndependentVariableRange_Executed;
 
             ExecuteMonteCarloSolverCommand = new RelayCommand(() => MC_ExecuteMonteCarloSolver_Executed(null, null));
+            CancelMonteCarloSolverCommand = new RelayCommand(() => MC_CancelMonteCarloSolver_Executed(null, null));
             LoadSimulationInputCommand = new RelayCommand(() => MC_LoadSimulationInput_Executed(null, null));
             DownloadDefaultSimulationInputCommand = new RelayCommand(() => MC_DownloadDefaultSimulationInput_Executed(null, null));
             SaveSimulationResultsCommand = new RelayCommand(() => MC_SaveSimulationResults_Executed(null, null));
         }
 
         public RelayCommand ExecuteMonteCarloSolverCommand { get; private set; }
+        public RelayCommand CancelMonteCarloSolverCommand { get; private set; }
         public RelayCommand LoadSimulationInputCommand { get; private set; }
         public RelayCommand DownloadDefaultSimulationInputCommand { get; private set; }
         public RelayCommand SaveSimulationResultsCommand { get; private set; }
@@ -178,6 +181,7 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
+        //private Thread _currentBackgroundThread;
         private void MC_ExecuteMonteCarloSolver_Executed(object sender, ExecutedEventArgs e)
         {
             var input = _simulationInputVM.SimulationInput;
@@ -193,11 +197,16 @@ namespace Vts.SiteVisit.ViewModel
             //_output = _simulation.Run();
 
             var t = Task.Factory.StartNew(() => _simulation.Run());
+                //{
+                //    _currentBackgroundThread = Thread.CurrentThread; // crappy work-around todo: fix (see here: http://stackoverflow.com/questions/4783865/how-do-i-abort-cancel-tpl-tasks)
+                    
+                //    return _simulation.Run();
+                //});
 
-            CancellationTokenSource cts = new CancellationTokenSource();
-            CancellationToken token = cts.Token;
+            _currentCancellationTokenSource = new CancellationTokenSource();
+            CancellationToken cancelToken = _currentCancellationTokenSource.Token;
             TaskScheduler scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-
+            
             var c = t.ContinueWith((antecedent) =>
                 {
                     SolverDemoView.Current.Dispatcher.BeginInvoke(delegate()
@@ -220,9 +229,26 @@ namespace Vts.SiteVisit.ViewModel
                         logger.Info(() => "Monte Carlo Solver executed.\r");
                     });
                 },
-                token,
+                cancelToken,
                 TaskContinuationOptions.OnlyOnRanToCompletion,
                 scheduler);
+        }
+
+        // mre is used to block and release threads manually.
+        // private static ManualResetEvent mre = new ManualResetEvent(false);
+        private void MC_CancelMonteCarloSolver_Executed(object sender, ExecutedEventArgs e)
+        { // crappy work-around todo: fix (see here: http://stackoverflow.com/questions/4783865/how-do-i-abort-cancel-tpl-tasks)
+            //if (_currentBackgroundThread != null)
+            //{
+            //    _currentBackgroundThread.
+            //    logger.Info(() => "Simulation cancelled.\n");
+            //}
+            if (_currentCancellationTokenSource != null)
+            {
+                _currentCancellationTokenSource.Cancel(true);
+                logger.Info(() => "Simulation cancelled.\n");
+                _currentCancellationTokenSource = null;
+            }
         }
 
         private void MC_LoadSimulationInput_Executed(object sender, ExecutedEventArgs e)
