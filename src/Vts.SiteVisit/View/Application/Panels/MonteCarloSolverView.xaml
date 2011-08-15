@@ -24,14 +24,14 @@
                         Background="{Binding StackPanel.Background}" Content="Download Default Input File"  
                         Width="180" Height="30" Margin="5"/>
         </StackPanel>
-        
+
         <StackPanel DataContext="{Binding SimulationInputVM, Mode=TwoWay}">
-            
+
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Number of Photons:"/>
                 <TextBox Text="{Binding N, Mode=TwoWay}" Width="100"/>
             </StackPanel>
-            
+
             <StackPanel Orientation="Vertical" DataContext="{Binding SimulationOptionsVM}">
                 <TextBlock Text="Simulation Options" FontWeight="Bold"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -55,15 +55,16 @@
                     <v:RadioButtonOptionView DataContext="{Binding PhaseFunctionTypeVM, Mode=TwoWay}" />
                 </StackPanel>
             </StackPanel>
-            
+
             <StackPanel Orientation="Vertical" DataContext="{Binding TissueInputVM, Mode=TwoWay}">
                 <TextBlock Text="Tissue Input" FontWeight="Bold"/>
                 <StackPanel Orientation="Horizontal" >
                     <TextBlock Text="Currently selected region:" VerticalAlignment="Center"/>
                     <toolkit:NumericUpDown Name="nudRegionIndex"  Value="{Binding CurrentRegionIndex, Mode=TwoWay}" Minimum="{Binding MinimumRegionIndex}"  Maximum="{Binding MaximumRegionIndex}" Width="35" HorizontalAlignment="Left"/>
                 </StackPanel>
-
-                <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">
+                
+                <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay, FallbackValue=0}"  ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">
+               <!-- <ListBox SelectedIndex="{Binding CurrentRegionIndex, Mode=TwoWay}" ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">-->
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="Gray" BorderThickness="1.5">
@@ -109,7 +110,7 @@
     </StackPanel>
 </UserControl>
 
-        <!--<controls:TabControl>
+<!--<controls:TabControl>
             <controls:TabItem Header="Input File Specification" >
                     <StackPanel Orientation="Horizontal" >
                         <Button VerticalAlignment="Bottom" Command="{Binding LoadSimulationInputCommand}"
