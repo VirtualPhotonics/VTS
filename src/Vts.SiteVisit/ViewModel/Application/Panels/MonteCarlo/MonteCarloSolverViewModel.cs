@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -197,52 +194,82 @@ namespace Vts.SiteVisit.ViewModel
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             var t = Task.Factory.StartNew(() => _simulation.Run());
-                //{
-                //    _currentBackgroundThread = Thread.CurrentThread; // crappy work-around todo: fix (see here: http://stackoverflow.com/questions/4783865/how-do-i-abort-cancel-tpl-tasks)
-                    
-                //    return _simulation.Run();
-                //});
+            //{
+            //    _currentBackgroundThread = Thread.CurrentThread; // crappy work-around todo: fix (see here: http://stackoverflow.com/questions/4783865/how-do-i-abort-cancel-tpl-tasks)
+
+            //    return _simulation.Run();
+            //});
 
             _currentCancellationTokenSource = new CancellationTokenSource();
             CancellationToken cancelToken = _currentCancellationTokenSource.Token;
             TaskScheduler scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            
+
             var c = t.ContinueWith((antecedent) =>
                 {
                     SolverDemoView.Current.Dispatcher.BeginInvoke(delegate()
                     {
                         stopwatch.Stop();
                         _output = antecedent.Result;
-                        var showPlusMinusStdev = true;
-                        IEnumerable<Point> points = null;
-                        //if(showPlusMinusStdev && _output.R_r2 != null)
-                        //{
-                        //    var stdev = Enumerable.Zip(_output.R_r, _output.R_r2, (r, r2) => Math.Sqrt((r2 - r * r) / nPhotons)).ToArray();
-                        //    var rMinusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r-std).ToArray();
-                        //    var rPlusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r+std).ToArray();
-                        //    points = Enumerable.Zip(
-                        //        independentValues.Concat(independentValues).Concat(independentValues),
-                        //        rMinusStdev.Concat(_output.R_r).Concat(rPlusStdev),
-                        //        (x, y) => new Point(x, y));
-                        //}
-                        //else
-                        //{
+                        if (_output.R_r != null)
+                        {
+                            //var showPlusMinusStdev = true;
+                            IEnumerable<Point> points = null;
+                            //if(showPlusMinusStdev && _output.R_r2 != null)
+                            //{
+                            //    var stdev = Enumerable.Zip(_output.R_r, _output.R_r2, (r, r2) => Math.Sqrt((r2 - r * r) / nPhotons)).ToArray();
+                            //    var rMinusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r-std).ToArray();
+                            //    var rPlusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r+std).ToArray();
+                            //    points = Enumerable.Zip(
+                            //        independentValues.Concat(independentValues).Concat(independentValues),
+                            //        rMinusStdev.Concat(_output.R_r).Concat(rPlusStdev),
+                            //        (x, y) => new Point(x, y));
+                            //}
+                            //else
+                            //{
                             points = Enumerable.Zip(
                                 independentValues,
                                 _output.R_r,
                                 (x, y) => new Point(x, y));
-                        //}
+                            //}
 
-                        //IEnumerable<Point> points = ExecuteMonteCarloSolver();
+                            //IEnumerable<Point> points = ExecuteMonteCarloSolver();
 
-                        PlotAxesLabels axesLabels = GetPlotLabels();
-                        Commands.Plot_SetAxesLabels.Execute(axesLabels);
+                            PlotAxesLabels axesLabels = GetPlotLabels();
+                            Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
-                        string plotLabel = GetPlotLabel();
-                        Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
+                            string plotLabel = GetPlotLabel();
+                            Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
+                        }
+
+                        if (_output.Flu_rz != null)
+                        {
+                            var detectorInput = _simulationInputVM.SimulationInput.VirtualBoundaryInputs
+                                .Where(vb => vb.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary)
+                                .First()
+                                .DetectorInputs
+                                .First(di => di.Name == "FluenceOfRhoAndZ") as FluenceOfRhoAndZAndTimeDetectorInput;
+
+                            var rhos = detectorInput.Rho.AsEnumerable().ToArray();
+                            var zs = detectorInput.Z.AsEnumerable().ToArray();
+
+                            // flip the array (since it goes over zs and then rhos, while map wants rhos and then zs
+                            double[] destinationArray = new double[_output.Flu_rz.Length];
+                            //long index = 0;
+                            for (int rhoi = 0; rhoi < rhos.Length; rhoi++)
+                            {
+                                for (int zi = 0; zi < zs.Length; zi++)
+                                {
+                                    destinationArray[rhoi + rhos.Length * zi] = _output.Flu_rz[rhoi, zi];
+                                }
+                            }
+
+                            var mapData = new MapData(destinationArray, rhos, zs);
+
+                            Commands.Maps_PlotMap.Execute(mapData);
+                        }
 
                         logger.Info(() => "Monte Carlo simulation complete (N = " + nPhotons + " photons; simulation time = "
-                            + stopwatch.ElapsedMilliseconds/1000f +  " seconds).\r");
+                            + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
                     });
                 },
                 cancelToken,
@@ -291,17 +318,62 @@ namespace Vts.SiteVisit.ViewModel
 
         private void MC_DownloadDefaultSimulationInput_Executed(object sender, ExecutedEventArgs e)
         {
-            using (var stream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("xml"))
+            var store = IsolatedStorageFile.GetUserStoreForApplication();
+
+            if (_firstTimeSaving)
+            {
+                Commands.IsoStorage_IncreaseSpaceQuery.Execute();
+                _firstTimeSaving = false;
+                return;
+            }
+
+            using (var stream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("zip"))
             {
                 if (stream != null)
                 {
-                    // todo: fix
-                    var simulationInput = FileIO.ReadFromXMLInResources<SimulationInput>("MonteCarlo/Resources/DataStructures/SimulationInput/" + "infile_ROfRho.xml", "Vts");
-                    //var simulationInput = GetDefaultSimulationInput();
+                    var resourcesPath = "MonteCarlo/Resources/DataStructures/SimulationInput/";
+                    var xmlFilenames = new[]
+                        {
+                            "infile_ROfRho.xml",
+                            "infile_database.xml",
+                            "infile_pMC_database.xml",
+                            "infile.xml"
+                        };
 
-                    FileIO.WriteToStream(simulationInput, stream);
+                    var files = xmlFilenames.Select(fileName =>
+                        new
+                        {
+                            Name = fileName,
+                            Input = FileIO.ReadFromXMLInResources<SimulationInput>(resourcesPath + fileName, "Vts")
+                        });
 
-                    logger.Info(() => "Simulation input exported to file.\r");
+                    foreach (var file in files)
+                    {
+                        file.Input.ToFile(file.Name);
+                    }
+
+                    //var infile_ROfRho = FileIO.ReadFromXMLInResources<SimulationInput>(resourcesPath + "infile_ROfRho.xml", "Vts");
+                    //var infile_database = FileIO.ReadFromXMLInResources<SimulationInput>(resourcesPath + "infile_database.xml", "Vts");
+                    //var infile_pMC_database = FileIO.ReadFromXMLInResources<SimulationInput>(resourcesPath + "infile_pMC_database.xml", "Vts");
+                    //var infile = FileIO.ReadFromXMLInResources<SimulationInput>(resourcesPath + "infile.xml", "Vts");
+                    //infile_ROfRho.ToFile("infile_ROfRho.xml");
+                    //infile_database.ToFile("infile_database.xml");
+                    //infile_pMC_database.ToFile("infile_pMC_database.xml");
+                    //infile.ToFile("infile.xml");
+                    
+                    //// then, zip all these together and SaveFileDialog to .zip...
+                    //using (var zipStream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("zip"))
+                    //{
+                        //if (zipStream != null)
+                        //{
+                            FileIO.ZipFiles(xmlFilenames, "", stream);
+                            logger.Info(() => "Template simulation input files exported to a zip file.\r");
+                        //}
+                    //}
+
+                    // FileIO.WriteToStream(simulationInput, stream);
+
+                    //logger.Info(() => "Simulation input exported to file.\r");
                 }
             }
         }
@@ -316,7 +388,7 @@ namespace Vts.SiteVisit.ViewModel
                 input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
 
                 var store = IsolatedStorageFile.GetUserStoreForApplication();
-                
+
                 if (_firstTimeSaving)
                 {
                     Commands.IsoStorage_IncreaseSpaceQuery.Execute();

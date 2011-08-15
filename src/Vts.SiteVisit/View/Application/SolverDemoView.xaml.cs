@@ -69,9 +69,10 @@ namespace Vts.SiteVisit.View
                             ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Visible;
                             ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Collapsed;
                             break;
-                        //case "tabMonteCarlo":
-                        //    _floatableWindow.Show();
-                        //    break;
+                        case "tabMonteCarlo":
+                            ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Visible;
+                            ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Visible;
+                            break;
                     }
                 }
             }
