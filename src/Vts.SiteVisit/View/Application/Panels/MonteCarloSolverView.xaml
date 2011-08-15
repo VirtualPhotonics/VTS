@@ -15,16 +15,110 @@
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
         <TextBlock Text="EXECUTE A SIMULATION:" FontSize="16" />
-        <controls:TabControl>
-            <controls:TabItem Header="Input File Specification">
-                <StackPanel Orientation="Horizontal">
-                    <Button VerticalAlignment="Bottom" Command="{Binding LoadSimulationInputCommand}"
+
+        <StackPanel Orientation="Horizontal" >
+            <Button VerticalAlignment="Bottom" Command="{Binding LoadSimulationInputCommand}"
                         Background="{Binding StackPanel.Background}" Content="Load Input File"  
                         Width="180" Height="30" Margin="5"/>
-                    <Button VerticalAlignment="Bottom" Command="{Binding DownloadDefaultSimulationInputCommand}"
+            <Button VerticalAlignment="Bottom" Command="{Binding DownloadDefaultSimulationInputCommand}"
                         Background="{Binding StackPanel.Background}" Content="Download Default Input File"  
                         Width="180" Height="30" Margin="5"/>
+        </StackPanel>
+        
+        <StackPanel DataContext="{Binding SimulationInputVM, Mode=TwoWay}">
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Number of Photons:"/>
+                <TextBox Text="{Binding N, Mode=TwoWay}" Width="100"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" DataContext="{Binding SimulationOptionsVM}">
+                <TextBlock Text="Simulation Options" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <CheckBox IsChecked="{Binding TallySecondMoment, Mode=TwoWay}" VerticalAlignment="Center" />
+                    <TextBlock Text="Tally second moment" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <CheckBox IsChecked="{Binding TrackStatistics, Mode=TwoWay}" VerticalAlignment="Center" />
+                    <TextBlock Text="Track statistics" VerticalAlignment="Center" TextAlignment="Left" Margin="0,0,10,0"/>
+                    <TextBlock Text="Seed:" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Seed, Mode=TwoWay}" Width="60" VerticalAlignment="Center"/>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Absorption Weighting Type: "/>
+                    <v:RadioButtonOptionView DataContext="{Binding AbsorptionWeightingTypeVM, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                    <TextBlock Text="Random NumberGenerator Type: "/>
+                    <v:RadioButtonOptionView DataContext="{Binding RandomNumberGeneratorTypeVM, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Phase Function Type: "/>
+                    <v:RadioButtonOptionView DataContext="{Binding PhaseFunctionTypeVM, Mode=TwoWay}" />
+                </StackPanel>
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" DataContext="{Binding TissueInputVM, Mode=TwoWay}">
+                <TextBlock Text="Tissue Input" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="Currently selected region:" VerticalAlignment="Center"/>
+                    <toolkit:NumericUpDown Name="nudRegionIndex"  Value="{Binding CurrentRegionIndex, Mode=TwoWay}" Minimum="{Binding MinimumRegionIndex}"  Maximum="{Binding MaximumRegionIndex}" Width="35" HorizontalAlignment="Left"/>
+                </StackPanel>
+
+                <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Gray" BorderThickness="1.5">
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="Layer Height" />
+                                            <TextBlock Text="Start/Stop:" />
+                                        </StackPanel>
+                                        <v:RangeView DataContext="{Binding ZRangeVM}" Margin="1"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="Layer " />
+                                            <TextBlock Text="Opt. Prop." />
+                                        </StackPanel>
+                                        <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" Margin="1" VerticalAlignment="Top"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button VerticalAlignment="Bottom" Command="{Binding ExecuteMonteCarloSolverCommand}"
+                Background="{Binding StackPanel.Background}" Content="Run Simulation"  
+                Width="120" Height="30" Margin="5"/>
+            <Button VerticalAlignment="Bottom" Command="{Binding CancelMonteCarloSolverCommand}" IsEnabled="False"
+                Background="{Binding StackPanel.Background}" Content="Cancel Simulation"  
+                Width="120" Height="30" Margin="5"/>
+            <Button VerticalAlignment="Bottom" Command="{Binding SaveSimulationResultsCommand}"
+                    Background="{Binding StackPanel.Background}" Content="Save Simulation Results"  
+                    Width="160" Height="30"  Margin="5"/>
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>
+
+        <!--<controls:TabControl>
+            <controls:TabItem Header="Input File Specification" >
+                    <StackPanel Orientation="Horizontal" >
+                        <Button VerticalAlignment="Bottom" Command="{Binding LoadSimulationInputCommand}"
+                            Background="{Binding StackPanel.Background}" Content="Load Input File"  
+                            Width="180" Height="30" Margin="5"/>
+                        <Button VerticalAlignment="Bottom" Command="{Binding DownloadDefaultSimulationInputCommand}"
+                            Background="{Binding StackPanel.Background}" Content="Download Default Input File"  
+                            Width="180" Height="30" Margin="5"/>
+                    </StackPanel>
             </controls:TabItem>
             <controls:TabItem Header="Simulation Input Visualization" DataContext="{Binding SimulationInputVM}">
                 <StackPanel>
@@ -60,23 +154,15 @@
                         <StackPanel Orientation="Horizontal" >
                             <TextBlock Text="Currently selected region:" VerticalAlignment="Center"/>
                             <toolkit:NumericUpDown Name="nudRegionIndex"  Value="{Binding CurrentRegionIndex, Mode=TwoWay}" Minimum="{Binding MinimumRegionIndex}"  Maximum="{Binding MaximumRegionIndex}" Width="35" HorizontalAlignment="Left"/>
-                            <!--
-                            <TextBlock Text="(" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding SelectedValue.Name, ElementName=lbxRegions}" VerticalAlignment="Center"/>
-                            <TextBlock Text=")" VerticalAlignment="Center"/>
-                            <Button Content="Make new " Margin="10,0"/>
-                            -->
+
                         </StackPanel>
-                        
-                        <!--<ListBox SelectedIndex="{Binding CurrentRegionIndex, Mode=TwoWay}" ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" Height="210" Margin="5">-->
+ 
                         <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}" ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">
-                        <!--<ListBox ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" Height="210" Margin="5">-->
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="Gray" BorderThickness="1.5">
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel Orientation="Horizontal">
-                                                <!--<TextBlock Text="Layer: "/>-->
                                                 <TextBlock Text="{Binding Name}"/>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal">
@@ -101,21 +187,6 @@
                         </ListBox>
                     </StackPanel>
                 </StackPanel>
-
+                
             </controls:TabItem>
-        </controls:TabControl>
-
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button VerticalAlignment="Bottom" Command="{Binding ExecuteMonteCarloSolverCommand}"
-                Background="{Binding StackPanel.Background}" Content="Run Simulation"  
-                Width="120" Height="30" Margin="5"/>
-            <Button VerticalAlignment="Bottom" Command="{Binding CancelMonteCarloSolverCommand}" IsEnabled="False"
-                Background="{Binding StackPanel.Background}" Content="Cancel Simulation"  
-                Width="120" Height="30" Margin="5"/>
-            <Button VerticalAlignment="Bottom" Command="{Binding SaveSimulationResultsCommand}"
-                    Background="{Binding StackPanel.Background}" Content="Save Simulation Results"  
-                    Width="160" Height="30"  Margin="5"/>
-        </StackPanel>
-
-    </StackPanel>
-</UserControl>
+        </controls:TabControl>-->
