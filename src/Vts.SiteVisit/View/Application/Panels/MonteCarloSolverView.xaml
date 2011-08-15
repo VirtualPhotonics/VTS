@@ -13,8 +13,14 @@
     </UserControl.DataContext>
 
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+        <TextBlock Text="Specify Inputs From File (recommended)." FontWeight="Bold"/>
 
-        <TextBlock Text="EXECUTE A SIMULATION:" FontSize="16" />
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="(see " VerticalAlignment="Center"/>
+            <TextBox Text="http://bit.ly/mPDZyl" IsReadOnly="True" />
+            <!--<HyperlinkButton Content="here" NavigateUri="http://www.microsoft.com/download/en/details.aspx?id=7973"/>-->
+            <TextBlock Text="for a useful XML manipulation tool)" VerticalAlignment="Center"/>
+        </StackPanel>
 
         <StackPanel Orientation="Horizontal" >
             <Button VerticalAlignment="Bottom" Command="{Binding LoadSimulationInputCommand}"
@@ -26,7 +32,7 @@
         </StackPanel>
 
         <StackPanel DataContext="{Binding SimulationInputVM, Mode=TwoWay}">
-
+            <TextBlock Text="Basic Info" FontWeight="Bold"/>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Number of Photons:"/>
                 <TextBox Text="{Binding N, Mode=TwoWay}" Width="100"/>
@@ -62,9 +68,9 @@
                     <TextBlock Text="Currently selected region:" VerticalAlignment="Center"/>
                     <toolkit:NumericUpDown Name="nudRegionIndex"  Value="{Binding CurrentRegionIndex, Mode=TwoWay}" Minimum="{Binding MinimumRegionIndex}"  Maximum="{Binding MaximumRegionIndex}" Width="35" HorizontalAlignment="Left"/>
                 </StackPanel>
-                
-                <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay, FallbackValue=0}"  ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">
-               <!-- <ListBox SelectedIndex="{Binding CurrentRegionIndex, Mode=TwoWay}" ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">-->
+
+                <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">
+                    <!-- <ListBox SelectedIndex="{Binding CurrentRegionIndex, Mode=TwoWay}" ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">-->
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="Gray" BorderThickness="1.5">
