@@ -27,24 +27,23 @@ namespace Vts.SiteVisit.ViewModel
 #else
             _tissueTypeVM = new OptionViewModel<Vts.MonteCarlo.TissueType>("Tissue Type:", true);
 #endif
-
             _tissueTypeVM.PropertyChanged += (sender, args) =>
-            {
-                switch (_tissueTypeVM.SelectedValue)
                 {
-                    case MonteCarlo.TissueType.MultiLayer:
-                        _tissueInputVM = new MultiLayerTissueViewModel(new MultiLayerTissueInput());
-                        break;
-                    case MonteCarlo.TissueType.SingleEllipsoid:
-                        _tissueInputVM = new SingleEllipsoidTissueViewModel(new SingleEllipsoidTissueInput());
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            };
+                    switch (_tissueTypeVM.SelectedValue)
+                    {
+                        case MonteCarlo.TissueType.MultiLayer:
+                             _simulationInput.TissueInput = new MultiLayerTissueInput();
+                            break;
+                        case MonteCarlo.TissueType.SingleEllipsoid:
+                            _simulationInput.TissueInput = new SingleEllipsoidTissueInput();
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    UpdateTissueInput(_simulationInput.TissueInput);
+                };
 
-            // do this last to make sure (at first) we end up with the originally-specified input
-            _tissueInputVM = new MultiLayerTissueViewModel((MultiLayerTissueInput)_simulationInput.TissueInput);
+            UpdateTissueInput(_simulationInput.TissueInput);
         }
 
         public SimulationInputViewModel()
@@ -103,7 +102,22 @@ namespace Vts.SiteVisit.ViewModel
                 // the assignment is done based on the input type
                 //_tissueInputVM = new MultiLayerTissueViewModel((MultiLayerTissueInput)_input.TissueInput);
                 OnPropertyChanged("SimulationInput");
-                TissueTypeVM.SelectedValue = _simulationInput.TissueInput.TissueType;
+                UpdateTissueInput(_simulationInput.TissueInput);
+            }
+        }
+
+        private void UpdateTissueInput(ITissueInput tissueInput)
+        {
+            switch (tissueInput.TissueType)
+            {
+                case MonteCarlo.TissueType.MultiLayer:
+                    TissueInputVM = new MultiLayerTissueViewModel((MultiLayerTissueInput)tissueInput);
+                    break;
+                case MonteCarlo.TissueType.SingleEllipsoid:
+                    TissueInputVM = new SingleEllipsoidTissueViewModel((SingleEllipsoidTissueInput)tissueInput);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }
