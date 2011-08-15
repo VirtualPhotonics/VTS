@@ -115,7 +115,7 @@ namespace Vts.SiteVisit.ViewModel
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0)),
+                            new OpticalProperties( 0.0, 1e-10, 0.0, 1.0)),
                         new LayerRegion(
                             new DoubleRange(0.0, 1.0),
                             new OpticalProperties(0.1, 1.0, 0.8, 1.4)),
@@ -124,7 +124,7 @@ namespace Vts.SiteVisit.ViewModel
                             new OpticalProperties(0.01, 2.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(1e-10, 0.0, 0.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
                 OutputName = "MonteCarloOutput",
@@ -140,7 +140,7 @@ namespace Vts.SiteVisit.ViewModel
                         VirtualBoundaryType.DiffuseReflectance,
                         new List<IDetectorInput>
                         {
-                            new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+                            new ROfRhoDetectorInput(new DoubleRange(0.0, 20.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
                         },
                         false, // write database
                         VirtualBoundaryType.DiffuseReflectance.ToString()

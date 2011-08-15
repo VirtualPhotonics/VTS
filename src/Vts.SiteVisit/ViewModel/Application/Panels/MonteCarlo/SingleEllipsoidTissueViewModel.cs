@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.SiteVisit.ViewModel
@@ -19,8 +20,12 @@ namespace Vts.SiteVisit.ViewModel
         {
             _input = input;
 
+            _ellipsoidRegionVM = new EllipsoidRegionViewModel((EllipsoidRegion)input.EllipsoidRegion, "Ellipsoid Region");
+
             _layerRegionsVM = new ObservableCollection<LayerRegionViewModel>(
-                _input.Regions.Select(r => new LayerRegionViewModel((LayerRegion)r)));
+                _input.Regions.Select((r, i) => new LayerRegionViewModel(
+                    (LayerRegion)r, 
+                    "Layer " + i + (r.IsAir() ? " (Air)" : " (Tissue)"))));
         }
 
         public SingleEllipsoidTissueViewModel()

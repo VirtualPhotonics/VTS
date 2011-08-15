@@ -5,6 +5,7 @@
     xmlns:v="clr-namespace:Vts.SiteVisit.View"
     xmlns:vm="clr-namespace:Vts.SiteVisit.ViewModel"
     xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls" 
+    xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" 
     xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
 
     <UserControl.DataContext>
@@ -54,37 +55,53 @@
                             <v:RadioButtonOptionView DataContext="{Binding PhaseFunctionTypeVM, Mode=TwoWay}" />
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" DataContext="{Binding TissueInputVM, Mode=TwoWay}">
                         <TextBlock Text="Tissue Input" FontWeight="Bold"/>
-                        <v:ListBox ItemsSource="{Binding TissueInputVM.LayerRegionsVM, Mode=TwoWay}" Height="210" Margin="5">
-                            <v:ListBox.ItemTemplate>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="Currently selected region:" VerticalAlignment="Center"/>
+                            <toolkit:NumericUpDown Name="nudRegionIndex"  Value="{Binding CurrentRegionIndex, Mode=TwoWay}" Minimum="{Binding MinimumRegionIndex}"  Maximum="{Binding MaximumRegionIndex}" Width="30" HorizontalAlignment="Left"/>
+                            <!--
+                            <TextBlock Text="(" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding SelectedValue.Name, ElementName=lbxRegions}" VerticalAlignment="Center"/>
+                            <TextBlock Text=")" VerticalAlignment="Center"/>
+                            <Button Content="Make new " Margin="10,0"/>
+                            -->
+                        </StackPanel>
+                        
+                        <!--<ListBox SelectedIndex="{Binding CurrentRegionIndex, Mode=TwoWay}" ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" Height="210" Margin="5">-->
+                        <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}" ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">
+                        <!--<ListBox ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" Height="210" Margin="5">-->
+                            <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border BorderBrush="Gray" BorderThickness="1.5">
                                         <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Horizontal">
+                                                <!--<TextBlock Text="Layer: "/>-->
+                                                <TextBlock Text="{Binding Name}"/>
+                                            </StackPanel>
                                             <StackPanel Orientation="Horizontal">
                                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                                     <TextBlock Text="Layer Height" />
                                                     <TextBlock Text="Start/Stop:" />
                                                 </StackPanel>
-                                                <v:RangeView DataContext="{Binding ZRangeVM}" Margin="3"/>
+                                                <v:RangeView DataContext="{Binding ZRangeVM}" Margin="1"/>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal">
                                                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                                     <TextBlock Text="Layer " />
-                                                    <TextBlock Text="Optical" />
-                                                    <TextBlock Text="Properties:" />
+                                                    <TextBlock Text="Opt. Prop." />
                                                 </StackPanel>
-                                                <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" Margin="3"/>
+                                                <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" Margin="1" VerticalAlignment="Top"/>
                                             </StackPanel>
                                         </StackPanel>
 
                                     </Border>
                                 </DataTemplate>
-                            </v:ListBox.ItemTemplate>
-                        </v:ListBox>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </StackPanel>
                 </StackPanel>
-                
+
             </controls:TabItem>
         </controls:TabControl>
 

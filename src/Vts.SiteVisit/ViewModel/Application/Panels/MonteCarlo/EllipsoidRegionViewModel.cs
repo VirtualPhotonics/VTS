@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.SiteVisit.ViewModel
@@ -8,16 +9,35 @@ namespace Vts.SiteVisit.ViewModel
     public class EllipsoidRegionViewModel : BindableObject
     {
         private EllipsoidRegion _region;
+        private string _name;
         private OpticalPropertyViewModel _opticalPropertyVM;
 
-        public EllipsoidRegionViewModel(EllipsoidRegion region)
+        public EllipsoidRegionViewModel(EllipsoidRegion region, string name)
         {
             _region = region;
+            if (string.IsNullOrEmpty(name))
+            {
+                _name = _region.IsAir() ? "Air" : "Tissue";
+            }
+            else
+            {
+                _name = name;
+            }
             _opticalPropertyVM = new OpticalPropertyViewModel(_region.RegionOP, "mm-1", "");
         }
 
-        public EllipsoidRegionViewModel() : this(new EllipsoidRegion())
+        public EllipsoidRegionViewModel() : this(new EllipsoidRegion(), "")
         {
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Name");
+            }
         }
 
         public double X
@@ -90,9 +110,9 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
-        public EllipsoidRegion GetEllipsoidRegion()
-        {
-            return _region;
-        }
+        //public EllipsoidRegion GetEllipsoidRegion()
+        //{
+        //    return _region;
+        //}
     }
 }

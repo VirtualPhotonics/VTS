@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.DataStructuresValidation;
 
@@ -53,8 +54,8 @@ namespace Vts.MonteCarlo
             
             // todo: don't like the assumption of air layers in general w/o it being a special case or test for air
             // what happens if it's a homogeneous medium with an inclusion? -DC
-            Func<ITissueRegion, bool> isAir = region => region.RegionOP.Mua == 0D && region.RegionOP.Mus <= 1E-10; 
-            var tissueLayers = layers.Where(layer => !isAir(layer));
+            //Func<ITissueRegion, bool> isAir = region => region.RegionOP.Mua == 0D && region.RegionOP.Mus <= 1E-10; 
+            var tissueLayers = layers.Where(layer => !layer.IsAir());
 
             // check that there is at least one layer of tissue 
             if (!tissueLayers.Any())
