@@ -179,6 +179,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Common\Stopwatch.cs" />
     <Compile Include="IO\KnownTypes.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
     <Compile Include="MonteCarlo\Controllers\pMCDatabaseWriterController.cs" />

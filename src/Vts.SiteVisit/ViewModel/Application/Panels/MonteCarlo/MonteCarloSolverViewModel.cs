@@ -194,8 +194,7 @@ namespace Vts.SiteVisit.ViewModel
 
             _simulation = new MonteCarloSimulation(input);
 
-            //_output = _simulation.Run();
-
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             var t = Task.Factory.StartNew(() => _simulation.Run());
                 //{
                 //    _currentBackgroundThread = Thread.CurrentThread; // crappy work-around todo: fix (see here: http://stackoverflow.com/questions/4783865/how-do-i-abort-cancel-tpl-tasks)
@@ -211,7 +210,7 @@ namespace Vts.SiteVisit.ViewModel
                 {
                     SolverDemoView.Current.Dispatcher.BeginInvoke(delegate()
                     {
-
+                        stopwatch.Stop();
                         _output = antecedent.Result;
                         IEnumerable<Point> points = EnumerableEx.Zip(
                             independentValues,
@@ -226,7 +225,7 @@ namespace Vts.SiteVisit.ViewModel
                         string plotLabel = GetPlotLabel();
                         Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
 
-                        logger.Info(() => "Monte Carlo Solver executed.\r");
+                        logger.Info(() => "Monte Carlo simulation complete (simulation time = " + stopwatch.ElapsedMilliseconds/1000f +  " seconds).\r");
                     });
                 },
                 cancelToken,
