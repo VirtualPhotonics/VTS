@@ -38,9 +38,11 @@ namespace Vts.SiteVisit.ViewModel
 
         private SolutionDomainOptionViewModel _solutionDomainTypeOptionVM;
 
-        private bool _firstTimeSaving = true;
-
         private CancellationTokenSource _currentCancellationTokenSource;
+
+        private bool _firstTimeSaving;
+
+        private double[] _mapArrayBuffer;
 
         public MonteCarloSolverViewModel()
         {
@@ -65,6 +67,8 @@ namespace Vts.SiteVisit.ViewModel
             LoadSimulationInputCommand = new RelayCommand(() => MC_LoadSimulationInput_Executed(null, null));
             DownloadDefaultSimulationInputCommand = new RelayCommand(() => MC_DownloadDefaultSimulationInput_Executed(null, null));
             SaveSimulationResultsCommand = new RelayCommand(() => MC_SaveSimulationResults_Executed(null, null));
+
+            _firstTimeSaving = true;
         }
 
         public RelayCommand ExecuteMonteCarloSolverCommand { get; private set; }
@@ -254,25 +258,36 @@ namespace Vts.SiteVisit.ViewModel
 
                             var rhos = Enumerable.Zip(rhosMC.Skip(1), rhosMC.Take(rhosMC.Length - 1), (first, second) => (first + second) / 2).ToArray();
                             var zs = Enumerable.Zip(zsMC.Skip(1), rhosMC.Take(zsMC.Length - 1), (first, second) => (first + second) / 2).ToArray();
+                            
+                            //var dRhos = Enumerable.Zip(rhosMC.Skip(1), rhosMC.Take(rhosMC.Length - 1), (first, second) => (first - second)).ToArray();
+                            //var dZs = Enumerable.Zip(zsMC.Skip(1), rhosMC.Take(zsMC.Length - 1), (first, second) => (first - second)).ToArray();
+                            var dRhos = Enumerable.Select(rhos, rho => 2 * Math.PI *Math.Abs(rho) * detectorInput.Rho.Delta).ToArray();
+                            var dZs = Enumerable.Select(zs, z => detectorInput.Rho.Delta).ToArray();
 
+                            if (_mapArrayBuffer == null || _mapArrayBuffer.Length != _output.Flu_rz.Length*2)
+                            {
+                                _mapArrayBuffer = new double[_output.Flu_rz.Length*2];
+                            }
                             // flip the array (since it goes over zs and then rhos, while map wants rhos and then zs
-                            double[] destinationArray = new double[_output.Flu_rz.Length*2];
                             //long index = 0;
                             for (int zi = 0; zi < zs.Length; zi++)
                             {
                                 for (int rhoi = 0; rhoi < rhos.Length; rhoi++)
                                 {
                                     //destinationArray[rhoi + rhos.Length * zi] = _output.Flu_rz[rhoi, zi];
-                                    destinationArray[rhoi + rhos.Length + rhos.Length * 2 * zi] = _output.Flu_rz[rhoi, zi];
+                                    _mapArrayBuffer[rhoi + rhos.Length + rhos.Length * 2 * zi] = _output.Flu_rz[rhoi, zi];
                                 }
                                 var localRhoiForReverse = 0;
                                 for (int rhoi = rhos.Length - 1; rhoi >= 0; rhoi--, localRhoiForReverse++)
                                 {
-                                    destinationArray[localRhoiForReverse + rhos.Length * 2 * zi] = _output.Flu_rz[rhoi, zi];
+                                    _mapArrayBuffer[localRhoiForReverse + rhos.Length * 2 * zi] = _output.Flu_rz[rhoi, zi];
                                 }
                             }
 
-                            var mapData = new MapData(destinationArray, Enumerable.Concat(rhos,rhos).ToArray(), zs);
+                            var twoRhos = Enumerable.Concat(rhos.Reverse().Select(rho => -rho), rhos).ToArray();
+                            var twoDRhos = Enumerable.Concat(dRhos.Reverse(), dRhos).ToArray();
+
+                            var mapData = new MapData(_mapArrayBuffer, twoRhos, zs, twoDRhos, dZs);
 
                             Commands.Maps_PlotMap.Execute(mapData);
                         }

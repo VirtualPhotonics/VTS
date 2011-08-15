@@ -306,7 +306,9 @@ namespace Vts.SiteVisit.ViewModel
 
                 return MapData.Create(tempData,
                     Enumerable.Range(0, width).Select(i => (double)i).ToArray(),
-                    Enumerable.Range(0, height).Select(i => (double)i).ToArray());
+                    Enumerable.Range(0, height).Select(i => (double)i).ToArray(),
+                    Enumerable.Range(0, width).Select(i => 1D).ToArray(),
+                    Enumerable.Range(0, height).Select(i =>1D).ToArray());
             }
         }
     }

@@ -238,6 +238,7 @@ namespace Vts.SiteVisit.ViewModel
 
         public MapData ExecuteForwardSolver()
         {
+            //double[] rhos = RhoRangeVM.Values.Reverse().Concat(RhoRangeVM.Values).ToArray();
             double[] rhos = RhoRangeVM.Values.Reverse().Select(rho => -rho).Concat(RhoRangeVM.Values).ToArray();
             double[] zs = ZRangeVM.Values.ToArray();
 
@@ -295,7 +296,14 @@ namespace Vts.SiteVisit.ViewModel
                 }
             }
 
-            return new MapData(destinationArray, rhos, zs);
+            var dRho = 1D;
+            var dZ = 1D;
+            var dRhos = Enumerable.Select(rhos, rho => 2 * Math.PI * Math.Abs(rho) * dRho).ToArray();
+            var dZs = Enumerable.Select(zs, z => dZ).ToArray();
+            //var twoRhos = Enumerable.Concat(rhos.Reverse(), rhos).ToArray();
+            //var twoDRhos = Enumerable.Concat(dRhos.Reverse(), dRhos).ToArray();
+
+            return new MapData(destinationArray, rhos, zs, dRhos, dZs);
         }
 
         private static IndependentVariableAxis[] GetIndependentVariableAxesInOrder(params IndependentVariableAxis[] axes)
