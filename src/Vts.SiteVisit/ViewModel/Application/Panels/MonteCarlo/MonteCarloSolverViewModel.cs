@@ -215,23 +215,23 @@ namespace Vts.SiteVisit.ViewModel
                         _output = antecedent.Result;
                         var showPlusMinusStdev = true;
                         IEnumerable<Point> points = null;
-                        if(showPlusMinusStdev && _output.R_r2 != null)
-                        {
-                            var stdev = Enumerable.Zip(_output.R_r,_output.R_r2, (r,r2) => Math.Sqrt(r*r - r2)).ToArray();
-                            var rMinusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r-std).ToArray();
-                            var rPlusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r+std).ToArray();
-                            points = Enumerable.Zip(
-                                independentValues.Concat(independentValues).Concat(independentValues),
-                                rMinusStdev.Concat(_output.R_r).Concat(rPlusStdev),
-                                (x, y) => new Point(x, y));
-                        }
-                        else
-                        {
+                        //if(showPlusMinusStdev && _output.R_r2 != null)
+                        //{
+                        //    var stdev = Enumerable.Zip(_output.R_r, _output.R_r2, (r, r2) => Math.Sqrt((r2 - r * r) / nPhotons)).ToArray();
+                        //    var rMinusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r-std).ToArray();
+                        //    var rPlusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r+std).ToArray();
+                        //    points = Enumerable.Zip(
+                        //        independentValues.Concat(independentValues).Concat(independentValues),
+                        //        rMinusStdev.Concat(_output.R_r).Concat(rPlusStdev),
+                        //        (x, y) => new Point(x, y));
+                        //}
+                        //else
+                        //{
                             points = Enumerable.Zip(
                                 independentValues,
                                 _output.R_r,
                                 (x, y) => new Point(x, y));
-                        }
+                        //}
 
                         //IEnumerable<Point> points = ExecuteMonteCarloSolver();
 

@@ -161,37 +161,37 @@ namespace Vts.SiteVisit.ViewModel
                 default:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("",
-                            IndependentVariableAxis.Rho);
+                            new[] { IndependentVariableAxis.Rho});
                     ConstantLabelVisible = false;
                     break;
                 case FluenceSolutionDomainType.FluenceofFx:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("",
-                            IndependentVariableAxis.Fx);
+                            new[] { IndependentVariableAxis.Fx});
                     ConstantLabelVisible = false;
                     break;
                 case FluenceSolutionDomainType.FluenceofRhoAndT:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("",
-                            IndependentVariableAxis.Rho, IndependentVariableAxis.T);
+                            new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.T });
                     ConstantLabelVisible = true;
                     break;
                 case FluenceSolutionDomainType.FluenceofFxAndT:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("",
-                            IndependentVariableAxis.Fx, IndependentVariableAxis.T);
+                            new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.T });
                     ConstantLabelVisible = true;
                     break;
                 case FluenceSolutionDomainType.FluenceofRhoAndFt:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("",
-                            IndependentVariableAxis.Rho, IndependentVariableAxis.Ft);
+                            new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
                     break;
                 case FluenceSolutionDomainType.FluenceofFxAndFt:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("",
-                            IndependentVariableAxis.Fx, IndependentVariableAxis.Ft);
+                            new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
                     break;
             }

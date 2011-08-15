@@ -43,9 +43,12 @@ namespace Vts.SiteVisit.ViewModel
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
                 "Forward Model:",
                 false,
-                ForwardSolverType.DistributedPointSourceSDA,
-                ForwardSolverType.PointSourceSDA,
-                ForwardSolverType.DistributedGaussianSourceSDA); // explicitly enabling these for the workshop;
+                new[]
+                {
+                    ForwardSolverType.DistributedPointSourceSDA,
+                    ForwardSolverType.PointSourceSDA,
+                    ForwardSolverType.DistributedGaussianSourceSDA
+                }); // explicitly enabling these for the workshop;
 
             FluenceSolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Fluence Solution Domain", FluenceSolutionDomainType.FluenceofRho);
             AbsorbedEnergySolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Absorbed Energy Solution Domain", FluenceSolutionDomainType.FluenceofRho);
@@ -53,9 +56,12 @@ namespace Vts.SiteVisit.ViewModel
 
             MapTypeOptionVM = new OptionViewModel<MapType>(
                 "Map Type", 
-                MapType.Fluence, 
-                MapType.AbsorbedEnergy, 
-                MapType.PhotonHittingDensity);
+                new[]
+                {
+                    MapType.Fluence, 
+                    MapType.AbsorbedEnergy, 
+                    MapType.PhotonHittingDensity
+                });
 
             MapTypeOptionVM.PropertyChanged += (sender, args) =>
             {

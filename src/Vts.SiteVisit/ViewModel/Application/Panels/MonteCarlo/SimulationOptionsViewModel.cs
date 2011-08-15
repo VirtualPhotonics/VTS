@@ -17,13 +17,13 @@ namespace Vts.SiteVisit.ViewModel
             _simulationOptions = options; // use the property to invoke the appropriate change notification
             
 #if WHITELIST 
-            _absorptionWeightingTypeVM = new OptionViewModel<AbsorptionWeightingType>("Absorption Weighting Type:", true, WhiteList.ScatteringTypes);
-            _randomNumberGeneratorTypeVM = new OptionViewModel<RandomNumberGeneratorType>("Random Number Generator Type:", true, WhiteList.RandomNumberGeneratorTypes);
-            _phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", true, WhiteList.PhaseFunctionTypes);
+            _absorptionWeightingTypeVM = new OptionViewModel<AbsorptionWeightingType>("Absorption Weighting Type:", false, _simulationOptions.AbsorptionWeightingType, WhiteList.ScatteringTypes);
+            _randomNumberGeneratorTypeVM = new OptionViewModel<RandomNumberGeneratorType>("Random Number Generator Type:", false, _simulationOptions.RandomNumberGeneratorType, WhiteList.RandomNumberGeneratorTypes);
+            _phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", false, _simulationOptions.PhaseFunctionType, WhiteList.PhaseFunctionTypes);
 #else
-            _absorptionWeightingTypeVM = new OptionViewModel<AbsorptionWeightingType>("Absorption Weighting Type:", false);
-            _randomNumberGeneratorTypeVM = new OptionViewModel<RandomNumberGeneratorType>("Random Number Generator:", false);
-            _phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", false);
+            _absorptionWeightingTypeVM = new OptionViewModel<AbsorptionWeightingType>("Absorption Weighting Type:", false, _simulationOptions.AbsorptionWeightingType);
+            _randomNumberGeneratorTypeVM = new OptionViewModel<RandomNumberGeneratorType>("Random Number Generator:", false, _simulationOptions.RandomNumberGeneratorType);
+            _phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", false, _simulationOptions.PhaseFunctionType);
 #endif
             _absorptionWeightingTypeVM.PropertyChanged += (sender, args) =>
                 _simulationOptions.AbsorptionWeightingType = _absorptionWeightingTypeVM.SelectedValue;
