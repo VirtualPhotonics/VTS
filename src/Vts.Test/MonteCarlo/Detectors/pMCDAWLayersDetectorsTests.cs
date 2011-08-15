@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// mersenne twister STANDARD_TEST
     /// </summary>
     [TestFixture]
-    public class pMCDAWDetectorsTests
+    public class pMCDAWLayersDetectorsTests
     {
         private SimulationInput _referenceInputOneLayerTissue;
         private Output _referenceOutputOneLayerTissue;

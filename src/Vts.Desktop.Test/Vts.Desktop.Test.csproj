@@ -207,23 +207,23 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\AnalogDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\AnalogLayerDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\CAWDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWLayersDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\CAWLayersDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\DAWDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWLayersDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWLayersDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWSphereDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWSphereDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\pMCDAWDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularDetectorTests.cs">
-      <Link>MonteCarlo\Detectors\SpecularDetectorTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
+      <Link>MonteCarlo\Detectors\SpecularLayerDetectorTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Helpers\SourceToolboxTests.cs">
       <Link>MonteCarlo\Helpers\SourceToolboxTests.cs</Link>

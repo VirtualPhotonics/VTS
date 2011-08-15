@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// linux results.
     /// </summary>
     [TestFixture]
-    public class CAWDetectorsTests
+    public class CAWLayersDetectorsTests
     {
         private Output _outputOneLayerTissue;
         private Output _outputTwoLayerTissue;

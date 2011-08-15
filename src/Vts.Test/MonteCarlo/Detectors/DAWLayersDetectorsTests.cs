@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// collision pausing at the layer interface does not change the results.
     /// </summary>
     [TestFixture]
-    public class DAWDetectorsTests
+    public class DAWLayersDetectorsTests
     {
         private Output _outputOneLayerTissue;
         private Output _outputTwoLayerTissue;

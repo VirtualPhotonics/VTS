@@ -51,7 +51,17 @@ namespace Vts.MonteCarlo
             var tempResult = MultiLayerTissueInputValidation.ValidateLayers(layers);
 
             if (!tempResult.IsValid){ return tempResult; }
-            
+
+            if ((ellipsoid.Dx == 0) || (ellipsoid.Dy == 0) || (ellipsoid.Dz == 0))
+            {
+                tempResult = new ValidationResult(
+                    false,
+                    "SingleEllipsoidTissueInput: ellipsoid has a radial axis equal to 0",
+                    "SingleEllipsoidTissueInput: make sure Dx, Dy, Dz are > 0");
+            }
+
+            if (!tempResult.IsValid) { return tempResult; }
+
             // todo: don't like the assumption of air layers in general w/o it being a special case or test for air
             // what happens if it's a homogeneous medium with an inclusion? -DC
             //Func<ITissueRegion, bool> isAir = region => region.RegionOP.Mua == 0D && region.RegionOP.Mus <= 1E-10; 

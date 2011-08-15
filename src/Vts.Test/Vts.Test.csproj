@@ -252,20 +252,20 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\AnalogDetectorsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\AnalogLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\CAWDetectorsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\CAWLayersDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\DAWDetectorsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\DAWLayersDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\Detectors\DAWSphereDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\SpecularDetectorTests.cs">
+    <Compile Include="MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\Helpers\SourceToolboxTests.cs">

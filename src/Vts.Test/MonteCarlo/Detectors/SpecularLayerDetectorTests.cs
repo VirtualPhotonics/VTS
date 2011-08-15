@@ -16,7 +16,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// that all photons tallie to specular
     /// </summary>
     [TestFixture]
-    public class SpecularDetectorTests
+    public class SpecularLayerDetectorTests
     {
         private Output _output;
         private double _specularReflectance;

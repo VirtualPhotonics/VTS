@@ -10,6 +10,8 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class EllipsoidRegion : ITissueRegion
     {
+        private bool _onBoundary = false;
+
         public EllipsoidRegion(Position center, double radiusX, double radiusY, double radiusZ,
             OpticalProperties op)
         {
@@ -42,16 +44,19 @@ namespace Vts.MonteCarlo.Tissues
                     (position.Z - Center.Z) * (position.Z - Center.Z) /
                           (Dz * Dz);
 
-                if (inside < 0.9999999)
+                //if (inside < 0.9999999)
+                if (inside < 0.9999999999)
                 {
                     return true;
                 }
-                else if (inside > 1.0000001)
+                //else if (inside > 1.0000001)
+                else if (inside > 1.00000000001)
                 {
                     return false;
                 }
                 else  // on boundary
                 {
+                    _onBoundary = true;
                     return true;
                 }
         }
@@ -65,10 +70,18 @@ namespace Vts.MonteCarlo.Tissues
             var p1 = dp.Position;
             var d1 = dp.Direction;
 
-            // DC - CKH: correct??
+            // determine location of end of ray
             var p2 = new Position(p1.X + d1.Ux*photon.S, p1.Y + d1.Uy*photon.S, p1.Z + d1.Uz*photon.S);
 
             bool one_in = this.ContainsPosition(p1);
+            bool two_in = this.ContainsPosition(p2);
+
+            // check if ray within ellipsoid or outside ellipsoid
+            if ( ((one_in || _onBoundary) && two_in) || ((!one_in || _onBoundary) && !two_in) )
+            {
+                return false;
+            }
+            _onBoundary = false; // reset flag
             
             double area_x = Dx * Dx;
             double area_y = Dy * Dy;
