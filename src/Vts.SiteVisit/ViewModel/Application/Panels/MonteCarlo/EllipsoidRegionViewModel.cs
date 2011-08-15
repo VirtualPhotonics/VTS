@@ -23,7 +23,7 @@ namespace Vts.SiteVisit.ViewModel
             {
                 _name = name;
             }
-            _opticalPropertyVM = new OpticalPropertyViewModel(_region.RegionOP, "mm-1", "");
+            _opticalPropertyVM = new OpticalPropertyViewModel(_region.RegionOP, "mm-1", "", true, true,true, false);
         }
 
         public EllipsoidRegionViewModel() : this(new EllipsoidRegion(), "")

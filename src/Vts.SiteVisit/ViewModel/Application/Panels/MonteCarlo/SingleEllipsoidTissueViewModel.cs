@@ -20,6 +20,10 @@ namespace Vts.SiteVisit.ViewModel
         {
             _input = input;
 
+            // todo: this should be in validation with a warning...
+            var nLayer= _input.LayerRegions.Where(region => region.ContainsPosition(_input.EllipsoidRegion.Center)).First().RegionOP .N;
+            _input.EllipsoidRegion.RegionOP.N = nLayer;
+
             _ellipsoidRegionVM = new EllipsoidRegionViewModel((EllipsoidRegion)input.EllipsoidRegion, "Ellipsoid Region");
 
             _layerRegionsVM = new ObservableCollection<LayerRegionViewModel>(
