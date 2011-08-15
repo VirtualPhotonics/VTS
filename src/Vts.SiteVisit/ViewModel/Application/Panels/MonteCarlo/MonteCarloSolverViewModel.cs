@@ -310,6 +310,7 @@ namespace Vts.SiteVisit.ViewModel
             //    _currentBackgroundThread.
             //    logger.Info(() => "Simulation cancelled.\n");
             //}
+            Task.Factory.StartNew(() => _simulation.Cancel());
             if (_currentCancellationTokenSource != null)
             {
                 _currentCancellationTokenSource.Cancel(true);

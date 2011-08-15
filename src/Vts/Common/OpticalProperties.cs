@@ -112,15 +112,16 @@ namespace Vts
         /// <summary>
         /// anisotropy coefficient = cosine of an average scattering angle (where the angle is relative to the incoming and outgoing unit direction vectors)
         /// </summary>
-        /// <remarks>Warning - Setting this value also modifies Musp!</remarks>
+        /// <remarks>Warning - Setting this value also modifies Mus!</remarks>
         public double G
         {
             get { return _G; }
             set
             {
+                var previousMusp = Musp;
                 _G = value;
                 this.OnPropertyChanged("G");
-                this.OnPropertyChanged("Musp");
+                Musp = previousMusp; // convention that, if g changes, musp should stay the same (forcing mus to shift)
             }
         }
 

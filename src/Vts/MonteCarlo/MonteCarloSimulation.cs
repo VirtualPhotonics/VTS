@@ -31,6 +31,8 @@ namespace Vts.MonteCarlo
 
         private string _outputPath;
 
+        private bool _isCancelled;
+
         public MonteCarloSimulation(SimulationInput input)
         {
             _outputPath = "";
@@ -66,17 +68,19 @@ namespace Vts.MonteCarlo
             {
                 var detectors = DetectorFactory.GetDetectors(vbg.DetectorInputs, _tissue, input.Options.TallySecondMoment);
                 var detectorController = DetectorControllerFactory.GetDetectorController(vbg.VirtualBoundaryType, detectors);
-                var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbg.VirtualBoundaryType,_tissue, detectorController);
+                var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbg.VirtualBoundaryType, _tissue, detectorController);
                 _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
             }
             // needed?
             //_detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
-            
+
             // set doPMC flag
             if (_input.VirtualBoundaryInputs.Any(v => v.VirtualBoundaryType.IspMCVirtualBoundary()))
             {
                 doPMC = true;
             }
+
+            _isCancelled = false;
         }
 
         /// <summary>
@@ -106,18 +110,29 @@ namespace Vts.MonteCarlo
         /// <returns></returns>
         public Output Run()
         {
+            _isCancelled = false;
+
             DisplayIntro();
 
             ExecuteMCLoop();
 
+            if (_isCancelled)
+            {
+                return null;
+            }
             var detectors = _virtualBoundaryController.VirtualBoundaries
-                .Select(vb => vb.DetectorController)
-                .Where(dc => dc != null)
-                .SelectMany(dc => dc.Detectors).ToList();
+                    .Select(vb => vb.DetectorController)
+                    .Where(dc => dc != null)
+                    .SelectMany(dc => dc.Detectors).ToList();
 
             Results = new Output(_input, detectors);
 
             return Results;
+        }
+
+        public void Cancel()
+        {
+            _isCancelled = true;
         }
 
         /// <summary>
@@ -133,8 +148,8 @@ namespace Vts.MonteCarlo
                         DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
                             _input.VirtualBoundaryInputs
                             .Where(v => v.WriteToDatabase == true)
-                            .Select(v => v.VirtualBoundaryType).ToList(), 
-                            _outputPath, 
+                            .Select(v => v.VirtualBoundaryType).ToList(),
+                            _outputPath,
                             _input.OutputName));
                 }
                 else
@@ -144,19 +159,24 @@ namespace Vts.MonteCarlo
                             _input.VirtualBoundaryInputs
                                 .Where(v => v.WriteToDatabase == true)
                                 .Select(v => v.VirtualBoundaryType).ToList(),
-                                _outputPath, 
+                                _outputPath,
                                 _input.OutputName),
                         DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
                             _input.VirtualBoundaryInputs
                                 .Where(v => v.WriteToDatabase == true)
-                                .Select(v => v.VirtualBoundaryType).ToList(), 
-                                _tissue, 
-                                _outputPath, 
+                                .Select(v => v.VirtualBoundaryType).ToList(),
+                                _tissue,
+                                _outputPath,
                                 _input.OutputName));
                 }
 
                 for (long n = 1; n <= _numberOfPhotons; n++)
                 {
+                    if (_isCancelled)
+                    {
+                        return;
+                    }
+
                     // todo: bug - num photons is assumed to be over 10 :)
                     if (n % (_numberOfPhotons / 10) == 0)
                     {
@@ -178,7 +198,7 @@ namespace Vts.MonteCarlo
                         if ((hitType == BoundaryHitType.Virtual) &&
                             (closestVirtualBoundary.DetectorController != null))
                         {
-                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP); 
+                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP);
                             // reset PhotonStateType after tallying
                             photon.DP.StateFlag.Remove(closestVirtualBoundary.PhotonStateType);
                         }
@@ -253,7 +273,7 @@ namespace Vts.MonteCarlo
                     vb.DetectorController.NormalizeDetectors(_numberOfPhotons);
                 }
             }
-            
+
             if (TrackStatistics)
             {
                 _simulationStatistics.ToFile("statistics");
@@ -267,7 +287,7 @@ namespace Vts.MonteCarlo
             // get distance to any VB
 
             double vbDistance = double.PositiveInfinity;
-            
+
             // find closest VB (will return null if no closest VB exists)
             closestVirtualBoundary = _virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out vbDistance);
 
@@ -282,7 +302,7 @@ namespace Vts.MonteCarlo
                 if (vbDistance == double.PositiveInfinity)
                 {
                     photon.DP.StateFlag = photon.DP.StateFlag.Remove(PhotonStateType.Alive);
-                    return BoundaryHitType.None; 
+                    return BoundaryHitType.None;
                 }
                 else
                 {
@@ -315,7 +335,7 @@ namespace Vts.MonteCarlo
             /* fraction of photons completed */
             double frac = 100 * n / num_phot;
 
-            logger.Info(() => header + frac + " percent complete," +  "\n");
+            logger.Info(() => header + frac + " percent complete," + "\n");
         }
     }
 }

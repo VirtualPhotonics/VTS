@@ -148,6 +148,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\OpticalPropertiesTests.cs" />
     <Compile Include="Common\StopwatchTests.cs" />
     <Compile Include="Common\Extensions\ArrayExtensionsTests.cs">
       <SubType>Code</SubType>

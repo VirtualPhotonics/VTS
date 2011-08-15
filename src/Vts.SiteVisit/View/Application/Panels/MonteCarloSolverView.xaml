@@ -105,7 +105,7 @@
             <Button VerticalAlignment="Bottom" Command="{Binding ExecuteMonteCarloSolverCommand}"
                 Background="{Binding StackPanel.Background}" Content="Run Simulation"  
                 Width="120" Height="30" Margin="5"/>
-            <Button VerticalAlignment="Bottom" Command="{Binding CancelMonteCarloSolverCommand}" IsEnabled="False"
+            <Button VerticalAlignment="Bottom" Command="{Binding CancelMonteCarloSolverCommand}"
                 Background="{Binding StackPanel.Background}" Content="Cancel Simulation"  
                 Width="120" Height="30" Margin="5"/>
             <Button VerticalAlignment="Bottom" Command="{Binding SaveSimulationResultsCommand}"
