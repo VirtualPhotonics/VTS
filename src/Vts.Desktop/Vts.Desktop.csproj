@@ -740,6 +740,9 @@
     <Compile Include="..\Vts\MonteCarlo\Extensions\DetectorExtensionMethods.cs">
       <Link>MonteCarlo\Extensions\DetectorExtensionMethods.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Extensions\ITissueRegionExtensions.cs">
+      <Link>MonteCarlo\Extensions\ITissueRegionExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Extensions\PhotonDataExtensionMethods.cs">
       <Link>MonteCarlo\Extensions\PhotonDataExtensionMethods.cs</Link>
     </Compile>
