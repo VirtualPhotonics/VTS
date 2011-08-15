@@ -31,23 +31,31 @@
                         <TextBlock Text="Number of Photons:"/>
                         <TextBox Text="{Binding N, Mode=TwoWay}" Width="100"/>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Simulation Options"/>
+                    <StackPanel Orientation="Vertical" DataContext="{Binding SimulationOptionsVM}">
+                        <TextBlock Text="Simulation Options" FontWeight="Bold"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Tally second moment:" VerticalAlignment="Center"/>
+                            <CheckBox IsChecked="{Binding TallySecondMoment, Mode=TwoWay}" VerticalAlignment="Center"/>
+                            <TextBlock Text="Track statistics:" VerticalAlignment="Center" Margin="5,0"/>
+                            <CheckBox IsChecked="{Binding TrackStatistics, Mode=TwoWay}" VerticalAlignment="Center"/>
+                            <TextBlock Text="Seed:" VerticalAlignment="Center" Margin="5,0"/>
+                            <TextBox Text="{Binding Seed, Mode=TwoWay}" Width="60" VerticalAlignment="Center"/>
+                        </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Absorption Weighting Type: "/>
-                            <v:RadioButtonOptionView DataContext="{Binding SimulationOptionsVM.AbsorptionWeightingTypeVM, Mode=TwoWay}" />
+                            <v:RadioButtonOptionView DataContext="{Binding AbsorptionWeightingTypeVM, Mode=TwoWay}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Visibility="Collapsed">
                             <TextBlock Text="Random NumberGenerator Type: "/>
-                            <v:RadioButtonOptionView DataContext="{Binding SimulationOptionsVM.RandomNumberGeneratorTypeVM, Mode=TwoWay}" />
+                            <v:RadioButtonOptionView DataContext="{Binding RandomNumberGeneratorTypeVM, Mode=TwoWay}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Phase Function Type: "/>
-                            <v:RadioButtonOptionView DataContext="{Binding SimulationOptionsVM.PhaseFunctionTypeVM, Mode=TwoWay}" />
+                            <v:RadioButtonOptionView DataContext="{Binding PhaseFunctionTypeVM, Mode=TwoWay}" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Tissue Input"/>
+                        <TextBlock Text="Tissue Input" FontWeight="Bold"/>
                         <v:ListBox ItemsSource="{Binding TissueInputVM.LayerRegionsVM, Mode=TwoWay}" Height="210" Margin="5">
                             <v:ListBox.ItemTemplate>
                                 <DataTemplate>

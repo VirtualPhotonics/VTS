@@ -185,6 +185,7 @@ namespace Vts.SiteVisit.ViewModel
         private void MC_ExecuteMonteCarloSolver_Executed(object sender, ExecutedEventArgs e)
         {
             var input = _simulationInputVM.SimulationInput;
+            var nPhotons = _simulationInputVM.SimulationInput.N;
 
             ROfRhoDetectorInput rOfRho = (ROfRhoDetectorInput)(input.VirtualBoundaryInputs.Where(
                 v => v.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance).Select(
@@ -212,10 +213,25 @@ namespace Vts.SiteVisit.ViewModel
                     {
                         stopwatch.Stop();
                         _output = antecedent.Result;
-                        IEnumerable<Point> points = EnumerableEx.Zip(
-                            independentValues,
-                            _output.R_r,
-                            (x, y) => new Point(x, y));
+                        var showPlusMinusStdev = true;
+                        IEnumerable<Point> points = null;
+                        if(showPlusMinusStdev && _output.R_r2 != null)
+                        {
+                            var stdev = Enumerable.Zip(_output.R_r,_output.R_r2, (r,r2) => Math.Sqrt(r*r - r2)).ToArray();
+                            var rMinusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r-std).ToArray();
+                            var rPlusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r+std).ToArray();
+                            points = Enumerable.Zip(
+                                independentValues.Concat(independentValues).Concat(independentValues),
+                                rMinusStdev.Concat(_output.R_r).Concat(rPlusStdev),
+                                (x, y) => new Point(x, y));
+                        }
+                        else
+                        {
+                            points = Enumerable.Zip(
+                                independentValues,
+                                _output.R_r,
+                                (x, y) => new Point(x, y));
+                        }
 
                         //IEnumerable<Point> points = ExecuteMonteCarloSolver();
 
@@ -225,7 +241,8 @@ namespace Vts.SiteVisit.ViewModel
                         string plotLabel = GetPlotLabel();
                         Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
 
-                        logger.Info(() => "Monte Carlo simulation complete (simulation time = " + stopwatch.ElapsedMilliseconds/1000f +  " seconds).\r");
+                        logger.Info(() => "Monte Carlo simulation complete (N = " + nPhotons + " photons; simulation time = "
+                            + stopwatch.ElapsedMilliseconds/1000f +  " seconds).\r");
                     });
                 },
                 cancelToken,
