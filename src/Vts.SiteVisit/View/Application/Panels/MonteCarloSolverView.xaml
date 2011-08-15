@@ -34,12 +34,12 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical" DataContext="{Binding SimulationOptionsVM}">
                         <TextBlock Text="Simulation Options" FontWeight="Bold"/>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Tally second moment:" VerticalAlignment="Center"/>
-                            <CheckBox IsChecked="{Binding TallySecondMoment, Mode=TwoWay}" VerticalAlignment="Center"/>
-                            <TextBlock Text="Track statistics:" VerticalAlignment="Center" Margin="5,0"/>
-                            <CheckBox IsChecked="{Binding TrackStatistics, Mode=TwoWay}" VerticalAlignment="Center"/>
-                            <TextBlock Text="Seed:" VerticalAlignment="Center" Margin="5,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <CheckBox IsChecked="{Binding TallySecondMoment, Mode=TwoWay}" VerticalAlignment="Center" />
+                            <TextBlock Text="Tally second moment" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <CheckBox IsChecked="{Binding TrackStatistics, Mode=TwoWay}" VerticalAlignment="Center" />
+                            <TextBlock Text="Track statistics" VerticalAlignment="Center" TextAlignment="Left" Margin="0,0,10,0"/>
+                            <TextBlock Text="Seed:" VerticalAlignment="Center"/>
                             <TextBox Text="{Binding Seed, Mode=TwoWay}" Width="60" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
@@ -59,7 +59,7 @@
                         <TextBlock Text="Tissue Input" FontWeight="Bold"/>
                         <StackPanel Orientation="Horizontal" >
                             <TextBlock Text="Currently selected region:" VerticalAlignment="Center"/>
-                            <toolkit:NumericUpDown Name="nudRegionIndex"  Value="{Binding CurrentRegionIndex, Mode=TwoWay}" Minimum="{Binding MinimumRegionIndex}"  Maximum="{Binding MaximumRegionIndex}" Width="30" HorizontalAlignment="Left"/>
+                            <toolkit:NumericUpDown Name="nudRegionIndex"  Value="{Binding CurrentRegionIndex, Mode=TwoWay}" Minimum="{Binding MinimumRegionIndex}"  Maximum="{Binding MaximumRegionIndex}" Width="35" HorizontalAlignment="Left"/>
                             <!--
                             <TextBlock Text="(" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding SelectedValue.Name, ElementName=lbxRegions}" VerticalAlignment="Center"/>
