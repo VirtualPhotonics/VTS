@@ -216,6 +216,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWDetectorsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWSphereDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWSphereDetectorsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\pMCDAWDetectorsTests.cs</Link>
     </Compile>

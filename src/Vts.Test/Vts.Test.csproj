@@ -261,6 +261,7 @@
     <Compile Include="MonteCarlo\Detectors\DAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\Detectors\DAWSphereDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>

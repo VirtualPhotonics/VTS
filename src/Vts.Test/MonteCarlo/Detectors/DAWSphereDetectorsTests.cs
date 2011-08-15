@@ -101,7 +101,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     )
                 };
             _inputOneRegionTissue = new SimulationInput(
-                11,
+                100,
                 "",
                 simulationOptions,
                 source,
@@ -123,7 +123,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             _outputOneRegionTissue = new MonteCarloSimulation(_inputOneRegionTissue).Run();
 
             _inputTwoRegionTissue = new SimulationInput(
-                11,
+                100,
                 "",
                 simulationOptions,
                 source,
