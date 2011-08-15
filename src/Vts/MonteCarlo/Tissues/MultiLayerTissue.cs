@@ -107,7 +107,7 @@ namespace Vts.MonteCarlo.Tissues
             // this code assumes that the first and last layer is air
             return 
                 position.Z < 1e-10 ||
-                (Math.Abs(position.Z - (_layerRegions[Regions.Count() - 2]).ZRange.Stop) < 1e-10);
+                (Math.Abs(position.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10);
         }
 
         public override int GetNeighborRegionIndex(Photon photon)

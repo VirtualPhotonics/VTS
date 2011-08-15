@@ -98,7 +98,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     ),
                     new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseTransmittance,
-                        null,
+                        new List<IDetectorInput>(){},
                         false,
                         VirtualBoundaryType.DiffuseTransmittance.ToString()
                     )

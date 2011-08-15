@@ -18,19 +18,19 @@ namespace Vts.MonteCarlo
         {
             return new List<SimulationInput>()
             {
-                PointSourceSingleLayerTissueAllDetectors(),
-                PointSourceSingleLayerTissueROfRhoDetector(),
-                PointSourceSingleEllipsoidTissueROfRhoDetector()
+                PointSourceOneLayerTissueAllDetectors(),
+                PointSourceOneLayerTissueROfRhoDetector(),
+                PointSourceSingleEllipsoidTissueRadianceOfRhoAndZAndAngleDetector()
             };
         }
         /// <summary>
         /// Point source, single tissue layer definition, all detectors included
         /// </summary>
-        public static SimulationInput PointSourceSingleLayerTissueAllDetectors()
+        public static SimulationInput PointSourceOneLayerTissueAllDetectors()
         {
             return new SimulationInput(
                 100,
-                "results",
+                "one_layer_all_detectors",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -84,7 +84,6 @@ namespace Vts.MonteCarlo
                     ),
                     new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseTransmittance,
-                        //null,
                         new List<IDetectorInput>()
                         {
                             new TDiffuseDetectorInput(),
@@ -130,11 +129,11 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, single tissue layer definition, only ROfRho detector included
         /// </summary>
-        public static SimulationInput PointSourceSingleLayerTissueROfRhoDetector()
+        public static SimulationInput PointSourceOneLayerTissueROfRhoDetector()
         {
             return new SimulationInput(
                 100,
-                "results",
+                "one_layer_ROfRho",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -174,19 +173,19 @@ namespace Vts.MonteCarlo
                     ),
                     new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseTransmittance,
-                        null,
+                        new List<IDetectorInput>() {},
                         false, // write to database
                         VirtualBoundaryType.DiffuseTransmittance.ToString()
                     ),
                     new GenericVolumeVirtualBoundaryInput(
                         VirtualBoundaryType.GenericVolumeBoundary,
-                        null,
+                        new List<IDetectorInput>() {},
                         false,
                         VirtualBoundaryType.GenericVolumeBoundary.ToString()
                     ),
                     new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.SpecularReflectance,
-                        null,
+                        new List<IDetectorInput>() {},
                         false,
                         VirtualBoundaryType.SpecularReflectance.ToString()
                     ),
@@ -195,11 +194,11 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, single ellipsoid tissue definition, only ROfRho detector included
         /// </summary>
-        public static SimulationInput PointSourceSingleEllipsoidTissueROfRhoDetector()
+        public static SimulationInput PointSourceSingleEllipsoidTissueRadianceOfRhoAndZAndAngleDetector()
         {
             return new SimulationInput(
                 100,
-                "results",
+                "ellip_RadianceOfRhoAndZAndAngle",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -237,28 +236,38 @@ namespace Vts.MonteCarlo
                 {
                     new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseReflectance,
-                        new List<IDetectorInput>()
-                        {
-                            new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
-                        },
+                        new List<IDetectorInput>() {},
                         false, // write to database
                         VirtualBoundaryType.DiffuseReflectance.ToString()
                     ),
                     new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseTransmittance,
-                        null,
+                        new List<IDetectorInput>() {},
                         false, // write to database
                         VirtualBoundaryType.DiffuseTransmittance.ToString()
                     ),
                     new GenericVolumeVirtualBoundaryInput(
                         VirtualBoundaryType.GenericVolumeBoundary,
-                        null,
+                        new List<IDetectorInput>()
+                        {
+                            new ATotalDetectorInput(),
+                            new AOfRhoAndZDetectorInput(                            
+                                new DoubleRange(0.0, 10, 101),
+                                new DoubleRange(0.0, 10, 101)),
+                            new FluenceOfRhoAndZDetectorInput(                            
+                                new DoubleRange(0.0, 10, 101),
+                                new DoubleRange(0.0, 10, 101)),
+                            new RadianceOfRhoAndZAndAngleDetectorInput(
+                                new DoubleRange(0.0, 10, 101),
+                                new DoubleRange(0.0, 10, 101),
+                                new DoubleRange(0, Math.PI, 5))
+                        },
                         false,
                         VirtualBoundaryType.GenericVolumeBoundary.ToString()
                     ),
                     new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.SpecularReflectance,
-                        null,
+                        new List<IDetectorInput>() {},
                         false,
                         VirtualBoundaryType.SpecularReflectance.ToString()
                     ),

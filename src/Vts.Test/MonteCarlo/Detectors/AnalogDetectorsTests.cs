@@ -40,7 +40,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Analog, 
                     PhaseFunctionType.HenyeyGreenstein,
-                    //null, 
                     true, // tally SecondMoment
                     true, // track statistics
                     0),

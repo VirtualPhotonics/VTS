@@ -50,7 +50,7 @@ namespace Vts.MonteCarlo.Tissues
                 {
                     return false;
                 }
-                else
+                else  // on boundary
                 {
                     return true;
                 }
@@ -82,9 +82,9 @@ namespace Vts.MonteCarlo.Tissues
             double dySquared = dy * dy;
             double dzSquared = dz * dz;
 
-            double xOffset = p1.X - Dx;
-            double yOffset = p1.Y - Dy;
-            double zOffset = p1.Z - Dz;
+            double xOffset = p1.X - Center.X;
+            double yOffset = p1.Y - Center.Y;
+            double zOffset = p1.Z - Center.Z;
 
             double A =
                 dxSquared / area_x +
@@ -167,7 +167,7 @@ namespace Vts.MonteCarlo.Tissues
                         /*distance to the nearest boundary*/
                         distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
                                 (yto - p1.Y) * (yto - p1.Y) +
-                                (zto - p1.Y) * (zto - p1.Y));
+                                (zto - p1.Z) * (zto - p1.Z));
 
                         return true;
 
@@ -204,9 +204,9 @@ namespace Vts.MonteCarlo.Tissues
             double dySquared = dy * dy;
             double dzSquared = dz * dz;
 
-            double xOffset = p1.X - Dx;
-            double yOffset = p1.Y - Dy;
-            double zOffset = p1.Z - Dz;
+            double xOffset = p1.X - Center.X;
+            double yOffset = p1.Y - Center.Y;
+            double zOffset = p1.Z - Center.Z;
 
             double A =
                 dxSquared / area_x +

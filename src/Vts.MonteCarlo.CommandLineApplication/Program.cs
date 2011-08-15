@@ -189,7 +189,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             var infiles = SimulationInputProvider.GenerateAllSimulationInputs();
             for (int i = 0; i < infiles.Count; i++)
             {
-                infiles[i].ToFile("newinfile_" + i + ".xml"); 
+                infiles[i].ToFile("newinfile_" + infiles[i].OutputName + ".xml"); 
             }
         }
 
@@ -217,7 +217,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
             Console.WriteLine("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
             Console.WriteLine("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
             Console.WriteLine();
-            Console.WriteLine("geninfiles\t\tgenerates example infiles and names them newinfile_#.xml");
+            Console.WriteLine("geninfiles\t\tgenerates example infiles and names them newinfile_XXX.xml");
+            Console.WriteLine("\t\twhere XXX describes the type of input specified");
             Console.WriteLine();
             Console.WriteLine("list of sweep parameters (paramsweep):");
             Console.WriteLine();

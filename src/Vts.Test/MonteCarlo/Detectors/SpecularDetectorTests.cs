@@ -35,7 +35,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Analog,
                      PhaseFunctionType.HenyeyGreenstein,
-                //null, 
                      true, // tally SecondMoment
                      false, // track statistics
                      0),
@@ -71,13 +70,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                     ),
                     new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseReflectance,
-                        null,
+                        new List<IDetectorInput>(){},
                         false,
                         VirtualBoundaryType.DiffuseReflectance.ToString()
                     ),
                     new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.DiffuseTransmittance,
-                        null,
+                        new List<IDetectorInput>(){},
                         false,
                         VirtualBoundaryType.DiffuseTransmittance.ToString()
                     )

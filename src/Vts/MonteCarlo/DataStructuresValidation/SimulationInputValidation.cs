@@ -92,6 +92,13 @@ namespace Vts.MonteCarlo
             bool hasDiffuseTransmittanceVB = false;
             ValidationResult tempResult = null;
 
+            if (virtualBoundaryInputs == null)
+            {
+                return new ValidationResult(
+                    false,
+                    "No Virtual Boundaries specified",
+                    "Need to specify Virtual Boundaries in order to define detectors");
+            }
             foreach (var virtualBoundaryInput in virtualBoundaryInputs)
             {
                 switch (virtualBoundaryInput.VirtualBoundaryType)
