@@ -241,29 +241,38 @@ namespace Vts.SiteVisit.ViewModel
                             Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
                         }
 
-                        if (_output.Flu_rz != null)
-                        {
-                            var detectorInput = _simulationInputVM.SimulationInput.VirtualBoundaryInputs
-                                .Where(vb => vb.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary)
-                                .First()
-                                .DetectorInputs
-                                .First(di => di.Name == "FluenceOfRhoAndZ") as FluenceOfRhoAndZAndTimeDetectorInput;
+                        var detectorInputs = _simulationInputVM.SimulationInput.VirtualBoundaryInputs
+                            .Where(vb => vb.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary)
+                            .SelectMany(vb => vb.DetectorInputs)
+                            .Where(di => di.Name == "FluenceOfRhoAndZ");
 
-                            var rhos = detectorInput.Rho.AsEnumerable().ToArray();
-                            var zs = detectorInput.Z.AsEnumerable().ToArray();
+                        if (detectorInputs.Any())
+                        {
+                            var detectorInput = (FluenceOfRhoAndZDetectorInput)detectorInputs.First();
+                            var rhosMC = detectorInput.Rho.AsEnumerable().ToArray();
+                            var zsMC = detectorInput.Z.AsEnumerable().ToArray();
+
+                            var rhos = Enumerable.Zip(rhosMC.Skip(1), rhosMC.Take(rhosMC.Length - 1), (first, second) => (first + second) / 2).ToArray();
+                            var zs = Enumerable.Zip(zsMC.Skip(1), rhosMC.Take(zsMC.Length - 1), (first, second) => (first + second) / 2).ToArray();
 
                             // flip the array (since it goes over zs and then rhos, while map wants rhos and then zs
-                            double[] destinationArray = new double[_output.Flu_rz.Length];
+                            double[] destinationArray = new double[_output.Flu_rz.Length*2];
                             //long index = 0;
-                            for (int rhoi = 0; rhoi < rhos.Length; rhoi++)
+                            for (int zi = 0; zi < zs.Length; zi++)
                             {
-                                for (int zi = 0; zi < zs.Length; zi++)
+                                for (int rhoi = 0; rhoi < rhos.Length; rhoi++)
                                 {
-                                    destinationArray[rhoi + rhos.Length * zi] = _output.Flu_rz[rhoi, zi];
+                                    //destinationArray[rhoi + rhos.Length * zi] = _output.Flu_rz[rhoi, zi];
+                                    destinationArray[rhoi + rhos.Length + rhos.Length * 2 * zi] = _output.Flu_rz[rhoi, zi];
+                                }
+                                var localRhoiForReverse = 0;
+                                for (int rhoi = rhos.Length - 1; rhoi >= 0; rhoi--, localRhoiForReverse++)
+                                {
+                                    destinationArray[localRhoiForReverse + rhos.Length * 2 * zi] = _output.Flu_rz[rhoi, zi];
                                 }
                             }
 
-                            var mapData = new MapData(destinationArray, rhos, zs);
+                            var mapData = new MapData(destinationArray, Enumerable.Concat(rhos,rhos).ToArray(), zs);
 
                             Commands.Maps_PlotMap.Execute(mapData);
                         }
@@ -360,15 +369,15 @@ namespace Vts.SiteVisit.ViewModel
                     //infile_database.ToFile("infile_database.xml");
                     //infile_pMC_database.ToFile("infile_pMC_database.xml");
                     //infile.ToFile("infile.xml");
-                    
+
                     //// then, zip all these together and SaveFileDialog to .zip...
                     //using (var zipStream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("zip"))
                     //{
-                        //if (zipStream != null)
-                        //{
-                            FileIO.ZipFiles(xmlFilenames, "", stream);
-                            logger.Info(() => "Template simulation input files exported to a zip file.\r");
-                        //}
+                    //if (zipStream != null)
+                    //{
+                    FileIO.ZipFiles(xmlFilenames, "", stream);
+                    logger.Info(() => "Template simulation input files exported to a zip file.\r");
+                    //}
                     //}
 
                     // FileIO.WriteToStream(simulationInput, stream);
