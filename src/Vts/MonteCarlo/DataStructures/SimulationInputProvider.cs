@@ -20,7 +20,8 @@ namespace Vts.MonteCarlo
             {
                 PointSourceOneLayerTissueAllDetectors(),
                 PointSourceOneLayerTissueROfRhoDetector(),
-                PointSourceSingleEllipsoidTissueRadianceOfRhoAndZAndAngleDetector()
+                PointSourceTwoLayerTissueROfRhoDetector(),
+                PointSourceSingleEllipsoidTissueRadianceOfRhoAndZAndAngleDetector(),
             };
         }
         /// <summary>
@@ -154,6 +155,74 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IVirtualBoundaryInput>
+                {
+                    new SurfaceVirtualBoundaryInput(
+                        VirtualBoundaryType.DiffuseReflectance,
+                        new List<IDetectorInput>()
+                        {
+                            new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
+                        },
+                        false, // write to database
+                        VirtualBoundaryType.DiffuseReflectance.ToString()
+                    ),
+                    new SurfaceVirtualBoundaryInput(
+                        VirtualBoundaryType.DiffuseTransmittance,
+                        new List<IDetectorInput>() {},
+                        false, // write to database
+                        VirtualBoundaryType.DiffuseTransmittance.ToString()
+                    ),
+                    new GenericVolumeVirtualBoundaryInput(
+                        VirtualBoundaryType.GenericVolumeBoundary,
+                        new List<IDetectorInput>() {},
+                        false,
+                        VirtualBoundaryType.GenericVolumeBoundary.ToString()
+                    ),
+                    new SurfaceVirtualBoundaryInput(
+                        VirtualBoundaryType.SpecularReflectance,
+                        new List<IDetectorInput>() {},
+                        false,
+                        VirtualBoundaryType.SpecularReflectance.ToString()
+                    ),
+                });
+        }
+        /// <summary>
+        /// Point source, two-layer tissue definition, only ROfRho detector included
+        /// </summary>
+        public static SimulationInput PointSourceTwoLayerTissueROfRhoDetector()
+        {
+            return new SimulationInput(
+                100,
+                "two_layer_ROfRho",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    true, // tally Second Moment
+                    false, // track statistics
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                new MultiLayerTissueInput(
+                    new LayerRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 1.5),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(1.5, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),

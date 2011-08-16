@@ -514,18 +514,18 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.xml" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml" />
-    <Resource Include="..\..\files\SimulationInputFiles\infile.xml">
-      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile.xml</Link>
-    </Resource>
-    <Resource Include="..\..\files\SimulationInputFiles\infile_database.xml">
-      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile_database.xml</Link>
-    </Resource>
-    <Resource Include="..\..\files\SimulationInputFiles\infile_pMC_database.xml">
-      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile_pMC_database.xml</Link>
-    </Resource>
-    <Resource Include="..\..\files\SimulationInputFiles\infile_ROfRho.xml">
-      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile_ROfRho.xml</Link>
-    </Resource>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_ellip_RadianceOfRhoAndZAndAngle.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_ellip_RadianceOfRhoAndZAndAngle.xml</Link>
+    </Content>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_all_detectors.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_one_layer_all_detectors.xml</Link>
+    </Content>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_ROfRho.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_one_layer_ROfRho.xml</Link>
+    </Content>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_two_layer_ROfRho.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_two_layer_ROfRho.xml</Link>
+    </Content>
     <Content Include="Modeling\Spectroscopy\ChromophoreList.xml" />
   </ItemGroup>
   <ItemGroup>

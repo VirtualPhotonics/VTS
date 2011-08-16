@@ -101,26 +101,17 @@
       <Link>Acknowledgements.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile.xml">
-      <Link>infile.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_ellip_RadianceOfRhoAndZAndAngle.xml">
+      <Link>newinfile_ellip_RadianceOfRhoAndZAndAngle.xml</Link>
     </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_database.xml">
-      <Link>infile_database.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_all_detectors.xml">
+      <Link>newinfile_one_layer_all_detectors.xml</Link>
     </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_ellip.xml">
-      <Link>infile_ellip.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_ROfRho.xml">
+      <Link>newinfile_one_layer_ROfRho.xml</Link>
     </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_pMC_database.xml">
-      <Link>infile_pMC_database.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_ROfRho.xml">
-      <Link>infile_ROfRho.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_two_layer_ROfRho.xml">
+      <Link>newinfile_two_layer_ROfRho.xml</Link>
     </Content>
     <Content Include="..\..\license.txt">
       <Link>license.txt</Link>
