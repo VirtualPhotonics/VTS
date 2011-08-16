@@ -37,9 +37,9 @@ namespace Vts.MonteCarlo.Sources
             ISourceProfile sourceProfile,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
-            Direction newDirectionOfPrincipalSourceAxis,
-            Position translationFromOrigin,
-            int initialTissueRegionIndex)
+            Direction newDirectionOfPrincipalSourceAxis = null,
+            Position translationFromOrigin = null,
+            int initialTissueRegionIndex = 0)
             : base(
                 aParameter,
                 bParameter,

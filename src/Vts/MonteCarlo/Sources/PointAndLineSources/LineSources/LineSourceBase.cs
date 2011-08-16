@@ -131,7 +131,7 @@ namespace Vts.MonteCarlo.Sources
                     var gaussianProfile = sourceProfile as GaussianSourceProfile;
                     finalPosition = SourceToolbox.GetPositionInALineRandomGaussian(
                         finalPosition,
-                        lineLength,
+                        0.5*lineLength,
                         gaussianProfile.BeamDiaFWHM,
                         rng);
                     break;                

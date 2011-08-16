@@ -1,9 +1,9 @@
 %GetGaussianLinePosition
 function [V] = Func_GetPositionInALineRandomGaussian(V, L, BDFWHM, RN1, RN2)
 
-FactorX = L(1)/BDFWHM;
+FactorX = 0.5*L(1)/(BDFWHM * 0.8493218);
 
-LimitX = Func_GetLowerLimit(FactorX);
+LimitX = Func_GetLimit(FactorX);
 
 NR = Func_GetSingleNormallyDistributedRandomNumber(RN1, RN2, LimitX);
 

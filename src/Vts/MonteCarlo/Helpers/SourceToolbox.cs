@@ -98,31 +98,35 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="nrng1">normally distributed random number 1</param>
         /// <param name="nrng2">normally distributed random number 2</param>
         /// <param name="lowerLimit">lower limit of the uniform random number</param>
+        /// <param name="upperLimit">lower limit of the uniform random number</param>
         /// <param name="rng">The random number generator</param>
         public static void GetDoubleNormallyDistributedRandomNumbers(
             ref double nrng1,
             ref double nrng2,
             double lowerLimit,
+            double upperLimit,
             Random rng)
         {
             double RN1, RN2;
 
-            RN1 = Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, 1.0)));
+            RN1 = Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, upperLimit)));
             RN2 = 2 * Math.PI * rng.NextDouble();
 
             nrng1 = RN1 * Math.Cos(RN2);
             nrng2 = RN1 * Math.Sin(RN2);
         }
+                
 
         /// <summary>
-        /// Provides the lower limit of a flat random distribution between 0 and 1
+        /// Provides the limit of a flat random distribution between 0 and 1
         /// </summary>
         /// <param name="factor">factor</param>
         /// <returns>lower limit</returns>
-        public static double GetLowerLimit(double factor)
+        public static double GetLimit(double factor)
         {
             return (Math.Exp(-0.5 * factor * factor));
         }
+
 
         /// <summary>
         /// Provides polar azimuthal angle pair after uniform sampling of given polar angle range and azimuthal angle range
@@ -213,12 +217,14 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="center">The center coordiantes of the circle</param>
         /// <param name="outerRadius">The outer radius of the circle</param>
+        /// <param name="innerRadius">The inner radius of the circle</param>
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>position</returns>       
         public static Position GetPositionInACircleRandomGaussian(
             Position center,
             double outerRadius,
+            double innerRadius,
             double beamDiaFWHM,
             Random rng)
         {
@@ -230,14 +236,17 @@ namespace Vts.MonteCarlo.Helpers
             if (beamDiaFWHM <= 0.0)
                 beamDiaFWHM = 1e-20;
 
+            //http://www.zemax.com/kb/articles/177/1/How-To-Convert-FWHM-Measurements-to-1e-Squared-Halfwidths/Page1.html
             double x = 0.0;
             double y = 0.0;
-            double factor = outerRadius / beamDiaFWHM;
+            double factorL = outerRadius / (0.8493218 * beamDiaFWHM);
+            double factorU = innerRadius / (0.8493218 * beamDiaFWHM);
 
             GetDoubleNormallyDistributedRandomNumbers(
                 ref x,
                 ref y,
-                GetLowerLimit(factor),
+                GetLimit(factorL),
+                GetLimit(factorU),
                 rng);
 
             return (new Position(
@@ -279,9 +288,9 @@ namespace Vts.MonteCarlo.Helpers
         /// Returns a random position in a cuboid volume (Gaussian distribution)
         /// </summary>
         /// <param name="center">The center coordiantes of the cuboid</param>
-        /// <param name="lengthX">The x-length of the cuboid</param>
-        /// <param name="lengthY">The y-length of the cuboid</param>
-        /// <param name="lengthZ">The z-length of the cuboid</param>
+        /// <param name="lengthX">The x-coordinate of the length</param>
+        /// <param name="lengthY">The y-coordinate of the width</param>
+        /// <param name="lengthZ">The z-coordinate of the height</param>
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>position</returns>
@@ -303,19 +312,19 @@ namespace Vts.MonteCarlo.Helpers
             if (beamDiaFWHM <= 0.0)
                 beamDiaFWHM = 1e-20;
 
-            double factor = lengthX / beamDiaFWHM;
+            double factor = lengthX / (0.8493218 *beamDiaFWHM);
             position.X = center.X + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
-                GetLowerLimit(factor),
+                GetLimit(factor),
                 rng);
 
-            factor = lengthY / beamDiaFWHM;
+            factor = lengthY / (0.8493218 * beamDiaFWHM);
             position.Y = center.Y + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
-                GetLowerLimit(factor),
+                GetLimit(factor),
                 rng);
 
-            factor = lengthZ / beamDiaFWHM;
+            factor = lengthZ / (0.8493218 * beamDiaFWHM);
             position.Z = center.Z + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
-                GetLowerLimit(factor),
+                GetLimit(factor),
                 rng);
             return position;
         }
@@ -347,7 +356,7 @@ namespace Vts.MonteCarlo.Helpers
         /// Returns a random position in a line (Flat distribution)        
         /// </summary>
         /// <param name="center">The center coordiantes of the line</param>
-        /// <param name="lengthX">The x-length of the line</param>   
+        /// <param name="lengthX">The x-coordinate of the length</param>   
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>position</returns>
@@ -366,10 +375,10 @@ namespace Vts.MonteCarlo.Helpers
                 if (beamDiaFWHM <= 0.0)
                     beamDiaFWHM = 1e-20;
 
-                double factor = lengthX / beamDiaFWHM;
+                double factor = lengthX / (0.8493218 * beamDiaFWHM);
                 return (
                     new Position(center.X + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
-                           GetLowerLimit(factor),
+                           GetLimit(factor),
                            rng),
                         center.Y,
                         center.Z));
@@ -435,25 +444,24 @@ namespace Vts.MonteCarlo.Helpers
                 beamDiaFWHM = 1e-20;
 
             double x, y;
-            double factor1 = 2 * a / beamDiaFWHM;
-            double factor2 = 2 * b / beamDiaFWHM;
+            double factora = a / (0.8493218 * beamDiaFWHM);
+            double factorb = b / (0.8493218 * beamDiaFWHM);
 
 
             /*eliminate points outside the ellipse */
             do
             {
-                x = a*GetSingleNormallyDistributedRandomNumber(
-                    GetLowerLimit(factor1),
+                x = 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+                    GetLimit(factora),
                     rng);
-                y = b*GetSingleNormallyDistributedRandomNumber(
-                    GetLowerLimit(factor2),
+                y = 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+                    GetLimit(factorb),
                     rng);
             }
-            while ((x * x / (a * a)) + (y * y / (b * b)) >= 1.0);
-
+            while ((x * x / (a * a)) + (y * y / (b * b)) >= 1.0);            
             return (new Position(
-                center.X + 0.8493218 * beamDiaFWHM * x,
-                center.Y + 0.8493218 * beamDiaFWHM * y,
+                center.X + x,
+                center.Y + y,
                 center.Z));
         }
 
@@ -521,30 +529,30 @@ namespace Vts.MonteCarlo.Helpers
                 beamDiaFWHM = 1e-20;
 
             double x, y, z;
-            double factorx = 2 * a / beamDiaFWHM;
-            double factory = 2 * b / beamDiaFWHM;
-            double factorz = 2 * c / beamDiaFWHM;
+            double factorx = a / (0.8493218 * beamDiaFWHM);
+            double factory = b / (0.8493218 * beamDiaFWHM);
+            double factorz = c / (0.8493218 * beamDiaFWHM);
 
 
             /*eliminate points outside the ellipse */
             do
             {
-                x = a * GetSingleNormallyDistributedRandomNumber(
-                    GetLowerLimit(factorx),
+                x = 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+                    GetLimit(factorx),
                     rng);
-                y = b * GetSingleNormallyDistributedRandomNumber(
-                    GetLowerLimit(factory),
+                y = 0.8493218 * beamDiaFWHM *GetSingleNormallyDistributedRandomNumber(
+                    GetLimit(factory),
                     rng);
-                z = c * GetSingleNormallyDistributedRandomNumber(
-                    GetLowerLimit(factorz),
+                z = 0.8493218 * beamDiaFWHM *GetSingleNormallyDistributedRandomNumber(
+                    GetLimit(factorz),
                     rng);
             }
             while ((x * x / (a * a)) + (y * y / (b * b) + (z * z / (c * c))) >= 1.0);
 
             return (new Position(
-                center.X + 0.8493218 * beamDiaFWHM * x,
-                center.Y + 0.8493218 * beamDiaFWHM * y,
-                center.Z + 0.8493218 * beamDiaFWHM * z));
+                center.X + x,
+                center.Y + y,
+                center.Z + z));
         }
 
         /// <summary>
@@ -576,8 +584,8 @@ namespace Vts.MonteCarlo.Helpers
         /// Returns a random position in a rectangular surface (Gaussian distribution)
         /// </summary>
         /// <param name="center">The center coordiantes of the rectangle</param>
-        /// <param name="lengthX">The x-length of the rectangle</param>
-        /// <param name="lengthY">The y-length of the rectangle</param>
+        /// <param name="lengthX">The x-coordinate of the lengthX</param>
+        /// <param name="lengthY">The y-coordinate of the widthY</param>
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>position</returns>
@@ -597,15 +605,14 @@ namespace Vts.MonteCarlo.Helpers
 
             if (beamDiaFWHM <= 0.0)
                 beamDiaFWHM = 1e-5;
-
-            double factor = lengthX / beamDiaFWHM;
+            double factor = lengthX / (0.8493218 * beamDiaFWHM);             
             position.X = center.X + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
-                GetLowerLimit(factor),
+                GetLimit(factor),
                 rng);
 
-            factor = lengthY / beamDiaFWHM;
+            factor = lengthY / (0.8493218 * beamDiaFWHM);
             position.Y = center.Y + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
-                GetLowerLimit(factor),
+                GetLimit(factor),
                 rng);
             return position;
         }
@@ -632,7 +639,10 @@ namespace Vts.MonteCarlo.Helpers
             double lowerLimit,
             Random rng)
         {
-            return Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, 1.0))) * Math.Cos(2 * Math.PI * rng.NextDouble());
+            double a1, b1;
+            a1 = Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, 1.0)));
+            b1 = Math.Cos(2 * Math.PI * rng.NextDouble());
+            return a1 * b1; 
         }            
 
         /// <summary>

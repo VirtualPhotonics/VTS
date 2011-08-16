@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo.Sources
         protected int _initialTissueRegionIndex;
 
         /// <summary>
-        /// 
+        /// Defines VolumetricEllipsoidalSourceBase class
         /// </summary>
         /// <param name="aParameter">"a" parameter of the ellipsoid source</param>
         /// <param name="bParameter">"b" parameter of the ellipsoid source</param>

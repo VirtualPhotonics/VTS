@@ -132,7 +132,8 @@ namespace Vts.MonteCarlo.Sources
                     var gaussianProfile = sourceProfile as GaussianSourceProfile;
                     finalPosition = SourceToolbox.GetPositionInACircleRandomGaussian(
                         SourceDefaults.DefaultPosition.Clone(),
-                        outerRadius,                        
+                        outerRadius,   
+                        innerRadius,
                         gaussianProfile.BeamDiaFWHM,
                         rng);
                     break;               
