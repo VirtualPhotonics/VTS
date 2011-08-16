@@ -1,7 +1,10 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Extensions;
 
 namespace Vts.MonteCarlo
 {
@@ -10,6 +13,12 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class SimulationInputValidation
     {
+        /// <summary>
+        /// Master of call validation methods. Calls methods to validate source,
+        /// tissue and detector definitions.
+        /// </summary>
+        /// <param name="input">SimulationInput to be validated</param>
+        /// <returns>ValidationResult with IsValid bool set and message about error if false</returns>
         public static ValidationResult ValidateInput(SimulationInput input)
         {
             ValidationResult tempResult;
@@ -33,6 +42,18 @@ namespace Vts.MonteCarlo
             }
 
             tempResult = ValidateVirtualBoundaryInput(input.VirtualBoundaryInputs);
+            if (!tempResult.IsValid)
+            {
+                return tempResult;
+            }
+
+            tempResult = ValidateCombinedInputParameters(input);
+            if (!tempResult.IsValid)
+            {
+                return tempResult;
+            }
+
+            tempResult = ValidateCurrentIncapabilities(input);
             if (!tempResult.IsValid)
             {
                 return tempResult;
@@ -147,6 +168,66 @@ namespace Vts.MonteCarlo
                 true,
                 "Virtual Boundary input must be valid",
                 "");
+        }
+        /// <summary>
+        /// This method checks the input against combined combinations of options
+        /// and source, tissue, detector definitions.   
+        /// </summary>
+        /// <param name="input">input to be validated</param>
+        /// <returns>ValidationResult with IsValid set and error message if false</returns>
+        private static ValidationResult ValidateCombinedInputParameters(SimulationInput input)
+        {
+            // check that if single ellipsoid tissue specified and (r,z) detector specified,
+            // that ellipsoid is centered at x=0, y=0
+            if (input.TissueInput is SingleEllipsoidTissueInput)
+            {
+                foreach (var vbInput in input.VirtualBoundaryInputs)
+                {
+                    foreach (var detectorInput in vbInput.DetectorInputs)
+	                {
+                        var ellipsoid = (EllipsoidRegion)((SingleEllipsoidTissueInput)input.TissueInput).
+                            EllipsoidRegion;
+                        if (detectorInput.TallyType.IsCylindricalTally() &&
+                            (ellipsoid.Center.X != 0.0) && (ellipsoid.Center.Y != 0.0))
+                            return new ValidationResult(
+                                false,
+                                "Ellipsoid must be centered at (x,y)=(0,0) for cylindrical tallies",
+                                "Change ellipsoid center to (0,0) or specify non-cylindrical type tally");                                
+	                }
+                }                
+            }
+            return new ValidationResult(
+                true,
+                "Input tissue/detector combinations are valid",
+                "");
+
+        }
+        /// <summary>
+        /// Method checks SimulationInput against current incapabilities of the code.
+        /// </summary>
+        /// <param name="input">SimulationInput</param>
+        /// <returns>ValidationResult</returns>
+        private static ValidationResult ValidateCurrentIncapabilities(SimulationInput input)
+        {
+            if (input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Continuous)
+            {
+                foreach (var vbInput in input.VirtualBoundaryInputs)
+                {
+                    foreach (var detectorInput in vbInput.DetectorInputs)
+                    {
+                        if (detectorInput.TallyType.IsNotImplementedForCAW())
+                        {
+                            return new ValidationResult(
+                                false,
+                                "The use of Continuous Absorption Weighting with cylindrical volume detectors not implemented yet",
+                                "Modify AbsorptionWeightingType to Discrete");
+                        }
+                    }
+                }
+            }
+            return new ValidationResult(
+                true,
+                "Detector definitions are consistent with use of Continuous Absorption Weighting");
         }
     }
 }
