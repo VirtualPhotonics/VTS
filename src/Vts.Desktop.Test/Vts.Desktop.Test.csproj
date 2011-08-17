@@ -189,6 +189,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidationTests.cs">
+      <Link>MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidationTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs</Link>
     </Compile>

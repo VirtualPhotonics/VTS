@@ -44,6 +44,13 @@ namespace Vts.MonteCarlo
                         "MultiLayerTissueInput: each layer must start where the previous layer stopped",
                         "Error occured between layer " + i + " and layer " + (i + 1));
                 }
+                if (thisLayer.ZRange.Start == thisLayer.ZRange.Stop)
+                {
+                    return new ValidationResult(
+                        false,
+                        "MultiLayerTissueInput: a layer with 0 thickness has been defined",
+                        "Check that the ZRange.Start does not equal ZRange.Stop for all layers");
+                }
             }
 
             return new ValidationResult(
