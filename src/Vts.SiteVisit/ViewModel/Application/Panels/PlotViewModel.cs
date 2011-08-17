@@ -197,6 +197,7 @@ namespace Vts.SiteVisit.ViewModel
             {
                 _AutoScaleX = value;
                 OnPropertyChanged("AutoScaleX");
+                OnPropertyChanged("ManualScaleX");
             }
         }
 
@@ -206,6 +207,29 @@ namespace Vts.SiteVisit.ViewModel
             set
             {
                 _AutoScaleY = value;
+                OnPropertyChanged("AutoScaleY");
+                OnPropertyChanged("ManualScaleY");
+            }
+        }
+
+        public bool ManualScaleX
+        {
+            get { return !_AutoScaleX; }
+            set
+            {
+                _AutoScaleX = !value;
+                OnPropertyChanged("ManualScaleX");
+                OnPropertyChanged("AutoScaleX");
+            }
+        }
+
+        public bool ManualScaleY
+        {
+            get { return !_AutoScaleY; }
+            set
+            {
+                _AutoScaleY = !value;
+                OnPropertyChanged("ManualScaleY");
                 OnPropertyChanged("AutoScaleY");
             }
         }
@@ -252,10 +276,8 @@ namespace Vts.SiteVisit.ViewModel
 
         protected override void AfterPropertyChanged(string propertyName)
         {
-            if (propertyName == "MinXValue" || 
-                propertyName == "MaxXValue" ||
-                propertyName == "MinYValue" || 
-                propertyName == "MaxYValue" ||
+            if ((!AutoScaleX && (propertyName == "MinXValue" ||  propertyName == "MaxXValue")) ||
+                (!AutoScaleY && (propertyName == "MinYValue" ||  propertyName == "MaxYValue")) ||
                 propertyName == "AutoScaleX" || 
                 propertyName == "AutoScaleY")
             {
@@ -418,6 +440,14 @@ namespace Vts.SiteVisit.ViewModel
 
             var newCollection = new ObservableCollection<IList<Point>>();
 
+            
+            // filter the results if we're not auto-scaling
+            Func<Point, bool> isWithinAxes = p =>
+                    (_AutoScaleX ? true : (p.X <= MaxXValue && p.X >= MinXValue)) &&
+                    (_AutoScaleY ? true : (p.Y <= MaxYValue && p.Y >= MinYValue));
+
+
+
             var pointsToPlot =
                 from ds in  EnumerableEx.Zip(
                     DataSeriesCollection, 
@@ -430,16 +460,56 @@ namespace Vts.SiteVisit.ViewModel
                     new Point(
                         useLogX ? Math.Log10(x) : x,
                         useLogY ? Math.Log10(y) : y))
-                    .Where(p => p.IsValidDataPoint());
-            
-            // filter the results if we're not auto-scaling
-            Func<Point, bool> pointsAreWithinAxes = p =>
-                    (_AutoScaleX ? true : (p.X <= MaxXValue && p.X >= MinXValue)) &&
-                    (_AutoScaleY ? true : (p.Y <= MaxYValue && p.Y >= MinYValue));
+                    .Where(p => p.IsValidDataPoint() && isWithinAxes(p));
+
+
+            // get stats for reference - do this better/faster in the future...
+            if (AutoScaleX || AutoScaleY)
+            {
+                double minX = double.PositiveInfinity;
+                double maxX = double.NegativeInfinity;
+                double minY = double.PositiveInfinity;
+                double maxY = double.NegativeInfinity;
+                foreach (var point in pointsToPlot.SelectMany(points => points))
+                {
+                    if (AutoScaleX)
+                    {
+                        if (point.X > maxX)
+                        {
+                            maxX = point.X;
+                        }
+                        if (point.X < minX)
+                        {
+                            minX = point.X;
+                        }
+                    }
+                    if (AutoScaleY)
+                    {
+                        if (point.Y > maxY)
+                        {
+                            maxY = point.Y;
+                        }
+                        if (point.Y < minY)
+                        {
+                            minY = point.Y;
+                        }
+                    }
+                }
+                if (AutoScaleX)
+                {
+                    MinXValue = minX;
+                    MaxXValue = maxX;
+                }
+                if (AutoScaleY)
+                {
+                    MinYValue = minY;
+                    MaxYValue = maxY;
+                }
+            }
 
             foreach (var curve in pointsToPlot.ToList())
             {
-                newCollection.Add(curve.Where(pointsAreWithinAxes).ToList());
+                newCollection.Add(curve.ToList());
             }
 
             PlotSeriesCollection = newCollection;
