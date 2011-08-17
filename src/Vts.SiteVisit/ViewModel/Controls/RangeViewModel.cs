@@ -13,14 +13,14 @@ namespace Vts.SiteVisit.ViewModel
 
         private string _units;
         private string _title;
-
-        public RangeViewModel() : this(new DoubleRange(1.0, 6.0, 60), "mm", "Range:") { }
-
-        public RangeViewModel(DoubleRange range, string units, string title)
+        private bool _enableNumber;
+        
+        public RangeViewModel(DoubleRange range, string units, string title, bool enableNumber)
         {
             _range = range;
             Units = units;
             Title = title;
+            _enableNumber = enableNumber;
 
             // todo: does this do anything? (start, stop, number already directly modified)
             _range.PropertyChanged += (s, a) =>
@@ -30,6 +30,13 @@ namespace Vts.SiteVisit.ViewModel
                 this.OnPropertyChanged("Number");
             };
         }
+
+        public RangeViewModel(DoubleRange range, string units, string title)
+            : this(range,units,title,true)
+        {
+        }
+
+        public RangeViewModel() : this(new DoubleRange(1.0, 6.0, 60), "mm", "Range:", true) { }
 
         /// <summary>
         /// A double representing the start of the range
@@ -88,6 +95,16 @@ namespace Vts.SiteVisit.ViewModel
                 _title = value;
                 OnPropertyChanged("Title");
                 OnPropertyChanged("ShowTitle");
+            }
+        }
+
+        public bool EnableNumber
+        {
+            get { return _enableNumber; }
+            set
+            {
+                _enableNumber = value;
+                OnPropertyChanged("EnableNumber");
             }
         }
 

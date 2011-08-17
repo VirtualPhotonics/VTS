@@ -21,47 +21,68 @@ namespace Vts.MonteCarlo
         /// <returns>ValidationResult with IsValid bool set and message about error if false</returns>
         public static ValidationResult ValidateInput(SimulationInput input)
         {
-            ValidationResult tempResult;
+            var validations = new Func<SimulationInput, ValidationResult>[]
+                {
+                    si => ValidateN(si.N),
+                    si => ValidateSourceInput(si.SourceInput, si.TissueInput),
+                    si => ValidateTissueInput(si.TissueInput),
+                    si => ValidateVirtualBoundaryInput(si.VirtualBoundaryInputs),
+                    si => ValidateCombinedInputParameters(si),
+                    si => ValidateCurrentIncapabilities(si)
+                };
 
-            tempResult = ValidateN(input.N);
-            if (!tempResult.IsValid)
+            foreach (var validation in validations)
             {
-                return tempResult;
-            }
-
-            tempResult = ValidateSourceInput(input.SourceInput, input.TissueInput);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
+                var tempResult = validation(input);
+                if (!tempResult.IsValid)
+                {
+                    return tempResult;
+                }
             }
             
-            tempResult = ValidateTissueInput(input.TissueInput);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
+            return new ValidationResult( true, "Simulation input is valid");
 
-            tempResult = ValidateVirtualBoundaryInput(input.VirtualBoundaryInputs);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
+            //ValidationResult tempResult;
 
-            tempResult = ValidateCombinedInputParameters(input);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
+            //tempResult = ValidateN(input.N);
+            //if (!tempResult.IsValid)
+            //{
+            //    return tempResult;
+            //}
 
-            tempResult = ValidateCurrentIncapabilities(input);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
+            //tempResult = ValidateSourceInput(input.SourceInput, input.TissueInput);
+            //if (!tempResult.IsValid)
+            //{
+            //    return tempResult;
+            //}
+            
+            //tempResult = ValidateTissueInput(input.TissueInput);
+            //if (!tempResult.IsValid)
+            //{
+            //    return tempResult;
+            //}
 
-            return new ValidationResult(
-                true,
-                "Simulation input must be valid");
+            //tempResult = ValidateVirtualBoundaryInput(input.VirtualBoundaryInputs);
+            //if (!tempResult.IsValid)
+            //{
+            //    return tempResult;
+            //}
+
+            //tempResult = ValidateCombinedInputParameters(input);
+            //if (!tempResult.IsValid)
+            //{
+            //    return tempResult;
+            //}
+
+            //tempResult = ValidateCurrentIncapabilities(input);
+            //if (!tempResult.IsValid)
+            //{
+            //    return tempResult;
+            //}
+
+            //return new ValidationResult(
+            //    true,
+            //    "Simulation input must be valid");
         }
 
         private static ValidationResult ValidateN(long N)

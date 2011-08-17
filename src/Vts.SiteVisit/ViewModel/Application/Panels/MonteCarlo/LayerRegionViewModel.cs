@@ -24,7 +24,7 @@ namespace Vts.SiteVisit.ViewModel
             {
                 _name = name;
             }
-            _zRangeVM = new RangeViewModel(_region.ZRange, "mm", "");
+            _zRangeVM = new RangeViewModel(_region.ZRange, "mm", "", false);
             _opticalPropertyVM = new OpticalPropertyViewModel(_region.RegionOP, "mm-1", "", true, true, true, true);
         }
 

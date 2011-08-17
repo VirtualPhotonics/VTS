@@ -45,7 +45,7 @@ namespace Vts.SiteVisit.ViewModel
 
         public MonteCarloSolverViewModel()
         {
-            var simulationInput = GetDefaultSimulationInput();
+            var simulationInput = SimulationInputProvider.PointSourceTwoLayerTissueROfRhoDetector();
 
             _simulationInputVM = new SimulationInputViewModel(simulationInput);
 
@@ -59,7 +59,6 @@ namespace Vts.SiteVisit.ViewModel
             DownloadDefaultSimulationInputCommand = new RelayCommand(() => MC_DownloadDefaultSimulationInput_Executed(null, null));
             SaveSimulationResultsCommand = new RelayCommand(() => MC_SaveSimulationResults_Executed(null, null));
 
-            //_firstTimeSaving = true;
             _newResultsAvailable = false;
         }
 
@@ -79,65 +78,65 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
-        private SimulationInput GetDefaultSimulationInput()
-        {
-            var simulationInput = new SimulationInput
-            {
-                TissueInput = new MultiLayerTissueInput(
-                    new List<ITissueRegion> 
-                    { 
-                        new LayerRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties( 0.0, 1e-10, 0.0, 1.0)),
-                        new LayerRegion(
-                            new DoubleRange(0.0, 1.0),
-                            new OpticalProperties(0.1, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
-                            new DoubleRange(1.0, 100.0),
-                            new OpticalProperties(0.01, 2.0, 0.8, 1.4)),
-                        new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
-                    }
-                ),
-                OutputName = "MonteCarloOutput",
-                N = 100,
-                Options = new SimulationOptions(
-                    0, // Note seed = 0 is -1 in linux
-                    RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Discrete),
-                SourceInput = new DirectionalPointSourceInput(),
-                VirtualBoundaryInputs = new List<IVirtualBoundaryInput>
-                {
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseReflectance,
-                        new List<IDetectorInput>
-                        {
-                            new ROfRhoDetectorInput(new DoubleRange(0.0, 20.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
-                        },
-                        false, // write database
-                        VirtualBoundaryType.DiffuseReflectance.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseTransmittance,
-                        new List<IDetectorInput>
-                        {
-                            //new TOfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
-                        },
-                        false, // write database
-                        VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    )
-                }
-            };
+        //private SimulationInput GetDefaultSimulationInput()
+        //{
+        //    var simulationInput = new SimulationInput
+        //    {
+        //        TissueInput = new MultiLayerTissueInput(
+        //            new List<ITissueRegion> 
+        //            { 
+        //                new LayerRegion(
+        //                    new DoubleRange(double.NegativeInfinity, 0.0),
+        //                    new OpticalProperties( 0.0, 1e-10, 0.0, 1.0)),
+        //                new LayerRegion(
+        //                    new DoubleRange(0.0, 1.0),
+        //                    new OpticalProperties(0.1, 1.0, 0.8, 1.4)),
+        //                new LayerRegion(
+        //                    new DoubleRange(1.0, 100.0),
+        //                    new OpticalProperties(0.01, 2.0, 0.8, 1.4)),
+        //                new LayerRegion(
+        //                    new DoubleRange(100.0, double.PositiveInfinity),
+        //                    new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
+        //            }
+        //        ),
+        //        OutputName = "MonteCarloOutput",
+        //        N = 100,
+        //        Options = new SimulationOptions(
+        //            0, // Note seed = 0 is -1 in linux
+        //            RandomNumberGeneratorType.MersenneTwister,
+        //            AbsorptionWeightingType.Discrete),
+        //        SourceInput = new DirectionalPointSourceInput(),
+        //        VirtualBoundaryInputs = new List<IVirtualBoundaryInput>
+        //        {
+        //            new SurfaceVirtualBoundaryInput(
+        //                VirtualBoundaryType.DiffuseReflectance,
+        //                new List<IDetectorInput>
+        //                {
+        //                    new ROfRhoDetectorInput(new DoubleRange(0.0, 20.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+        //                },
+        //                false, // write database
+        //                VirtualBoundaryType.DiffuseReflectance.ToString()
+        //            ),
+        //            new SurfaceVirtualBoundaryInput(
+        //                VirtualBoundaryType.DiffuseTransmittance,
+        //                new List<IDetectorInput>
+        //                {
+        //                    //new TOfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+        //                },
+        //                false, // write database
+        //                VirtualBoundaryType.DiffuseTransmittance.ToString()
+        //            )
+        //        }
+        //    };
 
-            return simulationInput;
-        }
+        //    return simulationInput;
+        //}
 
         private void MC_ExecuteMonteCarloSolver_Executed(object sender, ExecutedEventArgs e)
         {
             if (!EnoughRoomInIsolatedStorage(50))
             {
-                logger.Info(() => "Simulation not run. Please allocate more than 50MB of storage space.\r");
+                logger.Info(() => "\rSimulation not run. Please allocate more than 50MB of storage space.\r");
                 Commands.IsoStorage_IncreaseSpaceQuery.Execute();
                 return;
             }
@@ -145,7 +144,15 @@ namespace Vts.SiteVisit.ViewModel
             _newResultsAvailable = false;
 
             var input = _simulationInputVM.SimulationInput;
-            var nPhotons = _simulationInputVM.SimulationInput.N;
+
+
+            var validationResult = SimulationInputValidation.ValidateInput(input);
+            if (!validationResult.IsValid)
+            {
+                logger.Info(() => "\rSimulation input not valid.\rRule: " + validationResult.ValidationRule +
+                    (!string.IsNullOrEmpty(validationResult.Remarks) ? "\rDetails: " + validationResult.Remarks : "") + ".\r");
+                return;
+            }
 
             _simulation = new MonteCarloSimulation(input);
 
@@ -169,18 +176,15 @@ namespace Vts.SiteVisit.ViewModel
 
                     if (rOfRhoDetectorInputs.Any())
                     {
-                        logger.Info(() => "Creating R(rho) plot...");
-
-                        //ROfRhoDetectorInput rOfRho = (ROfRhoDetectorInput)(input.VirtualBoundaryInputs.Where(
-                        //    v => v.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance).Select(
-                        //    d => d.DetectorInputs.Where(i => i.Name == TallyType.ROfRho.ToString()).First()).First());
+                        logger.Info(() => "Creating R(rho) plot..."); 
 
                         var detectorInput = (ROfRhoDetectorInput)rOfRhoDetectorInputs.First();
 
                         IEnumerable<double> independentValues = detectorInput.Rho.AsEnumerable();
 
-                        //var showPlusMinusStdev = true;
                         IEnumerable<Point> points = null;
+
+                        //var showPlusMinusStdev = true;
                         //if(showPlusMinusStdev && _output.R_r2 != null)
                         //{
                         //    var stdev = Enumerable.Zip(_output.R_r, _output.R_r2, (r, r2) => Math.Sqrt((r2 - r * r) / nPhotons)).ToArray();
@@ -277,7 +281,7 @@ namespace Vts.SiteVisit.ViewModel
                         }
                         catch (SecurityException)
                         {
-                            logger.Error(() => "\rProblem saving results to file...please try again.\r");
+                            logger.Error(() => "\rProblem saving results to file.\r");
                         }
                     }
                     logger.Info(() => "done.\r");
@@ -370,7 +374,7 @@ namespace Vts.SiteVisit.ViewModel
                                 FileIO.CopyStream(readStream, zipStream);
                             }
                         }
-                        logger.Info(() => "Finished copying results to user file. :)\r");
+                        logger.Info(() => "Finished copying results to user file.\r");
                     }
                     catch (SecurityException)
                     {
