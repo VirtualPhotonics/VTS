@@ -120,6 +120,7 @@ namespace Vts.MonteCarlo
             {
                 return null;
             }
+            
             var detectors = _virtualBoundaryController.VirtualBoundaries
                     .Select(vb => vb.DetectorController)
                     .Where(dc => dc != null)
@@ -133,6 +134,7 @@ namespace Vts.MonteCarlo
         public void Cancel()
         {
             _isCancelled = true;
+            logger.Info(() => "Simulation cancelled.\n");
         }
 
         /// <summary>
@@ -140,6 +142,8 @@ namespace Vts.MonteCarlo
         /// </summary>
         protected virtual void ExecuteMCLoop()
         {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
             try
             {
                 if (!doPMC)
@@ -278,6 +282,11 @@ namespace Vts.MonteCarlo
             {
                 _simulationStatistics.ToFile("statistics");
             }
+
+            stopwatch.Stop();
+
+            logger.Info(() => "Monte Carlo simulation complete (N = " + _numberOfPhotons + " photons; simulation time = "
+                + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
         }
 
         private BoundaryHitType Move(Photon photon, out IVirtualBoundary closestVirtualBoundary)

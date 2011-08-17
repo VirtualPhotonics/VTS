@@ -27,7 +27,7 @@
                         Background="{Binding StackPanel.Background}" Content="Load Input File"  
                         Width="180" Height="30" Margin="5"/>
             <Button VerticalAlignment="Bottom" Command="{Binding DownloadDefaultSimulationInputCommand}"
-                        Background="{Binding StackPanel.Background}" Content="Download Default Input File"  
+                        Background="{Binding StackPanel.Background}" Content="Download Prototype Input Files"  
                         Width="180" Height="30" Margin="5"/>
         </StackPanel>
 

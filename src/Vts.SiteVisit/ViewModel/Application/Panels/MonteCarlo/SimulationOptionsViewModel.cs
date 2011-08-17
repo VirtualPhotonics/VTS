@@ -25,6 +25,7 @@ namespace Vts.SiteVisit.ViewModel
             _randomNumberGeneratorTypeVM = new OptionViewModel<RandomNumberGeneratorType>("Random Number Generator:", false, _simulationOptions.RandomNumberGeneratorType);
             _phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", false, _simulationOptions.PhaseFunctionType);
 #endif
+
             _absorptionWeightingTypeVM.PropertyChanged += (sender, args) =>
                 _simulationOptions.AbsorptionWeightingType = _absorptionWeightingTypeVM.SelectedValue;
             _randomNumberGeneratorTypeVM.PropertyChanged += (sender, args) =>
@@ -43,7 +44,16 @@ namespace Vts.SiteVisit.ViewModel
             set
             {
                 _simulationOptions = value;
-                OnPropertyChanged("SimulationOptions");
+
+                _absorptionWeightingTypeVM.Options[_simulationOptions.AbsorptionWeightingType].IsSelected = true;
+                _randomNumberGeneratorTypeVM.Options[_simulationOptions.RandomNumberGeneratorType].IsSelected = true;
+                _phaseFunctionTypeVM.Options[_simulationOptions.PhaseFunctionType].IsSelected = true;
+
+                // note: the alternative to these below is to have SimulationOptions implement INotifyPropertyChanged (derive from BindableObject)
+                OnPropertyChanged("Seed");
+                OnPropertyChanged("TallySecondMoment");
+                OnPropertyChanged("TrackStatistics");
+                OnPropertyChanged("SimulationIndex");
             }
         }
 
@@ -83,19 +93,9 @@ namespace Vts.SiteVisit.ViewModel
             set
             {
                 _simulationOptions.SimulationIndex = value;
-                OnPropertyChanged("TrackStatistics");
+                OnPropertyChanged("SimulationIndex");
             }
         }
-
-        //public RandomNumberGeneratorType RandomNumberGeneratorType
-        //{
-        //    get { return _simulationOptions.RandomNumberGeneratorType; }
-        //    set
-        //    {
-        //        _simulationOptions.RandomNumberGeneratorType = value;
-        //        OnPropertyChanged("RandomNumberGeneratorType");
-        //    }
-        //}
 
         public OptionViewModel<AbsorptionWeightingType> AbsorptionWeightingTypeVM
         {

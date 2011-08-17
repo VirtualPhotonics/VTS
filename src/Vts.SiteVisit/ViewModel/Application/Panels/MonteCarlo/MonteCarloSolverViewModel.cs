@@ -27,16 +27,11 @@ namespace Vts.SiteVisit.ViewModel
     {
         private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSolverViewModel));
 
-        //private SimulationInput _simulationInput;
         private MonteCarloSimulation _simulation;
 
         private Output _output;
 
         private SimulationInputViewModel _simulationInputVM;
-
-        private RangeViewModel _independentVariableRangeVM;
-
-        private SolutionDomainOptionViewModel _solutionDomainTypeOptionVM;
 
         private CancellationTokenSource _currentCancellationTokenSource;
 
@@ -53,14 +48,6 @@ namespace Vts.SiteVisit.ViewModel
             var rho = ((ROfRhoDetectorInput)simulationInput.VirtualBoundaryInputs.
                 Where(g => g.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance).First().
                 DetectorInputs.Where(d => d.TallyType == TallyType.ROfRho).First()).Rho;
-            //Where(d => d.TallyType == TallyType.ROfRho).First()).Rho;
-
-            _independentVariableRangeVM = new RangeViewModel(rho, "mm", "Independent Variable Range");
-
-            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.RofRho);
-
-            //Commands.MC_ExecuteMonteCarloSolver.Executed += MC_ExecuteMonteCarloSolver_Executed;
-            Commands.FS_SetIndependentVariableRange.Executed += SetIndependentVariableRange_Executed;
 
             ExecuteMonteCarloSolverCommand = new RelayCommand(() => MC_ExecuteMonteCarloSolver_Executed(null, null));
             CancelMonteCarloSolverCommand = new RelayCommand(() => MC_CancelMonteCarloSolver_Executed(null, null));
@@ -77,16 +64,6 @@ namespace Vts.SiteVisit.ViewModel
         public RelayCommand DownloadDefaultSimulationInputCommand { get; private set; }
         public RelayCommand SaveSimulationResultsCommand { get; private set; }
 
-        public SolutionDomainOptionViewModel SolutionDomainTypeOptionVM
-        {
-            get { return _solutionDomainTypeOptionVM; }
-            set
-            {
-                _solutionDomainTypeOptionVM = value;
-                OnPropertyChanged("SolutionDomainTypeOptionVM");
-            }
-        }
-
         public SimulationInputViewModel SimulationInputVM
         {
             get { return _simulationInputVM; }
@@ -94,16 +71,6 @@ namespace Vts.SiteVisit.ViewModel
             {
                 _simulationInputVM = value;
                 OnPropertyChanged("SimulationInputVM");
-            }
-        }
-
-        public RangeViewModel IndependentVariableRangeVM
-        {
-            get { return _independentVariableRangeVM; }
-            set
-            {
-                _independentVariableRangeVM = value;
-                OnPropertyChanged("IndependentVariableRangeVM");
             }
         }
 
@@ -161,28 +128,6 @@ namespace Vts.SiteVisit.ViewModel
             return simulationInput;
         }
 
-        //private IEnumerable<Point> ExecuteMonteCarloSolver()
-        //{
-        //    IEnumerable<double> independentValues = IndependentVariableRangeVM.Values.ToList();
-
-        //    var input = _simulationInputVM.SimulationInput;
-
-        //    _simulation = new MonteCarloSimulation(input);
-
-        //    _output = simulation.Run();
-
-        //    return EnumerableEx.Zip(independentValues, output.R_r, (x, y) => new Point(x, y));
-        //}
-
-        private void SetIndependentVariableRange_Executed(object sender, ExecutedEventArgs e)
-        {
-            if (e.Parameter is RangeViewModel)
-            {
-                IndependentVariableRangeVM = (RangeViewModel)e.Parameter;
-            }
-        }
-
-        //private Thread _currentBackgroundThread;
         private void MC_ExecuteMonteCarloSolver_Executed(object sender, ExecutedEventArgs e)
         {
             var input = _simulationInputVM.SimulationInput;
@@ -196,13 +141,8 @@ namespace Vts.SiteVisit.ViewModel
 
             _simulation = new MonteCarloSimulation(input);
 
-            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            //var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             var t = Task.Factory.StartNew(() => _simulation.Run());
-            //{
-            //    _currentBackgroundThread = Thread.CurrentThread; // crappy work-around todo: fix (see here: http://stackoverflow.com/questions/4783865/how-do-i-abort-cancel-tpl-tasks)
-
-            //    return _simulation.Run();
-            //});
 
             _currentCancellationTokenSource = new CancellationTokenSource();
             CancellationToken cancelToken = _currentCancellationTokenSource.Token;
@@ -212,10 +152,11 @@ namespace Vts.SiteVisit.ViewModel
                 {
                     SolverDemoView.Current.Dispatcher.BeginInvoke(delegate()
                     {
-                        stopwatch.Stop();
+                        //stopwatch.Stop();
                         _output = antecedent.Result;
                         if (_output.R_r != null)
                         {
+                            logger.Info(() => "Creating R(rho) plot...");
                             //var showPlusMinusStdev = true;
                             IEnumerable<Point> points = null;
                             //if(showPlusMinusStdev && _output.R_r2 != null)
@@ -243,6 +184,7 @@ namespace Vts.SiteVisit.ViewModel
 
                             string plotLabel = GetPlotLabel();
                             Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
+                            logger.Info(() => "done.\r");
                         }
 
                         var detectorInputs = _simulationInputVM.SimulationInput.VirtualBoundaryInputs
@@ -252,6 +194,7 @@ namespace Vts.SiteVisit.ViewModel
 
                         if (detectorInputs.Any())
                         {
+                            logger.Info(() => "Creating Fluence(rho,z) map...");
                             var detectorInput = (FluenceOfRhoAndZDetectorInput)detectorInputs.First();
                             var rhosMC = detectorInput.Rho.AsEnumerable().ToArray();
                             var zsMC = detectorInput.Z.AsEnumerable().ToArray();
@@ -290,10 +233,8 @@ namespace Vts.SiteVisit.ViewModel
                             var mapData = new MapData(_mapArrayBuffer, twoRhos, zs, twoDRhos, dZs);
 
                             Commands.Maps_PlotMap.Execute(mapData);
+                            logger.Info(() => "done.\r");
                         }
-
-                        logger.Info(() => "Monte Carlo simulation complete (N = " + nPhotons + " photons; simulation time = "
-                            + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
                     });
                 },
                 cancelToken,
@@ -301,20 +242,12 @@ namespace Vts.SiteVisit.ViewModel
                 scheduler);
         }
 
-        // mre is used to block and release threads manually.
-        // private static ManualResetEvent mre = new ManualResetEvent(false);
         private void MC_CancelMonteCarloSolver_Executed(object sender, ExecutedEventArgs e)
-        { // crappy work-around todo: fix (see here: http://stackoverflow.com/questions/4783865/how-do-i-abort-cancel-tpl-tasks)
-            //if (_currentBackgroundThread != null)
-            //{
-            //    _currentBackgroundThread.
-            //    logger.Info(() => "Simulation cancelled.\n");
-            //}
+        { 
             Task.Factory.StartNew(() => _simulation.Cancel());
             if (_currentCancellationTokenSource != null)
             {
                 _currentCancellationTokenSource.Cancel(true);
-                logger.Info(() => "Simulation cancelled.\n");
                 _currentCancellationTokenSource = null;
             }
         }
@@ -356,20 +289,27 @@ namespace Vts.SiteVisit.ViewModel
             {
                 if (stream != null)
                 {
-                    var resourcesPath = "MonteCarlo/Resources/DataStructures/SimulationInput/";
-                    var xmlFilenames = new[]
-                        {
-                            "infile_ROfRho.xml",
-                            "infile_database.xml",
-                            "infile_pMC_database.xml",
-                            "infile.xml"
-                        };
+                    //var resourcesPath = "MonteCarlo/Resources/DataStructures/SimulationInput/";
+                    //var xmlFilenames = new[]
+                    //    {
+                    //        "infile_ROfRho.xml",
+                    //        "infile_database.xml",
+                    //        "infile_pMC_database.xml",
+                    //        "infile.xml"
+                    //    };
 
-                    var files = xmlFilenames.Select(fileName =>
-                        new
+                    //var files = xmlFilenames.Select(fileName =>
+                    //    new
+                    //    {
+                    //        Name = fileName,
+                    //        Input = FileIO.ReadFromXMLInResources<SimulationInput>(resourcesPath + fileName, "Vts")
+                    //    });
+
+                    var files = SimulationInputProvider.GenerateAllSimulationInputs().Select(input =>
+                        new 
                         {
-                            Name = fileName,
-                            Input = FileIO.ReadFromXMLInResources<SimulationInput>(resourcesPath + fileName, "Vts")
+                            Name = input.OutputName + ".xml",
+                            Input = input
                         });
 
                     foreach (var file in files)
@@ -377,28 +317,8 @@ namespace Vts.SiteVisit.ViewModel
                         file.Input.ToFile(file.Name);
                     }
 
-                    //var infile_ROfRho = FileIO.ReadFromXMLInResources<SimulationInput>(resourcesPath + "infile_ROfRho.xml", "Vts");
-                    //var infile_database = FileIO.ReadFromXMLInResources<SimulationInput>(resourcesPath + "infile_database.xml", "Vts");
-                    //var infile_pMC_database = FileIO.ReadFromXMLInResources<SimulationInput>(resourcesPath + "infile_pMC_database.xml", "Vts");
-                    //var infile = FileIO.ReadFromXMLInResources<SimulationInput>(resourcesPath + "infile.xml", "Vts");
-                    //infile_ROfRho.ToFile("infile_ROfRho.xml");
-                    //infile_database.ToFile("infile_database.xml");
-                    //infile_pMC_database.ToFile("infile_pMC_database.xml");
-                    //infile.ToFile("infile.xml");
-
-                    //// then, zip all these together and SaveFileDialog to .zip...
-                    //using (var zipStream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("zip"))
-                    //{
-                    //if (zipStream != null)
-                    //{
-                    FileIO.ZipFiles(xmlFilenames, "", stream);
+                    FileIO.ZipFiles(files.Select(file=>file.Name), "", stream);
                     logger.Info(() => "Template simulation input files exported to a zip file.\r");
-                    //}
-                    //}
-
-                    // FileIO.WriteToStream(simulationInput, stream);
-
-                    //logger.Info(() => "Simulation input exported to file.\r");
                 }
             }
         }
@@ -446,21 +366,26 @@ namespace Vts.SiteVisit.ViewModel
 
         private PlotAxesLabels GetPlotLabels()
         {
-            var sd = this.SolutionDomainTypeOptionVM;
-            PlotAxesLabels axesLabels = null;
-            if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
-            {
-                axesLabels = new PlotAxesLabels(
-                    sd.IndependentAxisLabel, sd.IndependentAxisUnits,
-                    sd.SelectedDisplayName, "", sd.ConstantAxisLabel,
-                    sd.ConstantAxisUnits, sd.ConstantAxisValue);
-            }
-            else
-            {
-                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel,
-                    sd.IndependentAxisUnits, sd.SelectedDisplayName, "");
-            }
-            return axesLabels;
+            return new PlotAxesLabels(
+                IndependentVariableAxis.Rho.GetInternationalizedString(),
+                IndependentVariableAxisUnits.MM.GetInternationalizedString(),
+                SolutionDomainType.RofRho.GetInternationalizedString(),
+                DependentVariableAxisUnits.PerMMSquared.GetInternationalizedString());
+            //var sd = this.SolutionDomainTypeOptionVM;
+            //PlotAxesLabels axesLabels = null;
+            //if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
+            //{
+            //    axesLabels = new PlotAxesLabels(
+            //        sd.IndependentAxisLabel, sd.IndependentAxisUnits,
+            //        sd.SelectedDisplayName, "", sd.ConstantAxisLabel,
+            //        sd.ConstantAxisUnits, sd.ConstantAxisValue);
+            //}
+            //else
+            //{
+            //    axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel,
+            //        sd.IndependentAxisUnits, sd.SelectedDisplayName, "");
+            //}
+            //return axesLabels;
         }
 
         private string GetPlotLabel()
