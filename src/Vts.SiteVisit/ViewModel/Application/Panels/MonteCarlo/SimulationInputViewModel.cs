@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo;
+#if WHITELIST
 using Vts.SiteVisit.ViewModel.Application;
+#endif
 
 namespace Vts.SiteVisit.ViewModel
 {
