@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Sources;
-using Vts.MonteCarlo.Tissues;
+using Vts.SiteVisit.ViewModel.Application;
 
 namespace Vts.SiteVisit.ViewModel
 {

@@ -64,6 +64,18 @@ namespace Vts.SiteVisit.ViewModel.Application
                 };
             }
         }
+
+        public static MonteCarlo.TissueType[] TissueTypes
+        {
+            get
+            {
+                return new[]
+                {
+                    MonteCarlo.TissueType.MultiLayer,
+                    MonteCarlo.TissueType.SingleEllipsoid,
+                };
+            }
+        }
     }
 }
 #endif

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo;
+using Vts.SiteVisit.ViewModel.Application;
 
 namespace Vts.SiteVisit.ViewModel
 {
@@ -17,7 +18,7 @@ namespace Vts.SiteVisit.ViewModel
             _simulationOptions = options; // use the property to invoke the appropriate change notification
             
 #if WHITELIST 
-            _absorptionWeightingTypeVM = new OptionViewModel<AbsorptionWeightingType>("Absorption Weighting Type:", false, _simulationOptions.AbsorptionWeightingType, WhiteList.ScatteringTypes);
+            _absorptionWeightingTypeVM = new OptionViewModel<AbsorptionWeightingType>("Absorption Weighting Type:", false, _simulationOptions.AbsorptionWeightingType, WhiteList.AbsorptionWeightingTypes);
             _randomNumberGeneratorTypeVM = new OptionViewModel<RandomNumberGeneratorType>("Random Number Generator Type:", false, _simulationOptions.RandomNumberGeneratorType, WhiteList.RandomNumberGeneratorTypes);
             _phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", false, _simulationOptions.PhaseFunctionType, WhiteList.PhaseFunctionTypes);
 #else
