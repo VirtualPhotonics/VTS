@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Threading;
@@ -17,6 +18,7 @@ using Vts.MonteCarlo.Tissues;
 using Vts.SiteVisit.Input;
 using Vts.SiteVisit.Model;
 using Vts.SiteVisit.View;
+using System.Security;
 
 namespace Vts.SiteVisit.ViewModel
 {
@@ -35,7 +37,9 @@ namespace Vts.SiteVisit.ViewModel
 
         private CancellationTokenSource _currentCancellationTokenSource;
 
-        private bool _firstTimeSaving;
+        //private bool _firstTimeSaving;
+
+        private bool _newResultsAvailable;
 
         private double[] _mapArrayBuffer;
 
@@ -55,7 +59,8 @@ namespace Vts.SiteVisit.ViewModel
             DownloadDefaultSimulationInputCommand = new RelayCommand(() => MC_DownloadDefaultSimulationInput_Executed(null, null));
             SaveSimulationResultsCommand = new RelayCommand(() => MC_SaveSimulationResults_Executed(null, null));
 
-            _firstTimeSaving = true;
+            //_firstTimeSaving = true;
+            _newResultsAvailable = false;
         }
 
         public RelayCommand ExecuteMonteCarloSolverCommand { get; private set; }
@@ -130,6 +135,15 @@ namespace Vts.SiteVisit.ViewModel
 
         private void MC_ExecuteMonteCarloSolver_Executed(object sender, ExecutedEventArgs e)
         {
+            if (!EnoughRoomInIsolatedStorage(50))
+            {
+                logger.Info(() => "Simulation not run. Please allocate more than 50MB of storage space.\r");
+                Commands.IsoStorage_IncreaseSpaceQuery.Execute();
+                return;
+            }
+
+            _newResultsAvailable = false;
+
             var input = _simulationInputVM.SimulationInput;
             var nPhotons = _simulationInputVM.SimulationInput.N;
 
@@ -141,114 +155,143 @@ namespace Vts.SiteVisit.ViewModel
 
             _simulation = new MonteCarloSimulation(input);
 
-            //var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            var t = Task.Factory.StartNew(() => _simulation.Run());
-
             _currentCancellationTokenSource = new CancellationTokenSource();
             CancellationToken cancelToken = _currentCancellationTokenSource.Token;
             TaskScheduler scheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
+            var t = Task.Factory.StartNew(() => _simulation.Run(), TaskCreationOptions.LongRunning);
+
             var c = t.ContinueWith((antecedent) =>
+            {
+                SolverDemoView.Current.Dispatcher.BeginInvoke(delegate()
                 {
-                    SolverDemoView.Current.Dispatcher.BeginInvoke(delegate()
+                    _output = antecedent.Result;
+                    _newResultsAvailable = _simulation.ResultsAvailable;
+                    if (_output.R_r != null)
                     {
-                        //stopwatch.Stop();
-                        _output = antecedent.Result;
-                        if (_output.R_r != null)
+                        logger.Info(() => "Creating R(rho) plot...");
+
+                        //var showPlusMinusStdev = true;
+                        IEnumerable<Point> points = null;
+                        //if(showPlusMinusStdev && _output.R_r2 != null)
+                        //{
+                        //    var stdev = Enumerable.Zip(_output.R_r, _output.R_r2, (r, r2) => Math.Sqrt((r2 - r * r) / nPhotons)).ToArray();
+                        //    var rMinusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r-std).ToArray();
+                        //    var rPlusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r+std).ToArray();
+                        //    points = Enumerable.Zip(
+                        //        independentValues.Concat(independentValues).Concat(independentValues),
+                        //        rMinusStdev.Concat(_output.R_r).Concat(rPlusStdev),
+                        //        (x, y) => new Point(x, y));
+                        //}
+                        //else
+                        //{
+                        points = Enumerable.Zip(
+                            independentValues,
+                            _output.R_r,
+                            (x, y) => new Point(x, y));
+                        //}
+
+                        PlotAxesLabels axesLabels = GetPlotLabels();
+                        Commands.Plot_SetAxesLabels.Execute(axesLabels);
+
+                        string plotLabel = GetPlotLabel();
+                        Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
+                        logger.Info(() => "done.\r");
+                    }
+
+                    var detectorInputs = _simulationInputVM.SimulationInput.VirtualBoundaryInputs
+                        .Where(vb => vb.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary)
+                        .SelectMany(vb => vb.DetectorInputs)
+                        .Where(di => di.Name == "FluenceOfRhoAndZ");
+
+                    if (detectorInputs.Any())
+                    {
+                        logger.Info(() => "Creating Fluence(rho,z) map...");
+                        var detectorInput = (FluenceOfRhoAndZDetectorInput)detectorInputs.First();
+                        var rhosMC = detectorInput.Rho.AsEnumerable().ToArray();
+                        var zsMC = detectorInput.Z.AsEnumerable().ToArray();
+
+                        var rhos = Enumerable.Zip(rhosMC.Skip(1), rhosMC.Take(rhosMC.Length - 1), (first, second) => (first + second) / 2).ToArray();
+                        var zs = Enumerable.Zip(zsMC.Skip(1), rhosMC.Take(zsMC.Length - 1), (first, second) => (first + second) / 2).ToArray();
+
+                        var dRhos = Enumerable.Select(rhos, rho => 2 * Math.PI * Math.Abs(rho) * detectorInput.Rho.Delta).ToArray();
+                        var dZs = Enumerable.Select(zs, z => detectorInput.Rho.Delta).ToArray();
+
+                        if (_mapArrayBuffer == null || _mapArrayBuffer.Length != _output.Flu_rz.Length * 2)
                         {
-                            logger.Info(() => "Creating R(rho) plot...");
-                            //var showPlusMinusStdev = true;
-                            IEnumerable<Point> points = null;
-                            //if(showPlusMinusStdev && _output.R_r2 != null)
-                            //{
-                            //    var stdev = Enumerable.Zip(_output.R_r, _output.R_r2, (r, r2) => Math.Sqrt((r2 - r * r) / nPhotons)).ToArray();
-                            //    var rMinusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r-std).ToArray();
-                            //    var rPlusStdev = Enumerable.Zip(_output.R_r, stdev, (r,std) => r+std).ToArray();
-                            //    points = Enumerable.Zip(
-                            //        independentValues.Concat(independentValues).Concat(independentValues),
-                            //        rMinusStdev.Concat(_output.R_r).Concat(rPlusStdev),
-                            //        (x, y) => new Point(x, y));
-                            //}
-                            //else
-                            //{
-                            points = Enumerable.Zip(
-                                independentValues,
-                                _output.R_r,
-                                (x, y) => new Point(x, y));
-                            //}
-
-                            //IEnumerable<Point> points = ExecuteMonteCarloSolver();
-
-                            PlotAxesLabels axesLabels = GetPlotLabels();
-                            Commands.Plot_SetAxesLabels.Execute(axesLabels);
-
-                            string plotLabel = GetPlotLabel();
-                            Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
-                            logger.Info(() => "done.\r");
+                            _mapArrayBuffer = new double[_output.Flu_rz.Length * 2];
                         }
 
-                        var detectorInputs = _simulationInputVM.SimulationInput.VirtualBoundaryInputs
-                            .Where(vb => vb.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary)
-                            .SelectMany(vb => vb.DetectorInputs)
-                            .Where(di => di.Name == "FluenceOfRhoAndZ");
-
-                        if (detectorInputs.Any())
+                        // flip the array (since it goes over zs and then rhos, while map wants rhos and then zs
+                        for (int zi = 0; zi < zs.Length; zi++)
                         {
-                            logger.Info(() => "Creating Fluence(rho,z) map...");
-                            var detectorInput = (FluenceOfRhoAndZDetectorInput)detectorInputs.First();
-                            var rhosMC = detectorInput.Rho.AsEnumerable().ToArray();
-                            var zsMC = detectorInput.Z.AsEnumerable().ToArray();
-
-                            var rhos = Enumerable.Zip(rhosMC.Skip(1), rhosMC.Take(rhosMC.Length - 1), (first, second) => (first + second) / 2).ToArray();
-                            var zs = Enumerable.Zip(zsMC.Skip(1), rhosMC.Take(zsMC.Length - 1), (first, second) => (first + second) / 2).ToArray();
-                            
-                            //var dRhos = Enumerable.Zip(rhosMC.Skip(1), rhosMC.Take(rhosMC.Length - 1), (first, second) => (first - second)).ToArray();
-                            //var dZs = Enumerable.Zip(zsMC.Skip(1), rhosMC.Take(zsMC.Length - 1), (first, second) => (first - second)).ToArray();
-                            var dRhos = Enumerable.Select(rhos, rho => 2 * Math.PI *Math.Abs(rho) * detectorInput.Rho.Delta).ToArray();
-                            var dZs = Enumerable.Select(zs, z => detectorInput.Rho.Delta).ToArray();
-
-                            if (_mapArrayBuffer == null || _mapArrayBuffer.Length != _output.Flu_rz.Length*2)
+                            for (int rhoi = 0; rhoi < rhos.Length; rhoi++)
                             {
-                                _mapArrayBuffer = new double[_output.Flu_rz.Length*2];
+                                _mapArrayBuffer[rhoi + rhos.Length + rhos.Length * 2 * zi] = _output.Flu_rz[rhoi, zi];
                             }
-                            // flip the array (since it goes over zs and then rhos, while map wants rhos and then zs
-                            //long index = 0;
-                            for (int zi = 0; zi < zs.Length; zi++)
+                            var localRhoiForReverse = 0;
+                            for (int rhoi = rhos.Length - 1; rhoi >= 0; rhoi--, localRhoiForReverse++)
                             {
-                                for (int rhoi = 0; rhoi < rhos.Length; rhoi++)
-                                {
-                                    //destinationArray[rhoi + rhos.Length * zi] = _output.Flu_rz[rhoi, zi];
-                                    _mapArrayBuffer[rhoi + rhos.Length + rhos.Length * 2 * zi] = _output.Flu_rz[rhoi, zi];
-                                }
-                                var localRhoiForReverse = 0;
-                                for (int rhoi = rhos.Length - 1; rhoi >= 0; rhoi--, localRhoiForReverse++)
-                                {
-                                    _mapArrayBuffer[localRhoiForReverse + rhos.Length * 2 * zi] = _output.Flu_rz[rhoi, zi];
-                                }
+                                _mapArrayBuffer[localRhoiForReverse + rhos.Length * 2 * zi] = _output.Flu_rz[rhoi, zi];
                             }
-
-                            var twoRhos = Enumerable.Concat(rhos.Reverse().Select(rho => -rho), rhos).ToArray();
-                            var twoDRhos = Enumerable.Concat(dRhos.Reverse(), dRhos).ToArray();
-
-                            var mapData = new MapData(_mapArrayBuffer, twoRhos, zs, twoDRhos, dZs);
-
-                            Commands.Maps_PlotMap.Execute(mapData);
-                            logger.Info(() => "done.\r");
                         }
-                    });
-                },
+
+                        var twoRhos = Enumerable.Concat(rhos.Reverse().Select(rho => -rho), rhos).ToArray();
+                        var twoDRhos = Enumerable.Concat(dRhos.Reverse(), dRhos).ToArray();
+
+                        var mapData = new MapData(_mapArrayBuffer, twoRhos, zs, twoDRhos, dZs);
+
+                        Commands.Maps_PlotMap.Execute(mapData);
+                        logger.Info(() => "done.\r");
+                    }
+
+                    // save results to isolated storage
+                    logger.Info(() => "Saving simulation results to temporary directory...");
+                    string resultsFolder = input.OutputName;
+                    FileIO.CreateDirectory(resultsFolder);
+                    input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".xml"));
+
+                    foreach (var result in _output.ResultsDictionary.Values)
+                    {
+                        // save all detector data to the specified folder
+                        DetectorIO.WriteDetectorToFile(result, resultsFolder);
+                    }
+
+                    var store = IsolatedStorageFile.GetUserStoreForApplication();
+                    if (store.DirectoryExists(resultsFolder))
+                    {
+                        var fileNames = store.GetFileNames(resultsFolder + @"\*");
+
+                        // then, zip all these together and store *that* .zip to isolated storage as well
+                        try
+                        {
+                            FileIO.ZipFiles(fileNames, resultsFolder, resultsFolder + ".zip");
+                        }
+                        catch (SecurityException)
+                        {
+                            logger.Error(() => "\rProblem saving results to file...please try again.\r");
+                        }
+                    }
+                    logger.Info(() => "done.\r");
+
+                });
+            },
                 cancelToken,
                 TaskContinuationOptions.OnlyOnRanToCompletion,
                 scheduler);
         }
 
         private void MC_CancelMonteCarloSolver_Executed(object sender, ExecutedEventArgs e)
-        { 
-            Task.Factory.StartNew(() => _simulation.Cancel());
+        {
             if (_currentCancellationTokenSource != null)
             {
                 _currentCancellationTokenSource.Cancel(true);
                 _currentCancellationTokenSource = null;
+                //logger.Info(() => "Simulation cancelled.\n");
+            }
+            if (_simulation.IsRunning)
+            {
+                Task.Factory.StartNew(() => _simulation.Cancel());
             }
         }
 
@@ -276,37 +319,12 @@ namespace Vts.SiteVisit.ViewModel
 
         private void MC_DownloadDefaultSimulationInput_Executed(object sender, ExecutedEventArgs e)
         {
-            var store = IsolatedStorageFile.GetUserStoreForApplication();
-
-            if (_firstTimeSaving)
-            {
-                Commands.IsoStorage_IncreaseSpaceQuery.Execute();
-                _firstTimeSaving = false;
-                return;
-            }
-
             using (var stream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("zip"))
             {
                 if (stream != null)
                 {
-                    //var resourcesPath = "MonteCarlo/Resources/DataStructures/SimulationInput/";
-                    //var xmlFilenames = new[]
-                    //    {
-                    //        "infile_ROfRho.xml",
-                    //        "infile_database.xml",
-                    //        "infile_pMC_database.xml",
-                    //        "infile.xml"
-                    //    };
-
-                    //var files = xmlFilenames.Select(fileName =>
-                    //    new
-                    //    {
-                    //        Name = fileName,
-                    //        Input = FileIO.ReadFromXMLInResources<SimulationInput>(resourcesPath + fileName, "Vts")
-                    //    });
-
                     var files = SimulationInputProvider.GenerateAllSimulationInputs().Select(input =>
-                        new 
+                        new
                         {
                             Name = input.OutputName + ".xml",
                             Input = input
@@ -317,7 +335,7 @@ namespace Vts.SiteVisit.ViewModel
                         file.Input.ToFile(file.Name);
                     }
 
-                    FileIO.ZipFiles(files.Select(file=>file.Name), "", stream);
+                    FileIO.ZipFiles(files.Select(file => file.Name), "", stream);
                     logger.Info(() => "Template simulation input files exported to a zip file.\r");
                 }
             }
@@ -325,43 +343,47 @@ namespace Vts.SiteVisit.ViewModel
 
         private void MC_SaveSimulationResults_Executed(object sender, ExecutedEventArgs e)
         {
-            if (_output != null)
+            if (_output != null && _newResultsAvailable)
             {
                 var input = _simulationInputVM.SimulationInput;
                 string resultsFolder = input.OutputName;
-                FileIO.CreateDirectory(resultsFolder);
-                input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
 
                 var store = IsolatedStorageFile.GetUserStoreForApplication();
 
-                if (_firstTimeSaving)
+                if (store.FileExists(resultsFolder + ".zip"))
                 {
-                    Commands.IsoStorage_IncreaseSpaceQuery.Execute();
-                    _firstTimeSaving = false;
-                    return;
-                }
 
-                foreach (var result in _output.ResultsDictionary.Values)
-                {
-                    // save all detector data to the specified folder
-                    DetectorIO.WriteDetectorToFile(result, resultsFolder);
-                }
-
-                if (store.DirectoryExists(resultsFolder))
-                {
-                    var fileNames = store.GetFileNames(resultsFolder + @"\*");
-
-                    // then, zip all these together and SaveFileDialog to .zip...
-                    using (var stream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("zip"))
+                    try
                     {
-                        if (stream != null)
+                        using (var zipStream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("zip"))
                         {
-                            FileIO.ZipFiles(fileNames, resultsFolder, stream);
-                            logger.Info(() => "Simulation results exported to file.\r");
+                            using (var readStream = StreamFinder.GetFileStream(resultsFolder + ".zip", FileMode.Open))
+                            {
+                                FileIO.CopyStream(readStream, zipStream);
+                            }
                         }
+                        logger.Info(() => "Finished copying results to user file. :)\r");
+                    }
+                    catch (SecurityException)
+                    {
+                        logger.Error(() => "Problem exporting results to user file...sorry user :(\r");
                     }
                 }
             }
+        }
+
+        private bool EnoughRoomInIsolatedStorage(double megabyteMinimum)
+        {
+            using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                var currentQuota = (isf.Quota / 1048576);
+                var spaceUsed = ((isf.Quota - isf.AvailableFreeSpace) / 1048576);
+                if (currentQuota - spaceUsed < megabyteMinimum)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private PlotAxesLabels GetPlotLabels()
@@ -371,21 +393,6 @@ namespace Vts.SiteVisit.ViewModel
                 IndependentVariableAxisUnits.MM.GetInternationalizedString(),
                 SolutionDomainType.RofRho.GetInternationalizedString(),
                 DependentVariableAxisUnits.PerMMSquared.GetInternationalizedString());
-            //var sd = this.SolutionDomainTypeOptionVM;
-            //PlotAxesLabels axesLabels = null;
-            //if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
-            //{
-            //    axesLabels = new PlotAxesLabels(
-            //        sd.IndependentAxisLabel, sd.IndependentAxisUnits,
-            //        sd.SelectedDisplayName, "", sd.ConstantAxisLabel,
-            //        sd.ConstantAxisUnits, sd.ConstantAxisValue);
-            //}
-            //else
-            //{
-            //    axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel,
-            //        sd.IndependentAxisUnits, sd.SelectedDisplayName, "");
-            //}
-            //return axesLabels;
         }
 
         private string GetPlotLabel()

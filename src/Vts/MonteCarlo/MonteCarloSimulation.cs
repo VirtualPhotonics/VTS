@@ -31,7 +31,9 @@ namespace Vts.MonteCarlo
 
         private string _outputPath;
 
+        private bool _isRunning;
         private bool _isCancelled;
+        private bool _resultsAvailable;
 
         public MonteCarloSimulation(SimulationInput input)
         {
@@ -81,6 +83,8 @@ namespace Vts.MonteCarlo
             }
 
             _isCancelled = false;
+            _isRunning = false;
+            _resultsAvailable = false;
         }
 
         /// <summary>
@@ -90,6 +94,10 @@ namespace Vts.MonteCarlo
 
         // public properties
         public PhaseFunctionType PhaseFunctionType { get; set; }
+
+        public bool IsRunning { get { return _isRunning; } }
+
+        public bool ResultsAvailable { get { return _resultsAvailable; } }
 
         // private properties
         private int SimulationIndex { get; set; }
@@ -111,13 +119,17 @@ namespace Vts.MonteCarlo
         public Output Run()
         {
             _isCancelled = false;
+            _isRunning = true;
+            _resultsAvailable = false;
 
             DisplayIntro();
 
             ExecuteMCLoop();
 
+            _isRunning = false;
             if (_isCancelled)
             {
+                _resultsAvailable = false;
                 return null;
             }
             
@@ -127,6 +139,8 @@ namespace Vts.MonteCarlo
                     .SelectMany(dc => dc.Detectors).ToList();
 
             Results = new Output(_input, detectors);
+
+            _resultsAvailable = true;
 
             return Results;
         }
@@ -326,15 +340,13 @@ namespace Vts.MonteCarlo
         void DisplayIntro()
         {
             var header = SimulationIndex + ": ";
-            string intro =
-                header + "                                                  \n" +
-                header + "      Monte Carlo Simulation of Light Propagation \n" +
-                header + "              in a multi-region tissue            \n" +
-                header + "                                                  \n" +
-                header + "         written by the Virtual Photonics Team    \n" +
-                header + "              Beckman Laser Institute             \n" +
-                header + "                                                  \n";
-            logger.Info(() => intro);
+            logger.Info(() => header + "                                                  \n");
+            logger.Info(() => header + "      Monte Carlo Simulation of Light Propagation \n");
+            logger.Info(() => header + "              in a multi-region tissue            \n");
+            logger.Info(() => header + "                                                  \n");
+            logger.Info(() => header + "         written by the Virtual Photonics Team    \n");
+            logger.Info(() => header + "              Beckman Laser Institute             \n");
+            logger.Info(() => header + "                                                  \n");
         }
 
         /*****************************************************************/

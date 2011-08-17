@@ -43,6 +43,22 @@ namespace Vts.IO
         }
 
         /// <summary>
+        /// Copies one stream to the other
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="output"></param>
+        /// <remarks>See http://stackoverflow.com/questions/230128/best-way-to-copy-between-two-stream-instances-c </remarks>
+        public static void CopyStream(Stream input, Stream output)
+        {
+            byte[] buffer = new byte[32768];
+            int read;
+            while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                output.Write(buffer, 0, read);
+            }
+        }
+
+        /// <summary>
         /// Platform-agnostic directory creation (uses isolated storage for Silverlight)
         /// </summary>
         /// <param name="folderPath">Path for new directory</param>
