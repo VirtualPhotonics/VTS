@@ -101,14 +101,17 @@
       <Link>Acknowledgements.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\files\SimulationInputFiles\newinfile_ellip_RadianceOfRhoAndZAndAngle.xml">
-      <Link>newinfile_ellip_RadianceOfRhoAndZAndAngle.xml</Link>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_ellip_FluenceOfRhoAndZ.xml">
+      <Link>newinfile_ellip_FluenceOfRhoAndZ.xml</Link>
     </Content>
     <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_all_detectors.xml">
       <Link>newinfile_one_layer_all_detectors.xml</Link>
     </Content>
-    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_ROfRho.xml">
-      <Link>newinfile_one_layer_ROfRho.xml</Link>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.xml">
+      <Link>newinfile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.xml</Link>
+    </Content>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml">
+      <Link>newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml</Link>
     </Content>
     <Content Include="..\..\files\SimulationInputFiles\newinfile_two_layer_ROfRho.xml">
       <Link>newinfile_two_layer_ROfRho.xml</Link>

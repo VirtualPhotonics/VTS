@@ -6,7 +6,7 @@ clear all;
 addpath([cd '\xml_toolbox']);
 
 % names of individual MC simulations
-datanames = { 'results_ROfRho_CAW' };
+datanames = { 'one_layer_ROfRho_FluenceOfRhoAndZ' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 %outdir = 'C:\Simulations';
@@ -24,7 +24,7 @@ show.TOfRho =                   0;
 show.TOfRhoAndAngle =           0;
 show.ATotal =                   0;
 show.AOfRhoAndZ =               0;
-show.FluenceOfRhoAndZ =         0;
+show.FluenceOfRhoAndZ =         1;
 show.RadianceOfRhoAndZAndAngle = 0;
 
 for mci = 1:length(datanames)
