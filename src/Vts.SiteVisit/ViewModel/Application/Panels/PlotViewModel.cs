@@ -30,9 +30,23 @@ namespace Vts.SiteVisit.ViewModel
         private OptionViewModel<PlotNormalizationType> _PlotNormalizationTypeOptionVM;
         private string _CustomPlotLabel;
         private bool _ShowAxes;
+        
+        private double _MinYValue;
+        private double _MaxYValue;
+        private double _MinXValue;
+        private double _MaxXValue;
+        private bool _AutoScaleX;
+        private bool _AutoScaleY;
 
         public PlotViewModel()
         {
+            _MinYValue = 1E-9;
+            _MaxYValue = 1.0;
+            _MinXValue = 1E-9;
+            _MaxXValue = 1.0;
+            _AutoScaleX = true;
+            _AutoScaleY = true;
+
             Labels = new List<string>();
             PlotTitles = new List<string>();
             DataSeriesCollection = new List<IList<Point>>();
@@ -176,6 +190,78 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
+        public bool AutoScaleX
+        {
+            get { return _AutoScaleX; }
+            set
+            {
+                _AutoScaleX = value;
+                OnPropertyChanged("AutoScaleX");
+            }
+        }
+
+        public bool AutoScaleY
+        {
+            get { return _AutoScaleY; }
+            set
+            {
+                _AutoScaleY = value;
+                OnPropertyChanged("AutoScaleY");
+            }
+        }
+        
+        public double MinXValue
+        {
+            get { return _MinXValue; }
+            set
+            {
+                _MinXValue = value;
+                OnPropertyChanged("MinXValue");
+            }
+        }
+
+        public double MaxXValue
+        {
+            get { return _MaxXValue; }
+            set
+            {
+                _MaxXValue = value;
+                OnPropertyChanged("MaxXValue");
+            }
+        }
+
+        public double MinYValue
+        {
+            get { return _MinYValue; }
+            set
+            {
+                _MinYValue = value;
+                OnPropertyChanged("MinYValue");
+            }
+        }
+
+        public double MaxYValue
+        {
+            get { return _MaxYValue; }
+            set
+            {
+                _MaxYValue = value;
+                OnPropertyChanged("MaxYValue");
+            }
+        }
+
+        protected override void AfterPropertyChanged(string propertyName)
+        {
+            if (propertyName == "MinXValue" || 
+                propertyName == "MaxXValue" ||
+                propertyName == "MinYValue" || 
+                propertyName == "MaxYValue" ||
+                propertyName == "AutoScaleX" || 
+                propertyName == "AutoScaleY")
+            {
+                UpdatePlotSeries();
+            }
+        }
 
         void Plot_SetAxesLabels_Executed(object sender, ExecutedEventArgs e)
         {
@@ -254,10 +340,19 @@ namespace Vts.SiteVisit.ViewModel
         //static int labelCounter = 0;
         private void AddValuesToPlotData(IList<Point> points, string title)
         {
-            if (!HoldOn) // HoldOn
+            if (!_HoldOn)
             {
                 ClearPlot();
             }
+
+            //// filter the results if we're not auto-scaling (the default)
+            //if(_AutoScaleX || _AutoScaleY)
+            //{
+            //    points = points.Where(p => 
+            //         (_AutoScaleX ? (p.X <= MaxXValue && p.X>= MinXValue) : true) &&
+            //         (_AutoScaleY ? (p.Y <= MaxYValue && p.Y>= MinYValue) : true)
+            //    ).ToList();
+            //}
 
             DataSeriesCollection.Add(points);
 
@@ -336,10 +431,15 @@ namespace Vts.SiteVisit.ViewModel
                         useLogX ? Math.Log10(x) : x,
                         useLogY ? Math.Log10(y) : y))
                     .Where(p => p.IsValidDataPoint());
+            
+            // filter the results if we're not auto-scaling
+            Func<Point, bool> pointsAreWithinAxes = p =>
+                    (_AutoScaleX ? true : (p.X <= MaxXValue && p.X >= MinXValue)) &&
+                    (_AutoScaleY ? true : (p.Y <= MaxYValue && p.Y >= MinYValue));
 
             foreach (var curve in pointsToPlot.ToList())
             {
-                newCollection.Add(curve.ToList());
+                newCollection.Add(curve.Where(pointsAreWithinAxes).ToList());
             }
 
             PlotSeriesCollection = newCollection;
