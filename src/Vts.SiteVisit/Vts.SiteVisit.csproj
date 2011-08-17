@@ -178,6 +178,7 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="ViewModel\Application\Panels\MonteCarlo\MultiRegionTissueViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SingleEllipsoidTissueViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\EllipsoidRegionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SimulationOptionsViewModel.cs" />

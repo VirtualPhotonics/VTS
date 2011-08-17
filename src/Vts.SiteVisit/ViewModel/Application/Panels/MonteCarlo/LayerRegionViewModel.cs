@@ -12,7 +12,7 @@ namespace Vts.SiteVisit.ViewModel
         private string _name;
         private RangeViewModel _zRangeVM;
         private OpticalPropertyViewModel _opticalPropertyVM;
-        
+
         public LayerRegionViewModel(LayerRegion region, string name)
         {
             _region = region;
@@ -32,7 +32,8 @@ namespace Vts.SiteVisit.ViewModel
         //{
         //}
 
-        public LayerRegionViewModel() : this(new LayerRegion(), "")
+        public LayerRegionViewModel()
+            : this(new LayerRegion(), "")
         {
         }
 
@@ -65,6 +66,9 @@ namespace Vts.SiteVisit.ViewModel
                 OnPropertyChanged("OpticalPropertyVM");
             }
         }
+
+        public bool IsLayer { get { return true; } }
+        public bool IsEllipsoid { get { return false; } }
 
         //public LayerRegion GetLayerRegion()
         //{

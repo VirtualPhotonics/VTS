@@ -129,10 +129,12 @@ namespace Vts.SiteVisit.ViewModel
             switch (tissueInput.TissueType)
             {
                 case MonteCarlo.TissueType.MultiLayer:
-                    TissueInputVM = new MultiLayerTissueViewModel((MultiLayerTissueInput)tissueInput);
+                    TissueInputVM = new MultiRegionTissueViewModel((MultiLayerTissueInput)tissueInput);
+                    //TissueInputVM = new MultiLayerTissueViewModel((MultiLayerTissueInput)tissueInput);
                     break;
                 case MonteCarlo.TissueType.SingleEllipsoid:
-                    TissueInputVM = new SingleEllipsoidTissueViewModel((SingleEllipsoidTissueInput)tissueInput);
+                    TissueInputVM = new MultiRegionTissueViewModel((SingleEllipsoidTissueInput)tissueInput);
+                    //TissueInputVM = new SingleEllipsoidTissueViewModel((SingleEllipsoidTissueInput)tissueInput);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

@@ -147,12 +147,6 @@ namespace Vts.SiteVisit.ViewModel
             var input = _simulationInputVM.SimulationInput;
             var nPhotons = _simulationInputVM.SimulationInput.N;
 
-            ROfRhoDetectorInput rOfRho = (ROfRhoDetectorInput)(input.VirtualBoundaryInputs.Where(
-                v => v.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance).Select(
-                d => d.DetectorInputs.Where(i => i.Name == TallyType.ROfRho.ToString()).First()).First());
-
-            IEnumerable<double> independentValues = rOfRho.Rho.AsEnumerable();
-
             _simulation = new MonteCarloSimulation(input);
 
             _currentCancellationTokenSource = new CancellationTokenSource();
@@ -167,9 +161,23 @@ namespace Vts.SiteVisit.ViewModel
                 {
                     _output = antecedent.Result;
                     _newResultsAvailable = _simulation.ResultsAvailable;
-                    if (_output.R_r != null)
+
+                    var rOfRhoDetectorInputs = _simulationInputVM.SimulationInput.VirtualBoundaryInputs
+                        .Where(vb => vb.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance)
+                        .SelectMany(vb => vb.DetectorInputs)
+                        .Where(di => di.Name == "ROfRho");
+
+                    if (rOfRhoDetectorInputs.Any())
                     {
                         logger.Info(() => "Creating R(rho) plot...");
+
+                        //ROfRhoDetectorInput rOfRho = (ROfRhoDetectorInput)(input.VirtualBoundaryInputs.Where(
+                        //    v => v.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance).Select(
+                        //    d => d.DetectorInputs.Where(i => i.Name == TallyType.ROfRho.ToString()).First()).First());
+
+                        var detectorInput = (ROfRhoDetectorInput)rOfRhoDetectorInputs.First();
+
+                        IEnumerable<double> independentValues = detectorInput.Rho.AsEnumerable();
 
                         //var showPlusMinusStdev = true;
                         IEnumerable<Point> points = null;
@@ -199,15 +207,15 @@ namespace Vts.SiteVisit.ViewModel
                         logger.Info(() => "done.\r");
                     }
 
-                    var detectorInputs = _simulationInputVM.SimulationInput.VirtualBoundaryInputs
+                    var fluenceDetectorInputs = _simulationInputVM.SimulationInput.VirtualBoundaryInputs
                         .Where(vb => vb.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary)
                         .SelectMany(vb => vb.DetectorInputs)
                         .Where(di => di.Name == "FluenceOfRhoAndZ");
 
-                    if (detectorInputs.Any())
+                    if (fluenceDetectorInputs.Any())
                     {
                         logger.Info(() => "Creating Fluence(rho,z) map...");
-                        var detectorInput = (FluenceOfRhoAndZDetectorInput)detectorInputs.First();
+                        var detectorInput = (FluenceOfRhoAndZDetectorInput)fluenceDetectorInputs.First();
                         var rhosMC = detectorInput.Rho.AsEnumerable().ToArray();
                         var zsMC = detectorInput.Z.AsEnumerable().ToArray();
 
@@ -289,7 +297,7 @@ namespace Vts.SiteVisit.ViewModel
                 _currentCancellationTokenSource = null;
                 //logger.Info(() => "Simulation cancelled.\n");
             }
-            if (_simulation.IsRunning)
+            if (_simulation != null && _simulation.IsRunning)
             {
                 Task.Factory.StartNew(() => _simulation.Cancel());
             }

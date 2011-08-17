@@ -10,6 +10,7 @@ namespace Vts.SiteVisit.ViewModel
     {
         private EllipsoidRegion _region;
         private string _name;
+        private string _units;
         private OpticalPropertyViewModel _opticalPropertyVM;
 
         public EllipsoidRegionViewModel(EllipsoidRegion region, string name)
@@ -109,6 +110,10 @@ namespace Vts.SiteVisit.ViewModel
                 OnPropertyChanged("OpticalPropertyVM");
             }
         }
+
+        public string Units { get { return "mm"; } }
+        public bool IsLayer { get { return false; } }
+        public bool IsEllipsoid { get { return true; } }
 
         //public EllipsoidRegion GetEllipsoidRegion()
         //{
