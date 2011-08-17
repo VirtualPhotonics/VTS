@@ -8,14 +8,15 @@
         <!-- Solver Engine -->
         <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=MainResource.Label_ForwardSolver, Source={StaticResource LocalizedStrings }}" FontSize="12" FontWeight="Bold" Margin="3,3" />
-            <v:ComboBoxOptionView Grid.Row="0" Grid.Column="1"  DataContext="{Binding ForwardSolverTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=MainResource.Label_ForwardSolver, Source={StaticResource LocalizedStrings }}" FontSize="12" FontWeight="Bold" Margin="3,3" />
+            <v:ComboBoxOptionView Grid.Row="1" Grid.Column="1"  DataContext="{Binding ForwardSolverTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </Grid>
         <!-- Gaussian Beam Diameter -->
         <StackPanel Orientation="Horizontal" Visibility="{Binding IsGaussianForwardModel, Converter={StaticResource myBooleanToVisibilityConverter}}" Margin="5">
