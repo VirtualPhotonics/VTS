@@ -12,7 +12,7 @@
         <vm:SolverDemoViewModel/>
     </UserControl.DataContext>
     <Grid x:Name="layoutRoot">
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
             <Grid VerticalAlignment="Stretch">
                 <Grid.Background>
                     <RadialGradientBrush RadiusX="1.01" RadiusY="1.1" Center="0.002,-0.001" GradientOrigin="-0.001,-0.006">
