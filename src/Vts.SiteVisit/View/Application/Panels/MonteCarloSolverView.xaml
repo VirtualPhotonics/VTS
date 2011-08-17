@@ -24,10 +24,10 @@
 
         <StackPanel Orientation="Horizontal" >
             <Button VerticalAlignment="Bottom" Command="{Binding LoadSimulationInputCommand}"
-                        Background="{Binding StackPanel.Background}" Content="Load Input File"  
+                        Content="Load Input File"  
                         Width="180" Height="30" Margin="5"/>
             <Button VerticalAlignment="Bottom" Command="{Binding DownloadDefaultSimulationInputCommand}"
-                        Background="{Binding StackPanel.Background}" Content="Download Prototype Input Files"  
+                        Content="Download Prototype Input Files"  
                         Width="180" Height="30" Margin="5"/>
         </StackPanel>
 
@@ -167,13 +167,13 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Button VerticalAlignment="Bottom" Command="{Binding ExecuteMonteCarloSolverCommand}"
-                Background="{Binding StackPanel.Background}" Content="Run Simulation"  
+                Content="Run Simulation"  
                 Width="120" Height="30" Margin="5"/>
             <Button VerticalAlignment="Bottom" Command="{Binding CancelMonteCarloSolverCommand}"
-                Background="{Binding StackPanel.Background}" Content="Cancel Simulation"  
+                Content="Cancel Simulation"  
                 Width="120" Height="30" Margin="5"/>
             <Button VerticalAlignment="Bottom" Command="{Binding SaveSimulationResultsCommand}"
-                    Background="{Binding StackPanel.Background}" Content="Save Simulation Results"  
+                    Content="Save Simulation Results"  
                     Width="160" Height="30"  Margin="5"/>
         </StackPanel>
 
