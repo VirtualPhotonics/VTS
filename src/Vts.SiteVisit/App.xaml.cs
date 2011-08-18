@@ -38,7 +38,7 @@ namespace Vts.SiteVisit
                     .Subscribe(message => Commands.TextOutput_PostMessage.Execute(message));
             }
 
-            logger.Info(() => "Silverlight app initialized.");
+            logger.Info(() => "Silverlight app initialized.\n");
         }
 
         private void Application_Exit(object sender, EventArgs e)
