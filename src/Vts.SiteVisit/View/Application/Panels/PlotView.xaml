@@ -72,23 +72,23 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 
-                <CheckBox Content="{Binding Path=MainResource.Label_AutoScaleX, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding AutoScaleX, Mode=TwoWay}" Margin="4"/>
+                <CheckBox Content="{Binding Path=MainResource.Label_AutoScaleX, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding AutoScaleX, Mode=TwoWay}" Margin="4" VerticalAlignment="Center"/>
                 <ContentControl IsEnabled="{Binding ManualScaleX}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Path=MainResource.Label_MinX, Source={StaticResource LocalizedStrings}}" Margin="3"  VerticalAlignment="Center" />
-                        <TextBox Text="{Binding MinXValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52"/>
+                        <TextBox Text="{Binding MinXValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4"/>
                         <TextBlock Text="{Binding Path=MainResource.Label_MaxX, Source={StaticResource LocalizedStrings}}" Margin="3"  VerticalAlignment="Center" />
-                        <TextBox Text="{Binding MaxXValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52"/>
+                        <TextBox Text="{Binding MaxXValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4"/>
                     </StackPanel>
                 </ContentControl>
                 
-                <CheckBox Content="{Binding Path=MainResource.Label_AutoScaleY, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding AutoScaleY, Mode=TwoWay}" Margin="4"/>
+                <CheckBox Content="{Binding Path=MainResource.Label_AutoScaleY, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding AutoScaleY, Mode=TwoWay}" Margin="4" VerticalAlignment="Center"/>
                 <ContentControl IsEnabled="{Binding ManualScaleY}" HorizontalContentAlignment="Right">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Path=MainResource.Label_MinY, Source={StaticResource LocalizedStrings}}" Margin="3"  VerticalAlignment="Center" />
-                        <TextBox Text="{Binding MinYValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52"/>
+                        <TextBox Text="{Binding MinYValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4"/>
                         <TextBlock Text="{Binding Path=MainResource.Label_MaxY, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center" />
-                        <TextBox Text="{Binding MaxYValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52"/>
+                        <TextBox Text="{Binding MaxYValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4"/>
                     </StackPanel>
                 </ContentControl>
             </StackPanel>
