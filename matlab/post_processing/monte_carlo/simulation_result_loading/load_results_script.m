@@ -10,7 +10,7 @@ datanames = { 'one_layer_ROfRho_FluenceOfRhoAndZ' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 %outdir = 'C:\Simulations';
-outdir = 'C:\Users\hayakawa\Documents\Visual Studio 2010\Projects\vts-default\matlab\post_processing\monte_carlo\simulation_result_loading';
+outdir = '.';
 
 show.RDiffuse =                 0;
 show.ROfRho =                   1;

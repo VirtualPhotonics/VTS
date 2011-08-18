@@ -211,7 +211,7 @@ namespace Vts.MonteCarlo
         public static SimulationInput PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector()
         {
             return new SimulationInput(
-                100,
+                10000,
                 "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
@@ -284,7 +284,7 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region point source one layer R(rho) (for lab exercises)
+        #region point source two layer R(rho) (for lab exercises)
         /// <summary>
         /// Point source, two-layer tissue definition, only ROfRho detector included
         /// </summary>
