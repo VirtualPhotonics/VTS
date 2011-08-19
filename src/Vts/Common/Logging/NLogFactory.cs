@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IO;
 using NLog.Targets;
 
 namespace Vts.Common.Logging.NLogIntegration
@@ -31,17 +32,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// </summary>
         public NLogFactory()
         {
-            var config = new LoggingConfiguration();
-            var observableTarget = new ObservableTarget();
-
-            config.AddTarget("observable", observableTarget);
-            
-            observableTarget.Layout = "${date:format=HH\\:mm\\:ss} | ${message}";
-
-            LoggingRule rule1 = new LoggingRule("*", LogLevel.Info, observableTarget);
-            config.LoggingRules.Add(rule1);
-
-            LogManager.Configuration = config;
+            var config = GetDefaultLoggingConfiguration();
         }
 
         /// <summary>
@@ -50,10 +41,55 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "configFile">The config file.</param>
         public NLogFactory(string configFile)
         {
-            var file = GetConfigFile(configFile);
-
-            LogManager.Configuration = new XmlLoggingConfiguration(file.FullName);
+            if( File.Exists(configFile))
+            {
+                var file = GetConfigFile(configFile);
+                LogManager.Configuration = new XmlLoggingConfiguration(file.FullName);
+            }
+            else
+            {
+#if SILVERLIGHT
+                LogManager.Configuration = GetDefaultLoggingConfiguration();
+#else
+                LogManager.Configuration = GetDefaultDesktopLoggingConfiguration();
+#endif
+            }
         }
+
+        private static LoggingConfiguration GetDefaultLoggingConfiguration()
+        {
+            var config = new LoggingConfiguration();
+
+            var observableTarget = new ObservableTarget();
+
+            config.AddTarget("observable", observableTarget);
+
+            observableTarget.Layout = "${date:format=HH\\:mm\\:ss} | ${message}";
+
+            LoggingRule rule1 = new LoggingRule("*", LogLevel.Info, observableTarget);
+
+            config.LoggingRules.Add(rule1);
+
+            return config;
+        }
+#if !SILVERLIGHT
+        private static LoggingConfiguration GetDefaultDesktopLoggingConfiguration()
+        {
+            var config = new LoggingConfiguration();
+
+            var consoleTarget = new ColoredConsoleTarget();
+
+            config.AddTarget("console", consoleTarget);
+
+            consoleTarget.Layout = "${date:format=HH\\:mm\\:ss} | ${message}";
+
+            LoggingRule rule1 = new LoggingRule("*", LogLevel.Info, consoleTarget);
+
+            config.LoggingRules.Add(rule1);
+
+            return config;
+        }
+#endif
 
         /// <summary>
         ///   Creates a logger with specified <paramref name = "name" />.
@@ -62,8 +98,16 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <returns></returns>
         public override ILogger Create(String name)
         {
-            var log = LogManager.GetLogger(name);
-            return new NLogLogger(log, this);
+            //if (File.Exists(name))
+            //{
+                var nLogLogger = LogManager.GetLogger(name);
+                return new NLogLogger(nLogLogger, this);
+            //}
+            //else
+            //{
+            //    var nullLogger = LogManager.CreateNullLogger();
+            //    return new NLogLogger(nullLogger, this);
+            //}
         }
 
         /// <summary>
