@@ -76,6 +76,17 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
+        public bool ManualScale
+        {
+            get { return !_AutoScale; }
+            set
+            {
+                _AutoScale = !value;
+                this.OnPropertyChanged("ManualScale");
+                this.OnPropertyChanged("AutoScale");
+            }
+        }
+
         public bool AutoScale
         {
             get { return _AutoScale; }
@@ -83,6 +94,7 @@ namespace Vts.SiteVisit.ViewModel
             {
                 _AutoScale = value;
                 this.OnPropertyChanged("AutoScale");
+                this.OnPropertyChanged("ManualScale");
             }
         }
 
