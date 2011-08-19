@@ -25,6 +25,7 @@ namespace Vts.SiteVisit.Input
             
             PlotMuaSpectra = new Command("PlotMuaSpectra");
             PlotMusprimeSpectra = new Command("PlotMusprimeSpectra");
+            UpdateOpticalProperties = new Command("UpdateOpticalProperties");
 
             //Plot_PlotValuesLinearly = new Command("Plot_PlotValuesLinearly");
             Plot_PlotValues = new Command("Plot_PlotValues");
@@ -68,6 +69,7 @@ namespace Vts.SiteVisit.Input
         //Spectra view commands
         public static Command PlotMuaSpectra { get; private set; }
         public static Command PlotMusprimeSpectra { get; private set; }
+        public static Command UpdateOpticalProperties { get; private set; }
 
         // Plot commmands
         //public static Command Plot_PlotValuesLinearly { get; private set; }

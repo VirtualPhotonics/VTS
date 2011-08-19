@@ -133,7 +133,7 @@ namespace Vts.SiteVisit.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Plot μa Spectum.
+        ///   Looks up a localized string similar to Plot μa Spectrum.
         /// </summary>
         public static string Button_PlotMua {
             get {

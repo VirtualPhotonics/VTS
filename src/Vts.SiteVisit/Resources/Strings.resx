@@ -130,7 +130,7 @@
     <value>Plot Measured Data</value>
   </data>
   <data name="Button_PlotMua" xml:space="preserve">
-    <value>Plot μa Spectum</value>
+    <value>Plot μa Spectrum</value>
   </data>
   <data name="Button_PlotMusPrime" xml:space="preserve">
     <value>Plot μs' Spectrum</value>
