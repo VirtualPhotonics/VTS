@@ -267,7 +267,7 @@ namespace Vts.MonteCarlo
                             new RadianceOfRhoAndZAndAngleDetectorInput(
                                 new DoubleRange(0.0, 10, 101),
                                 new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0, Math.PI, 5))
+                                new DoubleRange(0, Math.PI, 3))
                         },
                         false,
                         VirtualBoundaryType.GenericVolumeBoundary.ToString()
