@@ -177,7 +177,7 @@ namespace Vts.SiteVisit.ViewModel
                     break;
                 case SolutionDomainType.RofFx:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
                             new[] { IndependentVariableAxis.Fx });
                     ConstantLabelVisible = false;
                     break;
@@ -189,7 +189,7 @@ namespace Vts.SiteVisit.ViewModel
                     break;
                 case SolutionDomainType.RofFxAndT:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
                             new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.T });
                     ConstantLabelVisible = true;
                     break;
@@ -201,7 +201,7 @@ namespace Vts.SiteVisit.ViewModel
                     break;
                 case SolutionDomainType.RofFxAndFt:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
                             new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
                     break;
