@@ -36,7 +36,7 @@ namespace Vts.Common.Logging.NLogIntegration
 
             config.AddTarget("observable", observableTarget);
             
-            observableTarget.Layout = "${date:format=HH\\:MM\\:ss} | ${message}";
+            observableTarget.Layout = "${date:format=HH\\:mm\\:ss} | ${message}";
 
             LoggingRule rule1 = new LoggingRule("*", LogLevel.Info, observableTarget);
             config.LoggingRules.Add(rule1);
