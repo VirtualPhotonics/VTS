@@ -81,7 +81,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 #if PROCESS_ATTACH_DEBUG
             Console.Read();
 #endif
-            string inFile = "infile.xml";
+            string inFile = "";
             string outName = "";
             string outPath = "";
             bool infoOnlyOption = false;
@@ -89,10 +89,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             args.Process(() =>
                {
-                Console.WriteLine("Viirtual Photonics MC 1.0");
+                Console.WriteLine("Virtual Photonics MC 1.0");
                 Console.WriteLine();
                 Console.WriteLine("For more information type mc help");
-                Console.WriteLine("For help on a specific topic type mc help=<topicname>");
+                Console.WriteLine("For help on a specific topic type mc.exe help=<topicname>");
                 Console.WriteLine();
             },
                new CommandLine.Switch("help", val =>
@@ -133,15 +133,21 @@ namespace Vts.MonteCarlo.CommandLineApplication
                {
                    var sweepString = val.ToArray();
                    var sweep = MonteCarloSetup.CreateParameterSweep(sweepString, false);
-                   paramSweep.Add(sweep);
-                   Console.WriteLine("parameter sweep specified as {0},{1},{2},{3}", sweepString);
+                   if (sweep != null)
+                   {
+                       paramSweep.Add(sweep);
+                       Console.WriteLine("parameter sweep specified as {0},{1},{2},{3}", sweepString);
+                   }
                }),
                new CommandLine.Switch("paramsweepdelta", val =>
                {
                    var sweepString = val.ToArray();
                    var sweep = MonteCarloSetup.CreateParameterSweep(sweepString, true);
-                   paramSweep.Add(sweep);
-                   Console.WriteLine("parameter sweep specified as {0},{1},{2},{3}", sweepString);
+                   if (sweep != null)
+                   {
+                       paramSweep.Add(sweep);
+                       Console.WriteLine("parameter sweep specified as {0},{1},{2},{3}", sweepString);
+                   }
                }));
 
             if (!infoOnlyOption)
@@ -206,7 +212,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
         {
             Console.WriteLine("Virtual Photonics MC 1.0");
             Console.WriteLine();
-            Console.WriteLine("For more detailed help type mc help=<topicname>");
+            Console.WriteLine("For more detailed help type mc.exe help=<topicname>");
             Console.WriteLine();
             Console.WriteLine("list of arguments:");
             Console.WriteLine();
@@ -240,7 +246,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             Console.WriteLine();
             Console.WriteLine("sample usage:");
             Console.WriteLine();
-            Console.WriteLine("mc infile=myinput outname=myoutput paramsweep=mua1,0.01,0.04,4 paramsweep=mus1,10,20,2");
+            Console.WriteLine("mc.exe infile=myinput outname=myoutput paramsweep=mua1,0.01,0.04,4 paramsweep=mus1,10,20,2");
         }
 
         /// <summary>

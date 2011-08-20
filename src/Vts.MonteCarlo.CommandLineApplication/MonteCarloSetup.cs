@@ -25,8 +25,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                    logger.Warn(() => "\nNo input file specified. Using infile.xml from root mc.exe folder... ");
-                    return ReadSimulationInputFromFile("infile.xml");
+                    Console.WriteLine("\n***No input file specified.***\nDefine an input file using mc.exe infile=infile_name.xml");
+                    return null;
                 }
 
                 //get the full path for the input file
@@ -71,6 +71,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
                 message += "\n\tIgnoring this input parameter\n";
 
+                logger.WarnFormat("{0} {1}", DateTime.Now, message);
                 logger.Warn(() => message);
                 return null;
             }
