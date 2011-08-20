@@ -32,7 +32,11 @@ namespace Vts.Common.Logging.NLogIntegration
         /// </summary>
         public NLogFactory()
         {
-            var config = GetDefaultLoggingConfiguration();
+#if SILVERLIGHT
+            LogManager.Configuration = GetDefaultLoggingConfiguration();
+#else
+            LogManager.Configuration = GetDefaultDesktopLoggingConfiguration();
+#endif
         }
 
         /// <summary>
