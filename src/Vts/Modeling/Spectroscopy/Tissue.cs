@@ -85,7 +85,7 @@ namespace Vts.SpectralMapping
                     Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.HbO2, 22.4)); //338.7
                     Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.H2O, 0.7));
                     Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Fat, 0.0));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Melanin, 0.0051));
+                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Melanin, 0.001));
                     break;
 
                 case (TissueType.BreastPreMenopause):
