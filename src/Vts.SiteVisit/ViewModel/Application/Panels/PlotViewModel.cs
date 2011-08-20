@@ -77,6 +77,38 @@ namespace Vts.SiteVisit.ViewModel
 
         private IList<IList<Point>> DataSeriesCollection { get; set; }
 
+        public PlotViewModel Clone()
+        {
+            return Clone(this);
+        }
+
+        public static PlotViewModel Clone(PlotViewModel plotToClone)
+        {
+            var output = new PlotViewModel();
+
+            output._Title = plotToClone._Title;
+            output._PlotTitles = plotToClone._PlotTitles.ToList();
+            output._PlotType = plotToClone._PlotType;
+            output._HoldOn = plotToClone._HoldOn;
+            output._PlotSeriesCollection = new ObservableCollection<IList<Point>>(plotToClone._PlotSeriesCollection.ToList());
+            output._Labels = plotToClone._Labels.ToList();
+            output._Title = plotToClone._Title;
+            output._XAxisSpacingOptionVM = plotToClone._XAxisSpacingOptionVM; // this won't do a deep copy... need clone for sub-VM
+            output._YAxisSpacingOptionVM = plotToClone._YAxisSpacingOptionVM; // this won't do a deep copy... need clone for sub-VM
+            output._PlotNormalizationTypeOptionVM = plotToClone._PlotNormalizationTypeOptionVM; // this won't do a deep copy... need clone for sub-VM
+            output._CustomPlotLabel = plotToClone._CustomPlotLabel;
+            output._Title = plotToClone._Title;
+            output._ShowAxes = plotToClone._ShowAxes;
+            output._MinYValue = plotToClone._MinYValue;
+            output._MaxYValue = plotToClone._MaxYValue;
+            output._MinXValue = plotToClone._MinXValue;
+            output._MaxXValue = plotToClone._MaxXValue;
+            output._AutoScaleX = plotToClone._AutoScaleX;
+            output._AutoScaleY = plotToClone._AutoScaleY;
+
+            return output;
+        }
+
         public ObservableCollection<IList<Point>> PlotSeriesCollection
         {
             get
