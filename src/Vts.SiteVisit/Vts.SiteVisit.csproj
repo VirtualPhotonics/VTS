@@ -447,6 +447,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Images\xml_notepad.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\OutOfBrowserSettings.xml" />
     <Resource Include="Resources\Images\logo-small.png" />
     <Content Include="Resources\Images\vpbanner.jpg">
