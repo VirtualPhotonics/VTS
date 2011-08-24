@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                    Console.WriteLine("\n***No input file specified.***\nDefine an input file using mc.exe infile=infile_name.xml");
+                    logger.Info(" *** No input file specified ***\n\t\tDefine an input file using mc.exe infile=infile_name.xml");
                     return null;
                 }
 
@@ -57,21 +57,20 @@ namespace Vts.MonteCarlo.CommandLineApplication
             if (parameterSweepString.Length != 4)
             {
                 string message = 
-                    "*** Invalid input parameter ***" +
-                    "\n\tinput parameters should have 4 values in the format:";
+                    " *** Invalid sweep parameter ***" +
+                    "\n\t\tsweep parameters should have 4 values in the format:";
 
                 if (useDelta)
                 {
-                    message += "\n\tinputparamdelta=<ParameterSweepType>,Start,Stop,Delta";
+                    message += "\n\t\tparamsweepdelta=<ParameterSweepType>,Start,Stop,Delta";
                 }
                 else
                 {
-                     message += "\tinputparam=<ParameterSweepType>,Start,Stop,Count";
+                     message += "\n\t\tparamsweep=<ParameterSweepType>,Start,Stop,Count";
                 }
 
-                message += "\n\tIgnoring this input parameter\n";
+                message += "\n\t\tIgnoring this sweep parameter\n";
 
-                logger.WarnFormat("{0} {1}", DateTime.Now, message);
                 logger.Warn(() => message);
                 return null;
             }

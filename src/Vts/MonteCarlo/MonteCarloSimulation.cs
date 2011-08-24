@@ -340,13 +340,12 @@ namespace Vts.MonteCarlo
         void DisplayIntro()
         {
             var header = SimulationIndex + ": ";
-            logger.Info(() => header + "                                                  \n");
-            logger.Info(() => header + "      Monte Carlo Simulation of Light Propagation \n");
-            logger.Info(() => header + "              in a multi-region tissue            \n");
-            logger.Info(() => header + "                                                  \n");
-            logger.Info(() => header + "         written by the Virtual Photonics Team    \n");
-            logger.Info(() => header + "              Beckman Laser Institute             \n");
-            logger.Info(() => header + "                                                  \n");
+            logger.Info(() => header + "                                                  ");
+            logger.Info(() => header + "      Monte Carlo Simulation of Light Propagation ");
+            logger.Info(() => header + "              in a multi-region tissue            ");
+            logger.Info(() => header + "                                                  ");
+            logger.Info(() => header + "         written by the Virtual Photonics Team    ");
+            logger.Info(() => header + "              Beckman Laser Institute           \n");
         }
 
         /*****************************************************************/
@@ -356,7 +355,7 @@ namespace Vts.MonteCarlo
             /* fraction of photons completed */
             double frac = 100 * n / num_phot;
 
-            logger.Info(() => header + frac + " percent complete," + "\n");
+            logger.Info(() => header + frac + " percent complete");
         }
     }
 }

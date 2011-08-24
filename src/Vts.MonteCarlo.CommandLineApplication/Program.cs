@@ -76,6 +76,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
     /// </summary>
     public static class Program
     {
+        private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(Program));
+
         public static void Main(string[] args)
         {
 #if PROCESS_ATTACH_DEBUG
@@ -89,11 +91,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             args.Process(() =>
                {
-                Console.WriteLine("Virtual Photonics MC 1.0");
-                Console.WriteLine();
-                Console.WriteLine("For more information type mc help");
-                Console.WriteLine("For help on a specific topic type mc.exe help=<topicname>");
-                Console.WriteLine();
+                   logger.Info("\nVirtual Photonics MC 1.0\n");
+                   logger.Info("For more information type mc help");
+                   logger.Info("For help on a specific topic type mc.exe help=<topicname>\n");
             },
                new CommandLine.Switch("help", val =>
                {
@@ -114,19 +114,19 @@ namespace Vts.MonteCarlo.CommandLineApplication
                new CommandLine.Switch("infile", val =>
                {
                    inFile = val.First();
-                   Console.WriteLine("input file specified as {0}", inFile);
+                   logger.Info(() => "input file specified as " + inFile);
                    // MonteCarloSetup.InputFile = val.First();
                }),
                new CommandLine.Switch("outname", val =>
                {
                    outName = val.First();
-                   Console.WriteLine("output name overridden as {0}", outName);
+                   logger.Info(() => "output name overridden as " + outName);
                    //MonteCarloSetup.OutputFolder = val.First();
                }),
                new CommandLine.Switch("outpath", val =>
                {
                    outPath = val.First();
-                   Console.WriteLine("output path specified as {0}", outPath);
+                   logger.Info(() => "output path specified as " + outPath);
                    //MonteCarloSetup.OutputFolder = val.First();
                }),
                new CommandLine.Switch("paramsweep", val =>
@@ -136,7 +136,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    if (sweep != null)
                    {
                        paramSweep.Add(sweep);
-                       Console.WriteLine("parameter sweep specified as {0},{1},{2},{3}", sweepString);
+                       logger.Info(() => "parameter sweep specified as " + sweepString[0] + " from " + sweepString[1] + " to " + sweepString[2] + ", with a count of " + sweepString[3]);
                    }
                }),
                new CommandLine.Switch("paramsweepdelta", val =>
@@ -146,7 +146,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    if (sweep != null)
                    {
                        paramSweep.Add(sweep);
-                       Console.WriteLine("parameter sweep specified as {0},{1},{2},{3}", sweepString);
+                       logger.Info(() => "parameter sweep specified as " + sweepString[0] + " from " + sweepString[1] + " to " + sweepString[2] + ", with a delta of " + sweepString[3]);
                    }
                }));
 
@@ -180,12 +180,12 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     var inputs = MonteCarloSetup.ApplyParameterSweeps(input, paramSweep);
 
                     MonteCarloSetup.RunSimulations(inputs, outPath);
-                    Console.WriteLine("\nSimulations complete.");
+                    logger.Info("\nSimulations complete.");
                 }
                 else
                 {
                     MonteCarloSetup.RunSimulation(input, outPath);
-                    Console.WriteLine("\nSimulation complete.");
+                    logger.Info("\nSimulation complete.");
                 }
             }
             return;
@@ -210,43 +210,33 @@ namespace Vts.MonteCarlo.CommandLineApplication
         /// </summary>
         private static void ShowHelp()
         {
-            Console.WriteLine("Virtual Photonics MC 1.0");
-            Console.WriteLine();
-            Console.WriteLine("For more detailed help type mc.exe help=<topicname>");
-            Console.WriteLine();
-            Console.WriteLine("list of arguments:");
-            Console.WriteLine();
-            Console.WriteLine("infile\t\tthe input file, accepts relative and absolute paths");
-            Console.WriteLine("outpath\t\tthe output path, accepts relative and absolute paths");
-            Console.WriteLine("outname\t\toutput name, this value is appended for a parameter sweep");
-            Console.WriteLine("paramsweep\ttakes the sweep parameter name and values in the format:");
-            Console.WriteLine("\t\tparamsweep=<SweepParameterType>,Start,Stop,Count");
-            Console.WriteLine("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
-            Console.WriteLine("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
-            Console.WriteLine();
-            Console.WriteLine("geninfiles\t\tgenerates example infiles and names them newinfile_XXX.xml");
-            Console.WriteLine("\t\twhere XXX describes the type of input specified");
-            Console.WriteLine();
-            Console.WriteLine("list of sweep parameters (paramsweep):");
-            Console.WriteLine();
-            Console.WriteLine("mua1\t\tabsorption coefficient for tissue layer 1");
-            Console.WriteLine("mus1\t\tscattering coefficient for tissue layer 1");
-            Console.WriteLine("n1\t\trefractive index for tissue layer 1");
-            Console.WriteLine("g1\t\tanisotropy for tissue layer 1");
-            Console.WriteLine();
-            Console.WriteLine("mua2\t\tabsorption coefficient for tissue layer 2");
-            Console.WriteLine("mus2\t\tscattering coefficient for tissue layer 2");
-            Console.WriteLine("n2\t\trefractive index for tissue layer 2");
-            Console.WriteLine("g2\t\tanisotropy for tissue layer 2");
-            Console.WriteLine();
-            Console.WriteLine("muai\t\tabsorption coefficient for tissue layer i");
-            Console.WriteLine("musi\t\tscattering coefficient for tissue layer i");
-            Console.WriteLine("ni\t\trefractive index for tissue layer i");
-            Console.WriteLine("gi\t\tanisotropy for tissue layer i");
-            Console.WriteLine();
-            Console.WriteLine("sample usage:");
-            Console.WriteLine();
-            Console.WriteLine("mc.exe infile=myinput outname=myoutput paramsweep=mua1,0.01,0.04,4 paramsweep=mus1,10,20,2");
+            logger.Info("Virtual Photonics MC 1.0");
+            logger.Info("\nFor more detailed help type mc.exe help=<topicname>");
+            logger.Info("\nlist of arguments:");
+            logger.Info("\ninfile\t\tthe input file, accepts relative and absolute paths");
+            logger.Info("outpath\t\tthe output path, accepts relative and absolute paths");
+            logger.Info("outname\t\toutput name, this value is appended for a parameter sweep");
+            logger.Info("paramsweep\ttakes the sweep parameter name and values in the format:");
+            logger.Info("\t\tparamsweep=<SweepParameterType>,Start,Stop,Count");
+            logger.Info("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
+            logger.Info("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
+            logger.Info("\ngeninfiles\tgenerates example infiles and names them newinfile_XXX.xml");
+            logger.Info("\t\twhere XXX describes the type of input specified");
+            logger.Info("\nlist of sweep parameters (paramsweep):");
+            logger.Info("\nmua1\t\tabsorption coefficient for tissue layer 1");
+            logger.Info("mus1\t\tscattering coefficient for tissue layer 1");
+            logger.Info("n1\t\trefractive index for tissue layer 1");
+            logger.Info("g1\t\tanisotropy for tissue layer 1");
+            logger.Info("\nmua2\t\tabsorption coefficient for tissue layer 2");
+            logger.Info("mus2\t\tscattering coefficient for tissue layer 2");
+            logger.Info("n2\t\trefractive index for tissue layer 2");
+            logger.Info("g2\t\tanisotropy for tissue layer 2");
+            logger.Info("\nmuai\t\tabsorption coefficient for tissue layer i");
+            logger.Info("musi\t\tscattering coefficient for tissue layer i");
+            logger.Info("ni\t\trefractive index for tissue layer i");
+            logger.Info("gi\t\tanisotropy for tissue layer i");
+            logger.Info("\nsample usage:");
+            logger.Info("\nmc.exe infile=myinput outname=myoutput paramsweep=mua1,0.01,0.04,4 paramsweep=mus1,10,20,2");
         }
 
         /// <summary>
@@ -258,53 +248,48 @@ namespace Vts.MonteCarlo.CommandLineApplication
             switch (helpTopic)
             {
                 case "infile":
-                    Console.WriteLine();
-                    Console.WriteLine("INFILE");
-                    Console.WriteLine("This is the name of the input file, it can be a relative or absolute path.");
-                    Console.WriteLine("If the path name has any spaces enclose it in double quotes.");
-                    Console.WriteLine("For relative paths, omit the leading slash.");
-                    Console.WriteLine("EXAMPLES:");
-                    Console.WriteLine("\tinfile=C:\\MonteCarlo\\InputFiles\\myinfile.xml");
-                    Console.WriteLine("\tinfile=\"C:\\Monte Carlo\\InputFiles\\myinfile.xml\"");
-                    Console.WriteLine("\tinfile=InputFiles\\myinfile.xml");
-                    Console.WriteLine("\tinfile=myinfile.xml");
+                    logger.Info("\nINFILE");
+                    logger.Info("This is the name of the input file, it can be a relative or absolute path.");
+                    logger.Info("If the path name has any spaces enclose it in double quotes.");
+                    logger.Info("For relative paths, omit the leading slash.");
+                    logger.Info("EXAMPLES:");
+                    logger.Info("\tinfile=C:\\MonteCarlo\\InputFiles\\myinfile.xml");
+                    logger.Info("\tinfile=\"C:\\Monte Carlo\\InputFiles\\myinfile.xml\"");
+                    logger.Info("\tinfile=InputFiles\\myinfile.xml");
+                    logger.Info("\tinfile=myinfile.xml");
                     break;
                 case "outpath":
-                    Console.WriteLine();
-                    Console.WriteLine("OUTPATH");
-                    Console.WriteLine("This is the name of the output path, it can be a relative or absolute path.");
-                    Console.WriteLine("If the path name has any spaces enclose it in double quotes.");
-                    Console.WriteLine("For relative paths, omit the leading slash.");
-                    Console.WriteLine("EXAMPLES:");
-                    Console.WriteLine("\tinfile=C:\\MonteCarlo\\OutputFiles");
-                    Console.WriteLine("\tinfile=OutputFiles");
+                    logger.Info("\nOUTPATH");
+                    logger.Info("This is the name of the output path, it can be a relative or absolute path.");
+                    logger.Info("If the path name has any spaces enclose it in double quotes.");
+                    logger.Info("For relative paths, omit the leading slash.");
+                    logger.Info("EXAMPLES:");
+                    logger.Info("\tinfile=C:\\MonteCarlo\\OutputFiles");
+                    logger.Info("\tinfile=OutputFiles");
                     break;
                 case "outname":
-                    Console.WriteLine();
-                    Console.WriteLine("OUTNAME");
-                    Console.WriteLine("The outname is appended to the folder names if there is a parameter sweep.");
-                    Console.WriteLine("EXAMPLE:");
-                    Console.WriteLine("\toutname=mcResults");
+                    logger.Info("\nOUTNAME");
+                    logger.Info("The outname is appended to the folder names if there is a parameter sweep.");
+                    logger.Info("EXAMPLE:");
+                    logger.Info("\toutname=mcResults");
                     break;
                 case "paramsweep":
-                    Console.WriteLine();
-                    Console.WriteLine("PARAMSWEEP");
-                    Console.WriteLine("Defines the parameter sweep and its values.");
-                    Console.WriteLine("FORMAT:");
-                    Console.WriteLine("\tparamsweep=<SweepParameterType>,Start,Stop,Count");
-                    Console.WriteLine("EXAMPLES:");
-                    Console.WriteLine("\tparamsweep=mua1,0.01,0.04,4");
-                    Console.WriteLine("\tparamsweep=mus1,10,20,2");
+                    logger.Info("\nPARAMSWEEP");
+                    logger.Info("Defines the parameter sweep and its values.");
+                    logger.Info("FORMAT:");
+                    logger.Info("\tparamsweep=<SweepParameterType>,Start,Stop,Count");
+                    logger.Info("EXAMPLES:");
+                    logger.Info("\tparamsweep=mua1,0.01,0.04,4");
+                    logger.Info("\tparamsweep=mus1,10,20,2");
                     break;
                 case "paramsweepdelta":
-                    Console.WriteLine();
-                    Console.WriteLine("PARAMSWEEPDELTA");
-                    Console.WriteLine("Defines the parameter sweep and its values.");
-                    Console.WriteLine("FORMAT:");
-                    Console.WriteLine("\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
-                    Console.WriteLine("EXAMPLES:");
-                    Console.WriteLine("\tparamsweep=mua1,0.01,0.04,0.01");
-                    Console.WriteLine("\tparamsweep=mus1,10,20,5");
+                    logger.Info("\nPARAMSWEEPDELTA");
+                    logger.Info("Defines the parameter sweep and its values.");
+                    logger.Info("FORMAT:");
+                    logger.Info("\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
+                    logger.Info("EXAMPLES:");
+                    logger.Info("\tparamsweep=mua1,0.01,0.04,0.01");
+                    logger.Info("\tparamsweep=mus1,10,20,5");
                     break;
                 default:
                     ShowHelp();
