@@ -51,21 +51,7 @@ namespace Vts.FemModeling.MGRTE._2D
             int vacuum;
             int i, j, k, m, n, ns, nt1, nt2, ns1, ns2, da, ds, nf = 0;
             double res = 0, res0 = 1, rho = 1.0;
-
-            para.G = 0.9;
-            para.NTissue = 1.0;
-            para.NExt = 1.0;
-            para.AMeshLevel = 3;
-            para.AMeshLevel0 = 1;
-            para.SMeshLevel = 3;
-            para.SMeshLevel0 = 0;
-            para.ConvTol = 1e-4;
-            para.MgMethod = 6;
-            para.FullMg = 1;
-            para.NPreIteration = 3;
-            para.NPostIteration = 3;
-            para.NMgCycle = 1;
-            para.NIterations = 100;
+            
 
             // step 1: initialization
            
@@ -85,8 +71,7 @@ namespace Vts.FemModeling.MGRTE._2D
             //      level: the indicator of mesh levels in multigrid
             ds = para.SMeshLevel - para.SMeshLevel0;
             da = para.AMeshLevel - para.AMeshLevel0;
-
-            
+                        
 
             switch (para.MgMethod)
             {
@@ -128,9 +113,11 @@ namespace Vts.FemModeling.MGRTE._2D
             MultiGridCycle Mgrid = new MultiGridCycle();
             Output Rteout = new Output();
             Source Insource = new Source();
-            
-            MathFunctions.CreateAnglularMesh(ref amesh, para.AMeshLevel, para.AMeshLevel0, para.G);
+
+            //Create spatial and angular mesh
+            MathFunctions.CreateAnglularMesh(ref amesh, para.AMeshLevel, para.AMeshLevel0, para.G);      
             MathFunctions.CreateSquareMesh(ref smesh, para.SMeshLevel);
+
             MathFunctions.SweepOrdering(ref smesh, amesh, para.SMeshLevel, para.AMeshLevel);  
             MathFunctions.SetMus(ref us, para.SMeshLevel, smesh[para.SMeshLevel].nt);
             MathFunctions.SetMua(ref ua, para.SMeshLevel, smesh[para.SMeshLevel].nt);
@@ -141,32 +128,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 ref RHS, ref q, ref noflevel, ref b,
                 level, para.MgMethod,vacuum,para.NTissue,
                 para.NExt,para.AMeshLevel,para.AMeshLevel0, 
-                para.SMeshLevel,para.SMeshLevel0, ua,us,Mgrid);
-
-
-            ////Debuging smesh
-            //int cur_np, cur_ne, cur_nt;
-            //StreamWriter writer;
-            //writer = new StreamWriter("smeshtest.txt");
-            //for (i = 0; i <= para.SML; i++)
-            //{
-            //    cur_np = smesh[i].np;
-            //    cur_ne = smesh[i].ne;
-            //    cur_nt = smesh[i].nt;
-            //    writer.Write("{0}\t{1}\t{2}\t", cur_np, cur_ne, cur_nt);
-            //    //for (j = 0; j < cur_np; j++)
-            //    //    for (k = 0; k < 2; k++)
-            //    //        writer.Write("{0}\t", smesh[i].p[j][k]);
-
-            //    for (j = 0; j < cur_ne; j++)
-            //        for (k = 1; k < 2; k++)
-            //            writer.Write("{0}\t", smesh[i].e[j][k]);
-
-            //    //for (j = 0; j < cur_nt; j++)
-            //    //    for (k = 0; k < 3; k++)
-            //    //        writer.Write("{0}\t", smesh[i].t[j][k]);
-            //}
-            //writer.Close();
+                para.SMeshLevel,para.SMeshLevel0, ua,us,Mgrid);           
 
             // initialize internal and boundary sources 
             Insource.Inputsource(para.AMeshLevel, amesh, para.SMeshLevel, smesh, level, RHS, q);

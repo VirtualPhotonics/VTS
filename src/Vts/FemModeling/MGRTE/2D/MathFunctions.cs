@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Vts.FemModeling.MGRTE._2D.DataStructures;
+using System.IO;
 
 namespace Vts.FemModeling.MGRTE._2D
 {
@@ -619,7 +620,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
             for (j = 1; j <= sMeshLevel; j++)
             {
-                //npt gets the total number of point after division
+                //npt gets the total number of point after sub division
                 npt = 0;
 
                 trint = 3 * nt;
@@ -657,11 +658,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 //Assign output arrays to input arrays
                 oldp = newp;
                 olde = newe;
-                oldt = newt;
-
-                //string str = "PET" + j;
-                //str = str + ".txt";
-                //WritePTEData(str, newp, newe, newt, np, ne, nt);
+                oldt = newt;                
 
                 AssignSpatialMesh(ref smesh, oldp, olde, oldt, np, ne, nt, j);
             }
@@ -741,7 +738,7 @@ namespace Vts.FemModeling.MGRTE._2D
                     ptemp[i][2] = count;
                     count++;
                 }
-            }
+            }            
         }
 
         /// <summary>
@@ -798,13 +795,98 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
             }
 
+
+
+            double x0, x1, x2, x3, x4, x5;
+            double y0, y1, y2, y3, y4, y5;
+
+            double temp;
+
             //Assign T
             for (i = 0; i < nt; i++)
             {
-                newt[4 * i][0] = oldt[i][0]; newt[4 * i][1] = (int)ptemp[3 * i + 1][2]; newt[4 * i][2] = (int)ptemp[3 * i][2];
-                newt[4 * i + 3][0] = oldt[i][1]; newt[4 * i + 3][1] = (int)ptemp[3 * i][2]; newt[4 * i + 3][2] = (int)ptemp[3 * i + 2][2];
-                newt[4 * i + 2][0] = oldt[i][2]; newt[4 * i + 2][1] = (int)ptemp[3 * i + 2][2]; newt[4 * i + 2][2] = (int)ptemp[3 * i + 1][2];
-                newt[4 * i + 1][0] = (int)ptemp[3 * i][2]; newt[4 * i + 1][1] = (int)ptemp[3 * i + 1][2]; newt[4 * i + 1][2] = (int)ptemp[3 * i + 2][2];
+
+                x0 = oldp[oldt[i][0]][0];
+                y0 = oldp[oldt[i][0]][1];
+
+                x1 = oldp[oldt[i][1]][0];
+                y1 = oldp[oldt[i][1]][1];
+
+                x2 = oldp[oldt[i][2]][0];
+                y2 = oldp[oldt[i][2]][1];
+
+                x3 = ptemp[3 * i][0];
+                y3 = ptemp[3 * i][1];
+
+                x4 = ptemp[3 * i + 1][0];
+                y4 = ptemp[3 * i + 1][1];
+
+                x5 = ptemp[3 * i + 2][0];
+                y5 = ptemp[3 * i + 2][1];
+
+                //Nodes in the triangle should be arranged counter clock wise
+                // http://softsurfer.com/Archive/algorithm_0101/algorithm_0101.htm
+                //(x1-x0)*(y2-y0)-(x2-x0)*(y1-y0) > 0 counter clockwise
+
+                //Triangle 1
+                temp = (x3 - x0) * (y4 - y0) - (x4 - x0) * (y3 - y0);
+                if (temp > 0)
+                {
+                    newt[4 * i][0] = oldt[i][0];
+                    newt[4 * i][1] = (int)ptemp[3 * i][2];
+                    newt[4 * i][2] = (int)ptemp[3 * i + 1][2];
+                }
+                else
+                {
+                    newt[4 * i][0] = oldt[i][0];
+                    newt[4 * i][1] = (int)ptemp[3 * i + 1][2];
+                    newt[4 * i][2] = (int)ptemp[3 * i][2];
+                }
+
+                //Triangle 2
+                temp = (x3 - x1) * (y5 - y1) - (x5 - x1) * (y3 - y1);
+                if (temp > 0)
+                {
+                    newt[4 * i + 1][0] = oldt[i][1];
+                    newt[4 * i + 1][1] = (int)ptemp[3 * i][2];
+                    newt[4 * i + 1][2] = (int)ptemp[3 * i + 2][2];
+                }
+                else
+                {
+                    newt[4 * i + 1][0] = oldt[i][1];
+                    newt[4 * i + 1][1] = (int)ptemp[3 * i + 2][2];
+                    newt[4 * i + 1][2] = (int)ptemp[3 * i][2];
+                }
+
+                //Triangle 3
+                temp = (x4 - x2) * (y5 - y2) - (x5 - x2) * (y4 - y2);
+                if (temp > 0)
+                {
+                    newt[4 * i + 2][0] = oldt[i][2];
+                    newt[4 * i + 2][1] = (int)ptemp[3 * i + 1][2];
+                    newt[4 * i + 2][2] = (int)ptemp[3 * i + 2][2];
+                }
+                else
+                {
+                    newt[4 * i + 2][0] = oldt[i][2];
+                    newt[4 * i + 2][1] = (int)ptemp[3 * i + 2][2];
+                    newt[4 * i + 2][2] = (int)ptemp[3 * i + 1][2];
+                }
+
+                //Triangle 4 (Inner Triangle)
+                temp = (x4 - x3) * (y5 - y3) - (x5 - x3) * (y4 - y3);
+                if (temp > 0)
+                {
+                    newt[4 * i + 3][0] = (int)ptemp[3 * i + 1][2];
+                    newt[4 * i + 3][1] = (int)ptemp[3 * i + 2][2];
+                    newt[4 * i + 3][2] = (int)ptemp[3 * i][2];
+                }
+                else
+                {
+                    newt[4 * i + 3][0] = (int)ptemp[3 * i + 1][2];
+                    newt[4 * i + 3][1] = (int)ptemp[3 * i][2];
+                    newt[4 * i + 3][2] = (int)ptemp[3 * i + 2][2];
+                }
             }
         }
 
@@ -844,39 +926,5 @@ namespace Vts.FemModeling.MGRTE._2D
             }
 
         }
-
-        ///// <summary>
-        ///// Write output data (for debugging ONLY)
-        ///// </summary>
-        ///// <param name="filename"></param>
-        ///// <param name="p"></param>
-        ///// <param name="t"></param>
-        ///// <param name="e"></param>
-        ///// <param name="np"></param>
-        ///// <param name="nt"></param>
-        ///// <param name="ne"></param>
-        //public static void WritePTEData(string filename, double[][] p, int[][] e, int[][] t, int np, int ne, int nt)
-        //{
-        //    int i, j;
-        //    StreamWriter writer;
-
-        //    writer = new StreamWriter(filename);
-        //    writer.Write("{0}\t", np);
-        //    writer.Write("{0}\t", ne);
-        //    writer.Write("{0}\t", nt);
-
-        //    //write nodal points
-        //    for (i = 0; i < np; i++)
-        //        writer.Write("{0}\t{1}\t", p[i][0], p[i][1]);
-        //    //Write Egde indices
-        //    for (i = 0; i < ne; i++)
-        //        writer.Write("{0}\t{1}\t", e[i][0], e[i][1]);
-        //    //Write triangle indices
-        //    for (i = 0; i < nt; i++)
-        //        writer.Write("{0}\t{1}\t{2}\t", t[i][0], t[i][1], t[i][2]);
-
-        //    writer.Close();
-        //}
-               
     }
 }
