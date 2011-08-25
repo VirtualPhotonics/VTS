@@ -158,7 +158,9 @@ namespace Vts.MonteCarlo
             S = distanceToBoundary;
         }
         /// <summary>
-        /// method that determines whether photon reflects or refracts across interface
+        /// Method that determines whether photon reflects or refracts across interface.  When this 
+        /// method is called photon is sitting on boundary of region and CurrentRegionIndex is Index
+        /// of region photon had been in.
         /// </summary>
         public void CrossRegionOrReflect()
         {

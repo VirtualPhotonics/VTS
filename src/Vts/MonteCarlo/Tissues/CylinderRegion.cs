@@ -48,14 +48,20 @@ namespace Vts.MonteCarlo.Tissues
                 return false;
         }
 
+        public bool OnBoundary(Position position)
+        {
+            return ((position.Z == Center.Z + Height) || (position.Z == Center.Z - Height)) &&
+                Math.Sqrt(position.X * position.X + position.Y * position.Y) == Radius;
+        }
+
         public bool RayIntersectBoundary(Photon photptr, out double distanceToBoundary)
         {
             throw new NotImplementedException();
         }
 
-        public bool RayIntersectBoundary(Photon photptr)
-        {
-            throw new NotImplementedException();
-        }
+        //public bool RayIntersectBoundary(Photon photptr)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

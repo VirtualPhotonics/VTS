@@ -69,8 +69,7 @@ namespace Vts.MonteCarlo.Tissues
         }
         
         /// <summary>
-        /// Finds the distance to the next boundary and subsequently 
-        /// calls photon.HitBoundaryAndAdjustTrackLength()
+        /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
         /// <param name="photon"></param>
         public override double GetDistanceToBoundary(Photon photon)

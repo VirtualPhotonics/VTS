@@ -307,8 +307,8 @@ namespace Vts.MonteCarlo
         {
             // get distance to any tissue boundary
             var tissueDistance = _tissue.GetDistanceToBoundary(photon);
-            // get distance to any VB
 
+            // get distance to any VB
             double vbDistance = double.PositiveInfinity;
 
             // find closest VB (will return null if no closest VB exists)
@@ -340,12 +340,13 @@ namespace Vts.MonteCarlo
         void DisplayIntro()
         {
             var header = SimulationIndex + ": ";
-            logger.Info(() => header + "                                                  ");
-            logger.Info(() => header + "      Monte Carlo Simulation of Light Propagation ");
-            logger.Info(() => header + "              in a multi-region tissue            ");
-            logger.Info(() => header + "                                                  ");
-            logger.Info(() => header + "         written by the Virtual Photonics Team    ");
-            logger.Info(() => header + "              Beckman Laser Institute           \n");
+            logger.Info(() => header + "                                                  \n");
+            logger.Info(() => header + "      Monte Carlo Simulation of Light Propagation \n");
+            logger.Info(() => header + "              in a multi-region tissue            \n");
+            logger.Info(() => header + "                                                  \n");
+            logger.Info(() => header + "         written by the Virtual Photonics Team    \n");
+            logger.Info(() => header + "              Beckman Laser Institute             \n");
+            logger.Info(() => header + "                                                  \n");
         }
 
         /*****************************************************************/
@@ -355,7 +356,7 @@ namespace Vts.MonteCarlo
             /* fraction of photons completed */
             double frac = 100 * n / num_phot;
 
-            logger.Info(() => header + frac + " percent complete");
+            logger.Info(() => header + frac + " percent complete," + "\n");
         }
     }
 }
