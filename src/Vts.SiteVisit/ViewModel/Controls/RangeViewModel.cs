@@ -9,20 +9,44 @@ namespace Vts.SiteVisit.ViewModel
     public class RangeViewModel : BindableObject
     {
         // Range model - backing store for public properties
-        private DoubleRange Range { get; set; }
+        private DoubleRange _range;
 
         private string _units;
         private string _title;
+        private bool _enableNumber;
+        
+        public RangeViewModel(DoubleRange range, string units, string title, bool enableNumber)
+        {
+            _range = range;
+            Units = units;
+            Title = title;
+            _enableNumber = enableNumber;
+
+            // todo: does this do anything? (start, stop, number already directly modified)
+            _range.PropertyChanged += (s, a) =>
+            {
+                this.OnPropertyChanged("Start");
+                this.OnPropertyChanged("Stop");
+                this.OnPropertyChanged("Number");
+            };
+        }
+
+        public RangeViewModel(DoubleRange range, string units, string title)
+            : this(range,units,title,true)
+        {
+        }
+
+        public RangeViewModel() : this(new DoubleRange(1.0, 6.0, 60), "mm", "Range:", true) { }
 
         /// <summary>
         /// A double representing the start of the range
         /// </summary>
         public double Start
         {
-            get { return Range.Start; }
+            get { return _range.Start; }
             set
             {
-                Range.Start = value;
+                _range.Start = value;
                 OnPropertyChanged("Start");
             }
         }
@@ -32,10 +56,10 @@ namespace Vts.SiteVisit.ViewModel
         /// </summary>
         public double Stop
         {
-            get { return Range.Stop; }
+            get { return _range.Stop; }
             set
             {
-                Range.Stop = value;
+                _range.Stop = value;
                 OnPropertyChanged("Stop");
             }
         }
@@ -45,10 +69,10 @@ namespace Vts.SiteVisit.ViewModel
         /// </summary>
         public int Number
         {
-            get { return Range.Count; }
+            get { return _range.Count; }
             set
             {
-                Range.Count = value;
+                _range.Count = value;
                 OnPropertyChanged("Number");
             }
         }
@@ -74,6 +98,16 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
+        public bool EnableNumber
+        {
+            get { return _enableNumber; }
+            set
+            {
+                _enableNumber = value;
+                OnPropertyChanged("EnableNumber");
+            }
+        }
+
         public bool ShowTitle
         {
             get { return Title.Length > 0; }
@@ -81,27 +115,7 @@ namespace Vts.SiteVisit.ViewModel
 
         public IEnumerable<double> Values
         {
-            get { return Range.AsEnumerable(); }
-        }
-
-        public RangeViewModel() : this(new DoubleRange(1.0, 6.0, 60), "mm", "Range:") { }
-
-        public RangeViewModel(DoubleRange range, string units, string title)
-        {
-            Range = range;
-            Units = units;
-            Title = title;
-
-            Range.PropertyChanged += (s, a) =>
-            {
-                this.OnPropertyChanged("Start");
-                this.OnPropertyChanged("Stop");
-                this.OnPropertyChanged("Number");
-            };
-            // right now, we're doing manual databinding to the selected item. need to enable databinding 
-            // confused, though - do we need to use strings? or, how to make generics work with dependency properties?
-            //RangeSpacingOptionControlViewModel = new OptionViewModel<ScalingType>("RangeSpacingVM");
-            //RangeSpacingOptionControlViewModel.PropertyChanged += new PropertyChangedEventHandler(RangeSpacingOptionControlViewModel_PropertyChanged);
+            get { return _range.AsEnumerable(); }
         }
     }
 }

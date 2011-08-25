@@ -33,14 +33,6 @@ namespace Vts.MonteCarlo
             TrackStatistics = trackStatistics;
         }
 
-        public RandomNumberGeneratorType RandomNumberGeneratorType { get; set; }
-        public AbsorptionWeightingType AbsorptionWeightingType { get; set; }
-        public PhaseFunctionType PhaseFunctionType { get; set; }
-        public bool TallySecondMoment { get; set; }
-        public bool TrackStatistics { get; set; }
-        public int Seed { get; set; }
-        public int SimulationIndex { get; set; }
-
         public SimulationOptions(
             int seed, 
             RandomNumberGeneratorType rngType, 
@@ -70,6 +62,15 @@ namespace Vts.MonteCarlo
                 true,
                 false,
                 0) { }
+
+        public RandomNumberGeneratorType RandomNumberGeneratorType { get; set; }
+        public AbsorptionWeightingType AbsorptionWeightingType { get; set; }
+        public PhaseFunctionType PhaseFunctionType { get; set; }
+        public bool TallySecondMoment { get; set; }
+        public bool TrackStatistics { get; set; }
+        public int Seed { get; set; }
+        public int SimulationIndex { get; set; }
+
 
         public static int GetRandomSeed()  // ckh 12/15/09 made this public so Photon can see
         {

@@ -8,6 +8,10 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Controllers
 {
+    /// <summary>
+    /// A controller of DatabaseWriter(s).  It handles determining whether data should be written,
+    /// and if so, writing the data, and finally disposing of the database.
+    /// </summary>
     public class DatabaseWriterController
     {
         IList<PhotonDatabaseWriter> _photonDatabaseWriters;
@@ -22,8 +26,8 @@ namespace Vts.MonteCarlo.Controllers
         /// <summary>
         /// Method to write to all surface VB databases
         /// </summary>
-        /// <param name="photonDatabaseWriters"></param>
-        /// <param name="dp"></param>
+        /// <param name="photonDatabaseWriters">list of PhotonDatabaseWriter</param>
+        /// <param name="dp">PhotonDataPoint</param>
         public void WriteToSurfaceVirtualBoundaryDatabases(PhotonDataPoint dp)
         {
             foreach (var writer in _photonDatabaseWriters)
@@ -38,24 +42,26 @@ namespace Vts.MonteCarlo.Controllers
         /// <summary>
         /// Method to determine if photon datapoint should be tallied or not
         /// </summary>
-        /// <param name="dp"></param>
-        /// <param name="photonDatabaseWriter"></param>
+        /// <param name="dp">PhotonDataPoint</param>
+        /// <param name="photonDatabaseWriter">single PhotonDatabaseWriter</param>
         /// <returns></returns>
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             PhotonDatabaseWriter photonDatabaseWriter)
         {
-            if ((dp.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) &&
+            if ((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) &&
                  photonDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance) ||
-                (dp.StateFlag.Has(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) &&
+                (dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) &&
                  photonDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.DiffuseTransmittance) ||
-                (dp.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) && // pMC uses regular PST
+                (dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) && // pMC uses regular PST
                  photonDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseReflectance))
             {
                 return true;
             }
             return false;
         }
-
+        /// <summary>
+        /// Method to dispose of database writer(s)
+        /// </summary>
         public void Dispose()
         {
             foreach (var writer in _photonDatabaseWriters)

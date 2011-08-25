@@ -6,24 +6,26 @@ clear all;
 addpath([cd '\xml_toolbox']);
 
 % names of individual MC simulations
-datanames = { 'results' };
+datanames = { 'one_layer_ROfRho_FluenceOfRhoAndZ' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
-outdir = 'C:\Simulations';
+%outdir = 'C:\Simulations';
+outdir = '.';
 
-show.RDiffuse =         1;
-show.ROfRho =           1;
-show.ROfAngle =         1;
-show.ROfXAndY =         1;
-show.ROfRhoAndTime =    1;
-show.ROfRhoAndAngle =   1;
-show.ROfRhoAndOmega =   1;
-show.TDiffuse =         1;
-show.TOfRho =           1;
-show.TOfRhoAndAngle =   1;
-show.ATotal =           1;
-show.AOfRhoAndZ =       1;
-show.FluenceOfRhoAndZ = 1;
+show.RDiffuse =                 0;
+show.ROfRho =                   1;
+show.ROfAngle =                 0;
+show.ROfXAndY =                 0;
+show.ROfRhoAndTime =            0;
+show.ROfRhoAndAngle =           0;
+show.ROfRhoAndOmega =           0;
+show.TDiffuse =                 0;
+show.TOfRho =                   0;
+show.TOfRhoAndAngle =           0;
+show.ATotal =                   0;
+show.AOfRhoAndZ =               0;
+show.FluenceOfRhoAndZ =         1;
+show.RadianceOfRhoAndZAndAngle = 0;
 
 for mci = 1:length(datanames)
     dataname = datanames{mci};
@@ -34,7 +36,11 @@ for mci = 1:length(datanames)
     end
     
     if isfield(results, 'ROfRho') && show.ROfRho
-        figname = 'log(R(\rho))'; figure; plot(results.ROfRho.Rho_Midpoints, log(results.ROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) [mm^-^2]');
+        figname = 'log(R(\rho))'; figure; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) [mm^-^2]');
+        if (results.ROfRho.Error > 0)
+            figname = 'Relative Error'; hold on; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean + results.ROfRho.Error)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('Relative Error');
+            figname = 'Relative Error'; hold on; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean - results.ROfRho.Error)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('Relative Error');
+        end
         disp(['Total reflectance captured by ROfRho detector: ' num2str(sum(results.ROfRho.Mean(:)))]);
     end
     
@@ -90,5 +96,13 @@ for mci = 1:length(datanames)
         %sum(results.FluenceOfRhoAndZ.Mean(2:end,2:end))
         figname = 'log(FluenceOfRhoAndZ)'; figure; imagesc(log(results.FluenceOfRhoAndZ.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
         disp(['Fluence captured by FluenceOfRhoAndZ detector: ' num2str(sum(results.FluenceOfRhoAndZ.Mean(:)))]);
+    end
+    if isfield(results, 'RadianceOfRhoAndZAndAngle') && show.RadianceOfRhoAndZAndAngle
+        %sum(results.RadianceOfRhoAndZAndAngle.Mean(2:end,2:end,2:end))
+        numangles = length(results.RadianceOfRhoAndZAndAngle.Angle) - 1;
+        for i=1:numangles
+            figname = sprintf('log(RadianceOfRhoAndZ) %5.3f<angle<%5.3f',(i-1)*pi/numangles,i*pi/numangles); figure; imagesc(log(results.RadianceOfRhoAndZAndAngle.Mean(:,:,i))); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
+        end
+        disp(['Radiance captured by RadianceOfRhoAndZ detector: ' num2str(sum(results.RadianceOfRhoAndZAndAngle.Mean(:)))]);
     end
 end

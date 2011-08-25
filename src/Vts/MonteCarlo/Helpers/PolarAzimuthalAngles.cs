@@ -2,9 +2,11 @@
 
 namespace Vts.MonteCarlo.Helpers
 {
+    /// <summary>
+    /// Methods to help with the determination of polar azimuthal angles.
+    /// </summary>
     public class PolarAzimuthalAngles
     {      
-
         /// <summary>
         /// Returns polar azimutahl angle angle in spheral coordinate system
         /// </summary>

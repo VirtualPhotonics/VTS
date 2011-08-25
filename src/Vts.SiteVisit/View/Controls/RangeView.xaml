@@ -34,7 +34,8 @@
                 <TextBox Width="40" Text="{Binding Stop, Mode=TwoWay}" HorizontalAlignment="Center"/>
             </StackPanel>
 
-            <StackPanel Orientation="Vertical"  Margin="5,0,5,0" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical" Margin="5,0,5,0" HorizontalAlignment="Center" 
+                   Visibility="{Binding EnableNumber, Converter={StaticResource myBooleanToVisibilityConverter}}" >
                 <TextBlock Text="Number" TextAlignment="Center"/>
                 <TextBox Width="40" Text="{Binding Number, Mode=TwoWay}" HorizontalAlignment="Center"/>
             </StackPanel>

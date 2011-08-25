@@ -24,10 +24,10 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// </summary>
         public DiffuseTransmittanceVirtualBoundary(ITissue tissue, ISurfaceDetectorController detectorController, string name)
         {
-            _zPlanePosition = ((LayerRegion)tissue.Regions[tissue.Regions.Count - 1]).ZRange.Start;
+            _zPlanePosition = ((LayerRegion)tissue.Regions.Where(r => r is LayerRegion).Last()).ZRange.Start;
 
             WillHitBoundary = dp =>
-                        dp.StateFlag.Has(PhotonStateType.PseudoTransmittedTissueBoundary) &&
+                        dp.StateFlag.HasFlag(PhotonStateType.PseudoTransmittedTissueBoundary) &&
                         dp.Direction.Uz > 0 &&
                         Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
@@ -48,10 +48,25 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         //{
         //}
 
+          /// <summary>
+        /// VirtualBoundaryType enum indicating type of VB
+        /// </summary>
         public VirtualBoundaryType VirtualBoundaryType { get; private set; }
+        /// <summary>
+        /// PhotonStateType enum indicating state of photon at this VB
+        /// </summary>
         public PhotonStateType PhotonStateType { get; private set; }
+        /// <summary>
+        /// Name string of VB
+        /// </summary>
         public string Name { get; private set; }
+        /// <summary>
+        /// Predicate method to indicate if photon will hit VB boundary
+        /// </summary>
         public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
+        /// <summary>
+        /// IDetectorController specifying type of detector controller.
+        /// </summary>
         public IDetectorController DetectorController { get { return _detectorController; } }
 
         /// <summary>
@@ -63,7 +78,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             double distanceToBoundary = double.PositiveInfinity;
 
             // check if VB applies
-            if (!dp.StateFlag.Has(PhotonStateType.PseudoTransmittedTissueBoundary) ||
+            if (!dp.StateFlag.HasFlag(PhotonStateType.PseudoTransmittedTissueBoundary) ||
                 dp.Direction.Uz <= 0.0)
             {
                 return distanceToBoundary;

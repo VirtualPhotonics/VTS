@@ -17,8 +17,15 @@ namespace Vts.MonteCarlo
     {
         public static ValidationResult ValidateInput(IVirtualBoundaryInput vbInput)
         {
+            if (vbInput.DetectorInputs == null)
+            {
+                return new ValidationResult(
+                    false,
+                    "Detector List must be empty list",
+                    "Specify empty detector list as 'new List<IDetectorInput>(){}'");
+            }
             foreach (var detectorInput in vbInput.DetectorInputs)
-	        {
+            {
                 if (!detectorInput.TallyType.IsVolumeTally())
                 {
                     return new ValidationResult(
@@ -35,6 +42,14 @@ namespace Vts.MonteCarlo
                         "Make sure virtual boundary type matches type of detector input");
                 }
             }
+            // check for current code incapabilities
+            if (vbInput.WriteToDatabase == true)
+            {
+                return new ValidationResult(
+                    false,
+                    "VolumeVirtualBoundaryInput: writing data to database for these detectors is not enabled yet");
+            }
+            
 
             return new ValidationResult(
                 true,

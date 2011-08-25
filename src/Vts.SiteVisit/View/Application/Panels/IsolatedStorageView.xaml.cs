@@ -18,9 +18,9 @@ namespace Vts.SiteVisit.View
         {
             using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                SpacedUsed.Text = "Current Spaced Used = " + (isf.Quota - isf.AvailableFreeSpace).ToString() + " bytes";
-                SpaceAvaiable.Text = "Current Space Available = " + isf.AvailableFreeSpace.ToString() + " bytes";
-                CurrentQuota.Text = "Current Quota = " + isf.Quota.ToString() + " bytes";
+                CurrentQuota.Text = (isf.Quota/1048576).ToString();
+                SpaceUsed.Text = ((isf.Quota - isf.AvailableFreeSpace)/1048576).ToString();
+                //SpaceAvailable.Text = (isf.AvailableFreeSpace/1048576).ToString();
             }
         }
 
@@ -28,7 +28,7 @@ namespace Vts.SiteVisit.View
         {
             using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                long newSpace = isf.Quota + spaceRequest;
+                long newSpace = isf.Quota + spaceRequest * 1048576; // 1MB = 1048576 bytes
                 try
                 {
                     if (true == isf.IncreaseQuotaTo(newSpace))

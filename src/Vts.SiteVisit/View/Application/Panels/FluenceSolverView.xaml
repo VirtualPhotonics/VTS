@@ -6,7 +6,8 @@
     xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
         <!-- Solver Engine -->
-        <v:ComboBoxOptionView  DataContext="{Binding ForwardSolverTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=MainResource.Label_ForwardSolver, Source={StaticResource LocalizedStrings }}" FontSize="12" FontWeight="Bold" Margin="3,3" />
+        <v:ComboBoxOptionView  DataContext="{Binding ForwardSolverTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,0,0,0"/>
         <!-- Map Type -->
         <v:RadioButtonOptionView DataContext="{Binding MapTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <!-- Gaussian Beam Diameter -->

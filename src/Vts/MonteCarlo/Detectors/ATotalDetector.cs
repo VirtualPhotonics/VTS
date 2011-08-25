@@ -9,10 +9,10 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(ATotalDetector))]
     /// <summary>
-    /// Implements IVolumeDetector<double>.  Tally for Total Absorption.
+    /// Implements IVolumeDetector&lt;double&gt;.  Tally for Total Absorption.
     /// </summary>
+    [KnownType(typeof(ATotalDetector))]
     public class ATotalDetector : IVolumeDetector<double>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
@@ -110,7 +110,7 @@ namespace Vts.MonteCarlo.Detectors
             PhotonStateType photonStateType)
         {
             weight = 0.0; // if not absorbed, no weight tallied
-            if (photonStateType.Has(PhotonStateType.Absorbed)) // tally only at end of biography
+            if (photonStateType.HasFlag(PhotonStateType.Absorbed)) // tally only at end of biography
             {
                 weight = 1.0; // ref: my dissertation eq. (2.75)
             }
@@ -121,7 +121,7 @@ namespace Vts.MonteCarlo.Detectors
             PhotonStateType photonStateType)
         {
             // only tally if photon died
-            if (photonStateType.Has(PhotonStateType.Alive))
+            if (photonStateType.HasFlag(PhotonStateType.Alive))
             {
                 weight = 0.0;
             }
@@ -136,7 +136,7 @@ namespace Vts.MonteCarlo.Detectors
             PhotonStateType photonStateType)
         {
             // only tally if photon died
-            if (photonStateType.Has(PhotonStateType.Alive))
+            if (photonStateType.HasFlag(PhotonStateType.Alive))
             {
                 weight = 0.0;
             }

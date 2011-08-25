@@ -61,7 +61,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         public List<BSplinesCoefficients> TimeKnotSpanPolynomialCoefficients { get; set; }// for each knot span there is a polynomial function [p(x) = ax^(n) + bx^(n-1) + .... + z], these coefficients are evaluated at instatiation time to improve the analytical integration efficiency.
 
-        public double[] NativeTimes { get; set; }// temporal coordinate of the native reference points (t_l)
+        /// <summary>
+        /// temporal coordinate of the native reference points (t_l)
+        /// </summary>
+        public double[] NativeTimes { get; set; }
 
         private double[] MinValidTimes { get; set; }// loaded only for real domain reference: for each rho (Rhos) we have measured the time of flight of the first collecte photon, t_0(r_k). If t < t_0 return 0. 
 
@@ -358,7 +361,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="nurbsValues">NurbsValues class which contains the knot,degree and control points</param>
         /// <param name="parametricPoint">parametric point mapped in the interval 0-1</param>
         /// <returns>index of the knot span where the parametric point belongs</returns>
-        /// <exception cref = System.ArgumentException>Thrown when the search has to be performed on missing dimension</exception> 
+        /// <exception cref="System.ArgumentException">Thrown when the search has to be performed on missing dimension</exception> 
         public int BinarySearch(NurbsValues nurbsValues, double parametricPoint)
         {
             int low = nurbsValues.Degree;
@@ -479,7 +482,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="nurbsValues">NurbsValues class which contains the knot,degree and control points</param>
         /// <param name="parametricPoint">parametric point</param>
         /// <returns>knot span where the parametric point belongs</returns>
-        /// <exception cref = System.ArgumentException>Thrown when the input parametric point is negative</exception> 
+        /// <exception cref ="System.ArgumentException">Thrown when the input parametric point is negative</exception> 
         public int FindSpan(NurbsValues nurbsValues, double parametricPoint)
         {
             if (parametricPoint < 0.0)
@@ -654,7 +657,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="degree">degree of the monomial coefficient</param>
         /// <param name="exponentialTerm">exponential decay</param>
         /// <returns>integral function</returns>
-        /// <exception cref = System.ArgumentException>Thrown if the degree of the function is too high.</exception> 
+        /// <exception cref="System.ArgumentException">Thrown if the degree of the function is too high.</exception> 
         public Func<double, double, double, double> GetIntegralFunction(int degree, double exponentialTerm)
         {
             Func<double, double, double, double> nthOrderIntegralFunc;
@@ -706,7 +709,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="point">coordinate of the point on the NURBS curve, which is mapped to the parametric space</param>
         /// <param name="dimension">spatial(rho or fx) or temporal dimension identifier</param>
         /// <returns>value of the NURBS curve at a specific location</returns>
-        /// <exception cref = System.ArgumentException>Thrown when the dimension is not valid</exception> 
+        /// <exception cref="System.ArgumentException">Thrown when the dimension is not valid</exception> 
         public double ComputeCurvePoint(double point, NurbsValuesDimensions dimension)
         {
             NurbsValues nurbsValues;

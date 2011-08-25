@@ -46,7 +46,12 @@ namespace Vts.Test.MonteCarlo
                                 new RDiffuseDetectorInput(), 
                             },
                             false,
-                            VirtualBoundaryType.DiffuseReflectance.ToString()) // write to database bool
+                            VirtualBoundaryType.DiffuseReflectance.ToString()),
+                        new SurfaceVirtualBoundaryInput(
+                            VirtualBoundaryType.DiffuseTransmittance,
+                            new List<IDetectorInput>(){},
+                            false,
+                            VirtualBoundaryType.DiffuseTransmittance.ToString())
                     }
                 );
         }

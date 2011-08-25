@@ -24,21 +24,22 @@ namespace Vts.Test.Common
             Saturday = 0x40
         }
 
-        [Test]
-        public void validate_Has_returns_correct_values()
-        {
-            Days meetingDays = Days.Tuesday | Days.Thursday;
-            Assert.IsTrue(meetingDays.Has(Days.Tuesday));
-            Assert.IsFalse(meetingDays.Has(Days.Monday));
-        }
+        // our code is now using intrinsic function HasFlag
+        //[Test]
+        //public void validate_Has_returns_correct_values()
+        //{
+        //    Days meetingDays = Days.Tuesday | Days.Thursday;
+        //    Assert.IsTrue(meetingDays.Has(Days.Tuesday));
+        //    Assert.IsFalse(meetingDays.Has(Days.Monday));
+        //}
 
-        [Test]
-        public void validate_Is_returns_correct_values()
-        {
-            Days meetingDays = Days.Tuesday | Days.Thursday;
-            Assert.IsTrue(meetingDays.Is(Days.Tuesday | Days.Thursday));
-            Assert.IsFalse(meetingDays.Is(Days.Tuesday | Days.Monday));
-        }
+        //[Test]
+        //public void validate_Is_returns_correct_values()
+        //{
+        //    Days meetingDays = Days.Tuesday | Days.Thursday;
+        //    Assert.IsTrue(meetingDays.Is(Days.Tuesday | Days.Thursday));
+        //    Assert.IsFalse(meetingDays.Is(Days.Tuesday | Days.Monday));
+        //}
 
         [Test]
         public void validate_Add_returns_correct_values()

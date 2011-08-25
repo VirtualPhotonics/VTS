@@ -9,11 +9,11 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(RadianceOfRhoAndZAndAngleDetector))]
     /// <summary>
-    /// Implements IVolumeDetector<double[,,]>.  Tally for Radiance(rho,z,angle).
+    /// Implements IVolumeDetector&lt;double[,,]&gt;.  Tally for Radiance(rho,z,angle).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
+    [KnownType(typeof(RadianceOfRhoAndZAndAngleDetector))]
     public class RadianceOfRhoAndZAndAngleDetector : IVolumeDetector<double[, ,]>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
@@ -47,7 +47,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[Rho.Count - 1, Z.Count - 1, Angle.Count - 1];
             }
-            TallyType = TallyType.FluenceOfRhoAndZAndTime;
+            TallyType = TallyType.RadianceOfRhoAndZAndAngle;
             Name = name;
             TallyCount = 0;
             _tissue = tissue;
@@ -109,6 +109,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
+            // using Acos, -1<Uz<1 goes to pi<theta<0, so first bin is most forward directed angle
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
 
             var weight = _absorbAction(
@@ -120,17 +121,20 @@ namespace Vts.MonteCarlo.Detectors
 
             var regionIndex = _tissue.GetRegionIndex(dp.Position);
 
-            Mean[ir, iz, ia] += weight / _ops[regionIndex].Mua;
-            if (_tallySecondMoment)
+            if (weight != 0.0) // if weight = 0.0, then pseudo-collision and no tally
             {
-                SecondMoment[ir, iz, ia] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
+                Mean[ir, iz, ia] += weight / _ops[regionIndex].Mua;
+                if (_tallySecondMoment)
+                {
+                    SecondMoment[ir, iz, ia] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
+                }
+                TallyCount++;
             }
-            TallyCount++;
         }
 
         private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if (photonStateType.Has(PhotonStateType.Absorbed))
+            if (photonStateType.HasFlag(PhotonStateType.Absorbed))
             {
                 weight = previousWeight * mua / (mua + mus); 
             }

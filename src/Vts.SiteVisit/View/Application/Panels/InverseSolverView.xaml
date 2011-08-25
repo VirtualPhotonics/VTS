@@ -7,23 +7,25 @@
         <!-- Solver Engines -->
         <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0"
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                        Text="{Binding Path=MainResource.Label_ForwardSolver, Source={StaticResource LocalizedStrings }}" 
                        FontSize="12" FontWeight="Bold" Margin="3,3" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="1" Grid.Column="0"
+            <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                        Text="{Binding Path=MainResource.Label_InverseSolver, Source={StaticResource LocalizedStrings }}" 
                        FontSize="12" FontWeight="Bold" Margin="3,3" VerticalAlignment="Center" />
-            <v:ComboBoxOptionView Grid.Row="0" Grid.Column="1"
+            <v:ComboBoxOptionView Grid.Row="1" Grid.Column="1"
                 DataContext="{Binding MeasuredForwardSolverTypeOptionVM}" 
                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3" />
-            <v:ComboBoxOptionView  Grid.Row="1" Grid.Column="1"
+            <v:ComboBoxOptionView  Grid.Row="3" Grid.Column="1"
                 DataContext="{Binding InverseForwardSolverTypeOptionVM}"
                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3" />
         </Grid>

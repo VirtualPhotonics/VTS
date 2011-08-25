@@ -18,10 +18,10 @@
             <controls:HeaderedItemsControl.ItemTemplate>
                 <DataTemplate>
                     <RadioButton VerticalAlignment="Center"
-                                 Tag="{Binding ID}"
-                                 Content="{Binding DisplayName}"
+                                 Tag="{Binding ID, Mode=TwoWay}"
+                                 Content="{Binding DisplayName, Mode=TwoWay}"
                                  IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                                 GroupName="{Binding GroupName}"
+                                 GroupName="{Binding GroupName, Mode=TwoWay}"
                                  Margin="2,4"/>
                 </DataTemplate>
             </controls:HeaderedItemsControl.ItemTemplate>

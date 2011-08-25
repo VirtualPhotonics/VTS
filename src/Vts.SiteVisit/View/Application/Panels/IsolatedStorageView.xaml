@@ -1,20 +1,38 @@
 ﻿<UserControl x:Class="Vts.SiteVisit.View.IsolatedStorageView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions"
-    Width="400" Height="200">
-
-    <StackPanel>
-
-        <TextBlock x:Name="SpacedUsed" />
-        <TextBlock x:Name="SpaceAvaiable"/>
-        <TextBlock x:Name="CurrentQuota"/>
-        <StackPanel Orientation="Horizontal">                
-            <TextBlock x:Name="NewSpace">Space Requested: </TextBlock>
-            <TextBox x:Name="SpaceRequest" Width="100"/>
-            <TextBlock>(1048576 = 1 MB)</TextBlock>
+    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions">
+    <Border BorderThickness="5" BorderBrush="Red">
+        <StackPanel HorizontalAlignment="Center">
+            <TextBlock Text="The Monte Carlo panel may require storage space in order to save simulation results to disk." TextAlignment="Center"/>
+            <TextBlock Text="Please permit Silverlight to allocate enough space to store your simulations (at least 50 MB is recommended)." TextAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel HorizontalAlignment="Left" Margin="5">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="3">
+                        <TextBlock Text="Current Storage Quota:" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="CurrentQuota" Width="48"/>
+                        <TextBlock Text="MB" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="3">
+                        <TextBlock Text="Amount of Quota Currently Used:" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="SpaceUsed" Width="48"/>
+                        <TextBlock Text="MB" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="3">
+                        <TextBlock Text="Total Space Available:" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="SpaceAvailable" Width="48"/>
+                        <TextBlock Text="MB" VerticalAlignment="Center"/>
+                    </StackPanel>-->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="3">
+                        <TextBlock Text="Extra Space Requested:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="SpaceRequest" Width="48" Text="100" />
+                        <TextBlock Text="MB" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            <Button Content="Increase Storage" Width="100" Height="40" Click="Button_Click" Margin="30,0"/>
+            </StackPanel>
+            
+            <TextBlock x:Name="Results"/>
         </StackPanel>
-        <Button Content="Increase Storage" Width="100" Height="40" Click="Button_Click"/>
-        <TextBlock x:Name="Results"/>
-    </StackPanel>
+    </Border>
 </UserControl>

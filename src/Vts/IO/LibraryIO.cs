@@ -30,6 +30,10 @@ namespace Vts.IO
             _loadedAssemblies = new Dictionary<string, string>();
         }
 
+        /// <summary>
+        /// Static method to check that an assemly is loaded
+        /// </summary>
+        /// <param name="assemblyName">Name of the assembly</param>
         public static void EnsureDllIsLoaded(string assemblyName)
         {
             if (!_loadedAssemblies.ContainsKey(assemblyName))

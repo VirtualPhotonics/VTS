@@ -7,6 +7,14 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface ITissueInput
     {
+        /// <summary>
+        /// Type of tissue
+        /// </summary>
+        TissueType TissueType { get; }
+        
+        /// <summary>
+        /// List of tissue regions comprising tissue.
+        /// </summary>
         IList<ITissueRegion> Regions { get; }
     }
 }

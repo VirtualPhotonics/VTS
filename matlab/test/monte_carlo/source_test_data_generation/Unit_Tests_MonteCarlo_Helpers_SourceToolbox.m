@@ -50,7 +50,8 @@ r2 = 2.0;
 
 %Gaussian parameters
 BDFWHM = 0.8;
-Limit = 0.5;
+LimitL = r2/BDFWHM;
+LimitU = r1/r2;
 Factor = 0.5;
 
 %Define vectors
@@ -64,7 +65,7 @@ AngRot3 = [AngRotX, AngRotY, AngRotZ];
 P = [a, b, c];
 L = [l,w, h];
 R = [r1, r2];
-G = [BDFWHM, Limit, Factor];
+G = [BDFWHM, LimitL, LimitU, Factor];
 
 
 %_polarAngle
@@ -96,8 +97,8 @@ RN18 = 0.27265629458070179;
 Test01 = Func_GetDirectionForGiven2DPositionAndGivenPolarAngle(V, polAngle);
 Test02 = Func_GetDirectionForGivenPolaAzimuthalAngleRange(PolRange, AziRange, RN1, RN2);
 Test03 = Func_GetDirectionForIsotropicDistributionRandom(RN1, RN2);
-Test04 = Func_GetDoubleNormallyDistributedRandomNumbers(RN1, RN2, Limit);
-Test05 = Func_GetLowerLimit(Factor);
+Test04 = Func_GetDoubleNormallyDistributedRandomNumbers(RN1, RN2, LimitL, LimitU);
+Test05 = Func_GetLimit(Factor);
 Test06 = Func_GetPolarAzimuthalPairForGivenAngleRangeRandom(PolRange, AziRange, RN1, RN2);
 Test07 = Func_GetPolarAzimuthalPairFromDirection(U);
 Test08 = Func_GetPositionInACircleRandomFlat(V, R, RN1, RN2);
@@ -107,13 +108,13 @@ Test11 = Func_GetPositionInACuboidRandomGaussian(V, L, BDFWHM, RN1, RN2, RN3, RN
 Test12 = Func_GetPositionInALineRandomFlat(V, L, RN1);
 Test13 = Func_GetPositionInALineRandomGaussian(V, L, BDFWHM, RN1, RN2);
 Test14 = Func_GetPositionInAnEllipseRandomFlat(V, P, RN1, RN2);
-Test15 = Func_GetPositionInAnEllipseRandomGaussian(V, P, BDFWHM, RN5, RN6, RN7, RN8);
+Test15 = Func_GetPositionInAnEllipseRandomGaussian(V, P, BDFWHM, RN1, RN2, RN3, RN4);
 Test16 = Func_GetPositionInAnEllipsoidRandomFlat(V, P, RN1, RN2, RN3);
-Test17 = Func_GetPositionInAnEllipsoidRandomGaussian(V, P, BDFWHM, RN13, RN14, RN15, RN16, RN17, RN18);
+Test17 = Func_GetPositionInAnEllipsoidRandomGaussian(V, P, BDFWHM, RN1, RN2, RN3, RN4, RN5, RN6);
 Test18 = Func_GetPositionInARectangleRandomFlat(V, L, RN1, RN2);
 Test19 = Func_GetPositionInARectangleRandomGaussian(V, L, BDFWHM, RN1, RN2, RN3, RN4);
 Test20 = Func_GetPositionOfASymmetricalLineRandomFlat(L(1), RN1);
-Test21 = Func_GetSingleNormallyDistributedRandomNumber(RN1, RN2, Limit);
+Test21 = Func_GetSingleNormallyDistributedRandomNumber(RN1, RN2, LimitL);
 Test22 = Func_UpdateDirectionAfterRotatingAroundThreeAxis(U, AngRot3);
 Test23 = Func_UpdateDirectionAfterRotatingAroundXAxis(U, AngRotX);
 Test24 = Func_UpdateDirectionAfterRotatingAroundYAxis(U, AngRotY);

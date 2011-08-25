@@ -21,6 +21,18 @@ namespace Vts.Extensions
         }
 
         /// <summary>
+        /// Extension method to append a single item to an IEnumerable
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <param name="newItem"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> Concat<T>(this IEnumerable<T> items, T newItem )
+        {
+            return Enumerable.Concat(items, newItem.AsEnumerable());
+        }
+
+        /// <summary>
         /// 2D array overload of the LINQ Select operator with x and y indexers
         /// </summary>
         /// <typeparam name="T"></typeparam>

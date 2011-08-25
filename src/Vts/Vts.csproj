@@ -83,6 +83,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\lib\DotNetZip\Silverlight\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="MathNet.Numerics">
       <HintPath>..\..\lib\Math.NET\lib\SL4\MathNet.Numerics.dll</HintPath>
     </Reference>
@@ -90,6 +93,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Meta.Numerics\build\Silverlight\Meta.Numerics.Silverlight.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Unity\Silverlight\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -101,6 +105,9 @@
     <Reference Include="MPFitLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\mpfit\build\Silverlight\MPFitLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\lib\NLog\SL4\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System.CoreEx">
       <HintPath>..\..\lib\RxFramework\SL4\System.CoreEx.dll</HintPath>
@@ -152,6 +159,14 @@
     <Compile Include="Common\Interfaces\INotifyPropertyChangedPlus.cs" />
     <Compile Include="Common\Interfaces\IOldForwardSolver.cs" />
     <Compile Include="Common\Interfaces\IOptimizer.cs" />
+    <Compile Include="Common\Logging\AbstractLoggerFactory.cs" />
+    <Compile Include="Common\Logging\ILogger.cs" />
+    <Compile Include="Common\Logging\ILoggerFactory.cs" />
+    <Compile Include="Common\Logging\LoggerFactoryLocator.cs" />
+    <Compile Include="Common\Logging\LoggerLevel.cs" />
+    <Compile Include="Common\Logging\NLogFactory.cs" />
+    <Compile Include="Common\Logging\NLogLogger.cs" />
+    <Compile Include="Common\Logging\ObservableTarget.cs" />
     <Compile Include="Common\Math\Convolution2D.cs" />
     <Compile Include="Common\Math\Integration.cs" />
     <Compile Include="Common\Math\Interpolation.cs" />
@@ -164,7 +179,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="FemModeling\MGRTE\2D\SolverMGRTE.cs">
+    <Compile Include="Common\Stopwatch.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\SolverMGRTE.cs" />
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IO\KnownTypes.cs" />
@@ -174,19 +190,27 @@
     <Compile Include="MonteCarlo\Controllers\VirtualBoundaryController.cs" />
     <Compile Include="MonteCarlo\Controllers\VolumeDetectorController.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\SurfaceVirtualBoundaryInputValidation.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DosimetryOfRhoDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoAndZAndAngleDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationStatistics.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\CustomLineSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\DirectionalLineSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\IsotropicLineSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\VirtualBoundaryInputs\SurfaceVirtualBoundaryInput.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RSpecularDetector.cs" />
+    <Compile Include="MonteCarlo\Extensions\ITissueRegionExtensions.cs" />
     <Compile Include="MonteCarlo\Factories\DatabaseWriterFactory.cs" />
     <Compile Include="MonteCarlo\Factories\PhotonDatabaseFactory.cs" />
     <Compile Include="MonteCarlo\Factories\VirtualBoundaryFactory.cs" />
@@ -256,14 +280,9 @@
     <Compile Include="Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs" />
     <Compile Include="Modeling\Input\Commands.cs" />
     <Compile Include="Modeling\Optimizers\MPFitLevenbergMarquardtOptimizer.cs" />
-    <Compile Include="Modeling\ProblemDefinition\Enums.cs" />
-    <Compile Include="Modeling\ProblemDefinition\IBoundaryCondition.cs" />
-    <Compile Include="Modeling\ProblemDefinition\IMeasurement.cs" />
-    <Compile Include="Modeling\ProblemDefinition\ISource.cs" />
     <Compile Include="Modeling\Spectroscopy\ChromophoreAbsorber.cs" />
     <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrum.cs" />
     <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumUnitConverter.cs" />
-    <Compile Include="Modeling\Spectroscopy\Enums.cs" />
     <Compile Include="Modeling\Spectroscopy\IAbsorber.cs" />
     <Compile Include="Modeling\Spectroscopy\IChromophoreAbsorber.cs" />
     <Compile Include="Modeling\Spectroscopy\IntralipidScatterer.cs" />
@@ -275,9 +294,6 @@
     <Compile Include="Modeling\Spectroscopy\Tissue.cs" />
     <Compile Include="Modeling\Tools\CalculatorToolbox.cs" />
     <Compile Include="Modeling\Tools\HankelTransform.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\IsotropicLineSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\CustomLineSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\DirectionalLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\ValidationResult.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs" />
@@ -285,8 +301,8 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInput.cs" />
     <Compile Include="MonteCarlo\Extensions\SimulationInputExtensions.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationOptions.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\CustomPointSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\DirectionalPointSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\CustomPointSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\DirectionalPointSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ATotalDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfRhoAndTimeDetectorInput.cs" />
@@ -304,26 +320,24 @@
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs" />
     <Compile Include="MonteCarlo\Controllers\SurfaceDetectorController.cs" />
     <Compile Include="MonteCarlo\Controllers\pMCSurfaceDetectorController.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CircularSourceInputs\CustomCircularSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CircularSourceInputs\DirectionalCircularSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\CustomSurfaceEmittingCuboidalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\CustomEllipticalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\EllipticalSourceInputs\DirectionalEllipticalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\RectangularSourceInputs\CustomRectangularSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\RectangularSourceInputs\DirectionalRectangularSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\SphericalSourceInputs\CustomSurfaceEmittingSphericalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\SphericalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingSources\TubularSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\IsotropicVolumetricEllipsoidalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\CustomVolumetricCuboidaldalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\IsotropicVolumetricCuboidaldalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\CustomVolumetricEllipsoidalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\IsotropicPointSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\CircularSourceInputs\CustomCircularSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\CircularSourceInputs\DirectionalCircularSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SurfaceEmittingCuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\EllipticalSourceInputs\CustomEllipticalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\EllipticalSourceInputs\DirectionalEllipticalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\RectangularSourceInputs\CustomRectangularSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\RectangularSourceInputs\DirectionalRectangularSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\CustomSurfaceEmittingSphericalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\TubularSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\EllipsoidalSourceInputs\IsotropicVolumetricEllipsoidalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidalSourceInputs\CustomVolumetricCuboidaldalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidalSourceInputs\IsotropicVolumetricCuboidaldalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\EllipsoidalSourceInputs\CustomVolumetricEllipsoidalSourceInput.cs" />
     <Compile Include="MonteCarlo\Factories\AbsorptionActionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
-    <Compile Include="MonteCarlo\Factories\SourceProfileFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\DetectorBinning.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfRhoDetectorInput.cs" />
@@ -372,46 +386,45 @@
     <Compile Include="MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs" />
     <Compile Include="Common\Extensions\RNGExtensions.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceFlags.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceDefaults.cs">
+    <Compile Include="MonteCarlo\Helpers\SourceDefaults.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\CircularSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\CustomCircularSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Circular\DirectionalCircularSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\CylindricalFiber\SurfaceEmittingCylindricalFiberSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\EllipticalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\DirectionalEllipticalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Elliptical\CustomEllipticalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSources\IsotropicLineSource.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSources\LineSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSources\DirectionalLineSource.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSources\CustomLineSource.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSources\PointSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSources\DirectionalPointSource.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSources\CustomPointSource.cs">
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CustomCircularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\DirectionalCircularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\SurfaceEmittingCylindricalFiberSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\EllipticalSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\DirectionalEllipticalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\CustomEllipticalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\PointAndLineSources\LineSources\IsotropicLineSource.cs" />
+    <Compile Include="MonteCarlo\Sources\PointAndLineSources\LineSources\LineSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\PointAndLineSources\LineSources\DirectionalLineSource.cs" />
+    <Compile Include="MonteCarlo\Sources\PointAndLineSources\LineSources\CustomLineSource.cs" />
+    <Compile Include="MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\PointAndLineSources\PointSources\DirectionalPointSource.cs" />
+    <Compile Include="MonteCarlo\Sources\PointAndLineSources\PointSources\CustomPointSource.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Sources\PointSources\IsotropicPointSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Tubular\LambertianSurfaceEmittingTubularSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Tubular\SurfaceEmittingTubularSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\SurfaceEmittingCuboidalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\CustomSurfaceEmittingCuboidalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Cuboidal\LambertianSurfaceEmittingCuboidalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\RectangularSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\DirectionalRectangularSource.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Rectangular\CustomRectangularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\PointAndLineSources\PointSources\IsotropicPointSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\LambertianSurfaceEmittingTubularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\SurfaceEmittingTubularSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\SurfaceEmittingCuboidalSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\LambertianSurfaceEmittingCuboidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\RectangularSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\CustomRectangularSource.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolbox.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceProfiles\GaussianSourceProfile.cs" />
-    <Compile Include="MonteCarlo\Sources\SourceProfiles\FlatSourceProfile.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\SurfaceEmittingSphericalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\LambertianSurfaceEmittingSphericalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\CustomVolumetricCuboidalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\IsotropicVolumetricEllipsoidalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\VolumetricCuboidalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\IsotropicVolumetricCuboidalSource.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\VolumetricEllipsoidalSourceBase.cs" />
-    <Compile Include="MonteCarlo\Sources\VolumetricSources\CustomVolumetricEllipsoidalSource.cs" />
+    <Compile Include="MonteCarlo\Helpers\SourceProfiles\GaussianSourceProfile.cs" />
+    <Compile Include="MonteCarlo\Helpers\SourceProfiles\FlatSourceProfile.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\SurfaceEmittingSphericalSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\LambertianSurfaceEmittingSphericalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\CustomVolumetricCuboidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\Ellipsoidal\IsotropicVolumetricEllipsoidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\VolumetricCuboidalSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\IsotropicVolumetricCuboidalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\Ellipsoidal\VolumetricEllipsoidalSourceBase.cs" />
+    <Compile Include="MonteCarlo\Sources\VolumetricSources\Ellipsoidal\CustomVolumetricEllipsoidalSource.cs" />
     <Compile Include="MonteCarlo\Detectors\AOfRhoAndZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ATotalDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs" />
@@ -431,14 +444,13 @@
     <Compile Include="MonteCarlo\Detectors\TOfAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfRhoDetector.cs" />
-    <Compile Include="MonteCarlo\Sources\SurfaceEmittingSources\Spherical\CustomSurfaceEmittingSphericalSource.cs" />
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\CustomSurfaceEmittingSphericalSource.cs" />
     <Compile Include="MonteCarlo\Tissues\CylinderRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\EllipsoidRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\LayerRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\MultiLayerTissue.cs" />
-    <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
-    <Compile Include="MonteCarlo\Tissues\MultiLayerTissueProvider.cs" />
-    <Compile Include="MonteCarlo\Tissues\SingleEllipsoidTissue.cs" />
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInput.cs" />
+    <Compile Include="MonteCarlo\Tissues\SingleInclusionTissue.cs" />
     <Compile Include="MonteCarlo\Tissues\TissueBase.cs" />
     <Compile Include="MonteCarlo\Tissues\VoxelRegion.cs" />
     <Compile Include="MonteCarlo\Extensions\StatisticsExtensions.cs" />
@@ -507,6 +519,21 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.xml" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml" />
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_ellip_FluenceOfRhoAndZ.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_ellip_FluenceOfRhoAndZ.xml</Link>
+    </Content>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_all_detectors.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_one_layer_all_detectors.xml</Link>
+    </Content>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.xml</Link>
+    </Content>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml</Link>
+    </Content>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_two_layer_ROfRho.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_two_layer_ROfRho.xml</Link>
+    </Content>
     <Content Include="Modeling\Spectroscopy\ChromophoreList.xml" />
   </ItemGroup>
   <ItemGroup>

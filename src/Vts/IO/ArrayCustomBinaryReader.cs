@@ -6,21 +6,38 @@ using System.Numerics;
 
 namespace Vts.IO
 {
+    /// <summary>
+    /// Class that implements the interface ICustomBinaryReader to read different types of Array from a binary stream
+    /// </summary>
+    /// <typeparam name="T">Type of Array to be read</typeparam>
     public class ArrayCustomBinaryReader<T> 
         : ICustomBinaryReader<Array> where T : struct
     {
         private int[] _dims;
 
+        /// <summary>
+        /// Constructor for reading a multi-dimensional Array
+        /// </summary>
+        /// <param name="dims">An array of integers to represent the lengths of a multi-dimensional Array</param>
         public ArrayCustomBinaryReader(int[] dims)
         {
             _dims = dims;
         }
 
+        /// <summary>
+        /// Constructor for reading an Array of size length
+        /// </summary>
+        /// <param name="length">Length of the Array</param>
         public ArrayCustomBinaryReader(int length)
             : this(new[] { length })
         {
         }
 
+        /// <summary>
+        /// Read an Array from a binary stream
+        /// </summary>
+        /// <param name="br">Binary stream reader</param>
+        /// <returns>An Array, read from the binary stream</returns>
         public Array ReadFromBinary(BinaryReader br)
         {
             // Initialize the array

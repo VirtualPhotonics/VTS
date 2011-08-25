@@ -19,17 +19,16 @@ namespace Vts.SiteVisit.Input
             IS_CalculateInitialGuess = new Command("IS_CalculateInitialGuess");
             IS_SolveInverse = new Command("IS_SolveInverse");
 
-
-
-            MC_ExecuteMonteCarloSolver = new Command("MC_ExecuteMonteCarloSolver");
-            MC_PlotDataInResources = new Command("MC_PlotDataInResources");
-            MC_PlotScaledMC = new Command("MC_PlotScaledMC");
+            //MC_ExecuteMonteCarloSolver = new Command("MC_ExecuteMonteCarloSolver");
+            //MC_PlotDataInResources = new Command("MC_PlotDataInResources");
+            //MC_PlotScaledMC = new Command("MC_PlotScaledMC");
 
 
             FEM_ExecuteFemSolver = new Command("FEM_ExecuteMonteCarloSolver");
             
             PlotMuaSpectra = new Command("PlotMuaSpectra");
             PlotMusprimeSpectra = new Command("PlotMusprimeSpectra");
+            UpdateOpticalProperties = new Command("UpdateOpticalProperties");
 
             //Plot_PlotValuesLinearly = new Command("Plot_PlotValuesLinearly");
             Plot_PlotValues = new Command("Plot_PlotValues");
@@ -48,6 +47,8 @@ namespace Vts.SiteVisit.Input
             Mesh_ExportDataToText = new Command("Mesh_ExportDataToText");
 
             TextOutput_PostMessage = new Command("TextOutput_PostMessage");
+
+            IsoStorage_IncreaseSpaceQuery = new Command("IsoStorage_IncreaseSpaceQuery");
         }
 
         //public static Command Modeling_SetGaussianBeamSize { get; private set; }
@@ -67,9 +68,9 @@ namespace Vts.SiteVisit.Input
         public static Command IS_SetIndependentVariableRange { get; private set; }
 
         // Monte Carlo solver commands
-        public static Command MC_ExecuteMonteCarloSolver { get; private set; }
-        public static Command MC_PlotDataInResources { get; private set; }
-        public static Command MC_PlotScaledMC { get; private set; }
+        //public static Command MC_ExecuteMonteCarloSolver { get; private set; }
+        //public static Command MC_PlotDataInResources { get; private set; }
+        //public static Command MC_PlotScaledMC { get; private set; }
 
         // FEM Solver commands
         public static Command FEM_ExecuteFemSolver { get; private set; }
@@ -77,6 +78,7 @@ namespace Vts.SiteVisit.Input
         //Spectra view commands
         public static Command PlotMuaSpectra { get; private set; }
         public static Command PlotMusprimeSpectra { get; private set; }
+        public static Command UpdateOpticalProperties { get; private set; }
 
         // Plot commmands
         //public static Command Plot_PlotValuesLinearly { get; private set; }
@@ -99,5 +101,8 @@ namespace Vts.SiteVisit.Input
 
         // Text output commands
         public static Command TextOutput_PostMessage { get; private set; }
+
+        // Isolated storage commands
+        public static Command IsoStorage_IncreaseSpaceQuery { get; private set; }
     }
 }

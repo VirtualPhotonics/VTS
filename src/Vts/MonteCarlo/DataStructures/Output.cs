@@ -106,6 +106,9 @@ namespace Vts.MonteCarlo
         public double[] Rad_r { get { return ((RadianceOfRhoDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RadianceOfRho).First().Name]).Mean; } }
         public double[] Rad_r2 { get { return ((RadianceOfRhoDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RadianceOfRho).First().Name]).SecondMoment; } }
 
+        public double[, ,] Rad_rza { get { return ((RadianceOfRhoAndZAndAngleDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RadianceOfRhoAndZAndAngle).First().Name]).Mean; } }
+        public double[, ,] Rad_rza2 { get { return ((RadianceOfRhoAndZAndAngleDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RadianceOfRhoAndZAndAngle).First().Name]).SecondMoment; } }
+
         public double[,] pMC_R_rt { get { return ((pMCROfRhoAndTimeDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.pMCROfRhoAndTime).First().Name]).Mean; } }
         public double[,] pMC_R_rt2 { get { return ((pMCROfRhoAndTimeDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.pMCROfRhoAndTime).First().Name]).SecondMoment; } }
         

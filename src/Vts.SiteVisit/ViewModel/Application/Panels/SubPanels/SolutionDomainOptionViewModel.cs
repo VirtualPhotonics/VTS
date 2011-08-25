@@ -172,37 +172,37 @@ namespace Vts.SiteVisit.ViewModel
                 default:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
-                            IndependentVariableAxis.Rho);
+                            new[] { IndependentVariableAxis.Rho });
                     ConstantLabelVisible = false;
                     break;
                 case SolutionDomainType.RofFx:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
-                            IndependentVariableAxis.Fx);
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
+                            new[] { IndependentVariableAxis.Fx });
                     ConstantLabelVisible = false;
                     break;
                 case SolutionDomainType.RofRhoAndT:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
-                            IndependentVariableAxis.Rho, IndependentVariableAxis.T);
+                            new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.T });
                     ConstantLabelVisible = true;
                     break;
                 case SolutionDomainType.RofFxAndT:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
-                            IndependentVariableAxis.Fx, IndependentVariableAxis.T);
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
+                            new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.T });
                     ConstantLabelVisible = true;
                     break;
                 case SolutionDomainType.RofRhoAndFt:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
-                            IndependentVariableAxis.Rho, IndependentVariableAxis.Ft);
+                            new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
                     break;
                 case SolutionDomainType.RofFxAndFt:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
-                            IndependentVariableAxis.Fx, IndependentVariableAxis.Ft);
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
+                            new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
                     break;
             }

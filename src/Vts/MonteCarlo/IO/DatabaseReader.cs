@@ -3,6 +3,11 @@ using Vts.IO;
 
 namespace Vts.MonteCarlo.IO
 {
+    /// <summary>
+    /// This controls the reading of a database of generic-type.
+    /// </summary>
+    /// <typeparam name="TDatabase">Database of generic type T</typeparam>
+    /// <typeparam name="TElement">Generic database element</typeparam>
     public class DatabaseReader<TDatabase, TElement> where TDatabase : Database<TElement>
     {
         private Func<TDatabase, ICustomBinaryReader<TElement>> _binaryReaderCreator;

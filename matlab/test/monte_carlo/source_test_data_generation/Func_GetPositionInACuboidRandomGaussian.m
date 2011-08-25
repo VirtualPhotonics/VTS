@@ -1,13 +1,13 @@
 %GetPositionInACuboidRandomGaussian
 function [VOUT] = Func_GetPositionInACuboidRandomGaussian(V, L, BDFWHM, RN1, RN2, RN3, RN4, RN5, RN6)
 
-FactorX = L(1)/BDFWHM;
-FactorY = L(2)/BDFWHM;
-FactorZ = L(3)/BDFWHM;
+FactorX = 0.5*L(1)/(BDFWHM * 0.8493218);
+FactorY = 0.5*L(2)/(BDFWHM * 0.8493218);
+FactorZ = 0.5*L(3)/(BDFWHM * 0.8493218);
 
-LimitX = Func_GetLowerLimit(FactorX);
-LimitY = Func_GetLowerLimit(FactorY);
-LimitZ = Func_GetLowerLimit(FactorZ);
+LimitX = Func_GetLimit(FactorX);
+LimitY = Func_GetLimit(FactorY);
+LimitZ = Func_GetLimit(FactorZ);
 
 NRX = Func_GetSingleNormallyDistributedRandomNumber(RN1, RN2, LimitX);
 NRY = Func_GetSingleNormallyDistributedRandomNumber(RN3, RN4, LimitY);

@@ -29,6 +29,53 @@ namespace Vts.SiteVisit.ViewModel.Application
                 };
             }
         }
+
+        public static RandomNumberGeneratorType[] RandomNumberGeneratorTypes
+        {
+            get
+            {
+                return new[]
+                {
+                    RandomNumberGeneratorType.MersenneTwister
+                };
+            }
+        }
+
+        public static AbsorptionWeightingType[] AbsorptionWeightingTypes
+        {
+            get
+            {
+                return new[]
+                {
+                    AbsorptionWeightingType.Analog,
+                    AbsorptionWeightingType.Discrete,
+                    AbsorptionWeightingType.Continuous
+                };
+            }
+        }
+
+        public static PhaseFunctionType[] PhaseFunctionTypes
+        {
+            get
+            {
+                return new[]
+                {
+                    PhaseFunctionType.HenyeyGreenstein
+                };
+            }
+        }
+
+        public static MonteCarlo.TissueType[] TissueTypes
+        {
+            get
+            {
+                return new[]
+                {
+                    MonteCarlo.TissueType.MultiLayer,
+                    MonteCarlo.TissueType.SingleEllipsoid,
+                };
+            }
+        }
     }
 }
 #endif

@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Vts;
+using Vts.SiteVisit.Input;
 using Vts.SiteVisit.ViewModel;
 using Vts.Extensions;
 //using SLExtensions.Input;
@@ -18,9 +19,30 @@ namespace Vts.SiteVisit.View
 {
     public partial class SolverDemoView : UserControl
     {
+        public static SolverDemoView Current = null;
+
+        private FloatableWindow _floatableWindow; 
         public SolverDemoView()
         {
             InitializeComponent();
+
+            Current = this;
+
+            _floatableWindow = new FloatableWindow()
+            {
+                Name = "wndIsolatedStorageView",
+                Content = new IsolatedStorageView(),
+                ParentLayoutRoot = this.layoutRoot,
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+
+            Commands.IsoStorage_IncreaseSpaceQuery.Executed += IsoStorage_IncreaseSpaceQuery_Executed;
+        }
+
+        void IsoStorage_IncreaseSpaceQuery_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
+        {
+            _floatableWindow.ShowDialog();
         }
 
         private void inputTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -50,11 +72,15 @@ namespace Vts.SiteVisit.View
                             ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Collapsed;
                             break;
                         case "tabFem":
-                            outputTabControl.SelectedItem = outputTabControl.Items[2];
+                            outputTabControl.SelectedItem = outputTabControl.Items[2];                           
                             ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Visible;
                             ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Collapsed;
                             ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Collapsed;
                             break;
+                        case "tabMonteCarlo":
+                            ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Visible;
+                            ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Visible;
+                            ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Collapsed;
                     }
                 }
             }

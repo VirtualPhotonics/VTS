@@ -12,6 +12,12 @@ namespace Vts.MonteCarlo
 #if !SILVERLIGHT
     [Serializable]
 #endif
+    ///<summary>
+    /// Defines input to the Monte Carlo simulation.  This includes the output
+    /// file name, number of photons to execute (N), source, tissue and detector
+    /// definitions.
+    ///</summary>
+    
     // todo: Can we do this programmatcially? DataContractResolver? Automatically via convention?
     
     [KnownType(typeof(DirectionalPointSourceInput))]
@@ -21,18 +27,13 @@ namespace Vts.MonteCarlo
 
     // Tissue inputs
     [KnownType(typeof(MultiLayerTissueInput))]
+    [KnownType(typeof(SingleEllipsoidTissueInput))]
     
     // Detector inputs
     [KnownType(typeof(SurfaceVirtualBoundaryInput))]
     [KnownType(typeof(GenericVolumeVirtualBoundaryInput))]
     [KnownType(typeof(pMCSurfaceVirtualBoundaryInput))]
 
-    [KnownType(typeof(AOfRhoAndZDetectorInput))]
-    [KnownType(typeof(ATotalDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
-    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(pMCROfRhoDetectorInput))]
     [KnownType(typeof(RDiffuseDetectorInput))]
     [KnownType(typeof(ROfAngleDetectorInput))]
     [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
@@ -44,13 +45,17 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(TOfAngleDetectorInput))]
     [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
     [KnownType(typeof(TOfRhoDetectorInput))]
+    [KnownType(typeof(RSpecularDetectorInput))]
+    [KnownType(typeof(AOfRhoAndZDetectorInput))]
+    [KnownType(typeof(ATotalDetectorInput))]
+    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
+    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
+    [KnownType(typeof(RadianceOfRhoAndZAndAngleDetectorInput))]
+    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
+    [KnownType(typeof(pMCROfRhoDetectorInput))]
 
     // todo: add more types?
-    ///<summary>
-    /// Defines input to the Monte Carlo simulation.  This includes the output
-    /// file name, number of photons to execute (N), source, tissue and detector
-    /// definitions.
-    ///</summary>
+
     public class SimulationInput
     {
         // DC 3/9/2010 using public fields *specifically* for ease of use in input .xml classes

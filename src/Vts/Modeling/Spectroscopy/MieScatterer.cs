@@ -32,6 +32,12 @@ namespace Vts.SpectralMapping
             public double[] S11 { get; set; }
         }
 
+        /// <summary>
+        /// Creates a MieScatterer with the specified values for particle radius, particle refractive index and medium refractive index
+        /// </summary>
+        /// <param name="particleRadius">Particle radius</param>
+        /// <param name="particleRefractiveIndex">Particle refractive index</param>
+        /// <param name="mediumRefractiveIndex">Medium refractive index</param>
         public MieScatterer(
             double particleRadius,
             double particleRefractiveIndex,
@@ -42,6 +48,10 @@ namespace Vts.SpectralMapping
             MediumRefractiveIndexMismatch = mediumRefractiveIndex;
         }
 
+        /// <summary>
+        /// Creates a MieScatterer with the specified Mie scatterer type
+        /// </summary>
+        /// <param name="scattererType">The Mie scatterer type</param>
         public MieScatterer(MieScattererType scattererType)
         {
             switch (scattererType)
@@ -55,13 +65,22 @@ namespace Vts.SpectralMapping
             }
         }
 
+        /// <summary>
+        /// Creates a MieScatterer with a MieScattererType of PolystyreneSphereSuspension
+        /// </summary>
         public MieScatterer()
             : this(MieScattererType.PolystyreneSphereSuspension)
         {
         }
 
+        /// <summary>
+        /// Scatterer type, set to Mie
+        /// </summary>
         public ScatteringType ScattererType { get { return ScatteringType.Mie; } }
 
+        /// <summary>
+        /// Partice radius
+        /// </summary>
         public double ParticleRadius
         {
             get { return _ParticleRadius; }
@@ -73,6 +92,9 @@ namespace Vts.SpectralMapping
             }
         }
 
+        /// <summary>
+        /// Particle refractive index mismatch
+        /// </summary>
         public double ParticleRefractiveIndexMismatch
         {
             get { return _ParticleRefractiveIndexMismatch; }
@@ -84,6 +106,9 @@ namespace Vts.SpectralMapping
             }
         }
 
+        /// <summary>
+        /// Medium refractive index mismatch
+        /// </summary>
         public double MediumRefractiveIndexMismatch
         {
             get { return _MediumRefractiveIndexMismatch; }
@@ -94,7 +119,11 @@ namespace Vts.SpectralMapping
             }
         }
 
-
+        /// <summary>
+        /// Returns the anisotropy coefficient for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The anisotropy coeffient g</returns>
         public double GetG(double wavelength)
         {
             MieScattParams = new MieScatteringParameters();
@@ -106,6 +135,11 @@ namespace Vts.SpectralMapping
             return g;
         }
 
+        /// <summary>
+        /// Returns the scattering coefficient for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The scattering coefficient Mus</returns>
         public double GetMus(double wavelength)
         {
             MieScattParams = new MieScatteringParameters();
@@ -128,6 +162,17 @@ namespace Vts.SpectralMapping
             //to convert to mus per millimeter, multiply by 10^3:
             mus *= 1000;
             return mus;
+        }
+
+        /// <summary>
+        /// Returns the reduced scattering coefficient for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The reduced scattering coefficient Mus'</returns>
+        public double GetMusp(double wavelength)
+        {
+            //MieScattParams = new MieScatteringParameters();
+            return GetMus(wavelength) * (1.0 - GetG(wavelength));
         }
 
         private double GetSizeParameter(double wavelength)
@@ -305,12 +350,5 @@ namespace Vts.SpectralMapping
             double im = z.Im;
             return Math.Sqrt(re * re + im * im);
         }
-
-        public double GetMusp(double wavelength)
-        {
-            //MieScattParams = new MieScatteringParameters();
-            return GetMus(wavelength) * (1.0 - GetG(wavelength));
-        }
-
     }
 }

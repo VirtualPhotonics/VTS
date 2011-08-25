@@ -3,15 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:Vts.SiteVisit.ViewModel"
              VerticalAlignment="Top">
-    <!--<UserControl.DataContext>
-        <vm:TextOutputViewModel/>
-    </UserControl.DataContext>-->
-    <!--<Border BorderBrush="Yellow" BorderThickness="10">-->
-        <Grid Background="White">
-            <ScrollViewer VerticalScrollBarVisibility="Visible" Height="100" >
-                <TextBlock Text="{Binding Text}" Height="10000" />
+        <Grid>
+        <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Visible" Background="White" MaxWidth="1000">
+                <TextBlock Text="{Binding Text}" MinHeight="75" MinWidth="500"/>
             </ScrollViewer>
         </Grid>
-
-    <!--</Border>-->
 </UserControl>

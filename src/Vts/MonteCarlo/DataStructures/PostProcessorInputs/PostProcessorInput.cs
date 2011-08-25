@@ -12,7 +12,13 @@ namespace Vts.MonteCarlo
 #if !SILVERLIGHT
     [Serializable]
 #endif     
-    // Detector inputs
+    
+    ///<summary>
+    /// Defines input to the Monte Carlo post processor.  This includes a list
+    /// of DetectorInputs, Database filename to postprocess, and the SimulationInput
+    /// that generated the database.
+    ///</summary>
+    
     [KnownType(typeof(AOfRhoAndZDetectorInput))]
     [KnownType(typeof(ATotalDetectorInput))]
     [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
@@ -31,11 +37,6 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
     [KnownType(typeof(TOfRhoDetectorInput))]
 
-    ///<summary>
-    /// Defines input to the Monte Carlo post processor.  This includes a list
-    /// of DetectorInputs, Database filename to postprocess, and the SimulationInput
-    /// that generated the datbase.
-    ///</summary>
     public class PostProcessorInput
     {
         public IList<IDetectorInput> DetectorInputs;
@@ -77,16 +78,29 @@ namespace Vts.MonteCarlo
                 "ppresults"
                 ) {}
 
+        /// <summary>
+        /// Method to read this class from xml file.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public static PostProcessorInput FromFile(string filename)
         {
             return FileIO.ReadFromXML<PostProcessorInput>(filename);
         }
-
+        /// <summary>
+        /// Method to write this class to xml file.
+        /// </summary>
+        /// <param name="filename"></param>
         public void ToFile(string filename)
         {
             FileIO.WriteToXML(this, filename);
         }
-
+        /// <summary>
+        /// Method to read this class from file in Resources
+        /// </summary>
+        /// <param name="filename">filename to be read</param>
+        /// <param name="project">project where file resides</param>
+        /// <returns></returns>
         public static PostProcessorInput FromFileInResources(string filename, string project)
         {
             return FileIO.ReadFromXMLInResources<PostProcessorInput>(filename, project);

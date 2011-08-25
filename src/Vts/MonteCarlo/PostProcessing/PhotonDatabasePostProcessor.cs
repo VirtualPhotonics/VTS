@@ -60,7 +60,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// GenerateOutput takes IDetectorInput (which designates tallies),
         /// reads PhotonExitHistory, and generates Output.
         /// </summary>
-        /// <param name="detectorInputs>List of IDetectorInputs designating binning</param>
+        /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
         /// <param name="database">PhotonTerminationDatabase</param>
         /// <param name="databaseInput">Database information needed for post-processing</param>
         /// <param name="perturbedOps">Perturbed optical properties</param>

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using Vts.Common.Logging;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Controllers;
@@ -14,10 +15,11 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class MonteCarloSimulation
     {
+        private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
         private ISource _source;
         private ITissue _tissue;
         private VirtualBoundaryController _virtualBoundaryController;
-        private IList<IDetectorController> _detectorControllers; // total list indep. of VBs
+        //private IList<IDetectorController> _detectorControllers; // total list indep. of VBs
         private long _numberOfPhotons;
         private SimulationStatistics _simulationStatistics;
         private DatabaseWriterController _databaseWriterController = null;
@@ -28,6 +30,10 @@ namespace Vts.MonteCarlo
         private Random _rng;
 
         private string _outputPath;
+
+        private bool _isRunning;
+        private bool _isCancelled;
+        private bool _resultsAvailable;
 
         public MonteCarloSimulation(SimulationInput input)
         {
@@ -64,17 +70,21 @@ namespace Vts.MonteCarlo
             {
                 var detectors = DetectorFactory.GetDetectors(vbg.DetectorInputs, _tissue, input.Options.TallySecondMoment);
                 var detectorController = DetectorControllerFactory.GetDetectorController(vbg.VirtualBoundaryType, detectors);
-                var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbg.VirtualBoundaryType,_tissue, detectorController);
+                var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbg.VirtualBoundaryType, _tissue, detectorController);
                 _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
             }
             // needed?
-            _detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
-            
+            //_detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
+
             // set doPMC flag
             if (_input.VirtualBoundaryInputs.Any(v => v.VirtualBoundaryType.IspMCVirtualBoundary()))
             {
                 doPMC = true;
             }
+
+            _isCancelled = false;
+            _isRunning = false;
+            _resultsAvailable = false;
         }
 
         /// <summary>
@@ -82,12 +92,16 @@ namespace Vts.MonteCarlo
         /// </summary>
         public MonteCarloSimulation() : this(new SimulationInput()) { }
 
+        // public properties
+        public PhaseFunctionType PhaseFunctionType { get; set; }
+
+        public bool IsRunning { get { return _isRunning; } }
+
+        public bool ResultsAvailable { get { return _resultsAvailable; } }
+
         // private properties
         private int SimulationIndex { get; set; }
-
-        // public properties
         private AbsorptionWeightingType AbsorptionWeightingType { get; set; }
-        public PhaseFunctionType PhaseFunctionType { get; set; }
         private bool TrackStatistics { get; set; }
 
         public Output Results { get; private set; }
@@ -104,16 +118,37 @@ namespace Vts.MonteCarlo
         /// <returns></returns>
         public Output Run()
         {
+            _isCancelled = false;
+            _isRunning = true;
+            _resultsAvailable = false;
+
             DisplayIntro();
 
             ExecuteMCLoop();
 
-            var detectors = _virtualBoundaryController.VirtualBoundaries.Select(vb =>
-                vb.DetectorController).Where(dc => dc != null).SelectMany(dc => dc.Detectors).ToList();
+            _isRunning = false;
+            if (_isCancelled)
+            {
+                _resultsAvailable = false;
+                return null;
+            }
+            
+            var detectors = _virtualBoundaryController.VirtualBoundaries
+                    .Select(vb => vb.DetectorController)
+                    .Where(dc => dc != null)
+                    .SelectMany(dc => dc.Detectors).ToList();
 
             Results = new Output(_input, detectors);
 
+            _resultsAvailable = true;
+
             return Results;
+        }
+
+        public void Cancel()
+        {
+            _isCancelled = true;
+            logger.Info(() => "Simulation cancelled.\n");
         }
 
         /// <summary>
@@ -121,28 +156,45 @@ namespace Vts.MonteCarlo
         /// </summary>
         protected virtual void ExecuteMCLoop()
         {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
             try
             {
                 if (!doPMC)
                 {
                     _databaseWriterController = new DatabaseWriterController(
                         DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                        _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
-                        Select(v => v.VirtualBoundaryType).ToList(), _outputPath, _input.OutputName));
+                            _input.VirtualBoundaryInputs
+                            .Where(v => v.WriteToDatabase == true)
+                            .Select(v => v.VirtualBoundaryType).ToList(),
+                            _outputPath,
+                            _input.OutputName));
                 }
                 else
                 {
                     _pMCDatabaseWriterController = new pMCDatabaseWriterController(
                         DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                        _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
-                        Select(v => v.VirtualBoundaryType).ToList(), _outputPath, _input.OutputName),
+                            _input.VirtualBoundaryInputs
+                                .Where(v => v.WriteToDatabase == true)
+                                .Select(v => v.VirtualBoundaryType).ToList(),
+                                _outputPath,
+                                _input.OutputName),
                         DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
-                        _input.VirtualBoundaryInputs.Where(v => v.WriteToDatabase == true).
-                        Select(v => v.VirtualBoundaryType).ToList(), _tissue, _outputPath, _input.OutputName));
+                            _input.VirtualBoundaryInputs
+                                .Where(v => v.WriteToDatabase == true)
+                                .Select(v => v.VirtualBoundaryType).ToList(),
+                                _tissue,
+                                _outputPath,
+                                _input.OutputName));
                 }
 
                 for (long n = 1; n <= _numberOfPhotons; n++)
                 {
+                    if (_isCancelled)
+                    {
+                        return;
+                    }
+
                     // todo: bug - num photons is assumed to be over 10 :)
                     if (n % (_numberOfPhotons / 10) == 0)
                     {
@@ -164,7 +216,7 @@ namespace Vts.MonteCarlo
                         if ((hitType == BoundaryHitType.Virtual) &&
                             (closestVirtualBoundary.DetectorController != null))
                         {
-                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP); 
+                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP);
                             // reset PhotonStateType after tallying
                             photon.DP.StateFlag.Remove(closestVirtualBoundary.PhotonStateType);
                         }
@@ -185,12 +237,12 @@ namespace Vts.MonteCarlo
                         }
 
                         photon.Absorb(); // can be added to TestDeath?
-                        if (!photon.DP.StateFlag.Has(PhotonStateType.Absorbed))
+                        if (!photon.DP.StateFlag.HasFlag(PhotonStateType.Absorbed))
                         {
                             photon.Scatter();
                         }
 
-                    } while (photon.DP.StateFlag.Has(PhotonStateType.Alive)); /* end do while */
+                    } while (photon.DP.StateFlag.HasFlag(PhotonStateType.Alive)); /* end do while */
 
                     //_detectorController.TerminationTally(photon.DP);
 
@@ -239,11 +291,16 @@ namespace Vts.MonteCarlo
                     vb.DetectorController.NormalizeDetectors(_numberOfPhotons);
                 }
             }
-            
+
             if (TrackStatistics)
             {
                 _simulationStatistics.ToFile("statistics");
             }
+
+            stopwatch.Stop();
+
+            logger.Info(() => "Monte Carlo simulation complete (N = " + _numberOfPhotons + " photons; simulation time = "
+                + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
         }
 
         private BoundaryHitType Move(Photon photon, out IVirtualBoundary closestVirtualBoundary)
@@ -253,7 +310,7 @@ namespace Vts.MonteCarlo
             // get distance to any VB
 
             double vbDistance = double.PositiveInfinity;
-            
+
             // find closest VB (will return null if no closest VB exists)
             closestVirtualBoundary = _virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out vbDistance);
 
@@ -268,7 +325,7 @@ namespace Vts.MonteCarlo
                 if (vbDistance == double.PositiveInfinity)
                 {
                     photon.DP.StateFlag = photon.DP.StateFlag.Remove(PhotonStateType.Alive);
-                    return BoundaryHitType.None; 
+                    return BoundaryHitType.None;
                 }
                 else
                 {
@@ -282,25 +339,23 @@ namespace Vts.MonteCarlo
         /********************************************************/
         void DisplayIntro()
         {
-            var header = _input.OutputName + "(" + SimulationIndex + ")";
-            string intro = "\n" +
-                header + ":                                                  \n" +
-                header + ":      Monte Carlo Simulation of Light Propagation \n" +
-                header + ":              in a multi-region tissue            \n" +
-                header + ":                                                  \n" +
-                header + ":         written by the Virtual Photonics Team    \n" +
-                header + ":              Beckman Laser Institute             \n" +
-                header + ":";
-            Console.WriteLine(intro);
+            var header = SimulationIndex + ": ";
+            logger.Info(() => header + "                                                  ");
+            logger.Info(() => header + "      Monte Carlo Simulation of Light Propagation ");
+            logger.Info(() => header + "              in a multi-region tissue            ");
+            logger.Info(() => header + "                                                  ");
+            logger.Info(() => header + "         written by the Virtual Photonics Team    ");
+            logger.Info(() => header + "              Beckman Laser Institute           \n");
         }
 
         /*****************************************************************/
         void DisplayStatus(long n, long num_phot)
         {
-            var header = _input.OutputName + "(" + SimulationIndex + ")";
+            var header = SimulationIndex + ": ";
             /* fraction of photons completed */
             double frac = 100 * n / num_phot;
-            Console.WriteLine(header + ": " + frac + " percent complete, " + DateTime.Now);
+
+            logger.Info(() => header + frac + " percent complete");
         }
     }
 }

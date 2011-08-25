@@ -224,10 +224,10 @@ namespace Vts.Modeling.ForwardSolvers
                 surfaceFluence.Imaginary, surfaceFlux.Imaginary, mediaRefractiveIndex);
         }
 
-        /// <param name="fluence"></param>
-        /// <param name="flux"></param>
-        /// <param name="FR1">1st moment of Fresnel Reflection</param>
-        /// <param name="FR2">2nd moment of Fresnel Reflection</param>
+        /// <param name="fluence">Fluence</param>
+        /// <param name="flux">Flux</param>
+        /// <param name="fr1">1st moment of Fresnel Reflection</param>
+        /// <param name="fr2">2nd moment of Fresnel Reflection</param>
         /// <returns></returns>
         protected static double GetBackwardHemisphereIntegralDiffuseReflectance(
             double fluence, double flux, double fr1, double fr2)

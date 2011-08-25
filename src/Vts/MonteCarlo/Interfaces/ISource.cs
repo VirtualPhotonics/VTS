@@ -7,8 +7,15 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface ISource
     {
+        /// <summary>
+        /// Method to initiate new photon.
+        /// </summary>
+        /// <param name="tissue"></param>
+        /// <returns></returns>
         Photon GetNextPhoton(ITissue tissue);
-
+        /// <summary>
+        /// Random number generator
+        /// </summary>
         Random Rng { get; }
     }
 }

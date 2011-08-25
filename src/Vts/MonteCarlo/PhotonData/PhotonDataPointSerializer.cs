@@ -5,8 +5,8 @@ using Vts.IO;
 namespace Vts.MonteCarlo.PhotonData
 {
     /// <summary>
-    /// Implements ICustomBinaryReader<PhotonDataPoint> and 
-    /// ICustomBinaryWriter<PhotonDataPoint>.
+    /// Implements ICustomBinaryReader&lt;PhotonDataPoint&gt; and 
+    /// ICustomBinaryWriter&lt;PhotonDataPoint&gt;.
     /// </summary>
     public class PhotonDataPointSerializer : 
         ICustomBinaryReader<PhotonDataPoint>, 

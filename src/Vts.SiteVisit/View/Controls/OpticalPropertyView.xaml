@@ -21,7 +21,7 @@
                     <TextBlock Text="{Binding Units}" />
                     <TextBlock Text="]"/>
                 </StackPanel>
-                <TextBox Width="40" Text="{Binding Mua, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                <TextBox Width="40" Text="{Binding Mua, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableMua}"/>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Width="80">
@@ -30,21 +30,21 @@
                     <TextBlock Text="{Binding Units}" />
                     <TextBlock Text="]"/>
                 </StackPanel>
-                <TextBox Width="40" Text="{Binding Musp, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                <TextBox Width="40" Text="{Binding Musp, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableMusp}"/>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Width="80">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock Text="g"/>
                 </StackPanel>
-                <TextBox Width="40" Text="{Binding G, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="False"/>
+                <TextBox Width="40" Text="{Binding G, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableG}"/>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Width="80">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock Text="n"/>
                 </StackPanel>
-                <TextBox Width="40" Text="{Binding N, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                <TextBox Width="40" Text="{Binding N, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableN}"/>
             </StackPanel>
         </StackPanel>
     </StackPanel>

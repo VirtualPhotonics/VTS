@@ -87,6 +87,7 @@ namespace Vts.SiteVisit.ViewModel
 
             Commands.PlotMuaSpectra.Executed += PlotMuaSpectra_Executed;
             Commands.PlotMusprimeSpectra.Executed += PlotMusprimeSpectra_Executed;
+            Commands.UpdateOpticalProperties.Executed += UpdateOpticalProperties_Executed;
         }
 
         #region DC notes 2
@@ -300,6 +301,11 @@ namespace Vts.SiteVisit.ViewModel
             var dependentValues = independentValues.Select(w => SelectedTissue.GetMusp(w));
 
             return  EnumerableEx.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
+        }
+
+        void UpdateOpticalProperties_Executed(object sender, ExecutedEventArgs e)
+        {
+            UpdateOpticalProperties();
         }
     }
 }

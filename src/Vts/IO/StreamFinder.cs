@@ -33,9 +33,9 @@ namespace Vts.IO
         /// Returns a stream from resources (standard and embedded for Silverlight and desktop, respectively),
         /// given a file name and an assembly (project) name
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="projectName"></param>
-        /// <returns></returns>
+        /// <param name="fileName">Name of the file in resources</param>
+        /// <param name="projectName">Project name where the resources are located</param>
+        /// <returns>Stream of data</returns>
         public static Stream GetFileStreamFromResources(string fileName, string projectName)
         {
             if (_lazyLoadLibraries.ContainsKey(projectName))
@@ -74,16 +74,16 @@ namespace Vts.IO
         /// <summary>
         /// Returns a stream from the local file system. In the case of Silverlight, this stream is from isolated storage.
         /// </summary>
-        /// <param name="filename"></param>
-        /// <param name="fileMode"></param>
-        /// <returns></returns>
+        /// <param name="filename">Name of the file</param>
+        /// <param name="fileMode">The FileMode to use when accessing the file</param>
+        /// <returns>Stream of data</returns>
         public static Stream GetFileStream(string filename, FileMode fileMode)
         {
 #if SILVERLIGHT
             // save to IsolatedStorage with no user interaction
             var userstore = IsolatedStorageFile.GetUserStoreForApplication();
             var locations = userstore.GetDirectoryNames();
-            return new IsolatedStorageFileStream(filename, fileMode,
+            return new IsolatedStorageFileStream( filename, fileMode,
                 IsolatedStorageFile.GetUserStoreForApplication());
 #else
             FileStream fs = null;
@@ -127,16 +127,44 @@ namespace Vts.IO
         /// Displays the Save File dialog box to select or create a file, returns a file stream to write to that file.
         /// </summary>
         /// <param name="defaultExtension">A string representing the default file name extension of the file to be saved.</param>
-        /// <returns>System.IO.Stream</returns>
-        public static Stream GetLocalFilestreamFromFileDialog(string defaultExtension)
+        /// <returns>Stream of data</returns>
+        public static Stream GetLocalFilestreamFromSaveFileDialog(string defaultExtension)
         {
             var dialog = new SaveFileDialog();
             dialog.DefaultExt = defaultExtension;
-            dialog.Filter = dialog.DefaultExt + " File|*" + dialog.DefaultExt + "|All Files|*.*";
-
+            //dialog.Filter = dialog.DefaultExt + " File|*" + dialog.DefaultExt + "|All Files|*.*";
+            dialog.Filter = defaultExtension + " files (*." + defaultExtension + ")|*." + defaultExtension + "|All files (*.*)|*.*";
             if (dialog.ShowDialog() == true)
             {
                 return dialog.OpenFile();
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Displays the Load File dialog box to select or create a file, returns a file stream to write to that file.
+        /// </summary>
+        /// <param name="defaultExtension">A string representing the default file name extension of the file to be saved.</param>
+        /// <returns>Stream of data</returns>
+        public static Stream GetLocalFilestreamFromOpenFileDialog(string defaultExtension)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = defaultExtension + " files (*." + defaultExtension + ")|*." + defaultExtension + "|All files (*.*)|*.*";
+            //dialog.Filter = defaultExtension + " File|*" + defaultExtension + "|All Files|*.*"; //"Text Files (.txt)|*.txt|All Files (*.*)|*.*";
+
+            dialog.FilterIndex = 1;
+            dialog.Multiselect = false;
+
+            // Call the ShowDialog method to show the dialog box.
+            bool? userClickedOK = dialog.ShowDialog();
+
+            // Process input if the user clicked OK.
+            if (userClickedOK == true)
+            {
+                // Open the selected file to read.
+                System.IO.Stream fileStream = dialog.File.OpenRead();
+
+                return fileStream;
             }
             return null;
         }

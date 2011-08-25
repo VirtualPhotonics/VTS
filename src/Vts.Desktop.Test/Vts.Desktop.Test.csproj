@@ -129,8 +129,14 @@
     <Compile Include="..\Vts.Test\Common\Math\Convolution2DTests.cs">
       <Link>Common\Math\Convolution2DTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\Common\OpticalPropertiesTests.cs">
+      <Link>Common\OpticalPropertiesTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Common\PositionTests.cs">
       <Link>Common\PositionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Common\StopwatchTests.cs">
+      <Link>Common\StopwatchTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Factories\ComputationFactoryTests.cs">
       <Link>Factories\ComputationFactoryTests.cs</Link>
@@ -180,6 +186,12 @@
     <Compile Include="..\Vts.Test\MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
       <Link>MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs">
+      <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidationTests.cs">
+      <Link>MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidationTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs</Link>
     </Compile>
@@ -201,20 +213,23 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\AnalogDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\AnalogLayerDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\CAWDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWLayersDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\CAWLayersDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\DAWDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWLayersDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWLayersDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\pMCDAWDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWSphereDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWSphereDetectorsTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularDetectorTests.cs">
-      <Link>MonteCarlo\Detectors\SpecularDetectorTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
+      <Link>MonteCarlo\Detectors\SpecularLayerDetectorTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Helpers\SourceToolboxTests.cs">
       <Link>MonteCarlo\Helpers\SourceToolboxTests.cs</Link>
@@ -240,8 +255,8 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSourcesTests.cs">
       <Link>MonteCarlo\Sources\PointSourcesTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmitting2DSourcesTests.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmitting2DSourcesTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs</Link>

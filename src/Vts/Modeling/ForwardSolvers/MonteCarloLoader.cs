@@ -69,7 +69,7 @@ namespace Vts.Modeling.ForwardSolvers
                 }
             }
             RReferenceOfFxAndTime = new double[nfxReference, ntReference];
-            /// CKH TODO: automate this process somehow
+            // CKH TODO: automate this process somehow
             //if (File.Exists("Resources/" + folder + @"R_fxt"))
             if (true)
             {

@@ -2,7 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
              x:Class="Vts.SiteVisit.App"
              xmlns:converters="clr-namespace:Vts.SiteVisit.Converters"
-             xmlns:local="clr-namespace:Vts.SiteVisit.Extensions">
+             xmlns:local="clr-namespace:Vts.SiteVisit.Extensions"
+             xmlns:System="clr-namespace:System;assembly=mscorlib">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -12,6 +13,7 @@
             <converters:BooleanToVisibilityConverter x:Key="myBooleanToVisibilityConverter"/>
             <converters:DoubleToStringConverter x:Key="myDoubleToStringConverter"/>
             <local:LocalizedStrings x:Key="LocalizedStrings" />
+            <System:String x:Key="ScientificFormat">{0:0.##e-0;;0}</System:String>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

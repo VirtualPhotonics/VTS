@@ -187,7 +187,7 @@ namespace Vts.MonteCarlo
             if ((probOfReflecting == 0.0) || (_rng.NextDouble() > probOfReflecting)) // transmitted
             {
                 // if at border of system  
-                if (_tissue.OnDomainBoundary(this) && !_firstTimeEnteringDomain)
+                if (_tissue.OnDomainBoundary(this.DP.Position) && !_firstTimeEnteringDomain)
                 {
                     DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
 
@@ -270,7 +270,7 @@ namespace Vts.MonteCarlo
                 dir.Uz = -sint * cosp * temp + uz * cost;
             }
 
-            DP.Direction = dir;
+            DP.Direction = dir; // DC - this isn't necessary
         }
         public void Scatter1D()
         {
@@ -336,9 +336,9 @@ namespace Vts.MonteCarlo
         {
             TestWeightAndDistance();         
             // if VB crossing flagged
-            if (DP.StateFlag.Has(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary)  ||
-                DP.StateFlag.Has(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
-                DP.StateFlag.Has(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary))
+            if (DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary)  ||
+                DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
+                DP.StateFlag.HasFlag(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary))
             {
                 //todo: revisit performance of the bitwise operations
                 DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
@@ -383,7 +383,7 @@ namespace Vts.MonteCarlo
                 DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
                 DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
             } 
-            if (DP.StateFlag.Has(PhotonStateType.KilledRussianRoulette))
+            if (DP.StateFlag.HasFlag(PhotonStateType.KilledRussianRoulette))
             {
                 History.AddDPToHistory(DP);
             }

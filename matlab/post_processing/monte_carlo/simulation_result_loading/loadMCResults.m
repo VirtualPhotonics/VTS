@@ -27,6 +27,7 @@ for vbi = 1:numVirtualBoundaries
                         ROfRho.Mean = readBinaryData([datadir '\' detectorName],length(ROfRho.Rho)-1);              
                         if(exist([datadir '\' detectorName '_2'],'file'))
                             ROfRho.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],length(ROfRho.Rho)-1);
+                            ROfRho.Error = sqrt((ROfRho.SecondMoment - (ROfRho.Mean .* ROfRho.Mean)) / str2num(xml.N));
                         end
                         results.ROfRho = ROfRho;
                     case 'ROfAngle'
@@ -159,7 +160,7 @@ for vbi = 1:numVirtualBoundaries
                         ATotal_xml = xml_load([datadir '\' detectorName '.xml']);
                         ATotal.Mean = str2num(ATotal_xml.Mean);              
                         ATotal.SecondMoment = str2num(ATotal_xml.SecondMoment); 
-                        results.TDiffuse = TDiffuse;
+                        results.ATotal = ATotal;
                     case 'AOfRhoAndZ'
                         AOfRhoAndZ.Name = detectorName;
                         tempRho = vb.DetectorInputs(di).anyType.Rho;
@@ -186,6 +187,29 @@ for vbi = 1:numVirtualBoundaries
                             FluenceOfRhoAndZ.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],[length(FluenceOfRhoAndZ.Rho)-1,length(FluenceOfRhoAndZ.Z)-1]);  
                         end
                         results.FluenceOfRhoAndZ = FluenceOfRhoAndZ;
+                    case 'RadianceOfRhoAndZAndAngle'
+                        RadianceOfRhoAndZAndAngle.Name = detectorName;
+                        tempRho = vb.DetectorInputs(di).anyType.Rho;
+                        tempZ = vb.DetectorInputs(di).anyType.Z;
+                        tempAngle = vb.DetectorInputs(di).anyType.Angle;
+                        RadianceOfRhoAndZAndAngle.Rho = linspace(str2num(tempRho.Start), str2num(tempRho.Stop), str2num(tempRho.Count));
+                        RadianceOfRhoAndZAndAngle.Z = linspace(str2num(tempZ.Start), str2num(tempZ.Stop), str2num(tempZ.Count));                      
+                        RadianceOfRhoAndZAndAngle.Angle = linspace(str2num(tempAngle.Start), str2num(tempAngle.Stop), str2num(tempAngle.Count));
+                        RadianceOfRhoAndZAndAngle.Rho_Midpoints = (RadianceOfRhoAndZAndAngle.Rho(1:end-1) + RadianceOfRhoAndZAndAngle.Rho(2:end))/2;
+                        RadianceOfRhoAndZAndAngle.Z_Midpoints = (RadianceOfRhoAndZAndAngle.Z(1:end-1) + RadianceOfRhoAndZAndAngle.Z(2:end))/2;
+                        RadianceOfRhoAndZAndAngle.Angle_Midpoints = (RadianceOfRhoAndZAndAngle.Angle(1:end-1) + RadianceOfRhoAndZAndAngle.Angle(2:end))/2;
+                        RadianceOfRhoAndZAndAngle.Mean = readBinaryData([datadir '\' detectorName], ... 
+                            [(length(RadianceOfRhoAndZAndAngle.Rho)-1) * (length(RadianceOfRhoAndZAndAngle.Z)-1) * (length(RadianceOfRhoAndZAndAngle.Angle)-1)]);
+                            %[length(RadianceOfRhoAndZAndAngle.Rho)-1,length(RadianceOfRhoAndZAndAngle.Z)-1,length(RadianceOfRhoAndZAndAngle.Angle)-1]);
+                        RadianceOfRhoAndZAndAngle.Mean = reshape(RadianceOfRhoAndZAndAngle.Mean, ...
+                            [length(RadianceOfRhoAndZAndAngle.Rho)-1,length(RadianceOfRhoAndZAndAngle.Z)-1,length(RadianceOfRhoAndZAndAngle.Angle)-1]);
+                        if(exist([datadir '\' detectorName '_2'],'file'))
+                            RadianceOfRhoAndZAndAngle.SecondMoment = readBinaryData([datadir '\' detectorName '_2'], ... 
+                            [(length(RadianceOfRhoAndZAndAngle.Rho)-1) * (length(RadianceOfRhoAndZAndAngle.Z)-1) * (length(RadianceOfRhoAndZAndAngle.Angle)-1)]); 
+                            RadianceOfRhoAndZAndAngle.SecondMoment = reshape(RadianceOfRhoAndZAndAngle.SecondMoment, ...
+                            [length(RadianceOfRhoAndZAndAngle.Rho)-1,length(RadianceOfRhoAndZAndAngle.Z)-1,length(RadianceOfRhoAndZAndAngle.Angle)-1]);                 
+                        end
+                        results.RadianceOfRhoAndZAndAngle = RadianceOfRhoAndZAndAngle;
                 end %detectorName switch
             end % for GenericVolumeBoundary detectors
     end % vbName switch

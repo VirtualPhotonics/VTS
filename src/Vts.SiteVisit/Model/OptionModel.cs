@@ -13,7 +13,7 @@ namespace Vts.SiteVisit.Model
     /// <typeparam name="TValue">The type of value represented by the option.</typeparam>
     public class OptionModel<TValue> :
         BindableObject,
-        IComparable<OptionModel<TValue>>
+        IComparable<OptionModel<TValue>> // where TValue : struct 
     {
         #region Fields
 
@@ -116,9 +116,10 @@ namespace Vts.SiteVisit.Model
         /// Creates a Dictionary of options. If no options (params TValue[] values) are specified, it will use all of the available choices
         /// </summary>
         /// <param name="handler"></param>
-        /// <param name="values"></param>
+        /// <param name="allValues"></param>
         /// <returns></returns>
-        public static Dictionary<TValue, OptionModel<TValue>> CreateAvailableOptions(PropertyChangedEventHandler handler, string groupName, params TValue[] values)
+        /// 
+        public static Dictionary<TValue, OptionModel<TValue>> CreateAvailableOptions(PropertyChangedEventHandler handler, string groupName, TValue initialValue, TValue[] allValues)
         {
             Type enumType = typeof(TValue);
             if (!enumType.IsEnum)
@@ -127,16 +128,16 @@ namespace Vts.SiteVisit.Model
             }
 
             List<OptionModel<TValue>> list = new List<OptionModel<TValue>>();
-            if (values.Length == 0)
+            if (allValues == null || allValues.Length == 0)
             {
-                values = EnumHelper.GetValues<TValue>();
+                allValues = EnumHelper.GetValues<TValue>();
             }
-            var names = values.Select(value => (value as Enum).GetInternationalizedString()).ToArray();
+            var names = allValues.Select(value => (value as Enum).GetInternationalizedString()).ToArray();
 
-            for (int i = 0; i < values.Length; i++)
+            for (int i = 0; i < allValues.Length; i++)
             {
-                string name = names[i].Length > 0 ? names[i] : values[i].ToString();
-                OptionModel<TValue> option = new OptionModel<TValue>(name, values[i], i, groupName);
+                string name = names[i].Length > 0 ? names[i] : allValues[i].ToString();
+                OptionModel<TValue> option = new OptionModel<TValue>(name, allValues[i], i, groupName);
                 option.PropertyChanged += handler;
                 list.Add(option);
             }
@@ -146,7 +147,11 @@ namespace Vts.SiteVisit.Model
             //list.Sort();
 
             if (list.Count > 0)
-                list[0].IsSelected = true;
+            {
+                var option = list.FirstOrDefault(optionModel => EqualityComparer<TValue>.Default.Equals(optionModel.Value, initialValue));
+                option.IsSelected = true;
+                //list[0].IsSelected = true;
+            }
             return list.ToDictionary(item => item.Value);
             //return new ReadOnlyCollection<OptionViewModel<TValue>>(list);
         }

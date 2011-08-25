@@ -5,10 +5,16 @@ using System.Linq;
 namespace Vts.SpectralMapping
 {
     /// <summary>
-    /// 
+    /// Class to represent a tissue
     /// </summary>
     public class Tissue : BindableObject, IAbsorber, IScatterer
     {
+        /// <summary>
+        /// Creates a tissue with the specified absorbers, scatterer and name
+        /// </summary>
+        /// <param name="absorbers">List of chromophore absorbers</param>
+        /// <param name="scatterer">scatterer</param>
+        /// <param name="name">Name of the tissue</param>
         public Tissue(IList<IChromophoreAbsorber> absorbers, IScatterer scatterer, string name)
         {
             Absorbers = absorbers;
@@ -16,6 +22,10 @@ namespace Vts.SpectralMapping
             Name = name;
         }
 
+        /// <summary>
+        /// Creates a tissue with the specified tissue type
+        /// </summary>
+        /// <param name="tissueType">Tissue type</param>
         public Tissue(TissueType tissueType)
         {
             TissueType = tissueType;
@@ -23,15 +33,35 @@ namespace Vts.SpectralMapping
             Name = tissueType.ToString();
         }
 
+        /// <summary>
+        /// Scatterer type
+        /// </summary>
         public ScatteringType ScattererType { get { return Scatterer.ScattererType; } }
+        
+        /// <summary>
+        /// Type of tissue
+        /// </summary>
         public TissueType TissueType { get; set; }
 
+        /// <summary>
+        /// Name of the tissue
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// List of chromophore absorbers
+        /// </summary>
         public IList<IChromophoreAbsorber> Absorbers { get; set; }
 
+        /// <summary>
+        /// Scatterer
+        /// </summary>
         public IScatterer Scatterer { get; set; } 
 
+        /// <summary>
+        /// Set the absorbers and the scatterer for the specified tissue type
+        /// </summary>
+        /// <param name="tissueType">Tissue type</param>
         private void SetPredefinedTissueDefinitions(TissueType tissueType) // this data should be in XML
         {
             TissueType = tissueType;
@@ -39,6 +69,10 @@ namespace Vts.SpectralMapping
             SetScatterer(tissueType);
         }
 
+        /// <summary>
+        /// Sets the absorbers for the specified tissue type
+        /// </summary>
+        /// <param name="tissueType">Tissue type</param>
         public void SetAbsorbers(TissueType tissueType)
         {
             TissueType = tissueType;
@@ -51,7 +85,7 @@ namespace Vts.SpectralMapping
                     Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.HbO2, 22.4)); //338.7
                     Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.H2O, 0.7));
                     Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Fat, 0.0));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Melanin, 0.0051));
+                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Melanin, 0.001));
                     break;
 
                 case (TissueType.BreastPreMenopause):
@@ -103,6 +137,10 @@ namespace Vts.SpectralMapping
             }
         }
 
+        /// <summary>
+        /// Sets the scatterer type for the specified tissue type
+        /// </summary>
+        /// <param name="tissueType">Tissue type</param>
         public void SetScatterer(TissueType tissueType)
         {
             TissueType = tissueType;
@@ -128,11 +166,20 @@ namespace Vts.SpectralMapping
             }
         }
 
+        /// <summary>
+        /// Returns the name of the tissue
+        /// </summary>
+        /// <returns>The name of the tissue</returns>
         public override string ToString()
         {
             return Name;
         }
 
+        /// <summary>
+        /// Returns Mua (absorption coefficient) for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The absorption coefficient Mua</returns>
         public double GetMua(double wavelength)
         {
             double mua = 0.0;
@@ -143,16 +190,31 @@ namespace Vts.SpectralMapping
             return mua;
         }
 
+        /// <summary>
+        /// Returns the reduced scattering coefficient for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The reduced scattering coefficient Mus'</returns>
         public double GetMusp(double wavelength)
         {
             return Scatterer != null ? Scatterer.GetMusp(wavelength) : 0;
         }
 
+        /// <summary>
+        /// Returns the anisotropy coefficient for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The anisotropy coeffient g</returns>
         public double GetG(double wavelength)
         {
             return Scatterer != null ? Scatterer.GetG(wavelength) : 0;
         }
 
+        /// <summary>
+        /// Returns the scattering coefficient for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The scattering coefficient Mus</returns>
         public double GetMus(double wavelength)
         {
             return Scatterer != null ? Scatterer.GetMus(wavelength) : 0;

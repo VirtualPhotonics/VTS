@@ -20,19 +20,50 @@ namespace Vts.SiteVisit.ViewModel
         private Dictionary<TValue, OptionModel<TValue>> _Options;
         //private Dictionary<TValue, Dictionary<TValue, OptionModel<TValue>>> _SubOptions;
 
-        public OptionViewModel(string groupName, bool showTitle, params TValue[] values)
+        
+        public OptionViewModel(string groupName, bool showTitle, TValue initialValue, TValue[] allValues)
         {
             ShowTitle = showTitle;
             GroupName = groupName;
 
             // todo: CreateAvailableOptions should be owned by either this class or an OptionModelService class
-            Options = OptionModel<TValue>.CreateAvailableOptions(OnOptionPropertyChanged, groupName, values);
+            Options = OptionModel<TValue>.CreateAvailableOptions(OnOptionPropertyChanged, groupName, initialValue, allValues);
             //_SubOptions =
             //    (from k in Options.Keys.Where(key=>key.HasSubOptions())
             //     select OptionModel<k.GetType>.CreateAvailableOptions(OnOptionPropertyChanged, groupName,k.GetSubOptions().ToArray())).ToArray();
-        }
-        public OptionViewModel(string groupName, params TValue[] values) : this(groupName, true, values) { }
 
+            SelectedValue = initialValue;
+        }
+
+        public OptionViewModel(string groupName, bool showTitle, TValue[] allValues)
+            : this(groupName, showTitle, default(TValue), allValues)
+        {
+        }
+
+        public OptionViewModel(string groupName, bool showTitle, TValue initialValue)
+            : this(groupName, showTitle, initialValue, null)
+        {
+        }
+
+        public OptionViewModel(string groupName, TValue initialValue)
+            : this(groupName, true, initialValue, null)
+        {
+        }
+
+        public OptionViewModel(string groupName, TValue[] allValues)
+            : this(groupName, true, default(TValue), allValues)
+        {
+        }
+
+        public OptionViewModel(string groupName, bool showTitle)
+            : this(groupName, showTitle, default(TValue), null)
+        {
+        }
+
+        public OptionViewModel(string groupName)
+            : this(groupName, true, default(TValue), null)
+        {
+        }
 
         public TValue SelectedValue
         {

@@ -17,32 +17,50 @@ namespace Vts.MonteCarlo
     {
         public static ValidationResult ValidateInput(IVirtualBoundaryInput vbInput)
         {
-            foreach (var detectorInput in vbInput.DetectorInputs)
-	        {
-                if (!detectorInput.TallyType.IsSurfaceTally())
-                {
-                    return new ValidationResult(
-                        false,
-                        "SurfaceVirtualBoundaryInput: detector input is not a surface type",
-                        "Make sure IList<IDetectorInput> only contains surface type tallies");
-                }
-                if ((vbInput.VirtualBoundaryType.IsReflectanceSurfaceVirtualBoundary() &&
-                    !detectorInput.TallyType.IsReflectanceTally()) ||
-                    (vbInput.VirtualBoundaryType.IsTransmittanceSurfaceVirtualBoundary() &&
-                    !detectorInput.TallyType.IsTransmittanceTally()) ||
-                    (vbInput.VirtualBoundaryType.IsInternalSurfaceVirtualBoundary() &&
-                    !detectorInput.TallyType.IsInternalTally()))
-                {
-                    return new ValidationResult(
-                        false,
-                        "SurfaceVirtualBoundaryInput: detector input not consistent with virtual boundary type",
-                        "Make sure virtual boundary type matches type of detector input");
-                }
-            }
+            // todo: discuss serialization with CKH -DC
+            //if (vbInput.DetectorInputs == null)
+            //{
+            //    return new ValidationResult(
+            //        false,
+            //        "Detector List must be empty list",
+            //        "Specify empty detector list as 'new List<IDetectorInput>(){}'");
+            //}
 
+            if (vbInput.DetectorInputs != null)
+            {
+                foreach (var detectorInput in vbInput.DetectorInputs)
+                {
+                    if (!detectorInput.TallyType.IsSurfaceTally())
+                    {
+                        return new ValidationResult(
+                            false,
+                            "SurfaceVirtualBoundaryInput: detector input is not a surface type",
+                            "Make sure IList<IDetectorInput> only contains surface type tallies");
+                    }
+                    if ((vbInput.VirtualBoundaryType.IsReflectanceSurfaceVirtualBoundary() &&
+                         !detectorInput.TallyType.IsReflectanceTally()) ||
+                        (vbInput.VirtualBoundaryType.IsTransmittanceSurfaceVirtualBoundary() &&
+                         !detectorInput.TallyType.IsTransmittanceTally()) ||
+                        (vbInput.VirtualBoundaryType.IsInternalSurfaceVirtualBoundary() &&
+                         !detectorInput.TallyType.IsInternalSurfaceTally()) ||
+                        (vbInput.VirtualBoundaryType.IsSpecularSurfaceVirtualBoundary() &&
+                         !detectorInput.TallyType.IsSpecularReflectanceTally()))
+                    {
+                        return new ValidationResult(
+                            false,
+                            "SurfaceVirtualBoundaryInput: detector input not consistent with virtual boundary type",
+                            "Make sure virtual boundary type matches type of detector input");
+                    }
+                }
+
+                return new ValidationResult(
+                    true,
+                    "detector inputs match type of virtual boundary input");
+            }
+            
             return new ValidationResult(
                 true,
-                "detector inputs must match type of virtual boundary input");
-        }
+                "Warning: no detector inputs specified.");
+        }     
     }
 }

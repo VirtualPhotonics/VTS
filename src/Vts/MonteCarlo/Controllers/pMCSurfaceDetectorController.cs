@@ -11,6 +11,9 @@ using Vts.MonteCarlo.Extensions;
 
 namespace Vts.MonteCarlo.Controllers
 {
+    /// <summary>
+    /// Controller for perturbation Monte Carlo (pMC) Surface detectors.
+    /// </summary>
     public class pMCSurfaceDetectorController : IpMCSurfaceDetectorController  
     {
         private ITissue _tissue;

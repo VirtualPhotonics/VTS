@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo
                 { 
                     new LayerRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
                     new LayerRegion(
                         new DoubleRange(0.0, 100.0),
                         new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
@@ -47,6 +47,9 @@ namespace Vts.MonteCarlo
                 })
         {
         }
+
+        [IgnoreDataMember]
+        public TissueType TissueType { get { return TissueType.MultiLayer; } }
 
         public IList<ITissueRegion> Regions { get { return _regions; } set { _regions = value; } }
     }

@@ -43,9 +43,12 @@ namespace Vts.SiteVisit.ViewModel
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
                 "Forward Model:",
                 false,
-                ForwardSolverType.DistributedPointSourceSDA,
-                ForwardSolverType.PointSourceSDA,
-                ForwardSolverType.DistributedGaussianSourceSDA); // explicitly enabling these for the workshop;
+                new[]
+                {
+                    ForwardSolverType.DistributedPointSourceSDA,
+                    ForwardSolverType.PointSourceSDA,
+                    ForwardSolverType.DistributedGaussianSourceSDA
+                }); // explicitly enabling these for the workshop;
 
             FluenceSolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Fluence Solution Domain", FluenceSolutionDomainType.FluenceofRho);
             AbsorbedEnergySolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Absorbed Energy Solution Domain", FluenceSolutionDomainType.FluenceofRho);
@@ -53,9 +56,12 @@ namespace Vts.SiteVisit.ViewModel
 
             MapTypeOptionVM = new OptionViewModel<MapType>(
                 "Map Type", 
-                MapType.Fluence, 
-                MapType.AbsorbedEnergy, 
-                MapType.PhotonHittingDensity);
+                new[]
+                {
+                    MapType.Fluence, 
+                    MapType.AbsorbedEnergy, 
+                    MapType.PhotonHittingDensity
+                });
 
             MapTypeOptionVM.PropertyChanged += (sender, args) =>
             {
@@ -232,6 +238,7 @@ namespace Vts.SiteVisit.ViewModel
 
         public MapData ExecuteForwardSolver()
         {
+            //double[] rhos = RhoRangeVM.Values.Reverse().Concat(RhoRangeVM.Values).ToArray();
             double[] rhos = RhoRangeVM.Values.Reverse().Select(rho => -rho).Concat(RhoRangeVM.Values).ToArray();
             double[] zs = ZRangeVM.Values.ToArray();
 
@@ -289,7 +296,14 @@ namespace Vts.SiteVisit.ViewModel
                 }
             }
 
-            return new MapData(destinationArray, rhos, zs);
+            var dRho = 1D;
+            var dZ = 1D;
+            var dRhos = Enumerable.Select(rhos, rho => 2 * Math.PI * Math.Abs(rho) * dRho).ToArray();
+            var dZs = Enumerable.Select(zs, z => dZ).ToArray();
+            //var twoRhos = Enumerable.Concat(rhos.Reverse(), rhos).ToArray();
+            //var twoDRhos = Enumerable.Concat(dRhos.Reverse(), dRhos).ToArray();
+
+            return new MapData(destinationArray, rhos, zs, dRhos, dZs);
         }
 
         private static IndependentVariableAxis[] GetIndependentVariableAxesInOrder(params IndependentVariableAxis[] axes)

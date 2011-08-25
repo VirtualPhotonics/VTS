@@ -9,7 +9,13 @@ namespace Vts.Modeling.ForwardSolvers
     /// </summary>
     public enum NurbsValuesDimensions
     {
+        /// <summary>
+        /// Time
+        /// </summary>
         time,
+        /// <summary>
+        /// Space refers to both rho and fx
+        /// </summary>
         space,
     }
     /// <summary>
@@ -18,14 +24,29 @@ namespace Vts.Modeling.ForwardSolvers
     [DataContract]
     public class NurbsValues
     {
+        /// <summary>
+        /// Physical dimension, space or time
+        /// </summary>
         [DataMember]
         public NurbsValuesDimensions ValuesDimensions{ get; set;}
+        /// <summary>
+        /// Knots vector
+        /// </summary>
         [DataMember]
         public double[] KnotVector { get; set; }
+        /// <summary>
+        /// Control Points
+        /// </summary>
         [DataMember]
         public double[] ControlPoints { get; set; }//used only in tests
+        /// <summary>
+        /// Max value along the physical dimension
+        /// </summary>
         [DataMember]
         public double MaxValue { get; set; }
+        /// <summary>
+        /// Degree
+        /// </summary>
         [DataMember]
         public int Degree { get; set; }
 
@@ -36,7 +57,6 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="valuesDimension">physical dimension, space or time</param>
         /// <param name="knots">knots vector</param>
-        /// <param name="cpoints">control points</param>
         /// <param name="max">max value along the physical dimension</param>
         /// <param name="degree">degree</param>
         public NurbsValues

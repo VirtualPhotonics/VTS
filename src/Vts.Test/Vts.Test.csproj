@@ -148,6 +148,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\OpticalPropertiesTests.cs" />
+    <Compile Include="Common\StopwatchTests.cs" />
     <Compile Include="Common\Extensions\ArrayExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -155,13 +157,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\Extensions\EnumExtensionsTests.cs" />
-    <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\SpecularDetectorTests.cs" />
-    <Compile Include="MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MonteCarlo\Rng\SerializableMersenneTwisterTests.cs" />
     <Compile Include="Common\Helpers\Range\DoubleRangeTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -181,6 +176,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\PositionTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Common\Extensions\OpticalPropertiesExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Factories\ComputationFactoryTests.cs">
@@ -216,6 +214,9 @@
     <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Modeling\Spectroscopy\SpectralDatabaseTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -228,6 +229,10 @@
     <Compile Include="MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidationTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -237,30 +242,38 @@
     <Compile Include="MonteCarlo\DataStructures\OutputTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MonteCarlo\DataStructures\SimulationInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\DataStructures\SimulationOptionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\AnalogDetectorsTests.cs">
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\CAWDetectorsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\AnalogLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\DAWDetectorsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\CAWLayersDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Detectors\pMCDAWDetectorsTests.cs">
+    <Compile Include="MonteCarlo\Detectors\DAWLayersDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Helpers\SourceToolboxTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\DAWSphereDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Helpers\SourceToolboxTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MonteCarlo\IO\DetectorIOTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Common\Extensions\OpticalPropertiesExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
@@ -272,9 +285,21 @@
     <Compile Include="MonteCarlo\PhotonData\pMCDatabaseTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MonteCarlo\Sources\SurfaceEmitting2DSourcesTests.cs" />
-    <Compile Include="MonteCarlo\Sources\LineSourcesTests.cs" />
-    <Compile Include="MonteCarlo\Sources\PointSourcesTests.cs" />
+    <Compile Include="MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Sources\LineSourcesTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Sources\PointSourcesTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -286,7 +311,6 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -299,6 +323,7 @@
     <Folder Include="Modeling\Optimizers\" />
     <Folder Include="Modeling\Tools\" />
     <Folder Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\" />
+    <Folder Include="MonteCarlo\TallyActions\pMCTallies\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

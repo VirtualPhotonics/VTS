@@ -5,11 +5,11 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
-    [KnownType(typeof(TDiffuseDetector))]
     /// <summary>
-    /// Implements ITerminationTally<double>.  Tally for diffuse transmittance.
+    /// Implements ITerminationTally&lt;double&gt;.  Tally for diffuse transmittance.
     /// This implemenation works for Analog, DAW and CAW processing.
     /// </summary>
+    [KnownType(typeof(TDiffuseDetector))]
     public class TDiffuseDetector : ISurfaceDetector<double>
     {
         private bool _tallySecondMoment;

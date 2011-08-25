@@ -2,6 +2,9 @@ using System.IO;
 
 namespace Vts.Common
 {
+    /// <summary>
+    /// Class describes unit directional vector.
+    /// </summary>
     public class Direction
     {
         private double _Ux;
@@ -27,8 +30,8 @@ namespace Vts.Common
         /// <summary>
         /// Equality overload for two 3D direction cosines
         /// </summary>
-        /// <param name="d1"></param>
-        /// <param name="d2"></param>
+        /// <param name="d1">first direction cosine</param>
+        /// <param name="d2">second direction cosine</param>
         /// <returns></returns>
         public static bool operator ==(Direction d1, Direction d2)
         {
@@ -48,8 +51,8 @@ namespace Vts.Common
         /// <summary>
         /// Inequality overload for two 3D direction cosines
         /// </summary>
-        /// <param name="d1"></param>
-        /// <param name="d2"></param>
+        /// <param name="d1">first direction cosine</param>
+        /// <param name="d2">second direction cosine</param>
         /// <returns></returns>
         public static bool operator !=(Direction d1, Direction d2)
         {
@@ -59,7 +62,7 @@ namespace Vts.Common
         /// <summary>
         /// Instance member for equality comparison
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">object of comparision</param>
         /// <returns></returns>
         public override bool Equals(object obj)
         {
@@ -73,20 +76,33 @@ namespace Vts.Common
             }
             return false;
         }
+        /// <summary>
+        /// Method to determine dot product between two unit directionals.
+        /// </summary>
+        /// <param name="d1">first direction</param>
+        /// <param name="d2">second direction</param>
+        /// <returns></returns>
         public static double GetDotProduct(Direction d1, Direction d2)
         {
             return (d1.Ux * d2.Ux +
                      d1.Uy * d2.Uy +
                      d1.Uz * d2.Uz);
         }
-
+        /// <summary>
+        /// Method to write binary version of unit directional
+        /// </summary>
+        /// <param name="bw"></param>
         public void WriteBinary(BinaryWriter bw)
         {
             bw.Write(Ux);
             bw.Write(Uy);
             bw.Write(Uz);
         }
-
+        /// <summary>
+        /// Method to read binary version of unit directional
+        /// </summary>
+        /// <param name="br">BinaryReader</param>
+        /// <returns></returns>
         public static Direction ReadBinary(BinaryReader br)
         {
             return new Direction(
@@ -94,22 +110,31 @@ namespace Vts.Common
                 br.ReadDouble(), // Uy
                 br.ReadDouble()); // Uz
         }
-
+        /// <summary>
+        /// Method that returns unit directional along positive x-axis
+        /// </summary>
         public static Direction AlongPositiveXAxis
         {
             get { return new Direction(1.0, 0.0, 0.0); }
         }
-
+        /// <summary>
+        /// Method that returns unit directional along positive y-axis
+        /// </summary>
         public static Direction AlongPositiveYAxis
         {
             get { return new Direction(0.0, 1.0, 0.0); }
         }
-
+        /// <summary>
+        /// Method that returns unit directional along positive z-axis
+        /// </summary>
         public static Direction AlongPositiveZAxis
         {
             get { return new Direction(0.0, 0.0, 1.0); }
         }
-
+        /// <summary>
+        /// Method to clone unit directional
+        /// </summary>
+        /// <returns></returns>
         public Direction Clone()
         {
             return new Direction(this.Ux, this.Uy, this.Uz);

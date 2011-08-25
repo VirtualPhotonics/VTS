@@ -6,6 +6,9 @@ using Vts.MonteCarlo.Detectors;
 
 namespace Vts.IO
 {
+    /// <summary>
+    /// Class created to work-around the issues with the DataContractSerializer in Mono
+    /// </summary>
     public static class KnownTypes
     {
         private static readonly IDictionary<string,Type> _types;
@@ -39,8 +42,15 @@ namespace Vts.IO
             _types = knownTypesArray.ToDictionary(type => type.ToString());
         }
 
+        /// <summary>
+        /// Gets a dictionary of the current known types
+        /// </summary>
         public static IDictionary<string, Type> CurrentKnownTypes { get { return _types; } }
 
+        /// <summary>
+        /// Adds a new type to the list of known types
+        /// </summary>
+        /// <param name="t">The type to add</param>
         public static void Add(Type t)
         {
             if(!_types.ContainsKey(t.ToString()))
