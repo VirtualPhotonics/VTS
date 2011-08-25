@@ -81,6 +81,7 @@ namespace Vts.SiteVisit.View
                             ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Visible;
                             ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Visible;
                             ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Collapsed;
+                            break;
                     }
                 }
             }

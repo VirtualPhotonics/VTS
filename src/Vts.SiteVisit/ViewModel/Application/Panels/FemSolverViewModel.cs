@@ -89,7 +89,7 @@ namespace Vts.SiteVisit.ViewModel
             var xs = new double[measurement.xloc.Distinct().Count()];
             var ys = new double[measurement.yloc.Distinct().Count()];
 
-            var meshData = new MapData(destinationArray, xs, ys);
+            var meshData = new MeshData(destinationArray, xs, ys);
 
             Commands.Mesh_PlotMap.Execute(meshData);
         }

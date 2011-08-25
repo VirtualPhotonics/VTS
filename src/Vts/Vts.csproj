@@ -180,7 +180,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Common\Stopwatch.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\SolverMGRTE.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\SolverMGRTE.cs" >
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IO\KnownTypes.cs" />

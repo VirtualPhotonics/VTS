@@ -22,8 +22,7 @@ namespace Vts.SiteVisit.Model
         public double[] XValues { get; private set; }
         public double[] YValues { get; private set; }
         public double Min { get; private set; }
-        public double Max { get; private set; }
-        public double YExpectationValue { get { return Statistics.MeanSamplingDepth(RawData, XValues, YValues); } }
+        public double Max { get; private set; }        
 
         public static MeshData Create(double[,] rawData, double[] x, double[] y)
         {

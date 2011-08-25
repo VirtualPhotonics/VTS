@@ -147,7 +147,7 @@ namespace Vts.SiteVisit.ViewModel
         {
             if (_mapData != null && _mapData.RawData != null && _mapData.XValues != null && _mapData.YValues != null)
             {
-                using (var stream = StreamFinder.GetLocalFilestreamFromFileDialog(".txt"))
+                using (var stream = StreamFinder.GetLocalFilestreamFromSaveFileDialog(".txt"))
                 {
                     if (stream != null)
                     {
@@ -306,7 +306,9 @@ namespace Vts.SiteVisit.ViewModel
 
                 return MapData.Create(tempData,
                     Enumerable.Range(0, width).Select(i => (double)i).ToArray(),
-                    Enumerable.Range(0, height).Select(i => (double)i).ToArray());
+                    Enumerable.Range(0, height).Select(i => (double)i).ToArray(),
+                    Enumerable.Range(0, width).Select(i => 1D).ToArray(),
+                    Enumerable.Range(0, height).Select(i => 1D).ToArray());
             }
         }
     }
