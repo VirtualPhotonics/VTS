@@ -17,7 +17,7 @@ namespace Vts.SiteVisit.ViewModel
         {
             _parameters = parameters;
 
-            OpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Tissue Optical Properties:", G = 0.9, N = 1.0 };
+            OpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Tissue Optical Properties:", G = 0.9, N = 1.0, EnableG = true };
             Commands.FEM_ExecuteFemSolver.Executed += FEM_ExecuteFemSolver_Executed;
 
             ExecuteFemSolverCommand = new RelayCommand(() => FEM_ExecuteFemSolver_Executed(null, null));    
@@ -74,22 +74,13 @@ namespace Vts.SiteVisit.ViewModel
 
         private void ExecuteSolver()
         {
-
             // Purpose: this is the main function for RTE_2D.
             // Note: we assume the spatial domain has "nt" intervals,
-            //       starting from "0" to "nt-1" with increasing "x" coordinate;
-            //       the top boundary with bigger "x" is labeled as "1" and the bottom as "0";
-            //       in each interval, the node with the smaller "x" is labeled as "0" and the node with the bigger "x" is labeled as "1".
-            Measurement measurement = SolverMGRTE.ExecuteMGRTE(_parameters);
+            //       starting from "-x" to "+x" with increasing "x" coordinate;
+            //       starting from "0" to "+z" with increasing "z" coordinate;            
+            Measurement measurement = SolverMGRTE.ExecuteMGRTE(_parameters);       
 
-            // intensity from FEM solution
-            var destinationArray = measurement.inten;
-
-            // todo: replace with measurement members to get 1D arrays of x and y spans
-            var xs = new double[measurement.xloc.Distinct().Count()];
-            var ys = new double[measurement.yloc.Distinct().Count()];
-
-            var meshData = new MeshData(destinationArray, xs, ys);
+            var meshData = new MapData(measurement.inten, measurement.xloc, measurement.yloc, measurement.dx, measurement.dy);
 
             Commands.Mesh_PlotMap.Execute(meshData);
         }

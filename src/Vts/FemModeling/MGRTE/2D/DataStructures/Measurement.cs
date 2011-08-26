@@ -22,6 +22,8 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
         public double[] xloc;     // x cordinates for mapping
         public double[] yloc;     //y coordinates for mapping
         public double[] inten;     // data
+        public double[] dx;
+        public double[] dy;
         
     }
 }

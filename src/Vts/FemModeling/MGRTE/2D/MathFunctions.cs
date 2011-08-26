@@ -176,7 +176,7 @@ namespace Vts.FemModeling.MGRTE._2D
             }
         }
 
-        public static void SquareTriMeshToGrid(ref SpatialMesh smesh, ref double[] x, ref double[] y, double[] inten, double[][] uxy, int nxy)
+        public static void SquareTriMeshToGrid(ref SpatialMesh smesh, ref double[] x, ref double[] y, ref double[][] uxy, double[] inten, int nxy)
         {
             int i, j, k;
             int np, nt;

@@ -172,7 +172,6 @@
     <Compile Include="Extensions\StringExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\MeshData.cs" />
     <Compile Include="Model\MapData.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
