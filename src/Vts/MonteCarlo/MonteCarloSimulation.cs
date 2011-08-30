@@ -356,7 +356,7 @@ namespace Vts.MonteCarlo
             /* fraction of photons completed */
             double frac = 100 * n / num_phot;
 
-            logger.Info(() => header + frac + " percent complete," + "\n");
+            logger.Info(() => header + frac + " percent complete,");
         }
     }
 }
