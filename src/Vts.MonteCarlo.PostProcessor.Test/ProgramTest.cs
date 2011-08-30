@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
             }
         }
         /// <summary>
-        /// test to verify "geninfile" option works successfully"
+        /// test to verify "geninfile" option works successfully
         /// </summary>
         [Test]
         public void validate_generate_infile()
