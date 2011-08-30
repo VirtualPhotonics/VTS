@@ -93,14 +93,13 @@ namespace Vts.MonteCarlo
 
         public SimulationInput()
             : this(
-                1000000,
+                100,
                 "results",
                 new SimulationOptions(
                     SimulationOptions.GetRandomSeed(),
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                //null, // databases written
                     true, // compute Second Moment
                     false, // track statistics
                     0),
@@ -129,7 +128,14 @@ namespace Vts.MonteCarlo
                                 new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
                             },
                             false,
-                            VirtualBoundaryType.DiffuseReflectance.ToString()) // write to database bool
+                            VirtualBoundaryType.DiffuseReflectance.ToString()),
+                        new SurfaceVirtualBoundaryInput(
+                            VirtualBoundaryType.DiffuseTransmittance,
+                            new List<IDetectorInput>
+                            {
+                            },
+                            false,
+                            VirtualBoundaryType.DiffuseTransmittance.ToString())
                     }
                 ) { }
 
