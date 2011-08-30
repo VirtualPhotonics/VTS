@@ -180,7 +180,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Common\Stopwatch.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\SolverMGRTE.cs" >
+    <Compile Include="FemModeling\MGRTE\2D\IO\Source.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\SolverMGRTE.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IO\KnownTypes.cs" />
@@ -263,7 +264,6 @@
     <Compile Include="FemModeling\MGRTE\2D\MultiGridCycle.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\Output.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\Parameters.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\IO\Source.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloLoader.cs">
       <SubType>Code</SubType>
