@@ -19,8 +19,9 @@ namespace Vts.MonteCarlo
     ///</summary>
     
     // todo: Can we do this programmatcially? DataContractResolver? Automatically via convention?
-    
+
     [KnownType(typeof(DirectionalPointSourceInput))]
+    [KnownType(typeof(DirectionalCircularSourceInput))]
     [KnownType(typeof(IsotropicPointSourceInput))]
     [KnownType(typeof(CustomPointSourceInput))]
     [KnownType(typeof(DirectionalLineSourceInput))]
