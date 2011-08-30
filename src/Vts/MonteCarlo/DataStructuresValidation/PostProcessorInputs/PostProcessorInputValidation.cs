@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo
         {
             // check if results folder exists or not
             return new ValidationResult(
-                !Directory.Exists(inputFolder),
+                Directory.Exists(inputFolder),
                 "PostProcessorInput: the input folder does not exist",
                 "check that the input folder name agrees with the folder name on system");            
         }
@@ -57,23 +57,24 @@ namespace Vts.MonteCarlo
             {
                 case VirtualBoundaryType.DiffuseReflectance:
                     return new ValidationResult(
-                        !File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")),
+                        File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")),
                         "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
                         "check that VirtualBoundaryType and database type agree");
                 case VirtualBoundaryType.DiffuseTransmittance:
                     return new ValidationResult(
-                        !File.Exists(Path.Combine(inputFolder, "DiffuseTransmittanceDatabase")),
+                        File.Exists(Path.Combine(inputFolder, "DiffuseTransmittanceDatabase")),
                         "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
                         "check that VirtualBoundaryType and database type agree");
                 case VirtualBoundaryType.SpecularReflectance:
                     return new ValidationResult(
-                        !File.Exists(Path.Combine(inputFolder, "SpecularReflectanceDatabase")),
+                        File.Exists(Path.Combine(inputFolder, "SpecularReflectanceDatabase")),
                         "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
                         "check that VirtualBoundaryType and database type agree");
                 case VirtualBoundaryType.pMCDiffuseReflectance: //pMC uses same exit db as regular post-processing
                     return new ValidationResult(
-                          !File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")),
-                          "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
+                          File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")) &&
+                          File.Exists(Path.Combine(inputFolder, "CollisionInfoDatabase")),
+                          "PostProcessorInput:  files DiffuseReflanceDatabase or CollisionInfoDatabase do not exist",
                           "check that VirtualBoundaryType and database type agree");
                 default:
                     return null;

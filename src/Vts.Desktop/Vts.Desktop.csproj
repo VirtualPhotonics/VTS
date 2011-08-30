@@ -581,6 +581,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs">
       <Link>MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInputProvider.cs">
+      <Link>MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInputProvider.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInput.cs">
       <Link>MonteCarlo\DataStructures\SimulationInput.cs</Link>
     </Compile>

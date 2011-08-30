@@ -117,6 +117,9 @@
       <Link>newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\files\SimulationInputFiles\newinfile_pMC_one_layer_ROfRho_DAW.xml">
+      <Link>newinfile_pMC_one_layer_ROfRho_DAW.xml</Link>
+    </Content>
     <Content Include="..\..\files\SimulationInputFiles\newinfile_two_layer_ROfRho.xml">
       <Link>newinfile_two_layer_ROfRho.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

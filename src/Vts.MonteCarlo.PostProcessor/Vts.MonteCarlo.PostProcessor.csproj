@@ -57,8 +57,12 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="infile.xml" />
-    <Content Include="infile_pMC.xml" />
+    <Content Include="..\..\files\PostProcessorInputFiles\newinfile_PostProcessor_pMC_ROfRho.xml">
+      <Link>newinfile_PostProcessor_pMC_ROfRho.xml</Link>
+    </Content>
+    <Content Include="..\..\files\PostProcessorInputFiles\newinfile_PostProcessor_ROfRho.xml">
+      <Link>newinfile_PostProcessor_ROfRho.xml</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

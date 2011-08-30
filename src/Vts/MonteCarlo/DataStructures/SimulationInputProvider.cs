@@ -23,6 +23,7 @@ namespace Vts.MonteCarlo
                 PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector(),
                 PointSourceTwoLayerTissueROfRhoDetector(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
+                pMCPointSourceOneLayerTissueROfRhoDAW()
             };
         }
         #region point source one layer tissue all detectors
@@ -425,6 +426,80 @@ namespace Vts.MonteCarlo
                     new SurfaceVirtualBoundaryInput(
                         VirtualBoundaryType.SpecularReflectance,
                         new List<IDetectorInput>() {},
+                        false,
+                        VirtualBoundaryType.SpecularReflectance.ToString()
+                    ),
+                });
+        }
+        #endregion
+
+        #region pMC point source one layer tissue R(rho) DAW
+        /// <summary>
+        /// Perturbation MC point source, single tissue layer definition, R(rho) included
+        /// </summary>
+        public static SimulationInput pMCPointSourceOneLayerTissueROfRhoDAW()
+        {
+            return new SimulationInput(
+                100,
+                "pMC_one_layer_ROfRho_DAW",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    true, // tally Second Moment
+                    false, // track statistics
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                new MultiLayerTissueInput(
+                    new LayerRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IVirtualBoundaryInput>
+                {
+                    new SurfaceVirtualBoundaryInput(
+                        VirtualBoundaryType.pMCDiffuseReflectance,
+                        new List<IDetectorInput>()
+                        {
+                            new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
+                        },
+                        true, // write to database
+                        VirtualBoundaryType.pMCDiffuseReflectance.ToString()
+                    ),
+                    new SurfaceVirtualBoundaryInput(
+                        VirtualBoundaryType.DiffuseTransmittance,
+                        new List<IDetectorInput>()
+                        {
+                        },
+                        false, // write to database
+                        VirtualBoundaryType.DiffuseTransmittance.ToString()
+                    ),
+                    new GenericVolumeVirtualBoundaryInput(
+                        VirtualBoundaryType.GenericVolumeBoundary,
+                        new List<IDetectorInput>()
+                        {
+                        },
+                        false,
+                        VirtualBoundaryType.GenericVolumeBoundary.ToString()
+                    ),
+                    new SurfaceVirtualBoundaryInput(
+                        VirtualBoundaryType.SpecularReflectance,
+                        new List<IDetectorInput>
+                        { 
+                        },
                         false,
                         VirtualBoundaryType.SpecularReflectance.ToString()
                     ),
