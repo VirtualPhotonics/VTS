@@ -47,6 +47,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
+                new List<DatabaseType>() { }, // databases to be written
                 true,
                 false, // track statistics
                 0);
@@ -54,73 +55,41 @@ namespace Vts.Test.MonteCarlo.Detectors
                      new Position(0.0, 0.0, 0.0),
                      new Direction(0.0, 0.0, 1.0),
                      1); // start inside tissue
-            var detectors = new List<IVirtualBoundaryInput>
+            var detectors = 
+                new List<IDetectorInput>
                 {
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseReflectance,
-                        new List<IDetectorInput>
-                        {
-                            new RDiffuseDetectorInput(),
-                            new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
-                            new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                            new ROfRhoAndAngleDetectorInput(
-                                new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(Math.PI / 2, Math.PI, 2)),
-                            new ROfRhoAndTimeDetectorInput(
-                                new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(0.0, 1.0, 101)),
-                            new ROfXAndYDetectorInput(
-                                new DoubleRange(-200.0, 200.0, 401), // x
-                                new DoubleRange(-200.0, 200.0, 401)), // y,
-                            new ROfRhoAndOmegaDetectorInput(
-                                new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(0.0, 1000.0, 21))
-                        },
-                        false,
-                        VirtualBoundaryType.DiffuseReflectance.ToString()
-                    ), 
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseTransmittance,
-                        new List<IDetectorInput>()
-                        {
-                            new TDiffuseDetectorInput(),
-                            new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                            new TOfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                            new TOfRhoAndAngleDetectorInput(
-                                new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(0.0, Math.PI / 2, 2))
-                        },
-                        false,
-                        VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    ),        
-                    //new SurfaceVirtualBoundaryInput(
-                    //    VirtualBoundaryType.SurfaceRadiance,
-                    //    new List<IDetectorInput>()
-                    //    {
-                    //        new RadianceOfRhoDetectorInput(_dosimetryDepth, new DoubleRange(0.0, 10.0, 101))
-                    //    },
-                    //    false,
-                    //    VirtualBoundaryType.SurfaceRadiance.ToString()
-                    //    ),       
-                    new GenericVolumeVirtualBoundaryInput(
-                        VirtualBoundaryType.GenericVolumeBoundary,
-                        new List<IDetectorInput>()
-                        {
-                            new AOfRhoAndZDetectorInput(
-                                new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(0.0, 10.0, 101)),
-                            new ATotalDetectorInput(),
-                            new FluenceOfRhoAndZDetectorInput(
-                                new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(0.0, 10.0, 101)),
-                            new RadianceOfRhoAndZAndAngleDetectorInput(
-                                new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(0.0, 10.0, 101),
-                                new DoubleRange(-Math.PI / 2, Math.PI / 2, 5))
-                        },
-                        false,
-                        VirtualBoundaryType.GenericVolumeBoundary.ToString()
-                    )
+                    new RDiffuseDetectorInput(),
+                    new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
+                    new ROfRhoAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(Math.PI / 2, Math.PI, 2)),
+                    new ROfRhoAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 1.0, 101)),
+                    new ROfXAndYDetectorInput(
+                        new DoubleRange(-200.0, 200.0, 401), // x
+                        new DoubleRange(-200.0, 200.0, 401)), // y,
+                    new ROfRhoAndOmegaDetectorInput(
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 1000.0, 21)),
+                    new TDiffuseDetectorInput(),
+                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
+                    new TOfRhoAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new AOfRhoAndZDetectorInput(
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101)),
+                    new ATotalDetectorInput(),
+                    new FluenceOfRhoAndZDetectorInput(
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101)),
+                    new RadianceOfRhoAndZAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(-Math.PI / 2, Math.PI / 2, 5))
                 };
             _inputOneRegionTissue = new SimulationInput(
                 100,
@@ -292,9 +261,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_sphere_RadianceOfRhoAndZAndAngle()
         {
             // undo angle bin normalization
-            var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_inputOneRegionTissue.VirtualBoundaryInputs.
-                Where(g => g.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).First().
-                DetectorInputs.Where(d => d.TallyType == TallyType.RadianceOfRhoAndZAndAngle).First()).Angle;
+            var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_inputOneRegionTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.RadianceOfRhoAndZAndAngle).First()).Angle;
             var norm = 2 * Math.PI * angle.Delta;
             var integral = 0.0;
             for (int ia = 0; ia < angle.Count - 1; ia++)

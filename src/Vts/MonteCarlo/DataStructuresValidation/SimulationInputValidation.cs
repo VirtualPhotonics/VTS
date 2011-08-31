@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo
                     si => ValidateN(si.N),
                     si => ValidateSourceInput(si.SourceInput, si.TissueInput),
                     si => ValidateTissueInput(si.TissueInput),
-                    si => ValidateVirtualBoundaryInput(si.VirtualBoundaryInputs),
+                    //si => ValidateDetectorInput(si.DetectorInputs),
                     si => ValidateCombinedInputParameters(si),
                     si => ValidateCurrentIncapabilities(si)
                 };
@@ -42,47 +42,6 @@ namespace Vts.MonteCarlo
             
             return new ValidationResult( true, "Simulation input is valid");
 
-            //ValidationResult tempResult;
-
-            //tempResult = ValidateN(input.N);
-            //if (!tempResult.IsValid)
-            //{
-            //    return tempResult;
-            //}
-
-            //tempResult = ValidateSourceInput(input.SourceInput, input.TissueInput);
-            //if (!tempResult.IsValid)
-            //{
-            //    return tempResult;
-            //}
-            
-            //tempResult = ValidateTissueInput(input.TissueInput);
-            //if (!tempResult.IsValid)
-            //{
-            //    return tempResult;
-            //}
-
-            //tempResult = ValidateVirtualBoundaryInput(input.VirtualBoundaryInputs);
-            //if (!tempResult.IsValid)
-            //{
-            //    return tempResult;
-            //}
-
-            //tempResult = ValidateCombinedInputParameters(input);
-            //if (!tempResult.IsValid)
-            //{
-            //    return tempResult;
-            //}
-
-            //tempResult = ValidateCurrentIncapabilities(input);
-            //if (!tempResult.IsValid)
-            //{
-            //    return tempResult;
-            //}
-
-            //return new ValidationResult(
-            //    true,
-            //    "Simulation input must be valid");
         }
 
         private static ValidationResult ValidateN(long N)
@@ -128,68 +87,68 @@ namespace Vts.MonteCarlo
                 "Validation skipped for tissue input " + tissueInput + ". No matching validation rules were found.");
         }
 
-        private static ValidationResult ValidateVirtualBoundaryInput(IList<IVirtualBoundaryInput> virtualBoundaryInputs)
-        {
-            bool hasDiffuseReflectanceVB = false;
-            bool hasDiffuseTransmittanceVB = false;
-            ValidationResult tempResult = null;
+        //private static ValidationResult ValidateVirtualBoundaryInput(IList<IVirtualBoundaryInput> virtualBoundaryInputs)
+        //{
+        //    bool hasDiffuseReflectanceVB = false;
+        //    bool hasDiffuseTransmittanceVB = false;
+        //    ValidationResult tempResult = null;
 
-            if (virtualBoundaryInputs == null)
-            {
-                return new ValidationResult(
-                    false,
-                    "No Virtual Boundaries specified",
-                    "Need to specify Virtual Boundaries in order to define detectors");
-            }
-            foreach (var virtualBoundaryInput in virtualBoundaryInputs)
-            {
-                switch (virtualBoundaryInput.VirtualBoundaryType)
-                {
-                    case VirtualBoundaryType.DiffuseReflectance:
-                        hasDiffuseReflectanceVB = true;
-                        tempResult = SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
-                        break;
-                    case VirtualBoundaryType.DiffuseTransmittance:
-                        hasDiffuseTransmittanceVB = true;
-                        tempResult = SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
-                        break;
-                    case VirtualBoundaryType.GenericVolumeBoundary:
-                        tempResult = GenericVolumeVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
-                        break;
-                    case VirtualBoundaryType.pMCDiffuseReflectance:
-                        hasDiffuseReflectanceVB = true;
-                        tempResult = pMCSurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
-                        break;
-                    case VirtualBoundaryType.SpecularReflectance:
-                        tempResult = SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
-                        break;
-                    case VirtualBoundaryType.SurfaceRadiance:
-                        tempResult = SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
-                        break;
-                    default:
-                        return new ValidationResult(
-                            false,
-                            "VirtualBoundaryInput VirtualBoundaryType in error",
-                            "Verify VirtualBoundaryType is valid");
+        //    if (virtualBoundaryInputs == null)
+        //    {
+        //        return new ValidationResult(
+        //            false,
+        //            "No Virtual Boundaries specified",
+        //            "Need to specify Virtual Boundaries in order to define detectors");
+        //    }
+        //    foreach (var virtualBoundaryInput in virtualBoundaryInputs)
+        //    {
+        //        switch (virtualBoundaryInput.VirtualBoundaryType)
+        //        {
+        //            case VirtualBoundaryType.DiffuseReflectance:
+        //                hasDiffuseReflectanceVB = true;
+        //                tempResult = SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
+        //                break;
+        //            case VirtualBoundaryType.DiffuseTransmittance:
+        //                hasDiffuseTransmittanceVB = true;
+        //                tempResult = SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
+        //                break;
+        //            case VirtualBoundaryType.GenericVolumeBoundary:
+        //                tempResult = GenericVolumeVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
+        //                break;
+        //            case VirtualBoundaryType.pMCDiffuseReflectance:
+        //                hasDiffuseReflectanceVB = true;
+        //                tempResult = pMCSurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
+        //                break;
+        //            case VirtualBoundaryType.SpecularReflectance:
+        //                tempResult = SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
+        //                break;
+        //            case VirtualBoundaryType.SurfaceRadiance:
+        //                tempResult = SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
+        //                break;
+        //            default:
+        //                return new ValidationResult(
+        //                    false,
+        //                    "VirtualBoundaryInput VirtualBoundaryType in error",
+        //                    "Verify VirtualBoundaryType is valid");
 
-                }
-                if (!tempResult.IsValid)
-                {
-                    return tempResult;
-                }
-            }
-            if (!hasDiffuseReflectanceVB || !hasDiffuseTransmittanceVB)
-            {
-                return new ValidationResult(
-                    false,
-                    "DiffuseReflectance and DiffuseTransmittance VirtualBoundaryInput are required (can have null list of detectors)",
-                    "Add SurfaceVirtualBoundary for both VirtualBoundaryType.DiffuseReflectance and .DiffuseTransmittance");
-            }
-            return new ValidationResult(
-                true,
-                "Virtual Boundary input must be valid",
-                "");
-        }
+        //        }
+        //        if (!tempResult.IsValid)
+        //        {
+        //            return tempResult;
+        //        }
+        //    }
+        //    if (!hasDiffuseReflectanceVB || !hasDiffuseTransmittanceVB)
+        //    {
+        //        return new ValidationResult(
+        //            false,
+        //            "DiffuseReflectance and DiffuseTransmittance VirtualBoundaryInput are required (can have null list of detectors)",
+        //            "Add SurfaceVirtualBoundary for both VirtualBoundaryType.DiffuseReflectance and .DiffuseTransmittance");
+        //    }
+        //    return new ValidationResult(
+        //        true,
+        //        "Virtual Boundary input must be valid",
+        //        "");
+        //}
         /// <summary>
         /// This method checks the input against combined combinations of options
         /// and source, tissue, detector definitions.   
@@ -202,20 +161,18 @@ namespace Vts.MonteCarlo
             // that ellipsoid is centered at x=0, y=0
             if (input.TissueInput is SingleEllipsoidTissueInput)
             {
-                foreach (var vbInput in input.VirtualBoundaryInputs)
+                foreach (var detectorInput in input.DetectorInputs)
                 {
-                    foreach (var detectorInput in vbInput.DetectorInputs)
-	                {
-                        var ellipsoid = (EllipsoidRegion)((SingleEllipsoidTissueInput)input.TissueInput).
-                            EllipsoidRegion;
-                        if (detectorInput.TallyType.IsCylindricalTally() &&
-                            (ellipsoid.Center.X != 0.0) && (ellipsoid.Center.Y != 0.0))
-                            return new ValidationResult(
-                                false,
-                                "Ellipsoid must be centered at (x,y)=(0,0) for cylindrical tallies",
-                                "Change ellipsoid center to (0,0) or specify non-cylindrical type tally");                                
-	                }
-                }                
+                    var ellipsoid = (EllipsoidRegion)((SingleEllipsoidTissueInput)input.TissueInput).
+                        EllipsoidRegion;
+                    if (detectorInput.TallyType.IsCylindricalTally() &&
+                        (ellipsoid.Center.X != 0.0) && (ellipsoid.Center.Y != 0.0))
+                        return new ValidationResult(
+                            false,
+                            "Ellipsoid must be centered at (x,y)=(0,0) for cylindrical tallies",
+                            "Change ellipsoid center to (0,0) or specify non-cylindrical type tally");
+                }
+
             }
             return new ValidationResult(
                 true,
@@ -232,19 +189,17 @@ namespace Vts.MonteCarlo
         {
             if (input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Continuous)
             {
-                foreach (var vbInput in input.VirtualBoundaryInputs)
+                foreach (var detectorInput in input.DetectorInputs)
                 {
-                    foreach (var detectorInput in vbInput.DetectorInputs)
+                    if (detectorInput.TallyType.IsNotImplementedForCAW())
                     {
-                        if (detectorInput.TallyType.IsNotImplementedForCAW())
-                        {
-                            return new ValidationResult(
-                                false,
-                                "The use of Continuous Absorption Weighting with cylindrical volume detectors not implemented yet",
-                                "Modify AbsorptionWeightingType to Discrete");
-                        }
+                        return new ValidationResult(
+                            false,
+                            "The use of Continuous Absorption Weighting with cylindrical volume detectors not implemented yet",
+                            "Modify AbsorptionWeightingType to Discrete");
                     }
                 }
+
             }
             return new ValidationResult(
                 true,

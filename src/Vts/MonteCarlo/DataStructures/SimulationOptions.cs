@@ -16,6 +16,7 @@ namespace Vts.MonteCarlo
             RandomNumberGeneratorType rngType, 
             AbsorptionWeightingType absWeightingType,
             PhaseFunctionType phaseFunctionType,
+            IList<DatabaseType> writeDatabases,
             bool tallySecondMoment,
             bool trackStatistics,
             int simulationIndex)
@@ -23,6 +24,7 @@ namespace Vts.MonteCarlo
             RandomNumberGeneratorType = rngType;
             AbsorptionWeightingType = absWeightingType;
             PhaseFunctionType = phaseFunctionType;
+            WriteDatabases = writeDatabases;
             Seed = seed;
             if (Seed == -1)
             {
@@ -40,7 +42,8 @@ namespace Vts.MonteCarlo
             : this(seed, 
                 rngType, 
                 absWeightingType, 
-                PhaseFunctionType.HenyeyGreenstein, 
+                PhaseFunctionType.HenyeyGreenstein,
+                new List<DatabaseType>() { }, // databases to be written
                 true, // tally 2nd moment
                 false, // track statistics
                 0) { }
@@ -49,7 +52,8 @@ namespace Vts.MonteCarlo
             : this(seed, 
                 RandomNumberGeneratorType.MersenneTwister,  
                 AbsorptionWeightingType.Discrete, 
-                PhaseFunctionType.HenyeyGreenstein, 
+                PhaseFunctionType.HenyeyGreenstein,
+                null,
                 true,
                 false,
                 0) { }
@@ -58,7 +62,8 @@ namespace Vts.MonteCarlo
             : this(GetRandomSeed(), 
                 RandomNumberGeneratorType.MersenneTwister, 
                 AbsorptionWeightingType.Discrete, 
-                PhaseFunctionType.HenyeyGreenstein, 
+                PhaseFunctionType.HenyeyGreenstein,
+                null,
                 true,
                 false,
                 0) { }
@@ -70,6 +75,8 @@ namespace Vts.MonteCarlo
         public bool TrackStatistics { get; set; }
         public int Seed { get; set; }
         public int SimulationIndex { get; set; }
+        public IList<DatabaseType> WriteDatabases { get; set; }  // modified ckh 4/12/11
+
 
 
         public static int GetRandomSeed()  // ckh 12/15/09 made this public so Photon can see

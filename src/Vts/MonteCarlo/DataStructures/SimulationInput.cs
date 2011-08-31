@@ -31,10 +31,6 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(SingleEllipsoidTissueInput))]
     
     // Detector inputs
-    [KnownType(typeof(SurfaceVirtualBoundaryInput))]
-    [KnownType(typeof(GenericVolumeVirtualBoundaryInput))]
-    [KnownType(typeof(pMCSurfaceVirtualBoundaryInput))]
-
     [KnownType(typeof(RDiffuseDetectorInput))]
     [KnownType(typeof(ROfAngleDetectorInput))]
     [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
@@ -68,8 +64,7 @@ namespace Vts.MonteCarlo
         public SimulationOptions Options;
         public ISourceInput SourceInput;
         public ITissueInput TissueInput;
-        //public IList<IDetectorInput> DetectorInputs;
-        public IList<IVirtualBoundaryInput> VirtualBoundaryInputs;
+        public IList<IDetectorInput> DetectorInputs;
 
         /// <summary>
         /// Default constructor loads default values for InputData
@@ -80,16 +75,14 @@ namespace Vts.MonteCarlo
             SimulationOptions simulationOptions,
             ISourceInput sourceInput,
             ITissueInput tissueInput,  
-            //IList<IDetectorInput> detectorInputs)
-            IList<IVirtualBoundaryInput> virtualBoundaryInputs)
+            IList<IDetectorInput> detectorInputs)
         {
             N = numberOfPhotons;
             OutputName = outputName;
             Options = simulationOptions;
             SourceInput = sourceInput;
             TissueInput = tissueInput;
-            //DetectorInputs = detectorInputs;
-            VirtualBoundaryInputs = virtualBoundaryInputs;
+            DetectorInputs = detectorInputs;
         }
 
         public SimulationInput()
@@ -101,6 +94,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { },
                     true, // compute Second Moment
                     false, // track statistics
                     0),
@@ -120,24 +114,10 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }),
 
-                new List<IVirtualBoundaryInput>
-                    {
-                        new SurfaceVirtualBoundaryInput(
-                            VirtualBoundaryType.DiffuseReflectance,
-                            new List<IDetectorInput>
-                            {
-                                new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
-                            },
-                            false,
-                            VirtualBoundaryType.DiffuseReflectance.ToString()),
-                        new SurfaceVirtualBoundaryInput(
-                            VirtualBoundaryType.DiffuseTransmittance,
-                            new List<IDetectorInput>
-                            {
-                            },
-                            false,
-                            VirtualBoundaryType.DiffuseTransmittance.ToString())
-                    }
+                new List<IDetectorInput>
+                {
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+                }
                 ) { }
 
         public static SimulationInput FromFile(string filename)

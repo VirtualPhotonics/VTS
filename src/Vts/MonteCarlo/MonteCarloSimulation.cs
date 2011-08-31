@@ -66,18 +66,50 @@ namespace Vts.MonteCarlo
 
             // instantiate vb (and associated detectors) for each vb group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
-            foreach (var vbg in input.VirtualBoundaryInputs)
+            
+            foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
             {
-                var detectors = DetectorFactory.GetDetectors(vbg.DetectorInputs, _tissue, input.Options.TallySecondMoment);
-                var detectorController = DetectorControllerFactory.GetDetectorController(vbg.VirtualBoundaryType, detectors);
-                var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbg.VirtualBoundaryType, _tissue, detectorController);
-                _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
+                IEnumerable<IDetectorInput> detectorInputs = null;
+
+                switch (vbType)
+                {
+                    case VirtualBoundaryType.DiffuseReflectance:
+                    default:
+                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IsReflectanceTally()).ToList();
+                        break;
+                    case VirtualBoundaryType.DiffuseTransmittance:
+                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IsTransmittanceTally()).ToList();
+                        break;
+                    case VirtualBoundaryType.SpecularReflectance:
+                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IsSpecularReflectanceTally()).ToList();
+                        break;
+                    case VirtualBoundaryType.GenericVolumeBoundary:
+                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IsVolumeTally()).ToList();
+                        break;
+                    case VirtualBoundaryType.SurfaceRadiance:
+                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IsInternalSurfaceTally()).ToList();
+                        break;
+                    case VirtualBoundaryType.pMCDiffuseReflectance:
+                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IspMCTally()).ToList();
+                        break;
+                }
+
+                // make sure VB Controller has at least diffuse reflectance and diffuse transmittance
+                // may change this in future if tissue OnDomainBoundary changes
+                if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) || (vbType == VirtualBoundaryType.DiffuseTransmittance))
+                {
+                    var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, input.Options.TallySecondMoment);
+                    var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors);
+                    var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbType, _tissue, detectorController);
+                    _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
+                }
             }
+
             // needed?
             //_detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
 
             // set doPMC flag
-            if (_input.VirtualBoundaryInputs.Any(v => v.VirtualBoundaryType.IspMCVirtualBoundary()))
+            if (_virtualBoundaryController.VirtualBoundaries.Any(v => v.VirtualBoundaryType.IspMCVirtualBoundary()))
             {
                 doPMC = true;
             }
@@ -160,32 +192,9 @@ namespace Vts.MonteCarlo
 
             try
             {
-                if (!doPMC)
+                if (_input.Options.WriteDatabases.Count() > 0)
                 {
-                    _databaseWriterController = new DatabaseWriterController(
-                        DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                            _input.VirtualBoundaryInputs
-                            .Where(v => v.WriteToDatabase == true)
-                            .Select(v => v.VirtualBoundaryType).ToList(),
-                            _outputPath,
-                            _input.OutputName));
-                }
-                else
-                {
-                    _pMCDatabaseWriterController = new pMCDatabaseWriterController(
-                        DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                            _input.VirtualBoundaryInputs
-                                .Where(v => v.WriteToDatabase == true)
-                                .Select(v => v.VirtualBoundaryType).ToList(),
-                                _outputPath,
-                                _input.OutputName),
-                        DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
-                            _input.VirtualBoundaryInputs
-                                .Where(v => v.WriteToDatabase == true)
-                                .Select(v => v.VirtualBoundaryType).ToList(),
-                                _tissue,
-                                _outputPath,
-                                _input.OutputName));
+                    InitialDatabases(doPMC);
                 }
 
                 for (long n = 1; n <= _numberOfPhotons; n++)
@@ -246,14 +255,11 @@ namespace Vts.MonteCarlo
 
                     //_detectorController.TerminationTally(photon.DP);
 
-                    if (!doPMC)
+                    if (_input.Options.WriteDatabases.Count() > 0)
                     {
-                        _databaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
+                        WriteToDatabases(doPMC, photon);
                     }
-                    else
-                    {
-                        _pMCDatabaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP, photon.History.SubRegionInfoList);
-                    }
+
                     // note History has possibly 2 more DPs than linux code due to 
                     // final crossing of PseudoReflectedTissueBoundary and then
                     // PseudoDiffuseReflectanceVB
@@ -273,13 +279,9 @@ namespace Vts.MonteCarlo
             }
             finally
             {
-                if (!doPMC)
+                if (_input.Options.WriteDatabases.Count() > 0)
                 {
-                    _databaseWriterController.Dispose();
-                }
-                else
-                {
-                    _pMCDatabaseWriterController.Dispose();
+                    CloseDatabases(doPMC);
                 }
             }
 
@@ -301,6 +303,67 @@ namespace Vts.MonteCarlo
 
             logger.Info(() => "Monte Carlo simulation complete (N = " + _numberOfPhotons + " photons; simulation time = "
                 + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
+        }
+
+        private void CloseDatabases(bool doPMC)
+        {
+            if (!doPMC)
+            {
+                _databaseWriterController.Dispose();
+            }
+            else
+            {
+                _pMCDatabaseWriterController.Dispose();
+            }
+        }
+
+        private void WriteToDatabases(bool doPMC, Photon photon)
+        {
+            if (!doPMC)
+            {
+                _databaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
+            }
+            else
+            {
+                _pMCDatabaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP, photon.History.SubRegionInfoList);
+            }
+        }
+
+        private void InitialDatabases(bool doPMC)
+        {
+            if (!doPMC)
+            {
+                _databaseWriterController = new DatabaseWriterController(
+                    DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
+                        _input.Options.WriteDatabases,
+                     //   _virtualBoundaryController.VirtualBoundaries.Select(v => v.VirtualBoundaryType).ToList(),
+                    //_input.VirtualBoundaryInputs
+                    //.Where(v => v.WriteToDatabase == true)
+                    //.Select(v => v.VirtualBoundaryType).ToList(),
+                        _outputPath,
+                        _input.OutputName));
+            }
+            else
+            {
+                _pMCDatabaseWriterController = new pMCDatabaseWriterController(
+                    DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
+                    _input.Options.WriteDatabases,
+                     //   _virtualBoundaryController.VirtualBoundaries.Select(v => v.VirtualBoundaryType).ToList(),
+                    //_input.VirtualBoundaryInputs
+                    //    .Where(v => v.WriteToDatabase == true)
+                    //    .Select(v => v.VirtualBoundaryType).ToList(),
+                            _outputPath,
+                            _input.OutputName),
+                    DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
+                    _input.Options.WriteDatabases,
+                     //   _virtualBoundaryController.VirtualBoundaries.Select(v => v.VirtualBoundaryType).ToList(),
+                    //_input.VirtualBoundaryInputs
+                    //    .Where(v => v.WriteToDatabase == true)
+                    //    .Select(v => v.VirtualBoundaryType).ToList(),
+                            _tissue,
+                            _outputPath,
+                            _input.OutputName));
+            }
         }
 
         private BoundaryHitType Move(Photon photon, out IVirtualBoundary closestVirtualBoundary)

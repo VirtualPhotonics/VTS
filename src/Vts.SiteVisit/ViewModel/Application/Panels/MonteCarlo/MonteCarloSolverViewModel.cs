@@ -49,9 +49,7 @@ namespace Vts.SiteVisit.ViewModel
 
             _simulationInputVM = new SimulationInputViewModel(simulationInput);
 
-            var rho = ((ROfRhoDetectorInput)simulationInput.VirtualBoundaryInputs.
-                Where(g => g.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance).First().
-                DetectorInputs.Where(d => d.TallyType == TallyType.ROfRho).First()).Rho;
+            var rho = ((ROfRhoDetectorInput)simulationInput.DetectorInputs.Where(d => d.TallyType == TallyType.ROfRho).First()).Rho;
 
             ExecuteMonteCarloSolverCommand = new RelayCommand(() => MC_ExecuteMonteCarloSolver_Executed(null, null));
             CancelMonteCarloSolverCommand = new RelayCommand(() => MC_CancelMonteCarloSolver_Executed(null, null));
@@ -169,10 +167,8 @@ namespace Vts.SiteVisit.ViewModel
                     _output = antecedent.Result;
                     _newResultsAvailable = _simulation.ResultsAvailable;
 
-                    var rOfRhoDetectorInputs = _simulationInputVM.SimulationInput.VirtualBoundaryInputs
-                        .Where(vb => vb.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance)
-                        .SelectMany(vb => vb.DetectorInputs)
-                        .Where(di => di.Name == "ROfRho");
+                    var rOfRhoDetectorInputs = _simulationInputVM.SimulationInput.DetectorInputs.
+                        Where(di => di.Name == "ROfRho");
 
                     if (rOfRhoDetectorInputs.Any())
                     {
@@ -211,10 +207,8 @@ namespace Vts.SiteVisit.ViewModel
                         logger.Info(() => "done.\r");
                     }
 
-                    var fluenceDetectorInputs = _simulationInputVM.SimulationInput.VirtualBoundaryInputs
-                        .Where(vb => vb.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary)
-                        .SelectMany(vb => vb.DetectorInputs)
-                        .Where(di => di.Name == "FluenceOfRhoAndZ");
+                    var fluenceDetectorInputs = _simulationInputVM.SimulationInput.DetectorInputs.
+                        Where(di => di.Name == "FluenceOfRhoAndZ");
 
                     if (fluenceDetectorInputs.Any())
                     {

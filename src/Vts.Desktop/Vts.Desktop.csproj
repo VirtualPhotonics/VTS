@@ -506,15 +506,6 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\ValidationResult.cs">
       <Link>MonteCarlo\DataStructuresValidation\ValidationResult.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInputValidation.cs">
-      <Link>MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInputValidation.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInputValidation.cs">
-      <Link>MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInputValidation.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\SurfaceVirtualBoundaryInputValidation.cs">
-      <Link>MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\SurfaceVirtualBoundaryInputValidation.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs</Link>
     </Compile>
@@ -664,15 +655,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInput.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInput.cs">
-      <Link>MonteCarlo\DataStructures\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInput.cs">
-      <Link>MonteCarlo\DataStructures\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\VirtualBoundaryInputs\SurfaceVirtualBoundaryInput.cs">
-      <Link>MonteCarlo\DataStructures\VirtualBoundaryInputs\SurfaceVirtualBoundaryInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\AOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\AOfRhoAndZDetector.cs</Link>
@@ -862,9 +844,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IVirtualBoundary.cs">
       <Link>MonteCarlo\Interfaces\IVirtualBoundary.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IVirtualBoundaryInput.cs">
-      <Link>MonteCarlo\Interfaces\IVirtualBoundaryInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IVolumeDetector.cs">
       <Link>MonteCarlo\Interfaces\IVolumeDetector.cs</Link>

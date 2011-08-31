@@ -188,9 +188,6 @@
     <Compile Include="MonteCarlo\Controllers\VolumeDetectorController.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs" />
-    <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInputValidation.cs" />
-    <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInputValidation.cs" />
-    <Compile Include="MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\SurfaceVirtualBoundaryInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoAndZAndAngleDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs" />
@@ -202,9 +199,6 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\DirectionalLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\IsotropicLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\VirtualBoundaryInputs\SurfaceVirtualBoundaryInput.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RSpecularDetector.cs" />
@@ -215,7 +209,6 @@
     <Compile Include="MonteCarlo\Interfaces\IpMCSurfaceDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVolumeDetectorController.cs" />
-    <Compile Include="MonteCarlo\Interfaces\IVirtualBoundaryInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\Extensions\PhotonDataExtensionMethods.cs" />
     <Compile Include="MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs" />
@@ -515,21 +508,24 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.xml" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml" />
-    <Content Include="..\..\files\SimulationInputFiles\newinfile_ellip_FluenceOfRhoAndZ.xml">
+    <Resource Include="..\..\files\SimulationInputFiles\newinfile_ellip_FluenceOfRhoAndZ.xml">
       <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_ellip_FluenceOfRhoAndZ.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_all_detectors.xml">
+    </Resource>
+    <Resource Include="..\..\files\SimulationInputFiles\newinfile_one_layer_all_detectors.xml">
       <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_one_layer_all_detectors.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.xml">
+    </Resource>
+    <Resource Include="..\..\files\SimulationInputFiles\newinfile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.xml">
       <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml">
+    </Resource>
+    <Resource Include="..\..\files\SimulationInputFiles\newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml">
       <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\newinfile_two_layer_ROfRho.xml">
+    </Resource>
+    <Resource Include="..\..\files\SimulationInputFiles\newinfile_pMC_one_layer_ROfRho_DAW.xml">
+      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_pMC_one_layer_ROfRho_DAW.xml</Link>
+    </Resource>
+    <Resource Include="..\..\files\SimulationInputFiles\newinfile_two_layer_ROfRho.xml">
       <Link>MonteCarlo\Resources\DataStructures\SimulationInput\newinfile_two_layer_ROfRho.xml</Link>
-    </Content>
+    </Resource>
     <Content Include="Modeling\Spectroscopy\ChromophoreList.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -572,7 +568,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MonteCarlo\DataStructuresValidation\DetectorInputs\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

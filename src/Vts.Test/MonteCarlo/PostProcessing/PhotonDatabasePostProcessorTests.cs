@@ -66,7 +66,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    //new List<DatabaseType>() { DatabaseType.PhotonExitDataPoints },
+                    new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
                     true, // compute Second Moment
                     false, // track statistics
                     1),
@@ -88,21 +88,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryInput> 
-                {
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseReflectance,
-                        _detectorInputs,
-                        true,
-                        VirtualBoundaryType.DiffuseReflectance.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseTransmittance,
-                        new List<IDetectorInput>(){},
-                        false,
-                        VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    )
-                }
+                 _detectorInputs
             );
         }
         

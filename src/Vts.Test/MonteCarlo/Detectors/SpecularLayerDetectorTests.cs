@@ -35,6 +35,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Analog,
                      PhaseFunctionType.HenyeyGreenstein,
+                     new List<DatabaseType>() { }, // databases to be written
                      true, // tally SecondMoment
                      false, // track statistics
                      0),
@@ -57,29 +58,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                  ),
-                 new List<IVirtualBoundaryInput>
+                new List<IDetectorInput>
                 {
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.SpecularReflectance,
-                        new List<IDetectorInput>
-                        {
-                            new RSpecularDetectorInput(), 
-                        },
-                        false,
-                        VirtualBoundaryType.SpecularReflectance.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseReflectance,
-                        new List<IDetectorInput>(){},
-                        false,
-                        VirtualBoundaryType.DiffuseReflectance.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseTransmittance,
-                        new List<IDetectorInput>(){},
-                        false,
-                        VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    )
+                    new RSpecularDetectorInput(), 
                 }
             );
                    

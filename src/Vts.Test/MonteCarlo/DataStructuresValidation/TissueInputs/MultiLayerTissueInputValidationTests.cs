@@ -36,20 +36,8 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryInput>
-                    {
-                        new SurfaceVirtualBoundaryInput(
-                            VirtualBoundaryType.DiffuseReflectance,
-                            new List<IDetectorInput>(){ },
-                            false,
-                            VirtualBoundaryType.DiffuseReflectance.ToString()),
-                        new SurfaceVirtualBoundaryInput(
-                            VirtualBoundaryType.DiffuseTransmittance,
-                            new List<IDetectorInput>(){},
-                            false,
-                            VirtualBoundaryType.DiffuseTransmittance.ToString())
-                    }
-                );
+                new List<IDetectorInput>(){ }
+            );
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
@@ -78,20 +66,8 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryInput>
-                    {
-                        new SurfaceVirtualBoundaryInput(
-                            VirtualBoundaryType.DiffuseReflectance,
-                            new List<IDetectorInput>(){ },
-                            false,
-                            VirtualBoundaryType.DiffuseReflectance.ToString()),
-                        new SurfaceVirtualBoundaryInput(
-                            VirtualBoundaryType.DiffuseTransmittance,
-                            new List<IDetectorInput>(){},
-                            false,
-                            VirtualBoundaryType.DiffuseTransmittance.ToString())
-                    }
-                );
+                new List<IDetectorInput>(){ }
+            );
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }

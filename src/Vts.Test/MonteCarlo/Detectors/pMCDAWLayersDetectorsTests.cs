@@ -143,6 +143,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
+                new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance },
                 true, // tally 2nd moment
                 false, // track statistics
                 0);
@@ -150,26 +151,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
                     1);
-            var detectorInputs = new List<IVirtualBoundaryInput>
+            var detectorInputs = new List<IDetectorInput>()
             {
-                new SurfaceVirtualBoundaryInput(
-                    VirtualBoundaryType.pMCDiffuseReflectance,
-                    new List<IDetectorInput>()
-                    {
-                        new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                        new ROfRhoAndTimeDetectorInput(
-                            new DoubleRange(0.0, 10.0, 101),
-                            new DoubleRange(0.0, 1.0, 101)),
-                    },
-                    true,
-                    VirtualBoundaryType.pMCDiffuseReflectance.ToString()
-                ),
-                new SurfaceVirtualBoundaryInput(
-                    VirtualBoundaryType.DiffuseTransmittance,
-                    new List<IDetectorInput>(){},
-                    false,
-                    VirtualBoundaryType.DiffuseTransmittance.ToString()
-                )
+                new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
+                new ROfRhoAndTimeDetectorInput(
+                    new DoubleRange(0.0, 10.0, 101),
+                    new DoubleRange(0.0, 1.0, 101)),
             };
             _referenceInputOneLayerTissue = new SimulationInput(
                 100,

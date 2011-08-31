@@ -1,12 +1,10 @@
 using System;
-using System.Numerics;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Vts;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.BidirectionalScattering
@@ -36,13 +34,13 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
         {
             _input = new SimulationInput(
                 10000, // number needed to get enough photons to Td 
-                "Output",
+                "",
                 new SimulationOptions(
                     0, 
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Analog, 
                     PhaseFunctionType.Bidirectional,
-                    //null, // databases to be written
+                    new List<DatabaseType>() { }, // databases to be written
                     true, // tally 2nd moment
                     true, // track statistics
                     0),
@@ -65,23 +63,11 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryInput>() 
-                {
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseReflectance,
-                        new List<IDetectorInput>() { new RDiffuseDetectorInput() }, 
-                        false,
-                        VirtualBoundaryType.DiffuseReflectance.ToString()),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseTransmittance,
-                        new List<IDetectorInput>() { new TDiffuseDetectorInput() }, 
-                        false,
-                        VirtualBoundaryType.DiffuseTransmittance.ToString()),
-                    new GenericVolumeVirtualBoundaryInput(
-                        VirtualBoundaryType.GenericVolumeBoundary,
-                        new List<IDetectorInput>() { new ATotalDetectorInput() }, 
-                        false,
-                        VirtualBoundaryType.GenericVolumeBoundary.ToString())
+                new List<IDetectorInput>() 
+                { 
+                    new RDiffuseDetectorInput(),
+                    new ATotalDetectorInput(),
+                    new TDiffuseDetectorInput()
                 }
             );
             _output = new MonteCarloSimulation(_input).Run();
