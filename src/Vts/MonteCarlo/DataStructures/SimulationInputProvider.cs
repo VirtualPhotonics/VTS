@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    null,
+                    new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
                     0),

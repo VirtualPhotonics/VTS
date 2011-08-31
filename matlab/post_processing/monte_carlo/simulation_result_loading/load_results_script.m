@@ -38,8 +38,8 @@ for mci = 1:length(datanames)
     if isfield(results, 'ROfRho') && show.ROfRho
         figname = 'log(R(\rho))'; figure; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) [mm^-^2]');
         if (results.ROfRho.Error > 0)
-            figname = 'Relative Error'; hold on; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean + results.ROfRho.Error)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('Relative Error');
-            figname = 'Relative Error'; hold on; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean - results.ROfRho.Error)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('Relative Error');
+            figname = 'R(\rho) +/- 1\sigma'; hold on; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean + results.ROfRho.Error)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) +/- 1\sigma');
+            hold on; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean - results.ROfRho.Error)); 
         end
         disp(['Total reflectance captured by ROfRho detector: ' num2str(sum(results.ROfRho.Mean(:)))]);
     end
