@@ -109,7 +109,7 @@ namespace Vts.MonteCarlo
             //_detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
 
             // set doPMC flag
-            if (_virtualBoundaryController.VirtualBoundaries.Any(v => v.VirtualBoundaryType.IspMCVirtualBoundary()))
+            if (input.Options.WriteDatabases.Any(d => d.IspMCDatabase()))
             {
                 doPMC = true;
             }

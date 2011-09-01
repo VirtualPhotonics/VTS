@@ -204,6 +204,7 @@
     <Compile Include="MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RSpecularDetector.cs" />
+    <Compile Include="MonteCarlo\Extensions\DatabaseExtensionMethods.cs" />
     <Compile Include="MonteCarlo\Extensions\ITissueRegionExtensions.cs" />
     <Compile Include="MonteCarlo\Factories\DatabaseWriterFactory.cs" />
     <Compile Include="MonteCarlo\Factories\PhotonDatabaseFactory.cs" />

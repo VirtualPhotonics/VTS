@@ -728,6 +728,9 @@
     <Compile Include="..\Vts\MonteCarlo\Enums.cs">
       <Link>MonteCarlo\Enums.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Extensions\DatabaseExtensionMethods.cs">
+      <Link>MonteCarlo\Extensions\DatabaseExtensionMethods.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Extensions\DetectorExtensionMethods.cs">
       <Link>MonteCarlo\Extensions\DetectorExtensionMethods.cs</Link>
     </Compile>
