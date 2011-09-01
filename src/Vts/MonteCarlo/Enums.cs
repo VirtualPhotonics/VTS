@@ -405,6 +405,14 @@ namespace Vts.MonteCarlo
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
         /// </summary>
         pMCROfRho,
+        /// <summary>
+        /// differential Monte Carlo (dMC) d(reflectance)/dMua as a function of source-detector separation (rho)
+        /// </summary>
+        dMCdROfRhodMua,
+        /// <summary>
+        /// differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho) 
+        /// </summary>
+        dMCdROfRhodMus,
     }
 
 }

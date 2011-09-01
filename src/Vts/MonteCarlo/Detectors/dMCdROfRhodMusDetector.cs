@@ -10,11 +10,11 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally&lt;double[]&gt;.  Tally for pMC estimation of reflectance 
+    /// Implements ITerminationTally&lt;double[]&gt;.  Tally for dMC estimation of d(reflectance)/dMus 
     /// as a function of Rho.
     /// </summary>
-    [KnownType(typeof(pMCROfRhoDetector))]
-    public class pMCROfRhoDetector : IpMCSurfaceDetector<double[]>
+    [KnownType(typeof(dMCdROfRhodMusDetector))]
+    public class dMCdROfRhodMusDetector : IpMCSurfaceDetector<double[]>
     {
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
@@ -26,14 +26,14 @@ namespace Vts.MonteCarlo.Detectors
         private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
 
         /// <summary>
-        /// Returns an instance of pMCROfRhoDetector. Tallies perturbed R(rho). Instantiate with reference optical properties. 
+        /// Returns an instance of dMCdROfRhodMusDetector. Tallies dR(rho)/dMus. Instantiate with reference optical properties. 
         /// When method Tally invoked, perturbed optical properties passed.
         /// </summary>
         /// <param name="rho"></param>
         /// <param name="tissue"></param>
         /// <param name="perturbedOps"></param>
         /// <param name="perturbedRegionIndices"></param>
-        public pMCROfRhoDetector(
+        public dMCdROfRhodMusDetector(
             DoubleRange rho,
             ITissue tissue,
             IList<OpticalProperties> perturbedOps,
@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[Rho.Count - 1];
             }
-            TallyType = TallyType.pMCROfRho;
+            TallyType = TallyType.dMCdROfRhodMus;
             Name = name;
             _perturbedOps = perturbedOps;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
@@ -77,14 +77,14 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Returns a default instance of pMCMuaMusROfRhoDetector (for serialization purposes only)
         /// </summary>
-        public pMCROfRhoDetector()
+        public dMCdROfRhodMusDetector()
             : this(
             new DoubleRange(), 
             new MultiLayerTissue(), 
             new List<OpticalProperties>(), 
             new List<int>(), 
             true, // tallySecondMoment
-            TallyType.pMCROfRho.ToString() )
+            TallyType.dMCdROfRhodMus.ToString() )
         {
         }
 
@@ -106,7 +106,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             switch (awt)
             {
-                // note: pMC is not applied to analog processing,
+                // note: dMC is not applied to analog processing,
                 // only DAW and CAW
                 case AbsorptionWeightingType.Continuous:
                     _absorbAction = AbsorbContinuous;
@@ -120,18 +120,11 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
         {
-            //double totalPathLengthInPerturbedRegions = 0.0;
-            //foreach (var i in _perturbedRegionsIndices)
-            //{
-            //    totalPathLengthInPerturbedRegions += infoList[i].PathLength;
-            //}
-
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             if (ir != -1)
             {
                 double weightFactor = _absorbAction(
                     infoList.Select(c => c.NumberOfCollisions).ToList(),
-                    //totalPathLengthInPerturbedRegions,
                     infoList.Select(p => p.PathLength).ToList(),
                     _perturbedOps);
 
@@ -150,11 +143,14 @@ namespace Vts.MonteCarlo.Detectors
 
             foreach (var i in _perturbedRegionsIndices)
             {
+                // need to verify following
                 weightFactor *=
                     (Math.Exp(-perturbedOps[i].Mua * pathLength[i]) / Math.Exp(-_referenceOps[i].Mua * pathLength[i])) * // mua pert
+                    numberOfCollisions[i] * (1.0 / _referenceOps[i].Mus) * // dMus* factor
                     Math.Pow(
                         (_perturbedOps[i].Mus / _referenceOps[i].Mus),
-                        numberOfCollisions[i]) *
+                        numberOfCollisions[i] - 1) * // minus one here
+                    -pathLength[i] * // dMus* factor
                     Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
                         pathLength[i]);
             }
@@ -167,10 +163,13 @@ namespace Vts.MonteCarlo.Detectors
 
             foreach (var i in _perturbedRegionsIndices)
             {
+                // need to verify following
                 weightFactor *=
+                    numberOfCollisions[i] * (1.0 / _referenceOps[i].Mus) * // dMus* factor
                     Math.Pow(
                         (_perturbedOps[i].Mus / _referenceOps[i].Mus),
-                        numberOfCollisions[i]) *
+                        numberOfCollisions[i] - 1) * // minus one here
+                    -pathLength[i] * // dMus* factor
                     Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
                         pathLength[i]);
 
