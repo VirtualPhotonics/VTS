@@ -44,6 +44,7 @@ namespace Vts.SiteVisit.ViewModel
 
             SolutionDomainTypeOptionVM.SolverType = SolverType.Inverse;
 
+            // todo: white-list solvers as in ForwardSolverViewModel
             MeasuredForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
                 "Forward Model Engine",
                 false);
@@ -52,6 +53,7 @@ namespace Vts.SiteVisit.ViewModel
             MeasuredDataTypeOptionVM.PropertyChanged += (sender, args) =>
                 OnPropertyChanged("MeasuredForwardSolver");
 
+            // todo: white-list solvers as in ForwardSolverViewModel
             InverseForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
                 "Inverse Model Engine",
                 false);
