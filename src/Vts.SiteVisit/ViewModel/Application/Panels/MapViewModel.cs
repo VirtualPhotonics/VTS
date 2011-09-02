@@ -7,6 +7,7 @@ using Vts.Extensions;
 using Vts.SiteVisit.Input;
 using Vts.SiteVisit.Model;
 using Vts.SiteVisit.View;
+using Vts.SiteVisit.Extensions;
 using System.Collections.Generic;
 
 namespace Vts.SiteVisit.ViewModel
@@ -29,10 +30,10 @@ namespace Vts.SiteVisit.ViewModel
             MaxValue = 1.0;
             AutoScale = false;
 
-            ScalingTypeOptionVM = new OptionViewModel<ScalingType>("Scaling Type:", false);
+            ScalingTypeOptionVM = new OptionViewModel<ScalingType>(StringLookup.GetLocalizedString("Label_ScalingType"), false);
             ScalingTypeOptionVM.PropertyChanged += (sender, args) => UpdateImages();
 
-            ColormapTypeOptionVM = new OptionViewModel<ColormapType>("Colormap Type:");
+            ColormapTypeOptionVM = new OptionViewModel<ColormapType>(StringLookup.GetLocalizedString("Label_ColormapType"));
             _colormap = new Colormap(ColormapTypeOptionVM.SelectedValue);
             ColormapTypeOptionVM.PropertyChanged += (sender, args) =>
             {

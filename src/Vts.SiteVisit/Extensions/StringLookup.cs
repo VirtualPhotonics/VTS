@@ -8,22 +8,18 @@ namespace Vts.SiteVisit.Extensions
     /// <summary>
     /// Class to retrieve strings from a resources file
     /// </summary>
-    public static class StringExtensions
+    public static class StringLookup
     {
         /// <summary>
         /// Method to retrieve the correct language string for the VTS GUI
         /// </summary>
-        /// <param name="stringType">Type of string in the interface(Tooltip, label, title etc)</param>
-        /// <param name="stringName">Name of the string</param>
-        /// <returns></returns>
-        public static string GetLocalizedString(string stringType, string stringName)
+        /// <param name="stringName">The complete name of the string to lookup</param>
+        /// <returns>string in the correct language</returns>
+        public static string GetLocalizedString(string stringName)
         {
-            string baseString = stringType;
-            string name = stringName;
-
             ResourceManager rm = new ResourceManager("Vts.SiteVisit.Resources.Strings", typeof(Strings).Assembly);
 
-            string s = rm.GetString(baseString + "_" + name, Thread.CurrentThread.CurrentCulture);
+            string s = rm.GetString(stringName, Thread.CurrentThread.CurrentCulture);
             if (s != null)
             {
                 return s;
@@ -32,6 +28,20 @@ namespace Vts.SiteVisit.Extensions
             {
                 return "";
             }
+        }
+        
+        /// <summary>
+        /// Method to retrieve the correct language string for the VTS GUI
+        /// </summary>
+        /// <param name="stringType">Type of string in the interface(Tooltip, label, title etc)</param>
+        /// <param name="stringName">Name of the string</param>
+        /// <returns>string in the correct language</returns>
+        public static string GetLocalizedString(string stringType, string stringName)
+        {
+            string baseString = stringType;
+            string name = stringName;
+
+            return GetLocalizedString(baseString + "_" + name);
         }
 
         /// <summary>
