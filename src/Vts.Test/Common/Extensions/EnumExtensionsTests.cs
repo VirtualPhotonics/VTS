@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -12,6 +13,7 @@ namespace Vts.Test.Common
     [TestFixture] 
     public class EnumExtensionsTests
     {
+        [Flags]
         enum Days
         {
             None = 0x0,
@@ -48,11 +50,20 @@ namespace Vts.Test.Common
             meetingDays = meetingDays.Add(Days.Thursday);
             Assert.IsTrue(meetingDays == (Days.Tuesday | Days.Thursday));
         }
+
         [Test]
         public void validate_Remove_returns_correct_values()
         {
             Days meetingDays = Days.Tuesday | Days.Thursday;
             Assert.IsTrue(meetingDays.Remove(Days.Tuesday) == Days.Thursday);
+        }
+
+        [Test]
+        public void validate_Remove_returns_correct_values_if_not_set()
+        {
+            Days meetingDays = Days.Thursday;
+            Days removed = meetingDays.Remove(Days.Tuesday);
+            Assert.IsTrue(removed == Days.Thursday);
         }
 
     }

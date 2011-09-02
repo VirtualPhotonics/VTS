@@ -74,7 +74,7 @@ namespace Vts
         }
 
         /// <summary>
-        /// Method 'Remove' turns off this bit, only if bit is on
+        /// Method 'Remove' turns off this bit (does nothing if flag not present)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="type">Enum type</param>
@@ -84,7 +84,11 @@ namespace Vts
         {
             try
             {
-                return (T)(object)(((int)(object)type ^ (int)(object)value));
+                if (type.HasFlag((Enum)(object)value))
+                {
+                    return (T)(object)(((int)(object)type ^ (int)(object)value));
+                }
+                return (T) (object) type;
             }
             catch (Exception ex)
             {

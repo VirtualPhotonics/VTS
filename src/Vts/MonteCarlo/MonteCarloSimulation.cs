@@ -197,6 +197,9 @@ namespace Vts.MonteCarlo
                     InitialDatabases(doPMC);
                 }
 
+                var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
+                    v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
+
                 for (long n = 1; n <= _numberOfPhotons; n++)
                 {
                     if (_isCancelled)
@@ -263,8 +266,6 @@ namespace Vts.MonteCarlo
                     // note History has possibly 2 more DPs than linux code due to 
                     // final crossing of PseudoReflectedTissueBoundary and then
                     // PseudoDiffuseReflectanceVB
-                    var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
-                        v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
                     foreach (var vb in volumeVBs)
                     {
                         ((IVolumeDetectorController)vb.DetectorController).Tally(photon.History);
