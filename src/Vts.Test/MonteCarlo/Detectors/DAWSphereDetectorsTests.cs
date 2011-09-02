@@ -72,7 +72,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(-200.0, 200.0, 401)), // y,
                     new ROfRhoAndOmegaDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1000.0, 21)),
+                        new DoubleRange(0.0, 1.0, 21)),
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
                     new TOfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),

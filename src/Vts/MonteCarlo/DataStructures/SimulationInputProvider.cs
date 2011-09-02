@@ -78,7 +78,7 @@ namespace Vts.MonteCarlo
                         new DoubleRange(-100.0, 100.0, 21)), // y,
                     new ROfRhoAndOmegaDetectorInput(
                         new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 1000, 21)),
+                        new DoubleRange(0.0, 1, 21)), // GHz
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
                     new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
