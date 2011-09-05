@@ -36,17 +36,22 @@ namespace Vts.MonteCarlo.Controllers
         /// <param name="dp"></param>
         public void WriteToSurfaceVirtualBoundaryDatabases(PhotonDataPoint dp, CollisionInfo collisionInfo)
         {
+            var writeData = false;
             foreach (var writer in _photonDatabaseWriters)
             {
                 if (DPBelongsToSurfaceVirtualBoundary(dp, writer))
                 {
                     writer.Write(dp);
+                    writeData = true;
                 }
             }; 
             // not best design but may work for now
             foreach (var writer in _collisionInfoDatabaseWriters)
             {
-                writer.Write(collisionInfo);
+                if (writeData)
+                {
+                    writer.Write(collisionInfo);
+                }
             };
         }
 

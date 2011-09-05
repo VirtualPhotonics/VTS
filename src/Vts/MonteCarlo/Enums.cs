@@ -7,6 +7,7 @@ namespace Vts.MonteCarlo
     /// ref: http://www.codeproject.com/Articles/37921/Enums-Flags-and-Csharp-Oh-my-bad-pun.aspx
     /// or http://stackoverflow.com/questions/93744/most-common-c-bitwise-operations
     /// </summary>
+    [Flags]
     public enum PhotonStateType 
     {
         ///     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |

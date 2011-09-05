@@ -21,13 +21,6 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices;
-        // need next two because DoubleRange adjusts deltas automatically
-        private double _rhoDelta;
-        private double _timeDelta;
-        // note: bins accommodate noncontiguous and also single bins
-        private double[] _rhoCenters;
-        private double[] _timeCenters;
-
         private bool _tallySecondMoment;
         private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
 
@@ -51,9 +44,6 @@ namespace Vts.MonteCarlo.Detectors
         {
             Rho = rho;
             Time = time;
-            // save delta because DoubleRange readjusts when Start,Stop,Count changes
-            _rhoDelta = Rho.Delta;
-            _timeDelta = Time.Delta;
             _tallySecondMoment = tallySecondMoment;
             Mean = new double[Rho.Count - 1, Time.Count - 1];
             SecondMoment = null;
@@ -69,51 +59,6 @@ namespace Vts.MonteCarlo.Detectors
             _perturbedRegionsIndices = perturbedRegionIndices;
             SetAbsorbAction(_awt);
             TallyCount = 0;
-            // problem: the gui defines the rhos and times with the centers,
-            // but in the usual tally definition, the rhos and times define
-            // the extent of the bin
-            // so currently assuming if either only 1 rho bin or 1 time bin,
-            // then gui call, otherwise regular tally.  Need to fix!
-            if (Rho.Count - 1 == 1)
-            {
-                Rho.Start = Rho.Start - 0.1;
-                _rhoDelta = 0.2;
-                Rho.Stop = Rho.Start + _rhoDelta;
-                _rhoCenters = new double[1] { Rho.Start };
-                _timeCenters = new double[Time.Count - 1];
-                for (int i = 0; i < Time.Count - 1; i++)
-                {
-                    _timeCenters[i] = Time.Start + i * _timeDelta;
-                }
-            }
-            else
-            {
-                _rhoCenters = new double[Rho.Count - 1];
-                for (int i = 0; i < Rho.Count - 1; i++)
-                {
-                    _rhoCenters[i] = Rho.Start + i * _rhoDelta + _rhoDelta / 2;
-                }
-            }
-            if (Time.Count - 1 == 1)
-            {
-                Time.Start = Time.Start - 0.0025;
-                _timeDelta = 0.005;
-                Time.Stop = Time.Start + _timeDelta;
-                _timeCenters = new double[1] { Time.Start };
-                _rhoCenters = new double[Rho.Count - 1];
-                for (int i = 0; i < Rho.Count - 1; i++)
-                {
-                    _rhoCenters[i] = Rho.Start + i * _rhoDelta;
-                }
-            }
-            else
-            {
-                _timeCenters = new double[Time.Count - 1];
-                for (int i = 0; i < Time.Count - 1; i++)
-                {
-                    _timeCenters[i] = Time.Start + i * _timeDelta + _timeDelta / 2;
-                }
-            }
         }
 
         /// <summary>
@@ -166,23 +111,9 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
         {
             var totalTime = dp.TotalTime;
-            //double totalPathLengthInPerturbedRegions = 0.0;
-            //foreach (var i in _perturbedRegionsIndices)
-            //{
-            //    totalPathLengthInPerturbedRegions += infoList[i].PathLength;
-            //}
-            var it = DetectorBinning.WhichBin(totalTime, Time.Count - 1, Time.Delta, Time.Start);
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y),
+            var it = DetectorBinning.WhichBinExclusive(totalTime, Time.Count - 1, Time.Delta, Time.Start);
+            var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y),
                 Rho.Count - 1, Rho.Delta, Rho.Start);
-            if (Rho.Count - 1 == 1)
-            {
-                ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y),
-                    _rhoDelta, _rhoCenters);
-            }
-            if (Time.Count - 1 == 1)
-            {
-                it = DetectorBinning.WhichBin(totalTime, _timeDelta, _timeCenters);
-            }
             if ((ir != -1) && (it != -1))
             {
                 var weightFactor = _absorbAction(
@@ -234,12 +165,12 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2 * Math.PI * _rhoDelta * _rhoDelta * _timeDelta;
+            var normalizationFactor = 2 * Math.PI * Rho.Delta * Time.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
                 for (int it = 0; it < Time.Count - 1; it++)
                 {
-                    var areaNorm = (ir + 0.5) * normalizationFactor;
+                    var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                     Mean[ir, it] /= areaNorm * numPhotons;
                     // the above is pi(rmax*rmax-rmin*rmin) * timeDelta * N
                     if (_tallySecondMoment)

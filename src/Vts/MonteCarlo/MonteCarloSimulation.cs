@@ -230,7 +230,7 @@ namespace Vts.MonteCarlo
                         {
                             ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP);
                             // reset PhotonStateType after tallying
-                            photon.DP.StateFlag.Remove(closestVirtualBoundary.PhotonStateType);
+                            //photon.DP.StateFlag.Remove(closestVirtualBoundary.PhotonStateType);
                         }
 
                         // kill photon for various reasons, including possible VB crossings
@@ -337,10 +337,6 @@ namespace Vts.MonteCarlo
                 _databaseWriterController = new DatabaseWriterController(
                     DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
                         _input.Options.WriteDatabases,
-                     //   _virtualBoundaryController.VirtualBoundaries.Select(v => v.VirtualBoundaryType).ToList(),
-                    //_input.VirtualBoundaryInputs
-                    //.Where(v => v.WriteToDatabase == true)
-                    //.Select(v => v.VirtualBoundaryType).ToList(),
                         _outputPath,
                         _input.OutputName));
             }
@@ -349,18 +345,10 @@ namespace Vts.MonteCarlo
                 _pMCDatabaseWriterController = new pMCDatabaseWriterController(
                     DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
                     _input.Options.WriteDatabases,
-                     //   _virtualBoundaryController.VirtualBoundaries.Select(v => v.VirtualBoundaryType).ToList(),
-                    //_input.VirtualBoundaryInputs
-                    //    .Where(v => v.WriteToDatabase == true)
-                    //    .Select(v => v.VirtualBoundaryType).ToList(),
                             _outputPath,
                             _input.OutputName),
                     DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
                     _input.Options.WriteDatabases,
-                     //   _virtualBoundaryController.VirtualBoundaries.Select(v => v.VirtualBoundaryType).ToList(),
-                    //_input.VirtualBoundaryInputs
-                    //    .Where(v => v.WriteToDatabase == true)
-                    //    .Select(v => v.VirtualBoundaryType).ToList(),
                             _tissue,
                             _outputPath,
                             _input.OutputName));

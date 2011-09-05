@@ -38,13 +38,16 @@ namespace Vts.Modeling.ForwardSolvers
         public override IEnumerable<double> RofRho(IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos)
         {
-            // todo: revisit
+            // determine rho bins with centers at IEnumerable rhos
+            var rhoDelta = (rhos.Last() - rhos.First()) / rhos.Count();
+            var rhoBins = new DoubleRange(rhos.First() - rhoDelta / 2, rhos.Last() + rhoDelta / 2, rhos.Count() + 2);
             foreach (var op in ops)
             {
                 var detectorInputs = new List<IpMCDetectorInput> 
                 {
                     new pMCROfRhoDetectorInput(
-                        new DoubleRange(rhos.First(), rhos.Last(), rhos.Count()),
+                        //new DoubleRange(rhos.First(), rhos.Last(), rhos.Count()),
+                        rhoBins,
                         // make list of ops that have requested ops as middle region (of multilayer tissue)
                         new List<OpticalProperties>() { 
                             new OpticalProperties(), op, new OpticalProperties() },
@@ -58,8 +61,7 @@ namespace Vts.Modeling.ForwardSolvers
                         false,
                         pMCLoader.PMCDatabase,
                         pMCLoader.DatabaseInput);
-                // yield return method won't work here because want to process all rhos and times during one pass of db
-                for (int r = 0; r < rhos.Count() - 1; r++)
+                for (int r = 0; r < rhos.Count(); r++)
                 {
                     yield return _postProcessedOutput.pMC_R_r[r];
                 }
@@ -75,14 +77,41 @@ namespace Vts.Modeling.ForwardSolvers
         public override IEnumerable<double> RofRhoAndT(IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos, IEnumerable<double> times)
         {
-            // todo: revisit!!  
+            // need to fix:  results may be bad because detector expects continguous rho,time bins but 
+            // depending on the rho,time selections, bins might be too big.
+
+            // determine rho,time bins with centers at IEnumerable rhos,times
+            var rhoDelta = (rhos.Last() - rhos.First()) / rhos.Count();
+            var timeDelta = (times.Last() - times.First()) / times.Count();
+            var rhoBins = new DoubleRange(rhos.First() - rhoDelta / 2, rhos.Last() + rhoDelta / 2, rhos.Count() + 2);
+            var timeBins = new DoubleRange(times.First() - timeDelta / 2, times.Last() + timeDelta / 2, times.Count() + 2);
+            // check if only one rho or time bin
+            if (rhos.Count() == 1)
+            {
+                rhoBins = new DoubleRange(rhos.First() - 0.1, rhos.First() + 0.1, 2);
+            }
+            if (times.Count() == 1)
+            {
+                timeBins = new DoubleRange(times.First() - 0.0025, times.First() + 0.0025, 2);
+            }
+            // check if rhos.First == 0 or times.First == 0, not sure what to do here
+            if (rhos.First() == 0.0)
+            {
+
+            }
+            if (times.First() == 0.0)
+            {
+            }
+
             foreach (var op in ops)
             {
                 var detectorInputs = new List<IpMCDetectorInput> 
                 { 
                     new pMCROfRhoAndTimeDetectorInput(  
-                        new DoubleRange(rhos.First(), rhos.Last(), rhos.Count()),
-                        new DoubleRange(times.First(), times.Last(), times.Count()),
+                        //new DoubleRange(rhos.First(), rhos.Last(), rhos.Count()),
+                        //new DoubleRange(times.First(), times.Last(), times.Count()),
+                        rhoBins,
+                        timeBins,
                         // make list of ops that have requested ops as middle region (of multilayer tissue)
                         new List<OpticalProperties>() { 
                              new OpticalProperties(), op, new OpticalProperties() },
@@ -96,10 +125,9 @@ namespace Vts.Modeling.ForwardSolvers
                         false,
                         pMCLoader.PMCDatabase,
                         pMCLoader.DatabaseInput);
-                // yield return method won't work here because want to process all rhos and times during one pass of db
                 for (int r = 0; r < rhos.Count(); r++)
                 {
-                    for (int t = 0; t < times.Count() - 1; t++) // omit last bin which captures all beyond
+                    for (int t = 0; t < times.Count(); t++) // omit last bin which captures all beyond
                     {
                         yield return _postProcessedOutput.pMC_R_rt[r, t];
                     }

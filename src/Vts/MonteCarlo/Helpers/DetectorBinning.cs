@@ -62,7 +62,7 @@ namespace Vts.MonteCarlo.Helpers
         {
             for (int i = 0; i < binCenters.Count(); i++)
 			{
-                if ((value > binCenters[i] - binSize / 2) && (value < binCenters[i] + binSize / 2))
+                if ((value >= binCenters[i] - binSize / 2) && (value < binCenters[i] + binSize / 2))
                     return i;
             }
             return -1; // for now

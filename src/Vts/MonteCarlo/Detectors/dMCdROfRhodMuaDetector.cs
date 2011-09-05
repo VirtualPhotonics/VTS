@@ -20,8 +20,6 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices;
         private double _rhoDelta;  // need to keep this because DoubleRange adjusts deltas automatically
-        // note: bins accommodate noncontiguous and also single bins
-        private double[] _rhoCenters;
         private bool _tallySecondMoment;
         private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
 
@@ -55,22 +53,6 @@ namespace Vts.MonteCarlo.Detectors
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
             _perturbedRegionsIndices = perturbedRegionIndices;
             SetAbsorbAction(tissue.AbsorptionWeightingType);
-            if (Rho.Count - 1 == 1)
-            {
-                Rho.Start = Rho.Start - 0.1;
-                _rhoDelta = 0.2;
-                Rho.Stop = Rho.Start + _rhoDelta;
-                _rhoCenters = new double[1] { Rho.Start };
-            }
-            else // put rhoCenters at rhos specified by user
-            {
-                _rhoDelta = Rho.Delta;
-                _rhoCenters = new double[Rho.Count - 1];
-                for (int i = 0; i < Rho.Count - 1; i++)
-                {
-                    _rhoCenters[i] = Rho.Start + i * _rhoDelta + _rhoDelta / 2;
-                }
-            }
             TallyCount = 0;
         }
 
@@ -177,10 +159,10 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta;
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                var areaNorm = (ir + 0.5) * normalizationFactor;
+                var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                 Mean[ir] /= areaNorm * numPhotons;
                 // the above is pi(rmax*rmax-rmin*rmin) * rhoDelta * N
                 if (_tallySecondMoment)

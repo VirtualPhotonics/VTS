@@ -92,12 +92,12 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta; 
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta; 
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
                 for (int iw = 0; iw < Omega.Count - 1; iw++)
                 {
-                    var areaNorm = (ir + 0.5) * normalizationFactor;
+                    var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                     Mean[ir, iw] /=  areaNorm * numPhotons;
                     if (_tallySecondMoment)
                     {
