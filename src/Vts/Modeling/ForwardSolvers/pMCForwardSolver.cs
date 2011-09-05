@@ -39,8 +39,8 @@ namespace Vts.Modeling.ForwardSolvers
             IEnumerable<double> rhos)
         {
             // determine rho bins with centers at IEnumerable rhos
-            var rhoDelta = (rhos.Last() - rhos.First()) / rhos.Count();
-            var rhoBins = new DoubleRange(rhos.First() - rhoDelta / 2, rhos.Last() + rhoDelta / 2, rhos.Count() + 2);
+            var rhoDelta = (rhos.Last() - rhos.First()) / (rhos.Count() - 1);
+            var rhoBins = new DoubleRange(rhos.First() - rhoDelta / 2, rhos.Last() + rhoDelta / 2, rhos.Count() + 1);
             foreach (var op in ops)
             {
                 var detectorInputs = new List<IpMCDetectorInput> 
@@ -81,6 +81,7 @@ namespace Vts.Modeling.ForwardSolvers
             // depending on the rho,time selections, bins might be too big.
 
             // determine rho,time bins with centers at IEnumerable rhos,times
+            // use rho,time bin size used by scaled MC
             var rhoDelta = (rhos.Last() - rhos.First()) / rhos.Count();
             var timeDelta = (times.Last() - times.First()) / times.Count();
             var rhoBins = new DoubleRange(rhos.First() - rhoDelta / 2, rhos.Last() + rhoDelta / 2, rhos.Count() + 2);
