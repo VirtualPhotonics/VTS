@@ -126,12 +126,12 @@ namespace Vts.MonteCarlo.Detectors
             foreach (var i in _perturbedRegionsIndices)
             {
                 weightFactor *=
-                    (Math.Exp(-perturbedOps[i].Mua * pathLength[i]) / Math.Exp(-_referenceOps[i].Mua * pathLength[i])) * // mua pert
+                    Math.Exp(-(perturbedOps[i].Mua - _referenceOps[i].Mua) * pathLength[i]) * // mua pert
+                    // the following is more numerically stable
                     Math.Pow(
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus),
-                        numberOfCollisions[i]) *
-                    Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
-                        pathLength[i]);
+                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) * Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
+                            pathLength[i] / numberOfCollisions[i]),
+                        numberOfCollisions[i]); 
             }
             return weightFactor;
         }
@@ -144,11 +144,10 @@ namespace Vts.MonteCarlo.Detectors
             {
                 weightFactor *=
                     Math.Pow(
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus),
-                        numberOfCollisions[i]) *
-                    Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                        pathLength[i]);
-
+                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) * 
+                            Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                            pathLength[i] / numberOfCollisions[i]),
+                        numberOfCollisions[i]);
             }
             return weightFactor;
         }
