@@ -44,6 +44,10 @@ namespace Vts.MonteCarlo.Detectors
 
         public long TallyCount { get; set; }
 
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
         // the following works for analog, DAW and CAW.  Weight is final surface exiting weight.
         public void Tally(PhotonDataPoint dp)
         {

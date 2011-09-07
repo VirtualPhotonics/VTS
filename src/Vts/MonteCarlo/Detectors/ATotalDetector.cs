@@ -70,7 +70,11 @@ namespace Vts.MonteCarlo.Detectors
                     break;
             }
         }
- 
+        public void Tally(Photon photon)
+        {
+            // todo: is this logically consistent at any place that could call Tally(photon)?
+            Tally(photon.History.PreviousDP, photon.History.CurrentDP);
+        }
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             var weight = _absorbAction(

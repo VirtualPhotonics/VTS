@@ -65,6 +65,10 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Omega { get; set; }
 
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
         public void Tally(PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);

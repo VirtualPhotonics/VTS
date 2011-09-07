@@ -68,7 +68,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             string[] arguments = new string[] { "infile=newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml" };
             Program.Main(arguments);
             // newinfile.xml has OutputName="results"
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"));
         }
         /// <summary>
         /// test to verify correct parameter sweep folder names created for output

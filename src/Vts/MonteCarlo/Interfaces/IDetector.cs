@@ -35,5 +35,7 @@ namespace Vts.MonteCarlo
         /// <param name="numPhotons"></param>
         void Normalize(long numPhotons);
         //bool ContainsPoint(PhotonDataPoint dp);
+
+        void Tally(Photon photon);
     }
 }

@@ -67,6 +67,13 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Z { get; set; }
 
+        public void Tally(Photon photon)
+        {
+            // todo: is this logically consistent at any place that could call Tally(photon)?
+            Tally(photon.History.PreviousDP, photon.History.CurrentDP);
+        }
+
+        // collision tally
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             // calculate momentum transfer

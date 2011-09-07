@@ -18,8 +18,11 @@ namespace Vts.MonteCarlo.Controllers
             _detectors = detectors.Select(d => (IDetector)d).ToList();
         }
 
-        public IList<IDetector> Detectors { get { return _detectors; } }      
-
+        public IList<IDetector> Detectors { get { return _detectors; } }
+        public void Tally(Photon photon)
+        {
+            Tally(photon.History);
+        }
         public void Tally(PhotonHistory history)
         {
             // loop through the photon history. history tallies require information 

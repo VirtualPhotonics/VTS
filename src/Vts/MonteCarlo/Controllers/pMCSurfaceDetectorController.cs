@@ -34,7 +34,11 @@ namespace Vts.MonteCarlo.Controllers
         public IList<IDetector> Detectors { get { return _detectors; } }
         public IList<OpticalProperties> ReferenceOps { get; set; }
         public IList<int> PerturbedRegionsIndices { get; set; }
-        
+
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP, photon.History.SubRegionInfoList);
+        }
         public void Tally(PhotonDataPoint dp, CollisionInfo collisionInfo)
         {
             foreach (var detector in _detectors)

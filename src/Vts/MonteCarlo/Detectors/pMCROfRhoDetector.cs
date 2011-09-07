@@ -99,7 +99,10 @@ namespace Vts.MonteCarlo.Detectors
                     break;
             }
         }
-
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP, photon.History.SubRegionInfoList);
+        }
         public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
         {
             var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);

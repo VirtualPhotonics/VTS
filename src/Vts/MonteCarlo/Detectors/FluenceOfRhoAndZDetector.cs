@@ -100,7 +100,11 @@ namespace Vts.MonteCarlo.Detectors
                     throw new ArgumentException("AbsorptionWeightingType not set");
             }
         }
-
+        public void Tally(Photon photon)
+        {
+            // todo: is this logically consistent at any place that could call Tally(photon)?
+            Tally(photon.History.PreviousDP, photon.History.CurrentDP);
+        }
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);

@@ -228,7 +228,8 @@ namespace Vts.MonteCarlo
                         if ((hitType == BoundaryHitType.Virtual) &&
                             (closestVirtualBoundary.DetectorController != null))
                         {
-                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP);
+                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon);
+                            //((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP);
                             // reset PhotonStateType after tallying
                             //photon.DP.StateFlag.Remove(closestVirtualBoundary.PhotonStateType);
                         }
@@ -268,7 +269,8 @@ namespace Vts.MonteCarlo
                     // PseudoDiffuseReflectanceVB
                     foreach (var vb in volumeVBs)
                     {
-                        ((IVolumeDetectorController)vb.DetectorController).Tally(photon.History);
+                        //((IVolumeDetectorController)vb.DetectorController).Tally(photon.History);
+                        ((IVolumeDetectorController)vb.DetectorController).Tally(photon);
                     }
 
                     if (TrackStatistics)

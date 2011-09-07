@@ -108,6 +108,11 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP, photon.History.SubRegionInfoList);
+        }
+
         public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
         {
             var totalTime = dp.TotalTime;

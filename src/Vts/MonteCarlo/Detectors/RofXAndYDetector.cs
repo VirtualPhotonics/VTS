@@ -61,6 +61,10 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Y { get; set; }
 
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
         public void Tally(PhotonDataPoint dp)
         {
             int ix = DetectorBinning.WhichBin(dp.Position.X, X.Count - 1, X.Delta, X.Start);

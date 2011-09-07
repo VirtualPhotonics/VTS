@@ -61,6 +61,10 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Angle { get; set; }
 
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
         public virtual void Tally(PhotonDataPoint dp)
         {
             // if exiting tissue top surface, Uz < 0 => Acos in [pi/2, pi]

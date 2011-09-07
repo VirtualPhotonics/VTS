@@ -19,7 +19,16 @@ namespace Vts.MonteCarlo.Controllers
         }
 
         public IList<IDetector> Detectors { get { return _detectors; } }
-        
+
+        // new?
+        public void Tally(Photon photon)
+        {
+            foreach (var detector in _detectors)
+            {
+                ((ISurfaceDetector)detector).Tally(photon);
+            }
+        }
+
         public void Tally(PhotonDataPoint dp)
         {
             foreach (var detector in _detectors)

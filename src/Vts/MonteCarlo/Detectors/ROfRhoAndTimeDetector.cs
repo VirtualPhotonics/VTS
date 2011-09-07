@@ -68,6 +68,10 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Time { get; set; }
 
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
         public virtual void Tally(PhotonDataPoint dp)
         {
             var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);

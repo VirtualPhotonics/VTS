@@ -39,6 +39,32 @@ namespace Vts.MonteCarlo
             set { _SubRegionInfoList = value; }
         }
 
+        public PhotonDataPoint CurrentDP
+        {
+            get
+            {
+                if (HistoryData.Count > 0)
+                {
+                    return HistoryData[HistoryData.Count - 1];
+                }
+
+                return null;
+            }
+        }
+
+        public PhotonDataPoint PreviousDP
+        {
+            get
+            {
+                if (HistoryData.Count > 1)
+                {
+                    return HistoryData[HistoryData.Count - 2];
+                }
+
+                return null;
+            }
+        }
+
         /// <summary>
         /// Method to add PhotonDataPoint to History.  
         /// </summary>

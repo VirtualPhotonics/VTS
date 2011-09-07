@@ -62,6 +62,10 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Angle { get; set; }
 
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
         public void Tally(PhotonDataPoint dp)
         {
             // if exiting bottom top surface, Uz > 0 => Acos in [0, pi/2]

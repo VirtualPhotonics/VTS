@@ -42,6 +42,10 @@ namespace Vts.MonteCarlo.Detectors
 
         public long TallyCount { get; set; }
 
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
         public void Tally(PhotonDataPoint dp)
         {
             Mean += dp.Weight;

@@ -94,6 +94,10 @@ namespace Vts.MonteCarlo.Detectors
                     throw new ArgumentException("AbsorptionWeightingType not set");
             }
         }
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
         public void Tally(PhotonDataPoint dp)
         {
             // update weight

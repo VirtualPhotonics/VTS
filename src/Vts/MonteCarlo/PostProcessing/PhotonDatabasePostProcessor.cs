@@ -41,9 +41,14 @@ namespace Vts.MonteCarlo.PostProcessing
             // DetectorController tallies for post-processing
             if (virtualBoundaryType.IsSurfaceVirtualBoundary())
             {
+                var photon = new Photon();
                 foreach (var dp in database.DataPoints)
                 {
-                    ((ISurfaceDetectorController)detectorController).Tally(dp);
+                    photon.DP = dp;
+                    //((ISurfaceDetectorController)detectorController).Tally(dp); // old
+                    ((ISurfaceDetectorController)detectorController).Tally(photon); // new
+
+
                 }
             }
             // need to add volumeDetectorController processing
