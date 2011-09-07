@@ -100,33 +100,27 @@ namespace Vts.MonteCarlo.Factories
             {
                 case VirtualBoundaryType.DiffuseReflectance:
                     vb = new DiffuseReflectanceVirtualBoundary(
-                        //tissue, (ISurfaceDetectorController)detectorController, VirtualBoundaryType.DiffuseReflectance.ToString());
                         tissue, detectorController, VirtualBoundaryType.DiffuseReflectance.ToString());
                     break;
                 case VirtualBoundaryType.DiffuseTransmittance:
                     vb = new DiffuseTransmittanceVirtualBoundary(
-                        //tissue, (ISurfaceDetectorController)detectorController, VirtualBoundaryType.DiffuseTransmittance.ToString());
                         tissue, detectorController, VirtualBoundaryType.DiffuseTransmittance.ToString());
                     break;
                 case VirtualBoundaryType.SpecularReflectance:
                     // reflecting off first layer without transporting in medium
                     vb = new SpecularReflectanceVirtualBoundary(
-                        //tissue, (ISurfaceDetectorController)detectorController, VirtualBoundaryType.SpecularReflectance.ToString());
                          tissue, detectorController, VirtualBoundaryType.SpecularReflectance.ToString());
                     break;
                 case VirtualBoundaryType.SurfaceRadiance:
                     vb = new RadianceVirtualBoundary(
-                        //(ISurfaceDetectorController)detectorController, VirtualBoundaryType.SurfaceRadiance.ToString());
                         detectorController, VirtualBoundaryType.SurfaceRadiance.ToString());
                     break;
                 case VirtualBoundaryType.GenericVolumeBoundary:
                     vb = new GenericVolumeVirtualBoundary(
-                        //tissue, (IVolumeDetectorController)detectorController, VirtualBoundaryType.GenericVolumeBoundary.ToString());
                         tissue, detectorController, VirtualBoundaryType.GenericVolumeBoundary.ToString());
                     break;
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                     vb = new pMCDiffuseReflectanceVirtualBoundary(
-                        //tissue, (ISurfaceDetectorController)detectorController, VirtualBoundaryType.DiffuseReflectance.ToString());
                         tissue, detectorController, VirtualBoundaryType.DiffuseReflectance.ToString());
                     break;
                 default:

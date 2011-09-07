@@ -230,10 +230,6 @@ namespace Vts.MonteCarlo
                             (closestVirtualBoundary.DetectorController != null))
                         {
                             closestVirtualBoundary.DetectorController.Tally(photon);
-                            //((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon);
-                            //((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP);
-                            // reset PhotonStateType after tallying
-                            //photon.DP.StateFlag.Remove(closestVirtualBoundary.PhotonStateType);
                         }
 
                         // kill photon for various reasons, including possible VB crossings

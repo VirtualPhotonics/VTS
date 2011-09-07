@@ -11,13 +11,11 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// </summary>
     public class GenericVolumeVirtualBoundary : IVirtualBoundary
     {
-        //private IVolumeDetectorController _detectorController;
         private IDetectorController _detectorController;
 
         /// <summary>
         /// Creates an instance of a volume virtual boundary
         /// </summary>
-        //public GenericVolumeVirtualBoundary(ITissue tissue, IVolumeDetectorController detectorController, string name)
         public GenericVolumeVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             //_zPlanePosition = ((LayerRegion)tissue.Regions[0]).ZRange.Stop;

@@ -9,12 +9,12 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally&lt;double[]&gt;.  Tally for reflectance as a function 
+    /// Implements IDetectory&lt;double[]&gt;.  Tally for reflectance as a function 
     /// of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(ROfRhoDetector))]
-    public class ROfRhoDetector : IDetector<double[]> //ISurfaceDetector<double[]>
+    public class ROfRhoDetector : IDetector<double[]> 
     {
         private bool _tallySecondMoment;
         /// <summary>

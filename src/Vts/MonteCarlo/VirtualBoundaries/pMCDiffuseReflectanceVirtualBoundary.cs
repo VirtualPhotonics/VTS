@@ -12,14 +12,12 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// </summary>
     public class pMCDiffuseReflectanceVirtualBoundary : IVirtualBoundary
     {
-        //private ISurfaceDetectorController _detectorController;
         private IDetectorController _detectorController;
         private double _zPlanePosition;
 
         /// <summary>
         /// Creates an instance of a reflectance VB
         /// </summary>
-        //public pMCDiffuseReflectanceVirtualBoundary(ITissue tissue, ISurfaceDetectorController detectorController, string name)
         public pMCDiffuseReflectanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             _zPlanePosition = ((LayerRegion)tissue.Regions[0]).ZRange.Stop;

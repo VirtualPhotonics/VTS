@@ -34,9 +34,6 @@ namespace Vts.MonteCarlo.PostProcessing
 
             var detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
 
-            //var detectorController = 
-            //    Factories.DetectorControllerFactory.GetDetectorController(
-            //    virtualBoundaryType, detectors);
             var detectorController = new DetectorController(detectors);
  
             // DetectorController tallies for post-processing
@@ -46,12 +43,9 @@ namespace Vts.MonteCarlo.PostProcessing
                 foreach (var dp in database.DataPoints)
                 {
                     photon.DP = dp;
-                    //((ISurfaceDetectorController)detectorController).Tally(dp); // old
-                    //((ISurfaceDetectorController)detectorController).Tally(photon); // new
-                    detectorController.Tally(photon); // newest
+                    detectorController.Tally(photon); 
                 }
             }
-            // need to add volumeDetectorController processing
 
             detectorController.NormalizeDetectors(databaseInput.N);
 
@@ -85,17 +79,13 @@ namespace Vts.MonteCarlo.PostProcessing
 
             var detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
 
-            //var detectorController = Factories.DetectorControllerFactory.GetpMCDetectorController(
-                //virtualBoundaryType, detectors, tissue, databaseInput.Options.TallySecondMoment);
-            var detectorController = new DetectorController(detectors);
-                
+            var detectorController = new DetectorController(detectors);                
 
             if (virtualBoundaryType.IsSurfaceVirtualBoundary())
             {
+                var photon = new Photon();
                 foreach (var dp in database.DataPoints)
                 {
-                    //((IpMCSurfaceDetectorController)detectorController).Tally(dp.PhotonDataPoint, dp.CollisionInfo);
-                    var photon = new Photon();
                     photon.DP = dp.PhotonDataPoint;
                     photon.History.SubRegionInfoList = dp.CollisionInfo;
                     detectorController.Tally(photon);

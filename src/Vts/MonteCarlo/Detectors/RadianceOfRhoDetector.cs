@@ -10,12 +10,12 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceTally&lt;double[]&gt;.  Tally for Surface Radiance as a function 
+    /// Implements IDetector&lt;double[]&gt;.  Tally for Surface Radiance as a function 
     /// of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(RadianceOfRhoDetector))]
-    public class RadianceOfRhoDetector : IDetector<double[]> //ISurfaceDetector<double[]>
+    public class RadianceOfRhoDetector : IDetector<double[]> 
     {
         private Func<PhotonDataPoint, double> _absorbAction;
         
