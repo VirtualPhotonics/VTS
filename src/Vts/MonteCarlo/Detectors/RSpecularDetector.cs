@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo.Detectors
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
     [KnownType(typeof(RSpecularDetector))]
-    public class RSpecularDetector : ISurfaceDetector<double>
+    public class RSpecularDetector : IDetector<double> //ISurfaceDetector<double>
     {
         private bool _tallySecondMoment;
         /// <summary>

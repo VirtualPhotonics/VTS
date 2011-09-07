@@ -5,45 +5,45 @@ using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo.Controllers
 {
-    /// <summary>
-    /// Controller for Surface detectors.
-    /// </summary>
-    public class VolumeDetectorController : IVolumeDetectorController
-    {
-        private IList<IDetector> _detectors;
+    ///// <summary>
+    ///// Controller for Surface detectors.
+    ///// </summary>
+    //public class VolumeDetectorController : IVolumeDetectorController
+    //{
+    //    private IList<IDetector> _detectors;
 
-        public VolumeDetectorController(
-            IList<IVolumeDetector> detectors)
-        {
-            _detectors = detectors.Select(d => (IDetector)d).ToList();
-        }
+    //    public VolumeDetectorController(
+    //        IList<IVolumeDetector> detectors)
+    //    {
+    //        _detectors = detectors.Select(d => (IDetector)d).ToList();
+    //    }
 
-        public IList<IDetector> Detectors { get { return _detectors; } }
-        public void Tally(Photon photon)
-        {
-            Tally(photon.History);
-        }
-        public void Tally(PhotonHistory history)
-        {
-            // loop through the photon history. history tallies require information 
-            // from previous and "current" collision points (including pseudo-collisions)
-            PhotonDataPoint previousDP = history.HistoryData.First();
-            foreach (PhotonDataPoint dp in history.HistoryData.Skip(1))
-            {
-                foreach (var tally in _detectors)
-                {
-                    ((IVolumeDetector)tally).Tally(previousDP, dp);
-                }
-                previousDP = dp;
-            }
-        }
+    //    public IList<IDetector> Detectors { get { return _detectors; } }
+    //    public void Tally(Photon photon)
+    //    {
+    //        Tally(photon.History);
+    //    }
+    //    public void Tally(PhotonHistory history)
+    //    {
+    //        // loop through the photon history. history tallies require information 
+    //        // from previous and "current" collision points (including pseudo-collisions)
+    //        PhotonDataPoint previousDP = history.HistoryData.First();
+    //        foreach (PhotonDataPoint dp in history.HistoryData.Skip(1))
+    //        {
+    //            foreach (var tally in _detectors)
+    //            {
+    //                ((IVolumeDetector)tally).Tally(previousDP, dp);
+    //            }
+    //            previousDP = dp;
+    //        }
+    //    }
 
-        public virtual void NormalizeDetectors(long N)
-        {
-            foreach (var detector in _detectors)
-            {
-                detector.Normalize(N);
-            }
-        }
-    }
+    //    public virtual void NormalizeDetectors(long N)
+    //    {
+    //        foreach (var detector in _detectors)
+    //        {
+    //            detector.Normalize(N);
+    //        }
+    //    }
+    //}
 }

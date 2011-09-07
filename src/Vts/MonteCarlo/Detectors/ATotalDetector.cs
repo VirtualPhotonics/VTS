@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IVolumeDetector&lt;double&gt;.  Tally for Total Absorption.
     /// </summary>
     [KnownType(typeof(ATotalDetector))]
-    public class ATotalDetector : IVolumeDetector<double>
+    public class ATotalDetector : IDetector<double> //IVolumeDetector<double>
     {
         private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
@@ -72,8 +72,14 @@ namespace Vts.MonteCarlo.Detectors
         }
         public void Tally(Photon photon)
         {
-            // todo: is this logically consistent at any place that could call Tally(photon)?
+            //// todo: is this logically consistent at any place that could call Tally(photon)?
             Tally(photon.History.PreviousDP, photon.History.CurrentDP);
+            //PhotonDataPoint previousDP = photon.History.HistoryData.First();
+            //foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
+            //{
+            //    Tally(previousDP, dp);
+            //    previousDP = dp;
+            //}
         }
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {

@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Detectors
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(ROfRhoAndTimeDetector))]
-    public class ROfRhoAndTimeDetector : ISurfaceDetector<double[,]>
+    public class ROfRhoAndTimeDetector : IDetector<double[,]> //ISurfaceDetector<double[,]>
     {
         private bool _tallySecondMoment;
         /// <summary>

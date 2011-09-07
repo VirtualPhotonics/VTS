@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo.Detectors
     /// This implemenation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(TDiffuseDetector))]
-    public class TDiffuseDetector : ISurfaceDetector<double>
+    public class TDiffuseDetector : IDetector<double> //ISurfaceDetector<double>
     {
         private bool _tallySecondMoment;
         /// <summary>

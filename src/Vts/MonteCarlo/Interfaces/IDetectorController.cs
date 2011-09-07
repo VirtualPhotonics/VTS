@@ -18,7 +18,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="N"></param>
         void NormalizeDetectors(long N);
-
+        /// <summary>
+        /// Method to tally to detectors in controller using information in Photon
+        /// </summary>
+        /// <param name="photon"></param>
         void Tally(Photon photon);
     }
 }

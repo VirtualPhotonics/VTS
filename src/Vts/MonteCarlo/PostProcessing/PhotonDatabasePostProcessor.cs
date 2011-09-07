@@ -34,9 +34,10 @@ namespace Vts.MonteCarlo.PostProcessing
 
             var detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
 
-            var detectorController = 
-                Factories.DetectorControllerFactory.GetDetectorController(
-                virtualBoundaryType, detectors);
+            //var detectorController = 
+            //    Factories.DetectorControllerFactory.GetDetectorController(
+            //    virtualBoundaryType, detectors);
+            var detectorController = new DetectorController(detectors);
  
             // DetectorController tallies for post-processing
             if (virtualBoundaryType.IsSurfaceVirtualBoundary())
@@ -46,9 +47,8 @@ namespace Vts.MonteCarlo.PostProcessing
                 {
                     photon.DP = dp;
                     //((ISurfaceDetectorController)detectorController).Tally(dp); // old
-                    ((ISurfaceDetectorController)detectorController).Tally(photon); // new
-
-
+                    //((ISurfaceDetectorController)detectorController).Tally(photon); // new
+                    detectorController.Tally(photon); // newest
                 }
             }
             // need to add volumeDetectorController processing
@@ -85,14 +85,20 @@ namespace Vts.MonteCarlo.PostProcessing
 
             var detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
 
-            var detectorController = Factories.DetectorControllerFactory.GetpMCDetectorController(
-                virtualBoundaryType, detectors, tissue, databaseInput.Options.TallySecondMoment);
+            //var detectorController = Factories.DetectorControllerFactory.GetpMCDetectorController(
+                //virtualBoundaryType, detectors, tissue, databaseInput.Options.TallySecondMoment);
+            var detectorController = new DetectorController(detectors);
+                
 
             if (virtualBoundaryType.IsSurfaceVirtualBoundary())
             {
                 foreach (var dp in database.DataPoints)
                 {
-                    ((IpMCSurfaceDetectorController)detectorController).Tally(dp.PhotonDataPoint, dp.CollisionInfo);
+                    //((IpMCSurfaceDetectorController)detectorController).Tally(dp.PhotonDataPoint, dp.CollisionInfo);
+                    var photon = new Photon();
+                    photon.DP = dp.PhotonDataPoint;
+                    photon.History.SubRegionInfoList = dp.CollisionInfo;
+                    detectorController.Tally(photon);
                 }
             }
 

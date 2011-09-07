@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Detectors
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(RadianceOfRhoDetector))]
-    public class RadianceOfRhoDetector : ISurfaceDetector<double[]>
+    public class RadianceOfRhoDetector : IDetector<double[]> //ISurfaceDetector<double[]>
     {
         private Func<PhotonDataPoint, double> _absorbAction;
         

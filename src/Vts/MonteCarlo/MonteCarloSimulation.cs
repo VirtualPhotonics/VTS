@@ -99,7 +99,8 @@ namespace Vts.MonteCarlo
                 if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) || (vbType == VirtualBoundaryType.DiffuseTransmittance))
                 {
                     var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, input.Options.TallySecondMoment);
-                    var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors);
+                    //var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors);
+                    var detectorController = new DetectorController(detectors);
                     var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbType, _tissue, detectorController);
                     _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
                 }
@@ -228,7 +229,8 @@ namespace Vts.MonteCarlo
                         if ((hitType == BoundaryHitType.Virtual) &&
                             (closestVirtualBoundary.DetectorController != null))
                         {
-                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon);
+                            closestVirtualBoundary.DetectorController.Tally(photon);
+                            //((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon);
                             //((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP);
                             // reset PhotonStateType after tallying
                             //photon.DP.StateFlag.Remove(closestVirtualBoundary.PhotonStateType);
@@ -270,7 +272,8 @@ namespace Vts.MonteCarlo
                     foreach (var vb in volumeVBs)
                     {
                         //((IVolumeDetectorController)vb.DetectorController).Tally(photon.History);
-                        ((IVolumeDetectorController)vb.DetectorController).Tally(photon);
+                        //((IVolumeDetectorController)vb.DetectorController).Tally(photon);
+                        vb.DetectorController.Tally(photon);
                     }
 
                     if (TrackStatistics)

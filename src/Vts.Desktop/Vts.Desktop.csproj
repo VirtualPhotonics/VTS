@@ -476,6 +476,9 @@
     <Compile Include="..\Vts\MonteCarlo\Controllers\DatabaseWriterController.cs">
       <Link>MonteCarlo\Controllers\DatabaseWriterController.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\DetectorController.cs">
+      <Link>MonteCarlo\Controllers\DetectorController.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDatabaseWriterController.cs">
       <Link>MonteCarlo\Controllers\pMCDatabaseWriterController.cs</Link>
     </Compile>

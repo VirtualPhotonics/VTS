@@ -182,6 +182,7 @@
     <Compile Include="Common\Stopwatch.cs" />
     <Compile Include="IO\KnownTypes.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
+    <Compile Include="MonteCarlo\Controllers\DetectorController.cs" />
     <Compile Include="MonteCarlo\Controllers\pMCDatabaseWriterController.cs" />
     <Compile Include="MonteCarlo\Controllers\DatabaseWriterController.cs" />
     <Compile Include="MonteCarlo\Controllers\VirtualBoundaryController.cs" />

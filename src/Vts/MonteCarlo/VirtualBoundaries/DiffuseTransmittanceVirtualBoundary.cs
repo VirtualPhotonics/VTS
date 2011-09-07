@@ -16,13 +16,15 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// </summary>
     public class DiffuseTransmittanceVirtualBoundary : IVirtualBoundary
     {
-        private ISurfaceDetectorController _detectorController;
+        //private ISurfaceDetectorController _detectorController;
+        private IDetectorController _detectorController;
         private double _zPlanePosition;
 
         /// <summary>
         /// Creates an instance of a plane tranmission virtual boundary in direction given
         /// </summary>
-        public DiffuseTransmittanceVirtualBoundary(ITissue tissue, ISurfaceDetectorController detectorController, string name)
+        //public DiffuseTransmittanceVirtualBoundary(ITissue tissue, ISurfaceDetectorController detectorController, string name)
+        public DiffuseTransmittanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             _zPlanePosition = ((LayerRegion)tissue.Regions.Where(r => r is LayerRegion).Last()).ZRange.Start;
 
