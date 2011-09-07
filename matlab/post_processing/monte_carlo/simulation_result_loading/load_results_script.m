@@ -6,7 +6,8 @@ clear all;
 addpath([cd '\xml_toolbox']);
 
 % names of individual MC simulations
-datanames = { 'one_layer_ROfRho_FluenceOfRhoAndZ' };
+% datanames = { 'one_layer_ROfRho_FluenceOfRhoAndZ' };
+datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 %outdir = 'C:\Simulations';
@@ -37,10 +38,6 @@ for mci = 1:length(datanames)
     
     if isfield(results, 'ROfRho') && show.ROfRho
         figname = 'log(R(\rho))'; figure; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) [mm^-^2]');
-        if (results.ROfRho.Error > 0)
-            figname = 'R(\rho) +/- 1\sigma'; hold on; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean + results.ROfRho.Error)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) +/- 1\sigma');
-            hold on; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean - results.ROfRho.Error)); 
-        end
         disp(['Total reflectance captured by ROfRho detector: ' num2str(sum(results.ROfRho.Mean(:)))]);
     end
     

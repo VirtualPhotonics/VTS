@@ -11,7 +11,8 @@ for di = 1:numDetectors
             RDiffuse.Name = detectorName;
             RDiffuse_xml = xml_load([datadir '\' detectorName '.xml']);
             RDiffuse.Mean = str2num(RDiffuse_xml.Mean);              
-            RDiffuse.SecondMoment = str2num(RDiffuse_xml.SecondMoment); 
+            RDiffuse.SecondMoment = str2num(RDiffuse_xml.SecondMoment);
+            RDiffuse.Stdev = sqrt((RDiffuse.SecondMoment - (RDiffuse.Mean .* RDiffuse.Mean)) / str2num(xml.N)); 
             results.RDiffuse = RDiffuse;
         case 'ROfRho'
             ROfRho.Name = detectorName;
@@ -21,7 +22,7 @@ for di = 1:numDetectors
             ROfRho.Mean = readBinaryData([datadir '\' detectorName],length(ROfRho.Rho)-1);              
             if(exist([datadir '\' detectorName '_2'],'file'))
                 ROfRho.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],length(ROfRho.Rho)-1);
-                ROfRho.Error = sqrt((ROfRho.SecondMoment - (ROfRho.Mean .* ROfRho.Mean)) / str2num(xml.N));
+                ROfRho.Stdev = sqrt((ROfRho.SecondMoment - (ROfRho.Mean .* ROfRho.Mean)) / str2num(xml.N));
             end
             results.ROfRho = ROfRho;
         case 'ROfAngle'
@@ -32,6 +33,7 @@ for di = 1:numDetectors
             ROfAngle.Mean = readBinaryData([datadir '\' detectorName],length(ROfAngle.Angle)-1);              
             if(exist([datadir '\' detectorName '_2'],'file'))
                 ROfAngle.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],length(ROfAngle.Angle)-1);
+                ROfAngle.Stdev = sqrt((ROfAngle.SecondMoment - (ROfAngle.Mean .* ROfAngle.Mean)) / str2num(xml.N));
             end
             results.ROfAngle = ROfAngle;
         case 'ROfXAndY'
@@ -44,10 +46,9 @@ for di = 1:numDetectors
             ROfXAndY.Y_Midpoints = (ROfXAndY.Y(1:end-1) + ROfXAndY.Y(2:end))/2;
             ROfXAndY.Mean = readBinaryData([datadir '\' detectorName],[length(ROfXAndY.X)-1,length(ROfXAndY.Y)-1]);    
             if(exist([datadir '\' detectorName '_2'],'file'))
-                ROfXAndY.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],[length(ROfXAndY.X)-1,length(ROfXAndY.Y)-1]);  
+                ROfXAndY.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],[length(ROfXAndY.X)-1,length(ROfXAndY.Y)-1]); 
+                ROfXAndY.Stdev = sqrt((ROfXAndY.SecondMoment - (ROfXAndY.Mean .* ROfXAndY.Mean)) / str2num(xml.N)); 
             end            
-%                         figname = ['log(' detectorName ')']; figure; imagesc(log(ROfXAndY.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
-%                         disp(['Total reflectance captured by ROfXAndY detector: ' num2str(sum(ROfXAndY.Mean(:)))]);
             results.ROfXAndY = ROfXAndY;
 
         case 'ROfRhoAndTime'
@@ -61,6 +62,7 @@ for di = 1:numDetectors
             ROfRhoAndTime.Mean = readBinaryData([datadir '\' detectorName],[length(ROfRhoAndTime.Rho)-1,length(ROfRhoAndTime.Time)-1]);              
             if(exist([datadir '\' detectorName '_2'],'file'))
                 ROfRhoAndTime.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],[length(ROfRhoAndTime.Rho)-1,length(ROfRhoAndTime.Time)-1]);
+                ROfRhoAndTime.Stdev = sqrt((ROfRhoAndTime.SecondMoment - (ROfRhoAndTime.Mean .* ROfRhoAndTime.Mean)) / str2num(xml.N));
             end
 %                         figname = ['log(' detectorName ')']; figure; imagesc(log(ROfRhoAndTime.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
 %                         disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(ROfRhoAndTime.Mean(:)))]);
@@ -76,7 +78,8 @@ for di = 1:numDetectors
             ROfRhoAndAngle.Angle_Midpoints = (ROfRhoAndAngle.Angle(1:end-1) + ROfRhoAndAngle.Angle(2:end))/2;
             ROfRhoAndAngle.Mean = readBinaryData([datadir '\' detectorName],[length(ROfRhoAndAngle.Rho)-1,length(ROfRhoAndAngle.Angle)-1]);
             if(exist([datadir '\' detectorName '_2'],'file'))
-                ROfRhoAndAngle.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],[length(ROfRhoAndAngle.Rho)-1,length(ROfRhoAndAngle.Angle)-1]);  
+                ROfRhoAndAngle.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],[length(ROfRhoAndAngle.Rho)-1,length(ROfRhoAndAngle.Angle)-1]); 
+                ROfRhoAndAngle.Stdev = sqrt((ROfRhoAndAngle.SecondMoment - (ROfRhoAndAngle.Mean .* ROfRhoAndAngle.Mean)) / str2num(xml.N)); 
             end
             results.ROfRhoAndAngle = ROfRhoAndAngle;
         case 'ROfRhoAndOmega'
@@ -94,6 +97,8 @@ for di = 1:numDetectors
             if(exist([datadir '\' detectorName '_2'],'file'))
                 tempData = readBinaryData([datadir '\' detectorName '_2'],[2*(length(ROfRhoAndOmega.Rho)-1),length(ROfRhoAndOmega.Omega)-1]);  
                 ROfRhoAndOmega.SecondMoment =  tempData(1:2:end,:) + 1i*tempData(2:2:end,:);
+                ROfRhoAndOmega.Stdev = sqrt((real(ROfRhoAndOmega.SecondMoment) - (real(ROfRhoAndOmega.Mean) .* real(ROfRhoAndOmega.Mean))) / str2num(xml.N)) + ...
+                    1i*sqrt((imag(ROfRhoAndOmega.SecondMoment) - (imag(ROfRhoAndOmega.Mean) .* imag(ROfRhoAndOmega.Mean))) / str2num(xml.N));
             end            
             results.ROfRhoAndOmega = ROfRhoAndOmega;
 
@@ -102,6 +107,7 @@ for di = 1:numDetectors
             TDiffuse_xml = xml_load([datadir '\' detectorName '.xml']);
             TDiffuse.Mean = str2num(TDiffuse_xml.Mean);              
             TDiffuse.SecondMoment = str2num(TDiffuse_xml.SecondMoment); 
+            TDiffuse.Stdev = sqrt((TDiffuse.SecondMoment - (TDiffuse.Mean .* TDiffuse.Mean)) / str2num(xml.N));
             results.TDiffuse = TDiffuse;
         case 'TOfRho'
             TOfRho.Name = detectorName;
@@ -111,6 +117,7 @@ for di = 1:numDetectors
             TOfRho.Mean = readBinaryData([datadir '\' detectorName],length(TOfRho.Rho)-1);              
             if(exist([datadir '\' detectorName '_2'],'file'))
                 TOfRho.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],length(TOfRho.Rho)-1);
+                TOfRho.Stdev = sqrt((TOfRho.SecondMoment - (TOfRho.Mean .* TOfRho.Mean)) / str2num(xml.N));
             end
             results.TOfRho = ROfRho;
         case 'TOfAngle'
@@ -121,6 +128,7 @@ for di = 1:numDetectors
             TOfAngle.Mean = readBinaryData([datadir '\' detectorName],length(ROfAngle.Angle)-1);              
             if(exist([datadir '\' detectorName '_2'],'file'))
                 TOfAngle.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],length(TOfAngle.Angle)-1);
+                TOfAngle.Stdev = sqrt((TOfAngle.SecondMoment - (TOfAngle.Mean .* TOfAngle.Mean)) / str2num(xml.N));
             end
             results.ROfAngle = ROfAngle;
         case 'TOfRhoAndAngle'
@@ -133,7 +141,8 @@ for di = 1:numDetectors
             TOfRhoAndAngle.Angle_Midpoints = (TOfRhoAndAngle.Angle(1:end-1) + TOfRhoAndAngle.Angle(2:end))/2;
             TOfRhoAndAngle.Mean = readBinaryData([datadir '\' detectorName],[length(ROfRhoAndAngle.Rho)-1,length(TOfRhoAndAngle.Angle)-1]);
             if(exist([datadir '\' detectorName '_2'],'file'))
-                TOfRhoAndAngle.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],[length(TOfRhoAndAngle.Rho)-1,length(TOfRhoAndAngle.Angle)-1]);  
+                TOfRhoAndAngle.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],[length(TOfRhoAndAngle.Rho)-1,length(TOfRhoAndAngle.Angle)-1]); 
+                TOfRhoAndAngle.Stdev = sqrt((TOfRhoAndAngle.SecondMoment - (TOfRhoAndAngle.Mean .* TOfRhoAndAngle.Mean)) / str2num(xml.N)); 
             end
             results.TOfRhoAndAngle = TOfRhoAndAngle;
 
@@ -142,6 +151,7 @@ for di = 1:numDetectors
             ATotal_xml = xml_load([datadir '\' detectorName '.xml']);
             ATotal.Mean = str2num(ATotal_xml.Mean);              
             ATotal.SecondMoment = str2num(ATotal_xml.SecondMoment); 
+            ATotal.Stdev = sqrt((ATotal.SecondMoment - (ATotal.Mean .* ATotal.Mean)) / str2num(xml.N));
             results.ATotal = ATotal;
         case 'AOfRhoAndZ'
             AOfRhoAndZ.Name = detectorName;
@@ -153,7 +163,8 @@ for di = 1:numDetectors
             AOfRhoAndZ.Z_Midpoints = (AOfRhoAndZ.Z(1:end-1) + AOfRhoAndZ.Z(2:end))/2;
             AOfRhoAndZ.Mean = readBinaryData([datadir '\' detectorName],[length(AOfRhoAndZ.Rho)-1,length(AOfRhoAndZ.Z)-1]);
             if(exist([datadir '\' detectorName '_2'],'file'))
-                AOfRhoAndZ.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],[length(AOfRhoAndZ.Rho)-1,length(AOfRhoAndZ.Z)-1]);  
+                AOfRhoAndZ.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],[length(AOfRhoAndZ.Rho)-1,length(AOfRhoAndZ.Z)-1]); 
+                AOfRhoAndZ.Stdev = sqrt((AOfRhoAndZ.SecondMoment - (AOfRhoAndZ.Mean .* AOfRhoAndZ.Mean)) / str2num(xml.N)); 
             end
             results.AOfRhoAndZ = AOfRhoAndZ;
         case 'FluenceOfRhoAndZ'
@@ -166,7 +177,8 @@ for di = 1:numDetectors
             FluenceOfRhoAndZ.Z_Midpoints = (FluenceOfRhoAndZ.Z(1:end-1) + FluenceOfRhoAndZ.Z(2:end))/2;
             FluenceOfRhoAndZ.Mean = readBinaryData([datadir '\' detectorName],[length(FluenceOfRhoAndZ.Rho)-1,length(FluenceOfRhoAndZ.Z)-1]);
             if(exist([datadir '\' detectorName '_2'],'file'))
-                FluenceOfRhoAndZ.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],[length(FluenceOfRhoAndZ.Rho)-1,length(FluenceOfRhoAndZ.Z)-1]);  
+                FluenceOfRhoAndZ.SecondMoment = readBinaryData([datadir '\' detectorName '_2'],[length(FluenceOfRhoAndZ.Rho)-1,length(FluenceOfRhoAndZ.Z)-1]);
+                FluenceOfRhoAndZ.Stdev = sqrt((FluenceOfRhoAndZ.SecondMoment - (FluenceOfRhoAndZ.Mean .* FluenceOfRhoAndZ.Mean)) / str2num(xml.N));  
             end
             results.FluenceOfRhoAndZ = FluenceOfRhoAndZ;
         case 'RadianceOfRhoAndZAndAngle'
@@ -189,7 +201,8 @@ for di = 1:numDetectors
                 RadianceOfRhoAndZAndAngle.SecondMoment = readBinaryData([datadir '\' detectorName '_2'], ... 
                 [(length(RadianceOfRhoAndZAndAngle.Rho)-1) * (length(RadianceOfRhoAndZAndAngle.Z)-1) * (length(RadianceOfRhoAndZAndAngle.Angle)-1)]); 
                 RadianceOfRhoAndZAndAngle.SecondMoment = reshape(RadianceOfRhoAndZAndAngle.SecondMoment, ...
-                [length(RadianceOfRhoAndZAndAngle.Rho)-1,length(RadianceOfRhoAndZAndAngle.Z)-1,length(RadianceOfRhoAndZAndAngle.Angle)-1]);                 
+                [length(RadianceOfRhoAndZAndAngle.Rho)-1,length(RadianceOfRhoAndZAndAngle.Z)-1,length(RadianceOfRhoAndZAndAngle.Angle)-1]);  
+                RadianceOfRhoAndZAndAngle.Stdev = sqrt((RadianceOfRhoAndZAndAngle.SecondMoment - (RadianceOfRhoAndZAndAngle.Mean .* RadianceOfRhoAndZAndAngle.Mean)) / str2num(xml.N));               
             end
             results.RadianceOfRhoAndZAndAngle = RadianceOfRhoAndZAndAngle;
     end %detectorName switch

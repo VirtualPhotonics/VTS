@@ -95,7 +95,7 @@ namespace Vts.MonteCarlo
                     new RadianceOfRhoAndZAndAngleDetectorInput(
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0, Math.PI, 5)),
+                        new DoubleRange(0, Math.PI, 3)),
                     new RSpecularDetectorInput()
                 }
                 );
@@ -156,7 +156,7 @@ namespace Vts.MonteCarlo
         public static SimulationInput PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector()
         {
             return new SimulationInput(
-                10000,
+                100,
                 "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed

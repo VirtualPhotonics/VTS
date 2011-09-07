@@ -255,7 +255,7 @@ namespace Vts.SiteVisit.ViewModel
                     logger.Info(() => "Saving simulation results to temporary directory...");
                     string resultsFolder = input.OutputName;
                     FileIO.CreateDirectory(resultsFolder);
-                    input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".xml"));
+                    input.ToFile(Path.Combine(resultsFolder, "infile_" + input.OutputName + ".xml"));
 
                     foreach (var result in _output.ResultsDictionary.Values)
                     {
@@ -332,7 +332,7 @@ namespace Vts.SiteVisit.ViewModel
                     var files = SimulationInputProvider.GenerateAllSimulationInputs().Select(input =>
                         new
                         {
-                            Name = input.OutputName + ".xml",
+                            Name = "infile_" + input.OutputName + ".xml",
                             Input = input
                         });
 

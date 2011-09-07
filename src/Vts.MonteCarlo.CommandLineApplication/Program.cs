@@ -196,7 +196,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             var infiles = SimulationInputProvider.GenerateAllSimulationInputs();
             for (int i = 0; i < infiles.Count; i++)
             {
-                infiles[i].ToFile("newinfile_" + infiles[i].OutputName + ".xml"); 
+                infiles[i].ToFile("infile_" + infiles[i].OutputName + ".xml"); 
             }
         }
 
