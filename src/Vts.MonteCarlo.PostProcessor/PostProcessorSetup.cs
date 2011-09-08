@@ -3,8 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using Vts.MonteCarlo.PostProcessing;
-using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.DataStructuresValidation;
@@ -77,21 +76,9 @@ namespace Vts.MonteCarlo.PostProcessor
                 Directory.CreateDirectory(resultsFolder);
             }
 
-            Output postProcessedOutput;
-            if (input.VirtualBoundaryType != VirtualBoundaryType.pMCDiffuseReflectance)
-            {
-                // the following only works for surface boundary detectors
-                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
-                    VirtualBoundaryType.DiffuseReflectance,
-                    input.DetectorInputs, 
-                    false,
-                    PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
-                        VirtualBoundaryType.DiffuseReflectance,
-                        input.InputFolder),
-                    SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"))
-                );
-            }
-            else
+            Output postProcessedOutput = null;
+            // check for pMC tallies first
+            if (input.DetectorInputs.Select(di => di.TallyType.IspMCReflectanceTally()).Any())
             {
                 IList<IpMCDetectorInput> pMCDetectorInputs;
                 pMCDetectorInputs = input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
@@ -105,6 +92,43 @@ namespace Vts.MonteCarlo.PostProcessor
                     SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"))
                 );
             }
+            else if (input.DetectorInputs.Select(di => di.TallyType.IsReflectanceTally()).Any())
+            {
+                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                    VirtualBoundaryType.DiffuseReflectance,
+                    input.DetectorInputs, 
+                    false,
+                    PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
+                        VirtualBoundaryType.DiffuseReflectance,
+                        input.InputFolder),
+                    SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"))
+                );
+            }
+            else if (input.DetectorInputs.Select(di => di.TallyType.IsTransmittanceTally()).Any())
+            {
+                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                    VirtualBoundaryType.DiffuseTransmittance,
+                    input.DetectorInputs,
+                    false,
+                    PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
+                        VirtualBoundaryType.DiffuseTransmittance,
+                        input.InputFolder),
+                    SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"))
+                );
+            }
+            else if (input.DetectorInputs.Select(di => di.TallyType.IsSpecularReflectanceTally()).Any())
+            {
+                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                    VirtualBoundaryType.SpecularReflectance,
+                    input.DetectorInputs,
+                    false,
+                    PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
+                        VirtualBoundaryType.SpecularReflectance,
+                        input.InputFolder),
+                    SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"))
+                );
+            }
+
             var folderPath = input.OutputName;
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
@@ -112,12 +136,14 @@ namespace Vts.MonteCarlo.PostProcessor
             // save input file to output folder with results
             input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
 
-            foreach (var result in postProcessedOutput.ResultsDictionary.Values)
+            if (postProcessedOutput != null)
             {
-                // save all detector data to the specified folder
-                DetectorIO.WriteDetectorToFile(result, folderPath);
+                foreach (var result in postProcessedOutput.ResultsDictionary.Values)
+                {
+                    // save all detector data to the specified folder
+                    DetectorIO.WriteDetectorToFile(result, folderPath);
+                }
             }
-
         }
     }
 }

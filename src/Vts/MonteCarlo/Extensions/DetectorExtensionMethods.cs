@@ -91,7 +91,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="tallyType">TallyType enum</param>
         /// <returns>boolean</returns>
-        public static bool IspMCTally(this TallyType tallyType)
+        public static bool IspMCReflectanceTally(this TallyType tallyType)
         {
             switch (tallyType)
             {

@@ -42,7 +42,7 @@ namespace Vts.MonteCarlo
         public IList<IDetectorInput> DetectorInputs;
         public bool TallySecondMoment;
         public string InputFolder;
-        public VirtualBoundaryType VirtualBoundaryType;
+        //public VirtualBoundaryType VirtualBoundaryType;
         public string DatabaseSimulationInputFilename;
         public string OutputName;
 
@@ -50,7 +50,7 @@ namespace Vts.MonteCarlo
         /// Default constructor loads default values for InputData
         /// </summary>
         public PostProcessorInput(
-            VirtualBoundaryType virtualBoundaryType,
+            //VirtualBoundaryType virtualBoundaryType,
             IList<IDetectorInput> detectorInputs,
             bool tallySecondMoment,
             string inputFolder,
@@ -60,14 +60,14 @@ namespace Vts.MonteCarlo
             DetectorInputs = detectorInputs;
             TallySecondMoment = tallySecondMoment;
             InputFolder = inputFolder;
-            VirtualBoundaryType = virtualBoundaryType;
+            //VirtualBoundaryType = virtualBoundaryType;
             DatabaseSimulationInputFilename = databaseSimulationInputFilename;
             OutputName = outputName;
         }
 
         public PostProcessorInput()
             : this(
-                VirtualBoundaryType.DiffuseReflectance,
+                //VirtualBoundaryType.DiffuseReflectance,
                 new List<IDetectorInput>
                     {
                         new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)

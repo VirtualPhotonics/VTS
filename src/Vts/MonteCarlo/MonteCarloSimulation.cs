@@ -90,7 +90,7 @@ namespace Vts.MonteCarlo
                         detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IsInternalSurfaceTally()).ToList();
                         break;
                     case VirtualBoundaryType.pMCDiffuseReflectance:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IspMCTally()).ToList();
+                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IspMCReflectanceTally()).ToList();
                         break;
                 }
 

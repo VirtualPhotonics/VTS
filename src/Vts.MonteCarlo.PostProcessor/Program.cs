@@ -173,7 +173,7 @@ namespace Vts.MonteCarlo.PostProcessor
             var infiles = PostProcessorInputProvider.GenerateAllPostProcessorInputs();
             for (int i = 0; i < infiles.Count; i++)
             {
-                infiles[i].ToFile("newinfile_" + infiles[i].OutputName + ".xml"); 
+                infiles[i].ToFile("infile_" + infiles[i].OutputName + ".xml"); 
             }
 
         }
@@ -183,7 +183,7 @@ namespace Vts.MonteCarlo.PostProcessor
         /// </summary>
         private static void ShowHelp()
         {
-            Console.WriteLine("Virtual Photonics MC 1.0");
+            Console.WriteLine("Virtual Photonics MC Post-Processor 1.0");
             Console.WriteLine();
             Console.WriteLine("list of arguments:");
             Console.WriteLine();
@@ -191,7 +191,7 @@ namespace Vts.MonteCarlo.PostProcessor
             Console.WriteLine("outpath\t\tthe output path, accepts relative and absolute paths");
             Console.WriteLine("outname\t\toutput name, this overwrites output name in input file");
             Console.WriteLine();
-            Console.WriteLine("geninfiles\t\tgenerates new infiles and names them newinfile_XXX.xml");
+            Console.WriteLine("geninfiles\t\tgenerates new infiles and names them infile_XXX.xml");
             Console.WriteLine();
             Console.WriteLine("sample usage:");
             Console.WriteLine();

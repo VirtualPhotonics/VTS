@@ -31,7 +31,7 @@ namespace Vts.MonteCarlo
         public static PostProcessorInput PostProcessorROfRho()
         {
             return new PostProcessorInput(
-                VirtualBoundaryType.DiffuseReflectance,
+                //VirtualBoundaryType.DiffuseReflectance,
                 new List<IDetectorInput>()
                 {
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo
         public static PostProcessorInput pMCROfRho()
         {
             return new PostProcessorInput(
-                VirtualBoundaryType.pMCDiffuseReflectance,
+                //VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                 {
                     new pMCROfRhoDetectorInput(
