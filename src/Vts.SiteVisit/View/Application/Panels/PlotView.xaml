@@ -29,12 +29,10 @@
                     <!-- Hold on checkbox -->
                     <CheckBox Content="{Binding Path=MainResource.Label_HoldOn, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding HoldOn, Mode=TwoWay}" Margin="0,5,0,0"/>
                     <!-- Buttons to clear the plots -->
-                    <Button input:CommandService.Command="Plot_ClearPlot"
-                        input:CommandService.CommandParameter="{Binding}"
+                    <Button Command="{Binding ClearPlotCommand}"
                         Content="{Binding Path=MainResource.Button_ClearAll, Source={StaticResource LocalizedStrings}}"  
                         Width="80" Height="20" Margin="0,5,0,0"/>
-                    <Button input:CommandService.Command="Plot_ClearPlotSingle"
-                        input:CommandService.CommandParameter="{Binding}"
+                    <Button Command="{Binding ClearPlotSingleCommand}"
                         Content="{Binding Path=MainResource.Button_ClearNewest, Source={StaticResource LocalizedStrings}}"  
                         Width="80" Height="20" Margin="0,5,0,0"/>
                 </StackPanel>
@@ -64,8 +62,7 @@
                     <Button Content="{Binding Path=MainResource.Button_ExportImage, Source={StaticResource LocalizedStrings}}" 
                         Click="Button_Click"
                         Margin="0,5,0,0"/>
-                    <Button input:CommandService.Command="Plot_ExportDataToText"
-                        input:CommandService.CommandParameter="{Binding}"
+                    <Button Command="{Binding ExportDataToTextCommand}"
                         Content="{Binding Path=MainResource.Button_ExportData, Source={StaticResource LocalizedStrings}}"  
                         Margin="0,5,0,0"/>
                 </StackPanel>

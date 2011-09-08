@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
+using GalaSoft.MvvmLight.Command;
+using SLExtensions.Input;
 using Vts.IO;
 using Vts.Extensions;
 using Vts.SiteVisit.Input;
@@ -34,27 +36,55 @@ namespace Vts.SiteVisit.ViewModel
             ScalingTypeOptionVM.PropertyChanged += (sender, args) => UpdateImages();
 
             ColormapTypeOptionVM = new OptionViewModel<ColormapType>(StringLookup.GetLocalizedString("Label_ColormapType"));
-            _colormap = new Colormap(ColormapTypeOptionVM.SelectedValue);
             ColormapTypeOptionVM.PropertyChanged += (sender, args) =>
             {
                 _colormap = new Colormap(ColormapTypeOptionVM.SelectedValue);
                 UpdateImages();
             };
 
-            Commands.Maps_CreateDemoMap.Executed += (sender, args) =>
-            {
-                SetBitmapData(SampleBitmapDataProvider.GetSampleBitmapData());
-                UpdateImages();
-            };
+            _colormap = new Colormap(ColormapTypeOptionVM.SelectedValue);
 
             Commands.Maps_PlotMap.Executed += Maps_PlotMap_Executed;
 
-            Commands.Maps_ExportDataToText.Executed += Maps_ExportDataToText_Executed;
+            ExportDataToTextCommand = new RelayCommand(() => Maps_ExportDataToText_Executed(null, null));
+            DuplicateWindowCommand = new RelayCommand(() => Map_DuplicateWindow_Executed(null, null));
         }
+
+        public RelayCommand DuplicateWindowCommand { get; set; }
+        public RelayCommand ExportDataToTextCommand { get; set; }
 
         public WriteableBitmap Bitmap { get; private set; }
         public WriteableBitmap ColorBar { get; private set; }
         public double YExpectationValue { get; private set; }
+
+        public MapViewModel Clone()
+        {
+            return Clone(this);
+        }
+
+        public static MapViewModel Clone(MapViewModel mapToClone)
+        {
+            var output = new MapViewModel();
+
+            Commands.Maps_PlotMap.Executed -= output.Maps_PlotMap_Executed;
+
+            output._MinValue = mapToClone._MinValue;
+            output._MaxValue = mapToClone._MaxValue;
+            output._AutoScale = mapToClone._AutoScale;
+
+            output._mapData = mapToClone._mapData; // need to clone
+            output._colormap = mapToClone._colormap; // need to clone
+
+            output.Bitmap = mapToClone.Bitmap != null ? new WriteableBitmap(mapToClone.Bitmap) : null;
+            output.ColorBar = mapToClone.ColorBar != null ? new WriteableBitmap(mapToClone.ColorBar) : null;
+
+            output.YExpectationValue = mapToClone.YExpectationValue;
+
+            output._ColormapTypeOptionVM.Options[mapToClone._ColormapTypeOptionVM.SelectedValue].IsSelected = true;
+            output._ScalingTypeOptionVM.Options[mapToClone._ScalingTypeOptionVM.SelectedValue].IsSelected = true;
+
+            return output;
+        }
 
         // todo: ready for updating to automatic properties and IAutoNotifyProperty changed
         public double MinValue
@@ -132,21 +162,7 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
-        //// todo: this should be updated to use reflection, and not rely on strings
-        //void MapViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    if (e.PropertyName == "MinValue" || e.PropertyName == "MaxValue" )
-        //    {
-        //        UpdateImages();
-        //    }
-        //    else if (e.PropertyName == "AutoScale")
-        //    {
-        //        UpdateStats();
-        //        UpdateImages();
-        //    }
-        //}
-
-        void Maps_PlotMap_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
+        private void Maps_PlotMap_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
         {
             var mapData = e.Parameter as MapData;
             if (mapData != null)
@@ -154,6 +170,12 @@ namespace Vts.SiteVisit.ViewModel
                 SetBitmapData(mapData);
                 UpdateImages(); // why is this called separately?
             }
+        }
+
+        private void Map_DuplicateWindow_Executed(object sender, ExecutedEventArgs e)
+        {
+            var vm = this.Clone();
+            Commands.Main_DuplicateMapView.Execute(vm, vm);
         }
 
         private void Maps_ExportDataToText_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)

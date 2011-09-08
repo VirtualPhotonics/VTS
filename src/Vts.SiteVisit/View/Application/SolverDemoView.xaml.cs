@@ -19,12 +19,17 @@ namespace Vts.SiteVisit.View
 {
     public partial class SolverDemoView : UserControl
     {
+        private int _numPlotViews;
+        private int _numMapViews;
         public static SolverDemoView Current = null;
 
         private FloatableWindow _floatableWindow; 
         public SolverDemoView()
         {
             InitializeComponent();
+
+            _numPlotViews = 0;
+            _numMapViews = 0;
 
             Current = this;
 
@@ -38,6 +43,50 @@ namespace Vts.SiteVisit.View
             };
 
             Commands.IsoStorage_IncreaseSpaceQuery.Executed += IsoStorage_IncreaseSpaceQuery_Executed;
+            Commands.IsoStorage_IncreaseSpaceQuery.Executed += IsoStorage_IncreaseSpaceQuery_Executed;
+
+            Commands.Main_DuplicatePlotView.Executed += Main_DuplicatePlotView_Executed;
+            Commands.Main_DuplicateMapView.Executed += Main_DuplicateMapView_Executed;
+        }
+        
+        void Main_DuplicatePlotView_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
+        {
+            var vm = e.Parameter as PlotViewModel;
+            if (vm != null)
+            {
+                var plotView = new PlotView();
+                plotView.DataContext = vm;
+                var newPlotWindow = new FloatableWindow()
+                {
+                    Name = "wndPlotView" + _numPlotViews++,
+                    Content = plotView,
+                    ParentLayoutRoot = this.layoutRoot,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    HorizontalAlignment = HorizontalAlignment.Left
+                };
+
+                newPlotWindow.Show();
+            }
+        }
+
+        void Main_DuplicateMapView_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
+        {
+            var vm = e.Parameter as MapViewModel;
+            if (vm != null)
+            {
+                var mapView = new MapView();
+                mapView.DataContext = vm;
+                var newPlotWindow = new FloatableWindow()
+                {
+                    Name = "wndMapView" + _numMapViews++,
+                    Content = mapView,
+                    ParentLayoutRoot = this.layoutRoot,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    HorizontalAlignment = HorizontalAlignment.Left
+                };
+
+                newPlotWindow.Show();
+            }
         }
 
         void IsoStorage_IncreaseSpaceQuery_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)

@@ -8,6 +8,7 @@ using Vts.Factories;
 using Vts.SiteVisit.Extensions;
 using Vts.SiteVisit.Input;
 using Vts.SiteVisit.Model;
+using GalaSoft.MvvmLight.Command;
 
 namespace Vts.SiteVisit.ViewModel
 {
@@ -16,8 +17,6 @@ namespace Vts.SiteVisit.ViewModel
     /// </summary>
     public class InverseSolverViewModel : BindableObject
     {
-        #region Fields
-
         private SolutionDomainOptionViewModel _SolutionDomainTypeOptionVM;
         private RangeViewModel _RangeVM;
         private OptionViewModel<ForwardSolverType> _MeasuredForwardSolverTypeVM;
@@ -35,12 +34,10 @@ namespace Vts.SiteVisit.ViewModel
         private IEnumerable<double> _InitialGuessDataValues;
         private IEnumerable<double> _ResultDataValues;
 
-        #endregion
-
         public InverseSolverViewModel()
         {
-            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain:", SolutionDomainType.RofRho); ;
-            RangeVM = new RangeViewModel() { Title = "" };
+            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain:", SolutionDomainType.RofRho);
+            RangeVM = new RangeViewModel { Title = "" };
 
             SolutionDomainTypeOptionVM.SolverType = SolverType.Inverse;
 
@@ -71,14 +68,17 @@ namespace Vts.SiteVisit.ViewModel
             InitialGuessOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "" };
             ResultOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "" };
 
-            //UpdateModels();
-
-            Commands.IS_SimulateMeasuredData.Executed += new EventHandler<ExecutedEventArgs>(IS_SimulateMeasuredData_Executed);
-            Commands.IS_CalculateInitialGuess.Executed += new EventHandler<ExecutedEventArgs>(IS_CalculateInitialGuess_Executed);
-            Commands.IS_SolveInverse.Executed += new EventHandler<ExecutedEventArgs>(IS_SolveInverse_Executed);
+            SimulateMeasuredDataCommand = new RelayCommand(() => SimulateMeasuredDataCommand_Executed(null, null));
+            CalculateInitialGuessCommand = new RelayCommand(() => CalculateInitialGuessCommand_Executed(null, null));
+            SolveInverseCommand = new RelayCommand(() => SolveInverseCommand_Executed(null, null));
 
             Commands.IS_SetIndependentVariableRange.Executed += SetIndependentVariableRange_Executed;
         }
+
+        public RelayCommand SimulateMeasuredDataCommand { get; set; }
+        public RelayCommand CalculateInitialGuessCommand { get; set; }
+        public RelayCommand SolveInverseCommand { get; set; }
+
 
         #region Sub-View-Models
 
@@ -196,19 +196,19 @@ namespace Vts.SiteVisit.ViewModel
 
         public IForwardSolver MeasuredForwardSolver
         {
-            get 
-            { 
+            get
+            {
                 return SolverFactory.GetForwardSolver(
-                    MeasuredForwardSolverTypeOptionVM.SelectedValue); 
+                    MeasuredForwardSolverTypeOptionVM.SelectedValue);
             }
         }
 
         public IForwardSolver InverseForwardSolver
         {
-            get 
+            get
             {
                 return SolverFactory.GetForwardSolver(
-                    InverseForwardSolverTypeOptionVM.SelectedValue); 
+                    InverseForwardSolverTypeOptionVM.SelectedValue);
             }
         }
 
@@ -232,9 +232,9 @@ namespace Vts.SiteVisit.ViewModel
                 // if it's reporting Real + Imaginary, we need a vector twice as long
                 if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
                 {
-                    return  EnumerableEx.Zip(RangeVM.Values.Concat(RangeVM.Values), MeasuredDataValues, (x, y) => new Point(x, y));
+                    return EnumerableEx.Zip(RangeVM.Values.Concat(RangeVM.Values), MeasuredDataValues, (x, y) => new Point(x, y));
                 }
-                return  EnumerableEx.Zip( RangeVM.Values, MeasuredDataValues, (x, y) => new Point(x, y));
+                return EnumerableEx.Zip(RangeVM.Values, MeasuredDataValues, (x, y) => new Point(x, y));
             }
         }
         public IEnumerable<double> MeasuredDataValues
@@ -249,9 +249,9 @@ namespace Vts.SiteVisit.ViewModel
                 // if it's reporting Real + Imaginary, we need a vector twice as long
                 if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
                 {
-                    return  EnumerableEx.Zip(RangeVM.Values.Concat(RangeVM.Values), InitialGuessDataValues, (x, y) => new Point(x, y));
+                    return EnumerableEx.Zip(RangeVM.Values.Concat(RangeVM.Values), InitialGuessDataValues, (x, y) => new Point(x, y));
                 }
-                return  EnumerableEx.Zip(RangeVM.Values, InitialGuessDataValues, (x, y) => new Point(x, y));
+                return EnumerableEx.Zip(RangeVM.Values, InitialGuessDataValues, (x, y) => new Point(x, y));
             }
         }
         public IEnumerable<double> InitialGuessDataValues
@@ -266,12 +266,12 @@ namespace Vts.SiteVisit.ViewModel
                 // if it's reporting Real + Imaginary, we need a vector twice as long
                 if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
                 {
-                    return  EnumerableEx.Zip(
-                        RangeVM.Values.Concat(RangeVM.Values), 
-                        ResultDataValues, 
+                    return EnumerableEx.Zip(
+                        RangeVM.Values.Concat(RangeVM.Values),
+                        ResultDataValues,
                         (x, y) => new Point(x, y));
-                } 
-                return  EnumerableEx.Zip(RangeVM.Values, ResultDataValues, (x, y) => new Point(x, y));
+                }
+                return EnumerableEx.Zip(RangeVM.Values, ResultDataValues, (x, y) => new Point(x, y));
             }
         }
         public IEnumerable<double> ResultDataValues
@@ -281,7 +281,6 @@ namespace Vts.SiteVisit.ViewModel
         }
         #endregion
 
-
         void SetIndependentVariableRange_Executed(object sender, ExecutedEventArgs e)
         {
             if (e.Parameter is RangeViewModel)
@@ -290,7 +289,7 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
-        void IS_SimulateMeasuredData_Executed(object sender, ExecutedEventArgs e)
+        void SimulateMeasuredDataCommand_Executed(object sender, ExecutedEventArgs e)
         {
             CalculateMeasuredData();
             PlotAxesLabels axesLabels = GetPlotLabels();
@@ -312,7 +311,7 @@ namespace Vts.SiteVisit.ViewModel
                 case PlotDataType.Simulated:
                     solverString = "Simulated: \r";
                     modelString =
-                        MeasuredForwardSolverTypeOptionVM.SelectedValue ==ForwardSolverType.DistributedPointSourceSDA ||
+                        MeasuredForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedPointSourceSDA ||
                         MeasuredForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSourceSDA ||
                         MeasuredForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSourceSDA
                         ? "Model - SDA \r" : "Model - MC \r";
@@ -320,8 +319,8 @@ namespace Vts.SiteVisit.ViewModel
                     break;
                 case PlotDataType.Calculated:
                     solverString = "Calculated:\r";
-                    modelString = 
-                        InverseForwardSolverTypeOptionVM.SelectedValue ==ForwardSolverType.DistributedPointSourceSDA ||
+                    modelString =
+                        InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedPointSourceSDA ||
                         InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.PointSourceSDA ||
                         InverseForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.DistributedGaussianSourceSDA
                         ? "Model - SDA \r" : "Model - MC \r";
@@ -365,7 +364,7 @@ namespace Vts.SiteVisit.ViewModel
             return axesLabels;
         }
 
-        void IS_CalculateInitialGuess_Executed(object sender, ExecutedEventArgs e)
+        void CalculateInitialGuessCommand_Executed(object sender, ExecutedEventArgs e)
         {
             CalculateInitialGuess();
             PlotAxesLabels axesLabels = GetPlotLabels();
@@ -374,7 +373,7 @@ namespace Vts.SiteVisit.ViewModel
             Commands.TextOutput_PostMessage.Execute("Initial Guess: " + InitialGuessOpticalPropertyVM + " \r");
         }
 
-        void IS_SolveInverse_Executed(object sender, ExecutedEventArgs e)
+        void SolveInverseCommand_Executed(object sender, ExecutedEventArgs e)
         {
             // Report inverse solver setup and results
             Commands.TextOutput_PostMessage.Execute("Inverse Solution Results: \r");
@@ -451,7 +450,7 @@ namespace Vts.SiteVisit.ViewModel
         public void SolveInverse()
         {
             MeasuredDataValues = GetSimulatedMeasuredData();
-            
+
             //var op = ResultOpticalPropertyVM;
             // Solve the inverse problem for optical properties
             // todo: is this a good format for the solver?
@@ -462,7 +461,7 @@ namespace Vts.SiteVisit.ViewModel
 
             double[] constantValues =
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
-                    ? new double[] {  SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
+                    ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
             double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
