@@ -32,7 +32,6 @@ namespace Vts.FemModeling.MGRTE._2D.IO
                     temp = double.Parse(bits[count]); para.NMgCycle = (int)temp; count++;
                     temp = double.Parse(bits[count]); para.NIterations = (int)temp;
                     reader.Close();
-
                 }
             }
             else

@@ -34,23 +34,20 @@ namespace Vts.MGRTE.ConsoleApp
 
             Parameters para = new Parameters();
 
-            //para.AMeshLevel = 4;
-            //para.AMeshLevel0 = 0;
-            //para.Fmg = 1;
-            //para.G = 0.9;
-            //para.NTissue = 1.0;
-            //para.NExt = 1.0;
-            //para.L = 1.0;
-            //para.NIterations = 100;
-            //para.NPreIteration = 3;
-            //para.NPostIteration = 3;
-            //para.NMgCycle = 1;
-            //para.SMeshLevel = 3;
-            //para.SMeshLevel0 = 0;
-            //para.ConvTol = 1e-4;
-            //para.MgMethod = 6;
-           
-            
+            para.AMeshLevel = 4;
+            para.AMeshLevel0 = 0;            
+            para.G = 0.9;
+            para.NTissue = 1.0;
+            para.NExt = 1.0;
+            para.NIterations = 100;
+            para.NPreIteration = 3;
+            para.NPostIteration = 3;
+            para.NMgCycle = 1;
+            para.SMeshLevel = 3;
+            para.SMeshLevel0 = 0;
+            para.ConvTol = 1e-4;
+            para.MgMethod = 6;
+                    
             
             SolverMGRTE.ExecuteMGRTE(para);
 

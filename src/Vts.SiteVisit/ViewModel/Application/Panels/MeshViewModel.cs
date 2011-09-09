@@ -40,7 +40,7 @@ namespace Vts.SiteVisit.ViewModel
                 UpdateImages();
             };
 
-            Commands.Maps_CreateDemoMap.Executed += (sender, args) =>
+            Commands.Maps_PlotMap.Executed += (sender, args) =>
             {
                 SetBitmapData(SampleBitmapDataProvider.GetSampleBitmapData());
                 UpdateImages();

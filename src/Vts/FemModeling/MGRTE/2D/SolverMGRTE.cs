@@ -6,6 +6,7 @@ using System.IO;
 using Vts.FemModeling.MGRTE._2D.DataStructures;
 using Vts.FemModeling.MGRTE._2D.IO;
 using Vts.Common;
+using Vts.Common.Logging;
 
 namespace Vts.FemModeling.MGRTE._2D
 {
@@ -51,7 +52,8 @@ namespace Vts.FemModeling.MGRTE._2D
             int vacuum;
             int i, j, k, m, n, ns, nt1, nt2, ns1, ns2, da, ds, nf = 0;
             double res = 0, res0 = 1, rho = 1.0;
-            
+
+            ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(SolverMGRTE));   
 
             // step 1: initialization
            
@@ -138,9 +140,8 @@ namespace Vts.FemModeling.MGRTE._2D
             DateTime stopTime1 = DateTime.Now;
             /* Compute and print the duration of this first task. */
             TimeSpan duration1 = stopTime1 - startTime1;
-
-
-            Console.WriteLine("Initlalization for RTE_2D takes {0} seconds.\n", duration1.TotalSeconds);
+            
+            logger.Info(() => "Initlalization for RTE_2D takes " + duration1.TotalSeconds + " seconds\n"); 
 
             //step 2: RTE solver
             DateTime startTime2 = DateTime.Now;
@@ -258,8 +259,7 @@ namespace Vts.FemModeling.MGRTE._2D
             }
 
             // 2.2. multigrid solver on the finest mesh
-            n = 0;
-            Console.WriteLine("Iter\t\t Res\t Rho\t\t T (in seconds) ");
+            n = 0;           
 
             while (n < para.NIterations)
             {
@@ -285,7 +285,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 if (n > 1)
                 {
                     rho *= res / res0;
-                    Console.Write("{0}\t{1:e6}\t{2:N6}\t", n, res, res / res0);
+                    logger.Info(() => "Iteration: " + n + ", Current tolerance: " + res + "\n");  
 
 
                     if (res < para.ConvTol)
@@ -297,12 +297,11 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
                 else
                 {
-                    Console.Write("{0}\t{1:e6}\t{2:N6}\t", n, res, res / res0);
+                    logger.Info(() => "Iteration: " + n + ", Current tolerance: " + res + "\n");  
                 }
                 res0 = res;
                 stopTime1 = DateTime.Now;
-                duration1 = stopTime1 - startTime1;
-                Console.Write("{0} \n", duration1.TotalSeconds);
+                duration1 = stopTime1 - startTime1;               
             }
 
             // 2.3. compute the residual
@@ -313,7 +312,7 @@ namespace Vts.FemModeling.MGRTE._2D
             DateTime stopTime2 = DateTime.Now;
             TimeSpan duration2 = stopTime2 - startTime2;
 
-            Console.WriteLine("\nT = {0}secs   res= {1}:\t nf= {2}:\t rho= {3:N6}", duration2.TotalSeconds, res, nf, rho);
+            logger.Info(() => "Toal time: " + duration2.TotalSeconds + "seconds, Final residual: " + res + "\n");
 
             // step 3: postprocessing
             // 3.1. output
