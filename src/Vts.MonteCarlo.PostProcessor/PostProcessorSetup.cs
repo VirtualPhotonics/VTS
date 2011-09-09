@@ -85,7 +85,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.pMCDiffuseReflectance,
                     pMCDetectorInputs, 
-                    false,
+                    input.TallySecondMoment,
                     PhotonDatabaseFactory.GetpMCDatabase( // database filenames are assumed to be convention
                         VirtualBoundaryType.pMCDiffuseReflectance,
                         input.InputFolder),
@@ -97,7 +97,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.DiffuseReflectance,
                     input.DetectorInputs, 
-                    false,
+                    input.TallySecondMoment,
                     PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                         VirtualBoundaryType.DiffuseReflectance,
                         input.InputFolder),
@@ -109,7 +109,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.DiffuseTransmittance,
                     input.DetectorInputs,
-                    false,
+                    input.TallySecondMoment,
                     PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                         VirtualBoundaryType.DiffuseTransmittance,
                         input.InputFolder),
@@ -121,7 +121,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.SpecularReflectance,
                     input.DetectorInputs,
-                    false,
+                    input.TallySecondMoment,
                     PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                         VirtualBoundaryType.SpecularReflectance,
                         input.InputFolder),
