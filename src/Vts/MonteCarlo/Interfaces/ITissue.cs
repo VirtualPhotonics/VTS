@@ -42,7 +42,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="photon">Photon information (e.g. current position, direction,
         /// and current track length, S)</param>
-        /// <returns></returns>
+        /// <returns>distance, includes double.PositiveInfinity and double.NegativeInfinity</returns>
         double GetDistanceToBoundary(Photon photon);  
 
         /// <summary>

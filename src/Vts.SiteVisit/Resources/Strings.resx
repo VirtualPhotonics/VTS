@@ -366,4 +366,10 @@
   <data name="Label_MinY" xml:space="preserve">
     <value>Min Y:</value>
   </data>
+  <data name="Label_ColormapType" xml:space="preserve">
+    <value>Colormap Type:</value>
+  </data>
+  <data name="Label_ScalingType" xml:space="preserve">
+    <value>Scaling Type:</value>
+  </data>
 </root>

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.IO
 {
@@ -37,6 +39,13 @@ namespace Vts.IO
 					typeof (TOfAngleDetector),
 					typeof (TOfRhoAndAngleDetector),
 					typeof (TOfRhoDetector),
+
+					typeof (DirectionalCircularSource),
+					typeof (DirectionalPointSource),
+                    
+                    typeof(FlatSourceProfile),
+                    typeof(GaussianSourceProfile),
+					// typeof (DirectionalPointSource), todo: add all sources...
                 };
 
             _types = knownTypesArray.ToDictionary(type => type.ToString());

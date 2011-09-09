@@ -1,4 +1,5 @@
 using Vts.Common;
+using System;
 using System.Runtime.Serialization;
 
 namespace Vts.MonteCarlo.Tissues
@@ -48,9 +49,30 @@ namespace Vts.MonteCarlo.Tissues
             }
         }
 
+        /// <summary>
+        /// This checks which region photon is currently in.  
+        /// inclusion defined in half-open interval [start,stop) so that continuum of layers do not overlap.
+        /// </summary>
+        /// <param name="p">Position being checked</param>
+        /// <returns>True if photon in region, false if not</returns>
         public bool ContainsPosition(Position p)
         {
             return p.Z >= ZRange.Start && p.Z < ZRange.Stop;
+        }
+        /// <summary>
+        /// Method to determine if photon on layer boundary.  Needed to determine which boundary photon is
+        /// on when layer region contains inclusion.  Errors in Position accommodated for in test.
+        /// </summary>
+        /// <param name="p">Position being checked</param>
+        /// <returns>True if photon on boundary, false if not</returns>
+        public bool OnBoundary(Position p)
+        {
+            var onBoundary = false;
+            if (Math.Abs(p.Z - ZRange.Start) < 1e-10 || Math.Abs(p.Z - ZRange.Stop) < 1e-10)
+            {
+                onBoundary = true;
+            }
+            return onBoundary;
         }
 
         public bool RayIntersectBoundary(Photon p, out double distanceToBoundary)
@@ -58,10 +80,10 @@ namespace Vts.MonteCarlo.Tissues
             throw new System.NotImplementedException(); // currently, implemented by MultiLayerTissue...should revisit so this can be independent
         }
 
-        public bool RayIntersectBoundary(Photon p)
-        {
-            throw new System.NotImplementedException(); // currently, implemented by MultiLayerTissue...should revisit so this can be independent
-        }
+        //public bool RayIntersectBoundary(Photon p)
+        //{
+        //    throw new System.NotImplementedException(); // currently, implemented by MultiLayerTissue...should revisit so this can be independent
+        //}
 
         //public bool RayExitBoundary(Photon photptr, ref double distanceToBoundary)
         //{

@@ -322,6 +322,15 @@ namespace Vts.SiteVisit.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Colormap Type:.
+        /// </summary>
+        public static string Label_ColormapType {
+            get {
+                return ResourceManager.GetString("Label_ColormapType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Φ(fx,z).
         /// </summary>
         public static string Label_FluenceOfFx {
@@ -660,6 +669,15 @@ namespace Vts.SiteVisit.Resources {
         public static string Label_ROfRhoAndT {
             get {
                 return ResourceManager.GetString("Label_ROfRhoAndT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scaling Type:.
+        /// </summary>
+        public static string Label_ScalingType {
+            get {
+                return ResourceManager.GetString("Label_ScalingType", resourceCulture);
             }
         }
         

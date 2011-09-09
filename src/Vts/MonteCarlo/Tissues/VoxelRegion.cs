@@ -96,18 +96,28 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="p">Photon to check for intersection (including Position, Direction, and S)</param>
         /// <returns>True if photon will intersect the voxel boundary, false otherwise</returns>
-        public bool RayIntersectBoundary(Photon p)
-        {
-            double dummyDistance;
-            return RayIntersectBoundary(p, out dummyDistance);
-        }
+        //public bool RayIntersectBoundary(Photon p)
+        //{
+        //    double dummyDistance;
+        //    return RayIntersectBoundary(p, out dummyDistance);
+        //}
 
         public bool ContainsPosition(Position position)
         {
-            // todo: "< X.Stop" adopted from LayerRegion - is this correct, or should it be <=? -DC
+            // inclusion defined in half-open interval [start,stop) so that continuum of voxels do not overlap
             return position.X >= X.Start && position.X < X.Stop &&
                    position.Y >= Y.Start && position.Y < Y.Stop &&
                    position.Z >= Z.Start && position.Z < Z.Stop;
+        }
+
+        public bool OnBoundary(Position position)
+        {
+            return ((position.X == X.Start) || (position.X == X.Stop) && 
+                        position.Y >= Y.Start && position.Y <= Y.Stop && position.Z >= Z.Start && position.Z <= Z.Stop) ||
+                   ((position.Y == Y.Start) || (position.Y == Y.Stop) &&
+                        position.X >= X.Start && position.X <= X.Stop && position.Z >= Z.Start && position.Z <= Z.Stop) ||
+                   ((position.Z == Z.Start) || (position.Z == Z.Stop) &&
+                        position.X >= X.Start && position.X <= X.Stop && position.Y >= Y.Start && position.Y <= Y.Stop); 
         }
     }
 }

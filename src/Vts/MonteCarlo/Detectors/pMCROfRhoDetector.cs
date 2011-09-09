@@ -13,7 +13,6 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements ITerminationTally&lt;double[]&gt;.  Tally for pMC estimation of reflectance 
     /// as a function of Rho.
     /// </summary>
-    // do I need classes pMuaInROfRhoTally and pMusInROfRhoTally?
     [KnownType(typeof(pMCROfRhoDetector))]
     public class pMCROfRhoDetector : IpMCSurfaceDetector<double[]>
     {
@@ -21,13 +20,11 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices;
         private double _rhoDelta;  // need to keep this because DoubleRange adjusts deltas automatically
-        // note: bins accommodate noncontiguous and also single bins
-        private double[] _rhoCenters;
         private bool _tallySecondMoment;
-        private Func<IList<long>, double, IList<OpticalProperties>, double> _absorbAction;
+        private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
 
         /// <summary>
-        /// Returns an instance of pMCMuaMusROfRhoDetector. Tallies perturbed R(rho). Instantiate with reference optical properties. 
+        /// Returns an instance of pMCROfRhoDetector. Tallies perturbed R(rho). Instantiate with reference optical properties. 
         /// When method Tally invoked, perturbed optical properties passed.
         /// </summary>
         /// <param name="rho"></param>
@@ -44,7 +41,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             Rho = rho;
             _tallySecondMoment = tallySecondMoment;
-            Mean = new double[Rho.Count - 1];
+            Mean = new double[Rho.Count - 1]; // change from count -1
             SecondMoment = null;
             if (_tallySecondMoment)
             {
@@ -56,22 +53,6 @@ namespace Vts.MonteCarlo.Detectors
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
             _perturbedRegionsIndices = perturbedRegionIndices;
             SetAbsorbAction(tissue.AbsorptionWeightingType);
-            if (Rho.Count - 1 == 1)
-            {
-                Rho.Start = Rho.Start - 0.1;
-                _rhoDelta = 0.2;
-                Rho.Stop = Rho.Start + _rhoDelta;
-                _rhoCenters = new double[1] { Rho.Start };
-            }
-            else // put rhoCenters at rhos specified by user
-            {
-                _rhoDelta = Rho.Delta;
-                _rhoCenters = new double[Rho.Count - 1];
-                for (int i = 0; i < Rho.Count - 1; i++)
-                {
-                    _rhoCenters[i] = Rho.Start + i * _rhoDelta + _rhoDelta / 2;
-                }
-            }
             TallyCount = 0;
         }
 
@@ -121,18 +102,12 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
         {
-            double totalPathLengthInPerturbedRegions = 0.0;
-            foreach (var i in _perturbedRegionsIndices)
-            {
-                totalPathLengthInPerturbedRegions += infoList[i].PathLength;
-            }
-
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             if (ir != -1)
             {
                 double weightFactor = _absorbAction(
                     infoList.Select(c => c.NumberOfCollisions).ToList(),
-                    totalPathLengthInPerturbedRegions,
+                    infoList.Select(p => p.PathLength).ToList(),
                     _perturbedOps);
 
                 Mean[ir] += dp.Weight * weightFactor;
@@ -144,23 +119,31 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        private double AbsorbContinuous(IList<long> numberOfCollisions, double totalPathLengthInPerturbedRegions, IList<OpticalProperties> perturbedOps)
+        private double AbsorbContinuous(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
         {
             double weightFactor = 1.0;
 
             foreach (var i in _perturbedRegionsIndices)
             {
                 weightFactor *=
-                    Math.Pow(
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus),
-                        numberOfCollisions[i]) *
-                    Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
-                        totalPathLengthInPerturbedRegions);
+                    Math.Exp(-(perturbedOps[i].Mua - _referenceOps[i].Mua) * pathLength[i]); // mua pert
+                if (numberOfCollisions[i] > 0) // mus pert
+                {
+                    // the following is more numerically stable
+                    weightFactor *= Math.Pow(
+                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) * Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
+                            pathLength[i] / numberOfCollisions[i]),
+                        numberOfCollisions[i]);
+                }
+                else
+                {
+                    weightFactor *= Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) * pathLength[i]);
+                }
             }
             return weightFactor;
         }
 
-        private double AbsorbDiscrete(IList<long> numberOfCollisions, double totalPathLengthInPerturbedRegions, IList<OpticalProperties> perturbedOps)
+        private double AbsorbDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
         {
             double weightFactor = 1.0;
 
@@ -168,21 +151,20 @@ namespace Vts.MonteCarlo.Detectors
             {
                 weightFactor *=
                     Math.Pow(
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus),
-                        numberOfCollisions[i]) *
-                    Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                        totalPathLengthInPerturbedRegions);
-
+                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) * 
+                            Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                            pathLength[i] / numberOfCollisions[i]),
+                        numberOfCollisions[i]);
             }
             return weightFactor;
         }
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta;
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                var areaNorm = (ir + 0.5) * normalizationFactor;
+                var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                 Mean[ir] /= areaNorm * numPhotons;
                 // the above is pi(rmax*rmax-rmin*rmin) * rhoDelta * N
                 if (_tallySecondMoment)

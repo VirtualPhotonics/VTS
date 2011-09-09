@@ -50,17 +50,13 @@ namespace Vts.MonteCarlo.Tissues
 
         public override int GetRegionIndex(Position position)
         {
-            // this method finds the first layer satisfying the criteria below:
-            Func<LayerRegion, bool> containsPosition =
-                region => 
-                    position.Z >= region.ZRange.Start && 
-                    position.Z < region.ZRange.Stop;
-           
-            // this is the long method but it works
+            // use ITissueRegion interface method ContainsPosition for LayerRegion to determine
+            // which region photon resides
+
             int index = -1;
             for (int i = 0; i < _layerRegions.Count(); i++)
             {
-                if (containsPosition(_layerRegions[i]))
+                if (_layerRegions[i].ContainsPosition(position))
                 {
                     index = i;
                 }
@@ -69,8 +65,7 @@ namespace Vts.MonteCarlo.Tissues
         }
         
         /// <summary>
-        /// Finds the distance to the next boundary and subsequently 
-        /// calls photon.HitBoundaryAndAdjustTrackLength()
+        /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
         /// <param name="photon"></param>
         public override double GetDistanceToBoundary(Photon photon)

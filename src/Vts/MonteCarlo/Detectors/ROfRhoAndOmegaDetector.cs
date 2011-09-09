@@ -73,15 +73,18 @@ namespace Vts.MonteCarlo.Detectors
             {
                 double freq = (iw + 1) * Omega.Delta;
                 /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
-                Mean[ir, iw] += dp.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime * 1e-3) +
-                    Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime * 1e-3) );
+                // convert to Hz-sec from GHz-ns 1e-9*1e9=1
+                Mean[ir, iw] += dp.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime) +
+                    Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime) );
                 if (_tallySecondMoment)
                 {
-                    // CKH TODO CHECK: is second moment of complex tally squared or square of real and imag separately?
-                    SecondMoment[ir, iw] += (dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime * 1e-3) +
-                        Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime * 1e-3))) *
-                        (dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime * 1e-3) +
-                        Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime * 1e-3)));
+                    // second moment of complex tally is square of real and imag separately
+                    SecondMoment[ir, iw] += 
+                        dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) *
+                        dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) +
+                        Complex.ImaginaryOne *
+                        dp.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime)) *
+                        dp.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime));
                 }
             }
             TallyCount++;
@@ -89,12 +92,12 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Rho.Delta; 
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta; 
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
                 for (int iw = 0; iw < Omega.Count - 1; iw++)
                 {
-                    var areaNorm = (ir + 0.5) * normalizationFactor;
+                    var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                     Mean[ir, iw] /=  areaNorm * numPhotons;
                     if (_tallySecondMoment)
                     {

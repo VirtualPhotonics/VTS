@@ -32,7 +32,7 @@ namespace Vts.Modeling.ForwardSolvers
             PMCDatabase = pMCDatabase.FromFileInResources(
                 photonDatabaseName, collisionInfoDatabaseName, projectName);
             DatabaseInput = SimulationInput.FromFileInResources("infile.xml", projectName);
-            var detectorInput = (ROfRhoAndTimeDetectorInput)DatabaseInput.VirtualBoundaryInputs[0].DetectorInputs[0];
+            var detectorInput = (ROfRhoAndTimeDetectorInput)DatabaseInput.DetectorInputs[0];
             databaseRhoRange = detectorInput.Rho;
             databaseTimeRange = detectorInput.Time;
         }

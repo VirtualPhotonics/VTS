@@ -12,6 +12,9 @@ using Vts.SiteVisit.Resources;
 
 namespace Vts.SiteVisit.Extensions
 {
+    /// <summary>
+    /// Class for looking up strings from XAML
+    /// </summary>
     public class LocalizedStrings
     {
         public LocalizedStrings()
@@ -20,6 +23,9 @@ namespace Vts.SiteVisit.Extensions
 
         private static SiteVisit.Resources.Strings _resource = new Vts.SiteVisit.Resources.Strings();
 
+        /// <summary>
+        /// MainResource pulls the relevant string from resources
+        /// </summary>
         public SiteVisit.Resources.Strings MainResource { get { return _resource; } }
     }
 }

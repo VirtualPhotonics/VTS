@@ -509,15 +509,6 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\ValidationResult.cs">
       <Link>MonteCarlo\DataStructuresValidation\ValidationResult.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInputValidation.cs">
-      <Link>MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInputValidation.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInputValidation.cs">
-      <Link>MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInputValidation.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\SurfaceVirtualBoundaryInputValidation.cs">
-      <Link>MonteCarlo\DataStructuresValidation\VirtualBoundaryInputs\SurfaceVirtualBoundaryInputValidation.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs</Link>
     </Compile>
@@ -583,6 +574,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs">
       <Link>MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInputProvider.cs">
+      <Link>MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInputProvider.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInput.cs">
       <Link>MonteCarlo\DataStructures\SimulationInput.cs</Link>
@@ -665,20 +659,17 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInput.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInput.cs">
-      <Link>MonteCarlo\DataStructures\VirtualBoundaryInputs\GenericVolumeVirtualBoundaryInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInput.cs">
-      <Link>MonteCarlo\DataStructures\VirtualBoundaryInputs\pMCSurfaceVirtualBoundaryInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\VirtualBoundaryInputs\SurfaceVirtualBoundaryInput.cs">
-      <Link>MonteCarlo\DataStructures\VirtualBoundaryInputs\SurfaceVirtualBoundaryInput.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\AOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\AOfRhoAndZDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ATotalDetector.cs">
       <Link>MonteCarlo\Detectors\ATotalDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\dMCdROfRhodMuaDetector.cs">
+      <Link>MonteCarlo\Detectors\dMCdROfRhodMuaDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs">
+      <Link>MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs</Link>
@@ -739,6 +730,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Enums.cs">
       <Link>MonteCarlo\Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Extensions\DatabaseExtensionMethods.cs">
+      <Link>MonteCarlo\Extensions\DatabaseExtensionMethods.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Extensions\DetectorExtensionMethods.cs">
       <Link>MonteCarlo\Extensions\DetectorExtensionMethods.cs</Link>
@@ -862,9 +856,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IVirtualBoundary.cs">
       <Link>MonteCarlo\Interfaces\IVirtualBoundary.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IVirtualBoundaryInput.cs">
-      <Link>MonteCarlo\Interfaces\IVirtualBoundaryInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IVolumeDetector.cs">
       <Link>MonteCarlo\Interfaces\IVolumeDetector.cs</Link>

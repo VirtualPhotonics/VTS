@@ -23,6 +23,7 @@ namespace Vts.MonteCarlo
                 PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector(),
                 PointSourceTwoLayerTissueROfRhoDetector(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
+                pMCPointSourceOneLayerTissueROfRhoDAW()
             };
         }
         #region point source one layer tissue all detectors
@@ -39,6 +40,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
                     0),
@@ -60,74 +62,43 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryInput>
+                new List<IDetectorInput>()
                 {
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseReflectance,
-                        new List<IDetectorInput>()
-                        {
-                            new RDiffuseDetectorInput(),
-                            new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
-                            new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                            new ROfRhoAndAngleDetectorInput(
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(Math.PI / 2 , Math.PI, 2)),
-                            new ROfRhoAndTimeDetectorInput(
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 10, 101)),
-                            new ROfXAndYDetectorInput(
-                                new DoubleRange(-100.0, 100.0, 21), // x
-                                new DoubleRange(-100.0, 100.0, 21)), // y,
-                            new ROfRhoAndOmegaDetectorInput(
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 1000, 21))
-                        },
-                        false, // write to database
-                        VirtualBoundaryType.DiffuseReflectance.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseTransmittance,
-                        new List<IDetectorInput>()
-                        {
-                            new TDiffuseDetectorInput(),
-                            new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                            new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                            new TOfRhoAndAngleDetectorInput(
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, Math.PI / 2, 2))
-                        },
-                        false, // write to database
-                        VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    ),
-                    new GenericVolumeVirtualBoundaryInput(
-                        VirtualBoundaryType.GenericVolumeBoundary,
-                        new List<IDetectorInput>()
-                        {
-                            new ATotalDetectorInput(),
-                            new AOfRhoAndZDetectorInput(                            
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 10, 101)),
-                            new FluenceOfRhoAndZDetectorInput(                            
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 10, 101)),
-                            new RadianceOfRhoAndZAndAngleDetectorInput(
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0, Math.PI, 5))
-                        },
-                        false,
-                        VirtualBoundaryType.GenericVolumeBoundary.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.SpecularReflectance,
-                        new List<IDetectorInput>
-                        {
-                            new RSpecularDetectorInput(), 
-                        },
-                        false,
-                        VirtualBoundaryType.SpecularReflectance.ToString()
-                    ),
-                });
+                    new RDiffuseDetectorInput(),
+                    new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new ROfRhoAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(Math.PI / 2 , Math.PI, 2)),
+                    new ROfRhoAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101)),
+                    new ROfXAndYDetectorInput(
+                        new DoubleRange(-100.0, 100.0, 21), // x
+                        new DoubleRange(-100.0, 100.0, 21)), // y,
+                    new ROfRhoAndOmegaDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 1, 21)), // GHz
+                    new TDiffuseDetectorInput(),
+                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new TOfRhoAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new ATotalDetectorInput(),
+                    new AOfRhoAndZDetectorInput(                            
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101)),
+                    new FluenceOfRhoAndZDetectorInput(                            
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101)),
+                    new RadianceOfRhoAndZAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0, Math.PI, 3)),
+                    new RSpecularDetectorInput()
+                }
+                );
         }
         #endregion
 
@@ -145,6 +116,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
                     0),
@@ -166,41 +138,14 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryInput>
+                new List<IDetectorInput>()
                 {
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseReflectance,
-                        new List<IDetectorInput>()
-                        {
-                            new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
-                        },
-                        false, // write to database
-                        VirtualBoundaryType.DiffuseReflectance.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseTransmittance,
-                        new List<IDetectorInput>() {},
-                        false, // write to database
-                        VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    ),
-                   new GenericVolumeVirtualBoundaryInput(
-                        VirtualBoundaryType.GenericVolumeBoundary,
-                        new List<IDetectorInput>()
-                        {
-                            new FluenceOfRhoAndZDetectorInput(                            
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 10, 101))
-                        },
-                        false,
-                        VirtualBoundaryType.GenericVolumeBoundary.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.SpecularReflectance,
-                        new List<IDetectorInput>() {},
-                        false,
-                        VirtualBoundaryType.SpecularReflectance.ToString()
-                    ),
-                });
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    new FluenceOfRhoAndZDetectorInput(                            
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101))
+                }
+             );
         }
         #endregion
 
@@ -211,13 +156,14 @@ namespace Vts.MonteCarlo
         public static SimulationInput PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector()
         {
             return new SimulationInput(
-                10000,
+                100,
                 "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
                     0),
@@ -239,48 +185,17 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryInput>
+                new List<IDetectorInput>()
                 {
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseReflectance,
-                        new List<IDetectorInput>()
-                        {
-                        },
-                        false, // write to database
-                        VirtualBoundaryType.DiffuseReflectance.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseTransmittance,
-                        new List<IDetectorInput>()
-                        {
-                        },
-                        false, // write to database
-                        VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    ),
-                    new GenericVolumeVirtualBoundaryInput(
-                        VirtualBoundaryType.GenericVolumeBoundary,
-                        new List<IDetectorInput>()
-                        {
-                            new FluenceOfRhoAndZDetectorInput(                            
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 10, 101)),
-                            new RadianceOfRhoAndZAndAngleDetectorInput(
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0, Math.PI, 3))
-                        },
-                        false,
-                        VirtualBoundaryType.GenericVolumeBoundary.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.SpecularReflectance,
-                        new List<IDetectorInput>
-                        {
-                        },
-                        false,
-                        VirtualBoundaryType.SpecularReflectance.ToString()
-                    ),
-                });
+                    new FluenceOfRhoAndZDetectorInput(                            
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101)),
+                    new RadianceOfRhoAndZAndAngleDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0, Math.PI, 3))
+                }
+             );
         }
         #endregion
 
@@ -298,6 +213,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
                     0),
@@ -322,36 +238,11 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryInput>
+                new List<IDetectorInput>()
                 {
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseReflectance,
-                        new List<IDetectorInput>()
-                        {
-                            new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
-                        },
-                        false, // write to database
-                        VirtualBoundaryType.DiffuseReflectance.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseTransmittance,
-                        new List<IDetectorInput>() {},
-                        false, // write to database
-                        VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    ),
-                    new GenericVolumeVirtualBoundaryInput(
-                        VirtualBoundaryType.GenericVolumeBoundary,
-                        new List<IDetectorInput>() {},
-                        false,
-                        VirtualBoundaryType.GenericVolumeBoundary.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.SpecularReflectance,
-                        new List<IDetectorInput>() {},
-                        false,
-                        VirtualBoundaryType.SpecularReflectance.ToString()
-                    ),
-                });
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
+                }
+            );
         }
         #endregion
 
@@ -369,6 +260,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
                     0),
@@ -383,7 +275,7 @@ namespace Vts.MonteCarlo
                         0.5,
                         0.5,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4)
-                    ), 
+                    ),
                     new LayerRegion[]
                     { 
                         new LayerRegion(
@@ -397,38 +289,57 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IVirtualBoundaryInput>
+                new List<IDetectorInput>()
                 {
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseReflectance,
-                        new List<IDetectorInput>() {},
-                        false, // write to database
-                        VirtualBoundaryType.DiffuseReflectance.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.DiffuseTransmittance,
-                        new List<IDetectorInput>() {},
-                        false, // write to database
-                        VirtualBoundaryType.DiffuseTransmittance.ToString()
-                    ),
-                    new GenericVolumeVirtualBoundaryInput(
-                        VirtualBoundaryType.GenericVolumeBoundary,
-                        new List<IDetectorInput>()
-                        {
-                            new FluenceOfRhoAndZDetectorInput(                            
-                                new DoubleRange(0.0, 10, 101),
-                                new DoubleRange(0.0, 10, 101))
-                        },
-                        false,
-                        VirtualBoundaryType.GenericVolumeBoundary.ToString()
-                    ),
-                    new SurfaceVirtualBoundaryInput(
-                        VirtualBoundaryType.SpecularReflectance,
-                        new List<IDetectorInput>() {},
-                        false,
-                        VirtualBoundaryType.SpecularReflectance.ToString()
-                    ),
-                });
+                    new FluenceOfRhoAndZDetectorInput(                            
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101))
+                }
+            );
+        }
+        #endregion
+
+        #region pMC point source one layer tissue R(rho) DAW
+        /// <summary>
+        /// Perturbation MC point source, single tissue layer definition, R(rho) included
+        /// </summary>
+        public static SimulationInput pMCPointSourceOneLayerTissueROfRhoDAW()
+        {
+            return new SimulationInput(
+                100,
+                "pMC_one_layer_ROfRho_DAW",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance }, // databases to be written
+                    true, // tally Second Moment
+                    false, // track statistics
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                new MultiLayerTissueInput(
+                    new LayerRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
+                }
+            );
         }
         #endregion
     }

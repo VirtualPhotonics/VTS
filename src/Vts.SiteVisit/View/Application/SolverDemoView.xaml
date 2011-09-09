@@ -101,12 +101,32 @@
                     Grid.Column="2"
                     Margin="5,0,0,0"
                     Width="530">
-                    <controls:TabItem Name="tabPlot" Header="Plot View">
+                    <controls:TabItem Name="tabPlot">
+                        <controls:TabItem.Header>
+                            <ContentControl DataContext="{Binding PlotVM}">
+                                <StackPanel Orientation="Horizontal" >
+                                    <TextBlock Text="Plot View"/>
+                                    <Button VerticalAlignment="Bottom" Command="{Binding DuplicateWindowCommand}" Margin="2">
+                                        <Rectangle Width="5" Height="5" Fill="Black"/>
+                                    </Button>
+                                </StackPanel>
+                            </ContentControl>
+                        </controls:TabItem.Header>
                         <local:PlotView
                             DataContext="{Binding PlotVM}"
                             Background="LightSteelBlue"/>
                     </controls:TabItem>
-                    <controls:TabItem Name="tabMap" Header="Map View" Visibility="Collapsed">
+                    <controls:TabItem Name="tabMap" Visibility="Collapsed">
+                        <controls:TabItem.Header>
+                            <ContentControl DataContext="{Binding MapVM}">
+                                <StackPanel Orientation="Horizontal" >
+                                    <TextBlock Text="Map View"/>
+                                    <Button VerticalAlignment="Bottom" Command="{Binding DuplicateWindowCommand}" Margin="2">
+                                        <Rectangle Width="5" Height="5" Fill="Black"/>
+                                    </Button>
+                                </StackPanel>
+                            </ContentControl>
+                        </controls:TabItem.Header>
                         <local:MapView
                             DataContext="{Binding MapVM}"
                             Background="LightSteelBlue"/>

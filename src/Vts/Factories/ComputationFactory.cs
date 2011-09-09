@@ -207,7 +207,12 @@ namespace Vts.Factories
 
             return System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green);
         }
-
+        /// <summary>
+        /// Method to generate absorbed energy given fluence and mua.  Note only works for homogeneous tissue.
+        /// </summary>
+        /// <param name="fluence">fluence serialized to a 1D IEnumerable of double</param>
+        /// <param name="mua">absorption coefficient for entire tissue</param>
+        /// <returns>absorbed energy in a 1D IEnumerable of double</returns>
         public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, double mua)
         {
             return fluence.Select(flu => flu * mua);

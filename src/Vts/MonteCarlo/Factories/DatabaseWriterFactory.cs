@@ -24,9 +24,9 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="outputName">name string of output</param>
         /// <returns></returns>
         public static IList<PhotonDatabaseWriter> GetSurfaceVirtualBoundaryDatabaseWriters(
-            IList<VirtualBoundaryType> virtualBoundaryTypes, string filePath, string outputName)
+            IList<DatabaseType> databaseTypes, string filePath, string outputName)
         {
-            return virtualBoundaryTypes.Select(v => GetSurfaceVirtualBoundaryDatabaseWriter(v,
+            return databaseTypes.Select(v => GetSurfaceVirtualBoundaryDatabaseWriter(v,
                 filePath, outputName)).ToList();
         
         }
@@ -39,21 +39,21 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="outputName">filename string of database file</param>
         /// <returns></returns>
         public static PhotonDatabaseWriter GetSurfaceVirtualBoundaryDatabaseWriter(
-            VirtualBoundaryType virtualBoundaryType, string filePath, string outputName)
+            DatabaseType databaseType, string filePath, string outputName)
         {
-            switch (virtualBoundaryType)
+            switch (databaseType)
             {
                 default:
-                case VirtualBoundaryType.DiffuseReflectance:
+                case DatabaseType.DiffuseReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseReflectance,
                         Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
-                case VirtualBoundaryType.DiffuseTransmittance:
+                case DatabaseType.DiffuseTransmittance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseTransmittance,
                         Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
-                case VirtualBoundaryType.SpecularReflectance:
+                case DatabaseType.SpecularReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.SpecularReflectance,
                         Path.Combine(filePath, outputName, "SpecularReflectanceDatabase"));
-                case VirtualBoundaryType.pMCDiffuseReflectance:
+                case DatabaseType.pMCDiffuseReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,
                         Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
             }
@@ -69,9 +69,9 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="outputName">filename string of output file</param>
         /// <returns></returns>
         public static IList<CollisionInfoDatabaseWriter> GetCollisionInfoDatabaseWriters(
-            IList<VirtualBoundaryType> virtualBoundaryTypes, ITissue tissue, string filePath, string outputName)
+            IList<DatabaseType> databaseTypes, ITissue tissue, string filePath, string outputName)
         {
-            return virtualBoundaryTypes.Select(v => GetCollisionInfoDatabaseWriter(v, tissue,
+            return databaseTypes.Select(v => GetCollisionInfoDatabaseWriter(v, tissue,
                 filePath, outputName)).ToList();
 
         }
@@ -85,12 +85,12 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="outputName">filename string of database file</param>
         /// <returns></returns>
         public static CollisionInfoDatabaseWriter GetCollisionInfoDatabaseWriter(
-            VirtualBoundaryType virtualBoundaryType, ITissue tissue, string filePath, string outputName)
+            DatabaseType databaseType, ITissue tissue, string filePath, string outputName)
         {
-            switch (virtualBoundaryType)
+            switch (databaseType)
             {
                 default:
-                case VirtualBoundaryType.pMCDiffuseReflectance:
+                case DatabaseType.pMCDiffuseReflectance:
                     return new CollisionInfoDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,
                         Path.Combine(filePath, outputName, "CollisionInfoDatabase"), 
                         tissue.Regions.Count());

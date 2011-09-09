@@ -6,6 +6,12 @@ using Vts.Extensions;
 
 namespace Vts.Modeling.Optimizers
 {
+    /// <summary>
+    /// Data input to the optimization method Solve.
+    /// ForwardFunc:delegate function that evaluates the objective function given a parameter optimization array and (optional) constant variables
+    /// Y: measured data
+    /// Ey: standard deviation of Y
+    /// </summary>
     public class OptimizationData
     {
         public Func<double[], object[], double[]> ForwardFunc { get; set; }
@@ -13,9 +19,20 @@ namespace Vts.Modeling.Optimizers
         public double[] Y { get; set; }
         public double[] Ey { get; set; }
     }
-
+    /// <summary>
+    /// MPFit Levenberg Marquardt least-squares minimization.
+    /// </summary>
     public class MPFitLevenbergMarquardtOptimizer : IOptimizer
     {
+        /// <summary>
+        /// Optimization method.
+        /// </summary>
+        /// <param name="a">optimization parameter initial guess</param>
+        /// <param name="ia">accompanying array to <paramref name="a"/> that specifies which parameters to fit (held constant otherwise)</param>
+        /// <param name="y">"measured" values</param>
+        /// <param name="ey">standard deviation values of <paramref name="y"/></param>
+        /// <param name="forwardFunc">delegate function that evaluates the objective function given a parameter optimization array and (optional) constant variables</param>
+        /// <param name="forwardVariables"></param>
         public double[] Solve(double[] a, bool[] ia, double[] y, double[] ey, Func<double[], object[], double[]> forwardFunc, params object[] forwardVariables)
         {
             var data = new OptimizationData

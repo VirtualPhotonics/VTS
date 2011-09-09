@@ -118,9 +118,10 @@ namespace Vts.MonteCarlo.PostProcessor
                     displayHelp = true;
                     return;
                 }),
-                new CommandLine.Switch("geninfile", val =>
+                new CommandLine.Switch("geninfiles", val =>
                 {
-                    GenerateDefaultInputFile();
+                    GenerateDefaultInputFiles();
+                    displayHelp = true;
                     return;
                 }),
                 new CommandLine.Switch("infile", val =>
@@ -167,48 +168,13 @@ namespace Vts.MonteCarlo.PostProcessor
                
             }
         }
-        private static void GenerateDefaultInputFile()
+        private static void GenerateDefaultInputFiles()
         {
-           var tempInput = new PostProcessorInput(
-                VirtualBoundaryType.DiffuseReflectance,
-                new List<IDetectorInput>()
-                {
-                    //new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-
-                    // NOTE: can run different perturbations by adding detectors
-                    new pMCROfRhoDetectorInput(
-                        new DoubleRange(0.0, 40, 21),
-                        new List<OpticalProperties>() { 
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        new List<int>() { 1 },
-                        TallyType.pMCROfRho.ToString()),
-                    new pMCROfRhoDetectorInput(
-                        new DoubleRange(0.0, 40, 21),
-                        new List<OpticalProperties>() { 
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        new List<int>() { 1 },
-                        "pMCROfRho_mus1p5"),
-                    new pMCROfRhoDetectorInput(
-                        new DoubleRange(0.0, 40, 21),
-                        new List<OpticalProperties>() { 
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 0.5, 0.8, 1.4),
-                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        new List<int>() { 1 },
-                        "pMCROfRho_mus0p5"),
-                },
-                true, // tally second moment
-                "results",
-                "infile",
-                "postprocessorrsults");
-            tempInput.ToFile("newinfile.xml");
+            var infiles = PostProcessorInputProvider.GenerateAllPostProcessorInputs();
+            for (int i = 0; i < infiles.Count; i++)
+            {
+                infiles[i].ToFile("infile_" + infiles[i].OutputName + ".xml"); 
+            }
 
         }
 
@@ -217,7 +183,7 @@ namespace Vts.MonteCarlo.PostProcessor
         /// </summary>
         private static void ShowHelp()
         {
-            Console.WriteLine("Virtual Photonics MC 1.0");
+            Console.WriteLine("Virtual Photonics MC Post-Processor 1.0");
             Console.WriteLine();
             Console.WriteLine("list of arguments:");
             Console.WriteLine();
@@ -225,7 +191,7 @@ namespace Vts.MonteCarlo.PostProcessor
             Console.WriteLine("outpath\t\tthe output path, accepts relative and absolute paths");
             Console.WriteLine("outname\t\toutput name, this overwrites output name in input file");
             Console.WriteLine();
-            Console.WriteLine("geninfile\t\tgenerates a new infile and names it newinfile.xml");
+            Console.WriteLine("geninfiles\t\tgenerates new infiles and names them infile_XXX.xml");
             Console.WriteLine();
             Console.WriteLine("sample usage:");
             Console.WriteLine();

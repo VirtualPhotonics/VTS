@@ -7,7 +7,8 @@ using Vts.IO;
 namespace Vts.MonteCarlo.Rng
 {
     /// <summary>
-    /// this class creates a serializable representation of the Mersenne Twister class
+    /// This class creates a serializable representation of the Mersenne Twister class.
+    /// Code from MathNet Numerics.
     /// </summary>
     public class SerializableMersenneTwister : AbstractRandomNumberGenerator
     {

@@ -196,7 +196,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             var infiles = SimulationInputProvider.GenerateAllSimulationInputs();
             for (int i = 0; i < infiles.Count; i++)
             {
-                infiles[i].ToFile("newinfile_" + infiles[i].OutputName + ".xml"); 
+                infiles[i].ToFile("infile_" + infiles[i].OutputName + ".xml"); 
             }
         }
 
@@ -220,7 +220,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             logger.Info("\t\tparamsweep=<SweepParameterType>,Start,Stop,Count");
             logger.Info("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
             logger.Info("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
-            logger.Info("\ngeninfiles\tgenerates example infiles and names them newinfile_XXX.xml");
+            logger.Info("\ngeninfiles\tgenerates example infiles and names them infile_XXX.xml");
             logger.Info("\t\twhere XXX describes the type of input specified");
             logger.Info("\nlist of sweep parameters (paramsweep):");
             logger.Info("\nmua1\t\tabsorption coefficient for tissue layer 1");

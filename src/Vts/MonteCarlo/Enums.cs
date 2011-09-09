@@ -7,6 +7,7 @@ namespace Vts.MonteCarlo
     /// ref: http://www.codeproject.com/Articles/37921/Enums-Flags-and-Csharp-Oh-my-bad-pun.aspx
     /// or http://stackoverflow.com/questions/93744/most-common-c-bitwise-operations
     /// </summary>
+    [Flags]
     public enum PhotonStateType 
     {
         ///     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
@@ -66,6 +67,37 @@ namespace Vts.MonteCarlo
         SurfaceRadiance,
         /// <summary>
         /// Virtual boundary used for pMC diffuse reflectance detectors
+        /// </summary>
+        pMCDiffuseReflectance,
+    }
+    /// <summary>
+    /// This should match VirtualBoundaryType one for one.  Commented out ones have not made
+    /// it to the white list yet.
+    /// </summary>
+    public enum DatabaseType
+    {
+        /// <summary>
+        /// All diffuse reflectance detectors 
+        /// </summary>
+        DiffuseReflectance,
+        /// <summary>
+        /// All diffuse transmittance detectors 
+        /// </summary>
+        DiffuseTransmittance,
+        /// <summary>
+        /// Specular reflection detectors 
+        /// </summary>
+        SpecularReflectance,
+        /// <summary>
+        /// Internal volume detectors 
+        /// </summary>
+        //GenericVolumeBoundary,
+        /// <summary>
+        /// Internal surface detectors 
+        /// </summary>
+        //SurfaceRadiance,
+        /// <summary>
+        /// pMC diffuse reflectance
         /// </summary>
         pMCDiffuseReflectance,
     }
@@ -374,6 +406,14 @@ namespace Vts.MonteCarlo
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
         /// </summary>
         pMCROfRho,
+        /// <summary>
+        /// differential Monte Carlo (dMC) d(reflectance)/dMua as a function of source-detector separation (rho)
+        /// </summary>
+        dMCdROfRhodMua,
+        /// <summary>
+        /// differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho) 
+        /// </summary>
+        dMCdROfRhodMus,
     }
 
 }

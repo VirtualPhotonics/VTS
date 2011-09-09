@@ -37,23 +37,11 @@ namespace Vts.Test.MonteCarlo
 							new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
 					}
                 ),
-                new List<IVirtualBoundaryInput>
-                    {
-                        new SurfaceVirtualBoundaryInput(
-                            VirtualBoundaryType.DiffuseReflectance,
-                            new List<IDetectorInput>
-                            {
-                                new RDiffuseDetectorInput(), 
-                            },
-                            false,
-                            VirtualBoundaryType.DiffuseReflectance.ToString()),
-                        new SurfaceVirtualBoundaryInput(
-                            VirtualBoundaryType.DiffuseTransmittance,
-                            new List<IDetectorInput>(){},
-                            false,
-                            VirtualBoundaryType.DiffuseTransmittance.ToString())
-                    }
-                );
+                new List<IDetectorInput>
+                {
+                    new RDiffuseDetectorInput(), 
+                }     
+            );
         }
         [Test]
         public void verify_WithValue_method_modifies_mua1_correctly()

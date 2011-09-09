@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.DataStructuresValidation;
 
 namespace Vts.MonteCarlo
@@ -26,7 +27,7 @@ namespace Vts.MonteCarlo
                 return tempResult;
             }
 
-            tempResult = ValidatePhotonDatabaseExistence(input.VirtualBoundaryType, input.InputFolder);
+            tempResult = ValidatePhotonDatabaseExistence(input.DetectorInputs, input.InputFolder);
             if (!tempResult.IsValid)
             {
                 return tempResult;
@@ -46,38 +47,45 @@ namespace Vts.MonteCarlo
         {
             // check if results folder exists or not
             return new ValidationResult(
-                !Directory.Exists(inputFolder),
+                Directory.Exists(inputFolder),
                 "PostProcessorInput: the input folder does not exist",
                 "check that the input folder name agrees with the folder name on system");            
         }
         private static ValidationResult ValidatePhotonDatabaseExistence(
-            VirtualBoundaryType virtualBoundaryType, string inputFolder)
+            IList<IDetectorInput> detectorInputs, string inputFolder)
         {
-            switch (virtualBoundaryType)
+            if (detectorInputs.Select(di => di.TallyType.IsReflectanceTally()).Any())
             {
-                case VirtualBoundaryType.DiffuseReflectance:
-                    return new ValidationResult(
-                        !File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")),
-                        "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
-                        "check that VirtualBoundaryType and database type agree");
-                case VirtualBoundaryType.DiffuseTransmittance:
-                    return new ValidationResult(
-                        !File.Exists(Path.Combine(inputFolder, "DiffuseTransmittanceDatabase")),
-                        "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
-                        "check that VirtualBoundaryType and database type agree");
-                case VirtualBoundaryType.SpecularReflectance:
-                    return new ValidationResult(
-                        !File.Exists(Path.Combine(inputFolder, "SpecularReflectanceDatabase")),
-                        "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
-                        "check that VirtualBoundaryType and database type agree");
-                case VirtualBoundaryType.pMCDiffuseReflectance: //pMC uses same exit db as regular post-processing
-                    return new ValidationResult(
-                          !File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")),
-                          "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
-                          "check that VirtualBoundaryType and database type agree");
-                default:
-                    return null;
+                return new ValidationResult(
+                    File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")),
+                    "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
+                    "check that VirtualBoundaryType and database type agree");
             }
+            if (detectorInputs.Select(di => di.TallyType.IsTransmittanceTally()).Any())
+            {
+                return new ValidationResult(
+                    File.Exists(Path.Combine(inputFolder, "DiffuseTransmittanceDatabase")),
+                    "PostProcessorInput:  file DiffuseTransmittanceDatabase does not exist",
+                    "check that VirtualBoundaryType and database type agree");
+            }
+            if (detectorInputs.Select(di => di.TallyType.IsSpecularReflectanceTally()).Any())
+            {
+                return new ValidationResult(
+                    File.Exists(Path.Combine(inputFolder, "SpecularReflectanceDatabase")),
+                    "PostProcessorInput:  file SpecularReflectanceDatabase does not exist",
+                    "check that VirtualBoundaryType and database type agree");
+            }
+            if (detectorInputs.Select(di => di.TallyType.IspMCReflectanceTally()).Any()) //pMC uses same exit db as regular post-processing
+            {
+                return new ValidationResult(
+                      File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")) &&
+                      File.Exists(Path.Combine(inputFolder, "CollisionInfoDatabase")),
+                      "PostProcessorInput:  files DiffuseReflectanceDatabase or CollisionInfoDatabase do not exist",
+                      "check that VirtualBoundaryType and database type agree");
+            }
+            return new ValidationResult(
+                true,
+                "PostProcessor database exists");
         }
         private static ValidationResult ValidateSimulationInputExistence(
             string simulationInputFilename, string inputFolder)
