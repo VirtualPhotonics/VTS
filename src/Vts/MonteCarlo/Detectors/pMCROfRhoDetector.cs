@@ -149,12 +149,21 @@ namespace Vts.MonteCarlo.Detectors
 
             foreach (var i in _perturbedRegionsIndices)
             {
-                weightFactor *=
-                    Math.Pow(
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) * 
-                            Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                            pathLength[i] / numberOfCollisions[i]),
-                        numberOfCollisions[i]);
+                if (numberOfCollisions[i] > 0)
+                {
+                    weightFactor *=
+                        Math.Pow(
+                            (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
+                                Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                                pathLength[i] / numberOfCollisions[i]),
+                            numberOfCollisions[i]);
+                }
+                //else
+                //{
+                //    weightFactor *= 
+                //        Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                //                pathLength[i]); 
+                //}
             }
             return weightFactor;
         }
