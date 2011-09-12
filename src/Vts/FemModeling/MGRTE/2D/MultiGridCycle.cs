@@ -9,7 +9,7 @@ namespace Vts.FemModeling.MGRTE._2D
     /// <summary>
     /// This class contains numerical algorithms required to solve MG-RTE. 
     /// </summary>
-    class MultiGridCycle
+    public class MultiGridCycle
     {
 
         private double Pi = GlobalConstants.Pi;

@@ -30,18 +30,19 @@ namespace Vts.SiteVisit.ViewModel
                 G = 0.9,
                 NTissue = 1.0,
                 NExt = 1.0,
-                AMeshLevel = 3,
-                AMeshLevel0 = 1,
                 SMeshLevel = 3,
-                SMeshLevel0 = 0,
+                AMeshLevel = 3,
                 ConvTol = 1e-4,
                 MgMethod = 6,
+                NIterations = 100,
+                Length = 1.0,
+                AMeshLevel0 = 3,
+                SMeshLevel0 = 0,
                 FullMg = 1,
                 NPreIteration = 3,
                 NPostIteration = 3,
                 NMgCycle = 1,
-                NIterations = 100,
-                Length = 1.0,
+
             })
         {
         }
@@ -81,7 +82,7 @@ namespace Vts.SiteVisit.ViewModel
             //       starting from "0" to "+z" with increasing "z" coordinate;            
             Measurement measurement = SolverMGRTE.ExecuteMGRTE(_parameters);       
 
-            var meshData = new MapData(measurement.inten, measurement.xloc, measurement.yloc, measurement.dx, measurement.dy);
+            var meshData = new MapData(measurement.inten, measurement.xloc, measurement.zloc, measurement.dx, measurement.dz);
 
             Commands.Mesh_PlotMap.Execute(meshData);
         }

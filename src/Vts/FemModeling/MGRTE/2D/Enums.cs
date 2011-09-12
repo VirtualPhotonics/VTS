@@ -1,7 +1,9 @@
 ﻿
 namespace Vts.FemModeling.MGRTE._2D
 {
-    // Multigrid Type enums
+    /// <summary>
+    /// Multigrid Type
+    /// </summary>
     public enum WhichMultiGridType
     {
         AMG = 1,
@@ -13,7 +15,9 @@ namespace Vts.FemModeling.MGRTE._2D
         MG4_s
     }
 
-    // Boundary Source enums
+    /// <summary>
+    /// Boundary Source enums
+    /// </summary>
     public enum BoundarySourceType
     {
         NoSource,
@@ -22,7 +26,9 @@ namespace Vts.FemModeling.MGRTE._2D
         Nodal_Value_Source_ISO
     }
 
-    // Internal Source enums
+    /// <summary>
+    /// Internal Source enums
+    /// </summary>
     public enum InternalSourceType
     {
         NoSource,

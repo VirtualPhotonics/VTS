@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Vts.FemModeling.MGRTE._2D
 {
+    /// <summary>
+    /// Complete input parameters
+    /// </summary>
     public class Parameters : BindableObject
     {
         private double nTissue, nExt;

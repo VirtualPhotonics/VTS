@@ -36,9 +36,9 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
                 Det.uxy[i] = new double[nxy];
 
             Det.xloc = new double[nxy];
-            Det.yloc = new double[nxy];
+            Det.zloc = new double[nxy];
             Det.dx = new double[nxy];
-            Det.dy = new double[nxy];
+            Det.dz = new double[nxy];
             Det.inten = new double[nxy*nxy];      
 
             
@@ -65,7 +65,7 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
                 Det.fluence[i] *= dtheta;
             }
 
-            MathFunctions.SquareTriMeshToGrid(ref smesh, ref Det.xloc, ref Det.yloc, ref Det.uxy, Det.fluence, nxy);
+            MathFunctions.SquareTriMeshToGrid(ref smesh, ref Det.xloc, ref Det.zloc, ref Det.uxy, Det.fluence, nxy);
 
             for (i = 0; i < nxy; i++)
                 for (j = 0; j < nxy; j++)
@@ -76,7 +76,7 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             for (i = 0; i < nxy; i++)
             {
                 Det.dx[i] = Det.xloc[1] - Det.xloc[0];
-                Det.dy[i] = Det.yloc[1] - Det.yloc[0];
+                Det.dz[i] = Det.zloc[1] - Det.zloc[0];
             }
 
 

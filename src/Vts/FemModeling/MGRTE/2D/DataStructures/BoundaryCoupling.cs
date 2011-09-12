@@ -1,15 +1,48 @@
 ﻿namespace Vts.FemModeling.MGRTE._2D.DataStructures
 {
-    public struct BoundaryCoupling  // boundary reflection or refraction coupling (see "bc_reflection")
+    /// <summary>
+    /// Boundary reflection or refraction coupling structure
+    /// </summary>
+    public struct BoundaryCoupling 
     {
-        public int[][][] ri;                  // reflection contribution to incoming flux from outgoing flux:   ri[ne][ns][2]  --- interpolated direction
-        public int[][][] ro;                  // reflection contribution to outgoing flux from boundary source: ro[ne][ns][2]  --- interpolated weight
-        public int[][][] si;                  // refraction contribution to incoming flux from boundary source: si[ne][ns][2]  --- interpolated direction
-        public int[][][] so;                  // refraction contribution to outgoing flux from outgoing flux:   so[ne][ns][2]  --- interpolated weight
-
-        public double[][][] ri2;              // reflection contribution to incoming flux from outgoing flux:   ri2[ne][ns][2] --- interpolated weight
-        public double[][][] ro2;              // reflection contribution to outgoing flux from boundary source: ro2[ne][ns][2] --- interpolated direction
-        public double[][][] si2;              // refraction contribution to incoming flux from boundary source: si2[ne][ns][2] --- interpolated weight         
-        public double[][][] so2;              // refraction contribution to outgoing flux from outgoing flux:   so2[ne][ns][2] --- interpolated direction
+        /// <summary>
+        /// reflection contribution to incoming flux from outgoing flux:   ri[ne][ns][2]  --- interpolated direction
+        /// </summary>
+        public int[][][] ri;                  
+        
+        /// <summary>
+        /// reflection contribution to outgoing flux from boundary source: ro[ne][ns][2]  --- interpolated weight
+        /// </summary>
+        public int[][][] ro;                   
+        
+        /// <summary>
+        /// refraction contribution to incoming flux from boundary source: si[ne][ns][2]  --- interpolated direction
+        /// </summary>
+        public int[][][] si;                  
+        
+        /// <summary>
+        /// refraction contribution to outgoing flux from outgoing flux:   so[ne][ns][2]  --- interpolated weight
+        /// </summary>
+        public int[][][] so;                  
+                
+        /// <summary>
+        /// reflection contribution to incoming flux from outgoing flux:   ri2[ne][ns][2] --- interpolated weight
+        /// </summary>
+        public double[][][] ri2;              
+        
+        /// <summary>
+        /// reflection contribution to outgoing flux from boundary source: ro2[ne][ns][2] --- interpolated direction
+        /// </summary>
+        public double[][][] ro2;              
+        
+        /// <summary>
+        /// refraction contribution to incoming flux from boundary source: si2[ne][ns][2] --- interpolated weight   
+        /// </summary>
+        public double[][][] si2;                   
+        
+        /// <summary>
+        /// refraction contribution to outgoing flux from outgoing flux:   so2[ne][ns][2] --- interpolated direction
+        /// </summary>
+        public double[][][] so2;              
     };
 }

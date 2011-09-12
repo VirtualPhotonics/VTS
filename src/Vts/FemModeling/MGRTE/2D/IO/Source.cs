@@ -36,14 +36,11 @@ namespace Vts.FemModeling.MGRTE._2D.IO
         //              2.1. assembly internal source into "RHS"
         //              2.2. assembly boundary source into "q"
         {
-            string internalSourceFile = "source.txt";
-            string boundarySourceFile = "bsource.txt";
-
             double[][] s_xy;
             double[] s_int;
             double[] s_int2 = new double[3];
-            int nt, ne, ns, i, j, k, l, tri;
-            double source_corr, temp, x, y, x1, x2, x3, y1, y2, y3;
+            int nt, ne, ns, i, j, k, l;
+            double temp, x, y, x1, x2, x3, y1, y2, y3;
             double[] distance;
             double[] area = new double[3];
             double detT;

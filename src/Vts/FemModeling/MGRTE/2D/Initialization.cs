@@ -7,8 +7,12 @@ using Vts.FemModeling.MGRTE._2D.DataStructures;
 
 namespace Vts.FemModeling.MGRTE._2D
 {
-    class Initialization
+    /// <summary>
+    /// Initialization class
+    /// </summary>
+    public class Initialization
     {
+        
         public static void Initial(
             ref AngularMesh[] amesh,
             ref SpatialMesh[] smesh,

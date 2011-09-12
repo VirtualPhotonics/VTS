@@ -1,9 +1,21 @@
 ﻿namespace Vts.FemModeling.MGRTE._2D.DataStructures
 {
-    public struct AngularMesh  // angular mesh  
+    /// <summary>
+    /// Angular mesh structure
+    /// </summary>
+    public struct AngularMesh
     {
-        public int ns;           // number of angular nodes (data from MATLAB)
-        public double[][] a;    // angular coordinates: a[ns][3] with a[i][3]:=(cos(theta(i)), sin(theta(i)), theta(i)). (data from MATLAB)
-        public double[][] w;    // angular weights: w[ns][ns] (data from MATLAB)
+        /// <summary>
+        /// number of angular nodes
+        /// </summary>
+        public int ns;         
+        /// <summary>
+        /// angular coordinates: a[ns][3] with a[i][3]:=(cos(theta(i)), sin(theta(i)), theta(i))
+        /// </summary>
+        public double[][] a;    
+        /// <summary>
+        /// angular weights: w[ns][ns] 
+        /// </summary>
+        public double[][] w;   
     }
 }

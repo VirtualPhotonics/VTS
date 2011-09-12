@@ -7,17 +7,34 @@ using System.IO;
 
 namespace Vts.FemModeling.MGRTE._2D
 {
+    /// <summary>
+    /// Common Math functions
+    /// </summary>
     public static class MathFunctions
     {
-
+        /// <summary>
+        /// Calculate area of a traingle
+        /// </summary>
+        /// <param name="x1">x coordinate 1</param>
+        /// <param name="y1">y coordinate 1</param>
+        /// <param name="x2">x coordinate 2</param>
+        /// <param name="y2">y coordinate 2</param>
+        /// <param name="x3">x coordinate 3</param>
+        /// <param name="y3">y coordinate 3</param>
+        /// <returns>area</returns>
         public static double Area(double x1, double y1, double x2, double y2, double x3, double y3)
         // Purpose: Calculate the area of a triangle
         {
             return 0.5 * Math.Abs((y2 - y1) * (x3 - x1) - (y3 - y1) * (x2 - x1));
         }
 
-        public static int FindMin(int n, double[] d)
-        // Purpose: this function is to find the minimum from the vector d with the size n.
+        /// <summary>
+        /// find the minimum from the vector d with the size n.
+        /// </summary>
+        /// <param name="n">size</param>
+        /// <param name="d">vector</param>
+        /// <returns></returns>
+        public static int FindMin(int n, double[] d)       
         {
             int i;
             double dmin;
@@ -31,9 +48,16 @@ namespace Vts.FemModeling.MGRTE._2D
             return nmin;
         }
 
-
+        /// <summary>
+        /// find two linearly intepolated angles "b" and weights "b2" for the angle "theta_m"
+        /// </summary>
+        /// <param name="theta_m">theta modified</param>
+        /// <param name="dtheta"></param>
+        /// <param name="ns"></param>
+        /// <param name="b"></param>
+        /// <param name="b2"></param>
+        /// <param name="constant"></param>
         public static void Intepolation_a(double theta_m, double dtheta, int ns, int[] b, double[] b2, double constant)
-        // Purpose: this function is to find two linearly intepolated angles "b" and weights "b2" for the angle "theta_m"
         {
             int theta1, theta2;
             double w1, w2;
@@ -50,8 +74,15 @@ namespace Vts.FemModeling.MGRTE._2D
 
         }
 
-        public static double Length(double x1, double y1, double x2, double y2)
-        //Purpose: this function calculate the distance between two points
+        /// <summary>
+        /// calculate the distance between two points
+        /// </summary>
+        /// <param name="x1">x coordinate 1</param>
+        /// <param name="y1">y coordinate 1</param>
+        /// <param name="x2">x coordinate 2</param>
+        /// <param name="y2">y coordinate 2</param>
+        /// <returns></returns>
+        public static double Length(double x1, double y1, double x2, double y2)       
         {
             return Math.Sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
         }
@@ -123,7 +154,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// This function describes phase function or scattering kernel and is set to be Henyey-Greenstein phase function
         /// </summary>
         /// <param name="f">function output</param>
-        /// <param name="theta">angular array</param>
+        /// <param name="dAng">angular array</param>
         /// <param name="n">number of angles</param>
         /// <param name="g">anisotropy factor</param>
 
@@ -135,7 +166,13 @@ namespace Vts.FemModeling.MGRTE._2D
                 f[i] = 1 / (2 * 3.14159265) * (1 - g * g) / (1 + g * g - 2 * g * Math.Cos(dAng[i]));
         }
 
-
+        /// <summary>
+        /// compute sweep ordering
+        /// </summary>
+        /// <param name="smesh">spatial mesh</param>
+        /// <param name="amesh">angular mesh</param>
+        /// <param name="sMeshLevel">spatial mesh level</param>
+        /// <param name="aMeshLevel">angular mesh level</param>
         public static void SweepOrdering(ref SpatialMesh[] smesh, AngularMesh[] amesh, int sMeshLevel, int aMeshLevel)
         {
             int i, j, k;
@@ -176,6 +213,15 @@ namespace Vts.FemModeling.MGRTE._2D
             }
         }
 
+        /// <summary>
+        /// convert triangular mesh to a square mesh
+        /// </summary>
+        /// <param name="smesh">spatial mesh</param>
+        /// <param name="x">x coordinates</param>
+        /// <param name="y">y coordinates</param>
+        /// <param name="uxy">grid location</param>
+        /// <param name="inten">average intensity of each traingle</param>
+        /// <param name="nxy">total points</param>
         public static void SquareTriMeshToGrid(ref SpatialMesh smesh, ref double[] x, ref double[] y, ref double[][] uxy, double[] inten, int nxy)
         {
             int i, j, k;
@@ -529,7 +575,8 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// Create a squarte mesh for given spatial mesh level
         /// </summary>
-        /// <param name="sMeshLevel">number of spatial mesh levels</param>
+        /// <param name="smesh">spatial mesh</param>
+        /// <param name="sMeshLevel">spatial mesh levels</param>
         public static void CreateSquareMesh(ref SpatialMesh[] smesh, int sMeshLevel)
         {
             int i;
@@ -572,7 +619,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <param name="pts">points data</param>
         /// <param name="edge">edge data</param>
         /// <param name="tri">triangle data</param>
-        public static void BasicSquareMesh(
+        private static void BasicSquareMesh(
             double[][] pts,
             int[][] edge,
             int[][] tri)
@@ -664,7 +711,14 @@ namespace Vts.FemModeling.MGRTE._2D
             }
         }
 
-        public static void FindPTemp(double[][] ptemp, double[][] p, int[][] t, int nt)
+        /// <summary>
+        
+        /// </summary>
+        /// <param name="ptemp"></param>
+        /// <param name="p"></param>
+        /// <param name="t"></param>
+        /// <param name="nt"></param>
+        private static void FindPTemp(double[][] ptemp, double[][] p, int[][] t, int nt)
         {
             int i;
             int p0, p1, p2;
@@ -713,7 +767,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
         }
 
-        public static void ReindexingPTemp(double[][] ptemp, ref int count, int trint, int np)
+        private static void ReindexingPTemp(double[][] ptemp, ref int count, int trint, int np)
         {
             int i, j;
 
@@ -743,16 +797,8 @@ namespace Vts.FemModeling.MGRTE._2D
 
         /// <summary>
         /// Assign P E T
-        /// </summary>
-        /// <param name="newp"></param>
-        /// <param name="newe"></param>
-        /// <param name="newt"></param>
-        /// <param name="oldt"></param>
-        /// <param name="ptemp"></param>
-        /// <param name="np"></param>
-        /// <param name="nt"></param>
-        /// <param name="trint"></param>
-        public static void NewPET(double[][] newp, double[][] oldp, int[][] newe, int[][] newt, int[][] oldt, double[][] ptemp, int np, int nt, int trint)
+        /// </summary>        
+        private static void NewPET(double[][] newp, double[][] oldp, int[][] newe, int[][] newt, int[][] oldt, double[][] ptemp, int np, int nt, int trint)
         {
             int i, count;
 
@@ -889,10 +935,9 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
             }
         }
+        
 
-
-
-        public static void AssignSpatialMesh(ref SpatialMesh[] smesh, double[][] p, int[][] e, int[][] t, int np, int ne, int nt, int level)
+        private static void AssignSpatialMesh(ref SpatialMesh[] smesh, double[][] p, int[][] e, int[][] t, int np, int ne, int nt, int level)
         {
             int i, j;
 
