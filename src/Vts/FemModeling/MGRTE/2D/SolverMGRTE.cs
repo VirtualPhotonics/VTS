@@ -12,38 +12,7 @@ namespace Vts.FemModeling.MGRTE._2D
 {
     public class SolverMGRTE
     {
-        /*Multigrid*/
-        //AMG = 1;
-        //SMG = 2;
-        //MG1 = 3;
-        //MG2 = 4;
-        //MG3 = 5;
-        //MG4_a = 6;
-        //MG4_s = 7;
-
-        /*Source type*/
-        //NO_SOURCE = 0;                            
-        //POINT_SOURCE = 1;                         
-        //POINT_SOURCE_ISO = 2;                     
-        //NODAL_VALUED_SOURCE_ISO = 3;            
         
-        //public static void Main()
-        //{
-        //    string parametersFile = "parameters.txt";
-
-        //    // 0.9. load parameters from "parameters.txt"
-        //    Parameters para = ParametersIO.ReadParametersFromFile(parametersFile);
-
-        //    // Purpose: this is the main function for RTE_2D.
-        //    // Note: we assume the spatial domain has "nt" intervals,
-        //    //       starting from "0" to "nt-1" with increasing "x" coordinate;
-        //    //       the top boundary with bigger "x" is labeled as "1" and the bottom as "0";
-        //    //       in each interval, the node with the smaller "x" is labeled as "0" and the node with the bigger "x" is labeled as "1".
-        //    ExecuteMGRTE(para);
-
-        //    Console.ReadLine();
-        //}
-
 
         public static Measurement ExecuteMGRTE(Parameters para)
         {
@@ -135,6 +104,7 @@ namespace Vts.FemModeling.MGRTE._2D
             // initialize internal and boundary sources 
             Insource.Inputsource(para.AMeshLevel, amesh, para.SMeshLevel, smesh, level, RHS, q);
              
+            
 
             /* Read the end time. */
             DateTime stopTime1 = DateTime.Now;
@@ -185,14 +155,16 @@ namespace Vts.FemModeling.MGRTE._2D
                         {
                             for (i = 0; i < para.NMgCycle; i++)
                             {
-                                res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 6);
+                                res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, 
+                                    noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 6);
                             }
                         }
                         else
                         {
                             for (i = 0; i < para.NMgCycle; i++)
                             {
-                                Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 7);
+                                Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, 
+                                    noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 7);
                             }
                         }
                     }
@@ -204,14 +176,16 @@ namespace Vts.FemModeling.MGRTE._2D
                             {
                                 for (i = 0; i < para.NMgCycle; i++)
                                 {
-                                    Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 7);
+                                    Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, 
+                                        noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 7);
                                 }
                             }
                             else
                             {
                                 for (i = 0; i < para.NMgCycle; i++)
                                 {
-                                    Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 6);
+                                    Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, 
+                                        noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 6);
                                 }
                             }
                         }
@@ -219,7 +193,8 @@ namespace Vts.FemModeling.MGRTE._2D
                         {
                             for (i = 0; i < para.NMgCycle; i++)
                             {
-                                Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, para.MgMethod);
+                                Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, 
+                                    noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, para.MgMethod);
                             }
                         }
                     }
@@ -267,7 +242,8 @@ namespace Vts.FemModeling.MGRTE._2D
                 startTime1 = DateTime.Now;
 
                 n++;
-                res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, para.AMeshLevel, para.AMeshLevel0, para.SMeshLevel, para.SMeshLevel0, ns, vacuum, para.MgMethod);
+                res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, para.AMeshLevel, 
+                    para.AMeshLevel0, para.SMeshLevel, para.SMeshLevel0, ns, vacuum, para.MgMethod);
                 for (m = 0; m < level; m++)
                 {
                     for (i = 0; i < amesh[noflevel[m][1]].ns; i++)
@@ -305,7 +281,8 @@ namespace Vts.FemModeling.MGRTE._2D
             }
 
             // 2.3. compute the residual
-            Mgrid.Defect(amesh[para.AMeshLevel], smesh[para.SMeshLevel], ns, RHS[level], ua[para.SMeshLevel], us[para.SMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
+            Mgrid.Defect(amesh[para.AMeshLevel], smesh[para.SMeshLevel], ns, RHS[level], ua[para.SMeshLevel], us[para.SMeshLevel], 
+                flux[level], b[level], q[level], d[level], vacuum);
             res = Mgrid.Residual(smesh[para.SMeshLevel].nt, amesh[para.AMeshLevel].ns, d[level], smesh[para.SMeshLevel].a);
 
             /* Read the start time. */

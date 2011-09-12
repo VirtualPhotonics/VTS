@@ -41,6 +41,7 @@ namespace Vts.SiteVisit.ViewModel
                 NPostIteration = 3,
                 NMgCycle = 1,
                 NIterations = 100,
+                Length = 1.0,
             })
         {
         }

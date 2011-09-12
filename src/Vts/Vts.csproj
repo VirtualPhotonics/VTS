@@ -256,7 +256,6 @@
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\SpatialMesh.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Enums.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Initialization.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\IO\ParametersIO.cs" />
     <Compile Include="FemModeling\MGRTE\2D\MathFunctions.cs" />
     <Compile Include="FemModeling\MGRTE\2D\MultiGridCycle.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\Output.cs" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Vts.FemModeling.MGRTE._2D;
-using Vts.FemModeling.MGRTE._2D.IO;
+
 
 namespace Vts.MGRTE.ConsoleApp
 {
@@ -47,8 +47,10 @@ namespace Vts.MGRTE.ConsoleApp
             para.SMeshLevel0 = 0;
             para.ConvTol = 1e-4;
             para.MgMethod = 6;
-                    
+            para.Length = 1.0;       
             
+
+
             SolverMGRTE.ExecuteMGRTE(para);
 
             Console.ReadLine();

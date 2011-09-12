@@ -302,9 +302,6 @@
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Initialization.cs">
       <Link>FemModeling\MGRTE\2D\Initialization.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\IO\ParametersIO.cs">
-      <Link>FemModeling\MGRTE\2D\IO\ParametersIO.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\IO\Source.cs">
       <Link>FemModeling\MGRTE\2D\IO\Source.cs</Link>
     </Compile>
