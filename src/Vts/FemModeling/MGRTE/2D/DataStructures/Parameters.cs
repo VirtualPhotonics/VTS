@@ -73,15 +73,7 @@ namespace Vts.FemModeling.MGRTE._2D
             set{aMeshLevel = value;this.OnPropertyChanged("AMeshLevel");}
         }
 
-        /// <summary>
-        /// The coarsest layer of angular mesh in RTE computation
-        /// </summary>
-        public int AMeshLevel0
-        {
-            get{return aMeshLevel0;}
-            set{aMeshLevel0 = value;this.OnPropertyChanged("AMeshLevel0");}
-        }        
-
+       
         /// <summary>
         /// The finest layer of spatial mesh generation
         /// </summary>
@@ -90,15 +82,7 @@ namespace Vts.FemModeling.MGRTE._2D
             get{return sMeshLevel;}
             set { sMeshLevel = value; this.OnPropertyChanged("SMeshLevel"); }
         }
-
-        /// <summary>
-        /// The coarsest layer of spatial mesh in RTE computation
-        /// </summary>
-        public int SMeshLevel0
-        {
-            get{return sMeshLevel0;}
-            set { sMeshLevel0 = value; this.OnPropertyChanged("SMeshLevel0"); }
-        }
+                
 
         /// <summary>
         /// The choice of multigrid method,

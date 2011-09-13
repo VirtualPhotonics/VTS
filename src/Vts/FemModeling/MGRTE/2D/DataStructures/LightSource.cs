@@ -11,13 +11,39 @@
         public int[] t;                 // spatial position (triangle): t[source.n] for Case 1 and 2
         public double[,] i;             // source intensity: i[source.n][3].
 
-        //  Case 1: point source with angular dependence
-        //  Case 2: isotropic point source
-        //  Case 3: isotropic source prescribed everywhere at boundary ([ne][2])
-        public int BS_TYPE;       //type of boundary source
-        public int n2;                 // number of point sources in Case 1 and 2; "ne" in Case 3.
-        public int[] a2;                // angular direction: a[source.n2] for Case 1
-        public int[] e;                 // spatial position (boundary edge): e[source.n2] for Case 1 and 2
-        public double[,] i2;            // source intensity: i[source.n2][2].
+        /// <summary>
+        /// Source type: 0: Internal,  1: External 
+        /// </summary>
+        public bool sourceType;
+
+        /// <summary>
+        /// Number of internal sources
+        /// </summary>
+        public int nInt;
+
+        /// <summary>
+        /// Minimum polar angle for internal sources
+        /// </summary>
+        public double []angMinInt;
+
+        /// <summary>
+        /// Maximum polar angle for internal sources
+        /// </summary>
+        public double[] angMaxInt;
+
+        /// <summary>
+        /// Number of external sources
+        /// </summary>
+        public int nExt;
+
+        /// <summary>
+        /// Minimum polar angle for external sources
+        /// </summary>
+        public double[] angMinExt;
+
+        /// <summary>
+        /// Maximum polar angle for external sources
+        /// </summary>
+        public double[] angMaxExt;
     };
 }

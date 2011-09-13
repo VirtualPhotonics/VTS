@@ -11,8 +11,7 @@ namespace Vts.FemModeling.MGRTE._2D
     /// Initialization class
     /// </summary>
     public class Initialization
-    {
-        
+    {        
         public static void Initial(
             ref AngularMesh[] amesh,
             ref SpatialMesh[] smesh,

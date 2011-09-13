@@ -88,7 +88,7 @@ namespace Vts.FemModeling.MGRTE._2D.IO
                     for (i = 0; i < Source.n; i++)
                     {
                         s_xy[i] = new double[2];
-                        s_xy[i][0] = 0;                 //todo: source is at the origin
+                        s_xy[i][0] = .2;                 //todo: source is at the origin
                         s_xy[i][1] = 0;
                     }
 

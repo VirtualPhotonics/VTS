@@ -21,6 +21,7 @@ namespace Vts.FemModeling.MGRTE._2D
             int vacuum;
             int i, j, k, m, n, ns, nt1, nt2, ns1, ns2, da, ds, nf = 0;
             double res = 0, res0 = 1, rho = 1.0;
+            int AMeshLevel0, SMeshLevel0;
 
             ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(SolverMGRTE));   
 
@@ -36,12 +37,21 @@ namespace Vts.FemModeling.MGRTE._2D
             else
             { 
                 vacuum = 0; 
-            }
+            }            
+            para.NIterations = 100;
+            para.NPreIteration = 3;
+            para.NPostIteration = 3;
+            para.NMgCycle = 1;
+            para.FullMg = 1;
+
+            AMeshLevel0 = 1;
+            SMeshLevel0 = 1;
 
             // 1.2. compute "level"
-            //      level: the indicator of mesh levels in multigrid
-            ds = para.SMeshLevel - para.SMeshLevel0;
-            da = para.AMeshLevel - para.AMeshLevel0;
+            //      level: the indicator of mesh levels in multigrid          
+
+            ds = para.SMeshLevel - SMeshLevel0;
+            da = para.AMeshLevel - AMeshLevel0;          
                         
 
             switch (para.MgMethod)
@@ -86,7 +96,7 @@ namespace Vts.FemModeling.MGRTE._2D
             Source Insource = new Source();
 
             //Create spatial and angular mesh
-            MathFunctions.CreateAnglularMesh(ref amesh, para.AMeshLevel, para.AMeshLevel0, para.G);      
+            MathFunctions.CreateAnglularMesh(ref amesh, para.AMeshLevel, para.G);      
             MathFunctions.CreateSquareMesh(ref smesh, para.SMeshLevel);
 
             MathFunctions.SweepOrdering(ref smesh, amesh, para.SMeshLevel, para.AMeshLevel);  
@@ -98,8 +108,8 @@ namespace Vts.FemModeling.MGRTE._2D
                 ref amesh, ref smesh, ref flux, ref d, 
                 ref RHS, ref q, ref noflevel, ref b,
                 level, para.MgMethod,vacuum,para.NTissue,
-                para.NExt,para.AMeshLevel,para.AMeshLevel0, 
-                para.SMeshLevel,para.SMeshLevel0, ua,us,Mgrid);           
+                para.NExt,para.AMeshLevel, AMeshLevel0,
+                para.SMeshLevel, SMeshLevel0, ua, us, Mgrid);           
 
             // initialize internal and boundary sources 
             Insource.Inputsource(para.AMeshLevel, amesh, para.SMeshLevel, smesh, level, RHS, q);
@@ -115,7 +125,9 @@ namespace Vts.FemModeling.MGRTE._2D
 
             //step 2: RTE solver
             DateTime startTime2 = DateTime.Now;
+
             ns = amesh[para.AMeshLevel].ns;
+            
 
             if (para.FullMg == 1)
             {
@@ -156,7 +168,7 @@ namespace Vts.FemModeling.MGRTE._2D
                             for (i = 0; i < para.NMgCycle; i++)
                             {
                                 res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, 
-                                    noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 6);
+                                    noflevel[n][1], AMeshLevel0, noflevel[n][0], SMeshLevel0, ns, vacuum, 6);
                             }
                         }
                         else
@@ -164,7 +176,7 @@ namespace Vts.FemModeling.MGRTE._2D
                             for (i = 0; i < para.NMgCycle; i++)
                             {
                                 Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, 
-                                    noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 7);
+                                    noflevel[n][1], AMeshLevel0, noflevel[n][0], SMeshLevel0, ns, vacuum, 7);
                             }
                         }
                     }
@@ -177,7 +189,7 @@ namespace Vts.FemModeling.MGRTE._2D
                                 for (i = 0; i < para.NMgCycle; i++)
                                 {
                                     Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, 
-                                        noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 7);
+                                        noflevel[n][1], AMeshLevel0, noflevel[n][0], SMeshLevel0, ns, vacuum, 7);
                                 }
                             }
                             else
@@ -185,7 +197,7 @@ namespace Vts.FemModeling.MGRTE._2D
                                 for (i = 0; i < para.NMgCycle; i++)
                                 {
                                     Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, 
-                                        noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, 6);
+                                        noflevel[n][1], AMeshLevel0, noflevel[n][0], SMeshLevel0, ns, vacuum, 6);
                                 }
                             }
                         }
@@ -194,7 +206,7 @@ namespace Vts.FemModeling.MGRTE._2D
                             for (i = 0; i < para.NMgCycle; i++)
                             {
                                 Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, 
-                                    noflevel[n][1], para.AMeshLevel0, noflevel[n][0], para.SMeshLevel0, ns, vacuum, para.MgMethod);
+                                    noflevel[n][1], AMeshLevel0, noflevel[n][0], SMeshLevel0, ns, vacuum, para.MgMethod);
                             }
                         }
                     }
@@ -238,12 +250,9 @@ namespace Vts.FemModeling.MGRTE._2D
 
             while (n < para.NIterations)
             {
-                /* Read the start time. */
-                startTime1 = DateTime.Now;
-
                 n++;
                 res = Mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, para.NPreIteration, para.NPostIteration, para.AMeshLevel, 
-                    para.AMeshLevel0, para.SMeshLevel, para.SMeshLevel0, ns, vacuum, para.MgMethod);
+                    AMeshLevel0, para.SMeshLevel, SMeshLevel0, ns, vacuum, para.MgMethod);
                 for (m = 0; m < level; m++)
                 {
                     for (i = 0; i < amesh[noflevel[m][1]].ns; i++)
@@ -258,11 +267,11 @@ namespace Vts.FemModeling.MGRTE._2D
                     }
                 }
 
+
                 if (n > 1)
                 {
                     rho *= res / res0;
                     logger.Info(() => "Iteration: " + n + ", Current tolerance: " + res + "\n");  
-
 
                     if (res < para.ConvTol)
                     {
@@ -273,11 +282,12 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
                 else
                 {
-                    logger.Info(() => "Iteration: " + n + ", Current tolerance: " + res + "\n");  
-                }
-                res0 = res;
-                stopTime1 = DateTime.Now;
-                duration1 = stopTime1 - startTime1;               
+                    logger.Info(() => "Iteration: " + n + ", Current tolerance: " + res + "\n");
+                    res0 = res;
+                    if (res < para.ConvTol)                    
+                        n = para.NIterations;                    
+                }            
+                            
             }
 
             // 2.3. compute the residual
@@ -287,7 +297,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
             /* Read the start time. */
             DateTime stopTime2 = DateTime.Now;
-            TimeSpan duration2 = stopTime2 - startTime2;
+            TimeSpan duration2 = stopTime2 - startTime2;   
 
             logger.Info(() => "Toal time: " + duration2.TotalSeconds + "seconds, Final residual: " + res + "\n");
 

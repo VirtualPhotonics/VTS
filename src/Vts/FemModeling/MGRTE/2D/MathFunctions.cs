@@ -460,7 +460,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
         }
 
-        public static void QuickSort(double[] a, int[] idx, int n_left, int n_right)
+        private static void QuickSort(double[] a, int[] idx, int n_left, int n_right)
         {
             int i, j;
             double pivot;
@@ -493,14 +493,14 @@ namespace Vts.FemModeling.MGRTE._2D
             QuickSort(a, idx, i + 1, n_right);
         }
 
-        public static void Swap(ref double x, ref double y)
+        private static void Swap(ref double x, ref double y)
         {
             double temp = y;
             y = x;
             x = temp;
         }
 
-        public static void Swap(ref int x, ref int y)
+        private static void Swap(ref int x, ref int y)
         {
             int temp = y;
             y = x;
@@ -513,7 +513,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <param name="a">data array</param>
         /// <param name="idx">index of data array</param>
         /// <param name="n">number of elements in the array</param>
-        public static void RearrangeArray(ref double[] a, int[] idx, int n)
+        private static void RearrangeArray(ref double[] a, int[] idx, int n)
         {
             int i;
             double[] temp = new double[n];
@@ -524,11 +524,17 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
 
-
-        public static void CreateAnglularMesh(ref AngularMesh[] amesh, int aLevel, int aLevel0, double g)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="amesh"></param>
+        /// <param name="aLevel"></param>
+        /// <param name="aLevel0"></param>
+        /// <param name="g"></param>
+        public static void CreateAnglularMesh(ref AngularMesh[] amesh, int aLevel, double g)
         {
             int i,j;
-            for (i = aLevel0; i <=aLevel; i++)
+            for (i = 0; i <=aLevel; i++)
             {
                 amesh[i].ns = (int)Math.Pow(2.0, (double)(i+1));
                 amesh[i].a = new double[amesh[i].ns][];
@@ -641,17 +647,16 @@ namespace Vts.FemModeling.MGRTE._2D
             tri[3][0] = (int)pts[3][2]; tri[3][1] = (int)pts[0][2]; tri[3][2] = (int)pts[4][2];
         }
 
-
         /// <summary>
         /// Create Multigrid based on spatial mesh level
         /// </summary>
+        /// <param name="smesh"></param>
         /// <param name="p">points data</param>
-        /// <param name="t">edge data</param>
         /// <param name="e">edge data</param>
+        /// <param name="t">triangle data</param>
         /// <param name="np">number of points</param>
+        /// <param name="ne">number of boundary edges</param>
         /// <param name="nt">number of triangles</param>
-        /// <param name="ne">number of edges</param>
-        ///  <param name="nebound">number of boundary edges</param>
         /// <param name="sMeshLevel">spatial mesh levels</param>
         public static void CreateMultigrid(ref SpatialMesh[] smesh, double[][] p, int[][] e, int[][] t, int np, int ne, int nt, int sMeshLevel)
         {
@@ -710,14 +715,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 AssignSpatialMesh(ref smesh, oldp, olde, oldt, np, ne, nt, j);
             }
         }
-
-        /// <summary>
-        
-        /// </summary>
-        /// <param name="ptemp"></param>
-        /// <param name="p"></param>
-        /// <param name="t"></param>
-        /// <param name="nt"></param>
+                
         private static void FindPTemp(double[][] ptemp, double[][] p, int[][] t, int nt)
         {
             int i;

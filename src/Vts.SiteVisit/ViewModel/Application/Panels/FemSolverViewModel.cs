@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Command;
 using Vts.SiteVisit.Input;
 using Vts.FemModeling.MGRTE._2D.DataStructures;
 using Vts.SiteVisit.Model;
+using Vts.Common.Logging;
 
 namespace Vts.SiteVisit.ViewModel
 {
@@ -12,6 +13,8 @@ namespace Vts.SiteVisit.ViewModel
     {
         private Parameters _parameters;
         private OpticalPropertyViewModel _opticalPropertyVM;
+
+        ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(FemSolverViewModel));   
 
         public FemSolverViewModel(Parameters parameters)
         {
@@ -35,14 +38,7 @@ namespace Vts.SiteVisit.ViewModel
                 ConvTol = 1e-4,
                 MgMethod = 6,
                 NIterations = 100,
-                Length = 1.0,
-                AMeshLevel0 = 3,
-                SMeshLevel0 = 0,
-                FullMg = 1,
-                NPreIteration = 3,
-                NPostIteration = 3,
-                NMgCycle = 1,
-
+                Length = 1.0,    
             })
         {
         }
@@ -79,12 +75,17 @@ namespace Vts.SiteVisit.ViewModel
             // Purpose: this is the main function for RTE_2D.
             // Note: we assume the spatial domain has "nt" intervals,
             //       starting from "-x" to "+x" with increasing "x" coordinate;
-            //       starting from "0" to "+z" with increasing "z" coordinate;            
-            Measurement measurement = SolverMGRTE.ExecuteMGRTE(_parameters);       
+            //       starting from "0" to "+z" with increasing "z" coordinate;   
 
-            var meshData = new MapData(measurement.inten, measurement.xloc, measurement.zloc, measurement.dx, measurement.dz);
+            if ((_parameters.AMeshLevel > 8) || (_parameters.SMeshLevel > 8))
+                logger.Info(() => "Angular or Spatial mesh level is larger than 8\n");            
+            else
+            {
 
-            Commands.Mesh_PlotMap.Execute(meshData);
+                Measurement measurement = SolverMGRTE.ExecuteMGRTE(_parameters);
+                var meshData = new MapData(measurement.inten, measurement.xloc, measurement.zloc, measurement.dx, measurement.dz);
+                Commands.Mesh_PlotMap.Execute(meshData);
+            }
         }
     }
 }
