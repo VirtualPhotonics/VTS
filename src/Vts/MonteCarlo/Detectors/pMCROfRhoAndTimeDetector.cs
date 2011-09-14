@@ -168,12 +168,12 @@ namespace Vts.MonteCarlo.Detectors
                                    _referenceOps[i].Mus - _referenceOps[i].Mua) * pathLength[i] / numberOfCollisions[i]),
                             numberOfCollisions[i]);
                 }
-                //else
-                //{
-                //    weightFactor *=
-                //        Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua -
-                //                   _referenceOps[i].Mus - _referenceOps[i].Mua) * pathLength[i]);
-                //}
+                else
+                {
+                    weightFactor *=
+                        Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua -
+                                   _referenceOps[i].Mus - _referenceOps[i].Mua) * pathLength[i]);
+                }
             }
             return weightFactor;
         }

@@ -130,7 +130,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             if (photonStateType.HasFlag(PhotonStateType.Absorbed))
             {
-                weight = previousWeight * mua / (mua + mus); 
+                weight = previousWeight; 
             }
             else
             {
