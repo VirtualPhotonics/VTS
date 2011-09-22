@@ -77,7 +77,9 @@ namespace Vts.MonteCarlo.PostProcessor
             }
 
             Output postProcessedOutput = null;
-            // check for pMC tallies first
+
+            var databaseGenerationInputFile = SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"));
+            // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
             if (input.DetectorInputs.Select(di => di.TallyType.IspMCReflectanceTally()).Any())
             {
                 IList<IpMCDetectorInput> pMCDetectorInputs;
@@ -89,7 +91,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     PhotonDatabaseFactory.GetpMCDatabase( // database filenames are assumed to be convention
                         VirtualBoundaryType.pMCDiffuseReflectance,
                         input.InputFolder),
-                    SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"))
+                    databaseGenerationInputFile
                 );
             }
             else if (input.DetectorInputs.Select(di => di.TallyType.IsReflectanceTally()).Any())
@@ -101,7 +103,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                         VirtualBoundaryType.DiffuseReflectance,
                         input.InputFolder),
-                    SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"))
+                    databaseGenerationInputFile
                 );
             }
             else if (input.DetectorInputs.Select(di => di.TallyType.IsTransmittanceTally()).Any())
@@ -113,7 +115,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                         VirtualBoundaryType.DiffuseTransmittance,
                         input.InputFolder),
-                    SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"))
+                    databaseGenerationInputFile
                 );
             }
             else if (input.DetectorInputs.Select(di => di.TallyType.IsSpecularReflectanceTally()).Any())
@@ -125,7 +127,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                         VirtualBoundaryType.SpecularReflectance,
                         input.InputFolder),
-                    SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"))
+                    databaseGenerationInputFile
                 );
             }
 
@@ -135,6 +137,9 @@ namespace Vts.MonteCarlo.PostProcessor
 
             // save input file to output folder with results
             input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
+
+            // save database generation input file to output folder
+            databaseGenerationInputFile.ToFile(resultsFolder + "\\" + input.OutputName + "_database_infile.xml");
 
             if (postProcessedOutput != null)
             {

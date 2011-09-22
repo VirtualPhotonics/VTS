@@ -7,7 +7,8 @@ xml = xml_load([datadir slash dataname '.xml']);
 numDetectors = length(xml.DetectorInputs);
 for di = 1:numDetectors
     detectorName = xml.DetectorInputs(di).anyType.Name;
-    switch(detectorName)
+    detectorType = xml.DetectorInputs(di).anyType.TallyType;
+    switch(detectorType)
         case 'RDiffuse'
             RDiffuse.Name = detectorName;
             RDiffuse_xml = xml_load([datadir slash detectorName '.xml']);
@@ -49,7 +50,7 @@ for di = 1:numDetectors
             if(exist([datadir slash detectorName '_2'],'file'))
                 ROfXAndY.SecondMoment = readBinaryData([datadir slash detectorName '_2'],[length(ROfXAndY.X)-1,length(ROfXAndY.Y)-1]); 
                 ROfXAndY.Stdev = sqrt((ROfXAndY.SecondMoment - (ROfXAndY.Mean .* ROfXAndY.Mean)) / str2num(xml.N)); 
-            end            
+            end      
             results.ROfXAndY = ROfXAndY;
 
         case 'ROfRhoAndTime'
@@ -117,7 +118,7 @@ for di = 1:numDetectors
                 TOfRho.SecondMoment = readBinaryData([datadir slash detectorName '_2'],length(TOfRho.Rho)-1);
                 TOfRho.Stdev = sqrt((TOfRho.SecondMoment - (TOfRho.Mean .* TOfRho.Mean)) / str2num(xml.N));
             end
-            results.TOfRho = ROfRho;
+            results.TOfRho = TOfRho;
         case 'TOfAngle'
             TOfAngle.Name = detectorName;
             tempAngle = xml.DetectorInputs(di).anyType.Angle;
@@ -128,7 +129,7 @@ for di = 1:numDetectors
                 TOfAngle.SecondMoment = readBinaryData([datadir slash detectorName '_2'],length(TOfAngle.Angle)-1);
                 TOfAngle.Stdev = sqrt((TOfAngle.SecondMoment - (TOfAngle.Mean .* TOfAngle.Mean)) / str2num(xml.N));
             end
-            results.ROfAngle = ROfAngle;
+            results.TOfAngle = TOfAngle;
         case 'TOfRhoAndAngle'
             TOfRhoAndAngle.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
@@ -203,5 +204,32 @@ for di = 1:numDetectors
                 RadianceOfRhoAndZAndAngle.Stdev = sqrt((RadianceOfRhoAndZAndAngle.SecondMoment - (RadianceOfRhoAndZAndAngle.Mean .* RadianceOfRhoAndZAndAngle.Mean)) / str2num(xml.N));               
             end
             results.RadianceOfRhoAndZAndAngle = RadianceOfRhoAndZAndAngle;
+        case 'pMCROfRho'
+            pMCROfRho.Name = detectorName;
+            tempRho = xml.DetectorInputs(di).anyType.Rho;
+            pMCROfRho.Rho = linspace(str2num(tempRho.Start), str2num(tempRho.Stop), str2num(tempRho.Count));
+            pMCROfRho.Rho_Midpoints = (pMCROfRho.Rho(1:end-1) + pMCROfRho.Rho(2:end))/2;
+            pMCROfRho.Mean = readBinaryData([datadir slash detectorName],length(pMCROfRho.Rho)-1);              
+            if(exist([datadir slash detectorName '_2'],'file'))
+                databaseInputxml = xml_load([datadir slash dataname '_database_infile.xml']);
+                pMCROfRho.SecondMoment = readBinaryData([datadir slash detectorName '_2'],length(pMCROfRho.Rho)-1);
+                pMCROfRho.Stdev = sqrt((pMCROfRho.SecondMoment - (pMCROfRho.Mean .* pMCROfRho.Mean)) / str2num(databaseInputxml.N));
+            end
+            results.pMCROfRho = pMCROfRho;
+        case 'pMCROfRhoAndTime'
+            pMCROfRhoAndTime.Name = detectorName;
+            tempRho = xml.DetectorInputs(di).anyType.Rho;
+            tempTime = xml.DetectorInputs(di).anyType.Time;
+            pMCROfRhoAndTime.Rho = linspace(str2num(tempRho.Start), str2num(tempRho.Stop), str2num(tempRho.Count));
+            pMCROfRhoAndTime.Time = linspace(str2num(tempTime.Start), str2num(tempTime.Stop), str2num(tempTime.Count));
+            pMCROfRhoAndTime.Rho_Midpoints = (pMCROfRhoAndTime.Rho(1:end-1) + pMCROfRhoAndTime.Rho(2:end))/2;
+            pMCROfRhoAndTime.Time_Midpoints = (pMCROfRhoAndTime.Time(1:end-1) + pMCROfRhoAndTime.Time(2:end))/2;
+            pMCROfRhoAndTime.Mean = readBinaryData([datadir slash detectorName],[length(pMCROfRhoAndTime.Rho)-1,length(pMCROfRhoAndTime.Time)-1]);              
+            if(exist([datadir slash detectorName '_2'],'file'))
+                databaseInputxml = xml_load([datadir slash dataname '_database_infile.xml']);
+                pMCROfRhoAndTime.SecondMoment = readBinaryData([datadir slash detectorName '_2'],[length(pMCROfRhoAndTime.Rho)-1,length(pMCROfRhoAndTime.Time)-1]);
+                pMCROfRhoAndTime.Stdev = sqrt((pMCROfRhoAndTime.SecondMoment - (pMCROfRhoAndTime.Mean .* pMCROfRhoAndTime.Mean)) / str2num(databaseInputxml.N));
+            end
+            results.pMCROfRhoAndTime = pMCROfRhoAndTime;
     end %detectorName switch
 end
