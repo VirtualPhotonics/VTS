@@ -1,9 +1,10 @@
 % script for loading Monte Carlo results
 
 clear all;
+slash = filesep;  % get correct path delimiter for platform
 
 % script to parse results from MC simulation
-addpath([cd '\xml_toolbox']);
+addpath([cd slash 'xml_toolbox']);
 
 % names of individual MC simulations
 % datanames = { 'one_layer_ROfRho_FluenceOfRhoAndZ' };
