@@ -24,6 +24,7 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(DirectionalCircularSourceInput))]
     [KnownType(typeof(IsotropicPointSourceInput))]
     [KnownType(typeof(CustomPointSourceInput))]
+    [KnownType(typeof(CustomCircularSourceInput))]
     [KnownType(typeof(DirectionalLineSourceInput))]
 
     // Tissue inputs
