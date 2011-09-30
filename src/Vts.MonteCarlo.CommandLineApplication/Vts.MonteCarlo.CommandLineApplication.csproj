@@ -104,6 +104,9 @@
     <Content Include="..\..\files\SimulationInputFiles\infile_ellip_FluenceOfRhoAndZ.xml">
       <Link>infile_ellip_FluenceOfRhoAndZ.xml</Link>
     </Content>
+    <Content Include="..\..\files\SimulationInputFiles\infile_Gaussian_source_one_layer_ROfRho.xml">
+      <Link>infile_Gaussian_source_one_layer_ROfRho.xml</Link>
+    </Content>
     <Content Include="..\..\files\SimulationInputFiles\infile_one_layer_all_detectors.xml">
       <Link>infile_one_layer_all_detectors.xml</Link>
     </Content>
