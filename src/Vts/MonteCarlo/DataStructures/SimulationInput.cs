@@ -91,7 +91,7 @@ namespace Vts.MonteCarlo
                 100,
                 "results",
                 new SimulationOptions(
-                    SimulationOptions.GetRandomSeed(),
+                    -1, // get random seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,

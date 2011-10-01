@@ -26,10 +26,10 @@ namespace Vts.MonteCarlo
             PhaseFunctionType = phaseFunctionType;
             WriteDatabases = writeDatabases;
             Seed = seed;
-            if (Seed == -1)
-            {
-                Seed = GetRandomSeed();
-            }
+            //if (Seed == -1) // handling of random seed moved to RNGFactory 10/01/11
+            //{
+            //    Seed = GetRandomSeed();
+            //}
             SimulationIndex = simulationIndex;
             TallySecondMoment = tallySecondMoment;
             TrackStatistics = trackStatistics;
@@ -59,7 +59,7 @@ namespace Vts.MonteCarlo
                 0) { }
 
         public SimulationOptions()
-            : this(GetRandomSeed(), 
+            : this(-1, // default constructor needs -1 here to invoke GetRandomSeed
                 RandomNumberGeneratorType.MersenneTwister, 
                 AbsorptionWeightingType.Discrete, 
                 PhaseFunctionType.HenyeyGreenstein,
@@ -79,9 +79,9 @@ namespace Vts.MonteCarlo
 
 
 
-        public static int GetRandomSeed()  // ckh 12/15/09 made this public so Photon can see
-        {
-            return (int)DateTime.Now.Ticks % (1 << 15);
-        }
+        //private static int GetRandomSeed()  // ckh 10/01/11 moved to RandomNumberGeneratorFactory
+        //{
+        //    return (int)DateTime.Now.Ticks % (1 << 15);
+        //}
     }
 }
