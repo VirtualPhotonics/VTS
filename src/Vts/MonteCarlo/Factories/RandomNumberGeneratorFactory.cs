@@ -26,6 +26,10 @@ namespace Vts.MonteCarlo.Factories
         /// <returns></returns>
         public static Random GetRandomNumberGenerator(RandomNumberGeneratorType type, int seed)
         {
+            if (seed == -1)
+            {
+                seed = GetRandomSeed();
+            }
             switch (type)
             {
                 case RandomNumberGeneratorType.MersenneTwister:
@@ -34,6 +38,10 @@ namespace Vts.MonteCarlo.Factories
                     throw new ArgumentOutOfRangeException("type");
 
             }
+        }
+        private static int GetRandomSeed()  // ckh 10/01/11 moved to RandomNumberGeneratorFactory
+        {
+            return (int)DateTime.Now.Ticks % (1 << 15);
         }
     }
 }

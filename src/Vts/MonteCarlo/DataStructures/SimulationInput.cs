@@ -24,6 +24,7 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(DirectionalCircularSourceInput))]
     [KnownType(typeof(IsotropicPointSourceInput))]
     [KnownType(typeof(CustomPointSourceInput))]
+    [KnownType(typeof(CustomCircularSourceInput))]
     [KnownType(typeof(DirectionalLineSourceInput))]
 
     // Tissue inputs
@@ -90,7 +91,7 @@ namespace Vts.MonteCarlo
                 100,
                 "results",
                 new SimulationOptions(
-                    SimulationOptions.GetRandomSeed(),
+                    -1, // get random seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,

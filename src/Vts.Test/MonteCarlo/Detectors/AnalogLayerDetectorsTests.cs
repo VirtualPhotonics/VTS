@@ -191,13 +191,13 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_Analog_AOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_output.A_rz[0, 6] * _factor - 0.00617700489), 0.00000000001);
+            Assert.Less(Math.Abs(_output.A_rz[0, 6] * _factor - 3.09467945), 0.00000001);
         }
         // Fluence Flu(rho,z)
         [Test]
         public void validate_Analog_FluenceOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_output.Flu_rz[0, 6] * _factor - 0.617700489), 0.000000001);
+            Assert.Less(Math.Abs(_output.Flu_rz[0, 6] * _factor - 309.467945), 0.000001);
         }
         // Volume Radiance Rad(rho,z,angle)
         // Verify integral over angle of Radiance equals Fluence

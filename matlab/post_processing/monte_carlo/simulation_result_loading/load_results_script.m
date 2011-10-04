@@ -1,9 +1,10 @@
 % script for loading Monte Carlo results
 
 clear all;
+slash = filesep;  % get correct path delimiter for platform
 
 % script to parse results from MC simulation
-addpath([cd '\xml_toolbox']);
+addpath([cd slash 'xml_toolbox']);
 
 % names of individual MC simulations
 % datanames = { 'one_layer_ROfRho_FluenceOfRhoAndZ' };
@@ -23,59 +24,61 @@ show.ROfRhoAndOmega =           1;
 show.TDiffuse =                 1;
 show.TOfRho =                   1;
 show.TOfRhoAndAngle =           1;
+show.TOfAngle =                 1;
 show.ATotal =                   1;
 show.AOfRhoAndZ =               1;
 show.FluenceOfRhoAndZ =         1;
 show.RadianceOfRhoAndZAndAngle = 1;
+show.pMCROfRho =                1;
+show.pMCROfRhoAndTime =         1;
 
 for mci = 1:length(datanames)
     dataname = datanames{mci};
-    results = loadMCResults(outdir, dataname);
-    
+    results = loadMCResults(outdir, dataname);       
     if isfield(results, 'RDiffuse') && show.RDiffuse
         disp(['Total reflectance captured by RDiffuse detector: ' num2str(results.RDiffuse.Mean)]);
     end
-    
+
     if isfield(results, 'ROfRho') && show.ROfRho
         figname = 'log(R(\rho))'; figure; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) [mm^-^2]');
         disp(['Total reflectance captured by ROfRho detector: ' num2str(sum(results.ROfRho.Mean(:)))]);
     end
-    
+
     if isfield(results, 'ROfAngle') && show.ROfAngle
         figname = 'log(R(angle))'; figure; plot(results.ROfAngle.Angle_Midpoints, log(results.ROfAngle.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\angle [rad]'); ylabel('R(angle) [rad^-^1]');
         disp(['Total reflectance captured by ROfAngle detector: ' num2str(sum(results.ROfAngle.Mean(:)))]);
     end
-    
+
     if isfield(results, 'ROfXAndY') && show.ROfXAndY
         figname = 'log(R(x,y))'; figure; imagesc(log(results.ROfXAndY.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
         disp(['Total reflectance captured by ROfXAndY detector: ' num2str(sum(results.ROfXAndY.Mean(:)))]);
     end
-    
+
     if isfield(results, 'ROfRhoAndTime') && show.ROfRhoAndTime
         figname = 'log(ROfRhoAndTime)'; figure; imagesc(log(results.ROfRhoAndTime.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
         disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(results.ROfRhoAndTime.Mean(:)))]);
     end
-    
+
     if isfield(results, 'ROfRhoAndAngle') && show.ROfRhoAndAngle
         figname = 'log(ROfRhoAndAngle)'; figure; imagesc(log(results.ROfRhoAndAngle.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
         disp(['Total reflectance captured by ROfRhoAndAngle detector: ' num2str(sum(results.ROfRhoAndAngle.Mean(:)))]);
     end
-    
+
     if isfield(results, 'ROfRhoAndOmega') && show.ROfRhoAndOmega
         figname = 'ROfRhoAndOmega - log(Amplitude)'; figure; imagesc(log(results.ROfRhoAndOmega.Amplitude)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
         figname = 'ROfRhoAndOmega - Phase'; figure; imagesc(results.ROfRhoAndOmega.Phase); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
         disp(['Total reflectance captured by ROfRhoAndOmega detector: ' num2str(sum(results.ROfRhoAndOmega.Amplitude(:,1)))]);
     end
-    
+
     if isfield(results, 'TDiffuse') && show.TDiffuse
         disp(['Total transmittance captured by TDiffuse detector: ' num2str(results.TDiffuse.Mean)]);
     end
     if isfield(results, 'TOfRho') && show.TOfRho
-        figname = 'log(TOfRho)'; figure; imagesc(log(results.TOfRho.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
-        disp(['Total transmittance captured by TOfRho detector: ' num2str(sum(results.TOfRho.Mean(:)))]);
+         figname = 'log(T(\rho))'; figure; plot(results.ROfRho.Rho_Midpoints, log10(results.ROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('T(\rho) [mm^-^2]');
+         disp(['Total transmittance captured by TOfRho detector: ' num2str(sum(results.TOfRho.Mean(:)))]);
     end
     if isfield(results, 'TOfAngle') && show.TOfAngle
-        figname = 'log(TOfAngle)'; figure; imagesc(log(results.TOfAngle.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
+        figname = 'log(T(angle))'; figure; plot(results.TOfAngle.Angle_Midpoints, log(results.TOfAngle.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\angle [rad]'); ylabel('T(angle) [rad^-^1]');
         disp(['Total transmittance captured by TOfAngle detector: ' num2str(sum(results.TOfAngle.Mean(:)))]);
     end
     if isfield(results, 'TOfRhoAndAngle') && show.TOfRhoAndAngle
@@ -102,4 +105,13 @@ for mci = 1:length(datanames)
         end
         disp(['Radiance captured by RadianceOfRhoAndZ detector: ' num2str(sum(results.RadianceOfRhoAndZAndAngle.Mean(:)))]);
     end
+    if isfield(results, 'pMCROfRho') && show.pMCROfRho
+        figname = 'log(pMC R(\rho))'; figure; plot(results.pMCROfRho.Rho_Midpoints, log10(results.pMCROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC R(\rho) [mm^-^2]');
+        disp(['Total reflectance captured by pMCROfRho detector: ' num2str(sum(results.pMCROfRho.Mean(:)))]);
+    end
+    if isfield(results, 'pMCROfRhoAndTime') && show.pMCROfRhoAndTime
+        figname = 'log(pMCROfRhoAndTime)'; figure; imagesc(log(results.pMCROfRhoAndTime.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
+        disp(['Total reflectance captured by pMCROfRhoAndTime detector: ' num2str(sum(results.pMCROfRhoAndTime.Mean(:)))]);
+    end
+   
 end
