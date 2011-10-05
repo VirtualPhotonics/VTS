@@ -21,13 +21,15 @@ namespace Vts.MonteCarlo.Detectors
         private ITissue _tissue;
         private bool _tallySecondMoment;
         private IList<OpticalProperties> _ops;
-        ///<summary>
-        /// Returns an instance of FluenceOfRhoAndZAndTimeDetector
-        ///</summary>
-        ///<param name="rho"></param>
-        ///<param name="z"></param>
-        ///<param name="time"></param>
-        ///<param name="tissue"></param>
+        /// <summary>
+        /// constructor for fluence as a function of rho, z and time detector input
+        /// </summary>
+        /// <param name="rho">rho binning</param>
+        /// <param name="z">z binning</param>
+        /// <param name="time">time binning</param>
+        /// <param name="tissue">tissue</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
+        /// <param name="name">detector name</param>
         public FluenceOfRhoAndZAndTimeDetector(
             DoubleRange rho, 
             DoubleRange z, 
@@ -68,23 +70,40 @@ namespace Vts.MonteCarlo.Detectors
             TallyType.FluenceOfRhoAndZAndTime.ToString())
         {
         }
-
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public double[, ,] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public double[, ,] SecondMoment { get; set; }
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of times detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
-
+        /// <summary>
+        /// z binning
+        /// </summary>
         public DoubleRange Z { get; set; }
-
+        /// <summary>
+        /// time binning
+        /// </summary>
         public DoubleRange Time { get; set; }
 
         private void SetAbsorbAction(AbsorptionWeightingType awt)
@@ -104,7 +123,11 @@ namespace Vts.MonteCarlo.Detectors
                     throw new ArgumentException("AbsorptionWeightingType not set");
             }
         }
-
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="previousDP"></param>
+        /// <param name="dp"></param>
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
@@ -161,7 +184,10 @@ namespace Vts.MonteCarlo.Detectors
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// method to normalize detector results after numPhotons launched
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Z.Delta * Time.Delta;
@@ -182,7 +208,11 @@ namespace Vts.MonteCarlo.Detectors
             }
 
         }
-
+        /// <summary>
+        /// method to determine if photon within detector, i.e. in NA, etc.
+        /// </summary>
+        /// <param name="dp"></param>
+        /// <returns></returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true;

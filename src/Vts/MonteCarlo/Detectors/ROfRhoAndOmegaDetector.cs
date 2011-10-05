@@ -22,9 +22,10 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Returns an instance of ROfRhoAndAngleDetector
         /// </summary>
-        /// <param name="rho"></param>
-        /// <param name="omega"></param>
-        /// <param name="tissue"></param>
+        /// <param name="rho">rho binning</param>
+        /// <param name="omega">temporal frequency binning</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
+        /// <param name="name">detector name</param>
         public ROfRhoAndOmegaDetector(DoubleRange rho, DoubleRange omega, bool tallySecondMoment, String name)
         {
             Rho = rho;
@@ -48,23 +49,41 @@ namespace Vts.MonteCarlo.Detectors
         {
             
         }
-        
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public Complex[,] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public Complex[,] SecondMoment { get; set; }
-
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number time detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
-
+        /// <summary>
+        /// temporal frequency binning
+        /// </summary>
         public DoubleRange Omega { get; set; }
 
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="dp"></param>
         public void Tally(PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
@@ -90,6 +109,10 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount++;
         }
 
+        /// <summary>
+        /// method to normalize detector after numPhotons launched
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta; 
@@ -106,7 +129,11 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
-
+        /// <summary>
+        /// method to determine if photon within detector
+        /// </summary>
+        /// <param name="dp"></param>
+        /// <returns></returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

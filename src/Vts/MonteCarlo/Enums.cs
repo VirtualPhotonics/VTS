@@ -88,13 +88,13 @@ namespace Vts.MonteCarlo
         /// Specular reflection detectors 
         /// </summary>
         SpecularReflectance,
-        /// <summary>
-        /// Internal volume detectors 
-        /// </summary>
+        ///// <summary>
+        ///// Internal volume detectors 
+        ///// </summary>
         //GenericVolumeBoundary,
-        /// <summary>
-        /// Internal surface detectors 
-        /// </summary>
+        ///// <summary>
+        ///// Internal surface detectors 
+        ///// </summary>
         //SurfaceRadiance,
         /// <summary>
         /// pMC diffuse reflectance

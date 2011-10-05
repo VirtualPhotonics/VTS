@@ -9,13 +9,31 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Modeling.ForwardSolvers
 {
+    /// <summary>
+    /// class to load database for perturbation Monte Carlo results in gui
+    /// </summary>
     public class pMCLoader
     {
         # region fields
+        /// <summary>
+        /// optical properties of the reference database
+        /// </summary>
         public static OpticalProperties ReferenceOps;
+        /// <summary>
+        /// perturbation Monte Carlo database
+        /// </summary>
         public static pMCDatabase PMCDatabase;
+        /// <summary>
+        /// SimulationInput used to generate the pMC database
+        /// </summary>
         public static SimulationInput DatabaseInput;
+        /// <summary>
+        /// rho binning used in database generation
+        /// </summary>
         public static DoubleRange databaseRhoRange;
+        /// <summary>
+        /// time binning used in database generation
+        /// </summary>
         public static DoubleRange databaseTimeRange;
         #endregion
 

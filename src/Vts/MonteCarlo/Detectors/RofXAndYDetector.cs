@@ -17,10 +17,12 @@ namespace Vts.MonteCarlo.Detectors
     {
         private bool _tallySecondMoment;
         /// <summary>
-        /// Returns an instance of ROfXAndYDetector
+        /// constructor for reflectance as a function of x and y detector input
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">x binning</param>
+        /// <param name="y">y binning</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment information</param>
+        /// <param name="name">detector name</param>
         public ROfXAndYDetector(DoubleRange x, DoubleRange y, bool tallySecondMoment, String name)
         {
             X = x;
@@ -44,23 +46,42 @@ namespace Vts.MonteCarlo.Detectors
             : this(new DoubleRange(), new DoubleRange(), true, TallyType.ROfXAndY.ToString())
         {
         }
-
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public double[,] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user-specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of time detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// x binning
+        /// </summary>
         public DoubleRange X { get; set; }
-
+        /// <summary>
+        /// y binning
+        /// </summary>
         public DoubleRange Y { get; set; }
 
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="dp"></param>
         public void Tally(PhotonDataPoint dp)
         {
             int ix = DetectorBinning.WhichBin(dp.Position.X, X.Count - 1, X.Delta, X.Start);
@@ -72,6 +93,10 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// method to normalize detector tally results
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = X.Delta * Y.Delta;
@@ -87,7 +112,11 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
-
+        /// <summary>
+        /// method to determine if photon within detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <returns></returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

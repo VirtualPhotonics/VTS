@@ -8,6 +8,11 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface IpMCSurfaceDetector : IDetector
     {
+        /// <summary>
+        /// Method to tally photon
+        /// </summary>
+        /// <param name="dp">PhotonDataPoint</param>
+        /// <param name="infoList">CollisionInfo</param>
         void Tally(PhotonDataPoint dp, CollisionInfo infoList);
     }
 

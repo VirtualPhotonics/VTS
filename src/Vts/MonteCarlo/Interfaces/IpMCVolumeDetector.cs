@@ -8,6 +8,12 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface IpMCVolumeDetector : IDetector
     {
+        /// <summary>
+        /// Method to tally photon 
+        /// </summary>
+        /// <param name="previousDP">previous PhotonDataPoint</param>
+        /// <param name="dp">PhotonDataPoint</param>
+        /// <param name="infoList">SubRegionCollisionInfo</param>
         void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp, IList<SubRegionCollisionInfo> infoList);
     }
 

@@ -25,10 +25,25 @@ namespace Vts.MonteCarlo.Tissues
         public EllipsoidRegion() : this (new Position(0, 0, 1), 0.5, 0.5, 0.5,
             new OpticalProperties(0.05, 1.0, 0.8, 1.4)) {}
 
+        /// <summary>
+        /// optical properties of ellipsoid
+        /// </summary>
         public OpticalProperties RegionOP { get; set; }
+        /// <summary>
+        /// center of ellipsoid
+        /// </summary>
         public Position Center { get; set; }
+        /// <summary>
+        /// distance from center to x-axis radius
+        /// </summary>
         public double Dx { get; set; }
+        /// <summary>
+        /// distance from center to y-axis radius
+        /// </summary>
         public double Dy { get; set; }
+        /// <summary>
+        /// distance from center to z-axis radius
+        /// </summary>
         public double Dz { get; set; }
 
         public bool ContainsPosition(Position position)

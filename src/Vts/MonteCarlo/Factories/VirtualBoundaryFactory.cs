@@ -10,6 +10,12 @@ namespace Vts.MonteCarlo.Factories
 {
     public static class VirtualBoundaryExtensions
     {
+        /// <summary>
+        /// method to determine which tally type belongs to which virtual boundary
+        /// </summary>
+        /// <param name="tallyType"></param>
+        /// <param name="vbType"></param>
+        /// <returns></returns>
         public static bool AppliesToBoundary(this TallyType tallyType, VirtualBoundaryType vbType)
         {
             switch (vbType)

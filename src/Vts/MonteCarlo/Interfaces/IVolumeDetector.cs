@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo
@@ -8,6 +7,11 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface IVolumeDetector : IDetector
     {
+        /// <summary>
+        /// Method to tally
+        /// </summary>
+        /// <param name="previousDP">previous PhotonDataPoint</param>
+        /// <param name="dp">PhotonDataPoint</param>
         void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp);  
     }
 

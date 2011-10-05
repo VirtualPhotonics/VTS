@@ -18,6 +18,11 @@ namespace Vts.MonteCarlo.Controllers
         IList<PhotonDatabaseWriter> _photonDatabaseWriters;
         IList<CollisionInfoDatabaseWriter> _collisionInfoDatabaseWriters;
 
+        /// <summary>
+        /// constructor for pMC database writer controller
+        /// </summary>
+        /// <param name="photonDatabaseWriters">list of photon database writers</param>
+        /// <param name="collisionInfoDatabaseWriters">list of collision info database writers</param>
         public pMCDatabaseWriterController(
             IList<PhotonDatabaseWriter> photonDatabaseWriters,
             IList<CollisionInfoDatabaseWriter> collisionInfoDatabaseWriters)
@@ -25,8 +30,13 @@ namespace Vts.MonteCarlo.Controllers
             _photonDatabaseWriters = photonDatabaseWriters;
             _collisionInfoDatabaseWriters = collisionInfoDatabaseWriters;
         }
-
+        /// <summary>
+        /// list of photon database writers
+        /// </summary>
         public IList<PhotonDatabaseWriter> PhotonDatabaseWriters { get { return _photonDatabaseWriters; } set { _photonDatabaseWriters = value; } }
+        /// <summary>
+        /// list of collision info database writers
+        /// </summary>
         public IList<CollisionInfoDatabaseWriter> CollisionInfoDatabaseWriters { get { return _collisionInfoDatabaseWriters; } set { _collisionInfoDatabaseWriters = value; } }
 
         /// <summary>

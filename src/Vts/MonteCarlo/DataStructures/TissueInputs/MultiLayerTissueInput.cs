@@ -21,8 +21,9 @@ namespace Vts.MonteCarlo
         private IList<ITissueRegion> _regions;
 
         /// <summary>
-        /// MultiLayeredTissueInput constructor 
+        /// constructor for Multi-layer tissue input
         /// </summary>
+        /// <param name="regions">list of tissue regions comprising tissue</param>
         public MultiLayerTissueInput(IList<ITissueRegion> regions)
         {
             _regions = regions;
@@ -47,10 +48,14 @@ namespace Vts.MonteCarlo
                 })
         {
         }
-
+        /// <summary>
+        /// tissue identifier
+        /// </summary>
         [IgnoreDataMember]
         public TissueType TissueType { get { return TissueType.MultiLayer; } }
-
+        /// <summary>
+        /// list of tissue regions comprising tissue
+        /// </summary>
         public IList<ITissueRegion> Regions { get { return _regions; } set { _regions = value; } }
     }
 }

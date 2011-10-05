@@ -11,6 +11,12 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public abstract class TissueBase : ITissue
     {
+        /// <summary>
+        /// constructor for tissue base
+        /// </summary>
+        /// <param name="regions">list of tissue regions</param>
+        /// <param name="absorptionWeightingType">absorption weighting type</param>
+        /// <param name="phaseFunctionType">phase function type</param>
         public TissueBase(IList<ITissueRegion> regions, 
             AbsorptionWeightingType absorptionWeightingType,
             PhaseFunctionType phaseFunctionType)

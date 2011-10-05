@@ -10,6 +10,14 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class pMCROfRhoAndTimeDetectorInput : IpMCDetectorInput 
     {
+        /// <summary>
+        /// constructor for pMC reflectance as a function of rho and time detector input
+        /// </summary>
+        /// <param name="rho">rho binning</param>
+        /// <param name="time">time binning</param>
+        /// <param name="perturbedOps">list of perturbed optical properties, indexing matches tissue indexing</param>
+        /// <param name="perturbedRegionsIndices">list of perturbed region indices, indexing matches tissue indexing</param>
+        /// <param name="name">detector name</param>
         public pMCROfRhoAndTimeDetectorInput(
             DoubleRange rho,
             DoubleRange time,
@@ -27,11 +35,10 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// constructor uses TallyType for name
         /// </summary>
-        /// <param name="rho"></param>
-        /// <param name="time"></param>
-        /// <param name="perturbedOps"></param>
-        /// <param name="perturbedRegionsIndices"></param>
-        /// <param name="name"></param>
+        /// <param name="rho">rho binning</param>
+        /// <param name="time">time binning</param>
+        /// <param name="perturbedOps">list of perturbed optical properties, indexing matches tissue indexing</param>
+        /// <param name="perturbedRegionsIndices">list of perturbed regions indices, indexing matches tissue indexing</param>
         public pMCROfRhoAndTimeDetectorInput(
             DoubleRange rho,
             DoubleRange time,

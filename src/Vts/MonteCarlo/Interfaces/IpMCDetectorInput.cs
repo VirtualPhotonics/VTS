@@ -9,7 +9,13 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface IpMCDetectorInput : IDetectorInput
     {
+        /// <summary>
+        /// list of perturbed optical properties.  list indexing follows indexing of tissue.
+        /// </summary>
         IList<OpticalProperties> PerturbedOps { get; set; }
+        /// <summary>
+        /// list of perturbed region indices.  list indexing follows indexing of tissue.
+        /// </summary>
         IList<int> PerturbedRegionsIndices { get; set; }
     }
 }

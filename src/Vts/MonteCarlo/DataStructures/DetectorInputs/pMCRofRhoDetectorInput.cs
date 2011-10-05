@@ -10,6 +10,13 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class pMCROfRhoDetectorInput : IpMCDetectorInput 
     {
+        /// <summary>
+        /// constructor for perturbation Monte Carlo reflectance as a function of rho detector input
+        /// </summary>
+        /// <param name="rho">rho binning</param>
+        /// <param name="perturbedOps">list of perturbed optical properties, indexing matches tissue indexing</param>
+        /// <param name="perturbedRegionsIndices">list of perturbed region indices, indexing matches tissue indexing</param>
+        /// <param name="name">detector name</param>
         public pMCROfRhoDetectorInput(
             DoubleRange rho,
             IList<OpticalProperties> perturbedOps,
@@ -25,10 +32,9 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// constructor uses TallyType for name
         /// </summary>
-        /// <param name="rho"></param>
-        /// <param name="perturbedOps"></param>
-        /// <param name="perturbedRegionsIndices"></param>
-        /// <param name="name"></param>
+        /// <param name="rho">rho binning</param>
+        /// <param name="perturbedOps">list of perturbed optical properties, indexing matches tissue indexing</param>
+        /// <param name="perturbedRegionsIndices">list of perturbed region indices, indexing matches tissue indexing</param>>
         public pMCROfRhoDetectorInput(
             DoubleRange rho,
             IList<OpticalProperties> perturbedOps,
@@ -52,10 +58,25 @@ namespace Vts.MonteCarlo
                 TallyType.pMCROfRho.ToString()
             ) {}
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user-specified
+        /// </summary>
         public String Name { get; set; }
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
+        /// <summary>
+        /// list of perturbed optical properties, indexing matches tissue indexing
+        /// </summary>
         public IList<OpticalProperties> PerturbedOps { get; set; }
+        /// <summary>
+        /// list of perturbed region indices, indexing matches tissue indexing
+        /// </summary>
         public IList<int> PerturbedRegionsIndices { get; set; }
     }
 }
