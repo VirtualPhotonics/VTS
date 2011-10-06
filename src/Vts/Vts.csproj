@@ -508,6 +508,7 @@
     <Resource Include="Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.xml" />
     <Resource Include="Modeling\Spectroscopy\Resources\Spectra.txt" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml" />

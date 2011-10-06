@@ -18,7 +18,7 @@ namespace Vts.SpectralMapping
         /// <param name="coeffType">The chromophore coefficient type</param>
         /// <param name="absUnits">The absorption coefficient units</param>
         /// <param name="molarUnit">The molar units</param>
-        public ChromophoreSpectrum(IList<double> wavelengths, IList<double> spectrum, string name, ChromophoreCoefficientType coeffType, AbsorptionCoefficientUnit absUnits, MolarUnit molarUnit)
+        public ChromophoreSpectrum(List<double> wavelengths, List<double> spectrum, string name, ChromophoreCoefficientType coeffType, AbsorptionCoefficientUnit absUnits, MolarUnit molarUnit)
         {
             ChromophoreCoefficientType = coeffType;
             AbsorptionCoefficientUnit = absUnits;
@@ -44,11 +44,11 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// A list of doubles representing the spectral values
         /// </summary>
-        public IList<double> Spectrum { get; set; }
+        public List<double> Spectrum { get; set; }
         /// <summary>
         /// A list of doubles representing the wavelengths
         /// </summary>
-        public IList<double> Wavelengths { get; set; }
+        public List<double> Wavelengths { get; set; }
         /// <summary>
         /// The chromophore coefficient type
         /// </summary>
@@ -72,8 +72,8 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// Linearly interpolates known spectra to attain spectral value
         /// </summary>
-        /// <param name="wavelength"></param>
-        /// <returns></returns>
+        /// <param name="wavelength">the wavelength at which to attain the spectral value</param>
+        /// <returns>the spectral value as a double</returns>
         public double GetSpectralValue(double wavelength)
         {
             return Vts.Common.Math.Interpolation.interp1(Wavelengths, Spectrum, wavelength);
