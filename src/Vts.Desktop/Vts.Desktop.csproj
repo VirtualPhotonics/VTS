@@ -1181,6 +1181,9 @@
     <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\Fat.csv">
       <Link>Modeling\Spectroscopy\Resources\Fat.csv</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.xml">
+      <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.xml</Link>
+    </EmbeddedResource>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
