@@ -30,6 +30,7 @@ namespace Vts.MonteCarlo
                 GaussianSourceOneLayerTissueROfRhoDetector()
             };
         }
+
         #region point source one layer tissue all detectors
         /// <summary>
         /// Point source, single tissue layer definition, all detectors included

@@ -205,7 +205,7 @@ namespace Vts.SiteVisit.ViewModel
 
         public IEnumerable<Point> ExecuteForwardSolver()
         {
-            IEnumerable<double> independentValues = RangeVM.Values.ToList(); // ToList() necessary?
+            double[] independentValues = RangeVM.Values.ToArray(); // ToList() necessary?
             
             double[] constantValues =
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)

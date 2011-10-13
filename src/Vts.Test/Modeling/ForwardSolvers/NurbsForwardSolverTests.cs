@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using NUnit.Framework;
+using Vts.Extensions;
 using Vts.Modeling.ForwardSolvers;
 
 namespace Vts.Test.Modeling.ForwardSolvers
@@ -32,6 +34,58 @@ namespace Vts.Test.Modeling.ForwardSolvers
             OpticalProperties op = new OpticalProperties(0.0, 1.0, 0.8, 1.4);
             Assert.AreEqual(0.0, nurbsForwardSolver.RofRhoAndT(op, 10.0,0.01),
                   "The returned value should be 0.0");
+        }
+
+        /// <summary>
+        /// Test simple solver calls 
+        /// </summary>
+        [Test]
+        public void simple_forward_calls_return_nonzero_result()
+        {
+            var fs = new NurbsForwardSolver();
+            var op = new OpticalProperties();
+
+            var value1 = fs.RofRho(op, 10);
+            Assert.IsTrue(value1 > 0);
+
+            var value2 = fs.RofFx(op, 0.1);
+            Assert.IsTrue(value2 > 0);
+        }
+
+        /// <summary>
+        /// Test simple solver calls 
+        /// </summary>
+        [Test]
+        public void enumerable_forward_calls_return_nonzero_result()
+        {
+            var fs = new NurbsForwardSolver();
+            var ops = new OpticalProperties().AsEnumerable();
+            var rhos = 10D.AsEnumerable();
+            var fxs = 0.1.AsEnumerable();
+
+            var value1 = fs.RofRho(ops, rhos).First();
+            Assert.IsTrue(value1 > 0);
+
+            var value2 = fs.RofFx(ops, fxs).First();
+            Assert.IsTrue(value2 > 0);
+        }
+
+        /// <summary>
+        /// Test simple solver calls 
+        /// </summary>
+        [Test]
+        public void array_forward_calls_return_nonzero_result()
+        {
+            var fs = new NurbsForwardSolver();
+            var ops = new[] { new OpticalProperties() };
+            var rhos = new[] { 10.0 };
+            var fxs = new[] { 0.1 };
+
+            var value1 = fs.RofRho(ops, rhos);
+            Assert.IsTrue(value1[0] > 0);
+
+            var value2 = fs.RofFx(ops, fxs);
+            Assert.IsTrue(value2[0] > 0);
         }
         
         /// <summary>

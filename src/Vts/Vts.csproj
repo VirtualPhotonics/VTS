@@ -188,6 +188,7 @@
     <Compile Include="MonteCarlo\Controllers\VolumeDetectorController.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfFxDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoAndZAndAngleDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\DirectionalLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\IsotropicLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfFxDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\dMCdROfRhodMuaDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs" />
@@ -209,6 +211,7 @@
     <Compile Include="MonteCarlo\Factories\DatabaseWriterFactory.cs" />
     <Compile Include="MonteCarlo\Factories\PhotonDatabaseFactory.cs" />
     <Compile Include="MonteCarlo\Factories\VirtualBoundaryFactory.cs" />
+    <Compile Include="MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCSurfaceDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVolumeDetectorController.cs" />
@@ -381,6 +384,7 @@
     <Compile Include="MonteCarlo\Helpers\SourceDefaults.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\ArbitrarySurfaceSource\DirectionalArbitrarySurfaceSource.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularSourceBase.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CustomCircularSource.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\DirectionalCircularSource.cs" />

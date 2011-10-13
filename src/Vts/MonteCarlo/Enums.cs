@@ -256,6 +256,10 @@ namespace Vts.MonteCarlo
         /// Gaussian beam source profile
         /// </summary>
         Gaussian,
+        /// <summary>
+        /// Arbitrary beam source profile
+        /// </summary>
+        Arbitrary,
     }
     /// <summary>
     /// Source angle distribution types
@@ -354,6 +358,10 @@ namespace Vts.MonteCarlo
         /// Total specular reflectance
         /// </summary>
         RSpecular,
+        /// <summary>
+        /// Reflectance as a function of spatial frequency along the x-axis
+        /// </summary>
+        ROfFx,
         /// <summary>
         /// Transmittance as a function of source-detector separation (rho) and angle
         /// </summary>

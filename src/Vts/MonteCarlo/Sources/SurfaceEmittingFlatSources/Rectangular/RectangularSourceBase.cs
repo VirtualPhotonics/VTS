@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.PhotonData;
@@ -103,7 +104,7 @@ namespace Vts.MonteCarlo.Sources
                 _beamRotationFromInwardNormal,
                 _rotationAndTranslationFlags);
 
-            var photon = new Photon(finalPosition, finalDirection, tissue, _initialTissueRegionIndex, Rng); ;
+            var photon = new Photon(finalPosition, finalDirection, tissue, _initialTissueRegionIndex, Rng); 
 
             return photon;
         }
@@ -115,7 +116,12 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>new direction</returns>
         protected abstract Direction GetFinalDirection(Position position); // position may or may not be needed
 
-        private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double rectLengthX, double rectWidthY, Random rng)
+        protected virtual Position GetFinalPosition()
+        {
+            return GetFinalPositionFromProfileType(_sourceProfile, _rectLengthX, _rectWidthY, Rng);
+        }
+
+        protected static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double rectLengthX, double rectWidthY, Random rng)
         {
             Position finalPosition = SourceDefaults.DefaultPosition.Clone();
             switch (sourceProfile.ProfileType)
