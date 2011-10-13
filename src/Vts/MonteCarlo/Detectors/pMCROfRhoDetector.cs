@@ -22,6 +22,7 @@ namespace Vts.MonteCarlo.Detectors
         private double _rhoDelta;  // need to keep this because DoubleRange adjusts deltas automatically
         private bool _tallySecondMoment;
         private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
+        private AbsorptionWeightingType _awt;
 
         /// <summary>
         /// constructor for perturbation Monte Carlo reflectance as a function of rho detector input
@@ -55,6 +56,7 @@ namespace Vts.MonteCarlo.Detectors
             _perturbedRegionsIndices = perturbedRegionIndices;
             SetAbsorbAction(tissue.AbsorptionWeightingType);
             TallyCount = 0;
+            _awt = tissue.AbsorptionWeightingType;
         }
 
         /// <summary>
@@ -116,6 +118,17 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="infoList">collision info list</param>
         public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
         {
+            // trial code: overwrites dp.Weight 
+            if (_awt == AbsorptionWeightingType.Continuous)
+            {
+                var trialWeight = 1.0;
+                for (int i = 0; i < _referenceOps.Count; i++)
+                {
+                    trialWeight *= Math.Exp(-_referenceOps[i].Mua * infoList[i].PathLength);
+                }
+                dp.Weight = trialWeight;
+            }
+            // end trial code
             var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             if (ir != -1)
             {

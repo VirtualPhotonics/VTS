@@ -122,6 +122,17 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
         {
+            // trial code overwrites dp.Weight
+            if (_awt == AbsorptionWeightingType.Continuous)
+            {
+                var trialWeight = 1.0;
+                for (int i = 0; i < _referenceOps.Count; i++)
+                {
+                    trialWeight *= Math.Exp(-_referenceOps[i].Mua * infoList[i].PathLength);
+                }
+                dp.Weight = trialWeight;
+            }
+            // end trial code
             var totalTime = dp.TotalTime;
             var it = DetectorBinning.WhichBinExclusive(totalTime, Time.Count - 1, Time.Delta, Time.Start);
             var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y),
