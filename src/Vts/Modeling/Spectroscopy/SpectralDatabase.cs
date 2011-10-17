@@ -61,66 +61,6 @@ namespace Vts.SpectralMapping
         }
 
         /// <summary>
-        /// Returns a dictionary of chromophore spectrum from the specified file
-        /// </summary>
-        /// <param name="filename">Name of the XML file</param>
-        /// <returns>Dictionary of Chromophore spectrum</returns>
-        public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile(string filename)
-        {
-            // Keyed by name, so that it's extensible by other users (other users can't create new enums...)
-            Dictionary<string, ChromophoreSpectrum> chromDictionary = new Dictionary<string, ChromophoreSpectrum>();
-            Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/" + filename, "Vts");
-            if (stream == null)
-                throw new NullReferenceException("Can not open database file");
-            XElement element = XElement.Load(XmlReader.Create(stream));
-
-            foreach (XElement chromEntry in element.Elements())
-            {
-                string name = chromEntry.Attribute("Name").Value;
-                var coeffString = chromEntry.Attribute("DataContent").Value;
-                AbsorptionCoefficientUnit muaUnit = (AbsorptionCoefficientUnit)Enum.Parse(typeof(AbsorptionCoefficientUnit), chromEntry.Attribute("AbsorptionCoefficientUnits").Value, true);
-                MolarUnit molarUnit = (MolarUnit)Enum.Parse(typeof(MolarUnit), chromEntry.Attribute("MolarUnits").Value, true);
-                //AbsorptionCoefficientUnits muaUnits = (AbsorptionCoefficientUnits)Enum.Parse(typeof(AbsorptionCoefficientUnits), chromEntry.Attribute("DataUnits").Value, true);
-                var coeffType = (ChromophoreCoefficientType)Enum.Parse(typeof(ChromophoreCoefficientType), coeffString, true);
-                //need to multiply MolarAbsorptionCoefficients by ln(10)
-                double k = 1.0;
-                if (coeffType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
-                {
-                    k = Math.Log(10);
-
-                }
-                //else if (coeffType == ChromophoreCoefficientType.PercentAbsorptionCoefficient)
-                //{
-
-                //}
-
-                // populate list of wavelengths
-                List<double> wavelengths = new List<double>();
-                XElement wavelengthCollection = chromEntry.Element("Wavelengths");
-                foreach (XElement wlEntry in wavelengthCollection.Descendants())
-                {
-                    wavelengths.Add((double)wlEntry);
-                }
-
-                // populate list of values
-                List<double> values = new List<double>();
-                XElement valueCollection = chromEntry.Element("Values");
-                foreach (XElement valEntry in valueCollection.Descendants())
-                {
-
-
-                    values.Add((double)valEntry * k);
-                }
-
-                ChromophoreSpectrum c = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit);
-
-                chromDictionary.Add(name, c);
-            }
-
-            return chromDictionary;
-        }
-
-        /// <summary>
         /// Appends a new chromophore spectra dictionary created from a tab-delimited stream onto an existing dictionary of chromophore spectra
         /// </summary>
         /// <param name="existingDictionary">The existing dictionary to which to append</param>
@@ -246,5 +186,65 @@ namespace Vts.SpectralMapping
             }
             return chromDictionary;
         }
+
+        ///// <summary>
+        ///// Returns a dictionary of chromophore spectrum from the specified file
+        ///// </summary>
+        ///// <param name="filename">Name of the XML file</param>
+        ///// <returns>Dictionary of Chromophore spectrum</returns>
+        //public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile(string filename)
+        //{
+        //    // Keyed by name, so that it's extensible by other users (other users can't create new enums...)
+        //    Dictionary<string, ChromophoreSpectrum> chromDictionary = new Dictionary<string, ChromophoreSpectrum>();
+        //    Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/" + filename, "Vts");
+        //    if (stream == null)
+        //        throw new NullReferenceException("Can not open database file");
+        //    XElement element = XElement.Load(XmlReader.Create(stream));
+
+        //    foreach (XElement chromEntry in element.Elements())
+        //    {
+        //        string name = chromEntry.Attribute("Name").Value;
+        //        var coeffString = chromEntry.Attribute("DataContent").Value;
+        //        AbsorptionCoefficientUnit muaUnit = (AbsorptionCoefficientUnit)Enum.Parse(typeof(AbsorptionCoefficientUnit), chromEntry.Attribute("AbsorptionCoefficientUnits").Value, true);
+        //        MolarUnit molarUnit = (MolarUnit)Enum.Parse(typeof(MolarUnit), chromEntry.Attribute("MolarUnits").Value, true);
+        //        //AbsorptionCoefficientUnits muaUnits = (AbsorptionCoefficientUnits)Enum.Parse(typeof(AbsorptionCoefficientUnits), chromEntry.Attribute("DataUnits").Value, true);
+        //        var coeffType = (ChromophoreCoefficientType)Enum.Parse(typeof(ChromophoreCoefficientType), coeffString, true);
+        //        //need to multiply MolarAbsorptionCoefficients by ln(10)
+        //        double k = 1.0;
+        //        if (coeffType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
+        //        {
+        //            k = Math.Log(10);
+
+        //        }
+        //        //else if (coeffType == ChromophoreCoefficientType.PercentAbsorptionCoefficient)
+        //        //{
+
+        //        //}
+
+        //        // populate list of wavelengths
+        //        List<double> wavelengths = new List<double>();
+        //        XElement wavelengthCollection = chromEntry.Element("Wavelengths");
+        //        foreach (XElement wlEntry in wavelengthCollection.Descendants())
+        //        {
+        //            wavelengths.Add((double)wlEntry);
+        //        }
+
+        //        // populate list of values
+        //        List<double> values = new List<double>();
+        //        XElement valueCollection = chromEntry.Element("Values");
+        //        foreach (XElement valEntry in valueCollection.Descendants())
+        //        {
+
+
+        //            values.Add((double)valEntry * k);
+        //        }
+
+        //        ChromophoreSpectrum c = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit);
+
+        //        chromDictionary.Add(name, c);
+        //    }
+
+        //    return chromDictionary;
+        //}
     }
 }
