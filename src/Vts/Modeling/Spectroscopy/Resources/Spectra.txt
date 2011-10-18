@@ -1,4 +1,4 @@
-﻿%LAMBDA	HbO2 (mm-1/uM)	Hb (mm-1/uM)
+﻿%LAMBDA	nm	HbO2	1/(mm*uM)	Hb	1/(mm*uM)
 600	0.737	3.3802
 602	0.6135	3.1372
 604	0.4901	2.8943

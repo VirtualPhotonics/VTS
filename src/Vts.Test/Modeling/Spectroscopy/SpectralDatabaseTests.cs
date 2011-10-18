@@ -66,5 +66,15 @@ namespace Vts.Test.Modeling.Spectroscopy
             testDictionary.WriteToXML("dictionary3.xml");
             Assert.IsTrue(true);
         }
+
+        [Test]
+        public void validate_Loading_Spectral_Database_and_header_from_tsv()
+        {
+            Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
+
+            var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
+            testDictionary.WriteToXML("dictionary4.xml");
+            Assert.IsTrue(true);
+        }
     }
 }

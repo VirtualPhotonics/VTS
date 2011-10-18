@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.Linq;
 using Vts.IO;
 using System.Runtime.Serialization;
+using Vts;
 
 namespace Vts.SpectralMapping
 {
@@ -185,6 +186,149 @@ namespace Vts.SpectralMapping
                 //catch the error
             }
             return chromDictionary;
+        }
+
+        /// <summary>
+        /// Creates a dictionary of chromophore spectra from a file stream of tab-delimited data
+        /// The header data is written as a comment line starting with %
+        /// Tab delimited data is in the format: Wavelength  1st Column  2nd Column  3rd Column  ...
+        /// </summary>
+        /// <param name="fileStream">The file stream of spectral data</param>
+        /// <returns>The dictionary of chromophore spectrum</returns>
+        public static Dictionary<string, ChromophoreSpectrum> CreateDatabaseFromFile(Stream fileStream)
+        {
+            //if the file stream is null return a null dictionary
+            if (fileStream == null)
+            {
+                return null;
+            }
+
+            //create a new dictionary
+            Dictionary<string, ChromophoreSpectrum> chromophoreDictionary = new Dictionary<string, ChromophoreSpectrum>();
+
+            //create a list of ChromophoreSpectrum
+            List<ChromophoreSpectrum> ChromophoreList = new List<ChromophoreSpectrum>();
+
+            // create a list of wavelengths
+            List<double> wavelengths = new List<double>();
+            // create a list of list of values
+            List<List<double>> valuesList = new List<List<double>>();
+
+            try
+            {
+                using (StreamReader readFile = new StreamReader(fileStream))
+                {
+                    string line;
+                    string[] headerrow;
+                    string[] row;
+                    int hcolumns;
+                    int columns;
+
+                    line = readFile.ReadLine();
+                    //check for the comment line where the header data is located
+                    if (line.StartsWith("%"))
+                    {
+                        line = line.Substring(1);
+                    }
+                    headerrow = line.Split('\t'); //file is separated by tabs
+
+                    //if the number of columns is not greater that 2
+                    if (headerrow.Length < 4)
+                    {
+                        //error, there must be at least 2 columns (4 values in the header)
+                        throw new Exception("There are not enough columns in the header, header is wavelength wavelength_units chromophore_absorber_name units");
+                    }
+                    //get the number of columns in the first line of data
+                    hcolumns = headerrow.Length; //each column has a name and unit value
+
+                    //read the second line of data, check that the number of columns match
+                    line = readFile.ReadLine();
+                    row = line.Split('\t'); //file is separated by tabs
+                    columns = row.Length;
+
+                    //the number of columns of data is equal to the number of header columns
+                    if (hcolumns / 2 == columns)
+                    {
+                        //the first column must have a header value of LAMBDA
+                        if (headerrow[0].ToUpper() != "LAMBDA")
+                        {
+                            //error, the first column is lambda
+                            throw new Exception("Fisrt column must be lambda");
+                        }
+                        WavelengthUnit waveLengthUnit = SpectralConverter.getWavelengthUnit(headerrow[1]);
+                        AbsorptionCoefficientUnit absorptionCoefficientUnit;
+                        MolarUnit molarUnit;
+
+                        //loop through the remaining columns and write the header data
+                        for (int i = 2; i < hcolumns; i += 2)
+                        {
+                            string name = headerrow[i].ToString(); //get the name of the chromophore absorber
+                            ChromophoreType chromophoreType = (ChromophoreType)Enum.Parse(typeof(ChromophoreType), name, true);
+                            //get the chromophore coefficient type
+                            ChromophoreCoefficientType chromophoreCoefficientType = chromophoreType.GetCoefficientType();
+                            //get the absorption coefficient units and the molar units
+                            //parse the value of headerrow[i+1]
+                            absorptionCoefficientUnit = SpectralConverter.getAbsorptionCoefficientUnit(headerrow[i + 1]);
+                            molarUnit = SpectralConverter.getMolarUnit(headerrow[i + 1]);
+                            //write the values to the dictionary
+                            ChromophoreSpectrum CS = new ChromophoreSpectrum(new List<double>(), new List<double>(), name, chromophoreCoefficientType, absorptionCoefficientUnit, molarUnit);
+                            ChromophoreList.Add(CS);
+                        }
+
+                        //loop through the columns and create the lists (ignore the wavelength column)
+                        for (int i = 0; i < columns - 1; i++)
+                        {
+                            //create a list of doubles in the value list
+                            List<double> values = new List<double>();
+                            valuesList.Add(values);
+                        }
+
+                        do
+                        {
+                            if (!line.StartsWith("%"))
+                            {
+                                row = line.Split('\t');
+
+                                //write the wavelength value once
+                                double wlEntry = Convert.ToDouble(row[0]).ConvertWavelength(waveLengthUnit);
+                                wavelengths.Add((double)wlEntry);
+
+                                //loop through the spectra and get the data
+                                for (int i = 0; i < columns - 1; i++)
+                                {
+                                    //need to multiply MolarAbsorptionCoefficients by ln(10)
+                                    double k = 1.0;
+                                    if (ChromophoreList[i].ChromophoreCoefficientType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
+                                    {
+                                        k = Math.Log(10);
+                                    }
+
+                                    double valEntry = Convert.ToDouble(row[i]).ConvertCoefficient(ChromophoreList[i].AbsorptionCoefficientUnit, ChromophoreList[i].MolarUnit);
+                                    valuesList[i].Add((double)valEntry * k);
+                                }
+                            }
+                        } while ((line = readFile.ReadLine()) != null);
+
+                        //loop through the spectra and create the dictionary
+                        for (int i = 0; i < columns - 1; i++)
+                        {
+                            ChromophoreList[i].Wavelengths = wavelengths;
+                            ChromophoreList[i].Spectrum = valuesList[i];
+                            chromophoreDictionary.Add(ChromophoreList[i].Name, ChromophoreList[i]);
+                        }
+                    }
+                    else
+                    {
+                        //error, the data and values do not match
+                        throw new Exception("The chromophore data header columns and data columns do not match");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                //catch the error
+            }
+            return chromophoreDictionary;
         }
 
         ///// <summary>
