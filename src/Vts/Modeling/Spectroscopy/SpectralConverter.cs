@@ -69,6 +69,7 @@ namespace Vts.SpectralMapping
                     return coeff / 1000; //10^3
                 case MolarUnit.Molar:
                     return coeff / 1000000; //10^6
+                    //add nano molar * 1000 
             }
         }
 
@@ -118,7 +119,7 @@ namespace Vts.SpectralMapping
             string[] unit;
 
             //pull out the unit values
-            Match match = Regex.Match(absorptionCoefficientUnit, @"1/\(?([a-zA-z\*]+)\)?");
+            Match match = Regex.Match(absorptionCoefficientUnit, @"1/\(?([a-zA-Z\*]+)\)?");
             if (match.Success)
             {
                 //get the value(s) in parentheses
@@ -155,7 +156,7 @@ namespace Vts.SpectralMapping
             string[] unit;
 
             //pull out the unit values
-            Match match = Regex.Match(molarUnit, @"1/\(*([a-zA-z\*]+)\)*");
+            Match match = Regex.Match(molarUnit, @"1/\(*([a-zA-Z\*]+)\)*");
             if (match.Success)
             {
                 //get the value(s) in parentheses

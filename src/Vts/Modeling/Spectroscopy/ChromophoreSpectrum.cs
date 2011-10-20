@@ -13,7 +13,7 @@ namespace Vts.SpectralMapping
         /// Constructor to create the chromophore spectrum
         /// </summary>
         /// <param name="wavelengths">A list of wavelengths</param>
-        /// <param name="spectrum">A list of specral values</param>
+        /// <param name="spectrum">A list of spectral values</param>
         /// <param name="name">The name of the chromophore absorber</param>
         /// <param name="coeffType">The chromophore coefficient type</param>
         /// <param name="absUnits">The absorption coefficient units</param>
