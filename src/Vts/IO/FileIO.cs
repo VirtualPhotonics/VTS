@@ -102,6 +102,20 @@ namespace Vts.IO
         }
 
         /// <summary>
+        /// Writes the string to a text file
+        /// </summary>
+        /// <param name="text">Text to write to the file</param>
+        /// <param name="filename">Name of the text file to write </param>
+        public static void WriteToTextFile(string text, string filename)
+        {
+            Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create);
+            using (StreamWriter outfile = new StreamWriter(stream))
+            {
+                outfile.Write(text);
+            }
+        }
+
+        /// <summary>
         /// Writes data of a specified type to an XML file
         /// </summary>
         /// <typeparam name="T">Type of the data to be written</typeparam>
