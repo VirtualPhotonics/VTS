@@ -187,6 +187,7 @@
     <Compile Include="Factories\SolverFactoryTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IO\FileIOTests.cs" />
     <Compile Include="Modeling\ForwardSolvers\BSplinesCoefficientsTests.cs">
       <SubType>Code</SubType>
     </Compile>
