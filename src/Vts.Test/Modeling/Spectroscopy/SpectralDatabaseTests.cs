@@ -86,5 +86,13 @@ namespace Vts.Test.Modeling.Spectroscopy
             testDictionary.WriteToXML("dictionary5.xml");
             Assert.IsTrue(true);
         }
+
+        [Test]
+        public void validate_write_text_files()
+        {
+            var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
+            SpectralDatabase.WriteDatabaseToFile(testDictionary);
+            Assert.IsTrue(true);
+        }
     }
 }

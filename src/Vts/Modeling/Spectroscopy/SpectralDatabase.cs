@@ -253,6 +253,7 @@ namespace Vts.SpectralMapping
                     string line;
                     string[] headerrow;
                     string[] row;
+                    string[] header;
                     int hcolumns;
                     int columns;
 
@@ -265,7 +266,7 @@ namespace Vts.SpectralMapping
                     headerrow = line.Split('\t'); //file is separated by tabs
 
                     //if the number of columns is not greater that 2
-                    if (headerrow.Length < 4)
+                    if (headerrow.Length < 2)
                     {
                         //error, there must be at least 2 columns (4 values in the header)
                         throw new Exception("There are not enough columns in the header, header is wavelength wavelength_units chromophore_absorber_name units");
@@ -279,29 +280,38 @@ namespace Vts.SpectralMapping
                     columns = row.Length;
 
                     //the number of columns of data is equal to the number of header columns
-                    if (hcolumns / 2 == columns)
+                    if (hcolumns == columns)
                     {
                         //the first column must have a header value of LAMBDA
-                        if (headerrow[0].ToUpper() != "LAMBDA")
+                        if (!headerrow[0].StartsWith("LAMBDA", StringComparison.CurrentCultureIgnoreCase))
                         {
                             //error, the first column is lambda
                             throw new Exception("First column must be lambda");
                         }
-                        WavelengthUnit waveLengthUnit = SpectralConverter.getWavelengthUnit(headerrow[1]);
+                        //split the units from the name
+                        header = headerrow[0].Split(' ');
+                        WavelengthUnit waveLengthUnit = SpectralConverter.getWavelengthUnit(header[1]);
                         AbsorptionCoefficientUnit absorptionCoefficientUnit;
                         MolarUnit molarUnit;
 
                         //loop through the remaining columns and write the header data
-                        for (int i = 2; i < hcolumns; i += 2)
+                        for (int i = 1; i < hcolumns; i++)
                         {
-                            string name = headerrow[i].ToString(); //get the name of the chromophore absorber
+                            //split the units from the name
+                            header = headerrow[i].Split(' ');
+                            if (header.Length != 2)
+                            {
+                                //error, there must be a name and unit value in the  header
+                                throw new Exception("The header columns must be name<space>units");
+                            }
+                            string name = header[0].ToString(); //get the name of the chromophore absorber
                             ChromophoreType chromophoreType = (ChromophoreType)Enum.Parse(typeof(ChromophoreType), name, true);
                             //get the chromophore coefficient type
                             ChromophoreCoefficientType chromophoreCoefficientType = chromophoreType.GetCoefficientType();
                             //get the absorption coefficient units and the molar units
-                            //parse the value of headerrow[i+1]
-                            absorptionCoefficientUnit = SpectralConverter.getAbsorptionCoefficientUnit(headerrow[i + 1]);
-                            molarUnit = SpectralConverter.getMolarUnit(headerrow[i + 1]);
+                            //parse the value of header[1] - the units
+                            absorptionCoefficientUnit = SpectralConverter.getAbsorptionCoefficientUnit(header[1]);
+                            molarUnit = SpectralConverter.getMolarUnit(header[1]);
                             //write the values to the dictionary
                             ChromophoreSpectrum CS = new ChromophoreSpectrum(new List<double>(), new List<double>(), name, chromophoreCoefficientType, absorptionCoefficientUnit, molarUnit);
                             ChromophoreList.Add(CS);
@@ -334,7 +344,7 @@ namespace Vts.SpectralMapping
                                     {
                                         k = Math.Log(10);
                                     }
-                                    double valEntry = convert ? Convert.ToDouble(row[i]).ConvertCoefficient(ChromophoreList[i].AbsorptionCoefficientUnit, ChromophoreList[i].MolarUnit) : Convert.ToDouble(row[i]);
+                                    double valEntry = convert ? Convert.ToDouble(row[i+1]).ConvertCoefficient(ChromophoreList[i].AbsorptionCoefficientUnit, ChromophoreList[i].MolarUnit) : Convert.ToDouble(row[i+1]);
                                     valuesList[i].Add((double)valEntry * k);
 
                                 }
@@ -382,7 +392,7 @@ namespace Vts.SpectralMapping
                 string units;
                 ChromophoreSpectrum CS = item.Value;
                 StringBuilder cd = new StringBuilder();
-                //check if there is a Molar Unit
+                //check if there is a Molar Unit - hard-coded values for now
                 if (CS.MolarUnit == MolarUnit.None)
                 {
                     //write the abs coeff only
@@ -393,16 +403,23 @@ namespace Vts.SpectralMapping
                     units = "1/(mm*uM)";
                 }
 
-                //write the first line with the header
-                cd.AppendLine("%LAMBDA/tnm/t" + CS.Name + "/t" + units);
+                //write the first line with the header - LAMBDA<space>units<tab>Name<space>units
+                cd.AppendLine("%LAMBDA nm\t" + CS.Name + " " + units);
                 int counter = 0;
                 foreach (var wavelength in CS.Wavelengths)
                 {
-                    cd.AppendLine(wavelength + "/t" + CS.Spectrum[counter]);
+                    //need to divide MolarAbsorptionCoefficients by ln(10)
+                    double k = 1.0;
+                    if (CS.ChromophoreCoefficientType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
+                    {
+                        k = Math.Log(10);
+                    }
+                    var spectrum = CS.Spectrum[counter] / k;
+                    cd.AppendLine(wavelength + "\t" + spectrum);
                     counter++;
                 }
-                //LAMBDA<tab>units<tab>Name<tab>units
-                //write the data for wavelength, write the data for absorber
+                //write to text file
+                FileIO.WriteToTextFile(cd.ToString(), "absorber-" + CS.Name + ".txt");
             }
         }
 
