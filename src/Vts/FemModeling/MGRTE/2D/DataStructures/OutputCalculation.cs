@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Vts.FemModeling.MGRTE._2D.DataStructures
 {
-    public class Output
+    public class OutputCalculation
     {
         public double Pi = GlobalConstants.Pi;
 

@@ -8,11 +8,11 @@ using Vts.FemModeling.MGRTE._2D.IO;
 using Vts.Common;
 using Vts.Common.Logging;
 
+
 namespace Vts.FemModeling.MGRTE._2D
 {
     public class SolverMGRTE
-    {
-        
+    {        
 
         public static Measurement ExecuteMGRTE(Parameters para)
         {
@@ -37,7 +37,9 @@ namespace Vts.FemModeling.MGRTE._2D
             else
             { 
                 vacuum = 0; 
-            }            
+            }       
+     
+            //Values for these variable are suggested in the MG-RTE paper.
             para.NIterations = 100;
             para.NPreIteration = 3;
             para.NPostIteration = 3;
@@ -92,7 +94,7 @@ namespace Vts.FemModeling.MGRTE._2D
             double[][][][] q = new double[level + 1][][][];
 
             MultiGridCycle Mgrid = new MultiGridCycle();
-            Output Rteout = new Output();
+            OutputCalculation Rteout = new OutputCalculation();
             Source Insource = new Source();
 
             //Create spatial and angular mesh

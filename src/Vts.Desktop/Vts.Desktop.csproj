@@ -287,8 +287,8 @@
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Measurement.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\Measurement.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Output.cs">
-      <Link>FemModeling\MGRTE\2D\DataStructures\Output.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\OutputCalculation.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\OutputCalculation.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Parameters.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\Parameters.cs</Link>

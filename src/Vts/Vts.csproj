@@ -180,6 +180,27 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Common\Stopwatch.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Interfaces\IIntSource.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Interfaces\IExtSource.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Interfaces\IExtFemSourceInput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FemModeling\MGRTE\2D\SourceInputs\ExternalSourceInputs\ExtLineSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\SourceInputs\ExternalSourceInputs\ExtPointSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\SourceInputs\InternalSourceInputs\Int2DPointSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\SourceInputs\InternalSourceInputs\Int2DEllipticalSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\SourceInputs\InternalSourceInputs\Int2DCircularSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Sources\ExternalSources\ExtLineSource.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Sources\ExternalSources\ExtPointSource.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DCircularSource.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DEllipticalSource.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DRectangularSource.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DPointSource.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Sources\ExternalSources\ExtSourceBase.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Sources\InternalSources\IntSourceBase.cs" />
     <Compile Include="FemModeling\MGRTE\2D\IO\Source.cs" />
     <Compile Include="FemModeling\MGRTE\2D\SolverMGRTE.cs">
       <SubType>Code</SubType>
@@ -212,6 +233,9 @@
     <Compile Include="MonteCarlo\Extensions\ITissueRegionExtensions.cs" />
     <Compile Include="MonteCarlo\Factories\DatabaseWriterFactory.cs" />
     <Compile Include="MonteCarlo\Factories\PhotonDatabaseFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\SourceFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MonteCarlo\Factories\VirtualBoundaryFactory.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCSurfaceDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
@@ -258,7 +282,7 @@
     <Compile Include="FemModeling\MGRTE\2D\Initialization.cs" />
     <Compile Include="FemModeling\MGRTE\2D\MathFunctions.cs" />
     <Compile Include="FemModeling\MGRTE\2D\MultiGridCycle.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\Output.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\OutputCalculation.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\Parameters.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloLoader.cs">
@@ -340,7 +364,6 @@
     <Compile Include="MonteCarlo\Enums.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorFactory.cs" />
     <Compile Include="MonteCarlo\Factories\RandomNumberGeneratorFactory.cs" />
-    <Compile Include="MonteCarlo\Factories\SourceFactory.cs" />
     <Compile Include="MonteCarlo\Factories\TissueFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\Optics.cs" />
     <Compile Include="MonteCarlo\Helpers\PolarAzimuthalAngles.cs" />

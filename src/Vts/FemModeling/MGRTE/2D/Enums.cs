@@ -15,25 +15,13 @@ namespace Vts.FemModeling.MGRTE._2D
         MG4_s
     }
 
-    /// <summary>
-    /// Boundary Source enums
-    /// </summary>
-    public enum BoundarySourceType
+    public enum FemSourceType
     {
-        NoSource,
-        Point_Source,
-        Point_Source_ISO,
-        Nodal_Value_Source_ISO
-    }
-
-    /// <summary>
-    /// Internal Source enums
-    /// </summary>
-    public enum InternalSourceType
-    {
-        NoSource,
-        Point_Source,
-        Point_Source_ISO,
-        Nodal_Value_Source_ISO
+        ExtLineSource,
+        ExtPointSource,
+        Int2DCircularSource,
+        Int2DEllipticalSource,
+        Int2DRectangularSource,
+        Int2DPointSource
     }
 }
