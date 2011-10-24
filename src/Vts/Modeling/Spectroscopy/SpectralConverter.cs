@@ -69,7 +69,8 @@ namespace Vts.SpectralMapping
                     return coeff / 1000; //10^3
                 case MolarUnit.Molar:
                     return coeff / 1000000; //10^6
-                    //add nano molar * 1000 
+                case MolarUnit.NanoMolar:
+                    return coeff * 1000;
             }
         }
 

@@ -869,6 +869,10 @@ namespace Vts
         /// micromolar units
         /// </summary>
         MicroMolar,
+        /// <summary>
+        /// nanomolar units
+        /// </summary>
+        NanoMolar,
     }
     #endregion
 }

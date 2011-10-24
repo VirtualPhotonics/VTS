@@ -290,7 +290,7 @@ namespace Vts.SpectralMapping
                         }
                         //split the units from the name
                         header = headerrow[0].Split(' ');
-                        WavelengthUnit waveLengthUnit = SpectralConverter.getWavelengthUnit(header[1]);
+                        WavelengthUnit wavelengthUnit = SpectralConverter.getWavelengthUnit(header[1]);
                         AbsorptionCoefficientUnit absorptionCoefficientUnit;
                         MolarUnit molarUnit;
 
@@ -313,7 +313,7 @@ namespace Vts.SpectralMapping
                             absorptionCoefficientUnit = SpectralConverter.getAbsorptionCoefficientUnit(header[1]);
                             molarUnit = SpectralConverter.getMolarUnit(header[1]);
                             //write the values to the dictionary
-                            ChromophoreSpectrum CS = new ChromophoreSpectrum(new List<double>(), new List<double>(), name, chromophoreCoefficientType, absorptionCoefficientUnit, molarUnit);
+                            ChromophoreSpectrum CS = new ChromophoreSpectrum(new List<double>(), new List<double>(), name, chromophoreCoefficientType, absorptionCoefficientUnit, molarUnit, wavelengthUnit);
                             ChromophoreList.Add(CS);
                         }
 
@@ -332,7 +332,7 @@ namespace Vts.SpectralMapping
                                 row = line.Split('\t');
 
                                 //write the wavelength value once
-                                double wlEntry = convert ? Convert.ToDouble(row[0]).ConvertWavelength(waveLengthUnit) : Convert.ToDouble(row[0]);
+                                double wlEntry = convert ? Convert.ToDouble(row[0]).ConvertWavelength(wavelengthUnit) : Convert.ToDouble(row[0]);
                                 wavelengths.Add((double)wlEntry);
 
                                 //loop through the spectra and get the data
@@ -361,6 +361,7 @@ namespace Vts.SpectralMapping
                             {
                                 ChromophoreList[i].AbsorptionCoefficientUnit = AbsorptionCoefficientUnit.InverseMillimeters;
                                 ChromophoreList[i].MolarUnit = MolarUnit.MicroMolar;
+                                ChromophoreList[i].WavelengthUnit = WavelengthUnit.Nanometers;
                             }
                             chromophoreDictionary.Add(ChromophoreList[i].Name, ChromophoreList[i]);
                         }
