@@ -109,6 +109,25 @@ namespace Vts.SpectralMapping
             }
         }
 
+        public static string getWavelengthUnit(WavelengthUnit wavelengthUnit)
+        {
+            switch (wavelengthUnit)
+            {
+                case WavelengthUnit.InverseCentimeters:
+                    return "1/cm";
+                case WavelengthUnit.Nanometers:
+                    return "nm";
+                case WavelengthUnit.Micrometers:
+                    return "um";
+                case WavelengthUnit.Meters:
+                    return "m";
+                case WavelengthUnit.InverseMeters:
+                    return "1/m";
+                default:
+                    throw new Exception("Unknown wavelength unit");
+            }
+        }
+
         /// <summary>
         /// Passes a text string of absorption coefficient unit and returns the relevant enum
         /// </summary>
@@ -175,6 +194,8 @@ namespace Vts.SpectralMapping
                             return MolarUnit.MilliMolar;
                         case "uM":
                             return MolarUnit.MicroMolar;
+                        case "nM":
+                            return MolarUnit.NanoMolar;
                     }
                 }
                 else
@@ -186,6 +207,66 @@ namespace Vts.SpectralMapping
             {
                 throw new Exception("Not a valid molar unit");
             }
+        }
+
+        /// <summary>
+        /// Passes the molar unit enum and the absorption coefficient unit enum and returns it as a string
+        /// </summary>
+        /// <param name="molarUnit">The molar unit enum</param>
+        /// <returns>A string representing the molar units</returns>
+        public static string getSpectralUnit(MolarUnit molarUnit, AbsorptionCoefficientUnit absorptionCoefficientUnit)
+        {
+            string mU;
+            string aCU;
+            string sU;
+
+            switch (molarUnit)
+            {
+                case MolarUnit.None:
+                    mU = "";
+                    break;
+                case MolarUnit.Molar:
+                    mU = "M";
+                    break;
+                case MolarUnit.MilliMolar:
+                    mU = "mM";
+                    break;
+                case MolarUnit.MicroMolar:
+                    mU = "uM";
+                    break;
+                case MolarUnit.NanoMolar:
+                    mU = "nM";
+                    break;
+                default:
+                    throw new Exception("Unknown molar unit");
+            }
+
+            switch (absorptionCoefficientUnit)
+            {
+                case AbsorptionCoefficientUnit.InverseCentimeters:
+                    aCU = "cm";
+                    break;
+                case AbsorptionCoefficientUnit.InverseMeters:
+                    aCU = "m";
+                    break;
+                case AbsorptionCoefficientUnit.InverseMicrometers:
+                    aCU = "um";
+                    break;
+                case AbsorptionCoefficientUnit.InverseMillimeters:
+                    aCU = "mm";
+                    break;
+                default:
+                    throw new Exception("Unknown absorption coefficient unit");
+            }
+            if (molarUnit == MolarUnit.None)
+            {
+                sU = "1/" + aCU;
+            }
+            else
+            {
+                sU = "1/(" + aCU + "*" + mU + ")";
+            }
+            return sU;
         }
     }
 }

@@ -390,22 +390,14 @@ namespace Vts.SpectralMapping
             //loop through each of the ChromophoreSpectrum objects
             foreach (var item in ChromophoreDictionary)
             {
-                string units;
                 ChromophoreSpectrum CS = item.Value;
                 StringBuilder cd = new StringBuilder();
-                //check if there is a Molar Unit - hard-coded values for now
-                if (CS.MolarUnit == MolarUnit.None)
-                {
-                    //write the abs coeff only
-                    units = "1/mm";
-                }
-                else
-                {
-                    units = "1/(mm*uM)";
-                }
+                //Get the spectral units
+                string units = SpectralConverter.getSpectralUnit(CS.MolarUnit, CS.AbsorptionCoefficientUnit);
+                string wavelengthUnits = SpectralConverter.getWavelengthUnit(CS.WavelengthUnit);
 
                 //write the first line with the header - LAMBDA<space>units<tab>Name<space>units
-                cd.AppendLine("%LAMBDA nm\t" + CS.Name + " " + units);
+                cd.AppendLine("%LAMBDA " + wavelengthUnits + "\t" + CS.Name + " " + units);
                 int counter = 0;
                 foreach (var wavelength in CS.Wavelengths)
                 {
