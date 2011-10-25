@@ -31,7 +31,6 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
 
         public void AssignMeshForIntSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] RHS)
         {
-            int test;
         }
 
     }

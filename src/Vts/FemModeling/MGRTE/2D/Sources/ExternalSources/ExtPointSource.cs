@@ -10,8 +10,8 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             DoubleRange launchPoint,
             DoubleRange thetaRange)
         {
-            launchPoint = LaunchPoint;
-            thetaRange = ThetaRange;
+            LaunchPoint = launchPoint;
+            ThetaRange = thetaRange;
         }
 
         public ExtPointSource()
@@ -32,7 +32,6 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
 
         public void AssignMeshForExtSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] q)
         {
-            int test;
         }
     }
 

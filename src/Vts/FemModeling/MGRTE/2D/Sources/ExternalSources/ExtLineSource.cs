@@ -11,9 +11,9 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             DoubleRange end,
             DoubleRange thetaRange)
         {
-            start = Start;
-            end = End;
-            thetaRange = ThetaRange;
+            Start = start;
+            End = end;
+            ThetaRange = thetaRange;
         }
 
         public ExtLineSource()
@@ -40,7 +40,6 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
 
         public void AssignMeshForExtSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] q)
         {
-            int test;
         }
     }
 

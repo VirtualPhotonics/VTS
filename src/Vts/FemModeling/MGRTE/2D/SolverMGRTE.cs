@@ -115,7 +115,6 @@ namespace Vts.FemModeling.MGRTE._2D
 
             // initialize internal and boundary sources 
             Insource.Inputsource(para.AMeshLevel, amesh, para.SMeshLevel, smesh, level, RHS, q);
-             
             
 
             /* Read the end time. */
