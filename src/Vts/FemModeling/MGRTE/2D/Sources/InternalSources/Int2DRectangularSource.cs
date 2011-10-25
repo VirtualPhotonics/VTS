@@ -4,39 +4,18 @@ using Vts.Common;
 
 namespace Vts.FemModeling.MGRTE._2D.DataStructures
 {
-    public class Int2DRectangularSource : IntSourceBase
+    public class Int2DRectangularSource : IIntSource
     {
-        /// <summary>
-        /// Length of the Rectangular source 
-        /// </summary>
-        private double _xLength;
-
-        /// <summary>
-        /// Height of the Rectangular source 
-        /// </summary>
-        private double _zHeight;
-
-        /// <summary>
-        /// Center cooordinates (x,z) of the geometry 
-        /// </summary>
-        private DoubleRange _center;
-
-        /// <summary>
-        /// Theta angle range
-        /// </summary>
-        private DoubleRange _thetaRange;
-
-
         public Int2DRectangularSource(
             double xLength,
             double zHeight,
             DoubleRange center,
             DoubleRange thetaRange)
         {
-            _xLength = xLength;
-            _zHeight = zHeight;
-            _center = center;
-            _thetaRange = thetaRange;
+            XLength = xLength;
+            ZHeight = zHeight;
+            Center = center;
+            ThetaRange = thetaRange;
         }
 
         public Int2DRectangularSource()
@@ -46,9 +25,28 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
                 new DoubleRange(0.5, 0.5),
                 new DoubleRange(0, 2 * Math.PI)) { }
 
-        public double XLength{ get; set; }
+        /// <summary>
+        /// Length of the Rectangular source 
+        /// </summary>
+        public double XLength { get; set; }
+        /// <summary>
+        /// Height of the Rectangular source 
+        /// </summary>
         public double ZHeight { get; set; }
+        /// <summary>
+        /// Center cooordinates (x,z) of the geometry 
+        /// </summary>
         public DoubleRange Center { get; set; }
+        /// <summary>
+        /// Theta angle range
+        /// </summary>
         public DoubleRange ThetaRange { get; set; }
+
+
+        public void AssignMeshForIntSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] RHS)
+        {
+            int test;
+        }
+
     }
 }

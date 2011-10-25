@@ -4,38 +4,18 @@ using Vts.Common;
 
 namespace Vts.FemModeling.MGRTE._2D.DataStructures
 {
-    public class Int2DEllipticalSource : IntSourceBase
+    public class Int2DEllipticalSource : IIntSource
     {
-        /// <summary>
-        /// a Parameter of Elliptical source 
-        /// </summary>
-        private double _aParameter;
-
-        /// <summary>
-        /// b Parameter of Elliptical source 
-        /// </summary>
-        private double _bParameter;
-
-
-        /// <summary>
-        /// Center cooordinates (x,z) of the geometry 
-        /// </summary>
-        private DoubleRange _center;
-
-        /// <summary>
-        /// Theta angle range
-        /// </summary>
-        private DoubleRange _thetaRange;
-
-
         public Int2DEllipticalSource(
-            double aParameter,
-            double bParameter,
-            DoubleRange center,
-            DoubleRange thetaRange)
+           double aParameter,
+           double bParameter,
+           DoubleRange center,
+           DoubleRange thetaRange)
         {
-            _center = center;
-            _thetaRange = thetaRange;
+            AParameter = aParameter;
+            BParameter = bParameter;
+            Center = center;
+            ThetaRange = thetaRange;
         }
 
         public Int2DEllipticalSource()
@@ -45,9 +25,27 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
              new DoubleRange(0.5, 0.5),
              new DoubleRange(0, 2 * Math.PI)) { }
 
+        /// <summary>
+        /// a Parameter of Elliptical source 
+        /// </summary>
         public double AParameter { get; set; }
+        /// <summary>
+        /// b Parameter of Elliptical source 
+        /// </summary>
         public double BParameter { get; set; }
+        /// <summary>
+        /// Center cooordinates (x,z) of the geometry 
+        /// </summary>
         public DoubleRange Center { get; set; }
+        /// <summary>
+        /// Theta angle range
+        /// </summary>
         public DoubleRange ThetaRange { get; set; }
+
+        public void AssignMeshForIntSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] RHS)
+        {
+            int test;
+        }
     }
+
 }

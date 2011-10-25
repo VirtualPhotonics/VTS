@@ -199,8 +199,6 @@
     <Compile Include="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DEllipticalSource.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DRectangularSource.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DPointSource.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\Sources\ExternalSources\ExtSourceBase.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\Sources\InternalSources\IntSourceBase.cs" />
     <Compile Include="FemModeling\MGRTE\2D\IO\Source.cs" />
     <Compile Include="FemModeling\MGRTE\2D\SolverMGRTE.cs">
       <SubType>Code</SubType>

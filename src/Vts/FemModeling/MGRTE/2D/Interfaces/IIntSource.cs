@@ -1,4 +1,7 @@
-﻿
+﻿using System;
+using Vts.Common;
+using Vts.FemModeling.MGRTE._2D.DataStructures;
+
 namespace Vts.FemModeling.MGRTE._2D
 {
     /// <summary>
@@ -6,7 +9,7 @@ namespace Vts.FemModeling.MGRTE._2D
     /// </summary>
     public interface IIntSource
     {
-        //todo: internal source handling
-        void AssignIntSource();
+        //Assign mesh values for an internal source
+        void AssignMeshForIntSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] RHS);
     }
 }
