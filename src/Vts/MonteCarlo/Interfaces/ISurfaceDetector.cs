@@ -8,6 +8,10 @@ namespace Vts.MonteCarlo
     /// </summary>
     public interface  ISurfaceDetector : IDetector
     {
+        /// <summary>
+        /// Method to tally
+        /// </summary>
+        /// <param name="dp">PhotonDataPoint</param>
         void Tally(PhotonDataPoint dp);
     }
     /// <summary>

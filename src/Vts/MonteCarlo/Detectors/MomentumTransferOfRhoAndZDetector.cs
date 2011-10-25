@@ -16,10 +16,12 @@ namespace Vts.MonteCarlo.Detectors
         private bool _tallySecondMoment;
 
         /// <summary>
-        /// Returns an instance of MomentumTransferOfRhoAndZDetector
+        /// constructor for momentum transfer as a function of rho and z detector input
         /// </summary>
-        /// <param name="rho"></param>
-        /// <param name="z"></param>
+        /// <param name="rho">rho binning</param>
+        /// <param name="z">z binning</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment data for error results</param>
+        /// <param name="name">detector name</param>
         public MomentumTransferOfRhoAndZDetector(
             DoubleRange rho, 
             DoubleRange z, 
@@ -57,16 +59,32 @@ namespace Vts.MonteCarlo.Detectors
         [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// name of detector, default uses TallyType 
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of times this detector gets tallied 
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
-
+        /// <summary>
+        /// z binning
+        /// </summary>
         public DoubleRange Z { get; set; }
 
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="previousDP">previous datapoint</param>
+        /// <param name="dp">current datapoint</param>
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             // calculate momentum transfer

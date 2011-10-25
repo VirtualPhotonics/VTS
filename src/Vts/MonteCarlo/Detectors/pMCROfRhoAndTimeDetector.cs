@@ -28,11 +28,12 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns an instance of pMCROfRhoAndTimeDetector. Tallies perturbed R(rho,time). Instantiate with reference optical properties. When
         /// method Tally invoked, perturbed optical properties passed.
         /// </summary>
-        /// <param name="rho"></param>
-        /// <param name="time"></param>
-        /// <param name="tissue"></param>
-        /// <param name="perturbedOps"></param>
-        /// <param name="perturbedRegionIndices"></param>
+        /// <param name="rho">rho binning</param>
+        /// <param name="time">time binning</param>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="perturbedOps">list of perturbed optical properties, indexing matches tissue indexing</param>
+        /// <param name="perturbedRegionIndices">list of perturbed tissue region indices, indexing matches tissue indexing</param>
+        /// <param name="name">detector name</param>
         public pMCROfRhoAndTimeDetector(
             DoubleRange rho,
             DoubleRange time,
@@ -82,14 +83,25 @@ namespace Vts.MonteCarlo.Detectors
         [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of times detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
-
+        /// <summary>
+        /// time binning
+        /// </summary>
         public DoubleRange Time { get; set; }
 
         protected void SetAbsorbAction(AbsorptionWeightingType awt)
@@ -110,6 +122,17 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
         {
+            // trial code overwrites dp.Weight
+            if (_awt == AbsorptionWeightingType.Continuous)
+            {
+                var trialWeight = 1.0;
+                for (int i = 0; i < _referenceOps.Count; i++)
+                {
+                    trialWeight *= Math.Exp(-_referenceOps[i].Mua * infoList[i].PathLength);
+                }
+                dp.Weight = trialWeight;
+            }
+            // end trial code
             var totalTime = dp.TotalTime;
             var it = DetectorBinning.WhichBinExclusive(totalTime, Time.Count - 1, Time.Delta, Time.Start);
             var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y),

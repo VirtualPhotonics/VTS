@@ -65,6 +65,9 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.ROfRhoAndOmega:
                     var rroinput = (ROfRhoAndOmegaDetectorInput)detectorInput;
                     return new ROfRhoAndOmegaDetector(rroinput.Rho, rroinput.Omega, tallySecondMoment, rroinput.Name);
+                case TallyType.ROfFx:
+                    var rfxinput = (ROfFxDetectorInput)detectorInput;
+                    return new ROfFxDetector(rfxinput.Fx, tallySecondMoment, rfxinput.Name);
                 case TallyType.TDiffuse:
                     var tdinput = (TDiffuseDetectorInput)detectorInput;
                     return new TDiffuseDetector(tallySecondMoment, tdinput.Name);

@@ -2,14 +2,20 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo
 {
-    //[ServiceContract(Namespace = "http://Vts.MonteCarlo.Detectors")]
+    /////[ServiceContract(Namespace = "http://Vts.MonteCarlo.Detectors")]
     /// <summary>
     /// Defines a contract for Monte Carlo tallies.
     /// </summary>
     /// <typeparam name="T">type of tally return (e.g. double[])</typeparam>
     public interface IDetector<out T> : IDetector
     {
+        /// <summary>
+        /// Mean of detector tally
+        /// </summary>
         T Mean { get; }
+        /// <summary>
+        /// Second moment of detector tally
+        /// </summary>
         T SecondMoment { get; }
     }
     /// <summary>

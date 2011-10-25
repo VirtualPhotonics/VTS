@@ -242,7 +242,7 @@ namespace Vts.SiteVisit.ViewModel
             double[] rhos = RhoRangeVM.Values.Reverse().Select(rho => -rho).Concat(RhoRangeVM.Values).ToArray();
             double[] zs = ZRangeVM.Values.ToArray();
 
-            IEnumerable<double>[] independentValues = new[] {rhos, zs };
+            double[][] independentValues = new[] { rhos, zs };
 
             var sd = GetSelectedSolutionDomain();
             // todo: too much thinking at the VM layer?

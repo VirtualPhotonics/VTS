@@ -587,6 +587,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfFxDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\ROfFxDetectorInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndAngleDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndAngleDetectorInput.cs</Link>
     </Compile>
@@ -745,6 +748,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfFxDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs</Link>
@@ -1225,6 +1231,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\Fat.csv">
       <Link>Modeling\Spectroscopy\Resources\Fat.csv</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.xml">
+      <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.xml</Link>
     </EmbeddedResource>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

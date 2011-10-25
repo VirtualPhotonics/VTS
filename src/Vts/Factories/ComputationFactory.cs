@@ -43,20 +43,16 @@ namespace Vts.Factories
                 (solutionDomainType == SolutionDomainType.RofFxAndFt);
         }
 
-        private static double[] FlattenRealAndImaginary(this IEnumerable<Complex> values)
-        {            
-            var real = values.Select(v => v.Real);
-            var imag = values.Select(v => -v.Imaginary);
-            return real.Concat(imag).ToArray();
-            //// would have written this with Linq operators, but wasn't sure what was most efficient
-            //var tempSize = temp.Length;
-            //var flattened = new double[temp.Length*2];
-            //for (int i = 0; i < temp.Length; i += 2)
-            //{
-            //    flattened[i] = temp[i].Real;
-            //    flattened[i + tempSize] = temp[i + 1].Imaginary;
-            //}
-            //return flattened;
+        private static double[] FlattenRealAndImaginary(this Complex[] values)
+        {
+            var flattened = new double[values.Length * 2];
+            var nValues = values.Length;
+            for (int i = 0; i < nValues; i++)
+            {
+                flattened[i] = values[i].Real;
+                flattened[i + nValues] = values[i].Imaginary;
+            }
+            return flattened;
         }
 
 #if DESKTOP
@@ -146,7 +142,7 @@ namespace Vts.Factories
             ForwardSolverType forwardSolverType,
             FluenceSolutionDomainType solutionDomainType, // keeping us from uniting the above. needs to be a single SolutionDomainType enum
             IndependentVariableAxis[] independentAxesTypes,
-            IEnumerable<double>[] independentValues,
+            double[][] independentValues,
             OpticalProperties opticalProperties,
             params double[] constantValues)
         {
@@ -166,7 +162,7 @@ namespace Vts.Factories
             IForwardSolver forwardSolver,
             FluenceSolutionDomainType solutionDomainType, // keeping us from uniting the above. needs to be a single SolutionDomainType enum
             IndependentVariableAxis[] independentAxesTypes,
-            IEnumerable<double>[] independentValues,
+            double[][] independentValues,
             OpticalProperties opticalProperties,
             params double[] constantValues)
         {
@@ -176,12 +172,12 @@ namespace Vts.Factories
             var func = GetForwardFluenceFunc(forwardSolver, solutionDomainType, independentAxesTypes[0]);
 
             // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
-            List<object> inputValues = new List<object>();
-            independentValues.ForEach(iv => inputValues.Add(iv.ToArray()));
+            List<object> inputValues = new List<object>(independentValues);
             constantValues.ForEach(cv => inputValues.Add(cv));
 
             return func(parameters, inputValues.ToArray());
         }
+
         /// <summary>
         /// Overload of GetPHD that uses internal DI framework-supplied solver singletons
         /// </summary>
@@ -223,9 +219,9 @@ namespace Vts.Factories
             OptimizerType optimizerType,
             SolutionDomainType solutionDomainType,
             IndependentVariableAxis independentAxisType,
-            IEnumerable<double> independentValues,
-            IEnumerable<double> dependentValues,
-            IEnumerable<double> standardDeviationValues,
+            double[] independentValues,
+            double[] dependentValues,
+            double[] standardDeviationValues,
             OpticalProperties opticalPropertyGuess,
             InverseFitType inverseFitType,
             params double[] constantValues)
@@ -251,9 +247,9 @@ namespace Vts.Factories
             IOptimizer optimizer,
             SolutionDomainType solutionDomainType,
             IndependentVariableAxis independentAxisType,
-            IEnumerable<double> independentValues,
-            IEnumerable<double> dependentValues,
-            IEnumerable<double> standardDeviationValues,
+            double[] independentValues,
+            double[] dependentValues,
+            double[] standardDeviationValues,
             OpticalProperties opticalPropertyGuess,
             InverseFitType inverseFitType,
             params double[] constantValues)
@@ -278,7 +274,7 @@ namespace Vts.Factories
 
             return fit;
         }
-
+        
         private static Func<double[], object[], double[]> GetForwardReflectanceFunc(
            IForwardSolver fs, SolutionDomainType type, IndependentVariableAxis axis)
         {
@@ -289,16 +285,16 @@ namespace Vts.Factories
             switch (type)
             {
                 case SolutionDomainType.RofRho:
-                    return (fitData, otherData) => fs.RofRho(getOP(fitData).AsEnumerable(), (double[])otherData[0]).ToArray();
+                    return (fitData, otherData) => fs.RofRho(getOP(fitData), (double[])otherData[0]);
                 case SolutionDomainType.RofFx:
-                    return (fitData, otherData) => fs.RofFx(getOP(fitData).AsEnumerable(), (double[])otherData[0]).ToArray();
+                    return (fitData, otherData) => fs.RofFx(getOP(fitData), (double[])otherData[0]);
                 case SolutionDomainType.RofRhoAndT:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.RofRhoAndT(getOP(fitData).AsEnumerable(), (double[])otherData[0], ((double)otherData[1]).AsEnumerable()).ToArray();
+                            return (fitData, otherData) => fs.RofRhoAndT(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
                         case IndependentVariableAxis.T:
-                            return (fitData, otherData) => fs.RofRhoAndT(getOP(fitData).AsEnumerable(), ((double)otherData[1]).AsEnumerable(), (double[])otherData[0]).ToArray();
+                            return (fitData, otherData) => fs.RofRhoAndT(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
                         //case IndependentVariableAxis.Wavelength:
                         //    return (chromPlusMusp, constantData) =>
                         //               {
@@ -319,9 +315,9 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.RofFxAndT(getOP(fitData).AsEnumerable(), (double[])otherData[0], ((double)otherData[1]).AsEnumerable()).ToArray();
+                            return (fitData, otherData) => fs.RofFxAndT(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
                         case IndependentVariableAxis.T:
-                            return (fitData, otherData) => fs.RofFxAndT(getOP(fitData).AsEnumerable(), ((double)otherData[1]).AsEnumerable(), (double[])otherData[0]).ToArray();
+                            return (fitData, otherData) => fs.RofFxAndT(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
@@ -329,9 +325,9 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.RofRhoAndFt(getOP(fitData).AsEnumerable(), (double[])otherData[0], ((double)otherData[1]).AsEnumerable()).FlattenRealAndImaginary();
+                            return (fitData, otherData) => fs.RofRhoAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
                         case IndependentVariableAxis.Ft:
-                            return (fitData, otherData) => fs.RofRhoAndFt(getOP(fitData).AsEnumerable(), ((double)otherData[1]).AsEnumerable(), (double[])otherData[0]).FlattenRealAndImaginary();
+                            return (fitData, otherData) => fs.RofRhoAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
@@ -339,9 +335,9 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.RofFxAndFt(getOP(fitData).AsEnumerable(), (double[])otherData[0], ((double)otherData[1]).AsEnumerable()).FlattenRealAndImaginary();
+                            return (fitData, otherData) => fs.RofFxAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
                         case IndependentVariableAxis.Ft:
-                            return (fitData, otherData) => fs.RofFxAndFt(getOP(fitData).AsEnumerable(), ((double)otherData[1]).AsEnumerable(), (double[])otherData[0]).FlattenRealAndImaginary();
+                            return (fitData, otherData) => fs.RofFxAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
@@ -350,6 +346,7 @@ namespace Vts.Factories
             }
         }
 
+        // todo: array overloads for fluence forward solvers too
         private static Func<double[], object[], double[]> GetForwardFluenceFunc(
            IForwardSolver fs, FluenceSolutionDomainType type, IndependentVariableAxis axis)
         {
@@ -360,16 +357,16 @@ namespace Vts.Factories
             switch (type)
             {
                 case FluenceSolutionDomainType.FluenceofRho:
-                    return (fitData, otherData) => fs.FluenceofRho(getOP(fitData).AsEnumerable(), (double[])otherData[0], (double[])otherData[1]).ToArray();
+                    return (fitData, otherData) => fs.FluenceofRho(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
                 case FluenceSolutionDomainType.FluenceofFx:
-                    return (fitData, otherData) => fs.FluenceofFx(getOP(fitData).AsEnumerable(), (double[])otherData[0], (double[])otherData[1]).ToArray();
+                    return (fitData, otherData) => fs.FluenceofFx(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
                 case FluenceSolutionDomainType.FluenceofRhoAndT:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.FluenceofRhoAndT(getOP(fitData).AsEnumerable(), (double[])otherData[0],  (double[])otherData[1], ((double)otherData[2]).AsEnumerable()).ToArray();
+                            return (fitData, otherData) => fs.FluenceofRhoAndT(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
                         case IndependentVariableAxis.T:
-                            return (fitData, otherData) => fs.FluenceofRhoAndT(getOP(fitData).AsEnumerable(), ((double)otherData[2]).AsEnumerable(), (double[])otherData[1], (double[])otherData[0]).ToArray();
+                            return (fitData, otherData) => fs.FluenceofRhoAndT(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
                         //case IndependentVariableAxis.Wavelength:
                         //    return (chromPlusMusp, constantData) =>
                         //               {
@@ -390,9 +387,9 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.FluenceofFxAndT(getOP(fitData).AsEnumerable(), (double[])otherData[0], (double[])otherData[1], ((double)otherData[2]).AsEnumerable()).ToArray();
+                            return (fitData, otherData) => fs.FluenceofFxAndT(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
                         case IndependentVariableAxis.T:
-                            return (fitData, otherData) => fs.FluenceofFxAndT(getOP(fitData).AsEnumerable(), ((double)otherData[2]).AsEnumerable(), (double[])otherData[1], (double[])otherData[0]).ToArray();
+                            return (fitData, otherData) => fs.FluenceofFxAndT(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
@@ -400,9 +397,9 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.FluenceofRhoAndFt(getOP(fitData).AsEnumerable(), (double[])otherData[0], (double[])otherData[1], ((double)otherData[2]).AsEnumerable()).ToArray();
+                            return (fitData, otherData) => fs.FluenceofRhoAndFt(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
                         case IndependentVariableAxis.Ft:
-                            return (fitData, otherData) => fs.FluenceofRhoAndFt(getOP(fitData).AsEnumerable(), ((double)otherData[2]).AsEnumerable(), (double[])otherData[1], (double[])otherData[0]).ToArray();
+                            return (fitData, otherData) => fs.FluenceofRhoAndFt(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
@@ -410,9 +407,9 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.FluenceofFxAndFt(getOP(fitData).AsEnumerable(), (double[])otherData[0], (double[])otherData[1], ((double)otherData[2]).AsEnumerable()).ToArray();
+                            return (fitData, otherData) => fs.FluenceofFxAndFt(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
                         case IndependentVariableAxis.Ft:
-                            return (fitData, otherData) => fs.FluenceofFxAndFt(getOP(fitData).AsEnumerable(), ((double)otherData[2]).AsEnumerable(), (double[])otherData[1], (double[])otherData[0]).ToArray();
+                            return (fitData, otherData) => fs.FluenceofFxAndFt(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }

@@ -20,8 +20,9 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Creates an instance of a MultiLayerTissue
         /// </summary>
-        /// <param name="regions"></param>
-        /// <param name="absorptionWeightingType"></param>
+        /// <param name="regions">list of tissue regions comprising tissue</param>
+        /// <param name="absorptionWeightingType">absorption weighting type</param>
+        /// <param name="phaseFunctionType">phase function type</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiLayerTissue(IList<ITissueRegion> regions, AbsorptionWeightingType absorptionWeightingType, PhaseFunctionType phaseFunctionType)
             : base(regions, absorptionWeightingType, phaseFunctionType)
@@ -29,10 +30,15 @@ namespace Vts.MonteCarlo.Tissues
             _layerRegions = regions.Select(region => (LayerRegion) region).ToArray();
         }
 
+      
+
+        
         /// <summary>
         /// Creates an instance of a MultiLayerTissue based on an input data class 
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="input">multi-layer tissue input</param>
+        /// <param name="absorptionWeightingType">absorption weighting type</param>
+        /// <param name="phaseFunctionType">phase function type</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiLayerTissue(MultiLayerTissueInput input, AbsorptionWeightingType absorptionWeightingType, PhaseFunctionType phaseFunctionType)
             : this(input.Regions, absorptionWeightingType, phaseFunctionType)
@@ -47,7 +53,11 @@ namespace Vts.MonteCarlo.Tissues
             : this(new MultiLayerTissueInput().Regions, AbsorptionWeightingType.Discrete, PhaseFunctionType.HenyeyGreenstein)
         {
         }
-
+        /// <summary>
+        /// method to determine region index of region photon is currently in
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public override int GetRegionIndex(Position position)
         {
             // use ITissueRegion interface method ContainsPosition for LayerRegion to determine
@@ -96,7 +106,11 @@ namespace Vts.MonteCarlo.Tissues
 
             return distanceToBoundary;
         }
-
+        /// <summary>
+        /// method to determine if on boundary of tissue, i.e. at tissue/air interface
+        /// </summary>
+        /// <param name="position">photon position</param>
+        /// <returns></returns>
         public override bool OnDomainBoundary(Position position)
         {
             // this code assumes that the first and last layer is air
@@ -104,7 +118,11 @@ namespace Vts.MonteCarlo.Tissues
                 position.Z < 1e-10 ||
                 (Math.Abs(position.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10);
         }
-
+        /// <summary>
+        /// method to determine index of region photon is about to enter
+        /// </summary>
+        /// <param name="photon">photon info including position and direction</param>
+        /// <returns>region index</returns>
         public override int GetNeighborRegionIndex(Photon photon)
         {
             if (photon.DP.Direction.Uz == 0.0)
@@ -119,7 +137,11 @@ namespace Vts.MonteCarlo.Tissues
                 
             return Math.Max(photon.CurrentRegionIndex - 1, 0);
         }
-
+        /// <summary>
+        /// method to determine photon state type of photon exiting tissue boundary
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public override PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
             if (position.Z < 1e-10)
@@ -129,7 +151,12 @@ namespace Vts.MonteCarlo.Tissues
             
             return PhotonStateType.PseudoTransmittedTissueBoundary;
         }
-
+        /// <summary>
+        /// method to determine direction of reflected photon
+        /// </summary>
+        /// <param name="positionCurrent"></param>
+        /// <param name="directionCurrent"></param>
+        /// <returns></returns>
         public override Direction GetReflectedDirection(
             Position positionCurrent, 
             Direction directionCurrent)
@@ -139,7 +166,15 @@ namespace Vts.MonteCarlo.Tissues
                 directionCurrent.Uy,
                 -directionCurrent.Uz);
         }
-
+        /// <summary>
+        /// method to determine refracted direction of photon
+        /// </summary>
+        /// <param name="positionCurrent">current photon position</param>
+        /// <param name="directionCurrent">current photon direction</param>
+        /// <param name="nCurrent">refractive index of current region</param>
+        /// <param name="nNext">refractive index of next region</param>
+        /// <param name="cosThetaSnell">cos(theta) resulting from Snell's law</param>
+        /// <returns>direction</returns>
         public override Direction GetRefractedDirection(
             Position positionCurrent, 
             Direction directionCurrent, 
@@ -158,7 +193,11 @@ namespace Vts.MonteCarlo.Tissues
                     directionCurrent.Uy * nCurrent / nNext,
                     -cosThetaSnell);
         }
-
+        /// <summary>
+        /// method to get angle between photons current direction and boundary normal
+        /// </summary>
+        /// <param name="photon"></param>
+        /// <returns></returns>
         public override double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
             return Math.Abs(photon.DP.Direction.Uz); // abs will work for upward normal and downward normal

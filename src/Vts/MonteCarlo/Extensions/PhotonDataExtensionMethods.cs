@@ -27,6 +27,12 @@ namespace Vts.MonteCarlo.Extensions
                 collisionInfoDatabaseWriter.Write(collisionInfo);
             }
         }
+        /// <summary>
+        /// method to determine whether photon database belongs to surface virtual boundary
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <param name="collisionInfoDatabaseWriter">collision info database writer</param>
+        /// <returns></returns>
         public static bool BelongsToSurfaceVirtualBoundary(this PhotonDataPoint dp,
             CollisionInfoDatabaseWriter collisionInfoDatabaseWriter)
         {

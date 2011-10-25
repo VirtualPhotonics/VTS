@@ -15,7 +15,7 @@ for di = 1:numDetectors
             RDiffuse.Mean = str2num(RDiffuse_xml.Mean);              
             RDiffuse.SecondMoment = str2num(RDiffuse_xml.SecondMoment);
             RDiffuse.Stdev = sqrt((RDiffuse.SecondMoment - (RDiffuse.Mean .* RDiffuse.Mean)) / str2num(xml.N)); 
-            results.RDiffuse = RDiffuse;
+            results{di}.RDiffuse = RDiffuse;
         case 'ROfRho'
             ROfRho.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
@@ -26,7 +26,7 @@ for di = 1:numDetectors
                 ROfRho.SecondMoment = readBinaryData([datadir slash detectorName '_2'],length(ROfRho.Rho)-1);
                 ROfRho.Stdev = sqrt((ROfRho.SecondMoment - (ROfRho.Mean .* ROfRho.Mean)) / str2num(xml.N));
             end
-            results.ROfRho = ROfRho;
+            results{di}.ROfRho = ROfRho;
         case 'ROfAngle'
             ROfAngle.Name = detectorName;
             tempAngle = xml.DetectorInputs(di).anyType.Angle;
@@ -37,7 +37,7 @@ for di = 1:numDetectors
                 ROfAngle.SecondMoment = readBinaryData([datadir slash detectorName '_2'],length(ROfAngle.Angle)-1);
                 ROfAngle.Stdev = sqrt((ROfAngle.SecondMoment - (ROfAngle.Mean .* ROfAngle.Mean)) / str2num(xml.N));
             end
-            results.ROfAngle = ROfAngle;
+            results{di}.ROfAngle = ROfAngle;
         case 'ROfXAndY'
             ROfXAndY.Name = detectorName;
             tempX = xml.DetectorInputs(di).anyType.X;
@@ -51,7 +51,7 @@ for di = 1:numDetectors
                 ROfXAndY.SecondMoment = readBinaryData([datadir slash detectorName '_2'],[length(ROfXAndY.X)-1,length(ROfXAndY.Y)-1]); 
                 ROfXAndY.Stdev = sqrt((ROfXAndY.SecondMoment - (ROfXAndY.Mean .* ROfXAndY.Mean)) / str2num(xml.N)); 
             end      
-            results.ROfXAndY = ROfXAndY;
+            results{di}.ROfXAndY = ROfXAndY;
 
         case 'ROfRhoAndTime'
             ROfRhoAndTime.Name = detectorName;
@@ -66,7 +66,7 @@ for di = 1:numDetectors
                 ROfRhoAndTime.SecondMoment = readBinaryData([datadir slash detectorName '_2'],[length(ROfRhoAndTime.Rho)-1,length(ROfRhoAndTime.Time)-1]);
                 ROfRhoAndTime.Stdev = sqrt((ROfRhoAndTime.SecondMoment - (ROfRhoAndTime.Mean .* ROfRhoAndTime.Mean)) / str2num(xml.N));
             end
-            results.ROfRhoAndTime = ROfRhoAndTime;
+            results{di}.ROfRhoAndTime = ROfRhoAndTime;
         case 'ROfRhoAndAngle'
             ROfRhoAndAngle.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
@@ -80,7 +80,7 @@ for di = 1:numDetectors
                 ROfRhoAndAngle.SecondMoment = readBinaryData([datadir slash detectorName '_2'],[length(ROfRhoAndAngle.Rho)-1,length(ROfRhoAndAngle.Angle)-1]); 
                 ROfRhoAndAngle.Stdev = sqrt((ROfRhoAndAngle.SecondMoment - (ROfRhoAndAngle.Mean .* ROfRhoAndAngle.Mean)) / str2num(xml.N)); 
             end
-            results.ROfRhoAndAngle = ROfRhoAndAngle;
+            results{di}.ROfRhoAndAngle = ROfRhoAndAngle;
         case 'ROfRhoAndOmega'
             ROfRhoAndOmega.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
@@ -99,7 +99,7 @@ for di = 1:numDetectors
                 ROfRhoAndOmega.Stdev = sqrt((real(ROfRhoAndOmega.SecondMoment) - (real(ROfRhoAndOmega.Mean) .* real(ROfRhoAndOmega.Mean))) / str2num(xml.N)) + ...
                     1i*sqrt((imag(ROfRhoAndOmega.SecondMoment) - (imag(ROfRhoAndOmega.Mean) .* imag(ROfRhoAndOmega.Mean))) / str2num(xml.N));
             end            
-            results.ROfRhoAndOmega = ROfRhoAndOmega;
+            results{di}.ROfRhoAndOmega = ROfRhoAndOmega;
 
         case 'TDiffuse'
             TDiffuse.Name = detectorName;
@@ -107,7 +107,7 @@ for di = 1:numDetectors
             TDiffuse.Mean = str2num(TDiffuse_xml.Mean);              
             TDiffuse.SecondMoment = str2num(TDiffuse_xml.SecondMoment); 
             TDiffuse.Stdev = sqrt((TDiffuse.SecondMoment - (TDiffuse.Mean .* TDiffuse.Mean)) / str2num(xml.N));
-            results.TDiffuse = TDiffuse;
+            results{di}.TDiffuse = TDiffuse;
         case 'TOfRho'
             TOfRho.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
@@ -118,7 +118,7 @@ for di = 1:numDetectors
                 TOfRho.SecondMoment = readBinaryData([datadir slash detectorName '_2'],length(TOfRho.Rho)-1);
                 TOfRho.Stdev = sqrt((TOfRho.SecondMoment - (TOfRho.Mean .* TOfRho.Mean)) / str2num(xml.N));
             end
-            results.TOfRho = TOfRho;
+            results{di}.TOfRho = TOfRho;
         case 'TOfAngle'
             TOfAngle.Name = detectorName;
             tempAngle = xml.DetectorInputs(di).anyType.Angle;
@@ -129,7 +129,7 @@ for di = 1:numDetectors
                 TOfAngle.SecondMoment = readBinaryData([datadir slash detectorName '_2'],length(TOfAngle.Angle)-1);
                 TOfAngle.Stdev = sqrt((TOfAngle.SecondMoment - (TOfAngle.Mean .* TOfAngle.Mean)) / str2num(xml.N));
             end
-            results.TOfAngle = TOfAngle;
+            results{di}.TOfAngle = TOfAngle;
         case 'TOfRhoAndAngle'
             TOfRhoAndAngle.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
@@ -143,7 +143,7 @@ for di = 1:numDetectors
                 TOfRhoAndAngle.SecondMoment = readBinaryData([datadir slash detectorName '_2'],[length(TOfRhoAndAngle.Rho)-1,length(TOfRhoAndAngle.Angle)-1]); 
                 TOfRhoAndAngle.Stdev = sqrt((TOfRhoAndAngle.SecondMoment - (TOfRhoAndAngle.Mean .* TOfRhoAndAngle.Mean)) / str2num(xml.N)); 
             end
-            results.TOfRhoAndAngle = TOfRhoAndAngle;
+            results{di}.TOfRhoAndAngle = TOfRhoAndAngle;
 
         case 'ATotal'
             ATotal.Name = detectorName;
@@ -151,7 +151,7 @@ for di = 1:numDetectors
             ATotal.Mean = str2num(ATotal_xml.Mean);              
             ATotal.SecondMoment = str2num(ATotal_xml.SecondMoment); 
             ATotal.Stdev = sqrt((ATotal.SecondMoment - (ATotal.Mean .* ATotal.Mean)) / str2num(xml.N));
-            results.ATotal = ATotal;
+            results{di}.ATotal = ATotal;
         case 'AOfRhoAndZ'
             AOfRhoAndZ.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
@@ -165,7 +165,7 @@ for di = 1:numDetectors
                 AOfRhoAndZ.SecondMoment = readBinaryData([datadir slash detectorName '_2'],[length(AOfRhoAndZ.Rho)-1,length(AOfRhoAndZ.Z)-1]); 
                 AOfRhoAndZ.Stdev = sqrt((AOfRhoAndZ.SecondMoment - (AOfRhoAndZ.Mean .* AOfRhoAndZ.Mean)) / str2num(xml.N)); 
             end
-            results.AOfRhoAndZ = AOfRhoAndZ;
+            results{di}.AOfRhoAndZ = AOfRhoAndZ;
         case 'FluenceOfRhoAndZ'
             FluenceOfRhoAndZ.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
@@ -179,7 +179,7 @@ for di = 1:numDetectors
                 FluenceOfRhoAndZ.SecondMoment = readBinaryData([datadir slash detectorName '_2'],[length(FluenceOfRhoAndZ.Rho)-1,length(FluenceOfRhoAndZ.Z)-1]);
                 FluenceOfRhoAndZ.Stdev = sqrt((FluenceOfRhoAndZ.SecondMoment - (FluenceOfRhoAndZ.Mean .* FluenceOfRhoAndZ.Mean)) / str2num(xml.N));  
             end
-            results.FluenceOfRhoAndZ = FluenceOfRhoAndZ;
+            results{di}.FluenceOfRhoAndZ = FluenceOfRhoAndZ;
         case 'RadianceOfRhoAndZAndAngle'
             RadianceOfRhoAndZAndAngle.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
@@ -203,7 +203,7 @@ for di = 1:numDetectors
                 [length(RadianceOfRhoAndZAndAngle.Rho)-1,length(RadianceOfRhoAndZAndAngle.Z)-1,length(RadianceOfRhoAndZAndAngle.Angle)-1]);  
                 RadianceOfRhoAndZAndAngle.Stdev = sqrt((RadianceOfRhoAndZAndAngle.SecondMoment - (RadianceOfRhoAndZAndAngle.Mean .* RadianceOfRhoAndZAndAngle.Mean)) / str2num(xml.N));               
             end
-            results.RadianceOfRhoAndZAndAngle = RadianceOfRhoAndZAndAngle;
+            results{di}.RadianceOfRhoAndZAndAngle = RadianceOfRhoAndZAndAngle;
         case 'pMCROfRho'
             pMCROfRho.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
@@ -215,7 +215,7 @@ for di = 1:numDetectors
                 pMCROfRho.SecondMoment = readBinaryData([datadir slash detectorName '_2'],length(pMCROfRho.Rho)-1);
                 pMCROfRho.Stdev = sqrt((pMCROfRho.SecondMoment - (pMCROfRho.Mean .* pMCROfRho.Mean)) / str2num(databaseInputxml.N));
             end
-            results.pMCROfRho = pMCROfRho;
+            results{di}.pMCROfRho = pMCROfRho;
         case 'pMCROfRhoAndTime'
             pMCROfRhoAndTime.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
@@ -230,6 +230,6 @@ for di = 1:numDetectors
                 pMCROfRhoAndTime.SecondMoment = readBinaryData([datadir slash detectorName '_2'],[length(pMCROfRhoAndTime.Rho)-1,length(pMCROfRhoAndTime.Time)-1]);
                 pMCROfRhoAndTime.Stdev = sqrt((pMCROfRhoAndTime.SecondMoment - (pMCROfRhoAndTime.Mean .* pMCROfRhoAndTime.Mean)) / str2num(databaseInputxml.N));
             end
-            results.pMCROfRhoAndTime = pMCROfRhoAndTime;
+            results{di}.pMCROfRhoAndTime = pMCROfRhoAndTime;
     end %detectorName switch
 end

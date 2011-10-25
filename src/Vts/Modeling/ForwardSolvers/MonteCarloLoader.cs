@@ -12,26 +12,68 @@ using Vts.MonteCarlo.IO;
 
 namespace Vts.Modeling.ForwardSolvers
 {
+    /// <summary>
+    /// class to handle loading of scaled Monte Carlo database
+    /// </summary>
     public class MonteCarloLoader
     {
+        /// <summary>
+        /// number of rho bins in reference database
+        /// </summary>
         public int nrReference; 
-        public double drReference; 
+        /// <summary>
+        /// size of rho bins in reference database
+        /// </summary>
+        public double drReference;
+        /// <summary>
+        /// number of time bins in reference database
+        /// </summary>
         public int ntReference; 
+        /// <summary>
+        /// size of time bins in reference database
+        /// </summary>
         public double dtReference;
+        /// <summary>
+        /// mus' value used in reference database
+        /// </summary>
         public double muspReference;
+        /// <summary>
+        /// number of spatial frequency bins in reference 
+        /// </summary>
         public int nfxReference;
+        /// <summary>
+        /// size of spatial frequency bins in reference
+        /// </summary>
         public double dfxReference;
 
+        /// <summary>
+        /// array of rho bin centers in reference database
+        /// </summary>
         public double[] RhoReference { get; set; }
+        /// <summary>
+        /// array of time bin centers in reference database
+        /// </summary>
         public double[] TimeReference { get; set; }
+        /// <summary>
+        /// array of spatial frequency centers in reference
+        /// </summary>
         public double[] FxReference { get; set; }
+        /// <summary>
+        /// reference database R(rho,time)
+        /// </summary>
         public double[,] RReferenceOfRhoAndTime { get; set; }
+        /// <summary>
+        /// reference database R(fx,time)
+        /// </summary>
         public double[,] RReferenceOfFxAndTime { get; set; }
 
         /// CKH TODO: automate pointer to reference data 
         /// can't point to N1e7 until writing to isolated storage working for R_fxt code below
         private string folder = "ReferenceData/N1e8mua0musp1g0p8dr0p2dt0p005/";
 
+        /// <summary>
+        /// constructor that loads scaled Monte Carlo reference data and database 
+        /// </summary>
         public MonteCarloLoader()
         {
             nfxReference = 100;

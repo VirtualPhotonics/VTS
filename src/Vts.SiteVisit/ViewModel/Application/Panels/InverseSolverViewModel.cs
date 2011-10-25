@@ -406,7 +406,7 @@ namespace Vts.SiteVisit.ViewModel
 
         private IEnumerable<double> GetSimulatedMeasuredData()
         {
-            var independentValues = RangeVM.Values;
+            var independentValues = RangeVM.Values.ToArray();
 
             double[] constantValues =
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
@@ -431,7 +431,7 @@ namespace Vts.SiteVisit.ViewModel
 
         public void CalculateInitialGuess()
         {
-            var independentValues = RangeVM.Values;
+            var independentValues = RangeVM.Values.ToArray();
 
             double[] constantValues =
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)

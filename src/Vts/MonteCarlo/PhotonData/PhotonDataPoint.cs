@@ -28,13 +28,31 @@ namespace Vts.MonteCarlo.PhotonData
             _StateFlag = stateFlag;
         }
 
+        /// <summary>
+        /// position of photon data point
+        /// </summary>
         public Position Position { get { return _Position; } set { _Position = value; } }
+        /// <summary>
+        /// direction of photon data point
+        /// </summary>
         public Direction Direction { get { return _Direction; } set { _Direction = value; } }
-
+        /// <summary>
+        /// weight of photon
+        /// </summary>
         public double Weight { get { return _Weight; } set { _Weight = value; } }
+        /// <summary>
+        /// total time to date that photon has lived
+        /// </summary>
         public double TotalTime { get { return _TotalTime; } set { _TotalTime = value; } }
+        /// <summary>
+        /// state flag indicating state of photon
+        /// </summary>
         public PhotonStateType StateFlag { get { return _StateFlag; } set { _StateFlag = value; } }
 
+        /// <summary>
+        /// method to clone photon data point
+        /// </summary>
+        /// <returns></returns>
         public PhotonDataPoint Clone()
         {
             return new PhotonDataPoint(

@@ -32,16 +32,32 @@ namespace Vts.MonteCarlo.Detectors
             : this(true, TallyType.TDiffuse.ToString())
         {
         }
+        /// <summary>
+        /// mean of detector tally
+        /// </summary>
         public double Mean { get; set; }
-
+        /// <summary>
+        /// second moment of detector tally
+        /// </summary>
         public double SecondMoment { get; set; }
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of times detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
 
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="dp"></param>
         public void Tally(PhotonDataPoint dp)
         {
             Mean += dp.Weight;
@@ -52,6 +68,10 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount++;
         }
 
+        /// <summary>
+        /// method to normalize detector results after all photons launched
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;

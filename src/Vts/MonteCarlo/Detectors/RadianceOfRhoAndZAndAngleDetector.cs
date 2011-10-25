@@ -21,13 +21,15 @@ namespace Vts.MonteCarlo.Detectors
         private ITissue _tissue;
         private bool _tallySecondMoment;
         private IList<OpticalProperties> _ops;
-        ///<summary>
-        /// Returns an instance of RadianceOfRhoAndZAndAngleDetector
-        ///</summary>
-        ///<param name="rho"></param>
-        ///<param name="z"></param>
-        ///<param name="angle"></param>
-        ///<param name="tissue"></param>
+        /// <summary>
+        /// constructor for radiance as a function of rho, z and angle detector input
+        /// </summary>
+        /// <param name="rho">rho binning</param>
+        /// <param name="z">z binning</param>
+        /// <param name="angle">angle binning</param>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
+        /// <param name="name">detector name</param>
         public RadianceOfRhoAndZAndAngleDetector(
             DoubleRange rho, 
             DoubleRange z, 
@@ -75,16 +77,29 @@ namespace Vts.MonteCarlo.Detectors
         [IgnoreDataMember]
         public double[, ,] SecondMoment { get; set; }
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType but can be user specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of times detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
-
+        /// <summary>
+        /// z binning
+        /// </summary>
         public DoubleRange Z { get; set; }
-
+        /// <summary>
+        /// angle binning
+        /// </summary>
         public DoubleRange Angle { get; set; }
 
         private void SetAbsorbAction(AbsorptionWeightingType awt)

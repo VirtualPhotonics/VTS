@@ -22,7 +22,7 @@ namespace Vts.SpectralMapping
             get
             {
                 if (_internalDictionary == null)
-                    _internalDictionary = GetDatabaseFromFile("SpectraData1.xml");
+                    _internalDictionary = GetDatabaseFromFile();
                 return _internalDictionary;
             }
         }
@@ -56,7 +56,8 @@ namespace Vts.SpectralMapping
         /// <returns>Dictionary of Chromophore spectrum</returns>
         public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile()
         {
-            return GetDatabaseFromFile("SpectraData1.xml");
+            //return GetDatabaseFromFile("SpectraData1.xml");
+            return FileIO.ReadFromXMLInResources<Dictionary<string, ChromophoreSpectrum>>("Modeling/Spectroscopy/Resources/SpectralDictionary.xml", "Vts");
         }
 
         /// <summary>

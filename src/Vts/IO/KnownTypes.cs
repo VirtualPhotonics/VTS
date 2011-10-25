@@ -35,6 +35,7 @@ namespace Vts.IO
 					typeof (ROfRhoDetector),
 					typeof (ROfXAndYDetector),
 					typeof (RSpecularDetector),
+					typeof (ROfFxDetector),
 					typeof (TDiffuseDetector),
 					typeof (TOfAngleDetector),
 					typeof (TOfRhoAndAngleDetector),

@@ -23,6 +23,7 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.ROfRhoAndTime:
                 case TallyType.ROfXAndY:
                 case TallyType.RDiffuse:
+                case TallyType.ROfFx:
                     return true;
                 default:
                     return false;

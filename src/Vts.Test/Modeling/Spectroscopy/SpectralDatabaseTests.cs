@@ -30,7 +30,6 @@ namespace Vts.Test.Modeling.Spectroscopy
             //values.WriteToXML("samplefile.xml");
             testDictionary.WriteToXML("dictionary.xml");
             var Dvalues = FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>("dictionary.xml"); 
-
             Assert.IsTrue(true);
         }
 
@@ -41,6 +40,7 @@ namespace Vts.Test.Modeling.Spectroscopy
             testDictionary.WriteToXML("dictionary2.xml");
             var Dvalues = FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>("dictionary2.xml"); 
             Assert.IsTrue(true);
+            //Assert.AreEqual(testDictionary, Dvalues); //This line causes an exception - Need to figure out why these two objects are not equal, they appear to be
         }
 
         [Test]

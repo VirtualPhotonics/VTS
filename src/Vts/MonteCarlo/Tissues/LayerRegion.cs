@@ -11,19 +11,30 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class LayerRegion : ITissueRegion
     {
+        /// <summary>
+        /// constructor for layer region
+        /// </summary>
+        /// <param name="zRange">specifies extent of layer</param>
+        /// <param name="op">optical properties of layer</param>
         public LayerRegion(DoubleRange zRange, OpticalProperties op)
         {
             ZRange = zRange;
             RegionOP = op;
         }
-
+        /// <summary>
+        /// default constructor
+        /// </summary>
         public LayerRegion()
             : this(
                 new DoubleRange(0.0, 10),
                 new OpticalProperties(0.01, 1.0, 0.8, 1.4)) { }
-
+        /// <summary>
+        /// extent of z layer
+        /// </summary>
         public DoubleRange ZRange { get; set; }
-
+        /// <summary>
+        /// optical properties of layer
+        /// </summary>
         public OpticalProperties RegionOP { get; set; }
 
 
