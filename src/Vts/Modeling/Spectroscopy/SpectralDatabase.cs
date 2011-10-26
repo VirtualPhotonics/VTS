@@ -99,6 +99,23 @@ namespace Vts.SpectralMapping
         }
 
         /// <summary>
+        /// Appends a new chromophore spectra dictionary created from a tab-delimited stream onto an existing dictionary of chromophore spectra
+        /// </summary>
+        /// <param name="existingDictionary">The existing dictionary to which to append</param>
+        /// <param name="fileStream">The file stream</param>
+        /// <returns>The new dictionary of chromophore spectrum</returns>
+        public static Dictionary<string, ChromophoreSpectrum> AppendDatabaseFromFile(Dictionary<string, ChromophoreSpectrum> existingDictionary, Stream fileStream, bool convert)
+        {
+            //create a new dictionary
+            Dictionary<string, ChromophoreSpectrum> chromophoreDictionary = CreateDatabaseFromFile(fileStream, convert);
+            foreach (var item in chromophoreDictionary)
+            {
+                existingDictionary.Add(item.Key, item.Value);
+            }
+            return existingDictionary;
+        }
+
+        /// <summary>
         /// Creates a dictionary of chromophore spectra from a file stream of tab-delimited data starting at a given line number
         /// Tab delimited data is in the format: Wavelength  1st Column  2nd Column  3rd Column  ...
         /// </summary>
