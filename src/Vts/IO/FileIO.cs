@@ -102,6 +102,19 @@ namespace Vts.IO
         }
 
         /// <summary>
+        /// Writes the string to a stream
+        /// </summary>
+        /// <param name="text">Text to write to the file</param>
+        /// <param name="stream">Name of the stream</param>
+        public static void WriteTextToStream(string text, Stream stream)
+        {
+            using (StreamWriter outstream = new StreamWriter(stream))
+            {
+                outstream.Write(text);
+            }
+        }
+
+        /// <summary>
         /// Writes the string to a text file
         /// </summary>
         /// <param name="text">Text to write to the file</param>
