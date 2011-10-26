@@ -13,15 +13,17 @@ namespace Vts.SpectralMapping
         /// Constructor to create the chromophore spectrum
         /// </summary>
         /// <param name="wavelengths">A list of wavelengths</param>
-        /// <param name="spectrum">A list of specral values</param>
+        /// <param name="spectrum">A list of spectral values</param>
         /// <param name="name">The name of the chromophore absorber</param>
         /// <param name="coeffType">The chromophore coefficient type</param>
         /// <param name="absUnits">The absorption coefficient units</param>
         /// <param name="molarUnit">The molar units</param>
-        public ChromophoreSpectrum(List<double> wavelengths, List<double> spectrum, string name, ChromophoreCoefficientType coeffType, AbsorptionCoefficientUnit absUnits, MolarUnit molarUnit)
+        /// <param name="wavelengthUnit">The wavelength units</param>
+        public ChromophoreSpectrum(List<double> wavelengths, List<double> spectrum, string name, ChromophoreCoefficientType coeffType, AbsorptionCoefficientUnit absUnits, MolarUnit molarUnit, WavelengthUnit wavelengthUnit)
         {
             ChromophoreCoefficientType = coeffType;
             AbsorptionCoefficientUnit = absUnits;
+            WavelengthUnit = wavelengthUnit;
             MolarUnit = molarUnit;
             Name = name;
             Spectrum = spectrum;
@@ -37,7 +39,8 @@ namespace Vts.SpectralMapping
                    "",
                    ChromophoreCoefficientType.FractionalAbsorptionCoefficient,
                    AbsorptionCoefficientUnit.InverseMillimeters,
-                   MolarUnit.Molar)
+                   MolarUnit.Molar,
+                   WavelengthUnit.Nanometers)
         {
         }
 
@@ -53,7 +56,6 @@ namespace Vts.SpectralMapping
         /// The chromophore coefficient type
         /// </summary>
         public ChromophoreCoefficientType ChromophoreCoefficientType { get; set; }      
-        //public AbsorptionCoefficientUnits AbsorptionCoefficientUnits { get; set; }
         /// <summary>
         /// The absorption coefficient units
         /// </summary>
@@ -62,6 +64,10 @@ namespace Vts.SpectralMapping
         /// The molar units
         /// </summary>
         public MolarUnit MolarUnit { get; set; }
+        /// <summary>
+        /// The wavelength units
+        /// </summary>
+        public WavelengthUnit WavelengthUnit { get; set; }
         /// <summary>
         /// Name of the chromophore absorber
         /// </summary>

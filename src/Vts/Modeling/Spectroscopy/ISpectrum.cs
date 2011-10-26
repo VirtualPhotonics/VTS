@@ -27,5 +27,9 @@ namespace Vts.SpectralMapping
         /// The molar unit
         /// </summary>
         MolarUnit MolarUnit { get; set; }
+        /// <summary>
+        /// The wavelength unit
+        /// </summary>
+        WavelengthUnit WavelengthUnit { get; set; }
     }
 }
