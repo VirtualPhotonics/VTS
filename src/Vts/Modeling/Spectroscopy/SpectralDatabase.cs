@@ -58,8 +58,16 @@ namespace Vts.SpectralMapping
         /// <returns>Dictionary of Chromophore spectrum</returns>
         public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile()
         {
-            //return GetDatabaseFromFile("SpectraData1.xml");
             return FileIO.ReadFromXMLInResources<Dictionary<string, ChromophoreSpectrum>>("Modeling/Spectroscopy/Resources/SpectralDictionary.xml", "Vts");
+        }
+
+        /// <summary>
+        /// Returns a dictionary of Chromophore spectrum from the specified file
+        /// </summary>
+        /// <returns>Dictionary of Chromophore spectrum</returns>
+        public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile(string fileName)
+        {
+            return FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>(fileName);
         }
 
         /// <summary>
