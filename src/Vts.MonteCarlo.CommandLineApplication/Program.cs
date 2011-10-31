@@ -264,8 +264,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     logger.Info("If the path name has any spaces enclose it in double quotes.");
                     logger.Info("For relative paths, omit the leading slash.");
                     logger.Info("EXAMPLES:");
-                    logger.Info("\tinfile=C:\\MonteCarlo\\OutputFiles");
-                    logger.Info("\tinfile=OutputFiles");
+                    logger.Info("\toutpath=C:\\MonteCarlo\\OutputFiles");
+                    logger.Info("\toutpath=OutputFiles");
                     break;
                 case "outname":
                     logger.Info("\nOUTNAME");
