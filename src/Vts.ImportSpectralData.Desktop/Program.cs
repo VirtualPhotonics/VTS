@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using Vts.IO;
 using Vts.Common.Logging;
+using Vts.SpectralMapping;
 
 namespace Vts.ImportSpectralData.Desktop
 {
@@ -92,11 +95,35 @@ namespace Vts.ImportSpectralData.Desktop
                }),
                new CommandLine.Switch("generatefiles", val =>
                {
-                   logger.Info(() => "Generating spectral data files");
+                   logger.Info(() => "Generating spectral data files...");
+                   var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
+                   SpectralDatabase.WriteDatabaseToFiles(testDictionary);
                }),
                new CommandLine.Switch("import", val =>
                {
                    logger.Info(() => "Importing spectral data files");
+                   //import the values for CPTA
+                   Stream stream = StreamFinder.GetFileStream("absorber-CPTA.txt", FileMode.Open);
+                   var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
+                   //import the values for Fat
+                   stream = StreamFinder.GetFileStream("absorber-Fat.txt", FileMode.Open);
+                   SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                   //import the values for H2O
+                   stream = StreamFinder.GetFileStream("absorber-H2O.txt", FileMode.Open);
+                   SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                   //import the values for Hb
+                   stream = StreamFinder.GetFileStream("absorber-Hb.txt", FileMode.Open);
+                   SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                   //import the values for HbO2
+                   stream = StreamFinder.GetFileStream("absorber-HbO2.txt", FileMode.Open);
+                   SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                   //import the values for Melanin
+                   stream = StreamFinder.GetFileStream("absorber-Melanin.txt", FileMode.Open);
+                   SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                   //import the values for Nigrosin
+                   stream = StreamFinder.GetFileStream("absorber-Nigrosin.txt", FileMode.Open);
+                   SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                   testDictionary.WriteToXML("SpectralDictionary.xml");
                }));
         }
 

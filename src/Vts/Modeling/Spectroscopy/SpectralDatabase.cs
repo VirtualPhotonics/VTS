@@ -402,7 +402,7 @@ namespace Vts.SpectralMapping
         /// Writes the Chromophore dictionary to separate text files
         /// </summary>
         /// <param name="ChromophoreDictionary">The dictionary to write</param>
-        public static void WriteDatabaseToFile(Dictionary<string, ChromophoreSpectrum> ChromophoreDictionary)
+        public static void WriteDatabaseToFiles(Dictionary<string, ChromophoreSpectrum> ChromophoreDictionary)
         {
             //loop through each of the ChromophoreSpectrum objects
             foreach (var item in ChromophoreDictionary)
