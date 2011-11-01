@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using Vts.FemModeling.MGRTE._2D.DataStructures;
 using Vts.FemModeling.MGRTE._2D.IO;
+using Vts.FemModeling.MGRTE._2D.SourceInputs;
 using Vts.Common;
 using Vts.Common.Logging;
 
@@ -113,10 +114,18 @@ namespace Vts.FemModeling.MGRTE._2D
                 para.NExt,para.AMeshLevel, AMeshLevel0,
                 para.SMeshLevel, SMeshLevel0, ua, us, Mgrid);           
 
-            // initialize internal and boundary sources 
+            // initialize internal and boundary sources - 
+            //todo: Old method,  DELETE after implementing new source handling 
             Insource.Inputsource(para.AMeshLevel, amesh, para.SMeshLevel, smesh, level, RHS, q);
-            
 
+            //Assign internal and external sources 
+            IExtSource extsource = FemSourceFactory.GetExtSource(new ExtPointSourceInput());
+            extsource.AssignMeshForExtSource(amesh, para.AMeshLevel, smesh, para.SMeshLevel, level, q);
+
+            IIntSource intsource = FemSourceFactory.GetIntSource(new Int2DPointSourceInput());
+            intsource.AssignMeshForIntSource(amesh, para.AMeshLevel, smesh, para.SMeshLevel, level,RHS);
+
+           
             /* Read the end time. */
             DateTime stopTime1 = DateTime.Now;
             /* Compute and print the duration of this first task. */
@@ -298,9 +307,11 @@ namespace Vts.FemModeling.MGRTE._2D
 
             /* Read the start time. */
             DateTime stopTime2 = DateTime.Now;
-            TimeSpan duration2 = stopTime2 - startTime2;   
+            TimeSpan duration2 = stopTime2 - startTime2;
+            TimeSpan duration3 = stopTime2 - startTime1;   
 
-            logger.Info(() => "Toal time: " + duration2.TotalSeconds + "seconds, Final residual: " + res + "\n");
+            logger.Info(() => "Iteration time: " + duration2.TotalSeconds + "seconds\n");
+            logger.Info(() => "Total time: " + duration3.TotalSeconds + "seconds, Final residual: " + res + "\n");
 
             // step 3: postprocessing
             // 3.1. output
@@ -308,5 +319,6 @@ namespace Vts.FemModeling.MGRTE._2D
 
             return measurement;
         }
+        
     }
 }

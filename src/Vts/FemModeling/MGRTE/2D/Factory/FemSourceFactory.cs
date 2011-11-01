@@ -7,7 +7,7 @@ using Vts.FemModeling.MGRTE._2D.SourceInputs;
 namespace Vts.FemModeling.MGRTE._2D
 {
     /// <summary>
-    /// Instantiates appropriate source given a ISourceInput, ITissue
+    /// Instantiates appropriate source
     /// </summary>
     public static class FemSourceFactory
     {
@@ -35,7 +35,7 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
 
-        public static IIntSource GetExtSource(IIntFemSourceInput input)
+        public static IIntSource GetIntSource(IIntFemSourceInput input)
         {
             switch (input.SourceType)
             {
@@ -72,6 +72,6 @@ namespace Vts.FemModeling.MGRTE._2D
                     throw new NotImplementedException(
                         "Problem generating IExtSource instance. Check that IExtFemSourceInput has a matching IExtSource definition.");
             }
-        }
+        }        
     }
 }

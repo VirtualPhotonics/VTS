@@ -10,7 +10,7 @@ namespace Vts.FemModeling.MGRTE._2D.SourceInputs
             DoubleRange launchPoint,
             DoubleRange thetaRange)
         {
-            SourceType = FemSourceType.ExtLineSource;
+            SourceType = FemSourceType.ExtPointSource;
             LaunchPoint = launchPoint;
             ThetaRange = thetaRange;
         }
