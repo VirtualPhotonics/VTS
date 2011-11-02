@@ -1168,6 +1168,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.xml">
       <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.xml</Link>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

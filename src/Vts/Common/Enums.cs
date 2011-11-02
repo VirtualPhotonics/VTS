@@ -674,10 +674,10 @@ namespace Vts
         /// melanin
         /// </summary>
         Melanin,
-        /// <summary>
-        /// copper phthalocyanine tetrasulfonic acid
-        /// </summary>
-        CPTA,
+        ///// <summary>
+        ///// copper phthalocyanine tetrasulfonic acid
+        ///// </summary>
+        //CPTA,
         /// <summary>
         /// nigrosin
         /// </summary>

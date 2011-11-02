@@ -58,8 +58,16 @@ namespace Vts.SpectralMapping
         /// <returns>Dictionary of Chromophore spectrum</returns>
         public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile()
         {
-            //return GetDatabaseFromFile("SpectraData1.xml");
             return FileIO.ReadFromXMLInResources<Dictionary<string, ChromophoreSpectrum>>("Modeling/Spectroscopy/Resources/SpectralDictionary.xml", "Vts");
+        }
+
+        /// <summary>
+        /// Returns a dictionary of Chromophore spectrum from the specified file
+        /// </summary>
+        /// <returns>Dictionary of Chromophore spectrum</returns>
+        public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile(string fileName)
+        {
+            return FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>(fileName);
         }
 
         /// <summary>
@@ -91,6 +99,23 @@ namespace Vts.SpectralMapping
         {
             //create a new dictionary
             Dictionary<string, ChromophoreSpectrum> chromophoreDictionary = CreateDatabaseFromFile(fileStream);
+            foreach (var item in chromophoreDictionary)
+            {
+                existingDictionary.Add(item.Key, item.Value);
+            }
+            return existingDictionary;
+        }
+
+        /// <summary>
+        /// Appends a new chromophore spectra dictionary created from a tab-delimited stream onto an existing dictionary of chromophore spectra
+        /// </summary>
+        /// <param name="existingDictionary">The existing dictionary to which to append</param>
+        /// <param name="fileStream">The file stream</param>
+        /// <returns>The new dictionary of chromophore spectrum</returns>
+        public static Dictionary<string, ChromophoreSpectrum> AppendDatabaseFromFile(Dictionary<string, ChromophoreSpectrum> existingDictionary, Stream fileStream, bool convert)
+        {
+            //create a new dictionary
+            Dictionary<string, ChromophoreSpectrum> chromophoreDictionary = CreateDatabaseFromFile(fileStream, convert);
             foreach (var item in chromophoreDictionary)
             {
                 existingDictionary.Add(item.Key, item.Value);
@@ -385,7 +410,7 @@ namespace Vts.SpectralMapping
         /// Writes the Chromophore dictionary to separate text files
         /// </summary>
         /// <param name="ChromophoreDictionary">The dictionary to write</param>
-        public static void WriteDatabaseToFile(Dictionary<string, ChromophoreSpectrum> ChromophoreDictionary)
+        public static void WriteDatabaseToFiles(Dictionary<string, ChromophoreSpectrum> ChromophoreDictionary)
         {
             //loop through each of the ChromophoreSpectrum objects
             foreach (var item in ChromophoreDictionary)

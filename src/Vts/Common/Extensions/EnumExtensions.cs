@@ -37,13 +37,12 @@ namespace Vts
             {
                 case ChromophoreType.HbO2:
                 case ChromophoreType.Hb:
-                case ChromophoreType.Melanin:
-                case ChromophoreType.CPTA:
                 case ChromophoreType.Nigrosin:
                 default:
                     return ChromophoreCoefficientType.MolarAbsorptionCoefficient;
                 case ChromophoreType.H2O:
                 case ChromophoreType.Fat:
+                case ChromophoreType.Melanin:
                 case ChromophoreType.Baseline:
                     return ChromophoreCoefficientType.FractionalAbsorptionCoefficient;
             }
