@@ -102,12 +102,9 @@ namespace Vts.ImportSpectralData.Desktop
                new CommandLine.Switch("import", val =>
                {
                    logger.Info(() => "Importing spectral data files");
-                   //import the values for CPTA
-                   Stream stream = StreamFinder.GetFileStream("absorber-CPTA.txt", FileMode.Open);
-                   var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
                    //import the values for Fat
-                   stream = StreamFinder.GetFileStream("absorber-Fat.txt", FileMode.Open);
-                   SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                   Stream stream = StreamFinder.GetFileStream("absorber-Fat.txt", FileMode.Open);
+                   var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
                    //import the values for H2O
                    stream = StreamFinder.GetFileStream("absorber-H2O.txt", FileMode.Open);
                    SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
