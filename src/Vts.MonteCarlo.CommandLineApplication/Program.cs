@@ -3,12 +3,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Vts.Common.Logging;
+using Vts.IO;
 
 namespace Vts.MonteCarlo.CommandLineApplication
 {
+
     #region CommandLine Arguments Parser
 
     /* Simple commandline argument parser written by Ananth B. http://www.ananthonline.net */
@@ -179,6 +182,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     //var sweeps = paramSweep.Select(sweep => MonteCarloSetup.CreateParameterSweep(sweep));
                     var inputs = MonteCarloSetup.ApplyParameterSweeps(input, paramSweep);
 
+
+
+
                     MonteCarloSetup.RunSimulations(inputs, outPath);
                     logger.Info("\nSimulations complete.");
                 }
@@ -198,6 +204,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 infiles[i].ToFile("infile_" + infiles[i].OutputName + ".xml"); 
             }
+            var sources = SourceInputProvider.GenerateAllSourceInputs();
+            sources.WriteToXML("infile_source_options_test.xml");
         }
 
         //private static SimulationInput LoadDefaultInputFile()
@@ -264,8 +272,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     logger.Info("If the path name has any spaces enclose it in double quotes.");
                     logger.Info("For relative paths, omit the leading slash.");
                     logger.Info("EXAMPLES:");
-                    logger.Info("\tinfile=C:\\MonteCarlo\\OutputFiles");
-                    logger.Info("\tinfile=OutputFiles");
+                    logger.Info("\toutpath=C:\\MonteCarlo\\OutputFiles");
+                    logger.Info("\toutpath=OutputFiles");
                     break;
                 case "outname":
                     logger.Info("\nOUTNAME");

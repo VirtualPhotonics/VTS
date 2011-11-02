@@ -605,6 +605,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\IsotropicPointSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\IsotropicPointSourceInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs</Link>
     </Compile>
