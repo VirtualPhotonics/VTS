@@ -199,6 +199,7 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\CustomLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\DirectionalLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\IsotropicLineSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
     <Compile Include="MonteCarlo\Detectors\ROfFxDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs" />
