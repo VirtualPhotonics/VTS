@@ -15,8 +15,8 @@ namespace Vts.MonteCarlo.Detectors
     /// of Rho and Omega.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
-    [KnownType(typeof(ROfFxDetector))]
-    public class ROfFxDetector : ISurfaceDetector<Complex[]>
+    [KnownType(typeof(ROfFxAndTimeDetector))]
+    public class ROfFxAndTimeDetector : ISurfaceDetector<Complex[,]>
     {
         private bool _tallySecondMoment;
         private double[] _fxArray;
@@ -25,18 +25,19 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns an instance of ROfFxDetector
         /// </summary>
         /// <param name="fx"></param>
+        /// <param name="time"></param>
         /// <param name="tallySecondMoment"></param>
         /// <param name="name"></param>
-        public ROfFxDetector(DoubleRange fx, bool tallySecondMoment, String name)
+        public ROfFxAndTimeDetector(DoubleRange fx, DoubleRange time, bool tallySecondMoment, String name)
         {
             Fx = fx;
             _fxArray = fx.AsEnumerable().ToArray();
             _tallySecondMoment = tallySecondMoment;
-            Mean = new Complex[Fx.Count];
+            Mean = new Complex[Fx.Count, time.Count - 1];
             SecondMoment = null;
             if (_tallySecondMoment)
             {
-                SecondMoment = new Complex[Fx.Count];
+                SecondMoment = new Complex[Fx.Count, time.Count - 1];
             }
             TallyType = TallyType.ROfRhoAndOmega;
             Name = name;
@@ -45,16 +46,16 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Returns a default instance of ROfFxDetector (for serialization purposes only)
         /// </summary>
-        public ROfFxDetector()
-            : this(new DoubleRange(), true, TallyType.ROfFx.ToString())
+        public ROfFxAndTimeDetector()
+            : this(new DoubleRange(),new DoubleRange(), true, TallyType.ROfFxAndTime.ToString())
         {
         }
 
         [IgnoreDataMember]
-        public Complex[] Mean { get; set; }
+        public Complex[,] Mean { get; set; }
 
         [IgnoreDataMember]
-        public Complex[] SecondMoment { get; set; }
+        public Complex[,] SecondMoment { get; set; }
 
         public TallyType TallyType { get; set; }
 
@@ -64,8 +65,11 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Fx { get; set; }
 
+        public DoubleRange Time { get; set; }
+
         public void Tally(PhotonDataPoint dp)
         {
+            var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
             // var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var x = dp.Position.X;
             for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
@@ -78,14 +82,14 @@ namespace Vts.MonteCarlo.Detectors
                 /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
                 var deltaWeight = dp.Weight * cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX;
-                Mean[ifx] += deltaWeight;
+                Mean[ifx, it] += deltaWeight;
                 if (_tallySecondMoment)
                 {
                     var deltaWeight2 =
                         dp.Weight * dp.Weight * cosNegativeTwoPiFX * cosNegativeTwoPiFX +
                         Complex.ImaginaryOne * dp.Weight * dp.Weight * sinNegativeTwoPiFX * sinNegativeTwoPiFX;
                     // second moment of complex tally is square of real and imag separately
-                    SecondMoment[ifx] += deltaWeight2;
+                    SecondMoment[ifx, it] += deltaWeight2;
                 }
             }
             TallyCount++;
@@ -95,10 +99,13 @@ namespace Vts.MonteCarlo.Detectors
         {
             for (int ifx = 0; ifx < Fx.Count; ifx++)
             {
-                Mean[ifx] /= numPhotons;
-                if (_tallySecondMoment)
+                for (int it = 0; it < Time.Count - 1; it++)
                 {
-                    SecondMoment[ifx] /= numPhotons;
+                    Mean[ifx,it] /= numPhotons * Time.Delta;
+                    if (_tallySecondMoment)
+                    {
+                        SecondMoment[ifx, it] /= numPhotons * Time.Delta;
+                    }
                 }
             }
         }

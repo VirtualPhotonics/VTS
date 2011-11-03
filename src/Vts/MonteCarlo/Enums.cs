@@ -363,6 +363,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         ROfFx,
         /// <summary>
+        /// Reflectance as a function of spatial frequency along the x-axis, and time
+        /// </summary>
+        ROfFxAndTime,
+        /// <summary>
         /// Transmittance as a function of source-detector separation (rho) and angle
         /// </summary>
         TOfRhoAndAngle,

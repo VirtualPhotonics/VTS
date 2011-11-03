@@ -24,6 +24,7 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.ROfXAndY:
                 case TallyType.RDiffuse:
                 case TallyType.ROfFx:
+                case TallyType.ROfFxAndTime:
                     return true;
                 default:
                     return false;

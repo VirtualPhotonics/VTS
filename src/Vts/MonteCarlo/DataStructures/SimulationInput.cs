@@ -40,6 +40,7 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(ROfRhoDetectorInput))]
     [KnownType(typeof(ROfXAndYDetectorInput))]
     [KnownType(typeof(ROfFxDetectorInput))]
+    [KnownType(typeof(ROfFxAndTimeDetectorInput))]
     [KnownType(typeof(TDiffuseDetectorInput))]
     [KnownType(typeof(TOfAngleDetectorInput))]
     [KnownType(typeof(TOfRhoAndAngleDetectorInput))]

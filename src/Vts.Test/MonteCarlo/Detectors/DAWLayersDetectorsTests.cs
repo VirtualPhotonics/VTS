@@ -73,7 +73,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(-200.0, 200.0, 401)), // y,
                     new ROfRhoAndOmegaDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1.0, 21)), // GHz
+                        new DoubleRange(0.05, 1.0, 20)), // new DoubleRange(0.0, 1.0, 21)) DJC - edited to reflect frequency sampling points (not bins)
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
                     new TOfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
@@ -189,14 +189,20 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
         }
+
         // Reflection R(rho,omega)
+        [Test]
         public void validate_DAW_ROfRhoAndOmega()
         {
+            // todo: warning - this validation data from Linux is actually for Omega = 0.025GHz
+            // (see here: http://virtualphotonics.codeplex.com/discussions/278250)
+
             Assert.Less(Complex.Abs(
                 _outputOneLayerTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
             Assert.Less(Complex.Abs(
                 _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
         }
+
         // Diffuse Transmittance
         [Test]
         public void validate_DAW_TDiffuse()

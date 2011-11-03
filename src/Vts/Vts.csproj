@@ -188,6 +188,7 @@
     <Compile Include="MonteCarlo\Controllers\VolumeDetectorController.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfFxAndTimeDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfFxDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoAndZAndAngleDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\IsotropicLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
+    <Compile Include="MonteCarlo\Detectors\ROfFxAndTimeDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ROfFxDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\dMCdROfRhodMuaDetector.cs" />

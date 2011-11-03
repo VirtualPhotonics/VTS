@@ -68,6 +68,9 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.ROfFx:
                     var rfxinput = (ROfFxDetectorInput)detectorInput;
                     return new ROfFxDetector(rfxinput.Fx, tallySecondMoment, rfxinput.Name);
+                case TallyType.ROfFxAndTime:
+                    var rfxtinput = (ROfFxAndTimeDetectorInput)detectorInput;
+                    return new ROfFxAndTimeDetector(rfxtinput.Fx, rfxtinput.Time, tallySecondMoment, rfxtinput.Name);
                 case TallyType.TDiffuse:
                     var tdinput = (TDiffuseDetectorInput)detectorInput;
                     return new TDiffuseDetector(tallySecondMoment, tdinput.Name);

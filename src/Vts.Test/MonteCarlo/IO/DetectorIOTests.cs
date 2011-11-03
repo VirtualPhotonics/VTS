@@ -274,8 +274,9 @@ namespace Vts.Test.MonteCarlo
                 new DoubleRange(0, 10, 3),
                 new DoubleRange(0, 1, 4),
                 true, // tally Second Moment
-                detectorName) { Mean = new Complex[,] { { 1 + Complex.ImaginaryOne * 1, 2 + Complex.ImaginaryOne * 2, 3 + Complex.ImaginaryOne * 3},
-                                                        { 4 + Complex.ImaginaryOne * 4, 5 + Complex.ImaginaryOne * 5, 6 + Complex.ImaginaryOne * 6} } };
+                detectorName) { Mean = new Complex[,] { { 1 + Complex.ImaginaryOne * 1, 2 + Complex.ImaginaryOne * 2, 3 + Complex.ImaginaryOne * 3, 4 + Complex.ImaginaryOne * 4},
+                                                        { 5 + Complex.ImaginaryOne * 5, 6 + Complex.ImaginaryOne * 6, 7 + Complex.ImaginaryOne * 7, 8 + Complex.ImaginaryOne * 8} }
+                };
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfRhoAndOmegaDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfRhoAndOmega, detectorName, "");
 
@@ -283,9 +284,11 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(dcloned.Mean[0, 0], 1 + Complex.ImaginaryOne * 1);
             Assert.AreEqual(dcloned.Mean[0, 1], 2 + Complex.ImaginaryOne * 2);
             Assert.AreEqual(dcloned.Mean[0, 2], 3 + Complex.ImaginaryOne * 3);
-            Assert.AreEqual(dcloned.Mean[1, 0], 4 + Complex.ImaginaryOne * 4);
-            Assert.AreEqual(dcloned.Mean[1, 1], 5 + Complex.ImaginaryOne * 5);
-            Assert.AreEqual(dcloned.Mean[1, 2], 6 + Complex.ImaginaryOne * 6);
+            Assert.AreEqual(dcloned.Mean[0, 3], 4 + Complex.ImaginaryOne * 4);
+            Assert.AreEqual(dcloned.Mean[1, 0], 5 + Complex.ImaginaryOne * 5);
+            Assert.AreEqual(dcloned.Mean[1, 1], 6 + Complex.ImaginaryOne * 6);
+            Assert.AreEqual(dcloned.Mean[1, 2], 7 + Complex.ImaginaryOne * 7);
+            Assert.AreEqual(dcloned.Mean[1, 3], 8 + Complex.ImaginaryOne * 8);
         }
         [Test]
         public void validate_MomentumTransferOfRhoAndZDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()

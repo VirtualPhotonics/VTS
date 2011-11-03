@@ -183,6 +183,12 @@ namespace Vts.MonteCarlo.IO
                         rOfAngleDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, rOfAngleDetectorDims);
                         return rOfAngleDetector;
 
+                    case TallyType.ROfFx:
+                        var rOfFxDetector = FileIO.ReadFromXML<ROfFxDetector>(filePath + ".xml");
+                        var rOfFxDetectorDims = new int[] { rOfFxDetector.Fx.Count };
+                        rOfFxDetector.Mean = (Complex[])FileIO.ReadArrayFromBinary<Complex>(filePath, rOfFxDetectorDims);
+                        return rOfFxDetector;
+
                     case TallyType.TOfAngle:
                         var tOfAngleDetector = FileIO.ReadFromXML<TOfAngleDetector>(filePath + ".xml");
                         var tOfAngleDetectorDims = new int[] { tOfAngleDetector.Angle.Count - 1 };
@@ -217,9 +223,15 @@ namespace Vts.MonteCarlo.IO
 
                     case TallyType.ROfRhoAndOmega:
                         var rOfRhoAndOmegaDetector = FileIO.ReadFromXML<ROfRhoAndOmegaDetector>(filePath + ".xml");
-                        var rOfRhoAndOmegaDetectorDims = new int[] { rOfRhoAndOmegaDetector.Rho.Count - 1, rOfRhoAndOmegaDetector.Omega.Count - 1 };
+                        var rOfRhoAndOmegaDetectorDims = new int[] { rOfRhoAndOmegaDetector.Rho.Count - 1, rOfRhoAndOmegaDetector.Omega.Count };
                         rOfRhoAndOmegaDetector.Mean = (Complex[,])FileIO.ReadArrayFromBinary<Complex>(filePath, rOfRhoAndOmegaDetectorDims);
                         return rOfRhoAndOmegaDetector;
+
+                    case TallyType.ROfFxAndTime:
+                        var rOfFxAndTimeDetector = FileIO.ReadFromXML<ROfFxAndTimeDetector>(filePath + ".xml");
+                        var rOfFxAndTimeDetectorDims = new int[] { rOfFxAndTimeDetector.Fx.Count, rOfFxAndTimeDetector.Time.Count - 1 };
+                        rOfFxAndTimeDetector.Mean = (Complex[,])FileIO.ReadArrayFromBinary<Complex>(filePath, rOfFxAndTimeDetectorDims);
+                        return rOfFxAndTimeDetector;
 
                     case TallyType.ROfXAndY:
                         var rOfXAndYDetector = FileIO.ReadFromXML<ROfXAndYDetector>(filePath + ".xml");
@@ -328,6 +340,12 @@ namespace Vts.MonteCarlo.IO
                         rOfAngleDetector.Mean = (double[])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, rOfAngleDetectorDims);
                         return rOfAngleDetector;
 
+                    case TallyType.ROfFx:
+                        var rOfFxDetector = FileIO.ReadFromXMLInResources<ROfFxDetector>(filePath + ".xml", projectName);
+                        var rOfFxDetectorDims = new int[] { rOfFxDetector.Fx.Count };
+                        rOfFxDetector.Mean = (Complex[])FileIO.ReadArrayFromBinaryInResources<Complex>(filePath, projectName, rOfFxDetectorDims);
+                        return rOfFxDetector;
+
                     case TallyType.TOfAngle:
                         var tOfAngleDetector = FileIO.ReadFromXMLInResources<TOfAngleDetector>(filePath + ".xml", projectName);
                         var tOfAngleDetectorDims = new int[] { tOfAngleDetector.Angle.Count - 1 };
@@ -366,10 +384,16 @@ namespace Vts.MonteCarlo.IO
                     case TallyType.ROfRhoAndOmega:
                         var rOfRhoAndOmegaDetector =
                             FileIO.ReadFromXMLInResources<ROfRhoAndOmegaDetector>(filePath + ".xml", projectName);
-                        var rOfRhoAndOmegaDetectorDims = new int[] { rOfRhoAndOmegaDetector.Rho.Count - 1, rOfRhoAndOmegaDetector.Omega.Count - 1 };
+                        var rOfRhoAndOmegaDetectorDims = new int[] { rOfRhoAndOmegaDetector.Rho.Count - 1, rOfRhoAndOmegaDetector.Omega.Count};
                         rOfRhoAndOmegaDetector.Mean =
                             (Complex[,])FileIO.ReadArrayFromBinaryInResources<Complex>(filePath, projectName, rOfRhoAndOmegaDetectorDims);
                         return rOfRhoAndOmegaDetector;
+
+                    case TallyType.ROfFxAndTime:
+                        var rOfFxAndTimeDetector = FileIO.ReadFromXMLInResources<ROfFxAndTimeDetector>(filePath + ".xml", projectName);
+                        var rOfFxAndTimeDetectorDims = new int[] { rOfFxAndTimeDetector.Fx.Count, rOfFxAndTimeDetector.Time.Count - 1 };
+                        rOfFxAndTimeDetector.Mean = (Complex[,])FileIO.ReadArrayFromBinaryInResources<Complex>(filePath, projectName, rOfFxAndTimeDetectorDims);
+                        return rOfFxAndTimeDetector;
 
                     case TallyType.ROfXAndY:
                         var rOfXAndYDetector = FileIO.ReadFromXMLInResources<ROfXAndYDetector>(filePath + ".xml",
