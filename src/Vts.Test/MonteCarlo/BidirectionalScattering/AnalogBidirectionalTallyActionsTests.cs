@@ -50,7 +50,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     0                   
                 ),
                 new MultiLayerTissueInput(
-                    new List<ITissueRegion>
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),

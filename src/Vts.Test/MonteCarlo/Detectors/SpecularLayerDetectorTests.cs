@@ -45,7 +45,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                      0 // start in air
                  ),
                  new MultiLayerTissueInput(
-                     new List<ITissueRegion>
+                     new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),

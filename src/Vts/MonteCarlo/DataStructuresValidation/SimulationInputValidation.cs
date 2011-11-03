@@ -55,7 +55,7 @@ namespace Vts.MonteCarlo
         private static ValidationResult ValidateSourceInput(ISourceInput sourceInput, ITissueInput tissueInput)
         {
             if ((sourceInput.InitialTissueRegionIndex < 0) ||
-                (sourceInput.InitialTissueRegionIndex > tissueInput.Regions.Count - 1))
+                (sourceInput.InitialTissueRegionIndex > tissueInput.Regions.Length - 1))
             {
                 return new ValidationResult(
                     false,

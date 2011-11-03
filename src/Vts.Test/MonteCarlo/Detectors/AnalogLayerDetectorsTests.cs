@@ -50,7 +50,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     1 // start off inside tissue 
                 ),
                 new MultiLayerTissueInput(
-                    new List<ITissueRegion>
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),

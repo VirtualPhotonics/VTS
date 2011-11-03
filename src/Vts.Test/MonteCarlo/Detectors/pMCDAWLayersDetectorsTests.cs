@@ -183,7 +183,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 simulationOptions,
                 sourceInput,
                 new MultiLayerTissueInput(
-                    new List<ITissueRegion>
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -210,7 +210,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 simulationOptions,
                 sourceInput,
                 new MultiLayerTissueInput(
-                    new List<ITissueRegion>
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),

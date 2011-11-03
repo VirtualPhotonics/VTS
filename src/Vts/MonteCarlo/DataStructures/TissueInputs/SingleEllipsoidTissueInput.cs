@@ -21,12 +21,12 @@ namespace Vts.MonteCarlo
     public class SingleEllipsoidTissueInput : ITissueInput
     {
         private ITissueRegion _ellipsoidRegion;
-        private IList<ITissueRegion> _layerRegions;
+        private ITissueRegion[] _layerRegions;
 
         /// <summary>
         /// SingleEllipsoidTissueInput constructor 
         /// </summary>
-        public SingleEllipsoidTissueInput(ITissueRegion ellipsoidRegion, IList<ITissueRegion> layerRegions )
+        public SingleEllipsoidTissueInput(ITissueRegion ellipsoidRegion, ITissueRegion[] layerRegions)
         {
             _ellipsoidRegion = ellipsoidRegion;
             _layerRegions = layerRegions;
@@ -43,8 +43,8 @@ namespace Vts.MonteCarlo
                     0.5, 
                     0.5,
                     new OpticalProperties(0.05, 1.0, 0.8, 1.4)
-                ), 
-                new List<ITissueRegion> 
+                ),
+                new ITissueRegion[] 
                 { 
                     new LayerRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
@@ -63,10 +63,10 @@ namespace Vts.MonteCarlo
         public TissueType TissueType { get { return TissueType.SingleEllipsoid; } }
 
         [IgnoreDataMember]
-        public IList<ITissueRegion> Regions { get { return _layerRegions.Concat(_ellipsoidRegion).ToArray(); } }
+        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_ellipsoidRegion).ToArray(); } }
 
         public ITissueRegion EllipsoidRegion { get { return _ellipsoidRegion; } set { _ellipsoidRegion = value; } }
 
-        public IList<ITissueRegion> LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+        public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
     }
 }
