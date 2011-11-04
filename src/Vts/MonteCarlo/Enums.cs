@@ -391,6 +391,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         FluenceOfRhoAndZAndTime,
         /// <summary>
+        /// Fluence as a function of x, y and z
+        /// </summary>
+        FluenceOfXAndYAndZ,
+        /// <summary>
         /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
         /// </summary>
         AOfRhoAndZ,

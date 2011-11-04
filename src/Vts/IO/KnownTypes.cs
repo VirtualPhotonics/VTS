@@ -23,6 +23,7 @@ namespace Vts.IO
 					typeof (ATotalDetector),
 					typeof (FluenceOfRhoAndZDetector),
 					typeof (FluenceOfRhoAndZAndTimeDetector),
+                    typeof (FluenceOfXAndYAndZDetector),
 					typeof (MomentumTransferOfRhoAndZDetector),
 					typeof (pMCROfRhoDetector),
 					typeof (pMCROfRhoAndTimeDetector),

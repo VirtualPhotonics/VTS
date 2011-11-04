@@ -44,6 +44,7 @@ namespace Vts.MonteCarlo.Factories
                     return
                         tallyType == TallyType.FluenceOfRhoAndZ ||
                         tallyType == TallyType.FluenceOfRhoAndZAndTime ||
+                        tallyType == TallyType.FluenceOfXAndYAndZ ||
                         tallyType == TallyType.AOfRhoAndZ ||
                         tallyType == TallyType.ATotal;
 

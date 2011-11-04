@@ -115,6 +115,7 @@ namespace Vts.MonteCarlo.Extensions
             {
                 case TallyType.FluenceOfRhoAndZ:
                 case TallyType.FluenceOfRhoAndZAndTime:
+                case TallyType.FluenceOfXAndYAndZ:
                 case TallyType.AOfRhoAndZ:
                 case TallyType.ATotal:
                 case TallyType.MomentumTransferOfRhoAndZ:
@@ -158,6 +159,7 @@ namespace Vts.MonteCarlo.Extensions
             {
                 case TallyType.FluenceOfRhoAndZ:
                 case TallyType.FluenceOfRhoAndZAndTime:
+                case TallyType.FluenceOfXAndYAndZ:
                 case TallyType.AOfRhoAndZ:
                 case TallyType.MomentumTransferOfRhoAndZ:
                 case TallyType.RadianceOfRhoAndZAndAngle:
