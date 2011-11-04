@@ -121,6 +121,9 @@ namespace Vts.MonteCarlo
                 case PhaseFunctionType.Bidirectional:
                     Scatter = Scatter1D;
                     break;
+                case PhaseFunctionType.LookupTable:
+                    Scatter = ScatterLookupTable;
+                    break;
             }
         }
 
@@ -294,6 +297,7 @@ namespace Vts.MonteCarlo
 
             DP.Direction = dir; // DC - this isn't necessary
         }
+
         public void Scatter1D()
         {
             int currentRegion = this.CurrentRegionIndex;
@@ -305,6 +309,12 @@ namespace Vts.MonteCarlo
             else
                 this.DP.Direction.Uz *= -1.0;
         }
+
+        public void ScatterLookupTable()
+        {
+            this.DP.Direction.Uz = this.DP.Direction.Uz; // ??
+        }
+
         /*****************************************************************/
         public void AbsorbAnalog()
         {

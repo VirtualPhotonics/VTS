@@ -496,6 +496,10 @@ namespace Vts
         /// bidirectional scattering phase function
         /// </summary>
         Bidirectional,
+        /// <summary>
+        /// Options for discretized p(theta) scattering phase function
+        /// </summary>
+        LookupTable,
     }
     /// <summary>
     /// input parameters types used in the Monte Carlo CommandLine application for parameter sweeps
