@@ -303,20 +303,26 @@ namespace Vts.MonteCarlo
         /// </summary>
         SingleEllipsoid,
     }
-    /// <summary>
-    /// Detector types
-    /// </summary>
-    public enum DetectorType
-    {
-        /// <summary>
-        /// Normal processing detector types
-        /// </summary>
-        Detector,
-        /// <summary>
-        /// perturbation Monte Carlo (pMC) detector types
-        /// </summary>
-        pMCDetector,
-    }
+
+    ///// <summary>
+    ///// Detector types
+    ///// </summary>
+    //public enum DetectorType
+    //{
+    //    /// <summary>
+    //    /// Termination detector
+    //    /// </summary>
+    //    Termination,
+    //    /// <summary>
+    //    /// Pathlength detector
+    //    /// </summary>
+    //    Pathlength,
+    //    /// <summary>
+    //    /// Collision detector
+    //    /// </summary>
+    //    Collision,
+    //}
+
     /// <summary>
     /// The different types of tallies available
     /// </summary>

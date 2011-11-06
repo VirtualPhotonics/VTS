@@ -182,6 +182,8 @@
     <Compile Include="Common\Stopwatch.cs" />
     <Compile Include="IO\KnownTypes.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
+    <Compile Include="MonteCarlo\AbsorptionWeightingMethods.cs" />
+    <Compile Include="MonteCarlo\Controllers\HistoryDetectorController.cs" />
     <Compile Include="MonteCarlo\Controllers\DetectorController.cs" />
     <Compile Include="MonteCarlo\Controllers\pMCDatabaseWriterController.cs" />
     <Compile Include="MonteCarlo\Controllers\DatabaseWriterController.cs" />
@@ -207,8 +209,10 @@
     <Compile Include="MonteCarlo\Extensions\DatabaseExtensionMethods.cs" />
     <Compile Include="MonteCarlo\Extensions\ITissueRegionExtensions.cs" />
     <Compile Include="MonteCarlo\Factories\DatabaseWriterFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
     <Compile Include="MonteCarlo\Factories\PhotonDatabaseFactory.cs" />
     <Compile Include="MonteCarlo\Factories\VirtualBoundaryFactory.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\Extensions\PhotonDataExtensionMethods.cs" />

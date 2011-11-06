@@ -473,11 +473,17 @@
     <Compile Include="..\Vts\Modeling\Tools\HankelTransform.cs">
       <Link>Modeling\Tools\HankelTransform.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\AbsorptionWeightingMethods.cs">
+      <Link>MonteCarlo\AbsorptionWeightingMethods.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\DatabaseWriterController.cs">
       <Link>MonteCarlo\Controllers\DatabaseWriterController.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\DetectorController.cs">
       <Link>MonteCarlo\Controllers\DetectorController.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\HistoryDetectorController.cs">
+      <Link>MonteCarlo\Controllers\HistoryDetectorController.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDatabaseWriterController.cs">
       <Link>MonteCarlo\Controllers\pMCDatabaseWriterController.cs</Link>
@@ -749,6 +755,9 @@
     <Compile Include="..\Vts\MonteCarlo\Factories\DatabaseWriterFactory.cs">
       <Link>MonteCarlo\Factories\DatabaseWriterFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\DetectorControllerFactory.cs">
+      <Link>MonteCarlo\Factories\DetectorControllerFactory.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\DetectorFactory.cs">
       <Link>MonteCarlo\Factories\DetectorFactory.cs</Link>
     </Compile>
@@ -805,6 +814,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetectorInput.cs">
       <Link>MonteCarlo\Interfaces\IDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IHistoryDetector.cs">
+      <Link>MonteCarlo\Interfaces\IHistoryDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCDetectorInput.cs">
       <Link>MonteCarlo\Interfaces\IpMCDetectorInput.cs</Link>

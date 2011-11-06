@@ -69,26 +69,26 @@ namespace Vts.MonteCarlo.Detectors
         {
             Tally(photon.DP);
         }
+
         public void Tally(PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var totalTime = dp.TotalTime;
             for (int iw = 0; iw < Omega.Count - 1; ++iw)
             {
-                double freq = (iw + 1) * Omega.Delta;
+                // double freq = ((iw + 1) * Omega.Delta);
                 /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-                Mean[ir, iw] += dp.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime) +
-                    Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime) );
+                var negativeTwoPiFtT = -2 * Math.PI * ((iw + 1) * Omega.Delta) * totalTime;
+                var cos = Math.Cos(negativeTwoPiFtT);
+                var sin = Math.Sin(negativeTwoPiFtT);
+                Mean[ir, iw] += dp.Weight * (cos + Complex.ImaginaryOne * sin);
                 if (_tallySecondMoment)
                 {
                     // second moment of complex tally is square of real and imag separately
-                    SecondMoment[ir, iw] += 
-                        dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) *
-                        dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) +
-                        Complex.ImaginaryOne *
-                        dp.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime)) *
-                        dp.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime));
+                    SecondMoment[ir, iw] +=
+                        dp.Weight * (cos) * dp.Weight * (cos) +
+                        Complex.ImaginaryOne * dp.Weight * (sin) * dp.Weight * (sin);
                 }
             }
             TallyCount++;

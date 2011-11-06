@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo.Controllers
         private IList<IDetector> _detectors;
 
         public DetectorController(
-            IList<IDetector> detectors)
+            IEnumerable<IDetector> detectors)
         {
             _detectors = detectors.Select(d => (IDetector)d).ToList();
         }
