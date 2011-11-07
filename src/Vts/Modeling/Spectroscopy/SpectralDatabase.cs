@@ -356,6 +356,10 @@ namespace Vts.SpectralMapping
                             {
                                 row = line.Split('\t');
 
+                                if (row.Length != columns)
+                                {
+                                    throw new Exception("Invalid data at line: " + (wavelengths.Count + 2).ToString());
+                                }
                                 //write the wavelength value once
                                 double wlEntry = convert ? Convert.ToDouble(row[0]).ConvertWavelength(wavelengthUnit) : Convert.ToDouble(row[0]);
                                 wavelengths.Add((double)wlEntry);
