@@ -11,17 +11,17 @@ namespace Vts.MonteCarlo
             switch (tissue.AbsorptionWeightingType)
             {
                 case AbsorptionWeightingType.Analog:
-                    return (dp, previousDP, regionIndex) => VolumeAbsorptionWeightingAnalog(dp, previousDP, regionIndex, tissue);
+                    return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingAnalog(previousDP, dp, regionIndex, tissue);
                 case AbsorptionWeightingType.Continuous:
                     throw new NotImplementedException("CAW is not currently implemented for volume tallies.");
                 case AbsorptionWeightingType.Discrete:
-                    return (dp, previousDP, regionIndex) => VolumeAbsorptionWeightingDiscrete(dp, previousDP, regionIndex, tissue);
+                    return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingDiscrete(previousDP, dp, regionIndex, tissue);
                 default:
                     throw new ArgumentException("AbsorptionWeightingType did not match the available types.");
             }
         }
 
-        private static double VolumeAbsorptionWeightingAnalog(PhotonDataPoint dp, PhotonDataPoint previousDP, int regionIndex, ITissue tissue)
+        private static double VolumeAbsorptionWeightingAnalog(PhotonDataPoint previousDP, PhotonDataPoint dp, int regionIndex, ITissue tissue)
         {
             var weight = AbsorbAnalog(
                 tissue.Regions[regionIndex].RegionOP.Mua,
@@ -33,13 +33,14 @@ namespace Vts.MonteCarlo
             return weight;
         }
 
-        private static double VolumeAbsorptionWeightingDiscrete(PhotonDataPoint dp, PhotonDataPoint previousDP, int regionIndex, ITissue tissue)
+        private static double VolumeAbsorptionWeightingDiscrete(PhotonDataPoint previousDP, PhotonDataPoint dp, int regionIndex, ITissue tissue)
         {
             var weight = AbsorbDiscrete(
                 tissue.Regions[regionIndex].RegionOP.Mua,
                 tissue.Regions[regionIndex].RegionOP.Mus,
                 previousDP.Weight,
-                dp.Weight);
+                dp.Weight,
+                dp.StateFlag);
 
             return weight;
         }
@@ -48,7 +49,7 @@ namespace Vts.MonteCarlo
         {
             if (photonStateType.HasFlag(PhotonStateType.Absorbed))
             {
-                weight = previousWeight * mua / (mua + mus);
+                weight = 1.0;
             }
             else
             {
@@ -57,7 +58,7 @@ namespace Vts.MonteCarlo
             return weight;
         }
 
-        private static double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight)
+        private static double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
         {
             if (previousWeight == weight) // pseudo collision, so no tally
             {

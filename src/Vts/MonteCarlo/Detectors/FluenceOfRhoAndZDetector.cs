@@ -89,7 +89,7 @@ namespace Vts.MonteCarlo.Detectors
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
 
-            var weight = _absorptionWeightingMethod(dp, previousDP, currentRegionIndex);
+            var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
 
             var regionIndex = currentRegionIndex;
 

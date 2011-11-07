@@ -91,12 +91,15 @@ namespace Vts.MonteCarlo.Detectors
 
             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
 
-            Mean[ir, iz] += weight;
-            if (_tallySecondMoment)
+            if (weight != 0.0)
             {
-                SecondMoment[ir, iz] += weight * weight;
-            } 
-            TallyCount++;
+                Mean[ir, iz] += weight;
+                if (_tallySecondMoment)
+                {
+                    SecondMoment[ir, iz] += weight * weight;
+                }
+                TallyCount++;
+            }
         }
 
         public void Normalize(long numPhotons)

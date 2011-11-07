@@ -34,8 +34,9 @@ namespace Vts.MonteCarlo.Controllers
                 foreach (var detector in _detectors)
                 {
                     ((IHistoryDetector)detector).TallySingle(previousDP, dp, currentRegionIndex);
-                    previousDP = dp;
+                    //previousDP = dp;
                 }
+                previousDP = dp;
             }
         }
 
