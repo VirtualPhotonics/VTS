@@ -96,14 +96,17 @@ namespace Vts.MonteCarlo.Detectors
             {
                 double freq = _omegaArray[iw];
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-                 Mean[ir, iw] += dp.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime) +
+                Mean[ir, iw] += dp.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime) +
                     Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime) );
                 if (_tallySecondMoment)
                 {
                     // second moment of complex tally is square of real and imag separately
-                    SecondMoment[ir, iw] +=
-                        dp.Weight * (cos) * dp.Weight * (cos) +
-                        Complex.ImaginaryOne * dp.Weight * (sin) * dp.Weight * (sin);
+                    SecondMoment[ir, iw] += 
+                        dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) *
+                        dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) +
+                        Complex.ImaginaryOne *
+                        dp.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime)) *
+                        dp.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime));
                 }
             }
             TallyCount++;

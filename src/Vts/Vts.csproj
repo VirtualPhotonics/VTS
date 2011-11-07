@@ -219,6 +219,7 @@
     <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
     <Compile Include="MonteCarlo\Factories\PhotonDatabaseFactory.cs" />
     <Compile Include="MonteCarlo\Factories\VirtualBoundaryFactory.cs" />
+    <Compile Include="MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs" />
     <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVirtualBoundary.cs" />

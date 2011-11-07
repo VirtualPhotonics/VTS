@@ -812,6 +812,9 @@
     <Compile Include="..\Vts\MonteCarlo\Helpers\SourceFlags.cs">
       <Link>MonteCarlo\Helpers\SourceFlags.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs">
+      <Link>MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\SourceProfiles\FlatSourceProfile.cs">
       <Link>MonteCarlo\Helpers\SourceProfiles\FlatSourceProfile.cs</Link>
     </Compile>
