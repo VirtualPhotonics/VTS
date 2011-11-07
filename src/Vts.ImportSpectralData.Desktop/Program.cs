@@ -100,8 +100,16 @@ namespace Vts.ImportSpectralData.Desktop
                new CommandLine.Switch("generatefiles", val =>
                {
                    logger.Info(() => "Generating spectral data files...");
-                   var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
-                   SpectralDatabase.WriteDatabaseToFiles(testDictionary);
+                   try
+                   {
+                       var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
+                       SpectralDatabase.WriteDatabaseToFiles(testDictionary);
+                   }
+                   catch (Exception e)
+                   {
+                       logger.Info("****  An error occurred while generating the import files  ****");
+                       logger.Info("Detailed error: " + e.Message);
+                   }
                    runImport = false;
                    return;
                }),
@@ -117,25 +125,33 @@ namespace Vts.ImportSpectralData.Desktop
                 if (importPath == "")
                 {
                     logger.Info(() => "Importing spectral data files");
-                    //import the values for Fat
-                    Stream stream = StreamFinder.GetFileStream("absorber-Fat.txt", FileMode.Open);
-                    var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
-                    //import the values for H2O
-                    stream = StreamFinder.GetFileStream("absorber-H2O.txt", FileMode.Open);
-                    SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-                    //import the values for Hb
-                    stream = StreamFinder.GetFileStream("absorber-Hb.txt", FileMode.Open);
-                    SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-                    //import the values for HbO2
-                    stream = StreamFinder.GetFileStream("absorber-HbO2.txt", FileMode.Open);
-                    SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-                    //import the values for Melanin
-                    stream = StreamFinder.GetFileStream("absorber-Melanin.txt", FileMode.Open);
-                    SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-                    //import the values for Nigrosin
-                    stream = StreamFinder.GetFileStream("absorber-Nigrosin.txt", FileMode.Open);
-                    SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-                    testDictionary.WriteToXML("SpectralDictionary.xml");
+                    try
+                    {
+                        //import the values for Fat
+                        Stream stream = StreamFinder.GetFileStream("absorber-Fat.txt", FileMode.Open);
+                        var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
+                        //import the values for H2O
+                        stream = StreamFinder.GetFileStream("absorber-H2O.txt", FileMode.Open);
+                        SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                        //import the values for Hb
+                        stream = StreamFinder.GetFileStream("absorber-Hb.txt", FileMode.Open);
+                        SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                        //import the values for HbO2
+                        stream = StreamFinder.GetFileStream("absorber-HbO2.txt", FileMode.Open);
+                        SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                        //import the values for Melanin
+                        stream = StreamFinder.GetFileStream("absorber-Melanin.txt", FileMode.Open);
+                        SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                        //import the values for Nigrosin
+                        stream = StreamFinder.GetFileStream("absorber-Nigrosin.txt", FileMode.Open);
+                        SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                        testDictionary.WriteToXML("SpectralDictionary.xml");
+                    }
+                    catch (Exception e)
+                    {
+                       logger.Info("****  An error occurred while importing default files  ****");
+                       logger.Info("Detailed error: " + e.Message);
+                    }
                 }
                 else
                 {
@@ -147,29 +163,37 @@ namespace Vts.ImportSpectralData.Desktop
 
         public static void ProcessDir(string sourceDir)
         {
-            bool firstFile = true;
-            Dictionary<string, ChromophoreSpectrum> testDictionary = new Dictionary<string,ChromophoreSpectrum>();
-            // process the list of files found in the directory 
-            string[] fileEntries = Directory.GetFiles(sourceDir);
-            foreach (string fileName in fileEntries)
+            try
             {
-                // if this is the first file then use it to create the dictionary
-                if (firstFile)
+                bool firstFile = true;
+                Dictionary<string, ChromophoreSpectrum> testDictionary = new Dictionary<string, ChromophoreSpectrum>();
+                // process the list of files found in the directory 
+                string[] fileEntries = Directory.GetFiles(sourceDir);
+                foreach (string fileName in fileEntries)
                 {
-                    logger.Info("Creating dictionary from file: " + fileName);
-                    Stream stream = StreamFinder.GetFileStream(fileName, FileMode.Open);
-                    testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
-                    firstFile = false;
+                    // if this is the first file then use it to create the dictionary
+                    if (firstFile)
+                    {
+                        logger.Info("Creating dictionary from file: " + fileName);
+                        Stream stream = StreamFinder.GetFileStream(fileName, FileMode.Open);
+                        testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
+                        firstFile = false;
+                    }
+                    else
+                    {
+                        // append the remaining files to the dictionary
+                        logger.Info("Importing file: " + fileName);
+                        Stream stream = StreamFinder.GetFileStream(fileName, FileMode.Open);
+                        SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
+                    }
                 }
-                else
-                {
-                    // append the remaining files to the dictionary
-                    logger.Info("Importing file: " + fileName);
-                    Stream stream = StreamFinder.GetFileStream(fileName, FileMode.Open);
-                    SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-                }
+                testDictionary.WriteToXML("SpectralDictionary.xml");
             }
-            testDictionary.WriteToXML("SpectralDictionary.xml");
+            catch (Exception e)
+            {
+                logger.Info("****  An error occurred while importing files from " + sourceDir + "  ****");
+                logger.Info("Detailed error: " + e.Message);
+            }
         }
 
         /// <summary>
