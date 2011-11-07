@@ -47,7 +47,7 @@ namespace Vts.MonteCarlo.Detectors
             Name = name;
             TallyCount = 0;
             _tissue = tissue;
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetAbsorptionWeightingMethod(tissue);
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetAbsorptionWeightingMethod(tissue, this);
         }
 
         /// <summary>

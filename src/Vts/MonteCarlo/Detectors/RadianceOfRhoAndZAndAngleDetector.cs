@@ -53,7 +53,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
             _tissue = tissue;
             _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetAbsorptionWeightingMethod(tissue);
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetAbsorptionWeightingMethod(tissue, this);
         }
 
         /// <summary>
