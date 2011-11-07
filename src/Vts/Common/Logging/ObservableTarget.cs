@@ -9,21 +9,22 @@ namespace Vts.Common.Logging
     /// Writes log messages to an ArrayList in memory for programmatic retrieval.
     /// </summary>
     /// <seealso href="http://nlog-project.org/wiki/Memory_target">Documentation on NLog Wiki</seealso>
-    /// <example>
-    /// <p>
-    /// To set up the target in the <a href="config.html">configuration file</a>, 
-    /// use the following syntax:
-    /// </p>
-    /// <code lang="XML" source="examples/targets/Configuration File/Memory/NLog.config" />
-    /// <p>
-    /// This assumes just one target and a single rule. More configuration
-    /// options are described <a href="config.html">here</a>.
-    /// </p>
-    /// <p>
-    /// To set up the log target programmatically use code like this:
-    /// </p>
-    /// <code lang="C#" source="examples/targets/Configuration API/Memory/Simple/Example.cs" />
-    /// </example>
+    //Todo: This Documentation breaks the sandcastle compiler because the files do not exist - if we can find the files we can add this back
+    ///// <example>
+    ///// <p>
+    ///// To set up the target in the <a href="config.html">configuration file</a>, 
+    ///// use the following syntax:
+    ///// </p>
+    ///// <code lang="XML" source="examples/targets/Configuration File/Memory/NLog.config" />
+    ///// <p>
+    ///// This assumes just one target and a single rule. More configuration
+    ///// options are described <a href="config.html">here</a>.
+    ///// </p>
+    ///// <p>
+    ///// To set up the log target programmatically use code like this:
+    ///// </p>
+    ///// <code lang="C#" source="examples/targets/Configuration API/Memory/Simple/Example.cs" />
+    ///// </example>
     [Target("Observable")]
     public sealed class ObservableTarget : TargetWithLayout, IObservable<string>
     {

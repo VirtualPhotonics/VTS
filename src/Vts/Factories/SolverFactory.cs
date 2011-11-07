@@ -15,6 +15,9 @@ namespace Vts.Factories
     {
         private static readonly UnityContainer _container;
 
+        /// <summary>
+        /// constructor for solver factory
+        /// </summary>
         static SolverFactory()
         {
             _container = new UnityContainer();

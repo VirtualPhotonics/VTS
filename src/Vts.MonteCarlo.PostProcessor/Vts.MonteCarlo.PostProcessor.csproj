@@ -57,11 +57,11 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\files\PostProcessorInputFiles\newinfile_PostProcessor_pMC_ROfRho.xml">
-      <Link>newinfile_PostProcessor_pMC_ROfRho.xml</Link>
+    <Content Include="..\..\files\PostProcessorInputFiles\infile_PostProcessor_pMC_ROfRho.xml">
+      <Link>infile_PostProcessor_pMC_ROfRho.xml</Link>
     </Content>
-    <Content Include="..\..\files\PostProcessorInputFiles\newinfile_PostProcessor_ROfRho.xml">
-      <Link>newinfile_PostProcessor_ROfRho.xml</Link>
+    <Content Include="..\..\files\PostProcessorInputFiles\infile_PostProcessor_ROfRho.xml">
+      <Link>infile_PostProcessor_ROfRho.xml</Link>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

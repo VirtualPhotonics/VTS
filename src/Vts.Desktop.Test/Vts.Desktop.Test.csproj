@@ -144,6 +144,9 @@
     <Compile Include="..\Vts.Test\Factories\SolverFactoryTests.cs">
       <Link>Factories\SolverFactoryTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\IO\FileIOTests.cs">
+      <Link>IO\FileIOTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\BSplinesCoefficientsTests.cs">
       <Link>Modeling\ForwardSolvers\BSplinesCoefficientsTests.cs</Link>
     </Compile>

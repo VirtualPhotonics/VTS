@@ -3,12 +3,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Vts.Common.Logging;
+using Vts.IO;
 
 namespace Vts.MonteCarlo.CommandLineApplication
 {
+
     #region CommandLine Arguments Parser
 
     /* Simple commandline argument parser written by Ananth B. http://www.ananthonline.net */
@@ -179,6 +182,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     //var sweeps = paramSweep.Select(sweep => MonteCarloSetup.CreateParameterSweep(sweep));
                     var inputs = MonteCarloSetup.ApplyParameterSweeps(input, paramSweep);
 
+
+
+
                     MonteCarloSetup.RunSimulations(inputs, outPath);
                     logger.Info("\nSimulations complete.");
                 }
@@ -196,8 +202,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
             var infiles = SimulationInputProvider.GenerateAllSimulationInputs();
             for (int i = 0; i < infiles.Count; i++)
             {
-                infiles[i].ToFile("newinfile_" + infiles[i].OutputName + ".xml"); 
+                infiles[i].ToFile("infile_" + infiles[i].OutputName + ".xml"); 
             }
+            var sources = SourceInputProvider.GenerateAllSourceInputs();
+            sources.WriteToXML("infile_source_options_test.xml");
         }
 
         //private static SimulationInput LoadDefaultInputFile()
@@ -220,7 +228,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             logger.Info("\t\tparamsweep=<SweepParameterType>,Start,Stop,Count");
             logger.Info("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
             logger.Info("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
-            logger.Info("\ngeninfiles\tgenerates example infiles and names them newinfile_XXX.xml");
+            logger.Info("\ngeninfiles\tgenerates example infiles and names them infile_XXX.xml");
             logger.Info("\t\twhere XXX describes the type of input specified");
             logger.Info("\nlist of sweep parameters (paramsweep):");
             logger.Info("\nmua1\t\tabsorption coefficient for tissue layer 1");
@@ -264,8 +272,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     logger.Info("If the path name has any spaces enclose it in double quotes.");
                     logger.Info("For relative paths, omit the leading slash.");
                     logger.Info("EXAMPLES:");
-                    logger.Info("\tinfile=C:\\MonteCarlo\\OutputFiles");
-                    logger.Info("\tinfile=OutputFiles");
+                    logger.Info("\toutpath=C:\\MonteCarlo\\OutputFiles");
+                    logger.Info("\toutpath=OutputFiles");
                     break;
                 case "outname":
                     logger.Info("\nOUTNAME");

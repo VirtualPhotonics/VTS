@@ -646,7 +646,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                       ("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + problemFolder + "/" + rhoFolder + "/" + filename + "Range", projectName, 2);
                                 int numberOfPoints = Convert.ToInt32((timeRange[1] - timeRange[0]) / dt) + 1;
                                 var T = new DoubleRange(timeRange[0], timeRange[1], numberOfPoints).AsEnumerable().ToArray();
-                                var R = (IEnumerable<double>)FileIO.ReadArrayFromBinaryInResources<double>
+                                var R = (double[])FileIO.ReadArrayFromBinaryInResources<double>
                                                       ("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + problemFolder + "/" + rhoFolder + "/" + filename + "R", projectName, numberOfPoints);
                                 var S = GetStandardDeviationValues("Resources/" + spaceDomainFolder + "/" + timeDomainFolder + "/" + problemFolder + "/" + rhoFolder + "/" + filename + "S",
                                                                    projectName, stDevMode, numberOfPoints, R.ToArray());
@@ -766,7 +766,7 @@ namespace Vts.ReportInverseSolver.Desktop
             return arrayOut;
         }
 
-        private static IEnumerable<double> GetStandardDeviationValues(string path, string projectName, string stDevMode, int numberOfPoints, double[] R)
+        private static double[] GetStandardDeviationValues(string path, string projectName, string stDevMode, int numberOfPoints, double[] R)
         {
             double[] S = (double[])FileIO.ReadArrayFromBinaryInResources<double>
                                                       (path, projectName, numberOfPoints);

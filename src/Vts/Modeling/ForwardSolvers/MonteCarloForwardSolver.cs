@@ -11,6 +11,9 @@ namespace Vts.Modeling.ForwardSolvers
     {
         private static MonteCarloLoader _monteCarloLoader;
 
+        /// <summary>
+        /// constructor for scaled Monte Carlo Forward Solver
+        /// </summary>
         public MonteCarloForwardSolver() 
             : base(SourceConfiguration.Point, 0.0) 
         {

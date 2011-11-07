@@ -45,7 +45,8 @@ namespace Vts.MonteCarlo.PhotonData
         /// <summary>
         /// Static helper method to simplify reading from file
         /// </summary>
-        /// <param name="fileName">The base filename for the database (no ".xml")</param>
+        /// <param name="photonDatabaseFileName">The filename for the PhotonDataPoint database (no ".xml")</param>
+        /// <param name="collisionInfoDatabaseFileName">The filename for the CollisionInfo database (no ".xml")</param>
         /// <returns>A new instance of PhotonDatabase</returns>
         public static pMCDatabase FromFile(string photonDatabaseFileName, string collisionInfoDatabaseFileName)
         {
@@ -64,7 +65,13 @@ namespace Vts.MonteCarlo.PhotonData
 
             return pMCDatabase;
         }
-
+        /// <summary>
+        /// Method to read database from file in resources.
+        /// </summary>
+        /// <param name="photonDatabaseFileName">PhotonDataPoint database name</param>
+        /// <param name="collisionInfoDatabaseFileName">CollisionInfo database name</param>
+        /// <param name="projectName">project name where the databases reside</param>
+        /// <returns>pMCDatabase</returns>
         public static pMCDatabase FromFileInResources(
             string photonDatabaseFileName,
             string collisionInfoDatabaseFileName, 

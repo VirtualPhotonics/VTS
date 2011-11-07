@@ -16,9 +16,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         [TestFixtureSetUp]
         public void clear_folders_and_files()
         {
-            if (File.Exists("newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml"))
+            if (File.Exists("infile_one_layer_ROfRho_FluenceOfRhoAndZ.xml"))
             {
-                File.Delete("newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml");
+                File.Delete("infile_one_layer_ROfRho_FluenceOfRhoAndZ.xml");
             }
             if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"))
             {
@@ -57,7 +57,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             string[] arguments = new string[] {"geninfiles"};
             Program.Main(arguments);
-            Assert.IsTrue(File.Exists("newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml"));
+            Assert.IsTrue(File.Exists("infile_one_layer_ROfRho_FluenceOfRhoAndZ.xml"));
         }
         /// <summary>
         /// test to verify correct folder name created for output
@@ -65,9 +65,8 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         [Test]
         public void validate_output_folder_name_when_using_geninfile_infile()
         {
-            string[] arguments = new string[] { "infile=newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml" };
+            string[] arguments = new string[] { "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.xml" };
             Program.Main(arguments);
-            // newinfile.xml has OutputName="results"
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"));
         }
         /// <summary>
@@ -79,7 +78,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             // the following string does not work because it sweeps 0.01, 0.03 due to round
             // off error in MonteCarloSetup
             //string[] arguments = new string[] { "paramsweepdelta=mua1,0.01,0.03,0.01" };
-            string[] arguments = new string[] { "infile=newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml", "paramsweep=mua1,0.01,0.03,3" };
+            string[] arguments = new string[] { "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.xml", "paramsweep=mua1,0.01,0.03,3" };
             Program.Main(arguments);
             // the default infile.xml that is used has OutputName="results"
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01"));
@@ -94,7 +93,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         public void validate_parameter_sweep_folder_names_when_specifying_outname()
         {
             // have to break up arg. strings, otherwise outname taken to be "myResults paramsweep..."
-            string[] arguments = new string[] { "infile=newinfile_one_layer_ROfRho_FluenceOfRhoAndZ.xml", "outname=myResults", "paramsweep=mua1,0.01,0.03,3" };
+            string[] arguments = new string[] { "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.xml", "outname=myResults", "paramsweep=mua1,0.01,0.03,3" };
             Program.Main(arguments);
             // the default infile.xml that is used has OutputName="results" 
             // so following tests verify that that name got overwritten

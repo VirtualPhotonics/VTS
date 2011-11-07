@@ -96,6 +96,9 @@ namespace Vts.MonteCarlo
 
         public Complex[,] R_rw { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfRhoAndOmega).First().Name]).Mean; } }
         public Complex[,] R_rw2 { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfRhoAndOmega).First().Name]).SecondMoment; } }
+        
+        public Complex[] R_fx { get { return ((ROfFxDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfFx).First().Name]).Mean; } }
+        public Complex[] R_fx2 { get { return ((ROfFxDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ROfFx).First().Name]).SecondMoment; } }
 
         //public double[, ,] A_rzt { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary[TallyType.AOfRhoAndZAndTime]).Mean; } }
         //public double[, ,] A_rzt2 { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary[TallyType.AOfRhoAndZAndTime]).SecondMoment; } }
@@ -103,6 +106,9 @@ namespace Vts.MonteCarlo
         public double[, ,] Flu_rzt { get { return ((FluenceOfRhoAndZAndTimeDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.FluenceOfRhoAndZAndTime).First().Name]).Mean; } }
         public double[, ,] Flu_rzt2 { get { return ((FluenceOfRhoAndZAndTimeDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.FluenceOfRhoAndZAndTime).First().Name]).SecondMoment; } }
         
+        public double[, ,] Flu_xyz { get { return ((FluenceOfXAndYAndZDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.FluenceOfXAndYAndZ).First().Name]).Mean; } }
+        public double[, ,] Flu_xyz2 { get { return ((FluenceOfXAndYAndZDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.FluenceOfXAndYAndZ).First().Name]).SecondMoment; } }
+       
         public double[] Rad_r { get { return ((RadianceOfRhoDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RadianceOfRho).First().Name]).Mean; } }
         public double[] Rad_r2 { get { return ((RadianceOfRhoDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RadianceOfRho).First().Name]).SecondMoment; } }
 

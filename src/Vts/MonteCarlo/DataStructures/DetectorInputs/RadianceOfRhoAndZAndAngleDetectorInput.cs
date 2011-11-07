@@ -9,6 +9,13 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class RadianceOfRhoAndZAndAngleDetectorInput : IDetectorInput
     {
+        /// <summary>
+        /// constructor for radiance that passes rho, z, angle, name
+        /// </summary>
+        /// <param name="rho">rho binning</param>
+        /// <param name="z">z binning</param>
+        /// <param name="angle">angle binning</param>
+        /// <param name="name">detector name</param>
         public RadianceOfRhoAndZAndAngleDetectorInput(DoubleRange rho, DoubleRange z, DoubleRange angle, String name)
         {
             TallyType = TallyType.RadianceOfRhoAndZAndAngle;
@@ -18,10 +25,11 @@ namespace Vts.MonteCarlo
             Angle = angle;
         }
         /// <summary>
-        /// constructor uses TallyType as name
+        /// Constructor for radiance(rho, z, angle) that doesn't pass name and uses TallyType.ToString() for name
         /// </summary>
-        /// <param name="rho"></param>
-        /// <param name="name"></param>
+        /// <param name="rho">rho binning</param>
+        /// <param name="z">z binning</param>
+        /// <param name="angle">angle binning</param>
         public RadianceOfRhoAndZAndAngleDetectorInput(DoubleRange rho, DoubleRange z, DoubleRange angle) 
             : this (rho, z, angle, TallyType.RadianceOfRhoAndZAndAngle.ToString()) {}
 
@@ -34,10 +42,25 @@ namespace Vts.MonteCarlo
                 new DoubleRange(0.0, Math.PI / 2, 2),  
                 TallyType.RadianceOfRhoAndZAndAngle.ToString()) {}
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
+        /// <summary>
+        /// detector name, defaults to TallyType.ToString() but can be user specified
+        /// </summary>
         public String Name { get; set; }
+        /// <summary>
+        /// detector rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
+        /// <summary>
+        /// detector z binning
+        /// </summary>
         public DoubleRange Z { get; set; }
+        /// <summary>
+        /// detector angle binning
+        /// </summary>
         public DoubleRange Angle { get; set; }
     }
 }

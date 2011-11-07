@@ -17,8 +17,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="center">center position</param>
         /// <param name="radius">radius in x-y plane</param>
         /// <param name="height">height along z axis</param>
-        /// <param name="op"></param>
-        /// <param name="awt"></param>
+        /// <param name="op">optical properties of cylinder</param>
+        /// <param name="awt">absorption weighting type</param>
         public CylinderRegion(Position center, double radius, double height, OpticalProperties op, AbsorptionWeightingType awt) 
         {
             Center = center;
@@ -26,18 +26,34 @@ namespace Vts.MonteCarlo.Tissues
             Height = height;
             RegionOP = op;
         }
-
+        /// <summary>
+        /// default constructor
+        /// </summary>
         public CylinderRegion() : this(new Position(0, 0, 5), 1, 5, 
             new OpticalProperties(0.01, 1.0, 0.8, 1.4), AbsorptionWeightingType.Discrete) {}
 
+        /// <summary>
+        /// center of cyliner
+        /// </summary>
         public Position Center { get; set; }
-
+        /// <summary>
+        /// radius of cylinder
+        /// </summary>
         public double Radius { get; set; }
-
+        /// <summary>
+        /// height of cylinder
+        /// </summary>
         public double Height { get; set; }
-
+        /// <summary>
+        /// optical properties of cylinder
+        /// </summary>
         public OpticalProperties RegionOP { get; set; }
         
+        /// <summary>
+        /// method to determine if photon position within cylinder
+        /// </summary>
+        /// <param name="position">photon position</param>
+        /// <returns>boolean</returns>
         public bool ContainsPosition(Position position)
         {
             if (((Math.Sqrt(position.X * position.X + position.Y * position.Y) < Radius)) &&
@@ -47,14 +63,24 @@ namespace Vts.MonteCarlo.Tissues
             else
                 return false;
         }
-
+        /// <summary>
+        /// method to determine if photon on boundary of cylinder
+        /// </summary>
+        /// <param name="position">photon position</param>
+        /// <returns>boolean</returns>
         public bool OnBoundary(Position position)
         {
             return ((position.Z == Center.Z + Height) || (position.Z == Center.Z - Height)) &&
                 Math.Sqrt(position.X * position.X + position.Y * position.Y) == Radius;
         }
 
-        public bool RayIntersectBoundary(Photon photptr, out double distanceToBoundary)
+        /// <summary>
+        /// method to determine if photon ray (or track) will intersect boundary of cylinder
+        /// </summary>
+        /// <param name="photon">photon position, direction, etc.</param>
+        /// <param name="distanceToBoundary">distance to boundary</param>
+        /// <returns>boolean</returns>
+        public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
             throw new NotImplementedException();
         }

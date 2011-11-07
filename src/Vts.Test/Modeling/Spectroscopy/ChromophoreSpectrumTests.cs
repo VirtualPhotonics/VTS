@@ -29,7 +29,7 @@ namespace Vts.Test.Modeling.Spectroscopy
             values.Add(1.1);
             values.Add(2.1);
 
-            ChromophoreSpectrum chromophoreSpectrum = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit);
+            ChromophoreSpectrum chromophoreSpectrum = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit, WavelengthUnit.Nanometers);
             chromophoreSpectrum.WriteToXML("ChromophoreSpectrum.xml");
         }
 
@@ -53,7 +53,7 @@ namespace Vts.Test.Modeling.Spectroscopy
             values.Add(1.1);
             values.Add(2.1);
 
-            ChromophoreSpectrum chromophoreSpectrum = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit);
+            ChromophoreSpectrum chromophoreSpectrum = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit, WavelengthUnit.Nanometers);
             chromophoreSpectrum.WriteToXML("ChromophoreSpectrum.xml");
 
             var chromophoreSpectrumRead = FileIO.ReadFromXML<ChromophoreSpectrum>("ChromophoreSpectrum.xml");

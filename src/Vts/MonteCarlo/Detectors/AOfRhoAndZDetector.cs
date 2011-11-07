@@ -21,11 +21,13 @@ namespace Vts.MonteCarlo.Detectors
         private bool _tallySecondMoment;
 
         /// <summary>
-        /// Returns an instance of AOfRhoAndZDetector
+        /// constructor for absorbed energy as a function of rho and z
         /// </summary>
-        /// <param name="rho"></param>
-        /// <param name="z"></param>
-        /// <param name="tissue"></param>
+        /// <param name="rho">rho binning</param>
+        /// <param name="z">z binning</param>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
+        /// <param name="name">detector name</param>
         public AOfRhoAndZDetector(
             DoubleRange rho, 
             DoubleRange z, 
@@ -64,14 +66,25 @@ namespace Vts.MonteCarlo.Detectors
         [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of time detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
-
+        /// <summary>
+        /// z binning
+        /// </summary>
         public DoubleRange Z { get; set; }
 
         public void Tally(Photon photon)

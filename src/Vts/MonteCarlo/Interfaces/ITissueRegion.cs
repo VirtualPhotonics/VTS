@@ -42,12 +42,12 @@ namespace Vts.MonteCarlo
         /// <remarks>Use this method if the distance is required</remarks>
         bool RayIntersectBoundary(Photon p, out double distanceToBoundary);
 
-        /// <summary>
-        /// Checks if the specified photon will intersect the region boundary
-        /// </summary>
-        /// <param name="p">Photon to check for intersection (including Position, Direction, and S)</param>
-        /// <returns>True if photon will intersect the region boundary, false otherwise</returns>
-        /// <remarks>This method may be faster if the distance is not required</remarks>
+        ///// <summary>
+        ///// Checks if the specified photon will intersect the region boundary
+        ///// </summary>
+        ///// <param name="p">Photon to check for intersection (including Position, Direction, and S)</param>
+        ///// <returns>True if photon will intersect the region boundary, false otherwise</returns>
+        ///// <remarks>This method may be faster if the distance is not required</remarks>
         //bool RayIntersectBoundary(Photon p); // I don't think this is needed - ckh
 
         // Direction SurfaceNormal(Position position);

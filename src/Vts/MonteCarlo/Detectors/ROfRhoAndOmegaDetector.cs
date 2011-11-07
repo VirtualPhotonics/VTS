@@ -19,22 +19,26 @@ namespace Vts.MonteCarlo.Detectors
     public class ROfRhoAndOmegaDetector : IDetector<Complex[,]> 
     {
         private bool _tallySecondMoment;
+        private double[] _omegaArray;
+
         /// <summary>
         /// Returns an instance of ROfRhoAndAngleDetector
         /// </summary>
-        /// <param name="rho"></param>
-        /// <param name="omega"></param>
-        /// <param name="tissue"></param>
+        /// <param name="rho">rho binning</param>
+        /// <param name="omega">temporal frequency sampling points (not binned)</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
+        /// <param name="name">detector name</param>
         public ROfRhoAndOmegaDetector(DoubleRange rho, DoubleRange omega, bool tallySecondMoment, String name)
         {
             Rho = rho;
             Omega = omega;
+            _omegaArray = omega.AsEnumerable().ToArray();
             _tallySecondMoment = tallySecondMoment;
-            Mean = new Complex[Rho.Count - 1, Omega.Count - 1];
+            Mean = new Complex[Rho.Count - 1, Omega.Count];
             SecondMoment = null;
             if (_tallySecondMoment)
             {
-                SecondMoment = new Complex[Rho.Count - 1, Omega.Count - 1];
+                SecondMoment = new Complex[Rho.Count - 1, Omega.Count];
             }
             TallyType = TallyType.ROfRhoAndOmega;
             Name = name;
@@ -48,21 +52,35 @@ namespace Vts.MonteCarlo.Detectors
         {
             
         }
-        
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public Complex[,] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public Complex[,] SecondMoment { get; set; }
-
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number time detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
-
+        /// <summary>
+        /// temporal frequency sampling points (not binned)
+        /// </summary>
         public DoubleRange Omega { get; set; }
 
         public void Tally(Photon photon)
@@ -74,15 +92,12 @@ namespace Vts.MonteCarlo.Detectors
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var totalTime = dp.TotalTime;
-            for (int iw = 0; iw < Omega.Count - 1; ++iw)
+            for (int iw = 0; iw < Omega.Count; ++iw)
             {
-                // double freq = ((iw + 1) * Omega.Delta);
-                /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
+                double freq = _omegaArray[iw];
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-                var negativeTwoPiFtT = -2 * Math.PI * ((iw + 1) * Omega.Delta) * totalTime;
-                var cos = Math.Cos(negativeTwoPiFtT);
-                var sin = Math.Sin(negativeTwoPiFtT);
-                Mean[ir, iw] += dp.Weight * (cos + Complex.ImaginaryOne * sin);
+                 Mean[ir, iw] += dp.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime) +
+                    Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime) );
                 if (_tallySecondMoment)
                 {
                     // second moment of complex tally is square of real and imag separately
@@ -94,12 +109,16 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount++;
         }
 
+        /// <summary>
+        /// method to normalize detector after numPhotons launched
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta; 
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                for (int iw = 0; iw < Omega.Count - 1; iw++)
+                for (int iw = 0; iw < Omega.Count; iw++)
                 {
                     var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                     Mean[ir, iw] /=  areaNorm * numPhotons;
@@ -110,7 +129,11 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
-
+        /// <summary>
+        /// method to determine if photon within detector
+        /// </summary>
+        /// <param name="dp"></param>
+        /// <returns></returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

@@ -9,6 +9,13 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class FluenceOfRhoAndZAndTimeDetectorInput : IDetectorInput
     {
+        /// <summary>
+        /// constructor for fluence as a function of rho, z and time detector input
+        /// </summary>
+        /// <param name="rho">rho binning</param>
+        /// <param name="z">z binning</param>
+        /// <param name="time">time binning</param>
+        /// <param name="name">detector name</param>
         public FluenceOfRhoAndZAndTimeDetectorInput(
             DoubleRange rho, DoubleRange z, DoubleRange time, String name)
         {
@@ -21,9 +28,9 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// constructor uses TallyType for name
         /// </summary>
-        /// <param name="rho"></param>
-        /// <param name="z"></param>
-        /// <param name="time"></param>
+        /// <param name="rho">rho binning</param>
+        /// <param name="z">z binning</param>
+        /// <param name="time">time binning</param>
         public FluenceOfRhoAndZAndTimeDetectorInput(
             DoubleRange rho, DoubleRange z, DoubleRange time) 
             : this (rho, z, time, TallyType.FluenceOfRhoAndZAndTime.ToString()) {}

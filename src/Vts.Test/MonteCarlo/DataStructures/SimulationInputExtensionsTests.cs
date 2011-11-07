@@ -21,7 +21,7 @@ namespace Vts.Test.MonteCarlo
                 new SimulationOptions(),
                 new DirectionalPointSourceInput(),
                 new MultiLayerTissueInput(
-                    new List<ITissueRegion>
+                    new ITissueRegion[]
 					{ 
 						new LayerRegion(
 							new DoubleRange(double.NegativeInfinity, 0.0),

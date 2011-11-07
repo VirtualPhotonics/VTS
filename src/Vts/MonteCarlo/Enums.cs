@@ -88,13 +88,13 @@ namespace Vts.MonteCarlo
         /// Specular reflection detectors 
         /// </summary>
         SpecularReflectance,
-        /// <summary>
-        /// Internal volume detectors 
-        /// </summary>
+        ///// <summary>
+        ///// Internal volume detectors 
+        ///// </summary>
         //GenericVolumeBoundary,
-        /// <summary>
-        /// Internal surface detectors 
-        /// </summary>
+        ///// <summary>
+        ///// Internal surface detectors 
+        ///// </summary>
         //SurfaceRadiance,
         /// <summary>
         /// pMC diffuse reflectance
@@ -256,6 +256,10 @@ namespace Vts.MonteCarlo
         /// Gaussian beam source profile
         /// </summary>
         Gaussian,
+        /// <summary>
+        /// Arbitrary beam source profile
+        /// </summary>
+        Arbitrary,
     }
     /// <summary>
     /// Source angle distribution types
@@ -361,6 +365,14 @@ namespace Vts.MonteCarlo
         /// </summary>
         RSpecular,
         /// <summary>
+        /// Reflectance as a function of spatial frequency along the x-axis
+        /// </summary>
+        ROfFx,
+        /// <summary>
+        /// Reflectance as a function of spatial frequency along the x-axis, and time
+        /// </summary>
+        ROfFxAndTime,
+        /// <summary>
         /// Transmittance as a function of source-detector separation (rho) and angle
         /// </summary>
         TOfRhoAndAngle,
@@ -384,6 +396,10 @@ namespace Vts.MonteCarlo
         /// Fluence as a function of source-detector separation (rho) and tissue depth (Z) and time
         /// </summary>
         FluenceOfRhoAndZAndTime,
+        /// <summary>
+        /// Fluence as a function of x, y and z
+        /// </summary>
+        FluenceOfXAndYAndZ,
         /// <summary>
         /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
         /// </summary>

@@ -70,8 +70,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(-200.0, 200.0, 401), // x
                         new DoubleRange(-200.0, 200.0, 401)), // y,
                     new ROfRhoAndOmegaDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1.0, 21)),
+                        new DoubleRange(0.0, 10.0, 101), 
+                        new DoubleRange(0.05, 1.0, 20)), //  new DoubleRange(0.0, 1.0, 21)) DJC - edited to reflect frequency sampling points (not bins)
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
                     new TOfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
@@ -87,7 +87,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                  simulationOptions,
                  source,
                  new MultiLayerTissueInput(
-                     new List<ITissueRegion>
+                     new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -109,7 +109,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     simulationOptions,
                     source,
                     new MultiLayerTissueInput(
-                        new List<ITissueRegion>
+                        new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -187,6 +187,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_CAW_ROfRhoAndOmega()
         {
+           // todo: warning - this validation data from Linux is actually for Omega = 0.025GHz
+           // (see here: http://virtualphotonics.codeplex.com/discussions/278250)
            Assert.Less(Complex.Abs(
                 _outputOneLayerTissue.R_rw[0, 0] * _factor - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.000001);
            Assert.Less(Complex.Abs(

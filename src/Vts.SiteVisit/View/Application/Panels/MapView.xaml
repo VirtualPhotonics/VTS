@@ -87,8 +87,8 @@
                 <v:ComboBoxOptionView DataContext="{Binding ColormapTypeOptionVM}" Margin="5,0,5,0"/>
                 <!-- Export buttons -->
                 <Button Content="{Binding Path=MainResource.Button_ExportImage, Source={StaticResource LocalizedStrings}}" Click="Button_Click" Margin="5,0,5,0"/>
-                <Button input:CommandService.Command="Maps_ExportDataToText"
-                        input:CommandService.CommandParameter="{Binding}"
+                
+                <Button Command="{Binding ExportDataToTextCommand}"
                         Content="{Binding Path=MainResource.Button_ExportData, Source={StaticResource LocalizedStrings}}" Margin="5,0,5,0"/>
             </StackPanel>
         </Grid>

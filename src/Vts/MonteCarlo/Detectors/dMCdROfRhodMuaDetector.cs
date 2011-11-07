@@ -131,13 +131,19 @@ namespace Vts.MonteCarlo.Detectors
                 // need to verify following
                 weightFactor *=
                     -pathLength[i] * // dMua* factor
-                    (Math.Exp(-perturbedOps[i].Mua * pathLength[i]) / Math.Exp(-_referenceOps[i].Mua * pathLength[i])) * // mua pert
+                    (Math.Exp(-perturbedOps[i].Mua * pathLength[i]) / Math.Exp(-_referenceOps[i].Mua * pathLength[i])); // mua pert
+                if (numberOfCollisions[i] > 0)
+                {
                     // the following is more numerically stable
                     Math.Pow(
                         (_perturbedOps[i].Mus / _referenceOps[i].Mus) * Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
                             pathLength[i] / numberOfCollisions[i]),
                         numberOfCollisions[i]);
-                   ;
+                }
+                else
+                {
+                    weightFactor *= Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) * pathLength[i]);
+                }
             }
             return weightFactor;
         }

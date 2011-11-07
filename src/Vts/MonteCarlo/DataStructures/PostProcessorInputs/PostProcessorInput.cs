@@ -12,13 +12,7 @@ namespace Vts.MonteCarlo
 #if !SILVERLIGHT
     [Serializable]
 #endif     
-    
-    ///<summary>
-    /// Defines input to the Monte Carlo post processor.  This includes a list
-    /// of DetectorInputs, Database filename to postprocess, and the SimulationInput
-    /// that generated the database.
-    ///</summary>
-    
+        
     [KnownType(typeof(AOfRhoAndZDetectorInput))]
     [KnownType(typeof(ATotalDetectorInput))]
     [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
@@ -37,20 +31,31 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
     [KnownType(typeof(TOfRhoDetectorInput))]
 
+    ///<summary>
+    /// Defines input to the Monte Carlo post processor.  This includes a list
+    /// of DetectorInputs, Database filename to postprocess, and the SimulationInput
+    /// that generated the database.  This input works for BOTH regular post-processing
+    /// as well as perturbation Monte Carlo post-processing.
+    ///</summary>
     public class PostProcessorInput
     {
         public IList<IDetectorInput> DetectorInputs;
         public bool TallySecondMoment;
         public string InputFolder;
-        public VirtualBoundaryType VirtualBoundaryType;
+        //public VirtualBoundaryType VirtualBoundaryType;
         public string DatabaseSimulationInputFilename;
         public string OutputName;
 
         /// <summary>
-        /// Default constructor loads default values for InputData
+        /// constructor for post-processor input
         /// </summary>
+        /// <param name="detectorInputs">list of detector inputs</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
+        /// <param name="inputFolder">input folder name, where database file(s), etc. reside</param>
+        /// <param name="databaseSimulationInputFilename">filename of simulation input file that generated database to be post-processed</param>
+        /// <param name="outputName"></param>
         public PostProcessorInput(
-            VirtualBoundaryType virtualBoundaryType,
+            //VirtualBoundaryType virtualBoundaryType,
             IList<IDetectorInput> detectorInputs,
             bool tallySecondMoment,
             string inputFolder,
@@ -60,14 +65,17 @@ namespace Vts.MonteCarlo
             DetectorInputs = detectorInputs;
             TallySecondMoment = tallySecondMoment;
             InputFolder = inputFolder;
-            VirtualBoundaryType = virtualBoundaryType;
+            //VirtualBoundaryType = virtualBoundaryType;
             DatabaseSimulationInputFilename = databaseSimulationInputFilename;
             OutputName = outputName;
         }
 
+        /// <summary>
+        /// default constructor
+        /// </summary>
         public PostProcessorInput()
             : this(
-                VirtualBoundaryType.DiffuseReflectance,
+                //VirtualBoundaryType.DiffuseReflectance,
                 new List<IDetectorInput>
                     {
                         new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)

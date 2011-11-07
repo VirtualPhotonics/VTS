@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 //[assembly: InternalsVisibleTo("Vts.IO")]
@@ -75,6 +76,7 @@ namespace Vts
         /// <summary>
         /// The increment between successive numbers
         /// </summary>
+        [IgnoreDataMember]
         public T Delta
         {
             get { return _Delta; }
@@ -124,13 +126,10 @@ namespace Vts
         /// <returns>A string that represents the current range</returns>
         public override string ToString()
         {
-            var a = this.AsEnumerable().ToArray();
-            var sb = new StringBuilder(String.Format("{0}", a.FirstOrDefault()), a.Length * 10);
-            for (int i = 1; i < a.Length; i++)
-            {
-                sb.Append(String.Format(", {0}", a[i]));
-            }
-            return sb.ToString();
+            return "Start: " + Start.ToString() + 
+                 ", Stop: " + Stop.ToString() + 
+                 ", Count: " + Count.ToString() + 
+                 ", Delta: " + Delta.ToString();
         }
 
         // todo: dc - revisit Ayende's INotifyPropertyChanged generics implementation

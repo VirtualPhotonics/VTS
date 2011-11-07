@@ -66,16 +66,36 @@ namespace Vts.MonteCarlo
                 RandomNumberGeneratorFactory.GetRandomNumberGenerator(RandomNumberGeneratorType.MersenneTwister)
                 ) { }
 
+        /// <summary>
+        /// photon data point has position, direction etc. info
+        /// </summary>
         public PhotonDataPoint DP { get; set; }
 
         // PhotonHistory has SubRegionCollisionInfo
         public PhotonHistory History { get; set; }
+        /// <summary>
+        /// path length of current track, gets updated when passing tissue boundary
+        /// </summary>
         public double S { get; set; }
+        /// <summary>
+        /// path length left after crossing tissue boundary
+        /// </summary>
         public double SLeft { get; set; }
-
+        /// <summary>
+        /// tissue region index where photon current is
+        /// </summary>
         public int CurrentRegionIndex { get; private set; }
+        /// <summary>
+        /// index of current track of photon
+        /// </summary>
         public int CurrentTrackIndex { get; private set; }
+        /// <summary>
+        /// absorb action: analog, discrete, continuous
+        /// </summary>
         public Action Absorb { get; private set; }
+        /// <summary>
+        /// scatter action: Henyey-Greenstein, bidirectional, Mie
+        /// </summary>
         public Action Scatter { get; private set; }
 
         private void SetAbsorbAction(AbsorptionWeightingType awt)

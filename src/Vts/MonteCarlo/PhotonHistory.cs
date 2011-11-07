@@ -14,6 +14,10 @@ namespace Vts.MonteCarlo
         //private IList<SubRegionCollisionInfo> _SubRegionInfoList;
         private CollisionInfo _SubRegionInfoList;
 
+        /// <summary>
+        /// constructor for photon history class
+        /// </summary>
+        /// <param name="numSubRegions">number of subregions in tissue</param>
         public PhotonHistory(int numSubRegions)
         {
             HistoryData = new List<PhotonDataPoint>();

@@ -20,9 +20,11 @@ namespace Vts.MonteCarlo.Detectors
         private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
 
         /// <summary>
-        /// Returns am instance of ATotalDetector
+        /// constructor for total absorption detector input
         /// </summary>
-        /// <param name="tissue"></param>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
+        /// <param name="name">detector name</param>
         public ATotalDetector(ITissue tissue, bool tallySecondMoment, String name)
         {
             TallyType = TallyType.ATotal;
@@ -40,15 +42,25 @@ namespace Vts.MonteCarlo.Detectors
             : this(new MultiLayerTissue(), true, TallyType.ATotal.ToString())
         {
         }
-
+        /// <summary>
+        /// detector mean
+        /// </summary>
         public double Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         public double SecondMoment { get; set; }
-
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of times detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
 
 

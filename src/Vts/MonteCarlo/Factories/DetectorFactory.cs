@@ -66,6 +66,12 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.ROfRhoAndOmega:
                     var rroinput = (ROfRhoAndOmegaDetectorInput)detectorInput;
                     return new ROfRhoAndOmegaDetector(rroinput.Rho, rroinput.Omega, tallySecondMoment, rroinput.Name);
+                case TallyType.ROfFx:
+                    var rfxinput = (ROfFxDetectorInput)detectorInput;
+                    return new ROfFxDetector(rfxinput.Fx, tallySecondMoment, rfxinput.Name);
+                case TallyType.ROfFxAndTime:
+                    var rfxtinput = (ROfFxAndTimeDetectorInput)detectorInput;
+                    return new ROfFxAndTimeDetector(rfxtinput.Fx, rfxtinput.Time, tallySecondMoment, rfxtinput.Name);
                 case TallyType.TDiffuse:
                     var tdinput = (TDiffuseDetectorInput)detectorInput;
                     return new TDiffuseDetector(tallySecondMoment, tdinput.Name);
@@ -89,6 +95,9 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.FluenceOfRhoAndZAndTime:
                     var frztinput = (FluenceOfRhoAndZAndTimeDetectorInput)detectorInput;
                     return new FluenceOfRhoAndZAndTimeDetector(frztinput.Rho, frztinput.Z, frztinput.Time, tissue, tallySecondMoment, frztinput.Name);
+                case TallyType.FluenceOfXAndYAndZ:
+                    var fxyzinput = (FluenceOfXAndYAndZDetectorInput)detectorInput;
+                    return new FluenceOfXAndYAndZDetector(fxyzinput.X, fxyzinput.Y, fxyzinput.Z, tissue, tallySecondMoment, fxyzinput.Name);
                 case TallyType.AOfRhoAndZ:
                     var arzinput = (AOfRhoAndZDetectorInput)detectorInput;
                     return new AOfRhoAndZDetector(arzinput.Rho, arzinput.Z, tissue, tallySecondMoment, arzinput.Name);

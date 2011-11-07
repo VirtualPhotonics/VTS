@@ -42,18 +42,31 @@ namespace Vts.MonteCarlo.Detectors
             : this(new DoubleRange(), true, TallyType.ROfAngle.ToString())
         {
         }
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public double[] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public double[] SecondMoment { get; set; }
-
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of times detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// angle binning
+        /// </summary>
         public DoubleRange Angle { get; set; }
 
         public void Tally(Photon photon)
@@ -72,7 +85,10 @@ namespace Vts.MonteCarlo.Detectors
             }
             TallyCount++;
         }
-
+        /// <summary>
+        /// method to normalize detector results after numPhotons launched
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Angle.Delta;
@@ -86,7 +102,11 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
-
+        /// <summary>
+        /// method to determine if photon within detector
+        /// </summary>
+        /// <param name="dp"></param>
+        /// <returns></returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

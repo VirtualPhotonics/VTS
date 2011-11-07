@@ -9,6 +9,13 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public static class SourceFactory
     {
+        /// <summary>
+        /// Method to instantiate the correct source given ISourceInput
+        /// </summary>
+        /// <param name="input">ISourceInput</param>
+        /// <param name="tissue">ITissue</param>
+        /// <param name="rng">random number generator instance</param>
+        /// <returns>ISource</returns>
         public static ISource GetSource(ISourceInput input, ITissue tissue, Random rng)
         {
             switch (input.SourceType)

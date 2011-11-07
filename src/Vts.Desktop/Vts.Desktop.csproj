@@ -434,9 +434,6 @@
     <Compile Include="..\Vts\Modeling\Spectroscopy\ChromophoreSpectrum.cs">
       <Link>Modeling\Spectroscopy\ChromophoreSpectrum.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Modeling\Spectroscopy\ChromophoreSpectrumUnitConverter.cs">
-      <Link>Modeling\Spectroscopy\ChromophoreSpectrumUnitConverter.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\Modeling\Spectroscopy\IAbsorber.cs">
       <Link>Modeling\Spectroscopy\IAbsorber.cs</Link>
     </Compile>
@@ -518,6 +515,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\FluenceOfXAndYAndZDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\FluenceOfXAndYAndZDetectorInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\pMCRofRhoAndTimeDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\pMCRofRhoAndTimeDetectorInput.cs</Link>
     </Compile>
@@ -535,6 +535,12 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfFxAndTimeDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\ROfFxAndTimeDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfFxDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\ROfFxDetectorInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndAngleDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndAngleDetectorInput.cs</Link>
@@ -605,6 +611,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\IsotropicPointSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\IsotropicPointSourceInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs</Link>
     </Compile>
@@ -674,6 +683,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs</Link>
     </Compile>
@@ -694,6 +706,12 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxAndTimeDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfFxAndTimeDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfFxDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs</Link>
@@ -1056,15 +1074,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectraData1.xml">
-      <Link>Modeling\Spectroscopy\Resources\SpectraData1.xml</Link>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml">
-      <Link>Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\Spectra.txt">
       <Link>Modeling\Spectroscopy\Resources\Spectra.txt</Link>
     </EmbeddedResource>
@@ -1086,9 +1095,6 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml</Link>
     </EmbeddedResource>
-    <Content Include="..\Vts\Modeling\Spectroscopy\ChromophoreList.xml">
-      <Link>Modeling\Spectroscopy\ChromophoreList.xml</Link>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Vts\Common\Resources\Strings.resx">
@@ -1154,8 +1160,9 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\Fat.csv">
-      <Link>Modeling\Spectroscopy\Resources\Fat.csv</Link>
+    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.xml">
+      <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.xml</Link>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

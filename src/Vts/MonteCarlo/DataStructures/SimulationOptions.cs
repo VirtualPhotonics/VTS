@@ -11,6 +11,17 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class SimulationOptions
     {
+        /// <summary>
+        /// constructor for simulation options, a class sub to SimulationInput
+        /// </summary>
+        /// <param name="seed">random number generator seed (-1=randomly chosen seed, >=0 reproducible sequence)</param>
+        /// <param name="rngType">random number generator type</param>
+        /// <param name="absWeightingType">absorption weighting type</param>
+        /// <param name="phaseFunctionType">phase function type</param>
+        /// <param name="writeDatabases">list of DatabaseType indicating data to be written database for post-processing</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment information for error results</param>
+        /// <param name="trackStatistics">flag indicating whether to track statistics about where photons end up</param>
+        /// <param name="simulationIndex">index of simulation</param>
         public SimulationOptions(
             int seed, 
             RandomNumberGeneratorType rngType, 
@@ -26,15 +37,21 @@ namespace Vts.MonteCarlo
             PhaseFunctionType = phaseFunctionType;
             WriteDatabases = writeDatabases;
             Seed = seed;
-            if (Seed == -1)
-            {
-                Seed = GetRandomSeed();
-            }
+            //if (Seed == -1) // handling of random seed moved to RNGFactory 10/01/11
+            //{
+            //    Seed = GetRandomSeed();
+            //}
             SimulationIndex = simulationIndex;
             TallySecondMoment = tallySecondMoment;
             TrackStatistics = trackStatistics;
         }
-
+        /// <summary>
+        /// constructor that uses Henyey-Greenstein phase function, does not save photon data to database,
+        /// tallies 2nd moment information, does not track statistics and designates simulation index to 0
+        /// </summary>
+        /// <param name="seed"></param>
+        /// <param name="rngType"></param>
+        /// <param name="absWeightingType"></param>
         public SimulationOptions(
             int seed, 
             RandomNumberGeneratorType rngType, 
@@ -48,6 +65,10 @@ namespace Vts.MonteCarlo
                 false, // track statistics
                 0) { }
 
+        /// <summary>
+        /// constructor that takes in seed but uses default values for all other parameters
+        /// </summary>
+        /// <param name="seed"></param>
         public SimulationOptions(int seed)
             : this(seed, 
                 RandomNumberGeneratorType.MersenneTwister,  
@@ -58,8 +79,11 @@ namespace Vts.MonteCarlo
                 false,
                 0) { }
 
+        /// <summary>
+        /// default constructor
+        /// </summary>
         public SimulationOptions()
-            : this(GetRandomSeed(), 
+            : this(-1, // default constructor needs -1 here to invoke GetRandomSeed
                 RandomNumberGeneratorType.MersenneTwister, 
                 AbsorptionWeightingType.Discrete, 
                 PhaseFunctionType.HenyeyGreenstein,
@@ -68,20 +92,44 @@ namespace Vts.MonteCarlo
                 false,
                 0) { }
 
+        /// <summary>
+        /// random number generator type
+        /// </summary>
         public RandomNumberGeneratorType RandomNumberGeneratorType { get; set; }
+        /// <summary>
+        /// absorption weighting type
+        /// </summary>
         public AbsorptionWeightingType AbsorptionWeightingType { get; set; }
+        /// <summary>
+        /// phase function type
+        /// </summary>
         public PhaseFunctionType PhaseFunctionType { get; set; }
+        /// <summary>
+        /// flag indicating whether to tally second moment information for error results
+        /// </summary>
         public bool TallySecondMoment { get; set; }
+        /// <summary>
+        /// flag indicating whether to track statistics about where photon ends up
+        /// </summary>
         public bool TrackStatistics { get; set; }
+        /// <summary>
+        /// seed of random number generator (-1=randomly selected seed, >=0 reproducible sequence)
+        /// </summary>
         public int Seed { get; set; }
+        /// <summary>
+        /// simulation index 
+        /// </summary>
         public int SimulationIndex { get; set; }
+        /// <summary>
+        /// list of databases to be written
+        /// </summary>
         public IList<DatabaseType> WriteDatabases { get; set; }  // modified ckh 4/12/11
 
 
 
-        public static int GetRandomSeed()  // ckh 12/15/09 made this public so Photon can see
-        {
-            return (int)DateTime.Now.Ticks % (1 << 15);
-        }
+        //private static int GetRandomSeed()  // ckh 10/01/11 moved to RandomNumberGeneratorFactory
+        //{
+        //    return (int)DateTime.Now.Ticks % (1 << 15);
+        //}
     }
 }

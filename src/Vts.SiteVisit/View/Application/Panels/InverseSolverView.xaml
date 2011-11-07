@@ -66,20 +66,17 @@
             </StackPanel>
             <!-- Buttons -->
             <Button 
-                input:CommandService.Command="IS_SimulateMeasuredData"
-                input:CommandService.CommandParameter="{Binding}"
+                Command="{Binding SimulateMeasuredDataCommand}"
                 VerticalAlignment="Bottom"
                 Content="{Binding Path=MainResource.Button_PlotMeasured, Source={StaticResource LocalizedStrings}}" 
                 Width="120" Height="30" Margin="2,2"/>
             <Button 
-                input:CommandService.Command="IS_CalculateInitialGuess"
-                input:CommandService.CommandParameter="{Binding}"
+                Command="{Binding CalculateInitialGuessCommand}"
                 VerticalAlignment="Bottom"
                 Content="{Binding Path=MainResource.Button_PlotInitialGuess, Source={StaticResource LocalizedStrings}}" 
                 Width="120" Height="30" Margin="2,2"/>
             <Button 
-                input:CommandService.Command="IS_SolveInverse"
-                input:CommandService.CommandParameter="{Binding}"
+                Command="{Binding SolveInverseCommand}"
                 VerticalAlignment="Bottom"
                 Width="120" Height="30" Margin="2,2"
                 Content="{Binding Path=MainResource.Button_InverseSolver, Source={StaticResource LocalizedStrings}}"/>

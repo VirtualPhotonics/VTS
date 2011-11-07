@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Vts.Common;
+using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo
@@ -23,9 +26,11 @@ namespace Vts.MonteCarlo
                 PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector(),
                 PointSourceTwoLayerTissueROfRhoDetector(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
-                pMCPointSourceOneLayerTissueROfRhoDAW()
+                pMCPointSourceOneLayerTissueROfRhoDAW(),
+                GaussianSourceOneLayerTissueROfRhoDetector()
             };
         }
+
         #region point source one layer tissue all detectors
         /// <summary>
         /// Point source, single tissue layer definition, all detectors included
@@ -95,7 +100,7 @@ namespace Vts.MonteCarlo
                     new RadianceOfRhoAndZAndAngleDetectorInput(
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0, Math.PI, 5)),
+                        new DoubleRange(0, Math.PI, 3)),
                     new RSpecularDetectorInput()
                 }
                 );
@@ -156,7 +161,7 @@ namespace Vts.MonteCarlo
         public static SimulationInput PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector()
         {
             return new SimulationInput(
-                10000,
+                100,
                 "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
@@ -340,6 +345,57 @@ namespace Vts.MonteCarlo
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
                 }
             );
+        }
+        #endregion
+
+
+        #region Gaussian source one layer R(rho)
+        /// <summary>
+        /// Gaussian source, single tissue layer definition, only ROfRho detector included
+        /// </summary>
+        public static SimulationInput GaussianSourceOneLayerTissueROfRhoDetector()
+        {
+            return new SimulationInput(
+                100,
+                "Gaussian_source_one_layer_ROfRho",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
+                    true, // tally Second Moment
+                    false, // track statistics
+                    0),
+                new CustomCircularSourceInput(
+                    3.0, // outer radius
+                    0.0, // inner radius
+                    new GaussianSourceProfile(1.0), // fwhm
+                    new DoubleRange(0.0, 0.0), // polar angle emission range
+                    new DoubleRange (0.0, 0.0), // azimuthal angle emmision range
+                    new Direction(0, 0, 1), // normal to tissue
+                    new Position(0, 0, 0), // center of beam on surface
+                    new PolarAzimuthalAngles(0,0), // no beam rotation         
+                    0), // 0=start in air, 1=start in tissue
+                new MultiLayerTissueInput(
+                    new LayerRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
+                }
+             );
         }
         #endregion
     }

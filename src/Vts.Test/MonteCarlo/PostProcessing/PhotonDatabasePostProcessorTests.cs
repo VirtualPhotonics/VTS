@@ -75,7 +75,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     new Direction(0.0, 0.0, 1.0),
                     1),                 
                 new MultiLayerTissueInput(
-                    new List<ITissueRegion> 
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),

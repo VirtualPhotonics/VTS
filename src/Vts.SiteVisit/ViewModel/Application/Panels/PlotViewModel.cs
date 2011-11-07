@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using SLExtensions.Input;
 using Vts.Extensions;
 using Vts.IO;
 using Vts.SiteVisit.Input;
 using Vts.SiteVisit.Model;
 using System.IO;
+using GalaSoft.MvvmLight.Command;
+using SLExtensions.Input;
 
 namespace Vts.SiteVisit.ViewModel
 {
@@ -66,14 +67,26 @@ namespace Vts.SiteVisit.ViewModel
             PlotNormalizationTypeOptionVM.PropertyChanged += (sender, args) => UpdatePlotSeries();
 
             CustomPlotLabel = "";
-
-            //Commands.Plot_PlotValuesLinearly.Executed += PlotLinearly_Executed;
-            Commands.Plot_ClearPlot.Executed += Plot_Cleared;
-            Commands.Plot_ClearPlotSingle.Executed += Plot_ClearedSingle;
+            
             Commands.Plot_PlotValues.Executed += Plot_Executed;
             Commands.Plot_SetAxesLabels.Executed += Plot_SetAxesLabels_Executed;
-            Commands.Plot_ExportDataToText.Executed += Plot_ExportDataToText_Executed;
+
+            ClearPlotCommand = new RelayCommand(() => Plot_Cleared(null, null));
+            ClearPlotSingleCommand = new RelayCommand(() => Plot_ClearedSingle(null, null));
+            ExportDataToTextCommand = new RelayCommand(() => Plot_ExportDataToText_Executed(null, null));
+            DuplicateWindowCommand = new RelayCommand(() => Plot_DuplicateWindow_Executed(null, null));
         }
+        
+        private void Plot_DuplicateWindow_Executed(object sender, ExecutedEventArgs e)
+        {
+            var vm = this.Clone();
+            Commands.Main_DuplicatePlotView.Execute(vm, vm);
+        }
+
+        public RelayCommand ClearPlotCommand { get; set; }
+        public RelayCommand ClearPlotSingleCommand { get; set; }
+        public RelayCommand ExportDataToTextCommand { get; set; }
+        public RelayCommand DuplicateWindowCommand { get; set; }
 
         private IList<IList<Point>> DataSeriesCollection { get; set; }
 
@@ -86,16 +99,16 @@ namespace Vts.SiteVisit.ViewModel
         {
             var output = new PlotViewModel();
 
+            Commands.Plot_PlotValues.Executed -= output.Plot_Executed;
+
             output._Title = plotToClone._Title;
             output._PlotTitles = plotToClone._PlotTitles.ToList();
             output._PlotType = plotToClone._PlotType;
             output._HoldOn = plotToClone._HoldOn;
-            output._PlotSeriesCollection = new ObservableCollection<IList<Point>>(plotToClone._PlotSeriesCollection.ToList());
+            output._PlotSeriesCollection = new ObservableCollection<IList<Point>>(
+                plotToClone._PlotSeriesCollection.Select(ps => ps.Select(val => val).ToArray()).ToArray());
             output._Labels = plotToClone._Labels.ToList();
             output._Title = plotToClone._Title;
-            output._XAxisSpacingOptionVM = plotToClone._XAxisSpacingOptionVM; // this won't do a deep copy... need clone for sub-VM
-            output._YAxisSpacingOptionVM = plotToClone._YAxisSpacingOptionVM; // this won't do a deep copy... need clone for sub-VM
-            output._PlotNormalizationTypeOptionVM = plotToClone._PlotNormalizationTypeOptionVM; // this won't do a deep copy... need clone for sub-VM
             output._CustomPlotLabel = plotToClone._CustomPlotLabel;
             output._Title = plotToClone._Title;
             output._ShowAxes = plotToClone._ShowAxes;
@@ -105,6 +118,12 @@ namespace Vts.SiteVisit.ViewModel
             output._MaxXValue = plotToClone._MaxXValue;
             output._AutoScaleX = plotToClone._AutoScaleX;
             output._AutoScaleY = plotToClone._AutoScaleY;
+            output._XAxisSpacingOptionVM.Options[plotToClone._XAxisSpacingOptionVM.SelectedValue].IsSelected = true;
+            output._YAxisSpacingOptionVM.Options[plotToClone._YAxisSpacingOptionVM.SelectedValue].IsSelected = true;
+            output._PlotNormalizationTypeOptionVM.Options[plotToClone._PlotNormalizationTypeOptionVM.SelectedValue].IsSelected = true;
+
+            output.DataSeriesCollection =
+                plotToClone.DataSeriesCollection.Select(ds => (IList<Point>)ds.Select(val => val).ToList()).ToList();
 
             return output;
         }

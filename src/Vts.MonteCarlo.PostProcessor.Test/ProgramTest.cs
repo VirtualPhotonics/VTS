@@ -16,13 +16,13 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         [TestFixtureSetUp]
         public void clear_folders_and_files()
         {
-            if (File.Exists("newinfile_PostProcessor_ROfRho.xml"))
+            if (File.Exists("infile_PostProcessor_ROfRho.xml"))
             {
-                File.Delete("newinfile_PostProcessor_ROfRho.xml");
+                File.Delete("infile_PostProcessor_ROfRho.xml");
             }
-            if (File.Exists("newinfile_PostProcessor_pMC_ROfRho.xml"))
+            if (File.Exists("infile_PostProcessor_pMC_ROfRho.xml"))
             {
-                File.Delete("newinfile_PostProcessor_pMC_ROfRho.xml");
+                File.Delete("infile_PostProcessor_pMC_ROfRho.xml");
             }
             if (Directory.Exists("PostProcessor_pMC_ROfRho"))
             {
@@ -41,7 +41,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         {
             string[] arguments = new string[] {"geninfiles"};
             Program.Main(arguments);
-            Assert.IsTrue(File.Exists("newinfile_PostProcessor_ROfRho.xml"));
+            Assert.IsTrue(File.Exists("infile_PostProcessor_ROfRho.xml"));
         }
         ///// <summary>
         ///// test to verify correct folder name created for output
@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         //[Test]
         //public void validate_output_folder_name_when_using_geninfile_infile()
         //{
-        //    string[] arguments = new string[] { "infile=newinfile_PostProcessor_ROfRho.xml" };
+        //    string[] arguments = new string[] { "infile=infile_PostProcessor_ROfRho.xml" };
         //    Program.Main(arguments);
         //    Assert.IsTrue(Directory.Exists("PostProcess_ROfRho"));
         //}

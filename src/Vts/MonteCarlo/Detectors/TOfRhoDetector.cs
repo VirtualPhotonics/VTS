@@ -18,9 +18,11 @@ namespace Vts.MonteCarlo.Detectors
     {
         private bool _tallySecondMoment;
         /// <summary>
-        /// Returns an instance of TOfRhoDetector
+        /// constructor for transmittance as a function of rho detector input
         /// </summary>
-        /// <param name="rho"></param>
+        /// <param name="rho">rho tally</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
+        /// <param name="name">detector name</param>
         public TOfRhoDetector(DoubleRange rho, bool tallySecondMoment, String name)
         {
             Rho = rho;
@@ -50,18 +52,31 @@ namespace Vts.MonteCarlo.Detectors
         [IgnoreDataMember]
         public double[] SecondMoment { get; set; }
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user-specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of time detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
 
         public void Tally(Photon photon)
         {
             Tally(photon.DP);
         }
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="dp"></param>
         public void Tally(PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
@@ -74,6 +89,10 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount++;
         }
 
+        /// <summary>
+        /// method to normalize detector tally results
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;

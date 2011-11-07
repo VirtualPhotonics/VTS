@@ -18,9 +18,11 @@ namespace Vts.MonteCarlo.Detectors
     {
         private bool _tallySecondMoment;
         /// <summary>
-        /// Returns an instance of TOfAngleDetector
+        /// constructor for transmittance as a function of angle detector input
         /// </summary>
-        /// <param name="angle"></param>
+        /// <param name="angle">angle binning</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
+        /// <param name="name">detector name</param>
         public TOfAngleDetector(DoubleRange angle, bool tallySecondMoment, String name)
         {
             Angle = angle;
@@ -43,25 +45,42 @@ namespace Vts.MonteCarlo.Detectors
             : this(new DoubleRange(), true, TallyType.TOfAngle.ToString())
         {
         }
-
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public double[] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public double[] SecondMoment { get; set; }
 
+        /// <summary>
+        /// detector tally identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of times detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// angle binning
+        /// </summary>
         public DoubleRange Angle { get; set; }
 
         public void Tally(Photon photon)
         {
             Tally(photon.DP);
         }
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="dp"></param>
         public void Tally(PhotonDataPoint dp)
         {
             // if exiting bottom top surface, Uz > 0 => Acos in [0, pi/2]
@@ -75,7 +94,10 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount++;
 
         }
-
+        /// <summary>
+        /// method to normalize detector results after numPhotons launched
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Angle.Delta;
