@@ -8,12 +8,12 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
+    /// Implements IDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
     /// of Rho and Angle.
     /// This works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(ROfRhoAndAngleDetector))]
-    public class ROfRhoAndAngleDetector : ISurfaceDetector<double[,]>
+    public class ROfRhoAndAngleDetector : IDetector<double[,]> 
     {
         private bool _tallySecondMoment;
         /// <summary>
@@ -78,10 +78,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Angle { get; set; }
 
-        /// <summary>
-        /// method to tally to detector
-        /// </summary>
-        /// <param name="dp">photon data point</param>
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
         public virtual void Tally(PhotonDataPoint dp)
         {
             // if exiting tissue top surface, Uz < 0 => Acos in [pi/2, pi]

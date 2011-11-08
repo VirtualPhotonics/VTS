@@ -10,17 +10,15 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IVolumeDetector&lt;double&gt;.  Tally for Total Absorption.
+    /// Implements IDetector&lt;double&gt;.  Tally for Total Absorption.
     /// </summary>
     [KnownType(typeof(ATotalDetector))]
-    public class ATotalDetector : IVolumeDetector<double>
+    public class ATotalDetector : IHistoryDetector<double>
     {
-        private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
-
         private ITissue _tissue;
         private bool _tallySecondMoment;
-        private IList<OpticalProperties> _ops;
-        private double _fullTrackLength;
+        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
+
         /// <summary>
         /// constructor for total absorption detector input
         /// </summary>
@@ -34,8 +32,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
             _tissue = tissue;
             _tallySecondMoment = tallySecondMoment;
-            SetAbsorbAction(_tissue.AbsorptionWeightingType);
-            _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetAbsorptionWeightingMethod(tissue, this);
         }
 
         /// <summary>
@@ -66,31 +63,20 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public long TallyCount { get; set; }
 
-        private void SetAbsorbAction(AbsorptionWeightingType awt)
+
+        public void Tally(Photon photon)
         {
-            switch (awt)
+            PhotonDataPoint previousDP = photon.History.HistoryData.First();
+            foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
             {
-                case AbsorptionWeightingType.Analog:
-                    _absorbAction = AbsorbAnalog;
-                    break;
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                default:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
+                TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
+                previousDP = dp;
             }
         }
- 
-        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
+
+        public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
-            var weight = _absorbAction(
-                _ops[_tissue.GetRegionIndex(dp.Position)].Mua, 
-                _ops[_tissue.GetRegionIndex(dp.Position)].Mus,
-                previousDP.Weight,
-                dp.Weight,
-                dp.StateFlag);
+            var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
 
             if (weight != 0.0)
             {
@@ -115,48 +101,6 @@ namespace Vts.MonteCarlo.Detectors
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true;
-        }
-         
-        // to get variance correct, all of the following tallies have to tally at end of biography
-        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, 
-            PhotonStateType photonStateType)
-        {
-            weight = 0.0; // if not absorbed, no weight tallied
-            if (photonStateType.HasFlag(PhotonStateType.Absorbed)) // tally only at end of biography
-            {
-                weight = 1.0; // ref: my dissertation eq. (2.75)
-            }
-            return weight;
-        }
-
-        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, 
-            PhotonStateType photonStateType)
-        {
-            // only tally if photon died
-            if (photonStateType.HasFlag(PhotonStateType.Alive))
-            {
-                weight = 0.0;
-            }
-            else
-            {
-                weight = 1 - weight; // 1 - surviving weight = absorbed weight
-            }
-            return weight;
-        }
-        
-        private double AbsorbContinuous(double mua, double mus, double previousWeight, double weight,
-            PhotonStateType photonStateType)
-        {
-            // only tally if photon died
-            if (photonStateType.HasFlag(PhotonStateType.Alive))
-            {
-                weight = 0.0;
-            }
-            else
-            {
-                weight = 1.0 - weight; // this is the absorbed weight for entire biography
-            }
-            return weight;
         }
     }
 }

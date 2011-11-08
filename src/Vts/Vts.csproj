@@ -182,10 +182,12 @@
     <Compile Include="Common\Stopwatch.cs" />
     <Compile Include="IO\KnownTypes.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
+    <Compile Include="MonteCarlo\AbsorptionWeightingMethods.cs" />
+    <Compile Include="MonteCarlo\Controllers\HistoryDetectorController.cs" />
+    <Compile Include="MonteCarlo\Controllers\DetectorController.cs" />
     <Compile Include="MonteCarlo\Controllers\pMCDatabaseWriterController.cs" />
     <Compile Include="MonteCarlo\Controllers\DatabaseWriterController.cs" />
     <Compile Include="MonteCarlo\Controllers\VirtualBoundaryController.cs" />
-    <Compile Include="MonteCarlo\Controllers\VolumeDetectorController.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\FluenceOfXAndYAndZDetectorInput.cs" />
@@ -214,12 +216,12 @@
     <Compile Include="MonteCarlo\Extensions\DatabaseExtensionMethods.cs" />
     <Compile Include="MonteCarlo\Extensions\ITissueRegionExtensions.cs" />
     <Compile Include="MonteCarlo\Factories\DatabaseWriterFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
     <Compile Include="MonteCarlo\Factories\PhotonDatabaseFactory.cs" />
     <Compile Include="MonteCarlo\Factories\VirtualBoundaryFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs" />
-    <Compile Include="MonteCarlo\Interfaces\IpMCSurfaceDetectorController.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
-    <Compile Include="MonteCarlo\Interfaces\IVolumeDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\Extensions\PhotonDataExtensionMethods.cs" />
     <Compile Include="MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs" />
@@ -317,8 +319,6 @@
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RDiffuseDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndTimeDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs" />
-    <Compile Include="MonteCarlo\Controllers\SurfaceDetectorController.cs" />
-    <Compile Include="MonteCarlo\Controllers\pMCSurfaceDetectorController.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\IsotropicPointSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\CircularSourceInputs\CustomCircularSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\CircularSourceInputs\DirectionalCircularSourceInput.cs" />
@@ -336,7 +336,6 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidalSourceInputs\IsotropicVolumetricCuboidaldalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\EllipsoidalSourceInputs\CustomVolumetricEllipsoidalSourceInput.cs" />
     <Compile Include="MonteCarlo\Factories\AbsorptionActionFactory.cs" />
-    <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\DetectorBinning.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfRhoDetectorInput.cs" />
@@ -349,9 +348,6 @@
     <Compile Include="MonteCarlo\Helpers\PolarAzimuthalAngles.cs" />
     <Compile Include="MonteCarlo\Helpers\ThreeAxisRotation.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetector.cs" />
-    <Compile Include="MonteCarlo\Interfaces\IpMCVolumeDetector.cs" />
-    <Compile Include="MonteCarlo\Interfaces\IpMCSurfaceDetector.cs" />
-    <Compile Include="MonteCarlo\Interfaces\IVolumeDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IpMCDetectorInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\ISourceProfile.cs" />
     <Compile Include="MonteCarlo\IO\DatabaseOfT.cs" />
@@ -366,11 +362,9 @@
     <Compile Include="MonteCarlo\PhotonData\pMCDataPoint.cs" />
     <Compile Include="MonteCarlo\PhotonData\pMCDatabase.cs" />
     <Compile Include="MonteCarlo\PhotonHistory.cs" />
-    <Compile Include="MonteCarlo\Interfaces\ISurfaceDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\ISource.cs" />
     <Compile Include="MonteCarlo\Interfaces\ISourceInput.cs" />
-    <Compile Include="MonteCarlo\Interfaces\ISurfaceDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITissue.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITissueInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITissueRegion.cs" />

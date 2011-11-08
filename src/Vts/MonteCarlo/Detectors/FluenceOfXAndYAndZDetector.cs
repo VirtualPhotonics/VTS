@@ -14,9 +14,9 @@ namespace Vts.MonteCarlo.Detectors
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
     [KnownType(typeof(FluenceOfXAndYAndZDetector))]
-    public class FluenceOfXAndYAndZDetector : IVolumeDetector<double[, ,]>
+    public class FluenceOfXAndYAndZDetector : IHistoryDetector<double[, ,]>
     {
-        private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
+        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
 
         private ITissue _tissue;
         private bool _tallySecondMoment;
@@ -51,9 +51,10 @@ namespace Vts.MonteCarlo.Detectors
             }
             TallyType = TallyType.FluenceOfXAndYAndZ;
             Name = name;
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetAbsorptionWeightingMethod(tissue, this);
+
             TallyCount = 0;
             _tissue = tissue;
-            SetAbsorbAction(_tissue.AbsorptionWeightingType);
             _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
         }
 
@@ -106,42 +107,20 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Z { get; set; }
 
-        private void SetAbsorbAction(AbsorptionWeightingType awt)
-        {
-            switch (awt)
-            {
-                case AbsorptionWeightingType.Analog:
-                    _absorbAction = AbsorbAnalog;
-                    break;
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-                default:
-                    throw new ArgumentException("AbsorptionWeightingType not set");
-            }
-        }
         /// <summary>
         /// method to tally to detector
         /// </summary>
         /// <param name="previousDP"></param>
         /// <param name="dp"></param>
-        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
+        public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
             var ix = DetectorBinning.WhichBin(dp.Position.X, X.Count - 1, X.Delta, X.Start);
             var iy = DetectorBinning.WhichBin(dp.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
 
-            var weight = _absorbAction(
-                _ops[_tissue.GetRegionIndex(dp.Position)].Mua,
-                _ops[_tissue.GetRegionIndex(dp.Position)].Mus,
-                previousDP.Weight,
-                dp.Weight,
-                dp.StateFlag);
+             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
 
-            var regionIndex = _tissue.GetRegionIndex(dp.Position);
+            var regionIndex = currentRegionIndex;
 
             if (weight != 0.0)
             {
@@ -151,6 +130,16 @@ namespace Vts.MonteCarlo.Detectors
                     SecondMoment[ix, iy, iz] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
                 }
                 TallyCount++;
+            }
+        }
+
+        public void Tally(Photon photon)
+        {
+            PhotonDataPoint previousDP = photon.History.HistoryData.First();
+            foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
+            {
+                TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
+                previousDP = dp;
             }
         }
 

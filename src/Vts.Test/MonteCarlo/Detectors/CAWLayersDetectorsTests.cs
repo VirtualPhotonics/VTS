@@ -78,7 +78,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfRhoAndAngleDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new ATotalDetectorInput()
+                    //new ATotalDetectorInput() ckh 11/6/11 comment out for now with new Abs.Wt.Method rule
                 };
             // one tissue layer
             var inputOneLayerTissue = new SimulationInput(
@@ -195,12 +195,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                    _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.0001);
         }
         // Total Absorption : wait on this test until CAW worked out for ATotal
-        [Test]
-        public void validate_CAW_ATotal()
-        {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Atot * _factor - 0.37402175), 0.002);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot * _factor - 0.37402175), 0.002);
-        }
+        //[Test]
+        //public void validate_CAW_ATotal()
+        //{
+        //    Assert.Less(Math.Abs(_outputOneLayerTissue.Atot * _factor - 0.37402175), 0.002);
+        //    Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot * _factor - 0.37402175), 0.002);
+        //}
         // Absorption A(rho,z) not coded yet for CAW
 
         // Diffuse Transmittance

@@ -12,13 +12,13 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// </summary>
     public class SpecularReflectanceVirtualBoundary : IVirtualBoundary
     {
-        private ISurfaceDetectorController _detectorController;
+        private IDetectorController _detectorController;
         private double _zPlanePosition;
 
         /// <summary>
         /// Creates an instance of specular virtual boundary 
         /// </summary>
-        public SpecularReflectanceVirtualBoundary(ITissue tissue, ISurfaceDetectorController detectorController, string name)
+        public SpecularReflectanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             _zPlanePosition = ((LayerRegion)tissue.Regions[0]).ZRange.Stop;
 

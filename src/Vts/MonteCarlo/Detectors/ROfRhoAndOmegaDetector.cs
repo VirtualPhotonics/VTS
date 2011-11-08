@@ -11,12 +11,12 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
+    /// Implements IDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
     /// of Rho and Omega.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
     [KnownType(typeof(ROfRhoAndOmegaDetector))]
-    public class ROfRhoAndOmegaDetector : ISurfaceDetector<Complex[,]>
+    public class ROfRhoAndOmegaDetector : IDetector<Complex[,]> 
     {
         private bool _tallySecondMoment;
         private double[] _omegaArray;
@@ -83,10 +83,11 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Omega { get; set; }
 
-        /// <summary>
-        /// method to tally to detector
-        /// </summary>
-        /// <param name="dp"></param>
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
+
         public void Tally(PhotonDataPoint dp)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
@@ -94,7 +95,6 @@ namespace Vts.MonteCarlo.Detectors
             for (int iw = 0; iw < Omega.Count; ++iw)
             {
                 double freq = _omegaArray[iw];
-                /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
                 Mean[ir, iw] += dp.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime) +
                     Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime) );

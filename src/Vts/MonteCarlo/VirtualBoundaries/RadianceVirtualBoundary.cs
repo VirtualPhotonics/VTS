@@ -14,13 +14,13 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// </summary>
     public class RadianceVirtualBoundary : IVirtualBoundary
     {
-        private ISurfaceDetectorController _detectorController;
+        private IDetectorController _detectorController;
         private double _zPlanePosition;
 
         /// <summary>
         /// Creates an instance of a plane tranmission virtual boundary in direction given
         /// </summary>
-        public RadianceVirtualBoundary(ISurfaceDetectorController detectorController, string name)
+        public RadianceVirtualBoundary(IDetectorController detectorController, string name)
         {
             _detectorController = detectorController;
 

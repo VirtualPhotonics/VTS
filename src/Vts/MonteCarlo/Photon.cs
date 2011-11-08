@@ -37,6 +37,8 @@ namespace Vts.MonteCarlo
                     1.0, // weight
                     0.0, // total time
                     PhotonStateType.Alive);
+            //PreviousDP = null;
+
             History = new PhotonHistory(tissue.Regions.Count);
             History.AddDPToHistory(DP);  // add initial datapoint
             S = 0.0;
@@ -68,6 +70,7 @@ namespace Vts.MonteCarlo
         /// photon data point has position, direction etc. info
         /// </summary>
         public PhotonDataPoint DP { get; set; }
+
         // PhotonHistory has SubRegionCollisionInfo
         public PhotonHistory History { get; set; }
         /// <summary>

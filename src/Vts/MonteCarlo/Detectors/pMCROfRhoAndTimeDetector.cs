@@ -10,12 +10,12 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally&lt;double[,]&gt;.  Tally for pMC estimation of reflectance 
+    /// Implements IDetector&lt;double[,]&gt;.  Tally for pMC estimation of reflectance 
     /// as a function of Rho and Time.  Perturbations of just mua or mus alone are also
     /// handled by this class.
     /// </summary>
     [KnownType(typeof(pMCROfRhoAndTimeDetector))]
-    public class pMCROfRhoAndTimeDetector : IpMCSurfaceDetector<double[,]>
+    public class pMCROfRhoAndTimeDetector : IDetector<double[,]> 
     {
         private AbsorptionWeightingType _awt;
         private IList<OpticalProperties> _referenceOps;
@@ -118,6 +118,11 @@ namespace Vts.MonteCarlo.Detectors
                     _absorbAction = AbsorbDiscrete;
                     break;
             }
+        }
+
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP, photon.History.SubRegionInfoList);
         }
 
         public void Tally(PhotonDataPoint dp, CollisionInfo infoList)

@@ -6,11 +6,11 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally&lt;double&gt;.  Tally for diffuse transmittance.
+    /// Implements IDetector&lt;double&gt;.  Tally for diffuse transmittance.
     /// This implemenation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(TDiffuseDetector))]
-    public class TDiffuseDetector : ISurfaceDetector<double>
+    public class TDiffuseDetector : IDetector<double> 
     {
         private bool _tallySecondMoment;
         /// <summary>
@@ -54,6 +54,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public long TallyCount { get; set; }
 
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
         /// <summary>
         /// method to tally to detector
         /// </summary>

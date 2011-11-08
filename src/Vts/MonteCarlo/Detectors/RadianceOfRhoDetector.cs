@@ -10,20 +10,14 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceTally&lt;double[]&gt;.  Tally for Surface Radiance as a function 
+    /// Implements IDetector&lt;double[]&gt;.  Tally for Surface Radiance as a function 
     /// of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(RadianceOfRhoDetector))]
-    public class RadianceOfRhoDetector : ISurfaceDetector<double[]>
+    public class RadianceOfRhoDetector : IDetector<double[]> 
     {
-        private Func<PhotonDataPoint, double> _absorbAction;
-        
         private bool _tallySecondMoment;
-        private ITissue _tissue;
-        private IList<OpticalProperties> _ops;
-        private double _xIntercept;
-        private double _yIntercept;
 
         /// <summary>
         /// constructor for surface radiance as a function of rho detector input
@@ -52,9 +46,6 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = TallyType.RadianceOfRho;
             Name = name;
             TallyCount = 0;
-            _tissue = tissue;
-            SetAbsorbAction(_tissue.AbsorptionWeightingType);
-            _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
         }
 
         /// <summary>
@@ -96,22 +87,9 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double ZDepth { get; set; }
 
-        private void SetAbsorbAction(AbsorptionWeightingType awt)
+        public void Tally(Photon photon)
         {
-            switch (awt)
-            {
-                case AbsorptionWeightingType.Analog:
-                    _absorbAction = AbsorbAnalog;
-                    break;
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-                default:
-                    throw new ArgumentException("AbsorptionWeightingType not set");
-            }
+            Tally(photon.DP);
         }
         /// <summary>
         /// method to tally to detector
@@ -120,8 +98,7 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(PhotonDataPoint dp)
         {
             // update weight
-            var weight = _absorbAction(
-                dp);
+            var weight = dp.Weight;
 
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
                 
@@ -134,21 +111,6 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount++;
         }
          
-        // need to check following Absorb actions
-        private double AbsorbAnalog(PhotonDataPoint dp)
-        {
-            return dp.Weight;
-        }
-
-        private double AbsorbDiscrete(PhotonDataPoint dp)
-        {
-            return dp.Weight;
-        }
-
-        private double AbsorbContinuous(PhotonDataPoint dp)
-        {
-            return dp.Weight;
-        }
         /// <summary>
         /// method to normalize detector results after numPhotons launched
         /// </summary>

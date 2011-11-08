@@ -10,17 +10,18 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IVolumeDetector&lt;double[,,]&gt;.  Tally for Radiance(rho,z,angle).
+    /// Implements IDetector&lt;double[,,]&gt;.  Tally for Radiance(rho,z,angle).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
     [KnownType(typeof(RadianceOfRhoAndZAndAngleDetector))]
-    public class RadianceOfRhoAndZAndAngleDetector : IVolumeDetector<double[, ,]>
+    public class RadianceOfRhoAndZAndAngleDetector : IHistoryDetector<double[,,]>
     {
-        private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
+        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
 
         private ITissue _tissue;
         private bool _tallySecondMoment;
         private IList<OpticalProperties> _ops;
+
         /// <summary>
         /// constructor for radiance as a function of rho, z and angle detector input
         /// </summary>
@@ -53,8 +54,8 @@ namespace Vts.MonteCarlo.Detectors
             Name = name;
             TallyCount = 0;
             _tissue = tissue;
-            SetAbsorbAction(_tissue.AbsorptionWeightingType);
             _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetAbsorptionWeightingMethod(tissue, this);
         }
 
         /// <summary>
@@ -102,37 +103,24 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Angle { get; set; }
 
-        private void SetAbsorbAction(AbsorptionWeightingType awt)
+        public void Tally(Photon photon)
         {
-            switch (awt)
+            PhotonDataPoint previousDP = photon.History.HistoryData.First();
+            foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
             {
-                case AbsorptionWeightingType.Analog:
-                    _absorbAction = AbsorbAnalog;
-                    break;
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-                default:
-                    throw new ArgumentException("AbsorptionWeightingType not set");
+                TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
+                previousDP = dp;
             }
         }
 
-        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
+        public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
             // using Acos, -1<Uz<1 goes to pi<theta<0, so first bin is most forward directed angle
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
 
-            var weight = _absorbAction(
-                _ops[_tissue.GetRegionIndex(dp.Position)].Mua,
-                _ops[_tissue.GetRegionIndex(dp.Position)].Mus,
-                previousDP.Weight,
-                dp.Weight,
-                dp.StateFlag);
+            var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
 
             var regionIndex = _tissue.GetRegionIndex(dp.Position);
 
@@ -146,38 +134,7 @@ namespace Vts.MonteCarlo.Detectors
                 TallyCount++;
             }
         }
-
-        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            if (photonStateType.HasFlag(PhotonStateType.Absorbed))
-            {
-                weight = previousWeight; 
-            }
-            else
-            {
-                weight = 0.0;
-            }
-            return weight;
-        }
-
-        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            if (previousWeight == weight) // pseudo collision, so no tally
-            {
-                weight = 0.0;
-            }
-            else
-            {
-                weight = previousWeight * mua / (mua + mus);
-            }
-            return weight;
-        }
-
-        private double AbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Z.Delta * 2.0 * Math.PI * Angle.Delta;
@@ -196,7 +153,6 @@ namespace Vts.MonteCarlo.Detectors
                     }
                 }
             }
-
         }
 
         public bool ContainsPoint(PhotonDataPoint dp)

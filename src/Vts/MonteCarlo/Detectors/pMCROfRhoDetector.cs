@@ -10,11 +10,11 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally&lt;double[]&gt;.  Tally for pMC estimation of reflectance 
+    /// Implements IDetector&lt;double[]&gt;.  Tally for pMC estimation of reflectance 
     /// as a function of Rho.
     /// </summary>
     [KnownType(typeof(pMCROfRhoDetector))]
-    public class pMCROfRhoDetector : IpMCSurfaceDetector<double[]>
+    public class pMCROfRhoDetector : IDetector<double[]> 
     {
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
@@ -110,7 +110,10 @@ namespace Vts.MonteCarlo.Detectors
                     break;
             }
         }
-
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP, photon.History.SubRegionInfoList);
+        }
         /// <summary>
         /// method to tally to detector
         /// </summary>

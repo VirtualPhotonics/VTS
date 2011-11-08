@@ -11,12 +11,12 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
-    /// of Rho and Omega.
+    /// Implements IDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
+    /// of Fx.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
     [KnownType(typeof(ROfFxDetector))]
-    public class ROfFxDetector : ISurfaceDetector<Complex[]>
+    public class ROfFxDetector : IDetector<Complex[]>
     {
         private bool _tallySecondMoment;
         private double[] _fxArray;
@@ -64,6 +64,10 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Fx { get; set; }
 
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
         public void Tally(PhotonDataPoint dp)
         {
             // var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);

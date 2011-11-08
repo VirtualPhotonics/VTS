@@ -10,12 +10,12 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally&lt;double[,]&gt;.  Tally for reflectance as a function 
+    /// Implements IDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
     /// of Rho and Time.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(ROfRhoAndTimeDetector))]
-    public class ROfRhoAndTimeDetector : ISurfaceDetector<double[,]>
+    public class ROfRhoAndTimeDetector : IDetector<double[,]> 
     {
         private bool _tallySecondMoment;
         /// <summary>
@@ -84,10 +84,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Time { get; set; }
 
-        /// <summary>
-        /// method to tally to detector
-        /// </summary>
-        /// <param name="dp">photon data point</param>
+        public void Tally(Photon photon)
+        {
+            Tally(photon.DP);
+        }
         public virtual void Tally(PhotonDataPoint dp)
         {
             var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);

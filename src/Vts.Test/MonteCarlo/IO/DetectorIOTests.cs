@@ -249,10 +249,11 @@ namespace Vts.Test.MonteCarlo
         public void validate_FluenceOfRhoAndZDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testfluenceofrhoandz";
+            var tissue = new MultiLayerTissue();
             IDetector detector = new FluenceOfRhoAndZDetector(
                 new DoubleRange(0, 10, 3),
                 new DoubleRange(0, 1, 4),
-                new MultiLayerTissue(),
+                tissue,
                 true, // tally SecondMoment
                 detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
             DetectorIO.WriteDetectorToFile(detector, "");
@@ -342,11 +343,12 @@ namespace Vts.Test.MonteCarlo
         public void validate_FluenceOfRhoAndZAndTime_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testfluenceofrhoandtime";
+            var tissue = new MultiLayerTissue();
             IDetector detector = new FluenceOfRhoAndZAndTimeDetector(
                 new DoubleRange(0, 10, 3),
                 new DoubleRange(0, 10, 3),
                 new DoubleRange(0, 1, 4),
-                new MultiLayerTissue(),
+                tissue,
                 true,
                 detectorName) { Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } } };
             DetectorIO.WriteDetectorToFile(detector, "");

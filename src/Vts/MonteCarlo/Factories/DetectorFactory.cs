@@ -43,6 +43,7 @@ namespace Vts.MonteCarlo.Factories
                 // ISurfaceDetector(s):
                 case TallyType.RDiffuse:
                     var rdinput = (RDiffuseDetectorInput)detectorInput;
+                    //return new RDiffuseDetector(tallySecondMoment, rdinput.Name);
                     return new RDiffuseDetector(tallySecondMoment, rdinput.Name);
                 case TallyType.RSpecular:
                     var rsinput = (RSpecularDetectorInput)detectorInput;
@@ -162,23 +163,6 @@ namespace Vts.MonteCarlo.Factories
                     return null;
             }
         }
-        /// <summary>
-        /// Method to instantiate correct pMC history detector.
-        /// </summary>
-        /// <param name="detectorInput">IDetectorInput</param>
-        /// <param name="tissue">ITissue</param>
-        /// <param name="perturbedOps">list of perturbed optical properties that match in index
-        /// the tissue regions</param>
-        /// <param name="perturbedRegionsIndices">list of perturbed regions indices that match
-        /// in index with the tissue regions</param>
-        /// <returns></returns>
-        public static IVolumeDetector GetHistoryDetector(
-            IDetectorInput detectorInput,
-            ITissue tissue,
-            IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionsIndices)
-        {
-            throw new NotSupportedException("not implemented yet");
-        }
+
     }
 }
