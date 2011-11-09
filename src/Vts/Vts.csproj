@@ -335,7 +335,6 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidalSourceInputs\CustomVolumetricCuboidaldalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidalSourceInputs\IsotropicVolumetricCuboidaldalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\EllipsoidalSourceInputs\CustomVolumetricEllipsoidalSourceInput.cs" />
-    <Compile Include="MonteCarlo\Factories\AbsorptionActionFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\DetectorBinning.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfRhoDetectorInput.cs" />

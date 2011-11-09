@@ -257,11 +257,9 @@ namespace Vts.MonteCarlo
             double ux = DP.Direction.Ux;
             double uy = DP.Direction.Uy;
             double uz = DP.Direction.Uz;
-            PhotonDataPoint p = DP;
-            Direction dir = p.Direction;
+            //Direction dir = DP.Direction;
 
-            int currentRegionIndex = this.CurrentRegionIndex;
-            double g = this._tissue.Regions[currentRegionIndex].RegionOP.G;
+            double g = this._tissue.Regions[CurrentRegionIndex].RegionOP.G;
             double cost, sint;    /* cosine and sine of theta */
             double cosp, sinp;    /* cosine and sine of phi */
             double psi;
@@ -281,26 +279,24 @@ namespace Vts.MonteCarlo
             cosp = Math.Cos(psi);
             sinp = Math.Sin(psi);
 
-            if (Math.Abs(dir.Uz) > (1 - 1e-10))
+            if (Math.Abs(DP.Direction.Uz) > (1 - 1e-10))
             {   /* normal incident. */
-                dir.Ux = sint * cosp;
-                dir.Uy = sint * sinp;
-                dir.Uz = cost * dir.Uz / Math.Abs(dir.Uz);
+                DP.Direction.Ux = sint * cosp;
+                DP.Direction.Uy = sint * sinp;
+                DP.Direction.Uz = cost * DP.Direction.Uz / Math.Abs(DP.Direction.Uz);
             }
             else
             {
                 double temp = Math.Sqrt(1.0 - uz * uz);
-                dir.Ux = sint * (ux * uz * cosp - uy * sinp) / temp + ux * cost;
-                dir.Uy = sint * (uy * uz * cosp + ux * sinp) / temp + uy * cost;
-                dir.Uz = -sint * cosp * temp + uz * cost;
+                DP.Direction.Ux = sint * (ux * uz * cosp - uy * sinp) / temp + ux * cost;
+                DP.Direction.Uy = sint * (uy * uz * cosp + ux * sinp) / temp + uy * cost;
+                DP.Direction.Uz = -sint * cosp * temp + uz * cost;
             }
 
-            DP.Direction = dir; // DC - this isn't necessary
         }
         public void Scatter1D()
         {
-            int currentRegion = this.CurrentRegionIndex;
-            double g = this._tissue.Regions[currentRegion].RegionOP.G;
+            double g = this._tissue.Regions[CurrentRegionIndex].RegionOP.G;
 
             // comment for compile
             if (_rng.NextDouble() < ((1 + g) / 2.0))
@@ -322,38 +318,29 @@ namespace Vts.MonteCarlo
         }
         public void AbsorbDiscrete()
         {
-            double dw;
-            int currentRegion = CurrentRegionIndex;
-            double mua = _tissue.Regions[currentRegion].RegionOP.Mua;
-            double mus = _tissue.Regions[currentRegion].RegionOP.Mus;
-            double w = DP.Weight;
-            double x = DP.Position.X;
-            double y = DP.Position.Y;
-            int index = History.HistoryData.Count() - 1;
+            double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
+            double mus = _tissue.Regions[CurrentRegionIndex].RegionOP.Mus;
 
             if (this.SLeft == 0.0)  // only deweight if at real collision
             {
-                dw = w * mua / (mua + mus);
+                double dw = DP.Weight * mua / (mua + mus);
                 DP.Weight -= dw;
                 // fluence tallying used to be done here 
 
                 // update weight for current DP in History 
-                History.HistoryData[index].Weight = DP.Weight;
+                History.HistoryData[History.HistoryData.Count() - 1].Weight = DP.Weight;
             }
         }
 
         public void AbsorbContinuous()
         {
-            double dw;
             double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
-            double mus = _tissue.Regions[CurrentRegionIndex].RegionOP.Mus;
-            int index = History.HistoryData.Count() - 1;
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
-            dw = DP.Weight * (1 - Math.Exp(-mua * S));
+            double dw = DP.Weight * (1 - Math.Exp(-mua * S));
             DP.Weight -= dw;
 
             // update weight for current DP in History 
-            History.HistoryData[index].Weight = DP.Weight;
+            History.HistoryData[History.HistoryData.Count() - 1].Weight = DP.Weight;
         }
         /*********************************************************/
 

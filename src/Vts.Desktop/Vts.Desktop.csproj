@@ -767,9 +767,6 @@
     <Compile Include="..\Vts\MonteCarlo\Extensions\VirtualBoundariesExtensionMethods.cs">
       <Link>MonteCarlo\Extensions\VirtualBoundariesExtensionMethods.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Factories\AbsorptionActionFactory.cs">
-      <Link>MonteCarlo\Factories\AbsorptionActionFactory.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\DatabaseWriterFactory.cs">
       <Link>MonteCarlo\Factories\DatabaseWriterFactory.cs</Link>
     </Compile>

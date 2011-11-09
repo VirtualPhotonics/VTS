@@ -10,20 +10,19 @@ namespace Vts.MonteCarlo.Controllers
     /// </summary>
     public class HistoryDetectorController : IDetectorController
     {
-        private IList<IDetector> _detectors;
+        private IList<IHistoryDetector> _detectors;
         private ITissue _tissue;
 
-        public HistoryDetectorController(IEnumerable<IDetector> detectors, ITissue tissue)
+        public HistoryDetectorController(IEnumerable<IHistoryDetector> detectors, ITissue tissue)
         {
-            // todo: is this needed, or can we trust that it's already fitlered?
-            _detectors = (from d in detectors
-                          where d is IHistoryDetector
-                          select d).ToList();
-
+            //_detectors = (from d in detectors
+            //              where d is IHistoryDetector
+            //              select d).ToList();
+            _detectors = detectors.ToList();
             _tissue = tissue;
         }
 
-        public IList<IDetector> Detectors { get { return _detectors; } }
+        public IList<IDetector> Detectors { get { return _detectors.Select(d => (IDetector)d).ToList(); } }
 
         public void Tally(Photon photon)
         {
