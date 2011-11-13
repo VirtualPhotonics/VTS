@@ -151,13 +151,8 @@ namespace Vts.SiteVisit.ViewModel
                 OnPropertyChanged("SelectedTissue");
                 OnPropertyChanged("Scatterer");
 
-                // todo: isn't there a simpler way? what happens when we just set SelectedValue? djc
-                ScatteringTypeVM.Options.Where(o => o.Key == _selectedTissue.Scatterer.ScattererType)
-                    .First().Value.IsSelected = true;
+                ScatteringTypeVM.Options[_selectedTissue.Scatterer.ScattererType].IsSelected = true;
                 ScatteringTypeName = _selectedTissue.Scatterer.GetType().FullName;
-                //ScatteringTypeVM.SelectedValue = realScatterer.ScattererType; // todo: how to supress/override VM.OnPropertyChanged?
-                // _SelectedTissue.Scatterer = realScatterer; //overwrite stock value generated as a result of the line above
-                // ScatteringTypeName = realScatterer.GetType().FullName; // todo: need to get rid of strings explicitly
 
                 UpdateOpticalProperties();
 
