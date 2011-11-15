@@ -336,8 +336,15 @@ namespace Vts.MonteCarlo
         {
             double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
-            double dw = DP.Weight * (1 - Math.Exp(-mua * S));
-            DP.Weight -= dw;
+            //double dw = DP.Weight * (1 - Math.Exp(-mua * S));
+            //DP.Weight -= dw;
+            // use path length info to determine surviving weight
+            var exponent = 0.0;
+            for (int i = 0; i < _tissue.Regions.Count - 1; i++)
+            {
+                exponent +=_tissue.Regions[i].RegionOP.Mua * History.SubRegionInfoList[i].PathLength;
+            };
+            DP.Weight = Math.Exp(-exponent);
 
             // update weight for current DP in History 
             History.HistoryData[History.HistoryData.Count() - 1].Weight = DP.Weight;
