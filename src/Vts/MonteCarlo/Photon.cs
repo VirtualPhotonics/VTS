@@ -15,9 +15,10 @@ namespace Vts.MonteCarlo
     public class Photon
     {
         // reducing any of the following values might result in unit tests not passing
-        private const int MAX_HISTORY_PTS = 300000; // moved this from MCSimulation
+        private const int MAX_HISTORY_PTS = 300000; // 300000 * [1/(50/mm)] = 6000 mm
         private const double CHANCE = 0.1;
-        private const double MAX_PHOTON_PATHLENGTH = 2000; // mm
+        //private const double MAX_PHOTON_PATHLENGTH = 2000; // mm  
+        private const double MAX_PHOTON_TIME = 15; // ns = 6000 mm (pathlength) / (300 / 1.4)
 
         // could add layer of indirection to not expose Absorb;
         private ITissue _tissue;
@@ -376,8 +377,8 @@ namespace Vts.MonteCarlo
                 History.AddDPToHistory(DP);
             }
             /* kill photon if it has gone too far */
-            var totalPathLength = History.SubRegionInfoList.Select((pl, c) => pl.PathLength).Sum();
-            if (totalPathLength >= MAX_PHOTON_PATHLENGTH)
+
+            if (DP.TotalTime >= MAX_PHOTON_TIME)
             {
                 DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
                 DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
