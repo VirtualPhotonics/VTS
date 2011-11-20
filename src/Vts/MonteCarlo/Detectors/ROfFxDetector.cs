@@ -38,7 +38,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new Complex[Fx.Count];
             }
-            TallyType = TallyType.ROfRhoAndOmega;
+            TallyType = TallyType.ROfFx;
             Name = name;
             TallyCount = 0;
         }
@@ -66,10 +66,8 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Tally(Photon photon)
         {
-            Tally(photon.DP);
-        }
-        public void Tally(PhotonDataPoint dp)
-        {
+            var dp = photon.DP;
+
             // var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var x = dp.Position.X;
             for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
