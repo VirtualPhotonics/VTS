@@ -78,22 +78,18 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Y { get; set; }
 
-        public void Tally(Photon photon)
-        {
-            Tally(photon.DP);
-        }
         /// <summary>
         /// method to tally to detector
         /// </summary>
-        /// <param name="dp"></param>
-        public void Tally(PhotonDataPoint dp)
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
-            int ix = DetectorBinning.WhichBin(dp.Position.X, X.Count - 1, X.Delta, X.Start);
-            int iy = DetectorBinning.WhichBin(dp.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
-            Mean[ix, iy] += dp.Weight;
+            int ix = DetectorBinning.WhichBin(photon.DP.Position.X, X.Count - 1, X.Delta, X.Start);
+            int iy = DetectorBinning.WhichBin(photon.DP.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
+            Mean[ix, iy] += photon.DP.Weight;
             if (_tallySecondMoment)
             {
-                SecondMoment[ix, iy] += dp.Weight * dp.Weight;
+                SecondMoment[ix, iy] += photon.DP.Weight * photon.DP.Weight;
             }
         }
 

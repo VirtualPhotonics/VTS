@@ -83,30 +83,29 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Omega { get; set; }
 
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            Tally(photon.DP);
-        }
-
-        public void Tally(PhotonDataPoint dp)
-        {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
-            var totalTime = dp.TotalTime;
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var totalTime = photon.DP.TotalTime;
             for (int iw = 0; iw < Omega.Count; ++iw)
             {
                 double freq = _omegaArray[iw];
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-                Mean[ir, iw] += dp.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime) +
+                Mean[ir, iw] += photon.DP.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime) +
                     Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime) );
                 if (_tallySecondMoment)
                 {
                     // second moment of complex tally is square of real and imag separately
                     SecondMoment[ir, iw] += 
-                        dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) *
-                        dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) +
+                        photon.DP.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) *
+                        photon.DP.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) +
                         Complex.ImaginaryOne *
-                        dp.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime)) *
-                        dp.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime));
+                        photon.DP.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime)) *
+                        photon.DP.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime));
                 }
             }
             TallyCount++;

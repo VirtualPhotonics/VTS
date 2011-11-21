@@ -103,6 +103,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Angle { get; set; }
 
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
             PhotonDataPoint previousDP = photon.History.HistoryData.First();

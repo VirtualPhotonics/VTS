@@ -78,24 +78,20 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Angle { get; set; }
 
-        public void Tally(Photon photon)
-        {
-            Tally(photon.DP);
-        }
         /// <summary>
         /// method to tally to detector
         /// </summary>
-        /// <param name="dp"></param>
-        public void Tally(PhotonDataPoint dp)
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
             // if exiting bottom top surface, Uz > 0 => Acos in [0, pi/2]
-            var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Angle.Count - 1, Angle.Delta, 0);
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ia = DetectorBinning.WhichBin(Math.Acos(photon.DP.Direction.Uz), Angle.Count - 1, Angle.Delta, 0);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
-            Mean[ir, ia] += dp.Weight;
+            Mean[ir, ia] += photon.DP.Weight;
             if (_tallySecondMoment)
             {
-                SecondMoment[ir, ia] += dp.Weight * dp.Weight;
+                SecondMoment[ir, ia] += photon.DP.Weight * photon.DP.Weight;
             }
             TallyCount++;
         }

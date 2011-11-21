@@ -87,26 +87,19 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double ZDepth { get; set; }
 
-        public void Tally(Photon photon)
-        {
-            Tally(photon.DP);
-        }
         /// <summary>
         /// method to tally to detector
         /// </summary>
-        /// <param name="dp"></param>
-        public void Tally(PhotonDataPoint dp)
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
-            // update weight
-            var weight = dp.Weight;
-
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
                 
             // update tally
-            Mean[ir] += weight / dp.Direction.Uz;
+            Mean[ir] += photon.DP.Weight / photon.DP.Direction.Uz;
             if (_tallySecondMoment)
             {
-                SecondMoment[ir] += (weight / dp.Direction.Uz) * (weight / dp.Direction.Uz);
+                SecondMoment[ir] += (photon.DP.Weight / photon.DP.Direction.Uz) * (photon.DP.Weight / photon.DP.Direction.Uz);
             }
             TallyCount++;
         }

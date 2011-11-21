@@ -54,17 +54,16 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public long TallyCount { get; set; }
 
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            Tally(photon.DP);
-        }
-        /// <param name="dp">photon data point</param>
-        public void Tally(PhotonDataPoint dp)
-        {
-            Mean += dp.Weight;
+            Mean += photon.DP.Weight;
             if (_tallySecondMoment)
             {
-                SecondMoment += dp.Weight * dp.Weight;
+                SecondMoment += photon.DP.Weight * photon.DP.Weight;
             }
             TallyCount++;
         }

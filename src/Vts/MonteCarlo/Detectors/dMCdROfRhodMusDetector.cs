@@ -99,24 +99,24 @@ namespace Vts.MonteCarlo.Detectors
                     break;
             }
         }
+        /// <summary>
+        /// method to tally to photon
+        /// </summary>
+        /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            Tally(photon.DP, photon.History.SubRegionInfoList);
-        }
-        public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
-        {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             if (ir != -1)
             {
                 double weightFactor = _absorbAction(
-                    infoList.Select(c => c.NumberOfCollisions).ToList(),
-                    infoList.Select(p => p.PathLength).ToList(),
+                    photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
+                    photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
                     _perturbedOps);
 
-                Mean[ir] += dp.Weight * weightFactor;
+                Mean[ir] += photon.DP.Weight * weightFactor;
                 if (_tallySecondMoment)
                 {
-                    SecondMoment[ir] += dp.Weight * weightFactor * dp.Weight * weightFactor;
+                    SecondMoment[ir] += photon.DP.Weight * weightFactor * photon.DP.Weight * weightFactor;
                 }
                 TallyCount++;
             }

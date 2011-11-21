@@ -87,6 +87,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Z { get; set; }
 
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
             PhotonDataPoint previousDP = photon.History.HistoryData.First();
@@ -96,7 +100,12 @@ namespace Vts.MonteCarlo.Detectors
                 previousDP = dp;
             }
         }
-
+        /// <summary>
+        /// method to tally to detector given two consecutive photon data points
+        /// </summary>
+        /// <param name="previousDP">previous photon data point</param>
+        /// <param name="dp">current photon data point</param>
+        /// <param name="currentRegionIndex">index of region where the photon is currently in</param>
         public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
