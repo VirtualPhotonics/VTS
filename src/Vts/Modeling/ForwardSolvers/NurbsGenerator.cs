@@ -487,7 +487,7 @@ namespace Vts.Modeling.ForwardSolvers
         {
             if (parametricPoint < 0.0)
             {
-                throw new ArgumentException("Negative parametric point not accetable as input.");
+                throw new ArgumentException("Negative parametric point not acceptable as input.");
             }
             if (parametricPoint >= 1.0)
             {

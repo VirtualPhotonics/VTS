@@ -98,7 +98,7 @@ namespace Vts.Test.Modeling.Spectroscopy
             chromophoreSpectrum.WriteToXML("ChromophoreSpectrum.xml");
 
             var chromophoreSpectrumRead = FileIO.ReadFromXML<ChromophoreSpectrum>("ChromophoreSpectrum.xml");
-            Assert.IsInstanceOfType(typeof(ChromophoreSpectrum), chromophoreSpectrumRead);
+            Assert.IsInstanceOf<ChromophoreSpectrum>(chromophoreSpectrumRead);
         }
     }
 }
