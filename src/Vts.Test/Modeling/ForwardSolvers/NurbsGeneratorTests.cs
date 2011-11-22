@@ -48,9 +48,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
             catch (ArgumentException e)
             {
                 Assert.AreEqual(e.Message, "Negative parametric point not acceptable as input.");
-                return;
             }
-            Assert.Fail();
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         /// <summary>
@@ -222,9 +224,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
             catch (ArgumentException e)
             {
                 Assert.AreEqual(e.Message, "Degree is too high.");
-                return;
             }
-            Assert.Fail();
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         /// <summary>
