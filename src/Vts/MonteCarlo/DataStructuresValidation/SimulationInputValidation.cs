@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Vts.MonteCarlo;
 using Vts.MonteCarlo.DataStructuresValidation;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Extensions;
@@ -26,7 +25,7 @@ namespace Vts.MonteCarlo
                     si => ValidateN(si.N),
                     si => ValidateSourceInput(si.SourceInput, si.TissueInput),
                     si => ValidateTissueInput(si.TissueInput),
-                    //si => ValidateDetectorInput(si.DetectorInputs),
+                    si => ValidateDetectorInput(si.DetectorInputs),
                     si => ValidateCombinedInputParameters(si),
                     si => ValidateCurrentIncapabilities(si)
                 };
@@ -86,69 +85,32 @@ namespace Vts.MonteCarlo
                 "Tissue input must be valid",
                 "Validation skipped for tissue input " + tissueInput + ". No matching validation rules were found.");
         }
+        private static ValidationResult ValidateDetectorInput(IList<IDetectorInput> detectorInputs)
+        {
+            if (detectorInputs.Count() < 1)
+            {
+                return new ValidationResult(
+                    false,
+                    "No detector inputs specified",
+                    "Make sure list of DetectorInputs is not empty or null");
+            }
+            // black list of unimplemented detectors
+            foreach (var detectorInput in detectorInputs)
+            {
+                if (detectorInput.TallyType.IsNotImplementedYet())
+                {
+                    return new ValidationResult(
+                        false,
+                        "DetectorInput not implemented yet:" + detectorInput.ToString(),
+                        "Please omit " + detectorInput.ToString() + " from DetectorInput list");
+                }
+            }
+            return new ValidationResult(
+                true,
+                "DetectorInput must be valid",
+                "");
+        }
 
-        //private static ValidationResult ValidateVirtualBoundaryInput(IList<IVirtualBoundaryInput> virtualBoundaryInputs)
-        //{
-        //    bool hasDiffuseReflectanceVB = false;
-        //    bool hasDiffuseTransmittanceVB = false;
-        //    ValidationResult tempResult = null;
-
-        //    if (virtualBoundaryInputs == null)
-        //    {
-        //        return new ValidationResult(
-        //            false,
-        //            "No Virtual Boundaries specified",
-        //            "Need to specify Virtual Boundaries in order to define detectors");
-        //    }
-        //    foreach (var virtualBoundaryInput in virtualBoundaryInputs)
-        //    {
-        //        switch (virtualBoundaryInput.VirtualBoundaryType)
-        //        {
-        //            case VirtualBoundaryType.DiffuseReflectance:
-        //                hasDiffuseReflectanceVB = true;
-        //                tempResult = SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
-        //                break;
-        //            case VirtualBoundaryType.DiffuseTransmittance:
-        //                hasDiffuseTransmittanceVB = true;
-        //                tempResult = SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
-        //                break;
-        //            case VirtualBoundaryType.GenericVolumeBoundary:
-        //                tempResult = GenericVolumeVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
-        //                break;
-        //            case VirtualBoundaryType.pMCDiffuseReflectance:
-        //                hasDiffuseReflectanceVB = true;
-        //                tempResult = pMCSurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
-        //                break;
-        //            case VirtualBoundaryType.SpecularReflectance:
-        //                tempResult = SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
-        //                break;
-        //            case VirtualBoundaryType.SurfaceRadiance:
-        //                tempResult = SurfaceVirtualBoundaryInputValidation.ValidateInput(virtualBoundaryInput);
-        //                break;
-        //            default:
-        //                return new ValidationResult(
-        //                    false,
-        //                    "VirtualBoundaryInput VirtualBoundaryType in error",
-        //                    "Verify VirtualBoundaryType is valid");
-
-        //        }
-        //        if (!tempResult.IsValid)
-        //        {
-        //            return tempResult;
-        //        }
-        //    }
-        //    if (!hasDiffuseReflectanceVB || !hasDiffuseTransmittanceVB)
-        //    {
-        //        return new ValidationResult(
-        //            false,
-        //            "DiffuseReflectance and DiffuseTransmittance VirtualBoundaryInput are required (can have null list of detectors)",
-        //            "Add SurfaceVirtualBoundary for both VirtualBoundaryType.DiffuseReflectance and .DiffuseTransmittance");
-        //    }
-        //    return new ValidationResult(
-        //        true,
-        //        "Virtual Boundary input must be valid",
-        //        "");
-        //}
         /// <summary>
         /// This method checks the input against combined combinations of options
         /// and source, tissue, detector definitions.   
