@@ -125,17 +125,18 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            // trial code overwrites dp.Weight
-            if (_awt == AbsorptionWeightingType.Continuous)
-            {
-                var trialWeight = 1.0;
-                for (int i = 0; i < _referenceOps.Count; i++)
-                {
-                    trialWeight *= Math.Exp(-_referenceOps[i].Mua * photon.History.SubRegionInfoList[i].PathLength);
-                }
-                photon.DP.Weight = trialWeight;
-            }
-            // end trial code
+            // no longer need trial code since DP.Weight for CAW now updated using pathlength info after each collision
+            //// trial code overwrites dp.Weight
+            //if (_awt == AbsorptionWeightingType.Continuous)
+            //{
+            //    var trialWeight = 1.0;
+            //    for (int i = 0; i < _referenceOps.Count; i++)
+            //    {
+            //        trialWeight *= Math.Exp(-_referenceOps[i].Mua * photon.History.SubRegionInfoList[i].PathLength);
+            //    }
+            //    photon.DP.Weight = trialWeight;
+            //}
+            //// end trial code
             var totalTime = photon.DP.TotalTime;
             var it = DetectorBinning.WhichBinExclusive(totalTime, Time.Count - 1, Time.Delta, Time.Start);
             var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y),
