@@ -15,6 +15,7 @@ namespace Vts.MonteCarlo
         /// <param name="numberOfPhotonsOutTopOfTissue"># photons out top of tissue</param>
         /// <param name="numberOfPhotonsOutBottomOfTissue"># photons out bottom of tissue</param>
         /// <param name="numberOfPhotonsAbsorbed"># photons absorbed</param>
+        /// <param name="numberOfPhotonsSpecularReflected"># photons specular reflected</param>
         /// <param name="numberOfPhotonsKilledOverMaximumPathLength"># photons killed due to maximum path length</param>
         /// <param name="numberOfPhotonsKilledOverMaximumCollisions"># photons killed due to maxiumu collisions</param>
         /// <param name="numberOfPhotonsKilledByRussianRoulette"># photons killed by Russian Roulette
@@ -24,6 +25,7 @@ namespace Vts.MonteCarlo
             long numberOfPhotonsOutTopOfTissue,
             long numberOfPhotonsOutBottomOfTissue,
             long numberOfPhotonsAbsorbed,
+            long numberOfPhotonsSpecularReflected,
             long numberOfPhotonsKilledOverMaximumPathLength,
             long numberOfPhotonsKilledOverMaximumCollisions,
             long numberOfPhotonsKilledByRussianRoulette)
@@ -31,15 +33,16 @@ namespace Vts.MonteCarlo
             NumberOfPhotonsOutTopOfTissue = numberOfPhotonsOutTopOfTissue;
             NumberOfPhotonsOutBottomOfTissue = numberOfPhotonsOutBottomOfTissue;
             NumberOfPhotonsAbsorbed = numberOfPhotonsAbsorbed;
+            NumberOfPhotonsSpecularReflected = numberOfPhotonsSpecularReflected;
             NumberOfPhotonsKilledOverMaximumPathLength = numberOfPhotonsKilledOverMaximumPathLength;
             NumberOfPhotonsKilledOverMaximumCollisions = numberOfPhotonsKilledOverMaximumCollisions;
             NumberOfPhotonsKilledByRussianRoulette = numberOfPhotonsKilledByRussianRoulette;
         }
 
-        public SimulationStatistics() : this(0, 0, 0, 0, 0, 0) { }
+        public SimulationStatistics() : this(0, 0, 0, 0, 0, 0, 0) { }
 
         /// <summary>
-        /// number of photons out top of tissue
+        /// number of photons out top of tissue (diffuse reflection)
         /// </summary>
         public long NumberOfPhotonsOutTopOfTissue { get; set; }
         /// <summary>
@@ -50,6 +53,10 @@ namespace Vts.MonteCarlo
         /// number of photons absorbed
         /// </summary>
         public long NumberOfPhotonsAbsorbed { get; set; }
+        /// <summary>
+        /// number of photons specular reflected
+        /// </summary>
+        public long NumberOfPhotonsSpecularReflected { get; set; }
         /// <summary>
         /// number of photons killed because of path length longer than maximum allowed
         /// </summary>

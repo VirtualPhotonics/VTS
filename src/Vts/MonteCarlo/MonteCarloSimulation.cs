@@ -296,7 +296,7 @@ namespace Vts.MonteCarlo
 
             if (TrackStatistics)
             {
-                _simulationStatistics.ToFile("statistics");
+                _simulationStatistics.ToFile("statistics.xml");
             }
 
             stopwatch.Stop();
