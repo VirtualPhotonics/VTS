@@ -15,10 +15,10 @@ namespace Vts.MonteCarlo
     public class Photon
     {
         // reducing any of the following values might result in unit tests not passing
-        private const int MAX_HISTORY_PTS = 300000; // 300000 * [1/(50/mm)] = 6000 mm
+        private const int MAX_HISTORY_PTS = 300000; // 300000 * [1/(5/mm)] = 60000 mm
         private const double CHANCE = 0.1;
         //private const double MAX_PHOTON_PATHLENGTH = 2000; // mm  
-        private const double MAX_PHOTON_TIME = 15; // ns = 6000 mm (pathlength) / (300 / 1.4)
+        private const double MAX_PHOTON_TIME = 280; // ns = 60000 mm (pathlength) / (300 / 1.4)
 
         // could add layer of indirection to not expose Absorb;
         private ITissue _tissue;
