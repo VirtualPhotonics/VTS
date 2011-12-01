@@ -5,7 +5,7 @@
              VerticalAlignment="Top">
         <Grid>
         <ScrollViewer x:Name="scrollViewer" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" Background="White" MaxWidth="1000" MaxHeight="300">
-                <TextBlock Text="{Binding Text}" MinHeight="75" MinWidth="500"/>
+                <TextBlock Text="{Binding Text}" MinHeight="60" MinWidth="500"/>
             </ScrollViewer>
         </Grid>
 </UserControl>
