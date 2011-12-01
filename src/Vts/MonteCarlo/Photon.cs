@@ -19,6 +19,7 @@ namespace Vts.MonteCarlo
         private const double CHANCE = 0.1;
         //private const double MAX_PHOTON_PATHLENGTH = 2000; // mm  
         private const double MAX_PHOTON_TIME = 280; // ns = 60000 mm (pathlength) / (300 / 1.4)
+        private const double WEIGHT_LIMIT = 0.0001; // Russian Roulette weight limit
 
         // could add layer of indirection to not expose Absorb;
         private ITissue _tissue;
@@ -367,23 +368,23 @@ namespace Vts.MonteCarlo
         }
         public void TestWeightAndDistance()
         {
-            //   if (photptr.w < Weight_Limit) 
-            //     Roulette();  
-            // kill photon if it has had too many collisions
-            if (History.HistoryData.Count >= MAX_HISTORY_PTS)
-            {
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumCollisions);
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                History.AddDPToHistory(DP);
-            }
-            /* kill photon if it has gone too far */
+            if (DP.Weight < WEIGHT_LIMIT)
+                Roulette();  
+            //// kill photon if it has had too many collisions
+            //if (History.HistoryData.Count >= MAX_HISTORY_PTS)
+            //{
+            //    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumCollisions);
+            //    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+            //    History.AddDPToHistory(DP);
+            //}
+            ///* kill photon if it has gone too far */
 
-            if (DP.TotalTime >= MAX_PHOTON_TIME)
-            {
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                History.AddDPToHistory(DP);
-            }
+            //if (DP.TotalTime >= MAX_PHOTON_TIME)
+            //{
+            //    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
+            //    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+            //    History.AddDPToHistory(DP);
+            //}
         }
 
         /*****************************************************************/
