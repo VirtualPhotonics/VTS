@@ -32,12 +32,12 @@
                         Text="Steady-State"  Margin="2,2" />
                     <RadioButton 
                         Grid.Row="0" Grid.Column="1"
-                        DataContext="{Binding FluenceofRhoOption}"
+                        DataContext="{Binding FluenceOfRhoOption}"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfRho, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="0" Grid.Column="2"
-                        DataContext="{Binding FluenceofFxOption}" IsEnabled="False"
+                        DataContext="{Binding FluenceOfFxOption}" IsEnabled="False"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfFx, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <!-- TIME-DOMAIN -->
@@ -46,12 +46,12 @@
                         Text="Time-Domain"  Margin="2,2"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="1" IsEnabled="False"
-                        DataContext="{Binding FluenceofRhoAndTOption}"
+                        DataContext="{Binding FluenceOfRhoAndTOption}"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfRhoAndT, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="2" IsEnabled="False"
-                        DataContext="{Binding FluenceofFxAndTOption}"
+                        DataContext="{Binding FluenceOfFxAndTOption}"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfFxAndT, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <!-- FREQUENCY-DOMAIN -->
@@ -60,12 +60,12 @@
                         Text="Frequency-Domain"  Margin="2,2"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="1"
-                        DataContext="{Binding FluenceofRhoAndFtOption}" IsEnabled="False"
+                        DataContext="{Binding FluenceOfRhoAndFtOption}" IsEnabled="False"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfRhoAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="2"
-                        DataContext="{Binding FluenceofFxAndFtOption}" IsEnabled="False"
+                        DataContext="{Binding FluenceOfFxAndFtOption}" IsEnabled="False"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfFxAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                 </Grid>

@@ -108,27 +108,27 @@ namespace Vts
         /// <summary>
         /// reflectance as a function of source-detector separation (rho)
         /// </summary>
-        RofRho,
+        ROfRho,
         /// <summary>
         /// reflectance as a function of spatial-frequency (fx)
         /// </summary>
-        RofFx,
+        ROfFx,
         /// <summary>
         /// reflectance as a function of source-detector separation (rho) and time (t)
         /// </summary>
-        RofRhoAndT,
+        ROfRhoAndT,
         /// <summary>
         /// reflectance as a function of spatial-frequency (fx) and time (t)
         /// </summary>
-        RofFxAndT,
+        ROfFxAndT,
         /// <summary>
         /// reflectance as a function source-detector separation (rho) and temporal-frequency (ft)
         /// </summary>
-        RofRhoAndFt,
+        ROfRhoAndFt,
         /// <summary>
         /// reflectance as a function of spatial-frequency (fx) and temporal-frequency (ft)
         /// </summary>
-        RofFxAndFt
+        ROfFxAndFt
     }
     /// <summary>
     /// fluence solution domain types 
@@ -138,27 +138,27 @@ namespace Vts
         /// <summary>
         /// fluence as a function or source-detector separation (rho)
         /// </summary>
-        FluenceofRho,
+        FluenceOfRho,
         /// <summary>
         /// fluence as a function of spatial-frequency (fx)
         /// </summary>
-        FluenceofFx,
+        FluenceOfFx,
         /// <summary>
         /// fluence as a function or source-detector separation (rho) and time (t)
         /// </summary>
-        FluenceofRhoAndT,
+        FluenceOfRhoAndT,
         /// <summary>
         /// fluence as a function of spatial-frequency (fx) and time (t)
         /// </summary>
-        FluenceofFxAndT,
+        FluenceOfFxAndT,
         /// <summary>
         /// fluence as a function of source-detector separation (rho) and temporal-frequency (ft)
         /// </summary>
-        FluenceofRhoAndFt,
+        FluenceOfRhoAndFt,
         /// <summary>
         /// fluence as a function of spatial-frequency (fx) and temporal-frequency (ft)
         /// </summary>
-        FluenceofFxAndFt
+        FluenceOfFxAndFt
     }
     /// <summary>
     /// forward analysis types

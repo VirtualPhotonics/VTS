@@ -24,14 +24,14 @@ namespace Vts.ReportInverseSolver.Desktop
             inputPath = currentAssemblyDirectoryName + "\\" + inputPath;
 
             //R(fx)
-            ChooseDataAndReportRofFx(projectName, inputPath);
+            ChooseDataAndReportROfFx(projectName, inputPath);
             //R(rho)
-            ChooseDataAndReportRofRho(projectName, inputPath);
+            ChooseDataAndReportROfRho(projectName, inputPath);
             //R(rho,t)
-            ChooseDataAndReportRofRhoAndT(projectName, inputPath);
+            ChooseDataAndReportROfRhoAndT(projectName, inputPath);
 
         }
-        private static void ChooseDataAndReportRofFx(string projectName, string inputPath)
+        private static void ChooseDataAndReportROfFx(string projectName, string inputPath)
         {
             //choose dfx
             double[] dfxs = { 0.02 };// 1/mm
@@ -99,18 +99,18 @@ namespace Vts.ReportInverseSolver.Desktop
                         {
                             foreach (var IFT in IFTs)
                             {
-                                ReportInverseSolverRofFx(dfx, fxRange, IFT, projectName, inputPath,
+                                ReportInverseSolverROfFx(dfx, fxRange, IFT, projectName, inputPath,
                                     forwardSolverTypes, optimizerTypes, guessOps, realOps, rD, nP, stepByStep);
                             }
                         }
                     }
                 }
             }
-            Console.WriteLine(" -------------- THE END for RofRho --------------");
+            Console.WriteLine(" -------------- THE END for ROfRho --------------");
             if (stepByStep) { Console.ReadLine(); }
         }
 
-        private static void ChooseDataAndReportRofRho(string projectName, string inputPath)
+        private static void ChooseDataAndReportROfRho(string projectName, string inputPath)
         {
             //choose drho
             double[] drhos = { 0.25 };//mm
@@ -177,18 +177,18 @@ namespace Vts.ReportInverseSolver.Desktop
                         {
                             foreach (var IFT in IFTs)
                             {
-                                ReportInverseSolverRofRho(drho, rhoRange, IFT, projectName, inputPath,
+                                ReportInverseSolverROfRho(drho, rhoRange, IFT, projectName, inputPath,
                                     forwardSolverTypes, optimizerTypes, guessOps, realOps, rD, nP, stepByStep);
                             }
                         }
                     }
                 }
             }
-            Console.WriteLine(" -------------- THE END for RofRho --------------");
+            Console.WriteLine(" -------------- THE END for ROfRho --------------");
             if (stepByStep) { Console.ReadLine(); }
         }
 
-        private static void ChooseDataAndReportRofRhoAndT(string projectName,
+        private static void ChooseDataAndReportROfRhoAndT(string projectName,
                                                           string inputPath)
         {
             // noise percentage
@@ -248,7 +248,7 @@ namespace Vts.ReportInverseSolver.Desktop
                         {
                             foreach (var IFT in IFTs)
                             {
-                                ReportInverseSolverRofRhoAndT(dt, riseMarker, tailMarker,
+                                ReportInverseSolverROfRhoAndT(dt, riseMarker, tailMarker,
                                     stDevMode, IFT, projectName, inputPath, forwardSolverTypes,
                                     optimizerTypes, guessOps, realOps, rhos, nP, stepByStep);
                             }
@@ -256,11 +256,11 @@ namespace Vts.ReportInverseSolver.Desktop
                     }
                 }
             }
-            Console.WriteLine(" -------------- THE END for RofRhoAndT --------------");
+            Console.WriteLine(" -------------- THE END for ROfRhoAndT --------------");
             if (stepByStep) { Console.ReadLine(); }
         }
 
-        private static void ReportInverseSolverRofFx(double dfx,
+        private static void ReportInverseSolverROfFx(double dfx,
                                                       double[] fxRange,
                                                       InverseFitType IFT,
                                                       string projectName,
@@ -274,7 +274,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                       bool stepByStep)
         {
             Console.WriteLine("#############################################");
-            Console.WriteLine("####### REPORT INVERSE SOLVER: RofFx #######");
+            Console.WriteLine("####### REPORT INVERSE SOLVER: ROfFx #######");
             Console.WriteLine("#############################################");
             //path definition
             string spaceDomainFolder = "SpatialFrequency";
@@ -354,7 +354,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                 if (IFT == InverseFitType.Musp) { gOp.Mua = rOp.Mua; }
                                 //solve inverse problem
                                 double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
-                                                               fST, oT, SolutionDomainType.RofFx,
+                                                               fST, oT, SolutionDomainType.ROfFx,
                                                                IndependentVariableAxis.Rho, mfxs, mR, mS, gOp, IFT);
                                 if (fit[0] != 0 && fit[1] != 0)
                                 {
@@ -369,7 +369,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                 {
                                     OpticalProperties fOp = new OpticalProperties(fit[0], fit[1], gOp.G, gOp.N);
                                     //calculate chi squared and change values if it improved
-                                    double chiSquared = EvaluateChiSquared(mR, SolverFactory.GetForwardSolver(fST).RofFx(fOp.AsEnumerable(), mfxs).ToArray(), mS);
+                                    double chiSquared = EvaluateChiSquared(mR, SolverFactory.GetForwardSolver(fST).ROfFx(fOp.AsEnumerable(), mfxs).ToArray(), mS);
                                     if (chiSquared < bestChiSquared)
                                     {
                                         guessBestMua = gOp.Mua;
@@ -416,7 +416,7 @@ namespace Vts.ReportInverseSolver.Desktop
             }
         }
 
-        private static void ReportInverseSolverRofRho(double drho,
+        private static void ReportInverseSolverROfRho(double drho,
                                                       double[] rhoRange,
                                                       InverseFitType IFT,
                                                       string projectName,
@@ -430,7 +430,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                       bool stepByStep)
         {
             Console.WriteLine("#############################################");
-            Console.WriteLine("####### REPORT INVERSE SOLVER: RofRho #######");
+            Console.WriteLine("####### REPORT INVERSE SOLVER: ROfRho #######");
             Console.WriteLine("#############################################");
             //path definition
             string spaceDomainFolder = "Real";
@@ -510,7 +510,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                 if (IFT == InverseFitType.Musp) { gOp.Mua = rOp.Mua; }
                                 //solve inverse problem
                                 double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
-                                                               fST, oT, SolutionDomainType.RofRho,
+                                                               fST, oT, SolutionDomainType.ROfRho,
                                                                IndependentVariableAxis.Rho, mrhos, mR, mS, gOp, IFT);
                                 if (fit[0] != 0 && fit[1] != 0)
                                 {
@@ -525,7 +525,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                 {
                                     OpticalProperties fOp = new OpticalProperties(fit[0], fit[1], gOp.G, gOp.N);
                                     //calculate chi squared and change values if it improved
-                                    double chiSquared = EvaluateChiSquared(mR, SolverFactory.GetForwardSolver(fST).RofRho(fOp.AsEnumerable(), mrhos).ToArray(), mS);
+                                    double chiSquared = EvaluateChiSquared(mR, SolverFactory.GetForwardSolver(fST).ROfRho(fOp.AsEnumerable(), mrhos).ToArray(), mS);
                                     if (chiSquared < bestChiSquared)
                                     {
                                         guessBestMua = gOp.Mua;
@@ -572,7 +572,7 @@ namespace Vts.ReportInverseSolver.Desktop
             }
         }
 
-        private static void ReportInverseSolverRofRhoAndT(double dt,
+        private static void ReportInverseSolverROfRhoAndT(double dt,
                                                           double riseMarker,
                                                           double tailMarker,
                                                           string stDevMode,
@@ -588,7 +588,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                           bool stepByStep)
         {
             Console.WriteLine("#############################################");
-            Console.WriteLine("##### REPORT INVERSE SOLVER: RofRhoAndT #####");
+            Console.WriteLine("##### REPORT INVERSE SOLVER: ROfRhoAndT #####");
             Console.WriteLine("#############################################");
             //path definition
             string spaceDomainFolder = "Real";
@@ -664,7 +664,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                     if (IFT == InverseFitType.Musp) { gOp.Mua = rOp.Mua; }
                                     //solve inverse problem
                                     double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
-                                                                   fST, oT, SolutionDomainType.RofRhoAndT,
+                                                                   fST, oT, SolutionDomainType.ROfRhoAndT,
                                                                    IndependentVariableAxis.T, T, R, S, gOp,
                                                                    IFT, constantVals);
                                     if (fit[0] != 0 && fit[1] != 0)
@@ -679,7 +679,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                     {
                                         OpticalProperties fOp = new OpticalProperties(fit[0], fit[1], gOp.G, gOp.N);
                                         //calculate chi squared and change best values if it improved
-                                        double chiSquared = EvaluateChiSquared(R.ToArray(), SolverFactory.GetForwardSolver(fST).RofRhoAndT(fOp.AsEnumerable(), rho.AsEnumerable(), T).ToArray(), S.ToArray());
+                                        double chiSquared = EvaluateChiSquared(R.ToArray(), SolverFactory.GetForwardSolver(fST).ROfRhoAndT(fOp.AsEnumerable(), rho.AsEnumerable(), T).ToArray(), S.ToArray());
                                         if (chiSquared < bestChiSquared)
                                         {
                                             guessBestMua = gOp.Mua;

@@ -47,39 +47,39 @@ namespace Vts.Modeling.ForwardSolvers
 
         #region Dummy virtual methods - must be implemented in child classes
 
-        public virtual double RofRho(OpticalProperties op, double rho)
+        public virtual double ROfRho(OpticalProperties op, double rho)
         {
             throw new NotImplementedException();
         }
 
 
-        public virtual double RofTheta(OpticalProperties op, double theta)
+        public virtual double ROfTheta(OpticalProperties op, double theta)
         {
             throw new NotImplementedException();
         }
 
 
-        public virtual double RofRhoAndT(OpticalProperties op, double rho, double t)
+        public virtual double ROfRhoAndT(OpticalProperties op, double rho, double t)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Complex RofRhoAndFt(OpticalProperties op, double rho, double ft)
+        public virtual Complex ROfRhoAndFt(OpticalProperties op, double rho, double ft)
         {
             throw new NotImplementedException();
         }
 
-        public virtual double RofFx(OpticalProperties op, double fx)
+        public virtual double ROfFx(OpticalProperties op, double fx)
         {
             throw new NotImplementedException();
         }
 
-        public virtual double RofFxAndT(OpticalProperties op, double fx, double t)
+        public virtual double ROfFxAndT(OpticalProperties op, double fx, double t)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Complex RofFxAndFt(OpticalProperties op, double fx, double ft)
+        public virtual Complex ROfFxAndFt(OpticalProperties op, double fx, double ft)
         {
             throw new NotImplementedException();
         }
@@ -88,273 +88,273 @@ namespace Vts.Modeling.ForwardSolvers
 
         #region Dummy default versions of the vectorized methods. Override these in child classes to take advantage of optimization strategies.
 
-        public virtual IEnumerable<double> RofRho(
+        public virtual IEnumerable<double> ROfRho(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos)
         {
-            return ((Func<OpticalProperties, double, double>)RofRho).LoopOverVariables(ops, rhos);
+            return ((Func<OpticalProperties, double, double>)ROfRho).LoopOverVariables(ops, rhos);
         }
 
-        public virtual IEnumerable<double> RofTheta(
+        public virtual IEnumerable<double> ROfTheta(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> thetas)
         {
-            return ((Func<OpticalProperties, double, double>)RofTheta).LoopOverVariables(ops, thetas);
+            return ((Func<OpticalProperties, double, double>)ROfTheta).LoopOverVariables(ops, thetas);
         }
 
-        public virtual IEnumerable<double> RofRhoAndT(
+        public virtual IEnumerable<double> ROfRhoAndT(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos,
             IEnumerable<double> ts)
         {
-            return ((Func<OpticalProperties, double, double, double>)RofRhoAndT).LoopOverVariables(ops, rhos, ts);
+            return ((Func<OpticalProperties, double, double, double>)ROfRhoAndT).LoopOverVariables(ops, rhos, ts);
         }
 
-        public virtual IEnumerable<Complex> RofRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
+        public virtual IEnumerable<Complex> ROfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
         {
-            return ((Func<OpticalProperties, double, double, Complex>)RofRhoAndFt).LoopOverVariables(ops, rhos, fts);
+            return ((Func<OpticalProperties, double, double, Complex>)ROfRhoAndFt).LoopOverVariables(ops, rhos, fts);
         }
 
-        public virtual IEnumerable<double> RofFx(
+        public virtual IEnumerable<double> ROfFx(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs)
         {
-            return ((Func<OpticalProperties, double, double>)RofFx).LoopOverVariables(ops, fxs);
+            return ((Func<OpticalProperties, double, double>)ROfFx).LoopOverVariables(ops, fxs);
         }
 
-        public virtual IEnumerable<double> RofFxAndT(
+        public virtual IEnumerable<double> ROfFxAndT(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs,
             IEnumerable<double> ts)
         {
-            return ((Func<OpticalProperties, double, double, double>)RofFxAndT).LoopOverVariables(ops, fxs, ts);
+            return ((Func<OpticalProperties, double, double, double>)ROfFxAndT).LoopOverVariables(ops, fxs, ts);
         }
 
-        public virtual IEnumerable<Complex> RofFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts)
+        public virtual IEnumerable<Complex> ROfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts)
         {
-            return ((Func<OpticalProperties, double, double, Complex>)RofFxAndFt).LoopOverVariables(ops, fxs, fts);
+            return ((Func<OpticalProperties, double, double, Complex>)ROfFxAndFt).LoopOverVariables(ops, fxs, fts);
         }
 
         #endregion
 
         #region Convenience array overloads (todo: these could alternatively be IForwardSolverExtensions instead of part of the contract)
 
-        public double[] RofRho(OpticalProperties[] ops, double[] rhos)
+        public double[] ROfRho(OpticalProperties[] ops, double[] rhos)
         {
             var output = new double[ops.Length * rhos.Length];
-            var query = RofRho((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos);
+            var query = ROfRho((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
 
-        public double[] RofTheta(OpticalProperties[] ops, double[] thetas)
+        public double[] ROfTheta(OpticalProperties[] ops, double[] thetas)
         {
             var output = new double[ops.Length * thetas.Length];
-            var query = RofTheta((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)thetas);
+            var query = ROfTheta((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)thetas);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
 
-        public double[] RofRhoAndT(OpticalProperties[] ops, double[] rhos, double[] ts)
+        public double[] ROfRhoAndT(OpticalProperties[] ops, double[] rhos, double[] ts)
         {
             var output = new double[ops.Length * rhos.Length * ts.Length];
-            var query = RofRhoAndT((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)ts);
+            var query = ROfRhoAndT((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)ts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
 
-        public Complex[] RofRhoAndFt(OpticalProperties[] ops, double[] rhos, double[] fts)
+        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double[] rhos, double[] fts)
         {
             var output = new Complex[ops.Length * rhos.Length * fts.Length];
-            var query = RofRhoAndFt((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)fts);
+            var query = ROfRhoAndFt((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)fts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
 
-        public double[] RofFx(OpticalProperties[] ops, double[] fxs)
+        public double[] ROfFx(OpticalProperties[] ops, double[] fxs)
         {
             var output = new double[ops.Length * fxs.Length];
-            var query = RofFx((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fxs);
+            var query = ROfFx((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fxs);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
 
-        public double[] RofFxAndT(OpticalProperties[] ops, double[] fxs, double[] ts)
+        public double[] ROfFxAndT(OpticalProperties[] ops, double[] fxs, double[] ts)
         {
             var output = new double[ops.Length * fxs.Length * ts.Length];
-            var query = RofFxAndT((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fxs, (IEnumerable<double>)ts);
+            var query = ROfFxAndT((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fxs, (IEnumerable<double>)ts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
 
-        public Complex[] RofFxAndFt(OpticalProperties[] ops, double[] fxs, double[] fts)
+        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double[] fts)
         {
             var output = new Complex[ops.Length * fxs.Length * fts.Length];
-            var query = RofFxAndFt((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fxs, (IEnumerable<double>)fts);
+            var query = ROfFxAndFt((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fxs, (IEnumerable<double>)fts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
 
         #region array overloads that simplify single parameter specification
 
-        public double[] RofRho(OpticalProperties op, double[] rhos)
+        public double[] ROfRho(OpticalProperties op, double[] rhos)
         {
-            return RofRho(new[] { op }, rhos);
+            return ROfRho(new[] { op }, rhos);
         }
 
-        public double[] RofRho(OpticalProperties[] ops, double rho)
+        public double[] ROfRho(OpticalProperties[] ops, double rho)
         {
-            return RofRho(ops, new[] { rho });
+            return ROfRho(ops, new[] { rho });
         }
 
-        public double[] RofTheta(OpticalProperties op, double[] thetas)
+        public double[] ROfTheta(OpticalProperties op, double[] thetas)
         {
-            return RofTheta(new[] { op }, thetas);
+            return ROfTheta(new[] { op }, thetas);
         }
 
-        public double[] RofTheta(OpticalProperties[] ops, double theta)
+        public double[] ROfTheta(OpticalProperties[] ops, double theta)
         {
-            return RofTheta(ops, new[] { theta });
+            return ROfTheta(ops, new[] { theta });
         }
 
-        // RofRhoAndT
+        // ROfRhoAndT
 
-        public double[] RofRhoAndT(OpticalProperties op, double[] rhos, double[] ts)
+        public double[] ROfRhoAndT(OpticalProperties op, double[] rhos, double[] ts)
         {
-            return RofRhoAndT(new[] { op }, rhos, ts);
+            return ROfRhoAndT(new[] { op }, rhos, ts);
         }
 
-        public double[] RofRhoAndT(OpticalProperties[] ops, double rho, double[] ts)
+        public double[] ROfRhoAndT(OpticalProperties[] ops, double rho, double[] ts)
         {
-            return RofRhoAndT(ops, new[] { rho }, ts);
+            return ROfRhoAndT(ops, new[] { rho }, ts);
         }
 
-        public double[] RofRhoAndT(OpticalProperties[] ops, double[] rhos, double t)
+        public double[] ROfRhoAndT(OpticalProperties[] ops, double[] rhos, double t)
         {
-            return RofRhoAndT(ops, rhos, new[] { t });
+            return ROfRhoAndT(ops, rhos, new[] { t });
         }
 
-        public double[] RofRhoAndT(OpticalProperties op, double rho, double[] ts)
+        public double[] ROfRhoAndT(OpticalProperties op, double rho, double[] ts)
         {
-            return RofRhoAndT(new[] { op }, new[] { rho }, ts);
+            return ROfRhoAndT(new[] { op }, new[] { rho }, ts);
         }
 
-        public double[] RofRhoAndT(OpticalProperties op, double[] rhos, double t)
+        public double[] ROfRhoAndT(OpticalProperties op, double[] rhos, double t)
         {
-            return RofRhoAndT(new[] { op }, rhos, new[] { t });
+            return ROfRhoAndT(new[] { op }, rhos, new[] { t });
         }
 
-        public double[] RofRhoAndT(OpticalProperties[] ops, double rho, double t)
+        public double[] ROfRhoAndT(OpticalProperties[] ops, double rho, double t)
         {
-            return RofRhoAndT(ops, new[] { rho }, new[] { t });
+            return ROfRhoAndT(ops, new[] { rho }, new[] { t });
         }
 
-        // RofRhoAndFt
+        // ROfRhoAndFt
 
-        public Complex[] RofRhoAndFt(OpticalProperties op, double[] rhos, double[] fts)
+        public Complex[] ROfRhoAndFt(OpticalProperties op, double[] rhos, double[] fts)
         {
-            return RofRhoAndFt(new[] { op }, rhos, fts);
+            return ROfRhoAndFt(new[] { op }, rhos, fts);
         }
 
-        public Complex[] RofRhoAndFt(OpticalProperties[] ops, double rho, double[] fts)
+        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double[] fts)
         {
-            return RofRhoAndFt(ops, new[] { rho }, fts);
+            return ROfRhoAndFt(ops, new[] { rho }, fts);
         }
 
-        public Complex[] RofRhoAndFt(OpticalProperties[] ops, double[] rhos, double ft)
+        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double[] rhos, double ft)
         {
-            return RofRhoAndFt(ops, rhos, new[] { ft });
+            return ROfRhoAndFt(ops, rhos, new[] { ft });
         }
 
-        public Complex[] RofRhoAndFt(OpticalProperties op, double rho, double[] fts)
+        public Complex[] ROfRhoAndFt(OpticalProperties op, double rho, double[] fts)
         {
-            return RofRhoAndFt(new[] { op }, new[] { rho }, fts);
+            return ROfRhoAndFt(new[] { op }, new[] { rho }, fts);
         }
 
-        public Complex[] RofRhoAndFt(OpticalProperties op, double[] rhos, double ft)
+        public Complex[] ROfRhoAndFt(OpticalProperties op, double[] rhos, double ft)
         {
-            return RofRhoAndFt(new[] { op }, rhos, new[] { ft });
+            return ROfRhoAndFt(new[] { op }, rhos, new[] { ft });
         }
 
-        public Complex[] RofRhoAndFt(OpticalProperties[] ops, double rho, double ft)
+        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double ft)
         {
-            return RofRhoAndFt(ops, new[] { rho }, new[] { ft });
+            return ROfRhoAndFt(ops, new[] { rho }, new[] { ft });
         }
 
-        // RofFx
+        // ROfFx
 
-        public double[] RofFx(OpticalProperties op, double[] fxs)
+        public double[] ROfFx(OpticalProperties op, double[] fxs)
         {
-            return RofFx(new[] { op }, fxs);
+            return ROfFx(new[] { op }, fxs);
         }
 
-        public double[] RofFx(OpticalProperties[] ops, double fx)
+        public double[] ROfFx(OpticalProperties[] ops, double fx)
         {
-            return RofFx(ops, new[] { fx });
+            return ROfFx(ops, new[] { fx });
         }
 
-        // RofFxAndT
+        // ROfFxAndT
 
-        public double[] RofFxAndT(OpticalProperties op, double[] fxs, double[] ts)
+        public double[] ROfFxAndT(OpticalProperties op, double[] fxs, double[] ts)
         {
-            return RofFxAndT(new[] { op }, fxs, ts);
+            return ROfFxAndT(new[] { op }, fxs, ts);
         }
 
-        public double[] RofFxAndT(OpticalProperties[] ops, double fx, double[] ts)
+        public double[] ROfFxAndT(OpticalProperties[] ops, double fx, double[] ts)
         {
-            return RofFxAndT(ops, new[] { fx }, ts);
+            return ROfFxAndT(ops, new[] { fx }, ts);
         }
 
-        public double[] RofFxAndT(OpticalProperties[] ops, double[] fxs, double t)
+        public double[] ROfFxAndT(OpticalProperties[] ops, double[] fxs, double t)
         {
-            return RofFxAndT(ops, fxs, new[] { t });
+            return ROfFxAndT(ops, fxs, new[] { t });
         }
 
-        public double[] RofFxAndT(OpticalProperties op, double fx, double[] ts)
+        public double[] ROfFxAndT(OpticalProperties op, double fx, double[] ts)
         {
-            return RofFxAndT(new[] { op }, new[] { fx }, ts);
+            return ROfFxAndT(new[] { op }, new[] { fx }, ts);
         }
 
-        public double[] RofFxAndT(OpticalProperties op, double[] fxs, double t)
+        public double[] ROfFxAndT(OpticalProperties op, double[] fxs, double t)
         {
-            return RofFxAndT(new[] { op }, fxs, new[] { t });
+            return ROfFxAndT(new[] { op }, fxs, new[] { t });
         }
 
-        public double[] RofFxAndT(OpticalProperties[] ops, double fx, double t)
+        public double[] ROfFxAndT(OpticalProperties[] ops, double fx, double t)
         {
-            return RofFxAndT(ops, new[] { fx }, new[] { t });
+            return ROfFxAndT(ops, new[] { fx }, new[] { t });
         }
 
-        // RofFxAndFt
+        // ROfFxAndFt
 
-        public Complex[] RofFxAndFt(OpticalProperties op, double[] fxs, double[] fts)
+        public Complex[] ROfFxAndFt(OpticalProperties op, double[] fxs, double[] fts)
         {
-            return RofFxAndFt(new[] { op }, fxs, fts);
+            return ROfFxAndFt(new[] { op }, fxs, fts);
         }
 
-        public Complex[] RofFxAndFt(OpticalProperties[] ops, double fx, double[] fts)
+        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double[] fts)
         {
-            return RofFxAndFt(ops, new[] { fx }, fts);
+            return ROfFxAndFt(ops, new[] { fx }, fts);
         }
 
-        public Complex[] RofFxAndFt(OpticalProperties[] ops, double[] fxs, double ft)
+        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double ft)
         {
-            return RofFxAndFt(ops, fxs, new[] { ft });
+            return ROfFxAndFt(ops, fxs, new[] { ft });
         }
 
-        public Complex[] RofFxAndFt(OpticalProperties op, double fx, double[] fts)
+        public Complex[] ROfFxAndFt(OpticalProperties op, double fx, double[] fts)
         {
-            return RofFxAndFt(new[] { op }, new[] { fx }, fts);
+            return ROfFxAndFt(new[] { op }, new[] { fx }, fts);
         }
 
-        public Complex[] RofFxAndFt(OpticalProperties op, double[] fxs, double ft)
+        public Complex[] ROfFxAndFt(OpticalProperties op, double[] fxs, double ft)
         {
-            return RofFxAndFt(new[] { op }, fxs, new[] { ft });
+            return ROfFxAndFt(new[] { op }, fxs, new[] { ft });
         }
 
-        public Complex[] RofFxAndFt(OpticalProperties[] ops, double fx, double ft)
+        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double ft)
         {
-            return RofFxAndFt(ops, new[] { fx }, new[] { ft });
+            return ROfFxAndFt(ops, new[] { fx }, new[] { ft });
         }
 
         #endregion
@@ -367,12 +367,12 @@ namespace Vts.Modeling.ForwardSolvers
         #region Dummy default fluence versions of the vectorized methods. Override these in child classes to take advantage of optimization strategies.
 
         /// <summary>
-        /// Overload of scalar RofRho function. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos'
+        /// Overload of scalar ROfRho function. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns></returns>
-        public virtual IEnumerable<double> FluenceofRho(
+        public virtual IEnumerable<double> FluenceOfRho(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos,
             IEnumerable<double> zs)
@@ -381,14 +381,14 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Overload of scalar RofRhoAndT function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and times 'ts'
+        /// Overload of scalar ROfRhoAndT function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and times 'ts'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns></returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
-        public virtual IEnumerable<double> FluenceofRhoAndT(
+        public virtual IEnumerable<double> FluenceOfRhoAndT(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos,
             IEnumerable<double> zs,
@@ -398,14 +398,14 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Overload of scalar RofRhoAndFt function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and time frequencies 'fts'
+        /// Overload of scalar ROfRhoAndFt function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and time frequencies 'fts'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
-        public virtual IEnumerable<double> FluenceofRhoAndFt(
+        public virtual IEnumerable<double> FluenceOfRhoAndFt(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos,
             IEnumerable<double> zs,
@@ -415,12 +415,12 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Overload of scalar RofFx function. Determines reflectances at optical properties 'ops' and spatial frequencies 'fxs'
+        /// Overload of scalar ROfFx function. Determines reflectances at optical properties 'ops' and spatial frequencies 'fxs'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <returns></returns>
-        public virtual IEnumerable<double> FluenceofFx(
+        public virtual IEnumerable<double> FluenceOfFx(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs,
             IEnumerable<double> zs)
@@ -429,13 +429,13 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Overload of scalar RofFxAndT function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and times 'ts'
+        /// Overload of scalar ROfFxAndT function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and times 'ts'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="ts"></param>
         /// <returns></returns>
-        public virtual IEnumerable<double> FluenceofFxAndT(
+        public virtual IEnumerable<double> FluenceOfFxAndT(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs,
             IEnumerable<double> zs,
@@ -445,13 +445,13 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Overload of scalar RofFxAndFt function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and time frequencies 'fts'
+        /// Overload of scalar ROfFxAndFt function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and time frequencies 'fts'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
-        public virtual IEnumerable<double> FluenceofFxAndFt(
+        public virtual IEnumerable<double> FluenceOfFxAndFt(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs,
             IEnumerable<double> zs,
@@ -464,50 +464,50 @@ namespace Vts.Modeling.ForwardSolvers
 
         #region Convenience array overloads for fluence methods
         
-        public double[] FluenceofRho(OpticalProperties[] ops, double[] rhos, double[] zs)
+        public double[] FluenceOfRho(OpticalProperties[] ops, double[] rhos, double[] zs)
         {
             var output = new double[ops.Length * rhos.Length * zs.Length];
-            var query = FluenceofRho((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)zs);
+            var query = FluenceOfRho((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)zs);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
 
-        public double[] FluenceofRhoAndT(OpticalProperties[] ops, double[] rhos, double[] zs, double[] ts)
+        public double[] FluenceOfRhoAndT(OpticalProperties[] ops, double[] rhos, double[] zs, double[] ts)
         {
             var output = new double[ops.Length * rhos.Length * zs.Length * ts.Length];
-            var query = FluenceofRhoAndT((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)zs, (IEnumerable<double>)ts);
+            var query = FluenceOfRhoAndT((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)zs, (IEnumerable<double>)ts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
 
-        public double[] FluenceofRhoAndFt(OpticalProperties[] ops, double[] rhos, double[] zs, double[] fts)
+        public double[] FluenceOfRhoAndFt(OpticalProperties[] ops, double[] rhos, double[] zs, double[] fts)
         {
             var output = new double[ops.Length * rhos.Length * zs.Length * fts.Length];
-            var query = FluenceofRhoAndFt((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)zs, (IEnumerable<double>)fts);
+            var query = FluenceOfRhoAndFt((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)zs, (IEnumerable<double>)fts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
 
-        public double[] FluenceofFx(OpticalProperties[] ops, double[] fxs, double[] zs)
+        public double[] FluenceOfFx(OpticalProperties[] ops, double[] fxs, double[] zs)
         {
             var output = new double[ops.Length * fxs.Length * zs.Length];
-            var query = FluenceofFx((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fxs, (IEnumerable<double>)zs);
+            var query = FluenceOfFx((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fxs, (IEnumerable<double>)zs);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
 
-        public double[] FluenceofFxAndT(OpticalProperties[] ops, double[] fxs, double[] zs, double[] ts)
+        public double[] FluenceOfFxAndT(OpticalProperties[] ops, double[] fxs, double[] zs, double[] ts)
         {
             var output = new double[ops.Length * fxs.Length * zs.Length * ts.Length];
-            var query = FluenceofFxAndT((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fxs, (IEnumerable<double>)zs, (IEnumerable<double>)ts);
+            var query = FluenceOfFxAndT((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fxs, (IEnumerable<double>)zs, (IEnumerable<double>)ts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
 
-        public double[] FluenceofFxAndFt(OpticalProperties[] ops, double[] fx, double[] zs, double[] fts)
+        public double[] FluenceOfFxAndFt(OpticalProperties[] ops, double[] fx, double[] zs, double[] fts)
         {
             var output = new double[ops.Length * fx.Length * zs.Length * fts.Length];
-            var query = FluenceofFxAndFt((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fx, (IEnumerable<double>)zs, (IEnumerable<double>)fts);
+            var query = FluenceOfFxAndFt((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fx, (IEnumerable<double>)zs, (IEnumerable<double>)fts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }

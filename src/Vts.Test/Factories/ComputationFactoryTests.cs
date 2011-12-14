@@ -21,7 +21,7 @@ namespace Vts.Test.Factories
         {
             var test = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                 "MonteCarlo",
-                "RofRho",
+                "ROfRho",
                 "R",
                 "Rho",
                 new double[] {1, 2, 3},
@@ -37,7 +37,7 @@ namespace Vts.Test.Factories
         {
             var test = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                 ForwardSolverType.MonteCarlo,
-                SolutionDomainType.RofRho,
+                SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
                 IndependentVariableAxis.Rho,
                 new double[] { 1, 2, 3 },

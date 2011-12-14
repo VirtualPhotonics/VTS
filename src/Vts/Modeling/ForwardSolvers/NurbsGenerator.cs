@@ -532,7 +532,7 @@ namespace Vts.Modeling.ForwardSolvers
        
         /// <summary>
         /// Returns the integral of a NURBS curve over a single knotspan.
-        /// If the integral has to be performed to evaluate RofRho the algorithm checks if the
+        /// If the integral has to be performed to evaluate ROfRho the algorithm checks if the
         /// lower time limit of the knot span is larger then the minimum time 
         /// of flight necessary to reach the detector. The integration is analytical
         /// only for the real domain and only if the time span is larger then a threshold value

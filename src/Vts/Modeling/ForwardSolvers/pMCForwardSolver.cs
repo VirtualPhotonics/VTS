@@ -30,12 +30,12 @@ namespace Vts.Modeling.ForwardSolvers
         #region IForwardSolver Members
 
         #region Spatial Domain Solutions
-        public override double RofRho(OpticalProperties op, double rho)
+        public override double ROfRho(OpticalProperties op, double rho)
         {
-            return RofRho(op.AsEnumerable(), rho.AsEnumerable()).First();
+            return ROfRho(op.AsEnumerable(), rho.AsEnumerable()).First();
         }
 
-        public override IEnumerable<double> RofRho(IEnumerable<OpticalProperties> ops,
+        public override IEnumerable<double> ROfRho(IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos)
         {
             // determine rho bins with centers at IEnumerable rhos
@@ -69,12 +69,12 @@ namespace Vts.Modeling.ForwardSolvers
             }
         }
 
-        public override double RofRhoAndT(OpticalProperties op, double rho, double t)
+        public override double ROfRhoAndT(OpticalProperties op, double rho, double t)
         {
-            return RofRhoAndT(op.AsEnumerable(), rho.AsEnumerable(), t.AsEnumerable()).First();
+            return ROfRhoAndT(op.AsEnumerable(), rho.AsEnumerable(), t.AsEnumerable()).First();
         }
 
-        public override IEnumerable<double> RofRhoAndT(IEnumerable<OpticalProperties> ops,
+        public override IEnumerable<double> ROfRhoAndT(IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos, IEnumerable<double> times)
         {
             // need to fix:  results may be bad because detector expects continguous rho,time bins but 
@@ -145,11 +145,11 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">rho</param>
         /// <param name="ft">time frequency</param>
         /// <returns></returns>
-        public override Complex RofRhoAndFt(OpticalProperties op, double rho, double ft)
+        public override Complex ROfRhoAndFt(OpticalProperties op, double rho, double ft)
         {
-            return RofRhoAndFt(op.AsEnumerable(), rho.AsEnumerable(), ft.AsEnumerable()).First();
+            return ROfRhoAndFt(op.AsEnumerable(), rho.AsEnumerable(), ft.AsEnumerable()).First();
         }
-        public override IEnumerable<Complex> RofRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
+        public override IEnumerable<Complex> ROfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
         {
             foreach (var op in ops)
             {
@@ -165,11 +165,11 @@ namespace Vts.Modeling.ForwardSolvers
         #endregion
 
         #region Spatial Frequency Domain Solutions
-        public override double RofFx(OpticalProperties op, double fx)
+        public override double ROfFx(OpticalProperties op, double fx)
         {
-            return RofFx(op.AsEnumerable(), fx.AsEnumerable()).First();
+            return ROfFx(op.AsEnumerable(), fx.AsEnumerable()).First();
         }
-        public override IEnumerable<double> RofFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs)
+        public override IEnumerable<double> ROfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs)
         {
             foreach (var op in ops)
             {
@@ -180,11 +180,11 @@ namespace Vts.Modeling.ForwardSolvers
             }
         }
 
-        public override double RofFxAndT(OpticalProperties op, double fx, double t)
+        public override double ROfFxAndT(OpticalProperties op, double fx, double t)
         {
-            return RofFxAndT(op.AsEnumerable(), fx.AsEnumerable(), fx.AsEnumerable()).First();
+            return ROfFxAndT(op.AsEnumerable(), fx.AsEnumerable(), fx.AsEnumerable()).First();
         }
-        public override IEnumerable<double> RofFxAndT(IEnumerable<OpticalProperties> ops,
+        public override IEnumerable<double> ROfFxAndT(IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs, IEnumerable<double> times)
         {
             foreach (var op in ops)
@@ -199,11 +199,11 @@ namespace Vts.Modeling.ForwardSolvers
             }
         }
 
-        public override Complex RofFxAndFt(OpticalProperties op, double fx, double ft)
+        public override Complex ROfFxAndFt(OpticalProperties op, double fx, double ft)
         {
-            return RofFxAndFt(op.AsEnumerable(), fx.AsEnumerable(), ft.AsEnumerable()).First();
+            return ROfFxAndFt(op.AsEnumerable(), fx.AsEnumerable(), ft.AsEnumerable()).First();
         }
-        public override IEnumerable<Complex> RofFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts)
+        public override IEnumerable<Complex> ROfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts)
         {
             foreach (var op in ops)
             {
@@ -222,32 +222,32 @@ namespace Vts.Modeling.ForwardSolvers
         #endregion
 
 
-        public override IEnumerable<double> FluenceofRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
+        public override IEnumerable<double> FluenceOfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
         {
             throw new NotImplementedException();
         }
 
-        public override IEnumerable<double> FluenceofRhoAndT(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> ts)
+        public override IEnumerable<double> FluenceOfRhoAndT(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> ts)
         {
             throw new NotImplementedException();
         }
 
-        public override IEnumerable<double> FluenceofRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
+        public override IEnumerable<double> FluenceOfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
         {
             throw new NotImplementedException();
         }
 
-        public override IEnumerable<double> FluenceofFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs)
+        public override IEnumerable<double> FluenceOfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs)
         {
             throw new NotImplementedException();
         }
 
-        public override IEnumerable<double> FluenceofFxAndT(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> ts)
+        public override IEnumerable<double> FluenceOfFxAndT(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> ts)
         {
             throw new NotImplementedException();
         }
 
-        public override IEnumerable<double> FluenceofFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts)
+        public override IEnumerable<double> FluenceOfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts)
         {
             throw new NotImplementedException();
         }
