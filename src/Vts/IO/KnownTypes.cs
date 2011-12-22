@@ -42,6 +42,9 @@ namespace Vts.IO
 					typeof (TOfAngleDetector),
 					typeof (TOfRhoAndAngleDetector),
 					typeof (TOfRhoDetector),
+                    
+					typeof (ROfFxDetectorInput),
+					typeof (ROfFxAndTimeDetectorInput),
 
 					typeof (DirectionalCircularSourceInput),
 					typeof (DirectionalPointSourceInput),
