@@ -80,7 +80,9 @@ namespace Vts.MonteCarlo.PostProcessor
 
             var databaseGenerationInputFile = SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"));
             // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
-            if (input.DetectorInputs.Select(di => di.TallyType.IspMCReflectanceTally()).Any())
+
+            // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
+            if (input.DetectorInputs.Where(di => di.TallyType.IspMCReflectanceTally()).Any())
             {
                 IList<IpMCDetectorInput> pMCDetectorInputs;
                 pMCDetectorInputs = input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
@@ -94,7 +96,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     databaseGenerationInputFile
                 );
             }
-            else if (input.DetectorInputs.Select(di => di.TallyType.IsReflectanceTally()).Any())
+            else if (input.DetectorInputs.Where(di => di.TallyType.IsReflectanceTally()).Any())
             {
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.DiffuseReflectance,
@@ -106,7 +108,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     databaseGenerationInputFile
                 );
             }
-            else if (input.DetectorInputs.Select(di => di.TallyType.IsTransmittanceTally()).Any())
+            else if (input.DetectorInputs.Where(di => di.TallyType.IsTransmittanceTally()).Any())
             {
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.DiffuseTransmittance,
@@ -118,7 +120,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     databaseGenerationInputFile
                 );
             }
-            else if (input.DetectorInputs.Select(di => di.TallyType.IsSpecularReflectanceTally()).Any())
+            else if (input.DetectorInputs.Where(di => di.TallyType.IsSpecularReflectanceTally()).Any())
             {
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.SpecularReflectance,

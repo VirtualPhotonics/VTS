@@ -16,17 +16,17 @@ namespace Vts.SiteVisit.Test.ViewModel
         }
 
         [Test]
-        public void Can_Execute_RofRho() { TestCanExecuteForwardSolver(SolutionDomainType.RofRho); }
+        public void Can_Execute_ROfRho() { TestCanExecuteForwardSolver(SolutionDomainType.ROfRho); }
         [Test]
-        public void Can_Execute_RofRhoAndT() { TestCanExecuteForwardSolver(SolutionDomainType.RofRhoAndT); }
+        public void Can_Execute_ROfRhoAndT() { TestCanExecuteForwardSolver(SolutionDomainType.ROfRhoAndT); }
         [Test]
-        public void Can_Execute_RofRhoAndFt() { TestCanExecuteForwardSolver(SolutionDomainType.RofRhoAndFt); }
+        public void Can_Execute_ROfRhoAndFt() { TestCanExecuteForwardSolver(SolutionDomainType.ROfRhoAndFt); }
         [Test]
-        public void Can_Execute_RofFx() { TestCanExecuteForwardSolver(SolutionDomainType.RofFx); }
+        public void Can_Execute_ROfFx() { TestCanExecuteForwardSolver(SolutionDomainType.ROfFx); }
         [Test]
-        public void Can_Execute_RofFxAndT() { TestCanExecuteForwardSolver(SolutionDomainType.RofFxAndT); }
+        public void Can_Execute_ROfFxAndT() { TestCanExecuteForwardSolver(SolutionDomainType.ROfFxAndT); }
         [Test]
-        public void Can_Execute_RofFxAndFt() { TestCanExecuteForwardSolver(SolutionDomainType.RofFxAndFt); }
+        public void Can_Execute_ROfFxAndFt() { TestCanExecuteForwardSolver(SolutionDomainType.ROfFxAndFt); }
 
         private void TestCanExecuteForwardSolver(SolutionDomainType solutionDomainType)
         {

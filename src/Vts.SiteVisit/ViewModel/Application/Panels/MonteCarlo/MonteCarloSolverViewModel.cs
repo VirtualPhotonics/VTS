@@ -397,7 +397,7 @@ namespace Vts.SiteVisit.ViewModel
             return new PlotAxesLabels(
                 IndependentVariableAxis.Rho.GetInternationalizedString(),
                 IndependentVariableAxisUnits.MM.GetInternationalizedString(),
-                SolutionDomainType.RofRho.GetInternationalizedString(),
+                SolutionDomainType.ROfRho.GetInternationalizedString(),
                 DependentVariableAxisUnits.PerMMSquared.GetInternationalizedString());
         }
 

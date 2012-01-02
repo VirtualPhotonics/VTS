@@ -36,7 +36,7 @@ namespace Vts.SiteVisit.ViewModel
 
         public InverseSolverViewModel()
         {
-            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain:", SolutionDomainType.RofRho);
+            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain:", SolutionDomainType.ROfRho);
             RangeVM = new RangeViewModel { Title = "" };
 
             SolutionDomainTypeOptionVM.SolverType = SolverType.Inverse;

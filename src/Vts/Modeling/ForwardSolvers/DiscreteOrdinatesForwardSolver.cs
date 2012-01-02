@@ -9,7 +9,7 @@ namespace Vts.Modeling.ForwardSolvers
 {
     public class DiscreteOrdinatesForwardSolver : ForwardSolverBase
     {
-        public override IEnumerable<double> RofTheta(IEnumerable<OpticalProperties> ops, IEnumerable<double> thetas)
+        public override IEnumerable<double> ROfTheta(IEnumerable<OpticalProperties> ops, IEnumerable<double> thetas)
         {
             // this method solves for R(μ) in an index-matched 1-dimensional half-space, where mu is cos(theta) 
             // just a place-holder until we 1) find the right place for lower-dimensional solvers and 
@@ -40,9 +40,9 @@ namespace Vts.Modeling.ForwardSolvers
             }
         }
 
-        public override double RofTheta(OpticalProperties op, double theta)
+        public override double ROfTheta(OpticalProperties op, double theta)
         {
-            return RofTheta(op.AsEnumerable(), theta.AsEnumerable()).FirstOrDefault();
+            return ROfTheta(op.AsEnumerable(), theta.AsEnumerable()).FirstOrDefault();
         }
     }
 }

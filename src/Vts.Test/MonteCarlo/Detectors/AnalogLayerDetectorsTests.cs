@@ -50,7 +50,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     1 // start off inside tissue 
                 ),
                 new MultiLayerTissueInput(
-                    new List<ITissueRegion>
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -79,7 +79,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(-200.0, 200.0, 401)), // y,
                     new ROfRhoAndOmegaDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1.0, 21)),
+                        new DoubleRange(0.05, 1.0, 20)), //  new DoubleRange(0.0, 1.0, 21)) DJC - edited to reflect frequency sampling points (not bins)
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
                     new TOfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
@@ -154,6 +154,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_Analog_ROfRhoAndOmega()
         {
+            // todo: warning - this validation data from Linux is actually for Omega = 0.025GHz
+            // (see here: http://virtualphotonics.codeplex.com/discussions/278250)
             Assert.Less(Complex.Abs(
                 _output.R_rw[0, 0] * _factor - (0.9284030 - Complex.ImaginaryOne * 0.0007940711)), 0.000001);
         }

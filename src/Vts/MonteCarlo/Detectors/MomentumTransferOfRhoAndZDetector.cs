@@ -8,10 +8,10 @@ using Vts.MonteCarlo.Helpers;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IHistoryTally&lt;double[,]&gt;.  Tally for MomentumTransfer(rho,z).
+    /// Implements IDetector&lt;double[,]&gt;.  Tally for MomentumTransfer(rho,z).
     /// </summary>
     [KnownType(typeof(MomentumTransferOfRhoAndZDetector))]
-    public class MomentumTransferOfRhoAndZDetector : IVolumeDetector<double[,]>
+    public class MomentumTransferOfRhoAndZDetector : IDetector<double[,]> 
     {
         private bool _tallySecondMoment;
 
@@ -80,28 +80,31 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Z { get; set; }
 
-        /// <summary>
-        /// method to tally to detector
-        /// </summary>
-        /// <param name="previousDP">previous datapoint</param>
-        /// <param name="dp">current datapoint</param>
+        public void Tally(Photon photon)
+        {
+            // todo: is this logically consistent at any place that could call Tally(photon)?
+            Tally(photon.History.PreviousDP, photon.History.CurrentDP);
+        }
+
+        // collision tally
         public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
-            // calculate momentum transfer
-            double cosineBetweenTrajectories = Direction.GetDotProduct(previousDP.Direction, dp.Direction);
+            //// comment out until we determine a way to accummulate momentum transfer
+            //// calculate momentum transfer
+            //double cosineBetweenTrajectories = Direction.GetDotProduct(previousDP.Direction, dp.Direction);
 
-            var momentumTransfer = 1 - cosineBetweenTrajectories;
+            //var momentumTransfer = 1 - cosineBetweenTrajectories;
 
-            // calculate the radial and time bins to attribute the deposition
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
-            var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
+            //// calculate the radial and time bins to attribute the deposition
+            //var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            //var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
 
-            Mean[ir, iz] += momentumTransfer;
-            if (_tallySecondMoment)
-            {
-                SecondMoment[ir, iz] += momentumTransfer * momentumTransfer;
-            }
-            TallyCount++;
+            //Mean[ir, iz] += momentumTransfer;
+            //if (_tallySecondMoment)
+            //{
+            //    SecondMoment[ir, iz] += momentumTransfer * momentumTransfer;
+            //}
+            //TallyCount++;
         }
 
         public void Normalize(long numPhotons)

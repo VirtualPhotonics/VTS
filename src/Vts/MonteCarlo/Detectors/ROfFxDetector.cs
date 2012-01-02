@@ -11,14 +11,16 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
-    /// of Rho and Omega.
+    /// Implements IDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
+    /// of Fx.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
     [KnownType(typeof(ROfFxDetector))]
-    public class ROfFxDetector : ISurfaceDetector<Complex[]>
+    public class ROfFxDetector : IDetector<Complex[]>
     {
         private bool _tallySecondMoment;
+        private double[] _fxArray;
+
         /// <summary>
         /// Returns an instance of ROfFxDetector
         /// </summary>
@@ -28,14 +30,15 @@ namespace Vts.MonteCarlo.Detectors
         public ROfFxDetector(DoubleRange fx, bool tallySecondMoment, String name)
         {
             Fx = fx;
+            _fxArray = fx.AsEnumerable().ToArray();
             _tallySecondMoment = tallySecondMoment;
-            Mean = new Complex[Fx.Count - 1];
+            Mean = new Complex[Fx.Count];
             SecondMoment = null;
             if (_tallySecondMoment)
             {
-                SecondMoment = new Complex[Fx.Count - 1];
+                SecondMoment = new Complex[Fx.Count];
             }
-            TallyType = TallyType.ROfRhoAndOmega;
+            TallyType = TallyType.ROfFx;
             Name = name;
             TallyCount = 0;
         }
@@ -45,7 +48,6 @@ namespace Vts.MonteCarlo.Detectors
         public ROfFxDetector()
             : this(new DoubleRange(), true, TallyType.ROfFx.ToString())
         {
-
         }
 
         [IgnoreDataMember]
@@ -62,13 +64,15 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Fx { get; set; }
 
-        public void Tally(PhotonDataPoint dp)
+        public void Tally(Photon photon)
         {
+            var dp = photon.DP;
+
             // var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var x = dp.Position.X;
-            for (int ifx = 0; ifx < Fx.Count - 1; ++ifx)
+            for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
             {
-                double freq = (ifx + 1) * Fx.Delta;
+                double freq = _fxArray[ifx];
 
                 var sinNegativeTwoPiFX = Math.Sin(-2 * Math.PI * freq * x);
                 var cosNegativeTwoPiFX = Math.Cos(-2 * Math.PI * freq * x);
@@ -91,7 +95,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
-            for (int ifx = 0; ifx < Fx.Count - 1; ifx++)
+            for (int ifx = 0; ifx < Fx.Count; ifx++)
             {
                 Mean[ifx] /= numPhotons;
                 if (_tallySecondMoment)

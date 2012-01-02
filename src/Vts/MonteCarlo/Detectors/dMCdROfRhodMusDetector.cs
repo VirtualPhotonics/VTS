@@ -10,11 +10,11 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally&lt;double[]&gt;.  Tally for dMC estimation of d(reflectance)/dMus 
+    /// Implements IDetector&lt;double[]&gt;.  Tally for dMC estimation of d(reflectance)/dMus 
     /// as a function of Rho.
     /// </summary>
     [KnownType(typeof(dMCdROfRhodMusDetector))]
-    public class dMCdROfRhodMusDetector : IpMCSurfaceDetector<double[]>
+    public class dMCdROfRhodMusDetector : IDetector<double[]> 
     {
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
@@ -99,21 +99,24 @@ namespace Vts.MonteCarlo.Detectors
                     break;
             }
         }
-
-        public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
+        /// <summary>
+        /// method to tally to photon
+        /// </summary>
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             if (ir != -1)
             {
                 double weightFactor = _absorbAction(
-                    infoList.Select(c => c.NumberOfCollisions).ToList(),
-                    infoList.Select(p => p.PathLength).ToList(),
+                    photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
+                    photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
                     _perturbedOps);
 
-                Mean[ir] += dp.Weight * weightFactor;
+                Mean[ir] += photon.DP.Weight * weightFactor;
                 if (_tallySecondMoment)
                 {
-                    SecondMoment[ir] += dp.Weight * weightFactor * dp.Weight * weightFactor;
+                    SecondMoment[ir] += photon.DP.Weight * weightFactor * photon.DP.Weight * weightFactor;
                 }
                 TallyCount++;
             }

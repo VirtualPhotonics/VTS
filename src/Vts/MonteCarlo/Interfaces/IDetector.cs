@@ -40,6 +40,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="numPhotons"></param>
         void Normalize(long numPhotons);
-        //bool ContainsPoint(PhotonDataPoint dp);
+        /// <summary>
+        /// Method to tally to detector using information in Photon
+        /// </summary>
+        /// <param name="photon"></param>
+        void Tally(Photon photon);
     }
 }

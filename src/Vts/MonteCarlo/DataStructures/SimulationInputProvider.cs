@@ -25,6 +25,7 @@ namespace Vts.MonteCarlo
                 PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors(),
                 PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector(),
                 PointSourceTwoLayerTissueROfRhoDetector(),
+                PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 GaussianSourceOneLayerTissueROfRhoDetector()
@@ -251,6 +252,53 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
+        #region point source two layer R(rho) with photon database
+        /// <summary>
+        /// Point source, two-layer tissue definition, only ROfRho detector included
+        /// </summary>
+        public static SimulationInput PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase()
+        {
+            return new SimulationInput(
+                100,
+                "two_layer_ROfRho_with_db",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new [] { DatabaseType.DiffuseReflectance }, // databases to be written
+                    true, // tally Second Moment
+                    false, // track statistics
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                new MultiLayerTissueInput(
+                    new LayerRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 1.5),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(1.5, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
+                }
+            );
+        }
+        #endregion
+
         #region point source single ellipsoid Fluence(rho)
         /// <summary>
         /// Point source, single ellipsoid tissue definition, only ROfRho detector included
@@ -347,7 +395,6 @@ namespace Vts.MonteCarlo
             );
         }
         #endregion
-
 
         #region Gaussian source one layer R(rho)
         /// <summary>

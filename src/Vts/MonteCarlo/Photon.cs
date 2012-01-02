@@ -15,9 +15,11 @@ namespace Vts.MonteCarlo
     public class Photon
     {
         // reducing any of the following values might result in unit tests not passing
-        private const int MAX_HISTORY_PTS = 300000; // moved this from MCSimulation
+        private const int MAX_HISTORY_PTS = 300000; // 300000 * [1/(5/mm)] = 60000 mm
         private const double CHANCE = 0.1;
-        private const double MAX_PHOTON_PATHLENGTH = 2000; // mm
+        //private const double MAX_PHOTON_PATHLENGTH = 2000; // mm  
+        private const double MAX_PHOTON_TIME = 280; // ns = 60000 mm (pathlength) / (300 / 1.4)
+        private const double WEIGHT_LIMIT = 0.0001; // Russian Roulette weight limit
 
         // could add layer of indirection to not expose Absorb;
         private ITissue _tissue;
@@ -37,6 +39,8 @@ namespace Vts.MonteCarlo
                     1.0, // weight
                     0.0, // total time
                     PhotonStateType.Alive);
+            //PreviousDP = null;
+
             History = new PhotonHistory(tissue.Regions.Count);
             History.AddDPToHistory(DP);  // add initial datapoint
             S = 0.0;
@@ -68,6 +72,7 @@ namespace Vts.MonteCarlo
         /// photon data point has position, direction etc. info
         /// </summary>
         public PhotonDataPoint DP { get; set; }
+
         // PhotonHistory has SubRegionCollisionInfo
         public PhotonHistory History { get; set; }
         /// <summary>
@@ -254,11 +259,9 @@ namespace Vts.MonteCarlo
             double ux = DP.Direction.Ux;
             double uy = DP.Direction.Uy;
             double uz = DP.Direction.Uz;
-            PhotonDataPoint p = DP;
-            Direction dir = p.Direction;
+            //Direction dir = DP.Direction;
 
-            int currentRegionIndex = this.CurrentRegionIndex;
-            double g = this._tissue.Regions[currentRegionIndex].RegionOP.G;
+            double g = this._tissue.Regions[CurrentRegionIndex].RegionOP.G;
             double cost, sint;    /* cosine and sine of theta */
             double cosp, sinp;    /* cosine and sine of phi */
             double psi;
@@ -278,26 +281,24 @@ namespace Vts.MonteCarlo
             cosp = Math.Cos(psi);
             sinp = Math.Sin(psi);
 
-            if (Math.Abs(dir.Uz) > (1 - 1e-10))
+            if (Math.Abs(DP.Direction.Uz) > (1 - 1e-10))
             {   /* normal incident. */
-                dir.Ux = sint * cosp;
-                dir.Uy = sint * sinp;
-                dir.Uz = cost * dir.Uz / Math.Abs(dir.Uz);
+                DP.Direction.Ux = sint * cosp;
+                DP.Direction.Uy = sint * sinp;
+                DP.Direction.Uz = cost * DP.Direction.Uz / Math.Abs(DP.Direction.Uz);
             }
             else
             {
                 double temp = Math.Sqrt(1.0 - uz * uz);
-                dir.Ux = sint * (ux * uz * cosp - uy * sinp) / temp + ux * cost;
-                dir.Uy = sint * (uy * uz * cosp + ux * sinp) / temp + uy * cost;
-                dir.Uz = -sint * cosp * temp + uz * cost;
+                DP.Direction.Ux = sint * (ux * uz * cosp - uy * sinp) / temp + ux * cost;
+                DP.Direction.Uy = sint * (uy * uz * cosp + ux * sinp) / temp + uy * cost;
+                DP.Direction.Uz = -sint * cosp * temp + uz * cost;
             }
 
-            DP.Direction = dir; // DC - this isn't necessary
         }
         public void Scatter1D()
         {
-            int currentRegion = this.CurrentRegionIndex;
-            double g = this._tissue.Regions[currentRegion].RegionOP.G;
+            double g = this._tissue.Regions[CurrentRegionIndex].RegionOP.G;
 
             // comment for compile
             if (_rng.NextDouble() < ((1 + g) / 2.0))
@@ -319,38 +320,36 @@ namespace Vts.MonteCarlo
         }
         public void AbsorbDiscrete()
         {
-            double dw;
-            int currentRegion = CurrentRegionIndex;
-            double mua = _tissue.Regions[currentRegion].RegionOP.Mua;
-            double mus = _tissue.Regions[currentRegion].RegionOP.Mus;
-            double w = DP.Weight;
-            double x = DP.Position.X;
-            double y = DP.Position.Y;
-            int index = History.HistoryData.Count() - 1;
+            double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
+            double mus = _tissue.Regions[CurrentRegionIndex].RegionOP.Mus;
 
             if (this.SLeft == 0.0)  // only deweight if at real collision
             {
-                dw = w * mua / (mua + mus);
+                double dw = DP.Weight * mua / (mua + mus);
                 DP.Weight -= dw;
                 // fluence tallying used to be done here 
 
                 // update weight for current DP in History 
-                History.HistoryData[index].Weight = DP.Weight;
+                History.HistoryData[History.HistoryData.Count() - 1].Weight = DP.Weight;
             }
         }
 
         public void AbsorbContinuous()
         {
-            double dw;
             double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
-            double mus = _tissue.Regions[CurrentRegionIndex].RegionOP.Mus;
-            int index = History.HistoryData.Count() - 1;
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
-            dw = DP.Weight * (1 - Math.Exp(-mua * S));
-            DP.Weight -= dw;
+            //double dw = DP.Weight * (1 - Math.Exp(-mua * S));
+            //DP.Weight -= dw;
+            // use path length info to determine surviving weight
+            var exponent = 0.0;
+            for (int i = 0; i < _tissue.Regions.Count - 1; i++)
+            {
+                exponent +=_tissue.Regions[i].RegionOP.Mua * History.SubRegionInfoList[i].PathLength;
+            };
+            DP.Weight = Math.Exp(-exponent);
 
             // update weight for current DP in History 
-            History.HistoryData[index].Weight = DP.Weight;
+            History.HistoryData[History.HistoryData.Count() - 1].Weight = DP.Weight;
         }
         /*********************************************************/
 
@@ -369,23 +368,23 @@ namespace Vts.MonteCarlo
         }
         public void TestWeightAndDistance()
         {
-            //   if (photptr.w < Weight_Limit) 
-            //     Roulette();  
-            // kill photon if it has had too many collisions
-            if (History.HistoryData.Count >= MAX_HISTORY_PTS)
-            {
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumCollisions);
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                History.AddDPToHistory(DP);
-            }
-            /* kill photon if it has gone too far */
-            var totalPathLength = History.SubRegionInfoList.Select((pl, c) => pl.PathLength).Sum();
-            if (totalPathLength >= MAX_PHOTON_PATHLENGTH)
-            {
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                History.AddDPToHistory(DP);
-            }
+            if (DP.Weight < WEIGHT_LIMIT)
+                Roulette();  
+            //// kill photon if it has had too many collisions
+            //if (History.HistoryData.Count >= MAX_HISTORY_PTS)
+            //{
+            //    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumCollisions);
+            //    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+            //    History.AddDPToHistory(DP);
+            //}
+            ///* kill photon if it has gone too far */
+
+            //if (DP.TotalTime >= MAX_PHOTON_TIME)
+            //{
+            //    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
+            //    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+            //    History.AddDPToHistory(DP);
+            //}
         }
 
         /*****************************************************************/

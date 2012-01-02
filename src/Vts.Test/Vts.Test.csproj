@@ -91,10 +91,6 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CompatibilityShims, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\tools\nunit\Silverlight\CompatibilityShims.dll</HintPath>
-    </Reference>
     <Reference Include="MathNet.Numerics">
       <HintPath>..\..\lib\Math.NET\lib\SL4\MathNet.Numerics.dll</HintPath>
     </Reference>
@@ -110,13 +106,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\tools\nunit\Silverlight\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
     </Reference>
-    <Reference Include="NUnitFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\tools\nunit\Silverlight\NUnitFramework.dll</HintPath>
+    <Reference Include="NUnit.Silverlight.Compatibility">
+      <HintPath>..\..\tools\nunit\Silverlight\NUnit.Silverlight.Compatibility.dll</HintPath>
     </Reference>
-    <Reference Include="NUnitSilverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\tools\nunit\Silverlight\NUnitSilverlight.dll</HintPath>
+    <Reference Include="NUnit.Silverlight.Framework">
+      <HintPath>..\..\tools\nunit\Silverlight\NUnit.Silverlight.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NUnit.Silverlight.Metadata">
+      <HintPath>..\..\tools\nunit\Silverlight\NUnit.Silverlight.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="System.CoreEx">
       <HintPath>..\..\lib\RxFramework\SL4\System.CoreEx.dll</HintPath>
@@ -324,7 +321,6 @@
     <Folder Include="Modeling\Optimizers\" />
     <Folder Include="Modeling\Tools\" />
     <Folder Include="MonteCarlo\DataStructures\SourceInputs\LineSourceInputs\" />
-    <Folder Include="MonteCarlo\TallyActions\pMCTallies\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

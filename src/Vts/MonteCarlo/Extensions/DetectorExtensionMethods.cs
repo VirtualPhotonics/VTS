@@ -24,11 +24,13 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.ROfXAndY:
                 case TallyType.RDiffuse:
                 case TallyType.ROfFx:
+                case TallyType.ROfFxAndTime:
                     return true;
                 default:
                     return false;
             }
         }
+
         /// <summary>
         /// Method to determine if IDetector is transmittance tally or not.
         /// </summary>
@@ -47,6 +49,7 @@ namespace Vts.MonteCarlo.Extensions
                     return false;
             }
         }
+
         /// <summary>
         /// Method to determine if IDetector is specular tally or not.
         /// </summary>
@@ -62,6 +65,7 @@ namespace Vts.MonteCarlo.Extensions
                     return false;
             }
         }
+
         /// <summary>
         /// Method to determine if IDetector is an internal (non-boundary) surface tally or not.
         /// </summary>
@@ -77,6 +81,7 @@ namespace Vts.MonteCarlo.Extensions
                     return false;
             }
         }
+
         /// <summary>
         /// Method to determine if IDetector is a surface tally or not
         /// </summary>
@@ -85,8 +90,9 @@ namespace Vts.MonteCarlo.Extensions
         public static bool IsSurfaceTally(this TallyType tallyType)
         {
             return tallyType.IsTransmittanceTally() || tallyType.IsReflectanceTally() ||
-                tallyType.IsSpecularReflectanceTally() || tallyType.IsInternalSurfaceTally();
+                   tallyType.IsSpecularReflectanceTally() || tallyType.IsInternalSurfaceTally();
         }
+
         /// <summary>
         /// Method to determine if IDetector is pMC tally or not
         /// </summary>
@@ -103,6 +109,7 @@ namespace Vts.MonteCarlo.Extensions
                     return false;
             }
         }
+
         /// <summary>
         /// Method to determine if IDetector is volume tally or not.
         /// </summary>
@@ -114,6 +121,7 @@ namespace Vts.MonteCarlo.Extensions
             {
                 case TallyType.FluenceOfRhoAndZ:
                 case TallyType.FluenceOfRhoAndZAndTime:
+                case TallyType.FluenceOfXAndYAndZ:
                 case TallyType.AOfRhoAndZ:
                 case TallyType.ATotal:
                 case TallyType.MomentumTransferOfRhoAndZ:
@@ -123,6 +131,7 @@ namespace Vts.MonteCarlo.Extensions
                     return false;
             }
         }
+
         /// <summary>
         /// Method determines whether tally type is based on cylindrical coordinates
         /// </summary>
@@ -151,12 +160,20 @@ namespace Vts.MonteCarlo.Extensions
                     return false;
             }
         }
+
+        /// <summary>
+        /// Method determines whether tally type is implemented for 
+        /// continous absorption weighting (CAW) or not
+        /// </summary>
+        /// <param name="tallyType">TallyType enum</param>
+        /// <returns>boolean</returns>
         public static bool IsNotImplementedForCAW(this TallyType tallyType)
         {
             switch (tallyType)
             {
                 case TallyType.FluenceOfRhoAndZ:
                 case TallyType.FluenceOfRhoAndZAndTime:
+                case TallyType.FluenceOfXAndYAndZ:
                 case TallyType.AOfRhoAndZ:
                 case TallyType.MomentumTransferOfRhoAndZ:
                 case TallyType.RadianceOfRhoAndZAndAngle:
@@ -165,5 +182,22 @@ namespace Vts.MonteCarlo.Extensions
                     return false;
             }
         }
+
+        /// <summary>
+        /// Method determines whether tally type is implemented yet or not
+        /// </summary>
+        /// <param name="tallyType">TallyType enum</param>
+        /// <returns>boolean</returns>
+        public static bool IsNotImplementedYet(this TallyType tallyType)
+        {
+            switch (tallyType)
+            {
+                case TallyType.MomentumTransferOfRhoAndZ:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
     }
 }

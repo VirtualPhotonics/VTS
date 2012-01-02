@@ -11,31 +11,34 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
+    /// Implements IDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
     /// of Rho and Omega.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
     [KnownType(typeof(ROfRhoAndOmegaDetector))]
-    public class ROfRhoAndOmegaDetector : ISurfaceDetector<Complex[,]>
+    public class ROfRhoAndOmegaDetector : IDetector<Complex[,]> 
     {
         private bool _tallySecondMoment;
+        private double[] _omegaArray;
+
         /// <summary>
         /// Returns an instance of ROfRhoAndAngleDetector
         /// </summary>
         /// <param name="rho">rho binning</param>
-        /// <param name="omega">temporal frequency binning</param>
+        /// <param name="omega">temporal frequency sampling points (not binned)</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
         /// <param name="name">detector name</param>
         public ROfRhoAndOmegaDetector(DoubleRange rho, DoubleRange omega, bool tallySecondMoment, String name)
         {
             Rho = rho;
             Omega = omega;
+            _omegaArray = omega.AsEnumerable().ToArray();
             _tallySecondMoment = tallySecondMoment;
-            Mean = new Complex[Rho.Count - 1, Omega.Count - 1];
+            Mean = new Complex[Rho.Count - 1, Omega.Count];
             SecondMoment = null;
             if (_tallySecondMoment)
             {
-                SecondMoment = new Complex[Rho.Count - 1, Omega.Count - 1];
+                SecondMoment = new Complex[Rho.Count - 1, Omega.Count];
             }
             TallyType = TallyType.ROfRhoAndOmega;
             Name = name;
@@ -76,34 +79,33 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Rho { get; set; }
         /// <summary>
-        /// temporal frequency binning
+        /// temporal frequency sampling points (not binned)
         /// </summary>
         public DoubleRange Omega { get; set; }
 
         /// <summary>
         /// method to tally to detector
         /// </summary>
-        /// <param name="dp"></param>
-        public void Tally(PhotonDataPoint dp)
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
-            var totalTime = dp.TotalTime;
-            for (int iw = 0; iw < Omega.Count - 1; ++iw)
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var totalTime = photon.DP.TotalTime;
+            for (int iw = 0; iw < Omega.Count; ++iw)
             {
-                double freq = (iw + 1) * Omega.Delta;
-                /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
+                double freq = _omegaArray[iw];
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-                Mean[ir, iw] += dp.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime) +
+                Mean[ir, iw] += photon.DP.Weight * ( Math.Cos(-2 * Math.PI * freq * totalTime) +
                     Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime) );
                 if (_tallySecondMoment)
                 {
                     // second moment of complex tally is square of real and imag separately
                     SecondMoment[ir, iw] += 
-                        dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) *
-                        dp.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) +
+                        photon.DP.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) *
+                        photon.DP.Weight * (Math.Cos(-2 * Math.PI * freq * totalTime)) +
                         Complex.ImaginaryOne *
-                        dp.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime)) *
-                        dp.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime));
+                        photon.DP.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime)) *
+                        photon.DP.Weight * (Math.Sin(-2 * Math.PI * freq * totalTime));
                 }
             }
             TallyCount++;
@@ -118,7 +120,7 @@ namespace Vts.MonteCarlo.Detectors
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta; 
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                for (int iw = 0; iw < Omega.Count - 1; iw++)
+                for (int iw = 0; iw < Omega.Count; iw++)
                 {
                     var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                     Mean[ir, iw] /=  areaNorm * numPhotons;

@@ -33,12 +33,12 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void SteadyStatePointSourceReflectanceTest()
         {
             var _pointSourceForwardSolver = new PointSourceSDAForwardSolver();
-            double[] RofRhos = new double[] { 0.0224959, 0.00448017, 0.000170622 };
+            double[] ROfRhos = new double[] { 0.0224959, 0.00448017, 0.000170622 };
 
             for (int irho = 0; irho < rhos.Length; irho++)
             {
                 var relDiff = Math.Abs(_pointSourceForwardSolver.StationaryReflectance(dp, rhos[irho], f1, f2)
-                    - RofRhos[irho]) / RofRhos[irho];
+                    - ROfRhos[irho]) / ROfRhos[irho];
                 Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
@@ -48,11 +48,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void SteadyStateDistributedPointSourceTest()
         {
             var _distributedPointSourceForwardSolver = new DistributedPointSourceSDAForwardSolver();
-            double[] RofRhos = new double[] { 0.0209155, 0.00405628, 0.000161842 };
+            double[] ROfRhos = new double[] { 0.0209155, 0.00405628, 0.000161842 };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
                 var relDiff = Math.Abs(_distributedPointSourceForwardSolver.StationaryReflectance(dp, rhos[irho], f1, f2)
-                    - RofRhos[irho]) / RofRhos[irho];
+                    - ROfRhos[irho]) / ROfRhos[irho];
                 Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
@@ -62,11 +62,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
         //public void SteadyStateGaussianBeamSourceTest()
         //{
         //    var _gaussianSourceForwardSolver = new DistributedGaussianSourceSDAForwardSolver(1.0);
-        //    double[] RofRhos = new double[] { 0.0275484377948659, 0.0056759402180221, 0.000216099942550358 };
+        //    double[] ROfRhos = new double[] { 0.0275484377948659, 0.0056759402180221, 0.000216099942550358 };
         //    for (int irho = 0; irho < rhos.Length; irho++)
         //    {
         //        var relDiff = Math.Abs(_gaussianSourceForwardSolver.StationaryReflectance(dp, rhos[irho], f1, f2) -
-        //            RofRhos[irho]) / RofRhos[irho];
+        //            ROfRhos[irho]) / ROfRhos[irho];
         //        Assert.IsTrue(relDiff < thresholdValue, "Test not passed for rho =" + rhos[irho] +
         //            "mm, with relative difference " + relDiff);
         //    }
@@ -79,11 +79,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void TemporalPointSourceReflectanceTest()
         {
             var _pointSourceForwardSolver = new PointSourceSDAForwardSolver();
-            double[] RofRhoAndTs = new double[] { 0.0687162, 0.0390168, 6.24018e-5 };
+            double[] ROfRhoAndTs = new double[] { 0.0687162, 0.0390168, 6.24018e-5 };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
                 var relDiff = Math.Abs(_pointSourceForwardSolver.TemporalReflectance(dp, rhos[irho], t, f1, f2)
-                    - RofRhoAndTs[irho]) / RofRhoAndTs[irho];
+                    - ROfRhoAndTs[irho]) / ROfRhoAndTs[irho];
                 Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
@@ -93,11 +93,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void TemporalDistributedPointSourceTest()
         {
             var _distributedPointSourceForwardSolver = new DistributedPointSourceSDAForwardSolver();
-            double[] RofRhoAndTs = new double[] { 0.062455516676, 0.035462046554, 5.67164524087361e-5 };
+            double[] ROfRhoAndTs = new double[] { 0.062455516676, 0.035462046554, 5.67164524087361e-5 };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
                 var relDiff = Math.Abs(_distributedPointSourceForwardSolver.TemporalReflectance(dp, rhos[irho], t, f1, f2)
-                    - RofRhoAndTs[irho]) / RofRhoAndTs[irho];
+                    - ROfRhoAndTs[irho]) / ROfRhoAndTs[irho];
                 Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
@@ -111,12 +111,12 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void TemporalFrequencyPointSourceTest()
         {
             var _pointSourceForwardSolver = new PointSourceSDAForwardSolver();
-            double[] RofRhoAndFts = new double[] { 0.0222676367133622, 0.00434066741026309, 0.000145460413024483 };
+            double[] ROfRhoAndFts = new double[] { 0.0222676367133622, 0.00434066741026309, 0.000145460413024483 };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
-                var relDiff = RofRhoAndFts[irho] != 0
-                    ? Math.Abs(_pointSourceForwardSolver.RofRhoAndFt(ops, rhos[irho], ft).Magnitude - RofRhoAndFts[irho]) / RofRhoAndFts[irho]
-                    : Math.Abs(_pointSourceForwardSolver.RofRhoAndFt(ops, rhos[irho], ft).Magnitude);
+                var relDiff = ROfRhoAndFts[irho] != 0
+                    ? Math.Abs(_pointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft).Magnitude - ROfRhoAndFts[irho]) / ROfRhoAndFts[irho]
+                    : Math.Abs(_pointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft).Magnitude);
                 Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
@@ -126,12 +126,12 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void TemporalFrequencyDistributedPointSourceTest()
         {
             var _distributedPointSourceForwardSolver = new DistributedPointSourceSDAForwardSolver();
-            double[] RofRhoAndFts = new double[] { 0.0206970326199628, 0.00392410286453726, 0.00013761216706729 };
+            double[] ROfRhoAndFts = new double[] { 0.0206970326199628, 0.00392410286453726, 0.00013761216706729 };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
-                var relDiff = RofRhoAndFts[irho] != 0
-                  ? Math.Abs(_distributedPointSourceForwardSolver.RofRhoAndFt(ops, rhos[irho], ft).Magnitude - RofRhoAndFts[irho]) / RofRhoAndFts[irho]
-                  : Math.Abs(_distributedPointSourceForwardSolver.RofRhoAndFt(ops, rhos[irho], ft).Magnitude);
+                var relDiff = ROfRhoAndFts[irho] != 0
+                  ? Math.Abs(_distributedPointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft).Magnitude - ROfRhoAndFts[irho]) / ROfRhoAndFts[irho]
+                  : Math.Abs(_distributedPointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft).Magnitude);
 
                 Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
                 "mm, with relative difference " + relDiff);
@@ -147,12 +147,12 @@ namespace Vts.Test.Modeling.ForwardSolvers
         //{
         //    var _sdaForwardSolver = new SDAForwardSolver();
         //    double[] fxs = new double[] { 0.02, 0.3 };
-        //    double[] RofFxs = new double[] { 0.5018404077939, 0.0527595185230724 };
+        //    double[] ROfFxs = new double[] { 0.5018404077939, 0.0527595185230724 };
 
         //    for (int ifx = 0; ifx < fxs.Length; ifx++)
         //    {
-        //        var relDiff = _sdaForwardSolver.RofFx(ops, fxs[ifx])
-        //            - RofFxs[ifx]) / RofFxs[ifx];
+        //        var relDiff = _sdaForwardSolver.ROfFx(ops, fxs[ifx])
+        //            - ROfFxs[ifx]) / ROfFxs[ifx];
         //        Assert.IsTrue(relDiff < thresholdValue, "Test failed for fx =" + fxs[ifx] +
         //            "1/mm, with relative difference " + relDiff);
         //    }

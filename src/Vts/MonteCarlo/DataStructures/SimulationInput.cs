@@ -40,6 +40,7 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(ROfRhoDetectorInput))]
     [KnownType(typeof(ROfXAndYDetectorInput))]
     [KnownType(typeof(ROfFxDetectorInput))]
+    [KnownType(typeof(ROfFxAndTimeDetectorInput))]
     [KnownType(typeof(TDiffuseDetectorInput))]
     [KnownType(typeof(TOfAngleDetectorInput))]
     [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
@@ -49,6 +50,7 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(ATotalDetectorInput))]
     [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
     [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
+    [KnownType(typeof(FluenceOfXAndYAndZDetectorInput))]
     [KnownType(typeof(RadianceOfRhoAndZAndAngleDetectorInput))]
     [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
     [KnownType(typeof(pMCROfRhoDetectorInput))]
@@ -103,7 +105,7 @@ namespace Vts.MonteCarlo
                 new DirectionalPointSourceInput(),
 
                 new MultiLayerTissueInput(
-                    new List<ITissueRegion>
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),

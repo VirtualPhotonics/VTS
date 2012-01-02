@@ -10,19 +10,19 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IHistoryTally&lt;double[,]&gt;.  Tally for Fluence(rho,z).
+    /// Implements IDetector&lt;double[,]&gt;.  Tally for Fluence(rho,z).
     /// Note: this tally currently only works with discrete absorption weighting
     /// </summary>
     [KnownType(typeof(FluenceOfRhoAndZDetector))]
-    public class FluenceOfRhoAndZDetector
-        : IVolumeDetector<double[,]>
+    public class FluenceOfRhoAndZDetector : IHistoryDetector<double[,]>
     {
-
-        private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
+        //private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
 
         private ITissue _tissue;
         private bool _tallySecondMoment;
         private IList<OpticalProperties> _ops;
+        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
+
         /// <summary>
         /// Returns an instance of FluenceOfRhoAndZDetector
         /// </summary>
@@ -30,9 +30,9 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="z"></param>
         /// <param name="tissue"></param>
         public FluenceOfRhoAndZDetector(
-            DoubleRange rho, 
-            DoubleRange z, 
-            ITissue tissue, 
+            DoubleRange rho,
+            DoubleRange z,
+            ITissue tissue,
             bool tallySecondMoment,
             String name
             )
@@ -48,9 +48,10 @@ namespace Vts.MonteCarlo.Detectors
             }
             TallyType = TallyType.FluenceOfRhoAndZ;
             Name = name;
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetAbsorptionWeightingMethod(tissue, this);
+
             TallyCount = 0;
             _tissue = tissue;
-            SetAbsorbAction(_tissue.AbsorptionWeightingType);
             _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
         }
 
@@ -59,9 +60,9 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public FluenceOfRhoAndZDetector()
             : this(
-            new DoubleRange(), 
-            new DoubleRange(), 
-            new MultiLayerTissue(), 
+            new DoubleRange(),
+            new DoubleRange(),
+            new MultiLayerTissue(),
             true, // tally SecondMoment
             TallyType.FluenceOfRhoAndZ.ToString())
         {
@@ -83,37 +84,20 @@ namespace Vts.MonteCarlo.Detectors
 
         public DoubleRange Z { get; set; }
 
-        private void SetAbsorbAction(AbsorptionWeightingType awt)
-        {
-            switch (awt)
-            {
-                case AbsorptionWeightingType.Analog:
-                    _absorbAction = AbsorbAnalog;
-                    break;
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-                default:
-                    throw new ArgumentException("AbsorptionWeightingType not set");
-            }
-        }
-
-        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
+        /// <summary>
+        /// method to tally given two consecutive photon data points
+        /// </summary>
+        /// <param name="previousDP">previous data point</param>
+        /// <param name="dp">current data point</param>
+        /// <param name="currentRegionIndex">index of region photon current is in</param>
+        public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
 
-            var weight = _absorbAction(
-                _ops[_tissue.GetRegionIndex(dp.Position)].Mua,
-                _ops[_tissue.GetRegionIndex(dp.Position)].Mus,
-                previousDP.Weight,
-                dp.Weight,
-                dp.StateFlag);
+            var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
 
-            var regionIndex = _tissue.GetRegionIndex(dp.Position);
+            var regionIndex = currentRegionIndex;
 
             if (weight != 0.0) // if weight = 0.0, then pseudo-collision and no tally
             {
@@ -126,35 +110,18 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
-            if (photonStateType.HasFlag(PhotonStateType.Absorbed))
+            PhotonDataPoint previousDP = photon.History.HistoryData.First();
+            foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
             {
-                weight = previousWeight; 
+                TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
+                previousDP = dp;
             }
-            else
-            {
-                weight = 0.0;
-            }
-            return weight;
-        }
-
-        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            if (previousWeight == weight) // pseudo collision, so no tally
-            {
-                weight = 0.0;
-            }
-            else
-            {
-                weight = previousWeight * mua / (mua + mus);
-            }
-            return weight;
-        }
-
-        private double AbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            throw new NotImplementedException();
         }
 
         public void Normalize(long numPhotons)

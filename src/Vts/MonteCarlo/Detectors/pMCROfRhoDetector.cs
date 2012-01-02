@@ -10,11 +10,11 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally&lt;double[]&gt;.  Tally for pMC estimation of reflectance 
+    /// Implements IDetector&lt;double[]&gt;.  Tally for pMC estimation of reflectance 
     /// as a function of Rho.
     /// </summary>
     [KnownType(typeof(pMCROfRhoDetector))]
-    public class pMCROfRhoDetector : IpMCSurfaceDetector<double[]>
+    public class pMCROfRhoDetector : IDetector<double[]> 
     {
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
@@ -110,37 +110,36 @@ namespace Vts.MonteCarlo.Detectors
                     break;
             }
         }
-
         /// <summary>
         /// method to tally to detector
         /// </summary>
-        /// <param name="dp">photon data point</param>
-        /// <param name="infoList">collision info list</param>
-        public void Tally(PhotonDataPoint dp, CollisionInfo infoList)
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
+            // no longer need trial code since DP weight for CAW now uses pathlength info after each collision to determine weight
             // trial code: overwrites dp.Weight 
-            if (_awt == AbsorptionWeightingType.Continuous)
-            {
-                var trialWeight = 1.0;
-                for (int i = 0; i < _referenceOps.Count; i++)
-                {
-                    trialWeight *= Math.Exp(-_referenceOps[i].Mua * infoList[i].PathLength);
-                }
-                dp.Weight = trialWeight;
-            }
+            //if (_awt == AbsorptionWeightingType.Continuous)
+            //{
+            //    var trialWeight = 1.0;
+            //    for (int i = 0; i < _referenceOps.Count; i++)
+            //    {
+            //        trialWeight *= Math.Exp(-_referenceOps[i].Mua * photon.History.SubRegionInfoList[i].PathLength);
+            //    }
+            //    photon.DP.Weight = trialWeight;
+            //}
             // end trial code
-            var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             if (ir != -1)
             {
                 double weightFactor = _absorbAction(
-                    infoList.Select(c => c.NumberOfCollisions).ToList(),
-                    infoList.Select(p => p.PathLength).ToList(),
+                    photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
+                    photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
                     _perturbedOps);
 
-                Mean[ir] += dp.Weight * weightFactor;
+                Mean[ir] += photon.DP.Weight * weightFactor;
                 if (_tallySecondMoment)
                 {
-                    SecondMoment[ir] += dp.Weight * weightFactor * dp.Weight * weightFactor;
+                    SecondMoment[ir] += photon.DP.Weight * weightFactor * photon.DP.Weight * weightFactor;
                 }
                 TallyCount++;
             }

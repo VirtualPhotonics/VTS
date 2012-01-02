@@ -4,8 +4,8 @@
     xmlns:vm="clr-namespace:Vts.SiteVisit.ViewModel"
              VerticalAlignment="Top">
         <Grid>
-        <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Visible" Background="White" MaxWidth="1000">
-                <TextBlock Text="{Binding Text}" MinHeight="75" MinWidth="500"/>
+        <ScrollViewer x:Name="scrollViewer" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" Background="White" MaxWidth="1000" MaxHeight="300">
+                <TextBlock Text="{Binding Text}" MinHeight="60" MinWidth="500"/>
             </ScrollViewer>
         </Grid>
 </UserControl>

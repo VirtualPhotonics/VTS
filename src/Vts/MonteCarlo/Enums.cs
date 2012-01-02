@@ -307,20 +307,26 @@ namespace Vts.MonteCarlo
         /// </summary>
         SingleEllipsoid,
     }
-    /// <summary>
-    /// Detector types
-    /// </summary>
-    public enum DetectorType
-    {
-        /// <summary>
-        /// Normal processing detector types
-        /// </summary>
-        Detector,
-        /// <summary>
-        /// perturbation Monte Carlo (pMC) detector types
-        /// </summary>
-        pMCDetector,
-    }
+
+    ///// <summary>
+    ///// Detector types
+    ///// </summary>
+    //public enum DetectorType
+    //{
+    //    /// <summary>
+    //    /// Termination detector
+    //    /// </summary>
+    //    Termination,
+    //    /// <summary>
+    //    /// Pathlength detector
+    //    /// </summary>
+    //    Pathlength,
+    //    /// <summary>
+    //    /// Collision detector
+    //    /// </summary>
+    //    Collision,
+    //}
+
     /// <summary>
     /// The different types of tallies available
     /// </summary>
@@ -363,6 +369,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         ROfFx,
         /// <summary>
+        /// Reflectance as a function of spatial frequency along the x-axis, and time
+        /// </summary>
+        ROfFxAndTime,
+        /// <summary>
         /// Transmittance as a function of source-detector separation (rho) and angle
         /// </summary>
         TOfRhoAndAngle,
@@ -386,6 +396,10 @@ namespace Vts.MonteCarlo
         /// Fluence as a function of source-detector separation (rho) and tissue depth (Z) and time
         /// </summary>
         FluenceOfRhoAndZAndTime,
+        /// <summary>
+        /// Fluence as a function of x, y and z
+        /// </summary>
+        FluenceOfXAndYAndZ,
         /// <summary>
         /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
         /// </summary>

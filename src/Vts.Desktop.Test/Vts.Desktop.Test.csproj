@@ -102,6 +102,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Vts.Test\Common\DirectionTests.cs">
+      <Link>Common\DirectionTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Common\Extensions\ArrayExtensionsTests.cs">
       <Link>Common\Extensions\ArrayExtensionsTests.cs</Link>
     </Compile>

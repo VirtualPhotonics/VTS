@@ -43,6 +43,7 @@ namespace Vts.MonteCarlo.Factories
                 // ISurfaceDetector(s):
                 case TallyType.RDiffuse:
                     var rdinput = (RDiffuseDetectorInput)detectorInput;
+                    //return new RDiffuseDetector(tallySecondMoment, rdinput.Name);
                     return new RDiffuseDetector(tallySecondMoment, rdinput.Name);
                 case TallyType.RSpecular:
                     var rsinput = (RSpecularDetectorInput)detectorInput;
@@ -68,6 +69,9 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.ROfFx:
                     var rfxinput = (ROfFxDetectorInput)detectorInput;
                     return new ROfFxDetector(rfxinput.Fx, tallySecondMoment, rfxinput.Name);
+                case TallyType.ROfFxAndTime:
+                    var rfxtinput = (ROfFxAndTimeDetectorInput)detectorInput;
+                    return new ROfFxAndTimeDetector(rfxtinput.Fx, rfxtinput.Time, tallySecondMoment, rfxtinput.Name);
                 case TallyType.TDiffuse:
                     var tdinput = (TDiffuseDetectorInput)detectorInput;
                     return new TDiffuseDetector(tallySecondMoment, tdinput.Name);
@@ -91,6 +95,9 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.FluenceOfRhoAndZAndTime:
                     var frztinput = (FluenceOfRhoAndZAndTimeDetectorInput)detectorInput;
                     return new FluenceOfRhoAndZAndTimeDetector(frztinput.Rho, frztinput.Z, frztinput.Time, tissue, tallySecondMoment, frztinput.Name);
+                case TallyType.FluenceOfXAndYAndZ:
+                    var fxyzinput = (FluenceOfXAndYAndZDetectorInput)detectorInput;
+                    return new FluenceOfXAndYAndZDetector(fxyzinput.X, fxyzinput.Y, fxyzinput.Z, tissue, tallySecondMoment, fxyzinput.Name);
                 case TallyType.AOfRhoAndZ:
                     var arzinput = (AOfRhoAndZDetectorInput)detectorInput;
                     return new AOfRhoAndZDetector(arzinput.Rho, arzinput.Z, tissue, tallySecondMoment, arzinput.Name);
@@ -156,23 +163,6 @@ namespace Vts.MonteCarlo.Factories
                     return null;
             }
         }
-        /// <summary>
-        /// Method to instantiate correct pMC history detector.
-        /// </summary>
-        /// <param name="detectorInput">IDetectorInput</param>
-        /// <param name="tissue">ITissue</param>
-        /// <param name="perturbedOps">list of perturbed optical properties that match in index
-        /// the tissue regions</param>
-        /// <param name="perturbedRegionsIndices">list of perturbed regions indices that match
-        /// in index with the tissue regions</param>
-        /// <returns></returns>
-        public static IVolumeDetector GetHistoryDetector(
-            IDetectorInput detectorInput,
-            ITissue tissue,
-            IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionsIndices)
-        {
-            throw new NotSupportedException("not implemented yet");
-        }
+
     }
 }

@@ -147,22 +147,22 @@
   <data name="ScalingType_Log" xml:space="preserve">
     <value>Log10</value>
   </data>
-  <data name="SolutionDomainType_RofFx" xml:space="preserve">
+  <data name="SolutionDomainType_ROfFx" xml:space="preserve">
     <value>R(fx)</value>
   </data>
-  <data name="SolutionDomainType_RofFxAndFt" xml:space="preserve">
+  <data name="SolutionDomainType_ROfFxAndFt" xml:space="preserve">
     <value>R(fx,ft)</value>
   </data>
-  <data name="SolutionDomainType_RofFxAndT" xml:space="preserve">
+  <data name="SolutionDomainType_ROfFxAndT" xml:space="preserve">
     <value>R(fx,t)</value>
   </data>
-  <data name="SolutionDomainType_RofRho" xml:space="preserve">
+  <data name="SolutionDomainType_ROfRho" xml:space="preserve">
     <value>R(ρ)</value>
   </data>
-  <data name="SolutionDomainType_RofRhoAndFt" xml:space="preserve">
+  <data name="SolutionDomainType_ROfRhoAndFt" xml:space="preserve">
     <value>R(ρ,ft)</value>
   </data>
-  <data name="SolutionDomainType_RofRhoAndT" xml:space="preserve">
+  <data name="SolutionDomainType_ROfRhoAndT" xml:space="preserve">
     <value>R(ρ,t)</value>
   </data>
   <data name="IndependentVariableAxis_Ft" xml:space="preserve">
@@ -258,22 +258,22 @@
   <data name="DependentVariableAxisUnits_PerMMPerNS" xml:space="preserve">
     <value>mm-1 ns-1</value>
   </data>
-  <data name="FluenceSolutionDomainType_FluenceofFx" xml:space="preserve">
+  <data name="FluenceSolutionDomainType_FluenceOfFx" xml:space="preserve">
     <value>Φ(fx,z)</value>
   </data>
-  <data name="FluenceSolutionDomainType_FluenceofFxAndFt" xml:space="preserve">
+  <data name="FluenceSolutionDomainType_FluenceOfFxAndFt" xml:space="preserve">
     <value>Φ(fx,ft)</value>
   </data>
-  <data name="FluenceSolutionDomainType_FluenceofFxAndT" xml:space="preserve">
+  <data name="FluenceSolutionDomainType_FluenceOfFxAndT" xml:space="preserve">
     <value>Φ(fx,t,z)</value>
   </data>
-  <data name="FluenceSolutionDomainType_FluenceofRho" xml:space="preserve">
+  <data name="FluenceSolutionDomainType_FluenceOfRho" xml:space="preserve">
     <value>Φ(ρ,z)</value>
   </data>
-  <data name="FluenceSolutionDomainType_FluenceofRhoAndFt" xml:space="preserve">
+  <data name="FluenceSolutionDomainType_FluenceOfRhoAndFt" xml:space="preserve">
     <value>Φ(ρ,ft,z)</value>
   </data>
-  <data name="FluenceSolutionDomainType_FluenceofRhoAndT" xml:space="preserve">
+  <data name="FluenceSolutionDomainType_FluenceOfRhoAndT" xml:space="preserve">
     <value>Φ(ρ,t,z)</value>
   </data>
   <data name="ForwardSolverType_DistributedGaussianSourceSDA" xml:space="preserve">

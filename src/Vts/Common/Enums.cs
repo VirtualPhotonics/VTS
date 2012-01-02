@@ -108,27 +108,27 @@ namespace Vts
         /// <summary>
         /// reflectance as a function of source-detector separation (rho)
         /// </summary>
-        RofRho,
+        ROfRho,
         /// <summary>
         /// reflectance as a function of spatial-frequency (fx)
         /// </summary>
-        RofFx,
+        ROfFx,
         /// <summary>
         /// reflectance as a function of source-detector separation (rho) and time (t)
         /// </summary>
-        RofRhoAndT,
+        ROfRhoAndT,
         /// <summary>
         /// reflectance as a function of spatial-frequency (fx) and time (t)
         /// </summary>
-        RofFxAndT,
+        ROfFxAndT,
         /// <summary>
         /// reflectance as a function source-detector separation (rho) and temporal-frequency (ft)
         /// </summary>
-        RofRhoAndFt,
+        ROfRhoAndFt,
         /// <summary>
         /// reflectance as a function of spatial-frequency (fx) and temporal-frequency (ft)
         /// </summary>
-        RofFxAndFt
+        ROfFxAndFt
     }
     /// <summary>
     /// fluence solution domain types 
@@ -138,27 +138,27 @@ namespace Vts
         /// <summary>
         /// fluence as a function or source-detector separation (rho)
         /// </summary>
-        FluenceofRho,
+        FluenceOfRho,
         /// <summary>
         /// fluence as a function of spatial-frequency (fx)
         /// </summary>
-        FluenceofFx,
+        FluenceOfFx,
         /// <summary>
         /// fluence as a function or source-detector separation (rho) and time (t)
         /// </summary>
-        FluenceofRhoAndT,
+        FluenceOfRhoAndT,
         /// <summary>
         /// fluence as a function of spatial-frequency (fx) and time (t)
         /// </summary>
-        FluenceofFxAndT,
+        FluenceOfFxAndT,
         /// <summary>
         /// fluence as a function of source-detector separation (rho) and temporal-frequency (ft)
         /// </summary>
-        FluenceofRhoAndFt,
+        FluenceOfRhoAndFt,
         /// <summary>
         /// fluence as a function of spatial-frequency (fx) and temporal-frequency (ft)
         /// </summary>
-        FluenceofFxAndFt
+        FluenceOfFxAndFt
     }
     /// <summary>
     /// forward analysis types
@@ -603,20 +603,20 @@ namespace Vts
         /// </summary>
         MolarAbsorptionCoefficient,
     }
-    /// <summary>
-    /// absorption coefficient unit types
-    /// </summary>
-    public enum AbsorptionCoefficientUnits
-    {
-        /// <summary>
-        /// units [1/(mm * uM)]
-        /// </summary>
-        PerMillimeterPerMicroMolar,
-        /// <summary>
-        /// units [1/mm]
-        /// </summary>
-        PerMillimeter,
-    }
+    ///// <summary>
+    ///// absorption coefficient unit types
+    ///// </summary>
+    //public enum AbsorptionCoefficientUnits
+    //{
+    //    /// <summary>
+    //    /// units [1/(mm * uM)]
+    //    /// </summary>
+    //    PerMillimeterPerMicroMolar,
+    //    /// <summary>
+    //    /// units [1/mm]
+    //    /// </summary>
+    //    PerMillimeter,
+    //}
     /// <summary>
     /// concentration units
     /// </summary>
@@ -674,10 +674,10 @@ namespace Vts
         /// melanin
         /// </summary>
         Melanin,
-        /// <summary>
-        /// copper phtalocyanine tetrasulfonic acid
-        /// </summary>
-        CPTA,
+        ///// <summary>
+        ///// copper phthalocyanine tetrasulfonic acid
+        ///// </summary>
+        //CPTA,
         /// <summary>
         /// nigrosin
         /// </summary>
@@ -730,42 +730,42 @@ namespace Vts
         Custom
     }
 
-   /// <summary>
-    /// Chromophore data distance units. For future GUI spectral upload tool...
-   /// </summary>
-    public enum ChromDataDistanceUnits 
-    {
-        /// <summary>
-        /// [1/mm]
-        /// </summary>
-        PerMillimeter,
-        /// <summary>
-        /// [1/cm]
-        /// </summary>
-        PerCentimeter,
-        /// <summary>
-        /// [1/m]
-        /// </summary>
-        PerMeter,
-    }
-    /// <summary>
-    /// chromophore data concentration units. For future GUI spectral upload tool...
-    /// </summary>
-    public enum ChromDataConcentrationUnits  
-    {
-        /// <summary>
-        /// [1/uM]
-        /// </summary>
-        PerMicroMolar,
-        /// <summary>
-        /// [1/mM]
-        /// </summary>
-        PerMilliMolar,
-        /// <summary>
-        /// [1/M]
-        /// </summary>
-        PerMolar,
-    }
+   ///// <summary>
+   // /// Chromophore data distance units. For future GUI spectral upload tool...
+   ///// </summary>
+   // public enum ChromDataDistanceUnits 
+   // {
+   //     /// <summary>
+   //     /// [1/mm]
+   //     /// </summary>
+   //     PerMillimeter,
+   //     /// <summary>
+   //     /// [1/cm]
+   //     /// </summary>
+   //     PerCentimeter,
+   //     /// <summary>
+   //     /// [1/m]
+   //     /// </summary>
+   //     PerMeter,
+   // }
+   // /// <summary>
+   // /// chromophore data concentration units. For future GUI spectral upload tool...
+   // /// </summary>
+   // public enum ChromDataConcentrationUnits  
+   // {
+   //     /// <summary>
+   //     /// [1/uM]
+   //     /// </summary>
+   //     PerMicroMolar,
+   //     /// <summary>
+   //     /// [1/mM]
+   //     /// </summary>
+   //     PerMilliMolar,
+   //     /// <summary>
+   //     /// [1/M]
+   //     /// </summary>
+   //     PerMolar,
+   // }
 
     //public enum ChromDataUnit
     //{
@@ -869,6 +869,10 @@ namespace Vts
         /// micromolar units
         /// </summary>
         MicroMolar,
+        /// <summary>
+        /// nanomolar units
+        /// </summary>
+        NanoMolar,
     }
     #endregion
 }

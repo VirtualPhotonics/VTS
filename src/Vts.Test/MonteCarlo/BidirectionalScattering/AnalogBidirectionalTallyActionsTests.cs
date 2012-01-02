@@ -50,7 +50,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     0                   
                 ),
                 new MultiLayerTissueInput(
-                    new List<ITissueRegion>
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -72,7 +72,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             );
             _output = new MonteCarloSimulation(_input).Run();
 
-            _simulationStatistics = SimulationStatistics.FromFile("statistics");
+            _simulationStatistics = SimulationStatistics.FromFile("statistics.xml");
         }
 
         // todo: add analytic variance and use this for error bounds

@@ -6,11 +6,11 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceDetector&lt;double&gt;.  Tally for diffuse reflectance.
+    /// Implements IDetector&lt;double&gt;.  Tally for diffuse reflectance.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
     [KnownType(typeof(RDiffuseDetector))]
-    public class RDiffuseDetector : ISurfaceDetector<double>
+    public class RDiffuseDetector : IDetector<double> 
     {
         private bool _tallySecondMoment;
 
@@ -54,17 +54,16 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public long TallyCount { get; set; }
 
- 
         /// <summary>
-        /// method to tally to detector.  Works for analog, DAW and CAW.  Weight is final surface exiting weight.
+        /// method to tally to detector
         /// </summary>
-        /// <param name="dp">photon data point</param>
-        public void Tally(PhotonDataPoint dp)
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
-            Mean += dp.Weight;
+            Mean += photon.DP.Weight;
             if (_tallySecondMoment)
             {
-                SecondMoment += dp.Weight * dp.Weight;
+                SecondMoment += photon.DP.Weight * photon.DP.Weight;
             }
             TallyCount++;
         }

@@ -99,13 +99,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\tools\nunit\Silverlight\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
     </Reference>
-    <Reference Include="NUnitFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\tools\nunit\Silverlight\NUnitFramework.dll</HintPath>
+    <Reference Include="NUnit.Silverlight.Framework">
+      <HintPath>..\..\tools\nunit\Silverlight\NUnit.Silverlight.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="NUnitSilverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\tools\nunit\Silverlight\NUnitSilverlight.dll</HintPath>
+    <Reference Include="NUnit.Silverlight.Metadata">
+      <HintPath>..\..\tools\nunit\Silverlight\NUnit.Silverlight.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="mscorlib" />

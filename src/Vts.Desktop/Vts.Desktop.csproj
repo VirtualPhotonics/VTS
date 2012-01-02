@@ -485,9 +485,6 @@
     <Compile Include="..\Vts\Modeling\Spectroscopy\ChromophoreSpectrum.cs">
       <Link>Modeling\Spectroscopy\ChromophoreSpectrum.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Modeling\Spectroscopy\ChromophoreSpectrumUnitConverter.cs">
-      <Link>Modeling\Spectroscopy\ChromophoreSpectrumUnitConverter.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\Modeling\Spectroscopy\IAbsorber.cs">
       <Link>Modeling\Spectroscopy\IAbsorber.cs</Link>
     </Compile>
@@ -524,23 +521,23 @@
     <Compile Include="..\Vts\Modeling\Tools\HankelTransform.cs">
       <Link>Modeling\Tools\HankelTransform.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\AbsorptionWeightingMethods.cs">
+      <Link>MonteCarlo\AbsorptionWeightingMethods.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\DatabaseWriterController.cs">
       <Link>MonteCarlo\Controllers\DatabaseWriterController.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\DetectorController.cs">
+      <Link>MonteCarlo\Controllers\DetectorController.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\HistoryDetectorController.cs">
+      <Link>MonteCarlo\Controllers\HistoryDetectorController.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDatabaseWriterController.cs">
       <Link>MonteCarlo\Controllers\pMCDatabaseWriterController.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Controllers\pMCSurfaceDetectorController.cs">
-      <Link>MonteCarlo\Controllers\pMCSurfaceDetectorController.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Controllers\SurfaceDetectorController.cs">
-      <Link>MonteCarlo\Controllers\SurfaceDetectorController.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\VirtualBoundaryController.cs">
       <Link>MonteCarlo\Controllers\VirtualBoundaryController.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Controllers\VolumeDetectorController.cs">
-      <Link>MonteCarlo\Controllers\VolumeDetectorController.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs</Link>
@@ -569,6 +566,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\FluenceOfXAndYAndZDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\FluenceOfXAndYAndZDetectorInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\pMCRofRhoAndTimeDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\pMCRofRhoAndTimeDetectorInput.cs</Link>
     </Compile>
@@ -586,6 +586,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfFxAndTimeDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\ROfFxAndTimeDetectorInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfFxDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\ROfFxDetectorInput.cs</Link>
@@ -659,6 +662,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\IsotropicPointSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\IsotropicPointSourceInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs">
+      <Link>MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs</Link>
     </Compile>
@@ -728,6 +734,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs</Link>
     </Compile>
@@ -748,6 +757,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxAndTimeDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfFxAndTimeDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxDetector.cs">
       <Link>MonteCarlo\Detectors\ROfFxDetector.cs</Link>
@@ -806,9 +818,6 @@
     <Compile Include="..\Vts\MonteCarlo\Extensions\VirtualBoundariesExtensionMethods.cs">
       <Link>MonteCarlo\Extensions\VirtualBoundariesExtensionMethods.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Factories\AbsorptionActionFactory.cs">
-      <Link>MonteCarlo\Factories\AbsorptionActionFactory.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\DatabaseWriterFactory.cs">
       <Link>MonteCarlo\Factories\DatabaseWriterFactory.cs</Link>
     </Compile>
@@ -851,6 +860,9 @@
     <Compile Include="..\Vts\MonteCarlo\Helpers\SourceFlags.cs">
       <Link>MonteCarlo\Helpers\SourceFlags.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs">
+      <Link>MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\SourceProfiles\FlatSourceProfile.cs">
       <Link>MonteCarlo\Helpers\SourceProfiles\FlatSourceProfile.cs</Link>
     </Compile>
@@ -872,17 +884,11 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetectorInput.cs">
       <Link>MonteCarlo\Interfaces\IDetectorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IHistoryDetector.cs">
+      <Link>MonteCarlo\Interfaces\IHistoryDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCDetectorInput.cs">
       <Link>MonteCarlo\Interfaces\IpMCDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCSurfaceDetector.cs">
-      <Link>MonteCarlo\Interfaces\IpMCSurfaceDetector.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCSurfaceDetectorController.cs">
-      <Link>MonteCarlo\Interfaces\IpMCSurfaceDetectorController.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCVolumeDetector.cs">
-      <Link>MonteCarlo\Interfaces\IpMCVolumeDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISource.cs">
       <Link>MonteCarlo\Interfaces\ISource.cs</Link>
@@ -892,12 +898,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISourceProfile.cs">
       <Link>MonteCarlo\Interfaces\ISourceProfile.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISurfaceDetector.cs">
-      <Link>MonteCarlo\Interfaces\ISurfaceDetector.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISurfaceDetectorController.cs">
-      <Link>MonteCarlo\Interfaces\ISurfaceDetectorController.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissue.cs">
       <Link>MonteCarlo\Interfaces\ITissue.cs</Link>
@@ -910,12 +910,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IVirtualBoundary.cs">
       <Link>MonteCarlo\Interfaces\IVirtualBoundary.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IVolumeDetector.cs">
-      <Link>MonteCarlo\Interfaces\IVolumeDetector.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IVolumeDetectorController.cs">
-      <Link>MonteCarlo\Interfaces\IVolumeDetectorController.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\IO\DatabaseOfT.cs">
       <Link>MonteCarlo\IO\DatabaseOfT.cs</Link>
@@ -1131,15 +1125,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectraData1.xml">
-      <Link>Modeling\Spectroscopy\Resources\SpectraData1.xml</Link>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml">
-      <Link>Modeling\Spectroscopy\Resources\ValidMockDataInResources.xml</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\Spectra.txt">
       <Link>Modeling\Spectroscopy\Resources\Spectra.txt</Link>
     </EmbeddedResource>
@@ -1161,9 +1146,6 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml</Link>
     </EmbeddedResource>
-    <Content Include="..\Vts\Modeling\Spectroscopy\ChromophoreList.xml">
-      <Link>Modeling\Spectroscopy\ChromophoreList.xml</Link>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Vts\Common\Resources\Strings.resx">
@@ -1229,11 +1211,9 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\Fat.csv">
-      <Link>Modeling\Spectroscopy\Resources\Fat.csv</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.xml">
       <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.xml</Link>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

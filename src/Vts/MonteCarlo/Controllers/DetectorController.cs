@@ -6,25 +6,25 @@ using Vts.MonteCarlo.Detectors;
 namespace Vts.MonteCarlo.Controllers
 {
     /// <summary>
-    /// Controller for Surface detectors.
+    /// Controller for detectors.
     /// </summary>
-    public class SurfaceDetectorController : ISurfaceDetectorController
+    public class DetectorController : IDetectorController
     {
         private IList<IDetector> _detectors;
 
-        public SurfaceDetectorController(
-            IList<ISurfaceDetector> detectors)
+        public DetectorController(
+            IEnumerable<IDetector> detectors)
         {
             _detectors = detectors.Select(d => (IDetector)d).ToList();
         }
 
         public IList<IDetector> Detectors { get { return _detectors; } }
-        
-        public void Tally(PhotonDataPoint dp)
+
+        public void Tally(Photon photon)
         {
             foreach (var detector in _detectors)
             {
-                ((ISurfaceDetector)detector).Tally(dp);
+                detector.Tally(photon);
             }
         }
 

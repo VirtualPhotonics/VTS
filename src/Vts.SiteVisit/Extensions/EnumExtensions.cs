@@ -73,18 +73,18 @@ namespace Vts.SiteVisit.Extensions
         {
             switch (sdType)
             {
-                case SolutionDomainType.RofRho:
+                case SolutionDomainType.ROfRho:
                 default:
                     return DependentVariableAxisUnits.PerMMSquared.GetInternationalizedString();
-                case SolutionDomainType.RofFx:
+                case SolutionDomainType.ROfFx:
                     return DependentVariableAxisUnits.Unitless.GetInternationalizedString();
-                case SolutionDomainType.RofRhoAndT:
+                case SolutionDomainType.ROfRhoAndT:
                     return DependentVariableAxisUnits.PerMMSquaredPerNS.GetInternationalizedString();
-                case SolutionDomainType.RofFxAndT:
+                case SolutionDomainType.ROfFxAndT:
                     return DependentVariableAxisUnits.PerNS.GetInternationalizedString();
-                case SolutionDomainType.RofRhoAndFt:
+                case SolutionDomainType.ROfRhoAndFt:
                     return DependentVariableAxisUnits.PerMMSquaredPerGHz.GetInternationalizedString();
-                case SolutionDomainType.RofFxAndFt:
+                case SolutionDomainType.ROfFxAndFt:
                     return DependentVariableAxisUnits.PerGHz.GetInternationalizedString();
             }
         }
@@ -93,18 +93,18 @@ namespace Vts.SiteVisit.Extensions
         {
             switch (sdType)
             {
-                case FluenceSolutionDomainType.FluenceofRho:
+                case FluenceSolutionDomainType.FluenceOfRho:
                 default:
                     return DependentVariableAxisUnits.PerMMCubed.GetInternationalizedString();
-                case FluenceSolutionDomainType.FluenceofFx:
+                case FluenceSolutionDomainType.FluenceOfFx:
                     return DependentVariableAxisUnits.PerMM.GetInternationalizedString();
-                case FluenceSolutionDomainType.FluenceofRhoAndT:
+                case FluenceSolutionDomainType.FluenceOfRhoAndT:
                     return DependentVariableAxisUnits.PerMMCubedPerNS.GetInternationalizedString();
-                case FluenceSolutionDomainType.FluenceofFxAndT:
+                case FluenceSolutionDomainType.FluenceOfFxAndT:
                     return DependentVariableAxisUnits.PerMMPerNS.GetInternationalizedString();
-                case FluenceSolutionDomainType.FluenceofRhoAndFt:
+                case FluenceSolutionDomainType.FluenceOfRhoAndFt:
                     return DependentVariableAxisUnits.PerMMCubedPerGHz.GetInternationalizedString();
-                case FluenceSolutionDomainType.FluenceofFxAndFt:
+                case FluenceSolutionDomainType.FluenceOfFxAndFt:
                     return DependentVariableAxisUnits.PerMMPerGHz.GetInternationalizedString();
             }
         }

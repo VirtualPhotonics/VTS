@@ -12,8 +12,8 @@
         <vm:SolverDemoViewModel/>
     </UserControl.DataContext>
     <Grid x:Name="layoutRoot">
-        <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
-            <Grid VerticalAlignment="Stretch">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Grid VerticalAlignment="Stretch" MinHeight="695">
                 <Grid.Background>
                     <RadialGradientBrush RadiusX="1.01" RadiusY="1.1" Center="0.002,-0.001" GradientOrigin="-0.001,-0.006">
                         <GradientStop Color="Black" Offset="0"/>
@@ -41,7 +41,7 @@
                     Foreground="White"
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Center" Margin="20,0,0,0">
-                    Virtual Photonics General-Purpose ATK 1.0 Beta
+                    Virtual Photonics General-Purpose ATK 1.0.2 Beta
                 </TextBlock>
                 <Image 
                     Source="/Vts.SiteVisit;Component/Resources/Images/logo-small.png"

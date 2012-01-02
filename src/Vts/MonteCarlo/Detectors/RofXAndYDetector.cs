@@ -8,12 +8,12 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
+    /// Implements IDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
     /// of X and Y.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(ROfXAndYDetector))]
-    public class ROfXAndYDetector : ISurfaceDetector<double[,]>
+    public class ROfXAndYDetector : IDetector<double[,]> 
     {
         private bool _tallySecondMoment;
         /// <summary>
@@ -81,15 +81,15 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// method to tally to detector
         /// </summary>
-        /// <param name="dp"></param>
-        public void Tally(PhotonDataPoint dp)
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
-            int ix = DetectorBinning.WhichBin(dp.Position.X, X.Count - 1, X.Delta, X.Start);
-            int iy = DetectorBinning.WhichBin(dp.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
-            Mean[ix, iy] += dp.Weight;
+            int ix = DetectorBinning.WhichBin(photon.DP.Position.X, X.Count - 1, X.Delta, X.Start);
+            int iy = DetectorBinning.WhichBin(photon.DP.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
+            Mean[ix, iy] += photon.DP.Weight;
             if (_tallySecondMoment)
             {
-                SecondMoment[ix, iy] += dp.Weight * dp.Weight;
+                SecondMoment[ix, iy] += photon.DP.Weight * photon.DP.Weight;
             }
         }
 

@@ -20,7 +20,37 @@ namespace Vts.Test.MonteCarlo.PostProcessing
     public class PhotonDatabasePostProcessorTests
     {
         private static IList<IDetectorInput> _detectorInputs;
+        private static ISourceInput _sourceInput;
+        private static ITissueInput _tissueInput;
 
+        [TestFixtureSetUp]
+        public void setup_simulation_input_components()
+        {
+            _detectorInputs = new List<IDetectorInput>()
+            {
+                new ROfRhoAndTimeDetectorInput(
+                    new DoubleRange(0.0, 10.0, 101),
+                    new DoubleRange(0.0, 1, 101))
+            };
+            _sourceInput = new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    1);
+            _tissueInput =  new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 20.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(20.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
+                    }
+            );
+        }
         /// <summary>
         /// validate_photon_termination_database_postprocessor reads the output data 
         /// generated on the fly by MonteCarloSimulation and using the same binning 
@@ -33,31 +63,40 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         [Test]
         public void validate_photon_database_postprocessor()
         {
-            var input = GenerateReferenceInput();
-            var onTheFlyOutput =  new MonteCarloSimulation(input).Run();
+            // DAW postprocssing
+            var DAWinput = GenerateReferenceDAWInput();
+            var onTheFlyDAWOutput =  new MonteCarloSimulation(DAWinput).Run();
 
-            var database = PhotonDatabase.FromFile("DiffuseReflectanceDatabase");
-            var postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+            var DAWdatabase = PhotonDatabase.FromFile("DiffuseReflectanceDatabase");
+            var postProcessedDAWOutput = PhotonDatabasePostProcessor.GenerateOutput(
                 VirtualBoundaryType.DiffuseReflectance,
                 _detectorInputs,
                 false, // tally second moment
-                database,
-                onTheFlyOutput.Input);
+                DAWdatabase,
+                onTheFlyDAWOutput.Input);
 
-            ValidateROfRhoAndTime(onTheFlyOutput, postProcessedOutput);
+            ValidateROfRhoAndTime(onTheFlyDAWOutput, postProcessedDAWOutput);
+
+            // CAW postprocessing
+            var CAWinput = GenerateReferenceCAWInput();
+            var onTheFlyCAWOutput = new MonteCarloSimulation(CAWinput).Run();
+
+            var CAWdatabase = PhotonDatabase.FromFile("DiffuseReflectanceDatabase");
+            var postProcessedCAWOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                VirtualBoundaryType.DiffuseReflectance,
+                _detectorInputs,
+                false, // tally second moment
+                CAWdatabase,
+                onTheFlyCAWOutput.Input);
+
+            ValidateROfRhoAndTime(onTheFlyCAWOutput, postProcessedCAWOutput);
         }
         /// <summary>
-        /// method to generate input to the MC simulation
+        /// method to generate DAW input to the MC simulation
         /// </summary>
         /// <returns>SimulationInput</returns>
-        public static SimulationInput GenerateReferenceInput()
+        public static SimulationInput GenerateReferenceDAWInput()
         {
-            _detectorInputs = new List<IDetectorInput>()
-            {
-                new ROfRhoAndTimeDetectorInput(
-                    new DoubleRange(0.0, 10.0, 101),
-                    new DoubleRange(0.0, 1, 101))
-            };
             return new SimulationInput(
                 100,
                 "", // can't give folder name when writing to isolated storage
@@ -70,24 +109,31 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     true, // compute Second Moment
                     false, // track statistics
                     1),
-                new DirectionalPointSourceInput(
-                    new Position(0.0, 0.0, 0.0),
-                    new Direction(0.0, 0.0, 1.0),
-                    1),                 
-                new MultiLayerTissueInput(
-                    new List<ITissueRegion> 
-                    { 
-                        new LayerRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
-                        new LayerRegion(
-                            new DoubleRange(0.0, 20.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
-                            new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
-                    }
-                ),
+                 _sourceInput,
+                 _tissueInput,
+                 _detectorInputs
+            );
+        }
+        /// <summary>
+        /// method to generate CAW input to the MC simulation
+        /// </summary>
+        /// <returns>SimulationInput</returns>
+        public static SimulationInput GenerateReferenceCAWInput()
+        {
+            return new SimulationInput(
+                100,
+                "", // can't give folder name when writing to isolated storage
+                new SimulationOptions(
+                    0,
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Continuous,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
+                    true, // compute Second Moment
+                    false, // track statistics
+                    1),
+                 _sourceInput,
+                 _tissueInput,
                  _detectorInputs
             );
         }

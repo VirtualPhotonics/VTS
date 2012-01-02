@@ -18,13 +18,13 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(List<ITissueRegion>))]
     public class MultiLayerTissueInput : ITissueInput
     {
-        private IList<ITissueRegion> _regions;
+        private ITissueRegion[] _regions;
 
         /// <summary>
         /// constructor for Multi-layer tissue input
         /// </summary>
         /// <param name="regions">list of tissue regions comprising tissue</param>
-        public MultiLayerTissueInput(IList<ITissueRegion> regions)
+        public MultiLayerTissueInput(ITissueRegion[] regions)
         {
             _regions = regions;
         }
@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         public MultiLayerTissueInput()
             : this(
-                new List<ITissueRegion> 
+                new ITissueRegion[]
                 { 
                     new LayerRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
@@ -56,6 +56,6 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// list of tissue regions comprising tissue
         /// </summary>
-        public IList<ITissueRegion> Regions { get { return _regions; } set { _regions = value; } }
+        public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
     }
 }

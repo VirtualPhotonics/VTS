@@ -10,12 +10,12 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally&lt;double[,]&gt;.  Tally for reflectance as a function 
+    /// Implements IDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
     /// of Rho and Time.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(ROfRhoAndTimeDetector))]
-    public class ROfRhoAndTimeDetector : ISurfaceDetector<double[,]>
+    public class ROfRhoAndTimeDetector : IDetector<double[,]> 
     {
         private bool _tallySecondMoment;
         /// <summary>
@@ -87,16 +87,16 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// method to tally to detector
         /// </summary>
-        /// <param name="dp">photon data point</param>
-        public virtual void Tally(PhotonDataPoint dp)
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
-            var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var it = DetectorBinning.WhichBin(photon.DP.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
-            Mean[ir, it] += dp.Weight;
+            Mean[ir, it] += photon.DP.Weight;
             if (_tallySecondMoment)
             {
-                SecondMoment[ir, it] += dp.Weight * dp.Weight;
+                SecondMoment[ir, it] += photon.DP.Weight * photon.DP.Weight;
             }
             TallyCount++;
         }

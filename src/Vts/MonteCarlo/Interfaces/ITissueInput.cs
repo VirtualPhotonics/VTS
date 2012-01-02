@@ -15,6 +15,6 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// List of tissue regions comprising tissue.
         /// </summary>
-        IList<ITissueRegion> Regions { get; }
+        ITissueRegion[] Regions { get; }
     }
 }

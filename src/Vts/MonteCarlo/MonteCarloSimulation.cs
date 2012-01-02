@@ -99,7 +99,8 @@ namespace Vts.MonteCarlo
                 if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) || (vbType == VirtualBoundaryType.DiffuseTransmittance))
                 {
                     var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, input.Options.TallySecondMoment);
-                    var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors);
+                    var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors, _tissue);
+                    // var detectorController = new DetectorController(detectors);
                     var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbType, _tissue, detectorController);
                     _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
                 }
@@ -228,9 +229,7 @@ namespace Vts.MonteCarlo
                         if ((hitType == BoundaryHitType.Virtual) &&
                             (closestVirtualBoundary.DetectorController != null))
                         {
-                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP);
-                            // reset PhotonStateType after tallying
-                            //photon.DP.StateFlag.Remove(closestVirtualBoundary.PhotonStateType);
+                            closestVirtualBoundary.DetectorController.Tally(photon);
                         }
 
                         // kill photon for various reasons, including possible VB crossings
@@ -268,7 +267,7 @@ namespace Vts.MonteCarlo
                     // PseudoDiffuseReflectanceVB
                     foreach (var vb in volumeVBs)
                     {
-                        ((IVolumeDetectorController)vb.DetectorController).Tally(photon.History);
+                        vb.DetectorController.Tally(photon); // dc: this should use the optimized loop now...
                     }
 
                     if (TrackStatistics)
@@ -297,7 +296,7 @@ namespace Vts.MonteCarlo
 
             if (TrackStatistics)
             {
-                _simulationStatistics.ToFile("statistics");
+                _simulationStatistics.ToFile("statistics.xml");
             }
 
             stopwatch.Stop();
@@ -368,24 +367,27 @@ namespace Vts.MonteCarlo
 
             if (tissueDistance < vbDistance) // determine if will hit tissue boundary first
             {
+                // DC - logic confusing; why no pseudo added here but added below for vb?
                 var hitTissueBoundary = photon.Move(tissueDistance);
                 return hitTissueBoundary ? BoundaryHitType.Tissue : BoundaryHitType.None;
             }
-            else // otherwise, move to the closest virtual boundary
+
+            // otherwise, move to the closest virtual boundary
+
+            // if both tissueDistance and vbDistance are both infinity, then photon dead
+            if (vbDistance == double.PositiveInfinity)
             {
-                // if both tissueDistance and vbDistance are both infinity, then photon dead
-                if (vbDistance == double.PositiveInfinity)
-                {
-                    photon.DP.StateFlag = photon.DP.StateFlag.Remove(PhotonStateType.Alive);
-                    return BoundaryHitType.None;
-                }
-                else
-                {
-                    var hitVirtualBoundary = photon.Move(vbDistance);
-                    photon.DP.StateFlag = photon.DP.StateFlag.Add(closestVirtualBoundary.PhotonStateType); // add pseudo-collision for vb
-                    return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
-                }
+                photon.DP.StateFlag = photon.DP.StateFlag.Remove(PhotonStateType.Alive);
+                return BoundaryHitType.None;
             }
+
+            var hitVirtualBoundary = photon.Move(vbDistance);
+
+            // DC - logic confusing; why add pseudo here for vb, but no pseudo in this method for tissue boundary?
+            photon.DP.StateFlag = photon.DP.StateFlag.Add(closestVirtualBoundary.PhotonStateType); // add pseudo-collision for vb 
+            
+            // DC - also confusing that we'd add a pseudo for the vb if hitVirtualBoundary is false...
+            return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
         }
 
         /********************************************************/

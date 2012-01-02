@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo
         /// Constructor for reflectance as a function of rho and omega detector input
         /// </summary>
         /// <param name="rho">rho binning</param>
-        /// <param name="omega">temporal frequency binning</param>
+        /// <param name="omega">temporal frequency sampling points (not binned)</param>
         /// <param name="name">detector name</param>
         public ROfRhoAndOmegaDetectorInput(DoubleRange rho, DoubleRange omega, String name)
         {
@@ -26,12 +26,12 @@ namespace Vts.MonteCarlo
         /// constructor uses TallyType as name
         /// </summary>
         /// <param name="rho">rho binning</param>
-        /// <param name="omega">temporal frequency binning</param>
+        /// <param name="omega">temporal frequency sampling points (not binned)</param>
         public ROfRhoAndOmegaDetectorInput(DoubleRange rho, DoubleRange omega) 
             : this (rho, omega, TallyType.ROfRhoAndOmega.ToString()) {}
 
         /// <summary>
-        /// Default constructor uses default rho and omega bins
+        /// Default constructor uses default rho bins and omega sampling points
         /// </summary>
         public ROfRhoAndOmegaDetectorInput()
             : this (new DoubleRange(0.0, 10, 101), 
@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         public DoubleRange Rho { get; set; }
         /// <summary>
-        /// detector temporal-frequency (omega) binning
+        /// detector temporal-frequency (omega) sampling points (not binned)
         /// </summary>
         public DoubleRange Omega { get; set; }
     }
