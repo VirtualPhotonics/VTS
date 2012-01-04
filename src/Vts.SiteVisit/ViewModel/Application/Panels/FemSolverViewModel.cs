@@ -20,7 +20,7 @@ namespace Vts.SiteVisit.ViewModel
         {
             _parameters = parameters;
 
-            OpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Tissue Optical Properties:", G = 0.9, N = 1.0, EnableG = true };
+            OpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Tissue Optical Properties:", G = 0.8, N = 1.0, EnableG = true };
             Commands.FEM_ExecuteFemSolver.Executed += FEM_ExecuteFemSolver_Executed;
 
             ExecuteFemSolverCommand = new RelayCommand(() => FEM_ExecuteFemSolver_Executed(null, null));    
@@ -30,11 +30,11 @@ namespace Vts.SiteVisit.ViewModel
         public FemSolverViewModel()
             : this(new Parameters
             {
-                G = 0.9,
+                G = 0.8,
                 NTissue = 1.0,
                 NExt = 1.0,
                 SMeshLevel = 3,
-                AMeshLevel = 3,
+                AMeshLevel = 5,
                 ConvTol = 1e-4,
                 MgMethod = 6,
                 NIterations = 100,
@@ -78,12 +78,12 @@ namespace Vts.SiteVisit.ViewModel
             //       starting from "0" to "+z" with increasing "z" coordinate;   
 
             if ((_parameters.AMeshLevel > 8) || (_parameters.SMeshLevel > 8))
-                logger.Info(() => "Angular or Spatial mesh level is larger than 8\n");            
+                logger.Info(() => "Angular or Spatial mesh level is larger than 8\n");
             else
             {
-
                 Measurement measurement = SolverMGRTE.ExecuteMGRTE(_parameters);
-                var meshData = new MapData(measurement.inten, measurement.xloc, measurement.zloc, measurement.dx, measurement.dz);
+                var meshData = new MapData(measurement.inten, measurement.xloc, measurement.zloc, measurement.dx,
+                                           measurement.dz);
                 Commands.Mesh_PlotMap.Execute(meshData);
             }
         }

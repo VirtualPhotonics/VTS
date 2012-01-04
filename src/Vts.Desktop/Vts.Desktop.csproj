@@ -317,9 +317,6 @@
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IIntSource.cs">
       <Link>FemModeling\MGRTE\2D\Interfaces\IIntSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\IO\Source.cs">
-      <Link>FemModeling\MGRTE\2D\IO\Source.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\MathFunctions.cs">
       <Link>FemModeling\MGRTE\2D\MathFunctions.cs</Link>
     </Compile>

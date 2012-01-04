@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Vts.FemModeling.MGRTE._2D.DataStructures;
-using Vts.FemModeling.MGRTE._2D.IO;
 using Vts.FemModeling.MGRTE._2D.SourceInputs;
 using Vts.Common;
 using Vts.Common.Logging;
@@ -17,10 +16,11 @@ namespace Vts.FemModeling.MGRTE._2D
 
         public static Measurement ExecuteMGRTE(Parameters para)
         {
-
-            int level = -1;
+            
             int vacuum;
-            int i, j, k, m, n, ns, nt1, nt2, ns1, ns2, da, ds, nf = 0;
+            int i, j, k, m, n, ns, nt1, nt2, ns1, ns2, da, ds;
+            int nf = 0;
+            int level;
             double res = 0, res0 = 1, rho = 1.0;
             int AMeshLevel0, SMeshLevel0;
 
@@ -40,7 +40,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 vacuum = 0; 
             }       
      
-            //Values for these variable are suggested in the MG-RTE paper.
+            //These values are suggested in the MG-RTE paper.
             para.NIterations = 100;
             para.NPreIteration = 3;
             para.NPostIteration = 3;
@@ -80,8 +80,12 @@ namespace Vts.FemModeling.MGRTE._2D
                 case 7: //MG4_s:
                     level = ds + da;
                     break;
+                default:
+                    level = -1;
+                    break;
             }
 
+            //Create Dynamic arrays based on above values
             AngularMesh[] amesh = new AngularMesh[para.AMeshLevel + 1];
             SpatialMesh[] smesh = new SpatialMesh[para.SMeshLevel + 1];
             BoundaryCoupling[] b = new BoundaryCoupling[level + 1];
@@ -96,15 +100,18 @@ namespace Vts.FemModeling.MGRTE._2D
 
             MultiGridCycle Mgrid = new MultiGridCycle();
             OutputCalculation Rteout = new OutputCalculation();
-            Source Insource = new Source();
+ 
+            //Avoid g value equal to 1
+            if (para.G == 1.0)
+                para.G = 1 - 1e-5;
 
             //Create spatial and angular mesh
             MathFunctions.CreateAnglularMesh(ref amesh, para.AMeshLevel, para.G);      
             MathFunctions.CreateSquareMesh(ref smesh, para.SMeshLevel);
 
             MathFunctions.SweepOrdering(ref smesh, amesh, para.SMeshLevel, para.AMeshLevel);  
-            MathFunctions.SetMus(ref us, para.SMeshLevel, smesh[para.SMeshLevel].nt);
-            MathFunctions.SetMua(ref ua, para.SMeshLevel, smesh[para.SMeshLevel].nt);
+            MathFunctions.SetMus(ref us, para.Musp/(1-para.G), para.SMeshLevel, smesh[para.SMeshLevel].nt);
+            MathFunctions.SetMua(ref ua, para.Mua, para.SMeshLevel, smesh[para.SMeshLevel].nt);
 
             // load optical property, angular mesh, and spatial mesh files
             Initialization.Initial(
@@ -114,15 +121,14 @@ namespace Vts.FemModeling.MGRTE._2D
                 para.NExt,para.AMeshLevel, AMeshLevel0,
                 para.SMeshLevel, SMeshLevel0, ua, us, Mgrid);           
 
-            // initialize internal and boundary sources - 
-            //todo: Old method,  DELETE after implementing new source handling 
-            Insource.Inputsource(para.AMeshLevel, amesh, para.SMeshLevel, smesh, level, RHS, q);
+           
 
-            //Assign internal and external sources 
+            //todo: Assign an external source 
             IExtSource extsource = FemSourceFactory.GetExtSource(new ExtPointSourceInput());
             extsource.AssignMeshForExtSource(amesh, para.AMeshLevel, smesh, para.SMeshLevel, level, q);
 
-            IIntSource intsource = FemSourceFactory.GetIntSource(new Int2DPointSourceInput());
+            //Assign an internal source
+            IIntSource intsource = FemSourceFactory.GetIntSource(new Int2DPointSourceInput(new DoubleRange(0, 0.5), new DoubleRange(0, 2 * Math.PI)));
             intsource.AssignMeshForIntSource(amesh, para.AMeshLevel, smesh, para.SMeshLevel, level,RHS);
 
            
@@ -301,9 +307,9 @@ namespace Vts.FemModeling.MGRTE._2D
             }
 
             // 2.3. compute the residual
-            Mgrid.Defect(amesh[para.AMeshLevel], smesh[para.SMeshLevel], ns, RHS[level], ua[para.SMeshLevel], us[para.SMeshLevel], 
-                flux[level], b[level], q[level], d[level], vacuum);
-            res = Mgrid.Residual(smesh[para.SMeshLevel].nt, amesh[para.AMeshLevel].ns, d[level], smesh[para.SMeshLevel].a);
+            //Mgrid.Defect(amesh[para.AMeshLevel], smesh[para.SMeshLevel], ns, RHS[level], ua[para.SMeshLevel], us[para.SMeshLevel], 
+            //    flux[level], b[level], q[level], d[level], vacuum);
+            //res = Mgrid.Residual(smesh[para.SMeshLevel].nt, amesh[para.AMeshLevel].ns, d[level], smesh[para.SMeshLevel].a);
 
             /* Read the start time. */
             DateTime stopTime2 = DateTime.Now;

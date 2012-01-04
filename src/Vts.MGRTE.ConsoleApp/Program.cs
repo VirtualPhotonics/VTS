@@ -15,7 +15,7 @@ namespace Vts.MGRTE.ConsoleApp
             Parameters para = new Parameters();
               
             //User sp                 
-            para.G = 0.9;
+            para.G = 0.8;
             para.NTissue = 1.0;
             para.NExt = 1.0;
             para.AMeshLevel = 4;   

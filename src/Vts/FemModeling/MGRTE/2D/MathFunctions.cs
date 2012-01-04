@@ -549,8 +549,8 @@ namespace Vts.FemModeling.MGRTE._2D
 
         }
 
-        //hard coded mua
-        public static void SetMua(ref double[][][] ua, int sMeshLevel, int nt)
+        
+        public static void SetMua(ref double[][][] ua, double mua, int sMeshLevel, int nt)
         {
             int j, k;
 
@@ -559,12 +559,11 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 ua[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
-                    ua[sMeshLevel][j][k] = 0.01;
+                    ua[sMeshLevel][j][k] = mua;
             }
         }
-
-        //hard coded mus
-        public static void SetMus(ref double[][][] us, int sMeshLevel, int nt)
+        
+        public static void SetMus(ref double[][][] us, double mus, int sMeshLevel, int nt)
         {
             int j, k;
 
@@ -573,7 +572,7 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 us[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
-                    us[sMeshLevel][j][k] = 1.0;
+                    us[sMeshLevel][j][k] = mus;
             }
         }
 

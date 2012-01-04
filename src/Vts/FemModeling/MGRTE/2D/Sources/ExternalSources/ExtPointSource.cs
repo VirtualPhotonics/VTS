@@ -20,7 +20,7 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
              new DoubleRange(-0.5 * Math.PI, 0.5 * Math.PI)) { }
 
         /// <summary>
-        /// Launching coordinates (x,z) of the line
+        /// Launching coordinates (x,z) of the boundary point source
         /// </summary>
         public DoubleRange LaunchPoint { get; set; }
 
