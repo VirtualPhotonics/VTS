@@ -10,15 +10,27 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
     public class SimulationInputValidationTests
     {
         [Test]
-        public void validate_null_detector_input_is_invalid()
+        public void validate_null_detector_input_is_invalid_when_no_database_specified()
         {
-            // generate input without any detector inputs
-            var input = new SimulationInput()
+            // generate input without any detector inputs and no database specified
+            var input = new SimulationInput()  // default constructor has empty list of databases
             {
                 DetectorInputs = new List<IDetectorInput> {}
             };
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
+        }
+        [Test]
+        public void validate_null_detector_input_is_valid_when_database_specified()
+        {
+            // generate input without any detector inputs but with database specified
+            var input = new SimulationInput()  
+            {
+                DetectorInputs = new List<IDetectorInput> {}
+            };
+            input.Options.WriteDatabases = new List<DatabaseType> {DatabaseType.DiffuseReflectance};
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsTrue(result.IsValid);
         }
         //[Test]
         //public void validate_detector_input_not_implemented_is_invalid()

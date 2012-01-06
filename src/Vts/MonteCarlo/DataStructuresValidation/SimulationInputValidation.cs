@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo
                     si => ValidateN(si.N),
                     si => ValidateSourceInput(si.SourceInput, si.TissueInput),
                     si => ValidateTissueInput(si.TissueInput),
-                    si => ValidateDetectorInput(si.DetectorInputs),
+                    si => ValidateDetectorInput(si),
                     si => ValidateCombinedInputParameters(si),
                     si => ValidateCurrentIncapabilities(si)
                 };
@@ -85,17 +85,17 @@ namespace Vts.MonteCarlo
                 "Tissue input must be valid",
                 "Validation skipped for tissue input " + tissueInput + ". No matching validation rules were found.");
         }
-        private static ValidationResult ValidateDetectorInput(IList<IDetectorInput> detectorInputs)
+        private static ValidationResult ValidateDetectorInput(SimulationInput si)
         {
-            if (detectorInputs.Count() < 1)
+            if ((si.Options.WriteDatabases.Count() == 0) && (si.DetectorInputs.Count() < 1))
             {
                 return new ValidationResult(
                     false,
-                    "No detector inputs specified",
-                    "Make sure list of DetectorInputs is not empty or null");
+                    "No detector inputs specified and no database to be written",
+                    "Make sure list of DetectorInputs is not empty or null if no databases are to be written");
             }
             // black list of unimplemented detectors
-            foreach (var detectorInput in detectorInputs)
+            foreach (var detectorInput in si.DetectorInputs)
             {
                 if (detectorInput.TallyType.IsNotImplementedYet())
                 {
