@@ -119,6 +119,15 @@ namespace Vts.MonteCarlo
         /// <returns>ValidationResult with IsValid set and error message if false</returns>
         private static ValidationResult ValidateCombinedInputParameters(SimulationInput input)
         {
+            // check that absorption weighting type set to analog and RR weight threshold != 0.0
+            if ((input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Analog) &&
+                input.Options.RussianRouletteWeightLimit != 0.0)
+            {
+                return new ValidationResult(
+                    false,
+                    "Russian Roulette cannot be employed with Analog absorption weighting is specified",
+                    "With Analog absorption weighting, set Russian Roulette weight threshold = 0.0");
+            }
             // check that if single ellipsoid tissue specified and (r,z) detector specified,
             // that ellipsoid is centered at x=0, y=0
             if (input.TissueInput is SingleEllipsoidTissueInput)
@@ -138,7 +147,7 @@ namespace Vts.MonteCarlo
             }
             return new ValidationResult(
                 true,
-                "Input tissue/detector combinations are valid",
+                "Input options or tissue/detector combinations are valid",
                 "");
 
         }
