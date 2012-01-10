@@ -20,16 +20,16 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// mersenne twister STANDARD_TEST
     /// </summary>
     [TestFixture]
-    public class pMCDAWLayersDetectorsTests
+    public class pMCCAWOneLayerDetectorsTests
     {
-        private SimulationInput _referenceInputTwoLayerTissue;
-        private Output _referenceOutputTwoLayerTissue;
+        private SimulationInput _referenceInputOneLayerTissue;
+        private Output _referenceOutputOneLayerTissue;
         private double _layerThickness = 1.0;
         private double _factor;
-        private pMCDatabase _databaseTwoLayerTissue;
+        private pMCDatabase _databaseOneLayerTissue;
 
         /// <summary>
-    /// These tests execute perturbation Monte Carlo (pMC) on a discrete absorption weighting (DAW)
+    /// These tests execute perturbation Monte Carlo (pMC) on a continuous absorption weighting (CAW)
     /// MC simulation with 100 photons and verify that 1) on-the-fly and pMC produces same results, and
     /// 2) the tally results match the linux results given the same seed
     /// mersenne twister STANDARD_TEST.  The linux results assumes photon passes
@@ -58,11 +58,11 @@ namespace Vts.Test.MonteCarlo.Detectors
                 File.Delete("CollisionInfoDatabase");
             }
 
-            // generate reference database for homogeneous and one layer tissue
+            // generate reference database for homogeneous tissue
             GenerateReferenceDatabase();
         }
         /// <summary>
-        /// Define SimulationInput to describe homogeneous and two layer tissue 
+        /// Define SimulationInput to describe homogeneous one layer tissue 
         /// </summary>
         /// <returns></returns>
         private void GenerateReferenceDatabase()
@@ -70,7 +70,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var simulationOptions = new SimulationOptions(
                 0,
                 RandomNumberGeneratorType.MersenneTwister,
-                AbsorptionWeightingType.Discrete,
+                AbsorptionWeightingType.Continuous,
                 PhaseFunctionType.HenyeyGreenstein,
                 new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance },
                 true, // tally 2nd moment
@@ -88,10 +88,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new DoubleRange(0.0, 10.0, 101),
                     new DoubleRange(0.0, 1.0, 101)),
             };
-
-            _referenceInputTwoLayerTissue = new SimulationInput(
+            _referenceInputOneLayerTissue = new SimulationInput(
                 100,
-                "",
+                "",  // can't create folder in isolated storage
                 simulationOptions,
                 sourceInput,
                 new MultiLayerTissueInput(
@@ -101,10 +100,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerRegion(
-                            new DoubleRange(0.0, _layerThickness),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
-                            new DoubleRange(_layerThickness, 20.0),
+                            new DoubleRange(0.0, 20.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
@@ -112,45 +108,71 @@ namespace Vts.Test.MonteCarlo.Detectors
                     }
                 ),
                 detectorInputs);
-
             _factor = 1.0 - Optics.Specular(
-                            _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP.N,
-                            _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP.N);
-            _referenceOutputTwoLayerTissue = new MonteCarloSimulation(_referenceInputTwoLayerTissue).Run();
-            _databaseTwoLayerTissue = pMCDatabase.FromFile("DiffuseReflectanceDatabase", "CollisionInfoDatabase");
+                            _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP.N,
+                            _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.N);
+            _referenceOutputOneLayerTissue = new MonteCarloSimulation(_referenceInputOneLayerTissue).Run();
 
+            _databaseOneLayerTissue = pMCDatabase.FromFile("DiffuseReflectanceDatabase", "CollisionInfoDatabase");
         }
-
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
         /// determines results equal to reference
         /// </summary>
-        [Test]
-        public void validate_pMC_DAW_ROfRhoAndTime_zero_perturbation_of_top_layer()
+        [Test]  
+        public void validate_pMC_CAW_ROfRhoAndTime_zero_perturbation_one_layer_tissue()
         {
-            var postProcessedOutput =
-                PhotonDatabasePostProcessor.GenerateOutput(
+            var postProcessedOutput = 
+                PhotonDatabasePostProcessor.GenerateOutput( 
                     VirtualBoundaryType.pMCDiffuseReflectance,
                     new List<IpMCDetectorInput>()
                     {
                         new pMCROfRhoAndTimeDetectorInput(
                             new DoubleRange(0.0, 10.0, 101),
                             new DoubleRange(0.0, 1.0, 101),
-                            new List<OpticalProperties>() { // perturbed ops
-                                _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
-                                _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
-                                _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
-                                _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
+                            // set perturbed ops to reference ops
+                            new List<OpticalProperties>() { 
+                                _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
                             new List<int>() { 1 })
                     },
                     false,
-                    _databaseTwoLayerTissue,
-                    _referenceInputTwoLayerTissue);
-            // validation value obtained from reference results
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - _referenceOutputTwoLayerTissue.R_rt[0, 0]), 0.00000000001);
+                    _databaseOneLayerTissue,
+                    _referenceInputOneLayerTissue);
+
+            // validation value obtained from reference non-pMC run
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - 
+                _referenceOutputOneLayerTissue.R_rt[0, 0]), 0.00000000001);
             // validation value obtained from linux run using above input and seeded the same
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] * _factor - 92.2411018), 0.0000001);
+       }
+        [Test]
+        public void validate_pMC_CAW_ROfRho_zero_perturbation_one_layer_tissue()
+        {            
+            var postProcessedOutput =
+                PhotonDatabasePostProcessor.GenerateOutput(
+                    VirtualBoundaryType.pMCDiffuseReflectance,
+                    new List<IpMCDetectorInput>()
+                    {
+                        new pMCROfRhoDetectorInput(
+                            new DoubleRange(0.0, 10, 101),
+                            // set perturbed ops to reference ops
+                            new List<OpticalProperties>() { 
+                                _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
+                            new List<int>() { 1 })
+                    },
+                    false,
+                    _databaseOneLayerTissue,
+                    _referenceInputOneLayerTissue);
+            // validation value obtained from reference non-pMC run
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] - _referenceOutputOneLayerTissue.R_r[0]), 0.00000000001);
+            // validation value obtained from linux run using above input and seeded the same
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 0.922411018), 0.000000001);
         }
+        
     }
 }
 

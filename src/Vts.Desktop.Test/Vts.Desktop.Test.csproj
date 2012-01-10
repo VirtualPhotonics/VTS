@@ -219,8 +219,8 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogLayerDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\AnalogLayerDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\CAWLayersDetectorsTests.cs</Link>
@@ -231,8 +231,17 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWSphereDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWSphereDetectorsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCCAWOneLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCCAWOneLayerDetectorsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWOneLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCDAWOneLayerDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
       <Link>MonteCarlo\Detectors\SpecularLayerDetectorTests.cs</Link>

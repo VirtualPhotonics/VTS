@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// linux results.
     /// </summary>
     [TestFixture]
-    public class AnalogLayerDetectorsTests
+    public class AnalogOneLayerDetectorsTests
     {
         private Output _output;
         private SimulationInput _input;
