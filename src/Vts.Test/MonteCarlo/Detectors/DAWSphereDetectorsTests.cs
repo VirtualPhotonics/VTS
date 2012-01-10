@@ -50,6 +50,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new List<DatabaseType>() { }, // databases to be written
                 true,
                 false, // track statistics
+                0.0, // RR threshold -> 0 = no RR performed
                 0);
             var source = new DirectionalPointSourceInput(
                      new Position(0.0, 0.0, 0.0),

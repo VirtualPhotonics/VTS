@@ -101,6 +101,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { },
                     true, // compute Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(),
 

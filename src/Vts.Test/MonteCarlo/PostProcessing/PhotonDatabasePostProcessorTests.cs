@@ -108,6 +108,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
                     true, // compute Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
                     1),
                  _sourceInput,
                  _tissueInput,
@@ -131,6 +132,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
                     true, // compute Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
                     1),
                  _sourceInput,
                  _tissueInput,

@@ -165,6 +165,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance },
                 true, // tally 2nd moment
                 false, // track statistics
+                0.0, // RR threshold -> 0 = no RR performed
                 0);
             var sourceInput = new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),

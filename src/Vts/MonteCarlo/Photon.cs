@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo
         private const double CHANCE = 0.1;
         //private const double MAX_PHOTON_PATHLENGTH = 2000; // mm  
         private const double MAX_PHOTON_TIME = 280; // ns = 60000 mm (pathlength) / (300 / 1.4)
-        private const double WEIGHT_LIMIT = 0.0001; // Russian Roulette weight limit
+        //private const double WEIGHT_LIMIT = 0.0001; // Russian Roulette weight limit, now part of Options ckh 1/9/12
 
         // could add layer of indirection to not expose Absorb;
         private ITissue _tissue;
@@ -261,7 +261,7 @@ namespace Vts.MonteCarlo
             double uz = DP.Direction.Uz;
             //Direction dir = DP.Direction;
 
-            double g = this._tissue.Regions[CurrentRegionIndex].RegionOP.G;
+            double g = _tissue.Regions[CurrentRegionIndex].RegionOP.G;
             double cost, sint;    /* cosine and sine of theta */
             double cosp, sinp;    /* cosine and sine of phi */
             double psi;
@@ -353,9 +353,9 @@ namespace Vts.MonteCarlo
         }
         /*********************************************************/
 
-        public void TestDeath()
+        public void TestDeath(double russianRouletteWeightLimit)
         {
-            TestWeightAndDistance();         
+            TestWeightAndDistance(russianRouletteWeightLimit);         
             // if VB crossing flagged
             if (DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary)  ||
                 DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
@@ -366,25 +366,30 @@ namespace Vts.MonteCarlo
                 History.AddDPToHistory(DP);
             }
         }
-        public void TestWeightAndDistance()
+        public void TestWeightAndDistance(double russianRouletteWeightLimit)
         {
-            if (DP.Weight < WEIGHT_LIMIT)
-                Roulette();  
-            //// kill photon if it has had too many collisions
-            //if (History.HistoryData.Count >= MAX_HISTORY_PTS)
-            //{
-            //    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumCollisions);
-            //    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-            //    History.AddDPToHistory(DP);
-            //}
-            ///* kill photon if it has gone too far */
-
-            //if (DP.TotalTime >= MAX_PHOTON_TIME)
-            //{
-            //    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
-            //    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-            //    History.AddDPToHistory(DP);
-            //}
+            // kill by RR if weight < user-input WEIGHT_LIMIT (=0.0 then no RR)
+            if (DP.Weight < russianRouletteWeightLimit)
+            {
+                Roulette();
+            }
+            else
+            {
+                // kill photon if it has had too many collisions
+                if (History.HistoryData.Count >= MAX_HISTORY_PTS)
+                {
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumCollisions);
+                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    History.AddDPToHistory(DP);
+                }
+                // kill photon if it has gone too far 
+                if (DP.TotalTime >= MAX_PHOTON_TIME)
+                {
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
+                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    History.AddDPToHistory(DP);
+                }
+            }
         }
 
         /*****************************************************************/

@@ -49,6 +49,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -125,6 +126,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -172,6 +174,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -222,6 +225,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -269,6 +273,7 @@ namespace Vts.MonteCarlo
                     new [] { DatabaseType.DiffuseReflectance }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -316,6 +321,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -369,6 +375,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -413,6 +420,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
                     0),
                 new CustomCircularSourceInput(
                     3.0, // outer radius
