@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// linux results.
     /// </summary>
     [TestFixture]
-    public class AnalogLayerDetectorsTests
+    public class AnalogOneLayerDetectorsTests
     {
         private Output _output;
         private SimulationInput _input;
@@ -43,6 +43,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally SecondMoment
                     true, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),

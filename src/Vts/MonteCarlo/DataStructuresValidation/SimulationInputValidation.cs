@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo
                     si => ValidateN(si.N),
                     si => ValidateSourceInput(si.SourceInput, si.TissueInput),
                     si => ValidateTissueInput(si.TissueInput),
-                    si => ValidateDetectorInput(si.DetectorInputs),
+                    si => ValidateDetectorInput(si),
                     si => ValidateCombinedInputParameters(si),
                     si => ValidateCurrentIncapabilities(si)
                 };
@@ -85,17 +85,17 @@ namespace Vts.MonteCarlo
                 "Tissue input must be valid",
                 "Validation skipped for tissue input " + tissueInput + ". No matching validation rules were found.");
         }
-        private static ValidationResult ValidateDetectorInput(IList<IDetectorInput> detectorInputs)
+        private static ValidationResult ValidateDetectorInput(SimulationInput si)
         {
-            if (detectorInputs.Count() < 1)
+            if ((si.Options.WriteDatabases.Count() == 0) && (si.DetectorInputs.Count() < 1))
             {
                 return new ValidationResult(
                     false,
-                    "No detector inputs specified",
-                    "Make sure list of DetectorInputs is not empty or null");
+                    "No detector inputs specified and no database to be written",
+                    "Make sure list of DetectorInputs is not empty or null if no databases are to be written");
             }
             // black list of unimplemented detectors
-            foreach (var detectorInput in detectorInputs)
+            foreach (var detectorInput in si.DetectorInputs)
             {
                 if (detectorInput.TallyType.IsNotImplementedYet())
                 {
@@ -119,6 +119,15 @@ namespace Vts.MonteCarlo
         /// <returns>ValidationResult with IsValid set and error message if false</returns>
         private static ValidationResult ValidateCombinedInputParameters(SimulationInput input)
         {
+            // check that absorption weighting type set to analog and RR weight threshold != 0.0
+            if ((input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Analog) &&
+                input.Options.RussianRouletteWeightLimit != 0.0)
+            {
+                return new ValidationResult(
+                    false,
+                    "Russian Roulette cannot be employed with Analog absorption weighting is specified",
+                    "With Analog absorption weighting, set Russian Roulette weight threshold = 0.0");
+            }
             // check that if single ellipsoid tissue specified and (r,z) detector specified,
             // that ellipsoid is centered at x=0, y=0
             if (input.TissueInput is SingleEllipsoidTissueInput)
@@ -138,7 +147,7 @@ namespace Vts.MonteCarlo
             }
             return new ValidationResult(
                 true,
-                "Input tissue/detector combinations are valid",
+                "Input options or tissue/detector combinations are valid",
                 "");
 
         }

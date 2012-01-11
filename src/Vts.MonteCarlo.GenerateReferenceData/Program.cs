@@ -25,6 +25,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                         new List<DatabaseType>() { }, // databases to be written
                         true, // compute Second Moment
                         false, // track statistics
+                        0.0, // RR threshold -> 0 = no RR performed
                         1),
                     new DirectionalPointSourceInput(
                         new Position(0.0, 0.0, 0.0),
