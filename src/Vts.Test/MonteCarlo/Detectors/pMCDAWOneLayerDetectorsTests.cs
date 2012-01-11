@@ -120,7 +120,7 @@ namespace Vts.Test.MonteCarlo.Detectors
 
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
-        /// determines results equal to reference
+        /// determines results equal to reference for R(rho,time)
         /// </summary>
         [Test]
         public void validate_pMC_DAW_ROfRhoAndTime_zero_perturbation_one_layer_tissue()
@@ -152,7 +152,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0]*_factor - 61.5238307), 0.0000001);
         }
-
+        /// <summary>
+        /// Test to validate that setting mua and mus to the reference values
+        /// determines results equal to reference for R(rho)
+        /// </summary>
         [Test]
         public void validate_pMC_DAW_ROfRho_zero_perturbation_one_layer_tissue()
         {
@@ -179,6 +182,39 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] - _referenceOutputOneLayerTissue.R_r[0]), 0.00000000001);
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0]*_factor - 0.615238307), 0.000000001);
+        }
+        /// <summary>
+        /// Test to validate that setting mua and mus to the perturbed values (mua*2, mus*1.1)
+        /// determines results equal to linux results for R(rho)
+        /// </summary>
+        [Test]
+        public void validate_pMC_DAW_ROfRho_nonzero_perturbation_one_layer_tissue()
+        {
+            var postProcessedOutput =
+                PhotonDatabasePostProcessor.GenerateOutput(
+                    VirtualBoundaryType.pMCDiffuseReflectance,
+                    new List<IpMCDetectorInput>()
+                        {
+                            new pMCROfRhoDetectorInput(
+                                new DoubleRange(0.0, 10, 101),
+                                // set perturbed ops to reference ops
+                                new List<OpticalProperties>()
+                                    {
+                                        _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                                        new OpticalProperties(
+                                            _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.Mua * 2,
+                                            _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.Musp * 1.1,
+                                            _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.G,
+                                            _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.N),
+                                        _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
+                                    },
+                                new List<int>() {1})
+                        },
+                    false,
+                    _databaseOneLayerTissue,
+                    _referenceInputOneLayerTissue);
+            // validation value obtained from linux run using above input and seeded the same
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 0.7226588), 0.0000001);
         }
     }
 }
