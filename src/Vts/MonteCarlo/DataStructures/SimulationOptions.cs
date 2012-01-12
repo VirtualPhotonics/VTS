@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo
             RandomNumberGeneratorType = rngType;
             AbsorptionWeightingType = absWeightingType;
             PhaseFunctionType = phaseFunctionType;
-            WriteDatabases = writeDatabases;
+            Databases = writeDatabases;
             Seed = seed;
             //if (Seed == -1) // handling of random seed moved to RNGFactory 10/01/11
             //{
@@ -117,7 +117,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// list of databases to be written
         /// </summary>
-        public IList<DatabaseType> WriteDatabases { get; set; }  // modified ckh 4/12/11
+        public IList<DatabaseType> Databases { get; set; }  // modified ckh 4/12/11
         /// <summary>
         /// flag indicating whether to tally second moment information for error results
         /// </summary>

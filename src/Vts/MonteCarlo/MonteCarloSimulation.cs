@@ -1,10 +1,8 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using Vts.Common.Logging;
 using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
 
@@ -66,6 +64,8 @@ namespace Vts.MonteCarlo
 
             // instantiate vb (and associated detectors) for each vb group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
+
+            List<VirtualBoundaryType> dbVirtualBoundaries = input.Options.Databases.Select(db => db.GetCorrespondingVirtualBoundaryType()).ToList();
             
             foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
             {
@@ -96,9 +96,8 @@ namespace Vts.MonteCarlo
 
                 // make sure VB Controller has at least diffuse reflectance and diffuse transmittance
                 // may change this in future if tissue OnDomainBoundary changes
-                //var dbVirtualBoundaries = input.Options.WriteDatabases.Select(db => db.GetCorrespondingVirtualBoundary).Any();// sb list of DB, outside
-                if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) || (vbType == VirtualBoundaryType.DiffuseTransmittance)) //||
-                //    dbVirtualBoundaries.Any(vb => vb == vbType))
+                if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) || 
+                    (vbType == VirtualBoundaryType.DiffuseTransmittance) || (dbVirtualBoundaries.Any(vb => vb == vbType)))
                 {
                     var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, input.Options.TallySecondMoment);
                     var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors, _tissue);
@@ -112,7 +111,7 @@ namespace Vts.MonteCarlo
             //_detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
 
             // set doPMC flag
-            if (input.Options.WriteDatabases.Any(d => d.IspMCDatabase()))
+            if (input.Options.Databases.Any(d => d.IspMCDatabase()))
             {
                 doPMC = true;
             }
@@ -195,7 +194,7 @@ namespace Vts.MonteCarlo
 
             try
             {
-                if (_input.Options.WriteDatabases.Count() > 0)
+                if (_input.Options.Databases.Count() > 0)
                 {
                     InitialDatabases(doPMC);
                 }
@@ -259,7 +258,7 @@ namespace Vts.MonteCarlo
 
                     //_detectorController.TerminationTally(photon.DP);
 
-                    if (_input.Options.WriteDatabases.Count() > 0)
+                    if (_input.Options.Databases.Count() > 0)
                     {
                         WriteToDatabases(doPMC, photon);
                     }
@@ -281,7 +280,7 @@ namespace Vts.MonteCarlo
             }
             finally
             {
-                if (_input.Options.WriteDatabases.Count() > 0)
+                if (_input.Options.Databases.Count() > 0)
                 {
                     CloseDatabases(doPMC);
                 }
@@ -337,7 +336,7 @@ namespace Vts.MonteCarlo
             {
                 _databaseWriterController = new DatabaseWriterController(
                     DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                        _input.Options.WriteDatabases,
+                        _input.Options.Databases,
                         _outputPath,
                         _input.OutputName));
             }
@@ -345,11 +344,11 @@ namespace Vts.MonteCarlo
             {
                 _pMCDatabaseWriterController = new pMCDatabaseWriterController(
                     DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                    _input.Options.WriteDatabases,
+                    _input.Options.Databases,
                             _outputPath,
                             _input.OutputName),
                     DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
-                    _input.Options.WriteDatabases,
+                    _input.Options.Databases,
                             _tissue,
                             _outputPath,
                             _input.OutputName));

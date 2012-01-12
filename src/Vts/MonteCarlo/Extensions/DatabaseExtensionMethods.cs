@@ -25,5 +25,26 @@ namespace Vts.MonteCarlo.Extensions
                     return false;
             }
         }
+        /// <summary>
+        /// Method to provide VirtualBoundaryType corresponding to DatabaseType
+        /// </summary>
+        /// <param name="databaseType">database type</param>
+        /// <returns>corresponding virtual boundary type</returns>
+        public static VirtualBoundaryType GetCorrespondingVirtualBoundaryType(this DatabaseType databaseType)
+        {
+            switch (databaseType)
+            {
+                case DatabaseType.DiffuseReflectance:
+                default:
+                    return VirtualBoundaryType.DiffuseReflectance;
+                case DatabaseType.DiffuseTransmittance:
+                    return VirtualBoundaryType.DiffuseTransmittance;
+                case DatabaseType.SpecularReflectance:  
+                    return VirtualBoundaryType.SpecularReflectance;
+                case DatabaseType.pMCDiffuseReflectance:
+                    return VirtualBoundaryType.pMCDiffuseReflectance;
+
+            }
+        }
     }
 }

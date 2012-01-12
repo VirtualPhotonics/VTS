@@ -1,10 +1,10 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.Tissues;
@@ -52,7 +52,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             );
         }
         /// <summary>
-        /// validate_photon_termination_database_postprocessor reads the output data 
+        /// validate_photon_database_postprocessor_ROfRhoAndTime reads the output data 
         /// generated on the fly by MonteCarloSimulation and using the same binning 
         /// that was used for that output, generates the output data using 
         /// the postprocessing code, and compares the two.  Thus validating that the 
@@ -61,7 +61,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         /// validates the R(rho,time) tally.
         /// </summary>
         [Test]
-        public void validate_photon_database_postprocessor()
+        public void validate_photon_database_postprocessor_ROfRhoAndTime_results()
         {
             // DAW postprocssing
             var DAWinput = GenerateReferenceDAWInput();
@@ -165,6 +165,41 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     }
                 }
             }
+        }
+
+        [Test]
+        public void validate_database_input_with_no_detectors_specified_still_generates_database()
+        {
+            // make sure databases generated from previous tests are deleted
+            if (File.Exists("DiffuseReflectanceDatabase.xml"))
+            {
+                File.Delete("DiffuseReflectanceDatabase.xml");
+            }
+            if (File.Exists("DiffuseReflectanceDatabase"))
+            {
+                File.Delete("DiffuseReflectanceDatabase");
+            }
+            var input = new SimulationInput(
+                100,
+                "", // can't give folder name when writing to isolated storage
+                new SimulationOptions(
+                    0,
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { DatabaseType.DiffuseReflectance }, // SPECIFY DATABASE
+                    true, // compute Second Moment
+                    false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
+                    1),
+                 _sourceInput,
+                 _tissueInput,
+                 new List<IDetectorInput>(){} // specify NO DETECTORS
+            );
+            var output =  new MonteCarloSimulation(input).Run();
+            var db = PhotonDatabase.FromFile("DiffuseReflectanceDatabase");
+            // make sure database exists 
+            Assert.IsNotNull(db);
         }
     }
 }
