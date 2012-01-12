@@ -46,6 +46,7 @@ namespace Vts.MonteCarlo
             SimulationIndex = simulationIndex;
             TallySecondMoment = tallySecondMoment;
             TrackStatistics = trackStatistics;
+            RussianRouletteWeightLimit = russianRouletteWeightLimit;
         }
         /// <summary>
         /// constructor that uses Henyey-Greenstein phase function, does not save photon data to database,

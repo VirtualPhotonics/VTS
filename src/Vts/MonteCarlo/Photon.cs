@@ -15,6 +15,7 @@ namespace Vts.MonteCarlo
     public class Photon
     {
         // reducing any of the following values might result in unit tests not passing
+        // should we dynamically set MAX_HISTORY_PTS and MAX_PHOTON_TIME?  derive one from other?
         private const int MAX_HISTORY_PTS = 300000; // 300000 * [1/(5/mm)] = 60000 mm
         private const double CHANCE = 0.1;
         //private const double MAX_PHOTON_PATHLENGTH = 2000; // mm  
@@ -366,12 +367,13 @@ namespace Vts.MonteCarlo
                 History.AddDPToHistory(DP);
             }
         }
+        // RR weight limit: take out as parameter and inject into class
         public void TestWeightAndDistance(double russianRouletteWeightLimit)
         {
             // kill by RR if weight < user-input WEIGHT_LIMIT (=0.0 then no RR)
             if (DP.Weight < russianRouletteWeightLimit)
             {
-                Roulette();
+                Roulette(); // put Roulette method inline here
             }
             else
             {

@@ -96,7 +96,9 @@ namespace Vts.MonteCarlo
 
                 // make sure VB Controller has at least diffuse reflectance and diffuse transmittance
                 // may change this in future if tissue OnDomainBoundary changes
-                if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) || (vbType == VirtualBoundaryType.DiffuseTransmittance))
+                //var dbVirtualBoundaries = input.Options.WriteDatabases.Select(db => db.GetCorrespondingVirtualBoundary).Any();// sb list of DB, outside
+                if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) || (vbType == VirtualBoundaryType.DiffuseTransmittance)) //||
+                //    dbVirtualBoundaries.Any(vb => vb == vbType))
                 {
                     var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, input.Options.TallySecondMoment);
                     var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors, _tissue);
