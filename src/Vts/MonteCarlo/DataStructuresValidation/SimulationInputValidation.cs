@@ -121,7 +121,7 @@ namespace Vts.MonteCarlo
         {
             // check that absorption weighting type set to analog and RR weight threshold != 0.0
             if ((input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Analog) &&
-                input.Options.RussianRouletteWeightLimit != 0.0)
+                input.Options.RussianRouletteWeightThreshold != 0.0)
             {
                 return new ValidationResult(
                     false,

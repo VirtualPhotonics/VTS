@@ -30,7 +30,8 @@ namespace Vts.MonteCarlo.PostProcessing
             ITissue tissue = Factories.TissueFactory.GetTissue(
                 databaseInput.TissueInput,
                 databaseInput.Options.AbsorptionWeightingType,
-                databaseInput.Options.PhaseFunctionType);
+                databaseInput.Options.PhaseFunctionType,
+                databaseInput.Options.RussianRouletteWeightThreshold);
 
             var detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
 
@@ -75,7 +76,8 @@ namespace Vts.MonteCarlo.PostProcessing
             ITissue tissue = Factories.TissueFactory.GetTissue(
                 databaseInput.TissueInput, 
                 databaseInput.Options.AbsorptionWeightingType,
-                databaseInput.Options.PhaseFunctionType);
+                databaseInput.Options.PhaseFunctionType,
+                databaseInput.Options.RussianRouletteWeightThreshold);
 
             var detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
 

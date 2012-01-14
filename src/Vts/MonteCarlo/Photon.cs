@@ -26,6 +26,7 @@ namespace Vts.MonteCarlo
         private ITissue _tissue;
         private Random _rng;
         private bool _firstTimeEnteringDomain;
+        private double _russianRouletteWeightThreshold;
 
         public Photon(
             Position p,
@@ -58,6 +59,7 @@ namespace Vts.MonteCarlo
             SetAbsorbAction(_tissue.AbsorptionWeightingType);
             SetScatterAction(_tissue.PhaseFunctionType);
             _rng = generator;
+            _russianRouletteWeightThreshold = _tissue.RussianRouletteWeightThreshold;
         }
 
         public Photon()
@@ -354,9 +356,9 @@ namespace Vts.MonteCarlo
         }
         /*********************************************************/
 
-        public void TestDeath(double russianRouletteWeightLimit)
+        public void TestDeath()
         {
-            TestWeightAndDistance(russianRouletteWeightLimit);         
+            TestWeightAndDistance();         
             // if VB crossing flagged
             if (DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary)  ||
                 DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
@@ -368,12 +370,29 @@ namespace Vts.MonteCarlo
             }
         }
         // RR weight limit: take out as parameter and inject into class
-        public void TestWeightAndDistance(double russianRouletteWeightLimit)
+        public void TestWeightAndDistance()
         {
             // kill by RR if weight < user-input WEIGHT_LIMIT (=0.0 then no RR)
-            if (DP.Weight < russianRouletteWeightLimit)
+            if (DP.Weight < _russianRouletteWeightThreshold)
             {
-                Roulette(); // put Roulette method inline here
+                if (DP.Weight == 0.0)
+                {
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
+                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                }
+                else if (_rng.NextDouble() < CHANCE)
+                {
+                    DP.Weight = DP.Weight / CHANCE;
+                }
+                else
+                {
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
+                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                }
+                if (DP.StateFlag.HasFlag(PhotonStateType.KilledRussianRoulette))
+                {
+                    History.AddDPToHistory(DP);
+                }
             }
             else
             {
@@ -393,29 +412,5 @@ namespace Vts.MonteCarlo
                 }
             }
         }
-
-        /*****************************************************************/
-        void Roulette()
-        {
-            if (DP.Weight == 0.0)
-            {
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-            }
-            else if (_rng.NextDouble() < CHANCE)
-            {
-                DP.Weight = DP.Weight / CHANCE;
-            }
-            else
-            {
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-            } 
-            if (DP.StateFlag.HasFlag(PhotonStateType.KilledRussianRoulette))
-            {
-                History.AddDPToHistory(DP);
-            }
-        }
-
     }
 }

@@ -59,7 +59,7 @@ namespace Vts.MonteCarlo
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType);
+            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType, input.Options.RussianRouletteWeightThreshold);
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
 
             // instantiate vb (and associated detectors) for each vb group
@@ -234,7 +234,7 @@ namespace Vts.MonteCarlo
                         }
 
                         // kill photon for various reasons, including possible VB crossings
-                        photon.TestDeath(_input.Options.RussianRouletteWeightLimit);
+                        photon.TestDeath();
 
                         // check if virtual boundary 
                         if (hitType == BoundaryHitType.Virtual)
