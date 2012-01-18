@@ -15,7 +15,7 @@ classdef SimulationOptions < handle % deriving from handle allows us to keep a s
     % flag indicating whether to track statistics about where photon ends up
     TrackStatistics = 0;
     % photon weight threshold to perform Russian Roulette.  Default = 0 means no RR performed.
-    RussianRouletteWeightLimit = 0;
+    RussianRouletteWeightThreshold = 0;
     % simulation index 
     SimulationIndex = 0;
   end
@@ -32,7 +32,7 @@ classdef SimulationOptions < handle % deriving from handle allows us to keep a s
               options.Databases{i} = char(optionsNET.Databases(i));
           end
           options.TallySecondMoment = optionsNET.TallySecondMoment;
-          options.RussianRouletteWeightLimit = optionsNET.RussianRouletteWeightLimit;
+          options.RussianRouletteWeightThreshold = optionsNET.RussianRouletteWeightThreshold;
           options.SimulationIndex = optionsNET.SimulationIndex;          
 %           input.Databases = NET.createArray('Vts.MonteCarlo.DatabaseType', 0);  
       end
@@ -50,7 +50,7 @@ classdef SimulationOptions < handle % deriving from handle allows us to keep a s
               databasesNET, ...
               logical(options.TallySecondMoment), ... % compute Second Moment
               logical(options.TrackStatistics), ... % track statistics
-              options.RussianRouletteWeightLimit, ... % RR threshold -> no RR performed
+              options.RussianRouletteWeightThreshold, ... % RR threshold -> no RR performed
               options.SimulationIndex ...
           );          
       end

@@ -113,7 +113,7 @@ options.TallySecondMoment = 1;
 % flag indicating whether to track statistics about where photon ends up
 options.TrackStatistics = 0;
 % photon weight threshold to perform Russian Roulette.  Default = 0 means no RR performed.
-options.RussianRouletteWeightLimit = 0;
+options.RussianRouletteWeightThreshold = 0;
 % simulation index 
 options.SimulationIndex = 0;
 
