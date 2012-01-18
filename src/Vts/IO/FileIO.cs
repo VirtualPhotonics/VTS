@@ -26,6 +26,40 @@ namespace Vts.IO
     public static class FileIO
     {
         /// <summary>
+        /// Static method to check if a file exists in Silverlight or Desktop
+        /// </summary>
+        /// <param name="fileName">Name of the file</param>
+        public static bool FileExists(string fileName)
+        {
+#if SILVERLIGHT
+            var objStore = IsolatedStorageFile.GetUserStoreForApplication();
+            return objStore.FileExists(fileName);
+#else
+            return File.Exists(fileName);
+#endif
+        }
+
+        /// <summary>
+        /// Statis method to delete a file in Silverlight or Desktop
+        /// </summary>
+        /// <param name="fileName">Name of the file to delete</param>
+        public static void FileDelete(string fileName)
+        {
+#if SILVERLIGHT
+            var objStore = IsolatedStorageFile.GetUserStoreForApplication();
+            if(objStore.FileExists(fileName))
+            {
+                objStore.DeleteFile(fileName);
+            }
+#else
+            if(File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+#endif
+        }
+
+        /// <summary>
         /// Static method to clone an object
         /// </summary>
         /// <typeparam name="T">Type of the object</typeparam>
