@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.PostProcessing;
@@ -170,16 +171,15 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         [Test]
         public void validate_database_input_with_no_detectors_specified_still_generates_database()
         {
-            // the following code won't work in isolated storage
             // make sure databases generated from previous tests are deleted
-            //if (File.Exists("DiffuseReflectanceDatabase.xml"))
-            //{
-            //    File.Delete("DiffuseReflectanceDatabase.xml");
-            //}
-            //if (File.Exists("DiffuseReflectanceDatabase"))
-            //{
-            //    File.Delete("DiffuseReflectanceDatabase");
-            //}
+            if (FileIO.FileExists("DiffuseReflectanceDatabase.xml"))
+            {
+                FileIO.FileDelete("DiffuseReflectanceDatabase.xml");
+            }
+            if (FileIO.FileExists("DiffuseReflectanceDatabase"))
+            {
+                FileIO.FileDelete("DiffuseReflectanceDatabase");
+            }
             var input = new SimulationInput(
                 100,
                 "", // can't give folder name when writing to isolated storage
@@ -198,8 +198,8 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                  new List<IDetectorInput>(){} // specify NO DETECTORS
             );
             var output =  new MonteCarloSimulation(input).Run();
-            var database = PhotonDatabase.FromFile("DiffuseReflectanceDatabase");
-            Assert.IsTrue(database.NumberOfElements == 89);
+            Assert.IsTrue(FileIO.FileExists("DiffuseReflectanceDatabase"));
+            Assert.IsFalse(FileIO.FileExists("DiffuseTransmittanceDatabase"));
         }
     }
 }
