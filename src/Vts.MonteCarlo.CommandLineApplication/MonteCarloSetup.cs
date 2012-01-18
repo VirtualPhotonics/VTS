@@ -117,8 +117,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 var sweepValues = parameterSweep.Range.AsEnumerable();
 
-                // todo: make more dynamic/flexible by removing requirment for enum value, and instead rely on parsing string name and index djc 2011-06-03
-                // var inputParameterType = (InputParameterType)Enum.Parse(typeof(InputParameterType), parameterSweep.Name, true);
                 batchInputs = batchInputs.WithParameterSweep(sweepValues, parameterSweep.Name.ToLower());
             }
 
