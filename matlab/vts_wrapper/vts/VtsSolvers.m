@@ -234,5 +234,39 @@ classdef VtsSolvers
 
             r = reshape(double(fs.FluenceOfRho(op_net,rhos,zs)),[length(zs) length(rhos) nop]);
         end
+        %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+        % This function does not work 
+        %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+        function r = PHDOfRhoAndZ(op, rhos, zs, sd)
+            % PHDOfRhoAndZ
+            %   PHDOfRhoAndZ(OP, RHOS, ZS) 
+            %   
+            %   OP is an N x 4 matrix of optical properties
+            %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
+            %   RHO is a 1 x M array of spatial frequencies (in 1/mm)
+            %       eg. FX = [0.1 1.2 0.8 1.4];
+            %   Z is a 1 x M array of z values (in mm)
+            %       eg. Z = linspace(0.1,19.9,100);
+            
+            nop = size(op,1);
+
+            fs =  Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver();
+
+            op_net = NET.createArray('Vts.OpticalProperties', nop);
+
+            for i=1:nop
+                op_net(i) = Vts.OpticalProperties;
+                op_net(i).Mua =  op(i,1);
+                op_net(i).Musp = op(i,2);
+                op_net(i).G =    op(i,3);
+                op_net(i).N =    op(i,4);
+            end;
+            
+            fluence = double(fs.FluenceOfRho(op_net,rhos,zs));
+            phd = Vts.Factories.ComputationFactory.GetPHD(fs, fluence, sd, op_net, rhos, zs);
+            % mua = op_net(1).Mua;
+            % ae = Vts.Factories.ComputationFactory.GetAbsorbedEnergy(fluence, mua);
+            r = reshape(double(phd),[length(zs) length(rhos) nop]);
+        end
     end
 end

@@ -99,6 +99,32 @@ set(f,'Name','Fluence of Rho');
 
 % ======================================================================= %
 
+% Example FluenceOfRhoAndZ - Evaluate FluenceOfRhoAndZ
+
+op = [0.01 1 0.8 1.4];
+rhos = linspace(0.1,19.9,100); % s-d separation, in mm
+zs = linspace(0.1,19.9,100); % z range in mm
+
+test = VtsSolvers.FluenceOfRho(op, rhos, zs);
+
+f = figure; imagesc(log(squeeze(test(:,:,:))));
+set(f,'Name','Fluence of Rho and z');
+
+% ======================================================================= %
+
+% Example PHDOfRhoAndZ - Evaluate PHDOfRhoAndZ
+
+% op = [0.01 1 0.8 1.4];
+% rhos = linspace(0.1,19.9,100); % s-d separation, in mm
+% zs = linspace(0.1,19.9,100); % z range in mm
+% 
+% test = VtsSolvers.PHDOfRhoAndZ(op, rhos, zs, 10);
+% 
+% f = figure; imagesc(log(squeeze(test(:,:,:))));
+% set(f,'Name','PHD of Rho and z');
+
+% ======================================================================= %
+
 % Example ROfRho - Evaluate ROfRho with two sets of optical properites
 
 op = [[0.01 1 0.8 1.4]; [0.1 1 0.8 1.4]; [1 1 0.8 1.4]];
