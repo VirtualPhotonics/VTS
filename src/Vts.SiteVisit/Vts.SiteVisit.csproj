@@ -505,4 +505,8 @@
     <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(SolutionDir)..\build\apps\gui\Desktop\$(ConfigurationName)\" mkdir "$(SolutionDir)..\build\apps\gui\Desktop\$(ConfigurationName)\"
 copy "$(TargetDir)*.*" "$(SolutionDir)..\build\apps\gui\Desktop\$(ConfigurationName)\" /y</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT EXIST "$(SolutionDir)..\build\apps\gui_silverlight\$(ConfigurationName)\" mkdir "$(SolutionDir)..\build\apps\gui_silverlight\$(ConfigurationName)\"
+copy "$(TargetDir)*.*" "$(SolutionDir)..\build\apps\gui_silverlight\$(ConfigurationName)\" /y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -171,4 +171,11 @@
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">copy "$(SolutionDir)\..\lib\Vts.MonteCarlo.Unmanaged\Vts.MonteCarlo.Unmanaged.dll" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(SolutionDir)\..\lib\Vts.MonteCarlo.Unmanaged\Vts.MonteCarlo.Unmanaged.dll" "$(TargetDir)"
+
+IF NOT EXIST "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)"
+copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)" /y
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

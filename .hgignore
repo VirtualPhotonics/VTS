@@ -28,6 +28,7 @@ syntax: glob
 *.sbr
 *.scc
 *.sig
+*.asv
 [Bb]in
 [Cc]lient[Bb]in
 [Dd]ebug*/
