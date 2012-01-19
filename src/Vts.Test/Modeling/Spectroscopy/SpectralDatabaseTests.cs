@@ -5,9 +5,7 @@ using NUnit.Framework;
 using Vts.SpectralMapping;
 using Vts.IO;
 using System.Runtime.Serialization;
-#if SILVERLIGHT
-using System.IO.IsolatedStorage;
-#endif
+
 namespace Vts.Test.Modeling.Spectroscopy
 {
     /// <summary>
@@ -17,9 +15,6 @@ namespace Vts.Test.Modeling.Spectroscopy
     [TestFixture]
     public class SpectralDatabaseTests
     {
-#if SILVERLIGHT
-        private IsolatedStorageFile _objStore;
-#endif
         /// <summary>
         /// Runs before every unit test after the TestFixtureSetup
         /// </summary>
@@ -34,106 +29,54 @@ namespace Vts.Test.Modeling.Spectroscopy
         [TestFixtureSetUp]
         public void clear_folders_and_files()
         {
-#if SILVERLIGHT
-            _objStore = IsolatedStorageFile.GetUserStoreForApplication();
-            if (_objStore.FileExists("SpectralDictionary.xml")) 
+            if (FileIO.FileExists("SpectralDictionary.xml"))
             {
-                _objStore.DeleteFile("SpectralDictionary.xml");
+                FileIO.FileDelete("SpectralDictionary.xml");
             }
-            if (_objStore.FileExists("dictionary.xml"))
+            if (FileIO.FileExists("dictionary.xml"))
             {
-                _objStore.DeleteFile("dictionary.xml");
+                FileIO.FileDelete("dictionary.xml");
             }
-            if (_objStore.FileExists("dictionary2.xml"))
+            if (FileIO.FileExists("dictionary2.xml"))
             {
-                _objStore.DeleteFile("dictionary2.xml");
+                FileIO.FileDelete("dictionary2.xml");
             }
-            if (_objStore.FileExists("dictionary3.xml"))
+            if (FileIO.FileExists("dictionary3.xml"))
             {
-                _objStore.DeleteFile("dictionary3.xml");
+                FileIO.FileDelete("dictionary3.xml");
             }
-            if (_objStore.FileExists("dictionary4.xml"))
+            if (FileIO.FileExists("dictionary4.xml"))
             {
-                _objStore.DeleteFile("dictionary4.xml");
+                FileIO.FileDelete("dictionary4.xml");
             }
-            if (_objStore.FileExists("dictionary5.xml"))
+            if (FileIO.FileExists("dictionary5.xml"))
             {
-                _objStore.DeleteFile("dictionary5.xml");
+                FileIO.FileDelete("dictionary5.xml");
             }
-            if (_objStore.FileExists("absorber-Fat.txt"))
+            if (FileIO.FileExists("absorber-Fat.txt"))
             {
-                _objStore.DeleteFile("absorber-Fat.txt");
+                FileIO.FileDelete("absorber-Fat.txt");
             }
-            if (_objStore.FileExists("absorber-Hb.txt"))
+            if (FileIO.FileExists("absorber-Hb.txt"))
             {
-                _objStore.DeleteFile("absorber-Hb.txt");
+                FileIO.FileDelete("absorber-Hb.txt");
             }
-            if (_objStore.FileExists("absorber-HbO2.txt"))
+            if (FileIO.FileExists("absorber-HbO2.txt"))
             {
-                _objStore.DeleteFile("absorber-HbO2.txt");
+                FileIO.FileDelete("absorber-HbO2.txt");
             }
-            if (_objStore.FileExists("absorber-H2O.txt"))
+            if (FileIO.FileExists("absorber-H2O.txt"))
             {
-                _objStore.DeleteFile("absorber-H2O.txt");
+                FileIO.FileDelete("absorber-H2O.txt");
             }
-            if (_objStore.FileExists("absorber-Melanin.txt"))
+            if (FileIO.FileExists("absorber-Melanin.txt"))
             {
-                _objStore.DeleteFile("absorber-Melanin.txt");
+                FileIO.FileDelete("absorber-Melanin.txt");
             }
-            if (_objStore.FileExists("absorber-Nigrosin.txt"))
+            if (FileIO.FileExists("absorber-Nigrosin.txt"))
             {
-                _objStore.DeleteFile("absorber-Nigrosin.txt");
+                FileIO.FileDelete("absorber-Nigrosin.txt");
             }
-#else
-            if (File.Exists("SpectralDictionary.xml"))
-            {
-                File.Delete("SpectralDictionary.xml");
-            }
-            if (File.Exists("dictionary.xml"))
-            {
-                File.Delete("dictionary.xml");
-            }
-            if (File.Exists("dictionary2.xml"))
-            {
-                File.Delete("dictionary2.xml");
-            }
-            if (File.Exists("dictionary3.xml"))
-            {
-                File.Delete("dictionary3.xml");
-            }
-            if (File.Exists("dictionary4.xml"))
-            {
-                File.Delete("dictionary4.xml");
-            }
-            if (File.Exists("dictionary5.xml"))
-            {
-                File.Delete("dictionary5.xml");
-            }
-            if (File.Exists("absorber-Fat.txt"))
-            {
-                File.Delete("absorber-Fat.txt");
-            }
-            if (File.Exists("absorber-Hb.txt"))
-            {
-                File.Delete("absorber-Hb.txt");
-            }
-            if (File.Exists("absorber-HbO2.txt"))
-            {
-                File.Delete("absorber-HbO2.txt");
-            }
-            if (File.Exists("absorber-H2O.txt"))
-            {
-                File.Delete("absorber-H2O.txt");
-            }
-            if (File.Exists("absorber-Melanin.txt"))
-            {
-                File.Delete("absorber-Melanin.txt");
-            }
-            if (File.Exists("absorber-Nigrosin.txt"))
-            {
-                File.Delete("absorber-Nigrosin.txt");
-            }
-#endif
         }
 
         /// <summary>
@@ -154,11 +97,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
             testDictionary.WriteToXML("SpectralDictionary.xml");
-#if SILVERLIGHT
-            Assert.IsTrue(_objStore.FileExists("SpectralDictionary.xml"));
-#else
-            Assert.IsTrue(File.Exists("SpectralDictionary.xml"));
-#endif
+            Assert.IsTrue(FileIO.FileExists("SpectralDictionary.xml"));
         }
 
         /// <summary>
@@ -209,11 +148,7 @@ namespace Vts.Test.Modeling.Spectroscopy
             myChromophoreList.Add(c2);
             var testDictionary = SpectralDatabase.CreateDatabaseFromFile(myChromophoreList, stream, 2);
             testDictionary.WriteToXML("dictionary3.xml");
-#if SILVERLIGHT
-            Assert.IsTrue(_objStore.FileExists("dictionary3.xml"));
-#else
-            Assert.IsTrue(File.Exists("dictionary3.xml"));
-#endif
+            Assert.IsTrue(FileIO.FileExists("dictionary3.xml"));
         }
 
         /// <summary>
@@ -226,11 +161,7 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
             testDictionary.WriteToXML("dictionary4.xml");
-#if SILVERLIGHT
-            Assert.IsTrue(_objStore.FileExists("dictionary4.xml"));
-#else
-            Assert.IsTrue(File.Exists("dictionary4.xml"));
-#endif
+            Assert.IsTrue(FileIO.FileExists("dictionary4.xml"));
         }
 
         /// <summary>
@@ -277,11 +208,7 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream, false);
             testDictionary.WriteToXML("dictionary5.xml");
-#if SILVERLIGHT
-            Assert.IsTrue(_objStore.FileExists("dictionary5.xml"));
-#else
-            Assert.IsTrue(File.Exists("dictionary5.xml"));
-#endif
+            Assert.IsTrue(FileIO.FileExists("dictionary5.xml"));
         }
 
         /// <summary>
@@ -292,21 +219,12 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
             SpectralDatabase.WriteDatabaseToFiles(testDictionary);
-#if SILVERLIGHT
-            Assert.IsTrue(_objStore.FileExists("absorber-Fat.txt"));
-            Assert.IsTrue(_objStore.FileExists("absorber-H2O.txt"));
-            Assert.IsTrue(_objStore.FileExists("absorber-Hb.txt"));
-            Assert.IsTrue(_objStore.FileExists("absorber-HbO2.txt"));
-            Assert.IsTrue(_objStore.FileExists("absorber-Melanin.txt"));
-            Assert.IsTrue(_objStore.FileExists("absorber-Nigrosin.txt"));
-#else
-            Assert.IsTrue(File.Exists("absorber-Fat.txt"));
-            Assert.IsTrue(File.Exists("absorber-H2O.txt"));
-            Assert.IsTrue(File.Exists("absorber-Hb.txt"));
-            Assert.IsTrue(File.Exists("absorber-HbO2.txt"));
-            Assert.IsTrue(File.Exists("absorber-Melanin.txt"));
-            Assert.IsTrue(File.Exists("absorber-Nigrosin.txt"));
-#endif
+            Assert.IsTrue(FileIO.FileExists("absorber-Fat.txt"));
+            Assert.IsTrue(FileIO.FileExists("absorber-H2O.txt"));
+            Assert.IsTrue(FileIO.FileExists("absorber-Hb.txt"));
+            Assert.IsTrue(FileIO.FileExists("absorber-HbO2.txt"));
+            Assert.IsTrue(FileIO.FileExists("absorber-Melanin.txt"));
+            Assert.IsTrue(FileIO.FileExists("absorber-Nigrosin.txt"));
         }
     }
 }
