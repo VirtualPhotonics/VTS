@@ -31,6 +31,11 @@ ppi.TallySecondMoment = 0;
 ppi.InputFolder = 'results';
 ppi.DatabaseSimulationInputFilename = 'infile'; % unused if 2nd argument below is supplied
 ppi.OutputName = 'ppresults';
-output = VtsMonteCarlo.RunPostProcessor(postProcessorInput, output.Input);
+output = VtsMonteCarlo.RunPostProcessor(ppi, output.Input);
+% 
+% %% plot the post-processed results
+% 
+% d = output.Detectors(output.DetectorNames{1});
+% figure; semilogy(d.Rho, d.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
 
 disp('Done!');
