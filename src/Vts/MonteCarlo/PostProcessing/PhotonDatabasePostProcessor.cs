@@ -68,7 +68,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <returns></returns>
         public static Output GenerateOutput(
             VirtualBoundaryType virtualBoundaryType,
-            IList<IpMCDetectorInput> detectorInputs,
+            IList<IDetectorInput> detectorInputs,
             bool tallySecondMoment,
             pMCDatabase database, 
             SimulationInput databaseInput)

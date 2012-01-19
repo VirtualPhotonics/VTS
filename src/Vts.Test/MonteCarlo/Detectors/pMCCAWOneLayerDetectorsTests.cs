@@ -125,7 +125,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput = 
                 PhotonDatabasePostProcessor.GenerateOutput( 
                     VirtualBoundaryType.pMCDiffuseReflectance,
-                    new List<IpMCDetectorInput>()
+                    new List<IDetectorInput>()
                     {
                         new pMCROfRhoAndTimeDetectorInput(
                             new DoubleRange(0.0, 10.0, 101),
@@ -153,7 +153,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput =
                 PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.pMCDiffuseReflectance,
-                    new List<IpMCDetectorInput>()
+                    new List<IDetectorInput>()
                     {
                         new pMCROfRhoDetectorInput(
                             new DoubleRange(0.0, 10, 101),
@@ -182,7 +182,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput =
                 PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.pMCDiffuseReflectance,
-                    new List<IpMCDetectorInput>()
+                    new List<IDetectorInput>()
                         {
                             new pMCROfRhoDetectorInput(
                                 new DoubleRange(0.0, 10, 101),
