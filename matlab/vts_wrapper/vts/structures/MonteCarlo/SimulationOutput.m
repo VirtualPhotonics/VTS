@@ -15,13 +15,13 @@ classdef SimulationOutput
             for i=1:detectorNamesNET.Length
                 detectorNames{i} = char(detectorNamesNET(i));
                 nValues = valuesNET(i).Mean.Length;
-                detectorOutput.Mean = double([nValues 1]);
+                detectorOutput.Mean = zeros([nValues 1]);
                 for j=1:nValues
                     detectorOutput.Mean(j) = valuesNET(i).Mean(j);
                 end
 %                 detectorOutput.Mean = NET.convertArray(valuesNET(i).Mean, 'System.Double');
-                if(outputNET.Input.Options.TallySecondMoment)
-                    detectorOutput.SecondMoment = double([nValues 1]);
+                if(outputNET.Input.Options.TallySecondMoment && ~isempty(valuesNET(1).SecondMoment))
+                    detectorOutput.SecondMoment = zeros([nValues 1]);
                     for j=1:nValues
                         detectorOutput.SecondMoment(j) = valuesNET(i).SecondMoment(j);
                     end

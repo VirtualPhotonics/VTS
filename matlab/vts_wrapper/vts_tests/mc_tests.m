@@ -22,4 +22,15 @@ si.DetectorInputs = { };
 si.Options.Databases = { 'pMCDiffuseReflectance' };
 output = VtsMonteCarlo.RunSimulation(si);
 
+% create and run  post-processor based on the simulation above
+ppi = PostProcessorInput();
+ppi.DetectorInputs = {...
+        DetectorInput.pMCROfRho(linspace(0,40,201))...
+    };
+ppi.TallySecondMoment = 0;
+ppi.InputFolder = 'results';
+ppi.DatabaseSimulationInputFilename = 'infile'; % unused if 2nd argument below is supplied
+ppi.OutputName = 'ppresults';
+output = VtsMonteCarlo.RunPostProcessor(postProcessorInput, output.Input);
+
 disp('Done!');
