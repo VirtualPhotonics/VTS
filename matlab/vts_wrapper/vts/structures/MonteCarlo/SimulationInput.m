@@ -6,13 +6,13 @@ classdef SimulationInput < handle % deriving from handle allows us to keep a sin
     SourceInput = DirectionalPointSourceInput();
     TissueInput = MultiLayerTissueInput();
     DetectorInputs = {...
-        ROfRhoDetectorInput(linspace(0,40,201))...
+       DetectorInput.ROfRho(linspace(0,40,201))...
     };
   end
   
   methods (Static)
       function input = FromInputNET(inputNET)
-          input = SimulationInput;
+          input = SimulationInput();
           input.N = inputNET.N;
           input.OutputName = char(inputNET.OutputName);
           input.Options = SimulationOptions.FromOptionsNET(inputNET.Options);
@@ -20,16 +20,15 @@ classdef SimulationInput < handle % deriving from handle allows us to keep a sin
           input.TissueInput = MultiLayerTissueInput.FromInputNET(inputNET.TissueInput);
           detectorInputsNET = inputNET.DetectorInputs; % not sure why I can't inline this, but whatevs
           for i=1:inputNET.DetectorInputs.Length
-              input.DetectorInputs{i} = ROfRhoDetectorInput.FromInputNET(detectorInputsNET(i));
+              input.DetectorInputs{i} = DetectorInput.FromInputNET(detectorInputsNET(i));
           end
       end
       
-      function inputNET = ToInputNET(input)
-          
+      function inputNET = ToInputNET(input)          
           optionsNET = SimulationOptions.ToOptionsNET(input.Options);
           detectorInputsNET = NET.createArray('Vts.MonteCarlo.IDetectorInput', length(input.DetectorInputs));  
           for i=1:length(input.DetectorInputs)
-              detectorInputsNET(i) = ROfRhoDetectorInput.ToInputNET(input.DetectorInputs{i});
+              detectorInputsNET(i) = DetectorInput.ToInputNET(input.DetectorInputs{i});
           end
           
           inputNET = Vts.MonteCarlo.SimulationInput( ...

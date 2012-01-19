@@ -9,36 +9,31 @@ startup();
 % Example 1: run a simple Monte Carlo simulation with 1000 photons
 
 % create a default set of inputs
-si = SimulationInput;
+si = SimulationInput();
 
 % modify number of photons
 si.N = 1000;
 
 % specify a single R(rho) detector by the endpoints of rho bins
-si.DetectorInputs = { ROfRhoDetectorInput(linspace(0,40,201)) };
+si.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
 
 % use this to run a Matlab-wrapped MonteCarloSimulation using static method
 output = VtsMonteCarlo.RunSimulation(si);
 
 % more work to do on making outputs friendly, but it's working :)
-rho_endpoints = output.Input.DetectorInputs{1}.Rho; 
-rho_midpoints = (rho_endpoints(1:end-1) + rho_endpoints(2:end))/2;
-rOfRho = output.Detectors('ROfRho').Mean; 
-figure; semilogy(rho_midpoints, rOfRho);
+d = output.Detectors(output.DetectorNames{1});
+figure; semilogy(d.Rho, d.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
 
 % ======================================================================= %
 
 % Example 2: run Monte Carlo simulations for two absorption weighting types 
-% with 10000 photons each and compare computation time
+% with 1000 photons each and compare computation time
 
 % create a default set of inputs
-si = SimulationInput;
-
-% modify number of photons
-si.N = 1000;
+si = SimulationInput();
 
 % specify a single R(rho) detector by the endpoints of rho bins
-si.DetectorInputs = { ROfRhoDetectorInput(linspace(0,40,201)) };
+si.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
 
 si.Options.AbsorptionWeightingType = 'Continuous';
 
@@ -91,7 +86,7 @@ tissueInput.LayerRegions = struct(...
 % 3) specify one or more detector geometries to tally...
 
 detectorInputs = {...
-    ROfRhoDetectorInput(linspace(0,40,201))... % specifies endpoints of rho bins
+    DetectorInput.ROfRho(linspace(0,40,201))... % specifies endpoints of rho bins
 };
 
 % 4) set all options...

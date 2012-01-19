@@ -28,8 +28,11 @@ classdef SimulationOptions < handle % deriving from handle allows us to keep a s
           options.AbsorptionWeightingType = char(optionsNET.AbsorptionWeightingType);
           options.PhaseFunctionType = char(optionsNET.PhaseFunctionType);
           options.Databases = {};
-          for i=1:optionsNET.Databases.Length
-              options.Databases{i} = char(optionsNET.Databases(i));
+          databasesNET = optionsNET.Databases;
+          nDatabases = NET.invokeGenericMethod('System.Linq.Enumerable', 'Count', ...
+                        {'Vts.MonteCarlo.DatabaseType'}, databasesNET);
+          for i=1:nDatabases
+              options.Databases{i} = char(databasesNET(i));
           end
           options.TallySecondMoment = optionsNET.TallySecondMoment;
           options.RussianRouletteWeightThreshold = optionsNET.RussianRouletteWeightThreshold;

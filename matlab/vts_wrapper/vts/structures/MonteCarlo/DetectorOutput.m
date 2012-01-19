@@ -1,6 +1,7 @@
-classdef DetectorOutput < handle
-    properties
-        Mean;
-        SecondMoment;
-    end
-end
+% classdef DetectorOutput < handle
+%     properties
+%         Mean;
+%         SecondMoment;
+%         IndependentVariableMidpoints;
+%     end
+% end

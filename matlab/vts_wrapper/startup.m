@@ -8,6 +8,10 @@ addpath(t);
 
 loadAssemblies();
 
+% Lisa, let's talk about this...don't know if it's an issue w/o more unit
+% tests to confirm our behavior is what we want
+warning off MATLAB:class:cannotUpdateClass:Change; 
+
 % addpath hankel_transforms
 % addpath('gridlayout');
 % addpath('gridlayout\Layout');

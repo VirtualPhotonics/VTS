@@ -1,16 +1,4 @@
-classdef SimulationOutput < handle % deriving from handle allows us to keep a singleton around (reference based) - see Doug's post here: http://www.mathworks.com/matlabcentral/newsreader/view_thread/171344
-    properties
-        Input = SimulationInput();
-        DetectorNames;
-        Detectors;
-    end
-    
-%     methods (Static, Access='private')
-%         function map = GetDetectorMap(output)
-%             map = containers.Map(output.DetectorNames, output.DetectorOutputs);
-%         end
-%     end
-%     
+classdef SimulationOutput    
     methods (Static)
         function output = FromOutputNET(outputNET)
             % create a .NET array of detector names
@@ -19,11 +7,13 @@ classdef SimulationOutput < handle % deriving from handle allows us to keep a si
             % create a .NET array of detector results (tallies)
             valuesNET = NET.invokeGenericMethod('System.Linq.Enumerable', ...
                 'ToArray', {'Vts.MonteCarlo.IDetector'}, outputNET.ResultsDictionary.Values);
+                        
+            input = SimulationInput.FromInputNET(outputNET.Input);
             
-            detectorNames = cell(1, detectorNamesNET.Length);            
+            detectorNames = cell(1, detectorNamesNET.Length); 
+            detectorOutputs = cell(1, detectorNamesNET.Length);             
             for i=1:detectorNamesNET.Length
                 detectorNames{i} = char(detectorNamesNET(i));
-                detectorOutput = DetectorOutput();
                 nValues = valuesNET(i).Mean.Length;
                 detectorOutput.Mean = double([nValues 1]);
                 for j=1:nValues
@@ -36,14 +26,19 @@ classdef SimulationOutput < handle % deriving from handle allows us to keep a si
                         detectorOutput.SecondMoment(j) = valuesNET(i).SecondMoment(j);
                     end
 %                     detectorOutput.SecondMoment = NET.convertArray(valuesNET(i).SecondMoment, 'System.Double');
-                end                
+                end    
+                
+                rho_endpoints = input.DetectorInputs{i}.Rho; 
+                detectorOutput.Rho = (rho_endpoints(1:end-1) + rho_endpoints(2:end))/2;
+                
                 detectorOutputs{i} = detectorOutput;
             end
-                        
-            output = SimulationOutput();
-            output.Input = SimulationInput.FromInputNET(outputNET.Input);
+            
+            output.Input = input;
             output.DetectorNames = detectorNames;
-            output.Detectors = containers.Map(output.DetectorNames, detectorOutputs);
+            if ~isempty(detectorNames)
+                output.Detectors = containers.Map(output.DetectorNames, detectorOutputs);
+            end
         end
     end
 end

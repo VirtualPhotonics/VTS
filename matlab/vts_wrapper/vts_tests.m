@@ -3,10 +3,10 @@ clear all
 clc
 dbstop if error;
 startup();
-runDemosToo = false;
+runDemosToo = true;
 
-structures_tests();
 mc_tests();
+structures_tests();
 
 if(runDemosToo)    
     vts_solver_demo();    
