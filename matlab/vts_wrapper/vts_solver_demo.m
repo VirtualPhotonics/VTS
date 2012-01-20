@@ -1,11 +1,11 @@
-% script for demoing use of Vts within Matlab
+%% script for demoing use of Vts within Matlab
 clear all
 clc
 dbstop if error;
 
 startup();
 
-% ======================================================================= %
+%% ======================================================================= %
 
 % Example ROfRhoAndFt - Evaluate ROfRhoAndFt with one set of optical 
 % properites
@@ -35,7 +35,7 @@ ylabel('R(f_t) Phase');
 xlabel('f_t');
 set(f,'Name','Frequency-domain reflectance');
 
-% ======================================================================= %
+%% ======================================================================= %
 % NEED TO VERIFY - Check the ROfFxAndFt function in VtsSolvers also
 % Example ROfFxAndFt - Evaluate ROfFxAndFt with one set of optical 
 % properites
@@ -62,7 +62,7 @@ ylabel('R(f_t) Phase');
 xlabel('f_t');
 set(f,'Name','ROfFxAndFt');
 
-% ======================================================================= %
+%% ======================================================================= %
 
 % Example FluenceOfRho - Evaluate FluenceOfRho
 
@@ -97,7 +97,7 @@ test = VtsSolvers.FluenceOfRho(op, rhos, zs);
 f = figure; imagesc(log(squeeze(test(:,1,:))));
 set(f,'Name','Fluence of Rho');
 
-% ======================================================================= %
+%% ======================================================================= %
 
 % Example FluenceOfRhoAndZ - Evaluate FluenceOfRhoAndZ
 
@@ -107,23 +107,32 @@ zs = linspace(0.1,19.9,100); % z range in mm
 
 test = VtsSolvers.FluenceOfRho(op, rhos, zs);
 
-f = figure; imagesc(log(squeeze(test(:,:,:))));
+xs = [-fliplr(rhos(2:end)),rhos];
+
+% f = figure; imagesc(log(squeeze(test(:,:,:))));
+f = figure; imagesc(xs,zs,...
+    log([fliplr(test(:,2:end)),test]));
+axis image
+xlabel('\rho [mm]')
+ylabel('z [mm]')
+% f = figure; imagesc(log(...
+%     [fliplr(test(2:end,:))]));
 set(f,'Name','Fluence of Rho and z');
 
-% ======================================================================= %
+%% ======================================================================= %
 
 % Example PHDOfRhoAndZ - Evaluate PHDOfRhoAndZ
 
 % op = [0.01 1 0.8 1.4];
 % rhos = linspace(0.1,19.9,100); % s-d separation, in mm
 % zs = linspace(0.1,19.9,100); % z range in mm
-% 
+% VtsSolvers.SetSolverType('PointSourceSDA');
 % test = VtsSolvers.PHDOfRhoAndZ(op, rhos, zs, 10);
 % 
 % f = figure; imagesc(log(squeeze(test(:,:,:))));
 % set(f,'Name','PHD of Rho and z');
 
-% ======================================================================= %
+%% ======================================================================= %
 
 % Example ROfRho - Evaluate ROfRho with two sets of optical properites
 

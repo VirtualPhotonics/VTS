@@ -261,11 +261,12 @@ classdef VtsSolvers
                 op_net(i).G =    op(i,3);
                 op_net(i).N =    op(i,4);
             end;
-            
-            fluence = double(fs.FluenceOfRho(op_net,rhos,zs));
+
+            fluence = fs.FluenceOfRho(op_net,rhos,zs);
+            %phd=zeros(size(fluence));
             phd = Vts.Factories.ComputationFactory.GetPHD(fs, fluence, sd, op_net, rhos, zs);
-            % mua = op_net(1).Mua;
-            % ae = Vts.Factories.ComputationFactory.GetAbsorbedEnergy(fluence, mua);
+            %mua = op_net(1).Mua;
+            %phd = Vts.Factories.ComputationFactory.GetAbsorbedEnergy(fluence, mua);
             r = reshape(double(phd),[length(zs) length(rhos) nop]);
         end
     end
