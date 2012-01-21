@@ -115,22 +115,20 @@ f = figure; imagesc(xs,zs,...
 axis image
 xlabel('\rho [mm]')
 ylabel('z [mm]')
-% f = figure; imagesc(log(...
-%     [fliplr(test(2:end,:))]));
 set(f,'Name','Fluence of Rho and z');
 
 %% ======================================================================= %
 
 % Example PHDOfRhoAndZ - Evaluate PHDOfRhoAndZ
 
-% op = [0.01 1 0.8 1.4];
-% rhos = linspace(0.1,19.9,100); % s-d separation, in mm
-% zs = linspace(0.1,19.9,100); % z range in mm
-% VtsSolvers.SetSolverType('PointSourceSDA');
-% test = VtsSolvers.PHDOfRhoAndZ(op, rhos, zs, 10);
-% 
-% f = figure; imagesc(log(squeeze(test(:,:,:))));
-% set(f,'Name','PHD of Rho and z');
+op = [0.01 1 0.8 1.4];
+rhos = linspace(0.1,19.9,100); % s-d separation, in mm
+zs = linspace(0.1,19.9,100); % z range in mm
+VtsSolvers.SetSolverType('PointSourceSDA');
+test = VtsSolvers.PHDOfRhoAndZ(op, rhos, zs, 10);
+f = figure; imagesc(log(squeeze(test(:,:,:))));
+axis image;
+set(f,'Name','PHD of Rho and z');
 
 %% ======================================================================= %
 
