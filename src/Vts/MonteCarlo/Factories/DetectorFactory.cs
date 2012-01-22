@@ -129,6 +129,16 @@ namespace Vts.MonteCarlo.Factories
                         tallySecondMoment,
                         prrinput.Name
                         );
+                case TallyType.pMCROfFx:
+                    var prfxinput = (pMCROfFxDetectorInput)detectorInput;
+                    return new pMCROfFxDetector(
+                        prfxinput.Fx,
+                        tissue,
+                        prfxinput.PerturbedOps,
+                        prfxinput.PerturbedRegionsIndices,
+                        tallySecondMoment,
+                        prfxinput.Name
+                        );
                 default:
                     return null;
             }

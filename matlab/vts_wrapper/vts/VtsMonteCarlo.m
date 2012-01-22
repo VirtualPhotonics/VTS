@@ -82,6 +82,7 @@ classdef VtsMonteCarlo < handle
             disp(['Post-processing complete! Run time: ' num2str(ellapsed) ' seconds']);
             
             output = SimulationOutput.FromOutputNET(outputNET);
+            output.PostProcessorInput = postProcessorInput;
         end
     end
     
