@@ -126,9 +126,29 @@ rhos = linspace(0.1,19.9,100); % s-d separation, in mm
 zs = linspace(0.1,19.9,100); % z range in mm
 VtsSolvers.SetSolverType('PointSourceSDA');
 test = VtsSolvers.PHDOfRhoAndZ(op, rhos, zs, 10);
-f = figure; imagesc(log(squeeze(test(:,:,:))));
+f = figure; imagesc(log(test));
 axis image;
 set(f,'Name','PHD of Rho and z');
+
+%% ======================================================================= %
+
+% Example AbsorbedEnergyOfRhoAndZ - Evaluate AbsorbedEnergyOfRhoAndZ
+
+op = [0.1 1 0.8 1.4];
+rhos = linspace(0.1,19.9,100); % s-d separation, in mm
+zs = linspace(0.1,19.9,100); % z range in mm
+
+VtsSolvers.SetSolverType('PointSourceSDA');
+
+xs = [-fliplr(rhos(2:end)),rhos];
+
+test = VtsSolvers.AbsorbedEnergyOfRhoAndZ(op, rhos, zs);
+% f = figure; imagesc(log(squeeze(test(:,:,:))));
+f = figure; imagesc(xs, zs, log([fliplr(test),test]));
+axis image;
+xlabel('\rho [mm]')
+ylabel('z [mm]')
+set(f,'Name','Absorbed Energy of Rho and z');
 
 %% ======================================================================= %
 

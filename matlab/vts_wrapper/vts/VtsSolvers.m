@@ -268,5 +268,38 @@ classdef VtsSolvers
             %r = double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},phd));
             r = reshape(double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},phd)),[length(zs) length(rhos) nop]);
         end
+        %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+        function r = AbsorbedEnergyOfRhoAndZ(op, rhos, zs)
+            % AbsorbedEnergyOfRhoAndZ
+            %   AbsorbedEnergyOfRhoAndZ(OP, RHOS, ZS)
+            %
+            %   OP is an 1 x 4 matrix of optical properties
+            %       eg. OP = [mua1, mus'1, g1, n1];
+            %   RHO is a 1 x M array of spatial frequencies (in 1/mm)
+            %       eg. FX = [0.1 1.2 0.8 1.4];
+            %   Z is a 1 x M array of z values (in mm)
+            %       eg. Z = linspace(0.1,19.9,100);
+
+            nop = size(op,1);
+
+            fs =  Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver();
+
+            op_net = NET.createArray('Vts.OpticalProperties', nop);
+
+            for i=1:nop
+                op_net(i) = Vts.OpticalProperties;
+                op_net(i).Mua =  op(i,1);
+                op_net(i).Musp = op(i,2);
+                op_net(i).G =    op(i,3);
+                op_net(i).N =    op(i,4);
+            end;
+
+            fluence = double(fs.FluenceOfRho(op_net,rhos,zs));
+            ae = Vts.Factories.ComputationFactory.GetAbsorbedEnergy(NET.convertArray(fluence,'System.Double'),...
+               op_net(1).Mua);
+
+            %r = double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},phd));
+            r = reshape(double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},ae)),[length(zs) length(rhos) nop]);
+        end
     end
 end
