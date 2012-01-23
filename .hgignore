@@ -33,6 +33,7 @@ syntax: glob
 [Cc]lient[Bb]in
 [Dd]ebug*/
 obj/
+[Rr]esults*/
 [Rr]elease*/
 [Ll]ibraries/*.dll
 [Rr]esources/*
