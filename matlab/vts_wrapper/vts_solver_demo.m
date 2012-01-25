@@ -36,7 +36,6 @@ xlabel('f_t');
 set(f,'Name','Frequency-domain reflectance');
 
 %% ======================================================================= %
-% NEED TO VERIFY - Check the ROfFxAndFt function in VtsSolvers also
 % Example ROfFxAndFt - Evaluate ROfFxAndFt with one set of optical 
 % properites
 
@@ -109,10 +108,11 @@ test = VtsSolvers.FluenceOfRho(op, rhos, zs);
 
 xs = [-fliplr(rhos(2:end)),rhos];
 
-% f = figure; imagesc(log(squeeze(test(:,:,:))));
+% f = figure; imagesc(log(test));
 f = figure; imagesc(xs,zs,...
     log([fliplr(test(:,2:end)),test]));
 axis image
+title('Fluence of \rho and z'); 
 xlabel('\rho [mm]')
 ylabel('z [mm]')
 set(f,'Name','Fluence of Rho and z');
@@ -126,8 +126,11 @@ rhos = linspace(0.1,19.9,100); % s-d separation, in mm
 zs = linspace(0.1,19.9,100); % z range in mm
 VtsSolvers.SetSolverType('PointSourceSDA');
 test = VtsSolvers.PHDOfRhoAndZ(op, rhos, zs, 10);
-f = figure; imagesc(log(test));
+f = figure; imagesc(rhos, zs, log(test));
 axis image;
+title('Photon Hitting Density of \rho and z'); 
+xlabel('\rho [mm]')
+ylabel('z [mm]')
 set(f,'Name','PHD of Rho and z');
 
 %% ======================================================================= %
@@ -143,9 +146,10 @@ VtsSolvers.SetSolverType('PointSourceSDA');
 xs = [-fliplr(rhos(2:end)),rhos];
 
 test = VtsSolvers.AbsorbedEnergyOfRhoAndZ(op, rhos, zs);
-% f = figure; imagesc(log(squeeze(test(:,:,:))));
+% f = figure; imagesc(log(test));
 f = figure; imagesc(xs, zs, log([fliplr(test),test]));
 axis image;
+title('Absorbed Energy of \rho and z'); 
 xlabel('\rho [mm]')
 ylabel('z [mm]')
 set(f,'Name','Absorbed Energy of Rho and z');
@@ -244,7 +248,7 @@ title('Reflectance vs spatial frequency');
 ylabel('R(f_x)');
 xlabel('Spatial frequency, f_x [mm^-^1]');
 
-% ======================================================================= %
+%% ======================================================================= %
 
 % Example 3 - Call ROfFx with multiple sets of optical properties, varying
 % mua as a function of wavelength
@@ -304,11 +308,8 @@ ylabel('R(\lambda)');
 xlabel('Wavelength, \lambda [nm]');
 options = {'FontSize', 12};
 PlotHelper.CreateLegend(fx, 'f_x = ', 'mm^-^1', options);
-% el = legend('f_x = 0.00mm^-^1', 'f_x = 0.05mm^-^1', 'f_x = 0.10mm^-^1',...
-%     'f_x = 0.15mm^-^1','f_x = 0.20mm^-^1'); 
-% set(el, 'FontSize', 12);
 
-% ======================================================================= %
+%% ======================================================================= %
 
 % Example 4 - Call planar reflectance with multiple sets of optical
 % properties, varying the scattering prefactor as a function of wavelength
@@ -340,11 +341,3 @@ ylabel('R(\lambda)');
 xlabel('Wavelength, \lambda [nm]');
 options = [{'Location', 'NorthWest'}; {'FontSize', 12}; {'Box', 'on'}];
 PlotHelper.CreateLegend(A, '\mu_s''(1000nm) = ', 'mm^-^1', options);
-% el = legend(...
-%     '\mu_s''(1000nm) = 0.50mm^-^1', '\mu_s''(1000nm) = 0.75mm^-^1',...
-%     '\mu_s''(1000nm) = 1.00mm^-^1', '\mu_s''(1000nm) = 1.25mm^-^1',...
-%     '\mu_s''(1000nm) = 1.50mm^-^1', '\mu_s''(1000nm) = 1.75mm^-^1',...
-%     '\mu_s''(1000nm) = 2.00mm^-^1', '\mu_s''(1000nm) = 2.25mm^-^1',...
-%     '\mu_s''(1000nm) = 2.50mm^-^1'); 
-% set(el, 'FontSize', 12); set(el,'Location','NorthWest')
-
