@@ -18,7 +18,7 @@ classdef SimulationOutput
                 detectorNames{i} = char(detectorNamesNET(i));
                 nValues = valuesNET(i).Mean.Length;
                 detectorOutput.Mean = zeros([nValues 1]);
-                if valuesNET(1).Mean(1).GetType().ToString() == 'System.Numerics.Complex'
+                if valuesNET(1).Mean.GetType().ToString() == 'System.Numerics.Complex[]'
                     for j=1:nValues
                         re = valuesNET(i).Mean(j).Real;
                         im = valuesNET(i).Mean(j).Imaginary;
