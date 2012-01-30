@@ -107,6 +107,7 @@ zs = linspace(0.1,19.9,100); % z range in mm
 test = VtsSolvers.FluenceOfRho(op, rhos, zs);
 
 xs = [-fliplr(rhos(2:end)),rhos];
+% xs = [-rhos(end:-1:2), rhos];
 
 % f = figure; imagesc(log(test));
 f = figure; imagesc(xs,zs,...
