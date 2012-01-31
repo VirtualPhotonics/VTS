@@ -25,19 +25,22 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             _detectorController = detectorController;
 
             // not sure following is best design
-            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyType == TallyType.RadianceOfRho).First();
+            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyType == TallyType.RadianceOfRho).FirstOrDefault();
 
-            _zPlanePosition = ((RadianceOfRhoDetector)dosimetryDetector).ZDepth;
+            if (dosimetryDetector != null)
+            {
+                _zPlanePosition = ((RadianceOfRhoDetector) dosimetryDetector).ZDepth;
 
-            WillHitBoundary = dp =>
-                        dp.StateFlag.HasFlag(PhotonStateType.PseudoReflectedTissueBoundary) &&
-                        dp.Direction.Uz > 0 &&
-                        Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
+                WillHitBoundary = dp =>
+                                  dp.StateFlag.HasFlag(PhotonStateType.PseudoReflectedTissueBoundary) &&
+                                  dp.Direction.Uz > 0 &&
+                                  Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
-            VirtualBoundaryType = VirtualBoundaryType.SurfaceRadiance;
-            PhotonStateType = PhotonStateType.PseudoSurfaceRadianceVirtualBoundary;
+                VirtualBoundaryType = VirtualBoundaryType.SurfaceRadiance;
+                PhotonStateType = PhotonStateType.PseudoSurfaceRadianceVirtualBoundary;
 
-            Name = name;
+                Name = name;
+            }
         }       
 
         ///// <summary>
