@@ -18,6 +18,36 @@ classdef DetectorInput
             input.Rho = rho;
         end
         
+        function input = ROfRhoAndAngle(rho, a, name)
+            if nargin < 3
+                name = 'ROfRhoAndAngle';
+            end
+            input.TallyType = 'ROfRhoAndAngle';
+            input.Name = name;
+            input.Rho = rho;
+            input.Angle = a;
+        end
+        
+        function input = ROfRhoAndOmega(rho, omega, name)
+            if nargin < 3
+                name = 'ROfRhoAndOmega';
+            end
+            input.TallyType = 'ROfRhoAndOmega';
+            input.Name = name;
+            input.Rho = rho;
+            input.Omega = omega;
+        end
+        
+        function input = ROfRhoAndTime(rho, t, name)
+            if nargin < 3
+                name = 'ROfRhoAndTime';
+            end
+            input.TallyType = 'ROfRhoAndTime';
+            input.Name = name;
+            input.Rho = rho;
+            input.Time = t;
+        end
+        
         function input = ROfFx(fx, name)
             if nargin < 2
                 name = 'ROfFx';
@@ -91,8 +121,20 @@ classdef DetectorInput
             switch input.TallyType
                 case 'ROfRho'
                     input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
+                case 'ROfRhoAndAngle'
+                    input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
+                    input.Angle = linspace(inputNET.Angle.Start, inputNET.Angle.Stop, inputNET.Angle.Count);
+                case 'ROfRhoAndOmega'
+                    input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
+                    input.Omega = linspace(inputNET.Omega.Start, inputNET.Omega.Stop, inputNET.Omega.Count);
+                case 'ROfRhoAndTime'
+                    input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
+                    input.Time = linspace(inputNET.Time.Start, inputNET.Time.Stop, inputNET.Time.Count);
                 case 'ROfFx'
                     input.Fx = linspace(inputNET.Fx.Start, inputNET.Fx.Stop, inputNET.Rho.Count);
+                case 'ROfFxAndTime'
+                    input.Fx = linspace(inputNET.Fx.Start, inputNET.Fx.Stop, inputNET.Rho.Count);
+                    input.Time = linspace(inputNET.Time.Start, inputNET.Time.Stop, inputNET.Time.Count);
                 case 'pMCROfRho'
                     input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
                     
@@ -181,9 +223,33 @@ classdef DetectorInput
                         Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
                         input.Name ...
                         );
+                case 'ROfRhoAndAngle'
+                    inputNET = Vts.MonteCarlo.ROfRhoAndAngleDetectorInput( ...
+                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
+                        Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle)), ...
+                        input.Name ...
+                        );
+                case 'ROfRhoAndOmega'
+                    inputNET = Vts.MonteCarlo.ROfRhoAndOmegaDetectorInput( ...
+                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
+                        Vts.Common.DoubleRange(input.Omega(1), input.Omega(end), length(input.Omega)), ...
+                        input.Name ...
+                        );
+                case 'ROfRhoAndTime'
+                    inputNET = Vts.MonteCarlo.ROfRhoAndTimeDetectorInput( ...
+                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
+                        Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time)), ...
+                        input.Name ...
+                        );
                 case 'ROfFx'
                     inputNET = Vts.MonteCarlo.ROfFxDetectorInput( ...
                         Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx)), ...
+                        input.Name ...
+                        );
+                case 'ROfFxAndTime'
+                    inputNET = Vts.MonteCarlo.ROfFxAndTimeDetectorInput( ...
+                        Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx)), ...
+                        Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time)), ...
                         input.Name ...
                         );
                 case 'pMCROfRho'
