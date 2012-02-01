@@ -17,6 +17,10 @@ namespace Vts.SiteVisit.Input
             //IS_CalculateInitialGuess = new Command("IS_CalculateInitialGuess");
             //IS_SolveInverse = new Command("IS_SolveInverse");
             
+
+
+            FEM_ExecuteFemSolver = new Command("FEM_ExecuteMonteCarloSolver");
+            
             PlotMuaSpectra = new Command("PlotMuaSpectra");
             PlotMusprimeSpectra = new Command("PlotMusprimeSpectra");
             UpdateOpticalProperties = new Command("UpdateOpticalProperties");
@@ -28,6 +32,9 @@ namespace Vts.SiteVisit.Input
             Plot_ExportDataToText = new Command("Plot_ExportDataToText");
 
             Maps_PlotMap = new Command("Maps_PlotNewMap");
+
+            Mesh_PlotMap = new Command("Mesh_PlotNewMap");
+            Mesh_ExportDataToText = new Command("Mesh_ExportDataToText");
 
             TextOutput_PostMessage = new Command("TextOutput_PostMessage");
 
@@ -61,6 +68,9 @@ namespace Vts.SiteVisit.Input
         //public static Command MC_PlotDataInResources { get; private set; }
         //public static Command MC_PlotScaledMC { get; private set; }
 
+        // FEM Solver commands
+        public static Command FEM_ExecuteFemSolver { get; private set; }
+
         //Spectra view commands
         public static Command PlotMuaSpectra { get; private set; }
         public static Command PlotMusprimeSpectra { get; private set; }
@@ -77,6 +87,10 @@ namespace Vts.SiteVisit.Input
         //public static Command Maps_CreateDemoMap { get; private set; }
         public static Command Maps_PlotMap { get; private set; }
         //public static Command Maps_ExportDataToText { get; private set; }
+
+        // FEM Mesh commands
+        public static Command Mesh_PlotMap { get; private set; }
+        public static Command Mesh_ExportDataToText { get; private set; }
 
         // Text output commands
         public static Command TextOutput_PostMessage { get; private set; }

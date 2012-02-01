@@ -275,6 +275,93 @@
     <Compile Include="..\Vts\Factories\SolverFactory.cs">
       <Link>Factories\SolverFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\AngularMesh.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\AngularMesh.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\BoundaryCoupling.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\BoundaryCoupling.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\LightSource.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\LightSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Measurement.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\Measurement.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\OutputCalculation.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\OutputCalculation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Parameters.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\Parameters.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SpatialMesh.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\SpatialMesh.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Enums.cs">
+      <Link>FemModeling\MGRTE\2D\Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs">
+      <Link>FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Initialization.cs">
+      <Link>FemModeling\MGRTE\2D\Initialization.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IExtFemSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\IExtFemSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IExtSource.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\IExtSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IIntSource.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\IIntSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\MathFunctions.cs">
+      <Link>FemModeling\MGRTE\2D\MathFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\MultiGridCycle.cs">
+      <Link>FemModeling\MGRTE\2D\MultiGridCycle.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\SolverMGRTE.cs">
+      <Link>FemModeling\MGRTE\2D\SolverMGRTE.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\SourceInputs\ExternalSourceInputs\ExtLineSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\SourceInputs\ExternalInputs\ExtLineSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\SourceInputs\ExternalSourceInputs\ExtPointSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\SourceInputs\ExternalInputs\ExtPointSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\SourceInputs\InternalSourceInputs\Int2DCircularSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\SourceInputs\InternalInputs\Int2DCircularSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\SourceInputs\InternalSourceInputs\Int2DEllipticalSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\SourceInputs\InternalInputs\Int2DEllipticalSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\SourceInputs\InternalSourceInputs\Int2DPointSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\SourceInputs\InternalInputs\Int2DPointSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\SourceInputs\InternalInputs\Int2DRectangularSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\ExternalSources\ExtLineSource.cs">
+      <Link>FemModeling\MGRTE\2D\Sources\ExternalSources\ExtLineSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\ExternalSources\ExtPointSource.cs">
+      <Link>FemModeling\MGRTE\2D\Sources\ExternalSources\ExtPointSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\InternalSources\Int2DCircularSource.cs">
+      <Link>FemModeling\MGRTE\2D\Sources\InternalSources\Int2DCircularSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\InternalSources\Int2DEllipticalSource.cs">
+      <Link>FemModeling\MGRTE\2D\Sources\InternalSources\Int2DEllipticalSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\InternalSources\Int2DPointSource.cs">
+      <Link>FemModeling\MGRTE\2D\Sources\InternalSources\Int2DPointSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\InternalSources\Int2DRectangularSource.cs">
+      <Link>FemModeling\MGRTE\2D\Sources\InternalSources\Int2DRectangularSource.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\IO\ArrayCustomBinaryReader.cs">
       <Link>IO\ArrayCustomBinaryReader.cs</Link>
     </Compile>
@@ -346,45 +433,6 @@
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs">
       <Link>Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\AngularMesh.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\AngularMesh.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\BoundaryCoupling.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\BoundaryCoupling.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\LightSource.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\LightSource.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Measurement.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Measurement.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Output.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Output.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Parameters.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Parameters.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\SpatialMesh.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\SpatialMesh.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\Initialization.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\Initialization.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\ParametersIO.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\ParametersIO.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\ReadDataFiles.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\ReadDataFiles.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\MultiGridCycle.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\MultiGridCycle.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\Solver.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\Solver.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\MonteCarloForwardSolver.cs">
       <Link>Modeling\ForwardSolvers\MonteCarloForwardSolver.cs</Link>
