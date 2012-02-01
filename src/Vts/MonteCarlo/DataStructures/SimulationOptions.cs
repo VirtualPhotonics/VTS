@@ -18,26 +18,26 @@ namespace Vts.MonteCarlo
         /// <param name="rngType">random number generator type</param>
         /// <param name="absWeightingType">absorption weighting type</param>
         /// <param name="phaseFunctionType">phase function type</param>
-        /// <param name="writeDatabases">list of DatabaseType indicating data to be written database for post-processing</param>
+        /// <param name="databases">list of DatabaseType indicating data to be written database for post-processing</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment information for error results</param>
         /// <param name="trackStatistics">flag indicating whether to track statistics about where photons end up</param>
-        /// <param name="russianRouletteWeightLimit">weight threshold to perform RR (default=0, no RR)</param>
+        /// <param name="russianRouletteWeightThreshold">weight threshold to perform RR (default=0, no RR)</param>
         /// <param name="simulationIndex">index of simulation</param>
         public SimulationOptions(
             int seed, 
             RandomNumberGeneratorType rngType, 
             AbsorptionWeightingType absWeightingType,
             PhaseFunctionType phaseFunctionType,
-            IList<DatabaseType> writeDatabases,
+            IList<DatabaseType> databases,
             bool tallySecondMoment,
             bool trackStatistics,
-            double russianRouletteWeightLimit,
+            double russianRouletteWeightThreshold,
             int simulationIndex)
         {
             RandomNumberGeneratorType = rngType;
             AbsorptionWeightingType = absWeightingType;
             PhaseFunctionType = phaseFunctionType;
-            WriteDatabases = writeDatabases;
+            Databases = databases;
             Seed = seed;
             //if (Seed == -1) // handling of random seed moved to RNGFactory 10/01/11
             //{
@@ -46,6 +46,7 @@ namespace Vts.MonteCarlo
             SimulationIndex = simulationIndex;
             TallySecondMoment = tallySecondMoment;
             TrackStatistics = trackStatistics;
+            RussianRouletteWeightThreshold = russianRouletteWeightThreshold;
         }
         /// <summary>
         /// constructor that uses Henyey-Greenstein phase function, does not save photon data to database,
@@ -116,7 +117,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// list of databases to be written
         /// </summary>
-        public IList<DatabaseType> WriteDatabases { get; set; }  // modified ckh 4/12/11
+        public IList<DatabaseType> Databases { get; set; }  
         /// <summary>
         /// flag indicating whether to tally second moment information for error results
         /// </summary>
@@ -128,7 +129,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// photon weight threshold to perform Russian Roulette.  Default = 0 means no RR performed.
         /// </summary>
-        public double RussianRouletteWeightLimit { get; set; }
+        public double RussianRouletteWeightThreshold { get; set; }
         /// <summary>
         /// simulation index 
         /// </summary>

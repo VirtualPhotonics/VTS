@@ -87,7 +87,7 @@ namespace Vts.MonteCarlo
         }
         private static ValidationResult ValidateDetectorInput(SimulationInput si)
         {
-            if ((si.Options.WriteDatabases.Count() == 0) && (si.DetectorInputs.Count() < 1))
+            if (((si.Options.Databases == null) || (si.Options.Databases.Count() < 1)) && (si.DetectorInputs.Count() < 1))
             {
                 return new ValidationResult(
                     false,
@@ -121,7 +121,7 @@ namespace Vts.MonteCarlo
         {
             // check that absorption weighting type set to analog and RR weight threshold != 0.0
             if ((input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Analog) &&
-                input.Options.RussianRouletteWeightLimit != 0.0)
+                input.Options.RussianRouletteWeightThreshold != 0.0)
             {
                 return new ValidationResult(
                     false,

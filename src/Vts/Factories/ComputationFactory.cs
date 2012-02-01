@@ -12,12 +12,12 @@ using System.Runtime.InteropServices;
 
 namespace Vts.Factories
 {
-    /// <summary>
-    /// Class that composes forward and optimization calculations based on high-level inputs
-    /// </summary>
 #if DESKTOP
     [ComVisible(true)]
 #endif
+    /// <summary>
+    /// Class that composes forward and optimization calculations based on high-level inputs
+    /// </summary>
     public static class ComputationFactory
     {
         // todo: the following two methods are a result of a leaky abstraction 

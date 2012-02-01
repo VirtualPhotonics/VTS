@@ -28,10 +28,12 @@ namespace Vts.MonteCarlo.Tissues
             ITissueRegion inclusionRegion,
             IList<ITissueRegion> layerRegions,
             AbsorptionWeightingType absorptionWeightingType,
-            PhaseFunctionType phaseFunctionType)
+            PhaseFunctionType phaseFunctionType,
+            double russianRouletteWeightThreshold)
             : base(layerRegions, 
                    absorptionWeightingType, 
-                   phaseFunctionType)
+                   phaseFunctionType,
+                   russianRouletteWeightThreshold)
         {
             // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
             Regions = layerRegions.Concat(inclusionRegion).ToArray();
@@ -51,7 +53,8 @@ namespace Vts.MonteCarlo.Tissues
                 new EllipsoidRegion(),
                 new MultiLayerTissueInput().Regions,
                 AbsorptionWeightingType.Discrete,
-                PhaseFunctionType.HenyeyGreenstein) { }
+                PhaseFunctionType.HenyeyGreenstein,
+                0.0) { }
 
         public override int GetRegionIndex(Position position)
         {

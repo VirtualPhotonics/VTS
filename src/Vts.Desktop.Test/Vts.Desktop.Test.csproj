@@ -261,6 +261,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\PhotonData\pMCDatabaseTests.cs">
       <Link>MonteCarlo\PhotonData\pMCDatabaseTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs">
+      <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
     </Compile>
@@ -272,9 +275,6 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs">
-      <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

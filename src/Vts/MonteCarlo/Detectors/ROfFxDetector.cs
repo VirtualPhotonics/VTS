@@ -68,7 +68,6 @@ namespace Vts.MonteCarlo.Detectors
         {
             var dp = photon.DP;
 
-            // var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var x = dp.Position.X;
             for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
             {
@@ -79,7 +78,7 @@ namespace Vts.MonteCarlo.Detectors
 
                 /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-                var deltaWeight = dp.Weight * cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX;
+                var deltaWeight = dp.Weight * (cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX);
                 Mean[ifx] += deltaWeight;
                 if (_tallySecondMoment)
                 {

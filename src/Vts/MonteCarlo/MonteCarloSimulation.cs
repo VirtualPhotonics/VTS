@@ -1,10 +1,8 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using Vts.Common.Logging;
 using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
 
@@ -61,12 +59,19 @@ namespace Vts.MonteCarlo
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType);
+            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType, input.Options.RussianRouletteWeightThreshold);
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
 
             // instantiate vb (and associated detectors) for each vb group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
-            
+
+            List<VirtualBoundaryType> dbVirtualBoundaries = null;
+            if (input.Options.Databases != null)
+            {
+                dbVirtualBoundaries =
+                    input.Options.Databases.Select(db => db.GetCorrespondingVirtualBoundaryType()).ToList();
+            }
+
             foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
             {
                 IEnumerable<IDetectorInput> detectorInputs = null;
@@ -96,7 +101,8 @@ namespace Vts.MonteCarlo
 
                 // make sure VB Controller has at least diffuse reflectance and diffuse transmittance
                 // may change this in future if tissue OnDomainBoundary changes
-                if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) || (vbType == VirtualBoundaryType.DiffuseTransmittance))
+                if ((detectorInputs != null) || (vbType == VirtualBoundaryType.DiffuseReflectance) || 
+                    (vbType == VirtualBoundaryType.DiffuseTransmittance) || (dbVirtualBoundaries.Any(vb => vb == vbType)))
                 {
                     var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, input.Options.TallySecondMoment);
                     var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors, _tissue);
@@ -110,7 +116,7 @@ namespace Vts.MonteCarlo
             //_detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
 
             // set doPMC flag
-            if (input.Options.WriteDatabases.Any(d => d.IspMCDatabase()))
+            if ((input.Options.Databases != null) && (input.Options.Databases.Any(d => d.IspMCDatabase())))
             {
                 doPMC = true;
             }
@@ -193,7 +199,7 @@ namespace Vts.MonteCarlo
 
             try
             {
-                if (_input.Options.WriteDatabases.Count() > 0)
+                if (_input.Options.Databases != null)
                 {
                     InitialDatabases(doPMC);
                 }
@@ -233,7 +239,7 @@ namespace Vts.MonteCarlo
                         }
 
                         // kill photon for various reasons, including possible VB crossings
-                        photon.TestDeath(_input.Options.RussianRouletteWeightLimit);
+                        photon.TestDeath();
 
                         // check if virtual boundary 
                         if (hitType == BoundaryHitType.Virtual)
@@ -257,7 +263,7 @@ namespace Vts.MonteCarlo
 
                     //_detectorController.TerminationTally(photon.DP);
 
-                    if (_input.Options.WriteDatabases.Count() > 0)
+                    if (_input.Options.Databases != null)
                     {
                         WriteToDatabases(doPMC, photon);
                     }
@@ -279,7 +285,7 @@ namespace Vts.MonteCarlo
             }
             finally
             {
-                if (_input.Options.WriteDatabases.Count() > 0)
+                if (_input.Options.Databases != null)
                 {
                     CloseDatabases(doPMC);
                 }
@@ -335,7 +341,7 @@ namespace Vts.MonteCarlo
             {
                 _databaseWriterController = new DatabaseWriterController(
                     DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                        _input.Options.WriteDatabases,
+                        _input.Options.Databases,
                         _outputPath,
                         _input.OutputName));
             }
@@ -343,11 +349,11 @@ namespace Vts.MonteCarlo
             {
                 _pMCDatabaseWriterController = new pMCDatabaseWriterController(
                     DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                    _input.Options.WriteDatabases,
+                    _input.Options.Databases,
                             _outputPath,
                             _input.OutputName),
                     DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
-                    _input.Options.WriteDatabases,
+                    _input.Options.Databases,
                             _tissue,
                             _outputPath,
                             _input.OutputName));

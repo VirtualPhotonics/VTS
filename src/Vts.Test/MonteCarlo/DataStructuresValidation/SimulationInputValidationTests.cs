@@ -28,7 +28,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             {
                 DetectorInputs = new List<IDetectorInput> {}
             };
-            input.Options.WriteDatabases = new List<DatabaseType> {DatabaseType.DiffuseReflectance};
+            input.Options.Databases = new List<DatabaseType> {DatabaseType.DiffuseReflectance};
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid);
         }

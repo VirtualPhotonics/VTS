@@ -14,6 +14,11 @@ namespace Vts.MonteCarlo
         AbsorptionWeightingType AbsorptionWeightingType { get; }
 
         /// <summary>
+        /// photon weight threshold, below which turns on Russian Roulette
+        /// </summary>
+        double RussianRouletteWeightThreshold { get; }
+
+        /// <summary>
         /// PhaseFunctionType enum specifier indicating Henyey-Greenstein, Birdirectional, etc.
         /// </summary>
         PhaseFunctionType PhaseFunctionType { get; }

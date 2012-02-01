@@ -4,9 +4,6 @@ using System.IO;
 using NUnit.Framework;
 using Vts.SpectralMapping;
 using Vts.IO;
-#if SILVERLIGHT
-using System.IO.IsolatedStorage;
-#endif
 
 namespace Vts.Test.Modeling.Spectroscopy
 {
@@ -16,27 +13,16 @@ namespace Vts.Test.Modeling.Spectroscopy
     [TestFixture]
     public class ChromophoreSpectrumTests
     {
-#if SILVERLIGHT
-        private IsolatedStorageFile _objStore;
-#endif
         /// <summary>
         /// Runs before every unit test after the TestFixtureSetup
         /// </summary>
         [SetUp]
         public void clear_folders_and_files()
         {
-#if SILVERLIGHT
-            _objStore = IsolatedStorageFile.GetUserStoreForApplication();
-            if (_objStore.FileExists("ChromophoreSpectrum.xml"))
+            if (FileIO.FileExists("ChromophoreSpectrum.xml"))
             {
-                _objStore.DeleteFile("ChromophoreSpectrum.xml");
+                FileIO.FileDelete("ChromophoreSpectrum.xml");
             }
-#else
-            if (File.Exists("ChromophoreSpectrum.xml"))
-            {
-                File.Delete("ChromophoreSpectrum.xml");
-            }
-#endif
         }
 
         /// <summary>
@@ -64,11 +50,7 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             ChromophoreSpectrum chromophoreSpectrum = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit, WavelengthUnit.Nanometers);
             chromophoreSpectrum.WriteToXML("ChromophoreSpectrum.xml");
-#if SILVERLIGHT
-            Assert.IsTrue(_objStore.FileExists("ChromophoreSpectrum.xml"));
-#else
-            Assert.IsTrue(File.Exists("ChromophoreSpectrum.xml"));
-#endif
+            Assert.IsTrue(FileIO.FileExists("ChromophoreSpectrum.xml"));
         }
 
         /// <summary>

@@ -43,7 +43,7 @@ namespace Vts.Modeling.ForwardSolvers
             var rhoBins = new DoubleRange(rhos.First() - rhoDelta / 2, rhos.Last() + rhoDelta / 2, rhos.Count() + 1);
             foreach (var op in ops)
             {
-                var detectorInputs = new List<IpMCDetectorInput> 
+                var detectorInputs = new List<IDetectorInput> 
                 {
                     new pMCROfRhoDetectorInput(
                         //new DoubleRange(rhos.First(), rhos.Last(), rhos.Count()),
@@ -106,7 +106,7 @@ namespace Vts.Modeling.ForwardSolvers
 
             foreach (var op in ops)
             {
-                var detectorInputs = new List<IpMCDetectorInput> 
+                var detectorInputs = new List<IDetectorInput> 
                 { 
                     new pMCROfRhoAndTimeDetectorInput(  
                         //new DoubleRange(rhos.First(), rhos.Last(), rhos.Count()),

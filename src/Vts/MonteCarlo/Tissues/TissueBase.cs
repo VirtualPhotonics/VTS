@@ -19,12 +19,14 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="phaseFunctionType">phase function type</param>
         public TissueBase(IList<ITissueRegion> regions, 
             AbsorptionWeightingType absorptionWeightingType,
-            PhaseFunctionType phaseFunctionType)
+            PhaseFunctionType phaseFunctionType,
+            double russianRouletteWeightThreshold)
         {
             Regions = regions;
             AbsorptionWeightingType = absorptionWeightingType;
             PhaseFunctionType = phaseFunctionType;
             RegionScatterLengths = regions.Select(region => region.RegionOP.GetScatterLength(absorptionWeightingType)).ToArray();
+            RussianRouletteWeightThreshold = russianRouletteWeightThreshold;
         }
         /// <summary>
         /// list of tissue regions
@@ -42,6 +44,10 @@ namespace Vts.MonteCarlo.Tissues
         /// type of phase function used within region
         /// </summary>
         public PhaseFunctionType PhaseFunctionType { get; protected set; }
+        /// <summary>
+        /// photon weight threshold, below which turns on Russian Roulette
+        /// </summary>
+        public double RussianRouletteWeightThreshold { get; protected set; }
 
         /// <summary>
         /// method to determine region index (according to list of tissue regions) of current

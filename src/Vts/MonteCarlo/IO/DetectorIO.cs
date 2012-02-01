@@ -189,6 +189,12 @@ namespace Vts.MonteCarlo.IO
                         rOfFxDetector.Mean = (Complex[])FileIO.ReadArrayFromBinary<Complex>(filePath, rOfFxDetectorDims);
                         return rOfFxDetector;
 
+                    case TallyType.pMCROfFx:
+                        var pMCROfFxDetector = FileIO.ReadFromXML<pMCROfFxDetector>(filePath + ".xml");
+                        var pMCROfFxDetectorDims = new int[] { pMCROfFxDetector.Fx.Count };
+                        pMCROfFxDetector.Mean = (Complex[])FileIO.ReadArrayFromBinary<Complex>(filePath, pMCROfFxDetectorDims);
+                        return pMCROfFxDetector;
+
                     case TallyType.TOfAngle:
                         var tOfAngleDetector = FileIO.ReadFromXML<TOfAngleDetector>(filePath + ".xml");
                         var tOfAngleDetectorDims = new int[] { tOfAngleDetector.Angle.Count - 1 };
@@ -351,6 +357,12 @@ namespace Vts.MonteCarlo.IO
                         var rOfFxDetectorDims = new int[] { rOfFxDetector.Fx.Count };
                         rOfFxDetector.Mean = (Complex[])FileIO.ReadArrayFromBinaryInResources<Complex>(filePath, projectName, rOfFxDetectorDims);
                         return rOfFxDetector;
+
+                    case TallyType.pMCROfFx:
+                        var pMuaMusROfFxDetector = FileIO.ReadFromXMLInResources<pMCROfFxDetector>(filePath + ".xml", projectName);
+                        var pMCROfFxDetectorDims = new int[] { pMuaMusROfFxDetector.Fx.Count };
+                        pMuaMusROfFxDetector.Mean = (Complex[])FileIO.ReadArrayFromBinaryInResources<Complex>(filePath, projectName, pMCROfFxDetectorDims);
+                        return pMuaMusROfFxDetector;
 
                     case TallyType.TOfAngle:
                         var tOfAngleDetector = FileIO.ReadFromXMLInResources<TOfAngleDetector>(filePath + ".xml", projectName);

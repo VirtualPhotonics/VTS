@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -103,5 +103,9 @@
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(SolutionDir)..\build\apps\wcf\Desktop\$(ConfigurationName)\" mkdir "$(SolutionDir)..\build\apps\wcf\Desktop\$(ConfigurationName)\" /y
 copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\apps\wcf\Desktop\$(ConfigurationName)\" /y</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT EXIST "$(SolutionDir)..\build\apps\wcf\$(ConfigurationName)\" mkdir "$(SolutionDir)..\build\apps\wcf\$(ConfigurationName)\" /y
+copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\apps\wcf\$(ConfigurationName)\" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

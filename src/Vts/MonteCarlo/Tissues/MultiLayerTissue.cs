@@ -23,9 +23,14 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="regions">list of tissue regions comprising tissue</param>
         /// <param name="absorptionWeightingType">absorption weighting type</param>
         /// <param name="phaseFunctionType">phase function type</param>
+        /// <param name="russianRouletteWeightThreshold">photon weight threshold to turn on Russian Roulette</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
-        public MultiLayerTissue(IList<ITissueRegion> regions, AbsorptionWeightingType absorptionWeightingType, PhaseFunctionType phaseFunctionType)
-            : base(regions, absorptionWeightingType, phaseFunctionType)
+        public MultiLayerTissue(
+            IList<ITissueRegion> regions, 
+            AbsorptionWeightingType absorptionWeightingType, 
+            PhaseFunctionType phaseFunctionType,
+            double russianRouletteWeightThreshold)
+            : base(regions, absorptionWeightingType, phaseFunctionType,russianRouletteWeightThreshold)
         {
             _layerRegions = regions.Select(region => (LayerRegion) region).ToArray();
         }
@@ -40,8 +45,12 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="absorptionWeightingType">absorption weighting type</param>
         /// <param name="phaseFunctionType">phase function type</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
-        public MultiLayerTissue(MultiLayerTissueInput input, AbsorptionWeightingType absorptionWeightingType, PhaseFunctionType phaseFunctionType)
-            : this(input.Regions, absorptionWeightingType, phaseFunctionType)
+        public MultiLayerTissue(
+            MultiLayerTissueInput input, 
+            AbsorptionWeightingType absorptionWeightingType, 
+            PhaseFunctionType phaseFunctionType,
+            double russianRouletteWeightThreshold)
+            : this(input.Regions, absorptionWeightingType, phaseFunctionType, russianRouletteWeightThreshold)
         {
         }
 
@@ -50,7 +59,7 @@ namespace Vts.MonteCarlo.Tissues
         /// and discrete absorption weighting
         /// </summary>
         public MultiLayerTissue() 
-            : this(new MultiLayerTissueInput().Regions, AbsorptionWeightingType.Discrete, PhaseFunctionType.HenyeyGreenstein)
+            : this(new MultiLayerTissueInput().Regions, AbsorptionWeightingType.Discrete, PhaseFunctionType.HenyeyGreenstein, 0.0)
         {
         }
         /// <summary>

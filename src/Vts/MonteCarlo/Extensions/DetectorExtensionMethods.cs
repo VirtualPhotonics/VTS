@@ -104,6 +104,8 @@ namespace Vts.MonteCarlo.Extensions
             {
                 case TallyType.pMCROfRho:
                 case TallyType.pMCROfRhoAndTime:
+                case TallyType.pMCROfFx:
+                case TallyType.pMCROfFxAndTime:
                     return true;
                 default:
                     return false;

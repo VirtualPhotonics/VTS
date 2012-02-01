@@ -84,8 +84,9 @@ namespace Vts.MonteCarlo.PostProcessor
             // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
             if (input.DetectorInputs.Where(di => di.TallyType.IspMCReflectanceTally()).Any())
             {
-                IList<IpMCDetectorInput> pMCDetectorInputs;
-                pMCDetectorInputs = input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
+                IList<IDetectorInput> pMCDetectorInputs;
+                pMCDetectorInputs = input.DetectorInputs;
+                //pMCDetectorInputs = input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.pMCDiffuseReflectance,
                     pMCDetectorInputs, 
