@@ -38,6 +38,11 @@ namespace Vts.MonteCarlo
             AbsorptionWeightingType = absWeightingType;
             PhaseFunctionType = phaseFunctionType;
             Databases = databases;
+            // check if databases list is null and if so make empty
+            if (Databases == null)
+            {
+                Databases = new List<DatabaseType>() { };
+            }
             Seed = seed;
             //if (Seed == -1) // handling of random seed moved to RNGFactory 10/01/11
             //{

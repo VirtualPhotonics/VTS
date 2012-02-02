@@ -86,7 +86,12 @@ namespace Vts.MonteCarlo
             Options = simulationOptions;
             SourceInput = sourceInput;
             TissueInput = tissueInput;
-            DetectorInputs = detectorInputs;
+            DetectorInputs = detectorInputs;       
+            // check if detectorInputs list is null and if so make empty
+            if (DetectorInputs == null)
+            {
+                DetectorInputs = new List<IDetectorInput>() {};
+            }
         }
 
         public SimulationInput()
