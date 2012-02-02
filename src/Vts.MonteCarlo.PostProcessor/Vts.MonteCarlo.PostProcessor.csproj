@@ -63,8 +63,7 @@ IF NOT EXIST "$(SolutionDir)..\build\apps\mc_post\$(ConfigurationName)" mkdir "$
 copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\apps\mc_post\$(ConfigurationName)" /y
 
 "$(TargetDir)mc_post.exe" geninfiles
-
-copy "$(TargetDir)infile_*.xml" "$(SolutionDir)..\files\PostProcessorInputFiles\"</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

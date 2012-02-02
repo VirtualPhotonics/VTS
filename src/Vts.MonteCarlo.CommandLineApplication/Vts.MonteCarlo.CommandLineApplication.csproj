@@ -157,7 +157,6 @@ IF NOT EXIST "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)" mkdir "$(Solu
 copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)" /y
 
 "$(TargetDir)mc.exe" geninfiles
-
-copy "$(TargetDir)infile_*.xml" "$(SolutionDir)..\files\SimulationInputFiles\"</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -531,24 +531,6 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.xml" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml" />
-    <Content Include="..\..\files\SimulationInputFiles\infile_ellip_FluenceOfRhoAndZ.xml">
-      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile_ellip_FluenceOfRhoAndZ.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_one_layer_all_detectors.xml">
-      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile_one_layer_all_detectors.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.xml">
-      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_one_layer_ROfRho_FluenceOfRhoAndZ.xml">
-      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile_one_layer_ROfRho_FluenceOfRhoAndZ.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_pMC_one_layer_ROfRho_DAW.xml">
-      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile_pMC_one_layer_ROfRho_DAW.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_two_layer_ROfRho.xml">
-      <Link>MonteCarlo\Resources\DataStructures\SimulationInput\infile_two_layer_ROfRho.xml</Link>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\controlPoints" />
