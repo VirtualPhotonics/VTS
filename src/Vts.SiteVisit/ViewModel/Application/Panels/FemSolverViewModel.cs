@@ -19,8 +19,8 @@ namespace Vts.SiteVisit.ViewModel
         public FemSolverViewModel(Parameters parameters)
         {
             _parameters = parameters;
-
             OpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Tissue Optical Properties:", G = 0.8, N = 1.0, EnableG = true };
+
             Commands.FEM_ExecuteFemSolver.Executed += FEM_ExecuteFemSolver_Executed;
 
             ExecuteFemSolverCommand = new RelayCommand(() => FEM_ExecuteFemSolver_Executed(null, null));    
@@ -30,7 +30,6 @@ namespace Vts.SiteVisit.ViewModel
         public FemSolverViewModel()
             : this(new Parameters
             {
-                G = 0.8,
                 NTissue = 1.0,
                 NExt = 1.0,
                 SMeshLevel = 3,
@@ -76,6 +75,10 @@ namespace Vts.SiteVisit.ViewModel
             // Note: we assume the spatial domain has "nt" intervals,
             //       starting from "-x" to "+x" with increasing "x" coordinate;
             //       starting from "0" to "+z" with increasing "z" coordinate;   
+
+            _parameters.G = OpticalPropertyVM.G;
+            _parameters.Mua = OpticalPropertyVM.Mua;
+            _parameters.Musp = OpticalPropertyVM.Musp;
 
             if ((_parameters.AMeshLevel > 8) || (_parameters.SMeshLevel > 8))
                 logger.Info(() => "Angular or Spatial mesh level is larger than 8\n");

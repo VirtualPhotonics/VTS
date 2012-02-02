@@ -40,12 +40,6 @@ namespace Vts.SiteVisit.ViewModel
                 UpdateImages();
             };
 
-            Commands.Maps_PlotMap.Executed += (sender, args) =>
-            {
-                SetBitmapData(SampleBitmapDataProvider.GetSampleBitmapData());
-                UpdateImages();
-            };
-
             Commands.Mesh_PlotMap.Executed += Mesh_PlotMap_Executed;
 
             Commands.Mesh_ExportDataToText.Executed += Mesh_ExportDataToText_Executed;
