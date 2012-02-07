@@ -16,16 +16,22 @@ namespace Vts.SiteVisit.Test.ViewModel
         }
 
         [Test]
+        [Ignore]
         public void Can_Execute_ROfRho_Inverse() { TestCanExecuteInverseSolver(SolutionDomainType.ROfRho); }
         [Test]
+        [Ignore]
         public void Can_Execute_ROfRhoAndT_Inverse() { TestCanExecuteInverseSolver(SolutionDomainType.ROfRhoAndT); }
         [Test]
+        [Ignore]
         public void Can_Execute_ROfRhoAndFt_Inverse() { TestCanExecuteInverseSolver(SolutionDomainType.ROfRhoAndFt); }
         [Test]
+        [Ignore]
         public void Can_Execute_ROfFx_Inverse() { TestCanExecuteInverseSolver(SolutionDomainType.ROfFx); }
         [Test]
+        [Ignore]
         public void Can_Execute_ROfFxAndT_Inverse() { TestCanExecuteInverseSolver(SolutionDomainType.ROfFxAndT); }
         [Test]
+        [Ignore]
         public void Can_Execute_ROfFxAndFt_Inverse() { TestCanExecuteInverseSolver(SolutionDomainType.ROfFxAndFt); }
 
         private void TestCanExecuteInverseSolver(SolutionDomainType solutionDomainType)
