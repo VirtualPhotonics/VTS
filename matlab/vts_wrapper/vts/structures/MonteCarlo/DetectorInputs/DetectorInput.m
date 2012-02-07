@@ -9,6 +9,24 @@ classdef DetectorInput
             input.Rho = linspace(0, 10, 101);
         end
         
+        function input = AOfRhoAndZ(rho, z, name)
+            if nargin < 3
+                name = 'AOfRhoAndZ';
+            end
+            input.TallyType = 'AOfRhoAndZ';
+            input.Name = name;
+            input.Rho = rho;
+            input.Z = z;
+        end 
+        
+        function input = ATotal(name)
+            if nargin < 1
+                name = 'ATotal';
+            end
+            input.TallyType = 'ATotal';
+            input.Name = name;
+        end
+        
         function input = ROfRho(rho, name)
             if nargin < 2
                 name = 'ROfRho';
@@ -101,11 +119,12 @@ classdef DetectorInput
         
         function input = pMCROfFxAndTime(fx, t, name)
             if nargin < 2
-                name = 'pMCROfFx';
+                name = 'pMCROfFxAndTime';
             end
-            input.TallyType = 'pMCROfFx';
+            input.TallyType = 'pMCROfFxAndTime';
             input.Name = name;
             input.Fx = fx;
+            input.Time = t;
             input.PerturbedOps = ...
                 [...
                 [1e-10, 0.0, 0.0, 1.0]; ...
@@ -119,6 +138,11 @@ classdef DetectorInput
             input.TallyType = char(inputNET.TallyType);
             input.Name = char(inputNET.Name);
             switch input.TallyType
+                case 'AOfRhoAndZ'
+                    input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
+                    input.Z = linspace(inputNET.Z.Start, inputNET.Z.Stop, inputNET.Z.Count);
+                case 'ATotal'
+                    % nothing to do here?
                 case 'ROfRho'
                     input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
                 case 'ROfRhoAndAngle'
@@ -218,6 +242,16 @@ classdef DetectorInput
         
         function inputNET = ToInputNET(input)
             switch input.TallyType
+                case 'AOfRhoAndZ'
+                    inputNET = Vts.MonteCarlo.AOfRhoAndZDetectorInput( ...
+                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
+                        Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z)), ...
+                        input.Name ...
+                        );
+                case 'ATotal'
+                    inputNET = Vts.MonteCarlo.ATotalDetectorInput( ...
+                        input.Name ...
+                        );
                 case 'ROfRho'
                     inputNET = Vts.MonteCarlo.ROfRhoDetectorInput( ...
                         Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
