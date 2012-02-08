@@ -27,6 +27,75 @@ classdef DetectorInput
             input.Name = name;
         end
         
+        function input = FluenceOfRhoAndZ(rho, z, name)
+            if nargin < 3
+                name = 'FluenceOfRhoAndZ';
+            end
+            input.TallyType = 'FluenceOfRhoAndZ';
+            input.Name = name;
+            input.Rho = rho;
+            input.Z = z;
+        end
+        
+        function input = FluenceOfRhoAndZAndTime(rho, z, time, name)
+            if nargin < 4
+                name = 'FluenceOfRhoAndZAndTime';
+            end
+            input.TallyType = 'FluenceOfRhoAndZAndTime';
+            input.Name = name;
+            input.Rho = rho;
+            input.Z = z;
+            input.Time = time;
+        end
+        
+        function input = FluenceOfXAndYAndZ(x, y, z, name)
+            if nargin < 4
+                name = 'FluenceOfXAndYAndZ';
+            end
+            input.TallyType = 'FluenceOfXAndYAndZ';
+            input.Name = name;
+            input.X = x;
+            input.Y = y;
+            input.Z = z;
+        end
+        
+        function input = RadianceOfRho(rho, name)
+            if nargin < 2
+                name = 'RadianceOfRho';
+            end
+            input.TallyType = 'RadianceOfRho';
+            input.Name = name;
+            input.Rho = rho;
+        end
+        
+        function input = RadianceOfRhoAndZAndAngle(rho, z, angle, name)
+            if nargin < 4
+                name = 'RadianceOfRhoAndZAndAngle';
+            end
+            input.TallyType = 'RadianceOfRhoAndZAndAngle';
+            input.Name = name;
+            input.Rho = rho;
+            input.Z = z;
+            input.Angle = angle;
+        end
+        
+        function input = RDiffuse(name)
+            if nargin < 1
+                name = 'RDiffuse';
+            end
+            input.TallyType = 'RDiffuse';
+            input.Name = name;
+        end
+        
+        function input = ROfAngle(angle, name)
+            if nargin < 2
+                name = 'ROfAngle';
+            end
+            input.TallyType = 'ROfAngle';
+            input.Name = name;
+            input.Angle = angle;
+        end
+        
         function input = ROfRho(rho, name)
             if nargin < 2
                 name = 'ROfRho';
@@ -36,14 +105,14 @@ classdef DetectorInput
             input.Rho = rho;
         end
         
-        function input = ROfRhoAndAngle(rho, a, name)
+        function input = ROfRhoAndAngle(rho, angle, name)
             if nargin < 3
                 name = 'ROfRhoAndAngle';
             end
             input.TallyType = 'ROfRhoAndAngle';
             input.Name = name;
             input.Rho = rho;
-            input.Angle = a;
+            input.Angle = angle;
         end
         
         function input = ROfRhoAndOmega(rho, omega, name)
@@ -143,6 +212,27 @@ classdef DetectorInput
                     input.Z = linspace(inputNET.Z.Start, inputNET.Z.Stop, inputNET.Z.Count);
                 case 'ATotal'
                     % nothing to do here?
+                case 'FluenceOfRhoAndZ'
+                    input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
+                    input.Z = linspace(inputNET.Z.Start, inputNET.Z.Stop, inputNET.Z.Count);
+                case 'FluenceOfRhoAndZAndTime'
+                    input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
+                    input.Z = linspace(inputNET.Z.Start, inputNET.Z.Stop, inputNET.Z.Count);
+                    input.Time = linspace(inputNET.Time.Start, inputNET.Time.Stop, inputNET.Time.Count);
+                case 'FluenceOfXAndYAndZ'
+                    input.X = linspace(inputNET.X.Start, inputNET.X.Stop, inputNET.X.Count);
+                    input.Y = linspace(inputNET.Y.Start, inputNET.Y.Stop, inputNET.Y.Count);
+                    input.Z = linspace(inputNET.Z.Start, inputNET.Z.Stop, inputNET.Z.Count);
+                case 'RadianceOfRho'
+                    input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
+                case 'RadianceOfRhoAndZAndAngle'
+                    input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
+                    input.Z = linspace(inputNET.Z.Start, inputNET.Z.Stop, inputNET.Z.Count);
+                    input.Angle = linspace(inputNET.Angle.Start, inputNET.Angle.Stop, inputNET.Angle.Count);
+                case 'RDiffuse'
+                    % nothing to do here?
+                case 'ROfAngle'
+                    input.Angle = linspace(inputNET.Angle.Start, inputNET.Angle.Stop, inputNET.Angle.Count);
                 case 'ROfRho'
                     input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
                 case 'ROfRhoAndAngle'
@@ -250,6 +340,47 @@ classdef DetectorInput
                         );
                 case 'ATotal'
                     inputNET = Vts.MonteCarlo.ATotalDetectorInput( ...
+                        input.Name ...
+                        );
+                case 'FluenceOfRhoAndZ'
+                    inputNET = Vts.MonteCarlo.FluenceOfRhoAndZDetectorInput( ...
+                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
+                        Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z)), ...
+                        input.Name ...
+                        );
+                case 'FluenceOfRhoAndZAndTime'
+                    inputNET = Vts.MonteCarlo.FluenceOfRhoAndZAndTimeDetectorInput( ...
+                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
+                        Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z)), ...
+                        Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time)), ...
+                        input.Name ...
+                        );
+                case 'FluenceOfXAndYAndZ'
+                    inputNET = Vts.MonteCarloFluenceOfXAndYAndZDetectorInput( ...
+                        Vts.Common.DoubleRange(input.X(1), input.X(end), length(input.X)), ...
+                        Vts.Common.DoubleRange(input.Y(1), input.Y(end), length(input.Y)), ...
+                        Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z)), ...
+                        input.Name ...
+                        );
+                case 'RadianceOfRho'
+                    inputNET = Vts.MonteCarlo.RadianceOfRhoDetectorInput( ...
+                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
+                        input.Name ...
+                        );
+                case 'RadianceOfRhoAndZAndAngle'
+                    inputNET = Vts.MonteCarlo.RadianceOfRhoAndZAndAngleDetectorInput( ...
+                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
+                        Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z)), ...
+                        Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle)), ...
+                        input.Name ...
+                        );
+                case 'RDiffuse'
+                    inputNET = Vts.MonteCarlo.RDiffuseDetectorInput( ...
+                        input.Name ...
+                        );
+                case 'ROfAngle'
+                    inputNET = Vts.MonteCarlo.ROfAngleDetectorInput( ...
+                        Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle)), ...
                         input.Name ...
                         );
                 case 'ROfRho'
