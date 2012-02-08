@@ -11,8 +11,8 @@ si.DetectorInputs = { DetectorInput.ROfAngle(linspace(0,pi/2,2)) };
 output = VtsMonteCarlo.RunSimulation(si);
 
 % Test for detector input ROfRhoAndTime - Not working
-%si.DetectorInputs = { DetectorInput.ROfRhoAndTime({linspace(0,40,201)}, {linspace(0,1,101)}) };
-%output = VtsMonteCarlo.RunSimulation(si);
+si.DetectorInputs = { DetectorInput.ROfRhoAndTime(linspace(0,40,201), linspace(0,1,101), 'ROfRhoAndTime') };
+output = VtsMonteCarlo.RunSimulation(si);
 
 % use this to run a Matlab-wrapped MonteCarloSimulation using static method
 si.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
