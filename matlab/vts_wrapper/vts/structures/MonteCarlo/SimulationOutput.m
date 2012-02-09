@@ -16,29 +16,42 @@ classdef SimulationOutput
                 % need variability with types here (DetectorOutput static
                 % methods)
                 detectorNames{i} = char(detectorNamesNET(i));
-                if valuesNET(1).Mean.GetType().ToString() == 'System.Numerics.Complex[]'     
-                    nValues = valuesNET(i).Mean.Length;               
-                    detectorOutput.Mean = zeros([nValues 1]);
-                    for j=1:nValues
-                        re = valuesNET(i).Mean(j).Real;
-                        im = valuesNET(i).Mean(j).Imaginary;
-                        detectorOutput.Mean(j) = sqrt(re.^2 + im.^2);
-                    end
-                elseif valuesNET(1).Mean.GetType().ToString() == 'System.Double[,]' 
-                    dim1 = valuesNET(i).Mean.GetLength(0);
-                    dim2 = valuesNET(i).Mean.GetLength(1);
-                    detectorOutput.Mean = zeros([dim1 dim2]);
-                    for j=1:dim1
-                        for k=1:dim2
-                            detectorOutput.Mean(j,k) = valuesNET(i).Mean(j,k);
+                switch valuesNET(1).Mean.GetType().ToString()
+                    case 'System.Numerics.Complex[]'
+                        nValues = valuesNET(i).Mean.Length;               
+                        detectorOutput.Mean = zeros([nValues 1]);
+                        for j=1:nValues
+                            re = valuesNET(i).Mean(j).Real;
+                            im = valuesNET(i).Mean(j).Imaginary;
+                            detectorOutput.Mean(j) = sqrt(re.^2 + im.^2);
                         end
-                    end
-                else   
-                    nValues = valuesNET(i).Mean.Length;               
-                    detectorOutput.Mean = zeros([nValues 1]);
-                    for j=1:nValues
-                        detectorOutput.Mean(j) = valuesNET(i).Mean(j);
-                    end
+                    case 'System.Double[,]'
+                        dim1 = valuesNET(i).Mean.GetLength(0);
+                        dim2 = valuesNET(i).Mean.GetLength(1);
+                        detectorOutput.Mean = zeros([dim1 dim2]);
+                        for j=1:dim1
+                            for k=1:dim2
+                                detectorOutput.Mean(j,k) = valuesNET(i).Mean(j,k);
+                            end
+                        end
+                    case 'System.Double[,,]'
+                        dim1 = valuesNET(i).Mean.GetLength(0);
+                        dim2 = valuesNET(i).Mean.GetLength(1);
+                        dim3 = valuesNET(i).Mean.GetLength(2);
+                        detectorOutput.Mean = zeros([dim1 dim2 dim3]);
+                        for j=1:dim1
+                            for k=1:dim2
+                                for l=1:dim3
+                                    detectorOutput.Mean(j,k,l) = valuesNET(i).Mean(j,k,l);
+                                end
+                            end
+                        end
+                    otherwise
+                        nValues = valuesNET(i).Mean.Length;               
+                        detectorOutput.Mean = zeros([nValues 1]);
+                        for j=1:nValues
+                            detectorOutput.Mean(j) = valuesNET(i).Mean(j);
+                        end
                 end
 %                 detectorOutput.Mean = NET.convertArray(valuesNET(i).Mean, 'System.Double');
                 if(outputNET.Input.Options.TallySecondMoment && ~isempty(valuesNET(1).SecondMoment))
@@ -46,32 +59,43 @@ classdef SimulationOutput
 %                     for j=1:nValues
 %                         detectorOutput.SecondMoment(j) = valuesNET(i).SecondMoment(j);
 %                     end
-                    if valuesNET(1).SecondMoment.GetType().ToString() == 'System.Numerics.Complex[]'     
-    %                     nValues = valuesNET(i).SecondMoment.Length;               
-    %                     detectorOutput.SecondMoment = zeros([nValues 1]);
-    %                     for j=1:nValues
-    %                         re = valuesNET(i).SecondMoment(j).Real;
-    %                         im = valuesNET(i).SecondMoment(j).Imaginary;
-    %                         detectorOutput.SecondMoment(j) = sqrt(re.^2 + im.^2);
-    %                     end
-                    elseif valuesNET(1).SecondMoment.GetType().ToString() == 'System.Double[,]' 
-                        dim1 = valuesNET(i).SecondMoment.GetLength(0);
-                        dim2 = valuesNET(i).SecondMoment.GetLength(1);
-                        detectorOutput.SecondMoment = zeros([dim1 dim2]);
-                        for j=1:dim1
-                            for k=1:dim2
-                                detectorOutput.SecondMoment(j,k) = valuesNET(i).SecondMoment(j,k);
+                    switch valuesNET(1).SecondMoment.GetType().ToString()
+                        case 'System.Numerics.Complex[]'
+%                             nValues = valuesNET(i).SecondMoment.Length;               
+%                             detectorOutput.SecondMoment = zeros([nValues 1]);
+%                             for j=1:nValues
+%                                 re = valuesNET(i).SecondMoment(j).Real;
+%                                 im = valuesNET(i).SecondMoment(j).Imaginary;
+%                                 detectorOutput.SecondMoment(j) = sqrt(re.^2 + im.^2);
+%                             end
+                        case 'System.Double[,]'
+                            dim1 = valuesNET(i).SecondMoment.GetLength(0);
+                            dim2 = valuesNET(i).SecondMoment.GetLength(1);
+                            detectorOutput.SecondMoment = zeros([dim1 dim2]);
+                            for j=1:dim1
+                                for k=1:dim2
+                                    detectorOutput.SecondMoment(j,k) = valuesNET(i).SecondMoment(j,k);
+                                end
                             end
-                        end
-                    else   
-                        nValues = valuesNET(i).SecondMoment.Length;               
-                        detectorOutput.SecondMoment = zeros([nValues 1]);
-                        for j=1:nValues
-                            detectorOutput.SecondMoment(j) = valuesNET(i).SecondMoment(j);
-                        end
+                        case 'System.Double[,,]'
+                            dim1 = valuesNET(i).SecondMoment.GetLength(0);
+                            dim2 = valuesNET(i).SecondMoment.GetLength(1);
+                            dim3 = valuesNET(i).SecondMoment.GetLength(2);
+                            detectorOutput.SecondMoment = zeros([dim1 dim2 dim3]);
+                            for j=1:dim1
+                                for k=1:dim2
+                                    for l=1:dim3
+                                        detectorOutput.SecondMoment(j,k,l) = valuesNET(i).SecondMoment(j,k,l);
+                                    end
+                                end
+                            end
+                        otherwise
+                            nValues = valuesNET(i).SecondMoment.Length;               
+                            detectorOutput.SecondMoment = zeros([nValues 1]);
+                            for j=1:nValues
+                                detectorOutput.SecondMoment(j) = valuesNET(i).SecondMoment(j);
+                            end
                     end
-
-
 %                     detectorOutput.SecondMoment = NET.convertArray(valuesNET(i).SecondMoment, 'System.Double');
                 end                   
 %                 switch outputNET.TallyType %%%%%
