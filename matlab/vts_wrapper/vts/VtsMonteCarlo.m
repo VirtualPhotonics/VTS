@@ -17,11 +17,11 @@ classdef VtsMonteCarlo < handle
             outputPath = '';
             folderPath = VtsMonteCarlo.MakeNecessaryFolders(inputNET.OutputName, outputPath);
             
-            % write the 
-            if writeDetectors || ~isempty(simulationInput.DetectorInputs)
+            % write the original input
+            if writeDetectors || ~isempty(simulationInput.DetectorInputs) || length(simulationInput.Options.Databases) > 0
                 inputNET.ToFile( ...
                     System.IO.Path.Combine( ...
-                    outputPath, ...
+                    inputNET.OutputName, ...
                     System.String.Concat(inputNET.OutputName, '.xml')));            
             end
             
@@ -41,7 +41,10 @@ classdef VtsMonteCarlo < handle
                 end
                 output = SimulationOutput.FromOutputNET(outputNET);
             catch oops
-                disp(oops)
+                disp(oops);
+                for j=1:length(oops.stack)
+                    disp(oops.stack(j));
+                end;
             end
         end
         

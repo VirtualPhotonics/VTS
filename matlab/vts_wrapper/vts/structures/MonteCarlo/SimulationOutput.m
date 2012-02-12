@@ -16,8 +16,9 @@ classdef SimulationOutput
                 % need variability with types here (DetectorOutput static
                 % methods)
                 detectorNames{i} = char(detectorNamesNET(i));
-                switch valuesNET(1).Mean.GetType().ToString()
-                    case 'System.Numerics.Complex[]'
+                type = char(valuesNET(i).Mean.GetType().ToString());
+                switch type
+                    case {'System.Numerics.Complex[]'}
                         nValues = valuesNET(i).Mean.Length;               
                         detectorOutput.Mean = zeros([nValues 1]);
                         for j=1:nValues
@@ -25,7 +26,7 @@ classdef SimulationOutput
                             im = valuesNET(i).Mean(j).Imaginary;
                             detectorOutput.Mean(j) = sqrt(re.^2 + im.^2);
                         end
-                    case 'System.Double[,]'
+                    case {'System.Double[,]'}
                         dim1 = valuesNET(i).Mean.GetLength(0);
                         dim2 = valuesNET(i).Mean.GetLength(1);
                         detectorOutput.Mean = zeros([dim1 dim2]);
@@ -34,7 +35,7 @@ classdef SimulationOutput
                                 detectorOutput.Mean(j,k) = valuesNET(i).Mean(j,k);
                             end
                         end
-                    case 'System.Double[,,]'
+                    case {'System.Double[,,]'}
                         dim1 = valuesNET(i).Mean.GetLength(0);
                         dim2 = valuesNET(i).Mean.GetLength(1);
                         dim3 = valuesNET(i).Mean.GetLength(2);
@@ -59,8 +60,9 @@ classdef SimulationOutput
 %                     for j=1:nValues
 %                         detectorOutput.SecondMoment(j) = valuesNET(i).SecondMoment(j);
 %                     end
-                    switch valuesNET(1).SecondMoment.GetType().ToString()
-                        case 'System.Numerics.Complex[]'
+                    type = char(valuesNET(i).Mean.GetType().ToString());
+                    switch type
+                        case {'System.Numerics.Complex[]'}
 %                             nValues = valuesNET(i).SecondMoment.Length;               
 %                             detectorOutput.SecondMoment = zeros([nValues 1]);
 %                             for j=1:nValues
@@ -68,7 +70,7 @@ classdef SimulationOutput
 %                                 im = valuesNET(i).SecondMoment(j).Imaginary;
 %                                 detectorOutput.SecondMoment(j) = sqrt(re.^2 + im.^2);
 %                             end
-                        case 'System.Double[,]'
+                        case {'System.Double[,]'}
                             dim1 = valuesNET(i).SecondMoment.GetLength(0);
                             dim2 = valuesNET(i).SecondMoment.GetLength(1);
                             detectorOutput.SecondMoment = zeros([dim1 dim2]);
@@ -77,7 +79,7 @@ classdef SimulationOutput
                                     detectorOutput.SecondMoment(j,k) = valuesNET(i).SecondMoment(j,k);
                                 end
                             end
-                        case 'System.Double[,,]'
+                        case {'System.Double[,,]'}
                             dim1 = valuesNET(i).SecondMoment.GetLength(0);
                             dim2 = valuesNET(i).SecondMoment.GetLength(1);
                             dim3 = valuesNET(i).SecondMoment.GetLength(2);

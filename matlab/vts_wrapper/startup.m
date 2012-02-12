@@ -1,9 +1,9 @@
 function [ output_args ] = startup( input_args )
 
-v = genpath('vts');
+v = genpath(getFullPath('vts'));
 addpath(v);
 
-t = genpath('vts_tests');
+t = genpath(getFullPath('vts_tests'));
 addpath(t);
 
 loadAssemblies();
