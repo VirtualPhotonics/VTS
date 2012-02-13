@@ -87,6 +87,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             Console.Read();
 #endif
             string inFile = "";
+            List<string> inFiles = new List<string>();
             string outName = "";
             string outPath = "";
             bool infoOnlyOption = false;
@@ -118,6 +119,15 @@ namespace Vts.MonteCarlo.CommandLineApplication
                {
                    inFile = val.First();
                    logger.Info(() => "input file specified as " + inFile);
+                   // MonteCarloSetup.InputFile = val.First();
+               }),
+               new CommandLine.Switch("infiles", val =>
+               {
+                   inFiles.AddRange(val);
+                   foreach (var file in inFiles)
+                   {
+                       logger.Info(() => "input file specified as " + file);
+                   }
                    // MonteCarloSetup.InputFile = val.First();
                }),
                new CommandLine.Switch("outname", val =>
@@ -155,41 +165,74 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             if (!infoOnlyOption)
             {
-                var input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
-                if (input == null)
+                Func<SimulationInput, bool> checkValid = simInput =>
+                    {
+                        var validationResult = MonteCarloSetup.ValidateSimulationInput(simInput);
+                        if (!validationResult.IsValid)
+                        {
+                            Console.Write("\nSimulation(s) contained one or more errors. Details:");
+                            Console.Write("\nValidation rule:" + validationResult.ValidationRule);
+                            Console.Write("\nRemarks:" + validationResult.Remarks);
+                            Console.Write("\nPress enter key to exit.");
+                            Console.Read();
+                            return false;
+                        }
+                        return true;
+                    };
+
+                if (paramSweep.Count() > 0 || inFiles.Count() > 0)
                 {
-                    return;
-                }
+                    IEnumerable<SimulationInput> inputs = null;
+                    if (paramSweep.Count() > 0)
+                    {
+                        var input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
+                        if (input == null)
+                        {
+                            return;
+                        }
 
-                var validationResult = MonteCarloSetup.ValidateSimulationInput(input);
-                if (!validationResult.IsValid)
-                {
-                    Console.Write("\nSimulation(s) contained one or more errors. Details:");
-                    Console.Write("\nValidation rule:" + validationResult.ValidationRule);
-                    Console.Write("\nRemarks:" + validationResult.Remarks);
-                    Console.Write("\nPress enter key to exit.");
-                    Console.Read();
-                    return;
-                }
+                        //var sweeps = paramSweep.Select(sweep => MonteCarloSetup.CreateParameterSweep(sweep));
+                        inputs = MonteCarloSetup.ApplyParameterSweeps(input, paramSweep);
+                    }
+                    else // if infiles.Count() > 0
+                    {
+                        inputs = inFiles.Select(file => MonteCarloSetup.ReadSimulationInputFromFile(file));
+                        if (inputs.Count() == 0)
+                        {
+                            return;
+                        }
+                    }
 
-                // override the output name with the user-specified name
-                if (!string.IsNullOrEmpty(outName))
-                {
-                    input.OutputName = outName;
-                }
-                if (paramSweep.Count() > 0)
-                {
-                    //var sweeps = paramSweep.Select(sweep => MonteCarloSetup.CreateParameterSweep(sweep));
-                    var inputs = MonteCarloSetup.ApplyParameterSweeps(input, paramSweep);
-
-
-
+                    foreach (var simulationInput in inputs)
+                    {
+                        if (!checkValid(simulationInput))
+                            return;                    // override the output name with the user-specified name
+                        
+                        if (!string.IsNullOrEmpty(outName))
+                        {
+                            simulationInput.OutputName = outName;
+                        }
+                    }
 
                     MonteCarloSetup.RunSimulations(inputs, outPath);
                     logger.Info("\nSimulations complete.");
                 }
                 else
                 {
+                    var input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
+                    if (input == null)
+                    {
+                        return;
+                    }
+
+                    if (!checkValid(input))
+                        return;
+
+                    if (!string.IsNullOrEmpty(outName))
+                    {
+                        input.OutputName = outName;
+                    }
+
                     MonteCarloSetup.RunSimulation(input, outPath);
                     logger.Info("\nSimulation complete.");
                 }
