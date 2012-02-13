@@ -190,6 +190,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         {
                             return;
                         }
+                        if (!string.IsNullOrEmpty(outName))
+                        {
+                            input.OutputName = outName;
+                        }
 
                         //var sweeps = paramSweep.Select(sweep => MonteCarloSetup.CreateParameterSweep(sweep));
                         inputs = MonteCarloSetup.ApplyParameterSweeps(input, paramSweep);
@@ -208,10 +212,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         if (!checkValid(simulationInput))
                             return;                    // override the output name with the user-specified name
                         
-                        if (!string.IsNullOrEmpty(outName))
-                        {
-                            simulationInput.OutputName = outName;
-                        }
                     }
 
                     MonteCarloSetup.RunSimulations(inputs, outPath);
