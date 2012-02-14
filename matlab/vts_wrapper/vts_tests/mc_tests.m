@@ -28,6 +28,12 @@ si.DetectorInputs = { DetectorInput.pMCROfRho(linspace(0,40,201)) };
 si.Options.Databases = { 'pMCDiffuseReflectance' };
 output = VtsMonteCarlo.RunSimulation(si);
 
+% create and run a pMC-based MonteCarloSimulation
+si = SimulationInput();
+si.DetectorInputs = { DetectorInput.pMCROfRhoAndTime(linspace(0,40,21), linspace(0,1,11)) };
+si.Options.Databases = { 'pMCDiffuseReflectance' };
+output = VtsMonteCarlo.RunSimulation(si);
+
 % create and run a MonteCarloSimulation w/ no on-the-fly tallies
 si = SimulationInput();
 si.DetectorInputs = { };

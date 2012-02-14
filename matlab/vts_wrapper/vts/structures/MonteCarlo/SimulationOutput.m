@@ -60,7 +60,7 @@ classdef SimulationOutput
 %                     for j=1:nValues
 %                         detectorOutput.SecondMoment(j) = valuesNET(i).SecondMoment(j);
 %                     end
-                    type = char(valuesNET(i).Mean.GetType().ToString());
+                    type = char(valuesNET(i).SecondMoment.GetType().ToString());
                     switch type
                         case {'System.Numerics.Complex[]'}
 %                             nValues = valuesNET(i).SecondMoment.Length;               
