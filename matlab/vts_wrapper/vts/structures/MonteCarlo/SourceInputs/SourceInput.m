@@ -22,10 +22,16 @@ classdef SourceInput
 
         function input = CustomPoint(polarAngle, azimuthalAngle, pointLocation, direction, index)
             input.SourceType = 'CustomPoint';
-            input.PolarAngleEmission = polarAngle;
-            input.AzimuthalAngleEmmision = azimuthalAngle;
+            input.PolarAngleEmissionRange = polarAngle;
+            input.AzimuthalAngleEmissionRange = azimuthalAngle;
             input.PointLocation = pointLocation;    
             input.Direction = direction;  
+            input.InitialTissueRegionIndex = index;
+        end 
+
+        function input = IsotropicPoint(location, index)
+            input.SourceType = 'IsotropicPoint';
+            input.PointLocation = location;    
             input.InitialTissueRegionIndex = index;
         end 
 
@@ -37,10 +43,12 @@ classdef SourceInput
                     input.PointLocation = [inputNET.PointLocation.X inputNET.PointLocation.Y inputNET.PointLocation.Z];
                     input.Direction = [inputNET.Direction.Ux inputNET.Direction.Uy inputNET.Direction.Uz]; 
                 case 'CustomPoint'
-                    input.PolarAngleEmission = linspace(inputNET.PolarAngleEmissionRange.Start, inputNET.PolarAngleEmissionRange.Stop, inputNET.PolarAngleEmissionRange.Count);
-                    input.AzimuthalAngleEmmision = linspace(inputNET.AzimuthalAngleEmmisionRange.Start, inputNET.AzimuthalAngleEmmisionRange.Stop, inputNET.AzimuthalAngleEmmisionRange.Count);
+                    input.PolarAngleEmissionRange = linspace(inputNET.PolarAngleEmissionRange.Start, inputNET.PolarAngleEmissionRange.Stop, inputNET.PolarAngleEmissionRange.Count);
+                    input.AzimuthalAngleEmissionRange = linspace(inputNET.AzimuthalAngleEmissionRange.Start, inputNET.AzimuthalAngleEmissionRange.Stop, inputNET.AzimuthalAngleEmissionRange.Count);
                     input.PointLocation = [inputNET.PointLocation.X inputNET.PointLocation.Y inputNET.PointLocation.Z];
                     input.Direction = [inputNET.Direction.Ux inputNET.Direction.Uy inputNET.Direction.Uz]; 
+                case 'IsotropicPoint'
+                    input.PointLocation = [inputNET.PointLocation.X inputNET.PointLocation.Y inputNET.PointLocation.Z];
                 otherwise
                     disp('Unknown SourceInput type');
             end
@@ -56,10 +64,15 @@ classdef SourceInput
                       );
               case 'CustomPoint'
                   inputNET = Vts.MonteCarlo.CustomPointSourceInput( ...
-                      Vts.Common.DoubleRange(input.PolarAngleEmission(1), input.PolarAngleEmission(end), length(input.PolarAngleEmission)), ...
-                      Vts.Common.DoubleRange(input.AzimuthalAngleEmmision(1), input.AzimuthalAngleEmmision(end), length(input.AzimuthalAngleEmmision)), ...
+                      Vts.Common.DoubleRange(input.PolarAngleEmissionRange(1), input.PolarAngleEmissionRange(end), length(input.PolarAngleEmissionRange)), ...
+                      Vts.Common.DoubleRange(input.AzimuthalAngleEmissionRange(1), input.AzimuthalAngleEmissionRange(end), length(input.AzimuthalAngleEmissionRange)), ...
                       Vts.Common.Position(input.PointLocation(1), input.PointLocation(2), input.PointLocation(3)), ...
                       Vts.Common.Direction(input.Direction(1), input.Direction(2), input.Direction(3)), ...
+                      input.InitialTissueRegionIndex ...
+                      );
+              case 'IsotropicPoint'
+                  inputNET = Vts.MonteCarlo.IsotropicPointSourceInput( ...
+                      Vts.Common.Position(input.PointLocation(1), input.PointLocation(2), input.PointLocation(3)), ...
                       input.InitialTissueRegionIndex ...
                       );
                 otherwise

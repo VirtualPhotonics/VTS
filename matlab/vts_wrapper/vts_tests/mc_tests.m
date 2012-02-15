@@ -10,6 +10,12 @@ si.N = 101;
 si.DetectorInputs = { DetectorInput.ROfAngle(linspace(0,pi/2,2)) };
 output = VtsMonteCarlo.RunSimulation(si);
 
+% Test using alternate source inputs
+si.SourceInput = SourceInput.CustomPoint(linspace(0, 0, 2), linspace(0, 0, 2), [0 0 0], [0 0 1], 0);
+%si.SourceInput = SourceInput.IsotropicPoint([0 0 0], 0);
+si.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
+output = VtsMonteCarlo.RunSimulation(si);
+
 % Test for detector input ROfRhoAndTime
 si.DetectorInputs = { DetectorInput.ROfRhoAndTime(linspace(0,40,21), linspace(0,1,11), 'ROfRhoAndTime') };
 output = VtsMonteCarlo.RunSimulation(si);
