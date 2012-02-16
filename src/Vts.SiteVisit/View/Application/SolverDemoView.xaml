@@ -87,11 +87,11 @@
                             DataContext="{Binding MonteCarloSolverVM}"
                             Background="LightSteelBlue"/>
                 </controls:TabItem>
-                <controls:TabItem Name="tabFem" Header="FEM Solver Panel">
+                <!--<controls:TabItem Name="tabFem" Header="FEM Solver Panel">
                     <local:FemSolverView
                             DataContext="{Binding FemSolverVM}"
                             Background="LightSteelBlue"/>
-                </controls:TabItem>
+                </controls:TabItem>-->
             </controls:TabControl>
 
                 <controls:TabControl x:Name="outputTabControl"
