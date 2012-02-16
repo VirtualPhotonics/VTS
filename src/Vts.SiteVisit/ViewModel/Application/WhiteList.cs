@@ -1,5 +1,5 @@
-﻿namespace Vts.SiteVisit.ViewModel.Application
-#if WHITELIST
+﻿#if WHITELIST
+namespace Vts.SiteVisit.ViewModel.Application
 {
     public static class WhiteList
     {
