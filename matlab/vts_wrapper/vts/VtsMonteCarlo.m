@@ -28,6 +28,7 @@ classdef VtsMonteCarlo < handle
             try
                 disp('Running simulation...');
                 tstart = tic;
+                sim.SetOutputPathForDatabases(outputPath);
                 outputNET = sim.Run();
                 ellapsed = toc(tstart);
                 disp(['Simulation complete! Run time: ' num2str(ellapsed) ' seconds']);
