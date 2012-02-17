@@ -143,7 +143,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                                 _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
                             new List<int>() { 1 })
                     },
-                    false,
+                    false, // tally 2nd moment
+                    false, // track statistics
                     _databaseTwoLayerTissue,
                     _referenceInputTwoLayerTissue);
             // validation value obtained from reference results

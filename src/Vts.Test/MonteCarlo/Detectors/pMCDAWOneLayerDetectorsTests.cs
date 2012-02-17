@@ -142,7 +142,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                                     },
                                 new List<int>() {1})
                         },
-                    false,
+                    false, // tally 2nd moment
+                    false, // track statistics
                     _databaseOneLayerTissue,
                     _referenceInputOneLayerTissue);
 
@@ -175,7 +176,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                                     },
                                 new List<int>() {1})
                         },
-                    false,
+                    false, // tally 2nd moment
+                    false, // track statistics
                     _databaseOneLayerTissue,
                     _referenceInputOneLayerTissue);
             // validation value obtained from reference non-pMC run
@@ -210,7 +212,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                                     },
                                 new List<int>() {1})
                         },
-                    false,
+                    false, // tally 2nd moment
+                    false, // track statistics
                     _databaseOneLayerTissue,
                     _referenceInputOneLayerTissue);
             // validation value obtained from linux run using above input and seeded the same

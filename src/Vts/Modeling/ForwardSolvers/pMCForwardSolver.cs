@@ -59,6 +59,7 @@ namespace Vts.Modeling.ForwardSolvers
                         VirtualBoundaryType.pMCDiffuseReflectance,
                         detectorInputs,
                         false,
+                        false,
                         pMCLoader.PMCDatabase,
                         pMCLoader.DatabaseInput);
                 for (int r = 0; r < rhos.Count(); r++)
@@ -123,6 +124,7 @@ namespace Vts.Modeling.ForwardSolvers
                     PhotonDatabasePostProcessor.GenerateOutput(
                         VirtualBoundaryType.pMCDiffuseReflectance,
                         detectorInputs, 
+                        false,
                         false,
                         pMCLoader.PMCDatabase,
                         pMCLoader.DatabaseInput);
