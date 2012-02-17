@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vts.Common.Logging;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Controllers;
@@ -142,10 +143,21 @@ namespace Vts.MonteCarlo
 
         public Output Results { get; private set; }
 
-        public Output Run(string outputPath)
+        public static Output[] RunAll(MonteCarloSimulation[] simulations )
+        {
+            var outputs = new Output[simulations.Length];
+
+            Parallel.For(0, simulations.Length, index =>
+            {
+                outputs[index] = simulations[index].Run();
+            });
+
+            return outputs;
+        }
+
+        public void SetOutputPathForDatabases(string outputPath)
         {
             _outputPath = outputPath;
-            return Run();
         }
 
         /// <summary>
@@ -396,7 +408,7 @@ namespace Vts.MonteCarlo
         /********************************************************/
         void DisplayIntro()
         {
-            var header = SimulationIndex + ": ";
+            var header = _input.OutputName + " (" + SimulationIndex + "): ";
             logger.Info(() => header + "                                                  \n");
             logger.Info(() => header + "      Monte Carlo Simulation of Light Propagation \n");
             logger.Info(() => header + "              in a multi-region tissue            \n");
@@ -409,7 +421,7 @@ namespace Vts.MonteCarlo
         /*****************************************************************/
         void DisplayStatus(long n, long num_phot)
         {
-            var header = SimulationIndex + ": ";
+            var header = _input.OutputName + " (" + SimulationIndex + "): ";
             /* fraction of photons completed */
             double frac = 100 * n / num_phot;
 

@@ -148,7 +148,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 Directory.CreateDirectory(resultsFolder);
             }
 
-            Output detectorResults = mc.Run(path);
+            mc.SetOutputPathForDatabases(path);
+
+            Output detectorResults = mc.Run();
 
             input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
 
