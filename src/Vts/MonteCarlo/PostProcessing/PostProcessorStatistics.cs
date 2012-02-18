@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo.PostProcessing
     {
         private int _numberOfTissueRegions;
         /// <summary>
-        /// class captures statistics about where the photon journey.
+        /// class captures statistics about the photon journey.
         /// </summary>
         /// <param name="tissueRegionsCount">number of tissue regions</param>
         /// </param>
@@ -17,6 +17,7 @@ namespace Vts.MonteCarlo.PostProcessing
             int tissueRegionsCount)
         {
             _numberOfTissueRegions = tissueRegionsCount;
+            // probably don't need both Average and Total but not sure right now which would be better
             AverageNumberOfCollisions = new double[tissueRegionsCount];
             AveragePathLength = new double[tissueRegionsCount];
             TotalNumberOfCollisions = new long[tissueRegionsCount];
