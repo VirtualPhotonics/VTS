@@ -252,6 +252,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\IO\DetectorIOTests.cs">
       <Link>MonteCarlo\IO\DetectorIOTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\MonteCarloSimulationTests.cs">
+      <Link>MonteCarlo\MonteCarloSimulationTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
       <Link>MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs</Link>
     </Compile>
