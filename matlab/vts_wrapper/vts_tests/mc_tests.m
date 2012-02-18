@@ -63,3 +63,9 @@ output = VtsMonteCarlo.RunPostProcessor(ppi, output.Input);
 % figure; semilogy(d.Rho, d.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
 
 disp('Done!');
+
+% test the ability to run multiple simulations in parallel (todo: debug)
+% simInputs{1} = si;
+% si.N = 150;
+% simInputs{2} = si;
+% VtsMonteCarlo.RunSimulations(simInputs)

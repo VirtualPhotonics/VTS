@@ -16,6 +16,7 @@ classdef VtsMonteCarlo < handle
             sim = Vts.MonteCarlo.MonteCarloSimulation(inputNET);
             outputPath = '';
             folderPath = VtsMonteCarlo.MakeNecessaryFolders(inputNET.OutputName, outputPath);
+            sim.SetOutputPathForDatabases(outputPath);
             
             % write the original input
             if writeDetectors || ~isempty(simulationInput.DetectorInputs) || length(simulationInput.Options.Databases) > 0
@@ -28,7 +29,6 @@ classdef VtsMonteCarlo < handle
             try
                 disp('Running simulation...');
                 tstart = tic;
-                sim.SetOutputPathForDatabases(outputPath);
                 outputNET = sim.Run();
                 ellapsed = toc(tstart);
                 disp(['Simulation complete! Run time: ' num2str(ellapsed) ' seconds']);
@@ -41,6 +41,55 @@ classdef VtsMonteCarlo < handle
                     end
                 end
                 output = SimulationOutput.FromOutputNET(outputNET);
+            catch oops
+                disp(oops);
+                for j=1:length(oops.stack)
+                    disp(oops.stack(j));
+                end;
+            end
+        end
+        
+        function outputs = RunSimulations(simulationInputs, writeDetectors)
+            if nargin < 2
+                writeDetectors = false;
+            end
+            simulations = NET.createArray('Vts.MonteCarlo.MonteCarloSimulation', length(simulationInputs));
+            for si = 1:length(simulationInputs)
+                simulationInput = simulationInputs{si};
+                
+                inputNET = SimulationInput.ToInputNET(simulationInput);
+                sim = Vts.MonteCarlo.MonteCarloSimulation(inputNET);
+                outputPath = '';
+                folderPath = VtsMonteCarlo.MakeNecessaryFolders(inputNET.OutputName, outputPath);
+                sim.SetOutputPathForDatabases(outputPath);
+
+                % write the original input
+                if writeDetectors || ~isempty(simulationInput.DetectorInputs) || length(simulationInput.Options.Databases) > 0
+                    inputNET.ToFile( ...
+                        System.IO.Path.Combine( ...
+                        inputNET.OutputName, ...
+                        System.String.Concat(inputNET.OutputName, '.xml')));            
+                end
+                simulations(si) = sim;
+            end
+
+            try
+                disp('Running simulations...');
+                tstart = tic;
+                outputsNET = Vts.MonteCarlo.MonteCarloSimulation.RunAll(simulations);
+                ellapsed = toc(tstart);
+                disp(['Simulations complete! Run time: ' num2str(ellapsed) ' seconds']);
+                for si = 1:length(simulationInputs)
+                    if writeDetectors                    
+                        % create a .NET array of detector results (tallies)
+                        detectorsNET = NET.invokeGenericMethod('System.Linq.Enumerable', ...
+                            'ToArray', {'Vts.MonteCarlo.IDetector'}, outputsNET(si).ResultsDictionary.Values);
+                        for i=1:detectorsNET.Length
+                            Vts.IO.DetectorIO.WriteDetectorToFile(detectorsNET(i), folderPath)
+                        end
+                    end
+                    outputs{si} = SimulationOutput.FromOutputNET(outputsNET(si));
+                end
             catch oops
                 disp(oops);
                 for j=1:length(oops.stack)
