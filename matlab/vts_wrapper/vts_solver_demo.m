@@ -104,6 +104,7 @@ op = [0.01 1 0.8 1.4];
 rhos = linspace(0.1,19.9,100); % s-d separation, in mm
 zs = linspace(0.1,19.9,100); % z range in mm
 
+VtsSolvers.SetSolverType('DistributedGaussianSourceSDA');
 test = VtsSolvers.FluenceOfRho(op, rhos, zs);
 
 xs = [-fliplr(rhos(2:end)),rhos];
@@ -125,8 +126,10 @@ set(f,'Name','Fluence of Rho and z');
 op = [0.01 1 0.8 1.4];
 rhos = linspace(0.1,19.9,100); % s-d separation, in mm
 zs = linspace(0.1,19.9,100); % z range in mm
-VtsSolvers.SetSolverType('PointSourceSDA');
+
+VtsSolvers.SetSolverType('DistributedGaussianSourceSDA');
 test = VtsSolvers.PHDOfRhoAndZ(op, rhos, zs, 10);
+
 f = figure; imagesc(rhos, zs, log(test));
 axis image;
 title('Photon Hitting Density of \rho and z'); 

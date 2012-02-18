@@ -220,8 +220,12 @@ classdef VtsSolvers
             
             nop = size(op,1);
 
-            fs =  Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver();
-
+            if strfind(VtsSolvers.Options.SolverType, 'SDA')
+                fs = Vts.Factories.SolverFactory.GetForwardSolver(VtsSolvers.Options.SolverType); 
+            else
+                fs =  Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver();
+            end
+            
             op_net = NET.createArray('Vts.OpticalProperties', nop);
 
             for i=1:nop
@@ -248,7 +252,11 @@ classdef VtsSolvers
 
             nop = size(op,1);
 
-            fs =  Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver();
+            if strfind(VtsSolvers.Options.SolverType, 'SDA')
+                fs = Vts.Factories.SolverFactory.GetForwardSolver(VtsSolvers.Options.SolverType); 
+            else
+                fs =  Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver();
+            end
 
             op_net = NET.createArray('Vts.OpticalProperties', nop);
 
@@ -282,7 +290,11 @@ classdef VtsSolvers
 
             nop = size(op,1);
 
-            fs =  Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver();
+            if strfind(VtsSolvers.Options.SolverType, 'SDA')
+                fs = Vts.Factories.SolverFactory.GetForwardSolver(VtsSolvers.Options.SolverType); 
+            else
+                fs =  Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver();
+            end
 
             op_net = NET.createArray('Vts.OpticalProperties', nop);
 
