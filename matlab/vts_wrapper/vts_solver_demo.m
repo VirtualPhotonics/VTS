@@ -175,7 +175,7 @@ title('Reflectance vs \rho for various optical properties');
 ylabel('R(\rho)');
 xlabel('\rho');
 
-% ======================================================================= %
+%% ======================================================================= %
 
 % Example 0 - Evaluate ROfRhoAndT at one s-d separation and two sets of
 % optical properites
@@ -190,7 +190,7 @@ title('Reflectance vs time for various optical properties');
 ylabel('R(t)');
 xlabel('Time, t [ns]');
 
-% ======================================================================= %
+%% ======================================================================= %
 
 % Example ROfFxAndT - Evaluate ROfFxAndT one set of
 % optical properites
@@ -222,7 +222,7 @@ for i=1:length(t)
 end
 legend(l2, 'FontSize', 12);
 
-% ======================================================================= %
+%% ======================================================================= %
 
 % Example 1 - Evaluate ROfFx with single set of optical properties
 
@@ -235,7 +235,7 @@ title('Reflectance vs spatial frequency');
 ylabel('R(f_x)');
 xlabel('Spatial frequency, f_x [mm^-^1]');
 
-% ======================================================================= %
+%% ======================================================================= %
 
 % Example 2 - Evaluate ROfFx with multiple sets of optical properties,
 % varying mua linearly 
