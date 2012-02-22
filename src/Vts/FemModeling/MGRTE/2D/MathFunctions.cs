@@ -618,7 +618,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// </summary>
         /// <param name="smesh">spatial mesh</param>
         /// <param name="sMeshLevel">spatial mesh levels</param>
-        public static void CreateSquareMesh(ref SpatialMesh[] smesh, int sMeshLevel)
+        public static void CreateSquareMesh(ref SpatialMesh[] smesh, int sMeshLevel, double length)
         {
             int i;
             int np, nt, ne;
@@ -641,7 +641,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 tri[i] = new int[3];
 
             //create the basic square mesh
-            BasicSquareMesh(pts, edge, tri);
+            BasicSquareMesh(pts, edge, tri, length);
 
             AssignSpatialMesh(ref smesh, pts, edge, tri, np, ne, nt, 0);
 
@@ -663,14 +663,15 @@ namespace Vts.FemModeling.MGRTE._2D
         private static void BasicSquareMesh(
             double[][] pts,
             int[][] edge,
-            int[][] tri)
+            int[][] tri,
+            double length)
         {
             //Boundaries: For X: x =-0.5; x =0.5  & For Z: z=0; z=1;  
-            pts[0][0] = -0.5; pts[0][1] = 0;  pts[0][2] = 0; pts[0][3] = 1;
-            pts[1][0] =  0.5; pts[1][1] = 0;  pts[1][2] = 1; pts[1][3] = 1;
-            pts[2][0] =  0.5; pts[2][1] = 1; pts[2][2] = 2; pts[2][3] = 1;
-            pts[3][0] = -0.5; pts[3][1] = 1; pts[3][2] = 3; pts[3][3] = 1;
-            pts[4][0] = 0;  pts[4][1] = 0.5;  pts[4][2] = 4; pts[4][3] = 0;
+            pts[0][0] = -0.5 *length;  pts[0][1] = 0;            pts[0][2] = 0; pts[0][3] = 1;
+            pts[1][0] = 0.5 * length;  pts[1][1] = 0;            pts[1][2] = 1; pts[1][3] = 1;
+            pts[2][0] = 0.5 * length;  pts[2][1] = length;       pts[2][2] = 2; pts[2][3] = 1;
+            pts[3][0] = -0.5 *length;  pts[3][1] = length;       pts[3][2] = 3; pts[3][3] = 1;
+            pts[4][0] = 0;             pts[4][1] = 0.5 * length; pts[4][2] = 4; pts[4][3] = 0;
 
             edge[0][0] = -1; edge[0][1] = (int)pts[0][2]; edge[0][2] = (int)pts[1][2]; edge[0][3] = -1;
             edge[1][0] = -1; edge[1][1] = (int)pts[1][2]; edge[1][2] = (int)pts[2][2]; edge[1][3] = -1;

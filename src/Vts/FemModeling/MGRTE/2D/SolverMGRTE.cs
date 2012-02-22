@@ -102,15 +102,15 @@ namespace Vts.FemModeling.MGRTE._2D
             OutputCalculation Rteout = new OutputCalculation();
  
             //Avoid g value equal to 1
-            if (parameters.MedG == 1.0)
+            if (parameters.MedG >= 1.0)
                 parameters.MedG = 1 - 1e-5;
 
-            if (parameters.InG == 1.0)
+            if (parameters.InG >= 1.0)
                 parameters.InG = 1 - 1e-5;
 
             //Create spatial and angular mesh
             MathFunctions.CreateAnglularMesh(ref amesh, parameters.AMeshLevel, parameters.MedG);      
-            MathFunctions.CreateSquareMesh(ref smesh, parameters.SMeshLevel);
+            MathFunctions.CreateSquareMesh(ref smesh, parameters.SMeshLevel, parameters.Length);
 
             MathFunctions.SweepOrdering(ref smesh, amesh, parameters.SMeshLevel, parameters.AMeshLevel);
             MathFunctions.SetMus(ref us, smesh, parameters);
@@ -127,12 +127,12 @@ namespace Vts.FemModeling.MGRTE._2D
            
 
             //todo: Assign an external source 
-            IExtSource extsource = FemSourceFactory.GetExtSource(new ExtPointSourceInput());
+            IExtSource extsource = FemSourceFactory.GetExtSource(new ExtPointSourceInput(new DoubleRange(0, 0), new DoubleRange(Math.PI, 2.0 * Math.PI)));
             extsource.AssignMeshForExtSource(amesh, parameters.AMeshLevel, smesh, parameters.SMeshLevel, level, q);
 
             //Assign an internal source
-            IIntSource intsource = FemSourceFactory.GetIntSource(new Int2DPointSourceInput(new DoubleRange(0, 0.5), new DoubleRange(0, 2 * Math.PI)));
-            intsource.AssignMeshForIntSource(amesh, parameters.AMeshLevel, smesh, parameters.SMeshLevel, level,RHS);
+            //IIntSource intsource = FemSourceFactory.GetIntSource(new Int2DPointSourceInput(new DoubleRange(0, 0.5), new DoubleRange(0, 2 * Math.PI)));
+            //intsource.AssignMeshForIntSource(amesh, parameters.AMeshLevel, smesh, parameters.SMeshLevel, level,RHS);
 
            
             /* Read the end time. */

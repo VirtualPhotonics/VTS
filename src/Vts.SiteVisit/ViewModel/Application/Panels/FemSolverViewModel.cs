@@ -20,7 +20,7 @@ namespace Vts.SiteVisit.ViewModel
         public FemSolverViewModel(SimulationInputs parameters)
         {
             _parameters = parameters;
-            MediumOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Tissue Optical Properties:", G = 0.8, N = 1.33, EnableG = true };
+            MediumOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Tissue Optical Properties:", G = 0.8, N = 1.0, EnableG = true, EnableN = false };
             InclusionOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Inclusion:", G = MediumOpticalPropertyVM.G, N = MediumOpticalPropertyVM.N, EnableG = false, EnableN = false };
 
             Commands.FEM_ExecuteFemSolver.Executed += FEM_ExecuteFemSolver_Executed;
@@ -39,10 +39,10 @@ namespace Vts.SiteVisit.ViewModel
                 ConvTol = 1e-4,
                 MgMethod = 6,
                 NIterations = 100,
-                Length = 1.0, 
+                Length = 10.0, 
                 InRad = 0.5,
-                InX = 0.1,
-                InZ = 0.1,
+                InX = 2.0,
+                InZ = 4.0,
             })
         {
         }
