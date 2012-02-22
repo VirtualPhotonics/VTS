@@ -25,8 +25,8 @@ si.DetectorInputs = { DetectorInput.FluenceOfRhoAndZAndTime(linspace(0,40,21), l
 output = VtsMonteCarlo.RunSimulation(si);
 
 % Test for detector input pMCROfFxAndTime
-% si.DetectorInputs = { DetectorInput.pMCROfFxAndTime(linspace(0,40,21), linspace(0,1,11)) };
-% output = VtsMonteCarlo.RunSimulation(si);
+si.DetectorInputs = { DetectorInput.pMCROfFxAndTime(linspace(0,40,21), linspace(0,1,11)) };
+output = VtsMonteCarlo.RunSimulation(si);
 
 % Test for detector input ROfRhoAndOmega
 si.DetectorInputs = { DetectorInput.ROfRhoAndOmega(linspace(0,10,11), linspace(0,1000,21)) };
