@@ -525,11 +525,10 @@ namespace Vts.FemModeling.MGRTE._2D
 
 
         /// <summary>
-        /// 
+        /// Create an angular mesh
         /// </summary>
         /// <param name="amesh"></param>
         /// <param name="aLevel"></param>
-        /// <param name="aLevel0"></param>
         /// <param name="g"></param>
         public static void CreateAnglularMesh(ref AngularMesh[] amesh, int aLevel, double g)
         {
@@ -549,30 +548,67 @@ namespace Vts.FemModeling.MGRTE._2D
 
         }
 
-        
-        public static void SetMua(ref double[][][] ua, double mua, int sMeshLevel, int nt)
+        /// <summary>
+        /// Set Mus in nodes
+        /// </summary>
+        /// <param name="ua"></param>
+        /// <param name="smesh"></param>
+        /// <param name="parameters"></param>
+        public static void SetMua(ref double[][][] ua, SpatialMesh[] smesh, SimulationInputs parameters)
         {
             int j, k;
+            int nt = smesh[parameters.SMeshLevel].nt;
+            double medMua = parameters.MedMua ;
+            double inMua = parameters.InMua;
+            int sMeshLevel = parameters.SMeshLevel;
+            double tempx, tempz, tempr;
 
             ua[sMeshLevel] = new double[nt][];
             for (j = 0; j < nt; j++)
             {
                 ua[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
-                    ua[sMeshLevel][j][k] = mua;
+                {
+                    tempx = smesh[parameters.SMeshLevel].p[smesh[parameters.SMeshLevel].t[j][k]][0] - parameters.InX;
+                    tempz = smesh[parameters.SMeshLevel].p[smesh[parameters.SMeshLevel].t[j][k]][1] - parameters.InZ;
+                    tempr = Math.Sqrt(tempx * tempx + tempz * tempz);
+                    if (parameters.InRad < tempr)
+                        ua[sMeshLevel][j][k] = medMua;
+                    else
+                        ua[sMeshLevel][j][k] = inMua;
+                }
             }
         }
         
-        public static void SetMus(ref double[][][] us, double mus, int sMeshLevel, int nt)
+        /// <summary>
+        /// Set Mus in nodes
+        /// </summary>
+        /// <param name="us"></param>
+        /// <param name="smesh"></param>
+        /// <param name="parameters"></param>
+        public static void SetMus(ref double[][][] us, SpatialMesh[] smesh, SimulationInputs parameters)
         {
             int j, k;
+            int nt = smesh[parameters.SMeshLevel].nt;
+            double medMus = parameters.MedMusp/(1-parameters.MedG);
+            double inMus = parameters.InMusp/(1-parameters.InG);
+            int sMeshLevel = parameters.SMeshLevel;
+            double tempx, tempz, tempr;
 
             us[sMeshLevel] = new double[nt][];
             for (j = 0; j < nt; j++)
             {
                 us[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
-                    us[sMeshLevel][j][k] = mus;
+                {
+                    tempx = smesh[parameters.SMeshLevel].p[smesh[parameters.SMeshLevel].t[j][k]][0] - parameters.InX;
+                    tempz = smesh[parameters.SMeshLevel].p[smesh[parameters.SMeshLevel].t[j][k]][1] - parameters.InZ;
+                    tempr = Math.Sqrt(tempx*tempx + tempz*tempz);
+                    if (parameters.InRad < tempr)
+                        us[sMeshLevel][j][k] = medMus;
+                    else
+                        us[sMeshLevel][j][k] = inMus;
+                }
             }
         }
 

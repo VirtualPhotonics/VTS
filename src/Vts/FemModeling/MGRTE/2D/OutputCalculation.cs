@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Vts.FemModeling.MGRTE._2D.DataStructures;
 
-namespace Vts.FemModeling.MGRTE._2D.DataStructures
+namespace Vts.FemModeling.MGRTE._2D
 {
     public class OutputCalculation
     {

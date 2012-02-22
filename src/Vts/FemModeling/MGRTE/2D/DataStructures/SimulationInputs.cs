@@ -8,44 +8,100 @@ namespace Vts.FemModeling.MGRTE._2D
     /// <summary>
     /// Complete input parameters
     /// </summary>
-    public class Parameters : BindableObject
+    public class SimulationInputs : BindableObject
     {
         private double nTissue, nExt;
-        private int aMeshLevel, aMeshLevel0;
-        private int sMeshLevel, sMeshLevel0;
+        private int aMeshLevel;
+        private int sMeshLevel;
         private int mgMethod, fullMg;
         private int nPreIteration, nPostIteration, nMgCycle, nIterations;
         private double convTol;
-        private double mua, musp, g;
+        private double medMua, medMusp, medG;
         private double length;
+        private double inMua, inMusp, inG;
+        private double inRad, inX, inZ;
 
         /// <summary>
         /// Absorption coefficient of the tissue
         /// </summary>
-        public double Mua
+        public double MedMua
         {
-            get { return mua; }
-            set { mua = value; this.OnPropertyChanged("Mua"); }
+            get { return medMua; }
+            set { medMua = value; this.OnPropertyChanged("MedMua"); }
         }
 
         /// <summary>
         /// Reduced scattering coefficient of the tissue
         /// </summary>
-        public double Musp
+        public double MedMusp
         {
-            get { return musp; }
-            set { musp = value; this.OnPropertyChanged("Musp"); }
+            get { return medMusp; }
+            set { medMusp = value; this.OnPropertyChanged("MedMusp"); }
         }
           
         /// <summary>
         /// Anisotropy factor of the tissue
         /// </summary>
-        public double G
+        public double MedG
         {
-            get {return g;}
-            set{g = value;this.OnPropertyChanged("G");}
-        }                
+            get {return medG;}
+            set { medG = value; this.OnPropertyChanged("MedG"); }
+        }
 
+        /// <summary>
+        /// Absorption coefficient of the inclusion
+        /// </summary>
+        public double InMua
+        {
+            get { return inMua; }
+            set { inMua = value; this.OnPropertyChanged("InMua"); }
+        }
+
+        /// <summary>
+        /// Reduced scattering coefficient of the inclusion
+        /// </summary>
+        public double InMusp
+        {
+            get { return inMusp; }
+            set { inMusp = value; this.OnPropertyChanged("InMusp"); }
+        }
+
+        /// <summary>
+        /// Anisotropy factor of the inclusion
+        /// </summary>
+        public double InG
+        {
+            get { return inG; }
+            set { inG = value; this.OnPropertyChanged("InG"); }
+        }      
+
+        /// <summary>
+        /// Radius of the inclusion
+        /// </summary>
+        public double InRad
+        {
+            get { return inRad; }
+            set { inRad = value; this.OnPropertyChanged("InRad"); }
+        }
+
+        /// <summary>
+        /// X coordinate of the inclusion
+        /// </summary>
+        public double InX
+        {
+            get { return inX; }
+            set { inX = value; this.OnPropertyChanged("InX"); }
+        }
+
+        /// <summary>
+        /// Z coordinate of the inclusion
+        /// </summary>
+        public double InZ
+        {
+            get { return inZ; }
+            set { inZ = value; this.OnPropertyChanged("InZ"); }
+        }
+        
         /// <summary>
         /// Refractive index of the tissue
         /// </summary>

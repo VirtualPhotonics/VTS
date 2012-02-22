@@ -103,6 +103,6 @@
         /// <summary>
         /// edge upwind or outgoing flux: bd[ns][nt][3]   (see "edgeterm")    
         /// </summary>
-        public double[][][] bd2;         
+        public double[][][] bd2;
     }
 }

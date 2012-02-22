@@ -10,21 +10,21 @@ namespace Vts.MGRTE.ConsoleApp
     class Program
     {
         static void Main(string[] args)
-        {           
-            
-            Parameters para = new Parameters();
+        {
+
+            SimulationInputs inputParameters = new SimulationInputs();
               
             //User sp                 
-            para.G = 0.8;
-            para.NTissue = 1.0;
-            para.NExt = 1.0;
-            para.AMeshLevel = 4;   
-            para.SMeshLevel = 4;            
-            para.ConvTol = 1e-4;
-            para.MgMethod = 6;
-            para.Length = 1.0;       
+            inputParameters.MedG = 0.8;
+            inputParameters.NTissue = 1.0;
+            inputParameters.NExt = 1.0;
+            inputParameters.AMeshLevel = 4;   
+            inputParameters.SMeshLevel = 4;            
+            inputParameters.ConvTol = 1e-4;
+            inputParameters.MgMethod = 6;
+            inputParameters.Length = 1.0;       
             
-            SolverMGRTE.ExecuteMGRTE(para);
+            SolverMGRTE.ExecuteMGRTE(inputParameters);
 
             Console.ReadLine();
         }

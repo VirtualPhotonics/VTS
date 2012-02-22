@@ -183,6 +183,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Common\Stopwatch.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\BoundaryCoupling.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IIntSource.cs" />
@@ -190,12 +192,12 @@
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IExtFemSourceInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FemModeling\MGRTE\2D\SourceInputs\ExternalSourceInputs\ExtLineSourceInput.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\SourceInputs\ExternalSourceInputs\ExtPointSourceInput.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\SourceInputs\InternalSourceInputs\Int2DPointSourceInput.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\SourceInputs\InternalSourceInputs\Int2DEllipticalSourceInput.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\SourceInputs\InternalSourceInputs\Int2DCircularSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\SourceInputs\ExternalSourceInputs\ExtLineSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\SourceInputs\ExternalSourceInputs\ExtPointSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DPointSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DEllipticalSourceInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DCircularSourceInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Sources\ExternalSources\ExtLineSource.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Sources\ExternalSources\ExtPointSource.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DCircularSource.cs" />
@@ -289,16 +291,13 @@
     <Compile Include="Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs" />
     <Compile Include="Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\AngularMesh.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\BoundaryCoupling.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\LightSource.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\Measurement.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\SpatialMesh.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Enums.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Initialization.cs" />
     <Compile Include="FemModeling\MGRTE\2D\MathFunctions.cs" />
     <Compile Include="FemModeling\MGRTE\2D\MultiGridCycle.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\OutputCalculation.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\Parameters.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\OutputCalculation.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\MonteCarloLoader.cs">
       <SubType>Code</SubType>

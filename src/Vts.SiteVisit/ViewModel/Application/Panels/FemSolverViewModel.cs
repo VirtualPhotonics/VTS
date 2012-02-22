@@ -11,15 +11,17 @@ namespace Vts.SiteVisit.ViewModel
 {
     public class FemSolverViewModel : BindableObject
     {
-        private Parameters _parameters;
-        private OpticalPropertyViewModel _opticalPropertyVM;
+        private SimulationInputs _parameters;
+        private OpticalPropertyViewModel _mediumOpticalPropertyVM;
+        private OpticalPropertyViewModel _inclusionOpticalPropertyVM;
 
         ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(FemSolverViewModel));   
 
-        public FemSolverViewModel(Parameters parameters)
+        public FemSolverViewModel(SimulationInputs parameters)
         {
             _parameters = parameters;
-            OpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Tissue Optical Properties:", G = 0.8, N = 1.0, EnableG = true };
+            MediumOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Tissue Optical Properties:", G = 0.8, N = 1.33, EnableG = true };
+            InclusionOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Inclusion:", G = MediumOpticalPropertyVM.G, N = MediumOpticalPropertyVM.N, EnableG = false, EnableN = false };
 
             Commands.FEM_ExecuteFemSolver.Executed += FEM_ExecuteFemSolver_Executed;
 
@@ -28,7 +30,7 @@ namespace Vts.SiteVisit.ViewModel
 
 
         public FemSolverViewModel()
-            : this(new Parameters
+            : this(new SimulationInputs
             {
                 NTissue = 1.0,
                 NExt = 1.0,
@@ -37,24 +39,37 @@ namespace Vts.SiteVisit.ViewModel
                 ConvTol = 1e-4,
                 MgMethod = 6,
                 NIterations = 100,
-                Length = 1.0,    
+                Length = 1.0, 
+                InRad = 0.5,
+                InX = 0.1,
+                InZ = 0.1,
             })
         {
         }
 
         public RelayCommand ExecuteFemSolverCommand { get; private set; }
 
-        public OpticalPropertyViewModel OpticalPropertyVM
+        public OpticalPropertyViewModel MediumOpticalPropertyVM
         {
-            get { return _opticalPropertyVM; }
+            get { return _mediumOpticalPropertyVM; }
             set
             {
-                _opticalPropertyVM = value;
-                OnPropertyChanged("OpticalPropertyVM");
+                _mediumOpticalPropertyVM = value;
+                OnPropertyChanged("MediumOpticalPropertyVM");
             }
         }
 
-        public Parameters Parameters
+        public OpticalPropertyViewModel InclusionOpticalPropertyVM
+        {
+            get { return _inclusionOpticalPropertyVM; }
+            set
+            {
+                _inclusionOpticalPropertyVM = value;
+                OnPropertyChanged("InclusionOpticalPropertyVM");
+            }
+        }
+
+        public SimulationInputs Parameters
         {
             get { return _parameters; }
             set
@@ -76,9 +91,13 @@ namespace Vts.SiteVisit.ViewModel
             //       starting from "-x" to "+x" with increasing "x" coordinate;
             //       starting from "0" to "+z" with increasing "z" coordinate;   
 
-            _parameters.G = OpticalPropertyVM.G;
-            _parameters.Mua = OpticalPropertyVM.Mua;
-            _parameters.Musp = OpticalPropertyVM.Musp;
+            _parameters.MedG = MediumOpticalPropertyVM.G;
+            _parameters.MedMua = MediumOpticalPropertyVM.Mua;
+            _parameters.MedMusp = MediumOpticalPropertyVM.Musp;
+
+            _parameters.InG = _parameters.MedG;
+            _parameters.InMua = InclusionOpticalPropertyVM.Mua;
+            _parameters.InMusp = InclusionOpticalPropertyVM.Musp;
 
             if ((_parameters.AMeshLevel > 8) || (_parameters.SMeshLevel > 8))
                 logger.Info(() => "Angular or Spatial mesh level is larger than 8\n");
