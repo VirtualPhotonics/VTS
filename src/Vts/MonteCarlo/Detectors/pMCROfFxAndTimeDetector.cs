@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Numerics;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
@@ -11,11 +12,11 @@ namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// Implements IDetector&lt;double[,]&gt;.  Tally for pMC estimation of reflectance 
-    /// as a function of Rho and Time.  Perturbations of just mua or mus alone are also
+    /// as a function of Fx and Time.  Perturbations of just mua or mus alone are also
     /// handled by this class.
     /// </summary>
-    [KnownType(typeof(pMCROfRhoAndTimeDetector))]
-    public class pMCROfRhoAndTimeDetector : IDetector<double[,]> 
+    [KnownType(typeof(pMCROfFxAndTimeDetector))]
+    public class pMCROfFxAndTimeDetector : IDetector<Complex[,]>
     {
         private AbsorptionWeightingType _awt;
         private IList<OpticalProperties> _referenceOps;
@@ -23,20 +24,21 @@ namespace Vts.MonteCarlo.Detectors
         private IList<int> _perturbedRegionsIndices;
         private bool _tallySecondMoment;
         private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
+        private double[] _fxArray;
 
         /// <summary>
-        /// Returns an instance of pMCROfRhoAndTimeDetector. Tallies perturbed R(rho,time). Instantiate with reference optical properties. When
+        /// Returns an instance of pMCROfFxAndTimeDetector. Tallies perturbed R(fx,time). Instantiate with reference optical properties. When
         /// method Tally invoked, perturbed optical properties passed.
         /// </summary>
-        /// <param name="rho">rho binning</param>
+        /// <param name="fx">fx binning</param>
         /// <param name="time">time binning</param>
         /// <param name="tissue">tissue definition</param>
         /// <param name="perturbedOps">list of perturbed optical properties, indexing matches tissue indexing</param>
         /// <param name="perturbedRegionIndices">list of perturbed tissue region indices, indexing matches tissue indexing</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
         /// <param name="name">detector name</param>
-        public pMCROfRhoAndTimeDetector(
-            DoubleRange rho,
+        public pMCROfFxAndTimeDetector(
+            DoubleRange fx,
             DoubleRange time,
             ITissue tissue,
             IList<OpticalProperties> perturbedOps,
@@ -44,16 +46,17 @@ namespace Vts.MonteCarlo.Detectors
             bool tallySecondMoment,
             String name)
         {
-            Rho = rho;
+            Fx = fx;
+            _fxArray = fx.AsEnumerable().ToArray();
             Time = time;
             _tallySecondMoment = tallySecondMoment;
-            Mean = new double[Rho.Count - 1, Time.Count - 1];
+            Mean = new Complex[Fx.Count - 1, Time.Count - 1];
             SecondMoment = null;
             if (_tallySecondMoment)
             {
-                SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
+                SecondMoment = new Complex[Fx.Count - 1, Time.Count - 1];
             }
-            TallyType = TallyType.pMCROfRhoAndTime;
+            TallyType = TallyType.pMCROfFxAndTime;
             Name = name;
             _awt = tissue.AbsorptionWeightingType;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
@@ -64,25 +67,25 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         /// <summary>
-        /// Returns a default instance of pMCMuaMusROfRhoAndTimeDetector (for serialization purposes only)
+        /// Returns a default instance of pMCMuaMusROfFxAndTimeDetector (for serialization purposes only)
         /// </summary>
-        public pMCROfRhoAndTimeDetector()
+        public pMCROfFxAndTimeDetector()
             : this(
-            new DoubleRange(), 
-            new DoubleRange(), 
-            new MultiLayerTissue(), 
-            new List<OpticalProperties>(), 
+            new DoubleRange(),
+            new DoubleRange(),
+            new MultiLayerTissue(),
+            new List<OpticalProperties>(),
             new List<int>(),
             true, // tallySecondMoment
-            TallyType.pMCROfRhoAndTime.ToString())
+            TallyType.pMCROfFxAndTime.ToString())
         {
         }
 
         [IgnoreDataMember]
-        public double[,] Mean { get; set; }
+        public Complex[,] Mean { get; set; }
 
         [IgnoreDataMember]
-        public double[,] SecondMoment { get; set; }
+        public Complex[,] SecondMoment { get; set; }
 
         /// <summary>
         /// detector identifier
@@ -97,9 +100,9 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public long TallyCount { get; set; }
         /// <summary>
-        /// rho binning
+        /// fx binning
         /// </summary>
-        public DoubleRange Rho { get; set; }
+        public DoubleRange Fx { get; set; }
         /// <summary>
         /// time binning
         /// </summary>
@@ -126,35 +129,38 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            // no longer need trial code since DP.Weight for CAW now updated using pathlength info after each collision
-            //// trial code overwrites dp.Weight
-            //if (_awt == AbsorptionWeightingType.Continuous)
-            //{
-            //    var trialWeight = 1.0;
-            //    for (int i = 0; i < _referenceOps.Count; i++)
-            //    {
-            //        trialWeight *= Math.Exp(-_referenceOps[i].Mua * photon.History.SubRegionInfoList[i].PathLength);
-            //    }
-            //    photon.DP.Weight = trialWeight;
-            //}
-            //// end trial code
-            var totalTime = photon.DP.TotalTime;
-            var it = DetectorBinning.WhichBinExclusive(totalTime, Time.Count - 1, Time.Delta, Time.Start);
-            var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y),
-                Rho.Count - 1, Rho.Delta, Rho.Start);
-            if ((ir != -1) && (it != -1))
+            var dp = photon.DP;
+
+            var x = dp.Position.X;
+            var it = DetectorBinning.WhichBinExclusive(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
+            for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
             {
-                var weightFactor = _absorbAction(
+                double freq = _fxArray[ifx];
+
+                var sinNegativeTwoPiFX = Math.Sin(-2 * Math.PI * freq * x);
+                var cosNegativeTwoPiFX = Math.Cos(-2 * Math.PI * freq * x);
+
+                /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
+                // convert to Hz-sec from GHz-ns 1e-9*1e9=1
+
+                double weightFactor = _absorbAction(
                     photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
                     photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
                     _perturbedOps);
-                Mean[ir, it] += photon.DP.Weight * weightFactor;
+
+                var deltaWeight = (weightFactor * dp.Weight) * (cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX);
+
+                Mean[ifx, it] += deltaWeight;
                 if (_tallySecondMoment)
                 {
-                    SecondMoment[ir, it] += photon.DP.Weight * weightFactor * photon.DP.Weight * weightFactor;
+                    var deltaWeight2 =
+                        weightFactor * weightFactor * dp.Weight * dp.Weight * cosNegativeTwoPiFX * cosNegativeTwoPiFX +
+                        weightFactor * weightFactor * Complex.ImaginaryOne * dp.Weight * dp.Weight * sinNegativeTwoPiFX * sinNegativeTwoPiFX;
+                    // second moment of complex tally is square of real and imag separately
+                    SecondMoment[ifx, it] += deltaWeight2;
                 }
-                TallyCount++;
             }
+            TallyCount++;
         }
 
         private double AbsorbContinuous(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
@@ -208,12 +214,12 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2 * Math.PI * Rho.Delta * Time.Delta;
-            for (int ir = 0; ir < Rho.Count - 1; ir++)
+            var normalizationFactor = 2 * Math.PI * Fx.Delta * Time.Delta;
+            for (int ir = 0; ir < Fx.Count - 1; ir++)
             {
                 for (int it = 0; it < Time.Count - 1; it++)
                 {
-                    var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
+                    var areaNorm = (Fx.Start + (ir + 0.5) * Fx.Delta) * normalizationFactor;
                     Mean[ir, it] /= areaNorm * numPhotons;
                     // the above is pi(rmax*rmax-rmin*rmin) * timeDelta * N
                     if (_tallySecondMoment)

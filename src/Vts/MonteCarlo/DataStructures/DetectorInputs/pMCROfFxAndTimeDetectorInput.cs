@@ -1,30 +1,32 @@
-using System;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
 using Vts.Common;
 
 namespace Vts.MonteCarlo
 {
     /// <summary>
-    /// DetectorInput for pMC R(fx).
+    /// DetectorInput for pMC R(fx, t)
     /// </summary>
-    public class pMCROfFxDetectorInput : IpMCDetectorInput 
+    public class pMCROfFxAndTimeDetectorInput : IpMCDetectorInput 
     {
         /// <summary>
         /// constructor for perturbation Monte Carlo reflectance as a function of spatial frequency input
         /// </summary>
         /// <param name="fx">fx binning</param>
+        /// <param name="time">time binning</param>
         /// <param name="perturbedOps">list of perturbed optical properties, indexing matches tissue indexing</param>
         /// <param name="perturbedRegionsIndices">list of perturbed region indices, indexing matches tissue indexing</param>
         /// <param name="name">detector name</param>
-        public pMCROfFxDetectorInput(
+        public pMCROfFxAndTimeDetectorInput(
             DoubleRange fx,
+            DoubleRange time,
             IList<OpticalProperties> perturbedOps,
             IList<int> perturbedRegionsIndices,
             String name)
         {
-            TallyType = TallyType.pMCROfFx;
+            TallyType = TallyType.pMCROfFxAndTime;
             Name = name;
+            Time = time;
             Fx = fx;
             PerturbedOps = perturbedOps;
             PerturbedRegionsIndices = perturbedRegionsIndices;
@@ -33,13 +35,15 @@ namespace Vts.MonteCarlo
         /// constructor uses TallyType for name
         /// </summary>
         /// <param name="fx">fx binning</param>
+        /// <param name="time">time binning</param>
         /// <param name="perturbedOps">list of perturbed optical properties, indexing matches tissue indexing</param>
         /// <param name="perturbedRegionsIndices">list of perturbed region indices, indexing matches tissue indexing</param>>
-        public pMCROfFxDetectorInput(
+        public pMCROfFxAndTimeDetectorInput(
             DoubleRange fx,
+            DoubleRange time,
             IList<OpticalProperties> perturbedOps,
             IList<int> perturbedRegionsIndices) 
-                : this (fx, 
+                : this (fx, time,
                       perturbedOps, 
                       perturbedRegionsIndices, 
                       TallyType.pMCROfFx.ToString()) {}
@@ -47,9 +51,10 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Default constructor tallies all tallies
         /// </summary>
-        public pMCROfFxDetectorInput() 
+        public pMCROfFxAndTimeDetectorInput() 
             : this(
                 new DoubleRange(0.0, 0.2, 21), // fx
+                new DoubleRange(0.0, 1, 101), // time
                 new List<OpticalProperties>() {  // perturbedOps
                     new OpticalProperties(1e-10, 0.0, 0.0, 1.0),
                     new OpticalProperties(0.0, 1.0, 0.8, 1.4),
@@ -67,9 +72,13 @@ namespace Vts.MonteCarlo
         /// </summary>
         public String Name { get; set; }
         /// <summary>
-        /// rho binning
+        /// fx binning
         /// </summary>
         public DoubleRange Fx { get; set; }
+        /// <summary>
+        /// time binning
+        /// </summary>
+        public DoubleRange Time { get; set; }
         /// <summary>
         /// list of perturbed optical properties, indexing matches tissue indexing
         /// </summary>
