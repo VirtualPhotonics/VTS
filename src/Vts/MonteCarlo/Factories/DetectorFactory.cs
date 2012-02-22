@@ -139,6 +139,17 @@ namespace Vts.MonteCarlo.Factories
                         tallySecondMoment,
                         prfxinput.Name
                         );
+                case TallyType.pMCROfFxAndTime:
+                    var prfxtinput = (pMCROfFxAndTimeDetectorInput)detectorInput;
+                    return new pMCROfFxAndTimeDetector(
+                        prfxtinput.Fx,
+                        prfxtinput.Time,
+                        tissue,
+                        prfxtinput.PerturbedOps,
+                        prfxtinput.PerturbedRegionsIndices,
+                        tallySecondMoment,
+                        prfxtinput.Name
+                        );
                 default:
                     return null;
             }

@@ -54,6 +54,8 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(RadianceOfRhoAndZAndAngleDetectorInput))]
     [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
     [KnownType(typeof(pMCROfRhoDetectorInput))]
+    [KnownType(typeof(pMCROfFxDetectorInput))]
+    [KnownType(typeof(pMCROfFxAndTimeDetectorInput))]
 
     // todo: add more types?
 
