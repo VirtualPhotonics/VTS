@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo
     public class pMCROfFxAndTimeDetectorInput : IpMCDetectorInput 
     {
         /// <summary>
-        /// constructor for perturbation Monte Carlo reflectance as a function of spatial frequency input
+        /// Constructor for perturbation Monte Carlo reflectance as a function of spatial frequency and time
         /// </summary>
         /// <param name="fx">fx binning</param>
         /// <param name="time">time binning</param>
@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo
                 : this (fx, time,
                       perturbedOps, 
                       perturbedRegionsIndices, 
-                      TallyType.pMCROfFx.ToString()) {}
+                      TallyType.pMCROfFxAndTime.ToString()) {}
 
         /// <summary>
         /// Default constructor tallies all tallies
@@ -60,7 +60,7 @@ namespace Vts.MonteCarlo
                     new OpticalProperties(0.0, 1.0, 0.8, 1.4),
                     new OpticalProperties(1e-10, 0.0, 0.0, 1.0) },
                 new List<int>() { 1 }, // perturbedRegionIndex
-                TallyType.pMCROfFx.ToString()
+                TallyType.pMCROfFxAndTime.ToString()
             ) {}
 
         /// <summary>
