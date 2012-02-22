@@ -215,6 +215,13 @@ namespace Vts.MonteCarlo.IO
                         pMCROfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, pMCROfRhoAndTimeDetectorDims);
                         return pMCROfRhoAndTimeDetector;
 
+                    case TallyType.pMCROfFxAndTime:
+                        var pMCROfFxAndTimeDetector =
+                            FileIO.ReadFromXML<pMCROfFxAndTimeDetector>(filePath + ".xml");
+                        var pMCROfFxAndTimeDetectorDims = new int[] { pMCROfFxAndTimeDetector.Fx.Count - 1, pMCROfFxAndTimeDetector.Time.Count - 1 };
+                        pMCROfFxAndTimeDetector.Mean = (Complex[,])FileIO.ReadArrayFromBinary<Complex>(filePath, pMCROfFxAndTimeDetectorDims);
+                        return pMCROfFxAndTimeDetector;
+
                     case TallyType.ROfRhoAndAngle:
                         var rOfRhoAndAngleDetector = FileIO.ReadFromXML<ROfRhoAndAngleDetector>(filePath + ".xml");
                         var rOfRhoAndAngleDetectorDims = new int[] { rOfRhoAndAngleDetector.Rho.Count - 1, rOfRhoAndAngleDetector.Angle.Count - 1 };
@@ -382,6 +389,12 @@ namespace Vts.MonteCarlo.IO
                         var pMCROfRhoAndTimeDetectorDims = new int[] { pMuaMusROfRhoAndTimeDetector.Rho.Count, pMuaMusROfRhoAndTimeDetector.Time.Count - 1 };
                         pMuaMusROfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, pMCROfRhoAndTimeDetectorDims);
                         return pMuaMusROfRhoAndTimeDetector;
+
+                    case TallyType.pMCROfFxAndTime:
+                        var pMuaMusROfFxAndTimeDetector = FileIO.ReadFromXMLInResources<pMCROfFxAndTimeDetector>(filePath + ".xml", projectName);
+                        var pMCROfFxAndTimeDetectorDims = new int[] { pMuaMusROfFxAndTimeDetector.Fx.Count, pMuaMusROfFxAndTimeDetector.Time.Count - 1 };
+                        pMuaMusROfFxAndTimeDetector.Mean = (Complex[,])FileIO.ReadArrayFromBinaryInResources<Complex>(filePath, projectName, pMCROfFxAndTimeDetectorDims);
+                        return pMuaMusROfFxAndTimeDetector;
 
                     case TallyType.ROfRhoAndAngle:
                         var rOfRhoAndAngleDetector =
