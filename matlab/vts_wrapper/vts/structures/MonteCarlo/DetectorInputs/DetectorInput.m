@@ -205,24 +205,24 @@ classdef DetectorInput
                 ];
             input.PerturbedRegionsIndices = [ 1, 2 ];
         end
-%%%%%%%%%%%%%%%%% Needs implementing in VTS %%%%%%%%%%%%%%%%%        
-%         function input = pMCROfFxAndTime(fx, t, name)
-%             if nargin < 3
-%                 name = 'pMCROfFxAndTime';
-%             end
-%             input.TallyType = 'pMCROfFxAndTime';
-%             input.Name = name;
-%             input.Fx = fx;
-%             input.Time = t;
-%             input.PerturbedOps = ...
-%                 [...
-%                 [1e-10, 0.0, 0.0, 1.0]; ...
-%                 [0.0,   1.0, 0.8, 1.4]; ...
-%                 [0.0,   1.0, 0.8, 1.4]; ...
-%                 [1e-10, 0.0, 0.0, 1.0]; ...
-%                 ];
-%             input.PerturbedRegionsIndices = [ 1, 2 ];
-%         end
+        
+        function input = pMCROfFxAndTime(fx, t, name)
+            if nargin < 3
+                name = 'pMCROfFxAndTime';
+            end
+            input.TallyType = 'pMCROfFxAndTime';
+            input.Name = name;
+            input.Fx = fx;
+            input.Time = t;
+            input.PerturbedOps = ...
+                [...
+                [1e-10, 0.0, 0.0, 1.0]; ...
+                [0.0,   1.0, 0.8, 1.4]; ...
+                [0.0,   1.0, 0.8, 1.4]; ...
+                [1e-10, 0.0, 0.0, 1.0]; ...
+                ];
+            input.PerturbedRegionsIndices = [ 1, 2 ];
+        end
         
         function input = ROfXAndYDetectorInput(x, y, name)
             if nargin < 3
@@ -400,33 +400,32 @@ classdef DetectorInput
                     for i=1:length(input.PerturbedRegionsIndices)
                         input.PerturbedRegionsIndices(i) = perturbedRegionsIndicesNET(i);
                     end
-%%%%%%%%%%%%%%%%% Needs implementing in VTS %%%%%%%%%%%%%%%%%        
-%                 case 'pMCROfFxAndTime'
-%                     input.Fx = linspace(inputNET.Fx.Start, inputNET.Fx.Stop, inputNET.Fx.Count);
-%                     input.Time = linspace(inputNET.Time.Start, inputNET.Time.Stop, inputNET.Time.Count);
-%                     
-%                     % for some reason, if the underlying object is an array
-%                     % (vs List), "Count" method will fail (and vice versa).
-%                     % So, I'm using Linq to make sure I get the right
-%                     % one...should probably make this a global helper
-%                     nPerturbedOps = NET.invokeGenericMethod('System.Linq.Enumerable', 'Count', ...
-%                         {'Vts.OpticalProperties'}, inputNET.PerturbedOps);
-%                     nPerturbedRegionsIndices = NET.invokeGenericMethod('System.Linq.Enumerable', 'Count', ...
-%                         {'System.Int32'}, inputNET.PerturbedRegionsIndices);
-%                     
-%                     input.PerturbedOps = zeros([nPerturbedOps 4]);
-%                     input.PerturbedRegionsIndices = zeros([nPerturbedRegionsIndices 1]);
-%                     perturbedOpsNET = inputNET.PerturbedOps;
-%                     for i=1:size(input.PerturbedOps,1)
-%                         input.PerturbedOps(i, 1) = perturbedOpsNET(i).Mua;
-%                         input.PerturbedOps(i, 2) = perturbedOpsNET(i).Musp;
-%                         input.PerturbedOps(i, 3) = perturbedOpsNET(i).G;
-%                         input.PerturbedOps(i, 4) = perturbedOpsNET(i).N;
-%                     end
-%                     perturbedRegionsIndicesNET = inputNET.PerturbedRegionsIndices;
-%                     for i=1:length(input.PerturbedRegionsIndices)
-%                         input.PerturbedRegionsIndices(i) = perturbedRegionsIndicesNET(i);
-%                     end
+                case 'pMCROfFxAndTime'
+                    input.Fx = linspace(inputNET.Fx.Start, inputNET.Fx.Stop, inputNET.Fx.Count);
+                    input.Time = linspace(inputNET.Time.Start, inputNET.Time.Stop, inputNET.Time.Count);
+                    
+                    % for some reason, if the underlying object is an array
+                    % (vs List), "Count" method will fail (and vice versa).
+                    % So, I'm using Linq to make sure I get the right
+                    % one...should probably make this a global helper
+                    nPerturbedOps = NET.invokeGenericMethod('System.Linq.Enumerable', 'Count', ...
+                        {'Vts.OpticalProperties'}, inputNET.PerturbedOps);
+                    nPerturbedRegionsIndices = NET.invokeGenericMethod('System.Linq.Enumerable', 'Count', ...
+                        {'System.Int32'}, inputNET.PerturbedRegionsIndices);
+                    
+                    input.PerturbedOps = zeros([nPerturbedOps 4]);
+                    input.PerturbedRegionsIndices = zeros([nPerturbedRegionsIndices 1]);
+                    perturbedOpsNET = inputNET.PerturbedOps;
+                    for i=1:size(input.PerturbedOps,1)
+                        input.PerturbedOps(i, 1) = perturbedOpsNET(i).Mua;
+                        input.PerturbedOps(i, 2) = perturbedOpsNET(i).Musp;
+                        input.PerturbedOps(i, 3) = perturbedOpsNET(i).G;
+                        input.PerturbedOps(i, 4) = perturbedOpsNET(i).N;
+                    end
+                    perturbedRegionsIndicesNET = inputNET.PerturbedRegionsIndices;
+                    for i=1:length(input.PerturbedRegionsIndices)
+                        input.PerturbedRegionsIndices(i) = perturbedRegionsIndicesNET(i);
+                    end
                 case 'ROfXAndY'
                     input.X = linspace(inputNET.X.Start, inputNET.X.Stop, inputNET.X.Count);
                     input.Y = linspace(inputNET.Y.Start, inputNET.Y.Stop, inputNET.Y.Count);
@@ -595,28 +594,27 @@ classdef DetectorInput
                         perturbedRegionsIndicesNET, ...
                         input.Name ...
                         );
-%%%%%%%%%%%%%%%%% Needs implementing in VTS %%%%%%%%%%%%%%%%%                            
-%                 case 'pMCROfFxAndTime'
-%                     perturbedOpsNET = NET.createArray('Vts.OpticalProperties', size(input.PerturbedOps,1));
-%                     perturbedRegionsIndicesNET = NET.createArray('System.Int32', length(input.PerturbedRegionsIndices));
-%                     for i=1:size(input.PerturbedOps,1)
-%                         perturbedOpsNET(i) = Vts.OpticalProperties( ...
-%                             input.PerturbedOps(i,1), ...
-%                             input.PerturbedOps(i,2), ...
-%                             input.PerturbedOps(i,3), ...
-%                             input.PerturbedOps(i,4) ...
-%                             );
-%                     end
-%                     for i=1:length(input.PerturbedRegionsIndices)
-%                         perturbedRegionsIndicesNET(i) = input.PerturbedRegionsIndices(i);
-%                     end
-%                     inputNET = Vts.MonteCarlo.pMCROfFxDetectorInput( ...
-%                         Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx)), ...
-%                         Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time)), ...
-%                         perturbedOpsNET, ...
-%                         perturbedRegionsIndicesNET, ...
-%                         input.Name ...
-%                         );
+                case 'pMCROfFxAndTime'
+                    perturbedOpsNET = NET.createArray('Vts.OpticalProperties', size(input.PerturbedOps,1));
+                    perturbedRegionsIndicesNET = NET.createArray('System.Int32', length(input.PerturbedRegionsIndices));
+                    for i=1:size(input.PerturbedOps,1)
+                        perturbedOpsNET(i) = Vts.OpticalProperties( ...
+                            input.PerturbedOps(i,1), ...
+                            input.PerturbedOps(i,2), ...
+                            input.PerturbedOps(i,3), ...
+                            input.PerturbedOps(i,4) ...
+                            );
+                    end
+                    for i=1:length(input.PerturbedRegionsIndices)
+                        perturbedRegionsIndicesNET(i) = input.PerturbedRegionsIndices(i);
+                    end
+                    inputNET = Vts.MonteCarlo.pMCROfFxAndTimeDetectorInput( ...
+                        Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx)), ...
+                        Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time)), ...
+                        perturbedOpsNET, ...
+                        perturbedRegionsIndicesNET, ...
+                        input.Name ...
+                        );
                 case 'ROfXAndY'
                     inputNET = Vts.MonteCarlo.ROfXAndYDetectorInput( ...
                         Vts.Common.DoubleRange(input.X(1), input.X(end), length(input.X)), ...

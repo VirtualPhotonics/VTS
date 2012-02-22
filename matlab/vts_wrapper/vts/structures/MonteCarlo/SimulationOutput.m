@@ -26,6 +26,17 @@ classdef SimulationOutput
                             im = valuesNET(i).Mean(j).Imaginary;
                             detectorOutput.Mean(j) = sqrt(re.^2 + im.^2);
                         end
+                    case {'System.Numerics.Complex[,]'}
+                        dim1 = valuesNET(i).Mean.GetLength(0);
+                        dim2 = valuesNET(i).Mean.GetLength(1);
+                        detectorOutput.Mean = zeros([dim1 dim2]);
+                        for j=1:dim1
+                            for k=1:dim2
+                                re = valuesNET(i).Mean(j,k).Real;
+                                im = valuesNET(i).Mean(j,k).Imaginary;
+                                detectorOutput.Mean(j,k) = sqrt(re.^2 + im.^2);
+                            end
+                        end
                     case {'System.Double[,]'}
                         dim1 = valuesNET(i).Mean.GetLength(0);
                         dim2 = valuesNET(i).Mean.GetLength(1);
@@ -70,6 +81,7 @@ classdef SimulationOutput
 %                                 im = valuesNET(i).SecondMoment(j).Imaginary;
 %                                 detectorOutput.SecondMoment(j) = sqrt(re.^2 + im.^2);
 %                             end
+                        case {'System.Numerics.Complex[,]'}
                         case {'System.Double[,]'}
                             dim1 = valuesNET(i).SecondMoment.GetLength(0);
                             dim2 = valuesNET(i).SecondMoment.GetLength(1);

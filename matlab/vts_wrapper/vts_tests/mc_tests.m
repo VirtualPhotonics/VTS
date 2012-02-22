@@ -24,6 +24,14 @@ output = VtsMonteCarlo.RunSimulation(si);
 si.DetectorInputs = { DetectorInput.FluenceOfRhoAndZAndTime(linspace(0,40,21), linspace(0,10,11), linspace(0,1,11)) };
 output = VtsMonteCarlo.RunSimulation(si);
 
+% Test for detector input pMCROfFxAndTime
+% si.DetectorInputs = { DetectorInput.pMCROfFxAndTime(linspace(0,40,21), linspace(0,1,11)) };
+% output = VtsMonteCarlo.RunSimulation(si);
+
+% Test for detector input ROfRhoAndOmega
+si.DetectorInputs = { DetectorInput.ROfRhoAndOmega(linspace(0,10,11), linspace(0,1000,21)) };
+output = VtsMonteCarlo.RunSimulation(si);
+
 % use this to run a Matlab-wrapped MonteCarloSimulation using static method
 si.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
 output = VtsMonteCarlo.RunSimulation(si);
