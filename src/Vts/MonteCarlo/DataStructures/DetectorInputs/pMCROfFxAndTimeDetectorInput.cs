@@ -32,7 +32,7 @@ namespace Vts.MonteCarlo
             PerturbedRegionsIndices = perturbedRegionsIndices;
         }
         /// <summary>
-        /// constructor uses TallyType for name
+        /// Constructor uses TallyType for name
         /// </summary>
         /// <param name="fx">fx binning</param>
         /// <param name="time">time binning</param>

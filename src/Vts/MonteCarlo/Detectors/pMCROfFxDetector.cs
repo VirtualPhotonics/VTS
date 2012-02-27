@@ -4,15 +4,14 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Numerics;
 using Vts.Common;
-using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[]&gt;.  Tally for pMC estimation of reflectance 
-    /// as a function of Rho.
+    /// Implements IDetector&lt;Complex[]&gt;.  Tally for pMC estimation of reflectance 
+    /// as a function of Fx.
     /// </summary>
     [KnownType(typeof(pMCROfFxDetector))]
     public class pMCROfFxDetector : IDetector<Complex[]>
@@ -74,10 +73,14 @@ namespace Vts.MonteCarlo.Detectors
             TallyType.pMCROfFx.ToString())
         {
         }
-
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public Complex[] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public Complex[] SecondMoment { get; set; }
         /// <summary>
@@ -204,7 +207,6 @@ namespace Vts.MonteCarlo.Detectors
         /// method to normalize detector results after numPhotons launched
         /// </summary>
         /// <param name="numPhotons">number of photons launched</param>
-
         public void Normalize(long numPhotons)
         {
             for (int ifx = 0; ifx < Fx.Count; ifx++)
@@ -217,6 +219,11 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// method to determine if photon within detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

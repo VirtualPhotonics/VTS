@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IVolumeDetector&lt;double[,,]&gt;.  Tally for Fluence(x,y,z).
+    /// Implements IHistoryDetector&lt;double[,,]&gt;.  Tally for Fluence(x,y,z).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
     [KnownType(typeof(FluenceOfXAndYAndZDetector))]
@@ -27,7 +27,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="x">x binning</param>
         /// <param name="y">y binning</param>
         /// <param name="z">z binning</param>
-        /// <param name="tissue">tissue</param>
+        /// <param name="tissue">tissue definition</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
         /// <param name="name">detector name</param>
         public FluenceOfXAndYAndZDetector(
@@ -108,10 +108,10 @@ namespace Vts.MonteCarlo.Detectors
         public DoubleRange Z { get; set; }
 
         /// <summary>
-        /// method to tally to detector
+        /// method to tally given two consecutive photon data points
         /// </summary>
-        /// <param name="previousDP"></param>
-        /// <param name="dp"></param>
+        /// <param name="previousDP">previous data point</param>
+        /// <param name="dp">current data point</param>
         public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
             var ix = DetectorBinning.WhichBin(dp.Position.X, X.Count - 1, X.Delta, X.Start);
@@ -202,8 +202,8 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// method to determine if photon within detector, i.e. in NA, etc.
         /// </summary>
-        /// <param name="dp"></param>
-        /// <returns></returns>
+        /// <param name="dp">photon data point</param>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true;

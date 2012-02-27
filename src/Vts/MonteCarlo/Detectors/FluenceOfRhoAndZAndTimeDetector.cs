@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[,,]&gt;.  Tally for Fluence(rho,z,t).
+    /// Implements IHistoryDetector&lt;double[,,]&gt;.  Tally for Fluence(rho,z,t).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
     [KnownType(typeof(FluenceOfRhoAndZAndTimeDetector))]
@@ -173,8 +173,8 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// method to determine if photon within detector, i.e. in NA, etc.
         /// </summary>
-        /// <param name="dp"></param>
-        /// <returns></returns>
+        /// <param name="dp">photon data point</param>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true;

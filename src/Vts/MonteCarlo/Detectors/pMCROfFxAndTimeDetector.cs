@@ -11,8 +11,8 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[,]&gt;.  Tally for pMC estimation of reflectance 
-    /// as a function of Fx and Time.  Perturbations of just mua or mus alone are also
+    /// Implements IDetector&lt;Complex[,]&gt;. Tally for pMC estimation of reflectance 
+    /// as a function of Fx and Time. Perturbations of just mua or mus alone are also
     /// handled by this class.
     /// </summary>
     [KnownType(typeof(pMCROfFxAndTimeDetector))]
@@ -81,9 +81,15 @@ namespace Vts.MonteCarlo.Detectors
         {
         }
 
+        /// <summary>
+        /// mean of detector tally
+        /// </summary>
         [IgnoreDataMember]
         public Complex[,] Mean { get; set; }
 
+        /// <summary>
+        /// second moment of detector tally
+        /// </summary>
         [IgnoreDataMember]
         public Complex[,] SecondMoment { get; set; }
 
@@ -123,8 +129,9 @@ namespace Vts.MonteCarlo.Detectors
                     break;
             }
         }
+
         /// <summary>
-        /// method to tally to detector
+        /// Method to tally to detector using information in Photon
         /// </summary>
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
@@ -212,6 +219,10 @@ namespace Vts.MonteCarlo.Detectors
             return weightFactor;
         }
 
+        /// <summary>
+        /// Method to normalize the tally to get Mean and Second Moment estimates
+        /// </summary>
+        /// <param name="numPhotons">Number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2 * Math.PI * Fx.Delta * Time.Delta;
@@ -230,6 +241,11 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// Method to determine if photon is within detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

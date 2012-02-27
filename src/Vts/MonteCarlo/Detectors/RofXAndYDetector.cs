@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
@@ -112,11 +111,12 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
+
         /// <summary>
-        /// method to determine if photon within detector
+        /// Method to determine if photon is within detector
         /// </summary>
         /// <param name="dp">photon data point</param>
-        /// <returns></returns>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

@@ -27,10 +27,12 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns an instance of dMCdROfRhodMuaDetector. Tallies dR(rho)/dMua. Instantiate with reference optical properties. 
         /// When method Tally invoked, perturbed optical properties passed.
         /// </summary>
-        /// <param name="rho"></param>
-        /// <param name="tissue"></param>
-        /// <param name="perturbedOps"></param>
-        /// <param name="perturbedRegionIndices"></param>
+        /// <param name="rho">rho binning</param>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="perturbedOps">list of perturbed optical properties, indexing matches tissue indexing</param>
+        /// <param name="perturbedRegionIndices">list of perturbed tissue region indices, indexing matches tissue indexing</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
+        /// <param name="name">detector name</param>
         public dMCdROfRhodMuaDetector(
             DoubleRange rho,
             ITissue tissue,
@@ -70,18 +72,31 @@ namespace Vts.MonteCarlo.Detectors
         {
         }
 
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public double[] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public double[] SecondMoment { get; set; }
-
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name, default uses TallyType, but can be user specified
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of time detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
         
         protected void SetAbsorbAction(AbsorptionWeightingType awt)
@@ -166,6 +181,10 @@ namespace Vts.MonteCarlo.Detectors
             return weightFactor;
         }
 
+        /// <summary>
+        /// method to normalize detector results after numPhotons launched
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
@@ -181,6 +200,11 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// method to determine if photon within detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <returns>this method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

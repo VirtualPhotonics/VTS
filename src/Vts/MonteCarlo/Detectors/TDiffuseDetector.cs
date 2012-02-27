@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -26,7 +24,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
         }
         /// <summary>
-        /// Returns a default instaf TDiffuseDetector (for serialization purposes only)
+        /// Returns a default instance of TDiffuseDetector (for serialization purposes only)
         /// </summary>
         public TDiffuseDetector()
             : this(true, TallyType.TDiffuse.ToString())
