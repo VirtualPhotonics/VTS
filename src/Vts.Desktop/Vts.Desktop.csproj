@@ -73,6 +73,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\lib\AutoMapper\net40-client\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\DotNetZip\Desktop\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -832,6 +835,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\DetectorFactory.cs">
       <Link>MonteCarlo\Factories\DetectorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\DetectorProvider.cs">
+      <Link>MonteCarlo\Factories\DetectorProvider.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\PhotonDatabaseFactory.cs">
       <Link>MonteCarlo\Factories\PhotonDatabaseFactory.cs</Link>

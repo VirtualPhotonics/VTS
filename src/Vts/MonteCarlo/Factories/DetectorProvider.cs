@@ -1,0 +1,204 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Vts.Common;
+using Vts.MonteCarlo.Detectors;
+using AutoMapper;
+
+namespace Vts.MonteCarlo.Factories
+{
+    // interfaces
+
+    public interface IDetectorProvider<TDetector, TDetectorInput, TDetectorOutput, TArray>
+        where TDetector : IDetector
+        where TDetectorInput : IDetectorInput
+        where TDetectorOutput : IDetectorOutput<TArray>
+    {
+        Func<string, TDetectorInput> ReadInputFromXML { get; set; }
+        Func<string, string, TDetectorInput> ReadInputFromXMLInResources { get; set; }
+        Action<TDetectorInput, string> WriteInputToXML { get; set; }
+        Func<TDetectorInput, TDetector> CreateDetector { get; set; }
+        Func<TDetector, TDetectorOutput> CreateOutput { get; set; }
+    }
+
+    public interface IDetectorOutput<out T> : IDetectorOutput
+    {
+        /// <summary>
+        /// Mean of detector tally
+        /// </summary>
+        T Mean { get; }
+        /// <summary>
+        /// Second moment of detector tally
+        /// </summary>
+        T SecondMoment { get; }
+    }
+
+    public interface IDetectorOutput
+    {
+        int[] Dimensions { get; set; }
+        string Name { get; set; }
+        TallyType TallyType { get; set; }
+    }
+
+    // base class implementations
+
+    /// <summary>
+    /// Base class for all detectors.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public abstract class DetectorBase<T> : IDetector<T>
+    {
+        private T _mean;
+        private T _secondMoment;
+        private int[] _dimensions;
+
+        protected DetectorBase()
+        {
+            TallySecondMoment = false;
+            Name = "";
+        }
+
+        public string Name { get; set; } // shouldn't have public set_Name
+        public TallyType TallyType { get; set; } // shouldn't have public set_TallyType
+
+        public T Mean
+        {
+            get
+            {
+                if (_mean == null != null)
+                {
+                    _dimensions = GetDimensions();
+                    _mean = (T)((dynamic)Array.CreateInstance(typeof(T).GetElementType(), _dimensions));
+                }
+                return _mean;
+            }
+        }
+
+        public T SecondMoment
+        {
+            get
+            {
+                if (_secondMoment == null && TallySecondMoment)
+                {
+                    _dimensions = GetDimensions();
+                    _secondMoment = (T)((dynamic)Array.CreateInstance(typeof(T).GetElementType(), _dimensions));
+                }
+                return _secondMoment;
+            }
+        }
+
+        public int[] Dimensions
+        {
+            get { return _dimensions; }
+        }
+
+        public bool TallySecondMoment { get; set; }
+        public long TallyCount { get; set; } // shouldn't have public set_TallyCount
+
+        protected abstract int[] GetDimensions();
+        public abstract void Tally(Photon photon);
+        public abstract void Normalize(long numPhotons);
+    }
+
+    public class DetectorProvider<TDetectorInput, TDetector, TDetectorOutput>
+    {
+        static DetectorProvider()
+        {
+            Mapper.CreateMap<TDetectorInput, TDetector>();
+            Mapper.CreateMap<TDetector, TDetectorOutput>();
+        }
+
+        public DetectorProvider()
+        {
+            ReadInputFromXML = filename => Vts.IO.FileIO.ReadFromXML<TDetectorInput>(filename);
+            WriteInputToXML = (input, filename) => Vts.IO.FileIO.WriteToXML(input, filename);
+            ReadInputFromXMLInResources = (filename, projectName) => Vts.IO.FileIO.ReadFromXMLInResources<TDetectorInput>(filename, projectName);
+            CreateDetector = input => Mapper.Map<TDetectorInput, TDetector>(input);
+            CreateOutput = detector => Mapper.Map<TDetector, TDetectorOutput>(detector);
+        }
+
+        public Func<string, TDetectorInput> ReadInputFromXML { get; set; }
+        public Func<string, string, TDetectorInput> ReadInputFromXMLInResources { get; set; }
+        public Action<TDetectorInput, string> WriteInputToXML { get; set; }
+        public Func<TDetectorInput, TDetector> CreateDetector { get; set; }
+        public Func<TDetector, TDetectorOutput> CreateOutput { get; set; }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // user code
+
+    /// <summary>
+    /// Class to hold information necessary for creating detector
+    /// </summary>
+    public class SampleDetectorInput : IDetectorInput
+    {
+        public SampleDetectorInput()
+        {
+            TallyType = TallyType.ROfFx;
+            Name = "ROfFx";
+            QRange = new DoubleRange(0, 1, 10);
+        }
+
+        public TallyType TallyType { get; set; }
+        public string Name { get; set; }
+        public DoubleRange QRange { get; set; }
+    }
+
+    /// <summary>
+    /// Acutal detector class implementation
+    /// </summary>
+    public class SampleDetector : DetectorBase<double[]>
+    {
+        private static int _tempIndex = -1;
+
+        public SampleDetector()
+        {
+            QRange = new DoubleRange(0, 1, 10);
+            TallySecondMoment = false;
+            Name = "SampleDetector";
+        }
+
+        public DoubleRange QRange { get; set; }
+
+        public override void Tally(Photon photon)
+        {
+            Mean[(_tempIndex++) % Dimensions[0]] += photon.DP.Weight;
+            TallyCount++;
+        }
+
+        public override void Normalize(long numPhotons)
+        {
+            for (int i = 0; i < Dimensions[0]; i++)
+            {
+                Mean[i] /= TallyCount;
+            }
+        }
+
+        protected override int[] GetDimensions()
+        {
+            return new int[] { QRange.Count - 1 };
+        }
+    }
+
+    /// <summary>
+    /// Class representing detector data to save/store
+    /// </summary>
+    public class SampleDetectorOutput : IDetectorOutput<double[]>
+    {
+        public double[] Mean { get; set; }
+        public double[] SecondMoment { get; set; }
+        public int[] Dimensions { get; set; }
+        public string Name { get; set; }
+        public TallyType TallyType { get; set; }
+    }
+
+
+    /// <summary>
+    /// Class that glues all the pieces together. In most cases, there shouldn't be any extra work to do here
+    /// </summary>
+    public class SampleDetectorProvider : DetectorProvider<SampleDetectorInput, SampleDetector, SampleDetectorOutput>
+    {
+    }
+}
