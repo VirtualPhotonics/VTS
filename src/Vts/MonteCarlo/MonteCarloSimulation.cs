@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -68,7 +69,7 @@ namespace Vts.MonteCarlo
 
             List<VirtualBoundaryType> dbVirtualBoundaries =
                 input.Options.Databases.Select(db => db.GetCorrespondingVirtualBoundaryType()).ToList();
-            
+
 
             foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
             {
@@ -99,7 +100,7 @@ namespace Vts.MonteCarlo
 
                 // make sure VB Controller has at least diffuse reflectance and diffuse transmittance
                 // may change this in future if tissue OnDomainBoundary changes
-                if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) || 
+                if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) ||
                     (vbType == VirtualBoundaryType.DiffuseTransmittance) || (dbVirtualBoundaries.Any(vb => vb == vbType)))
                 {
                     var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, input.Options.TallySecondMoment);
@@ -143,13 +144,20 @@ namespace Vts.MonteCarlo
 
         public Output Results { get; private set; }
 
-        public static Output[] RunAll(MonteCarloSimulation[] simulations )
+        public static Output[] RunAll(MonteCarloSimulation[] simulations)
         {
-            var outputs = new Output[simulations.Length];
-
-            Parallel.For(0, simulations.Length, index =>
+            Output[] outputs = new Output[simulations.Length];
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            Parallel.ForEach(simulations, options, (sim, state, index) =>
             {
-                outputs[index] = simulations[index].Run();
+                try
+                {
+                    outputs[index] = simulations[index].Run();
+                }
+                catch
+                {
+                    Console.WriteLine("Problem occurred running simulation #{0}. Make sure all simulations have distinct 'OutputName' properties?", index);
+                }
             });
 
             return outputs;
@@ -180,7 +188,7 @@ namespace Vts.MonteCarlo
                 _resultsAvailable = false;
                 return null;
             }
-            
+
             var detectors = _virtualBoundaryController.VirtualBoundaries
                     .Select(vb => vb.DetectorController)
                     .Where(dc => dc != null)
@@ -400,7 +408,7 @@ namespace Vts.MonteCarlo
 
             // DC - logic confusing; why add pseudo here for vb, but no pseudo in this method for tissue boundary?
             photon.DP.StateFlag = photon.DP.StateFlag.Add(closestVirtualBoundary.PhotonStateType); // add pseudo-collision for vb 
-            
+
             // DC - also confusing that we'd add a pseudo for the vb if hitVirtualBoundary is false...
             return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
         }

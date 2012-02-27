@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vts.MonteCarlo.PhotonData;
@@ -106,10 +107,17 @@ namespace Vts.MonteCarlo.PostProcessing
         public static Output[] RunAll(PhotonDatabasePostProcessor[] postProcessors)
         {
             var outputs = new Output[postProcessors.Length];
-
-            Parallel.For(0, postProcessors.Length, index =>
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            Parallel.ForEach(postProcessors, options, (sim, state, index) =>
             {
-                outputs[index] = postProcessors[index].Run();
+                try
+                {
+                    outputs[index] = postProcessors[index].Run();
+                }
+                catch
+                {
+                    Console.WriteLine("Problem occurred running simulation #{0}. Make sure all simulations have distinct 'OutputName' properties?", index);
+                }
             });
 
             return outputs;
