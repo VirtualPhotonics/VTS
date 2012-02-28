@@ -181,18 +181,28 @@ namespace Vts.Factories
         /// <summary>
         /// Overload of GetPHD that uses internal DI framework-supplied solver singletons
         /// </summary>
-        /// <param name="forwardSolverType"></param>
-        /// <param name="fluence"></param>
-        /// <param name="sdSeparation"></param>
-        /// <param name="ops"></param>
-        /// <param name="rhos"></param>
-        /// <param name="zs"></param>
+        /// <param name="forwardSolverType">enum of forward solver type</param>
+        /// <param name="fluence">fluence</param>
+        /// <param name="sdSeparation">source detector separation (in mm)</param>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rhos">detector locations (in mm)</param>
+        /// <param name="zs">z values (in mm)</param>
         /// <returns></returns>
         public static IEnumerable<double> GetPHD(ForwardSolverType forwardSolverType, IEnumerable<double> fluence, double sdSeparation, IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
         {
             return GetPHD(SolverFactory.GetForwardSolver(forwardSolverType), fluence, sdSeparation, ops, rhos, zs);
         }
 
+        /// <summary>
+        /// Method to generate PHD 
+        /// </summary>
+        /// <param name="forwardSolver">forward solver</param>
+        /// <param name="fluence">fluence</param>
+        /// <param name="sdSeparation">source detector separation (in mm)</param>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rhos">detector locations (in mm)</param>
+        /// <param name="zs">z values (in mm)</param>
+        /// <returns></returns>
         public static IEnumerable<double> GetPHD(IForwardSolver forwardSolver, IEnumerable<double> fluence, double sdSeparation, IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
         {
             var rhoPrimes =
@@ -203,6 +213,7 @@ namespace Vts.Factories
 
             return System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green);
         }
+
         /// <summary>
         /// Method to generate absorbed energy given fluence and mua.  Note only works for homogeneous tissue.
         /// </summary>
