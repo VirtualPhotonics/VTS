@@ -12,7 +12,7 @@ startup();
 
 op = [0.01 1.2 0.8 1.4];
 rho = 10; % s-d separation, in mm
-ft = 0:0.01:0.5; % temporal frequency in GHz
+ft = 0:0.01:0.5; % range of temporal frequencies in GHz
 
 VtsSolvers.SetSolverType('PointSourceSDA');
 
@@ -66,7 +66,7 @@ set(f,'Name','ROfFxAndFt');
 % Example FluenceOfRho - Evaluate FluenceOfRho
 
 rhos = 0.1:0.1:10; % s-d separation, in mm
-zs = 0.1:0.1:10;
+zs = 0.1:0.1:10; % z range in mm
 
 wv = 450:0.5:1000;
 
@@ -182,7 +182,7 @@ xlabel('\rho');
 
 op = [[0.1 1.2 0.8 1.4]; [0.2 1.2 0.8 1.4]];
 rho = 10; %s-d separation, in mm
-t = 0:0.001:0.5; % time, in ns
+t = 0:0.001:0.5; % range of times in ns
 test0 = VtsSolvers.ROfRhoAndT(op, rho, t);
 f = figure; plot(t,squeeze(test0));
 set(f,'Name','R of Rho and t');
@@ -196,8 +196,8 @@ xlabel('Time, t [ns]');
 % optical properites
 
 op = [0.1 1 0.8 1.4];
-fx = linspace(0,0.5,11);
-t = linspace(0,0.05,51); % time, in ns
+fx = linspace(0,0.5,11); % range of spatial frequencies in 1/mm
+t = linspace(0,0.05,51); % range of times in ns
 test = VtsSolvers.ROfFxAndT(op, fx, t);
 f = figure; plot(t,squeeze(test(:,:,:)));
 set(f,'Name','R of fx and t (Reflectance vs time)');
@@ -226,7 +226,7 @@ legend(l2, 'FontSize', 12);
 
 % Example 1 - Evaluate ROfFx with single set of optical properties
 
-fx = 0:0.001:0.2;
+fx = 0:0.001:0.2; % range of spatial frequencies in 1/mm
 op = [0.1 1.2 0.8 1.4];
 test1 = VtsSolvers.ROfFx(op, fx);
 f = figure; plot(fx, test1);
@@ -240,7 +240,7 @@ xlabel('Spatial frequency, f_x [mm^-^1]');
 % Example 2 - Evaluate ROfFx with multiple sets of optical properties,
 % varying mua linearly 
 
-fx = 0:0.001:0.2;
+fx = 0:0.001:0.2; % range of spatial frequencies in 1/mm
 mua = (0:0.01:0.1)';
 op = repmat([0 1.2 0.8 1.4],[length(mua) 1]);
 op(:,1) = mua;
@@ -257,7 +257,7 @@ xlabel('Spatial frequency, f_x [mm^-^1]');
 % Example 3 - Call ROfFx with multiple sets of optical properties, varying
 % mua as a function of wavelength
 
-fx = 0:0.05:0.2;
+fx = 0:0.05:0.2; % range of spatial frequencies in 1/mm
 wv = 450:0.5:1000;
 nwv = length(wv);
 
@@ -318,7 +318,7 @@ PlotHelper.CreateLegend(fx, 'f_x = ', 'mm^-^1', options);
 % Example 4 - Call planar reflectance with multiple sets of optical
 % properties, varying the scattering prefactor as a function of wavelength
 
-fx = 0;
+fx = 0; % spatial frequency in 1/mm
 wv = 450:0.5:1000;
 
 % create a list of chromophore absorbers and their concentrations

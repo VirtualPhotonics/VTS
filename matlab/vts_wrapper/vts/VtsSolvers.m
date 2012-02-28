@@ -76,7 +76,7 @@ classdef VtsSolvers
             %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
             %   FX is an 1 x M array of spatial frequencies (in 1/mm)
             %       eg. FX = linspace(0,0.5,11);
-            %   T is an 1 x O array of detector locations (in mm)
+            %   T is an 1 x O array of times (in ns)
             %       eg. T = [1:10];
 
             nop = size(op,1);
@@ -106,7 +106,7 @@ classdef VtsSolvers
             %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
             %   RHO is an 1 x M array of detector locations (in mm)
             %       eg. RHO = [1:10];
-            %   T is an 1 x O array of detector locations (in mm)
+            %   T is an 1 x O array of times (in ns)
             %       eg. T = [1:10];
             
             nop = size(op,1);
@@ -215,8 +215,10 @@ classdef VtsSolvers
             %   
             %   OP is an N x 4 matrix of optical properties
             %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
-            %   RHO is an 1 x M array of spatial frequencies (in 1/mm)
-            %       eg. FX = [0.1 1.2 0.8 1.4];
+            %   RHO is an 1 x M array of detector locations (in mm)
+            %       eg. RHO = [1:10];
+            %   Z is a 1 x M array of z values (in mm)
+            %       eg. Z = linspace(0.1,19.9,100);
             
             nop = size(op,1);
 
@@ -241,14 +243,15 @@ classdef VtsSolvers
         %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
         function r = PHDOfRhoAndZ(op, rhos, zs, sd)
             % PHDOfRhoAndZ
-            %   PHDOfRhoAndZ(OP, RHOS, ZS)
+            %   PHDOfRhoAndZ(OP, RHOS, ZS, SD)
             %
             %   OP is an N x 4 matrix of optical properties
             %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
-            %   RHO is a 1 x M array of spatial frequencies (in 1/mm)
-            %       eg. FX = [0.1 1.2 0.8 1.4];
+            %   RHO is an 1 x M array of detector locations (in mm)
+            %       eg. RHO = [1:10];
             %   Z is a 1 x M array of z values (in mm)
             %       eg. Z = linspace(0.1,19.9,100);
+            %   SD is the source-detector separation in
 
             nop = size(op,1);
 
@@ -283,8 +286,8 @@ classdef VtsSolvers
             %
             %   OP is an 1 x 4 matrix of optical properties
             %       eg. OP = [mua1, mus'1, g1, n1];
-            %   RHO is a 1 x M array of spatial frequencies (in 1/mm)
-            %       eg. FX = [0.1 1.2 0.8 1.4];
+            %   RHO is an 1 x M array of detector locations (in mm)
+            %       eg. RHO = [1:10];
             %   Z is a 1 x M array of z values (in mm)
             %       eg. Z = linspace(0.1,19.9,100);
 
