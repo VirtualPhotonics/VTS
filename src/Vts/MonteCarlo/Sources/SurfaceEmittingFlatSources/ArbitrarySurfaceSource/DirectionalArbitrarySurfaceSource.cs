@@ -18,9 +18,11 @@ namespace Vts.MonteCarlo.Sources
         /// Defines DirectionalArbitrarySurfaceSource
         /// </summary>
         /// <param name="thetaConvOrDiv"></param>
-        /// <param name="imageLengthX">The length of the arbitrary (image-based) Source</param>
-        /// <param name="imageWidthY">The width of the arbitrary (image-based) Source</param>
+        /// <param name="sourceLengthX">The length of the arbitrary (image-based) Source</param>
+        /// <param name="sourceWidthY">The width of the arbitrary (image-based) Source</param>
         /// <param name="image"></param>
+        /// <param name="pixelLengthX">pixel length X</param>
+        /// <param name="pixelWidthY">pixel length Y</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>    
         /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>

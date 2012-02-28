@@ -86,6 +86,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
         /// <returns></returns>
         IEnumerable<double> FluenceOfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs);
         #endregion
@@ -96,6 +97,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns></returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
@@ -108,6 +110,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
@@ -120,6 +123,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="zs">z values (mm)</param>
         /// <returns></returns>
         IEnumerable<double> FluenceOfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs);
         #endregion
@@ -130,7 +134,8 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <param name="ts"></param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="ts">times (ns)</param>
         /// <returns></returns>
         IEnumerable<double> FluenceOfFxAndT(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> ts);
         #endregion
@@ -141,6 +146,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
         IEnumerable<double> FluenceOfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts);
@@ -202,7 +208,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <param name="ts"></param>
+        /// <param name="ts">times (ns)</param>
         /// <returns></returns>
         IEnumerable<double> ROfFxAndT(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> ts);
 
@@ -266,7 +272,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfRhoAndFt function. Determines reflectances at optical properties 'op', source-detector separations 'rhos' and time frequencies 'fts'
         /// </summary>
-        /// <param name="os">medium optical properties </param>
+        /// <param name="op">optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
@@ -304,7 +310,7 @@ namespace Vts
         /// </summary>
         /// <param name="op">medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <param name="ts"></param>
+        /// <param name="ts">times (ns)</param>
         /// <returns></returns>
         double[] ROfFxAndT(OpticalProperties op, double[] fxs, double[] ts);
 

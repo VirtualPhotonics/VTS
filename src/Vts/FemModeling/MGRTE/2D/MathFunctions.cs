@@ -618,6 +618,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// </summary>
         /// <param name="smesh">spatial mesh</param>
         /// <param name="sMeshLevel">spatial mesh levels</param>
+        /// <param name="length">length</param>
         public static void CreateSquareMesh(ref SpatialMesh[] smesh, int sMeshLevel, double length)
         {
             int i;
@@ -660,6 +661,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <param name="pts">points data</param>
         /// <param name="edge">edge data</param>
         /// <param name="tri">triangle data</param>
+        /// <param name="length">length</param>
         private static void BasicSquareMesh(
             double[][] pts,
             int[][] edge,

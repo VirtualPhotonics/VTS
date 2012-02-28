@@ -42,8 +42,8 @@ namespace Vts.MonteCarlo.Controllers
         /// <summary>
         /// Method to write to all surface VB databases
         /// </summary>
-        /// <param name="photonDatabaseWriters"></param>
-        /// <param name="dp"></param>
+        /// <param name="dp">photon data point</param>
+        /// <param name="collisionInfo">collision information</param>
         public void WriteToSurfaceVirtualBoundaryDatabases(PhotonDataPoint dp, CollisionInfo collisionInfo)
         {
             var writeData = false;

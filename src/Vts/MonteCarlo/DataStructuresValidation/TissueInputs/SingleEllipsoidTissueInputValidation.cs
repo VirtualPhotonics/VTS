@@ -106,7 +106,7 @@ namespace Vts.MonteCarlo
         /// Code does not yet include reflecting/refracting off ellipsoid surface.
         /// </summary>
         /// <param name="layers">list of LayerRegion</param>
-        /// <param name="ellipsiod"EllipsoidRegion></param>
+        /// <param name="ellipsiod">EllipsoidRegion></param>
         /// <returns>ValidationResult</returns>
         private static ValidationResult ValidateRefractiveIndexMatch(
             IList<LayerRegion> layers, EllipsoidRegion ellipsiod)

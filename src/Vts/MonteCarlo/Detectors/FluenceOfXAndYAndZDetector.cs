@@ -112,6 +112,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         /// <param name="previousDP">previous data point</param>
         /// <param name="dp">current data point</param>
+        /// <param name="currentRegionIndex">index of region photon current is in</param>
         public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
             var ix = DetectorBinning.WhichBin(dp.Position.X, X.Count - 1, X.Delta, X.Start);

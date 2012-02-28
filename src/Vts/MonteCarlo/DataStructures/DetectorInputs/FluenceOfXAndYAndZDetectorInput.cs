@@ -45,10 +45,25 @@ namespace Vts.MonteCarlo
                 new DoubleRange(-10.0, 10.0, 101), // z
                 TallyType.FluenceOfXAndYAndZ.ToString()) {}
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
+        /// <summary>
+        /// detector name
+        /// </summary>
         public String Name { get; set; }
+        /// <summary>
+        /// x binning
+        /// </summary>
         public DoubleRange X { get; set; }
+        /// <summary>
+        /// y binning
+        /// </summary>
         public DoubleRange Y { get; set; }
+        /// <summary>
+        /// z binning
+        /// </summary>
         public DoubleRange Z { get; set; }
     }
 }

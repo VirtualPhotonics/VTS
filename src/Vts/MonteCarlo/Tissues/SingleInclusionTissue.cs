@@ -24,6 +24,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="layerRegions">The tissue layers</param>
         /// <param name="absorptionWeightingType">The type of absorption weighting</param>
         /// <param name="phaseFunctionType">The type of phase function</param>
+        /// <param name="russianRouletteWeightThreshold">russian roulette weight threshold</param>
         public SingleInclusionTissue(
             ITissueRegion inclusionRegion,
             IList<ITissueRegion> layerRegions,

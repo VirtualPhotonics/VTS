@@ -14,7 +14,6 @@ namespace Vts.MonteCarlo
     /// This class validates whether the fields in PostProcessorInput have been specified
     /// correctly or not.
     /// </summary>
-    /// <param name="input"></param>
     public class PostProcessorInputValidation
     {
         public static ValidationResult ValidateInput(PostProcessorInput input)

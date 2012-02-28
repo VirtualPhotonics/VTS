@@ -50,7 +50,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <summary>
         /// Finds the distance to the virtual boundary 
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="dp">photon data point</param>
         public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
             // not sure of following, could be zero

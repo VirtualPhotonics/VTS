@@ -111,6 +111,7 @@ namespace Vts.SpectralMapping
         /// </summary>
         /// <param name="existingDictionary">The existing dictionary to which to append</param>
         /// <param name="fileStream">The file stream</param>
+        /// <param name="convert">boolean value to determine if the data should be converted</param>
         /// <returns>The new dictionary of chromophore spectrum</returns>
         public static Dictionary<string, ChromophoreSpectrum> AppendDatabaseFromFile(Dictionary<string, ChromophoreSpectrum> existingDictionary, Stream fileStream, bool convert)
         {

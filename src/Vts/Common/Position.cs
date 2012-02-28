@@ -117,6 +117,9 @@ namespace Vts.Common
             return !(p1 == p2);
         }
 
+        /// <summary>
+        /// Method to write binary version of position
+        /// </summary>
         public void WriteBinary(BinaryWriter bw)
         {
             bw.Write(X);
@@ -124,6 +127,11 @@ namespace Vts.Common
             bw.Write(Z);
         }
 
+        /// <summary>
+        /// Method to read binary version of position
+        /// </summary>
+        /// <param name="br">BinaryReader</param>
+        /// <returns>a position</returns>
         public static Position ReadBinary(BinaryReader br)
         {
             return new Position(
@@ -156,6 +164,10 @@ namespace Vts.Common
             return false;
         }
 
+        /// <summary>
+        /// Method to clone position
+        /// </summary>
+        /// <returns>a position</returns>
         public Position Clone()
         {
             return new Position(this.X, this.Y, this.Z);

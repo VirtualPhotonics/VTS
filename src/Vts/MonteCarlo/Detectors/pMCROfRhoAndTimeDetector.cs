@@ -110,6 +110,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Time { get; set; }
 
+        /// <summary>
+        /// Set the absorption to discrete or continuous
+        /// </summary>
+        /// <param name="awt">absorption weighting type</param>
         protected void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)

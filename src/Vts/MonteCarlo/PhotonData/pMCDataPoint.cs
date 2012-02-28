@@ -11,15 +11,21 @@ namespace Vts.MonteCarlo.PhotonData
         /// <summary>
         /// class to house data needed for pMC database.
         /// </summary>
-        /// <param name="photonDataPoint">PhotonDataPoint</param>
-        /// <param name="collisionInfo">CollisionInfo</param>
+        /// <param name="photonDataPoint">photon data point</param>
+        /// <param name="collisionInfo">collision information</param>
         public pMCDataPoint(PhotonDataPoint photonDataPoint, CollisionInfo collisionInfo)
         {
             PhotonDataPoint = photonDataPoint;
             CollisionInfo = collisionInfo;
         }
 
+        /// <summary>
+        /// photon data point
+        /// </summary>
         public PhotonDataPoint PhotonDataPoint { get; set; }
+        /// <summary>
+        /// collision information
+        /// </summary>
         public CollisionInfo CollisionInfo { get; set; }
 
         /// <summary>

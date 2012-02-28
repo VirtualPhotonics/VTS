@@ -17,6 +17,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="regions">list of tissue regions</param>
         /// <param name="absorptionWeightingType">absorption weighting type</param>
         /// <param name="phaseFunctionType">phase function type</param>
+        /// <param name="russianRouletteWeightThreshold">russian roulette weight threshold</param>
         public TissueBase(IList<ITissueRegion> regions, 
             AbsorptionWeightingType absorptionWeightingType,
             PhaseFunctionType phaseFunctionType,
@@ -77,7 +78,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine if on domain of tissue.
         /// </summary>
-        /// <param name="photon">current Photon state</param>
+        /// <param name="position">Photon position</param>
         /// <returns>true if on boundary, false if not</returns>
         public abstract bool OnDomainBoundary(Position position);
         /// <summary>

@@ -202,9 +202,9 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Select the cuboid surface after sampling
         /// </summary>
-        /// <param name="cubeLengthX">The length of the cube (along x axis)</param>
-        /// <param name="cubeWidthY">The width of the cube (along y axis)</param>
-        /// <param name="cubeHeightZ">The height of the cube (along z axis)</param>
+        /// <param name="lengthX">The length of the cube (along x axis)</param>
+        /// <param name="widthY">The width of the cube (along y axis)</param>
+        /// <param name="heightZ">The height of the cube (along z axis)</param>
         /// <param name="rng"></param>
         public static String SelectEmittingSurface(            
             double lengthX,

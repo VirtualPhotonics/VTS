@@ -12,7 +12,6 @@ namespace Vts.MonteCarlo.PostProcessing
         /// class captures statistics about the photon journey.
         /// </summary>
         /// <param name="tissueRegionsCount">number of tissue regions</param>
-        /// </param>
         public PostProcessorStatistics(
             int tissueRegionsCount)
         {

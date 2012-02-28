@@ -10,10 +10,10 @@ namespace Vts.MonteCarlo
     [Flags]
     public enum PhotonStateType 
     {
-        ///     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-        ///   8000 4000 2000 1000 0800 0400 0200 0100 0080 0040 0020 0010 0008 0004 0002 0001
-        ///   <- transport flags                                                           ->
-        ///   <- virtual flags these with "0000" added in lowest bits                      ->
+        //     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+        //   8000 4000 2000 1000 0800 0400 0200 0100 0080 0040 0020 0010 0008 0004 0002 0001
+        //   <- transport flags                                                           ->
+        //   <- virtual flags these with "0000" added in lowest bits                      ->
         None = 0x0,
         // transport flags
         Alive = 0x1,

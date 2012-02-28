@@ -74,7 +74,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// </summary>
         /// <param name="virtualBoundaryType"></param>
         /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
-        /// <param name="database">PhotonTerminationDatabase</param>
+        /// <param name="tallySecondMoment">boolean indicating whether to tally 2nd moment or not</param>
         /// <param name="databaseInput">Database information needed for post-processing</param>
         private PhotonDatabasePostProcessor(
             VirtualBoundaryType virtualBoundaryType,
@@ -164,7 +164,9 @@ namespace Vts.MonteCarlo.PostProcessing
         /// GenerateOutput takes detector inputs, reads PhotonExitHistory, and generates 
         /// Output.  This runs the conventional post-processing.
         /// </summary>
+        /// <param name="virtualBoundaryType">virtual boundary type</param>
         /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
+        /// <param name="tallySecondMoment">boolean indicating whether to tally 2nd moment or not</param>
         /// <param name="database">PhotonTerminationDatabase</param>
         /// <param name="databaseInput">Database information needed for post-processing</param>
         /// <returns></returns>
@@ -219,7 +221,10 @@ namespace Vts.MonteCarlo.PostProcessing
         /// GenerateOutput takes IDetectorInput (which designates tallies),
         /// reads PhotonExitHistory, and generates Output.
         /// </summary>
+        /// <param name="virtualBoundaryType">virtual boundary type</param>
         /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
+        /// <param name="tallySecondMoment">boolean indicating whether to tally 2nd moment or not</param>
+        /// <param name="trackStatistics">boolean indicating whether to track statistics or not</param>
         /// <param name="database">PhotonTerminationDatabase</param>
         /// <param name="databaseInput">Database information needed for post-processing</param>
         /// <returns></returns>

@@ -371,6 +371,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
         /// <returns></returns>
         public virtual IEnumerable<double> FluenceOfRho(
             IEnumerable<OpticalProperties> ops,
@@ -385,6 +386,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns></returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
@@ -402,6 +404,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
@@ -419,6 +422,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="zs">z values (mm)</param>
         /// <returns></returns>
         public virtual IEnumerable<double> FluenceOfFx(
             IEnumerable<OpticalProperties> ops,
@@ -433,7 +437,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <param name="ts"></param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="ts">times (ns)</param>
         /// <returns></returns>
         public virtual IEnumerable<double> FluenceOfFxAndT(
             IEnumerable<OpticalProperties> ops,
@@ -449,6 +454,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
         public virtual IEnumerable<double> FluenceOfFxAndFt(

@@ -39,7 +39,6 @@ namespace Vts.Common.Logging
         /// <summary>
         /// Returns a default singleton instance of an NLogFactcory
         /// </summary>
-        /// <param name="loggerName"></param>
         /// <returns></returns>
         public static ILoggerFactory GetDefaultNLogFactory()
         {
