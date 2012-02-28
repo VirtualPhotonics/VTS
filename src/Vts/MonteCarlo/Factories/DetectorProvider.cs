@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo.Detectors;
 using AutoMapper;
+using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.Factories
 {
     // interfaces
 
-    public interface IDetectorProvider<TDetector, TDetectorInput, TDetectorOutput, TArray>
+    public interface IDetectorProvider<TDetector, TDetectorInput, TDetectorOutput> : IProvider<IDetector>
         where TDetector : IDetector
         where TDetectorInput : IDetectorInput
-        where TDetectorOutput : IDetectorOutput<TArray>
+        where TDetectorOutput : IDetectorOutput
     {
         Func<string, TDetectorInput> ReadInputFromXML { get; set; }
         Func<string, string, TDetectorInput> ReadInputFromXMLInResources { get; set; }
@@ -22,17 +25,17 @@ namespace Vts.MonteCarlo.Factories
         Func<TDetector, TDetectorOutput> CreateOutput { get; set; }
     }
 
-    public interface IDetectorOutput<out T> : IDetectorOutput
+    public interface IProvider<IDetector>
     {
-        /// <summary>
-        /// Mean of detector tally
-        /// </summary>
-        T Mean { get; }
-        /// <summary>
-        /// Second moment of detector tally
-        /// </summary>
-        T SecondMoment { get; }
+        Type TargetType { get; set; }
     }
+
+
+    //public interface IOutput<TDetector>
+    //    where TDetector : IDetector
+    //{
+    //    string Name { get; set; }
+    //}
 
     public interface IDetectorOutput
     {
@@ -40,6 +43,19 @@ namespace Vts.MonteCarlo.Factories
         string Name { get; set; }
         TallyType TallyType { get; set; }
     }
+
+    public interface IDetectorOutput<T> : IDetectorOutput
+    {
+        /// <summary>
+        /// Mean of detector tally
+        /// </summary>
+        T Mean { get; set; }
+        /// <summary>
+        /// Second moment of detector tally
+        /// </summary>
+        T SecondMoment { get; set; }
+    }
+
 
     // base class implementations
 
@@ -57,6 +73,16 @@ namespace Vts.MonteCarlo.Factories
         {
             TallySecondMoment = false;
             Name = "";
+
+            IsReflectanceTally = false;
+            IsTransmittanceTally = false;
+            IsSpecularReflectanceTally = false;
+            IsInternalSurfaceTally = false;
+            IspMCReflectanceTally = false;
+            IsVolumeTally = false;
+            IsCylindricalTally = false;
+            IsNotImplementedForCAW = false;
+            IsNotImplementedYet = false;
         }
 
         public string Name { get; set; } // shouldn't have public set_Name
@@ -96,33 +122,58 @@ namespace Vts.MonteCarlo.Factories
         public bool TallySecondMoment { get; set; }
         public long TallyCount { get; set; } // shouldn't have public set_TallyCount
 
+        public bool IsReflectanceTally { get; protected set; }
+        public bool IsTransmittanceTally { get; protected set; }
+        public bool IsSpecularReflectanceTally { get; protected set; }
+        public bool IsInternalSurfaceTally { get; protected set; }
+        public bool IspMCReflectanceTally { get; protected set; }
+        public bool IsVolumeTally { get; protected set; }
+        public bool IsCylindricalTally { get; protected set; }
+        public bool IsNotImplementedForCAW { get; protected set; }
+        public bool IsNotImplementedYet { get; protected set; }
+
         protected abstract int[] GetDimensions();
         public abstract void Tally(Photon photon);
         public abstract void Normalize(long numPhotons);
     }
 
     public class DetectorProvider<TDetectorInput, TDetector, TDetectorOutput>
+        where TDetector : IDetector
+        where TDetectorOutput : IDetectorOutput
     {
         static DetectorProvider()
         {
             Mapper.CreateMap<TDetectorInput, TDetector>();
             Mapper.CreateMap<TDetector, TDetectorOutput>();
+
+            KnownTypes.Add(typeof(TDetectorInput));
+            KnownTypes.Add(typeof(TDetectorOutput));
         }
 
         public DetectorProvider()
         {
-            ReadInputFromXML = filename => Vts.IO.FileIO.ReadFromXML<TDetectorInput>(filename);
-            WriteInputToXML = (input, filename) => Vts.IO.FileIO.WriteToXML(input, filename);
-            ReadInputFromXMLInResources = (filename, projectName) => Vts.IO.FileIO.ReadFromXMLInResources<TDetectorInput>(filename, projectName);
             CreateDetector = input => Mapper.Map<TDetectorInput, TDetector>(input);
             CreateOutput = detector => Mapper.Map<TDetector, TDetectorOutput>(detector);
+
+            ReadInputFromFile = filename => Vts.IO.FileIO.ReadFromXML<TDetectorInput>(filename);
+            WriteInputToFile = (input, filename) => Vts.IO.FileIO.WriteToXML(input, filename);
+            ReadInputFromResources = (filename, projectName) => Vts.IO.FileIO.ReadFromXMLInResources<TDetectorInput>(filename, projectName);
+
+            WriteOutputToFile = (output, filename) => DetectorIO.WriteDetectorOutputToFile(output, filename);
+            ReadOutputFromFile = (filename, folderPath) => DetectorIO.ReadDetectorOutputFromFile<TDetectorOutput>(filename, folderPath);
+
+            TargetType = typeof(TDetector);
         }
 
-        public Func<string, TDetectorInput> ReadInputFromXML { get; set; }
-        public Func<string, string, TDetectorInput> ReadInputFromXMLInResources { get; set; }
-        public Action<TDetectorInput, string> WriteInputToXML { get; set; }
+        public Type TargetType { get; set; }
         public Func<TDetectorInput, TDetector> CreateDetector { get; set; }
         public Func<TDetector, TDetectorOutput> CreateOutput { get; set; }
+        public Func<string, TDetectorInput> ReadInputFromFile { get; set; }
+        public Func<string, string, TDetectorInput> ReadInputFromResources { get; set; }
+        public Action<TDetectorInput, string> WriteInputToFile { get; set; }
+        public Func<string, string, TDetectorOutput> ReadOutputFromFile { get; set; }
+        public Action<TDetectorOutput, string> WriteOutputToFile { get; set; }
+
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,6 +209,17 @@ namespace Vts.MonteCarlo.Factories
             QRange = new DoubleRange(0, 1, 10);
             TallySecondMoment = false;
             Name = "SampleDetector";
+
+            // todo: I've created a monster...
+            IsReflectanceTally = true;
+            IsTransmittanceTally = false;
+            IsSpecularReflectanceTally = false;
+            IsInternalSurfaceTally = false;
+            IspMCReflectanceTally = false;
+            IsVolumeTally = false;
+            IsCylindricalTally = false;
+            IsNotImplementedForCAW = false;
+            IsNotImplementedYet = false;
         }
 
         public DoubleRange QRange { get; set; }
@@ -185,20 +247,30 @@ namespace Vts.MonteCarlo.Factories
     /// <summary>
     /// Class representing detector data to save/store
     /// </summary>
-    public class SampleDetectorOutput : IDetectorOutput<double[]>
+    public class DetectorOutput<T> : IDetectorOutput<T>
     {
-        public double[] Mean { get; set; }
-        public double[] SecondMoment { get; set; }
+        [IgnoreDataMember]
+        public T Mean { get; set; }
+
+        [IgnoreDataMember]
+        public T SecondMoment { get; set; }
+
         public int[] Dimensions { get; set; }
         public string Name { get; set; }
         public TallyType TallyType { get; set; }
+    }
+
+    public class SampleDetectorOutput : DetectorOutput<double[]>
+    {
+        public DoubleRange QRange { get; set; }
     }
 
 
     /// <summary>
     /// Class that glues all the pieces together. In most cases, there shouldn't be any extra work to do here
     /// </summary>
-    public class SampleDetectorProvider : DetectorProvider<SampleDetectorInput, SampleDetector, SampleDetectorOutput>
+    public class SampleDetectorProvider
+        : DetectorProvider<SampleDetectorInput, SampleDetector, SampleDetectorOutput>
     {
     }
 }

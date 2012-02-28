@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Numerics;
+using Vts.Common.Extensions;
 using Vts.IO;
 using Vts.MonteCarlo.Detectors;
 using System.Runtime.Serialization;
 using System.IO.IsolatedStorage;
+using Vts.MonteCarlo.Factories;
 
 namespace Vts.MonteCarlo.IO
 {
@@ -14,6 +17,232 @@ namespace Vts.MonteCarlo.IO
     /// </summary>
     public static class DetectorIO
     {
+        /// <summary>
+        /// Writes Detector xml for scalar detectors, writes Detector xml and 
+        /// binary for 1D and larger detectors.  Detector.Name is used for filename.
+        /// </summary>
+        /// <param name="output">IDetector being written.</param>
+        /// <param name="folderPath">location of written file.</param>
+        public static void WriteDetectorOutputToFile(IDetectorOutput output, string folderPath)
+        {
+            try
+            {
+                // allow null folderPath in case writing to isolated storage
+                string filePath = folderPath;
+                if (folderPath == "")
+                {
+                    filePath = output.Name;
+                }
+                else
+                {
+                    filePath = folderPath + @"/" + output.Name;
+
+                    // uses isolated storage for Silverlight, desktop folder otherwise
+                    FileIO.CreateDirectory(folderPath);
+                }
+
+                if (output is IDetectorOutput<double>)
+                {
+                    var d = output as IDetectorOutput<double>;
+                    FileIO.WriteToXML(d, filePath + ".xml");
+                    return;
+                }
+                if (output is IDetectorOutput<double[]>)
+                {
+                    var d = output as IDetectorOutput<double[]>;
+                    FileIO.WriteToXML(d, filePath + ".xml");
+                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
+                    // output of 2nd moment 
+                    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
+                    return;
+                }
+                if (output is IDetector<double[,]>)
+                {
+                    var d = output as IDetector<double[,]>;
+                    FileIO.WriteToXML(d, filePath + ".xml");
+                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
+                    return;
+                }
+                if (output is IDetectorOutput<double[, ,]>)
+                {
+                    var d = output as IDetectorOutput<double[, ,]>;
+                    FileIO.WriteToXML(d, filePath + ".xml");
+                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
+                    return;
+                }
+                if (output is IDetectorOutput<double[, , ,]>)
+                {
+                    var d = output as IDetectorOutput<double[, , ,]>;
+                    FileIO.WriteToXML(d, filePath + ".xml");
+                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
+                    return;
+                }
+                if (output is IDetectorOutput<double[, , , ,]>)
+                {
+                    var d = output as IDetectorOutput<double[, , , ,]>;
+                    FileIO.WriteToXML(d, filePath + ".xml");
+                    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
+                    return;
+                }
+                if (output is IDetectorOutput<Complex>)
+                {
+                    var d = output as IDetectorOutput<Complex>;
+                    FileIO.WriteToXML(d, filePath + ".xml");
+                    return;
+                }
+                if (output is IDetectorOutput<Complex[]>)
+                {
+                    var d = output as IDetectorOutput<Complex[]>;
+                    FileIO.WriteToXML(d, filePath + ".xml");
+                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
+                    return;
+                }
+                if (output is IDetectorOutput<Complex[,]>)
+                {
+                    var d = output as IDetectorOutput<Complex[,]>;
+                    FileIO.WriteToXML(d, filePath + ".xml");
+                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
+                    return;
+                }
+                if (output is IDetectorOutput<Complex[, ,]>)
+                {
+                    var d = output as IDetectorOutput<Complex[, ,]>;
+                    FileIO.WriteToXML(d, filePath + ".xml");
+                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
+                    return;
+                }
+                if (output is IDetectorOutput<Complex[, , ,]>)
+                {
+                    var d = output as IDetectorOutput<Complex[, , ,]>;
+                    FileIO.WriteToXML(d, filePath + ".xml");
+                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
+                    return;
+                }
+                if (output is IDetectorOutput<Complex[, , , ,]>)
+                {
+                    var d = output as IDetectorOutput<Complex[, , , ,]>;
+                    FileIO.WriteToXML(d, filePath + ".xml");
+                    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
+                    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
+                    return;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Problem writing detector information to file.\n\nDetails:\n\n" + e + "\n");
+            }
+        }
+
+
+        /// <summary>
+        /// Reads Detector from File with given fileName.
+        /// </summary>
+        /// <param name="tallyType">TallyType of IDetector being read</param>
+        /// <param name="fileName">filename string of file to be read</param>
+        /// <param name="folderPath">path string where file resides</param>
+        /// <returns></returns>
+        public static T ReadDetectorOutputFromFile<T>(string fileName, string folderPath)
+            where T : IDetectorOutput
+        {
+            try
+            {
+                // allow null filePaths in case writing to isolated storage
+                string filePath;
+                if (folderPath == "")
+                {
+                    filePath = fileName;
+                }
+                else
+                {
+                    filePath = folderPath + @"/" + fileName;
+                }
+                var type = typeof(T);
+
+                if (type.Implements(typeof(IDetectorOutput<double>)))
+                {
+                    return FileIO.ReadFromXML<T>(filePath + ".xml");
+                }
+                if (type.Implements(typeof(IDetectorOutput<double[]>)))
+                {
+                    var detector = (IDetectorOutput<double[]>)FileIO.ReadFromXML<T>(filePath + ".xml");
+                    detector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, detector.Dimensions);
+                    return (T)detector;
+                }
+                if (type.Implements(typeof(IDetectorOutput<double[,]>)))
+                {
+                    var detector = (IDetectorOutput<double[,]>)FileIO.ReadFromXML<T>(filePath + ".xml");
+                    detector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, detector.Dimensions);
+                    return (T)detector;
+                }
+                if (type.Implements(typeof(IDetectorOutput<double[, ,]>)))
+                {
+                    var detector = (IDetectorOutput<double[, ,]>)FileIO.ReadFromXML<T>(filePath + ".xml");
+                    detector.Mean = (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, detector.Dimensions);
+                    return (T)detector;
+                }
+                if (type.Implements(typeof(IDetectorOutput<double[, , ,]>)))
+                {
+                    var detector = (IDetectorOutput<double[, , ,]>)FileIO.ReadFromXML<T>(filePath + ".xml");
+                    detector.Mean = (double[, , ,])FileIO.ReadArrayFromBinary<double>(filePath, detector.Dimensions);
+                    return (T)detector;
+                }
+                if (type.Implements(typeof(IDetectorOutput<double[, , , ,]>)))
+                {
+                    var detector = (IDetectorOutput<double[, , , ,]>)FileIO.ReadFromXML<T>(filePath + ".xml");
+                    detector.Mean = (double[, , , ,])FileIO.ReadArrayFromBinary<double>(filePath, detector.Dimensions);
+                    return (T)detector;
+                }
+                if (type.Implements(typeof(IDetectorOutput<Complex>)))
+                {
+                    return FileIO.ReadFromXML<T>(filePath + ".xml");
+                }
+                if (type.Implements(typeof(IDetectorOutput<Complex[]>)))
+                {
+                    var detector = (IDetectorOutput<Complex[]>)FileIO.ReadFromXML<T>(filePath + ".xml");
+                    detector.Mean = (Complex[])FileIO.ReadArrayFromBinary<Complex>(filePath, detector.Dimensions);
+                    return (T)detector;
+                }
+                if (type.Implements(typeof(IDetectorOutput<Complex[,]>)))
+                {
+                    var detector = (IDetectorOutput<Complex[,]>)FileIO.ReadFromXML<T>(filePath + ".xml");
+                    detector.Mean = (Complex[,])FileIO.ReadArrayFromBinary<Complex>(filePath, detector.Dimensions);
+                    return (T)detector;
+                }
+                if (type.Implements(typeof(IDetectorOutput<Complex[, ,]>)))
+                {
+                    var detector = (IDetectorOutput<Complex[, ,]>)FileIO.ReadFromXML<T>(filePath + ".xml");
+                    detector.Mean = (Complex[, ,])FileIO.ReadArrayFromBinary<Complex>(filePath, detector.Dimensions);
+                    return (T)detector;
+                }
+                if (type.Implements(typeof(IDetectorOutput<Complex[, , ,]>)))
+                {
+                    var detector = (IDetectorOutput<Complex[, , ,]>)FileIO.ReadFromXML<T>(filePath + ".xml");
+                    detector.Mean = (Complex[, , ,])FileIO.ReadArrayFromBinary<Complex>(filePath, detector.Dimensions);
+                    return (T)detector;
+                }
+                if (type.Implements(typeof(IDetectorOutput<Complex[, , , ,]>)))
+                {
+                    var detector = (IDetectorOutput<Complex[, , , ,]>)FileIO.ReadFromXML<T>(filePath + ".xml");
+                    detector.Mean = (Complex[, , , ,])FileIO.ReadArrayFromBinary<Complex>(filePath, detector.Dimensions);
+                    return (T)detector;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Problem reading detector information from file.\n\nDetails:\n\n" + e + "\n");
+            }
+
+            return default(T);
+        }
+
         /// <summary>
         /// Writes Detector xml for scalar detectors, writes Detector xml and 
         /// binary for 1D and larger detectors.  Detector.Name is used for filename.
@@ -125,6 +354,7 @@ namespace Vts.MonteCarlo.IO
                 Console.WriteLine("Problem writing detector information to file.\n\nDetails:\n\n" + e + "\n");
             }
         }
+
         /// <summary>
         /// Reads Detector from File with given fileName.
         /// </summary>
@@ -260,8 +490,8 @@ namespace Vts.MonteCarlo.IO
 
                     case TallyType.FluenceOfXAndYAndZ:
                         var fluenceOfXAndYAndZDetector = FileIO.ReadFromXML<FluenceOfXAndYAndZDetector>(filePath + ".xml");
-                        var fluenceOfXAndYAndZDetectorDims = new int[] { fluenceOfXAndYAndZDetector.X.Count - 1, fluenceOfXAndYAndZDetector.Y.Count - 1, fluenceOfXAndYAndZDetector.Z.Count -1 };
-                        fluenceOfXAndYAndZDetector.Mean = (double[,,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfXAndYAndZDetectorDims);
+                        var fluenceOfXAndYAndZDetectorDims = new int[] { fluenceOfXAndYAndZDetector.X.Count - 1, fluenceOfXAndYAndZDetector.Y.Count - 1, fluenceOfXAndYAndZDetector.Z.Count - 1 };
+                        fluenceOfXAndYAndZDetector.Mean = (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfXAndYAndZDetectorDims);
                         return fluenceOfXAndYAndZDetector;
 
                     case TallyType.AOfRhoAndZ:
@@ -415,7 +645,7 @@ namespace Vts.MonteCarlo.IO
                     case TallyType.ROfRhoAndOmega:
                         var rOfRhoAndOmegaDetector =
                             FileIO.ReadFromXMLInResources<ROfRhoAndOmegaDetector>(filePath + ".xml", projectName);
-                        var rOfRhoAndOmegaDetectorDims = new int[] { rOfRhoAndOmegaDetector.Rho.Count - 1, rOfRhoAndOmegaDetector.Omega.Count};
+                        var rOfRhoAndOmegaDetectorDims = new int[] { rOfRhoAndOmegaDetector.Rho.Count - 1, rOfRhoAndOmegaDetector.Omega.Count };
                         rOfRhoAndOmegaDetector.Mean =
                             (Complex[,])FileIO.ReadArrayFromBinaryInResources<Complex>(filePath, projectName, rOfRhoAndOmegaDetectorDims);
                         return rOfRhoAndOmegaDetector;

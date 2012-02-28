@@ -271,6 +271,7 @@
     <Compile Include="MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\Factories\DetectorProviderTests.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolboxTests.cs">
       <SubType>Code</SubType>
     </Compile>

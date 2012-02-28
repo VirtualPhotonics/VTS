@@ -150,6 +150,7 @@
     <Compile Include="Common\Extensions\EnumExtensions.cs" />
     <Compile Include="Common\Extensions\IEnumerableArrayExtensions.cs" />
     <Compile Include="Common\Extensions\OpticalPropertiesExtensions.cs" />
+    <Compile Include="Common\Extensions\TypeExtensions.cs" />
     <Compile Include="Common\GlobalConstants.cs" />
     <Compile Include="Common\Helpers\EnumHelper.cs" />
     <Compile Include="Common\Helpers\FuncOfT.cs" />

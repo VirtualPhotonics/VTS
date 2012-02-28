@@ -173,6 +173,9 @@
     <Compile Include="..\Vts\Common\Extensions\RNGExtensions.cs">
       <Link>Common\Extensions\RNGExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Common\Extensions\TypeExtensions.cs">
+      <Link>Common\Extensions\TypeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Common\GlobalConstants.cs">
       <Link>Common\GlobalConstants.cs</Link>
     </Compile>
