@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="detectorInputs">IEnumerable of IDetectorInput</param>
         /// <param name="tissue">ITissue</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
-        /// <returns></returns>
+        /// <returns>List of IDetector</returns>
         public static IList<IDetector> GetDetectors(IEnumerable<IDetectorInput> detectorInputs, ITissue tissue, bool tallySecondMoment)
         {
             if (detectorInputs == null)
@@ -32,7 +32,7 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="detectorInput">IDetectorInput</param>
         /// <param name="tissue">ITissue</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector GetDetector(
             IDetectorInput detectorInput,
             ITissue tissue,

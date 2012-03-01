@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo.Extensions
         /// <summary>
         /// Method to determine if perturbation Monte Carlo (pMC) database specified or not
         /// </summary>
-        /// <param name="databaseType">VB type</param>
+        /// <param name="databaseType">database type</param>
         /// <returns>true if pMC VB, false if not</returns>
         public static bool IspMCDatabase(this DatabaseType databaseType)
         {

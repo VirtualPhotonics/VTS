@@ -131,7 +131,7 @@ namespace Vts.MonteCarlo.IO
         /// <param name="tallyType">TallyType of IDetector being read</param>
         /// <param name="fileName">filename string of file to be read</param>
         /// <param name="folderPath">path string where file resides</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector ReadDetectorFromFile(TallyType tallyType, string fileName, string folderPath)
         {
             try
@@ -305,7 +305,7 @@ namespace Vts.MonteCarlo.IO
         /// </summary>
         /// <param name="tallyType">TallyType of IDetector being read</param>
         /// <param name="folderPath">path string of folder where file to be read resides</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector ReadDetectorFromFile(TallyType tallyType, string folderPath)
         {
             return ReadDetectorFromFile(tallyType, tallyType.ToString(), folderPath);
@@ -317,7 +317,7 @@ namespace Vts.MonteCarlo.IO
         /// <param name="fileName">filename string of file to be read</param>
         /// <param name="folderPath">path string of folder where file to be read resides</param>
         /// <param name="projectName">project name string where file resides in resources</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector ReadDetectorFromFileInResources(TallyType tallyType, string fileName, string folderPath, string projectName)
         {
             try
@@ -490,7 +490,7 @@ namespace Vts.MonteCarlo.IO
         /// <param name="tallyType">TallyType of IDetector to be read</param>
         /// <param name="folderPath">path string of folder where file to be read resides</param>
         /// <param name="projectName">project name string where the file resides in resources</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector ReadDetectorFromFileInResources(TallyType tallyType, string folderPath, string projectName)
         {
             return ReadDetectorFromFileInResources(tallyType, tallyType.ToString(), folderPath, projectName);

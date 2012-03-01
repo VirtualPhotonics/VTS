@@ -59,7 +59,7 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="n1">refractive index of the current medium</param>
         /// <param name="n2">refractive index of the next medium</param>
-        /// <returns></returns>
+        /// <returns>double</returns>
         public static double Specular(double n1, double n2)
         {
             return (n1 - n2) * (n1 - n2) / ((n1 + n2) * (n1 + n2));

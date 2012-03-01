@@ -73,8 +73,14 @@ namespace Vts.MonteCarlo
         public IList<IDetectorInput> DetectorInputs;
 
         /// <summary>
-        /// Default constructor loads default values for InputData
+        /// Monte Carlo simulation input data
         /// </summary>
+        /// <param name="numberOfPhotons">long number indicating number of photons launched from source</param>
+        /// <param name="outputName">string indicating output name</param>
+        /// <param name="simulationOptions">options to execute simulation</param>
+        /// <param name="sourceInput">ISourceInput specifying source of light</param>
+        /// <param name="tissueInput">ITissueInput specifying tissue definition</param>
+        /// <param name="detectorInputs">IDetectorInput specifying which detectors to tally</param>
         public SimulationInput(
             long numberOfPhotons, 
             string outputName,
@@ -95,7 +101,9 @@ namespace Vts.MonteCarlo
                 DetectorInputs = new List<IDetectorInput>() {};
             }
         }
-
+        /// <summary>
+        /// SimulationInput default constructor
+        /// </summary>
         public SimulationInput()
             : this(
                 100,
@@ -131,17 +139,29 @@ namespace Vts.MonteCarlo
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
                 }
                 ) { }
-
+        /// <summary>
+        /// Method to read SimulationInput from file
+        /// </summary>
+        /// <param name="filename">string filename of file to be read</param>
+        /// <returns>SimulationInput</returns>
         public static SimulationInput FromFile(string filename)
         {
             return FileIO.ReadFromXML<SimulationInput>(filename);
         }
-
+        /// <summary>
+        /// Method to write SimulationInput to file
+        /// </summary>
+        /// <param name="filename">string filename to write to</param>
         public void ToFile(string filename)
         {
             FileIO.WriteToXML(this, filename);
         }
-
+        /// <summary>
+        /// Method to read SimulationInput xml from file in resources
+        /// </summary>
+        /// <param name="filename">string filename</param>
+        /// <param name="project">string project name</param>
+        /// <returns>SimulationInput</returns>
         public static SimulationInput FromFileInResources(string filename, string project)
         {
             return FileIO.ReadFromXMLInResources<SimulationInput>(filename, project);

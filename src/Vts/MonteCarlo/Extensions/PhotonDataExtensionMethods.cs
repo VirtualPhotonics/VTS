@@ -10,7 +10,12 @@ namespace Vts.MonteCarlo.Extensions
     public static class PhotonDataExtensionMethods
     {
 
-
+        /// <summary>
+        /// Method to write to pMC surface VB databases, calls singular method below for a list.
+        /// </summary>
+        /// <param name="collisionInfoDatabaseWriters">list of CollisionInfoDatabaseWriters</param>
+        /// <param name="dp">PhotonDataPoint</param>
+        /// <param name="collisionInfo">CollisionInfo</param>
         public static void WriteToPMCSurfaceVirtualBoundaryDatabases(
             this IList<CollisionInfoDatabaseWriter> collisionInfoDatabaseWriters, PhotonDataPoint dp, CollisionInfo collisionInfo)
         {
@@ -19,6 +24,12 @@ namespace Vts.MonteCarlo.Extensions
                 WriteToPMCSurfaceVirtualBoundaryDatabase(writer, dp, collisionInfo);
             };
         }
+        /// <summary>
+        /// Method to write to pMC surface VB database
+        /// </summary>
+        /// <param name="collisionInfoDatabaseWriter">CollisionInfoDatabaseWriter</param>
+        /// <param name="dp">PhotonDataPoint</param>
+        /// <param name="collisionInfo">CollisionInfo</param>
         public static void WriteToPMCSurfaceVirtualBoundaryDatabase(
             this CollisionInfoDatabaseWriter collisionInfoDatabaseWriter, PhotonDataPoint dp, CollisionInfo collisionInfo)
         {
@@ -32,7 +43,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="dp">photon data point</param>
         /// <param name="collisionInfoDatabaseWriter">collision info database writer</param>
-        /// <returns></returns>
+        /// <returns>boolean</returns>
         public static bool BelongsToSurfaceVirtualBoundary(this PhotonDataPoint dp,
             CollisionInfoDatabaseWriter collisionInfoDatabaseWriter)
         {

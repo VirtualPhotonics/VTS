@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo.Factories
         /// to instantiate one PhotonDatabaseWriter, GetSurfaceVirtualBoundaryDatabaseWriter,
         /// for all elements in the list of virtual boundary DatabaseType.
         /// </summary>
-        /// <param name="databaseTypes">list of virtual boundary database types</param>
+        /// <param name="databaseTypes">list of database types</param>
         /// <param name="filePath">path string for database output</param>
         /// <param name="outputName">name string of output</param>
         /// <returns>a list of PhotonDatabaseWriter</returns>
@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo.Factories
         /// Static method to instantiate correct PhotonDatabaseWriter given a 
         /// virtual boundary DatabaseType, path to where to output database and database filename.
         /// </summary>
-        /// <param name="databaseType">virtual boundary database type</param>
+        /// <param name="databaseType">database type enum</param>
         /// <param name="filePath">path string of database output</param>
         /// <param name="outputName">filename string of database file</param>
         /// <returns>a PhotonDatabaseWriter</returns>
@@ -63,11 +63,11 @@ namespace Vts.MonteCarlo.Factories
         /// to instantiate one CollisionInfoDatabaseWriter, GetCollisionInfoDatabaseWriter,
         /// for all elements in the list of virtual boundary DatabaseType. 
         /// </summary>
-        /// <param name="databaseTypes">list of virtual boundary database types</param>
+        /// <param name="databaseTypes">list of database types</param>
         /// <param name="tissue">ITissue needed to instantiate Writer to know how many regions</param>
         /// <param name="filePath">path string of database output</param>
         /// <param name="outputName">filename string of output file</param>
-        /// <returns>a list of PhotonDatabaseWriter</returns>
+        /// <returns>a list of CollisionInfoDatabaseWriter</returns>
         public static IList<CollisionInfoDatabaseWriter> GetCollisionInfoDatabaseWriters(
             IList<DatabaseType> databaseTypes, ITissue tissue, string filePath, string outputName)
         {
@@ -79,7 +79,7 @@ namespace Vts.MonteCarlo.Factories
         /// Static method to instantiate correct CollisionInfoDatabaseWriter given a 
         /// virtual boundary DatabaseType, path to where to output database and database filename.
         /// </summary>
-        /// <param name="databaseType">virtual boundary database type</param>
+        /// <param name="databaseType">database type enum</param>
         /// <param name="tissue">ITissue to know how many regions</param>
         /// <param name="filePath">path string of database output</param>
         /// <param name="outputName">filename string of database file</param>

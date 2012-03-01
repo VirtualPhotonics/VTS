@@ -10,8 +10,7 @@ namespace Vts.MonteCarlo.Extensions
         /// Method to determine is IDetector is a reflectance tally or not.
         /// </summary>
         /// <param name="type">TallyType enum</param>
-        /// <returns>boolean
-        /// </returns>
+        /// <returns>boolean indicating whether reflectance tally or not</returns>
         public static bool IsReflectanceTally(this TallyType type)
         {
             switch (type)
