@@ -20,7 +20,6 @@ namespace Vts.Test.Factories
         /// Test against the SolverFactory class GetForwardSolver routine
         /// </summary>
         [Test]
-        [Ignore("this test fails because pMC database is not loaded, will be fixed once lazy-loading working")]
         public void GetForwardSolver_ReturnsNonNull()
         {
             foreach (var fsType in EnumHelper.GetValues<ForwardSolverType>())

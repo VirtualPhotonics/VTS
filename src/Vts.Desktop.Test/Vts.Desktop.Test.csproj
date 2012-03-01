@@ -165,9 +165,6 @@
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsGeneratorTests.cs">
       <Link>Modeling\ForwardSolvers\NurbsGeneratorTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\pMCForwardSolverTests.cs">
-      <Link>Modeling\ForwardSolvers\pMCForwardSolverTests.cs</Link>
-    </Compile>
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTests.cs">
       <Link>Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTests.cs</Link>
     </Compile>

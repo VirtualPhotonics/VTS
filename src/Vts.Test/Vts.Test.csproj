@@ -200,9 +200,6 @@
     <Compile Include="Modeling\ForwardSolvers\NurbsGeneratorTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\pMCForwardSolverTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTests.cs">
       <SubType>Code</SubType>
     </Compile>

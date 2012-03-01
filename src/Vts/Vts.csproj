@@ -306,8 +306,6 @@
     <Compile Include="Modeling\ForwardSolvers\NurbsGenerator.cs" />
     <Compile Include="Modeling\ForwardSolvers\NurbsValues.cs" />
     <Compile Include="Modeling\ForwardSolvers\PhotonHittingDensity.cs" />
-    <Compile Include="Modeling\ForwardSolvers\pMCForwardSolver.cs" />
-    <Compile Include="Modeling\ForwardSolvers\pMCLoader.cs" />
     <Compile Include="Modeling\ForwardSolvers\PointSourceSDAForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs" />
     <Compile Include="Modeling\ForwardSolvers\StubNurbsGenerator.cs" />

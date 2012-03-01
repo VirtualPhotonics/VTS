@@ -62,10 +62,6 @@ namespace Vts
         /// scaled Monte Carlo forward solver with non-uniform rational b-splines forward solver
         /// </summary>
         Nurbs,
-        /// <summary>
-        /// perturbation Monte Carlo (pMC) forward solver
-        /// </summary>
-        pMC,
 //        DiscreteOrdinates
     }
     /// <summary>

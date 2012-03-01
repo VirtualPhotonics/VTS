@@ -449,12 +449,6 @@
     <Compile Include="..\Vts\Modeling\ForwardSolvers\PhotonHittingDensity.cs">
       <Link>Modeling\ForwardSolvers\PhotonHittingDensity.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\pMCForwardSolver.cs">
-      <Link>Modeling\ForwardSolvers\pMCForwardSolver.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\pMCLoader.cs">
-      <Link>Modeling\ForwardSolvers\pMCLoader.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\PointSourceSDAForwardSolver.cs">
       <Link>Modeling\ForwardSolvers\PointSourceSDAForwardSolver.cs</Link>
     </Compile>
