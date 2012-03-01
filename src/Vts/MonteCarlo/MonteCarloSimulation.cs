@@ -142,11 +142,11 @@ namespace Vts.MonteCarlo
         private AbsorptionWeightingType AbsorptionWeightingType { get; set; }
         private bool TrackStatistics { get; set; }
 
-        public Output Results { get; private set; }
+        public SimulationOutput Results { get; private set; }
 
-        public static Output[] RunAll(MonteCarloSimulation[] simulations)
+        public static SimulationOutput[] RunAll(MonteCarloSimulation[] simulations)
         {
-            Output[] outputs = new Output[simulations.Length];
+            SimulationOutput[] outputs = new SimulationOutput[simulations.Length];
             var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
             Parallel.ForEach(simulations, options, (sim, state, index) =>
             {
@@ -172,7 +172,7 @@ namespace Vts.MonteCarlo
         /// Run the simulation
         /// </summary>
         /// <returns></returns>
-        public Output Run()
+        public SimulationOutput Run()
         {
             _isCancelled = false;
             _isRunning = true;
@@ -194,7 +194,7 @@ namespace Vts.MonteCarlo
                     .Where(dc => dc != null)
                     .SelectMany(dc => dc.Detectors).ToList();
 
-            Results = new Output(_input, detectors);
+            Results = new SimulationOutput(_input, detectors);
 
             _resultsAvailable = true;
 

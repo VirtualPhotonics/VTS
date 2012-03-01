@@ -76,7 +76,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 Directory.CreateDirectory(resultsFolder);
             }
 
-            Output postProcessedOutput = null;
+            SimulationOutput postProcessedOutput = null;
 
             var databaseGenerationInputFile = SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"));
             // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo

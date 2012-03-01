@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     public class pMCDAWOneLayerDetectorsTests
     {
         private SimulationInput _referenceInputOneLayerTissue;
-        private Output _referenceOutputOneLayerTissue;
+        private SimulationOutput _referenceOutputOneLayerTissue;
         private double _layerThickness = 1.0;
         private double _factor;
         private pMCDatabase _databaseOneLayerTissue;

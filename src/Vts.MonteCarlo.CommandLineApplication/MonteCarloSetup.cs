@@ -150,7 +150,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             mc.SetOutputPathForDatabases(path);
 
-            Output detectorResults = mc.Run();
+            SimulationOutput detectorResults = mc.Run();
 
             input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
 

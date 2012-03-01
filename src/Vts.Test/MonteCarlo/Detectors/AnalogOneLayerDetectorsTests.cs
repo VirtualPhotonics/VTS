@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class AnalogOneLayerDetectorsTests
     {
-        private Output _output;
+        private SimulationOutput _output;
         private SimulationInput _input;
         private double _factor;
         private SimulationStatistics _simulationStatistics;

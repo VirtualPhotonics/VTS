@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.Wcf
 
             Parallel.For(0, inputs.Length, i =>
             {
-                Output detectorResults = new MonteCarloSimulation(inputs[i]).Run();
+                SimulationOutput detectorResults = new MonteCarloSimulation(inputs[i]).Run();
                 foreach (var result in detectorResults.ResultsDictionary.Values)
                 {
                     // save all detector data to the specified folder

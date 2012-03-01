@@ -328,7 +328,7 @@
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\ValidationResult.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs" />
-    <Compile Include="MonteCarlo\DataStructures\Output.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SimulationOutput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInput.cs" />
     <Compile Include="MonteCarlo\Extensions\SimulationInputExtensions.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationOptions.cs" />

@@ -4,7 +4,7 @@ namespace Vts.MonteCarlo
 {
     public unsafe static class UnmanagedOutputExtension
     {
-        public static UnmanagedOutput ToUnmanagedOutput(this Output output)
+        public static UnmanagedOutput ToUnmanagedOutput(this SimulationOutput output)
         {
             UnmanagedOutput unmanagedOutput = new UnmanagedOutput();
 

@@ -104,9 +104,9 @@ namespace Vts.MonteCarlo.PostProcessing
         /// </summary>
         /// <param name="postProcessors"></param>
         /// <returns></returns>
-        public static Output[] RunAll(PhotonDatabasePostProcessor[] postProcessors)
+        public static SimulationOutput[] RunAll(PhotonDatabasePostProcessor[] postProcessors)
         {
-            var outputs = new Output[postProcessors.Length];
+            var outputs = new SimulationOutput[postProcessors.Length];
             var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
             Parallel.ForEach(postProcessors, options, (sim, state, index) =>
             {
@@ -127,7 +127,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// Executes the post-processor
         /// </summary>
         /// <returns></returns>
-        public Output Run()
+        public SimulationOutput Run()
         {
             if (_virtualBoundaryType.IsSurfaceVirtualBoundary())
             {
@@ -153,7 +153,7 @@ namespace Vts.MonteCarlo.PostProcessing
 
             _detectorController.NormalizeDetectors(_databaseInput.N);
 
-            var postProcessedOutput = new Output(_databaseInput, _detectors);
+            var postProcessedOutput = new SimulationOutput(_databaseInput, _detectors);
 
             return postProcessedOutput;
         }
@@ -170,7 +170,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <param name="database">PhotonTerminationDatabase</param>
         /// <param name="databaseInput">Database information needed for post-processing</param>
         /// <returns></returns>
-        public static Output GenerateOutput(
+        public static SimulationOutput GenerateOutput(
             VirtualBoundaryType virtualBoundaryType,
             IList<IDetectorInput> detectorInputs,
             bool tallySecondMoment,
@@ -228,7 +228,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <param name="database">PhotonTerminationDatabase</param>
         /// <param name="databaseInput">Database information needed for post-processing</param>
         /// <returns></returns>
-        public static Output GenerateOutput(
+        public static SimulationOutput GenerateOutput(
             VirtualBoundaryType virtualBoundaryType,
             IList<IDetectorInput> detectorInputs,
             bool tallySecondMoment,

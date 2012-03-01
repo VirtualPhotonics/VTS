@@ -21,8 +21,8 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class CAWLayersDetectorsTests
     {
-        private Output _outputOneLayerTissue;
-        private Output _outputTwoLayerTissue;
+        private SimulationOutput _outputOneLayerTissue;
+        private SimulationOutput _outputTwoLayerTissue;
         private double _layerThickness = 2.0;
         private double _factor;
 

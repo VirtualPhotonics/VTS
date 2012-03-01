@@ -617,9 +617,6 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\TOfRhoDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\TOfRhoDetectorInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\Output.cs">
-      <Link>MonteCarlo\DataStructures\Output.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs">
       <Link>MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs</Link>
     </Compile>
@@ -634,6 +631,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs">
       <Link>MonteCarlo\DataStructures\SimulationOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOutput.cs">
+      <Link>MonteCarlo\DataStructures\SimulationOutput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationStatistics.cs">
       <Link>MonteCarlo\DataStructures\SimulationStatistics.cs</Link>

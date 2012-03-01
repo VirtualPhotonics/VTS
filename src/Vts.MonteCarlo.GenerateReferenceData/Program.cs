@@ -60,7 +60,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     }
                 );
 
-            Output output = new MonteCarloSimulation(input).Run();
+            SimulationOutput output = new MonteCarloSimulation(input).Run();
             input.ToFile("infile.xml");
 
             // the following gets are R(rho,time) for scaled.

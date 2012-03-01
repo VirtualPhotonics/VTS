@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     public class pMCDAWLayersDetectorsTests
     {
         private SimulationInput _referenceInputTwoLayerTissue;
-        private Output _referenceOutputTwoLayerTissue;
+        private SimulationOutput _referenceOutputTwoLayerTissue;
         private double _layerThickness = 1.0;
         private double _factor;
         private pMCDatabase _databaseTwoLayerTissue;

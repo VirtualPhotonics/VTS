@@ -21,8 +21,8 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DAWLayersDetectorsTests
     {
-        private Output _outputOneLayerTissue;
-        private Output _outputTwoLayerTissue;
+        private SimulationOutput _outputOneLayerTissue;
+        private SimulationOutput _outputTwoLayerTissue;
         private SimulationInput _inputOneLayerTissue;
         private SimulationInput _inputTwoLayerTissue;
         private double _layerThickness = 1.0; // tissue is homogeneous (both layer opt. props same)

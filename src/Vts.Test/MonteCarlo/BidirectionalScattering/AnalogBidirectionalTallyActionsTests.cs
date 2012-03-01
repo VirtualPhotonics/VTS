@@ -18,7 +18,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
     [TestFixture]
     public class AnalogBidirectionalTallyActionsTests
     {
-        Output _output;
+        SimulationOutput _output;
         SimulationInput _input;
         double _slabThickness = 10;
         double _mua = 0.01;

@@ -21,8 +21,8 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DAWSphereDetectorsTests
     {
-        private Output _outputOneRegionTissue;
-        private Output _outputTwoRegionTissue;
+        private SimulationOutput _outputOneRegionTissue;
+        private SimulationOutput _outputTwoRegionTissue;
         private SimulationInput _inputOneRegionTissue;
         private SimulationInput _inputTwoRegionTissue;
         private double _factor;

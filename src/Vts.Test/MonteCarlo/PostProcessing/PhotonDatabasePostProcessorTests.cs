@@ -147,7 +147,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         /// </summary>
         /// <param name="output1"></param>
         /// <param name="output2"></param>
-        private void ValidateROfRhoAndTime(Output output1, Output output2)
+        private void ValidateROfRhoAndTime(SimulationOutput output1, SimulationOutput output2)
         {
             var detector = (ROfRhoAndTimeDetectorInput)_detectorInputs.
                 Where(d => d.TallyType == TallyType.ROfRhoAndTime).First(); 
