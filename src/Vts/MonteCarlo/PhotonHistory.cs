@@ -33,16 +33,23 @@ namespace Vts.MonteCarlo
                 _SubRegionInfoList.Add(new SubRegionCollisionInfo(0.0, 0)); 
             }
         }
-
+        /// <summary>
+        /// HistoryData contains the photon's biography within a list of PhotonDataPoints
+        /// </summary>
         public IList<PhotonDataPoint> HistoryData{ get; private set; }
 
-        //public IList<SubRegionCollisionInfo> SubRegionInfoList // modified from IList<SubRegionCollisionInfo>
+        /// <summary>
+        /// SubRegionInfoList keeps track of number of collisions and pathlength in each tissue
+        /// region
+        /// </summary>
         public CollisionInfo SubRegionInfoList
         {
             get { return _SubRegionInfoList; } 
             set { _SubRegionInfoList = value; }
         }
-
+        /// <summary>
+        /// Identifies current PhotonDataPoint
+        /// </summary>
         public PhotonDataPoint CurrentDP
         {
             get
@@ -55,7 +62,9 @@ namespace Vts.MonteCarlo
                 return null;
             }
         }
-
+        /// <summary>
+        /// Identifies previous PhotonDataPoint
+        /// </summary>
         public PhotonDataPoint PreviousDP
         {
             get
@@ -72,7 +81,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method to add PhotonDataPoint to History.  
         /// </summary>
-        /// <param name="dp"></param>
+        /// <param name="dp">PhotonDataPoint</param>
         public void AddDPToHistory(PhotonDataPoint dp)
         {
             HistoryData.Add(dp.Clone()); 

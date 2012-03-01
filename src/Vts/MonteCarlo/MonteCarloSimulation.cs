@@ -34,7 +34,10 @@ namespace Vts.MonteCarlo
         private bool _isRunning;
         private bool _isCancelled;
         private bool _resultsAvailable;
-
+        /// <summary>
+        /// Class that takes in SimulationInput and methods to initialize and execute Monte Carlo simulation
+        /// </summary>
+        /// <param name="input">SimulationInput</param>
         public MonteCarloSimulation(SimulationInput input)
         {
             _outputPath = "";
@@ -130,11 +133,17 @@ namespace Vts.MonteCarlo
         /// </summary>
         public MonteCarloSimulation() : this(new SimulationInput()) { }
 
-        // public properties
+        /// <summary>
+        /// Phase function enum type as specified in SimulationOptions
+        /// </summary>
         public PhaseFunctionType PhaseFunctionType { get; set; }
-
+        /// <summary>
+        /// Boolean indicating whether simulation is running or not
+        /// </summary>
         public bool IsRunning { get { return _isRunning; } }
-
+        /// <summary>
+        /// Boolean indicating whether results are available or not
+        /// </summary>
         public bool ResultsAvailable { get { return _resultsAvailable; } }
 
         // private properties
@@ -142,8 +151,16 @@ namespace Vts.MonteCarlo
         private AbsorptionWeightingType AbsorptionWeightingType { get; set; }
         private bool TrackStatistics { get; set; }
 
+        /// <summary>
+        /// Results of the simulation 
+        /// </summary>
         public SimulationOutput Results { get; private set; }
 
+        /// <summary>
+        /// Method to run parallel MC simulations
+        /// </summary>
+        /// <param name="simulations">array of MonteCarloSimulation</param>
+        /// <returns>array of SimulationOutput</returns>
         public static SimulationOutput[] RunAll(MonteCarloSimulation[] simulations)
         {
             SimulationOutput[] outputs = new SimulationOutput[simulations.Length];
@@ -162,7 +179,10 @@ namespace Vts.MonteCarlo
 
             return outputs;
         }
-
+        /// <summary>
+        /// Method that sets the output path (string) for databases
+        /// </summary>
+        /// <param name="outputPath">string indicating output path</param>
         public void SetOutputPathForDatabases(string outputPath)
         {
             _outputPath = outputPath;
@@ -171,7 +191,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Run the simulation
         /// </summary>
-        /// <returns></returns>
+        /// <returns>SimulationOutput</returns>
         public SimulationOutput Run()
         {
             _isCancelled = false;
@@ -200,7 +220,9 @@ namespace Vts.MonteCarlo
 
             return Results;
         }
-
+        /// <summary>
+        /// Method to cancel the simulation, for example, from the gui
+        /// </summary>
         public void Cancel()
         {
             _isCancelled = true;
@@ -413,8 +435,10 @@ namespace Vts.MonteCarlo
             return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
         }
 
-        /********************************************************/
-        void DisplayIntro()
+        /// <summary>
+        /// Method to display introduction to the simulation
+        /// </summary>
+        private void DisplayIntro()
         {
             var header = _input.OutputName + " (" + SimulationIndex + "): ";
             logger.Info(() => header + "                                                  \n");
@@ -426,8 +450,12 @@ namespace Vts.MonteCarlo
             logger.Info(() => header + "                                                  \n");
         }
 
-        /*****************************************************************/
-        void DisplayStatus(long n, long num_phot)
+        /// <summary>
+        /// Method that displays simulation percentage done
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="num_phot"></param>
+        private void DisplayStatus(long n, long num_phot)
         {
             var header = _input.OutputName + " (" + SimulationIndex + "): ";
             /* fraction of photons completed */
