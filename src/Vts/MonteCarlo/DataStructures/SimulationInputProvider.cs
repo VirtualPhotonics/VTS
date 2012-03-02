@@ -103,6 +103,12 @@ namespace Vts.MonteCarlo
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0, Math.PI, 3)),
+                    new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(
+                        new DoubleRange(-10.0, 10.0, 101),
+                        new DoubleRange(-10.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101), 
+                        new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
+                        new DoubleRange(0.0, 2 * Math.PI, 5)), // phi (azimuthal angle)
                     new RSpecularDetectorInput()
                 }
                 );

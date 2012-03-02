@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System;
 using System.Linq;
 using Vts.MonteCarlo.Detectors;
 
@@ -107,6 +106,9 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.RadianceOfRhoAndZAndAngle:
                     var rrzainput = (RadianceOfRhoAndZAndAngleDetectorInput)detectorInput;
                     return new RadianceOfRhoAndZAndAngleDetector(rrzainput.Rho, rrzainput.Z, rrzainput.Angle, tissue, tallySecondMoment, rrzainput.Name);
+                case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
+                    var rxyztpinput = (RadianceOfXAndYAndZAndThetaAndPhiDetectorInput)detectorInput;
+                    return new RadianceOfXAndYAndZAndThetaAndPhiDetector(rxyztpinput.X, rxyztpinput.Y, rxyztpinput.Z, rxyztpinput.Theta, rxyztpinput.Phi, tissue, tallySecondMoment, rxyztpinput.Name);
 
                 // pMC Detector(s):
                 case TallyType.pMCROfRhoAndTime:

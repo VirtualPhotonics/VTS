@@ -289,6 +289,19 @@ namespace Vts.MonteCarlo.IO
                         fluenceOfRhoAndZAndTimeDetector.Mean = (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfRhoAndZAndTimeDetectorDims);
                         return fluenceOfRhoAndZAndTimeDetector;
 
+                    // "5D" detectors
+                    case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
+                        var radianceOfXAndYAndZAndThetaAndPhiDetector =
+                            FileIO.ReadFromXML<RadianceOfXAndYAndZAndThetaAndPhiDetector>(filePath + ".xml");
+                        var radianceOfXAndYAndZAndThetaAndPhiDims = new int[] { 
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.X.Count - 1, 
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.Y.Count - 1,
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.Z.Count - 1,
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.Theta.Count - 1,
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.Phi.Count - 1};
+                        radianceOfXAndYAndZAndThetaAndPhiDetector.Mean = (double[,,,,])FileIO.ReadArrayFromBinary<double>(filePath, radianceOfXAndYAndZAndThetaAndPhiDims);
+                        return radianceOfXAndYAndZAndThetaAndPhiDetector;
+
                     default:
                         throw new ArgumentOutOfRangeException("tallyType");
                 }

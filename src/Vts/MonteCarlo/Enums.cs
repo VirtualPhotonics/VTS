@@ -419,7 +419,11 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
         /// </summary>
-        RadianceOfRhoAndZAndAngle,
+        RadianceOfRhoAndZAndAngle,        
+        /// <summary>
+        /// Volume randiance as a function of x, y, z, theta and phi
+        /// </summary>
+        RadianceOfXAndYAndZAndThetaAndPhi,
         /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
         /// </summary>

@@ -219,6 +219,14 @@ namespace Vts.MonteCarlo
         /// Radiance as a function of rho, z and angle (volume tally) 2nd moment
         /// </summary>
         public double[, ,] Rad_rza2 { get { return ((RadianceOfRhoAndZAndAngleDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RadianceOfRhoAndZAndAngle).First().Name]).SecondMoment; } }
+        /// <summary>
+        /// Radiance as a function of x, y, z, theta and phi (volume tally)
+        /// </summary>
+        public double[,,,,] Rad_xyztp { get { return ((RadianceOfXAndYAndZAndThetaAndPhiDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RadianceOfXAndYAndZAndThetaAndPhi).First().Name]).Mean; } }
+        /// <summary>
+        /// Radiance as a function of x, y, z, theta and phi (volume tally) 2nd moment
+        /// </summary>
+        public double[,,,,] Rad_xyztp2 { get { return ((RadianceOfXAndYAndZAndThetaAndPhiDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RadianceOfXAndYAndZAndThetaAndPhi).First().Name]).SecondMoment; } }
 
         /// <summary>
         /// perturbation MC Reflectance as a function of rho and time

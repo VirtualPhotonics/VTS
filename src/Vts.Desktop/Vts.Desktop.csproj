@@ -593,6 +593,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RadianceOfXAndYAndZAndThetaAndPhiDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\RadianceOfXAndYAndZAndThetaAndPhiDetectorInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RDiffuseDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\RDiffuseDetectorInput.cs</Link>
     </Compile>
@@ -769,6 +772,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\RadianceOfRhoDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs">
+      <Link>MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>

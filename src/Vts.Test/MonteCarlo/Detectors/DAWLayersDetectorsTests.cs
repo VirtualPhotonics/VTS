@@ -60,6 +60,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                      1); // start inside tissue
             var detectors =  new List<IDetectorInput>
                 {
+                    new FluenceOfXAndYAndZDetectorInput(
+                        new DoubleRange(-10.0, 10.0, 101),
+                        new DoubleRange(-10.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101)),
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
@@ -70,8 +74,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 1.0, 101)),
                     new ROfXAndYDetectorInput(
-                        new DoubleRange(-200.0, 200.0, 401), // x
-                        new DoubleRange(-200.0, 200.0, 401)), // y,
+                        new DoubleRange(-10.0, 10.0, 101), // x
+                        new DoubleRange(-10.0, 10.0, 101)), // y,
                     new ROfRhoAndOmegaDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.05, 1.0, 20)), // new DoubleRange(0.0, 1.0, 21)) DJC - edited to reflect frequency sampling points (not bins)
@@ -81,7 +85,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfRhoAndAngleDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new RadianceOfRhoDetectorInput(_dosimetryDepth, new DoubleRange(0.0, 10.0, 101)),
                     new AOfRhoAndZDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 10.0, 101)),
@@ -89,14 +92,18 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new FluenceOfRhoAndZDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 10.0, 101)),
-                    new FluenceOfXAndYAndZDetectorInput(
-                        new DoubleRange(-10.0, 10.0, 101),
-                        new DoubleRange(-10.0, 10.0, 101),
-                        new DoubleRange(-10.0, 10.0, 101)),
+                        
+                    new RadianceOfRhoDetectorInput(_dosimetryDepth, new DoubleRange(0.0, 10.0, 101)),
                     new RadianceOfRhoAndZAndAngleDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(-Math.PI / 2, Math.PI / 2, 5))
+                        new DoubleRange(-Math.PI / 2, Math.PI / 2, 5)),                       
+                    new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(
+                        new DoubleRange(-10.0, 10.0, 101),
+                        new DoubleRange(-10.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101), 
+                        new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
+                        new DoubleRange(0.0, 2 * Math.PI, 5)) // phi (azimuthal angle)
                 };
             _inputOneLayerTissue = new SimulationInput(
                 100,
@@ -240,8 +247,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_ROfXAndY()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[198, 201] * _factor - 0.00825301), 0.00000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[198, 201] * _factor - 0.00825301), 0.00000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
         }
         // Total Absorption
         [Test]
@@ -268,9 +275,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_FluenceOfXAndYAndZ()
         {
-            // these need to be updated
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyz[50, 50, 0] * _factor - 0.0), 0.0000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyz[50, 50, 0] * _factor - 0.0), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyz[0, 0, 0] * _factor - 0.03656252), 0.0000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyz[0, 0, 0] * _factor - 0.03656252), 0.0000001);
         }
         // Volume Radiance Rad(rho,z,angle)
         // Verify integral over angle of Radiance equals Fluence
@@ -287,6 +293,25 @@ namespace Vts.Test.MonteCarlo.Detectors
                 integral += _outputOneLayerTissue.Rad_rza[0, 6, ia] * Math.Sin((ia + 0.5) * angle.Delta);
             }
             Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Flu_rz[0, 6]), 0.000000000001);
+        }
+        // Volume Radiance Rad(x,y,z,theta,phi)
+        // Verify integral over angle of Radiance equals Fluence
+        [Test]
+        public void validate_DAW_RadianceOfXAndYAndZAndThetaAndPhi()
+        {
+            // undo angle bin normalization
+            var theta = ((RadianceOfXAndYAndZAndThetaAndPhiDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.RadianceOfXAndYAndZAndThetaAndPhi).First()).Theta;
+            var phi = ((RadianceOfXAndYAndZAndThetaAndPhiDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.RadianceOfXAndYAndZAndThetaAndPhi).First()).Phi;
+            var norm = theta.Delta * phi.Delta;
+            var integral = 0.0;
+            for (int it = 0; it < theta.Count - 1; it++)
+            {
+                for (int ip = 0; ip < phi.Count - 1; ip++ )
+                    integral += _outputOneLayerTissue.Rad_xyztp[0, 0, 0, it, ip] * Math.Sin((it + 0.5) * theta.Delta);
+            }
+            Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Flu_xyz[0, 0, 0]), 0.000000000001);
         }
         // Radiance(rho) - not sure this detector is defined correctly yet
         [Test]

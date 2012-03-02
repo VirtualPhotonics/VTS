@@ -81,7 +81,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method to add PhotonDataPoint to History.  
         /// </summary>
-        /// <param name="dp">PhotonDataPoint</param>
+        /// <param name="dp">PhotonD</param>
         public void AddDPToHistory(PhotonDataPoint dp)
         {
             HistoryData.Add(dp.Clone()); 

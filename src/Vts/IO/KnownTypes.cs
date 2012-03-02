@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo;
@@ -28,6 +27,7 @@ namespace Vts.IO
 					typeof (pMCROfRhoDetector),
 					typeof (pMCROfRhoAndTimeDetector),
 					typeof (RadianceOfRhoAndZAndAngleDetector),
+                    typeof (RadianceOfXAndYAndZAndThetaAndPhiDetector),
                     typeof (RDiffuseDetector),
 					typeof (ROfAngleDetector),
 					typeof (ROfRhoDetector),

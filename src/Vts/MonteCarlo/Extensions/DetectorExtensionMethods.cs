@@ -127,6 +127,7 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.ATotal:
                 case TallyType.MomentumTransferOfRhoAndZ:
                 case TallyType.RadianceOfRhoAndZAndAngle:
+                case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
                     return true;
                 default:
                     return false;
@@ -178,6 +179,7 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.AOfRhoAndZ:
                 case TallyType.MomentumTransferOfRhoAndZ:
                 case TallyType.RadianceOfRhoAndZAndAngle:
+                case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
                     return true;
                 default:
                     return false;

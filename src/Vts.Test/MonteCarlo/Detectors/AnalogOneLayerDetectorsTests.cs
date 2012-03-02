@@ -82,8 +82,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 1.0, 101)),
                     new ROfXAndYDetectorInput(
-                        new DoubleRange(-200.0, 200.0, 401), // x
-                        new DoubleRange(-200.0, 200.0, 401)), // y,
+                        new DoubleRange(-10.0, 10.0, 101), // x
+                        new DoubleRange(-10.0, 10.0, 101)), // y,
                     new ROfRhoAndOmegaDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.05, 1.0, 20)), //  new DoubleRange(0.0, 1.0, 21)) DJC - edited to reflect frequency sampling points (not bins)
@@ -233,7 +233,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_Analog_ROfXAndY()
         {
-            Assert.Less(Math.Abs(_output.R_xy[198, 201] * _factor - 0.0097222222), 0.0000000001);
+            Assert.Less(Math.Abs(_output.R_xy[0, 22] * _factor - 0.24305556), 0.00000001);
         }
         // sanity checks
         [Test]

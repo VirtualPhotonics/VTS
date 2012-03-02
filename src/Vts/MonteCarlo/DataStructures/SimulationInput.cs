@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Tissues;
 
 
@@ -52,6 +51,7 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
     [KnownType(typeof(FluenceOfXAndYAndZDetectorInput))]
     [KnownType(typeof(RadianceOfRhoAndZAndAngleDetectorInput))]
+    [KnownType(typeof(RadianceOfXAndYAndZAndThetaAndPhiDetectorInput))]
     [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
     [KnownType(typeof(pMCROfRhoDetectorInput))]
     [KnownType(typeof(pMCROfFxDetectorInput))]
