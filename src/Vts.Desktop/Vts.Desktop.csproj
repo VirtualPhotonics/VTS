@@ -278,11 +278,23 @@
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\BoundaryCoupling.cs">
       <Link>FemModeling\MGRTE\2D\BoundaryCoupling.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\AngularMesh.cs">
-      <Link>FemModeling\MGRTE\2D\DataStructures\AngularMesh.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\DetectorInputs\FluenceOfXAndZDectectorInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\DetectorInputs\FluenceOfXAndZDectectorInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Measurement.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\Measurement.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\AngularMesh.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\AngularMesh.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshDataInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshDataInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\SpatialMesh.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\SpatialMesh.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs</Link>
@@ -305,8 +317,8 @@
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SpatialMesh.cs">
-      <Link>FemModeling\MGRTE\2D\DataStructures\SpatialMesh.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerTissueInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerTissueInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Enums.cs">
       <Link>FemModeling\MGRTE\2D\Enums.cs</Link>
@@ -316,6 +328,9 @@
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Initialization.cs">
       <Link>FemModeling\MGRTE\2D\Initialization.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IDetectorInputs.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\IDetectorInputs.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IExtFemSourceInput.cs">
       <Link>FemModeling\MGRTE\2D\Interfaces\IExtFemSourceInput.cs</Link>
@@ -328,6 +343,9 @@
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IIntSource.cs">
       <Link>FemModeling\MGRTE\2D\Interfaces\IIntSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\ITissueInput.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\ITissueInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\MathFunctions.cs">
       <Link>FemModeling\MGRTE\2D\MathFunctions.cs</Link>

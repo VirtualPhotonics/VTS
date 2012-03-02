@@ -184,8 +184,14 @@
     </Compile>
     <Compile Include="Common\Stopwatch.cs" />
     <Compile Include="FemModeling\MGRTE\2D\BoundaryCoupling.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\DetectorInputs\FluenceOfXAndZDectectorInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshDataInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Interfaces\IDetectorInputs.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Interfaces\ITissueInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IIntSource.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IExtSource.cs" />
@@ -290,9 +296,9 @@
     <Compile Include="Modeling\ForwardSolvers\INurbs.cs" />
     <Compile Include="Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs" />
     <Compile Include="Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\AngularMesh.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\AngularMesh.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\Measurement.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\SpatialMesh.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\SpatialMesh.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Enums.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Initialization.cs" />
     <Compile Include="FemModeling\MGRTE\2D\MathFunctions.cs" />
