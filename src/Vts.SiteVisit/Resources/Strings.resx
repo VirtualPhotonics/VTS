@@ -297,7 +297,7 @@
   <data name="Label_FluenceOfFxAndT" xml:space="preserve">
     <value>Φ(fx,t,z)</value>
   </data>
-  <data name="Label_FluenceOfRho" xml:space="preserve">
+  <data name="Label_FluenceOfRhoAndZ" xml:space="preserve">
     <value>Φ(ρ,z)</value>
   </data>
   <data name="Label_FluenceOfRhoAndFt" xml:space="preserve">

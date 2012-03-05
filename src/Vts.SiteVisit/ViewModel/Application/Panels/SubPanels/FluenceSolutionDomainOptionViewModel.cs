@@ -31,7 +31,7 @@ namespace Vts.SiteVisit.ViewModel
             : base(groupName)
         {
             //InitializeControls();
-            FluenceOfRhoOption = Options[FluenceSolutionDomainType.FluenceOfRho];
+            FluenceOfRhoAndZOption = Options[FluenceSolutionDomainType.FluenceOfRhoAndZ];
             FluenceOfFxOption = Options[FluenceSolutionDomainType.FluenceOfFx];
             FluenceOfRhoAndTOption = Options[FluenceSolutionDomainType.FluenceOfRhoAndT];
             FluenceOfFxAndTOption = Options[FluenceSolutionDomainType.FluenceOfFxAndT];
@@ -49,9 +49,9 @@ namespace Vts.SiteVisit.ViewModel
         }
 
         public FluenceSolutionDomainOptionViewModel()
-            : this("", FluenceSolutionDomainType.FluenceOfRho) { }
+            : this("", FluenceSolutionDomainType.FluenceOfRhoAndZ) { }
 
-        public OptionModel<FluenceSolutionDomainType> FluenceOfRhoOption { get; private set; }
+        public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndZOption { get; private set; }
         public OptionModel<FluenceSolutionDomainType> FluenceOfFxOption { get; private set; }
         public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndTOption { get; private set; }
         public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndTOption { get; private set; }
@@ -157,7 +157,7 @@ namespace Vts.SiteVisit.ViewModel
         {
             switch (SelectedValue)
             {
-                case FluenceSolutionDomainType.FluenceOfRho:
+                case FluenceSolutionDomainType.FluenceOfRhoAndZ:
                 default:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("",

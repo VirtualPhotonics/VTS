@@ -250,7 +250,7 @@ namespace Vts.Modeling.ForwardSolvers
 
         #region Fluence Solutions
 
-        public override IEnumerable<double> FluenceOfRho(
+        public override IEnumerable<double> FluenceOfRhoAndZ(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos,
             IEnumerable<double> zs)

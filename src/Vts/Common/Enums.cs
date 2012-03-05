@@ -134,7 +134,7 @@ namespace Vts
         /// <summary>
         /// fluence as a function or source-detector separation (rho)
         /// </summary>
-        FluenceOfRho,
+        FluenceOfRhoAndZ,
         /// <summary>
         /// fluence as a function of spatial-frequency (fx)
         /// </summary>

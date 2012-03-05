@@ -235,7 +235,7 @@ namespace Vts.Modeling.ForwardSolvers
         #endregion
 
 
-        public override IEnumerable<double> FluenceOfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
+        public override IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
         {
             throw new NotImplementedException();
         }

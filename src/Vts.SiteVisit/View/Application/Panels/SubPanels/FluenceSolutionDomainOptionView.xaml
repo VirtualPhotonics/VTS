@@ -31,7 +31,7 @@
                         Text="Steady-State"  Margin="2,2" />
                     <RadioButton 
                         Grid.Row="0" Grid.Column="1"
-                        DataContext="{Binding FluenceOfRhoOption}"
+                        DataContext="{Binding FluenceOfRhoAndZOption}"
                         Tag="{Binding ID}" Content="{Binding DisplayName}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 

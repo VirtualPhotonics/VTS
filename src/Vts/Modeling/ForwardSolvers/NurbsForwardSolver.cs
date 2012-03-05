@@ -511,7 +511,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos"></param>
         /// <param name="zs"></param>
         /// <returns></returns>
-        public override IEnumerable<double> FluenceOfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
+        public override IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
         {
             throw new NotImplementedException();
         }

@@ -93,7 +93,7 @@ namespace Vts.SiteVisit.Extensions
         {
             switch (sdType)
             {
-                case FluenceSolutionDomainType.FluenceOfRho:
+                case FluenceSolutionDomainType.FluenceOfRhoAndZ:
                 default:
                     return DependentVariableAxisUnits.PerMMCubed.GetInternationalizedString();
                 case FluenceSolutionDomainType.FluenceOfFx:

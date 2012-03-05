@@ -80,7 +80,7 @@ namespace Vts
         // with the leftmost IEnumerable<T> input being the top-level, and so-on
         // such that the right-most input is at the inner-most loop
 
-        #region IEnumerable<double> FluenceOfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs);
+        #region IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs);
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos'
         /// </summary>
@@ -88,7 +88,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <returns></returns>
-        IEnumerable<double> FluenceOfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs);
+        IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs);
         #endregion
 
         #region IEnumerable<double> FluenceOfRhoAndT(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> ts);
@@ -365,7 +365,7 @@ namespace Vts
         Complex[] ROfFxAndFt(OpticalProperties op, double[] fxs, double ft);
         Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double ft);
         
-        double[] FluenceOfRho(OpticalProperties[] ops, double[] rhos, double[] zs);
+        double[] FluenceOfRhoAndZ(OpticalProperties[] ops, double[] rhos, double[] zs);
         double[] FluenceOfRhoAndT(OpticalProperties[] ops, double[] rhos, double[] zs, double[] ts);
         double[] FluenceOfRhoAndFt(OpticalProperties[] ops, double[] rhos, double[] zs, double[] fts);
         double[] FluenceOfFx(OpticalProperties[] ops, double[] fxs, double[] zs);

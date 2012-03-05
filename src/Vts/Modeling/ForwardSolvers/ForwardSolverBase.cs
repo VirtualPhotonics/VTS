@@ -373,7 +373,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <returns></returns>
-        public virtual IEnumerable<double> FluenceOfRho(
+        public virtual IEnumerable<double> FluenceOfRhoAndZ(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos,
             IEnumerable<double> zs)
@@ -470,10 +470,10 @@ namespace Vts.Modeling.ForwardSolvers
 
         #region Convenience array overloads for fluence methods
         
-        public double[] FluenceOfRho(OpticalProperties[] ops, double[] rhos, double[] zs)
+        public double[] FluenceOfRhoAndZ(OpticalProperties[] ops, double[] rhos, double[] zs)
         {
             var output = new double[ops.Length * rhos.Length * zs.Length];
-            var query = FluenceOfRho((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)zs);
+            var query = FluenceOfRhoAndZ((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)zs);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }

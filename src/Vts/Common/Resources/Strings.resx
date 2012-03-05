@@ -267,7 +267,7 @@
   <data name="FluenceSolutionDomainType_FluenceOfFxAndT" xml:space="preserve">
     <value>Φ(fx,t,z)</value>
   </data>
-  <data name="FluenceSolutionDomainType_FluenceOfRho" xml:space="preserve">
+  <data name="FluenceSolutionDomainType_FluenceOfRhoAndZ" xml:space="preserve">
     <value>Φ(ρ,z)</value>
   </data>
   <data name="FluenceSolutionDomainType_FluenceOfRhoAndFt" xml:space="preserve">

@@ -32,7 +32,7 @@ namespace Vts.Factories
         public static bool IsSolverWithConstantValues(FluenceSolutionDomainType solutionDomainType)
         {
             return
-                !(solutionDomainType == FluenceSolutionDomainType.FluenceOfRho) &&
+                !(solutionDomainType == FluenceSolutionDomainType.FluenceOfRhoAndZ) &&
                 !(solutionDomainType == FluenceSolutionDomainType.FluenceOfFx);
         }
 
@@ -367,8 +367,8 @@ namespace Vts.Factories
             // note: secondly, if there are multiple independent axes, they will be assigned in order of appearance in the method signature
             switch (type)
             {
-                case FluenceSolutionDomainType.FluenceOfRho:
-                    return (fitData, otherData) => fs.FluenceOfRho(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
+                case FluenceSolutionDomainType.FluenceOfRhoAndZ:
+                    return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
                 case FluenceSolutionDomainType.FluenceOfFx:
                     return (fitData, otherData) => fs.FluenceOfFx(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
                 case FluenceSolutionDomainType.FluenceOfRhoAndT:
