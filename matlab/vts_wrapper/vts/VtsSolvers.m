@@ -209,7 +209,7 @@ classdef VtsSolvers
         r = complex(rReal, rImag);
         end
         %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
-        function r = FluenceOfRho(op, rhos, zs)
+        function r = FluenceOfRhoAndZ(op, rhos, zs)
             % FluenceOfRho
             %   FluenceOfRho(OP, RHOS, ZS) 
             %   
@@ -238,7 +238,7 @@ classdef VtsSolvers
                 op_net(i).N =    op(i,4);
             end;
 
-            r = reshape(double(fs.FluenceOfRho(op_net,rhos,zs)),[length(zs) length(rhos) nop]);
+            r = reshape(double(fs.FluenceOfRhoAndZ(op_net,rhos,zs)),[length(zs) length(rhos) nop]);
         end
         %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
         function r = PHDOfRhoAndZ(op, rhos, zs, sd)
@@ -271,7 +271,7 @@ classdef VtsSolvers
                 op_net(i).N =    op(i,4);
             end;
 
-            fluence = double(fs.FluenceOfRho(op_net,rhos,zs));
+            fluence = double(fs.FluenceOfRhoAndZ(op_net,rhos,zs));
             %phd = Vts.Factories.ComputationFactory.GetPHD(fs, fluence, sd, op_net, rhos, zs);
             phd = Vts.Factories.ComputationFactory.GetPHD(fs, NET.convertArray(fluence,'System.Double'),...
                sd, op_net, NET.convertArray(rhos,'System.Double'), NET.convertArray(zs,'System.Double'));
@@ -309,7 +309,7 @@ classdef VtsSolvers
                 op_net(i).N =    op(i,4);
             end;
 
-            fluence = double(fs.FluenceOfRho(op_net,rhos,zs));
+            fluence = double(fs.FluenceOfRhoAndZ(op_net,rhos,zs));
             ae = Vts.Factories.ComputationFactory.GetAbsorbedEnergy(NET.convertArray(fluence,'System.Double'),...
                op_net(1).Mua);
 

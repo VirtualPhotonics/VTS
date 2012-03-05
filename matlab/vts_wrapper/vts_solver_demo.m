@@ -63,7 +63,7 @@ set(f,'Name','ROfFxAndFt');
 
 %% ======================================================================= %
 
-% Example FluenceOfRho - Evaluate FluenceOfRho
+% Example FluenceOfRhoAndZ - Evaluate FluenceOfRhoAndZ
 
 rhos = 0.1:0.1:10; % s-d separation, in mm
 zs = 0.1:0.1:10; % z range in mm
@@ -91,10 +91,10 @@ scatterer.b = 1.42;
 
 op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
 
-test = VtsSolvers.FluenceOfRho(op, rhos, zs);
+test = VtsSolvers.FluenceOfRhoAndZ(op, rhos, zs);
 
 f = figure; imagesc(log(squeeze(test(:,1,:))));
-set(f,'Name','Fluence of Rho');
+set(f,'Name','Fluence of Rho and z');
 
 %% ======================================================================= %
 
@@ -105,7 +105,7 @@ rhos = linspace(0.1,19.9,100); % s-d separation, in mm
 zs = linspace(0.1,19.9,100); % z range in mm
 
 VtsSolvers.SetSolverType('DistributedGaussianSourceSDA');
-test = VtsSolvers.FluenceOfRho(op, rhos, zs);
+test = VtsSolvers.FluenceOfRhoAndZ(op, rhos, zs);
 
 xs = [-fliplr(rhos(2:end)),rhos];
 % xs = [-rhos(end:-1:2), rhos];
