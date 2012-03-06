@@ -112,8 +112,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// ROfFx, solves SDA using Cuccia et al JBO, March/April 2009 
         /// </summary>
-        /// <param name="op"></param>
-        /// <param name="fx"></param>
+        /// <param name="op">optical properties</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
         /// <returns></returns>
         public override double ROfFx(OpticalProperties op, double fx)
         {
@@ -123,8 +123,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Vectorized ROfFx. Solves SDA using Cuccia et al JBO, March/April 2009 
         /// </summary>
-        /// <param name="ops"></param>
-        /// <param name="fxs"></param>
+        /// <param name="ops">set of optical properties of the medium</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <returns></returns>
         public override IEnumerable<double> ROfFx(
             IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs)
@@ -167,9 +167,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// Modulation frequency-dependent reflectance. Modified from Pham et al, Appl. Opt. Sept 2000 
         /// to include spatial modulation, as described in Cuccia et al, J. Biomed. Opt. March/April 2009
         /// </summary>
-        /// <param name="op"></param>
-        /// <param name="fx"></param>
-        /// <param name="ft"></param>
+        /// <param name="op">optical properties of the medium</param>
+        /// <param name="fx">spatial frequency</param>
+        /// <param name="ft">modulation frequency (GHz)</param>
         /// <returns></returns>
         public override Complex ROfFxAndFt(OpticalProperties op, double fx, double ft)
         {

@@ -507,9 +507,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// Evaluates the radial resolved fluence.
         /// <remarks>Not implemented.</remarks>
         /// </summary>
-        /// <param name="ops"></param>
-        /// <param name="rhos"></param>
-        /// <param name="zs"></param>
+        /// <param name="ops">optical properties of the medium</param>
+        /// <param name="rhos">source-detector separation (mm)</param>
+        /// <param name="zs">z values (mm)</param>
         /// <returns></returns>
         public override IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
         {
@@ -520,10 +520,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// Evaluates the temporal and radial resolved fluence.
         /// </summary>
         /// <remarks>Not implemented.</remarks>
-        /// <param name="ops"></param>
-        /// <param name="rhos"></param>
-        /// <param name="zs"></param>
-        /// <param name="ts"></param>
+        /// <param name="ops">set of optical properties for the medium</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="ts">times (ns)</param>
         /// <returns></returns>
         public override IEnumerable<double> FluenceOfRhoAndT(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> ts)
         {
@@ -534,10 +534,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// Evaluates the temporal frequency and radial resolved fluence.
         /// </summary>
         /// <remarks>Not implemented.</remarks>
-        /// <param name="ops"></param>
-        /// <param name="rhos"></param>
-        /// <param name="zs"></param>
-        /// <param name="fts"></param>
+        /// <param name="ops">set of optical properties for the medium</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="fts">temporal frequency (GHz)</param>
         /// <returns></returns>
         public override IEnumerable<double> FluenceOfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
         {
@@ -548,9 +548,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// Evaluates the spatial frequancy resolved fluence.
         /// </summary>
         /// <remarks>Not implemented.</remarks>
-        /// <param name="ops"></param>
-        /// <param name="fxs"></param>
-        /// <param name="zs"></param>
+        /// <param name="ops">optical properties</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="zs">z values (mm)</param>
         /// <returns></returns>
         public override IEnumerable<double> FluenceOfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs)
         {
@@ -561,10 +561,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// Evaluates the spatial frequancy and time resolved fluence.
         /// </summary>
         /// <remarks>Not implemented.</remarks>
-        /// <param name="ops"></param>
-        /// <param name="fxs"></param>
-        /// <param name="zs"></param>
-        /// <param name="ts"></param>
+        /// <param name="ops">set of optical properties for the medium</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="ts">times (ns)</param>
         /// <returns></returns>
         public override IEnumerable<double> FluenceOfFxAndT(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> ts)
         {
@@ -575,10 +575,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// Evaluates the spatial frequancy and temporal frequency resolved fluence.
         /// </summary>
         /// <remarks>Not implemented.</remarks>
-        /// <param name="ops"></param>
-        /// <param name="fxs"></param>
-        /// <param name="zs"></param>
-        /// <param name="fts"></param>
+        /// <param name="ops">set of optical properties for the medium</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="fts">temporal frequencies (GHz)</param>
         /// <returns></returns>
         public override IEnumerable<double> FluenceOfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts)
         {

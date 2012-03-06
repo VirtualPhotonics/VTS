@@ -32,9 +32,9 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="p">Position</param>
         /// <param name="d">Direction</param>
-        /// <param name="tissue"ITissue></param>
+        /// <param name="tissue">Tissue></param>
         /// <param name="currentTissueRegionIndex">integer index within ITissue definition indicating photon's current position</param>
-        /// <param name="generator"Random Number Generator></param>
+        /// <param name="generator">Random Number Generator</param>
         public Photon(
             Position p,
             Direction d,

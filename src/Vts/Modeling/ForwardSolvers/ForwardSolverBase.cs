@@ -154,12 +154,6 @@ namespace Vts.Modeling.ForwardSolvers
             return ((Func<OpticalProperties, double, double>)ROfRho).LoopOverVariables(ops, rhos);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ops"></param>
-        /// <param name="thetas"></param>
-        /// <returns></returns>
         public virtual IEnumerable<double> ROfTheta(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> thetas)

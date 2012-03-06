@@ -1,5 +1,8 @@
 namespace Vts
 {
+    /// <summary>
+    /// Old interface for Forward Solver
+    /// </summary>
     public interface IOldForwardSolver
     {
         /// <summary>

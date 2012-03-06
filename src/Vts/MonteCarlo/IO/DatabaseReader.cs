@@ -26,12 +26,17 @@ namespace Vts.MonteCarlo.IO
         /// Creates an instance of DatabaseReader with a simple binary reader. Use this overload
         /// if there is no database-specific information necessary for creating the reader
         /// </summary>
-        /// <param name="binaryReader"></param>
+        /// <param name="binaryReader">simple binary reader</param>
         public DatabaseReader(ICustomBinaryReader<TElement> binaryReader)
             : this(db => binaryReader)
         {
         }
 
+        /// <summary>
+        /// Creates a database of generic type T from an XML file
+        /// </summary>
+        /// <param name="fileName">Name of the XML file to be read</param>
+        /// <returns>a database of generic type T</returns>
         public TDatabase FromFile(string fileName)
         {
             var database = FileIO.ReadFromXML<TDatabase>(fileName + ".xml");
@@ -45,6 +50,12 @@ namespace Vts.MonteCarlo.IO
             return database;
         }
 
+        /// <summary>
+        /// Creates a database of generic type T from a file in resources
+        /// </summary>
+        /// <param name="fileName">Name of the XML file to be read</param>
+        /// <param name="projectName">Project name for the location of resources</param>
+        /// <returns>a database of generic type T</returns>
         public TDatabase FromFileInResources(string fileName, string projectName)
         {
             var database = FileIO.ReadFromXMLInResources<TDatabase>(fileName + ".xml", projectName);
