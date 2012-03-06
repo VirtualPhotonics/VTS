@@ -24,6 +24,7 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.RDiffuse:
                 case TallyType.ROfFx:
                 case TallyType.ROfFxAndTime:
+                case TallyType.ReflectedMTOfRhoAndSubRegionHist:
                     return true;
                 default:
                     return false;
@@ -125,7 +126,7 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.FluenceOfXAndYAndZ:
                 case TallyType.AOfRhoAndZ:
                 case TallyType.ATotal:
-                case TallyType.MomentumTransferOfRhoAndZ:
+                case TallyType.ReflectedMTOfRhoAndSubRegionHist:
                 case TallyType.RadianceOfRhoAndZAndAngle:
                 case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
                     return true;
@@ -152,7 +153,7 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.FluenceOfRhoAndZ:
                 case TallyType.FluenceOfRhoAndZAndTime:
                 case TallyType.AOfRhoAndZ:
-                case TallyType.MomentumTransferOfRhoAndZ:
+                case TallyType.ReflectedMTOfRhoAndSubRegionHist:
                 case TallyType.RadianceOfRho:
                 case TallyType.RadianceOfRhoAndZAndAngle:
                 case TallyType.pMCROfRho:
@@ -177,7 +178,7 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.FluenceOfRhoAndZAndTime:
                 case TallyType.FluenceOfXAndYAndZ:
                 case TallyType.AOfRhoAndZ:
-                case TallyType.MomentumTransferOfRhoAndZ:
+                case TallyType.ReflectedMTOfRhoAndSubRegionHist:
                 case TallyType.RadianceOfRhoAndZAndAngle:
                 case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
                     return true;
@@ -195,8 +196,8 @@ namespace Vts.MonteCarlo.Extensions
         {
             switch (tallyType)
             {
-                case TallyType.MomentumTransferOfRhoAndZ:
-                    return true;
+                //case TallyType.ReflectedMTOfRhoAndSubRegionHist:
+                //    return true;
                 default:
                     return false;
             }

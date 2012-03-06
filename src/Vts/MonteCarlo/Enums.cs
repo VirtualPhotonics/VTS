@@ -409,9 +409,9 @@ namespace Vts.MonteCarlo
         /// </summary>
         ATotal,
         /// <summary>
-        /// Momentum transfer as a function of source-detector separation (rho) and tissue depth (Z)
+        /// Reflected momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
         /// </summary>
-        MomentumTransferOfRhoAndZ,
+        ReflectedMTOfRhoAndSubRegionHist,
         /// <summary>
         /// Surface radiance as a function of source-detector separation (rho)
         /// </summary>

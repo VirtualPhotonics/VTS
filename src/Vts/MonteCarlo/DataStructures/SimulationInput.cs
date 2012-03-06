@@ -56,6 +56,7 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(pMCROfRhoDetectorInput))]
     [KnownType(typeof(pMCROfFxDetectorInput))]
     [KnownType(typeof(pMCROfFxAndTimeDetectorInput))]
+    [KnownType(typeof(ReflectedMTOfRhoAndSubRegionHistDetectorInput))]
 
     // todo: add more types?
 

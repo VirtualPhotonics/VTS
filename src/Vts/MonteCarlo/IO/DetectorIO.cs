@@ -270,13 +270,6 @@ namespace Vts.MonteCarlo.IO
                         aOfRhoAndZDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, aOfRhoAndZDetectorDims);
                         return aOfRhoAndZDetector;
 
-                    case TallyType.MomentumTransferOfRhoAndZ:
-                        var momentumTransferOfRhoAndZDetector =
-                            FileIO.ReadFromXML<MomentumTransferOfRhoAndZDetector>(filePath + ".xml");
-                        var momentumTransferOfRhoAndZDetectorDims = new int[] { momentumTransferOfRhoAndZDetector.Rho.Count - 1, momentumTransferOfRhoAndZDetector.Z.Count - 1 };
-                        momentumTransferOfRhoAndZDetector.Mean =
-                            (double[,])FileIO.ReadArrayFromBinary<double>(filePath, momentumTransferOfRhoAndZDetectorDims);
-                        return momentumTransferOfRhoAndZDetector;
 
                     // "3D" detectors
                     case TallyType.FluenceOfRhoAndZAndTime:
@@ -288,6 +281,16 @@ namespace Vts.MonteCarlo.IO
                             fluenceOfRhoAndZAndTimeDetector.Time.Count - 1 };
                         fluenceOfRhoAndZAndTimeDetector.Mean = (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfRhoAndZAndTimeDetectorDims);
                         return fluenceOfRhoAndZAndTimeDetector;
+                    case TallyType.ReflectedMTOfRhoAndSubRegionHist:
+                        var reflectedMTOfRhoAndSubRegionHistDetector =
+                            FileIO.ReadFromXML<ReflectedMTOfRhoAndSubRegionHistDetector>(filePath + ".xml");
+                        var reflectedMTOfRhoAndSubRegionHistDetectorDims = new int[] {
+                            reflectedMTOfRhoAndSubRegionHistDetector.Rho.Count - 1, 
+                            reflectedMTOfRhoAndSubRegionHistDetector.SubRegions.Count - 1,
+                              reflectedMTOfRhoAndSubRegionHistDetector.MTBins.Count - 1 };                                                 
+                        reflectedMTOfRhoAndSubRegionHistDetector.Mean =
+                            (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, reflectedMTOfRhoAndSubRegionHistDetectorDims);
+                        return reflectedMTOfRhoAndSubRegionHistDetector;
 
                     // "5D" detectors
                     case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
@@ -463,21 +466,11 @@ namespace Vts.MonteCarlo.IO
                             (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, aOfRhoAndZDetectorDims);
                         return aOfRhoAndZDetector;
 
-                    case TallyType.MomentumTransferOfRhoAndZ:
-                        var momentumTransferOfRhoAndZDetector =
-                            FileIO.ReadFromXMLInResources<MomentumTransferOfRhoAndZDetector>(filePath + ".xml",
-                                                                                             projectName);
-                        var momentumTransferOfRhoAndZDetectorDims =
-                            new int[] { momentumTransferOfRhoAndZDetector.Rho.Count, momentumTransferOfRhoAndZDetector.Z.Count };
-                        momentumTransferOfRhoAndZDetector.Mean =
-                            (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, momentumTransferOfRhoAndZDetectorDims);
-                        return momentumTransferOfRhoAndZDetector;
 
                     // "3D" detectors
                     case TallyType.FluenceOfRhoAndZAndTime:
                         var fluenceOfRhoAndZAndTimeDetector =
-                            FileIO.ReadFromXMLInResources<FluenceOfRhoAndZAndTimeDetector>(filePath + ".xml",
-                                                                                           projectName);
+                            FileIO.ReadFromXMLInResources<FluenceOfRhoAndZAndTimeDetector>(filePath + ".xml",  projectName);
                         var fluenceOfRhoAndZAndTimeDetectorDims =
                             new int[] { fluenceOfRhoAndZAndTimeDetector.Rho.Count, 
                                         fluenceOfRhoAndZAndTimeDetector.Z.Count,
@@ -485,6 +478,16 @@ namespace Vts.MonteCarlo.IO
                         fluenceOfRhoAndZAndTimeDetector.Mean =
                             (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, fluenceOfRhoAndZAndTimeDetectorDims);
                         return fluenceOfRhoAndZAndTimeDetector;
+                    case TallyType.ReflectedMTOfRhoAndSubRegionHist:
+                        var reflectedMTOfRhoAndSubRegionDetector =
+                            FileIO.ReadFromXMLInResources<ReflectedMTOfRhoAndSubRegionHistDetector>(filePath + ".xml", projectName);
+                        var reflectedMTOfRhoAndSubRegionHistDims =
+                            new int[] { reflectedMTOfRhoAndSubRegionDetector.Rho.Count, 
+                                        reflectedMTOfRhoAndSubRegionDetector.SubRegions.Count, 
+                                        reflectedMTOfRhoAndSubRegionDetector.MTBins.Count };
+                        reflectedMTOfRhoAndSubRegionDetector.Mean =
+                            (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, reflectedMTOfRhoAndSubRegionHistDims);
+                        return reflectedMTOfRhoAndSubRegionDetector;
 
                     default:
                         throw new ArgumentOutOfRangeException("tallyType");

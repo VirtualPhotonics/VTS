@@ -227,6 +227,14 @@ namespace Vts.MonteCarlo
         /// Radiance as a function of x, y, z, theta and phi (volume tally) 2nd moment
         /// </summary>
         public double[,,,,] Rad_xyztp2 { get { return ((RadianceOfXAndYAndZAndThetaAndPhiDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.RadianceOfXAndYAndZAndThetaAndPhi).First().Name]).SecondMoment; } }
+        /// <summary>
+        /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT
+        /// </summary>
+        public double[,,] RefMT_rs_hist { get { return ((ReflectedMTOfRhoAndSubRegionHistDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubRegionHist).First().Name]).Mean; } }
+        /// <summary>
+        /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT 2nd moment
+        /// </summary>
+        public double[,,] RefMT_rs_hist2 { get { return ((ReflectedMTOfRhoAndSubRegionHistDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubRegionHist).First().Name]).SecondMoment; } }
 
         /// <summary>
         /// perturbation MC Reflectance as a function of rho and time

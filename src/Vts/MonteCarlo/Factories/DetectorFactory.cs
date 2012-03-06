@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo.Factories
         {
             switch (detectorInput.TallyType)
             {
-                // ISurfaceDetector(s):
+                // IDetector(s):
                 case TallyType.RDiffuse:
                     var rdinput = (RDiffuseDetectorInput)detectorInput;
                     //return new RDiffuseDetector(tallySecondMoment, rdinput.Name);
@@ -87,7 +87,7 @@ namespace Vts.MonteCarlo.Factories
                     var drinput = (RadianceOfRhoDetectorInput)detectorInput;
                     return new RadianceOfRhoDetector(drinput.ZDepth, drinput.Rho, tissue, tallySecondMoment, drinput.Name);
 
-                // IVolumeDetector(s):
+                // IHistoryDetector(s):
                 case TallyType.FluenceOfRhoAndZ:
                     var frzinput = (FluenceOfRhoAndZDetectorInput)detectorInput;
                     return new FluenceOfRhoAndZDetector(frzinput.Rho, frzinput.Z, tissue, tallySecondMoment, frzinput.Name);
@@ -109,6 +109,9 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
                     var rxyztpinput = (RadianceOfXAndYAndZAndThetaAndPhiDetectorInput)detectorInput;
                     return new RadianceOfXAndYAndZAndThetaAndPhiDetector(rxyztpinput.X, rxyztpinput.Y, rxyztpinput.Z, rxyztpinput.Theta, rxyztpinput.Phi, tissue, tallySecondMoment, rxyztpinput.Name);
+                case TallyType.ReflectedMTOfRhoAndSubRegionHist:
+                    var rmtrsinput = (ReflectedMTOfRhoAndSubRegionHistDetectorInput)detectorInput;
+                    return new ReflectedMTOfRhoAndSubRegionHistDetector(rmtrsinput.Rho, rmtrsinput.MTBins, tissue, tallySecondMoment, rmtrsinput.Name);
 
                 // pMC Detector(s):
                 case TallyType.pMCROfRhoAndTime:
