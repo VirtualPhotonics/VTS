@@ -82,9 +82,9 @@ namespace Vts
 
         #region IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs);
         /// <summary>
-        /// Overload of scalar ROfRho function. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos'
+        /// Overload of scalar FluenceOfRhoAndZ function. Determines fluence at optical properties 'ops' and source-detector separations 'rhos' and 'zs'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <returns></returns>
@@ -93,9 +93,9 @@ namespace Vts
 
         #region IEnumerable<double> FluenceOfRhoAndT(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> ts);
         /// <summary>
-        /// Overload of scalar ROfRhoAndT function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and times 'ts'
+        /// Overload of scalar FluenceOfRhoAndT function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and times 'ts'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="ts">times (ns)</param>
@@ -106,9 +106,9 @@ namespace Vts
 
         #region IEnumerable<double> FluenceOfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts);
         /// <summary>
-        /// Overload of scalar ROfRhoAndFt function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and time frequencies 'fts'
+        /// Overload of scalar FluenceOfRhoAndFt function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and time frequencies 'fts'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
@@ -119,9 +119,9 @@ namespace Vts
 
         #region IEnumerable<double> FluenceOfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs);
         /// <summary>
-        /// Overload of scalar ROfFx function. Determines reflectances at optical properties 'ops' and spatial frequencies 'fxs'
+        /// Overload of scalar FluenceOfFx function. Determines reflectances at optical properties 'ops' and spatial frequencies 'fxs'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <returns></returns>
@@ -130,9 +130,9 @@ namespace Vts
         
         #region IEnumerable<double> FluenceOfFxAndT(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> ts);
         /// <summary>
-        /// Overload of scalar ROfFxAndT function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and times 'ts'
+        /// Overload of scalar FluenceOfFxAndT function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and times 'ts'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="ts">times (ns)</param>
@@ -142,9 +142,9 @@ namespace Vts
 
         #region IEnumerable<double> FluenceOfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts);
         /// <summary>
-        /// Overload of scalar ROfFxAndFt function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and time frequencies 'fts'
+        /// Overload of scalar FluenceOfFxAndFt function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and time frequencies 'fts'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
@@ -156,7 +156,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns></returns>
         IEnumerable<double> ROfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos);
@@ -183,7 +183,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfRhoAndFt function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and time frequencies 'fts'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
@@ -196,7 +196,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfFx function. Determines reflectances at optical properties 'ops' and spatial frequencies 'fxs'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <returns></returns>
         IEnumerable<double> ROfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs);
@@ -206,7 +206,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfFxAndT function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and times 'ts'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns></returns>
@@ -219,7 +219,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfFxAndFt function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and time frequencies 'fts'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
@@ -229,6 +229,9 @@ namespace Vts
 
         #endregion
 
+        /// <summary>
+        /// Beam Diameter
+        /// </summary>
         double BeamDiameter { get; set; } // temp - should go in ISourceConfiguration or something
 
         #region Convenience Overloads - default implementation handled by ForwardSolverBase (todo: these could alternatively be IForwardSolverExtensions instead of part of the contract)
@@ -236,7 +239,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances at optical properties 'op' and source-detector separations 'rhos'
         /// </summary>
-        /// <param name="op">medium optical properties </param>
+        /// <param name="op">medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns></returns>
         double[] ROfRho(OpticalProperties op, double[] rhos);
@@ -244,7 +247,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns></returns>
         double[] ROfRho(OpticalProperties[] ops, double[] rhos);
@@ -252,7 +255,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfRhoAndT function. Determines reflectances at optical properties 'op', source-detector separations 'rhos' and times 'ts'
         /// </summary>
-        /// <param name="op">medium optical properties </param>
+        /// <param name="op">medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns></returns>
@@ -262,7 +265,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfRhoAndT function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and times 'ts'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns></returns>
@@ -282,7 +285,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfRhoAndFt function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and time frequencies 'fts'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
@@ -292,7 +295,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfFx function. Determines reflectances at optical properties 'op' and spatial frequencies 'fxs'
         /// </summary>
-        /// <param name="op">medium optical properties </param>
+        /// <param name="op">medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <returns></returns>
         double[] ROfFx(OpticalProperties op, double[] fxs);
@@ -300,7 +303,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfFx function. Determines reflectances at optical properties 'ops' and spatial frequencies 'fxs'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <returns></returns>
         double[] ROfFx(OpticalProperties[] ops, double[] fxs);
@@ -308,7 +311,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfFxAndT function. Determines reflectances at optical properties 'op', spatial frequencies 'fxs' and times 'ts'
         /// </summary>
-        /// <param name="op">medium optical properties </param>
+        /// <param name="op">medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns></returns>
@@ -317,7 +320,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfFxAndT function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and times 'ts'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="ts"></param>
         /// <returns></returns>
@@ -326,7 +329,7 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfFxAndFt function. Determines reflectances at optical properties 'op', spatial frequencies 'fxs' and time frequencies 'fts'
         /// </summary>
-        /// <param name="op">medium optical properties </param>
+        /// <param name="op">medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
@@ -335,41 +338,265 @@ namespace Vts
         /// <summary>
         /// Overload of scalar ROfFxAndFt function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and time frequencies 'fts'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
         Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double[] fts);
 
         // others...need comments...again, these could be extensions
+        /// <summary>
+        /// Overload of ROfRho. Determines reflectances at optical properties 'ops', and source-detector separation 'rho'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <returns></returns>
         double[] ROfRho(OpticalProperties[] ops, double rho);
+
+        /// <summary>
+        /// Overload of ROfRhoAndT. Determines reflectances at optical properties 'ops', source-detector separation 'rho' and times 'ts'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns></returns>
         double[] ROfRhoAndT(OpticalProperties[] ops, double rho, double[] ts);
-        double[] ROfRhoAndT(OpticalProperties[] ops, double[] rhos, double t);
-        double[] ROfRhoAndT(OpticalProperties op, double rho, double[] ts);
-        double[] ROfRhoAndT(OpticalProperties op, double[] rhos, double t);
-        double[] ROfRhoAndT(OpticalProperties[] ops, double rho, double t);
-        Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double[] fts);
-        Complex[] ROfRhoAndFt(OpticalProperties[] ops, double[] rhos, double ft);
-        Complex[] ROfRhoAndFt(OpticalProperties op, double rho, double[] fts);
-        Complex[] ROfRhoAndFt(OpticalProperties op, double[] rhos, double ft);
-        Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double ft);
-        double[] ROfFx(OpticalProperties[] ops, double fx);
-        double[] ROfFxAndT(OpticalProperties[] ops, double fx, double[] ts);
-        double[] ROfFxAndT(OpticalProperties[] ops, double[] fxs, double t);
-        double[] ROfFxAndT(OpticalProperties op, double fx, double[] ts);
-        double[] ROfFxAndT(OpticalProperties op, double[] fxs, double t);
-        double[] ROfFxAndT(OpticalProperties[] ops, double fx, double t);
-        Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double[] fts);
-        Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double ft);
-        Complex[] ROfFxAndFt(OpticalProperties op, double fx, double[] fts);
-        Complex[] ROfFxAndFt(OpticalProperties op, double[] fxs, double ft);
-        Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double ft);
         
+        /// <summary>
+        /// Overload of ROfRhoAndT. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and times 'ts'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="t">time (ns)</param>
+        /// <returns></returns>
+        double[] ROfRhoAndT(OpticalProperties[] ops, double[] rhos, double t);
+
+        /// <summary>
+        /// Overload of ROfRhoAndT. Determines reflectances at optical properties 'op', source-detector separation 'rho' and times 'ts'
+        /// </summary>
+        /// <param name="op">medium optical properties</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns></returns>
+        double[] ROfRhoAndT(OpticalProperties op, double rho, double[] ts);
+
+        /// <summary>
+        /// Overload of ROfRhoAndT. Determines reflectances at optical properties 'op', source-detector separations 'rhos' and time 't'
+        /// </summary>
+        /// <param name="op">medium optical properties</param>
+        /// <param name="rhos">source-detector separation (mm)</param>
+        /// <param name="t">time (ns)</param>
+        /// <returns></returns>
+        double[] ROfRhoAndT(OpticalProperties op, double[] rhos, double t);
+
+        /// <summary>
+        /// Overload of ROfRhoAndT. Determines reflectances at optical properties 'ops', source-detector separation 'rho' and times 't'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="t">time (ns)</param>
+        /// <returns></returns>
+        double[] ROfRhoAndT(OpticalProperties[] ops, double rho, double t);
+
+        /// <summary>
+        /// Overload of ROfRhoAndFt. Determines reflectances at optical properties 'ops', source-detector separation 'rho' and modulation frequencies 'fts'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="fts">modulation frequencies (GHz)</param>
+        /// <returns></returns>
+        Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double[] fts);
+
+        /// <summary>
+        /// Overload of ROfRhoAndFt. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and modulation frequency 'ft'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="ft">modulation frequency (GHz)</param>
+        /// <returns></returns>
+        Complex[] ROfRhoAndFt(OpticalProperties[] ops, double[] rhos, double ft);
+
+        /// <summary>
+        /// Overload of ROfRhoAndFt. Determines reflectances at optical properties 'op', source-detector separation 'rho' and modulation frequencies 'fts'
+        /// </summary>
+        /// <param name="op">medium optical properties</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="fts">modulation frequencies (GHz)</param>
+        /// <returns></returns>
+        Complex[] ROfRhoAndFt(OpticalProperties op, double rho, double[] fts);
+
+        /// <summary>
+        /// Overload of ROfRhoAndFt. Determines reflectances at optical properties 'op', source-detector separations 'rhos' and modulation frequency 'ft'
+        /// </summary>
+        /// <param name="op">medium optical properties</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="ft">modulation frequency (GHz)</param>
+        /// <returns></returns>
+        Complex[] ROfRhoAndFt(OpticalProperties op, double[] rhos, double ft);
+
+        /// <summary>
+        /// Overload of ROfRhoAndFt. Determines reflectances at optical properties 'ops', source-detector separation 'rho' and modulation frequency 'ft'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="ft">modulation frequency (GHz)</param>
+        /// <returns></returns>
+        Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double ft);
+
+        /// <summary>
+        /// Overload of scalar ROfFx function. Determines reflectances at optical properties 'ops' and spatial frequency 'fx'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <returns></returns>
+        double[] ROfFx(OpticalProperties[] ops, double fx);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndT function. Determines reflectances at optical properties 'ops', spatial frequency 'fx' and times 'ts'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns></returns>
+        double[] ROfFxAndT(OpticalProperties[] ops, double fx, double[] ts);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndT function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and time 't'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="t">time (ns)</param>
+        /// <returns></returns>
+        double[] ROfFxAndT(OpticalProperties[] ops, double[] fxs, double t);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndT function. Determines reflectances at optical properties 'op', spatial frequency 'fx' and times 'ts'
+        /// </summary>
+        /// <param name="op">medium optical properties</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns></returns>
+        double[] ROfFxAndT(OpticalProperties op, double fx, double[] ts);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndT function. Determines reflectances at optical properties 'op', spatial frequencies 'fxs' and time 't'
+        /// </summary>
+        /// <param name="op">medium optical properties</param>
+        /// <param name="fxs">spatial frequency (1/mm)</param>
+        /// <param name="t">times (ns)</param>
+        /// <returns></returns>
+        double[] ROfFxAndT(OpticalProperties op, double[] fxs, double t);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndT function. Determines reflectances at optical properties 'ops', spatial frequency 'fx' and time 't'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <param name="t">time (ns)</param>
+        /// <returns></returns>
+        double[] ROfFxAndT(OpticalProperties[] ops, double fx, double t);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndFt function. Determines reflectances at optical properties 'ops', spatial frequency 'fx' and modulation frequencies 'fts'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <param name="fts">modulation frequencies (GHz)</param>
+        /// <returns></returns>
+        Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double[] fts);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndFt function. Determines reflectances at optical properties 'ops', spatial frequency 'fxs' and modulation frequency 'ft'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="ft">modulation frequency (GHz)</param>
+        /// <returns></returns>
+        Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double ft);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndFt function. Determines reflectances at optical properties 'op', spatial frequency 'fx' and modulation frequencies 'fts'
+        /// </summary>
+        /// <param name="op">medium optical properties</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <param name="fts">modulation frequencies (GHz)</param>
+        /// <returns></returns>
+        Complex[] ROfFxAndFt(OpticalProperties op, double fx, double[] fts);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndFt function. Determines reflectances at optical properties 'op', spatial frequency 'fxs' and modulation frequency 'ft'
+        /// </summary>
+        /// <param name="op">medium optical properties</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="ft">modulation frequency (GHz)</param>
+        /// <returns></returns>
+        Complex[] ROfFxAndFt(OpticalProperties op, double[] fxs, double ft);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndFt function. Determines reflectances at optical properties 'ops', spatial frequency 'fx' and modulation frequencies 'ft'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <param name="ft">modulation frequency (GHz)</param>
+        /// <returns></returns>
+        Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double ft);
+
+        /// <summary>
+        /// Overload of scalar FluenceOfRhoAndZ function. Determines fluence at optical properties 'ops' and source-detector separations 'rhos' and 'zs'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <returns></returns>
         double[] FluenceOfRhoAndZ(OpticalProperties[] ops, double[] rhos, double[] zs);
+
+        /// <summary>
+        /// Overload of scalar FluenceOfRhoAndT function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos', z values 'zs' and times 'ts'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns></returns>
         double[] FluenceOfRhoAndT(OpticalProperties[] ops, double[] rhos, double[] zs, double[] ts);
+
+        /// <summary>
+        /// Overload of scalar FluenceOfRhoAndT function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos', z values 'zs' and modulation frequencies 'fts'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties </param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="fts">modulation frequencies (GHz)</param>
+        /// <returns></returns>
         double[] FluenceOfRhoAndFt(OpticalProperties[] ops, double[] rhos, double[] zs, double[] fts);
+
+        /// <summary>
+        /// Overload of scalar FluenceOfRhoAndT function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and z values 'zs'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <returns></returns>
         double[] FluenceOfFx(OpticalProperties[] ops, double[] fxs, double[] zs);
+
+        /// <summary>
+        /// Overload of scalar FluenceOfRhoAndT function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs', z values 'zs' and times 'ts'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns></returns>
         double[] FluenceOfFxAndT(OpticalProperties[] ops, double[] fxs, double[] zs, double[] ts);
+
+        /// <summary>
+        /// Overload of scalar FluenceOfRhoAndT function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs', z values 'zs' and modulation frequencies 'fts'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="fts">modulation frequencies (GHz)</param>
+        /// <returns></returns>
         double[] FluenceOfFxAndFt(OpticalProperties[] ops, double[] fx, double[] zs, double[] fts);
 
         #endregion
