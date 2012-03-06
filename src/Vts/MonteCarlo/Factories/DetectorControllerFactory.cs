@@ -8,6 +8,13 @@ namespace Vts.MonteCarlo.Factories
 {
     public static class DetectorControllerFactory
     {
+        /// <summary>
+        /// method that returns an IDetectorController given the VBType, list of detectors and tissue
+        /// </summary>
+        /// <param name="virtualBoundaryType">virtual boundary type</param>
+        /// <param name="detectors">IEnumerable of IDetector</param>
+        /// <param name="tissue">ITissue</param>
+        /// <returns>IDetectorController</returns>
         public static IDetectorController GetDetectorController(VirtualBoundaryType virtualBoundaryType, IEnumerable<IDetector> detectors, ITissue tissue)
         {
             switch (virtualBoundaryType)

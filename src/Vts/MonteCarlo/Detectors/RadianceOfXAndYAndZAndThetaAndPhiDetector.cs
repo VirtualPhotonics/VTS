@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.Detectors
         /// constructor for radiance as a function of x, y, z, theta and phi detector input
         /// </summary>
         /// <param name="x">x binning</param>
-        /// <param name="x">x binning</param>
+        /// <param name="y">y binning</param>
         /// <param name="z">z binning</param>
         /// <param name="theta">polar angle binning</param>
         /// <param name="phi">azimuthal angle binning</param>

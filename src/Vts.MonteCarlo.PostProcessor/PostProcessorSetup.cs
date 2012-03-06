@@ -91,7 +91,6 @@ namespace Vts.MonteCarlo.PostProcessor
                     VirtualBoundaryType.pMCDiffuseReflectance,
                     pMCDetectorInputs, 
                     input.TallySecondMoment,
-                    input.TrackStatistics,
                     PhotonDatabaseFactory.GetpMCDatabase( // database filenames are assumed to be convention
                         VirtualBoundaryType.pMCDiffuseReflectance,
                         input.InputFolder),

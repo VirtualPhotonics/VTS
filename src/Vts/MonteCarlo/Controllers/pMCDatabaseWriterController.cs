@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
-using Vts.Common;
-using Vts.MonteCarlo;
+﻿using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Controllers
@@ -15,8 +10,8 @@ namespace Vts.MonteCarlo.Controllers
     /// </summary>
     public class pMCDatabaseWriterController
     {
-        IList<PhotonDatabaseWriter> _photonDatabaseWriters;
-        IList<CollisionInfoDatabaseWriter> _collisionInfoDatabaseWriters;
+        private IList<PhotonDatabaseWriter> _photonDatabaseWriters;
+        private IList<CollisionInfoDatabaseWriter> _collisionInfoDatabaseWriters;
 
         /// <summary>
         /// constructor for pMC database writer controller
@@ -81,6 +76,9 @@ namespace Vts.MonteCarlo.Controllers
             }
             return false;
         }
+        /// <summary>
+        /// method to dispose of photon database writers
+        /// </summary>
         public void Dispose()
         {
             foreach (var writer in _photonDatabaseWriters)

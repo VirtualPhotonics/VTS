@@ -26,6 +26,9 @@ namespace Vts.MonteCarlo
         private pMCDatabaseWriterController _pMCDatabaseWriterController = null;
         private bool doPMC = false;
 
+        /// <summary>
+        /// SimulationInput saved locally
+        /// </summary>
         protected SimulationInput _input;
         private Random _rng;
 

@@ -23,7 +23,6 @@ namespace Vts.MonteCarlo.PostProcessing
         private PhotonDatabase _photonDatabase;
         private SimulationInput _databaseInput;
         private bool _ispMCPostProcessor;
-        private bool _trackStatistics;
 
         /// <summary>
         /// Creates an instance of PhotonDatabasePostProcessor for pMC database processing
@@ -31,21 +30,18 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <param name="virtualBoundaryType">virtual boundary type</param>
         /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
         /// <param name="tallySecondMoment">boolean indicating whether to tally 2nd moment or not</param>
-        /// <param name="trackStatistics">boolean indicating whether to track statistics or not</param>
         /// <param name="database">pMCDatabase</param>
         /// <param name="databaseInput">Database information needed for post-processing</param>
         public PhotonDatabasePostProcessor(
             VirtualBoundaryType virtualBoundaryType,
             IList<IDetectorInput> detectorInputs,
             bool tallySecondMoment,
-            bool trackStatistics,
             pMCDatabase database,
             SimulationInput databaseInput)
             : this(virtualBoundaryType, detectorInputs, tallySecondMoment, databaseInput)
         {
             _pMCDatabase = database;
             _ispMCPostProcessor = true;
-            _trackStatistics = trackStatistics;
         }
 
         /// <summary>
@@ -66,7 +62,6 @@ namespace Vts.MonteCarlo.PostProcessing
         {
             _photonDatabase = photonDatabase;
             _ispMCPostProcessor = false;
-            _trackStatistics = false;
         }
 
         /// <summary>
@@ -95,8 +90,6 @@ namespace Vts.MonteCarlo.PostProcessing
             _detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, tallySecondMoment);
 
             _detectorController = new DetectorController(_detectors);
-
-            _trackStatistics = false;
         }
 
         /// <summary>
@@ -224,7 +217,6 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <param name="virtualBoundaryType">virtual boundary type</param>
         /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
         /// <param name="tallySecondMoment">boolean indicating whether to tally 2nd moment or not</param>
-        /// <param name="trackStatistics">boolean indicating whether to track statistics or not</param>
         /// <param name="database">PhotonTerminationDatabase</param>
         /// <param name="databaseInput">Database information needed for post-processing</param>
         /// <returns></returns>
@@ -232,7 +224,6 @@ namespace Vts.MonteCarlo.PostProcessing
             VirtualBoundaryType virtualBoundaryType,
             IList<IDetectorInput> detectorInputs,
             bool tallySecondMoment,
-            bool trackStatistics,
             pMCDatabase database,
             SimulationInput databaseInput)
         {
@@ -240,7 +231,6 @@ namespace Vts.MonteCarlo.PostProcessing
                 virtualBoundaryType,
                 detectorInputs,
                 tallySecondMoment,
-                trackStatistics,
                 database,
                 databaseInput);
 

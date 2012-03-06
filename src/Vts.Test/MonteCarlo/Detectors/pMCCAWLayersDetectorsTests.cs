@@ -143,7 +143,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new List<int>() { 1 })
                     },
                     false,
-                    false,
                     _databaseTwoLayerTissue,
                     _referenceInputTwoLayerTissue);
             // validation value obtained from reference results

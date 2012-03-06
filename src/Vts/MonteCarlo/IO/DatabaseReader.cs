@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo.IO
         /// Creates an instance of DatabaseReader with a map to create a binary reader. Use this overload
         /// if you need database-specific information in order to deserialize (e.g. number of subregions, etc)
         /// </summary>
-        /// <param name="binaryReaderCreator"></param>
+        /// <param name="binaryReaderCreator">ICustomBonaryReader<TElement></param>
         public DatabaseReader(Func<TDatabase, ICustomBinaryReader<TElement>> binaryReaderCreator)
         {
             _binaryReaderCreator = binaryReaderCreator;
@@ -26,11 +26,12 @@ namespace Vts.MonteCarlo.IO
         /// Creates an instance of DatabaseReader with a simple binary reader. Use this overload
         /// if there is no database-specific information necessary for creating the reader
         /// </summary>
-        /// <param name="binaryReader">simple binary reader</param>
+        /// <param name="binaryReader">ICustomBinaryReader<TElement></param>
         public DatabaseReader(ICustomBinaryReader<TElement> binaryReader)
             : this(db => binaryReader)
         {
         }
+        /// <summary>
 
         /// <summary>
         /// Creates a database of generic type T from an XML file
@@ -49,7 +50,7 @@ namespace Vts.MonteCarlo.IO
 
             return database;
         }
-
+        /// <summary>
         /// <summary>
         /// Creates a database of generic type T from a file in resources
         /// </summary>

@@ -998,9 +998,6 @@
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\PostProcessing\PostProcessorStatistics.cs">
-      <Link>MonteCarlo\PostProcessing\PostProcessorStatistics.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs">
       <Link>MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs</Link>
     </Compile>

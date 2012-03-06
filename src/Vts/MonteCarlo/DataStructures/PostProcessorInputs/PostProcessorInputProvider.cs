@@ -36,7 +36,6 @@ namespace Vts.MonteCarlo
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
                 },
                 true,
-                false,  // track statistics
                 "one_layer_ROfRho_DAW",
                 "one_layer_ROfRho_DAW",
                 "PostProcessor_ROfRho"
@@ -83,7 +82,6 @@ namespace Vts.MonteCarlo
                         "pMCROfRho_mus0p5"),
                 },
                 true,
-                true, // track statistics
                 "pMC_one_layer_ROfRho_DAW",
                 "pMC_one_layer_ROfRho_DAW",
                 "PostProcessor_pMC_ROfRho"

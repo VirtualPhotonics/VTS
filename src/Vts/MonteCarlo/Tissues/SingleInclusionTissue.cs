@@ -56,7 +56,11 @@ namespace Vts.MonteCarlo.Tissues
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
                 0.0) { }
-
+        /// <summary>
+        /// method to get tissue region index of photon's current position
+        /// </summary>
+        /// <param name="position">photon Position</param>
+        /// <returns>integer tissue region index</returns>
         public override int GetRegionIndex(Position position)
         {
             // if it's in the inclusion, return "3", otherwise, call the layer method to determine
@@ -65,6 +69,11 @@ namespace Vts.MonteCarlo.Tissues
 
         // todo: DC - worried that this is "uncombined" with GetDistanceToBoundary() from an efficiency standpoint
         // note, however that there are two overloads currently for RayIntersectBoundary, one that does extra work to calc distances
+        /// <summary>
+        /// method to get index of neighbor tissue region when photon on boundary of two regions
+        /// </summary>
+        /// <param name="photon">Photon</param>
+        /// <returns>index of neighbor index</returns>
         public override int GetNeighborRegionIndex(Photon photon)
         {
             // first, check what region the photon is in
@@ -106,7 +115,11 @@ namespace Vts.MonteCarlo.Tissues
             // otherwise we can do this with the base class method
             return base.GetNeighborRegionIndex(photon);
         }
-
+        /// <summary>
+        /// method to get distance from current photon position and direction to boundary of region
+        /// </summary>
+        /// <param name="photon">Photon</param>
+        /// <returns>distance to boundary</returns>
         public override double GetDistanceToBoundary(Photon photon)
         {
             // first, check what region the photon is in
@@ -136,7 +149,12 @@ namespace Vts.MonteCarlo.Tissues
             // if not hitting the inclusion, call the base (layer) method
             return base.GetDistanceToBoundary(photon);
         }
-
+        /// <summary>
+        /// method that provides reflected direction when phton reflects off boundary
+        /// </summary>
+        /// <param name="currentPosition">Position</param>
+        /// <param name="currentDirection">Direction</param>
+        /// <returns>new Direction</returns>
         public override Direction GetReflectedDirection(
             Position currentPosition,
             Direction currentDirection)
@@ -152,7 +170,12 @@ namespace Vts.MonteCarlo.Tissues
             }
             //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
         }
-
+        /// <summary>
+        /// method that provides refracted direction when phton refracts off boundary
+        /// </summary>
+        /// <param name="currentPosition">Position</param>
+        /// <param name="currentDirection">Direction</param>
+        /// <returns>new Direction</returns>
         public override Direction GetRefractedDirection(
             Position currentPosition,
             Direction currentDirection,

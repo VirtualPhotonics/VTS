@@ -6,6 +6,12 @@ namespace Vts.MonteCarlo
 {
     public static class AbsorptionWeightingMethods
     {
+        /// <summary>
+        /// Method that returns a function providing the correct absorption weighting for analog and DAW
+        /// </summary>
+        /// <param name="tissue"></param>
+        /// <param name="detector"></param>
+        /// <returns></returns>
         public static Func<PhotonDataPoint, PhotonDataPoint, int, double> GetAbsorptionWeightingMethod(ITissue tissue, IDetector detector)
         {
             switch (tissue.AbsorptionWeightingType)

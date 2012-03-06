@@ -115,12 +115,22 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="position">Current position</param>
         /// <returns>new direction</returns>
         protected abstract Direction GetFinalDirection(Position position); // position may or may not be needed
-
+        /// <summary>
+        /// returns final position
+        /// </summary>
+        /// <returns>Position</returns>
         protected virtual Position GetFinalPosition()
         {
             return GetFinalPositionFromProfileType(_sourceProfile, _rectLengthX, _rectWidthY, Rng);
         }
-
+        /// <summary>
+        /// returns final position from profile type
+        /// </summary>
+        /// <param name="sourceProfile">ISourceProfile</param>
+        /// <param name="rectLengthX">rectangular length in x direction (length)</param>
+        /// <param name="rectWidthY">rectangular length in y direction (width)</param>
+        /// <param name="rng">random number generator</param>
+        /// <returns>Position</returns>
         protected static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double rectLengthX, double rectWidthY, Random rng)
         {
             Position finalPosition = SourceDefaults.DefaultPosition.Clone();

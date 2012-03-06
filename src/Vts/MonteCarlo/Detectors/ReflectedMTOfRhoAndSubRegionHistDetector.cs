@@ -59,10 +59,14 @@ namespace Vts.MonteCarlo.Detectors
             TallyType.ReflectedMTOfRhoAndSubRegionHist.ToString())
         {
         }
-
+        /// <summary>
+        /// mean of tally
+        /// </summary>
         [IgnoreDataMember]
         public double[,,] Mean { get; set; }
-
+        /// <summary>
+        /// 2nd moment of tally
+        /// </summary>
         [IgnoreDataMember]
         public double[,,] SecondMoment { get; set; }
 
@@ -130,7 +134,10 @@ namespace Vts.MonteCarlo.Detectors
                 previousDP = dp;
             }
         }
-
+        /// <summary>
+        /// method to normalize tally
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched from source</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
@@ -151,7 +158,11 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
-
+        /// <summary>
+        /// method to determine if detector contains point, set to always be true for now (not used).
+        /// </summary>
+        /// <param name="dp"></param>
+        /// <returns></returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true;

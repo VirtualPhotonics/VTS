@@ -144,7 +144,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new List<int>() { 1 })
                     },
                     false, // tally 2nd moment
-                    false, // track statistics
                     _databaseTwoLayerTissue,
                     _referenceInputTwoLayerTissue);
             // validation value obtained from reference results

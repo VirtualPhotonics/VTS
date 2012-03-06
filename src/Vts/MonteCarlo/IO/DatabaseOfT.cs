@@ -17,14 +17,21 @@ namespace Vts.MonteCarlo.IO
     {
         [IgnoreDataMember]
         private IEnumerable<T> _dataPoints;
-
+        /// <summary>
+        /// number of elements in database
+        /// </summary>
         public long NumberOfElements { get; set; }
-
+        /// <summary>
+        /// method to set private _dataPoints to passed in dataPoints
+        /// </summary>
+        /// <param name="dataPoints">IEnumerable of generic type T"</param>
         public void SetDataPoints(IEnumerable<T> dataPoints)
         {
             _dataPoints = dataPoints;
         }
-
+        /// <summary>
+        /// DataPoints is an IEnumerable of T
+        /// </summary>
         [IgnoreDataMember]
         public IEnumerable<T> DataPoints
         {
