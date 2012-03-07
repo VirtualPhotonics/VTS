@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Vts.Common;
 
 namespace Vts.MonteCarlo
@@ -12,8 +11,8 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// constructor for fluence as a function of rho and z detector input
         /// </summary>
-        /// <param name="rho">rho binning</param>
-        /// <param name="z">z binning</param>
+        /// <param name="rho">rho binning</param> 
+        /// <param name="mtBins">momentum transfer binning</param>
         /// <param name="name">detector name</param>
         public ReflectedMTOfRhoAndSubRegionHistDetectorInput(DoubleRange rho, DoubleRange mtBins, String name)
         {
@@ -26,12 +25,12 @@ namespace Vts.MonteCarlo
         /// constructor that uses TallyType for name
         /// </summary>
         /// <param name="rho">rho binning</param>
-        /// <param name="z">z binning</param>
+        /// <param name="mtBins">momentum transfer binning</param>
         public ReflectedMTOfRhoAndSubRegionHistDetectorInput(DoubleRange rho, DoubleRange mtBins) 
             : this (rho, mtBins, TallyType.ReflectedMTOfRhoAndSubRegionHist.ToString()) { }
 
         /// <summary>
-        /// Default constructor uses default rho and z bins
+        /// Default constructor uses default rho and mt bins
         /// </summary>
         public ReflectedMTOfRhoAndSubRegionHistDetectorInput()
             : this(

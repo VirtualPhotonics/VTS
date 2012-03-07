@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
@@ -22,6 +21,7 @@ namespace Vts.MonteCarlo.Detectors
         /// constructor for momentum transfer as a function of rho and tissue subregion with histogram for MT detector input
         /// </summary>
         /// <param name="rho">rho binning</param>
+        /// <param name="momentumTransferBins">bins for Momentum Transfer</param>
         /// <param name="tissue">ITissue used to determine subregion binning</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment data for error results</param>
         /// <param name="name">detector name</param>
@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public ReflectedMTOfRhoAndSubRegionHistDetector()
             : this(
-            new DoubleRange(), 
+            new DoubleRange(0.0, 10.0, 101), 
             new DoubleRange(),
             new MultiLayerTissue(), 
             true, // tally SecondMoment
