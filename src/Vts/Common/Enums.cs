@@ -112,11 +112,11 @@ namespace Vts
         /// <summary>
         /// reflectance as a function of source-detector separation (rho) and time (t)
         /// </summary>
-        ROfRhoAndT,
+        ROfRhoAndTime,
         /// <summary>
         /// reflectance as a function of spatial-frequency (fx) and time (t)
         /// </summary>
-        ROfFxAndT,
+        ROfFxAndTime,
         /// <summary>
         /// reflectance as a function source-detector separation (rho) and temporal-frequency (ft)
         /// </summary>
@@ -132,29 +132,29 @@ namespace Vts
     public enum FluenceSolutionDomainType
     {
         /// <summary>
-        /// fluence as a function or source-detector separation (rho)
+        /// fluence as a function or source-detector separation (rho) and tissue depth (z)
         /// </summary>
         FluenceOfRhoAndZ,
         /// <summary>
-        /// fluence as a function of spatial-frequency (fx)
+        /// fluence as a function of spatial-frequency (fx) and tissue depth (z)
         /// </summary>
-        FluenceOfFx,
+        FluenceOfFxAndZ,
         /// <summary>
-        /// fluence as a function or source-detector separation (rho) and time (t)
+        /// fluence as a function or source-detector separation (rho), tissue depth (z) and time (t)
         /// </summary>
-        FluenceOfRhoAndT,
+        FluenceOfRhoAndZAndTime,
         /// <summary>
-        /// fluence as a function of spatial-frequency (fx) and time (t)
+        /// fluence as a function of spatial-frequency (fx), tissue depth (z) and time (t)
         /// </summary>
-        FluenceOfFxAndT,
+        FluenceOfFxAndZAndTime,
         /// <summary>
-        /// fluence as a function of source-detector separation (rho) and temporal-frequency (ft)
+        /// fluence as a function of source-detector separation (rho), tissue depth (z) and temporal-frequency (ft)
         /// </summary>
-        FluenceOfRhoAndFt,
+        FluenceOfRhoAndZAndFt,
         /// <summary>
-        /// fluence as a function of spatial-frequency (fx) and temporal-frequency (ft)
+        /// fluence as a function of spatial-frequency (fx), tissue depth (z) and temporal-frequency (ft)
         /// </summary>
-        FluenceOfFxAndFt
+        FluenceOfFxAndZAndFt
     }
     /// <summary>
     /// forward analysis types
@@ -248,7 +248,7 @@ namespace Vts
         /// <summary>
         /// time (t)
         /// </summary>
-        T,
+        Time,
         /// <summary>
         /// spatial-frequency (fx)
         /// </summary>

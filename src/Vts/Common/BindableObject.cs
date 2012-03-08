@@ -84,12 +84,12 @@ namespace Vts
         ///// <summary>
         ///// Helper class to consolidate set operations
         ///// </summary>
-        ///// <typeparam name="T"></typeparam>
+        ///// <typeparam name="Time"></typeparam>
         ///// <param name="parameter"></param>
         ///// <param name="value"></param>
-        //protected void SetProperty<T>(string propertyName, ref T parameter, ref T value)
+        //protected void SetProperty<Time>(string propertyName, ref Time parameter, ref Time value)
         //{
-        //    if (!EqualityComparer<T>.Default.Equals(parameter, value))
+        //    if (!EqualityComparer<Time>.Default.Equals(parameter, value))
         //    {
         //        parameter = value;
         //        OnPropertyChanged(propertyName);

@@ -32,11 +32,11 @@ namespace Vts.SiteVisit.ViewModel
         {
             //InitializeControls();
             FluenceOfRhoAndZOption = Options[FluenceSolutionDomainType.FluenceOfRhoAndZ];
-            FluenceOfFxOption = Options[FluenceSolutionDomainType.FluenceOfFx];
-            FluenceOfRhoAndTOption = Options[FluenceSolutionDomainType.FluenceOfRhoAndT];
-            FluenceOfFxAndTOption = Options[FluenceSolutionDomainType.FluenceOfFxAndT];
-            FluenceOfRhoAndFtOption = Options[FluenceSolutionDomainType.FluenceOfRhoAndFt];
-            FluenceOfFxAndFtOption = Options[FluenceSolutionDomainType.FluenceOfFxAndFt];
+            FluenceOfFxAndZOption = Options[FluenceSolutionDomainType.FluenceOfFxAndZ];
+            FluenceOfRhoAndZAndTOption = Options[FluenceSolutionDomainType.FluenceOfRhoAndZAndTime];
+            FluenceOfFxAndZAndTOption = Options[FluenceSolutionDomainType.FluenceOfFxAndZAndTime];
+            FluenceOfRhoAndZAndFtOption = Options[FluenceSolutionDomainType.FluenceOfRhoAndZAndFt];
+            FluenceOfFxAndZAndFtOption = Options[FluenceSolutionDomainType.FluenceOfFxAndZAndFt];
 
             this.PropertyChanged += (sender, args) =>
             {
@@ -52,11 +52,11 @@ namespace Vts.SiteVisit.ViewModel
             : this("", FluenceSolutionDomainType.FluenceOfRhoAndZ) { }
 
         public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndZOption { get; private set; }
-        public OptionModel<FluenceSolutionDomainType> FluenceOfFxOption { get; private set; }
-        public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndTOption { get; private set; }
-        public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndTOption { get; private set; }
-        public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndFtOption { get; private set; }
-        public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndFtOption { get; private set; }
+        public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndZOption { get; private set; }
+        public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndZAndTOption { get; private set; }
+        public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndZAndTOption { get; private set; }
+        public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndZAndFtOption { get; private set; }
+        public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndZAndFtOption { get; private set; }
 
         public OptionViewModel<IndependentVariableAxis> IndependentVariableAxisOptionVM
         {
@@ -164,31 +164,31 @@ namespace Vts.SiteVisit.ViewModel
                             new[] { IndependentVariableAxis.Rho});
                     ConstantLabelVisible = false;
                     break;
-                case FluenceSolutionDomainType.FluenceOfFx:
+                case FluenceSolutionDomainType.FluenceOfFxAndZ:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("",
                             new[] { IndependentVariableAxis.Fx});
                     ConstantLabelVisible = false;
                     break;
-                case FluenceSolutionDomainType.FluenceOfRhoAndT:
+                case FluenceSolutionDomainType.FluenceOfRhoAndZAndTime:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("",
-                            new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.T });
+                            new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time });
                     ConstantLabelVisible = true;
                     break;
-                case FluenceSolutionDomainType.FluenceOfFxAndT:
+                case FluenceSolutionDomainType.FluenceOfFxAndZAndTime:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("",
-                            new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.T });
+                            new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Time });
                     ConstantLabelVisible = true;
                     break;
-                case FluenceSolutionDomainType.FluenceOfRhoAndFt:
+                case FluenceSolutionDomainType.FluenceOfRhoAndZAndFt:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("",
                             new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
                     break;
-                case FluenceSolutionDomainType.FluenceOfFxAndFt:
+                case FluenceSolutionDomainType.FluenceOfFxAndZAndFt:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("",
                             new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft });
@@ -235,7 +235,7 @@ namespace Vts.SiteVisit.ViewModel
                 case IndependentVariableAxis.Z:
                     range = new DoubleRange(0.1, 19.9, 100); // units=mm
                     break;
-                case IndependentVariableAxis.T:
+                case IndependentVariableAxis.Time:
                     range = new DoubleRange(0D, 0.5D, 10);  // units=ns
                     break;
                 case IndependentVariableAxis.Fx:
@@ -258,7 +258,7 @@ namespace Vts.SiteVisit.ViewModel
                 case IndependentVariableAxis.Rho:
                 default:
                     return 1D;
-                case IndependentVariableAxis.T:
+                case IndependentVariableAxis.Time:
                     return 50D;
                 case IndependentVariableAxis.Fx:
                     return 0D;

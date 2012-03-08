@@ -378,9 +378,9 @@ namespace Vts.Common.Resources {
         /// <summary>
         ///   Looks up a localized string similar to t.
         /// </summary>
-        public static string IndependentVariableAxis_T {
+        public static string IndependentVariableAxis_Time {
             get {
-                return ResourceManager.GetString("IndependentVariableAxis_T", resourceCulture);
+                return ResourceManager.GetString("IndependentVariableAxis_Time", resourceCulture);
             }
         }
         
@@ -621,9 +621,9 @@ namespace Vts.Common.Resources {
         /// <summary>
         ///   Looks up a localized string similar to R(fx,t).
         /// </summary>
-        public static string SolutionDomainType_ROfFxAndT {
+        public static string SolutionDomainType_ROfFxAndTime {
             get {
-                return ResourceManager.GetString("SolutionDomainType_ROfFxAndT", resourceCulture);
+                return ResourceManager.GetString("SolutionDomainType_ROfFxAndTime", resourceCulture);
             }
         }
         
@@ -648,9 +648,9 @@ namespace Vts.Common.Resources {
         /// <summary>
         ///   Looks up a localized string similar to R(ρ,t).
         /// </summary>
-        public static string SolutionDomainType_ROfRhoAndT {
+        public static string SolutionDomainType_ROfRhoAndTime {
             get {
-                return ResourceManager.GetString("SolutionDomainType_ROfRhoAndT", resourceCulture);
+                return ResourceManager.GetString("SolutionDomainType_ROfRhoAndTime", resourceCulture);
             }
         }
     }

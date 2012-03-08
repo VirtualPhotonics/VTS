@@ -172,19 +172,19 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_output.Td * _factor - 0.0194444444), 0.0000000001);
         }
-        // Transmittance T(rho)
+        // Transmittance Time(rho)
         [Test]
         public void validate_Analog_TOfRho()
         {
             Assert.Less(Math.Abs(_output.T_r[46] * _factor - 0.00332761231), 0.00000000001);
         }
-        // Transmittance T(angle)
+        // Transmittance Time(angle)
         [Test]
         public void validate_Analog_TOfAngle()
         {
             Assert.Less(Math.Abs(_output.T_a[0] * _factor - 0.00278619040), 0.00000000001);
         }
-        // Transmittance T(rho,angle)
+        // Transmittance Time(rho,angle)
         [Test]
         public void validate_Analog_TOfRhoAndAngle()
         {

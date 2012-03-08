@@ -211,21 +211,21 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.Td * _factor - 0.0232993770), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Td * _factor - 0.0232993770), 0.000000001);
         }
-        // Transmittance T(rho)
+        // Transmittance Time(rho)
         [Test]
         public void validate_CAW_TOfRho()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_r[54] * _factor - 0.00167241353), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_r[54] * _factor - 0.00167241353), 0.00000000001);
         }
-        // Transmittance T(angle)
+        // Transmittance Time(angle)
         [Test]
         public void validate_CAW_TOfAngle()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_a[0] * _factor - 0.00333856288), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_a[0] * _factor - 0.00333856288), 0.00000000001);
         }
-        // Transmittance T(rho,angle)
+        // Transmittance Time(rho,angle)
         [Test]
         public void validate_CAW_TOfRhoAndAngle()
         {

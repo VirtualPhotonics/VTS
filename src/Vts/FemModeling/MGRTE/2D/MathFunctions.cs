@@ -833,7 +833,7 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
         /// <summary>
-        /// Assign P E T
+        /// Assign P E Time
         /// </summary>        
         private static void NewPET(double[][] newp, double[][] oldp, int[][] newe, int[][] newt, int[][] oldt, double[][] ptemp, int np, int nt, int trint)
         {
@@ -885,7 +885,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
             double temp;
 
-            //Assign T
+            //Assign Time
             for (i = 0; i < nt; i++)
             {
 

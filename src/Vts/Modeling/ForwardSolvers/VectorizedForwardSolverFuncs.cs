@@ -30,7 +30,7 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 return
                     (OpticalProperties op, double rho, double t) =>
-                        _fs.ROfRhoAndT(
+                        _fs.ROfRhoAndTime(
                             op.AsEnumerable(),
                             rho.AsEnumerable(),
                             t.AsEnumerable()).FirstOrDefault();
@@ -68,7 +68,7 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 return 
                     (OpticalProperties op, double fx, double t) =>
-                        _fs.ROfFxAndT(
+                        _fs.ROfFxAndTime(
                             op.AsEnumerable(),
                             fx.AsEnumerable(),
                             t.AsEnumerable()).FirstOrDefault();

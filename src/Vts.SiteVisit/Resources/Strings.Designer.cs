@@ -189,9 +189,9 @@ namespace Vts.SiteVisit.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Detection Times.
         /// </summary>
-        public static string IndependentVariableAxis_T {
+        public static string IndependentVariableAxis_Time {
             get {
-                return ResourceManager.GetString("IndependentVariableAxis_T", resourceCulture);
+                return ResourceManager.GetString("IndependentVariableAxis_Time", resourceCulture);
             }
         }
         
@@ -216,54 +216,54 @@ namespace Vts.SiteVisit.Resources {
         /// <summary>
         ///   Looks up a localized string similar to A(fx,z).
         /// </summary>
-        public static string Label_AOfFx {
+        public static string Label_AOfFxAndZ {
             get {
-                return ResourceManager.GetString("Label_AOfFx", resourceCulture);
+                return ResourceManager.GetString("Label_AOfFxAndZ", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A(fx,ft).
+        ///   Looks up a localized string similar to A(fx,z,ft).
         /// </summary>
-        public static string Label_AOfFxAndFt {
+        public static string Label_AOfFxAndZAndFt {
             get {
-                return ResourceManager.GetString("Label_AOfFxAndFt", resourceCulture);
+                return ResourceManager.GetString("Label_AOfFxAndZAndFt", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A(fx,t,z).
+        ///   Looks up a localized string similar to A(fx,z,t).
         /// </summary>
-        public static string Label_AOfFxAndT {
+        public static string Label_AOfFxAndZAndTime {
             get {
-                return ResourceManager.GetString("Label_AOfFxAndT", resourceCulture);
+                return ResourceManager.GetString("Label_AOfFxAndZAndTime", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to A(ρ,z).
         /// </summary>
-        public static string Label_AOfRho {
+        public static string Label_AOfRhoAndZ {
             get {
-                return ResourceManager.GetString("Label_AOfRho", resourceCulture);
+                return ResourceManager.GetString("Label_AOfRhoAndZ", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A(ρ,ft,z).
+        ///   Looks up a localized string similar to A(ρ,z,ft).
         /// </summary>
-        public static string Label_AOfRhoAndFt {
+        public static string Label_AOfRhoAndZAndFt {
             get {
-                return ResourceManager.GetString("Label_AOfRhoAndFt", resourceCulture);
+                return ResourceManager.GetString("Label_AOfRhoAndZAndFt", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A(ρ,t,z).
+        ///   Looks up a localized string similar to A(ρ,z,t).
         /// </summary>
-        public static string Label_AOfRhoAndT {
+        public static string Label_AOfRhoAndZAndTime {
             get {
-                return ResourceManager.GetString("Label_AOfRhoAndT", resourceCulture);
+                return ResourceManager.GetString("Label_AOfRhoAndZAndTime", resourceCulture);
             }
         }
         
@@ -333,45 +333,27 @@ namespace Vts.SiteVisit.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Φ(fx,z).
         /// </summary>
-        public static string Label_FluenceOfFx {
+        public static string Label_FluenceOfFxAndZ {
             get {
-                return ResourceManager.GetString("Label_FluenceOfFx", resourceCulture);
+                return ResourceManager.GetString("Label_FluenceOfFxAndZ", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Φ(fx,ft).
+        ///   Looks up a localized string similar to Φ(fx,z,ft).
         /// </summary>
-        public static string Label_FluenceOfFxAndFt {
+        public static string Label_FluenceOfFxAndZAndFt {
             get {
-                return ResourceManager.GetString("Label_FluenceOfFxAndFt", resourceCulture);
+                return ResourceManager.GetString("Label_FluenceOfFxAndZAndFt", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Φ(fx,t,z).
+        ///   Looks up a localized string similar to Φ(fx,z,t).
         /// </summary>
-        public static string Label_FluenceOfFxAndT {
+        public static string Label_FluenceOfFxAndZAndTime {
             get {
-                return ResourceManager.GetString("Label_FluenceOfFxAndT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Φ(ρ,ft,z).
-        /// </summary>
-        public static string Label_FluenceOfRhoAndFt {
-            get {
-                return ResourceManager.GetString("Label_FluenceOfRhoAndFt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Φ(ρ,t,z).
-        /// </summary>
-        public static string Label_FluenceOfRhoAndT {
-            get {
-                return ResourceManager.GetString("Label_FluenceOfRhoAndT", resourceCulture);
+                return ResourceManager.GetString("Label_FluenceOfFxAndZAndTime", resourceCulture);
             }
         }
         
@@ -381,6 +363,24 @@ namespace Vts.SiteVisit.Resources {
         public static string Label_FluenceOfRhoAndZ {
             get {
                 return ResourceManager.GetString("Label_FluenceOfRhoAndZ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Φ(ρ,z,ft).
+        /// </summary>
+        public static string Label_FluenceOfRhoAndZAndFt {
+            get {
+                return ResourceManager.GetString("Label_FluenceOfRhoAndZAndFt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Φ(ρ,z,t).
+        /// </summary>
+        public static string Label_FluenceOfRhoAndZAndTime {
+            get {
+                return ResourceManager.GetString("Label_FluenceOfRhoAndZAndTime", resourceCulture);
             }
         }
         
@@ -522,54 +522,54 @@ namespace Vts.SiteVisit.Resources {
         /// <summary>
         ///   Looks up a localized string similar to phd(fx,z).
         /// </summary>
-        public static string Label_PHDOfFx {
+        public static string Label_PHDOfFxAndZ {
             get {
-                return ResourceManager.GetString("Label_PHDOfFx", resourceCulture);
+                return ResourceManager.GetString("Label_PHDOfFxAndZ", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to phd(fx,ft,z).
+        ///   Looks up a localized string similar to phd(fx,z,ft).
         /// </summary>
-        public static string Label_PHDOfFxAndFt {
+        public static string Label_PHDOfFxAndZAndFt {
             get {
-                return ResourceManager.GetString("Label_PHDOfFxAndFt", resourceCulture);
+                return ResourceManager.GetString("Label_PHDOfFxAndZAndFt", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to phd(fx,t,z).
+        ///   Looks up a localized string similar to phd(fx,z,t).
         /// </summary>
-        public static string Label_PHDOfFxAndT {
+        public static string Label_PHDOfFxAndZAndTime {
             get {
-                return ResourceManager.GetString("Label_PHDOfFxAndT", resourceCulture);
+                return ResourceManager.GetString("Label_PHDOfFxAndZAndTime", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to phd(ρ,z).
         /// </summary>
-        public static string Label_PHDOfRho {
+        public static string Label_PHDOfRhoAndZ {
             get {
-                return ResourceManager.GetString("Label_PHDOfRho", resourceCulture);
+                return ResourceManager.GetString("Label_PHDOfRhoAndZ", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to phd(ρ,ft).
+        ///   Looks up a localized string similar to phd(ρ,z,ft).
         /// </summary>
-        public static string Label_PHDOfRhoAndFt {
+        public static string Label_PHDOfRhoAndZAndFt {
             get {
-                return ResourceManager.GetString("Label_PHDOfRhoAndFt", resourceCulture);
+                return ResourceManager.GetString("Label_PHDOfRhoAndZAndFt", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to phd(ρ,t,z).
+        ///   Looks up a localized string similar to phd(ρ,z,t).
         /// </summary>
-        public static string Label_PHDOfRhoAndT {
+        public static string Label_PHDOfRhoAndZAndTime {
             get {
-                return ResourceManager.GetString("Label_PHDOfRhoAndT", resourceCulture);
+                return ResourceManager.GetString("Label_PHDOfRhoAndZAndTime", resourceCulture);
             }
         }
         
@@ -639,9 +639,9 @@ namespace Vts.SiteVisit.Resources {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        public static string Label_ROfFxAndT {
+        public static string Label_ROfFxAndTime {
             get {
-                return ResourceManager.GetString("Label_ROfFxAndT", resourceCulture);
+                return ResourceManager.GetString("Label_ROfFxAndTime", resourceCulture);
             }
         }
         
@@ -666,9 +666,9 @@ namespace Vts.SiteVisit.Resources {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        public static string Label_ROfRhoAndT {
+        public static string Label_ROfRhoAndTime {
             get {
-                return ResourceManager.GetString("Label_ROfRhoAndT", resourceCulture);
+                return ResourceManager.GetString("Label_ROfRhoAndTime", resourceCulture);
             }
         }
         

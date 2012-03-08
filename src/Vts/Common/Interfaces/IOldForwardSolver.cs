@@ -24,7 +24,7 @@ namespace Vts
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="t">time (ns)</param>
         /// <returns>reflectance at source-detector separation rho and time t</returns>
-        double ROfRhoAndT(double mua, double musp, double n, double rho, double t);
+        double ROfRhoAndTime(double mua, double musp, double n, double rho, double t);
 
         /// <summary>
         /// Determines reflectance at source-detector separation rho and modulation frequency ft
@@ -56,7 +56,7 @@ namespace Vts
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="t">time (ns)</param>
         /// <returns>reflectance at spatial frequency fx and time t</returns>
-        double ROfFxAndT(double mua, double musp, double n, double fx, double t);
+        double ROfFxAndTime(double mua, double musp, double n, double fx, double t);
         
         /// <summary>
         /// Determines reflectance at spatial frequency fx and modulation frequency ft
@@ -71,23 +71,23 @@ namespace Vts
 
         // should we add these (so we can consolidate the analysis/inversion methods)?
         //double ROfRho(params double[] arguments);
-        //double ROfFxAndT(params double[] arguments);
+        //double ROfFxAndTime(params double[] arguments);
         //double ROfFx(params double[] arguments);
-        //double ROfRhoAndT(params double[] arguments);
+        //double ROfRhoAndTime(params double[] arguments);
         //double ROfRhoAndFt(params double[] arguments);
         //double ROfFxAndFt(params double[] arguments);
     }
 }
     //double ROfRho(double mua, double musp, double n, double rho);
-    //double ROfRhoAndT(double mua, double musp, double n, double rho, double t);
+    //double ROfRhoAndTime(double mua, double musp, double n, double rho, double t);
     //double ROfRhoAndFt(double mua, double musp, double n, double rho, double ft);
     //double ROfFx(double mua, double musp, double n, double fx);
-    //double ROfFxAndT(double mua, double musp, double n, double fx, double t);
+    //double ROfFxAndTime(double mua, double musp, double n, double fx, double t);
     //double ROfFxAndFt(double mua, double musp, double n, double fx, double ft);
 
     //double ROfRho(OpticalProperties op, double rho);
-    //double ROfRhoAndT(OpticalProperties op, double t);
+    //double ROfRhoAndTime(OpticalProperties op, double t);
     //double ROfRhoAndFt(OpticalProperties op, double ft);
     //double ROfFx(OpticalProperties op, double fx);
-    //double ROfFxAndT(OpticalProperties op, double t);
+    //double ROfFxAndTime(OpticalProperties op, double t);
     //double ROfFxAndFt(OpticalProperties op, double ft);

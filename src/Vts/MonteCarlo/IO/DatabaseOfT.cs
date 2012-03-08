@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo.IO
     /// Describes database of generic type allowing for various classes to be written to database.
     /// </summary>
     /// <typeparam name="T">type of database</typeparam>
-    public class Database<T>// : IEnumerable<T>
+    public class Database<T>// : IEnumerable<Time>
     {
         [IgnoreDataMember]
         private IEnumerable<T> _dataPoints;
@@ -24,13 +24,13 @@ namespace Vts.MonteCarlo.IO
         /// <summary>
         /// method to set private _dataPoints to passed in dataPoints
         /// </summary>
-        /// <param name="dataPoints">IEnumerable of generic type T"</param>
+        /// <param name="dataPoints">IEnumerable of generic type Time"</param>
         public void SetDataPoints(IEnumerable<T> dataPoints)
         {
             _dataPoints = dataPoints;
         }
         /// <summary>
-        /// DataPoints is an IEnumerable of T
+        /// DataPoints is an IEnumerable of Time
         /// </summary>
         [IgnoreDataMember]
         public IEnumerable<T> DataPoints

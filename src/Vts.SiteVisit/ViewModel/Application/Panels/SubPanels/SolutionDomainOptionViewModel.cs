@@ -36,8 +36,8 @@ namespace Vts.SiteVisit.ViewModel
             //InitializeControls();
             ROfRhoOption = Options[SolutionDomainType.ROfRho];
             ROfFxOption = Options[SolutionDomainType.ROfFx];
-            ROfRhoAndTOption = Options[SolutionDomainType.ROfRhoAndT];
-            ROfFxAndTOption = Options[SolutionDomainType.ROfFxAndT];
+            ROfRhoAndTOption = Options[SolutionDomainType.ROfRhoAndTime];
+            ROfFxAndTOption = Options[SolutionDomainType.ROfFxAndTime];
             ROfRhoAndFtOption = Options[SolutionDomainType.ROfRhoAndFt];
             ROfFxAndFtOption = Options[SolutionDomainType.ROfFxAndFt];
 
@@ -181,16 +181,16 @@ namespace Vts.SiteVisit.ViewModel
                             new[] { IndependentVariableAxis.Fx });
                     ConstantLabelVisible = false;
                     break;
-                case SolutionDomainType.ROfRhoAndT:
+                case SolutionDomainType.ROfRhoAndTime:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
-                            new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.T });
+                            new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time });
                     ConstantLabelVisible = true;
                     break;
-                case SolutionDomainType.ROfFxAndT:
+                case SolutionDomainType.ROfFxAndTime:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
-                            new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.T });
+                            new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Time });
                     ConstantLabelVisible = true;
                     break;
                 case SolutionDomainType.ROfRhoAndFt:

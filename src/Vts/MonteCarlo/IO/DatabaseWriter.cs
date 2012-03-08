@@ -7,7 +7,7 @@ namespace Vts.MonteCarlo.IO
     /// This is a base class to PhotonDatabaseWriter and CollisionInfoDatabaseWriter.
     /// It controls writing to a database of generic-type.
     /// </summary>
-    /// <typeparam name="TDatabase">Database of generic type T</typeparam>
+    /// <typeparam name="TDatabase">Database of generic type Time</typeparam>
     /// <typeparam name="TElement">Generic database element</typeparam>
     public class DatabaseWriter<TDatabase, TElement> : CustomBinaryStreamWriter<TElement>
         where TDatabase : Database<TElement>, new()

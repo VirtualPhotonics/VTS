@@ -367,14 +367,14 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(dcloned.Mean[1, 1, 1], 11);
             Assert.AreEqual(dcloned.Mean[1, 1, 2], 12);
         }
-        //private static T Clone<T>(T myObject)
+        //private static Time Clone<Time>(Time myObject)
         //{
         //    using (MemoryStream ms = new MemoryStream(1024))
         //    {
-        //        var dcs = new DataContractSerializer(typeof(T));
+        //        var dcs = new DataContractSerializer(typeof(Time));
         //        dcs.WriteObject(ms, myObject);
         //        ms.Seek(0, SeekOrigin.Begin);
-        //        return (T)dcs.ReadObject(ms);
+        //        return (Time)dcs.ReadObject(ms);
         //    }
         //}
     }
