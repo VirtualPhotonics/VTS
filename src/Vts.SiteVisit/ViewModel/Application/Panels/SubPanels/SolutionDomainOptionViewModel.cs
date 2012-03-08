@@ -36,8 +36,8 @@ namespace Vts.SiteVisit.ViewModel
             //InitializeControls();
             ROfRhoOption = Options[SolutionDomainType.ROfRho];
             ROfFxOption = Options[SolutionDomainType.ROfFx];
-            ROfRhoAndTOption = Options[SolutionDomainType.ROfRhoAndTime];
-            ROfFxAndTOption = Options[SolutionDomainType.ROfFxAndTime];
+            ROfRhoAndTimeOption = Options[SolutionDomainType.ROfRhoAndTime];
+            ROfFxAndTimeOption = Options[SolutionDomainType.ROfFxAndTime];
             ROfRhoAndFtOption = Options[SolutionDomainType.ROfRhoAndFt];
             ROfFxAndFtOption = Options[SolutionDomainType.ROfFxAndFt];
 
@@ -55,8 +55,8 @@ namespace Vts.SiteVisit.ViewModel
 
         public OptionModel<SolutionDomainType> ROfRhoOption { get; private set; }
         public OptionModel<SolutionDomainType> ROfFxOption { get; private set; }
-        public OptionModel<SolutionDomainType> ROfRhoAndTOption { get; private set; }
-        public OptionModel<SolutionDomainType> ROfFxAndTOption { get; private set; }
+        public OptionModel<SolutionDomainType> ROfRhoAndTimeOption { get; private set; }
+        public OptionModel<SolutionDomainType> ROfFxAndTimeOption { get; private set; }
         public OptionModel<SolutionDomainType> ROfRhoAndFtOption { get; private set; }
         public OptionModel<SolutionDomainType> ROfFxAndFtOption { get; private set; }
 

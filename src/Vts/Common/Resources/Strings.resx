@@ -258,23 +258,23 @@
   <data name="DependentVariableAxisUnits_PerMMPerNS" xml:space="preserve">
     <value>mm-1 ns-1</value>
   </data>
-  <data name="FluenceSolutionDomainType_FluenceOfFx" xml:space="preserve">
+  <data name="FluenceSolutionDomainType_FluenceOfFxAndZ" xml:space="preserve">
     <value>Φ(fx,z)</value>
   </data>
-  <data name="FluenceSolutionDomainType_FluenceOfFxAndFt" xml:space="preserve">
-    <value>Φ(fx,ft)</value>
+  <data name="FluenceSolutionDomainType_FluenceOfFxAndZAndFt" xml:space="preserve">
+    <value>Φ(fx,z,ft)</value>
   </data>
-  <data name="FluenceSolutionDomainType_FluenceOfFxAndT" xml:space="preserve">
-    <value>Φ(fx,t,z)</value>
+  <data name="FluenceSolutionDomainType_FluenceOfFxAndZAndTime" xml:space="preserve">
+    <value>Φ(fx,z,t)</value>
   </data>
   <data name="FluenceSolutionDomainType_FluenceOfRhoAndZ" xml:space="preserve">
     <value>Φ(ρ,z)</value>
   </data>
-  <data name="FluenceSolutionDomainType_FluenceOfRhoAndFt" xml:space="preserve">
-    <value>Φ(ρ,ft,z)</value>
+  <data name="FluenceSolutionDomainType_FluenceOfRhoAndZAndFt" xml:space="preserve">
+    <value>Φ(ρ,z,ft)</value>
   </data>
-  <data name="FluenceSolutionDomainType_FluenceOfRhoAndT" xml:space="preserve">
-    <value>Φ(ρ,t,z)</value>
+  <data name="FluenceSolutionDomainType_FluenceOfRhoAndZAndTime" xml:space="preserve">
+    <value>Φ(ρ,z,t)</value>
   </data>
   <data name="ForwardSolverType_DistributedGaussianSourceSDA" xml:space="preserve">
     <value>Standard Diffusion (Analytic - Distributed Gaussian Source)</value>

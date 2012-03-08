@@ -33,8 +33,8 @@ namespace Vts.SiteVisit.ViewModel
             //InitializeControls();
             FluenceOfRhoAndZOption = Options[FluenceSolutionDomainType.FluenceOfRhoAndZ];
             FluenceOfFxAndZOption = Options[FluenceSolutionDomainType.FluenceOfFxAndZ];
-            FluenceOfRhoAndZAndTOption = Options[FluenceSolutionDomainType.FluenceOfRhoAndZAndTime];
-            FluenceOfFxAndZAndTOption = Options[FluenceSolutionDomainType.FluenceOfFxAndZAndTime];
+            FluenceOfRhoAndZAndTimeOption = Options[FluenceSolutionDomainType.FluenceOfRhoAndZAndTime];
+            FluenceOfFxAndZAndTimeOption = Options[FluenceSolutionDomainType.FluenceOfFxAndZAndTime];
             FluenceOfRhoAndZAndFtOption = Options[FluenceSolutionDomainType.FluenceOfRhoAndZAndFt];
             FluenceOfFxAndZAndFtOption = Options[FluenceSolutionDomainType.FluenceOfFxAndZAndFt];
 
@@ -53,8 +53,8 @@ namespace Vts.SiteVisit.ViewModel
 
         public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndZOption { get; private set; }
         public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndZOption { get; private set; }
-        public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndZAndTOption { get; private set; }
-        public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndZAndTOption { get; private set; }
+        public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndZAndTimeOption { get; private set; }
+        public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndZAndTimeOption { get; private set; }
         public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndZAndFtOption { get; private set; }
         public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndZAndFtOption { get; private set; }
 

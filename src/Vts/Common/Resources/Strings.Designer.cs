@@ -189,45 +189,27 @@ namespace Vts.Common.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Φ(fx,z).
         /// </summary>
-        public static string FluenceSolutionDomainType_FluenceOfFx {
+        public static string FluenceSolutionDomainType_FluenceOfFxAndZ {
             get {
-                return ResourceManager.GetString("FluenceSolutionDomainType_FluenceOfFx", resourceCulture);
+                return ResourceManager.GetString("FluenceSolutionDomainType_FluenceOfFxAndZ", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Φ(fx,ft).
+        ///   Looks up a localized string similar to Φ(fx,z,ft).
         /// </summary>
-        public static string FluenceSolutionDomainType_FluenceOfFxAndFt {
+        public static string FluenceSolutionDomainType_FluenceOfFxAndZAndFt {
             get {
-                return ResourceManager.GetString("FluenceSolutionDomainType_FluenceOfFxAndFt", resourceCulture);
+                return ResourceManager.GetString("FluenceSolutionDomainType_FluenceOfFxAndZAndFt", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Φ(fx,t,z).
+        ///   Looks up a localized string similar to Φ(fx,z,t).
         /// </summary>
-        public static string FluenceSolutionDomainType_FluenceOfFxAndT {
+        public static string FluenceSolutionDomainType_FluenceOfFxAndZAndTime {
             get {
-                return ResourceManager.GetString("FluenceSolutionDomainType_FluenceOfFxAndT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Φ(ρ,ft,z).
-        /// </summary>
-        public static string FluenceSolutionDomainType_FluenceOfRhoAndFt {
-            get {
-                return ResourceManager.GetString("FluenceSolutionDomainType_FluenceOfRhoAndFt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Φ(ρ,t,z).
-        /// </summary>
-        public static string FluenceSolutionDomainType_FluenceOfRhoAndT {
-            get {
-                return ResourceManager.GetString("FluenceSolutionDomainType_FluenceOfRhoAndT", resourceCulture);
+                return ResourceManager.GetString("FluenceSolutionDomainType_FluenceOfFxAndZAndTime", resourceCulture);
             }
         }
         
@@ -237,6 +219,24 @@ namespace Vts.Common.Resources {
         public static string FluenceSolutionDomainType_FluenceOfRhoAndZ {
             get {
                 return ResourceManager.GetString("FluenceSolutionDomainType_FluenceOfRhoAndZ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Φ(ρ,z,ft).
+        /// </summary>
+        public static string FluenceSolutionDomainType_FluenceOfRhoAndZAndFt {
+            get {
+                return ResourceManager.GetString("FluenceSolutionDomainType_FluenceOfRhoAndZAndFt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Φ(ρ,z,t).
+        /// </summary>
+        public static string FluenceSolutionDomainType_FluenceOfRhoAndZAndTime {
+            get {
+                return ResourceManager.GetString("FluenceSolutionDomainType_FluenceOfRhoAndZAndTime", resourceCulture);
             }
         }
         
