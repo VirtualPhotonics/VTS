@@ -287,14 +287,14 @@
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\AngularMesh.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\AngularMesh.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshDataInput.cs">
-      <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshDataInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationInput.cs">
-      <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationInput.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationOptions.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationOptions.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\SpatialMesh.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\SpatialMesh.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\SquareMeshDataInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\SquareMeshDataInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs</Link>
@@ -320,11 +320,26 @@
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerTissueInput.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerTissueInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\TissueInputs\SingleInclusionInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\TissueInputs\SingleInclusionInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Tissues\InclusionLayerRegion.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\Tissues\InclusionLayerRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Tissues\LayerRegion.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\Tissues\LayerRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Tissues\MultiLayerTissue.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\Tissues\MultiLayerTissue.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Enums.cs">
       <Link>FemModeling\MGRTE\2D\Enums.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs">
       <Link>FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Factory\TissueFactory.cs">
+      <Link>FemModeling\MGRTE\2D\Factory\TissueFactory.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Initialization.cs">
       <Link>FemModeling\MGRTE\2D\Initialization.cs</Link>
@@ -338,14 +353,26 @@
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IExtSource.cs">
       <Link>FemModeling\MGRTE\2D\Interfaces\IExtSource.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IInclusionInput.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\IInclusionInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IInclusionRegion.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\IInclusionRegion.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs">
       <Link>FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IIntSource.cs">
       <Link>FemModeling\MGRTE\2D\Interfaces\IIntSource.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\ITissue.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\ITissue.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\ITissueInput.cs">
       <Link>FemModeling\MGRTE\2D\Interfaces\ITissueInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\ITissueRegion.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\ITissueRegion.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\MathFunctions.cs">
       <Link>FemModeling\MGRTE\2D\MathFunctions.cs</Link>

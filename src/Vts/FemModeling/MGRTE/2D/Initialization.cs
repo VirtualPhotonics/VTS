@@ -70,33 +70,33 @@ namespace Vts.FemModeling.MGRTE._2D
             //                  p2[10][0]=4, p2[10][1]=5, p2[10][2]=16, p2[10][3]=28 and p2[10][4]=67.
             for (i = 0; i <= sMeshLevel; i++)
             {
-                p = smesh[i].p; t = smesh[i].t; nt = smesh[i].nt; np = smesh[i].np; e = smesh[i].e; ne = smesh[i].ne;
+                p = smesh[i].P; t = smesh[i].T; nt = smesh[i].Nt; np = smesh[i].Np; e = smesh[i].E; ne = smesh[i].Ne;
 
-                smesh[i].c = new double[nt][];
+                smesh[i].C = new double[nt][];
                 for (j = 0; j < nt; j++)
                 {
-                    smesh[i].c[j] = new double[2];
+                    smesh[i].C[j] = new double[2];
                     for (k = 0; k < 2; k++)
                     {
-                        smesh[i].c[j][k] = (p[t[j][0]][k] + p[t[j][1]][k] + p[t[j][2]][k]) / 3;
+                        smesh[i].C[j][k] = (p[t[j][0]][k] + p[t[j][1]][k] + p[t[j][2]][k]) / 3;
                     }// center of triangle
                 }
 
-                smesh[i].ec = new double[ne][];
+                smesh[i].Ec = new double[ne][];
                 for (j = 0; j < ne; j++)
                 {
-                    smesh[i].ec[j] = new double[2]; ;
+                    smesh[i].Ec[j] = new double[2]; ;
                     for (k = 0; k < 2; k++)
-                    { smesh[i].ec[j][k] = (p[e[j][1]][k] + p[e[j][2]][k]) / 2; }// center of edge
+                    { smesh[i].Ec[j][k] = (p[e[j][1]][k] + p[e[j][2]][k]) / 2; }// center of edge
                 }
 
-                smesh[i].a = new double[nt]; ;
+                smesh[i].A = new double[nt]; ;
                 for (j = 0; j < nt; j++)
                 {
                     x1 = p[t[j][0]][0]; y1 = p[t[j][0]][1];
                     x2 = p[t[j][1]][0]; y2 = p[t[j][1]][1];
                     x3 = p[t[j][2]][0]; y3 = p[t[j][2]][1];
-                    smesh[i].a[j] = MathFunctions.Area(x1, y1, x2, y2, x3, y3);//area of triangle
+                    smesh[i].A[j] = MathFunctions.Area(x1, y1, x2, y2, x3, y3);//area of triangle
                 }
 
                 p2 = new int[np][];
@@ -129,12 +129,12 @@ namespace Vts.FemModeling.MGRTE._2D
                     }
                 }
 
-                smesh[i].p2 = new int[np][];
+                smesh[i].P2 = new int[np][];
                 for (j = 0; j < np; j++)
                 {
-                    smesh[i].p2[j] = new int[(p2[j][0] + 1)];
+                    smesh[i].P2[j] = new int[(p2[j][0] + 1)];
                     for (k = 0; k <= p2[j][0]; k++)
-                    { smesh[i].p2[j][k] = p2[j][k]; }
+                    { smesh[i].P2[j][k] = p2[j][k]; }
                 }
             }
 
@@ -145,8 +145,8 @@ namespace Vts.FemModeling.MGRTE._2D
             //      since they are always saved on the fine level instead of the coarse level.
             for (i = 1; i <= sMeshLevel; i++)
             {
-                smap = new int[smesh[i - 1].nt][];
-                for (j = 0; j < smesh[i - 1].nt; j++)
+                smap = new int[smesh[i - 1].Nt][];
+                for (j = 0; j < smesh[i - 1].Nt; j++)
                 {
                     smap[j] = new int[tempsize2];
                     // tempsize2 is the initial length of the second index of "smap", and it may cause problem if it is too small.
@@ -156,7 +156,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
                 Mgrid.SpatialMapping(smesh[i - 1], smesh[i], smap);
 
-                for (j = 0; j < smesh[i - 1].nt; j++)
+                for (j = 0; j < smesh[i - 1].Nt; j++)
                 {
                     if (smap[j][0] > tempsize2 - 1)
                     {
@@ -165,89 +165,89 @@ namespace Vts.FemModeling.MGRTE._2D
                     }
                 }
 
-                smesh[i].smap = new int[smesh[i - 1].nt][];
-                for (j = 0; j < smesh[i - 1].nt; j++)
+                smesh[i].Smap = new int[smesh[i - 1].Nt][];
+                for (j = 0; j < smesh[i - 1].Nt; j++)
                 {
-                    smesh[i].smap[j] = new int[smap[j][0] + 1];
+                    smesh[i].Smap[j] = new int[smap[j][0] + 1];
                     for (k = 0; k <= smap[j][0]; k++)
-                    { smesh[i].smap[j][k] = smap[j][k]; }
+                    { smesh[i].Smap[j][k] = smap[j][k]; }
                 }
 
 
-                smesh[i].cf = new double[smesh[i - 1].nt][][][];
-                for (j = 0; j < smesh[i - 1].nt; j++)
+                smesh[i].Cf = new double[smesh[i - 1].Nt][][][];
+                for (j = 0; j < smesh[i - 1].Nt; j++)
                 {
-                    smesh[i].cf[j] = new double[3][][];
+                    smesh[i].Cf[j] = new double[3][][];
                     for (k = 0; k < 3; k++)
                     {
-                        smesh[i].cf[j][k] = new double[smesh[i].smap[j][0]][];
-                        for (m = 0; m < smesh[i].smap[j][0]; m++)
-                        { smesh[i].cf[j][k][m] = new double[3]; ; }
+                        smesh[i].Cf[j][k] = new double[smesh[i].Smap[j][0]][];
+                        for (m = 0; m < smesh[i].Smap[j][0]; m++)
+                        { smesh[i].Cf[j][k][m] = new double[3]; ; }
                     }
                 }
-                smesh[i].fc = new double[smesh[i - 1].nt][][][];
-                for (j = 0; j < smesh[i - 1].nt; j++)
+                smesh[i].Fc = new double[smesh[i - 1].Nt][][][];
+                for (j = 0; j < smesh[i - 1].Nt; j++)
                 {
-                    smesh[i].fc[j] = new double[3][][];
+                    smesh[i].Fc[j] = new double[3][][];
                     for (k = 0; k < 3; k++)
                     {
-                        smesh[i].fc[j][k] = new double[smesh[i].smap[j][0]][];
-                        for (m = 0; m < smesh[i].smap[j][0]; m++)
-                        { smesh[i].fc[j][k][m] = new double[3]; ; }
+                        smesh[i].Fc[j][k] = new double[smesh[i].Smap[j][0]][];
+                        for (m = 0; m < smesh[i].Smap[j][0]; m++)
+                        { smesh[i].Fc[j][k][m] = new double[3]; ; }
                     }
                 }
-                Mgrid.SpatialMapping2(smesh[i - 1], smesh[i], smesh[i].smap, smesh[i].cf, smesh[i].fc, tempsize2);
+                Mgrid.SpatialMapping2(smesh[i - 1], smesh[i], smesh[i].Smap, smesh[i].Cf, smesh[i].Fc, tempsize2);
             }
 
             // 2.3. compute "e", "e2", "so2", "n" and "ori"
             //      For the data structure of "eo", "e2","so2", "n" and "ori", see "boundary".
             for (i = 0; i <= sMeshLevel; i++)
             {
-                smesh[i].e2 = new int[smesh[i].ne][];
-                for (j = 0; j < smesh[i].ne; j++)
-                { smesh[i].e2[j] = new int[2]; }
-                smesh[i].so2 = new int[smesh[i].nt][];
-                for (j = 0; j < smesh[i].nt; j++)
-                { smesh[i].so2[j] = new int[3]; }
-                smesh[i].n = new double[smesh[i].ne][];
-                for (j = 0; j < smesh[i].ne; j++)
-                { smesh[i].n[j] = new double[2]; }
-                smesh[i].ori = new int[smesh[i].ne];
+                smesh[i].E2 = new int[smesh[i].Ne][];
+                for (j = 0; j < smesh[i].Ne; j++)
+                { smesh[i].E2[j] = new int[2]; }
+                smesh[i].So2 = new int[smesh[i].Nt][];
+                for (j = 0; j < smesh[i].Nt; j++)
+                { smesh[i].So2[j] = new int[3]; }
+                smesh[i].N = new double[smesh[i].Ne][];
+                for (j = 0; j < smesh[i].Ne; j++)
+                { smesh[i].N[j] = new double[2]; }
+                smesh[i].Ori = new int[smesh[i].Ne];
 
-                Mgrid.Boundary(smesh[i].ne, smesh[i].nt, smesh[i].t, smesh[i].p2, smesh[i].p, smesh[i].e, smesh[i].e2, smesh[i].so2, smesh[i].n, smesh[i].ori);
+                Mgrid.Boundary(smesh[i].Ne, smesh[i].Nt, smesh[i].T, smesh[i].P2, smesh[i].P, smesh[i].E, smesh[i].E2, smesh[i].So2, smesh[i].N, smesh[i].Ori);
             }
 
             // 2.4. compute "bd" and "bd2"
             //      For the data structure of "bd" and "bd2", see "edgeterm".
             for (i = 0; i <= sMeshLevel; i++)
             {
-                smesh[i].bd = new int[amesh[aMeshLevel].ns][][];
-                for (j = 0; j < amesh[aMeshLevel].ns; j++)
+                smesh[i].Bd = new int[amesh[aMeshLevel].Ns][][];
+                for (j = 0; j < amesh[aMeshLevel].Ns; j++)
                 {
-                    smesh[i].bd[j] = new int[smesh[i].nt][]; ;
-                    for (k = 0; k < smesh[i].nt; k++)
+                    smesh[i].Bd[j] = new int[smesh[i].Nt][]; ;
+                    for (k = 0; k < smesh[i].Nt; k++)
                     {
-                        smesh[i].bd[j][k] = new int[9];
+                        smesh[i].Bd[j][k] = new int[9];
                         for (m = 0; m < 9; m++)
-                        { smesh[i].bd[j][k][m] = -1; }
+                        { smesh[i].Bd[j][k][m] = -1; }
                     }
                 }
             }
             for (i = 0; i <= sMeshLevel; i++)
             {
-                smesh[i].bd2 = new double[amesh[aMeshLevel].ns][][];
-                for (j = 0; j < amesh[aMeshLevel].ns; j++)
+                smesh[i].Bd2 = new double[amesh[aMeshLevel].Ns][][];
+                for (j = 0; j < amesh[aMeshLevel].Ns; j++)
                 {
-                    smesh[i].bd2[j] = new double[smesh[i].nt][];
-                    for (k = 0; k < smesh[i].nt; k++)
-                    { smesh[i].bd2[j][k] = new double[3]; }
+                    smesh[i].Bd2[j] = new double[smesh[i].Nt][];
+                    for (k = 0; k < smesh[i].Nt; k++)
+                    { smesh[i].Bd2[j][k] = new double[3]; }
                 }
             }
             for (i = 0; i <= sMeshLevel; i++)
             {
-                for (j = 0; j < amesh[aMeshLevel].ns; j++)
+                for (j = 0; j < amesh[aMeshLevel].Ns; j++)
                 {
-                    Mgrid.EdgeTri(smesh[i].nt, amesh[aMeshLevel].a[j], smesh[i].p, smesh[i].p2, smesh[i].t, smesh[i].bd[j], smesh[i].bd2[j], smesh[i].so2);
+                    Mgrid.EdgeTri(smesh[i].Nt, amesh[aMeshLevel].Ang[j], smesh[i].P, smesh[i].P2, smesh[i].T, smesh[i].Bd[j], smesh[i].Bd2[j], smesh[i].So2);
                 }
             }
 
@@ -416,22 +416,22 @@ namespace Vts.FemModeling.MGRTE._2D
 
                 for (i = sMeshLevel - 1; i >= 0; i--)
                 {
-                    ua[i] = new double[smesh[i].nt][];
-                    us[i] = new double[smesh[i].nt][];
-                    for (j = 0; j < smesh[i].nt; j++)
+                    ua[i] = new double[smesh[i].Nt][];
+                    us[i] = new double[smesh[i].Nt][];
+                    for (j = 0; j < smesh[i].Nt; j++)
                     {
                         ua[i][j] = new double[3];
                         us[i][j] = new double[3];
                     }
-                    Mgrid.FtoC_s2(smesh[i].nt, ua[i + 1], ua[i], smesh[i + 1].smap, smesh[i + 1].fc);
-                    Mgrid.FtoC_s2(smesh[i].nt, us[i + 1], us[i], smesh[i + 1].smap, smesh[i + 1].fc);
+                    Mgrid.FtoC_s2(smesh[i].Nt, ua[i + 1], ua[i], smesh[i + 1].Smap, smesh[i + 1].Fc);
+                    Mgrid.FtoC_s2(smesh[i].Nt, us[i + 1], us[i], smesh[i + 1].Smap, smesh[i + 1].Fc);
                 }
 
 
                 for (n = 0; n <= level; n++)
                 {
-                    nt = smesh[noflevel[n][0]].nt;
-                    ns = amesh[noflevel[n][1]].ns;
+                    nt = smesh[noflevel[n][0]].Nt;
+                    ns = amesh[noflevel[n][1]].Ns;
                     RHS[n] = new double[ns][][];
                     for (i = 0; i < ns; i++)
                     {
@@ -449,8 +449,8 @@ namespace Vts.FemModeling.MGRTE._2D
 
                 for (n = 0; n <= level; n++)
                 {
-                    nt = smesh[noflevel[n][0]].nt;
-                    ns = amesh[noflevel[n][1]].ns;
+                    nt = smesh[noflevel[n][0]].Nt;
+                    ns = amesh[noflevel[n][1]].Ns;
                     d[n] = new double[ns][][];
                     for (i = 0; i < ns; i++)
                     {
@@ -467,8 +467,8 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
                 for (n = 0; n <= level; n++)
                 {
-                    nt = smesh[noflevel[n][0]].nt;
-                    ns = amesh[noflevel[n][1]].ns;
+                    nt = smesh[noflevel[n][0]].Nt;
+                    ns = amesh[noflevel[n][1]].Ns;
                     flux[n] = new double[ns][][];
                     for (i = 0; i < ns; i++)
                     {
@@ -486,8 +486,8 @@ namespace Vts.FemModeling.MGRTE._2D
 
                 for (n = 0; n <= level; n++)
                 {
-                    ne = smesh[noflevel[n][0]].ne;
-                    ns = amesh[noflevel[n][1]].ns;
+                    ne = smesh[noflevel[n][0]].Ne;
+                    ns = amesh[noflevel[n][1]].Ns;
                     q[n] = new double[ns][][];
                     for (i = 0; i < ns; i++)
                     {
@@ -509,75 +509,75 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 for (i = 0; i <= level; i++)
                 {
-                    ne = smesh[noflevel[i][0]].ne;
-                    ns = amesh[noflevel[i][1]].ns;
+                    ne = smesh[noflevel[i][0]].Ne;
+                    ns = amesh[noflevel[i][1]].Ns;
 
-                    b[i].ri = new int[ne][][];
+                    b[i].Ri = new int[ne][][];
                     for (j = 0; j < ne; j++)
                     {
-                        b[i].ri[j] = new int[ns][];
+                        b[i].Ri[j] = new int[ns][];
                         for (k = 0; k < ns; k++)
-                            b[i].ri[j][k] = new int[2];
+                            b[i].Ri[j][k] = new int[2];
                     }
 
-                    b[i].si = new int[ne][][];
+                    b[i].Si = new int[ne][][];
                     for (j = 0; j < ne; j++)
                     {
-                        b[i].si[j] = new int[ns][];
+                        b[i].Si[j] = new int[ns][];
                         for (k = 0; k < ns; k++)
-                            b[i].si[j][k] = new int[2];
+                            b[i].Si[j][k] = new int[2];
                     }
 
-                    b[i].ro = new int[ne][][];
+                    b[i].Ro = new int[ne][][];
                     for (j = 0; j < ne; j++)
                     {
-                        b[i].ro[j] = new int[ns][];
+                        b[i].Ro[j] = new int[ns][];
                         for (k = 0; k < ns; k++)
-                            b[i].ro[j][k] = new int[2];
+                            b[i].Ro[j][k] = new int[2];
                     }
 
 
-                    b[i].so = new int[ne][][];
+                    b[i].So = new int[ne][][];
                     for (j = 0; j < ne; j++)
                     {
-                        b[i].so[j] = new int[ns][];
+                        b[i].So[j] = new int[ns][];
                         for (k = 0; k < ns; k++)
-                            b[i].so[j][k] = new int[2];
+                            b[i].So[j][k] = new int[2];
                     }
 
-                    b[i].ri2 = new double[ne][][];
+                    b[i].Ri2 = new double[ne][][];
                     for (j = 0; j < ne; j++)
                     {
-                        b[i].ri2[j] = new double[ns][];
+                        b[i].Ri2[j] = new double[ns][];
                         for (k = 0; k < ns; k++)
-                            b[i].ri2[j][k] = new double[2];
+                            b[i].Ri2[j][k] = new double[2];
                     }
 
-                    b[i].ro2 = new double[ne][][];
+                    b[i].Ro2 = new double[ne][][];
                     for (j = 0; j < ne; j++)
                     {
-                        b[i].ro2[j] = new double[ns][];
+                        b[i].Ro2[j] = new double[ns][];
                         for (k = 0; k < ns; k++)
-                            b[i].ro2[j][k] = new double[2];
+                            b[i].Ro2[j][k] = new double[2];
                     }
 
-                    b[i].si2 = new double[ne][][];
+                    b[i].Si2 = new double[ne][][];
                     for (j = 0; j < ne; j++)
                     {
-                        b[i].si2[j] = new double[ns][];
+                        b[i].Si2[j] = new double[ns][];
                         for (k = 0; k < ns; k++)
-                            b[i].si2[j][k] = new double[2];
+                            b[i].Si2[j][k] = new double[2];
                     }
 
-                    b[i].so2 = new double[ne][][];
+                    b[i].So2 = new double[ne][][];
                     for (j = 0; j < ne; j++)
                     {
-                        b[i].so2[j] = new double[ns][];
+                        b[i].So2[j] = new double[ns][];
                         for (k = 0; k < ns; k++)
-                            b[i].so2[j][k] = new double[2];
+                            b[i].So2[j][k] = new double[2];
                     }
 
-                    Mgrid.BoundReflection(ns, amesh[noflevel[i][1]].a, smesh[noflevel[i][0]], nTissue, nExt, b[i]);
+                    Mgrid.BoundReflection(ns, amesh[noflevel[i][1]].Ang, smesh[noflevel[i][0]], nTissue, nExt, b[i]);
                 }
             }
         stop: ;

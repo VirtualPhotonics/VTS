@@ -4,8 +4,18 @@ using Vts.Common;
 
 namespace Vts.FemModeling.MGRTE._2D.DataStructures
 {
+    /// <summary>
+    ///  Internal 2D Elliptical source
+    /// </summary>
     public class Int2DEllipticalSource : IIntSource
     {
+        /// <summary>
+        /// General constructor for 2D elliptical source
+        /// </summary>
+        /// <param name="aParameter"></param>
+        /// <param name="bParameter"></param>
+        /// <param name="center"></param>
+        /// <param name="thetaRange"></param>
         public Int2DEllipticalSource(
            double aParameter,
            double bParameter,
@@ -18,6 +28,9 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             ThetaRange = thetaRange;
         }
 
+        /// <summary>
+        /// Default constructor for 2D elliptical source
+        /// </summary>
         public Int2DEllipticalSource()
             : this(
              0.5,
@@ -42,7 +55,16 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
         /// </summary>
         public DoubleRange ThetaRange { get; set; }
 
-        public void AssignMeshForIntSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] RHS)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="amesh"></param>
+        /// <param name="ameshLevel"></param>
+        /// <param name="smesh"></param>
+        /// <param name="smeshLevel"></param>
+        /// <param name="level"></param>
+        /// <param name="rhs"></param>
+        public void AssignMeshForIntSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] rhs)
         {
         }
     }

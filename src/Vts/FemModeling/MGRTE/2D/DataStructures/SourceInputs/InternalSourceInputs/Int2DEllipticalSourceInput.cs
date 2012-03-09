@@ -4,8 +4,18 @@ using Vts.Common;
 
 namespace Vts.FemModeling.MGRTE._2D.SourceInputs
 {
+    /// <summary>
+    /// Internal 2D Elliptical source
+    /// </summary>
     public class Int2DEllipticalSourceInput : IIntFemSourceInput
-    {        
+    {   
+        /// <summary>
+        /// General constructor for 2D elliptical source
+        /// </summary>
+        /// <param name="aParameter">a Parameter</param>
+        /// <param name="bParameter">b parameter</param>
+        /// <param name="center">Center (x,z)</param>
+        /// <param name="thetaRange">Theta Range</param>
         public Int2DEllipticalSourceInput(
             double aParameter,
             double bParameter,
@@ -19,6 +29,9 @@ namespace Vts.FemModeling.MGRTE._2D.SourceInputs
             ThetaRange = thetaRange;
         }
 
+        /// <summary>
+        /// Default constructor for 2D elliptical source
+        /// </summary>
         public Int2DEllipticalSourceInput()
             : this(
              0.25,

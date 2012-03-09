@@ -96,17 +96,17 @@ namespace Vts.FemModeling.MGRTE._2D
             double[] temp = new double[2];
             double theta0, theta_i, theta_m, theta_m2;
 
-            for (i = 0; i < smesh.ne; i++)
+            for (i = 0; i < smesh.Ne; i++)
             {
-                dx = smesh.p[smesh.e[i][1]][0] - smesh.p[smesh.e[i][2]][0];
-                dy = smesh.p[smesh.e[i][1]][1] - smesh.p[smesh.e[i][2]][1];
-                if (smesh.ori[i] == 0)
+                dx = smesh.P[smesh.E[i][1]][0] - smesh.P[smesh.E[i][2]][0];
+                dy = smesh.P[smesh.E[i][1]][1] - smesh.P[smesh.E[i][2]][1];
+                if (smesh.Ori[i] == 0)
                 {
                     dx = -dx; dy = -dy; // to make sure that (dx,dy) goes clockwisely.
                 }
                 for (j = 0; j < ns; j++)
                 {
-                    sn = theta[j][0] * smesh.n[i][0] + theta[j][1] * smesh.n[i][1];     // "s" dot "n" for the angle "s"
+                    sn = theta[j][0] * smesh.N[i][0] + theta[j][1] * smesh.N[i][1];     // "s" dot "n" for the angle "s"
                     if (sn < 0)
                     {
                         theta0 = Pi - Math.Acos(sn);
@@ -125,9 +125,9 @@ namespace Vts.FemModeling.MGRTE._2D
                             theta_m2 = Mod2pi(theta[j][2] - (theta_i - theta0));
                         }
                         // contribution to incoming flux through internal reflection
-                        MathFunctions.Intepolation_a(theta_m, dtheta, ns, b.ri[i][j], b.ri2[i][j], ratio_reflection);
+                        MathFunctions.Intepolation_a(theta_m, dtheta, ns, b.Ri[i][j], b.Ri2[i][j], ratio_reflection);
                         // contribution from boundary source to incoming flux through refraction
-                        MathFunctions.Intepolation_a(theta_m2, dtheta, ns, b.si[i][j], b.si2[i][j], ratio_refraction);
+                        MathFunctions.Intepolation_a(theta_m2, dtheta, ns, b.Si[i][j], b.Si2[i][j], ratio_refraction);
                     }
                     else
                     {
@@ -147,9 +147,9 @@ namespace Vts.FemModeling.MGRTE._2D
                             theta_m2 = Mod2pi(theta[j][2] + (theta_i - theta0));
                         }
                         // contribution from boundary source to outgoing flux through reflection
-                        MathFunctions.Intepolation_a(theta_m, dtheta, ns, b.ro[i][j], b.ro2[i][j], ratio_reflection);
+                        MathFunctions.Intepolation_a(theta_m, dtheta, ns, b.Ro[i][j], b.Ro2[i][j], ratio_reflection);
                         // contribution to outgoing flux after refraction
-                        MathFunctions.Intepolation_a(theta_m2, dtheta, ns, b.so[i][j], b.so2[i][j], ratio_refraction);
+                        MathFunctions.Intepolation_a(theta_m2, dtheta, ns, b.So[i][j], b.So2[i][j], ratio_refraction);
                     }
                 }
             }
@@ -286,19 +286,19 @@ namespace Vts.FemModeling.MGRTE._2D
             index[1, 0] = 2; index[1, 1] = 0;
             index[2, 0] = 0; index[2, 1] = 1;
 
-            aMeshLevel = Ns / amesh.ns;
+            aMeshLevel = Ns / amesh.Ns;
 
             if (vacuum == 0)
             {
-                for (i = 0; i < amesh.ns; i++)
+                for (i = 0; i < amesh.Ns; i++)
                 {
                     bi = i * aMeshLevel;
-                    for (j = 0; j < smesh.nt; j++)
+                    for (j = 0; j < smesh.Nt; j++)
                     {
-                        dettri = 2 * smesh.a[j];
-                        cosi = amesh.a[i][0]; sini = amesh.a[i][1];
-                        a = cosi * (smesh.p[smesh.t[j][2]][1] - smesh.p[smesh.t[j][0]][1]) + sini * (smesh.p[smesh.t[j][0]][0] - smesh.p[smesh.t[j][2]][0]);
-                        b = cosi * (smesh.p[smesh.t[j][0]][1] - smesh.p[smesh.t[j][1]][1]) + sini * (smesh.p[smesh.t[j][1]][0] - smesh.p[smesh.t[j][0]][0]);
+                        dettri = 2 * smesh.A[j];
+                        cosi = amesh.Ang[i][0]; sini = amesh.Ang[i][1];
+                        a = cosi * (smesh.P[smesh.T[j][2]][1] - smesh.P[smesh.T[j][0]][1]) + sini * (smesh.P[smesh.T[j][0]][0] - smesh.P[smesh.T[j][2]][0]);
+                        b = cosi * (smesh.P[smesh.T[j][0]][1] - smesh.P[smesh.T[j][1]][1]) + sini * (smesh.P[smesh.T[j][1]][0] - smesh.P[smesh.T[j][0]][0]);
                         MatrixConvec(a, b, matrix1);
 
                         a = ua[j][0] + us[j][0];
@@ -315,28 +315,28 @@ namespace Vts.FemModeling.MGRTE._2D
                         for (ii = 0; ii < 3; ii++)
                         {
                             temp[ii] = 0;
-                            for (k = 0; k < amesh.ns; k++)
-                            { temp[ii] += amesh.w[i][k] * flux[k][j][ii]; }
+                            for (k = 0; k < amesh.Ns; k++)
+                            { temp[ii] += amesh.W[i][k] * flux[k][j][ii]; }
                         }
 
-                        source_corr = smesh.a[j] / 12;
+                        source_corr = smesh.A[j] / 12;
                         SourceAssign(us[j], temp, right, RHS[i][j], dettri, source_corr);
 
                         for (k = 0; k < 3; k++)
                         {
-                            if (smesh.bd2[bi][j][k] > 0)
+                            if (smesh.Bd2[bi][j][k] > 0)
                             {
                                 for (ii = 0; ii < 2; ii++)
                                 {
                                     for (jj = 0; jj < 2; jj++)
-                                    { left[index[k, ii], index[k, jj]] += smesh.bd2[bi][j][k] * bv[index[k, ii], index[k, jj]]; }
+                                    { left[index[k, ii], index[k, jj]] += smesh.Bd2[bi][j][k] * bv[index[k, ii], index[k, jj]]; }
                                 }
                             }
-                            else if (smesh.bd2[bi][j][k] < 0)
+                            else if (smesh.Bd2[bi][j][k] < 0)
                             {
-                                if (smesh.so2[j][k] > -1)// upwind flux from the internal reflection and boundary source
+                                if (smesh.So2[j][k] > -1)// upwind flux from the internal reflection and boundary source
                                 {
-                                    edge = smesh.so2[j][k];
+                                    edge = smesh.So2[j][k];
 
                                     temp[0] = 0;
                                     temp[1] = 0;
@@ -344,11 +344,11 @@ namespace Vts.FemModeling.MGRTE._2D
                                     {
                                         for (ii = 0; ii < 2; ii++)
                                         {
-                                            temp[ii] += flux[bb.ri[edge][i][m]][j][smesh.e2[edge][ii]] * bb.ri2[edge][i][m];
+                                            temp[ii] += flux[bb.Ri[edge][i][m]][j][smesh.E2[edge][ii]] * bb.Ri2[edge][i][m];
                                         }
                                         for (ii = 0; ii < 2; ii++)
                                         {
-                                            temp[ii] += q[bb.si[edge][i][m]][edge][ii] * bb.si2[edge][i][m];
+                                            temp[ii] += q[bb.Si[edge][i][m]][edge][ii] * bb.Si2[edge][i][m];
                                         }
                                     }
 
@@ -357,9 +357,9 @@ namespace Vts.FemModeling.MGRTE._2D
                                         tempd = 0;
                                         for (jj = 0; jj < 2; jj++)
                                         {
-                                            tempd += temp[jj] * bv[smesh.e2[edge][ii], smesh.e2[edge][jj]];
+                                            tempd += temp[jj] * bv[smesh.E2[edge][ii], smesh.E2[edge][jj]];
                                         }
-                                        right[smesh.e2[edge][ii]] += -smesh.bd2[bi][j][k] * tempd;
+                                        right[smesh.E2[edge][ii]] += -smesh.Bd2[bi][j][k] * tempd;
                                     }
                                 }
                                 else // upwind flux from the adjacent triangle
@@ -369,9 +369,9 @@ namespace Vts.FemModeling.MGRTE._2D
                                         tempd = 0;
                                         for (jj = 0; jj < 2; jj++)
                                         {
-                                            tempd += flux[i][smesh.bd[bi][j][3 * k]][smesh.bd[bi][j][3 * k + jj + 1]] * bv[index[k, ii], index[k, jj]];
+                                            tempd += flux[i][smesh.Bd[bi][j][3 * k]][smesh.Bd[bi][j][3 * k + jj + 1]] * bv[index[k, ii], index[k, jj]];
                                         }
-                                        right[index[k, ii]] += -smesh.bd2[bi][j][k] * tempd;
+                                        right[index[k, ii]] += -smesh.Bd2[bi][j][k] * tempd;
                                     }
                                 }
                             }
@@ -391,15 +391,15 @@ namespace Vts.FemModeling.MGRTE._2D
             }
             else
             {
-                for (i = 0; i < amesh.ns; i++)
+                for (i = 0; i < amesh.Ns; i++)
                 {
                     bi = i * aMeshLevel;
-                    for (j = 0; j < smesh.nt; j++)
+                    for (j = 0; j < smesh.Nt; j++)
                     {
-                        dettri = 2 * smesh.a[j];
-                        cosi = amesh.a[i][0]; sini = amesh.a[i][1];
-                        a = cosi * (smesh.p[smesh.t[j][2]][1] - smesh.p[smesh.t[j][0]][1]) + sini * (smesh.p[smesh.t[j][0]][0] - smesh.p[smesh.t[j][2]][0]);
-                        b = cosi * (smesh.p[smesh.t[j][0]][1] - smesh.p[smesh.t[j][1]][1]) + sini * (smesh.p[smesh.t[j][1]][0] - smesh.p[smesh.t[j][0]][0]);
+                        dettri = 2 * smesh.A[j];
+                        cosi = amesh.Ang[i][0]; sini = amesh.Ang[i][1];
+                        a = cosi * (smesh.P[smesh.T[j][2]][1] - smesh.P[smesh.T[j][0]][1]) + sini * (smesh.P[smesh.T[j][0]][0] - smesh.P[smesh.T[j][2]][0]);
+                        b = cosi * (smesh.P[smesh.T[j][0]][1] - smesh.P[smesh.T[j][1]][1]) + sini * (smesh.P[smesh.T[j][1]][0] - smesh.P[smesh.T[j][0]][0]);
                         MatrixConvec(a, b, matrix1);
 
                         a = ua[j][0] + us[j][0];
@@ -416,39 +416,39 @@ namespace Vts.FemModeling.MGRTE._2D
                         for (ii = 0; ii < 3; ii++)
                         {
                             temp[ii] = 0;
-                            for (k = 0; k < amesh.ns; k++)
-                            { temp[ii] += amesh.w[i][k] * flux[k][j][ii]; }
+                            for (k = 0; k < amesh.Ns; k++)
+                            { temp[ii] += amesh.W[i][k] * flux[k][j][ii]; }
                         }
 
-                        source_corr = smesh.a[j] / 12;
+                        source_corr = smesh.A[j] / 12;
                         SourceAssign(us[j], temp, right, RHS[i][j], dettri, source_corr);
 
 
                         for (k = 0; k < 3; k++)
                         {
-                            if (smesh.bd2[bi][j][k] > 0)
+                            if (smesh.Bd2[bi][j][k] > 0)
                             {
                                 for (ii = 0; ii < 2; ii++)
                                 {
                                     for (jj = 0; jj < 2; jj++)
-                                    { left[index[k, ii], index[k, jj]] += smesh.bd2[bi][j][k] * bv[index[k, ii], index[k, jj]]; }
+                                    { left[index[k, ii], index[k, jj]] += smesh.Bd2[bi][j][k] * bv[index[k, ii], index[k, jj]]; }
                                 }
                             }
-                            else if (smesh.bd2[bi][j][k] < 0)
+                            else if (smesh.Bd2[bi][j][k] < 0)
                             {
-                                if (smesh.so2[j][k] > -1)
+                                if (smesh.So2[j][k] > -1)
                                 // "tri" is at the domain boundary: upwind flux is from boundary source only.
                                 {
-                                    edge = smesh.so2[j][k];
+                                    edge = smesh.So2[j][k];
 
                                     for (ii = 0; ii < 2; ii++)
                                     {
                                         tempd = 0;
                                         for (jj = 0; jj < 2; jj++)
                                         {
-                                            tempd += q[i][edge][jj] * bv[smesh.e2[edge][ii], smesh.e2[edge][jj]];
+                                            tempd += q[i][edge][jj] * bv[smesh.E2[edge][ii], smesh.E2[edge][jj]];
                                         }
-                                        right[smesh.e2[edge][ii]] += -smesh.bd2[bi][j][k] * tempd;
+                                        right[smesh.E2[edge][ii]] += -smesh.Bd2[bi][j][k] * tempd;
                                     }
                                 }
                                 else
@@ -458,9 +458,9 @@ namespace Vts.FemModeling.MGRTE._2D
                                         tempd = 0;
                                         for (jj = 0; jj < 2; jj++)
                                         {
-                                            tempd += flux[i][smesh.bd[bi][j][3 * k]][smesh.bd[bi][j][3 * k + jj + 1]] * bv[index[k, ii], index[k, jj]];
+                                            tempd += flux[i][smesh.Bd[bi][j][3 * k]][smesh.Bd[bi][j][3 * k + jj + 1]] * bv[index[k, ii], index[k, jj]];
                                         }
-                                        right[index[k, ii]] += -smesh.bd2[bi][j][k] * tempd;
+                                        right[index[k, ii]] += -smesh.Bd2[bi][j][k] * tempd;
                                     }
                                 }
                             }
@@ -852,8 +852,8 @@ namespace Vts.FemModeling.MGRTE._2D
             int i, ns, nt, da, ds, level = -1;
             double res = 1e10;
 
-            nt = smesh[sMeshLevel].nt;
-            ns = amesh[aMeshLevel].ns;
+            nt = smesh[sMeshLevel].Nt;
+            ns = amesh[aMeshLevel].Ns;
             ds = sMeshLevel - sMeshLevel0;
             da = aMeshLevel - aMeshLevel0;
 
@@ -896,10 +896,10 @@ namespace Vts.FemModeling.MGRTE._2D
                         else
                         {
                             Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                            res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                            FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                            res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                            FtoC_a(nt, amesh[aMeshLevel - 1].Ns, d[level], RHS[level - 1]);
                             MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
-                            CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
+                            CtoF_a(nt, amesh[aMeshLevel - 1].Ns, flux[level], flux[level - 1]);
                         }
                     }
                     break;
@@ -910,10 +910,10 @@ namespace Vts.FemModeling.MGRTE._2D
                         else
                         {
                             Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                            res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                            FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                            res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                            FtoC_s(smesh[sMeshLevel - 1].Nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Fc);
                             MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
-                            CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
+                            CtoF_s(smesh[sMeshLevel - 1].Nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Cf);
                         }
                     }
                     break;
@@ -926,10 +926,10 @@ namespace Vts.FemModeling.MGRTE._2D
                             else
                             {
                                 Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                                FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                                FtoC_s(smesh[sMeshLevel - 1].Nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Fc);
                                 MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
-                                CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
+                                CtoF_s(smesh[sMeshLevel - 1].Nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Cf);
                             }
                         }
                         else
@@ -937,18 +937,18 @@ namespace Vts.FemModeling.MGRTE._2D
                             if (sMeshLevel == sMeshLevel0)
                             {
                                 Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                                FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                                FtoC_a(nt, amesh[aMeshLevel - 1].Ns, d[level], RHS[level - 1]);
                                 MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
-                                CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
+                                CtoF_a(nt, amesh[aMeshLevel - 1].Ns, flux[level], flux[level - 1]);
                             }
                             else
                             {
                                 Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                                FtoC(smesh[sMeshLevel - 1].nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                                FtoC(smesh[sMeshLevel - 1].Nt, amesh[aMeshLevel - 1].Ns, d[level], RHS[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Fc);
                                 MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
-                                CtoF(smesh[sMeshLevel - 1].nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
+                                CtoF(smesh[sMeshLevel - 1].Nt, amesh[aMeshLevel - 1].Ns, flux[level], flux[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Cf);
                             }
                         }
                     }
@@ -962,19 +962,19 @@ namespace Vts.FemModeling.MGRTE._2D
                             else
                             {
                                 Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                                FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                                FtoC_s(smesh[sMeshLevel - 1].Nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Fc);
                                 MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
-                                CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
+                                CtoF_s(smesh[sMeshLevel - 1].Nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Cf);
                             }
                         }
                         else
                         {
                             Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                            res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                            FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                            res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                            FtoC_a(nt, amesh[aMeshLevel - 1].Ns, d[level], RHS[level - 1]);
                             MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
-                            CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
+                            CtoF_a(nt, amesh[aMeshLevel - 1].Ns, flux[level], flux[level - 1]);
                         }
                     }
                     break;
@@ -987,19 +987,19 @@ namespace Vts.FemModeling.MGRTE._2D
                             else
                             {
                                 Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                                FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                                FtoC_a(nt, amesh[aMeshLevel - 1].Ns, d[level], RHS[level - 1]);
                                 MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
-                                CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
+                                CtoF_a(nt, amesh[aMeshLevel - 1].Ns, flux[level], flux[level - 1]);
                             }
                         }
                         else
                         {
                             Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                            res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                            FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                            res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                            FtoC_s(smesh[sMeshLevel - 1].Nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Fc);
                             MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
-                            CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
+                            CtoF_s(smesh[sMeshLevel - 1].Nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Cf);
                         }
                     }
                     break;
@@ -1012,10 +1012,10 @@ namespace Vts.FemModeling.MGRTE._2D
                             else
                             {
                                 Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                                FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                                FtoC_s(smesh[sMeshLevel - 1].Nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Fc);
                                 MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
-                                CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
+                                CtoF_s(smesh[sMeshLevel - 1].Nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Cf);
                             }
                         }
                         else
@@ -1023,19 +1023,19 @@ namespace Vts.FemModeling.MGRTE._2D
                             if (sMeshLevel == sMeshLevel0)
                             {
                                 Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                                FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                                FtoC_a(nt, amesh[aMeshLevel - 1].Ns, d[level], RHS[level - 1]);
                                 MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
-                                CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
+                                CtoF_a(nt, amesh[aMeshLevel - 1].Ns, flux[level], flux[level - 1]);
                             }
                             else
                             {
                                 mgMethod = 7;//MG4_s
                                 Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                                FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                                FtoC_a(nt, amesh[aMeshLevel - 1].Ns, d[level], RHS[level - 1]);
                                 MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
-                                CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
+                                CtoF_a(nt, amesh[aMeshLevel - 1].Ns, flux[level], flux[level - 1]);
                             }
                         }
                     }
@@ -1049,10 +1049,10 @@ namespace Vts.FemModeling.MGRTE._2D
                             else
                             {
                                 Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                                FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                                FtoC_s(smesh[sMeshLevel - 1].Nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Fc);
                                 MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
-                                CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
+                                CtoF_s(smesh[sMeshLevel - 1].Nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Cf);
                             }
                         }
                         else
@@ -1060,19 +1060,19 @@ namespace Vts.FemModeling.MGRTE._2D
                             if (sMeshLevel == sMeshLevel0)
                             {
                                 Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                                FtoC_a(nt, amesh[aMeshLevel - 1].ns, d[level], RHS[level - 1]);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                                FtoC_a(nt, amesh[aMeshLevel - 1].Ns, d[level], RHS[level - 1]);
                                 MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel - 1, aMeshLevel0, sMeshLevel, sMeshLevel0, NS, vacuum, mgMethod);
-                                CtoF_a(nt, amesh[aMeshLevel - 1].ns, flux[level], flux[level - 1]);
+                                CtoF_a(nt, amesh[aMeshLevel - 1].Ns, flux[level], flux[level - 1]);
                             }
                             else
                             {
                                 mgMethod = 6;
                                 Defect(amesh[aMeshLevel], smesh[sMeshLevel], NS, RHS[level], ua[sMeshLevel], us[sMeshLevel], flux[level], b[level], q[level], d[level], vacuum);
-                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].a);
-                                FtoC_s(smesh[sMeshLevel - 1].nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].fc);
+                                res = Residual(nt, ns, d[level], smesh[sMeshLevel].A);
+                                FtoC_s(smesh[sMeshLevel - 1].Nt, ns, d[level], RHS[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Fc);
                                 MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, n1, n2, aMeshLevel, aMeshLevel0, sMeshLevel - 1, sMeshLevel0, NS, vacuum, mgMethod);
-                                CtoF_s(smesh[sMeshLevel - 1].nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].smap, smesh[sMeshLevel].cf);
+                                CtoF_s(smesh[sMeshLevel - 1].Nt, ns, flux[level], flux[level - 1], smesh[sMeshLevel].Smap, smesh[sMeshLevel].Cf);
                             }
                         }
                     }
@@ -1183,9 +1183,9 @@ namespace Vts.FemModeling.MGRTE._2D
 
             int[,] index = new int[3, 2];
 
-            ns = amesh.ns;
+            ns = amesh.Ns;
             aMeshLevel = Ns / ns;
-            nt = smesh.nt;
+            nt = smesh.Nt;
 
             index[0, 0] = 1; index[0, 1] = 2;
             index[1, 0] = 2; index[1, 1] = 0;
@@ -1201,19 +1201,19 @@ namespace Vts.FemModeling.MGRTE._2D
                     // since sweep ordering is saved on the finest angular mesh for each spatial mesh for simplicity.
                     for (j = 0; j < nt; j++)
                     {
-                        tri = smesh.so[bi][j];// the current sweep triangle by sweep ordering
-                        dettri = 2 * smesh.a[tri];
-                        cosi = amesh.a[i][0]; sini = amesh.a[i][1];
+                        tri = smesh.So[bi][j];// the current sweep triangle by sweep ordering
+                        dettri = 2 * smesh.A[tri];
+                        cosi = amesh.Ang[i][0]; sini = amesh.Ang[i][1];
 
                         // matrix1: convection term
-                        a = cosi * (smesh.p[smesh.t[tri][2]][1] - smesh.p[smesh.t[tri][0]][1]) + sini * (smesh.p[smesh.t[tri][0]][0] - smesh.p[smesh.t[tri][2]][0]);
-                        b = cosi * (smesh.p[smesh.t[tri][0]][1] - smesh.p[smesh.t[tri][1]][1]) + sini * (smesh.p[smesh.t[tri][1]][0] - smesh.p[smesh.t[tri][0]][0]);
+                        a = cosi * (smesh.P[smesh.T[tri][2]][1] - smesh.P[smesh.T[tri][0]][1]) + sini * (smesh.P[smesh.T[tri][0]][0] - smesh.P[smesh.T[tri][2]][0]);
+                        b = cosi * (smesh.P[smesh.T[tri][0]][1] - smesh.P[smesh.T[tri][1]][1]) + sini * (smesh.P[smesh.T[tri][1]][0] - smesh.P[smesh.T[tri][0]][0]);
                         MatrixConvec(a, b, matrix1);
 
                         // matrix2: absorption term
-                        a = ua[tri][0] + (1 - amesh.w[i][i]) * us[tri][0];
-                        b = ua[tri][1] + (1 - amesh.w[i][i]) * us[tri][1];
-                        c = ua[tri][2] + (1 - amesh.w[i][i]) * us[tri][2];
+                        a = ua[tri][0] + (1 - amesh.W[i][i]) * us[tri][0];
+                        b = ua[tri][1] + (1 - amesh.W[i][i]) * us[tri][1];
+                        c = ua[tri][2] + (1 - amesh.W[i][i]) * us[tri][2];
                         MatrixAbsorb(a, b, c, dettri, matrix2);
 
                         // left[][]: convection+absorption
@@ -1229,33 +1229,33 @@ namespace Vts.FemModeling.MGRTE._2D
                             temp[ii] = 0;
                             for (k = 0; k < ns; k++)
                             {
-                                temp[ii] += amesh.w[i][k] * flux[k][tri][ii];
+                                temp[ii] += amesh.W[i][k] * flux[k][tri][ii];
                             }
-                            temp[ii] += -amesh.w[i][i] * flux[i][tri][ii];
+                            temp[ii] += -amesh.W[i][i] * flux[i][tri][ii];
                         }
 
-                        source_corr = smesh.a[tri] / 12;
+                        source_corr = smesh.A[tri] / 12;
                         SourceAssign(us[tri], temp, right, RHS[i][tri], dettri, source_corr);
 
 
                         // add edge contributions to left, or add upwind fluxes to right from boundary source or the adjacent triangle
                         for (k = 0; k < 3; k++)
                         {   // boundary outgoing flux (s dot n>0): add boundary contributions to left
-                            if (smesh.bd2[bi][tri][k] > 0)
+                            if (smesh.Bd2[bi][tri][k] > 0)
                             {
                                 for (ii = 0; ii < 2; ii++)
                                 {
                                     for (jj = 0; jj < 2; jj++)
-                                    { left[index[k, ii], index[k, jj]] += smesh.bd2[bi][tri][k] * bv[index[k, ii], index[k, jj]]; }
+                                    { left[index[k, ii], index[k, jj]] += smesh.Bd2[bi][tri][k] * bv[index[k, ii], index[k, jj]]; }
                                 }
                             }
                             // boundary incoming flux (s dot n<0): add upwind fluxes to right
-                            else if (smesh.bd2[bi][tri][k] < 0)
+                            else if (smesh.Bd2[bi][tri][k] < 0)
                             {
-                                if (smesh.so2[tri][k] > -1)
+                                if (smesh.So2[tri][k] > -1)
                                 // "tri" is at the domain boundary: upwind flux is from internal reflection and boundary source.
                                 {
-                                    edge = smesh.so2[tri][k];
+                                    edge = smesh.So2[tri][k];
 
                                     for (ii = 0; ii < 2; ii++)
                                     {
@@ -1263,8 +1263,8 @@ namespace Vts.FemModeling.MGRTE._2D
                                         for (m = 0; m < 2; m++)
                                         {
                                             //temp[ii]+=flux[ri[edge][i][m]][tri][index[k][ii]]*ri2[edge][i][m];
-                                            temp[ii] += flux[bb.ri[edge][i][m]][tri][smesh.e2[edge][ii]] * bb.ri2[edge][i][m];
-                                            temp[ii] += q[bb.si[edge][i][m]][edge][ii] * bb.si2[edge][i][m];
+                                            temp[ii] += flux[bb.Ri[edge][i][m]][tri][smesh.E2[edge][ii]] * bb.Ri2[edge][i][m];
+                                            temp[ii] += q[bb.Si[edge][i][m]][edge][ii] * bb.Si2[edge][i][m];
                                         }
                                     }
                                     // note: we distinguish boundary source from internal source for reflection boundary condition
@@ -1275,9 +1275,9 @@ namespace Vts.FemModeling.MGRTE._2D
                                         tempd = 0;
                                         for (jj = 0; jj < 2; jj++)
                                         {
-                                            tempd += temp[jj] * bv[smesh.e2[edge][ii], smesh.e2[edge][jj]];
+                                            tempd += temp[jj] * bv[smesh.E2[edge][ii], smesh.E2[edge][jj]];
                                         }
-                                        right[smesh.e2[edge][ii]] += -smesh.bd2[bi][tri][k] * tempd;
+                                        right[smesh.E2[edge][ii]] += -smesh.Bd2[bi][tri][k] * tempd;
                                     }
                                 }
                                 else
@@ -1288,9 +1288,9 @@ namespace Vts.FemModeling.MGRTE._2D
                                         tempd = 0;
                                         for (jj = 0; jj < 2; jj++)
                                         {
-                                            tempd += flux[i][smesh.bd[bi][tri][3 * k]][smesh.bd[bi][tri][3 * k + jj + 1]] * bv[index[k, ii], index[k, jj]];
+                                            tempd += flux[i][smesh.Bd[bi][tri][3 * k]][smesh.Bd[bi][tri][3 * k + jj + 1]] * bv[index[k, ii], index[k, jj]];
                                         }
-                                        right[index[k, ii]] += -smesh.bd2[bi][tri][k] * tempd;
+                                        right[index[k, ii]] += -smesh.Bd2[bi][tri][k] * tempd;
                                     }
                                 }
                             }
@@ -1306,16 +1306,16 @@ namespace Vts.FemModeling.MGRTE._2D
                     bi = i * aMeshLevel;
                     for (j = 0; j < nt; j++)
                     {
-                        tri = smesh.so[bi][j];
-                        dettri = 2 * smesh.a[tri];
-                        cosi = amesh.a[i][0]; sini = amesh.a[i][1];
-                        a = cosi * (smesh.p[smesh.t[tri][2]][1] - smesh.p[smesh.t[tri][0]][1]) + sini * (smesh.p[smesh.t[tri][0]][0] - smesh.p[smesh.t[tri][2]][0]);
-                        b = cosi * (smesh.p[smesh.t[tri][0]][1] - smesh.p[smesh.t[tri][1]][1]) + sini * (smesh.p[smesh.t[tri][1]][0] - smesh.p[smesh.t[tri][0]][0]);
+                        tri = smesh.So[bi][j];
+                        dettri = 2 * smesh.A[tri];
+                        cosi = amesh.Ang[i][0]; sini = amesh.Ang[i][1];
+                        a = cosi * (smesh.P[smesh.T[tri][2]][1] - smesh.P[smesh.T[tri][0]][1]) + sini * (smesh.P[smesh.T[tri][0]][0] - smesh.P[smesh.T[tri][2]][0]);
+                        b = cosi * (smesh.P[smesh.T[tri][0]][1] - smesh.P[smesh.T[tri][1]][1]) + sini * (smesh.P[smesh.T[tri][1]][0] - smesh.P[smesh.T[tri][0]][0]);
                         MatrixConvec(a, b, matrix1);
 
-                        a = ua[tri][0] + (1 - amesh.w[i][i]) * us[tri][0];
-                        b = ua[tri][1] + (1 - amesh.w[i][i]) * us[tri][1];
-                        c = ua[tri][2] + (1 - amesh.w[i][i]) * us[tri][2];
+                        a = ua[tri][0] + (1 - amesh.W[i][i]) * us[tri][0];
+                        b = ua[tri][1] + (1 - amesh.W[i][i]) * us[tri][1];
+                        c = ua[tri][2] + (1 - amesh.W[i][i]) * us[tri][2];
                         MatrixAbsorb(a, b, c, dettri, matrix2);
 
                         for (ii = 0; ii < 3; ii++)
@@ -1329,40 +1329,40 @@ namespace Vts.FemModeling.MGRTE._2D
                             temp[ii] = 0;
                             for (k = 0; k < ns; k++)
                             {
-                                temp[ii] += amesh.w[i][k] * flux[k][tri][ii];
+                                temp[ii] += amesh.W[i][k] * flux[k][tri][ii];
                             }
-                            temp[ii] += -amesh.w[i][i] * flux[i][tri][ii];
+                            temp[ii] += -amesh.W[i][i] * flux[i][tri][ii];
                         }
 
-                        source_corr = smesh.a[tri] / 12;
+                        source_corr = smesh.A[tri] / 12;
                         SourceAssign(us[tri], temp, right, RHS[i][tri], dettri, source_corr);
 
 
                         for (k = 0; k < 3; k++)
                         {
-                            if (smesh.bd2[bi][tri][k] > 0)
+                            if (smesh.Bd2[bi][tri][k] > 0)
                             {
                                 for (ii = 0; ii < 2; ii++)
                                 {
                                     for (jj = 0; jj < 2; jj++)
-                                    { left[index[k, ii], index[k, jj]] += smesh.bd2[bi][tri][k] * bv[index[k, ii], index[k, jj]]; }
+                                    { left[index[k, ii], index[k, jj]] += smesh.Bd2[bi][tri][k] * bv[index[k, ii], index[k, jj]]; }
                                 }
                             }
-                            else if (smesh.bd2[bi][tri][k] < 0)
+                            else if (smesh.Bd2[bi][tri][k] < 0)
                             {
-                                if (smesh.so2[tri][k] > -1)
+                                if (smesh.So2[tri][k] > -1)
                                 // "tri" is at the domain boundary: upwind flux is from boundary source only.
                                 {
-                                    edge = smesh.so2[tri][k];
+                                    edge = smesh.So2[tri][k];
 
                                     for (ii = 0; ii < 2; ii++)
                                     {
                                         tempd = 0;
                                         for (jj = 0; jj < 2; jj++)
                                         {
-                                            tempd += q[i][edge][jj] * bv[smesh.e2[edge][ii], smesh.e2[edge][jj]];
+                                            tempd += q[i][edge][jj] * bv[smesh.E2[edge][ii], smesh.E2[edge][jj]];
                                         }
-                                        right[smesh.e2[edge][ii]] += -smesh.bd2[bi][tri][k] * tempd;
+                                        right[smesh.E2[edge][ii]] += -smesh.Bd2[bi][tri][k] * tempd;
                                     }
                                 }
                                 else
@@ -1372,9 +1372,9 @@ namespace Vts.FemModeling.MGRTE._2D
                                         tempd = 0;
                                         for (jj = 0; jj < 2; jj++)
                                         {
-                                            tempd += flux[i][smesh.bd[bi][tri][3 * k]][smesh.bd[bi][tri][3 * k + jj + 1]] * bv[index[k, ii], index[k, jj]];
+                                            tempd += flux[i][smesh.Bd[bi][tri][3 * k]][smesh.Bd[bi][tri][3 * k + jj + 1]] * bv[index[k, ii], index[k, jj]];
                                         }
-                                        right[index[k, ii]] += -smesh.bd2[bi][tri][k] * tempd;
+                                        right[index[k, ii]] += -smesh.Bd2[bi][tri][k] * tempd;
                                     }
                                 }
                             }
@@ -1446,13 +1446,13 @@ namespace Vts.FemModeling.MGRTE._2D
             int[][] t;
             int nt_f, nt_c, i, j, tri, flag;
 
-            p = cmesh.p;
-            t = cmesh.t;
-            c_c = cmesh.c;
-            c_f = fmesh.c;
-            a = cmesh.a;
-            nt_f = fmesh.nt;
-            nt_c = cmesh.nt;
+            p = cmesh.P;
+            t = cmesh.T;
+            c_c = cmesh.C;
+            c_f = fmesh.C;
+            a = cmesh.A;
+            nt_f = fmesh.Nt;
+            nt_c = cmesh.Nt;
 
             distance = new double[nt_c];
 
@@ -1516,8 +1516,8 @@ namespace Vts.FemModeling.MGRTE._2D
             double[] a;
             double[] af;
 
-            tf = fmesh.t; pf = fmesh.p; af = fmesh.a;
-            nt_c = cmesh.nt; p = cmesh.p; t = cmesh.t; a = cmesh.a;
+            tf = fmesh.T; pf = fmesh.P; af = fmesh.A;
+            nt_c = cmesh.Nt; p = cmesh.P; t = cmesh.T; a = cmesh.A;
 
             temp = new int[3 * tempsize][];
             for (i = 0; i < 3 * tempsize; i++)

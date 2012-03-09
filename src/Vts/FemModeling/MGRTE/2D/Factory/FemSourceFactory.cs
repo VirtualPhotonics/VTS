@@ -11,6 +11,11 @@ namespace Vts.FemModeling.MGRTE._2D
     /// </summary>
     public static class FemSourceFactory
     {
+        /// <summary>
+        /// Get External source
+        /// </summary>
+        /// <param name="input">External FEM source</param>
+        /// <returns>selected source</returns>
         public static IExtSource GetExtSource(IExtFemSourceInput input)
         {
             switch (input.SourceType)
@@ -34,7 +39,11 @@ namespace Vts.FemModeling.MGRTE._2D
             }             
         }
 
-
+        /// <summary>
+        /// Get Internal source
+        /// </summary>
+        /// <param name="input">Internal FEM source</param>
+        /// <returns>selected source</returns>
         public static IIntSource GetIntSource(IIntFemSourceInput input)
         {
             switch (input.SourceType)
@@ -70,7 +79,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
                 default:
                     throw new NotImplementedException(
-                        "Problem generating IExtSource instance. Check that IExtFemSourceInput has a matching IExtSource definition.");
+                        "Problem generating IIntSource instance. Check that IIntFemSourceInput has a matching IIntSource definition.");
             }
         }        
     }

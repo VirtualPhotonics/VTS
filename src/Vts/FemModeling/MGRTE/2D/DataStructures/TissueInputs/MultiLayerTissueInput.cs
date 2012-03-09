@@ -2,19 +2,13 @@
 
 using System.Runtime.Serialization;
 using Vts.Common;
-using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo;
+
 
 namespace Vts.FemModeling.MGRTE._2D
 {
     /// <summary>
     /// Implements ITissueInput.  Defines input to MultiLayerTissue class.
     /// </summary>
-    [KnownType(typeof(LayerRegion))]
-    [KnownType(typeof(OpticalProperties))]
-    [KnownType(typeof(List<OpticalProperties>))]
-    [KnownType(typeof(List<LayerRegion>))]
-    [KnownType(typeof(List<ITissueRegion>))]
     public class MultiLayerTissueInput : ITissueInput
     {
         private ITissueRegion[] _regions;

@@ -4,8 +4,18 @@ using Vts.Common;
 
 namespace Vts.FemModeling.MGRTE._2D.SourceInputs
 {
+    /// <summary>
+    /// Internal 2D Rectangular source
+    /// </summary>
     public class Int2DRectangularSourceInput : IIntFemSourceInput
     {
+        /// <summary>
+        /// General constructor for 2D rectangular source
+        /// </summary>
+        /// <param name="xLength">X Length</param>
+        /// <param name="zHeight">Z Length</param>
+        /// <param name="center">Center (x,z)</param>
+        /// <param name="thetaRange">Theta Range</param>
         public Int2DRectangularSourceInput(
             double xLength,
             double zHeight,
@@ -19,6 +29,9 @@ namespace Vts.FemModeling.MGRTE._2D.SourceInputs
             ThetaRange = thetaRange;
         }
 
+        /// <summary>
+        /// Default constructor for 2D rectangular source
+        /// </summary>
         public Int2DRectangularSourceInput()
             : this(
              0.25,

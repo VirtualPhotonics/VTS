@@ -4,8 +4,16 @@ using Vts.Common;
 
 namespace Vts.FemModeling.MGRTE._2D.SourceInputs
 {
+    /// <summary>
+    /// Internal 2D Point source
+    /// </summary>
     public class Int2DPointSourceInput : IIntFemSourceInput
     {
+        /// <summary>
+        /// General constructor for 2D point source
+        /// </summary>
+        /// <param name="center">Center (x,z)</param>
+        /// <param name="thetaRange">Theta Range</param>
         public Int2DPointSourceInput(            
             DoubleRange center,
             DoubleRange thetaRange)
@@ -15,6 +23,9 @@ namespace Vts.FemModeling.MGRTE._2D.SourceInputs
             ThetaRange = thetaRange;
         }
 
+        /// <summary>
+        /// Default constructor for 2D point source
+        /// </summary>
         public Int2DPointSourceInput()
             : this(
              new DoubleRange(0, 0.5),

@@ -4,8 +4,17 @@ using Vts.Common;
 
 namespace Vts.FemModeling.MGRTE._2D.DataStructures
 {
+    /// <summary>
+    ///  Internal 2D Circular source
+    /// </summary>
     public class Int2DCircularSource : IIntSource
     {
+        /// <summary>
+        /// General constructor for 2D circular source
+        /// </summary>
+        /// <param name="radius"></param>
+        /// <param name="center"></param>
+        /// <param name="thetaRange"></param>
         public Int2DCircularSource(
             double radius,
             DoubleRange center,
@@ -16,6 +25,9 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             ThetaRange = thetaRange;
         }
 
+        /// <summary>
+        /// Default constructor for 2D circular source
+        /// </summary>
         public Int2DCircularSource()
             : this(
              0.5,
@@ -37,7 +49,7 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
         /// </summary>
         public DoubleRange ThetaRange { get; set; }
 
-        public void AssignMeshForIntSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] RHS)
+        public void AssignMeshForIntSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] rhs)
         {
         }
 

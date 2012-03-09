@@ -37,9 +37,8 @@ namespace Vts.FemModeling.MGRTE._2D
         public static int FindMin(int n, double[] d)       
         {
             int i;
-            double dmin;
-            int nmin;
-            nmin = 0; dmin = d[nmin];
+            int nmin= 0; 
+            double dmin = d[nmin];
             for (i = 1; i < n; i++)
             {
                 if (d[i] < dmin)
@@ -181,34 +180,34 @@ namespace Vts.FemModeling.MGRTE._2D
             int[] idxtemp;           
             for (i = 0; i <= sMeshLevel; i++)
             {
-                centOfTri = new double[smesh[i].nt][];
-                for (j = 0; j < smesh[i].nt; j++)
+                centOfTri = new double[smesh[i].Nt][];
+                for (j = 0; j < smesh[i].Nt; j++)
                 {
                     centOfTri[j] = new double[2];
                     for (k = 0; k < 2; k++)
                         centOfTri[j][k] = (
-                            smesh[i].p[smesh[i].t[j][0]][k]
-                            + smesh[i].p[smesh[i].t[j][1]][k]
-                            + smesh[i].p[smesh[i].t[j][2]][k]) / 3;
+                            smesh[i].P[smesh[i].T[j][0]][k]
+                            + smesh[i].P[smesh[i].T[j][1]][k]
+                            + smesh[i].P[smesh[i].T[j][2]][k]) / 3;
 
                 }
 
-                temp = new double [smesh[i].nt];
-                idxtemp = new int[smesh[i].nt];
-                smesh[i].so = new int[amesh[aMeshLevel].ns][];
-                for (j = 0; j < amesh[aMeshLevel].ns; j++)                        
-                    smesh[i].so[j] = new int[smesh[i].nt];
+                temp = new double [smesh[i].Nt];
+                idxtemp = new int[smesh[i].Nt];
+                smesh[i].So = new int[amesh[aMeshLevel].Ns][];
+                for (j = 0; j < amesh[aMeshLevel].Ns; j++)                        
+                    smesh[i].So[j] = new int[smesh[i].Nt];
 
-                for (j = 0; j < amesh[aMeshLevel].ns; j++)
+                for (j = 0; j < amesh[aMeshLevel].Ns; j++)
                 {
-                    for (k = 0; k < smesh[i].nt; k++)
+                    for (k = 0; k < smesh[i].Nt; k++)
                     {
-                        temp[k] = Math.Cos(amesh[aMeshLevel].a[j][2]) * centOfTri[k][0] + Math.Sin(amesh[aMeshLevel].a[j][2]) * centOfTri[k][1];
+                        temp[k] = Math.Cos(amesh[aMeshLevel].Ang[j][2]) * centOfTri[k][0] + Math.Sin(amesh[aMeshLevel].Ang[j][2]) * centOfTri[k][1];
                         idxtemp[k] = k;
                     }
-                    QuickSort(temp, idxtemp, 0, smesh[i].nt - 1);
-                    for (k = 0; k < smesh[i].nt; k++)                    
-                         smesh[i].so[j][k] = idxtemp[k];
+                    QuickSort(temp, idxtemp, 0, smesh[i].Nt - 1);
+                    for (k = 0; k < smesh[i].Nt; k++)                    
+                         smesh[i].So[j][k] = idxtemp[k];
                 }
             }
         }
@@ -253,15 +252,15 @@ namespace Vts.FemModeling.MGRTE._2D
 
             xmin = 1e10; xmax = -1e10; ymin = 1e10; ymax = -1e10;
 
-            np = smesh.np;
-            nt = smesh.nt;
+            np = smesh.Np;
+            nt = smesh.Nt;
 
             for (i = 0; i < np; i++)
             {
-                xmin = Math.Min(smesh.p[i][0], xmin);
-                xmax = Math.Max(smesh.p[i][0], xmax);
-                ymin = Math.Min(smesh.p[i][1], ymin);
-                ymax = Math.Max(smesh.p[i][1], ymax);
+                xmin = Math.Min(smesh.P[i][0], xmin);
+                xmax = Math.Max(smesh.P[i][0], xmax);
+                ymin = Math.Min(smesh.P[i][1], ymin);
+                ymax = Math.Max(smesh.P[i][1], ymax);
             }
 
             dx = (xmax - xmin) / (nxy - 1);
@@ -287,21 +286,21 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 xmin = 1e10; xmax = -1e10; ymin = 1e10; ymax = -1e10;
 
-                xmin = Math.Min(smesh.p[smesh.t[i][0]][0], xmin);
-                xmin = Math.Min(smesh.p[smesh.t[i][1]][0], xmin);
-                xmin = Math.Min(smesh.p[smesh.t[i][2]][0], xmin);
+                xmin = Math.Min(smesh.P[smesh.T[i][0]][0], xmin);
+                xmin = Math.Min(smesh.P[smesh.T[i][1]][0], xmin);
+                xmin = Math.Min(smesh.P[smesh.T[i][2]][0], xmin);
 
-                xmax = Math.Max(smesh.p[smesh.t[i][0]][0], xmax);
-                xmax = Math.Max(smesh.p[smesh.t[i][1]][0], xmax);
-                xmax = Math.Max(smesh.p[smesh.t[i][2]][0], xmax);
+                xmax = Math.Max(smesh.P[smesh.T[i][0]][0], xmax);
+                xmax = Math.Max(smesh.P[smesh.T[i][1]][0], xmax);
+                xmax = Math.Max(smesh.P[smesh.T[i][2]][0], xmax);
 
-                ymin = Math.Min(smesh.p[smesh.t[i][0]][1], ymin);
-                ymin = Math.Min(smesh.p[smesh.t[i][1]][1], ymin);
-                ymin = Math.Min(smesh.p[smesh.t[i][2]][1], ymin);
+                ymin = Math.Min(smesh.P[smesh.T[i][0]][1], ymin);
+                ymin = Math.Min(smesh.P[smesh.T[i][1]][1], ymin);
+                ymin = Math.Min(smesh.P[smesh.T[i][2]][1], ymin);
 
-                ymax = Math.Max(smesh.p[smesh.t[i][0]][1], ymax);
-                ymax = Math.Max(smesh.p[smesh.t[i][1]][1], ymax);
-                ymax = Math.Max(smesh.p[smesh.t[i][2]][1], ymax);
+                ymax = Math.Max(smesh.P[smesh.T[i][0]][1], ymax);
+                ymax = Math.Max(smesh.P[smesh.T[i][1]][1], ymax);
+                ymax = Math.Max(smesh.P[smesh.T[i][2]][1], ymax);
 
                 xminArray[i] = xmin;
                 xmaxArray[i] = xmax;
@@ -410,8 +409,8 @@ namespace Vts.FemModeling.MGRTE._2D
                 {
                     for (j = 0; j < 2; j++)
                     {
-                        a2[j] = smesh.p[smesh.t[i][1]][j] - smesh.p[smesh.t[i][0]][j];
-                        a3[j] = smesh.p[smesh.t[i][2]][j] - smesh.p[smesh.t[i][0]][j];
+                        a2[j] = smesh.P[smesh.T[i][1]][j] - smesh.P[smesh.T[i][0]][j];
+                        a3[j] = smesh.P[smesh.T[i][2]][j] - smesh.P[smesh.T[i][0]][j];
                     }
 
                     temp = a2[0] * a3[1] - a2[1] * a3[0];
@@ -426,8 +425,8 @@ namespace Vts.FemModeling.MGRTE._2D
                         {
                             if (tn[k][j] == -1)
                             {
-                                r1p[0] = x[j] - smesh.p[smesh.t[i][0]][0];
-                                r1p[1] = y[k] - smesh.p[smesh.t[i][0]][1];
+                                r1p[0] = x[j] - smesh.P[smesh.T[i][0]][0];
+                                r1p[1] = y[k] - smesh.P[smesh.T[i][0]][1];
                                 d2 = b2[0] * r1p[0] + b2[1] * r1p[1];
                                 if ((d2 >= -tiny) && (d2 <= 1 + tiny))
                                 {
@@ -452,9 +451,9 @@ namespace Vts.FemModeling.MGRTE._2D
             for (i = 0; i < nxy; i++)
                 for (j = 0; j < nxy; j++)
                 {
-                    tt1 = (1 - a12[i][j] - a13[i][j]) * inten[(int)smesh.t[tn[i][j]][0]];
-                    tt2 = a12[i][j] * inten[(int)smesh.t[tn[i][j]][1]];
-                    tt3 = a13[i][j] * inten[(int)smesh.t[tn[i][j]][2]];
+                    tt1 = (1 - a12[i][j] - a13[i][j]) * inten[(int)smesh.T[tn[i][j]][0]];
+                    tt2 = a12[i][j] * inten[(int)smesh.T[tn[i][j]][1]];
+                    tt3 = a13[i][j] * inten[(int)smesh.T[tn[i][j]][2]];
                     uxy[i][j] = tt1 + tt2 + tt3;
 
                 }
@@ -535,15 +534,15 @@ namespace Vts.FemModeling.MGRTE._2D
             int i,j;
             for (i = 0; i <=aLevel; i++)
             {
-                amesh[i].ns = (int)Math.Pow(2.0, (double)(i+1));
-                amesh[i].a = new double[amesh[i].ns][];
-                amesh[i].w = new double[amesh[i].ns][];
-                for (j = 0; j < amesh[i].ns; j++)
+                amesh[i].Ns = (int)Math.Pow(2.0, (double)(i+1));
+                amesh[i].Ang = new double[amesh[i].Ns][];
+                amesh[i].W = new double[amesh[i].Ns][];
+                for (j = 0; j < amesh[i].Ns; j++)
                 {
-                    amesh[i].a[j] = new double[3];
-                    amesh[i].w[j] = new double[amesh[i].ns];
+                    amesh[i].Ang[j] = new double[3];
+                    amesh[i].W[j] = new double[amesh[i].Ns];
                 }
-                Weight_2D(amesh[i].w, amesh[i].a, amesh[i].ns, g);
+                Weight_2D(amesh[i].W, amesh[i].Ang, amesh[i].Ns, g);
             }
 
         }
@@ -553,14 +552,14 @@ namespace Vts.FemModeling.MGRTE._2D
         /// </summary>
         /// <param name="ua"></param>
         /// <param name="smesh"></param>
-        /// <param name="parameters"></param>
-        public static void SetMua(ref double[][][] ua, SpatialMesh[] smesh, SimulationInputs parameters)
+        /// <param name="input"></param>
+        public static void SetMua(ref double[][][] ua, SpatialMesh[] smesh, SimulationInput input)
         {
             int j, k;
-            int nt = smesh[parameters.SMeshLevel].nt;
-            double medMua = parameters.MedMua ;
-            double inMua = parameters.InMua;
-            int sMeshLevel = parameters.SMeshLevel;
+            int nt = smesh[input.MeshDataInput.SMeshLevel].Nt;
+            double medMua = input.TissueInput.Regions[1].RegionOP.Mua;
+            double inMua = input.InclusionInput.Regions[1].RegionOP.Mua;
+            int sMeshLevel = input.MeshDataInput.SMeshLevel;
             double tempx, tempz, tempr;
 
             ua[sMeshLevel] = new double[nt][];
@@ -569,10 +568,10 @@ namespace Vts.FemModeling.MGRTE._2D
                 ua[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
                 {
-                    tempx = smesh[parameters.SMeshLevel].p[smesh[parameters.SMeshLevel].t[j][k]][0] - parameters.InX;
-                    tempz = smesh[parameters.SMeshLevel].p[smesh[parameters.SMeshLevel].t[j][k]][1] - parameters.InZ;
+                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - input.InclusionInput.Regions[1].Location.X;
+                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - input.InclusionInput.Regions[1].Location.X;
                     tempr = Math.Sqrt(tempx * tempx + tempz * tempz);
-                    if (parameters.InRad < tempr)
+                    if (input.InclusionInput.Regions[1].Radius < tempr)
                         ua[sMeshLevel][j][k] = medMua;
                     else
                         ua[sMeshLevel][j][k] = inMua;
@@ -585,14 +584,14 @@ namespace Vts.FemModeling.MGRTE._2D
         /// </summary>
         /// <param name="us"></param>
         /// <param name="smesh"></param>
-        /// <param name="parameters"></param>
-        public static void SetMus(ref double[][][] us, SpatialMesh[] smesh, SimulationInputs parameters)
+        /// <param name="input"></param>
+        public static void SetMus(ref double[][][] us, SpatialMesh[] smesh, SimulationInput input)
         {
             int j, k;
-            int nt = smesh[parameters.SMeshLevel].nt;
-            double medMus = parameters.MedMusp/(1-parameters.MedG);
-            double inMus = parameters.InMusp/(1-parameters.InG);
-            int sMeshLevel = parameters.SMeshLevel;
+            int nt = smesh[input.MeshDataInput.SMeshLevel].Nt;
+            double medMus = input.TissueInput.Regions[1].RegionOP.Musp / (1 - input.TissueInput.Regions[1].RegionOP.G);
+            double inMus = input.InclusionInput.Regions[1].RegionOP.Musp / (1 - input.InclusionInput.Regions[1].RegionOP.G);
+            int sMeshLevel = input.MeshDataInput.SMeshLevel;
             double tempx, tempz, tempr;
 
             us[sMeshLevel] = new double[nt][];
@@ -601,10 +600,10 @@ namespace Vts.FemModeling.MGRTE._2D
                 us[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
                 {
-                    tempx = smesh[parameters.SMeshLevel].p[smesh[parameters.SMeshLevel].t[j][k]][0] - parameters.InX;
-                    tempz = smesh[parameters.SMeshLevel].p[smesh[parameters.SMeshLevel].t[j][k]][1] - parameters.InZ;
-                    tempr = Math.Sqrt(tempx*tempx + tempz*tempz);
-                    if (parameters.InRad < tempr)
+                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - input.InclusionInput.Regions[1].Location.X;
+                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - input.InclusionInput.Regions[1].Location.X;
+                    tempr = Math.Sqrt(tempx * tempx + tempz * tempz);
+                    if (input.InclusionInput.Regions[1].Radius < tempr)
                         us[sMeshLevel][j][k] = medMus;
                     else
                         us[sMeshLevel][j][k] = inMus;
@@ -833,7 +832,7 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
         /// <summary>
-        /// Assign P E Time
+        /// Assign P E T
         /// </summary>        
         private static void NewPET(double[][] newp, double[][] oldp, int[][] newe, int[][] newt, int[][] oldt, double[][] ptemp, int np, int nt, int trint)
         {
@@ -885,7 +884,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
             double temp;
 
-            //Assign Time
+            //Assign T
             for (i = 0; i < nt; i++)
             {
 
@@ -978,33 +977,33 @@ namespace Vts.FemModeling.MGRTE._2D
         {
             int i, j;
 
-            smesh[level].np = np;
-            smesh[level].ne = ne;
-            smesh[level].nt = nt;
+            smesh[level].Np = np;
+            smesh[level].Ne = ne;
+            smesh[level].Nt = nt;
 
-            smesh[level].p = new double[np][];
+            smesh[level].P = new double[np][];
             for (i = 0; i < np; i++)
             {
-                smesh[level].p[i] = new double[2];
+                smesh[level].P[i] = new double[2];
                 for (j = 0; j < 2; j++)
-                    smesh[level].p[i][j] = p[i][j];
+                    smesh[level].P[i][j] = p[i][j];
             }
 
-            smesh[level].t = new int[nt][];
+            smesh[level].T = new int[nt][];
             for (i = 0; i < nt; i++)
             {
-                smesh[level].t[i] = new int[3];
+                smesh[level].T[i] = new int[3];
                 for (j = 0; j < 3; j++)
-                    smesh[level].t[i][j] = t[i][j];
+                    smesh[level].T[i][j] = t[i][j];
             }
 
 
-            smesh[level].e = new int[ne][];
+            smesh[level].E = new int[ne][];
             for (i = 0; i < ne; i++)
             {
-                smesh[level].e[i] = new int[4];
+                smesh[level].E[i] = new int[4];
                 for (j = 0; j < 4; j++)
-                    smesh[level].e[i][j] = e[i][j];
+                    smesh[level].E[i][j] = e[i][j];
             }
 
         }

@@ -4,8 +4,16 @@ using Vts.Common;
 
 namespace Vts.FemModeling.MGRTE._2D.DataStructures
 {
+    /// <summary>
+    /// Internal 2D Point source
+    /// </summary>
     public class Int2DPointSource : IIntSource
     {
+        /// <summary>
+        /// General constructor for 2D point source
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="thetaRange"></param>
         public Int2DPointSource(
             DoubleRange center,
             DoubleRange thetaRange)
@@ -14,6 +22,9 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             ThetaRange = thetaRange;
         }
 
+        /// <summary>
+        /// Default constructor for 2D point source
+        /// </summary>
         public Int2DPointSource()
             : this(
              new DoubleRange(0, 0.5),
@@ -28,10 +39,18 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
         /// </summary>
         public DoubleRange ThetaRange { get; set; }
 
-
-        public void AssignMeshForIntSource(AngularMesh[] amesh, int aMeshLevel, SpatialMesh[] smesh, int sMeshLevel, int level, double[][][][] RHS)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aMesh"></param>
+        /// <param name="aMeshLevel"></param>
+        /// <param name="sMesh"></param>
+        /// <param name="sMeshLevel"></param>
+        /// <param name="level"></param>
+        /// <param name="rhs"></param>
+        public void AssignMeshForIntSource(AngularMesh[] aMesh, int aMeshLevel, SpatialMesh[] sMesh, int sMeshLevel, int level, double[][][][] rhs)
         {
-            double[] distance = new double[smesh[sMeshLevel].nt];
+            double[] distance = new double[sMesh[sMeshLevel].Nt];
             int i,j,k;
             double x,x1,x2,x3,z,z1,z2,z3;
             int ns_start, ns_stop;
@@ -43,17 +62,17 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             x = Center.Start;
             z = Center.Stop;
 
-            ns_start = (int)(0.5*ThetaRange.Start * amesh[aMeshLevel].ns/ Math.PI);
-            ns_stop = (int)(0.5 * ThetaRange.Stop * amesh[aMeshLevel].ns / Math.PI);
+            ns_start = (int)(0.5*ThetaRange.Start * aMesh[aMeshLevel].Ns/ Math.PI);
+            ns_stop = (int)(0.5 * ThetaRange.Stop * aMesh[aMeshLevel].Ns / Math.PI);
 
-            for (i = 0; i < smesh[sMeshLevel].nt; i++)
+            for (i = 0; i < sMesh[sMeshLevel].Nt; i++)
             {
-                x1 = smesh[sMeshLevel].p[smesh[sMeshLevel].t[i][0]][0];
-                x2 = smesh[sMeshLevel].p[smesh[sMeshLevel].t[i][1]][0];
-                x3 = smesh[sMeshLevel].p[smesh[sMeshLevel].t[i][2]][0];
-                z1 = smesh[sMeshLevel].p[smesh[sMeshLevel].t[i][0]][1];
-                z2 = smesh[sMeshLevel].p[smesh[sMeshLevel].t[i][1]][1];
-                z3 = smesh[sMeshLevel].p[smesh[sMeshLevel].t[i][2]][1];
+                x1 = sMesh[sMeshLevel].P[sMesh[sMeshLevel].T[i][0]][0];
+                x2 = sMesh[sMeshLevel].P[sMesh[sMeshLevel].T[i][1]][0];
+                x3 = sMesh[sMeshLevel].P[sMesh[sMeshLevel].T[i][2]][0];
+                z1 = sMesh[sMeshLevel].P[sMesh[sMeshLevel].T[i][0]][1];
+                z2 = sMesh[sMeshLevel].P[sMesh[sMeshLevel].T[i][1]][1];
+                z3 = sMesh[sMeshLevel].P[sMesh[sMeshLevel].T[i][2]][1];
 
                 double detT = (z2 - z3) * (x1 - x3) + (x3 - x2) * (z1 - z3);
 
@@ -80,12 +99,12 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
                                         area_total = area[0] + area[1] + area[2];
                                         for (j = 0; j < 3; j++)
                                         {
-                                            for (k = 0; k < amesh[aMeshLevel].ns; k++)
+                                            for (k = 0; k < aMesh[aMeshLevel].Ns; k++)
                                             {
                                                 if ((k < ns_start) || (k > ns_stop))
-                                                    RHS[level][amesh[aMeshLevel].ns-1-k][i][j] = 0;
+                                                    rhs[level][aMesh[aMeshLevel].Ns-1-k][i][j] = 0;
                                                 else
-                                                    RHS[level][amesh[aMeshLevel].ns-1-k][i][j] = area[j] / area_total;
+                                                    rhs[level][aMesh[aMeshLevel].Ns-1-k][i][j] = area[j] / area_total;
                                             }
                                         }
                                     }

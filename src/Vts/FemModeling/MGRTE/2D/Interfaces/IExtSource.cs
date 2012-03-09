@@ -9,7 +9,15 @@ namespace Vts.FemModeling.MGRTE._2D
     /// </summary>
     public interface IExtSource
     {
-        //Assign mesh values for an external source
+        /// <summary>
+        /// Assign mesh arrays for an external source
+        /// </summary>
+        /// <param name="amesh"></param>
+        /// <param name="ameshLevel"></param>
+        /// <param name="smesh"></param>
+        /// <param name="smeshLevel"></param>
+        /// <param name="level"></param>
+        /// <param name="q"></param>
         void AssignMeshForExtSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] q);
     }
 }

@@ -6,22 +6,17 @@ using System.Text;
 namespace Vts.FemModeling.MGRTE._2D
 {
     /// <summary>
-    /// Complete input parameters
+    /// Angular and spatial mesh data for a square mesh
     /// </summary>
-    public class MeshDataInput : BindableObject
+    public class SquareMeshDataInput
     {
-
-        private int _aMeshLevel;
-        private int _sMeshLevel;
-        private double _sideLength;
-
         /// <summary>
         /// Constructor for mesh input data
         /// </summary>
         /// <param name="aMeshLevel">The finest layer of angular mesh generation</param>
         /// <param name="sMeshLevel">The finest layer of spatial mesh generation</param>
         /// <param name="sideLength">Length of the square mesh</param>
-        public MeshDataInput(int aMeshLevel, int sMeshLevel, double sideLength)
+        public SquareMeshDataInput(int aMeshLevel, int sMeshLevel, double sideLength)
         {
             AMeshLevel = aMeshLevel;
             SMeshLevel = sMeshLevel;
@@ -31,34 +26,22 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// Default constructor for mesh input data
         /// </summary>
-        public MeshDataInput()
-            : this(5, 3, 1.0) { }
+        public SquareMeshDataInput()
+            : this(5, 3, 10.0) { }
 
         /// <summary>
         /// The finest layer of angular mesh generation
         /// </summary>
-        public int AMeshLevel
-        {
-            get { return _aMeshLevel; }
-            set { _aMeshLevel = value; this.OnPropertyChanged("AMeshLevel"); }
-        }
+        public int AMeshLevel { get; set; }
 
         /// <summary>
         /// The finest layer of spatial mesh generation
         /// </summary>
-        public int SMeshLevel
-        {
-            get { return _sMeshLevel; }
-            set { _sMeshLevel = value; this.OnPropertyChanged("SMeshLevel"); }
-        }
+        public int SMeshLevel { get; set; }
 
         /// <summary>
         /// Length of the square mesh
         /// </summary>
-        public double SideLength
-        {
-            get { return _sideLength; }
-            set { _sideLength = value; this.OnPropertyChanged("SideLength"); }
-        }
+        public double SideLength { get; set; }
     }
 }

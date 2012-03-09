@@ -9,6 +9,6 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// Type of source
         /// </summary>
-        FemSourceType SourceType { get; set; }       
+        FemSourceType SourceType { get; set; }      
     }
 }

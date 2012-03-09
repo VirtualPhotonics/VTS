@@ -8,14 +8,14 @@
         /// <summary>
         /// number of angular nodes
         /// </summary>
-        public int ns;         
+        public int Ns;         
         /// <summary>
         /// angular coordinates: a[ns][3] with a[i][3]:=(cos(theta(i)), sin(theta(i)), theta(i))
         /// </summary>
-        public double[][] a;    
+        public double[][] Ang;    
         /// <summary>
         /// angular weights: w[ns][ns] 
         /// </summary>
-        public double[][] w;   
+        public double[][] W;   
     }
 }

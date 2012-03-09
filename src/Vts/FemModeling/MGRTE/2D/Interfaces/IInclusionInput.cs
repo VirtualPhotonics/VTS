@@ -1,10 +1,11 @@
-﻿
+﻿using Vts.Common;
+
 namespace Vts.FemModeling.MGRTE._2D
 {
     /// <summary>
     /// Defines a contract for TissueInput.
     /// </summary>
-    public interface ITissueInput
+    public interface IInclusionInput
     {
         /// <summary>
         /// Type of tissue
@@ -14,6 +15,6 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// List of tissue regions comprising tissue.
         /// </summary>
-        ITissueRegion[] Regions { get; }
+        IInclusionRegion[] Regions { get; }
     }
 }
