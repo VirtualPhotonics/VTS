@@ -573,7 +573,7 @@ namespace Vts.IO
         /// <summary>
         /// Read from a binary stream
         /// </summary>
-        /// <typeparam name="Time"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="filename"></param>
         /// <returns></returns>
         public static T ReadFromBinary<T>(string filename)
@@ -587,7 +587,7 @@ namespace Vts.IO
         /// <summary>
         /// Read an object of type Time from a binary file in resources
         /// </summary>
-        /// <typeparam name="Time">Type of the object</typeparam>
+        /// <typeparam name="T">Type of the object</typeparam>
         /// <param name="filename">Name of the binary file in resources</param>
         /// <param name="projectName">Name of the project where the resources are located</param>
         /// <returns>The object of type Time</returns>
@@ -602,7 +602,7 @@ namespace Vts.IO
         /// <summary>
         /// Write an object of type Time to a binary file
         /// </summary>
-        /// <typeparam name="Time">Type of the object</typeparam>
+        /// <typeparam name="T">Type of the object</typeparam>
         /// <param name="myObject">Object</param>
         /// <param name="filename">Name of the binary file</param>
         public static void WriteToBinary<T>(this T myObject, string filename)
@@ -616,7 +616,7 @@ namespace Vts.IO
         /// <summary>
         /// Deserializes a stream into an object
         /// </summary>
-        /// <typeparam name="Time">Type of the object</typeparam>
+        /// <typeparam name="T">Type of the object</typeparam>
         /// <param name="s">Stream to deserialize</param>
         /// <returns>The object of type Time</returns>
         public static T ReadFromBinaryStream<T>(Stream s)
@@ -636,7 +636,7 @@ namespace Vts.IO
         /// <summary>
         /// Serializes an object of type Time to the given stream
         /// </summary>
-        /// <typeparam name="Time">Type of the object</typeparam>
+        /// <typeparam name="T">Type of the object</typeparam>
         /// <param name="myObject">Object</param>
         /// <param name="s">Stream to which to write the object</param>
         public static void WriteToBinaryStream<T>(T myObject, Stream s)

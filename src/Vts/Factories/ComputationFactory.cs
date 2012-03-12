@@ -12,12 +12,12 @@ using System.Runtime.InteropServices;
 
 namespace Vts.Factories
 {
-#if DESKTOP
-    [ComVisible(true)]
-#endif
     /// <summary>
     /// Class that composes forward and optimization calculations based on high-level inputs
     /// </summary>
+#if DESKTOP
+    [ComVisible(true)]
+#endif    
     public static class ComputationFactory
     {
         // todo: the following two methods are a result of a leaky abstraction 
@@ -54,10 +54,6 @@ namespace Vts.Factories
             }
             return flattened;
         }
-
-#if DESKTOP
-    [ComVisible(true)] 
-#endif
         /// <summary>
         /// String-overloaded version of factory method for forward solver computation
         /// </summary>
@@ -69,6 +65,9 @@ namespace Vts.Factories
         /// <param name="opticalProperties"></param>
         /// <param name="constantValues"></param>
         /// <returns></returns>
+        #if DESKTOP
+            [ComVisible(true)] 
+        #endif
         public static double[] GetVectorizedIndependentVariableQueryNew(
              string forwardSolverType,
              string solutionDomainType,

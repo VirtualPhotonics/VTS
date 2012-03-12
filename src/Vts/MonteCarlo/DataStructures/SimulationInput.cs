@@ -8,14 +8,14 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo
 {
-#if !SILVERLIGHT
-    [Serializable]
-#endif
     ///<summary>
     /// Defines input to the Monte Carlo simulation.  This includes the output
     /// file name, number of photons to execute (N), source, tissue and detector
     /// definitions.
     ///</summary>
+    #if !SILVERLIGHT
+        [Serializable]
+    #endif
     
     // todo: Can we do this programmatcially? DataContractResolver? Automatically via convention?
 

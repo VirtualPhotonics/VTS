@@ -14,7 +14,8 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// constructor for layer region
         /// </summary>
-        /// <param name="zRange">specifies extent of layer</param>
+        /// <param name="loc">location</param>
+        /// <param name="rad">radius</param>
         /// <param name="op">optical properties of layer</param>
         public InclusionLayerRegion(OpticalProperties op, Position loc, double rad)
         {
