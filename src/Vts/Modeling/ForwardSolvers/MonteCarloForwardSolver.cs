@@ -305,6 +305,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">source-detector separations</param>
         /// <param name="zs">z values (depths)</param>
+        /// <param name="ts">times (ns)</param>
         /// <returns>reflectance at specified optical properties, rhos and depths</returns>
         public override IEnumerable<double> FluenceOfRhoAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> ts)
         {

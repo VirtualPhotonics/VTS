@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// Radiance virtual boundary
         /// </summary>
         /// <param name="detectorController">IDetectorController</param>
-        /// <param name="name"string name></param>
+        /// <param name="name">string name</param>
         public RadianceVirtualBoundary(IDetectorController detectorController, string name)
         {
             _detectorController = detectorController;
