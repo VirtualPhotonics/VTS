@@ -70,7 +70,7 @@ namespace Vts.FemModeling.MGRTE._2D
             : this(new SquareMeshDataInput(),
                   new MeshSimulationOptions(),
                   new ExtPointSourceInput(),
-                  new Int2DPointSourceInput(),
+                  null,
                   new MultiLayerTissueInput(),
                   new SingleInclusionInput()) { }
     }

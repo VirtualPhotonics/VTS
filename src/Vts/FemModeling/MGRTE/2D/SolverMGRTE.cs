@@ -118,18 +118,22 @@ namespace Vts.FemModeling.MGRTE._2D
                 ref RHS, ref q, ref noflevel, ref b,
                 level, input.SimulationParameterInput.MethodMg,nMismatch,input.SimulationParameterInput.NExternal,
                 input.SimulationParameterInput.NExternal,input.MeshDataInput.AMeshLevel, input.SimulationParameterInput.StartingAmeshLevel,
-                input.MeshDataInput.SMeshLevel, input.SimulationParameterInput.StartingSmeshLevel, ua, us, Mgrid);           
+                input.MeshDataInput.SMeshLevel, input.SimulationParameterInput.StartingSmeshLevel, ua, us, Mgrid);
+            
+            //Assign external source if available
+            if (input.ExtSourceInput != null)
+            {
+                IExtSource extsource = FemSourceFactory.GetExtSource(input.ExtSourceInput);
+                extsource.AssignMeshForExtSource(amesh, input.MeshDataInput.AMeshLevel, smesh, input.MeshDataInput.SMeshLevel, level, q);
+            }
 
-           
-
-            //todo: Assign an external source 
-            IExtSource extsource = FemSourceFactory.GetExtSource(new ExtPointSourceInput(new DoubleRange(0, 0), new DoubleRange(Math.PI, 2.0 * Math.PI)));
-            extsource.AssignMeshForExtSource(amesh, input.MeshDataInput.AMeshLevel, smesh, input.MeshDataInput.SMeshLevel, level, q);
-
-            //Assign an internal source
-            //IIntSource intsource = FemSourceFactory.GetIntSource(new Int2DPointSourceInput(new DoubleRange(0, 0.5), new DoubleRange(0, 2 * Math.PI)));
-            //intsource.AssignMeshForIntSource(amesh, input.MeshDataInput.AMeshLevel, smesh, input.MeshDataInput.SMeshLevel, level,RHS);
-
+            //Assign internal source if available
+            if (input.IntSourceInput != null)
+            {
+                //Assign an internal source
+                IIntSource intsource = FemSourceFactory.GetIntSource(input.IntSourceInput);
+                intsource.AssignMeshForIntSource(amesh, input.MeshDataInput.AMeshLevel, smesh, input.MeshDataInput.SMeshLevel, level, RHS);
+            }
            
             /* Read the end time. */
             DateTime stopTime1 = DateTime.Now;
