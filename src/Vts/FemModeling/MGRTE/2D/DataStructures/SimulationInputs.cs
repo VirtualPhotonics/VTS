@@ -72,6 +72,6 @@ namespace Vts.FemModeling.MGRTE._2D
                   new ExtPointSourceInput(),
                   null,
                   new MultiLayerTissueInput(),
-                  new SingleInclusionInput()) { }
+                  new MultiLayerInclusionInput()) { }
     }
 }

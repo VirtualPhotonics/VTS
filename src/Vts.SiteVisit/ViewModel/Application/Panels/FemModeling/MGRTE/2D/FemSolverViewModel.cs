@@ -14,9 +14,9 @@ namespace Vts.SiteVisit.ViewModel
     {
         
         private FemSimulationInputDataViewModel _MeshInputVM;
-        private OpticalPropertyViewModel _MediumOpticalPropertyVM;
-        private OpticalPropertyViewModel _InclusionOpticalPropertyVM;
-        
+        //private OpticalPropertyViewModel _MediumOpticalPropertyVM;
+        //private OpticalPropertyViewModel _InclusionOpticalPropertyVM;
+
         ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(FemSolverViewModel));   
 
         /// <summary>
@@ -25,8 +25,8 @@ namespace Vts.SiteVisit.ViewModel
         public FemSolverViewModel()
         {
             _MeshInputVM = new FemSimulationInputDataViewModel();
-            _MediumOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Medium Optical Properties:", G = 0.8, N = 1.0, EnableG = true, EnableN = false };
-            _InclusionOpticalPropertyVM = new OpticalPropertyViewModel() { Title ="Inclusion Optical Properties:", G = 0.8, N = 1.0, EnableG = true, EnableN = false };
+            //_MediumOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Medium Optical Properties:", G = 0.8, N = 1.0, EnableG = true, EnableN = false };
+            //_InclusionOpticalPropertyVM = new OpticalPropertyViewModel() { Title ="Inclusion Optical Properties:", G = 0.8, N = 1.0, EnableG = true, EnableN = false };
 
             Commands.FEM_ExecuteFemSolver.Executed += FemExecuteFemSolverExecuted;
             ExecuteFemSolverCommand = new RelayCommand(() => FemExecuteFemSolverExecuted(null, null));
@@ -51,31 +51,31 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
-        /// <summary>
-        /// Update medium optical property view model
-        /// </summary>
-        public OpticalPropertyViewModel MediumOpticalPropertyVM
-        {
-            get { return _MediumOpticalPropertyVM; }
-            set
-            {
-                _MediumOpticalPropertyVM = value;
-                OnPropertyChanged("MediumOpticalPropertyVM");
-            }
-        }
+        ///// <summary>
+        ///// Update medium optical property view model
+        ///// </summary>
+        //public OpticalPropertyViewModel MediumOpticalPropertyVM
+        //{
+        //    get { return _MediumOpticalPropertyVM; }
+        //    set
+        //    {
+        //        _MediumOpticalPropertyVM = value;
+        //        OnPropertyChanged("MediumOpticalPropertyVM");
+        //    }
+        //}
         
-        /// <summary>
-        /// Update inclusion optical property view model
-        /// </summary>
-        public OpticalPropertyViewModel InclusionOpticalPropertyVM
-        {
-            get { return _InclusionOpticalPropertyVM; }
-            set
-            {
-                _InclusionOpticalPropertyVM = value;
-                OnPropertyChanged("InclusionOpticalPropertyVM");
-            }
-        }
+        ///// <summary>
+        ///// Update inclusion optical property view model
+        ///// </summary>
+        //public OpticalPropertyViewModel InclusionOpticalPropertyVM
+        //{
+        //    get { return _InclusionOpticalPropertyVM; }
+        //    set
+        //    {
+        //        _InclusionOpticalPropertyVM = value;
+        //        OnPropertyChanged("InclusionOpticalPropertyVM");
+        //    }
+        //}
        
         /// <summary>
         /// Execute FEM Sovler
@@ -103,6 +103,7 @@ namespace Vts.SiteVisit.ViewModel
                var meshData = new MapData(measurement.inten, measurement.xloc, measurement.zloc, measurement.dx, measurement.dz);
                 Commands.Mesh_PlotMap.Execute(meshData);
                    
+                
             }
         }
     }

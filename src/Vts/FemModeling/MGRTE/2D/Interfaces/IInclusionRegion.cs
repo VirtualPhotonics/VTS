@@ -15,7 +15,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// Radius of a inclusion
         /// </summary>
-        Position Location { get; }
+        Position Position { get; }
 
         /// <summary>
         /// Radius of a inclusion

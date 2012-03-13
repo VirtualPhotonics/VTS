@@ -195,20 +195,21 @@
     </Compile>
     <Compile Include="Common\Stopwatch.cs" />
     <Compile Include="FemModeling\MGRTE\2D\BoundaryCoupling.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\DetectorInputs\FluenceOfXAndZDectectorInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\AngularMesh.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationOptions.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\SpatialMesh.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\SquareMeshDataInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\TissueInputs\SingleInclusionInput.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\Tissues\InclusionLayerRegion.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\Tissues\LayerRegion.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerInclusionInput.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\Tissues\MultiLayerInclusion.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\Tissues\LayerInclusionRegion.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\Tissues\LayerTissueRegion.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\Tissues\MultiLayerTissue.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Extensions\IInclusionRegionExtensions.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\Extensions\ITissueRegionExtensions.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Factory\TissueFactory.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\Interfaces\IDetectorInputs.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IInclusionInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IInclusionRegion.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\ITissue.cs" />

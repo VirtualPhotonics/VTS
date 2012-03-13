@@ -95,8 +95,8 @@ namespace Vts.FemModeling.MGRTE._2D
     public enum InclusionType
     {
         /// <summary>
-        /// Circular inclusion
+        /// Circular inclusion in multi layer
         /// </summary>
-        Circular,
+        MultiLayerCircular,
     }
 }

@@ -9,14 +9,14 @@ namespace Vts.FemModeling.MGRTE._2D
     /// Implements ITissueRegion.  Defines a layer infinite in extent along
     /// x,y-axes and with extent along z-axis given by ZRange.
     /// </summary>
-    public class LayerRegion : ITissueRegion
+    public class LayerTissueRegion : ITissueRegion
     {
         /// <summary>
         /// constructor for layer region
         /// </summary>
         /// <param name="zRange">specifies extent of layer</param>
         /// <param name="op">optical properties of layer</param>
-        public LayerRegion(DoubleRange zRange, OpticalProperties op)
+        public LayerTissueRegion(DoubleRange zRange, OpticalProperties op)
         {
             ZRange = zRange;
             RegionOP = op;
@@ -24,7 +24,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// default constructor
         /// </summary>
-        public LayerRegion()
+        public LayerTissueRegion()
             : this(
                 new DoubleRange(0.0, 10),
                 new OpticalProperties(0.01, 1.0, 0.8, 1.4)) { }

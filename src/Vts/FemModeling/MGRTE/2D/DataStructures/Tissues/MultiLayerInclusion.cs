@@ -11,28 +11,25 @@ namespace Vts.FemModeling.MGRTE._2D
     /// (including homogenous with air layers above and below).  Layers are infinite along
     /// x- and y- axes.
     /// </summary>
-    public class MultiLayerTissue 
+    public class MultiLayerInclusion 
     {
-        private IList<LayerTissueRegion> _layerRegions;
+        private IList<LayerInclusionRegion> _layerRegions;
 
         /// <summary>
         /// Creates an instance of a MultiLayerTissue
         /// </summary>
         /// <param name="regions">list of tissue regions comprising tissue</param>
-        public MultiLayerTissue(
-            IList<ITissueRegion> regions)
+        public MultiLayerInclusion(
+            IList<IInclusionRegion> regions)
         {
-            _layerRegions = regions.Select(region => (LayerTissueRegion) region).ToArray();
+            _layerRegions = regions.Select(region => (LayerInclusionRegion) region).ToArray();
         }
 
       
         /// <summary>
-        /// Creates a default instance of a MultiLayerTissue based on a homogeneous medium slab geometry
-        /// and discrete absorption weighting
+        /// Creates a default instance of a MultiLayerTissue 
         /// </summary>
-        public MultiLayerTissue() 
-            : this(new MultiLayerTissueInput().Regions){}
-       
-        
+        public MultiLayerInclusion() 
+            : this(new MultiLayerInclusionInput().Regions){}
     }
 }

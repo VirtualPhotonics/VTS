@@ -284,9 +284,6 @@
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\BoundaryCoupling.cs">
       <Link>FemModeling\MGRTE\2D\BoundaryCoupling.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\DetectorInputs\FluenceOfXAndZDectectorInput.cs">
-      <Link>FemModeling\MGRTE\2D\DataStructures\DetectorInputs\FluenceOfXAndZDectectorInput.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Measurement.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\Measurement.cs</Link>
     </Compile>
@@ -323,23 +320,26 @@
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerInclusionInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerInclusionInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerTissueInput.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerTissueInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\TissueInputs\SingleInclusionInput.cs">
-      <Link>FemModeling\MGRTE\2D\DataStructures\TissueInputs\SingleInclusionInput.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Tissues\LayerInclusionRegion.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\Tissues\LayerInclusionRegion.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Tissues\InclusionLayerRegion.cs">
-      <Link>FemModeling\MGRTE\2D\DataStructures\Tissues\InclusionLayerRegion.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Tissues\LayerRegion.cs">
-      <Link>FemModeling\MGRTE\2D\DataStructures\Tissues\LayerRegion.cs</Link>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Tissues\LayerTissueRegion.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\Tissues\LayerTissueRegion.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Tissues\MultiLayerTissue.cs">
       <Link>FemModeling\MGRTE\2D\DataStructures\Tissues\MultiLayerTissue.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Enums.cs">
       <Link>FemModeling\MGRTE\2D\Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Extensions\ITissueRegionExtensions.cs">
+      <Link>FemModeling\MGRTE\2D\Extensions\ITissueRegionExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs">
       <Link>FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs</Link>
@@ -349,9 +349,6 @@
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Initialization.cs">
       <Link>FemModeling\MGRTE\2D\Initialization.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IDetectorInputs.cs">
-      <Link>FemModeling\MGRTE\2D\Interfaces\IDetectorInputs.cs</Link>
     </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IExtFemSourceInput.cs">
       <Link>FemModeling\MGRTE\2D\Interfaces\IExtFemSourceInput.cs</Link>

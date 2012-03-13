@@ -10,7 +10,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// Type of tissue
         /// </summary>
-        TissueType TissueType { get; }
+        InclusionType InclusionType { get; }
 
         /// <summary>
         /// List of tissue regions comprising tissue.

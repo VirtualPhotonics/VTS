@@ -550,9 +550,9 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// Set Mus in nodes
         /// </summary>
-        /// <param name="ua"></param>
-        /// <param name="smesh"></param>
-        /// <param name="input"></param>
+        /// <param name="ua">mua </param>
+        /// <param name="smesh">spatial mesh</param>
+        /// <param name="input">simulation input</param>
         public static void SetMua(ref double[][][] ua, SpatialMesh[] smesh, SimulationInput input)
         {
             int j, k;
@@ -568,8 +568,8 @@ namespace Vts.FemModeling.MGRTE._2D
                 ua[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
                 {
-                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - input.InclusionInput.Regions[1].Location.X;
-                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - input.InclusionInput.Regions[1].Location.X;
+                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - input.InclusionInput.Regions[1].Position.X;
+                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - input.InclusionInput.Regions[1].Position.X;
                     tempr = Math.Sqrt(tempx * tempx + tempz * tempz);
                     if (input.InclusionInput.Regions[1].Radius < tempr)
                         ua[sMeshLevel][j][k] = medMua;
@@ -582,9 +582,9 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// Set Mus in nodes
         /// </summary>
-        /// <param name="us"></param>
-        /// <param name="smesh"></param>
-        /// <param name="input"></param>
+        /// <param name="us">mus </param>
+        /// <param name="smesh">spatial mesh</param>
+        /// <param name="input">simulation input</param>
         public static void SetMus(ref double[][][] us, SpatialMesh[] smesh, SimulationInput input)
         {
             int j, k;
@@ -600,8 +600,8 @@ namespace Vts.FemModeling.MGRTE._2D
                 us[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
                 {
-                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - input.InclusionInput.Regions[1].Location.X;
-                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - input.InclusionInput.Regions[1].Location.X;
+                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - input.InclusionInput.Regions[1].Position.X;
+                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - input.InclusionInput.Regions[1].Position.X;
                     tempr = Math.Sqrt(tempx * tempx + tempz * tempz);
                     if (input.InclusionInput.Regions[1].Radius < tempr)
                         us[sMeshLevel][j][k] = medMus;

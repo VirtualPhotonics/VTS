@@ -9,7 +9,7 @@ namespace Vts.FemModeling.MGRTE._2D
     /// <summary>
     /// Implements IInclusionInput.  Defines input to MultiLayerTissue class for inclusion.
     /// </summary>
-    public class SingleInclusionInput : IInclusionInput
+    public class MultiLayerInclusionInput : IInclusionInput
     {
         private IInclusionRegion[] _regions;
 
@@ -17,7 +17,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// constructor for Multi-layer inclusion input
         /// </summary>
         /// <param name="regions">list of tissue regions comprising tissue</param>
-        public SingleInclusionInput(IInclusionRegion[] regions)
+        public MultiLayerInclusionInput(IInclusionRegion[] regions)
         {
             _regions = regions;
         }
@@ -25,19 +25,19 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// MultiLayerTissue default constructor 
         /// </summary>
-        public SingleInclusionInput()
+        public MultiLayerInclusionInput()
             : this(
                 new IInclusionRegion[]
                 { 
-                    new InclusionLayerRegion(
+                    new LayerInclusionRegion(
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
                         new Position(0,0,0),
                         0.0),
-                    new InclusionLayerRegion(
+                    new LayerInclusionRegion(
                         new OpticalProperties(0.0, 1.0, 0.8, 1.4),
-                        new Position(0,0,0.005),
-                        0.001),
-                    new InclusionLayerRegion(
+                        new Position(0,0,0.05),
+                        0.01),
+                    new LayerInclusionRegion(
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         new Position(0,0,0),
                         0.0),
@@ -48,7 +48,9 @@ namespace Vts.FemModeling.MGRTE._2D
         /// tissue identifier
         /// </summary>
         [IgnoreDataMember]
-        public TissueType TissueType { get { return TissueType.MultiLayer; } }
+        public InclusionType InclusionType { get { return InclusionType.MultiLayerCircular; } }
+
+        
         /// <summary>
         /// list of tissue regions comprising tissue
         /// </summary>

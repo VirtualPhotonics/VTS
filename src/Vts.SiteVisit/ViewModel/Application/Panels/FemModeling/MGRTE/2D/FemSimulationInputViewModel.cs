@@ -14,10 +14,11 @@ namespace Vts.FemModeling.MGRTE._2D
     public class FemSimulationInputDataViewModel : BindableObject
     {
         private SimulationInput _simulationInput;
-        private OpticalPropertyViewModel _mediumOpticalPropertyViewModel;
-        private OpticalPropertyViewModel _inclusionOpticalPropertyViewModel;
-        private Position _inclusionLocationViewModel;
-        private double _inclusionRadiusViewModel;
+        private OptionViewModel<Vts.FemModeling.MGRTE._2D.TissueType> _tissueTypeViewModel;
+        //private OpticalPropertyViewModel _mediumOpticalPropertyViewModel;
+        //private OpticalPropertyViewModel _inclusionOpticalPropertyViewModel;
+
+        private object _tissueInputVM;
 
         /// <summary>
         /// FEM Simulation Input Data View Model
@@ -27,30 +28,40 @@ namespace Vts.FemModeling.MGRTE._2D
         {
             _simulationInput = input;
 
-            MediumOpticalPropertyVM = new OpticalPropertyViewModel(
-                opticalProperties: input.TissueInput.Regions[1].RegionOP,
-                units: IndependentVariableAxisUnits.InverseMM.GetInternationalizedString(),
-                title: "Medium Optical Properties:",
-                enableMua: true,
-                enableMusp: true,
-                enableG: true,
-                enableN: false);
+            TissueTypeVM = new OptionViewModel<Vts.FemModeling.MGRTE._2D.TissueType>("Tissue Type:", true, _simulationInput.TissueInput.TissueType);
 
-            InclusionOpticalPropertyVM = new OpticalPropertyViewModel(
-                opticalProperties: input.InclusionInput.Regions[1].RegionOP,
-                units: IndependentVariableAxisUnits.InverseMM.GetInternationalizedString(),
-                title: "Inclusion Optical Properties:",
-                enableMua: true,
-                enableMusp: true,
-                enableG: true,
-                enableN: false);
+            _tissueTypeViewModel.PropertyChanged += (sender, args) =>
+            {
+                switch (_tissueTypeViewModel.SelectedValue)
+                {
+                    case FemModeling.MGRTE._2D.TissueType.MultiLayer:
+                        _simulationInput.TissueInput = new MultiLayerTissueInput();
+                        break;
+                    
+                        throw new ArgumentOutOfRangeException();
+                }
+                UpdateTissueTypeVM(_simulationInput.TissueInput.TissueType);
+            };
+            
+            UpdateTissueInputVM(_simulationInput.TissueInput);
 
-            InclusionLocationVM = new Position(
-                input.InclusionInput.Regions[1].Location.X,
-                0.0,
-                input.InclusionInput.Regions[1].Location.Z);
+            //MediumOpticalPropertyVM = new OpticalPropertyViewModel(
+            //    opticalProperties: input.TissueInput.Regions[1].RegionOP,
+            //    units: IndependentVariableAxisUnits.InverseMM.GetInternationalizedString(),
+            //    title: "Medium Optical Properties:",
+            //    enableMua: true,
+            //    enableMusp: true,
+            //    enableG: true,
+            //    enableN: false);
 
-            InclusionRadiusVM = input.InclusionInput.Regions[1].Radius;
+            //InclusionOpticalPropertyVM = new OpticalPropertyViewModel(
+            //    opticalProperties: input.InclusionInput.Regions[1].RegionOP,
+            //    units: IndependentVariableAxisUnits.InverseMM.GetInternationalizedString(),
+            //    title: "Inclusion Optical Properties:",
+            //    enableMua: true,
+            //    enableMusp: true,
+            //    enableG: true,
+            //    enableN: false);
         }
 
         /// <summary>
@@ -86,8 +97,15 @@ namespace Vts.FemModeling.MGRTE._2D
             get { return _simulationInput.SimulationParameterInput.MethodMg; }
             set
             {
-                _simulationInput.SimulationParameterInput.MethodMg = value;
-                this.OnPropertyChanged("MethodMg");
+                if ((value >= 4)  && (value <= 7))
+                {
+                    _simulationInput.SimulationParameterInput.MethodMg = value;
+                    this.OnPropertyChanged("MethodMg");
+                }
+                else
+                {
+                    this.OnPropertyChanged("MethodMg"); 
+                }
             }
         }
 
@@ -101,23 +119,10 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 _simulationInput.SimulationParameterInput.NIterations = value;
                 this.OnPropertyChanged("NIterations");
-                this.OnPropertyChanged("CurrentInput");
             }
         }
 
-        /// <summary>
-        /// Refractive index of the external medium
-        /// </summary>
-        public double NExternal
-        {
-            get { return _simulationInput.SimulationParameterInput.NExternal; }
-            set
-            {
-                _simulationInput.SimulationParameterInput.NExternal = value;
-                this.OnPropertyChanged("CurrentInput");
-                this.OnPropertyChanged("NExternal");
-            }
-        }
+        
 
         /// <summary>
         /// The finest layer of angular mesh generation
@@ -125,9 +130,17 @@ namespace Vts.FemModeling.MGRTE._2D
         public int AMeshLevel
         {
             get { return _simulationInput.MeshDataInput.AMeshLevel; }
-            set {
-                _simulationInput.MeshDataInput.AMeshLevel = value;
-                this.OnPropertyChanged("AMeshLevel");
+            set 
+            {
+                if ((value >= 2) && (value <= 8))
+                {
+                    _simulationInput.MeshDataInput.AMeshLevel = value;
+                    this.OnPropertyChanged("AMeshLevel");
+                }
+                else
+                {
+                    this.OnPropertyChanged("AMeshLevel");
+                }
             }
         }
 
@@ -139,73 +152,102 @@ namespace Vts.FemModeling.MGRTE._2D
             get { return _simulationInput.MeshDataInput.SMeshLevel; }
             set
             {
-                _simulationInput.MeshDataInput.SMeshLevel = value;
-                this.OnPropertyChanged("SMeshLevel");
+                if ((value >= 2) && (value <= 8))
+                {
+                    _simulationInput.MeshDataInput.SMeshLevel = value;
+                    this.OnPropertyChanged("SMeshLevel");
+                }
+                else
+                {
+                    this.OnPropertyChanged("SMeshLevel");
+                }
+                
             }
         }
 
-        /// <summary>
-        /// Length of the square mesh
-        /// </summary>
-        public double SideLength
-        {
-            get { return _simulationInput.MeshDataInput.SideLength; }
-            set { _simulationInput.MeshDataInput.SideLength = value;
-            this.OnPropertyChanged("SideLength");
-            }
-        }
+       
+
+        ///// <summary>
+        ///// Optical Property of medium
+        ///// </summary>
+        //public OpticalPropertyViewModel MediumOpticalPropertyVM
+        //{
+        //    get { return _mediumOpticalPropertyViewModel; }
+        //    set
+        //    {
+        //        _mediumOpticalPropertyViewModel = value;
+        //        OnPropertyChanged("MediumOpticalPropertyVM");
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Optical Property of inclusion
+        ///// </summary>
+        //public OpticalPropertyViewModel InclusionOpticalPropertyVM
+        //{
+        //    get { return _inclusionOpticalPropertyViewModel; }
+        //    set
+        //    {
+        //        _inclusionOpticalPropertyViewModel = value;
+        //        OnPropertyChanged("InclusionOpticalPropertyVM");
+        //    }
+        //}
+        
 
         /// <summary>
-        /// Optical Property of medium
+        /// 
         /// </summary>
-        public OpticalPropertyViewModel MediumOpticalPropertyVM
+        public OptionViewModel<Vts.FemModeling.MGRTE._2D.TissueType> TissueTypeVM
         {
-            get { return _mediumOpticalPropertyViewModel; }
+            get { return _tissueTypeViewModel; }
             set
             {
-                _mediumOpticalPropertyViewModel = value;
-                OnPropertyChanged("MediumOpticalPropertyVM");
+                _tissueTypeViewModel = value;
+                OnPropertyChanged("TissueTypeVM");
             }
         }
 
-        /// <summary>
-        /// Optical Property of inclusion
-        /// </summary>
-        public OpticalPropertyViewModel InclusionOpticalPropertyVM
+        public object TissueInputVM
         {
-            get { return _inclusionOpticalPropertyViewModel; }
+            get { return _tissueInputVM; }
             set
             {
-                _inclusionOpticalPropertyViewModel = value;
-                OnPropertyChanged("InclusionOpticalPropertyVM");
+                _tissueInputVM = value;
+                OnPropertyChanged("TissueInputVM");
             }
         }
 
-        /// <summary>
-        /// Location of inclusion
-        /// </summary>
-        public Position InclusionLocationVM
+        private void UpdateTissueTypeVM(FemModeling.MGRTE._2D.TissueType tissueType)
         {
-            get { return _inclusionLocationViewModel; }
-            set
+            switch (tissueType)
             {
-                _inclusionLocationViewModel = value;
-                OnPropertyChanged("InclusionLocationVM");
+                case FemModeling.MGRTE._2D.TissueType.MultiLayer:
+                    _simulationInput.TissueInput = new MultiLayerTissueInput();
+                    break;
+               default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            TissueTypeVM.Options[tissueType].IsSelected = true;
+
+        }
+
+        private void UpdateTissueInputVM(ITissueInput tissueInput)
+        {
+            switch (tissueInput.TissueType)
+            {
+                case FemModeling.MGRTE._2D.TissueType.MultiLayer:
+                    TissueInputVM = new FemMultiRegionTissueViewModel(tissueInput);
+                    break;
+                
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        /// <summary>
-        /// Radius of inclusion
-        /// </summary>
-        public double InclusionRadiusVM
-        {
-            get { return _inclusionRadiusViewModel; }
-            set
-            {
-                _inclusionRadiusViewModel = value;
-                OnPropertyChanged("InclusionRadiusVM");
-            }
-        }
+    
+
+      
 
     }
 }

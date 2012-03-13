@@ -6,27 +6,26 @@ namespace Vts.FemModeling.MGRTE._2D
 {
 
     /// <summary>
-    /// Implements ITissueRegion.  Defines a layer infinite in extent along
-    /// x,y-axes and with extent along z-axis given by ZRange.
+    /// Implements IInclusionRegion.  Defines a circular inclusion
     /// </summary>
-    public class InclusionLayerRegion : IInclusionRegion
+    public class LayerInclusionRegion : IInclusionRegion
     {
         /// <summary>
         /// constructor for layer region
         /// </summary>
-        /// <param name="loc">location</param>
+        /// <param name="pos">position</param>
         /// <param name="rad">radius</param>
         /// <param name="op">optical properties of layer</param>
-        public InclusionLayerRegion(OpticalProperties op, Position loc, double rad)
+        public LayerInclusionRegion(OpticalProperties op, Position pos, double rad)
         {
             RegionOP = op;
-            Location = loc;
+            Position = pos;
             Radius = rad;
         }
         /// <summary>
         /// default constructor
         /// </summary>
-        public InclusionLayerRegion()
+        public LayerInclusionRegion()
             : this(
                 new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                 new Position( 0.0, 0.0, 0.01),
@@ -36,16 +35,16 @@ namespace Vts.FemModeling.MGRTE._2D
         /// optical properties of layer
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
-        
+
         /// <summary>
         /// Radius of inclusion
         /// </summary>
         public double Radius { get; set; }
 
         /// <summary>
-        /// Location of inclusion
+        /// Position of inclusion
         /// </summary>
-        public Position Location { get; set;}
+        public Position Position { get; set;}
     
 
        
