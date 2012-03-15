@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Vts.Common;
 using Vts.FemModeling.MGRTE._2D.SourceInputs;
+using Vts.MonteCarlo;
 using Vts.SiteVisit.ViewModel;
 
 namespace Vts.FemModeling.MGRTE._2D
@@ -14,7 +15,7 @@ namespace Vts.FemModeling.MGRTE._2D
     public class FemSimulationInputDataViewModel : BindableObject
     {
         private SimulationInput _simulationInput;
-        private OptionViewModel<Vts.FemModeling.MGRTE._2D.TissueType> _tissueTypeViewModel;
+        private OptionViewModel<Vts.MonteCarlo.TissueType> _tissueTypeViewModel;
         //private OpticalPropertyViewModel _mediumOpticalPropertyViewModel;
         //private OpticalPropertyViewModel _inclusionOpticalPropertyViewModel;
 
@@ -24,17 +25,17 @@ namespace Vts.FemModeling.MGRTE._2D
         /// FEM Simulation Input Data View Model
         /// </summary>
         /// <param name="input"></param>
-        public FemSimulationInputDataViewModel(SimulationInput input)
+        public FemSimulationInputDataViewModel(Vts.FemModeling.MGRTE._2D.SimulationInput input)
         {
             _simulationInput = input;
 
-            TissueTypeVM = new OptionViewModel<Vts.FemModeling.MGRTE._2D.TissueType>("Tissue Type:", true, _simulationInput.TissueInput.TissueType);
+            TissueTypeVM = new OptionViewModel<Vts.MonteCarlo.TissueType>("Tissue Type:", true, _simulationInput.TissueInput.TissueType);
 
             _tissueTypeViewModel.PropertyChanged += (sender, args) =>
             {
                 switch (_tissueTypeViewModel.SelectedValue)
                 {
-                    case FemModeling.MGRTE._2D.TissueType.MultiLayer:
+                    case Vts.MonteCarlo.TissueType.MultiLayer:
                         _simulationInput.TissueInput = new MultiLayerTissueInput();
                         break;
                     
@@ -197,7 +198,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// 
         /// </summary>
-        public OptionViewModel<Vts.FemModeling.MGRTE._2D.TissueType> TissueTypeVM
+        public OptionViewModel<Vts.MonteCarlo.TissueType> TissueTypeVM
         {
             get { return _tissueTypeViewModel; }
             set
@@ -217,11 +218,11 @@ namespace Vts.FemModeling.MGRTE._2D
             }
         }
 
-        private void UpdateTissueTypeVM(FemModeling.MGRTE._2D.TissueType tissueType)
+        private void UpdateTissueTypeVM(Vts.MonteCarlo.TissueType tissueType)
         {
             switch (tissueType)
             {
-                case FemModeling.MGRTE._2D.TissueType.MultiLayer:
+                case Vts.MonteCarlo.TissueType.MultiLayer:
                     _simulationInput.TissueInput = new MultiLayerTissueInput();
                     break;
                default:
@@ -236,7 +237,7 @@ namespace Vts.FemModeling.MGRTE._2D
         {
             switch (tissueInput.TissueType)
             {
-                case FemModeling.MGRTE._2D.TissueType.MultiLayer:
+                case Vts.MonteCarlo.TissueType.MultiEllipsoid:
                     TissueInputVM = new FemMultiRegionTissueViewModel(tissueInput);
                     break;
                 

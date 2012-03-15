@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Vts.FemModeling.MGRTE._2D.DataStructures;
 using System.IO;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.FemModeling.MGRTE._2D
 {
@@ -557,8 +559,13 @@ namespace Vts.FemModeling.MGRTE._2D
         {
             int j, k;
             int nt = smesh[input.MeshDataInput.SMeshLevel].Nt;
-            double medMua = input.TissueInput.Regions[1].RegionOP.Mua;
-            double inMua = input.InclusionInput.Regions[1].RegionOP.Mua;
+
+            var tissueInput = ((MultiEllipsoidTissueInput) input.TissueInput);
+            int nLayerRegions = tissueInput.LayerRegions.Length;
+            int nInclusionRegions = tissueInput.EllipsoidRegions.Length;
+            double medMua = tissueInput.LayerRegions[1].RegionOP.Mua;
+            double inMua = tissueInput.EllipsoidRegions[0].RegionOP.Mua;
+
             int sMeshLevel = input.MeshDataInput.SMeshLevel;
             double tempx, tempz, tempr;
 
@@ -568,10 +575,10 @@ namespace Vts.FemModeling.MGRTE._2D
                 ua[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
                 {
-                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - input.InclusionInput.Regions[1].Position.X;
-                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - input.InclusionInput.Regions[1].Position.X;
+                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - ((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Center.X;
+                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - ((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Center.Z;
                     tempr = Math.Sqrt(tempx * tempx + tempz * tempz);
-                    if (input.InclusionInput.Regions[1].Radius < tempr)
+                    if (((EllipsoidRegion)tissueInput.EllipsoidRegions[1]).Dx < tempr) // todo: correct for ellipsoid
                         ua[sMeshLevel][j][k] = medMua;
                     else
                         ua[sMeshLevel][j][k] = inMua;
@@ -589,8 +596,13 @@ namespace Vts.FemModeling.MGRTE._2D
         {
             int j, k;
             int nt = smesh[input.MeshDataInput.SMeshLevel].Nt;
-            double medMus = input.TissueInput.Regions[1].RegionOP.Musp / (1 - input.TissueInput.Regions[1].RegionOP.G);
-            double inMus = input.InclusionInput.Regions[1].RegionOP.Musp / (1 - input.InclusionInput.Regions[1].RegionOP.G);
+            
+            var tissueInput = ((MultiEllipsoidTissueInput)input.TissueInput);
+            int nLayerRegions = tissueInput.LayerRegions.Length;
+            int nInclusionRegions = tissueInput.EllipsoidRegions.Length;
+            double medMus = tissueInput.LayerRegions[1].RegionOP.Mus;
+            double inMus = tissueInput.EllipsoidRegions[0].RegionOP.Mus;
+
             int sMeshLevel = input.MeshDataInput.SMeshLevel;
             double tempx, tempz, tempr;
 
@@ -600,10 +612,11 @@ namespace Vts.FemModeling.MGRTE._2D
                 us[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
                 {
-                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - input.InclusionInput.Regions[1].Position.X;
-                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - input.InclusionInput.Regions[1].Position.X;
+                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - ((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Center.X;
+                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - ((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Center.Z;
                     tempr = Math.Sqrt(tempx * tempx + tempz * tempz);
-                    if (input.InclusionInput.Regions[1].Radius < tempr)
+                    if (((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Dx < tempr) // todo: correct for ellipsoid
+                    //if (input.InclusionInput.Regions[1].Radius < tempr)
                         us[sMeshLevel][j][k] = medMus;
                     else
                         us[sMeshLevel][j][k] = inMus;

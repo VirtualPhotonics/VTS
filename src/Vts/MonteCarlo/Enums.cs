@@ -351,6 +351,10 @@ namespace Vts.MonteCarlo
         /// Tissue slab with embedded ellipsoid
         /// </summary>
         SingleEllipsoid,
+        /// <summary>
+        /// Tissue slab with multiple embedded ellipsoids
+        /// </summary>
+        MultiEllipsoid,
     }
 
     ///// <summary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Vts.FemModeling.MGRTE._2D.SourceInputs;
+using Vts.MonteCarlo;
 
 namespace Vts.FemModeling.MGRTE._2D
 {
@@ -31,11 +32,6 @@ namespace Vts.FemModeling.MGRTE._2D
         /// Specifying tissue definition
         /// </summary>
         public ITissueInput TissueInput;
-        /// <summary>
-        /// Specifying inclusion definition
-        /// </summary>
-        public IInclusionInput InclusionInput;
-
 
         /// <summary>
         /// General constructor for simulation inputs 
@@ -45,14 +41,12 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <param name="extSourceInput">Specifying external source</param>
         /// <param name="intSourceInput">Specifying internal source</param>
         /// <param name="tissueInput">Specifying tissue definition</param>
-        /// <param name="inclusionInput">Specifying single tissue inclusion </param>
         public SimulationInput(
             SquareMeshDataInput meshDataInput,
             MeshSimulationOptions simulationParameterInput,
             IExtFemSourceInput extSourceInput,
             IIntFemSourceInput intSourceInput,
-            ITissueInput tissueInput,
-            IInclusionInput inclusionInput
+            ITissueInput tissueInput
             )
         {
             MeshDataInput = meshDataInput;
@@ -60,7 +54,6 @@ namespace Vts.FemModeling.MGRTE._2D
             ExtSourceInput = extSourceInput;
             IntSourceInput = intSourceInput;
             TissueInput = tissueInput;
-            InclusionInput = inclusionInput;
         }
 
         /// <summary>
@@ -71,7 +64,6 @@ namespace Vts.FemModeling.MGRTE._2D
                   new MeshSimulationOptions(),
                   new ExtPointSourceInput(),
                   null,
-                  new MultiLayerTissueInput(),
-                  new MultiLayerInclusionInput()) { }
+                  new MultiEllipsoidTissueInput()) { }
     }
 }

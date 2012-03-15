@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Vts.Extensions;
-using Vts.FemModeling.MGRTE._2D;
-
+//using Vts.FemModeling.MGRTE._2D;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Extensions;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.SiteVisit.ViewModel
 {
@@ -12,9 +14,11 @@ namespace Vts.SiteVisit.ViewModel
     {
         private ITissueInput _input;
 
-        private ObservableCollection<object> _regionsVM;
+        private ObservableCollection<object> _tissueRegionsVM;
+        private ObservableCollection<object> _inclusionRegionsVM;
 
-        private int _currentRegionIndex;
+        private int _currentTissueRegionIndex;
+        private int _currentInclusionRegionIndex;
 
         public FemMultiRegionTissueViewModel(ITissueInput input)
         {
@@ -22,19 +26,24 @@ namespace Vts.SiteVisit.ViewModel
 
             switch (input.TissueType)
             {
-                case FemModeling.MGRTE._2D.TissueType.MultiLayer:
-                    var multiLayerTissueInput = ((MultiLayerTissueInput)_input);
-                    _regionsVM = new ObservableCollection<object>(
-                        multiLayerTissueInput.Regions.Select((r, i) => (object)new FemLayerRegionViewModel(
-                            (LayerTissueRegion)r,
+                case Vts.MonteCarlo.TissueType.MultiEllipsoid:
+                    var multiEllipsoidTissueInput = ((MultiEllipsoidTissueInput)_input);
+                    _tissueRegionsVM = new ObservableCollection<object>(
+                        multiEllipsoidTissueInput.LayerRegions.Select((r, i) => (object)new LayerRegionViewModel(
+                            (LayerRegion)r,
                             "Layer " + i + (r.IsAir() ? " (Air)" : " (Tissue)"))));
+                    _inclusionRegionsVM = new ObservableCollection<object>(
+                        multiEllipsoidTissueInput.EllipsoidRegions.Select((r, i) => (object)new EllipsoidRegionViewModel(
+                            (EllipsoidRegion)r,
+                            "Inclusion " + i + (r.IsAir() ? " (Air)" : " (Tissue)"))));
                     break;
                 
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            _currentRegionIndex = 0;
+            _currentTissueRegionIndex = 0;
+            _currentInclusionRegionIndex = 0;
         }
 
         public FemMultiRegionTissueViewModel() 
@@ -42,33 +51,61 @@ namespace Vts.SiteVisit.ViewModel
         {
         }
 
-        public ObservableCollection<object> RegionsVM
+        public ObservableCollection<object> TissueRegionsVM
         {
-            get { return _regionsVM; }
+            get { return _tissueRegionsVM; }
             set
             {
-                _regionsVM = value;
-                OnPropertyChanged("LayerRegionsVM");
+                _tissueRegionsVM = value;
+                OnPropertyChanged("TissueRegionsVM");
             }
         }
 
-        public int CurrentRegionIndex
+        public ObservableCollection<object> InclusionRegionsVM
         {
-            get { return _currentRegionIndex; }
+            get { return _inclusionRegionsVM; }
+            set
+            {
+                _inclusionRegionsVM = value;
+                OnPropertyChanged("InclusionRegionsVM");
+            }
+        }
+
+        public int CurrentTissueRegionIndex
+        {
+            get { return _currentTissueRegionIndex; }
             set
             {
                 //if(value<_layerRegionsVM.Count && value >=0)
                 //{
-                    _currentRegionIndex = value;
-                    OnPropertyChanged("CurrentRegionIndex");
-                    OnPropertyChanged("MinimumRegionIndex");
-                    OnPropertyChanged("MaximumRegionIndex");
+                    _currentTissueRegionIndex = value;
+                    OnPropertyChanged("CurrentTissueRegionIndex");
+                    OnPropertyChanged("MinimumTissueRegionIndex");
+                    OnPropertyChanged("MaximumTissueRegionIndex");
+                //}
+            }
+        }
+        public int CurrentInclusionRegionIndex
+        {
+            get { return _currentInclusionRegionIndex; }
+            set
+            {
+                //if(value<_layerRegionsVM.Count && value >=0)
+                //{
+                _currentInclusionRegionIndex = value;
+                OnPropertyChanged("CurrentInclusionRegionIndex");
+                OnPropertyChanged("MinimumInclusionRegionIndex");
+                OnPropertyChanged("MaximumInclusionRegionIndex");
                 //}
             }
         }
 
-        public int MinimumRegionIndex { get { return 0; } }
-        public int MaximumRegionIndex { get { return _regionsVM != null ? _regionsVM.Count - 1 : 0; } }
+        public int MinimumTissueRegionIndex { get { return 0; } }
+        public int MaximumTissueRegionIndex { get { return _tissueRegionsVM != null ? _tissueRegionsVM.Count - 1 : 0; } }
+
+
+        public int MinimumInclusionRegionIndex { get { return 0; } }
+        public int MaximumInclusionRegionIndex { get { return _inclusionRegionsVM != null ? _inclusionRegionsVM.Count - 1 : 0; } }
 
         public ITissueInput GetTissueInput()
         {

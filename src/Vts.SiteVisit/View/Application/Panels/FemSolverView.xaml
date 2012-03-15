@@ -56,7 +56,7 @@
                 <TextBlock Text="Tissue Input" FontWeight="Bold"/>
 
 
-                <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding RegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5,5,0,5" Height="108">
+                <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding TissueRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5,5,0,5" Height="108">
 
                     <!-- <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">-->
                     <!-- <ListBox SelectedIndex="{Binding CurrentRegionIndex, Mode=TwoWay}" ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">-->
@@ -155,7 +155,7 @@
 
             <StackPanel Orientation="Vertical" DataContext="{Binding TissueInputVM, Mode=TwoWay}">
                 <TextBlock Text="Inclusion Input" FontWeight="Bold"/>
-                <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding RegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5,5,0,5" Height="102">
+                <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding InclusionRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5,5,0,5" Height="102">
 
                     <!-- <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">-->
                     <!-- <ListBox SelectedIndex="{Binding CurrentRegionIndex, Mode=TwoWay}" ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">-->

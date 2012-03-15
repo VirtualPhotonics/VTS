@@ -199,21 +199,11 @@
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationOptions.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\SpatialMesh.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\SquareMeshDataInput.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\TissueInputs\MultiLayerInclusionInput.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\Tissues\MultiLayerInclusion.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\Tissues\LayerInclusionRegion.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\Tissues\LayerTissueRegion.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\DataStructures\Tissues\MultiLayerTissue.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\Extensions\IInclusionRegionExtensions.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\Extensions\ITissueRegionExtensions.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Factory\TissueFactory.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IInclusionInput.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\Interfaces\IInclusionRegion.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\ITissue.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\Interfaces\ITissueInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IIntSource.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IExtSource.cs" />
@@ -226,7 +216,6 @@
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DEllipticalSourceInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DCircularSourceInput.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\Interfaces\ITissueRegion.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Sources\ExternalSources\ExtLineSource.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Sources\ExternalSources\ExtPointSource.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DCircularSource.cs" />
@@ -264,6 +253,7 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\DirectionalLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\IsotropicLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs" />
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCROfFxAndTimeDetector.cs" />

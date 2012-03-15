@@ -78,16 +78,16 @@ namespace Vts.FemModeling.MGRTE._2D
         FluenceOfXAndZ,
     }
 
-    /// <summary>
-    /// Tissue type
-    /// </summary>
-    public enum TissueType
-    {
-        /// <summary>
-        /// Multilayer tissue type.  Includes homogeneous tissues.
-        /// </summary>
-        MultiLayer,
-    }
+    ///// <summary>
+    ///// Tissue type
+    ///// </summary>
+    //public enum TissueType
+    //{
+    //    /// <summary>
+    //    /// Multilayer tissue type.  Includes homogeneous tissues.
+    //    /// </summary>
+    //    MultiLayer,
+    //}
 
     /// <summary>
     /// Inclusion type

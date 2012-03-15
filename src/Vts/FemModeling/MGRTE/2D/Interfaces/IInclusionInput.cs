@@ -1,4 +1,5 @@
 ﻿using Vts.Common;
+using Vts.MonteCarlo;
 
 namespace Vts.FemModeling.MGRTE._2D
 {
@@ -15,6 +16,6 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         /// List of tissue regions comprising tissue.
         /// </summary>
-        IInclusionRegion[] Regions { get; }
+        ITissueRegion[] Regions { get; }
     }
 }
