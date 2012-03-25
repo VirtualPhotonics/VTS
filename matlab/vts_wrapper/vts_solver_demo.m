@@ -197,7 +197,7 @@ xlabel('Time, t [ns]');
 
 op = [0.1 1 0.8 1.4];
 fx = linspace(0,0.5,11); % range of spatial frequencies in 1/mm
-t = linspace(0,0.05,51); % range of times in ns
+t = linspace(0,0.05,501); % range of times in ns
 test = VtsSolvers.ROfFxAndT(op, fx, t);
 f = figure; plot(t,squeeze(test(:,:,:)));
 set(f,'Name','R of fx and t (Reflectance vs time)');
