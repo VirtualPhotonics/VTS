@@ -201,7 +201,6 @@
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\SquareMeshDataInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs" />
-    <Compile Include="FemModeling\MGRTE\2D\Factory\TissueFactory.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IInclusionInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\ITissue.cs" />
     <Compile Include="FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs" />

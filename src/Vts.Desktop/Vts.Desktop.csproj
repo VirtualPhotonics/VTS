@@ -326,9 +326,6 @@
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs">
       <Link>FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Factory\TissueFactory.cs">
-      <Link>FemModeling\MGRTE\2D\Factory\TissueFactory.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\FemModeling\MGRTE\2D\Initialization.cs">
       <Link>FemModeling\MGRTE\2D\Initialization.cs</Link>
     </Compile>
