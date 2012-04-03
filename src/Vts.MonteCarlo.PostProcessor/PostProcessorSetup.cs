@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.IO;
@@ -152,6 +153,18 @@ namespace Vts.MonteCarlo.PostProcessor
                     DetectorIO.WriteDetectorToFile(result, folderPath);
                 }
             }
+        }
+
+        /// <summary>
+        /// Runs multiple Post-Processor tasks in parallel using all available CPU cores
+        /// </summary>
+        public static void RunPostProcessors(IEnumerable<PostProcessorInput> inputs, string outputFolderPath)
+        {
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            Parallel.ForEach(inputs, options, (input, state, index) =>
+            {
+                RunPostProcessor(input, outputFolderPath);
+            });
         }
     }
 }
