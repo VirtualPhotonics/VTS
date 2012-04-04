@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.Factories
             switch (type)
             {
                 case RandomNumberGeneratorType.MersenneTwister:
-                    return new MathNet.Numerics.Random.MersenneTwister(seed);
+                    return new MathNet.Numerics.Random.MersenneTwister(seed, true);
                 default:
                     throw new ArgumentOutOfRangeException("type");
 
