@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector&lt;double[,,]&gt;.  Tally for reflected MomentumTransfer(rho,subregion,momentumtransfer).
     /// </summary>
     [KnownType(typeof(ReflectedMTOfRhoAndSubRegionHistDetector))]
-    public class ReflectedMTOfRhoAndSubRegionHistDetector : IHistoryDetector<double[,,]> 
+    public class ReflectedMTOfRhoAndSubRegionHistDetector : IDetector<double[,,]> 
     {
         private bool _tallySecondMoment;
         private ITissue _tissue;
@@ -33,16 +33,16 @@ namespace Vts.MonteCarlo.Detectors
             String name)
         {
             Rho = rho;
-            SubRegions = new DoubleRange(0, tissue.Regions.Count - 1);
-            MTBins = momentumTransferBins;
             _tissue = tissue;
-            Mean = new double[Rho.Count - 1, SubRegions.Count - 1, MTBins.Count - 1];
+            SubRegionIndices = new IntRange(0, _tissue.Regions.Count - 1, _tissue.Regions.Count); // needed for DetectorIO
+            MTBins = momentumTransferBins;
+            Mean = new double[Rho.Count - 1, SubRegionIndices.Count, MTBins.Count - 1];
+            _tallySecondMoment = tallySecondMoment;
             if (_tallySecondMoment)
             {
-                SecondMoment = new double[Rho.Count - 1, SubRegions.Count - 1, MTBins.Count - 1];
+                SecondMoment = new double[Rho.Count - 1, SubRegionIndices.Count, MTBins.Count - 1];
             }
-            TallyType = TallyType.ReflectedMTOfRhoAndSubRegionHist;
-            _tallySecondMoment = tallySecondMoment;
+            TallyType = TallyType.ReflectedMTOfRhoAndSubRegionHist; 
             Name = name;
             TallyCount = 0;
         }
@@ -87,53 +87,56 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Rho { get; set; }
         /// <summary>
-        /// subregion binning
+        /// subregion index binning, needed by DetectorIO
         /// </summary>
-        public DoubleRange SubRegions { get; set; }
+        public IntRange SubRegionIndices { get; set; } 
         /// <summary>
         /// momentum transfer binning
         /// </summary>
         public DoubleRange MTBins { get; set; }
 
         /// <summary>
-        /// method to tally given two consecutive photon data points
+        /// method to tally reflected photon by determining cumulative MT in each tissue subregion and binning in MT
         /// </summary>
-        /// <param name="previousDP">previous data point</param>
-        /// <param name="dp">current data point</param>
-        /// <param name="currentRegionIndex">index of region photon current is in</param>
-        public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
+        /// <param name="photon">Photon (includes HistoryData)</param>
+        public void Tally(Photon photon)
         {
-            //// calculate momentum transfer
-            double cosineBetweenTrajectories = Direction.GetDotProduct(previousDP.Direction, dp.Direction);
+            // calculate the radial bin to attribute the deposition
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
-            var momentumTransfer = 1 - cosineBetweenTrajectories;
+            var cumulativeMT = new double[SubRegionIndices.Count];
 
-            //// calculate the radial and time bins to attribute the deposition
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
-            var isr = currentRegionIndex;
-            var imt = DetectorBinning.WhichBin(momentumTransfer, MTBins.Count - 1, MTBins.Delta, MTBins.Start);
-
-            Mean[ir, isr, imt] += momentumTransfer;
-            if (_tallySecondMoment)
+            // go through photon history and calculate momentum transfer
+            // this algorithm needs to look ahead to angle of next DP, but needs info from previous to determine whether real or pseudo-collision
+            PhotonDataPoint previousDP = photon.History.HistoryData.First();
+            PhotonDataPoint currentDP = photon.History.HistoryData.Skip(1).Take(1).First();
+            foreach (PhotonDataPoint nextDP in photon.History.HistoryData.Skip(2))
             {
-                SecondMoment[ir, isr, imt] += momentumTransfer * momentumTransfer;
+                if (previousDP.Weight != currentDP.Weight)  // only for true collision points
+                {
+                    var isr = _tissue.GetRegionIndex(currentDP.Position); // get current region index
+                    // get angle between current and next
+                    double cosineBetweenTrajectories = Direction.GetDotProduct(currentDP.Direction, nextDP.Direction);
+                    var momentumTransfer = 1 - cosineBetweenTrajectories;
+                    cumulativeMT[isr] += momentumTransfer;
+                }
+
+                previousDP = currentDP;
+                currentDP = nextDP;
             }
+
+            for (int i = 0; i < SubRegionIndices.Count; i++)
+            {
+                var imt = DetectorBinning.WhichBin(cumulativeMT[i], MTBins.Count - 1, MTBins.Delta, MTBins.Start);
+                Mean[ir, i, imt] += photon.DP.Weight;
+                if (_tallySecondMoment)
+                {
+                    SecondMoment[ir, i, imt] += photon.DP.Weight * photon.DP.Weight;
+                }
+            }           
             TallyCount++;
         }
         
-        /// <summary>
-        /// method to tally to detector
-        /// </summary>
-        /// <param name="photon">photon data needed to tally</param>
-        public void Tally(Photon photon)
-        {
-            PhotonDataPoint previousDP = photon.History.HistoryData.First();
-            foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
-            {
-                TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
-                previousDP = dp;
-            }
-        }
         /// <summary>
         /// method to normalize tally
         /// </summary>
@@ -143,13 +146,14 @@ namespace Vts.MonteCarlo.Detectors
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                for (int isr = 0; isr < SubRegions.Count - 1; isr++)
+                for (int isr = 0; isr < SubRegionIndices.Count - 1; isr++)
                 {
                     for (int imt = 0; imt < MTBins.Count - 1; imt++)
                     {
                         // only normalize by area of surface area ring and N
                         var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
-                        Mean[ir, isr, imt] /= areaNorm*numPhotons;
+                        // Mean[ir, isr, imt] /= areaNorm * numPhotons;
+                        Mean[ir, isr, imt] /= areaNorm;  // remove norm by N for now to debug with Tyler
                         if (_tallySecondMoment)
                         {
                             SecondMoment[ir, isr, imt] /= areaNorm * areaNorm * numPhotons;

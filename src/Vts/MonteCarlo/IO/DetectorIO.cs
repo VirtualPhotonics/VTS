@@ -281,12 +281,13 @@ namespace Vts.MonteCarlo.IO
                             fluenceOfRhoAndZAndTimeDetector.Time.Count - 1 };
                         fluenceOfRhoAndZAndTimeDetector.Mean = (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfRhoAndZAndTimeDetectorDims);
                         return fluenceOfRhoAndZAndTimeDetector;
+
                     case TallyType.ReflectedMTOfRhoAndSubRegionHist:
                         var reflectedMTOfRhoAndSubRegionHistDetector =
                             FileIO.ReadFromXML<ReflectedMTOfRhoAndSubRegionHistDetector>(filePath + ".xml");
                         var reflectedMTOfRhoAndSubRegionHistDetectorDims = new int[] {
                             reflectedMTOfRhoAndSubRegionHistDetector.Rho.Count - 1, 
-                            reflectedMTOfRhoAndSubRegionHistDetector.SubRegions.Count - 1,
+                            reflectedMTOfRhoAndSubRegionHistDetector.SubRegionIndices.Count,
                               reflectedMTOfRhoAndSubRegionHistDetector.MTBins.Count - 1 };                                                 
                         reflectedMTOfRhoAndSubRegionHistDetector.Mean =
                             (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, reflectedMTOfRhoAndSubRegionHistDetectorDims);
@@ -483,7 +484,7 @@ namespace Vts.MonteCarlo.IO
                             FileIO.ReadFromXMLInResources<ReflectedMTOfRhoAndSubRegionHistDetector>(filePath + ".xml", projectName);
                         var reflectedMTOfRhoAndSubRegionHistDims =
                             new int[] { reflectedMTOfRhoAndSubRegionDetector.Rho.Count, 
-                                        reflectedMTOfRhoAndSubRegionDetector.SubRegions.Count, 
+                                        reflectedMTOfRhoAndSubRegionDetector.SubRegionIndices.Count, 
                                         reflectedMTOfRhoAndSubRegionDetector.MTBins.Count };
                         reflectedMTOfRhoAndSubRegionDetector.Mean =
                             (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, reflectedMTOfRhoAndSubRegionHistDims);

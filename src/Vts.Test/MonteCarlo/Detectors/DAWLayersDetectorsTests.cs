@@ -243,6 +243,26 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
         }
+        // Verify integral over rho,angle of T(rho,angle) equals TDiffuse
+        [Test]
+        public void validate_DAW_integral_of_TOfRhoAndAngle_equals_TDiffuse()
+        {
+            // undo angle bin normalization
+            var angle = ((TOfRhoAndAngleDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.TOfRhoAndAngle).First()).Angle;
+            var rho = ((TOfRhoAndAngleDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.TOfRhoAndAngle).First()).Rho;
+            var norm = 2 * Math.PI * rho.Delta * 2 * Math.PI * angle.Delta;
+            var integral = 0.0;
+            for (int ir = 0; ir < rho.Count - 1; ir++)
+            {
+                for (int ia = 0; ia < angle.Count - 1; ia++)
+                {
+                    integral += _outputOneLayerTissue.T_ra[ir, ia] * (rho.Start + (ir + 0.5) * rho.Delta) * Math.Sin((ia + 0.5) * angle.Delta);
+                }
+            }
+            Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Td), 0.000000000001);
+        }
         // Reflectance R(x,y)
         [Test]
         public void validate_DAW_ROfXAndY()

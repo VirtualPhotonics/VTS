@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class MonteCarloSimulation
     {
-        private ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
+        private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
         private ISource _source;
         private ITissue _tissue;
         private VirtualBoundaryController _virtualBoundaryController;
@@ -343,7 +344,7 @@ namespace Vts.MonteCarlo
             }
 
             if (TrackStatistics)
-            {
+            {             
                 _simulationStatistics.ToFile("statistics.xml");
             }
 

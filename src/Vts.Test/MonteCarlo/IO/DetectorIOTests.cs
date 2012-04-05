@@ -300,15 +300,23 @@ namespace Vts.Test.MonteCarlo
                 new DoubleRange(0, 10, 3),
                 new MultiLayerTissue(), 
                 true, // tally SecondMoment
-                detectorName) { Mean = new double[,,] { { { 1, 2 } }, { { 3, 4 } } } };
+                detectorName) { Mean = new double[,,] { { { 1, 2 }, { 3, 4 }, { 5, 6 } }, { { 7, 8 }, { 9 , 10 }, { 11, 12 } } } };
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ReflectedMTOfRhoAndSubRegionHistDetector)DetectorIO.ReadDetectorFromFile(TallyType.ReflectedMTOfRhoAndSubRegionHist, detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0, 0], 1);
             Assert.AreEqual(dcloned.Mean[0, 0, 1], 2);
-            Assert.AreEqual(dcloned.Mean[1, 0, 0], 3);
-            Assert.AreEqual(dcloned.Mean[1, 0, 1], 4);
+            Assert.AreEqual(dcloned.Mean[0, 1, 0], 3);
+            Assert.AreEqual(dcloned.Mean[0, 1, 1], 4);
+            Assert.AreEqual(dcloned.Mean[0, 2, 0], 5);
+            Assert.AreEqual(dcloned.Mean[0, 2, 1], 6);
+            Assert.AreEqual(dcloned.Mean[1, 0, 0], 7);
+            Assert.AreEqual(dcloned.Mean[1, 0, 1], 8);
+            Assert.AreEqual(dcloned.Mean[1, 1, 0], 9);
+            Assert.AreEqual(dcloned.Mean[1, 1, 1], 10);
+            Assert.AreEqual(dcloned.Mean[1, 2, 0], 11);
+            Assert.AreEqual(dcloned.Mean[1, 2, 1], 12);
 
         }
         [Test]

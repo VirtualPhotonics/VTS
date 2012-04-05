@@ -126,7 +126,6 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.FluenceOfXAndYAndZ:
                 case TallyType.AOfRhoAndZ:
                 case TallyType.ATotal:
-                case TallyType.ReflectedMTOfRhoAndSubRegionHist:
                 case TallyType.RadianceOfRhoAndZAndAngle:
                 case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
                     return true;

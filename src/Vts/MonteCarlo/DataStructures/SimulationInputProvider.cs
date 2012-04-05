@@ -28,7 +28,8 @@ namespace Vts.MonteCarlo
                 PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
-                GaussianSourceOneLayerTissueROfRhoDetector()
+                GaussianSourceOneLayerTissueROfRhoDetector(),
+                PointSourceMultiLayerReflectedMTOfRhoAndSubRegionHistDetector()
             };
         }
 
@@ -457,6 +458,55 @@ namespace Vts.MonteCarlo
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
                 }
              );
+        }
+        #endregion
+
+        #region point source multilayer momentum transfer
+        /// <summary>
+        /// Point source, multi-layer tissue definition, only ReflectedMCOfRhoAndSubRegionHistDetector detector included
+        /// </summary>
+        public static SimulationInput PointSourceMultiLayerReflectedMTOfRhoAndSubRegionHistDetector()
+        {
+            return new SimulationInput(
+                100,
+                "multi_layer_ReflectedMTOfRhoAndSubRegionHist",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
+                    true, // tally Second Moment
+                    true, // track statistics
+                    0.0001, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
+                new MultiLayerTissueInput(
+                    new LayerRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 500.0),
+                            new OpticalProperties(0.01, 1.0, 0.7, 1.33)), // Tyler's data
+                        new LayerRegion(
+                            new DoubleRange(500.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoDetectorInput(
+                        new DoubleRange(0.0, 60.0, 601)),
+                    new ReflectedMTOfRhoAndSubRegionHistDetectorInput(
+                        new DoubleRange(0.0, 60.0, 601), 
+                        new DoubleRange(0.0, 500.0, 5001))
+                }
+            );
         }
         #endregion
     }
