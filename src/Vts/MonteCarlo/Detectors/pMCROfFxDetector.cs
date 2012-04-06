@@ -128,6 +128,12 @@ namespace Vts.MonteCarlo.Detectors
             var dp = photon.DP;
 
             var x = dp.Position.X;
+
+            double weightFactor = _absorbAction(
+                photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
+                photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
+                _perturbedOps);
+
             for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
             {
                 double freq = _fxArray[ifx];
@@ -137,11 +143,6 @@ namespace Vts.MonteCarlo.Detectors
 
                 /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-
-                double weightFactor = _absorbAction(
-                    photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
-                    photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
-                    _perturbedOps);
 
                 var deltaWeight = (weightFactor * dp.Weight) * (cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX);
 

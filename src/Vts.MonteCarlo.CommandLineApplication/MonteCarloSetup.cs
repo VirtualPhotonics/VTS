@@ -166,7 +166,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
         /// </summary>
         public static void RunSimulations(IEnumerable<SimulationInput> inputs, string outputFolderPath)
         {
-            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount * 2 };
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount};
             Parallel.ForEach(inputs, options, (input, state, index) =>
             {
                 input.Options.SimulationIndex = (int)index;
