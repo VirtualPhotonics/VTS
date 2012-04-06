@@ -16,13 +16,12 @@ namespace Vts.MonteCarlo.Detectors
     [KnownType(typeof(pMCROfFxDetector))]
     public class pMCROfFxDetector : IDetector<Complex[]>
     {
-        private IList<OpticalProperties> _referenceOps;
-        private IList<OpticalProperties> _perturbedOps;
-        private IList<int> _perturbedRegionsIndices;
-        private bool _tallySecondMoment;
-        private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
-        private AbsorptionWeightingType _awt;
         private double[] _fxArray;
+        private OpticalProperties[] _perturbedOps;
+        private OpticalProperties[] _referenceOps;
+        private int[] _perturbedRegionsIndices;
+        private bool _tallySecondMoment;
+        private Func<long[], double[], OpticalProperties[], OpticalProperties[], int[], double> _absorbAction;
 
         /// <summary>
         /// constructor for perturbation Monte Carlo reflectance as a function of spatial frequency input
@@ -36,8 +35,8 @@ namespace Vts.MonteCarlo.Detectors
         public pMCROfFxDetector(
             DoubleRange fx,
             ITissue tissue,
-            IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionIndices,
+            OpticalProperties[] perturbedOps,
+            int[] perturbedRegionIndices,
             bool tallySecondMoment,
             String name)
         {
@@ -53,11 +52,10 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = TallyType.pMCROfFx;
             Name = name;
             _perturbedOps = perturbedOps;
-            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
+            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToArray();
             _perturbedRegionsIndices = perturbedRegionIndices;
-            SetAbsorbAction(tissue.AbsorptionWeightingType);
+            _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
             TallyCount = 0;
-            _awt = tissue.AbsorptionWeightingType;
         }
 
         /// <summary>
@@ -67,8 +65,8 @@ namespace Vts.MonteCarlo.Detectors
             : this(
             new DoubleRange(),
             new MultiLayerTissue(),
-            new List<OpticalProperties>(),
-            new List<int>(),
+            new OpticalProperties[0],
+            new int[0], 
             true, // tallySecondMoment
             TallyType.pMCROfFx.ToString())
         {
@@ -101,25 +99,6 @@ namespace Vts.MonteCarlo.Detectors
         public DoubleRange Fx { get; set; }
 
         /// <summary>
-        /// Set the absorption to discrete or continuous
-        /// </summary>
-        /// <param name="awt">absorption weighting type</param>
-        protected void SetAbsorbAction(AbsorptionWeightingType awt)
-        {
-            switch (awt)
-            {
-                // note: pMC is not applied to analog processing,
-                // only DAW and CAW
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                default:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-            }
-        }
-        /// <summary>
         /// method to tally to detector
         /// </summary>
         /// <param name="photon">photon data needed to tally</param>
@@ -130,9 +109,11 @@ namespace Vts.MonteCarlo.Detectors
             var x = dp.Position.X;
 
             double weightFactor = _absorbAction(
-                photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
-                photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
-                _perturbedOps);
+                photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToArray(),
+                photon.History.SubRegionInfoList.Select(p => p.PathLength).ToArray(),
+                _perturbedOps,
+                _referenceOps,
+                _perturbedRegionsIndices);
 
             for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
             {
@@ -157,55 +138,6 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
             TallyCount++;
-        }
-
-        private double AbsorbContinuous(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
-        {
-            double weightFactor = 1.0;
-
-            foreach (var i in _perturbedRegionsIndices)
-            {
-                weightFactor *=
-                    Math.Exp(-(perturbedOps[i].Mua - _referenceOps[i].Mua) * pathLength[i]); // mua pert
-                if (numberOfCollisions[i] > 0) // mus pert
-                {
-                    // the following is more numerically stable
-                    weightFactor *= Math.Pow(
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) * Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
-                            pathLength[i] / numberOfCollisions[i]),
-                        numberOfCollisions[i]);
-                }
-                else
-                {
-                    weightFactor *= Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) * pathLength[i]);
-                }
-            }
-            return weightFactor;
-        }
-
-        private double AbsorbDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
-        {
-            double weightFactor = 1.0;
-
-            foreach (var i in _perturbedRegionsIndices)
-            {
-                if (numberOfCollisions[i] > 0)
-                {
-                    weightFactor *=
-                        Math.Pow(
-                            (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
-                                Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                                pathLength[i] / numberOfCollisions[i]),
-                            numberOfCollisions[i]);
-                }
-                else
-                {
-                    weightFactor *=
-                        Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                                pathLength[i]);
-                }
-            }
-            return weightFactor;
         }
 
         /// <summary>

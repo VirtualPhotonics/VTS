@@ -18,13 +18,12 @@ namespace Vts.MonteCarlo.Detectors
     [KnownType(typeof(pMCROfFxAndTimeDetector))]
     public class pMCROfFxAndTimeDetector : IDetector<Complex[,]>
     {
-        private AbsorptionWeightingType _awt;
-        private IList<OpticalProperties> _referenceOps;
-        private IList<OpticalProperties> _perturbedOps;
-        private IList<int> _perturbedRegionsIndices;
-        private bool _tallySecondMoment;
-        private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
         private double[] _fxArray;
+        private OpticalProperties[] _perturbedOps;
+        private OpticalProperties[] _referenceOps;
+        private int[] _perturbedRegionsIndices;
+        private bool _tallySecondMoment;
+        private Func<long[], double[], OpticalProperties[], OpticalProperties[], int[], double> _absorbAction;
 
         /// <summary>
         /// Returns an instance of pMCROfFxAndTimeDetector. Tallies perturbed R(fx,time). Instantiate with reference optical properties. When
@@ -41,8 +40,8 @@ namespace Vts.MonteCarlo.Detectors
             DoubleRange fx,
             DoubleRange time,
             ITissue tissue,
-            IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionIndices,
+            OpticalProperties[] perturbedOps,
+            int[] perturbedRegionIndices,
             bool tallySecondMoment,
             String name)
         {
@@ -58,11 +57,10 @@ namespace Vts.MonteCarlo.Detectors
             }
             TallyType = TallyType.pMCROfFxAndTime;
             Name = name;
-            _awt = tissue.AbsorptionWeightingType;
-            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
+            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToArray();
             _perturbedOps = perturbedOps;
             _perturbedRegionsIndices = perturbedRegionIndices;
-            SetAbsorbAction(_awt);
+            _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
             TallyCount = 0;
         }
 
@@ -74,8 +72,8 @@ namespace Vts.MonteCarlo.Detectors
             new DoubleRange(),
             new DoubleRange(),
             new MultiLayerTissue(),
-            new List<OpticalProperties>(),
-            new List<int>(),
+            new OpticalProperties[0],
+            new int[0],
             true, // tallySecondMoment
             TallyType.pMCROfFxAndTime.ToString())
         {
@@ -113,27 +111,7 @@ namespace Vts.MonteCarlo.Detectors
         /// time binning
         /// </summary>
         public DoubleRange Time { get; set; }
-
-        /// <summary>
-        /// Set the absorption to discrete or continuous
-        /// </summary>
-        /// <param name="awt">absorption weighting type</param>
-        protected void SetAbsorbAction(AbsorptionWeightingType awt)
-        {
-            switch (awt)
-            {
-                // note: pMC is not applied to analog processing,
-                // only DAW and CAW
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                default:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-            }
-        }
-
+        
         /// <summary>
         /// Method to tally to detector using information in Photon
         /// </summary>
@@ -146,9 +124,11 @@ namespace Vts.MonteCarlo.Detectors
             var it = DetectorBinning.WhichBinExclusive(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
             
             double weightFactor = _absorbAction(
-                photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
-                photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
-                _perturbedOps);
+                photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToArray(),
+                photon.History.SubRegionInfoList.Select(p => p.PathLength).ToArray(),
+                _perturbedOps,
+                _referenceOps,
+                _perturbedRegionsIndices);
 
             for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
             {

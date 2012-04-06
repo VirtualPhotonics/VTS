@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo.Detectors
             }
             TallyType = TallyType.FluenceOfRhoAndZAndTime;
             Name = name;
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetAbsorptionWeightingMethod(tissue, this);
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
 
             TallyCount = 0;
             _tissue = tissue;

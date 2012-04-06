@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo
         /// <param name="tissue"></param>
         /// <param name="detector"></param>
         /// <returns></returns>
-        public static Func<PhotonDataPoint, PhotonDataPoint, int, double> GetAbsorptionWeightingMethod(ITissue tissue, IDetector detector)
+        public static Func<PhotonDataPoint, PhotonDataPoint, int, double> GetVolumeAbsorptionWeightingMethod(ITissue tissue, IDetector detector)
         {
             switch (tissue.AbsorptionWeightingType)
             {
@@ -27,9 +27,32 @@ namespace Vts.MonteCarlo
             }
         }
 
+        /// <summary>
+        /// Method that returns a function providing the correct absorption weighting for analog and DAW
+        /// </summary>
+        /// <param name="tissue"></param>
+        /// <param name="detector"></param>
+        /// <returns></returns>
+        public static Func<long[], double[], OpticalProperties[], OpticalProperties[], int[], double> GetpMCTerminationAbsorptionWeightingMethod(ITissue tissue, IDetector detector)
+        {
+            switch (tissue.AbsorptionWeightingType)
+            {
+                case AbsorptionWeightingType.Analog:
+                    throw new NotImplementedException("CAW is not currently implemented for volume tallies.");
+                case AbsorptionWeightingType.Continuous:
+                    return (numberOfCollisions, pathLength, perturbedOps, referenceOps, perturbedRegionsIndices) =>
+                        pMCAbsorbContinuous(numberOfCollisions, pathLength, perturbedOps, referenceOps, perturbedRegionsIndices);
+                case AbsorptionWeightingType.Discrete:
+                    return (numberOfCollisions, pathLength, perturbedOps, referenceOps, perturbedRegionsIndices) =>
+                        pMCAbsorbDiscrete(numberOfCollisions, pathLength, perturbedOps, referenceOps, perturbedRegionsIndices);
+                default:
+                    throw new ArgumentException("AbsorptionWeightingType did not match the available types.");
+            }
+        }
+
         private static double VolumeAbsorptionWeightingAnalog(PhotonDataPoint dp)
         {
-            var weight = AbsorbAnalog(
+            var weight = VolumeAbsorbAnalog(
                 dp.Weight,
                 dp.StateFlag);
 
@@ -38,7 +61,7 @@ namespace Vts.MonteCarlo
 
         private static double VolumeAbsorptionWeightingDiscrete(PhotonDataPoint previousDP, PhotonDataPoint dp, int regionIndex, ITissue tissue)
         {
-            var weight = AbsorbDiscrete(
+            var weight = VolumeAbsorbDiscrete(
                 tissue.Regions[regionIndex].RegionOP.Mua,
                 tissue.Regions[regionIndex].RegionOP.Mus,
                 previousDP.Weight,
@@ -47,7 +70,7 @@ namespace Vts.MonteCarlo
             return weight;
         }
 
-        private static double AbsorbAnalog(double weight, PhotonStateType photonStateType)
+        private static double VolumeAbsorbAnalog(double weight, PhotonStateType photonStateType)
         {
             if (photonStateType.HasFlag(PhotonStateType.Absorbed))
             {
@@ -60,7 +83,7 @@ namespace Vts.MonteCarlo
             return weight;
         }
 
-        private static double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight)
+        private static double VolumeAbsorbDiscrete(double mua, double mus, double previousWeight, double weight)
         {
             if (previousWeight == weight) // pseudo collision, so no tally
             {
@@ -73,7 +96,61 @@ namespace Vts.MonteCarlo
             return weight;
         }
 
-        private static double AbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType, ITissue tissue, IDetector detector)
+        private static double VolumeAbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType, ITissue tissue, IDetector detector)
+        {
+            throw new NotImplementedException();
+        }
+        
+        private static double pMCAbsorbContinuous(long[] numberOfCollisions, double[] pathLength, OpticalProperties[] perturbedOps, OpticalProperties[] referenceOps, int[] perturbedRegionsIndices)
+        {
+            double weightFactor = 1.0;
+
+            foreach (var i in perturbedRegionsIndices)
+            {
+                weightFactor *=
+                    Math.Exp(-(perturbedOps[i].Mua - referenceOps[i].Mua) * pathLength[i]); // mua pert
+                if (numberOfCollisions[i] > 0) // mus pert
+                {
+                    // the following is more numerically stable
+                    weightFactor *= Math.Pow(
+                        (perturbedOps[i].Mus / referenceOps[i].Mus) * Math.Exp(-(perturbedOps[i].Mus - referenceOps[i].Mus) *
+                            pathLength[i] / numberOfCollisions[i]),
+                        numberOfCollisions[i]);
+                }
+                else
+                {
+                    weightFactor *= Math.Exp(-(perturbedOps[i].Mus - referenceOps[i].Mus) * pathLength[i]);
+                }
+            }
+            return weightFactor;
+        }
+
+        private static double pMCAbsorbDiscrete(long[] numberOfCollisions, double[] pathLength, OpticalProperties[] perturbedOps, OpticalProperties[] referenceOps, int[] perturbedRegionsIndices)
+        {
+            double weightFactor = 1.0;
+
+            foreach (var i in perturbedRegionsIndices)
+            {
+                if (numberOfCollisions[i] > 0)
+                {
+                    weightFactor *=
+                        Math.Pow(
+                            (perturbedOps[i].Mus / referenceOps[i].Mus) *
+                                Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua - referenceOps[i].Mus - referenceOps[i].Mua) *
+                                pathLength[i] / numberOfCollisions[i]),
+                            numberOfCollisions[i]);
+                }
+                else
+                {
+                    weightFactor *=
+                        Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua - referenceOps[i].Mus - referenceOps[i].Mua) *
+                                pathLength[i]);
+                }
+            }
+            return weightFactor;
+        }
+
+        private static double pMCAbsorbAnalog(long[] numberOfCollisions, double[] pathLength, OpticalProperties[] perturbedOps, OpticalProperties[] referenceOps, int[] perturbedRegionsIndices)
         {
             throw new NotImplementedException();
         }

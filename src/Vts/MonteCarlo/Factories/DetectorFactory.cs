@@ -139,8 +139,8 @@ namespace Vts.MonteCarlo.Factories
                     return new pMCROfFxDetector(
                         prfxinput.Fx,
                         tissue,
-                        prfxinput.PerturbedOps,
-                        prfxinput.PerturbedRegionsIndices,
+                        prfxinput.PerturbedOps.ToArray(), // todo: temp...make everything arrays (and deal w/ any pre/post serialization issues)
+                        prfxinput.PerturbedRegionsIndices.ToArray(),// todo: temp...make everything arrays (and deal w/ any pre/post serialization issues)
                         tallySecondMoment,
                         prfxinput.Name
                         );
@@ -150,8 +150,8 @@ namespace Vts.MonteCarlo.Factories
                         prfxtinput.Fx,
                         prfxtinput.Time,
                         tissue,
-                        prfxtinput.PerturbedOps,
-                        prfxtinput.PerturbedRegionsIndices,
+                        prfxtinput.PerturbedOps.ToArray(),// todo: temp...make everything arrays (and deal w/ any pre/post serialization issues)
+                        prfxtinput.PerturbedRegionsIndices.ToArray(),// todo: temp...make everything arrays (and deal w/ any pre/post serialization issues)
                         tallySecondMoment,
                         prfxtinput.Name
                         );
@@ -159,58 +159,5 @@ namespace Vts.MonteCarlo.Factories
                     return null;
             }
         }
-
-        //// pMC methods
-        ///// <summary>
-        ///// Method to instantiate a list of pMC IDetectors given a list of IDetectorInput
-        ///// </summary>
-        ///// <param name="detectorInputs">list of IDetectorInput</param>
-        ///// <param name="tissue">ITissue</param>
-        ///// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
-        ///// <returns></returns>
-        //public static IList<IDetector> GetDetectors(IEnumerable<IpMCDetectorInput> detectorInputs, ITissue tissue, bool tallySecondMoment)
-        //{
-        //    return detectorInputs.Select(detectorInput => GetpMCDetector(detectorInput, tissue, tallySecondMoment)).ToList();
-        //}
-        ///// <summary>
-        ///// Method to instantiate a single pMC IDetector 
-        ///// </summary>
-        ///// <param name="detectorInput">IDetectorInput</param>
-        ///// <param name="tissue">ITissue</param>
-        ///// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
-        ///// <returns></returns>
-        //public static IDetector GetpMCDetector(
-        //    IpMCDetectorInput detectorInput,
-        //    ITissue tissue,
-        //    bool tallySecondMoment)
-        //{
-        //    switch (detectorInput.TallyType)
-        //    {
-        //        case TallyType.pMCROfRhoAndTime:
-        //            var prrtinput = (pMCROfRhoAndTimeDetectorInput)detectorInput;
-        //            return new pMCROfRhoAndTimeDetector(
-        //                prrtinput.Rho, 
-        //                prrtinput.Time, 
-        //                tissue, 
-        //                prrtinput.PerturbedOps, 
-        //                prrtinput.PerturbedRegionsIndices,
-        //                tallySecondMoment,
-        //                prrtinput.Name);
-        //        case TallyType.pMCROfRho:
-        //            var prrinput = (pMCROfRhoDetectorInput)detectorInput;
-        //            return new pMCROfRhoDetector(
-        //                prrinput.Rho, 
-        //                tissue, 
-        //                prrinput.PerturbedOps, 
-        //                prrinput.PerturbedRegionsIndices,
-        //                tallySecondMoment,
-        //                prrinput.Name
-        //                );
-
-        //        default:
-        //            return null;
-        //    }
-        //}
-
     }
 }
