@@ -91,8 +91,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ATotalDetectorInput(),
                     new FluenceOfRhoAndZDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101)),
-                        
+                        new DoubleRange(0.0, 10.0, 101)),                       
                     new RadianceOfRhoDetectorInput(_dosimetryDepth, new DoubleRange(0.0, 10.0, 101)),
                     new RadianceOfRhoAndZAndAngleDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
@@ -103,7 +102,11 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(-10.0, 10.0, 101),
                         new DoubleRange(0.0, 10.0, 101), 
                         new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
-                        new DoubleRange(0.0, 2 * Math.PI, 5)) // phi (azimuthal angle)
+                        new DoubleRange(0.0, 2 * Math.PI, 5)), // phi (azimuthal angle)
+                        new ReflectedMTOfRhoAndSubRegionHistDetectorInput(
+                           new DoubleRange(0.0, 10.0, 101), // rho bins
+                           new DoubleRange(0.0, 500.0, 5001) // MT bins
+                   )
                 };
             _inputOneLayerTissue = new SimulationInput(
                 100,
@@ -346,6 +349,13 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // no specular because photons started inside tissue
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.00000000001);
+        }
+        // Reflected Momentum Transfer of Rho and SubRegion
+        [Test]
+        public void validate_DAW_ReflectedMTOfRhoAndSubRegionHist()
+        {
+            // use initial results to verify any new changes to the code
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rs_hist[0, 1, 19] - 31.70404), 0.00001);
         }
     }
 }

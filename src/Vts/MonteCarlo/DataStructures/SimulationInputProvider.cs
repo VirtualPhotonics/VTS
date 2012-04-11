@@ -469,7 +469,7 @@ namespace Vts.MonteCarlo
         {
             return new SimulationInput(
                 100,
-                "multi_layer_ReflectedMTOfRhoAndSubRegionHist",
+                "two_layer_ReflectedMTOfRhoAndSubRegionHist",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -491,10 +491,13 @@ namespace Vts.MonteCarlo
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerRegion(
-                            new DoubleRange(0.0, 500.0),
+                            new DoubleRange(0.0, 10.0),
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33)), // Tyler's data
                         new LayerRegion(
-                            new DoubleRange(500.0, double.PositiveInfinity),
+                            new DoubleRange(10.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.7, 1.33)), 
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
@@ -503,8 +506,8 @@ namespace Vts.MonteCarlo
                     new ROfRhoDetectorInput(
                         new DoubleRange(0.0, 60.0, 601)),
                     new ReflectedMTOfRhoAndSubRegionHistDetectorInput(
-                        new DoubleRange(0.0, 60.0, 601), 
-                        new DoubleRange(0.0, 500.0, 5001))
+                        new DoubleRange(0.0, 60.0, 601), // rho bins
+                        new DoubleRange(0.0, 500.0, 5001)) // MT bins
                 }
             );
         }

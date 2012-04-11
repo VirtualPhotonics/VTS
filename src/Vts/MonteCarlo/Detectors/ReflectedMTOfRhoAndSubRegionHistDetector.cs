@@ -105,8 +105,10 @@ namespace Vts.MonteCarlo.Detectors
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
             var cumulativeMT = new double[SubRegionIndices.Count];
+            bool talliedMT = false;
 
             // go through photon history and calculate momentum transfer
+            // assumes that no MT tallied at pseudo-collisions (reflections and refractions)
             // this algorithm needs to look ahead to angle of next DP, but needs info from previous to determine whether real or pseudo-collision
             PhotonDataPoint previousDP = photon.History.HistoryData.First();
             PhotonDataPoint currentDP = photon.History.HistoryData.Skip(1).Take(1).First();
@@ -119,6 +121,7 @@ namespace Vts.MonteCarlo.Detectors
                     double cosineBetweenTrajectories = Direction.GetDotProduct(currentDP.Direction, nextDP.Direction);
                     var momentumTransfer = 1 - cosineBetweenTrajectories;
                     cumulativeMT[isr] += momentumTransfer;
+                    talliedMT = true;
                 }
 
                 previousDP = currentDP;
@@ -127,14 +130,17 @@ namespace Vts.MonteCarlo.Detectors
 
             for (int i = 0; i < SubRegionIndices.Count; i++)
             {
-                var imt = DetectorBinning.WhichBin(cumulativeMT[i], MTBins.Count - 1, MTBins.Delta, MTBins.Start);
-                Mean[ir, i, imt] += photon.DP.Weight;
-                if (_tallySecondMoment)
+                if (cumulativeMT[i] > 0.0)  // only tally if MT has accumulated for that tissue region, check this with Tyler
                 {
-                    SecondMoment[ir, i, imt] += photon.DP.Weight * photon.DP.Weight;
+                    var imt = DetectorBinning.WhichBin(cumulativeMT[i], MTBins.Count - 1, MTBins.Delta, MTBins.Start);
+                    Mean[ir, i, imt] += photon.DP.Weight;
+                    if (_tallySecondMoment)
+                    {
+                        SecondMoment[ir, i, imt] += photon.DP.Weight*photon.DP.Weight;
+                    }
                 }
-            }           
-            TallyCount++;
+            }
+            if (talliedMT) TallyCount++; 
         }
         
         /// <summary>

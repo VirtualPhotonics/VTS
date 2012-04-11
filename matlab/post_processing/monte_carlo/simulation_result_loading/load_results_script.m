@@ -9,7 +9,7 @@ addpath([cd slash 'xml_toolbox']);
 
 % names of individual MC simulations
 % datanames = { 'one_layer_all_detectors' };
-datanames = { 'multi_layer_ReflectedMTOfRhoAndSubRegionHist' };
+datanames = { 'two_layer_ReflectedMTOfRhoAndSubRegionHist' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 %outdir = 'C:\Simulations';
@@ -109,9 +109,9 @@ for mci = 1:length(datanames)
         disp(['Radiance captured by RadianceOfRhoAndZ detector: ' num2str(sum(results{di}.RadianceOfRhoAndZAndAngle.Mean(:)))]);
     end
     if isfield(results{di}, 'ReflectedMTOfRhoAndSubRegionHist') && show.ReflectedMTOfRhoAndSubRegionHist
-        numtissuelayers = length(results{di}.ReflectedMTOfRhoAndSubRegionHist.SubRegions_Midpoints); 
-        for i=2:numtissuelayers-1 % assumes 1st and last layer air
-            figname = sprintf('log(%s) Layer %d',results{di}.ReflectedMTOfRhoAndSubRegionHist.Name, i); figure; imagesc(log(reshape(results{di}.ReflectedMTOfRhoAndSubRegionHist.Mean(:,i,:),...
+        numtissueregions = length(results{di}.ReflectedMTOfRhoAndSubRegionHist.SubRegionIndices);
+        for i=1:numtissueregions
+            figname = sprintf('log(%s) Region Index %d',results{di}.ReflectedMTOfRhoAndSubRegionHist.Name, i-1); figure; imagesc(log(reshape(results{di}.ReflectedMTOfRhoAndSubRegionHist.Mean(:,i,:),...
                length(results{di}.ReflectedMTOfRhoAndSubRegionHist.Rho)-1,length(results{di}.ReflectedMTOfRhoAndSubRegionHist.MTBins)-1)'));...        
                colorbar; title(figname); set(gcf,'Name', figname);
         end
