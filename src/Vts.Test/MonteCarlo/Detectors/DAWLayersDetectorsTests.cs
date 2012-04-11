@@ -104,8 +104,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
                         new DoubleRange(0.0, 2 * Math.PI, 5)), // phi (azimuthal angle)
                         new ReflectedMTOfRhoAndSubRegionHistDetectorInput(
-                           new DoubleRange(0.0, 10.0, 101), // rho bins
-                           new DoubleRange(0.0, 500.0, 5001) // MT bins
+                           new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
+                           new DoubleRange(0.0, 500.0, 51) // MT bins
                    )
                 };
             _inputOneLayerTissue = new SimulationInput(
@@ -355,7 +355,16 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_ReflectedMTOfRhoAndSubRegionHist()
         {
             // use initial results to verify any new changes to the code
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rs_hist[0, 1, 19] - 31.70404), 0.00001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rs_hist[0, 1, 0] - 0.632816), 0.000001);
+            // make sure over MT equals R(rho) results
+            var mtbins = ((ReflectedMTOfRhoAndSubRegionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubRegionHist).First()).MTBins;
+            var integral = 0.0;
+            for (int i = 0; i < mtbins.Count - 1; i++)
+            {
+                integral += _outputOneLayerTissue.RefMT_rs_hist[0, 1, i];
+            }
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] - integral), 0.000001);
         }
     }
 }

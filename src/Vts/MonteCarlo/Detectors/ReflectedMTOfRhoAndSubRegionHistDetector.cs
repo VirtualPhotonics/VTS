@@ -156,10 +156,9 @@ namespace Vts.MonteCarlo.Detectors
                 {
                     for (int imt = 0; imt < MTBins.Count - 1; imt++)
                     {
-                        // only normalize by area of surface area ring and N
+                        // normalize by area of surface area ring and N
                         var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
-                        // Mean[ir, isr, imt] /= areaNorm * numPhotons;
-                        Mean[ir, isr, imt] /= areaNorm;  // remove norm by N for now to debug with Tyler
+                        Mean[ir, isr, imt] /= areaNorm * numPhotons;
                         if (_tallySecondMoment)
                         {
                             SecondMoment[ir, isr, imt] /= areaNorm * areaNorm * numPhotons;
