@@ -41,7 +41,7 @@
                     Foreground="White"
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Center" Margin="20,0,0,0">
-                    Virtual Photonics General-Purpose ATK 1.0.3 Beta
+                    Virtual Photonics General-Purpose ATK 1.0.4 Beta
                 </TextBlock>
                 <Image 
                     Source="/Vts.SiteVisit;Component/Resources/Images/logo-small.png"
