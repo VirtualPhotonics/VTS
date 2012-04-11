@@ -41,7 +41,9 @@ namespace Vts.SiteVisit.View
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left
             };
-
+#if WHITELIST
+            tabFem.Visibility = Visibility.Collapsed;
+#endif
             Commands.IsoStorage_IncreaseSpaceQuery.Executed += IsoStorage_IncreaseSpaceQuery_Executed;
             Commands.IsoStorage_IncreaseSpaceQuery.Executed += IsoStorage_IncreaseSpaceQuery_Executed;
 
