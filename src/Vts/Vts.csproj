@@ -145,6 +145,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyFileVersion.cs" />
+    <Compile Include="AssemblyVersion.cs" />
     <Compile Include="Common\BindableObject.cs" />
     <Compile Include="Common\BindableObjectWithChangeTracking.cs" />
     <Compile Include="Common\DependsOnAttribute.cs" />

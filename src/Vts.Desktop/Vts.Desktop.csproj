@@ -134,6 +134,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Vts\AssemblyFileVersion.cs">
+      <Link>AssemblyFileVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\AssemblyVersion.cs">
+      <Link>AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Common\BindableObject.cs">
       <Link>Common\BindableObject.cs</Link>
     </Compile>

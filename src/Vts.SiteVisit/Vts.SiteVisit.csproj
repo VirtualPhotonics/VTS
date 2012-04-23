@@ -165,6 +165,12 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Vts\AssemblyFileVersion.cs">
+      <Link>AssemblyFileVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\AssemblyVersion.cs">
+      <Link>AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
