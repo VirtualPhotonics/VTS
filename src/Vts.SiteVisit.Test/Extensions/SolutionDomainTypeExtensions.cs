@@ -13,18 +13,18 @@ namespace Vts.SiteVisit.Test
         {
             switch (solutionDomainType)
             {
-                case SolutionDomainType.RofRho:
+                case SolutionDomainType.ROfRho:
                 default:
                     return new[] { IndependentVariableAxis.Rho };
-                case SolutionDomainType.RofRhoAndT:
-                    return new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.T };
-                case SolutionDomainType.RofRhoAndFt:
+                case SolutionDomainType.ROfRhoAndTime:
+                    return new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time };
+                case SolutionDomainType.ROfRhoAndFt:
                     return new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft };
-                case SolutionDomainType.RofFx:
+                case SolutionDomainType.ROfFx:
                     return new[] { IndependentVariableAxis.Fx };
-                case SolutionDomainType.RofFxAndT:
-                    return new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.T };
-                case SolutionDomainType.RofFxAndFt:
+                case SolutionDomainType.ROfFxAndTime:
+                    return new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Time };
+                case SolutionDomainType.ROfFxAndFt:
                     return new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft };
             }
         }

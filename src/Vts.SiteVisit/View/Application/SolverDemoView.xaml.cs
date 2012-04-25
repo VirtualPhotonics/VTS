@@ -41,7 +41,9 @@ namespace Vts.SiteVisit.View
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left
             };
-
+#if WHITELIST
+            tabFem.Visibility = Visibility.Collapsed;
+#endif
             Commands.IsoStorage_IncreaseSpaceQuery.Executed += IsoStorage_IncreaseSpaceQuery_Executed;
             Commands.IsoStorage_IncreaseSpaceQuery.Executed += IsoStorage_IncreaseSpaceQuery_Executed;
 
@@ -112,15 +114,24 @@ namespace Vts.SiteVisit.View
                             outputTabControl.SelectedItem = outputTabControl.Items[0];
                             ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Visible;
                             ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Collapsed;
+                            ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Collapsed;
                             break;
                         case "tabFluence":
                             outputTabControl.SelectedItem = outputTabControl.Items[1];
                             ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Visible;
                             ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Collapsed;
+                            ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Collapsed;
+                            break;
+                        case "tabFem":
+                            outputTabControl.SelectedItem = outputTabControl.Items[2];                           
+                            ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Visible;
+                            ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Collapsed;
+                            ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Collapsed;
                             break;
                         case "tabMonteCarlo":
                             ((TabItem)outputTabControl.Items[1]).Visibility = Visibility.Visible;
                             ((TabItem)outputTabControl.Items[0]).Visibility = Visibility.Visible;
+                            ((TabItem)outputTabControl.Items[2]).Visibility = Visibility.Collapsed;
                             break;
                     }
                 }

@@ -1,10 +1,11 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.Tissues;
@@ -20,37 +21,11 @@ namespace Vts.Test.MonteCarlo.PostProcessing
     public class PhotonDatabasePostProcessorTests
     {
         private static IList<IDetectorInput> _detectorInputs;
+        private static ISourceInput _sourceInput;
+        private static ITissueInput _tissueInput;
 
-        /// <summary>
-        /// validate_photon_termination_database_postprocessor reads the output data 
-        /// generated on the fly by MonteCarloSimulation and using the same binning 
-        /// that was used for that output, generates the output data using 
-        /// the postprocessing code, and compares the two.  Thus validating that the 
-        /// on the fly and postprocessing results agree.
-        /// It currently tests a point source with a layered tissue geometry and 
-        /// validates the R(rho,time) tally.
-        /// </summary>
-        [Test]
-        public void validate_photon_database_postprocessor()
-        {
-            var input = GenerateReferenceInput();
-            var onTheFlyOutput =  new MonteCarloSimulation(input).Run();
-
-            var database = PhotonDatabase.FromFile("DiffuseReflectanceDatabase");
-            var postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
-                VirtualBoundaryType.DiffuseReflectance,
-                _detectorInputs,
-                false, // tally second moment
-                database,
-                onTheFlyOutput.Input);
-
-            ValidateROfRhoAndTime(onTheFlyOutput, postProcessedOutput);
-        }
-        /// <summary>
-        /// method to generate input to the MC simulation
-        /// </summary>
-        /// <returns>SimulationInput</returns>
-        public static SimulationInput GenerateReferenceInput()
+        [TestFixtureSetUp]
+        public void setup_simulation_input_components()
         {
             _detectorInputs = new List<IDetectorInput>()
             {
@@ -58,23 +33,11 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     new DoubleRange(0.0, 10.0, 101),
                     new DoubleRange(0.0, 1, 101))
             };
-            return new SimulationInput(
-                100,
-                "", // can't give folder name when writing to isolated storage
-                new SimulationOptions(
-                    0,
-                    RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
-                    true, // compute Second Moment
-                    false, // track statistics
-                    1),
-                new DirectionalPointSourceInput(
+            _sourceInput = new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
-                    1),                 
-                new MultiLayerTissueInput(
+                    1);
+            _tissueInput =  new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
                         new LayerRegion(
@@ -87,7 +50,93 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }
-                ),
+            );
+        }
+        /// <summary>
+        /// validate_photon_database_postprocessor_ROfRhoAndTime reads the output data 
+        /// generated on the fly by MonteCarloSimulation and using the same binning 
+        /// that was used for that output, generates the output data using 
+        /// the postprocessing code, and compares the two.  Thus validating that the 
+        /// on the fly and postprocessing results agree.
+        /// It currently tests a point source with a layered tissue geometry and 
+        /// validates the R(rho,time) tally.
+        /// </summary>
+        [Test]
+        public void validate_photon_database_postprocessor_ROfRhoAndTime_results()
+        {
+            // DAW postprocssing
+            var DAWinput = GenerateReferenceDAWInput();
+            var onTheFlyDAWOutput =  new MonteCarloSimulation(DAWinput).Run();
+
+            var DAWdatabase = PhotonDatabase.FromFile("DiffuseReflectanceDatabase");
+            var postProcessedDAWOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                VirtualBoundaryType.DiffuseReflectance,
+                _detectorInputs,
+                false, // tally second moment
+                DAWdatabase,
+                onTheFlyDAWOutput.Input);
+
+            ValidateROfRhoAndTime(onTheFlyDAWOutput, postProcessedDAWOutput);
+
+            // CAW postprocessing
+            var CAWinput = GenerateReferenceCAWInput();
+            var onTheFlyCAWOutput = new MonteCarloSimulation(CAWinput).Run();
+
+            var CAWdatabase = PhotonDatabase.FromFile("DiffuseReflectanceDatabase");
+            var postProcessedCAWOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                VirtualBoundaryType.DiffuseReflectance,
+                _detectorInputs,
+                false, // tally second moment
+                CAWdatabase,
+                onTheFlyCAWOutput.Input);
+
+            ValidateROfRhoAndTime(onTheFlyCAWOutput, postProcessedCAWOutput);
+        }
+        /// <summary>
+        /// method to generate DAW input to the MC simulation
+        /// </summary>
+        /// <returns>SimulationInput</returns>
+        public static SimulationInput GenerateReferenceDAWInput()
+        {
+            return new SimulationInput(
+                100,
+                "", // can't give folder name when writing to isolated storage
+                new SimulationOptions(
+                    0,
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
+                    true, // compute Second Moment
+                    false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
+                    1),
+                 _sourceInput,
+                 _tissueInput,
+                 _detectorInputs
+            );
+        }
+        /// <summary>
+        /// method to generate CAW input to the MC simulation
+        /// </summary>
+        /// <returns>SimulationInput</returns>
+        public static SimulationInput GenerateReferenceCAWInput()
+        {
+            return new SimulationInput(
+                100,
+                "", // can't give folder name when writing to isolated storage
+                new SimulationOptions(
+                    0,
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Continuous,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
+                    true, // compute Second Moment
+                    false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
+                    1),
+                 _sourceInput,
+                 _tissueInput,
                  _detectorInputs
             );
         }
@@ -98,7 +147,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         /// </summary>
         /// <param name="output1"></param>
         /// <param name="output2"></param>
-        private void ValidateROfRhoAndTime(Output output1, Output output2)
+        private void ValidateROfRhoAndTime(SimulationOutput output1, SimulationOutput output2)
         {
             var detector = (ROfRhoAndTimeDetectorInput)_detectorInputs.
                 Where(d => d.TallyType == TallyType.ROfRhoAndTime).First(); 
@@ -117,6 +166,40 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     }
                 }
             }
+        }
+
+        [Test]
+        public void validate_database_input_with_no_detectors_specified_still_generates_database()
+        {
+            // make sure databases generated from previous tests are deleted
+            if (FileIO.FileExists("DiffuseReflectanceDatabase.xml"))
+            {
+                FileIO.FileDelete("DiffuseReflectanceDatabase.xml");
+            }
+            if (FileIO.FileExists("DiffuseReflectanceDatabase"))
+            {
+                FileIO.FileDelete("DiffuseReflectanceDatabase");
+            }
+            var input = new SimulationInput(
+                100,
+                "", // can't give folder name when writing to isolated storage
+                new SimulationOptions(
+                    0,
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { DatabaseType.DiffuseReflectance }, // SPECIFY DATABASE
+                    true, // compute Second Moment
+                    false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
+                    1),
+                 _sourceInput,
+                 _tissueInput,
+                 new List<IDetectorInput>(){} // specify NO DETECTORS
+            );
+            var output =  new MonteCarloSimulation(input).Run();
+            Assert.IsTrue(FileIO.FileExists("DiffuseReflectanceDatabase"));
+            Assert.IsFalse(FileIO.FileExists("DiffuseTransmittanceDatabase"));
         }
     }
 }

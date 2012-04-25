@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         //{
         //    string[] arguments = new string[] { "infile=infile_PostProcessor_ROfRho.xml" };
         //    Program.Main(arguments);
-        //    Assert.IsTrue(Directory.Exists("PostProcess_ROfRho"));
+        //    Assert.IsTrue(Directory.Exists("PostProcessor_ROfRho"));
         //}
     }
 }

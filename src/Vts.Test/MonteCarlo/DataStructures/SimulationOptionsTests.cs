@@ -20,5 +20,21 @@ namespace Vts.Test.MonteCarlo
             //Assert.AreNotEqual(random1.Seed, random2.Seed);
         }
 
+        [Test]
+        public void validate_null_database_input_gets_converted_to_empty_list_correctly()
+        {
+            var so = new SimulationOptions(
+                0,
+                RandomNumberGeneratorType.MersenneTwister, 
+                AbsorptionWeightingType.Discrete,
+                PhaseFunctionType.Bidirectional,
+                null,
+                false,
+                false,
+                0.0,
+                0);
+            Assert.IsTrue(so.Databases.Count == 0);
+        }
+
     }
 }

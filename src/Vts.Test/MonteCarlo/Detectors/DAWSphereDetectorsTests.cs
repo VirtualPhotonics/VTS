@@ -21,8 +21,8 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DAWSphereDetectorsTests
     {
-        private Output _outputOneRegionTissue;
-        private Output _outputTwoRegionTissue;
+        private SimulationOutput _outputOneRegionTissue;
+        private SimulationOutput _outputTwoRegionTissue;
         private SimulationInput _inputOneRegionTissue;
         private SimulationInput _inputTwoRegionTissue;
         private double _factor;
@@ -50,6 +50,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new List<DatabaseType>() { }, // databases to be written
                 true,
                 false, // track statistics
+                0.0, // RR threshold -> 0 = no RR performed
                 0);
             var source = new DirectionalPointSourceInput(
                      new Position(0.0, 0.0, 0.0),
@@ -206,21 +207,21 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneRegionTissue.Td * _factor - 0.0228405921), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoRegionTissue.Td * _factor - 0.0228405921), 0.000000001);
         }
-        // Transmittance T(rho)
+        // Transmittance Time(rho)
         [Test]
         public void validate_DAW_sphere_TOfRho()
         {
             Assert.Less(Math.Abs(_outputOneRegionTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoRegionTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
         }
-        // Transmittance T(angle)
+        // Transmittance Time(angle)
         [Test]
         public void validate_DAW_sphere_TOfAngle()
         {
             Assert.Less(Math.Abs(_outputOneRegionTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoRegionTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
         }
-        // Transmittance T(rho,angle)
+        // Transmittance Time(rho,angle)
         [Test]
         public void validate_DAW_sphere_TOfRhoAndAngle()
         {

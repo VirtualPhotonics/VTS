@@ -202,14 +202,14 @@ namespace Vts.Extensions
 
 
         //// Sets up custom enumerators for each type of object
-        //public static IEnumerable<T> AsEnumerable<T>(this T[] myArray)
+        //public static IEnumerable<Time> AsEnumerable<Time>(this Time[] myArray)
         //{
         //    for (int x = 0; x < myArray.Length; ++x)
         //    {
         //        yield return myArray[x];
         //    }
         //}
-        //public static IEnumerable<T> AsEnumerable<T>(this T[,] myArray)
+        //public static IEnumerable<Time> AsEnumerable<Time>(this Time[,] myArray)
         //{
         //    int length = myArray.GetLength(1);
         //    int width = myArray.GetLength(0);
@@ -221,7 +221,7 @@ namespace Vts.Extensions
         //        }
         //    }
         //}
-        //public static IEnumerable<T> AsEnumerable<T>(this T[, ,] myArray)
+        //public static IEnumerable<Time> AsEnumerable<Time>(this Time[, ,] myArray)
         //{
         //    int zLength = myArray.GetLength(2);
         //    int length = myArray.GetLength(1);
@@ -237,7 +237,7 @@ namespace Vts.Extensions
         //        }
         //    }
         //}
-        //public static IEnumerable<T> AsEnumerable<T>(this T[, , ,] myArray)
+        //public static IEnumerable<Time> AsEnumerable<Time>(this Time[, , ,] myArray)
         //{
         //    int wLength = myArray.GetLength(3);
         //    int zLength = myArray.GetLength(2);
@@ -257,33 +257,33 @@ namespace Vts.Extensions
         //        }
         //    }
         //}
-        //public static IEnumerable<T> AsEnumerable<T>(this T[][] myArray)
+        //public static IEnumerable<Time> AsEnumerable<Time>(this Time[][] myArray)
         //{
-        //    foreach (T[] item in myArray) //for every frequency
+        //    foreach (Time[] item in myArray) //for every frequency
         //    {
-        //        foreach (T subItem in item)
+        //        foreach (Time subItem in item)
         //        {
         //            yield return subItem;
         //        }
         //    }
         //}
-        //public static IEnumerable<T> AsEnumerable<T>(this T[][,] myArray)
+        //public static IEnumerable<Time> AsEnumerable<Time>(this Time[][,] myArray)
         //{
-        //    foreach (T[,] item in myArray) //for every frequency
+        //    foreach (Time[,] item in myArray) //for every frequency
         //    {
-        //        foreach (T subItem in item.AsEnumerable<T>())
+        //        foreach (Time subItem in item.AsEnumerable<Time>())
         //        {
         //            yield return subItem;
         //        }
         //    }
         //}
-        //public static IEnumerable<T> AsEnumerable<T>(this T[][][,] myArray)
+        //public static IEnumerable<Time> AsEnumerable<Time>(this Time[][][,] myArray)
         //{
-        //    foreach (T[][,] item in myArray)
+        //    foreach (Time[][,] item in myArray)
         //    {
-        //        foreach (T[,] subItem in item)
+        //        foreach (Time[,] subItem in item)
         //        {
-        //            foreach (T subSubItem in subItem.AsEnumerable<T>())
+        //            foreach (Time subSubItem in subItem.AsEnumerable<Time>())
         //            {
         //                yield return subSubItem;
         //            }

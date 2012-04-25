@@ -18,8 +18,8 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
         /// Initializes a new instance of the ArbitrarySourceProfile class
         /// </summary>
         /// <param name="image">1D array containing 2D image of values</param>
-        /// <param name="pixelWidth"></param>
-        /// <param name="pixelHeight"></param>
+        /// <param name="pixelWidth">pixel width</param>
+        /// <param name="pixelHeight">pixel height</param>
         /// <remarks>Currently, only binary maps are implemented. Non-zero (1e-10D) values will be 1, 0 otherwise</remarks>
         public ArbitrarySourceProfile(double[] image, int pixelWidth, int pixelHeight)
         {
@@ -57,9 +57,21 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
         [IgnoreDataMember]
         public SourceProfileType ProfileType { get { return SourceProfileType.Arbitrary; } }
 
+        /// <summary>
+        /// 1D array containing 2D image of values
+        /// </summary>
         public double[] Image { get; set; }
+        /// <summary>
+        /// pixel width
+        /// </summary>
         public int PixelWidth { get; set; }
+        /// <summary>
+        /// pixel height
+        /// </summary>
         public int PixelHeight { get; set; }
+        /// <summary>
+        /// flag to determine if binary, currently only binary is implemented
+        /// </summary>
         public bool IsBinary { get; set; }
     }
 }

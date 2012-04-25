@@ -102,7 +102,13 @@ namespace Vts.MonteCarlo.Rng
         }
 
         // public properties for serialization
+        /// <summary>
+        /// variable within algorithm needed to resume series if interruptes
+        /// </summary>
         public uint[] MT { get { return _mt; } set { _mt = value; } }
+        /// <summary>
+        /// variable within algorithm needed to resume series if interruptes
+        /// </summary>
         public int MTI { get { return mti; } set { mti = value; } }
 
         public static SerializableMersenneTwister Create(MersenneTwisterSerializationInfo info)

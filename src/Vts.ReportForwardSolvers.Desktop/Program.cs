@@ -282,11 +282,11 @@ namespace Vts.ReportForwardSolvers.Desktop
                 case SpatialDomainType.Real:
                     if (tD == TimeDomainType.TimeDomain)
                     {
-                        ReflectanceFunction = SolverFactory.GetForwardSolver(fST).RofRhoAndT;
+                        ReflectanceFunction = SolverFactory.GetForwardSolver(fST).ROfRhoAndTime;
                     }
                     else if (tD == TimeDomainType.FrequencyDomain)
                     {
-                        ReflectanceFunction = (op, rho, ft) => SolverFactory.GetForwardSolver(fST).RofRhoAndFt(op, rho, ft).Select(rComplex => rComplex.Magnitude);
+                        ReflectanceFunction = (op, rho, ft) => SolverFactory.GetForwardSolver(fST).ROfRhoAndFt(op, rho, ft).Select(rComplex => rComplex.Magnitude);
                     }
                     else 
                     {
@@ -296,11 +296,11 @@ namespace Vts.ReportForwardSolvers.Desktop
                 case SpatialDomainType.SpatialFrequency:
                     if (tD == TimeDomainType.TimeDomain)
                     {
-                        ReflectanceFunction = SolverFactory.GetForwardSolver(fST).RofFxAndT;
+                        ReflectanceFunction = SolverFactory.GetForwardSolver(fST).ROfFxAndTime;
                     }
                     else if (tD == TimeDomainType.FrequencyDomain)
                     {
-                        ReflectanceFunction = (op, fx, ft) => SolverFactory.GetForwardSolver(fST).RofFxAndFt(op, fx, ft).Select(rComplex => rComplex.Magnitude);
+                        ReflectanceFunction = (op, fx, ft) => SolverFactory.GetForwardSolver(fST).ROfFxAndFt(op, fx, ft).Select(rComplex => rComplex.Magnitude);
                     }
                     else 
                     {
@@ -320,10 +320,10 @@ namespace Vts.ReportForwardSolvers.Desktop
             switch (sd)
             {
                 case SpatialDomainType.Real:
-                    ReflectanceFunction = SolverFactory.GetForwardSolver(fST).RofRho;
+                    ReflectanceFunction = SolverFactory.GetForwardSolver(fST).ROfRho;
                     break;
                 case SpatialDomainType.SpatialFrequency:
-                    ReflectanceFunction = SolverFactory.GetForwardSolver(fST).RofFx;
+                    ReflectanceFunction = SolverFactory.GetForwardSolver(fST).ROfFx;
                     break;
                 default:
                     throw new ArgumentException("Non valid solution domain!");

@@ -134,6 +134,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Vts\AssemblyFileVersion.cs">
+      <Link>AssemblyFileVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\AssemblyVersion.cs">
+      <Link>AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Common\BindableObject.cs">
       <Link>Common\BindableObject.cs</Link>
     </Compile>
@@ -275,6 +281,102 @@
     <Compile Include="..\Vts\Factories\SolverFactory.cs">
       <Link>Factories\SolverFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\BoundaryCoupling.cs">
+      <Link>FemModeling\MGRTE\2D\BoundaryCoupling.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Measurement.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\Measurement.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\AngularMesh.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\AngularMesh.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationOptions.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\SpatialMesh.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\SpatialMesh.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\SquareMeshDataInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\MeshInputs\SquareMeshDataInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\ExternalSourceInputs\ExtLineSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\SourceInputs\ExternalSourceInputs\ExtLineSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\ExternalSourceInputs\ExtPointSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\SourceInputs\ExternalSourceInputs\ExtPointSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DCircularSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DCircularSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DEllipticalSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DEllipticalSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DPointSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DPointSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Enums.cs">
+      <Link>FemModeling\MGRTE\2D\Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs">
+      <Link>FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Initialization.cs">
+      <Link>FemModeling\MGRTE\2D\Initialization.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IExtFemSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\IExtFemSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IExtSource.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\IExtSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IInclusionInput.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\IInclusionInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IIntSource.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\IIntSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\ITissue.cs">
+      <Link>FemModeling\MGRTE\2D\Interfaces\ITissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\MathFunctions.cs">
+      <Link>FemModeling\MGRTE\2D\MathFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\MultiGridCycle.cs">
+      <Link>FemModeling\MGRTE\2D\MultiGridCycle.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\OutputCalculation.cs">
+      <Link>FemModeling\MGRTE\2D\OutputCalculation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\SolverMGRTE.cs">
+      <Link>FemModeling\MGRTE\2D\SolverMGRTE.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\ExternalSources\ExtLineSource.cs">
+      <Link>FemModeling\MGRTE\2D\Sources\ExternalSources\ExtLineSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\ExternalSources\ExtPointSource.cs">
+      <Link>FemModeling\MGRTE\2D\Sources\ExternalSources\ExtPointSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\InternalSources\Int2DCircularSource.cs">
+      <Link>FemModeling\MGRTE\2D\Sources\InternalSources\Int2DCircularSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\InternalSources\Int2DEllipticalSource.cs">
+      <Link>FemModeling\MGRTE\2D\Sources\InternalSources\Int2DEllipticalSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\InternalSources\Int2DPointSource.cs">
+      <Link>FemModeling\MGRTE\2D\Sources\InternalSources\Int2DPointSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\InternalSources\Int2DRectangularSource.cs">
+      <Link>FemModeling\MGRTE\2D\Sources\InternalSources\Int2DRectangularSource.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\IO\ArrayCustomBinaryReader.cs">
       <Link>IO\ArrayCustomBinaryReader.cs</Link>
     </Compile>
@@ -347,45 +449,6 @@
     <Compile Include="..\Vts\Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs">
       <Link>Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\AngularMesh.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\AngularMesh.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\BoundaryCoupling.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\BoundaryCoupling.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\LightSource.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\LightSource.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Measurement.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Measurement.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Output.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Output.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Parameters.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\Parameters.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\DataStructures\SpatialMesh.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\DataStructures\SpatialMesh.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\Initialization.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\Initialization.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\ParametersIO.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\ParametersIO.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\ReadDataFiles.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\ReadDataFiles.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\IO\Source.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\MultiGridCycle.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\MultiGridCycle.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\MGRTE\2D\Solver.cs">
-      <Link>Modeling\ForwardSolvers\MGRTE\2D\Solver.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\MonteCarloForwardSolver.cs">
       <Link>Modeling\ForwardSolvers\MonteCarloForwardSolver.cs</Link>
     </Compile>
@@ -403,12 +466,6 @@
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\PhotonHittingDensity.cs">
       <Link>Modeling\ForwardSolvers\PhotonHittingDensity.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\pMCForwardSolver.cs">
-      <Link>Modeling\ForwardSolvers\pMCForwardSolver.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Modeling\ForwardSolvers\pMCLoader.cs">
-      <Link>Modeling\ForwardSolvers\pMCLoader.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\PointSourceSDAForwardSolver.cs">
       <Link>Modeling\ForwardSolvers\PointSourceSDAForwardSolver.cs</Link>
@@ -470,23 +527,23 @@
     <Compile Include="..\Vts\Modeling\Tools\HankelTransform.cs">
       <Link>Modeling\Tools\HankelTransform.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\AbsorptionWeightingMethods.cs">
+      <Link>MonteCarlo\AbsorptionWeightingMethods.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\DatabaseWriterController.cs">
       <Link>MonteCarlo\Controllers\DatabaseWriterController.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\DetectorController.cs">
+      <Link>MonteCarlo\Controllers\DetectorController.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\HistoryDetectorController.cs">
+      <Link>MonteCarlo\Controllers\HistoryDetectorController.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDatabaseWriterController.cs">
       <Link>MonteCarlo\Controllers\pMCDatabaseWriterController.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Controllers\pMCSurfaceDetectorController.cs">
-      <Link>MonteCarlo\Controllers\pMCSurfaceDetectorController.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Controllers\SurfaceDetectorController.cs">
-      <Link>MonteCarlo\Controllers\SurfaceDetectorController.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Controllers\VirtualBoundaryController.cs">
       <Link>MonteCarlo\Controllers\VirtualBoundaryController.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Controllers\VolumeDetectorController.cs">
-      <Link>MonteCarlo\Controllers\VolumeDetectorController.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs</Link>
@@ -515,6 +572,15 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\FluenceOfXAndYAndZDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\FluenceOfXAndYAndZDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\pMCROfFxAndTimeDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\pMCROfFxAndTimeDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\pMCROfFxDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\pMCROfFxDetectorInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\pMCRofRhoAndTimeDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\pMCRofRhoAndTimeDetectorInput.cs</Link>
     </Compile>
@@ -527,8 +593,14 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RadianceOfXAndYAndZAndThetaAndPhiDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\RadianceOfXAndYAndZAndThetaAndPhiDetectorInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RDiffuseDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\RDiffuseDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ReflectedMTOfRhoAndSubRegionHistDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\ReflectedMTOfRhoAndSubRegionHistDetectorInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs</Link>
@@ -569,9 +641,6 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\TOfRhoDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\TOfRhoDetectorInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\Output.cs">
-      <Link>MonteCarlo\DataStructures\Output.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs">
       <Link>MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs</Link>
     </Compile>
@@ -586,6 +655,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs">
       <Link>MonteCarlo\DataStructures\SimulationOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOutput.cs">
+      <Link>MonteCarlo\DataStructures\SimulationOutput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationStatistics.cs">
       <Link>MonteCarlo\DataStructures\SimulationStatistics.cs</Link>
@@ -656,6 +728,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidalSourceInputs\IsotropicVolumetricCuboidaldalSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidal\IsotropicVolumetricCuboidaldalSourceInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInput.cs">
+      <Link>MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs</Link>
     </Compile>
@@ -680,8 +755,14 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs">
-      <Link>MonteCarlo\Detectors\MomentumTransferOfRhoAndZDetector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfFxAndTimeDetector.cs">
+      <Link>MonteCarlo\Detectors\pMCROfFxAndTimeDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfFxDetector.cs">
+      <Link>MonteCarlo\Detectors\pMCROfFxDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs</Link>
@@ -695,8 +776,14 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\RadianceOfRhoDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs">
+      <Link>MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfAngleDetector.cs</Link>
@@ -761,9 +848,6 @@
     <Compile Include="..\Vts\MonteCarlo\Extensions\VirtualBoundariesExtensionMethods.cs">
       <Link>MonteCarlo\Extensions\VirtualBoundariesExtensionMethods.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Factories\AbsorptionActionFactory.cs">
-      <Link>MonteCarlo\Factories\AbsorptionActionFactory.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\DatabaseWriterFactory.cs">
       <Link>MonteCarlo\Factories\DatabaseWriterFactory.cs</Link>
     </Compile>
@@ -806,6 +890,9 @@
     <Compile Include="..\Vts\MonteCarlo\Helpers\SourceFlags.cs">
       <Link>MonteCarlo\Helpers\SourceFlags.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs">
+      <Link>MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\SourceProfiles\FlatSourceProfile.cs">
       <Link>MonteCarlo\Helpers\SourceProfiles\FlatSourceProfile.cs</Link>
     </Compile>
@@ -827,17 +914,11 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetectorInput.cs">
       <Link>MonteCarlo\Interfaces\IDetectorInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IHistoryDetector.cs">
+      <Link>MonteCarlo\Interfaces\IHistoryDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCDetectorInput.cs">
       <Link>MonteCarlo\Interfaces\IpMCDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCSurfaceDetector.cs">
-      <Link>MonteCarlo\Interfaces\IpMCSurfaceDetector.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCSurfaceDetectorController.cs">
-      <Link>MonteCarlo\Interfaces\IpMCSurfaceDetectorController.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCVolumeDetector.cs">
-      <Link>MonteCarlo\Interfaces\IpMCVolumeDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISource.cs">
       <Link>MonteCarlo\Interfaces\ISource.cs</Link>
@@ -847,12 +928,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ISourceProfile.cs">
       <Link>MonteCarlo\Interfaces\ISourceProfile.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISurfaceDetector.cs">
-      <Link>MonteCarlo\Interfaces\ISurfaceDetector.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISurfaceDetectorController.cs">
-      <Link>MonteCarlo\Interfaces\ISurfaceDetectorController.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissue.cs">
       <Link>MonteCarlo\Interfaces\ITissue.cs</Link>
@@ -865,12 +940,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\IVirtualBoundary.cs">
       <Link>MonteCarlo\Interfaces\IVirtualBoundary.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IVolumeDetector.cs">
-      <Link>MonteCarlo\Interfaces\IVolumeDetector.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Interfaces\IVolumeDetectorController.cs">
-      <Link>MonteCarlo\Interfaces\IVolumeDetectorController.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\IO\DatabaseOfT.cs">
       <Link>MonteCarlo\IO\DatabaseOfT.cs</Link>

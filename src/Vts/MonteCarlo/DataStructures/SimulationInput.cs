@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Tissues;
 
 
 namespace Vts.MonteCarlo
 {
-#if !SILVERLIGHT
-    [Serializable]
-#endif
     ///<summary>
     /// Defines input to the Monte Carlo simulation.  This includes the output
     /// file name, number of photons to execute (N), source, tissue and detector
     /// definitions.
     ///</summary>
+    #if !SILVERLIGHT
+        [Serializable]
+    #endif
     
     // todo: Can we do this programmatcially? DataContractResolver? Automatically via convention?
 
@@ -50,9 +49,14 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(ATotalDetectorInput))]
     [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
     [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
+    [KnownType(typeof(FluenceOfXAndYAndZDetectorInput))]
     [KnownType(typeof(RadianceOfRhoAndZAndAngleDetectorInput))]
+    [KnownType(typeof(RadianceOfXAndYAndZAndThetaAndPhiDetectorInput))]
     [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
     [KnownType(typeof(pMCROfRhoDetectorInput))]
+    [KnownType(typeof(pMCROfFxDetectorInput))]
+    [KnownType(typeof(pMCROfFxAndTimeDetectorInput))]
+    [KnownType(typeof(ReflectedMTOfRhoAndSubRegionHistDetectorInput))]
 
     // todo: add more types?
 
@@ -62,16 +66,40 @@ namespace Vts.MonteCarlo
         // todo: replace DataContractSerializer loading this class with Linq to XML reading
         // of a "pure" XML input class (and make all the fields properties again). This should
         // make it much easier for users to define simulations without wading through XML namespaces, etc.
+        /// <summary>
+        /// string name of output file
+        /// </summary>
         public string OutputName;
+        /// <summary>
+        /// number of photons launched from source
+        /// </summary>
         public long N;
+        /// <summary>
+        /// SimulationOptions specify, for example, absorption weighting type
+        /// </summary>
         public SimulationOptions Options;
+        /// <summary>
+        /// source input (ISourceInput)
+        /// </summary>
         public ISourceInput SourceInput;
+        /// <summary>
+        /// tissue input (ITissueInput)
+        /// </summary>
         public ITissueInput TissueInput;
+        /// <summary>
+        /// detector input (IList of IDetectorInput)
+        /// </summary>
         public IList<IDetectorInput> DetectorInputs;
 
         /// <summary>
-        /// Default constructor loads default values for InputData
+        /// Monte Carlo simulation input data
         /// </summary>
+        /// <param name="numberOfPhotons">long number indicating number of photons launched from source</param>
+        /// <param name="outputName">string indicating output name</param>
+        /// <param name="simulationOptions">options to execute simulation</param>
+        /// <param name="sourceInput">ISourceInput specifying source of light</param>
+        /// <param name="tissueInput">ITissueInput specifying tissue definition</param>
+        /// <param name="detectorInputs">IDetectorInput specifying which detectors to tally</param>
         public SimulationInput(
             long numberOfPhotons, 
             string outputName,
@@ -85,9 +113,16 @@ namespace Vts.MonteCarlo
             Options = simulationOptions;
             SourceInput = sourceInput;
             TissueInput = tissueInput;
-            DetectorInputs = detectorInputs;
+            DetectorInputs = detectorInputs;       
+            // check if detectorInputs list is null and if so make empty
+            if (DetectorInputs == null)
+            {
+                DetectorInputs = new List<IDetectorInput>() {};
+            }
         }
-
+        /// <summary>
+        /// SimulationInput default constructor
+        /// </summary>
         public SimulationInput()
             : this(
                 100,
@@ -100,6 +135,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { },
                     true, // compute Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(),
 
@@ -122,17 +158,29 @@ namespace Vts.MonteCarlo
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
                 }
                 ) { }
-
+        /// <summary>
+        /// Method to read SimulationInput from file
+        /// </summary>
+        /// <param name="filename">string filename of file to be read</param>
+        /// <returns>SimulationInput</returns>
         public static SimulationInput FromFile(string filename)
         {
             return FileIO.ReadFromXML<SimulationInput>(filename);
         }
-
+        /// <summary>
+        /// Method to write SimulationInput to file
+        /// </summary>
+        /// <param name="filename">string filename to write to</param>
         public void ToFile(string filename)
         {
             FileIO.WriteToXML(this, filename);
         }
-
+        /// <summary>
+        /// Method to read SimulationInput xml from file in resources
+        /// </summary>
+        /// <param name="filename">string filename</param>
+        /// <param name="project">string project name</param>
+        /// <returns>SimulationInput</returns>
         public static SimulationInput FromFileInResources(string filename, string project)
         {
             return FileIO.ReadFromXMLInResources<SimulationInput>(filename, project);

@@ -1,20 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ITerminationTally&lt;double[]&gt;.  Tally for transmittance as a function 
+    /// Implements IDetector&lt;double[]&gt;.  Tally for transmittance as a function 
     /// of Angle. 
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(TOfAngleDetector))]
-    public class TOfAngleDetector : ISurfaceDetector<double[]>
+    public class TOfAngleDetector : IDetector<double[]> 
     {
         private bool _tallySecondMoment;
         /// <summary>
@@ -76,16 +73,16 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// method to tally to detector
         /// </summary>
-        /// <param name="dp"></param>
-        public void Tally(PhotonDataPoint dp)
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
             // if exiting bottom top surface, Uz > 0 => Acos in [0, pi/2]
-            var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
+            var ia = DetectorBinning.WhichBin(Math.Acos(photon.DP.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
 
-            Mean[ia] += dp.Weight;
+            Mean[ia] += photon.DP.Weight;
             if (_tallySecondMoment)
             {
-                SecondMoment[ia] += dp.Weight * dp.Weight;
+                SecondMoment[ia] += photon.DP.Weight * photon.DP.Weight;
             }
             TallyCount++;
 

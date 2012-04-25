@@ -17,7 +17,7 @@ namespace Vts.Factories
     /// </summary>
 #if DESKTOP
     [ComVisible(true)]
-#endif
+#endif    
     public static class ComputationFactory
     {
         // todo: the following two methods are a result of a leaky abstraction 
@@ -25,22 +25,22 @@ namespace Vts.Factories
         public static bool IsSolverWithConstantValues(SolutionDomainType solutionDomainType)
         {
             return
-                !(solutionDomainType == SolutionDomainType.RofRho) &&
-                !(solutionDomainType == SolutionDomainType.RofFx);
+                !(solutionDomainType == SolutionDomainType.ROfRho) &&
+                !(solutionDomainType == SolutionDomainType.ROfFx);
         }
 
         public static bool IsSolverWithConstantValues(FluenceSolutionDomainType solutionDomainType)
         {
             return
-                !(solutionDomainType == FluenceSolutionDomainType.FluenceofRho) &&
-                !(solutionDomainType == FluenceSolutionDomainType.FluenceofFx);
+                !(solutionDomainType == FluenceSolutionDomainType.FluenceOfRhoAndZ) &&
+                !(solutionDomainType == FluenceSolutionDomainType.FluenceOfFxAndZ);
         }
 
         public static bool IsComplexSolver(SolutionDomainType solutionDomainType)
         {
             return
-                (solutionDomainType == SolutionDomainType.RofRhoAndFt) ||
-                (solutionDomainType == SolutionDomainType.RofFxAndFt);
+                (solutionDomainType == SolutionDomainType.ROfRhoAndFt) ||
+                (solutionDomainType == SolutionDomainType.ROfFxAndFt);
         }
 
         private static double[] FlattenRealAndImaginary(this Complex[] values)
@@ -54,10 +54,6 @@ namespace Vts.Factories
             }
             return flattened;
         }
-
-#if DESKTOP
-    [ComVisible(true)] 
-#endif
         /// <summary>
         /// String-overloaded version of factory method for forward solver computation
         /// </summary>
@@ -69,6 +65,9 @@ namespace Vts.Factories
         /// <param name="opticalProperties"></param>
         /// <param name="constantValues"></param>
         /// <returns></returns>
+        #if DESKTOP
+            [ComVisible(true)] 
+        #endif
         public static double[] GetVectorizedIndependentVariableQueryNew(
              string forwardSolverType,
              string solutionDomainType,
@@ -181,18 +180,28 @@ namespace Vts.Factories
         /// <summary>
         /// Overload of GetPHD that uses internal DI framework-supplied solver singletons
         /// </summary>
-        /// <param name="forwardSolverType"></param>
-        /// <param name="fluence"></param>
-        /// <param name="sdSeparation"></param>
-        /// <param name="ops"></param>
-        /// <param name="rhos"></param>
-        /// <param name="zs"></param>
+        /// <param name="forwardSolverType">enum of forward solver type</param>
+        /// <param name="fluence">fluence</param>
+        /// <param name="sdSeparation">source detector separation (in mm)</param>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rhos">detector locations (in mm)</param>
+        /// <param name="zs">z values (in mm)</param>
         /// <returns></returns>
         public static IEnumerable<double> GetPHD(ForwardSolverType forwardSolverType, IEnumerable<double> fluence, double sdSeparation, IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
         {
             return GetPHD(SolverFactory.GetForwardSolver(forwardSolverType), fluence, sdSeparation, ops, rhos, zs);
         }
 
+        /// <summary>
+        /// Method to generate PHD 
+        /// </summary>
+        /// <param name="forwardSolver">forward solver</param>
+        /// <param name="fluence">fluence</param>
+        /// <param name="sdSeparation">source detector separation (in mm)</param>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rhos">detector locations (in mm)</param>
+        /// <param name="zs">z values (in mm)</param>
+        /// <returns></returns>
         public static IEnumerable<double> GetPHD(IForwardSolver forwardSolver, IEnumerable<double> fluence, double sdSeparation, IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
         {
             var rhoPrimes =
@@ -203,6 +212,7 @@ namespace Vts.Factories
 
             return System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green);
         }
+
         /// <summary>
         /// Method to generate absorbed energy given fluence and mua.  Note only works for homogeneous tissue.
         /// </summary>
@@ -284,17 +294,17 @@ namespace Vts.Factories
             // note: secondly, if there are multiple independent axes, they will be assigned in order of appearance in the method signature
             switch (type)
             {
-                case SolutionDomainType.RofRho:
-                    return (fitData, otherData) => fs.RofRho(getOP(fitData), (double[])otherData[0]);
-                case SolutionDomainType.RofFx:
-                    return (fitData, otherData) => fs.RofFx(getOP(fitData), (double[])otherData[0]);
-                case SolutionDomainType.RofRhoAndT:
+                case SolutionDomainType.ROfRho:
+                    return (fitData, otherData) => fs.ROfRho(getOP(fitData), (double[])otherData[0]);
+                case SolutionDomainType.ROfFx:
+                    return (fitData, otherData) => fs.ROfFx(getOP(fitData), (double[])otherData[0]);
+                case SolutionDomainType.ROfRhoAndTime:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.RofRhoAndT(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
-                        case IndependentVariableAxis.T:
-                            return (fitData, otherData) => fs.RofRhoAndT(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
+                            return (fitData, otherData) => fs.ROfRhoAndTime(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
+                        case IndependentVariableAxis.Time:
+                            return (fitData, otherData) => fs.ROfRhoAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
                         //case IndependentVariableAxis.Wavelength:
                         //    return (chromPlusMusp, constantData) =>
                         //               {
@@ -305,39 +315,39 @@ namespace Vts.Factories
                         //                   tissue.Scatterer = new PowerLawScatterer(chromPlusMusp[i], chromPlusMusp[i + 1]);
                         //                   var muas = wv.Select(w => tissue.GetMua(w)); 
                         //                   var musps = wv.Select(w => tissue.GetMusp(w));
-                        //                   return EnumerableExtensions.Zip(muas,musps,(mua,musp)=>fs.RofRhoAndT())...
+                        //                   return EnumerableExtensions.Zip(muas,musps,(mua,musp)=>fs.ROfRhoAndTime())...
                         //               }; 
-                        //    return op => fs.RofRhoAndT(op, ((double)constantValues[0]).AsEnumerable(), ((double)constantValues[1]).AsEnumerable());
+                        //    return op => fs.ROfRhoAndTime(op, ((double)constantValues[0]).AsEnumerable(), ((double)constantValues[1]).AsEnumerable());
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
-                case SolutionDomainType.RofFxAndT:
+                case SolutionDomainType.ROfFxAndTime:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.RofFxAndT(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
-                        case IndependentVariableAxis.T:
-                            return (fitData, otherData) => fs.RofFxAndT(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
+                            return (fitData, otherData) => fs.ROfFxAndTime(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
+                        case IndependentVariableAxis.Time:
+                            return (fitData, otherData) => fs.ROfFxAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
-                case SolutionDomainType.RofRhoAndFt:
+                case SolutionDomainType.ROfRhoAndFt:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.RofRhoAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
+                            return (fitData, otherData) => fs.ROfRhoAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
                         case IndependentVariableAxis.Ft:
-                            return (fitData, otherData) => fs.RofRhoAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
+                            return (fitData, otherData) => fs.ROfRhoAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
-                case SolutionDomainType.RofFxAndFt:
+                case SolutionDomainType.ROfFxAndFt:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.RofFxAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
+                            return (fitData, otherData) => fs.ROfFxAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
                         case IndependentVariableAxis.Ft:
-                            return (fitData, otherData) => fs.RofFxAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
+                            return (fitData, otherData) => fs.ROfFxAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
@@ -356,17 +366,17 @@ namespace Vts.Factories
             // note: secondly, if there are multiple independent axes, they will be assigned in order of appearance in the method signature
             switch (type)
             {
-                case FluenceSolutionDomainType.FluenceofRho:
-                    return (fitData, otherData) => fs.FluenceofRho(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
-                case FluenceSolutionDomainType.FluenceofFx:
-                    return (fitData, otherData) => fs.FluenceofFx(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
-                case FluenceSolutionDomainType.FluenceofRhoAndT:
+                case FluenceSolutionDomainType.FluenceOfRhoAndZ:
+                    return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
+                case FluenceSolutionDomainType.FluenceOfFxAndZ:
+                    return (fitData, otherData) => fs.FluenceOfFxAndZ(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
+                case FluenceSolutionDomainType.FluenceOfRhoAndZAndTime:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.FluenceofRhoAndT(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
-                        case IndependentVariableAxis.T:
-                            return (fitData, otherData) => fs.FluenceofRhoAndT(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
+                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndTime(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
+                        case IndependentVariableAxis.Time:
+                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndTime(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
                         //case IndependentVariableAxis.Wavelength:
                         //    return (chromPlusMusp, constantData) =>
                         //               {
@@ -377,39 +387,39 @@ namespace Vts.Factories
                         //                   tissue.Scatterer = new PowerLawScatterer(chromPlusMusp[i], chromPlusMusp[i + 1]);
                         //                   var muas = wv.Select(w => tissue.GetMua(w)); 
                         //                   var musps = wv.Select(w => tissue.GetMusp(w));
-                        //                   return EnumerableExtensions.Zip(muas,musps,(mua,musp)=>fs.RofRhoAndT())...
+                        //                   return EnumerableExtensions.Zip(muas,musps,(mua,musp)=>fs.ROfRhoAndTime())...
                         //               }; 
-                        //    return op => fs.RofRhoAndT(op, ((double)constantValues[0]).AsEnumerable(), ((double)constantValues[1]).AsEnumerable());
+                        //    return op => fs.ROfRhoAndTime(op, ((double)constantValues[0]).AsEnumerable(), ((double)constantValues[1]).AsEnumerable());
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
-                case FluenceSolutionDomainType.FluenceofFxAndT:
+                case FluenceSolutionDomainType.FluenceOfFxAndZAndTime:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.FluenceofFxAndT(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
-                        case IndependentVariableAxis.T:
-                            return (fitData, otherData) => fs.FluenceofFxAndT(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
+                            return (fitData, otherData) => fs.FluenceOfFxAndZAndTime(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
+                        case IndependentVariableAxis.Time:
+                            return (fitData, otherData) => fs.FluenceOfFxAndZAndTime(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
-                case FluenceSolutionDomainType.FluenceofRhoAndFt:
+                case FluenceSolutionDomainType.FluenceOfRhoAndZAndFt:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.FluenceofRhoAndFt(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
+                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndFt(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
                         case IndependentVariableAxis.Ft:
-                            return (fitData, otherData) => fs.FluenceofRhoAndFt(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
+                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndFt(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
-                case FluenceSolutionDomainType.FluenceofFxAndFt:
+                case FluenceSolutionDomainType.FluenceOfFxAndZAndFt:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.FluenceofFxAndFt(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
+                            return (fitData, otherData) => fs.FluenceOfFxAndZAndFt(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
                         case IndependentVariableAxis.Ft:
-                            return (fitData, otherData) => fs.FluenceofFxAndFt(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
+                            return (fitData, otherData) => fs.FluenceOfFxAndZAndFt(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }

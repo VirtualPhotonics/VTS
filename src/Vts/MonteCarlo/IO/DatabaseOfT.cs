@@ -6,25 +6,32 @@ using System.Collections.Generic;
 
 namespace Vts.MonteCarlo.IO
 {
-#if !SILVERLIGHT
-    [Serializable]
-#endif
     /// <summary>
     /// Describes database of generic type allowing for various classes to be written to database.
     /// </summary>
     /// <typeparam name="T">type of database</typeparam>
-    public class Database<T>// : IEnumerable<T>
+    #if !SILVERLIGHT
+        [Serializable]
+    #endif
+    public class Database<T>// : IEnumerable<Time>
     {
         [IgnoreDataMember]
         private IEnumerable<T> _dataPoints;
-
+        /// <summary>
+        /// number of elements in database
+        /// </summary>
         public long NumberOfElements { get; set; }
-
+        /// <summary>
+        /// method to set private _dataPoints to passed in dataPoints
+        /// </summary>
+        /// <param name="dataPoints">IEnumerable of generic type Time"</param>
         public void SetDataPoints(IEnumerable<T> dataPoints)
         {
             _dataPoints = dataPoints;
         }
-
+        /// <summary>
+        /// DataPoints is an IEnumerable of Time
+        /// </summary>
         [IgnoreDataMember]
         public IEnumerable<T> DataPoints
         {

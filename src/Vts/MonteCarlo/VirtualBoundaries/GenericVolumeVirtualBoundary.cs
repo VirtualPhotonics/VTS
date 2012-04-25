@@ -11,12 +11,15 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// </summary>
     public class GenericVolumeVirtualBoundary : IVirtualBoundary
     {
-        private IVolumeDetectorController _detectorController;
+        private IDetectorController _detectorController;
 
         /// <summary>
-        /// Creates an instance of a volume virtual boundary
+        /// generic volume virtual boundary, used to capture all internal volume detectors
         /// </summary>
-        public GenericVolumeVirtualBoundary(ITissue tissue, IVolumeDetectorController detectorController, string name)
+        /// <param name="tissue">ITissue</param>
+        /// <param name="detectorController">IDetectorController</param>
+        /// <param name="name">string name</param>
+        public GenericVolumeVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             //_zPlanePosition = ((LayerRegion)tissue.Regions[0]).ZRange.Stop;
 
@@ -41,16 +44,32 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         //{
         //}
 
+        /// <summary>
+        /// VB type identifier
+        /// </summary>
         public VirtualBoundaryType VirtualBoundaryType { get; private set; }
+        /// <summary>
+        /// photon state type
+        /// </summary>
         public PhotonStateType PhotonStateType { get; private set; }
+        /// <summary>
+        /// string name
+        /// </summary>
         public string Name { get; private set; }
+        /// <summary>
+        /// predicate of PhotonDataPoint determining whether will hit VB
+        /// </summary>
         public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
+        /// <summary>
+        /// IDetectorController
+        /// </summary>
         public IDetectorController DetectorController { get { return _detectorController; } }
 
         /// <summary>
-        /// Finds the distance to the virtual boundary 
+        /// finds distance to VB
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="dp">PhotonDataPoint</param>
+        /// <returns>distance</returns>
         public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
             // not sure of following, could be zero

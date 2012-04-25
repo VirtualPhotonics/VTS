@@ -15,15 +15,26 @@ namespace Vts.MonteCarlo
     public class Photon
     {
         // reducing any of the following values might result in unit tests not passing
-        private const int MAX_HISTORY_PTS = 300000; // moved this from MCSimulation
+        // should we dynamically set MAX_HISTORY_PTS and MAX_PHOTON_TIME?  derive one from other?
+        private const int MAX_HISTORY_PTS = 300000; // 300000 * [1/(5/mm)] = 60000 mm
         private const double CHANCE = 0.1;
-        private const double MAX_PHOTON_PATHLENGTH = 2000; // mm
+        //private const double MAX_PHOTON_PATHLENGTH = 2000; // mm  
+        private const double MAX_PHOTON_TIME = 280; // ns = 60000 mm (pathlength) / (300 / 1.4)
+        //private const double WEIGHT_LIMIT = 0.0001; // Russian Roulette weight limit, now part of Options ckh 1/9/12
 
         // could add layer of indirection to not expose Absorb;
         private ITissue _tissue;
         private Random _rng;
         private bool _firstTimeEnteringDomain;
-
+        private double _russianRouletteWeightThreshold;
+        /// <summary>
+        /// Class that keeps a photon's data as it moves through the tissue
+        /// </summary>
+        /// <param name="p">Position</param>
+        /// <param name="d">Direction</param>
+        /// <param name="tissue">Tissue></param>
+        /// <param name="currentTissueRegionIndex">integer index within ITissue definition indicating photon's current position</param>
+        /// <param name="generator">Random Number Generator</param>
         public Photon(
             Position p,
             Direction d,
@@ -37,6 +48,8 @@ namespace Vts.MonteCarlo
                     1.0, // weight
                     0.0, // total time
                     PhotonStateType.Alive);
+            //PreviousDP = null;
+
             History = new PhotonHistory(tissue.Regions.Count);
             History.AddDPToHistory(DP);  // add initial datapoint
             S = 0.0;
@@ -53,8 +66,11 @@ namespace Vts.MonteCarlo
             SetAbsorbAction(_tissue.AbsorptionWeightingType);
             SetScatterAction(_tissue.PhaseFunctionType);
             _rng = generator;
+            _russianRouletteWeightThreshold = _tissue.RussianRouletteWeightThreshold;
         }
-
+        /// <summary>
+        /// default constructor for Photon
+        /// </summary>
         public Photon()
             : this(
                 new Position(0, 0, 0),
@@ -67,8 +83,10 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// photon data point has position, direction etc. info
         /// </summary>
-        public PhotonDataPoint DP { get; set; }
-        // PhotonHistory has SubRegionCollisionInfo
+        public PhotonDataPoint DP { get; set; }        
+        /// <summary>
+        /// PhotonHistory has list of PhotonDataPoints and SubRegionCollisionInfo
+        /// </summary>
         public PhotonHistory History { get; set; }
         /// <summary>
         /// path length of current track, gets updated when passing tissue boundary
@@ -126,7 +144,9 @@ namespace Vts.MonteCarlo
                     break;
             }
         }
-
+        /// <summary>
+        /// method that determines photon's step size based on the RegionScatterLength (1/mus or 1/mut depending on CAW or DAW)
+        /// </summary>
         public void SetStepSize()
         {
             if (SLeft == 0.0)
@@ -139,7 +159,11 @@ namespace Vts.MonteCarlo
                 SLeft = 0.0;
             }
         }
-
+        /// <summary>
+        /// method to move the photon to its next location
+        /// </summary>
+        /// <param name="distance"></param>
+        /// <returns></returns>
          public bool Move(double distance)
          {
             bool willHitBoundary = S >= distance;
@@ -250,18 +274,18 @@ namespace Vts.MonteCarlo
             }
         }
 
-        /*****************************************************************/
+        /// <summary>
+        /// Method to scatter according to Henyey-Greenstein scatter function
+        /// </summary>
         public void ScatterHenyeyGreenstein()
         {
             // readability eased with local copies of following
             double ux = DP.Direction.Ux;
             double uy = DP.Direction.Uy;
             double uz = DP.Direction.Uz;
-            PhotonDataPoint p = DP;
-            Direction dir = p.Direction;
+            //Direction dir = DP.Direction;
 
-            int currentRegionIndex = this.CurrentRegionIndex;
-            double g = this._tissue.Regions[currentRegionIndex].RegionOP.G;
+            double g = _tissue.Regions[CurrentRegionIndex].RegionOP.G;
             double cost, sint;    /* cosine and sine of theta */
             double cosp, sinp;    /* cosine and sine of phi */
             double psi;
@@ -281,27 +305,27 @@ namespace Vts.MonteCarlo
             cosp = Math.Cos(psi);
             sinp = Math.Sin(psi);
 
-            if (Math.Abs(dir.Uz) > (1 - 1e-10))
+            if (Math.Abs(DP.Direction.Uz) > (1 - 1e-10))
             {   /* normal incident. */
-                dir.Ux = sint * cosp;
-                dir.Uy = sint * sinp;
-                dir.Uz = cost * dir.Uz / Math.Abs(dir.Uz);
+                DP.Direction.Ux = sint * cosp;
+                DP.Direction.Uy = sint * sinp;
+                DP.Direction.Uz = cost * DP.Direction.Uz / Math.Abs(DP.Direction.Uz);
             }
             else
             {
                 double temp = Math.Sqrt(1.0 - uz * uz);
-                dir.Ux = sint * (ux * uz * cosp - uy * sinp) / temp + ux * cost;
-                dir.Uy = sint * (uy * uz * cosp + ux * sinp) / temp + uy * cost;
-                dir.Uz = -sint * cosp * temp + uz * cost;
+                DP.Direction.Ux = sint * (ux * uz * cosp - uy * sinp) / temp + ux * cost;
+                DP.Direction.Uy = sint * (uy * uz * cosp + ux * sinp) / temp + uy * cost;
+                DP.Direction.Uz = -sint * cosp * temp + uz * cost;
             }
 
-            DP.Direction = dir; // DC - this isn't necessary
         }
-
+        /// <summary>
+        /// Method to scatter bidirectionally
+        /// </summary>
         public void Scatter1D()
         {
-            int currentRegion = this.CurrentRegionIndex;
-            double g = this._tissue.Regions[currentRegion].RegionOP.G;
+            double g = this._tissue.Regions[CurrentRegionIndex].RegionOP.G;
 
             // comment for compile
             if (_rng.NextDouble() < ((1 + g) / 2.0))
@@ -315,7 +339,9 @@ namespace Vts.MonteCarlo
             this.DP.Direction.Uz = this.DP.Direction.Uz; // ??
         }
 
-        /*****************************************************************/
+        /// <summary>
+        /// Method to check for absorption according to analog random walk process
+        /// </summary>
         public void AbsorbAnalog()
         {
             if (_rng.NextDouble() > _tissue.Regions[CurrentRegionIndex].RegionOP.Mus /
@@ -327,43 +353,49 @@ namespace Vts.MonteCarlo
                 History.AddDPToHistory(DP);
             }
         }
+        /// <summary>
+        /// Method to deweight for absorption according to discrete absorption weighting (DAW)
+        /// random walk process
+        /// </summary>
         public void AbsorbDiscrete()
         {
-            double dw;
-            int currentRegion = CurrentRegionIndex;
-            double mua = _tissue.Regions[currentRegion].RegionOP.Mua;
-            double mus = _tissue.Regions[currentRegion].RegionOP.Mus;
-            double w = DP.Weight;
-            double x = DP.Position.X;
-            double y = DP.Position.Y;
-            int index = History.HistoryData.Count() - 1;
+            double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
+            double mus = _tissue.Regions[CurrentRegionIndex].RegionOP.Mus;
 
             if (this.SLeft == 0.0)  // only deweight if at real collision
             {
-                dw = w * mua / (mua + mus);
+                double dw = DP.Weight * mua / (mua + mus);
                 DP.Weight -= dw;
                 // fluence tallying used to be done here 
 
                 // update weight for current DP in History 
-                History.HistoryData[index].Weight = DP.Weight;
+                History.HistoryData[History.HistoryData.Count() - 1].Weight = DP.Weight;
             }
         }
-
+        /// <summary>
+        /// Method to deweight for absorption according to continuous absorption weighting (CAW)
+        /// random walk process
+        /// </summary>
         public void AbsorbContinuous()
         {
-            double dw;
             double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
-            double mus = _tissue.Regions[CurrentRegionIndex].RegionOP.Mus;
-            int index = History.HistoryData.Count() - 1;
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
-            dw = DP.Weight * (1 - Math.Exp(-mua * S));
-            DP.Weight -= dw;
+            //double dw = DP.Weight * (1 - Math.Exp(-mua * S));
+            //DP.Weight -= dw;
+            // use path length info to determine surviving weight
+            var exponent = 0.0;
+            for (int i = 0; i < _tissue.Regions.Count - 1; i++)
+            {
+                exponent +=_tissue.Regions[i].RegionOP.Mua * History.SubRegionInfoList[i].PathLength;
+            };
+            DP.Weight = Math.Exp(-exponent);
 
             // update weight for current DP in History 
-            History.HistoryData[index].Weight = DP.Weight;
+            History.HistoryData[History.HistoryData.Count() - 1].Weight = DP.Weight;
         }
-        /*********************************************************/
-
+        /// <summary>
+        /// Method to test for death of the photon
+        /// </summary>
         public void TestDeath()
         {
             TestWeightAndDistance();         
@@ -377,49 +409,50 @@ namespace Vts.MonteCarlo
                 History.AddDPToHistory(DP);
             }
         }
+        /// <summary>
+        /// Method that kills photon due to Russian Roulette, maximum path length, etc.
+        /// </summary>
         public void TestWeightAndDistance()
         {
-            //   if (photptr.w < Weight_Limit) 
-            //     Roulette();  
-            // kill photon if it has had too many collisions
-            if (History.HistoryData.Count >= MAX_HISTORY_PTS)
+            // kill by RR if weight < user-input WEIGHT_LIMIT (=0.0 then no RR)
+            if (DP.Weight < _russianRouletteWeightThreshold)
             {
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumCollisions);
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                History.AddDPToHistory(DP);
-            }
-            /* kill photon if it has gone too far */
-            var totalPathLength = History.SubRegionInfoList.Select((pl, c) => pl.PathLength).Sum();
-            if (totalPathLength >= MAX_PHOTON_PATHLENGTH)
-            {
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                History.AddDPToHistory(DP);
-            }
-        }
-
-        /*****************************************************************/
-        void Roulette()
-        {
-            if (DP.Weight == 0.0)
-            {
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-            }
-            else if (_rng.NextDouble() < CHANCE)
-            {
-                DP.Weight = DP.Weight / CHANCE;
+                if (DP.Weight == 0.0)
+                {
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
+                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                }
+                else if (_rng.NextDouble() < CHANCE)
+                {
+                    DP.Weight = DP.Weight / CHANCE;
+                }
+                else
+                {
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
+                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                }
+                if (DP.StateFlag.HasFlag(PhotonStateType.KilledRussianRoulette))
+                {
+                    History.AddDPToHistory(DP);
+                }
             }
             else
             {
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-            } 
-            if (DP.StateFlag.HasFlag(PhotonStateType.KilledRussianRoulette))
-            {
-                History.AddDPToHistory(DP);
+                // kill photon if it has had too many collisions
+                if (History.HistoryData.Count >= MAX_HISTORY_PTS)
+                {
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumCollisions);
+                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    History.AddDPToHistory(DP);
+                }
+                // kill photon if it has gone too far 
+                if (DP.TotalTime >= MAX_PHOTON_TIME)
+                {
+                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
+                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    History.AddDPToHistory(DP);
+                }
             }
         }
-
     }
 }

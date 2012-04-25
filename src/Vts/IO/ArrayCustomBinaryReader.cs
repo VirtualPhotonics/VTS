@@ -75,7 +75,7 @@ namespace Vts.IO
                 return dataOut;
             }
 
-            throw new NotSupportedException("Type of T is not supported");
+            throw new NotSupportedException("Type of Time is not supported");
         }
 
         private static IEnumerable<double> ReadDoubles(BinaryReader br, int numberOfElements)

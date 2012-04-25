@@ -31,7 +31,7 @@ namespace Vts.SiteVisit.ViewModel
 
         private MonteCarloSimulation _simulation;
 
-        private Output _output;
+        private SimulationOutput _output;
 
         private SimulationInputViewModel _simulationInputVM;
 
@@ -397,7 +397,7 @@ namespace Vts.SiteVisit.ViewModel
             return new PlotAxesLabels(
                 IndependentVariableAxis.Rho.GetInternationalizedString(),
                 IndependentVariableAxisUnits.MM.GetInternationalizedString(),
-                SolutionDomainType.RofRho.GetInternationalizedString(),
+                SolutionDomainType.ROfRho.GetInternationalizedString(),
                 DependentVariableAxisUnits.PerMMSquared.GetInternationalizedString());
         }
 

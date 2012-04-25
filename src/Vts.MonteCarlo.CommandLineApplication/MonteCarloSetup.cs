@@ -117,8 +117,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 var sweepValues = parameterSweep.Range.AsEnumerable();
 
-                // todo: make more dynamic/flexible by removing requirment for enum value, and instead rely on parsing string name and index djc 2011-06-03
-                // var inputParameterType = (InputParameterType)Enum.Parse(typeof(InputParameterType), parameterSweep.Name, true);
                 batchInputs = batchInputs.WithParameterSweep(sweepValues, parameterSweep.Name.ToLower());
             }
 
@@ -150,7 +148,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 Directory.CreateDirectory(resultsFolder);
             }
 
-            Output detectorResults = mc.Run(path);
+            mc.SetOutputPathForDatabases(path);
+
+            SimulationOutput detectorResults = mc.Run();
 
             input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
 
@@ -166,10 +166,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
         /// </summary>
         public static void RunSimulations(IEnumerable<SimulationInput> inputs, string outputFolderPath)
         {
-            Parallel.ForEach(inputs, (input, state, index) =>
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount};
+            Parallel.ForEach(inputs, options, (input, state, index) =>
             {
                 input.Options.SimulationIndex = (int)index;
-                // todo: should we do something about the seed to avoid correlation? or fix by making wall-clock seed the default?
                 RunSimulation(input, outputFolderPath);
             });
         }

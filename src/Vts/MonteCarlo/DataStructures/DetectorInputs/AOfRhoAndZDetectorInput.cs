@@ -26,6 +26,7 @@ namespace Vts.MonteCarlo
         /// constructor uses TallyType for name
         /// </summary>
         /// <param name="rho">rho binning</param>
+        /// <param name="z">z binning</param>
         public AOfRhoAndZDetectorInput(DoubleRange rho, DoubleRange z) 
             : this(rho, z, TallyType.AOfRhoAndZ.ToString()) { }
 

@@ -1,3 +1,4 @@
+
 //#define SILVERLIGHT_SAVE_TO_LOCAL_FILESTREAM_WITH_SAVEFILEDIALOG
 
 using System;
@@ -25,6 +26,40 @@ namespace Vts.IO
     /// </summary>
     public static class FileIO
     {
+        /// <summary>
+        /// Static method to check if a file exists in Silverlight or Desktop
+        /// </summary>
+        /// <param name="fileName">Name of the file</param>
+        public static bool FileExists(string fileName)
+        {
+#if SILVERLIGHT
+            var objStore = IsolatedStorageFile.GetUserStoreForApplication();
+            return objStore.FileExists(fileName);
+#else
+            return File.Exists(fileName);
+#endif
+        }
+
+        /// <summary>
+        /// Statis method to delete a file in Silverlight or Desktop
+        /// </summary>
+        /// <param name="fileName">Name of the file to delete</param>
+        public static void FileDelete(string fileName)
+        {
+#if SILVERLIGHT
+            var objStore = IsolatedStorageFile.GetUserStoreForApplication();
+            if(objStore.FileExists(fileName))
+            {
+                objStore.DeleteFile(fileName);
+            }
+#else
+            if(File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+#endif
+        }
+
         /// <summary>
         /// Static method to clone an object
         /// </summary>
@@ -138,7 +173,7 @@ namespace Vts.IO
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
             {
-                //new DataContractSerializer(typeof(T)).WriteObject(stream, myObject);
+                //new DataContractSerializer(typeof(Time)).WriteObject(stream, myObject);
                 myObject.WriteToStream(stream);
             }
         }
@@ -154,7 +189,7 @@ namespace Vts.IO
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
             {
                 return ReadFromStream<T>(stream);
-                //return (T)new DataContractSerializer(typeof(T)).ReadObject(stream);
+                //return (Time)new DataContractSerializer(typeof(Time)).ReadObject(stream);
             }
         }
 
@@ -170,7 +205,7 @@ namespace Vts.IO
             using (Stream stream = StreamFinder.GetFileStreamFromResources(fileName, projectName))
             {
                 return ReadFromStream<T>(stream);
-                //return (T)new DataContractSerializer(typeof(T)).ReadObject(stream);
+                //return (Time)new DataContractSerializer(typeof(Time)).ReadObject(stream);
             }
         }
 
@@ -233,7 +268,7 @@ namespace Vts.IO
                 using (BinaryWriter bw = new BinaryWriter(s))
                 {
                     new ArrayCustomBinaryWriter<T>().WriteToBinary(bw, dataIN);
-                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<T>());
+                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<Time>());
                 }
             }
         }
@@ -275,10 +310,10 @@ namespace Vts.IO
             {
                 using (BinaryReader br = new BinaryReader(s))
                 {
-                    //Array dataOut = Array.CreateInstance(typeof(T), dims);
+                    //Array dataOut = Array.CreateInstance(typeof(Time), dims);
 
                     return new ArrayCustomBinaryReader<T>(dims).ReadFromBinary(br);
-                    //ReadArrayFromBinaryInternal<T>(br, ref dataOut);
+                    //ReadArrayFromBinaryInternal<Time>(br, ref dataOut);
 
                     //return dataOut;
                 }
@@ -316,9 +351,9 @@ namespace Vts.IO
                 using (BinaryReader br = new BinaryReader(stream))
                 {
                     // Initialize the array
-                    //Array dataOut = Array.CreateInstance(typeof(T), dims);
+                    //Array dataOut = Array.CreateInstance(typeof(Time), dims);
                     // Fill with data
-                    //ReadArrayFromBinaryInternal<T>(br, ref dataOut);
+                    //ReadArrayFromBinaryInternal<Time>(br, ref dataOut);
 
                     return new ArrayCustomBinaryReader<T>(dims).ReadFromBinary(br);
                 }
@@ -327,7 +362,7 @@ namespace Vts.IO
 
         //#region Write/ReadArrayToBinary Helpers
 
-        //private static void WriteArrayToBinaryInternal<T>(BinaryWriter bw, IEnumerable<T> array) where T : struct
+        //private static void WriteArrayToBinaryInternal<Time>(BinaryWriter bw, IEnumerable<Time> array) where Time : struct
         //{
         //    if (array is IEnumerable<float>)
         //    {
@@ -347,9 +382,9 @@ namespace Vts.IO
         //    }
         //}
 
-        //private static void ReadArrayFromBinaryInternal<T>(BinaryReader br, ref Array myArray) where T : struct
+        //private static void ReadArrayFromBinaryInternal<Time>(BinaryReader br, ref Array myArray) where Time : struct
         //{
-        //    var dataType = typeof (T);
+        //    var dataType = typeof (Time);
 
         //    if (dataType == typeof(double))
         //    {
@@ -457,7 +492,7 @@ namespace Vts.IO
             }
         }
 
-        // both versions of ReadArrayFromBinary<T> call this method to actually read the data - is this still true?
+        // both versions of ReadArrayFromBinary<Time> call this method to actually read the data - is this still true?
         /// <summary>
         /// 
         /// </summary>
@@ -550,12 +585,12 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Read an object of type T from a binary file in resources
+        /// Read an object of type Time from a binary file in resources
         /// </summary>
         /// <typeparam name="T">Type of the object</typeparam>
         /// <param name="filename">Name of the binary file in resources</param>
         /// <param name="projectName">Name of the project where the resources are located</param>
-        /// <returns>The object of type T</returns>
+        /// <returns>The object of type Time</returns>
         public static T ReadFromBinaryInResources<T>(string filename, string projectName)
         {
             using (Stream stream = StreamFinder.GetFileStreamFromResources(filename, projectName))
@@ -565,7 +600,7 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Write an object of type T to a binary file
+        /// Write an object of type Time to a binary file
         /// </summary>
         /// <typeparam name="T">Type of the object</typeparam>
         /// <param name="myObject">Object</param>
@@ -583,7 +618,7 @@ namespace Vts.IO
         /// </summary>
         /// <typeparam name="T">Type of the object</typeparam>
         /// <param name="s">Stream to deserialize</param>
-        /// <returns>The object of type T</returns>
+        /// <returns>The object of type Time</returns>
         public static T ReadFromBinaryStream<T>(Stream s)
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -599,7 +634,7 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Serializes an object of type T to the given stream
+        /// Serializes an object of type Time to the given stream
         /// </summary>
         /// <typeparam name="T">Type of the object</typeparam>
         /// <param name="myObject">Object</param>

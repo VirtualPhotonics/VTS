@@ -102,6 +102,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Vts.Test\Common\DirectionTests.cs">
+      <Link>Common\DirectionTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Common\Extensions\ArrayExtensionsTests.cs">
       <Link>Common\Extensions\ArrayExtensionsTests.cs</Link>
     </Compile>
@@ -162,9 +165,6 @@
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\NurbsGeneratorTests.cs">
       <Link>Modeling\ForwardSolvers\NurbsGeneratorTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\pMCForwardSolverTests.cs">
-      <Link>Modeling\ForwardSolvers\pMCForwardSolverTests.cs</Link>
-    </Compile>
     <Compile Include="..\Vts.Test\Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTests.cs">
       <Link>Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTests.cs</Link>
     </Compile>
@@ -216,8 +216,8 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogLayerDetectorsTests.cs">
-      <Link>MonteCarlo\Detectors\AnalogLayerDetectorsTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\CAWLayersDetectorsTests.cs</Link>
@@ -228,8 +228,17 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWSphereDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWSphereDetectorsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCCAWOneLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCCAWOneLayerDetectorsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWOneLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCDAWOneLayerDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
       <Link>MonteCarlo\Detectors\SpecularLayerDetectorTests.cs</Link>
@@ -240,6 +249,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\IO\DetectorIOTests.cs">
       <Link>MonteCarlo\IO\DetectorIOTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\MonteCarloSimulationTests.cs">
+      <Link>MonteCarlo\MonteCarloSimulationTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
       <Link>MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs</Link>
     </Compile>
@@ -248,6 +260,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\PhotonData\pMCDatabaseTests.cs">
       <Link>MonteCarlo\PhotonData\pMCDatabaseTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs">
+      <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
@@ -260,9 +275,6 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs">
-      <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

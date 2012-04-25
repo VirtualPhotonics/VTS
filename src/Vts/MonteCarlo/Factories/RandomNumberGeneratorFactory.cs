@@ -10,8 +10,8 @@ namespace Vts.MonteCarlo.Factories
         /// <summary>
         /// Returns an instance of the desired random number generator with default seeding
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="type">RandomNumberGeneratorType</param>
+        /// <returns>Random</returns>
         public static Random GetRandomNumberGenerator(RandomNumberGeneratorType type)
         {
             // todo: is this the desired default behavior?
@@ -21,9 +21,9 @@ namespace Vts.MonteCarlo.Factories
         /// <summary>
         /// Returns an instance of the desired random number generator
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="seed"></param>
-        /// <returns></returns>
+        /// <param name="type">RandomNumberGeneratorType enum</param>
+        /// <param name="seed">integer seed for the RNG, seed=-1 -> random seed, otherwise seeded with input seed</param>
+        /// <returns>Random</returns>
         public static Random GetRandomNumberGenerator(RandomNumberGeneratorType type, int seed)
         {
             if (seed == -1)
@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.Factories
             switch (type)
             {
                 case RandomNumberGeneratorType.MersenneTwister:
-                    return new MathNet.Numerics.Random.MersenneTwister(seed);
+                    return new MathNet.Numerics.Random.MersenneTwister(seed, true);
                 default:
                     throw new ArgumentOutOfRangeException("type");
 

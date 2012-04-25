@@ -13,7 +13,14 @@ namespace Vts.MonteCarlo.PhotonData
         private double _Weight;
         private double _TotalTime;
         private PhotonStateType _StateFlag;
-
+        /// <summary>
+        /// Photon information updated during its trajectory through tissue
+        /// </summary>
+        /// <param name="position">Position</param>
+        /// <param name="direction">Direction</param>
+        /// <param name="weight">weight</param>
+        /// <param name="totalTime">total time of flight</param>
+        /// <param name="stateFlag">PhotonStateType</param>
         public PhotonDataPoint(
             Position position,
             Direction direction,

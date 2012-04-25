@@ -29,18 +29,30 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] controlPoints = { 1.0, 2.0, 3.0};
             double[] result = nurbsGenerator.MultiplyControlPointsAndPolynomialCoefficients(polynomialCoefs, controlPoints);
             double[] expectedResult = {6.0,12.0,18.0};
-            Assert.AreEqual(expectedResult, result, "The multyplied control points should be equal to the expected values.");
+            Assert.AreEqual(expectedResult, result, "The multiplied control points should be equal to the expected values.");
         }
 
         /// <summary>
         /// Test against the NurbsGenerator class.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "Negative parametric point not accetable as input.")]
+        //[ExpectedException(typeof(ArgumentException), ExpectedMessage = "Negative parametric point not acceptable as input.")]
         public void FindSpan_ParametricPointSmallerThenZero_ThowsException()
         {
-            NurbsValues nurbsValues = new NurbsValues(1.0);
-            nurbsGenerator.FindSpan(nurbsValues, -1.0);
+            //Assert.Throws<ArgumentException>(delegate { nurbsGenerator.FindSpan(nurbsValues, -1.0); }, "Negative parametric point not acceptable as input.");
+            try
+            {
+                NurbsValues nurbsValues = new NurbsValues(1.0);
+                nurbsGenerator.FindSpan(nurbsValues, -1.0);
+            }
+            catch (ArgumentException e)
+            {
+                Assert.AreEqual(e.Message, "Negative parametric point not acceptable as input.");
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         /// <summary>
@@ -201,10 +213,22 @@ namespace Vts.Test.Modeling.ForwardSolvers
         /// Test against NurbsGenerator.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "Degree is too high.")]
+        //[ExpectedException(typeof(ArgumentException), ExpectedMessage = "Degree is too high.")]
         public void GetIntegralFunction_DegreeHigherThenMaxDegreeExpNotNull_ThrowsException()
         {
-            nurbsGenerator.GetIntegralFunction(4, 1.0);
+            // Assert.Throws<ArgumentException>(delegate { nurbsGenerator.GetIntegralFunction(4, 1.0); }, "Degree is too high.");
+            try
+            {
+                nurbsGenerator.GetIntegralFunction(4, 1.0);
+            }
+            catch (ArgumentException e)
+            {
+                Assert.AreEqual(e.Message, "Degree is too high.");
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         /// <summary>

@@ -28,6 +28,10 @@ namespace Vts.MonteCarlo.Extensions
             {
                 ++statistics.NumberOfPhotonsAbsorbed;
             }
+            if (dp.StateFlag.HasFlag(PhotonStateType.PseudoSpecularTissueBoundary))
+            {
+                ++statistics.NumberOfPhotonsSpecularReflected;
+            }
             if (dp.StateFlag.HasFlag(PhotonStateType.KilledOverMaximumCollisions))
             {
                 ++statistics.NumberOfPhotonsKilledOverMaximumCollisions;

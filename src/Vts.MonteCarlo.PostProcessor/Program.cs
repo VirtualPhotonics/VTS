@@ -28,6 +28,8 @@ namespace Vts.MonteCarlo.PostProcessor
     [KnownType(typeof(ROfRhoAndTimeDetectorInput))]
     [KnownType(typeof(ROfRhoDetectorInput))]
     [KnownType(typeof(ROfXAndYDetectorInput))]
+    [KnownType(typeof(ROfFxDetectorInput))]
+    [KnownType(typeof(ROfFxAndTimeDetectorInput))]
     [KnownType(typeof(TDiffuseDetectorInput))]
     [KnownType(typeof(TOfAngleDetectorInput))]
     [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
@@ -142,32 +144,35 @@ namespace Vts.MonteCarlo.PostProcessor
                     Console.WriteLine("output path specified as {0}", outPath);
                 })
             );
-            //if help is passed as an agument do not run PP, just display the help for the topic
-            if (!displayHelp)
-            {
-                var input = PostProcessorSetup.ReadPostProcessorInputFromFile(inFile);
-                if (input == null)
-                {
-                    return;
-                }
 
-                var validationResult = PostProcessorSetup.ValidatePostProcessorInput(input);
-                if (!validationResult.IsValid)
-                {
-                    Console.Write("\nPost-processor) completed with errors. Press enter key to exit.");
-                    Console.Read();
-                    return;
-                }
-                // override the output name with the user-specified name
-                if (!string.IsNullOrEmpty(outName))
-                {
-                    input.OutputName = outName;
-                }
-                PostProcessorSetup.RunPostProcessor(input, outPath);
-                Console.WriteLine("\nPost-processing complete.");
-               
+            if (displayHelp)
+            {
+                ShowHelp();
+                return;
             }
+
+            var input = PostProcessorSetup.ReadPostProcessorInputFromFile(inFile);
+            if (input == null)
+            {
+                return;
+            }
+
+            var validationResult = PostProcessorSetup.ValidatePostProcessorInput(input);
+            if (!validationResult.IsValid)
+            {
+                Console.Write("\nPost-processor) completed with errors. Press enter key to exit.");
+                Console.Read();
+                return;
+            }
+            // override the output name with the user-specified name
+            if (!string.IsNullOrEmpty(outName))
+            {
+                input.OutputName = outName;
+            }
+            PostProcessorSetup.RunPostProcessor(input, outPath);
+            Console.WriteLine("\nPost-processing complete.");
         }
+
         private static void GenerateDefaultInputFiles()
         {
             var infiles = PostProcessorInputProvider.GenerateAllPostProcessorInputs();

@@ -14,7 +14,7 @@ namespace Vts.Test.Modeling
         /// using the SDA as the model predictor
         /// </summary>
         [Test]
-        public void VerifyRofRhoSDAMeasuredNoNoiseSDAModel()
+        public void VerifyROfRhoSDAMeasuredNoNoiseSDAModel()
         {
             var independentValues = new double[] { 10, 11, 12, 13, 14, 15 }; // rho [mm]
             var actualProperties = new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4);
@@ -22,7 +22,7 @@ namespace Vts.Test.Modeling
 
             var simulatedMeasured = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                 ForwardSolverType.DistributedPointSourceSDA,
-                SolutionDomainType.RofRho,
+                SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
                 IndependentVariableAxis.Rho,
                 independentValues,
@@ -33,7 +33,7 @@ namespace Vts.Test.Modeling
             double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
                 ForwardSolverType.DistributedPointSourceSDA,
                 OptimizerType.MPFitLevenbergMarquardt,
-                SolutionDomainType.RofRho,
+                SolutionDomainType.ROfRho,
                 IndependentVariableAxis.Rho,
                 independentValues,
                 simulatedMeasured,
@@ -53,7 +53,7 @@ namespace Vts.Test.Modeling
         /// using the SDA as the model predictor
         /// </summary>
         [Test]
-        public void VerifyRofRhoMonteCarloMeasuredNoNoiseSDAModel()
+        public void VerifyROfRhoMonteCarloMeasuredNoNoiseSDAModel()
         {
             var independentValues = new double[] { 10, 11, 12, 13, 14, 15 }; // rho [mm]
             var actualProperties = new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4);
@@ -61,7 +61,7 @@ namespace Vts.Test.Modeling
 
             var simulatedMeasured = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                 ForwardSolverType.MonteCarlo,
-                SolutionDomainType.RofRho,
+                SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
                 IndependentVariableAxis.Rho,
                 independentValues,
@@ -72,7 +72,7 @@ namespace Vts.Test.Modeling
             double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
                 ForwardSolverType.DistributedPointSourceSDA,
                 OptimizerType.MPFitLevenbergMarquardt,
-                SolutionDomainType.RofRho,
+                SolutionDomainType.ROfRho,
                 IndependentVariableAxis.Rho,
                 independentValues,
                 simulatedMeasured,
@@ -92,7 +92,7 @@ namespace Vts.Test.Modeling
         /// using the Monte Carlo as the model predictor
         /// </summary>
         [Test]
-        public void VerifyRofRhoMonteCarloMeasuredNoNoiseMonteCarloModel()
+        public void VerifROfRhoMonteCarloMeasuredNoNoiseMonteCarloModel()
         {
             var independentValues = new double[] { 1, 2, 3, 4, 5, 6 }; // rho [mm]
             var actualProperties = new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4);
@@ -100,7 +100,7 @@ namespace Vts.Test.Modeling
 
             var simulatedMeasured = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                 ForwardSolverType.MonteCarlo,
-                SolutionDomainType.RofRho,
+                SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
                 IndependentVariableAxis.Rho,
                 independentValues,
@@ -111,7 +111,7 @@ namespace Vts.Test.Modeling
             double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
                 ForwardSolverType.MonteCarlo,
                 OptimizerType.MPFitLevenbergMarquardt,
-                SolutionDomainType.RofRho,
+                SolutionDomainType.ROfRho,
                 IndependentVariableAxis.Rho,
                 independentValues,
                 simulatedMeasured,

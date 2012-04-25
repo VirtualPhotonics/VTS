@@ -15,18 +15,22 @@ namespace Vts.MonteCarlo.Controllers
     public class DatabaseWriterController
     {
         IList<PhotonDatabaseWriter> _photonDatabaseWriters;
-
+        /// <summary>
+        /// class that controls DatabaseWriter(s).
+        /// </summary>
+        /// <param name="photonDatabaseWriters">IList of PhotonDatabaseWriter</param>
         public DatabaseWriterController(IList<PhotonDatabaseWriter> photonDatabaseWriters)
         {
             _photonDatabaseWriters = photonDatabaseWriters;
         }
-
+        /// <summary>
+        /// list of PhotonDatabaseWriter
+        /// </summary>
         public IList<PhotonDatabaseWriter> PhotonDatabaseWriters { get { return _photonDatabaseWriters; } set { _photonDatabaseWriters = value; } }
 
         /// <summary>
         /// Method to write to all surface VB databases
         /// </summary>
-        /// <param name="photonDatabaseWriters">list of PhotonDatabaseWriter</param>
         /// <param name="dp">PhotonDataPoint</param>
         public void WriteToSurfaceVirtualBoundaryDatabases(PhotonDataPoint dp)
         {

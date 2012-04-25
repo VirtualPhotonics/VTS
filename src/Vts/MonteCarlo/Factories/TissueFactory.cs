@@ -9,13 +9,21 @@ namespace Vts.MonteCarlo.Factories
     public static class TissueFactory
     {
         // todo: revisit to make signatures here and in Tissue/TissueInput class signatures strongly typed
-        public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, PhaseFunctionType pft)
+        /// <summary>
+        /// Method to return ITissue given inputs
+        /// </summary>
+        /// <param name="ti">ITissueInput</param>
+        /// <param name="awt">AbsorptionWeightingType enum</param>
+        /// <param name="pft">PhaseFunctionType enum</param>
+        /// <param name="russianRouletteWeightThreshold">Russian Roulette weight threshold</param>
+        /// <returns>ITissue</returns>
+        public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
             ITissue t = null;
             if (ti is MultiLayerTissueInput)
             {
                 var multiLayerTissueInput = (MultiLayerTissueInput) ti;
-                t = new MultiLayerTissue(multiLayerTissueInput.Regions, awt, pft);
+                t = new MultiLayerTissue(multiLayerTissueInput.Regions, awt, pft, russianRouletteWeightThreshold);
             }
             if (ti is SingleEllipsoidTissueInput)
             {
@@ -24,7 +32,8 @@ namespace Vts.MonteCarlo.Factories
                     singleEllipsoidTissueInput.EllipsoidRegion,
                     singleEllipsoidTissueInput.LayerRegions,
                     awt,
-                    pft);
+                    pft,
+                    russianRouletteWeightThreshold);
             }
             if (t == null)
                 throw new ArgumentException(

@@ -24,8 +24,10 @@ namespace Vts.MonteCarlo
         private ITissueRegion[] _layerRegions;
 
         /// <summary>
-        /// SingleEllipsoidTissueInput constructor 
+        /// allows definition of single ellipsoid tissue
         /// </summary>
+        /// <param name="ellipsoidRegion">ellipsoid region specification</param>
+        /// <param name="layerRegions">tissue layer specification</param>
         public SingleEllipsoidTissueInput(ITissueRegion ellipsoidRegion, ITissueRegion[] layerRegions)
         {
             _ellipsoidRegion = ellipsoidRegion;
@@ -33,7 +35,8 @@ namespace Vts.MonteCarlo
         }
 
         /// <summary>
-        /// SingleEllipsoidTissueInput default constructor provides homogeneous tissue
+        /// SingleEllipsoidTissueInput default constructor provides homogeneous tissue with single ellipsoid
+        /// with radius 0.5mm and center (0,0,1)
         /// </summary>
         public SingleEllipsoidTissueInput()
             : this(
@@ -58,15 +61,23 @@ namespace Vts.MonteCarlo
                 })
         {
         }
-
+        /// <summary>
+        /// tissue type
+        /// </summary>
         [IgnoreDataMember]
         public TissueType TissueType { get { return TissueType.SingleEllipsoid; } }
-
+        /// <summary>
+        /// regions of tissue (layers and ellipsoid)
+        /// </summary>
         [IgnoreDataMember]
         public ITissueRegion[] Regions { get { return _layerRegions.Concat(_ellipsoidRegion).ToArray(); } }
-
+        /// <summary>
+        /// tissue ellipsoid region
+        /// </summary>
         public ITissueRegion EllipsoidRegion { get { return _ellipsoidRegion; } set { _ellipsoidRegion = value; } }
-
+        /// <summary>
+        /// tissue layer regions
+        /// </summary>
         public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
     }
 }

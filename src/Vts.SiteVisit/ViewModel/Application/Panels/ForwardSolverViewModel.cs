@@ -55,7 +55,7 @@ namespace Vts.SiteVisit.ViewModel
                   OnPropertyChanged("ForwardSolver");
             };
 
-            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain:", SolutionDomainType.RofRho);
+            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain:", SolutionDomainType.ROfRho);
 
             ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output:", true);
 
@@ -190,9 +190,6 @@ namespace Vts.SiteVisit.ViewModel
                     break;
                 case ForwardSolverType.MonteCarlo:
                     modelString = "Model - scaled MC \r";
-                    break;
-                case ForwardSolverType.pMC:
-                    modelString = "Model - pMC \r";
                     break;
                 case ForwardSolverType.Nurbs:
                     modelString = "Model - nurbs \r";

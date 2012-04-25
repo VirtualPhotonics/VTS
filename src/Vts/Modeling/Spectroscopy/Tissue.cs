@@ -65,107 +65,10 @@ namespace Vts.SpectralMapping
         private void SetPredefinedTissueDefinitions(TissueType tissueType) // this data should be in XML
         {
             TissueType = tissueType;
-            SetAbsorbers(tissueType);
-            SetScatterer(tissueType);
+            Absorbers = TissueProvider.CreateAbsorbers(tissueType);
+            Scatterer = TissueProvider.CreateScatterer(tissueType);
         }
-
-        /// <summary>
-        /// Sets the absorbers for the specified tissue type
-        /// </summary>
-        /// <param name="tissueType">Tissue type</param>
-        public void SetAbsorbers(TissueType tissueType)
-        {
-            TissueType = tissueType;
-            Absorbers = new List<IChromophoreAbsorber>();
-            switch (tissueType)
-            {
-                case (TissueType.Skin):
-                    //ref: Meglinski, Matcher, Computer Methods and Programs in Biomedicine 70, 2003, 179-186.
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Hb, 28.4)); //225.8
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.HbO2, 22.4)); //338.7
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.H2O, 0.7));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Fat, 0.0));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Melanin, 0.001));
-                    break;
-
-                case (TissueType.BreastPreMenopause):
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Hb, 6.9));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.HbO2, 19.6));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.H2O, 0.345));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Fat, 0.41));
-                    break;
-
-                case (TissueType.BreastPostMenopause):
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Hb, 3.75));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.HbO2, 11.25));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.H2O, 0.205));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Fat, 0.585));
-                    break;
-
-                case (TissueType.BrainWhiteMatter):
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Hb, 24));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.HbO2, 56));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.H2O, 0.80));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Fat, 0.12));
-                    break;
-
-                case (TissueType.BrainGrayMatter):
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Hb, 24));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.HbO2, 56));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.H2O, 0.80));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Fat, 0.12));
-                    break;
-
-                case (TissueType.Liver):
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Hb, 66));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.HbO2, 124));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.H2O, 0.87));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Fat, 0.02));
-                    // Scatterers.Add(new PowerLawScatterer(
-                    break;
-                case (TissueType.IntralipidPhantom):
-                case (TissueType.PolystyreneSpherePhantom):
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Nigrosin, 0.01));
-                    break;
-                case (TissueType.Custom):
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Hb, 20));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.HbO2, 20));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.H2O, 0.0));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Fat, 0.0));
-                    Absorbers.Add(new ChromophoreAbsorber(ChromophoreType.Melanin,0.0));
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Sets the scatterer type for the specified tissue type
-        /// </summary>
-        /// <param name="tissueType">Tissue type</param>
-        public void SetScatterer(TissueType tissueType)
-        {
-            TissueType = tissueType;
-            switch (tissueType)
-            {
-                case TissueType.Skin:
-                case TissueType.Liver:
-                case TissueType.BrainWhiteMatter:
-                case TissueType.BrainGrayMatter:
-                case TissueType.BreastPreMenopause:
-                case TissueType.BreastPostMenopause:
-                case TissueType.Custom:
-                    Scatterer = new PowerLawScatterer(tissueType);
-                    break;
-                case TissueType.IntralipidPhantom:
-                    Scatterer = new IntralipidScatterer();
-                    break;
-                case TissueType.PolystyreneSpherePhantom:
-                    Scatterer = new MieScatterer();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("tissueType");
-            }
-        }
-
+        
         /// <summary>
         /// Returns the name of the tissue
         /// </summary>
@@ -219,5 +122,139 @@ namespace Vts.SpectralMapping
         {
             return Scatterer != null ? Scatterer.GetMus(wavelength) : 0;
         }
+    }
+
+    public static class TissueProvider
+    {
+        /// <summary>
+        /// Creates standard templates lists of absorbers for the specified tissue type
+        /// </summary>
+        /// <param name="tissueType">Tissue type</param>
+        public static IChromophoreAbsorber[] CreateAbsorbers(TissueType tissueType)
+        {
+            // todo: this should come from a file...
+            var defaultAbsorberDictionary = new Dictionary<TissueType, Dictionary<ChromophoreType, double>>
+                {
+                    //ref: Meglinski, Matcher, Computer Methods and Programs in Biomedicine 70, 2003, 179-186.
+                    { 
+                        TissueType.Skin,
+                        new Dictionary<ChromophoreType, double>
+                        {
+                            {ChromophoreType.Hb, 28.4},
+                            {ChromophoreType.HbO2, 22.4},
+                            {ChromophoreType.H2O, 0.7},
+                            {ChromophoreType.Fat, 0.0},
+                            {ChromophoreType.Melanin, 0.0051},
+                        }
+                    },
+                    { 
+                        TissueType.BreastPreMenopause,
+                        new Dictionary<ChromophoreType, double>
+                        {
+                            {ChromophoreType.Hb, 6.9},
+                            {ChromophoreType.HbO2, 19.6},
+                            {ChromophoreType.H2O, 0.345},
+                            {ChromophoreType.Fat, 0.41},
+                        }
+                    },
+                    { 
+                        TissueType.BreastPostMenopause,
+                        new Dictionary<ChromophoreType, double>
+                        {
+                            {ChromophoreType.Hb, 3.75},
+                            {ChromophoreType.HbO2, 11.25},
+                            {ChromophoreType.H2O, 0.205},
+                            {ChromophoreType.Fat,  0.585},
+                        }
+                    },
+                    { 
+                        TissueType.BrainWhiteMatter,
+                        new Dictionary<ChromophoreType, double>
+                        {
+                            {ChromophoreType.Hb, 24},
+                            {ChromophoreType.HbO2, 56},
+                            {ChromophoreType.H2O, 0.80},
+                            {ChromophoreType.Fat,  0.12},
+                        }
+                    },
+                    { 
+                        TissueType.BrainGrayMatter,
+                        new Dictionary<ChromophoreType, double>
+                        {
+                            {ChromophoreType.Hb, 24},
+                            {ChromophoreType.HbO2, 56},
+                            {ChromophoreType.H2O, 0.80},
+                            {ChromophoreType.Fat,  0.12},
+                        }
+                    },
+                    { 
+                        TissueType.Liver,
+                        new Dictionary<ChromophoreType, double>
+                        {
+                            {ChromophoreType.Hb, 66},
+                            {ChromophoreType.HbO2, 124},
+                            {ChromophoreType.H2O, 0.87},
+                            {ChromophoreType.Fat,  0.02},
+                        }
+                    },
+                    { 
+                        TissueType.IntralipidPhantom,
+                        new Dictionary<ChromophoreType, double>
+                        {
+                            {ChromophoreType.Nigrosin, 0.01}
+                        }
+                    },
+                    { 
+                        TissueType.PolystyreneSpherePhantom,
+                        new Dictionary<ChromophoreType, double>
+                        {
+                            {ChromophoreType.Nigrosin, 0.01}
+                        }
+                    },
+                    { 
+                        TissueType.Custom,
+                        new Dictionary<ChromophoreType, double>
+                        {
+                            {ChromophoreType.Hb, 20},
+                            {ChromophoreType.HbO2, 20},
+                            {ChromophoreType.H2O, 0.0},
+                            {ChromophoreType.Fat,  0.0},
+                            {ChromophoreType.Melanin, 0.0},
+                        }
+                    }
+                };
+
+            var absorbers = defaultAbsorberDictionary[tissueType]
+                .Select(kvp => new ChromophoreAbsorber(kvp.Key, kvp.Value))
+                .ToArray();
+
+            return absorbers;
+        }
+
+        /// <summary>
+        /// Sets the scatterer type for the specified tissue type
+        /// </summary>
+        /// <param name="tissueType">Tissue type</param>
+        public static IScatterer CreateScatterer(TissueType tissueType)
+        {
+            switch (tissueType)
+            {
+                case TissueType.Skin:
+                case TissueType.Liver:
+                case TissueType.BrainWhiteMatter:
+                case TissueType.BrainGrayMatter:
+                case TissueType.BreastPreMenopause:
+                case TissueType.BreastPostMenopause:
+                case TissueType.Custom:
+                    return new PowerLawScatterer(tissueType);
+                case TissueType.IntralipidPhantom:
+                    return new IntralipidScatterer();
+                case TissueType.PolystyreneSpherePhantom:
+                    return new MieScatterer();
+                default:
+                    throw new ArgumentOutOfRangeException("tissueType");
+            }
+        }
+
     }
 }

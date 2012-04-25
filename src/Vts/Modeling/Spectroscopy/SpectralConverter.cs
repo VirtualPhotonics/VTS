@@ -109,6 +109,11 @@ namespace Vts.SpectralMapping
             }
         }
 
+        /// <summary>
+        /// passes an enum of WavelengthUnit and returns a string of wavelength unit
+        /// </summary>
+        /// <param name="wavelengthUnit">enum of type WavelengthUnit</param>
+        /// <returns>string representing wavelength unit</returns>
         public static string getWavelengthUnit(WavelengthUnit wavelengthUnit)
         {
             switch (wavelengthUnit)
@@ -213,6 +218,7 @@ namespace Vts.SpectralMapping
         /// Passes the molar unit enum and the absorption coefficient unit enum and returns it as a string
         /// </summary>
         /// <param name="molarUnit">The molar unit enum</param>
+        /// <param name="absorptionCoefficientUnit">an absorption coefficient enum</param>
         /// <returns>A string representing the molar units</returns>
         public static string getSpectralUnit(MolarUnit molarUnit, AbsorptionCoefficientUnit absorptionCoefficientUnit)
         {

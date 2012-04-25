@@ -31,12 +31,12 @@
                         Text="Steady-State"  Margin="2,2" />
                     <RadioButton 
                         Grid.Row="0" Grid.Column="1"
-                        DataContext="{Binding RofRhoOption}"
+                        DataContext="{Binding ROfRhoOption}"
                         Tag="{Binding ID}" Content="{Binding DisplayName}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="OptionGroup" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="0" Grid.Column="2"
-                        DataContext="{Binding RofFxOption}"
+                        DataContext="{Binding ROfFxOption}"
                         Tag="{Binding ID}" Content="{Binding DisplayName}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="OptionGroup" Margin="2,3.5"/>
                     <!-- TIME-DOMAIN -->
@@ -45,12 +45,12 @@
                         Text="Time-Domain"  Margin="2,2"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="1"
-                        DataContext="{Binding RofRhoAndTOption}"
+                        DataContext="{Binding ROfRhoAndTimeOption}"
                         Tag="{Binding ID}" Content="{Binding DisplayName}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="OptionGroup" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="2"
-                        DataContext="{Binding RofFxAndTOption}"
+                        DataContext="{Binding ROfFxAndTimeOption}"
                         Tag="{Binding ID}" Content="{Binding DisplayName}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="OptionGroup" Margin="2,3.5"/>
                     <!-- FREQUENCY-DOMAIN -->
@@ -59,12 +59,12 @@
                         Text="Frequency-Domain"  Margin="2,2"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="1"
-                        DataContext="{Binding RofRhoAndFtOption}"
+                        DataContext="{Binding ROfRhoAndFtOption}"
                         Tag="{Binding ID}" Content="{Binding DisplayName}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="OptionGroup" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="2"
-                        DataContext="{Binding RofFxAndFtOption}"
+                        DataContext="{Binding ROfFxAndFtOption}"
                         Tag="{Binding ID}" Content="{Binding DisplayName}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="OptionGroup" Margin="2,3.5"/>
                 </Grid>

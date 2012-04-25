@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
@@ -10,20 +8,14 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements ISurfaceTally&lt;double[]&gt;.  Tally for Surface Radiance as a function 
+    /// Implements IDetector&lt;double[]&gt;.  Tally for Surface Radiance as a function 
     /// of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(RadianceOfRhoDetector))]
-    public class RadianceOfRhoDetector : ISurfaceDetector<double[]>
+    public class RadianceOfRhoDetector : IDetector<double[]> 
     {
-        private Func<PhotonDataPoint, double> _absorbAction;
-        
         private bool _tallySecondMoment;
-        private ITissue _tissue;
-        private IList<OpticalProperties> _ops;
-        private double _xIntercept;
-        private double _yIntercept;
 
         /// <summary>
         /// constructor for surface radiance as a function of rho detector input
@@ -52,9 +44,6 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = TallyType.RadianceOfRho;
             Name = name;
             TallyCount = 0;
-            _tissue = tissue;
-            SetAbsorbAction(_tissue.AbsorptionWeightingType);
-            _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
         }
 
         /// <summary>
@@ -96,59 +85,23 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double ZDepth { get; set; }
 
-        private void SetAbsorbAction(AbsorptionWeightingType awt)
-        {
-            switch (awt)
-            {
-                case AbsorptionWeightingType.Analog:
-                    _absorbAction = AbsorbAnalog;
-                    break;
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-                default:
-                    throw new ArgumentException("AbsorptionWeightingType not set");
-            }
-        }
         /// <summary>
         /// method to tally to detector
         /// </summary>
-        /// <param name="dp"></param>
-        public void Tally(PhotonDataPoint dp)
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
-            // update weight
-            var weight = _absorbAction(
-                dp);
-
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
                 
             // update tally
-            Mean[ir] += weight / dp.Direction.Uz;
+            Mean[ir] += photon.DP.Weight / photon.DP.Direction.Uz;
             if (_tallySecondMoment)
             {
-                SecondMoment[ir] += (weight / dp.Direction.Uz) * (weight / dp.Direction.Uz);
+                SecondMoment[ir] += (photon.DP.Weight / photon.DP.Direction.Uz) * (photon.DP.Weight / photon.DP.Direction.Uz);
             }
             TallyCount++;
         }
          
-        // need to check following Absorb actions
-        private double AbsorbAnalog(PhotonDataPoint dp)
-        {
-            return dp.Weight;
-        }
-
-        private double AbsorbDiscrete(PhotonDataPoint dp)
-        {
-            return dp.Weight;
-        }
-
-        private double AbsorbContinuous(PhotonDataPoint dp)
-        {
-            return dp.Weight;
-        }
         /// <summary>
         /// method to normalize detector results after numPhotons launched
         /// </summary>
@@ -166,11 +119,12 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
+
         /// <summary>
-        /// method to determine whether photon within detector
+        /// Method to determine if photon is within detector
         /// </summary>
-        /// <param name="dp"></param>
-        /// <returns></returns>
+        /// <param name="dp">photon data point</param>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

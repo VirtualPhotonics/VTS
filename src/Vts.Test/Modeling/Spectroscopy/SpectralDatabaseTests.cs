@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
@@ -9,42 +8,127 @@ using System.Runtime.Serialization;
 
 namespace Vts.Test.Modeling.Spectroscopy
 {
+    /// <summary>
+    /// Tests for spectral database reading and writing
+    /// </summary>
     [KnownType(typeof(ChromophoreSpectrum))]
     [TestFixture]
     public class SpectralDatabaseTests
     {
+        /// <summary>
+        /// Runs before every unit test after the TestFixtureSetup
+        /// </summary>
+        [SetUp]
+        public void setup()
+        {
+        }
+
+        /// <summary>
+        /// clear all previously generated folders and files
+        /// </summary>
+        [TestFixtureSetUp]
+        public void clear_folders_and_files()
+        {
+            if (FileIO.FileExists("SpectralDictionary.xml"))
+            {
+                FileIO.FileDelete("SpectralDictionary.xml");
+            }
+            if (FileIO.FileExists("dictionary.xml"))
+            {
+                FileIO.FileDelete("dictionary.xml");
+            }
+            if (FileIO.FileExists("dictionary2.xml"))
+            {
+                FileIO.FileDelete("dictionary2.xml");
+            }
+            if (FileIO.FileExists("dictionary3.xml"))
+            {
+                FileIO.FileDelete("dictionary3.xml");
+            }
+            if (FileIO.FileExists("dictionary4.xml"))
+            {
+                FileIO.FileDelete("dictionary4.xml");
+            }
+            if (FileIO.FileExists("dictionary5.xml"))
+            {
+                FileIO.FileDelete("dictionary5.xml");
+            }
+            if (FileIO.FileExists("absorber-Fat.txt"))
+            {
+                FileIO.FileDelete("absorber-Fat.txt");
+            }
+            if (FileIO.FileExists("absorber-Hb.txt"))
+            {
+                FileIO.FileDelete("absorber-Hb.txt");
+            }
+            if (FileIO.FileExists("absorber-HbO2.txt"))
+            {
+                FileIO.FileDelete("absorber-HbO2.txt");
+            }
+            if (FileIO.FileExists("absorber-H2O.txt"))
+            {
+                FileIO.FileDelete("absorber-H2O.txt");
+            }
+            if (FileIO.FileExists("absorber-Melanin.txt"))
+            {
+                FileIO.FileDelete("absorber-Melanin.txt");
+            }
+            if (FileIO.FileExists("absorber-Nigrosin.txt"))
+            {
+                FileIO.FileDelete("absorber-Nigrosin.txt");
+            }
+        }
+
+        /// <summary>
+        /// validate loading the default spectral database
+        /// </summary>
         [Test]
-        public void validate_Loading_Spectral_Database()
+        public void validate_loading_spectral_database()
         {
             var _testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
             Assert.IsNotNull(_testDictionary);
         }
 
+        /// <summary>
+        /// Validate the serialization of the spectral database
+        /// </summary>
         [Test]
-        public void validate_Serializing_Spectral_Database()
+        public void validate_serializing_spectral_database()
         {
             var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
-            
-            // "ToFile" static method in SpectralDatabaseLoader
-            //var values = testDictionary.Select(di => di.Value).ToList();
-            //values.WriteToXML("samplefile.xml");
             testDictionary.WriteToXML("SpectralDictionary.xml");
-            var Dvalues = FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>("SpectralDictionary.xml"); 
-            Assert.IsTrue(true);
+            Assert.IsTrue(FileIO.FileExists("SpectralDictionary.xml"));
         }
 
+        /// <summary>
+        /// Validate the deserialization of the spectral database
+        /// </summary>
         [Test]
-        public void validate_Deserializing_Spectral_Database()
+        public void validate_deserializing_spectral_database()
         {
             var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
             testDictionary.WriteToXML("dictionary.xml");
-            var Dvalues = FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>("dictionary.xml"); 
-            Assert.IsTrue(true);
-            //Assert.AreEqual(testDictionary, Dvalues); //This line causes an exception - Need to figure out why these two objects are not equal, they appear to be
+            var Dvalues = FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>("dictionary.xml");
+            Assert.IsNotNull(Dvalues);
         }
 
+        /// <summary>
+        /// Validate the data after serializing and deserializing the database
+        /// </summary>
         [Test]
-        public void validate_Loading_Spectral_Database_from_tsv()
+        public void validate_serialized_data()
+        {
+            var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
+            testDictionary.WriteToXML("dictionary2.xml");
+            var Dvalues = FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>("dictionary2.xml");
+            Assert.AreEqual(Dvalues["Hb"].Wavelengths[5], testDictionary["Hb"].Wavelengths[5]);
+        }
+
+        /// <summary>
+        /// validate loading spectral data from tab-delimited file
+        /// </summary>
+        [Test]
+        public void validate_loading_spectral_database_from_tsv()
         {
             Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
 
@@ -64,9 +148,12 @@ namespace Vts.Test.Modeling.Spectroscopy
             myChromophoreList.Add(c2);
             var testDictionary = SpectralDatabase.CreateDatabaseFromFile(myChromophoreList, stream, 2);
             testDictionary.WriteToXML("dictionary3.xml");
-            Assert.IsTrue(true);
+            Assert.IsTrue(FileIO.FileExists("dictionary3.xml"));
         }
 
+        /// <summary>
+        /// validate loading spectral database and header from tab-delimited file with conversion
+        /// </summary>
         [Test]
         public void validate_Loading_Spectral_Database_and_header_from_tsv()
         {
@@ -74,25 +161,70 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
             testDictionary.WriteToXML("dictionary4.xml");
-            Assert.IsTrue(true);
+            Assert.IsTrue(FileIO.FileExists("dictionary4.xml"));
         }
 
+        /// <summary>
+        /// validate loading spectral database and header from tab-delimited file with conversion
+        /// </summary>
         [Test]
-        public void validate_Loading_Spectral_Database_and_header_from_tsv_no_conversion()
+        public void validate_data_from_tsv()
+        {
+            int linenumber = 5;
+            string line;
+            string[] row;
+
+            Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
+            var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
+            stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
+            using (StreamReader readFile = new StreamReader(stream))
+            {
+                // read n lines (there is one line of header so
+                for (int i = 0; i <= linenumber; i++)
+                {
+                    readFile.ReadLine();
+                }
+                // get a line from the stream and split the data
+                line = readFile.ReadLine();
+                row = line.Split('\t');
+            }
+            Assert.AreEqual(testDictionary["Hb"].Wavelengths[linenumber], Convert.ToDouble(row[0]));
+            // multiply the value by ln(10)
+            double k =  Math.Log(10);
+            double spectra = Convert.ToDouble(row[1]) * k;
+            // test that the values in the text stream match the ones in the object
+            Assert.AreEqual(testDictionary["HbO2"].Spectrum[linenumber], spectra);
+            spectra = Convert.ToDouble(row[2]) * k;
+            Assert.AreEqual(testDictionary["Hb"].Spectrum[linenumber], spectra);
+        }
+
+        /// <summary>
+        /// validate loading spectral database and header from tab-delimited file with no conversion
+        /// </summary>
+        [Test]
+        public void validate_loading_spectral_database_and_header_from_tsv_no_conversion()
         {
             Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
 
             var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream, false);
             testDictionary.WriteToXML("dictionary5.xml");
-            Assert.IsTrue(true);
+            Assert.IsTrue(FileIO.FileExists("dictionary5.xml"));
         }
 
+        /// <summary>
+        /// validate writing the tab-delimited text files
+        /// </summary>
         [Test]
         public void validate_write_text_files()
         {
             var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
             SpectralDatabase.WriteDatabaseToFiles(testDictionary);
-            Assert.IsTrue(true);
+            Assert.IsTrue(FileIO.FileExists("absorber-Fat.txt"));
+            Assert.IsTrue(FileIO.FileExists("absorber-H2O.txt"));
+            Assert.IsTrue(FileIO.FileExists("absorber-Hb.txt"));
+            Assert.IsTrue(FileIO.FileExists("absorber-HbO2.txt"));
+            Assert.IsTrue(FileIO.FileExists("absorber-Melanin.txt"));
+            Assert.IsTrue(FileIO.FileExists("absorber-Nigrosin.txt"));
         }
     }
 }

@@ -21,8 +21,8 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DAWLayersDetectorsTests
     {
-        private Output _outputOneLayerTissue;
-        private Output _outputTwoLayerTissue;
+        private SimulationOutput _outputOneLayerTissue;
+        private SimulationOutput _outputTwoLayerTissue;
         private SimulationInput _inputOneLayerTissue;
         private SimulationInput _inputTwoLayerTissue;
         private double _layerThickness = 1.0; // tissue is homogeneous (both layer opt. props same)
@@ -52,6 +52,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new List<DatabaseType>() { }, // databases to be written
                 true,
                 false, // track statistics
+                0.0, // RR threshold -> 0 = no RR performed
                 0);
             var source = new DirectionalPointSourceInput(
                      new Position(0.0, 0.0, 0.0),
@@ -59,6 +60,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                      1); // start inside tissue
             var detectors =  new List<IDetectorInput>
                 {
+                    new FluenceOfXAndYAndZDetectorInput(
+                        new DoubleRange(-10.0, 10.0, 101),
+                        new DoubleRange(-10.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101)),
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
@@ -69,8 +74,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 1.0, 101)),
                     new ROfXAndYDetectorInput(
-                        new DoubleRange(-200.0, 200.0, 401), // x
-                        new DoubleRange(-200.0, 200.0, 401)), // y,
+                        new DoubleRange(-10.0, 10.0, 101), // x
+                        new DoubleRange(-10.0, 10.0, 101)), // y,
                     new ROfRhoAndOmegaDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.05, 1.0, 20)), // new DoubleRange(0.0, 1.0, 21)) DJC - edited to reflect frequency sampling points (not bins)
@@ -80,18 +85,28 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfRhoAndAngleDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new RadianceOfRhoDetectorInput(_dosimetryDepth, new DoubleRange(0.0, 10.0, 101)),
                     new AOfRhoAndZDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 10.0, 101)),
                     new ATotalDetectorInput(),
                     new FluenceOfRhoAndZDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101)),
+                        new DoubleRange(0.0, 10.0, 101)),                       
+                    new RadianceOfRhoDetectorInput(_dosimetryDepth, new DoubleRange(0.0, 10.0, 101)),
                     new RadianceOfRhoAndZAndAngleDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(-Math.PI / 2, Math.PI / 2, 5))
+                        new DoubleRange(-Math.PI / 2, Math.PI / 2, 5)),                       
+                    new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(
+                        new DoubleRange(-10.0, 10.0, 101),
+                        new DoubleRange(-10.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101), 
+                        new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
+                        new DoubleRange(0.0, 2 * Math.PI, 5)), // phi (azimuthal angle)
+                        new ReflectedMTOfRhoAndSubRegionHistDetectorInput(
+                           new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
+                           new DoubleRange(0.0, 500.0, 51) // MT bins
+                   )
                 };
             _inputOneLayerTissue = new SimulationInput(
                 100,
@@ -210,33 +225,53 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.Td * _factor - 0.0228405921), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Td * _factor - 0.0228405921), 0.000000001);
         }
-        // Transmittance T(rho)
+        // Transmittance Time(rho)
         [Test]
         public void validate_DAW_TOfRho()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
         }
-        // Transmittance T(angle)
+        // Transmittance Time(angle)
         [Test]
         public void validate_DAW_TOfAngle()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
         }
-        // Transmittance T(rho,angle)
+        // Transmittance Time(rho,angle)
         [Test]
         public void validate_DAW_TOfRhoAndAngle()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
         }
+        // Verify integral over rho,angle of T(rho,angle) equals TDiffuse
+        [Test]
+        public void validate_DAW_integral_of_TOfRhoAndAngle_equals_TDiffuse()
+        {
+            // undo angle bin normalization
+            var angle = ((TOfRhoAndAngleDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.TOfRhoAndAngle).First()).Angle;
+            var rho = ((TOfRhoAndAngleDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.TOfRhoAndAngle).First()).Rho;
+            var norm = 2 * Math.PI * rho.Delta * 2 * Math.PI * angle.Delta;
+            var integral = 0.0;
+            for (int ir = 0; ir < rho.Count - 1; ir++)
+            {
+                for (int ia = 0; ia < angle.Count - 1; ia++)
+                {
+                    integral += _outputOneLayerTissue.T_ra[ir, ia] * (rho.Start + (ir + 0.5) * rho.Delta) * Math.Sin((ia + 0.5) * angle.Delta);
+                }
+            }
+            Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Td), 0.000000000001);
+        }
         // Reflectance R(x,y)
         [Test]
         public void validate_DAW_ROfXAndY()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[198, 201] * _factor - 0.00825301), 0.00000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[198, 201] * _factor - 0.00825301), 0.00000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
         }
         // Total Absorption
         [Test]
@@ -258,7 +293,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_rz[0, 0] * _factor - 39.4946472), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_rz[0, 0] * _factor - 39.4946472), 0.0000001);
-        } 
+        }
+        // Fluence Flu(x,y,z)
+        [Test]
+        public void validate_DAW_FluenceOfXAndYAndZ()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyz[0, 0, 0] * _factor - 0.03656252), 0.0000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyz[0, 0, 0] * _factor - 0.03656252), 0.0000001);
+        }
         // Volume Radiance Rad(rho,z,angle)
         // Verify integral over angle of Radiance equals Fluence
         [Test]
@@ -275,6 +317,25 @@ namespace Vts.Test.MonteCarlo.Detectors
             }
             Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Flu_rz[0, 6]), 0.000000000001);
         }
+        // Volume Radiance Rad(x,y,z,theta,phi)
+        // Verify integral over angle of Radiance equals Fluence
+        [Test]
+        public void validate_DAW_RadianceOfXAndYAndZAndThetaAndPhi()
+        {
+            // undo angle bin normalization
+            var theta = ((RadianceOfXAndYAndZAndThetaAndPhiDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.RadianceOfXAndYAndZAndThetaAndPhi).First()).Theta;
+            var phi = ((RadianceOfXAndYAndZAndThetaAndPhiDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.RadianceOfXAndYAndZAndThetaAndPhi).First()).Phi;
+            var norm = theta.Delta * phi.Delta;
+            var integral = 0.0;
+            for (int it = 0; it < theta.Count - 1; it++)
+            {
+                for (int ip = 0; ip < phi.Count - 1; ip++ )
+                    integral += _outputOneLayerTissue.Rad_xyztp[0, 0, 0, it, ip] * Math.Sin((it + 0.5) * theta.Delta);
+            }
+            Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Flu_xyz[0, 0, 0]), 0.000000000001);
+        }
         // Radiance(rho) - not sure this detector is defined correctly yet
         [Test]
         public void validate_DAW_RadianceOfRho()
@@ -288,6 +349,22 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // no specular because photons started inside tissue
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.00000000001);
+        }
+        // Reflected Momentum Transfer of Rho and SubRegion
+        [Test]
+        public void validate_DAW_ReflectedMTOfRhoAndSubRegionHist()
+        {
+            // use initial results to verify any new changes to the code
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rs_hist[0, 1, 0] - 0.632816), 0.000001);
+            // make sure over MT equals R(rho) results
+            var mtbins = ((ReflectedMTOfRhoAndSubRegionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubRegionHist).First()).MTBins;
+            var integral = 0.0;
+            for (int i = 0; i < mtbins.Count - 1; i++)
+            {
+                integral += _outputOneLayerTissue.RefMT_rs_hist[0, 1, i];
+            }
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] - integral), 0.000001);
         }
     }
 }

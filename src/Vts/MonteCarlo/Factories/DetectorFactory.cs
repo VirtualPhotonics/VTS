@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System;
 using System.Linq;
 using Vts.MonteCarlo.Detectors;
 
@@ -17,7 +16,7 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="detectorInputs">IEnumerable of IDetectorInput</param>
         /// <param name="tissue">ITissue</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
-        /// <returns></returns>
+        /// <returns>List of IDetector</returns>
         public static IList<IDetector> GetDetectors(IEnumerable<IDetectorInput> detectorInputs, ITissue tissue, bool tallySecondMoment)
         {
             if (detectorInputs == null)
@@ -32,7 +31,7 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="detectorInput">IDetectorInput</param>
         /// <param name="tissue">ITissue</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector GetDetector(
             IDetectorInput detectorInput,
             ITissue tissue,
@@ -40,9 +39,10 @@ namespace Vts.MonteCarlo.Factories
         {
             switch (detectorInput.TallyType)
             {
-                // ISurfaceDetector(s):
+                // IDetector(s):
                 case TallyType.RDiffuse:
                     var rdinput = (RDiffuseDetectorInput)detectorInput;
+                    //return new RDiffuseDetector(tallySecondMoment, rdinput.Name);
                     return new RDiffuseDetector(tallySecondMoment, rdinput.Name);
                 case TallyType.RSpecular:
                     var rsinput = (RSpecularDetectorInput)detectorInput;
@@ -87,13 +87,16 @@ namespace Vts.MonteCarlo.Factories
                     var drinput = (RadianceOfRhoDetectorInput)detectorInput;
                     return new RadianceOfRhoDetector(drinput.ZDepth, drinput.Rho, tissue, tallySecondMoment, drinput.Name);
 
-                // IVolumeDetector(s):
+                // IHistoryDetector(s):
                 case TallyType.FluenceOfRhoAndZ:
                     var frzinput = (FluenceOfRhoAndZDetectorInput)detectorInput;
                     return new FluenceOfRhoAndZDetector(frzinput.Rho, frzinput.Z, tissue, tallySecondMoment, frzinput.Name);
                 case TallyType.FluenceOfRhoAndZAndTime:
                     var frztinput = (FluenceOfRhoAndZAndTimeDetectorInput)detectorInput;
                     return new FluenceOfRhoAndZAndTimeDetector(frztinput.Rho, frztinput.Z, frztinput.Time, tissue, tallySecondMoment, frztinput.Name);
+                case TallyType.FluenceOfXAndYAndZ:
+                    var fxyzinput = (FluenceOfXAndYAndZDetectorInput)detectorInput;
+                    return new FluenceOfXAndYAndZDetector(fxyzinput.X, fxyzinput.Y, fxyzinput.Z, tissue, tallySecondMoment, fxyzinput.Name);
                 case TallyType.AOfRhoAndZ:
                     var arzinput = (AOfRhoAndZDetectorInput)detectorInput;
                     return new AOfRhoAndZDetector(arzinput.Rho, arzinput.Z, tissue, tallySecondMoment, arzinput.Name);
@@ -103,79 +106,58 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.RadianceOfRhoAndZAndAngle:
                     var rrzainput = (RadianceOfRhoAndZAndAngleDetectorInput)detectorInput;
                     return new RadianceOfRhoAndZAndAngleDetector(rrzainput.Rho, rrzainput.Z, rrzainput.Angle, tissue, tallySecondMoment, rrzainput.Name);
+                case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
+                    var rxyztpinput = (RadianceOfXAndYAndZAndThetaAndPhiDetectorInput)detectorInput;
+                    return new RadianceOfXAndYAndZAndThetaAndPhiDetector(rxyztpinput.X, rxyztpinput.Y, rxyztpinput.Z, rxyztpinput.Theta, rxyztpinput.Phi, tissue, tallySecondMoment, rxyztpinput.Name);
+                case TallyType.ReflectedMTOfRhoAndSubRegionHist:
+                    var rmtrsinput = (ReflectedMTOfRhoAndSubRegionHistDetectorInput)detectorInput;
+                    return new ReflectedMTOfRhoAndSubRegionHistDetector(rmtrsinput.Rho, rmtrsinput.MTBins, tissue, tallySecondMoment, rmtrsinput.Name);
 
-                default:
-                    return null;
-            }
-        }
-        // pMC methods
-        /// <summary>
-        /// Method to instantiate a list of pMC IDetectors given a list of IDetectorInput
-        /// </summary>
-        /// <param name="detectorInputs">list of IDetectorInput</param>
-        /// <param name="tissue">ITissue</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
-        /// <returns></returns>
-        public static IList<IDetector> GetDetectors(IEnumerable<IpMCDetectorInput> detectorInputs, ITissue tissue, bool tallySecondMoment)
-        {
-            return detectorInputs.Select(detectorInput => GetpMCDetector(detectorInput, tissue, tallySecondMoment)).ToList();
-        }
-        /// <summary>
-        /// Method to instantiate a single pMC IDetector 
-        /// </summary>
-        /// <param name="detectorInput">IDetectorInput</param>
-        /// <param name="tissue">ITissue</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
-        /// <returns></returns>
-        public static IDetector GetpMCDetector(
-            IpMCDetectorInput detectorInput,
-            ITissue tissue,
-            bool tallySecondMoment)
-        {
-            switch (detectorInput.TallyType)
-            {
+                // pMC Detector(s):
                 case TallyType.pMCROfRhoAndTime:
                     var prrtinput = (pMCROfRhoAndTimeDetectorInput)detectorInput;
                     return new pMCROfRhoAndTimeDetector(
-                        prrtinput.Rho, 
-                        prrtinput.Time, 
-                        tissue, 
-                        prrtinput.PerturbedOps, 
+                        prrtinput.Rho,
+                        prrtinput.Time,
+                        tissue,
+                        prrtinput.PerturbedOps,
                         prrtinput.PerturbedRegionsIndices,
                         tallySecondMoment,
                         prrtinput.Name);
                 case TallyType.pMCROfRho:
                     var prrinput = (pMCROfRhoDetectorInput)detectorInput;
                     return new pMCROfRhoDetector(
-                        prrinput.Rho, 
-                        tissue, 
-                        prrinput.PerturbedOps, 
+                        prrinput.Rho,
+                        tissue,
+                        prrinput.PerturbedOps,
                         prrinput.PerturbedRegionsIndices,
                         tallySecondMoment,
                         prrinput.Name
                         );
-
+                case TallyType.pMCROfFx:
+                    var prfxinput = (pMCROfFxDetectorInput)detectorInput;
+                    return new pMCROfFxDetector(
+                        prfxinput.Fx,
+                        tissue,
+                        prfxinput.PerturbedOps.ToArray(), // todo: temp...make everything arrays (and deal w/ any pre/post serialization issues)
+                        prfxinput.PerturbedRegionsIndices.ToArray(),// todo: temp...make everything arrays (and deal w/ any pre/post serialization issues)
+                        tallySecondMoment,
+                        prfxinput.Name
+                        );
+                case TallyType.pMCROfFxAndTime:
+                    var prfxtinput = (pMCROfFxAndTimeDetectorInput)detectorInput;
+                    return new pMCROfFxAndTimeDetector(
+                        prfxtinput.Fx,
+                        prfxtinput.Time,
+                        tissue,
+                        prfxtinput.PerturbedOps.ToArray(),// todo: temp...make everything arrays (and deal w/ any pre/post serialization issues)
+                        prfxtinput.PerturbedRegionsIndices.ToArray(),// todo: temp...make everything arrays (and deal w/ any pre/post serialization issues)
+                        tallySecondMoment,
+                        prfxtinput.Name
+                        );
                 default:
                     return null;
             }
-        }
-        /// <summary>
-        /// Method to instantiate correct pMC history detector.
-        /// </summary>
-        /// <param name="detectorInput">IDetectorInput</param>
-        /// <param name="tissue">ITissue</param>
-        /// <param name="perturbedOps">list of perturbed optical properties that match in index
-        /// the tissue regions</param>
-        /// <param name="perturbedRegionsIndices">list of perturbed regions indices that match
-        /// in index with the tissue regions</param>
-        /// <returns></returns>
-        public static IVolumeDetector GetHistoryDetector(
-            IDetectorInput detectorInput,
-            ITissue tissue,
-            IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionsIndices)
-        {
-            throw new NotSupportedException("not implemented yet");
         }
     }
 }

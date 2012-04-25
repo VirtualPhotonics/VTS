@@ -59,7 +59,7 @@ namespace Vts
         {
             try
             {
-                //return (T)(object)(((int)(object)type | (int)(object)value));
+                //return (Time)(object)(((int)(object)type | (int)(object)value));
                 return (T)(object)(((int)(object)type | (int)(object)value));
             }
             catch (Exception ex)

@@ -8,7 +8,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
     public class BidirectionalAnalyticSolutions
     {
         /// <summary>
-        /// Analytic solution for homogeneous slab of length T.  This assumes
+        /// Analytic solution for homogeneous slab of length Time.  This assumes
         /// Q0, the source term, is 1.
         /// </summary>
         /// <param name="slabThickness">thickness of slab</param>
@@ -56,7 +56,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             double denom = (delta + a) + (delta - a) * Math.Exp(-2 * delta * slabThickness);
             if (direction == 1) // downward moving radiance
             {  
-                //d1=-b*Q0*exp(-2*delta*T)/denom;
+                //d1=-b*Q0*exp(-2*delta*Time)/denom;
                 //d2=b*Q0/denom;
                 // answer=(1/delta)*(d1*exp(delta*x)-d2*exp(-delta*x)); 
                 var d1 = (1.0 / delta) * ((delta - a) * Math.Exp(-2 * delta * slabThickness + delta * position2) -
@@ -67,7 +67,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             }
             else
             { // upward moving radiance
-                //d1=Q0*(delta-a)*exp(-2*delta*T)/denom;
+                //d1=Q0*(delta-a)*exp(-2*delta*Time)/denom;
                 //d2=Q0*(delta+a)/denom;
                 // answer=(1/delta)*(d1*exp(delta*x)-d2*exp(-delta*x));  
                 var d1 = (1.0 / delta) * (-b * Math.Exp(-2 * delta * slabThickness + delta * position2) -

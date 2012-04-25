@@ -34,12 +34,12 @@ namespace Vts.SiteVisit.ViewModel
             : base(groupName)
         {
             //InitializeControls();
-            RofRhoOption = Options[SolutionDomainType.RofRho];
-            RofFxOption = Options[SolutionDomainType.RofFx];
-            RofRhoAndTOption = Options[SolutionDomainType.RofRhoAndT];
-            RofFxAndTOption = Options[SolutionDomainType.RofFxAndT];
-            RofRhoAndFtOption = Options[SolutionDomainType.RofRhoAndFt];
-            RofFxAndFtOption = Options[SolutionDomainType.RofFxAndFt];
+            ROfRhoOption = Options[SolutionDomainType.ROfRho];
+            ROfFxOption = Options[SolutionDomainType.ROfFx];
+            ROfRhoAndTimeOption = Options[SolutionDomainType.ROfRhoAndTime];
+            ROfFxAndTimeOption = Options[SolutionDomainType.ROfFxAndTime];
+            ROfRhoAndFtOption = Options[SolutionDomainType.ROfRhoAndFt];
+            ROfFxAndFtOption = Options[SolutionDomainType.ROfFxAndFt];
 
             this.PropertyChanged += (sender, args) =>
             {
@@ -51,14 +51,14 @@ namespace Vts.SiteVisit.ViewModel
         }
 
         public SolutionDomainOptionViewModel()
-            : this("", SolutionDomainType.RofRho) { }
+            : this("", SolutionDomainType.ROfRho) { }
 
-        public OptionModel<SolutionDomainType> RofRhoOption { get; private set; }
-        public OptionModel<SolutionDomainType> RofFxOption { get; private set; }
-        public OptionModel<SolutionDomainType> RofRhoAndTOption { get; private set; }
-        public OptionModel<SolutionDomainType> RofFxAndTOption { get; private set; }
-        public OptionModel<SolutionDomainType> RofRhoAndFtOption { get; private set; }
-        public OptionModel<SolutionDomainType> RofFxAndFtOption { get; private set; }
+        public OptionModel<SolutionDomainType> ROfRhoOption { get; private set; }
+        public OptionModel<SolutionDomainType> ROfFxOption { get; private set; }
+        public OptionModel<SolutionDomainType> ROfRhoAndTimeOption { get; private set; }
+        public OptionModel<SolutionDomainType> ROfFxAndTimeOption { get; private set; }
+        public OptionModel<SolutionDomainType> ROfRhoAndFtOption { get; private set; }
+        public OptionModel<SolutionDomainType> ROfFxAndFtOption { get; private set; }
 
         public OptionViewModel<IndependentVariableAxis> IndependentVariableAxisOptionVM
         {
@@ -168,38 +168,38 @@ namespace Vts.SiteVisit.ViewModel
         {
             switch (selectedType)
             {
-                case SolutionDomainType.RofRho:
+                case SolutionDomainType.ROfRho:
                 default:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             new[] { IndependentVariableAxis.Rho });
                     ConstantLabelVisible = false;
                     break;
-                case SolutionDomainType.RofFx:
+                case SolutionDomainType.ROfFx:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
                             new[] { IndependentVariableAxis.Fx });
                     ConstantLabelVisible = false;
                     break;
-                case SolutionDomainType.RofRhoAndT:
+                case SolutionDomainType.ROfRhoAndTime:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
-                            new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.T });
+                            new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time });
                     ConstantLabelVisible = true;
                     break;
-                case SolutionDomainType.RofFxAndT:
+                case SolutionDomainType.ROfFxAndTime:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
-                            new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.T });
+                            new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Time });
                     ConstantLabelVisible = true;
                     break;
-                case SolutionDomainType.RofRhoAndFt:
+                case SolutionDomainType.ROfRhoAndFt:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
                     break;
-                case SolutionDomainType.RofFxAndFt:
+                case SolutionDomainType.ROfFxAndFt:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
                             new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft });

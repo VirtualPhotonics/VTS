@@ -11,6 +11,12 @@ namespace Vts.Common
         private double _Uy;
         private double _Uz;
 
+        /// <summary>
+        /// constructor for direction, passes x, y and z values
+        /// </summary>
+        /// <param name="ux">x direction</param>
+        /// <param name="uy">y direction</param>
+        /// <param name="uz">z direction</param>
         public Direction(double ux, double uy, double uz)
         {
             _Ux = ux;
@@ -18,13 +24,25 @@ namespace Vts.Common
             _Uz = uz;
         }
 
+        /// <summary>
+        /// default constructor for direction (0,0,1)
+        /// </summary>
         public Direction()
             : this(0.0, 0.0, 1.0)
         {
         }
 
+        /// <summary>
+        /// x direction
+        /// </summary>
         public double Ux { get { return _Ux; } set { _Ux = value; } }
+        /// <summary>
+        /// y direction
+        /// </summary>
         public double Uy { get { return _Uy; } set { _Uy = value; } }
+        /// <summary>
+        /// z direction
+        /// </summary>
         public double Uz { get { return _Uz; } set { _Uz = value; } }
 
         /// <summary>
@@ -81,7 +99,7 @@ namespace Vts.Common
         /// </summary>
         /// <param name="d1">first direction</param>
         /// <param name="d2">second direction</param>
-        /// <returns></returns>
+        /// <returns>the dot product</returns>
         public static double GetDotProduct(Direction d1, Direction d2)
         {
             return (d1.Ux * d2.Ux +
@@ -102,7 +120,7 @@ namespace Vts.Common
         /// Method to read binary version of unit directional
         /// </summary>
         /// <param name="br">BinaryReader</param>
-        /// <returns></returns>
+        /// <returns>a direction</returns>
         public static Direction ReadBinary(BinaryReader br)
         {
             return new Direction(
@@ -134,7 +152,7 @@ namespace Vts.Common
         /// <summary>
         /// Method to clone unit directional
         /// </summary>
-        /// <returns></returns>
+        /// <returns>a direction</returns>
         public Direction Clone()
         {
             return new Direction(this.Ux, this.Uy, this.Uz);

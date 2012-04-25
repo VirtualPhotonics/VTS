@@ -25,9 +25,11 @@ namespace Vts.MonteCarlo
                 PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors(),
                 PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector(),
                 PointSourceTwoLayerTissueROfRhoDetector(),
+                PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
-                GaussianSourceOneLayerTissueROfRhoDetector()
+                GaussianSourceOneLayerTissueROfRhoDetector(),
+                PointSourceMultiLayerReflectedMTOfRhoAndSubRegionHistDetector()
             };
         }
 
@@ -48,6 +50,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -101,6 +104,12 @@ namespace Vts.MonteCarlo
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0, Math.PI, 3)),
+                    new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(
+                        new DoubleRange(-10.0, 10.0, 101),
+                        new DoubleRange(-10.0, 10.0, 101),
+                        new DoubleRange(0.0, 10.0, 101), 
+                        new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
+                        new DoubleRange(0.0, 2 * Math.PI, 5)), // phi (azimuthal angle)
                     new RSpecularDetectorInput()
                 }
                 );
@@ -124,6 +133,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -171,6 +181,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -221,6 +232,55 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                new MultiLayerTissueInput(
+                    new LayerRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 1.5),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(1.5, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
+                }
+            );
+        }
+        #endregion
+
+        #region point source two layer R(rho) with photon database
+        /// <summary>
+        /// Point source, two-layer tissue definition, only ROfRho detector included
+        /// </summary>
+        public static SimulationInput PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase()
+        {
+            return new SimulationInput(
+                100,
+                "two_layer_ROfRho_with_db",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new [] { DatabaseType.DiffuseReflectance }, // databases to be written
+                    true, // tally Second Moment
+                    false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -268,6 +328,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -321,6 +382,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -348,7 +410,6 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-
         #region Gaussian source one layer R(rho)
         /// <summary>
         /// Gaussian source, single tissue layer definition, only ROfRho detector included
@@ -366,6 +427,7 @@ namespace Vts.MonteCarlo
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
                     0),
                 new CustomCircularSourceInput(
                     3.0, // outer radius
@@ -396,6 +458,58 @@ namespace Vts.MonteCarlo
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
                 }
              );
+        }
+        #endregion
+
+        #region point source multilayer momentum transfer
+        /// <summary>
+        /// Point source, multi-layer tissue definition, only ReflectedMCOfRhoAndSubRegionHistDetector detector included
+        /// </summary>
+        public static SimulationInput PointSourceMultiLayerReflectedMTOfRhoAndSubRegionHistDetector()
+        {
+            return new SimulationInput(
+                100,
+                "two_layer_ReflectedMTOfRhoAndSubRegionHist",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
+                    true, // tally Second Moment
+                    true, // track statistics
+                    0.0001, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
+                new MultiLayerTissueInput(
+                    new LayerRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 10.0),
+                            new OpticalProperties(0.01, 1.0, 0.7, 1.33)), // Tyler's data
+                        new LayerRegion(
+                            new DoubleRange(10.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.7, 1.33)), 
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoDetectorInput(
+                        new DoubleRange(0.0, 60.0, 601)),
+                    new ReflectedMTOfRhoAndSubRegionHistDetectorInput(
+                        new DoubleRange(0.0, 60.0, 601), // rho bins
+                        new DoubleRange(0.0, 500.0, 5001)) // MT bins
+                }
+            );
         }
         #endregion
     }

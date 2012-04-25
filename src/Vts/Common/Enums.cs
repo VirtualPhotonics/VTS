@@ -62,10 +62,6 @@ namespace Vts
         /// scaled Monte Carlo forward solver with non-uniform rational b-splines forward solver
         /// </summary>
         Nurbs,
-        /// <summary>
-        /// perturbation Monte Carlo (pMC) forward solver
-        /// </summary>
-        pMC,
 //        DiscreteOrdinates
     }
     /// <summary>
@@ -108,27 +104,27 @@ namespace Vts
         /// <summary>
         /// reflectance as a function of source-detector separation (rho)
         /// </summary>
-        RofRho,
+        ROfRho,
         /// <summary>
         /// reflectance as a function of spatial-frequency (fx)
         /// </summary>
-        RofFx,
+        ROfFx,
         /// <summary>
         /// reflectance as a function of source-detector separation (rho) and time (t)
         /// </summary>
-        RofRhoAndT,
+        ROfRhoAndTime,
         /// <summary>
         /// reflectance as a function of spatial-frequency (fx) and time (t)
         /// </summary>
-        RofFxAndT,
+        ROfFxAndTime,
         /// <summary>
         /// reflectance as a function source-detector separation (rho) and temporal-frequency (ft)
         /// </summary>
-        RofRhoAndFt,
+        ROfRhoAndFt,
         /// <summary>
         /// reflectance as a function of spatial-frequency (fx) and temporal-frequency (ft)
         /// </summary>
-        RofFxAndFt
+        ROfFxAndFt
     }
     /// <summary>
     /// fluence solution domain types 
@@ -136,29 +132,29 @@ namespace Vts
     public enum FluenceSolutionDomainType
     {
         /// <summary>
-        /// fluence as a function or source-detector separation (rho)
+        /// fluence as a function or source-detector separation (rho) and tissue depth (z)
         /// </summary>
-        FluenceofRho,
+        FluenceOfRhoAndZ,
         /// <summary>
-        /// fluence as a function of spatial-frequency (fx)
+        /// fluence as a function of spatial-frequency (fx) and tissue depth (z)
         /// </summary>
-        FluenceofFx,
+        FluenceOfFxAndZ,
         /// <summary>
-        /// fluence as a function or source-detector separation (rho) and time (t)
+        /// fluence as a function or source-detector separation (rho), tissue depth (z) and time (t)
         /// </summary>
-        FluenceofRhoAndT,
+        FluenceOfRhoAndZAndTime,
         /// <summary>
-        /// fluence as a function of spatial-frequency (fx) and time (t)
+        /// fluence as a function of spatial-frequency (fx), tissue depth (z) and time (t)
         /// </summary>
-        FluenceofFxAndT,
+        FluenceOfFxAndZAndTime,
         /// <summary>
-        /// fluence as a function of source-detector separation (rho) and temporal-frequency (ft)
+        /// fluence as a function of source-detector separation (rho), tissue depth (z) and temporal-frequency (ft)
         /// </summary>
-        FluenceofRhoAndFt,
+        FluenceOfRhoAndZAndFt,
         /// <summary>
-        /// fluence as a function of spatial-frequency (fx) and temporal-frequency (ft)
+        /// fluence as a function of spatial-frequency (fx), tissue depth (z) and temporal-frequency (ft)
         /// </summary>
-        FluenceofFxAndFt
+        FluenceOfFxAndZAndFt
     }
     /// <summary>
     /// forward analysis types
@@ -252,7 +248,7 @@ namespace Vts
         /// <summary>
         /// time (t)
         /// </summary>
-        T,
+        Time,
         /// <summary>
         /// spatial-frequency (fx)
         /// </summary>

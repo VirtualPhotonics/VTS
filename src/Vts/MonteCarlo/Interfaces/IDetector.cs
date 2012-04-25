@@ -1,4 +1,3 @@
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo
 {
@@ -38,8 +37,12 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method to normalize the tally to get Mean and Second Moment estimates
         /// </summary>
-        /// <param name="numPhotons"></param>
+        /// <param name="numPhotons">number of photons launched</param>
         void Normalize(long numPhotons);
-        //bool ContainsPoint(PhotonDataPoint dp);
+        /// <summary>
+        /// Method to tally to detector using information in Photon
+        /// </summary>
+        /// <param name="photon">photon data needed to tally</param>
+        void Tally(Photon photon);
     }
 }

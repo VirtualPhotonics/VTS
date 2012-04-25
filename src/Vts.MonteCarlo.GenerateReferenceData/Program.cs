@@ -25,6 +25,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                         new List<DatabaseType>() { }, // databases to be written
                         true, // compute Second Moment
                         false, // track statistics
+                        0.0, // RR threshold -> 0 = no RR performed
                         1),
                     new DirectionalPointSourceInput(
                         new Position(0.0, 0.0, 0.0),
@@ -59,7 +60,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     }
                 );
 
-            Output output = new MonteCarloSimulation(input).Run();
+            SimulationOutput output = new MonteCarloSimulation(input).Run();
             input.ToFile("infile.xml");
 
             // the following gets are R(rho,time) for scaled.

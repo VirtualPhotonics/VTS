@@ -10,17 +10,18 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IVolumeDetector&lt;double[,,]&gt;.  Tally for Radiance(rho,z,angle).
+    /// Implements IHistoryDetector&lt;double[,,]&gt;.  Tally for Radiance(rho,z,angle).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
     [KnownType(typeof(RadianceOfRhoAndZAndAngleDetector))]
-    public class RadianceOfRhoAndZAndAngleDetector : IVolumeDetector<double[, ,]>
+    public class RadianceOfRhoAndZAndAngleDetector : IHistoryDetector<double[,,]>
     {
-        private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
+        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
 
         private ITissue _tissue;
         private bool _tallySecondMoment;
         private IList<OpticalProperties> _ops;
+
         /// <summary>
         /// constructor for radiance as a function of rho, z and angle detector input
         /// </summary>
@@ -53,8 +54,8 @@ namespace Vts.MonteCarlo.Detectors
             Name = name;
             TallyCount = 0;
             _tissue = tissue;
-            SetAbsorbAction(_tissue.AbsorptionWeightingType);
             _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
         }
 
         /// <summary>
@@ -71,9 +72,14 @@ namespace Vts.MonteCarlo.Detectors
         {
         }
 
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public double[, ,] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public double[, ,] SecondMoment { get; set; }
 
@@ -102,37 +108,34 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Angle { get; set; }
 
-        private void SetAbsorbAction(AbsorptionWeightingType awt)
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="photon">photon data needed to tally</param>
+        public void Tally(Photon photon)
         {
-            switch (awt)
+            PhotonDataPoint previousDP = photon.History.HistoryData.First();
+            foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
             {
-                case AbsorptionWeightingType.Analog:
-                    _absorbAction = AbsorbAnalog;
-                    break;
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-                default:
-                    throw new ArgumentException("AbsorptionWeightingType not set");
+                TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
+                previousDP = dp;
             }
         }
 
-        public void Tally(PhotonDataPoint previousDP, PhotonDataPoint dp)
+        /// <summary>
+        /// method to tally to detector given two consecutive photon data points
+        /// </summary>
+        /// <param name="previousDP">previous photon data point</param>
+        /// <param name="dp">current photon data point</param>
+        /// <param name="currentRegionIndex">index of region photon is currently in</param>
+        public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
             // using Acos, -1<Uz<1 goes to pi<theta<0, so first bin is most forward directed angle
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
 
-            var weight = _absorbAction(
-                _ops[_tissue.GetRegionIndex(dp.Position)].Mua,
-                _ops[_tissue.GetRegionIndex(dp.Position)].Mus,
-                previousDP.Weight,
-                dp.Weight,
-                dp.StateFlag);
+            var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
 
             var regionIndex = _tissue.GetRegionIndex(dp.Position);
 
@@ -147,37 +150,10 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            if (photonStateType.HasFlag(PhotonStateType.Absorbed))
-            {
-                weight = previousWeight; 
-            }
-            else
-            {
-                weight = 0.0;
-            }
-            return weight;
-        }
-
-        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            if (previousWeight == weight) // pseudo collision, so no tally
-            {
-                weight = 0.0;
-            }
-            else
-            {
-                weight = previousWeight * mua / (mua + mus);
-            }
-            return weight;
-        }
-
-        private double AbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Method to normalize the tally to get Mean and Second Moment estimates
+        /// </summary>
+        /// <param name="numPhotons">Number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Z.Delta * 2.0 * Math.PI * Angle.Delta;
@@ -196,9 +172,13 @@ namespace Vts.MonteCarlo.Detectors
                     }
                 }
             }
-
         }
 
+        /// <summary>
+        /// Method to determine if photon is within detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true;

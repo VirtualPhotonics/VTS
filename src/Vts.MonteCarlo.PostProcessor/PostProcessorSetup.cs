@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.IO;
@@ -76,14 +77,17 @@ namespace Vts.MonteCarlo.PostProcessor
                 Directory.CreateDirectory(resultsFolder);
             }
 
-            Output postProcessedOutput = null;
+            SimulationOutput postProcessedOutput = null;
 
             var databaseGenerationInputFile = SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"));
             // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
-            if (input.DetectorInputs.Select(di => di.TallyType.IspMCReflectanceTally()).Any())
+
+            // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
+            if (input.DetectorInputs.Where(di => di.TallyType.IspMCReflectanceTally()).Any())
             {
-                IList<IpMCDetectorInput> pMCDetectorInputs;
-                pMCDetectorInputs = input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
+                IList<IDetectorInput> pMCDetectorInputs;
+                pMCDetectorInputs = input.DetectorInputs;
+                //pMCDetectorInputs = input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.pMCDiffuseReflectance,
                     pMCDetectorInputs, 
@@ -94,7 +98,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     databaseGenerationInputFile
                 );
             }
-            else if (input.DetectorInputs.Select(di => di.TallyType.IsReflectanceTally()).Any())
+            else if (input.DetectorInputs.Where(di => di.TallyType.IsReflectanceTally()).Any())
             {
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.DiffuseReflectance,
@@ -106,7 +110,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     databaseGenerationInputFile
                 );
             }
-            else if (input.DetectorInputs.Select(di => di.TallyType.IsTransmittanceTally()).Any())
+            else if (input.DetectorInputs.Where(di => di.TallyType.IsTransmittanceTally()).Any())
             {
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.DiffuseTransmittance,
@@ -118,7 +122,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     databaseGenerationInputFile
                 );
             }
-            else if (input.DetectorInputs.Select(di => di.TallyType.IsSpecularReflectanceTally()).Any())
+            else if (input.DetectorInputs.Where(di => di.TallyType.IsSpecularReflectanceTally()).Any())
             {
                 postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
                     VirtualBoundaryType.SpecularReflectance,
@@ -149,6 +153,18 @@ namespace Vts.MonteCarlo.PostProcessor
                     DetectorIO.WriteDetectorToFile(result, folderPath);
                 }
             }
+        }
+
+        /// <summary>
+        /// Runs multiple Post-Processor tasks in parallel using all available CPU cores
+        /// </summary>
+        public static void RunPostProcessors(IEnumerable<PostProcessorInput> inputs, string outputFolderPath)
+        {
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            Parallel.ForEach(inputs, options, (input, state, index) =>
+            {
+                RunPostProcessor(input, outputFolderPath);
+            });
         }
     }
 }

@@ -27,13 +27,13 @@ namespace Vts.Modeling
         /// Calculate the Hankel Transform using a discrete Riemann middle sum
         /// </summary>
         /// <param name="rho">vector of discrete rho values</param>
-        /// <param name="RofRho">vector of discrete R(rho) values</param>
+        /// <param name="ROfRho">vector of discrete R(rho) values</param>
         /// <param name="drho">delta rho</param>
         /// <param name="fx">the spatial frequency at which to evaluate</param>
         /// <returns></returns>
-        public static double GetHankelTransform(double[] rho, double[] RofRho, double drho, double fx)
+        public static double GetHankelTransform(double[] rho, double[] ROfRho, double drho, double fx)
         {
-            if (rho.Length != RofRho.Length)
+            if (rho.Length != ROfRho.Length)
             {
                 //throw new ArgumentOutOfRangeException();
                 throw new Meta.Numerics.DimensionMismatchException();
@@ -42,7 +42,7 @@ namespace Vts.Modeling
             for (int i = 0; i < rho.Length; i++)
             {
                 sum += rho[i] * AdvancedMath.BesselJ(0, 2 * Math.PI * fx * rho[i]) *
-                        RofRho[i] * drho;
+                        ROfRho[i] * drho;
             }
             return 2 * Math.PI * sum;
         }

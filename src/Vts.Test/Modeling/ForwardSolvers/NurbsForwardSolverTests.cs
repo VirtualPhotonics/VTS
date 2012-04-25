@@ -27,12 +27,12 @@ namespace Vts.Test.Modeling.ForwardSolvers
         /// Test against NurbsForwardSolver.
         /// </summary>
         [Test]
-        public void RofRhoAndT_TimeValueSmallerThenMinimalTimeOfFlight_ReturnsZero()
+        public void ROfRhoAndT_TimeValueSmallerThenMinimalTimeOfFlight_ReturnsZero()
         {
             INurbs fakeNurbsGenerator = new StubNurbsGenerator();
             nurbsForwardSolver = new NurbsForwardSolver(fakeNurbsGenerator);
             OpticalProperties op = new OpticalProperties(0.0, 1.0, 0.8, 1.4);
-            Assert.AreEqual(0.0, nurbsForwardSolver.RofRhoAndT(op, 10.0,0.01),
+            Assert.AreEqual(0.0, nurbsForwardSolver.ROfRhoAndTime(op, 10.0,0.01),
                   "The returned value should be 0.0");
         }
 
@@ -45,10 +45,10 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var fs = new NurbsForwardSolver();
             var op = new OpticalProperties();
 
-            var value1 = fs.RofRho(op, 10);
+            var value1 = fs.ROfRho(op, 10);
             Assert.IsTrue(value1 > 0);
 
-            var value2 = fs.RofFx(op, 0.1);
+            var value2 = fs.ROfFx(op, 0.1);
             Assert.IsTrue(value2 > 0);
         }
 
@@ -63,10 +63,10 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var rhos = 10D.AsEnumerable();
             var fxs = 0.1.AsEnumerable();
 
-            var value1 = fs.RofRho(ops, rhos).First();
+            var value1 = fs.ROfRho(ops, rhos).First();
             Assert.IsTrue(value1 > 0);
 
-            var value2 = fs.RofFx(ops, fxs).First();
+            var value2 = fs.ROfFx(ops, fxs).First();
             Assert.IsTrue(value2 > 0);
         }
 
@@ -81,10 +81,10 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var rhos = new[] { 10.0 };
             var fxs = new[] { 0.1 };
 
-            var value1 = fs.RofRho(ops, rhos);
+            var value1 = fs.ROfRho(ops, rhos);
             Assert.IsTrue(value1[0] > 0);
 
-            var value2 = fs.RofFx(ops, fxs);
+            var value2 = fs.ROfFx(ops, fxs);
             Assert.IsTrue(value2[0] > 0);
         }
         

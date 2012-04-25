@@ -91,6 +91,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Vts\AssemblyFileVersion.cs">
+      <Link>AssemblyFileVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\AssemblyVersion.cs">
+      <Link>AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="MonteCarloSetup.cs" />
     <Compile Include="ParameterSweep.cs" />
     <Compile Include="Program.cs" />
@@ -100,27 +106,6 @@
     <Content Include="..\..\Acknowledgements.txt">
       <Link>Acknowledgements.txt</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_ellip_FluenceOfRhoAndZ.xml">
-      <Link>infile_ellip_FluenceOfRhoAndZ.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_Gaussian_source_one_layer_ROfRho.xml">
-      <Link>infile_Gaussian_source_one_layer_ROfRho.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_one_layer_all_detectors.xml">
-      <Link>infile_one_layer_all_detectors.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.xml">
-      <Link>infile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_one_layer_ROfRho_FluenceOfRhoAndZ.xml">
-      <Link>infile_one_layer_ROfRho_FluenceOfRhoAndZ.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_pMC_one_layer_ROfRho_DAW.xml">
-      <Link>infile_pMC_one_layer_ROfRho_DAW.xml</Link>
-    </Content>
-    <Content Include="..\..\files\SimulationInputFiles\infile_two_layer_ROfRho.xml">
-      <Link>infile_two_layer_ROfRho.xml</Link>
     </Content>
     <Content Include="..\..\license.txt">
       <Link>license.txt</Link>
@@ -170,5 +155,14 @@
   -->
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">copy "$(SolutionDir)\..\lib\Vts.MonteCarlo.Unmanaged\Vts.MonteCarlo.Unmanaged.dll" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(SolutionDir)\..\lib\Vts.MonteCarlo.Unmanaged\Vts.MonteCarlo.Unmanaged.dll" "$(TargetDir)"
+
+IF NOT EXIST "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)"
+copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)" /y
+
+"$(TargetDir)mc.exe" geninfiles
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

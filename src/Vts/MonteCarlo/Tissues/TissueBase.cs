@@ -17,14 +17,17 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="regions">list of tissue regions</param>
         /// <param name="absorptionWeightingType">absorption weighting type</param>
         /// <param name="phaseFunctionType">phase function type</param>
+        /// <param name="russianRouletteWeightThreshold">russian roulette weight threshold</param>
         public TissueBase(IList<ITissueRegion> regions, 
             AbsorptionWeightingType absorptionWeightingType,
-            PhaseFunctionType phaseFunctionType)
+            PhaseFunctionType phaseFunctionType,
+            double russianRouletteWeightThreshold)
         {
             Regions = regions;
             AbsorptionWeightingType = absorptionWeightingType;
             PhaseFunctionType = phaseFunctionType;
             RegionScatterLengths = regions.Select(region => region.RegionOP.GetScatterLength(absorptionWeightingType)).ToArray();
+            RussianRouletteWeightThreshold = russianRouletteWeightThreshold;
         }
         /// <summary>
         /// list of tissue regions
@@ -42,6 +45,10 @@ namespace Vts.MonteCarlo.Tissues
         /// type of phase function used within region
         /// </summary>
         public PhaseFunctionType PhaseFunctionType { get; protected set; }
+        /// <summary>
+        /// photon weight threshold, below which turns on Russian Roulette
+        /// </summary>
+        public double RussianRouletteWeightThreshold { get; protected set; }
 
         /// <summary>
         /// method to determine region index (according to list of tissue regions) of current
@@ -71,7 +78,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine if on domain of tissue.
         /// </summary>
-        /// <param name="photon">current Photon state</param>
+        /// <param name="position">Photon position</param>
         /// <returns>true if on boundary, false if not</returns>
         public abstract bool OnDomainBoundary(Position position);
         /// <summary>

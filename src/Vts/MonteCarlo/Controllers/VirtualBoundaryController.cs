@@ -1,4 +1,4 @@
-using System;
+ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -19,7 +19,10 @@ namespace Vts.MonteCarlo.Controllers
     public class VirtualBoundaryController
     {
         private IList<IVirtualBoundary> _virtualBoundaries;
-
+        /// <summary>
+        /// virtual boundary controller
+        /// </summary>
+        /// <param name="virtualBoundaries">IList of virtual boundaries</param>
         public VirtualBoundaryController(
             IList<IVirtualBoundary> virtualBoundaries)
         {
@@ -31,11 +34,11 @@ namespace Vts.MonteCarlo.Controllers
         public IList<IVirtualBoundary> VirtualBoundaries { get { return _virtualBoundaries; } set { _virtualBoundaries = value; } }
 
         /// <summary>
-        /// Method to determine the distrance to the closest VB in VirtualBoundaries list.
+        /// Method to determine the distance to the closest VB in VirtualBoundaries list.
         /// </summary>
         /// <param name="dp">current PhotonDataPoint</param>
         /// <param name="distance">return: distance to closest VB</param>
-        /// <returns></returns>
+        /// <returns>closest VB</returns>
         public IVirtualBoundary GetClosestVirtualBoundary(PhotonDataPoint dp, out double distance)
         {
             IVirtualBoundary vb = null;
@@ -55,62 +58,6 @@ namespace Vts.MonteCarlo.Controllers
             }
             return vb;
         }
-
-        //public void TallyToSurfaceDetectors(PhotonDataPoint dp)
-        //{
-        //    foreach (var vb in _virtualBoundaries)
-        //    {
-        //        if (dp.StateFlag.Has(vb.PhotonStateType))
-        //        {
-        //            _surfaceDetectors =
-        //                (from detector in vb.DetectorController.Detectors
-        //                 where detector.TallyType.IsSurfaceTally()
-        //                 select (ISurfaceDetector)detector).ToArray();
-        //            SurfaceTally(dp);
-        //        }
-        //    }
-        //}
-
-        //public void TallyToVolumeDetectors(PhotonHistory history)
-        //{
-        //    //var lastDP = history.HistoryData.Last();
-        //    foreach (var vb in _virtualBoundaries)
-        //    {
-        //        if ((vb.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary) ||
-        //            (vb.VirtualBoundaryType == VirtualBoundaryType.Current))
-        //        {
-        //            _volumeDetectors =
-        //                (from detector in vb.DetectorController.Detectors
-        //                    where detector.TallyType.IsVolumeTally()
-        //                    select (IVolumeDetector)detector).ToArray();
-        //            VolumeTally(history);
-        //        }
-        //    }
-        //}
-
-        //public void SurfaceTally(PhotonDataPoint dp)
-        //{
-        //    foreach (var detector in _surfaceDetectors)
-        //    {
-        //        //if (tally.ContainsPoint(dp))
-        //            detector.Tally(dp);
-        //    }
-        //}
-
-        //public void VolumeTally(PhotonHistory history)
-        //{
-        //    // loop through the photon history. history tallies require information 
-        //    // from previous and "current" collision points (including pseudo-collisions)
-        //    PhotonDataPoint previousDP = history.HistoryData.First();
-        //    foreach (PhotonDataPoint dp in history.HistoryData.Skip(1))
-        //    {
-        //        foreach (var detector in _volumeDetectors)
-        //        {
-        //            detector.Tally(previousDP, dp);
-        //        }
-        //        previousDP = dp;
-        //    }
-        //}
 
     }
 }

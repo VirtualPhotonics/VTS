@@ -126,7 +126,7 @@ namespace Vts.Modeling.ForwardSolvers
                 {
                     for (int k = 0; k < nrReference; k++)
                     {
-                        RReferenceOfRhoAndTj[k] = RReferenceOfRhoAndTime[k, j]; // get RofRho at a particular Time Tj 
+                        RReferenceOfRhoAndTj[k] = RReferenceOfRhoAndTime[k, j]; // get ROfRho at a particular Time Tj 
                     }
                     for (int i = 0; i < nfxReference; i++)
                     {

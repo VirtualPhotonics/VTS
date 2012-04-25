@@ -18,7 +18,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class SpecularLayerDetectorTests
     {
-        private Output _output;
+        private SimulationOutput _output;
         private double _specularReflectance;
 
         /// <summary>
@@ -38,6 +38,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                      new List<DatabaseType>() { }, // databases to be written
                      true, // tally SecondMoment
                      false, // track statistics
+                     0.0, // RR threshold -> 0 = no RR performed
                      0),
                  new DirectionalPointSourceInput(
                      new Position(0.0, 0.0, 0.0),

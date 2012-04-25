@@ -27,6 +27,20 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(iCloned.N, 10);
         }
 
+        [Test]
+        public void validate_null_detector_input_gets_converted_to_empty_list_correctly()
+        {
+            var si = new SimulationInput(
+                100,
+                "results",
+                new SimulationOptions(),
+                new DirectionalPointSourceInput(),
+                new MultiLayerTissueInput(),
+                null
+                );
+            Assert.IsTrue(si.DetectorInputs.Count == 0);
+        }
+
         private static T Clone<T>(T myObject)
         {
             using (MemoryStream ms = new MemoryStream(1024))

@@ -14,30 +14,35 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// </summary>
     public class RadianceVirtualBoundary : IVirtualBoundary
     {
-        private ISurfaceDetectorController _detectorController;
+        private IDetectorController _detectorController;
         private double _zPlanePosition;
 
         /// <summary>
-        /// Creates an instance of a plane tranmission virtual boundary in direction given
+        /// Radiance virtual boundary
         /// </summary>
-        public RadianceVirtualBoundary(ISurfaceDetectorController detectorController, string name)
+        /// <param name="detectorController">IDetectorController</param>
+        /// <param name="name">string name</param>
+        public RadianceVirtualBoundary(IDetectorController detectorController, string name)
         {
             _detectorController = detectorController;
 
             // not sure following is best design
-            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyType == TallyType.RadianceOfRho).First();
+            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyType == TallyType.RadianceOfRho).FirstOrDefault();
 
-            _zPlanePosition = ((RadianceOfRhoDetector)dosimetryDetector).ZDepth;
+            if (dosimetryDetector != null)
+            {
+                _zPlanePosition = ((RadianceOfRhoDetector) dosimetryDetector).ZDepth;
 
-            WillHitBoundary = dp =>
-                        dp.StateFlag.HasFlag(PhotonStateType.PseudoReflectedTissueBoundary) &&
-                        dp.Direction.Uz > 0 &&
-                        Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
+                WillHitBoundary = dp =>
+                                  dp.StateFlag.HasFlag(PhotonStateType.PseudoReflectedTissueBoundary) &&
+                                  dp.Direction.Uz > 0 &&
+                                  Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
-            VirtualBoundaryType = VirtualBoundaryType.SurfaceRadiance;
-            PhotonStateType = PhotonStateType.PseudoSurfaceRadianceVirtualBoundary;
+                VirtualBoundaryType = VirtualBoundaryType.SurfaceRadiance;
+                PhotonStateType = PhotonStateType.PseudoSurfaceRadianceVirtualBoundary;
 
-            Name = name;
+                Name = name;
+            }
         }       
 
         ///// <summary>
@@ -48,17 +53,31 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         //    : this(null, null, null)
         //{
         //}
-
+        /// <summary>
+        /// VirtualBoundaryType
+        /// </summary>
         public VirtualBoundaryType VirtualBoundaryType { get; private set; }
+        /// <summary>
+        /// PhotonStateType
+        /// </summary>
         public PhotonStateType PhotonStateType { get; private set; }
+        /// <summary>
+        /// Name
+        /// </summary>
         public string Name { get; private set; }
+        /// <summary>
+        /// predicate of PhotonDataPoint providing whether photon will hit VB
+        /// </summary>
         public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
+        /// <summary>
+        /// IDetectorController
+        /// </summary>
         public IDetectorController DetectorController { get { return _detectorController; } }
 
         /// <summary>
         /// Finds the distance to the virtual boundary given direction of VB and photon
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="dp">photo data point</param>
         public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
             double distanceToBoundary = double.PositiveInfinity;

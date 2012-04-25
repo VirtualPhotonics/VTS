@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo;
@@ -23,10 +22,12 @@ namespace Vts.IO
 					typeof (ATotalDetector),
 					typeof (FluenceOfRhoAndZDetector),
 					typeof (FluenceOfRhoAndZAndTimeDetector),
-					typeof (MomentumTransferOfRhoAndZDetector),
+                    typeof (FluenceOfXAndYAndZDetector),
+					typeof (ReflectedMTOfRhoAndSubRegionHistDetector),
 					typeof (pMCROfRhoDetector),
 					typeof (pMCROfRhoAndTimeDetector),
 					typeof (RadianceOfRhoAndZAndAngleDetector),
+                    typeof (RadianceOfXAndYAndZAndThetaAndPhiDetector),
                     typeof (RDiffuseDetector),
 					typeof (ROfAngleDetector),
 					typeof (ROfRhoDetector),
@@ -35,12 +36,17 @@ namespace Vts.IO
 					typeof (ROfRhoAndTimeDetector),
 					typeof (ROfFxDetector),
 					typeof (ROfFxAndTimeDetector),
+					typeof (pMCROfFxDetector),
+                    typeof (pMCROfFxAndTimeDetector),
 					typeof (ROfXAndYDetector),
 					typeof (RSpecularDetector),
 					typeof (TDiffuseDetector),
 					typeof (TOfAngleDetector),
 					typeof (TOfRhoAndAngleDetector),
 					typeof (TOfRhoDetector),
+                    
+					typeof (ROfFxDetectorInput),
+					typeof (ROfFxAndTimeDetectorInput),
 
 					typeof (DirectionalCircularSourceInput),
 					typeof (DirectionalPointSourceInput),

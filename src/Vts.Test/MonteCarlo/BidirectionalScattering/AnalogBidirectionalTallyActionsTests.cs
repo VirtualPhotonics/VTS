@@ -18,7 +18,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
     [TestFixture]
     public class AnalogBidirectionalTallyActionsTests
     {
-        Output _output;
+        SimulationOutput _output;
         SimulationInput _input;
         double _slabThickness = 10;
         double _mua = 0.01;
@@ -43,6 +43,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally 2nd moment
                     true, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -72,7 +73,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             );
             _output = new MonteCarloSimulation(_input).Run();
 
-            _simulationStatistics = SimulationStatistics.FromFile("statistics");
+            _simulationStatistics = SimulationStatistics.FromFile("statistics.xml");
         }
 
         // todo: add analytic variance and use this for error bounds

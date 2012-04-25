@@ -131,7 +131,7 @@ namespace Vts.MonteCarlo.IO
         /// <param name="tallyType">TallyType of IDetector being read</param>
         /// <param name="fileName">filename string of file to be read</param>
         /// <param name="folderPath">path string where file resides</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector ReadDetectorFromFile(TallyType tallyType, string fileName, string folderPath)
         {
             try
@@ -189,6 +189,12 @@ namespace Vts.MonteCarlo.IO
                         rOfFxDetector.Mean = (Complex[])FileIO.ReadArrayFromBinary<Complex>(filePath, rOfFxDetectorDims);
                         return rOfFxDetector;
 
+                    case TallyType.pMCROfFx:
+                        var pMCROfFxDetector = FileIO.ReadFromXML<pMCROfFxDetector>(filePath + ".xml");
+                        var pMCROfFxDetectorDims = new int[] { pMCROfFxDetector.Fx.Count };
+                        pMCROfFxDetector.Mean = (Complex[])FileIO.ReadArrayFromBinary<Complex>(filePath, pMCROfFxDetectorDims);
+                        return pMCROfFxDetector;
+
                     case TallyType.TOfAngle:
                         var tOfAngleDetector = FileIO.ReadFromXML<TOfAngleDetector>(filePath + ".xml");
                         var tOfAngleDetectorDims = new int[] { tOfAngleDetector.Angle.Count - 1 };
@@ -208,6 +214,13 @@ namespace Vts.MonteCarlo.IO
                         var pMCROfRhoAndTimeDetectorDims = new int[] { pMCROfRhoAndTimeDetector.Rho.Count - 1, pMCROfRhoAndTimeDetector.Time.Count - 1 };
                         pMCROfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, pMCROfRhoAndTimeDetectorDims);
                         return pMCROfRhoAndTimeDetector;
+
+                    case TallyType.pMCROfFxAndTime:
+                        var pMCROfFxAndTimeDetector =
+                            FileIO.ReadFromXML<pMCROfFxAndTimeDetector>(filePath + ".xml");
+                        var pMCROfFxAndTimeDetectorDims = new int[] { pMCROfFxAndTimeDetector.Fx.Count - 1, pMCROfFxAndTimeDetector.Time.Count - 1 };
+                        pMCROfFxAndTimeDetector.Mean = (Complex[,])FileIO.ReadArrayFromBinary<Complex>(filePath, pMCROfFxAndTimeDetectorDims);
+                        return pMCROfFxAndTimeDetector;
 
                     case TallyType.ROfRhoAndAngle:
                         var rOfRhoAndAngleDetector = FileIO.ReadFromXML<ROfRhoAndAngleDetector>(filePath + ".xml");
@@ -245,19 +258,18 @@ namespace Vts.MonteCarlo.IO
                         fluenceOfRhoAndZDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfRhoAndZDetectorDims);
                         return fluenceOfRhoAndZDetector;
 
+                    case TallyType.FluenceOfXAndYAndZ:
+                        var fluenceOfXAndYAndZDetector = FileIO.ReadFromXML<FluenceOfXAndYAndZDetector>(filePath + ".xml");
+                        var fluenceOfXAndYAndZDetectorDims = new int[] { fluenceOfXAndYAndZDetector.X.Count - 1, fluenceOfXAndYAndZDetector.Y.Count - 1, fluenceOfXAndYAndZDetector.Z.Count -1 };
+                        fluenceOfXAndYAndZDetector.Mean = (double[,,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfXAndYAndZDetectorDims);
+                        return fluenceOfXAndYAndZDetector;
+
                     case TallyType.AOfRhoAndZ:
                         var aOfRhoAndZDetector = FileIO.ReadFromXML<AOfRhoAndZDetector>(filePath + ".xml");
                         var aOfRhoAndZDetectorDims = new int[] { aOfRhoAndZDetector.Rho.Count - 1, aOfRhoAndZDetector.Z.Count - 1 };
                         aOfRhoAndZDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, aOfRhoAndZDetectorDims);
                         return aOfRhoAndZDetector;
 
-                    case TallyType.MomentumTransferOfRhoAndZ:
-                        var momentumTransferOfRhoAndZDetector =
-                            FileIO.ReadFromXML<MomentumTransferOfRhoAndZDetector>(filePath + ".xml");
-                        var momentumTransferOfRhoAndZDetectorDims = new int[] { momentumTransferOfRhoAndZDetector.Rho.Count - 1, momentumTransferOfRhoAndZDetector.Z.Count - 1 };
-                        momentumTransferOfRhoAndZDetector.Mean =
-                            (double[,])FileIO.ReadArrayFromBinary<double>(filePath, momentumTransferOfRhoAndZDetectorDims);
-                        return momentumTransferOfRhoAndZDetector;
 
                     // "3D" detectors
                     case TallyType.FluenceOfRhoAndZAndTime:
@@ -269,6 +281,30 @@ namespace Vts.MonteCarlo.IO
                             fluenceOfRhoAndZAndTimeDetector.Time.Count - 1 };
                         fluenceOfRhoAndZAndTimeDetector.Mean = (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfRhoAndZAndTimeDetectorDims);
                         return fluenceOfRhoAndZAndTimeDetector;
+
+                    case TallyType.ReflectedMTOfRhoAndSubRegionHist:
+                        var reflectedMTOfRhoAndSubRegionHistDetector =
+                            FileIO.ReadFromXML<ReflectedMTOfRhoAndSubRegionHistDetector>(filePath + ".xml");
+                        var reflectedMTOfRhoAndSubRegionHistDetectorDims = new int[] {
+                            reflectedMTOfRhoAndSubRegionHistDetector.Rho.Count - 1, 
+                            reflectedMTOfRhoAndSubRegionHistDetector.SubRegionIndices.Count,
+                              reflectedMTOfRhoAndSubRegionHistDetector.MTBins.Count - 1 };                                                 
+                        reflectedMTOfRhoAndSubRegionHistDetector.Mean =
+                            (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, reflectedMTOfRhoAndSubRegionHistDetectorDims);
+                        return reflectedMTOfRhoAndSubRegionHistDetector;
+
+                    // "5D" detectors
+                    case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
+                        var radianceOfXAndYAndZAndThetaAndPhiDetector =
+                            FileIO.ReadFromXML<RadianceOfXAndYAndZAndThetaAndPhiDetector>(filePath + ".xml");
+                        var radianceOfXAndYAndZAndThetaAndPhiDims = new int[] { 
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.X.Count - 1, 
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.Y.Count - 1,
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.Z.Count - 1,
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.Theta.Count - 1,
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.Phi.Count - 1};
+                        radianceOfXAndYAndZAndThetaAndPhiDetector.Mean = (double[,,,,])FileIO.ReadArrayFromBinary<double>(filePath, radianceOfXAndYAndZAndThetaAndPhiDims);
+                        return radianceOfXAndYAndZAndThetaAndPhiDetector;
 
                     default:
                         throw new ArgumentOutOfRangeException("tallyType");
@@ -286,7 +322,7 @@ namespace Vts.MonteCarlo.IO
         /// </summary>
         /// <param name="tallyType">TallyType of IDetector being read</param>
         /// <param name="folderPath">path string of folder where file to be read resides</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector ReadDetectorFromFile(TallyType tallyType, string folderPath)
         {
             return ReadDetectorFromFile(tallyType, tallyType.ToString(), folderPath);
@@ -298,7 +334,7 @@ namespace Vts.MonteCarlo.IO
         /// <param name="fileName">filename string of file to be read</param>
         /// <param name="folderPath">path string of folder where file to be read resides</param>
         /// <param name="projectName">project name string where file resides in resources</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector ReadDetectorFromFileInResources(TallyType tallyType, string fileName, string folderPath, string projectName)
         {
             try
@@ -346,6 +382,12 @@ namespace Vts.MonteCarlo.IO
                         rOfFxDetector.Mean = (Complex[])FileIO.ReadArrayFromBinaryInResources<Complex>(filePath, projectName, rOfFxDetectorDims);
                         return rOfFxDetector;
 
+                    case TallyType.pMCROfFx:
+                        var pMuaMusROfFxDetector = FileIO.ReadFromXMLInResources<pMCROfFxDetector>(filePath + ".xml", projectName);
+                        var pMCROfFxDetectorDims = new int[] { pMuaMusROfFxDetector.Fx.Count };
+                        pMuaMusROfFxDetector.Mean = (Complex[])FileIO.ReadArrayFromBinaryInResources<Complex>(filePath, projectName, pMCROfFxDetectorDims);
+                        return pMuaMusROfFxDetector;
+
                     case TallyType.TOfAngle:
                         var tOfAngleDetector = FileIO.ReadFromXMLInResources<TOfAngleDetector>(filePath + ".xml", projectName);
                         var tOfAngleDetectorDims = new int[] { tOfAngleDetector.Angle.Count - 1 };
@@ -364,6 +406,12 @@ namespace Vts.MonteCarlo.IO
                         var pMCROfRhoAndTimeDetectorDims = new int[] { pMuaMusROfRhoAndTimeDetector.Rho.Count, pMuaMusROfRhoAndTimeDetector.Time.Count - 1 };
                         pMuaMusROfRhoAndTimeDetector.Mean = (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, pMCROfRhoAndTimeDetectorDims);
                         return pMuaMusROfRhoAndTimeDetector;
+
+                    case TallyType.pMCROfFxAndTime:
+                        var pMuaMusROfFxAndTimeDetector = FileIO.ReadFromXMLInResources<pMCROfFxAndTimeDetector>(filePath + ".xml", projectName);
+                        var pMCROfFxAndTimeDetectorDims = new int[] { pMuaMusROfFxAndTimeDetector.Fx.Count, pMuaMusROfFxAndTimeDetector.Time.Count - 1 };
+                        pMuaMusROfFxAndTimeDetector.Mean = (Complex[,])FileIO.ReadArrayFromBinaryInResources<Complex>(filePath, projectName, pMCROfFxAndTimeDetectorDims);
+                        return pMuaMusROfFxAndTimeDetector;
 
                     case TallyType.ROfRhoAndAngle:
                         var rOfRhoAndAngleDetector =
@@ -419,21 +467,11 @@ namespace Vts.MonteCarlo.IO
                             (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, aOfRhoAndZDetectorDims);
                         return aOfRhoAndZDetector;
 
-                    case TallyType.MomentumTransferOfRhoAndZ:
-                        var momentumTransferOfRhoAndZDetector =
-                            FileIO.ReadFromXMLInResources<MomentumTransferOfRhoAndZDetector>(filePath + ".xml",
-                                                                                             projectName);
-                        var momentumTransferOfRhoAndZDetectorDims =
-                            new int[] { momentumTransferOfRhoAndZDetector.Rho.Count, momentumTransferOfRhoAndZDetector.Z.Count };
-                        momentumTransferOfRhoAndZDetector.Mean =
-                            (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, momentumTransferOfRhoAndZDetectorDims);
-                        return momentumTransferOfRhoAndZDetector;
 
                     // "3D" detectors
                     case TallyType.FluenceOfRhoAndZAndTime:
                         var fluenceOfRhoAndZAndTimeDetector =
-                            FileIO.ReadFromXMLInResources<FluenceOfRhoAndZAndTimeDetector>(filePath + ".xml",
-                                                                                           projectName);
+                            FileIO.ReadFromXMLInResources<FluenceOfRhoAndZAndTimeDetector>(filePath + ".xml",  projectName);
                         var fluenceOfRhoAndZAndTimeDetectorDims =
                             new int[] { fluenceOfRhoAndZAndTimeDetector.Rho.Count, 
                                         fluenceOfRhoAndZAndTimeDetector.Z.Count,
@@ -441,6 +479,16 @@ namespace Vts.MonteCarlo.IO
                         fluenceOfRhoAndZAndTimeDetector.Mean =
                             (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, fluenceOfRhoAndZAndTimeDetectorDims);
                         return fluenceOfRhoAndZAndTimeDetector;
+                    case TallyType.ReflectedMTOfRhoAndSubRegionHist:
+                        var reflectedMTOfRhoAndSubRegionDetector =
+                            FileIO.ReadFromXMLInResources<ReflectedMTOfRhoAndSubRegionHistDetector>(filePath + ".xml", projectName);
+                        var reflectedMTOfRhoAndSubRegionHistDims =
+                            new int[] { reflectedMTOfRhoAndSubRegionDetector.Rho.Count, 
+                                        reflectedMTOfRhoAndSubRegionDetector.SubRegionIndices.Count, 
+                                        reflectedMTOfRhoAndSubRegionDetector.MTBins.Count };
+                        reflectedMTOfRhoAndSubRegionDetector.Mean =
+                            (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, reflectedMTOfRhoAndSubRegionHistDims);
+                        return reflectedMTOfRhoAndSubRegionDetector;
 
                     default:
                         throw new ArgumentOutOfRangeException("tallyType");
@@ -459,7 +507,7 @@ namespace Vts.MonteCarlo.IO
         /// <param name="tallyType">TallyType of IDetector to be read</param>
         /// <param name="folderPath">path string of folder where file to be read resides</param>
         /// <param name="projectName">project name string where the file resides in resources</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector ReadDetectorFromFileInResources(TallyType tallyType, string folderPath, string projectName)
         {
             return ReadDetectorFromFileInResources(tallyType, tallyType.ToString(), folderPath, projectName);

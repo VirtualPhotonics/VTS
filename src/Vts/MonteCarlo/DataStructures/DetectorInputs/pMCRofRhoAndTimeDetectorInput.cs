@@ -61,11 +61,29 @@ namespace Vts.MonteCarlo
                 TallyType.pMCROfRhoAndTime.ToString()
             ) {}
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
+        /// <summary>
+        /// detector name
+        /// </summary>
         public String Name { get; set; }
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
+        /// <summary>
+        /// time binning
+        /// </summary>
         public DoubleRange Time { get; set; }
+        /// <summary>
+        /// list of perturbed optical properties, indexing matches tissue indexing
+        /// </summary>
         public IList<OpticalProperties> PerturbedOps { get; set; }
+        /// <summary>
+        /// list of perturbed region indices, indexing matches tissue indexing
+        /// </summary>
         public IList<int> PerturbedRegionsIndices { get; set; }
     }
 }

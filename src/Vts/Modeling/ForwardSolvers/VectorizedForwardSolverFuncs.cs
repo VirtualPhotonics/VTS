@@ -15,73 +15,73 @@ namespace Vts.Modeling.ForwardSolvers
             _fs = fs;
         }
 
-        public Func<OpticalProperties, double, double> RofRho
+        public Func<OpticalProperties, double, double> ROfRho
         {
             get
             {
                 return (OpticalProperties op, double rho) =>
-                    _fs.RofRho(op.AsEnumerable(), rho.AsEnumerable()).FirstOrDefault();
+                    _fs.ROfRho(op.AsEnumerable(), rho.AsEnumerable()).FirstOrDefault();
             }
         }
 
-        public Func<OpticalProperties, double, double, double> RofRhoAndT
+        public Func<OpticalProperties, double, double, double> ROfRhoAndT
         {
             get
             {
                 return
                     (OpticalProperties op, double rho, double t) =>
-                        _fs.RofRhoAndT(
+                        _fs.ROfRhoAndTime(
                             op.AsEnumerable(),
                             rho.AsEnumerable(),
                             t.AsEnumerable()).FirstOrDefault();
             }
         }
 
-        public Func<OpticalProperties, double, double, Complex> RofRhoAndFt
+        public Func<OpticalProperties, double, double, Complex> ROfRhoAndFt
         {
             get
             {
                 return 
                     (OpticalProperties op, double rho, double ft) =>
-                        _fs.RofRhoAndFt(
+                        _fs.ROfRhoAndFt(
                             op.AsEnumerable(),
                             rho.AsEnumerable(),
                             ft.AsEnumerable()).FirstOrDefault();
             }
         }
 
-        public Func<OpticalProperties, double, double> RofFx
+        public Func<OpticalProperties, double, double> ROfFx
         {
             get
             {
                 return 
                     (OpticalProperties op, double fx) =>
-                        _fs.RofFx(
+                        _fs.ROfFx(
                             op.AsEnumerable(),
                             fx.AsEnumerable()).FirstOrDefault();
             }
         }
 
-        public Func<OpticalProperties, double, double, double> RofFxAndT
+        public Func<OpticalProperties, double, double, double> ROfFxAndT
         {
             get
             {
                 return 
                     (OpticalProperties op, double fx, double t) =>
-                        _fs.RofFxAndT(
+                        _fs.ROfFxAndTime(
                             op.AsEnumerable(),
                             fx.AsEnumerable(),
                             t.AsEnumerable()).FirstOrDefault();
             }
         }
 
-        public Func<OpticalProperties, double, double, Complex> RofFxAndFt
+        public Func<OpticalProperties, double, double, Complex> ROfFxAndFt
         {
             get
             {
                 return
                     (OpticalProperties op, double fx, double ft) =>
-                        _fs.RofFxAndFt(
+                        _fs.ROfFxAndFt(
                             op.AsEnumerable(),
                             fx.AsEnumerable(),
                             ft.AsEnumerable()).FirstOrDefault();

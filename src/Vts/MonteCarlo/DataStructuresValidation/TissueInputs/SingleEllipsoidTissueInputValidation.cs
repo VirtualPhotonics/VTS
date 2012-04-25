@@ -62,9 +62,7 @@ namespace Vts.MonteCarlo
 
             if (!tempResult.IsValid) { return tempResult; }
 
-            // todo: don't like the assumption of air layers in general w/o it being a special case or test for air
-            // what happens if it's a homogeneous medium with an inclusion? -DC
-            //Func<ITissueRegion, bool> isAir = region => region.RegionOP.Mua == 0D && region.RegionOP.Mus <= 1E-10; 
+            // test for air layers and eliminate from list
             var tissueLayers = layers.Where(layer => !layer.IsAir());
 
             // check that there is at least one layer of tissue 
@@ -106,7 +104,7 @@ namespace Vts.MonteCarlo
         /// Code does not yet include reflecting/refracting off ellipsoid surface.
         /// </summary>
         /// <param name="layers">list of LayerRegion</param>
-        /// <param name="ellipsiod"EllipsoidRegion></param>
+        /// <param name="ellipsiod">EllipsoidRegion></param>
         /// <returns>ValidationResult</returns>
         private static ValidationResult ValidateRefractiveIndexMatch(
             IList<LayerRegion> layers, EllipsoidRegion ellipsiod)

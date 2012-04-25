@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vts.Common.Logging;
 using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
 
@@ -15,7 +16,7 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class MonteCarloSimulation
     {
-        private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
+        private ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
         private ISource _source;
         private ITissue _tissue;
         private VirtualBoundaryController _virtualBoundaryController;
@@ -26,6 +27,9 @@ namespace Vts.MonteCarlo
         private pMCDatabaseWriterController _pMCDatabaseWriterController = null;
         private bool doPMC = false;
 
+        /// <summary>
+        /// SimulationInput saved locally
+        /// </summary>
         protected SimulationInput _input;
         private Random _rng;
 
@@ -34,7 +38,10 @@ namespace Vts.MonteCarlo
         private bool _isRunning;
         private bool _isCancelled;
         private bool _resultsAvailable;
-
+        /// <summary>
+        /// Class that takes in SimulationInput and methods to initialize and execute Monte Carlo simulation
+        /// </summary>
+        /// <param name="input">SimulationInput</param>
         public MonteCarloSimulation(SimulationInput input)
         {
             _outputPath = "";
@@ -61,12 +68,16 @@ namespace Vts.MonteCarlo
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType);
+            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType, input.Options.RussianRouletteWeightThreshold);
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
 
             // instantiate vb (and associated detectors) for each vb group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
-            
+
+            List<VirtualBoundaryType> dbVirtualBoundaries =
+                input.Options.Databases.Select(db => db.GetCorrespondingVirtualBoundaryType()).ToList();
+
+
             foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
             {
                 IEnumerable<IDetectorInput> detectorInputs = null;
@@ -96,10 +107,12 @@ namespace Vts.MonteCarlo
 
                 // make sure VB Controller has at least diffuse reflectance and diffuse transmittance
                 // may change this in future if tissue OnDomainBoundary changes
-                if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) || (vbType == VirtualBoundaryType.DiffuseTransmittance))
+                if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) ||
+                    (vbType == VirtualBoundaryType.DiffuseTransmittance) || (dbVirtualBoundaries.Any(vb => vb == vbType)))
                 {
                     var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, input.Options.TallySecondMoment);
-                    var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors);
+                    var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors, _tissue);
+                    // var detectorController = new DetectorController(detectors);
                     var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbType, _tissue, detectorController);
                     _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
                 }
@@ -109,7 +122,7 @@ namespace Vts.MonteCarlo
             //_detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
 
             // set doPMC flag
-            if (input.Options.WriteDatabases.Any(d => d.IspMCDatabase()))
+            if (input.Options.Databases.Any(d => d.IspMCDatabase()))
             {
                 doPMC = true;
             }
@@ -124,11 +137,17 @@ namespace Vts.MonteCarlo
         /// </summary>
         public MonteCarloSimulation() : this(new SimulationInput()) { }
 
-        // public properties
+        /// <summary>
+        /// Phase function enum type as specified in SimulationOptions
+        /// </summary>
         public PhaseFunctionType PhaseFunctionType { get; set; }
-
+        /// <summary>
+        /// Boolean indicating whether simulation is running or not
+        /// </summary>
         public bool IsRunning { get { return _isRunning; } }
-
+        /// <summary>
+        /// Boolean indicating whether results are available or not
+        /// </summary>
         public bool ResultsAvailable { get { return _resultsAvailable; } }
 
         // private properties
@@ -136,19 +155,48 @@ namespace Vts.MonteCarlo
         private AbsorptionWeightingType AbsorptionWeightingType { get; set; }
         private bool TrackStatistics { get; set; }
 
-        public Output Results { get; private set; }
+        /// <summary>
+        /// Results of the simulation 
+        /// </summary>
+        public SimulationOutput Results { get; private set; }
 
-        public Output Run(string outputPath)
+        /// <summary>
+        /// Method to run parallel MC simulations
+        /// </summary>
+        /// <param name="simulations">array of MonteCarloSimulation</param>
+        /// <returns>array of SimulationOutput</returns>
+        public static SimulationOutput[] RunAll(MonteCarloSimulation[] simulations)
+        {
+            SimulationOutput[] outputs = new SimulationOutput[simulations.Length];
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            Parallel.ForEach(simulations, options, (sim, state, index) =>
+            {
+                try
+                {
+                    outputs[index] = simulations[index].Run();
+                }
+                catch
+                {
+                    Console.WriteLine("Problem occurred running simulation #{0}. Make sure all simulations have distinct 'OutputName' properties?", index);
+                }
+            });
+
+            return outputs;
+        }
+        /// <summary>
+        /// Method that sets the output path (string) for databases
+        /// </summary>
+        /// <param name="outputPath">string indicating output path</param>
+        public void SetOutputPathForDatabases(string outputPath)
         {
             _outputPath = outputPath;
-            return Run();
         }
 
         /// <summary>
         /// Run the simulation
         /// </summary>
-        /// <returns></returns>
-        public Output Run()
+        /// <returns>SimulationOutput</returns>
+        public SimulationOutput Run()
         {
             _isCancelled = false;
             _isRunning = true;
@@ -164,19 +212,21 @@ namespace Vts.MonteCarlo
                 _resultsAvailable = false;
                 return null;
             }
-            
+
             var detectors = _virtualBoundaryController.VirtualBoundaries
                     .Select(vb => vb.DetectorController)
                     .Where(dc => dc != null)
                     .SelectMany(dc => dc.Detectors).ToList();
 
-            Results = new Output(_input, detectors);
+            Results = new SimulationOutput(_input, detectors);
 
             _resultsAvailable = true;
 
             return Results;
         }
-
+        /// <summary>
+        /// Method to cancel the simulation, for example, from the gui
+        /// </summary>
         public void Cancel()
         {
             _isCancelled = true;
@@ -192,7 +242,7 @@ namespace Vts.MonteCarlo
 
             try
             {
-                if (_input.Options.WriteDatabases.Count() > 0)
+                if (_input.Options.Databases.Count() > 0)
                 {
                     InitialDatabases(doPMC);
                 }
@@ -228,9 +278,7 @@ namespace Vts.MonteCarlo
                         if ((hitType == BoundaryHitType.Virtual) &&
                             (closestVirtualBoundary.DetectorController != null))
                         {
-                            ((ISurfaceDetectorController)closestVirtualBoundary.DetectorController).Tally(photon.DP);
-                            // reset PhotonStateType after tallying
-                            //photon.DP.StateFlag.Remove(closestVirtualBoundary.PhotonStateType);
+                            closestVirtualBoundary.DetectorController.Tally(photon);
                         }
 
                         // kill photon for various reasons, including possible VB crossings
@@ -258,7 +306,7 @@ namespace Vts.MonteCarlo
 
                     //_detectorController.TerminationTally(photon.DP);
 
-                    if (_input.Options.WriteDatabases.Count() > 0)
+                    if (_input.Options.Databases.Count() > 0)
                     {
                         WriteToDatabases(doPMC, photon);
                     }
@@ -268,7 +316,7 @@ namespace Vts.MonteCarlo
                     // PseudoDiffuseReflectanceVB
                     foreach (var vb in volumeVBs)
                     {
-                        ((IVolumeDetectorController)vb.DetectorController).Tally(photon.History);
+                        vb.DetectorController.Tally(photon); // dc: this should use the optimized loop now...
                     }
 
                     if (TrackStatistics)
@@ -280,7 +328,7 @@ namespace Vts.MonteCarlo
             }
             finally
             {
-                if (_input.Options.WriteDatabases.Count() > 0)
+                if (_input.Options.Databases.Count() > 0)
                 {
                     CloseDatabases(doPMC);
                 }
@@ -296,8 +344,8 @@ namespace Vts.MonteCarlo
             }
 
             if (TrackStatistics)
-            {
-                _simulationStatistics.ToFile("statistics");
+            {             
+                _simulationStatistics.ToFile("statistics.xml");
             }
 
             stopwatch.Stop();
@@ -336,7 +384,7 @@ namespace Vts.MonteCarlo
             {
                 _databaseWriterController = new DatabaseWriterController(
                     DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                        _input.Options.WriteDatabases,
+                        _input.Options.Databases,
                         _outputPath,
                         _input.OutputName));
             }
@@ -344,11 +392,11 @@ namespace Vts.MonteCarlo
             {
                 _pMCDatabaseWriterController = new pMCDatabaseWriterController(
                     DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                    _input.Options.WriteDatabases,
+                    _input.Options.Databases,
                             _outputPath,
                             _input.OutputName),
                     DatabaseWriterFactory.GetCollisionInfoDatabaseWriters(
-                    _input.Options.WriteDatabases,
+                    _input.Options.Databases,
                             _tissue,
                             _outputPath,
                             _input.OutputName));
@@ -368,30 +416,35 @@ namespace Vts.MonteCarlo
 
             if (tissueDistance < vbDistance) // determine if will hit tissue boundary first
             {
+                // DC - logic confusing; why no pseudo added here but added below for vb?
                 var hitTissueBoundary = photon.Move(tissueDistance);
                 return hitTissueBoundary ? BoundaryHitType.Tissue : BoundaryHitType.None;
             }
-            else // otherwise, move to the closest virtual boundary
+
+            // otherwise, move to the closest virtual boundary
+
+            // if both tissueDistance and vbDistance are both infinity, then photon dead
+            if (vbDistance == double.PositiveInfinity)
             {
-                // if both tissueDistance and vbDistance are both infinity, then photon dead
-                if (vbDistance == double.PositiveInfinity)
-                {
-                    photon.DP.StateFlag = photon.DP.StateFlag.Remove(PhotonStateType.Alive);
-                    return BoundaryHitType.None;
-                }
-                else
-                {
-                    var hitVirtualBoundary = photon.Move(vbDistance);
-                    photon.DP.StateFlag = photon.DP.StateFlag.Add(closestVirtualBoundary.PhotonStateType); // add pseudo-collision for vb
-                    return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
-                }
+                photon.DP.StateFlag = photon.DP.StateFlag.Remove(PhotonStateType.Alive);
+                return BoundaryHitType.None;
             }
+
+            var hitVirtualBoundary = photon.Move(vbDistance);
+
+            // DC - logic confusing; why add pseudo here for vb, but no pseudo in this method for tissue boundary?
+            photon.DP.StateFlag = photon.DP.StateFlag.Add(closestVirtualBoundary.PhotonStateType); // add pseudo-collision for vb 
+
+            // DC - also confusing that we'd add a pseudo for the vb if hitVirtualBoundary is false...
+            return hitVirtualBoundary ? BoundaryHitType.Virtual : BoundaryHitType.None;
         }
 
-        /********************************************************/
-        void DisplayIntro()
+        /// <summary>
+        /// Method to display introduction to the simulation
+        /// </summary>
+        private void DisplayIntro()
         {
-            var header = SimulationIndex + ": ";
+            var header = _input.OutputName + " (" + SimulationIndex + "): ";
             logger.Info(() => header + "                                                  \n");
             logger.Info(() => header + "      Monte Carlo Simulation of Light Propagation \n");
             logger.Info(() => header + "              in a multi-region tissue            \n");
@@ -401,10 +454,14 @@ namespace Vts.MonteCarlo
             logger.Info(() => header + "                                                  \n");
         }
 
-        /*****************************************************************/
-        void DisplayStatus(long n, long num_phot)
+        /// <summary>
+        /// Method that displays simulation percentage done
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="num_phot"></param>
+        private void DisplayStatus(long n, long num_phot)
         {
-            var header = SimulationIndex + ": ";
+            var header = _input.OutputName + " (" + SimulationIndex + "): ";
             /* fraction of photons completed */
             double frac = 100 * n / num_phot;
 

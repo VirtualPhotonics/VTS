@@ -14,9 +14,18 @@ namespace Vts.Modeling.Optimizers
     /// </summary>
     public class OptimizationData
     {
+        /// <summary>
+        /// delegate function that evaluates the objective function given a parameter optimization array and (optional) constant variables
+        /// </summary>
         public Func<double[], object[], double[]> ForwardFunc { get; set; }
         public object[] ForwardVariables { get; set; }
+        /// <summary>
+        /// measured data
+        /// </summary>
         public double[] Y { get; set; }
+        /// <summary>
+        /// standard deviation of Y
+        /// </summary>
         public double[] Ey { get; set; }
     }
     /// <summary>

@@ -35,28 +35,28 @@ namespace Vts.Modeling.ForwardSolvers
         }
         #endregion
 
-        public override Complex RofRhoAndFt(OpticalProperties op, double rho, double ft)
+        public override Complex ROfRhoAndFt(OpticalProperties op, double rho, double ft)
         {
             throw new NotImplementedException();
         }
 
-        public override double RofFx(OpticalProperties op, double fx)
+        public override double ROfFx(OpticalProperties op, double fx)
         {
             throw new NotImplementedException();
         }
 
-        public override double RofFxAndT(OpticalProperties op, double fx, double t)
+        public override double ROfFxAndTime(OpticalProperties op, double fx, double t)
         {
             throw new NotImplementedException();
         }
 
-        public override Complex RofFxAndFt(OpticalProperties op, double fx, double ft)
+        public override Complex ROfFxAndFt(OpticalProperties op, double fx, double ft)
         {
             throw new NotImplementedException();
         }
 
 
-        public override IEnumerable<double> FluenceofRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
+        public override IEnumerable<double> FluenceOfRhoAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
         {
             throw new NotImplementedException();
         }

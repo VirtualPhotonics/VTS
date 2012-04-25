@@ -32,10 +32,23 @@ namespace Vts.MonteCarlo.Helpers
         {
         }
 
+        /// <summary>
+        /// rotation angle around x-axis
+        /// </summary>
         public double XRotation { get { return _xRotation; } set { _xRotation = value; } } // alpha
+        /// <summary>
+        /// rotation angle around y-axis
+        /// </summary>
         public double YRotation { get { return _yRotation; } set { _yRotation = value; } } // beta
+        /// <summary>
+        /// rotation angle around z-axis
+        /// </summary>
         public double ZRotation { get { return _zRotation; } set { _zRotation = value; } }  // gamma
 
+        /// <summary>
+        /// method to clone ThreeAxisRotation
+        /// </summary>
+        /// <returns></returns>
         public ThreeAxisRotation Clone()
         {
             return new ThreeAxisRotation(XRotation, YRotation, ZRotation);

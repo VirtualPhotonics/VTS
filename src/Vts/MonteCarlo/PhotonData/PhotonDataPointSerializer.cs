@@ -12,6 +12,11 @@ namespace Vts.MonteCarlo.PhotonData
         ICustomBinaryReader<PhotonDataPoint>, 
         ICustomBinaryWriter<PhotonDataPoint>
     {
+        /// <summary>
+        /// method to write PhotonDataPoint to binary
+        /// </summary>
+        /// <param name="bw">BinaryWriter</param>
+        /// <param name="item">PhotonDataPoint</param>
         public void WriteToBinary(BinaryWriter bw, PhotonDataPoint item)
         {
             item.Position.WriteBinary(bw);
@@ -20,7 +25,11 @@ namespace Vts.MonteCarlo.PhotonData
             bw.Write(item.TotalTime);
             bw.Write((byte)item.StateFlag);
         }
-
+        /// <summary>
+        /// method to read PhotonDataPoint from binary
+        /// </summary>
+        /// <param name="br">BinaryReader</param>
+        /// <returns>PHotonDataPoint</returns>
         public PhotonDataPoint ReadFromBinary(BinaryReader br)
         {
             var dataPoint = new PhotonDataPoint(

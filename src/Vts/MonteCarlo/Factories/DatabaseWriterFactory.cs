@@ -17,12 +17,12 @@ namespace Vts.MonteCarlo.Factories
         /// <summary>
         /// Static method to provide a list of PhotonDatabaseWriters.  It calls the method
         /// to instantiate one PhotonDatabaseWriter, GetSurfaceVirtualBoundaryDatabaseWriter,
-        /// for all elements in the list of VirtualBoundaryType.
+        /// for all elements in the list of virtual boundary DatabaseType.
         /// </summary>
-        /// <param name="virtualBoundaryTypes">list of VirtualBoundaryType</param>
+        /// <param name="databaseTypes">list of database types</param>
         /// <param name="filePath">path string for database output</param>
         /// <param name="outputName">name string of output</param>
-        /// <returns></returns>
+        /// <returns>a list of PhotonDatabaseWriter</returns>
         public static IList<PhotonDatabaseWriter> GetSurfaceVirtualBoundaryDatabaseWriters(
             IList<DatabaseType> databaseTypes, string filePath, string outputName)
         {
@@ -32,12 +32,12 @@ namespace Vts.MonteCarlo.Factories
         }
         /// <summary>
         /// Static method to instantiate correct PhotonDatabaseWriter given a 
-        /// VirtualBoundaryType, path to where to output database and database filename.
+        /// virtual boundary DatabaseType, path to where to output database and database filename.
         /// </summary>
-        /// <param name="virtualBoundaryType">Enum designating virtual boundary type</param>
+        /// <param name="databaseType">database type enum</param>
         /// <param name="filePath">path string of database output</param>
         /// <param name="outputName">filename string of database file</param>
-        /// <returns></returns>
+        /// <returns>a PhotonDatabaseWriter</returns>
         public static PhotonDatabaseWriter GetSurfaceVirtualBoundaryDatabaseWriter(
             DatabaseType databaseType, string filePath, string outputName)
         {
@@ -61,13 +61,13 @@ namespace Vts.MonteCarlo.Factories
         /// <summary>
         /// Static method to provide list of CollisionInfoDatabaseWriters.  It calls the method
         /// to instantiate one CollisionInfoDatabaseWriter, GetCollisionInfoDatabaseWriter,
-        /// for all elements in the list of VirtualBoundaryType. 
+        /// for all elements in the list of virtual boundary DatabaseType. 
         /// </summary>
-        /// <param name="virtualBoundaryTypes">list of VirtualBoundaryTypes</param>
+        /// <param name="databaseTypes">list of database types</param>
         /// <param name="tissue">ITissue needed to instantiate Writer to know how many regions</param>
         /// <param name="filePath">path string of database output</param>
         /// <param name="outputName">filename string of output file</param>
-        /// <returns></returns>
+        /// <returns>a list of CollisionInfoDatabaseWriter</returns>
         public static IList<CollisionInfoDatabaseWriter> GetCollisionInfoDatabaseWriters(
             IList<DatabaseType> databaseTypes, ITissue tissue, string filePath, string outputName)
         {
@@ -77,13 +77,13 @@ namespace Vts.MonteCarlo.Factories
         }
         /// <summary>
         /// Static method to instantiate correct CollisionInfoDatabaseWriter given a 
-        /// VirtualBoundaryType, path to where to output database and database filename.
+        /// virtual boundary DatabaseType, path to where to output database and database filename.
         /// </summary>
-        /// <param name="virtualBoundaryType">VirtualBoundaryType enum</param>
+        /// <param name="databaseType">database type enum</param>
         /// <param name="tissue">ITissue to know how many regions</param>
         /// <param name="filePath">path string of database output</param>
         /// <param name="outputName">filename string of database file</param>
-        /// <returns></returns>
+        /// <returns>a CollisionInfoDatabaseWriter</returns>
         public static CollisionInfoDatabaseWriter GetCollisionInfoDatabaseWriter(
             DatabaseType databaseType, ITissue tissue, string filePath, string outputName)
         {

@@ -25,7 +25,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -56,15 +56,15 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\..\files\PostProcessorInputFiles\infile_PostProcessor_pMC_ROfRho.xml">
-      <Link>infile_PostProcessor_pMC_ROfRho.xml</Link>
-    </Content>
-    <Content Include="..\..\files\PostProcessorInputFiles\infile_PostProcessor_ROfRho.xml">
-      <Link>infile_PostProcessor_ROfRho.xml</Link>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+IF NOT EXIST "$(SolutionDir)..\build\apps\mc_post\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\apps\mc_post\$(ConfigurationName)"
+copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\apps\mc_post\$(ConfigurationName)" /y
+
+"$(TargetDir)mc_post.exe" geninfiles
+</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

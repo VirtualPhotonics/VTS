@@ -26,7 +26,7 @@ namespace Vts.SiteVisit.Extensions
                 case IndependentVariableAxis.Rho:
                 default:
                     return 0;
-                case IndependentVariableAxis.T:
+                case IndependentVariableAxis.Time:
                     return 2;
                 case IndependentVariableAxis.Fx:
                     return 0;
@@ -44,7 +44,7 @@ namespace Vts.SiteVisit.Extensions
                 case IndependentVariableAxis.Rho:
                 default:
                     return IndependentVariableAxisUnits.MM.GetInternationalizedString();
-                case IndependentVariableAxis.T:
+                case IndependentVariableAxis.Time:
                     return IndependentVariableAxisUnits.NS.GetInternationalizedString();
                 case IndependentVariableAxis.Fx:
                     return IndependentVariableAxisUnits.InverseMM.GetInternationalizedString();
@@ -60,8 +60,8 @@ namespace Vts.SiteVisit.Extensions
                 case IndependentVariableAxis.Rho:
                 default:
                     return IndependentVariableAxis.Rho.GetLocalizedString();
-                case IndependentVariableAxis.T:
-                    return IndependentVariableAxis.T.GetLocalizedString();
+                case IndependentVariableAxis.Time:
+                    return IndependentVariableAxis.Time.GetLocalizedString();
                 case IndependentVariableAxis.Fx:
                     return IndependentVariableAxis.Fx.GetLocalizedString();
                 case IndependentVariableAxis.Ft:
@@ -73,18 +73,18 @@ namespace Vts.SiteVisit.Extensions
         {
             switch (sdType)
             {
-                case SolutionDomainType.RofRho:
+                case SolutionDomainType.ROfRho:
                 default:
                     return DependentVariableAxisUnits.PerMMSquared.GetInternationalizedString();
-                case SolutionDomainType.RofFx:
+                case SolutionDomainType.ROfFx:
                     return DependentVariableAxisUnits.Unitless.GetInternationalizedString();
-                case SolutionDomainType.RofRhoAndT:
+                case SolutionDomainType.ROfRhoAndTime:
                     return DependentVariableAxisUnits.PerMMSquaredPerNS.GetInternationalizedString();
-                case SolutionDomainType.RofFxAndT:
+                case SolutionDomainType.ROfFxAndTime:
                     return DependentVariableAxisUnits.PerNS.GetInternationalizedString();
-                case SolutionDomainType.RofRhoAndFt:
+                case SolutionDomainType.ROfRhoAndFt:
                     return DependentVariableAxisUnits.PerMMSquaredPerGHz.GetInternationalizedString();
-                case SolutionDomainType.RofFxAndFt:
+                case SolutionDomainType.ROfFxAndFt:
                     return DependentVariableAxisUnits.PerGHz.GetInternationalizedString();
             }
         }
@@ -93,18 +93,18 @@ namespace Vts.SiteVisit.Extensions
         {
             switch (sdType)
             {
-                case FluenceSolutionDomainType.FluenceofRho:
+                case FluenceSolutionDomainType.FluenceOfRhoAndZ:
                 default:
                     return DependentVariableAxisUnits.PerMMCubed.GetInternationalizedString();
-                case FluenceSolutionDomainType.FluenceofFx:
+                case FluenceSolutionDomainType.FluenceOfFxAndZ:
                     return DependentVariableAxisUnits.PerMM.GetInternationalizedString();
-                case FluenceSolutionDomainType.FluenceofRhoAndT:
+                case FluenceSolutionDomainType.FluenceOfRhoAndZAndTime:
                     return DependentVariableAxisUnits.PerMMCubedPerNS.GetInternationalizedString();
-                case FluenceSolutionDomainType.FluenceofFxAndT:
+                case FluenceSolutionDomainType.FluenceOfFxAndZAndTime:
                     return DependentVariableAxisUnits.PerMMPerNS.GetInternationalizedString();
-                case FluenceSolutionDomainType.FluenceofRhoAndFt:
+                case FluenceSolutionDomainType.FluenceOfRhoAndZAndFt:
                     return DependentVariableAxisUnits.PerMMCubedPerGHz.GetInternationalizedString();
-                case FluenceSolutionDomainType.FluenceofFxAndFt:
+                case FluenceSolutionDomainType.FluenceOfFxAndZAndFt:
                     return DependentVariableAxisUnits.PerMMPerGHz.GetInternationalizedString();
             }
         }
@@ -115,7 +115,7 @@ namespace Vts.SiteVisit.Extensions
                 case IndependentVariableAxis.Rho:
                 default:
                     return new DoubleRange(0.5D, 9.5D, 19); // units=mm
-                case IndependentVariableAxis.T:
+                case IndependentVariableAxis.Time:
                     return new DoubleRange(0D, 0.05D, 51);  // units=ns
                 case IndependentVariableAxis.Fx:
                     return new DoubleRange(0D, 0.5D, 51);
@@ -133,7 +133,7 @@ namespace Vts.SiteVisit.Extensions
                 case IndependentVariableAxis.Rho:
                 default:
                     return 1.0;
-                case IndependentVariableAxis.T:
+                case IndependentVariableAxis.Time:
                     return 0.05;
                 case IndependentVariableAxis.Fx:
                     return 0.0;
