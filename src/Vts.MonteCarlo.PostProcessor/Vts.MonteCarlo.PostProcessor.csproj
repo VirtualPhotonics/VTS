@@ -58,9 +58,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-IF NOT EXIST "$(SolutionDir)..\build\apps\mc_post\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\apps\mc_post\$(ConfigurationName)"
-copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\apps\mc_post\$(ConfigurationName)" /y
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
+IF NOT EXIST "$(ProjectDir)..\..\build\apps\mc_post\$(ConfigurationName)" mkdir "$(ProjectDir)..\..\build\apps\mc_post\$(ConfigurationName)"
+copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\build\apps\mc_post\$(ConfigurationName)" /y
 
 "$(TargetDir)mc_post.exe" geninfiles
 </PostBuildEvent>

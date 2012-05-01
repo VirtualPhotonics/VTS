@@ -614,7 +614,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(SolutionDir)..\build\core\Silverlight\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\core\Silverlight\$(ConfigurationName)"
-copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\core\Silverlight\$(ConfigurationName)" /y</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(ProjectDir)..\..\build\core\Silverlight\$(ConfigurationName)" mkdir "$(ProjectDir)..\..\build\core\Silverlight\$(ConfigurationName)"
+copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\build\core\Silverlight\$(ConfigurationName)" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

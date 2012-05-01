@@ -20,6 +20,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -108,8 +109,8 @@
     </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>IF NOT EXIST "$(ProjectDir)\Libraries\" mkdir "$(ProjectDir)\Libraries\"
-IF EXIST "$(SolutionDir)..\build\libraries\$(ConfigurationName)\" copy "$(SolutionDir)..\build\libraries\$(ConfigurationName)\*.dll" "$(ProjectDir)\Libraries\" /y</PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(ProjectDir)\Libraries\" mkdir "$(ProjectDir)\Libraries\"
+IF EXIST "$(ProjectDir)..\..\build\libraries\$(ConfigurationName)\" copy "$(ProjectDir)..\..\build\libraries\$(ConfigurationName)\*.dll" "$(ProjectDir)\Libraries\" /y</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
