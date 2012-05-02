@@ -212,6 +212,7 @@
     <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Modeling\Spectroscopy\MieScattererTests.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs">
       <SubType>Code</SubType>
     </Compile>
