@@ -9,6 +9,11 @@ msbuild "%rootdir%\src\Vts.Desktop\Vts.Desktop.csproj" %releasebuildswitches%
 
 pause
 
+msbuild "%rootdir%\src\Vts.MGRTE.ConsoleApp\Vts.MGRTE.ConsoleApp.csproj" %debugbuildswitches%
+msbuild "%rootdir%\src\Vts.MGRTE.ConsoleApp\Vts.MGRTE.ConsoleApp.csproj" %releasebuildswitches%
+
+pause
+
 msbuild "%rootdir%\src\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj" %debugbuildswitches%
 msbuild "%rootdir%\src\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj" %releasebuildswitches%
 
