@@ -230,11 +230,19 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT
         /// </summary>
-        public double[,,] RefMT_rs_hist { get { return ((ReflectedMTOfRhoAndSubRegionHistDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubRegionHist).First().Name]).Mean; } }
+        public double[,,] RefMT_rs_hist { get { return ((ReflectedMTOfRhoAndSubregionHistDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First().Name]).Mean; } }
         /// <summary>
         /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT 2nd moment
         /// </summary>
-        public double[,,] RefMT_rs_hist2 { get { return ((ReflectedMTOfRhoAndSubRegionHistDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubRegionHist).First().Name]).SecondMoment; } }
+        public double[,,] RefMT_rs_hist2 { get { return ((ReflectedMTOfRhoAndSubregionHistDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First().Name]).SecondMoment; } }
+        /// <summary>
+        /// Reflected Time of Rho and Tissue SubRegion with a histogram of Time
+        /// </summary>
+        public double[, ,] RefTime_rs_hist { get { return ((ReflectedTimeOfRhoAndSubregionHistDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ReflectedTimeOfRhoAndSubregionHist).First().Name]).Mean; } }
+        /// <summary>
+        /// Reflected Time of Rho and Tissue SubRegion with a histogram of Time 2nd moment
+        /// </summary>
+        public double[, ,] RefTime_rs_hist2 { get { return ((ReflectedTimeOfRhoAndSubregionHistDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ReflectedTimeOfRhoAndSubregionHist).First().Name]).SecondMoment; } }
 
         /// <summary>
         /// perturbation MC Reflectance as a function of rho and time

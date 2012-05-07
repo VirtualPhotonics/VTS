@@ -109,9 +109,12 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
                     var rxyztpinput = (RadianceOfXAndYAndZAndThetaAndPhiDetectorInput)detectorInput;
                     return new RadianceOfXAndYAndZAndThetaAndPhiDetector(rxyztpinput.X, rxyztpinput.Y, rxyztpinput.Z, rxyztpinput.Theta, rxyztpinput.Phi, tissue, tallySecondMoment, rxyztpinput.Name);
-                case TallyType.ReflectedMTOfRhoAndSubRegionHist:
-                    var rmtrsinput = (ReflectedMTOfRhoAndSubRegionHistDetectorInput)detectorInput;
-                    return new ReflectedMTOfRhoAndSubRegionHistDetector(rmtrsinput.Rho, rmtrsinput.MTBins, tissue, tallySecondMoment, rmtrsinput.Name);
+                case TallyType.ReflectedMTOfRhoAndSubregionHist:
+                    var rmtrsinput = (ReflectedMTOfRhoAndSubregionHistDetectorInput)detectorInput;
+                    return new ReflectedMTOfRhoAndSubregionHistDetector(rmtrsinput.Rho, rmtrsinput.MTBins, tissue, tallySecondMoment, rmtrsinput.Name);
+                case TallyType.ReflectedTimeOfRhoAndSubregionHist:
+                    var rtrsinput = (ReflectedTimeOfRhoAndSubregionHistDetectorInput)detectorInput;
+                    return new ReflectedTimeOfRhoAndSubregionHistDetector(rtrsinput.Rho, rtrsinput.Time, tissue, tallySecondMoment, rtrsinput.Name);
 
                 // pMC Detector(s):
                 case TallyType.pMCROfRhoAndTime:

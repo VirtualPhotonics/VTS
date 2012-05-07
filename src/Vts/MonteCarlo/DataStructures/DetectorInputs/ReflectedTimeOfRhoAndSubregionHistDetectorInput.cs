@@ -6,7 +6,7 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// DetectorInput for Flu(r,z)
     /// </summary>
-    public class ReflectedMTOfRhoAndSubregionHistDetectorInput : IDetectorInput
+    public class ReflectedTimeOfRhoAndSubregionHistDetectorInput : IDetectorInput
     {
         /// <summary>
         /// constructor for fluence as a function of rho and z detector input
@@ -14,29 +14,29 @@ namespace Vts.MonteCarlo
         /// <param name="rho">rho binning</param> 
         /// <param name="mtBins">momentum transfer binning</param>
         /// <param name="name">detector name</param>
-        public ReflectedMTOfRhoAndSubregionHistDetectorInput(DoubleRange rho, DoubleRange mtBins, String name)
+        public ReflectedTimeOfRhoAndSubregionHistDetectorInput(DoubleRange rho, DoubleRange time, String name)
         {
-            TallyType = TallyType.ReflectedMTOfRhoAndSubregionHist;
+            TallyType = TallyType.ReflectedTimeOfRhoAndSubregionHist;
             Name = name;
             Rho = rho;
-            MTBins = mtBins;
+            Time = time;
         }
         /// <summary>
         /// constructor that uses TallyType for name
         /// </summary>
         /// <param name="rho">rho binning</param>
-        /// <param name="mtBins">momentum transfer binning</param>
-        public ReflectedMTOfRhoAndSubregionHistDetectorInput(DoubleRange rho, DoubleRange mtBins) 
-            : this (rho, mtBins, TallyType.ReflectedMTOfRhoAndSubregionHist.ToString()) { }
+        /// <param name="time">time binning</param>
+        public ReflectedTimeOfRhoAndSubregionHistDetectorInput(DoubleRange rho, DoubleRange time) 
+            : this (rho, time, TallyType.ReflectedTimeOfRhoAndSubregionHist.ToString()) { }
 
         /// <summary>
         /// Default constructor uses default rho and mt bins
         /// </summary>
-        public ReflectedMTOfRhoAndSubregionHistDetectorInput()
+        public ReflectedTimeOfRhoAndSubregionHistDetectorInput()
             : this(
                 new DoubleRange(0.0, 10.0, 101), //rho
-                new DoubleRange(0.0, 300.0, 101), // mt bins
-                TallyType.ReflectedMTOfRhoAndSubregionHist.ToString()) {}
+                new DoubleRange(0.0, 1.0, 101), // time bins
+                TallyType.ReflectedTimeOfRhoAndSubregionHist.ToString()) {}
 
         /// <summary>
         /// detector identifier
@@ -51,8 +51,8 @@ namespace Vts.MonteCarlo
         /// </summary>
         public DoubleRange Rho { get; set; } 
         /// <summary>
-        /// momentum transfer binning
+        /// time binning
         /// </summary>
-        public DoubleRange MTBins { get; set; }
+        public DoubleRange Time { get; set; }
     }
 }

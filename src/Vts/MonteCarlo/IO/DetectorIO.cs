@@ -282,16 +282,27 @@ namespace Vts.MonteCarlo.IO
                         fluenceOfRhoAndZAndTimeDetector.Mean = (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfRhoAndZAndTimeDetectorDims);
                         return fluenceOfRhoAndZAndTimeDetector;
 
-                    case TallyType.ReflectedMTOfRhoAndSubRegionHist:
-                        var reflectedMTOfRhoAndSubRegionHistDetector =
-                            FileIO.ReadFromXML<ReflectedMTOfRhoAndSubRegionHistDetector>(filePath + ".xml");
-                        var reflectedMTOfRhoAndSubRegionHistDetectorDims = new int[] {
-                            reflectedMTOfRhoAndSubRegionHistDetector.Rho.Count - 1, 
-                            reflectedMTOfRhoAndSubRegionHistDetector.SubRegionIndices.Count,
-                              reflectedMTOfRhoAndSubRegionHistDetector.MTBins.Count - 1 };                                                 
-                        reflectedMTOfRhoAndSubRegionHistDetector.Mean =
-                            (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, reflectedMTOfRhoAndSubRegionHistDetectorDims);
-                        return reflectedMTOfRhoAndSubRegionHistDetector;
+                    case TallyType.ReflectedMTOfRhoAndSubregionHist:
+                        var reflectedMTOfRhoAndSubregionHistDetector =
+                            FileIO.ReadFromXML<ReflectedMTOfRhoAndSubregionHistDetector>(filePath + ".xml");
+                        var reflectedMTOfRhoAndSubregionHistDetectorDims = new int[] {
+                            reflectedMTOfRhoAndSubregionHistDetector.Rho.Count - 1, 
+                            reflectedMTOfRhoAndSubregionHistDetector.SubregionIndices.Count,
+                            reflectedMTOfRhoAndSubregionHistDetector.MTBins.Count - 1 };                                                 
+                        reflectedMTOfRhoAndSubregionHistDetector.Mean =
+                            (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, reflectedMTOfRhoAndSubregionHistDetectorDims);
+                        return reflectedMTOfRhoAndSubregionHistDetector;
+
+                    case TallyType.ReflectedTimeOfRhoAndSubregionHist:
+                        var reflectedTimeOfRhoAndSubregionHistDetector =
+                            FileIO.ReadFromXML<ReflectedTimeOfRhoAndSubregionHistDetector>(filePath + ".xml");
+                        var reflectedTimeOfRhoAndSubregionHistDetectorDims = new int[] {
+                            reflectedTimeOfRhoAndSubregionHistDetector.Rho.Count - 1, 
+                            reflectedTimeOfRhoAndSubregionHistDetector.SubregionIndices.Count,
+                            reflectedTimeOfRhoAndSubregionHistDetector.Time.Count - 1 };
+                        reflectedTimeOfRhoAndSubregionHistDetector.Mean =
+                            (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, reflectedTimeOfRhoAndSubregionHistDetectorDims);
+                        return reflectedTimeOfRhoAndSubregionHistDetector;
 
                     // "5D" detectors
                     case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
@@ -479,16 +490,26 @@ namespace Vts.MonteCarlo.IO
                         fluenceOfRhoAndZAndTimeDetector.Mean =
                             (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, fluenceOfRhoAndZAndTimeDetectorDims);
                         return fluenceOfRhoAndZAndTimeDetector;
-                    case TallyType.ReflectedMTOfRhoAndSubRegionHist:
-                        var reflectedMTOfRhoAndSubRegionDetector =
-                            FileIO.ReadFromXMLInResources<ReflectedMTOfRhoAndSubRegionHistDetector>(filePath + ".xml", projectName);
-                        var reflectedMTOfRhoAndSubRegionHistDims =
-                            new int[] { reflectedMTOfRhoAndSubRegionDetector.Rho.Count, 
-                                        reflectedMTOfRhoAndSubRegionDetector.SubRegionIndices.Count, 
-                                        reflectedMTOfRhoAndSubRegionDetector.MTBins.Count };
-                        reflectedMTOfRhoAndSubRegionDetector.Mean =
-                            (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, reflectedMTOfRhoAndSubRegionHistDims);
-                        return reflectedMTOfRhoAndSubRegionDetector;
+                    case TallyType.ReflectedMTOfRhoAndSubregionHist:
+                        var reflectedMTOfRhoAndSubRegionHistDetector =
+                            FileIO.ReadFromXMLInResources<ReflectedMTOfRhoAndSubregionHistDetector>(filePath + ".xml", projectName);
+                        var ReflectedMTOfRhoAndSubregionHistDims =
+                            new int[] { reflectedMTOfRhoAndSubRegionHistDetector.Rho.Count, 
+                                        reflectedMTOfRhoAndSubRegionHistDetector.SubregionIndices.Count, 
+                                        reflectedMTOfRhoAndSubRegionHistDetector.MTBins.Count };
+                        reflectedMTOfRhoAndSubRegionHistDetector.Mean =
+                            (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, ReflectedMTOfRhoAndSubregionHistDims);
+                        return reflectedMTOfRhoAndSubRegionHistDetector;
+                    case TallyType.ReflectedTimeOfRhoAndSubregionHist:
+                        var reflectedTimeOfRhoAndSubregionHistDetector =
+                            FileIO.ReadFromXMLInResources<ReflectedTimeOfRhoAndSubregionHistDetector>(filePath + ".xml", projectName);
+                        var reflectedTimeOfRhoAndSubregionHistDims =
+                            new int[] { reflectedTimeOfRhoAndSubregionHistDetector.Rho.Count, 
+                                        reflectedTimeOfRhoAndSubregionHistDetector.SubregionIndices.Count, 
+                                        reflectedTimeOfRhoAndSubregionHistDetector.Time.Count };
+                        reflectedTimeOfRhoAndSubregionHistDetector.Mean =
+                            (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, reflectedTimeOfRhoAndSubregionHistDims);
+                        return reflectedTimeOfRhoAndSubregionHistDetector;
 
                     default:
                         throw new ArgumentOutOfRangeException("tallyType");

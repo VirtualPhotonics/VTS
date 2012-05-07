@@ -599,8 +599,11 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RDiffuseDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\RDiffuseDetectorInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ReflectedMTOfRhoAndSubRegionHistDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\ReflectedMTOfRhoAndSubRegionHistDetectorInput.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ReflectedMTOfRhoAndSubregionHistDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\ReflectedMTOfRhoAndSubregionHistDetectorInput.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ReflectedTimeOfRhoAndSubregionHistDetectorInput.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\ReflectedTimeOfRhoAndSubregionHistDetectorInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs</Link>
@@ -782,8 +785,11 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs">
-      <Link>MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfRhoAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedMTOfRhoAndSubregionHistDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfAngleDetector.cs</Link>

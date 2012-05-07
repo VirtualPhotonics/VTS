@@ -234,7 +234,8 @@
     <Compile Include="MonteCarlo\Controllers\VirtualBoundaryController.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ReflectedMTOfRhoAndSubRegionHistDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ReflectedTimeOfRhoAndSubregionHistDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ReflectedMTOfRhoAndSubregionHistDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfXAndYAndZAndThetaAndPhiDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfFxAndTimeDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfFxDetectorInput.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
+    <Compile Include="MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCROfFxAndTimeDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCROfFxDetector.cs" />
@@ -468,7 +470,7 @@
     <Compile Include="MonteCarlo\Detectors\AOfRhoAndZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ATotalDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs" />
-    <Compile Include="MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ReflectedMTOfRhoAndSubregionHistDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCROfRhoDetector.cs" />

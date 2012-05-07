@@ -1,12 +1,7 @@
-using System;
-using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Runtime.Serialization;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
-using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Detectors;
@@ -292,17 +287,17 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(dcloned.Mean[1, 3], 8 + Complex.ImaginaryOne * 8);
         }
         [Test]
-        public void validate_ReflectedMTOfRhoAndSubRegionHistDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        public void validate_ReflectedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
-            string detectorName = "testreflectedmtofrhoandsubregionhist";
-            IDetector detector = new ReflectedMTOfRhoAndSubRegionHistDetector(
+            string detectorName = "testReflectedMTOfRhoAndSubregionHist";
+            IDetector detector = new ReflectedMTOfRhoAndSubregionHistDetector(
                 new DoubleRange(0, 10, 3),
                 new DoubleRange(0, 10, 3),
                 new MultiLayerTissue(), 
                 true, // tally SecondMoment
                 detectorName) { Mean = new double[,,] { { { 1, 2 }, { 3, 4 }, { 5, 6 } }, { { 7, 8 }, { 9 , 10 }, { 11, 12 } } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (ReflectedMTOfRhoAndSubRegionHistDetector)DetectorIO.ReadDetectorFromFile(TallyType.ReflectedMTOfRhoAndSubRegionHist, detectorName, "");
+            var dcloned = (ReflectedMTOfRhoAndSubregionHistDetector)DetectorIO.ReadDetectorFromFile(TallyType.ReflectedMTOfRhoAndSubregionHist, detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0, 0], 1);

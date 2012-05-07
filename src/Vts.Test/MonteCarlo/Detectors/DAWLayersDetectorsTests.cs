@@ -73,6 +73,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfRhoAndTimeDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 1.0, 101)),
+                    new ReflectedTimeOfRhoAndSubregionHistDetectorInput(
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 1.0, 101)),
                     new ROfXAndYDetectorInput(
                         new DoubleRange(-10.0, 10.0, 101), // x
                         new DoubleRange(-10.0, 10.0, 101)), // y,
@@ -103,7 +106,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(0.0, 10.0, 101), 
                         new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
                         new DoubleRange(0.0, 2 * Math.PI, 5)), // phi (azimuthal angle)
-                        new ReflectedMTOfRhoAndSubRegionHistDetectorInput(
+                    new ReflectedMTOfRhoAndSubregionHistDetectorInput(
                            new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
                            new DoubleRange(0.0, 500.0, 51) // MT bins
                    )
@@ -204,7 +207,14 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
         }
-
+        // ReflectedTimeOfRhoAndSubregionHist : this is validated using initial run results since no supporting linux code 
+        [Test]
+        public void validate_DAW_ReflectedTimeOfRhoAndSubregionHist()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefTime_rs_hist[0, 1, 0] - 0.00078014), 0.00000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefTime_rs_hist[5, 1, 3] - 0.00112227), 0.00000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefTime_rs_hist[5, 2, 0] - 0.00008314), 0.00000001);
+        }
         // Reflection R(rho,omega)
         [Test]
         public void validate_DAW_ROfRhoAndOmega()
@@ -352,13 +362,13 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
         // Reflected Momentum Transfer of Rho and SubRegion
         [Test]
-        public void validate_DAW_ReflectedMTOfRhoAndSubRegionHist()
+        public void validate_DAW_ReflectedMTOfRhoAndSubregionHist()
         {
             // use initial results to verify any new changes to the code
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rs_hist[0, 1, 0] - 0.632816), 0.000001);
             // make sure over MT equals R(rho) results
-            var mtbins = ((ReflectedMTOfRhoAndSubRegionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
-                Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubRegionHist).First()).MTBins;
+            var mtbins = ((ReflectedMTOfRhoAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First()).MTBins;
             var integral = 0.0;
             for (int i = 0; i < mtbins.Count - 1; i++)
             {

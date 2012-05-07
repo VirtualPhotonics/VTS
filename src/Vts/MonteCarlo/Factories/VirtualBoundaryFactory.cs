@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.Factories
                         tallyType == TallyType.ROfRhoAndAngle ||
                         tallyType == TallyType.ROfXAndY ||
                         tallyType == TallyType.ROfRhoAndOmega ||
-                        tallyType == TallyType.ReflectedMTOfRhoAndSubRegionHist;
+                        tallyType == TallyType.ReflectedMTOfRhoAndSubregionHist;
 
                 case VirtualBoundaryType.DiffuseTransmittance:
                     return
