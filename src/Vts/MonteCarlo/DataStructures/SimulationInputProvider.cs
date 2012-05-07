@@ -29,7 +29,8 @@ namespace Vts.MonteCarlo
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 GaussianSourceOneLayerTissueROfRhoDetector(),
-                PointSourceMultiLayerReflectedMTOfRhoAndSubregionHistDetector()
+                PointSourceMultiLayerReflectedMTOfRhoAndSubregionHistDetector(),
+                PointSourceSixLayerReflectedTimeOfRhoAndSubregionHistDetector()
             };
         }
 
@@ -513,16 +514,16 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region point source multilayer SubRegion Time
+        #region point source six layer SubRegion Time
         /// <summary>
-        /// Point source, multi-layer tissue definition, with R(rho,time) and
+        /// Point source, six-layer tissue definition, with R(rho,time) and
         /// ReflectedTimeOfRhoAndSubregionHistDetector detector included
         /// </summary>
-        public static SimulationInput PointSourceMultiLayerReflectedTimeOfRhoAndSubregionHistDetector()
+        public static SimulationInput PointSourceSixLayerReflectedTimeOfRhoAndSubregionHistDetector()
         {
             return new SimulationInput(
                 100,
-                "two_layer_ReflectedTimeOfRhoAndSubregionHist",
+                "six_layer_ReflectedTimeOfRhoAndSubregionHist",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -544,7 +545,19 @@ namespace Vts.MonteCarlo
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerRegion(
-                            new DoubleRange(0.0, 10.0),
+                            new DoubleRange(0.0, 2.0),
+                            new OpticalProperties(0.01, 1.0, 0.9, 1.4)), 
+                        new LayerRegion(
+                            new DoubleRange(2.0, 4.0),
+                            new OpticalProperties(0.01, 1.0, 0.9, 1.4)), 
+                        new LayerRegion(
+                            new DoubleRange(4.0, 6.0),
+                            new OpticalProperties(0.01, 1.0, 0.9, 1.4)), 
+                        new LayerRegion(
+                            new DoubleRange(6.0, 8.0),
+                            new OpticalProperties(0.01, 1.0, 0.9, 1.4)), 
+                        new LayerRegion(
+                            new DoubleRange(8.0, 10.0),
                             new OpticalProperties(0.01, 1.0, 0.9, 1.4)), 
                         new LayerRegion(
                             new DoubleRange(10.0, 100.0),
@@ -557,10 +570,10 @@ namespace Vts.MonteCarlo
                 new List<IDetectorInput>()
                 {
                     new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 60.0, 601), // rho bins
+                        new DoubleRange(0.0, 10.0, 101), // rho bins
                         new DoubleRange(0.0, 1.0, 101)),  // time bins
                     new ReflectedTimeOfRhoAndSubregionHistDetectorInput(
-                        new DoubleRange(0.0, 60.0, 601), // rho bins
+                        new DoubleRange(0.0, 10.0, 101), // rho bins
                         new DoubleRange(0.0, 1.0, 101)) // time bins
                 }
             );
