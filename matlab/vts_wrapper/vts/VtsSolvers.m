@@ -94,7 +94,7 @@ classdef VtsSolvers
                 op_net(i).N =    op(i,4);
             end;
 
-            r = reshape(double(fs.ROfFxAndT(op_net,fx,t)),[length(t) length(fx) nop]);
+            r = reshape(double(fs.ROfFxAndTime(op_net,fx,t)),[length(t) length(fx) nop]);
         end
         %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
         function r = ROfRhoAndT(op, rho, t)
@@ -120,7 +120,7 @@ classdef VtsSolvers
                 op_net(i) = Vts.OpticalProperties(op(i,1), op(i,2), op(i,3), op(i,4)); % call the constructor with the 4 values
             end;
 
-            r = reshape(double(fs.ROfRhoAndT(op_net,rho,t)),[length(t) length(rho) nop]);
+            r = reshape(double(fs.ROfRhoAndTime(op_net,rho,t)),[length(t) length(rho) nop]);
         end
         %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
         function r = ROfRhoAndFt(op, rho, ft)
