@@ -30,9 +30,9 @@ namespace Vts.SiteVisit.ViewModel
         private OpticalPropertyViewModel _ResultOpticalPropertyVM;
 
         private double _PercentNoise;
-        private IEnumerable<double> _MeasuredDataValues;
-        private IEnumerable<double> _InitialGuessDataValues;
-        private IEnumerable<double> _ResultDataValues;
+        private double[] _MeasuredDataValues;
+        private double[] _InitialGuessDataValues;
+        private double[] _ResultDataValues;
 
         public InverseSolverViewModel()
         {
@@ -78,7 +78,6 @@ namespace Vts.SiteVisit.ViewModel
         public RelayCommand SimulateMeasuredDataCommand { get; set; }
         public RelayCommand CalculateInitialGuessCommand { get; set; }
         public RelayCommand SolveInverseCommand { get; set; }
-
 
         #region Sub-View-Models
 
@@ -222,64 +221,90 @@ namespace Vts.SiteVisit.ViewModel
         }
 
         #endregion
-
-        #region DataPoints and DataValues
-
-        public IEnumerable<Point> MeasuredDataPoints
+        
+        public Point[][] MeasuredDataPoints
         {
             get
             {
                 // if it's reporting Real + Imaginary, we need a vector twice as long
                 if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
                 {
-                    return EnumerableEx.Zip(RangeVM.Values.Concat(RangeVM.Values), MeasuredDataValues, (x, y) => new Point(x, y));
+                    var numValues = RangeVM.Number;
+                    var real = MeasuredDataValues.Take(numValues);
+                    var imag = MeasuredDataValues.Skip(numValues).Take(numValues);
+
+                    return new[] {
+                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(RangeVM.Values, real, (x, y) => new Point(x, y))),
+                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(RangeVM.Values, imag, (x, y) => new Point(x, y)))
+                    };
                 }
-                return EnumerableEx.Zip(RangeVM.Values, MeasuredDataValues, (x, y) => new Point(x, y));
+
+                return new[] { new Point[RangeVM.Number].PopulateFromEnumerable2(EnumerableEx.Zip(RangeVM.Values, MeasuredDataValues, (x, y) => new Point(x, y))) };
+
             }
         }
-        public IEnumerable<double> MeasuredDataValues
+
+        public double[] MeasuredDataValues
         {
             get { return _MeasuredDataValues; }
             set { _MeasuredDataValues = value; OnPropertyChanged("MeasuredDataValues"); }
         }
-        public IEnumerable<Point> InitialGuessDataPoints
+
+        public Point[][] InitialGuessDataPoints
         {
             get
             {
                 // if it's reporting Real + Imaginary, we need a vector twice as long
                 if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
                 {
-                    return EnumerableEx.Zip(RangeVM.Values.Concat(RangeVM.Values), InitialGuessDataValues, (x, y) => new Point(x, y));
+                    var numValues = RangeVM.Number;
+                    var real = InitialGuessDataValues.Take(numValues);
+                    var imag = InitialGuessDataValues.Skip(numValues).Take(numValues);
+                    return new[] {
+                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(RangeVM.Values, real, (x, y) => new Point(x, y))),
+                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(RangeVM.Values, imag, (x, y) => new Point(x, y)))
+                    };
                 }
-                return EnumerableEx.Zip(RangeVM.Values, InitialGuessDataValues, (x, y) => new Point(x, y));
+
+                return new[] {new Point[ RangeVM.Number].PopulateFromEnumerable2( EnumerableEx.Zip(RangeVM.Values, InitialGuessDataValues, (x, y) => new Point(x, y))) };
             }
         }
-        public IEnumerable<double> InitialGuessDataValues
+
+        public double[] InitialGuessDataValues
         {
             get { return _InitialGuessDataValues; }
             set { _InitialGuessDataValues = value; OnPropertyChanged("InitialGuessDataValues"); }
         }
-        public IEnumerable<Point> ResultDataPoints
+
+        public Point[][] ResultDataPoints
         {
             get
             {
                 // if it's reporting Real + Imaginary, we need a vector twice as long
                 if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
                 {
-                    return EnumerableEx.Zip(
-                        RangeVM.Values.Concat(RangeVM.Values),
-                        ResultDataValues,
-                        (x, y) => new Point(x, y));
+                    var numValues = RangeVM.Number;
+                    var real = ResultDataValues.Take(numValues);
+                    var imag = ResultDataValues.Skip(numValues).Take(numValues);
+                    return new[] {
+                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(RangeVM.Values, real, (x, y) => new Point(x, y))),
+                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(RangeVM.Values, imag, (x, y) => new Point(x, y)))
+                    };
                 }
-                return EnumerableEx.Zip(RangeVM.Values, ResultDataValues, (x, y) => new Point(x, y));
+
+                return new[] { new Point[ RangeVM.Number].PopulateFromEnumerable2(EnumerableEx.Zip(RangeVM.Values, ResultDataValues, (x, y) => new Point(x, y))) };
             }
         }
-        public IEnumerable<double> ResultDataValues
+
+        public double[] ResultDataValues
         {
             get { return _ResultDataValues; }
-            set { _ResultDataValues = value; OnPropertyChanged("ResultDataValues"); }
+            set
+            {
+                _ResultDataValues = value; 
+                OnPropertyChanged("ResultDataValues");
+            }
         }
-        #endregion
 
         void SetIndependentVariableRange_Executed(object sender, ExecutedEventArgs e)
         {
@@ -291,10 +316,11 @@ namespace Vts.SiteVisit.ViewModel
 
         void SimulateMeasuredDataCommand_Executed(object sender, ExecutedEventArgs e)
         {
-            CalculateMeasuredData();
+            MeasuredDataValues = CalculateMeasuredData();
             PlotAxesLabels axesLabels = GetPlotLabels();
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
-            Commands.Plot_PlotValues.Execute(new PlotData(MeasuredDataPoints, GetLegendLabel(PlotDataType.Simulated)));
+
+            PlotValues(MeasuredDataPoints, PlotDataType.Simulated);
             Commands.TextOutput_PostMessage.Execute("Simulated Measured Data: " + MeasuredOpticalPropertyVM + "\r");
         }
 
@@ -366,10 +392,11 @@ namespace Vts.SiteVisit.ViewModel
 
         void CalculateInitialGuessCommand_Executed(object sender, ExecutedEventArgs e)
         {
-            CalculateInitialGuess();
+            InitialGuessDataValues = CalculateInitialGuess();
             PlotAxesLabels axesLabels = GetPlotLabels();
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
-            Commands.Plot_PlotValues.Execute(new PlotData(InitialGuessDataPoints, GetLegendLabel(PlotDataType.Guess)));
+
+            PlotValues(InitialGuessDataPoints, PlotDataType.Guess);
             Commands.TextOutput_PostMessage.Execute("Initial Guess: " + InitialGuessOpticalPropertyVM + " \r");
         }
 
@@ -384,27 +411,42 @@ namespace Vts.SiteVisit.ViewModel
             SolveInverse();
 
             //Report the results
-            Commands.Plot_PlotValues.Execute(new PlotData(ResultDataPoints, GetLegendLabel(PlotDataType.Calculated)));
+            PlotValues(ResultDataPoints, PlotDataType.Calculated);
             Commands.TextOutput_PostMessage.Execute("   At Converged Values: " + ResultOpticalPropertyVM + " \r");
         }
 
+        void PlotValues(Point[][] points, PlotDataType dataType)
+        {
+            string plotLabel = GetLegendLabel(dataType);
+            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
+            {
+                var real = points[0];
+                var imag = points[1];
+                Commands.Plot_PlotValues.Execute(new PlotData(real, plotLabel + "\r(real)"));
+                Commands.Plot_PlotValues.Execute(new PlotData(imag, plotLabel + "\r(imag)"));
+            }
+            else
+            {
+                Commands.Plot_PlotValues.Execute(new PlotData(points.First(), plotLabel));
+            }
+        }
 
-        public void CalculateMeasuredData()
+
+        public double[] CalculateMeasuredData()
         {
             switch (MeasuredDataTypeOptionVM.SelectedValue)
             {
                 case MeasuredDataType.Simulated:
-                    MeasuredDataValues = GetSimulatedMeasuredData();
+                default:
+                    return GetSimulatedMeasuredData();
                     break;
                 case MeasuredDataType.FromFile:
-                    MeasuredDataValues = GetMeasuredDataFromFile();
-                    break;
-                default:
+                    return GetMeasuredDataFromFile();
                     break;
             }
         }
 
-        private IEnumerable<double> GetSimulatedMeasuredData()
+        private double[] GetSimulatedMeasuredData()
         {
             var independentValues = RangeVM.Values.ToArray();
 
@@ -412,24 +454,24 @@ namespace Vts.SiteVisit.ViewModel
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                 ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
-            IEnumerable<double> measuredData = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            var measuredData = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                 MeasuredForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisType.R,
                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
                 independentValues,
                 MeasuredOpticalPropertyVM.GetOpticalProperties(),
-                constantValues);
+                constantValues).ToArray();
 
             return measuredData.AddNoise(PercentNoise);
         }
 
-        private IEnumerable<double> GetMeasuredDataFromFile()
+        private double[] GetMeasuredDataFromFile()
         {
-            return RangeVM.Values.AddNoise(PercentNoise);
+            return RangeVM.Values.ToArray().AddNoise(PercentNoise);
         }
 
-        public void CalculateInitialGuess()
+        public double[] CalculateInitialGuess()
         {
             var independentValues = RangeVM.Values.ToArray();
 
@@ -437,14 +479,14 @@ namespace Vts.SiteVisit.ViewModel
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                 ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
-            InitialGuessDataValues = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            return ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisType.R,
                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
                 independentValues,
                 InitialGuessOpticalPropertyVM.GetOpticalProperties(),
-                constantValues);
+                constantValues).ToArray();
         }
 
         public void SolveInverse()

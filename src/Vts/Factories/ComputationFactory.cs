@@ -87,7 +87,7 @@ namespace Vts.Factories
                 constantValues).ToArray();
         }
 
-        public static IEnumerable<double> GetVectorizedIndependentVariableQueryNew(
+        public static double[] GetVectorizedIndependentVariableQueryNew(
             ForwardSolverType forwardSolverType,
             SolutionDomainType solutionDomainType,
             ForwardAnalysisType forwardAnalysisType,
@@ -109,7 +109,7 @@ namespace Vts.Factories
                 constantValues);
         }
 
-        public static IEnumerable<double> GetVectorizedIndependentVariableQueryNew(
+        public static double[] GetVectorizedIndependentVariableQueryNew(
             IForwardSolver forwardSolver,
             SolutionDomainType solutionDomainType,
             ForwardAnalysisType forwardAnalysisType,
@@ -137,7 +137,7 @@ namespace Vts.Factories
             }
         }
 
-        public static IEnumerable<double> GetVectorizedMultidimensionalIndependentVariableQueryNew(
+        public static double[] GetVectorizedMultidimensionalIndependentVariableQueryNew(
             ForwardSolverType forwardSolverType,
             FluenceSolutionDomainType solutionDomainType, // keeping us from uniting the above. needs to be a single SolutionDomainType enum
             IndependentVariableAxis[] independentAxesTypes,
@@ -157,7 +157,7 @@ namespace Vts.Factories
                 constantValues);
         }
 
-        public static IEnumerable<double> GetVectorizedMultidimensionalIndependentVariableQueryNew(
+        public static double[] GetVectorizedMultidimensionalIndependentVariableQueryNew(
             IForwardSolver forwardSolver,
             FluenceSolutionDomainType solutionDomainType, // keeping us from uniting the above. needs to be a single SolutionDomainType enum
             IndependentVariableAxis[] independentAxesTypes,
@@ -187,7 +187,7 @@ namespace Vts.Factories
         /// <param name="rhos">detector locations (in mm)</param>
         /// <param name="zs">z values (in mm)</param>
         /// <returns></returns>
-        public static IEnumerable<double> GetPHD(ForwardSolverType forwardSolverType, IEnumerable<double> fluence, double sdSeparation, IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
+        public static double[] GetPHD(ForwardSolverType forwardSolverType, double[] fluence, double sdSeparation, OpticalProperties[] ops, double[] rhos, double[] zs)
         {
             return GetPHD(SolverFactory.GetForwardSolver(forwardSolverType), fluence, sdSeparation, ops, rhos, zs);
         }
@@ -202,7 +202,7 @@ namespace Vts.Factories
         /// <param name="rhos">detector locations (in mm)</param>
         /// <param name="zs">z values (in mm)</param>
         /// <returns></returns>
-        public static IEnumerable<double> GetPHD(IForwardSolver forwardSolver, IEnumerable<double> fluence, double sdSeparation, IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
+        public static double[] GetPHD(IForwardSolver forwardSolver, double[] fluence, double sdSeparation, OpticalProperties[] ops, double[] rhos, double[] zs)
         {
             var rhoPrimes =
                 from r in rhos
@@ -210,7 +210,14 @@ namespace Vts.Factories
 
             var greensFunction = forwardSolver.SteadyStateFluence2SurfacePointPHD(ops, rhoPrimes, zs);
 
-            return System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green);
+            var phd = new double[fluence.Length];
+
+            phd.PopulateFromEnumerable(Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green));
+
+            return phd;
+
+            // replaced with pre-initialized array + "PopulateFromEnumerable" call instead of growing array dynamically 
+            //System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green).ToArray();
         }
 
         /// <summary>

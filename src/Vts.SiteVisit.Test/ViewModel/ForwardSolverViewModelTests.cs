@@ -68,7 +68,7 @@ namespace Vts.SiteVisit.Test.ViewModel
             _vm.SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue = independentVariableAxis;
             _vm.ForwardAnalysisTypeOptionVM.SelectedValue = forwardAnalysisType;
 
-            return _vm.ExecuteForwardSolver();
+            return _vm.ExecuteForwardSolver().First();
         }
     }
 }
