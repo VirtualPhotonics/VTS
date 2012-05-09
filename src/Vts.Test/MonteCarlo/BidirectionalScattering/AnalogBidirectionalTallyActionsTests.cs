@@ -5,6 +5,7 @@ using Vts;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.BidirectionalScattering
@@ -55,13 +56,16 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                        new BidirectionalPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(0.0, _slabThickness),
-                            new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab
+                            new OpticalProperties(_mua, _musp, _g, 1.0),
+                        new BidirectionalPhaseFunctionInput()), // index matched slab
                         new LayerRegion(
                             new DoubleRange(_slabThickness, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                        new BidirectionalPhaseFunctionInput())
                     }
                 ),
                 new List<IDetectorInput>() 

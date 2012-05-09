@@ -68,7 +68,9 @@ namespace Vts.MonteCarlo
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType, input.Options.RussianRouletteWeightThreshold);
+            var phaseFunctions = input.TissueInput.Regions.Select((region, idx) => PhaseFunctionFactory.GetPhaseFunction(region, _rng)).ToList();
+
+            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, phaseFunctions, input.Options.RussianRouletteWeightThreshold);
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
 
             // instantiate vb (and associated detectors) for each vb group

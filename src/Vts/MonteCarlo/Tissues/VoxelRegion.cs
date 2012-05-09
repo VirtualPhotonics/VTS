@@ -2,6 +2,7 @@ using System;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.Extensions;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 
 namespace Vts.MonteCarlo.Tissues
 {
@@ -10,7 +11,7 @@ namespace Vts.MonteCarlo.Tissues
     /// x,y,z ranges.
     /// </summary>
     public class VoxelRegion : ITissueRegion
-    {
+    {       
         /// <summary>
         /// constructor for voxel region
         /// </summary>
@@ -18,14 +19,35 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="y">y range of voxel</param>
         /// <param name="z">z range of voxel</param>
         /// <param name="op">optical properties of voxel</param>
-        /// <param name="awt">absorption weighting type of voxel</param>
-        public VoxelRegion(DoubleRange x, DoubleRange y, DoubleRange z, OpticalProperties op, AbsorptionWeightingType awt) 
+        /// <param name="phaseFunctionInput">phase function input for layer</param>
+        public VoxelRegion(
+            DoubleRange x, DoubleRange y, DoubleRange z,
+            OpticalProperties op,
+            IPhaseFunctionInput phaseFunctionInput)
         {
             X = x;
             Y = y;
             Z = z;
             RegionOP = op;
+
+            PhaseFunctionInput = phaseFunctionInput;
         }
+
+        ///// <summary>
+        ///// constructor for voxel region
+        ///// </summary>
+        ///// <param name="x">x range of voxel</param>
+        ///// <param name="y">y range of voxel</param>
+        ///// <param name="z">z range of voxel</param>
+        ///// <param name="op">optical properties of voxel</param>
+        ///// <param name="awt">absorption weighting type of voxel</param>
+        //public VoxelRegion(
+        //    DoubleRange x, DoubleRange y, DoubleRange z,
+        //    OpticalProperties op) 
+        //    : this(x, y, z, op, new HenyeyGreensteinPhaseFunctionInput())
+        //{
+        //}
+
         /// <summary>
         /// default constructor
         /// </summary>
@@ -33,7 +55,8 @@ namespace Vts.MonteCarlo.Tissues
             new DoubleRange(-10.0, 10),
             new DoubleRange(-10.0, 10),
             new DoubleRange(0.0, 10),
-            new OpticalProperties(0.01, 1.0, 0.8, 1.4), AbsorptionWeightingType.Discrete) {}  
+            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+            new HenyeyGreensteinPhaseFunctionInput()) {}  
 
         /// <summary>
         /// x range of voxel
@@ -51,6 +74,10 @@ namespace Vts.MonteCarlo.Tissues
         /// optical properties of voxel
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
+        /// <summary>
+        /// Input data for phase function
+        /// </summary>
+        public IPhaseFunctionInput PhaseFunctionInput { get; set; }
 
         /// <summary>
         /// center of voxel

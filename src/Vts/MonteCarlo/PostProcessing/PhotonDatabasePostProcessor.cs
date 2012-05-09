@@ -81,10 +81,10 @@ namespace Vts.MonteCarlo.PostProcessing
 
             _databaseInput = databaseInput;
 
-            _tissue = Factories.TissueFactory.GetTissue(
+            _tissue = TissueFactory.GetTissue(
                 databaseInput.TissueInput,
                 databaseInput.Options.AbsorptionWeightingType,
-                databaseInput.Options.PhaseFunctionType,
+                null, // todo: added check if phase functions are necessary for post-processing
                 databaseInput.Options.RussianRouletteWeightThreshold);
 
             _detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, tallySecondMoment);

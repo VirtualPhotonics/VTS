@@ -2,6 +2,7 @@ using System;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.Extensions;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 
 namespace Vts.MonteCarlo.Tissues
 {
@@ -18,19 +19,25 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="radius">radius in x-y plane</param>
         /// <param name="height">height along z axis</param>
         /// <param name="op">optical properties of cylinder</param>
-        /// <param name="awt">absorption weighting type</param>
-        public CylinderRegion(Position center, double radius, double height, OpticalProperties op, AbsorptionWeightingType awt) 
+        public CylinderRegion(Position center, double radius, double height, OpticalProperties op, IPhaseFunctionInput phaseFunctionInput) 
         {
             Center = center;
             Radius = radius;
             Height = height;
             RegionOP = op;
+
+            PhaseFunctionInput = phaseFunctionInput;
         }
+
         /// <summary>
         /// default constructor
         /// </summary>
-        public CylinderRegion() : this(new Position(0, 0, 5), 1, 5, 
-            new OpticalProperties(0.01, 1.0, 0.8, 1.4), AbsorptionWeightingType.Discrete) {}
+        public CylinderRegion() : this(
+            new Position(0, 0, 5), 
+            1, 
+            5, 
+            new OpticalProperties(0.01, 1.0, 0.8, 1.4), 
+            new HenyeyGreensteinPhaseFunctionInput()) {}
 
         /// <summary>
         /// center of cyliner
@@ -48,6 +55,10 @@ namespace Vts.MonteCarlo.Tissues
         /// optical properties of cylinder
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
+        /// <summary>
+        /// Input data for phase function
+        /// </summary>
+        public IPhaseFunctionInput PhaseFunctionInput { get; set; }
         
         /// <summary>
         /// method to determine if photon position within cylinder

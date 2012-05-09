@@ -26,17 +26,14 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="russianRouletteWeightThreshold">photon weight threshold to turn on Russian Roulette</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiLayerTissue(
-            IList<ITissueRegion> regions, 
-            AbsorptionWeightingType absorptionWeightingType, 
-            PhaseFunctionType phaseFunctionType,
+            IList<ITissueRegion> regions,
+            AbsorptionWeightingType absorptionWeightingType,
+            IList<IPhaseFunction> phaseFunctions,
             double russianRouletteWeightThreshold)
-            : base(regions, absorptionWeightingType, phaseFunctionType,russianRouletteWeightThreshold)
+            : base(regions, absorptionWeightingType, phaseFunctions, russianRouletteWeightThreshold)
         {
             _layerRegions = regions.Select(region => (LayerRegion) region).ToArray();
         }
-
-      
-
         
         /// <summary>
         /// Creates an instance of a MultiLayerTissue based on an input data class 
@@ -47,11 +44,11 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="russianRouletteWeightThreshold">russian roulette weight threshold</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiLayerTissue(
-            MultiLayerTissueInput input, 
-            AbsorptionWeightingType absorptionWeightingType, 
-            PhaseFunctionType phaseFunctionType,
+            MultiLayerTissueInput input,
+            AbsorptionWeightingType absorptionWeightingType,
+            IList<IPhaseFunction> phaseFunctions,
             double russianRouletteWeightThreshold)
-            : this(input.Regions, absorptionWeightingType, phaseFunctionType, russianRouletteWeightThreshold)
+            : this(input.Regions, absorptionWeightingType, phaseFunctions, russianRouletteWeightThreshold)
         {
         }
 
@@ -60,7 +57,7 @@ namespace Vts.MonteCarlo.Tissues
         /// and discrete absorption weighting
         /// </summary>
         public MultiLayerTissue() 
-            : this(new MultiLayerTissueInput().Regions, AbsorptionWeightingType.Discrete, PhaseFunctionType.HenyeyGreenstein, 0.0)
+            : this(new MultiLayerTissueInput().Regions, AbsorptionWeightingType.Discrete, null, 0.0)
         {
         }
         /// <summary>

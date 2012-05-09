@@ -18,10 +18,12 @@ namespace Vts.MonteCarlo
         /// </summary>
         double RussianRouletteWeightThreshold { get; }
 
-        /// <summary>
-        /// PhaseFunctionType enum specifier indicating Henyey-Greenstein, Birdirectional, etc.
-        /// </summary>
-        PhaseFunctionType PhaseFunctionType { get; }
+        // obsolete: tissues now have region-specific phase functions
+        // see: IList<IPhaseFunction> RegionPhaseFunctions property
+        ///// <summary>
+        ///// PhaseFunctionType enum specifier indicating Henyey-Greenstein, Birdirectional, etc.
+        ///// </summary>
+        //PhaseFunctionType PhaseFunctionType { get; }
 
         /// <summary>
         /// A list of ITissueRegions that describes the entire system.
@@ -33,6 +35,11 @@ namespace Vts.MonteCarlo
         /// analog, this is based on 1/mut, for continuous it is based on 1/mus.
         /// </summary>
         IList<double> RegionScatterLengths { get; }
+
+        /// <summary>
+        /// Region-wise class instances that specify phase function
+        /// </summary>
+        IList<IPhaseFunction> RegionPhaseFunctions { get; }
 
         /// <summary>
         /// Method that gives the current region index within Regions list (above) at the current

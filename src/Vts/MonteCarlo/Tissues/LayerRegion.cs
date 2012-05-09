@@ -1,6 +1,7 @@
 using Vts.Common;
 using System;
 using System.Runtime.Serialization;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 
 namespace Vts.MonteCarlo.Tissues
 {
@@ -16,18 +17,32 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="zRange">specifies extent of layer</param>
         /// <param name="op">optical properties of layer</param>
-        public LayerRegion(DoubleRange zRange, OpticalProperties op)
+        /// <param name="phaseFunctionInput">phase function input for layer</param>
+        public LayerRegion(DoubleRange zRange, OpticalProperties op, IPhaseFunctionInput phaseFunctionInput)
         {
             ZRange = zRange;
             RegionOP = op;
+            PhaseFunctionInput = phaseFunctionInput;
         }
+
+        ///// <summary>
+        ///// constructor for layer region
+        ///// </summary>
+        ///// <param name="zRange">specifies extent of layer</param>
+        ///// <param name="op">optical properties of layer</param>
+        //public LayerRegion(DoubleRange zRange, OpticalProperties op)
+        //    : this (zRange, op, new HenyeyGreensteinPhaseFunctionInput())
+        //{
+        //}
+
         /// <summary>
         /// default constructor
         /// </summary>
         public LayerRegion()
             : this(
                 new DoubleRange(0.0, 10),
-                new OpticalProperties(0.01, 1.0, 0.8, 1.4)) { }
+                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                new HenyeyGreensteinPhaseFunctionInput()) { }
         /// <summary>
         /// extent of z layer
         /// </summary>
@@ -36,6 +51,11 @@ namespace Vts.MonteCarlo.Tissues
         /// optical properties of layer
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
+
+        /// <summary>
+        /// Input data for phase function
+        /// </summary>
+        public IPhaseFunctionInput PhaseFunctionInput { get; set; }
 
         /// <summary>
         /// center of layer

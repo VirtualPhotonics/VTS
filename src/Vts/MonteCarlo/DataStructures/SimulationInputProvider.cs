@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
@@ -61,13 +62,16 @@ namespace Vts.MonteCarlo
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput())
                     }
                 ),
                 new List<IDetectorInput>()
@@ -144,13 +148,16 @@ namespace Vts.MonteCarlo
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput())
                     }
                 ),
                 new List<IDetectorInput>()
@@ -192,13 +199,16 @@ namespace Vts.MonteCarlo
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput())
                     }
                 ),
                 new List<IDetectorInput>()
@@ -243,16 +253,20 @@ namespace Vts.MonteCarlo
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(0.0, 1.5),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(1.5, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput())
                     }
                 ),
                 new List<IDetectorInput>()
@@ -291,16 +305,20 @@ namespace Vts.MonteCarlo
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(0.0, 1.5),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(1.5, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput())
                     }
                 ),
                 new List<IDetectorInput>()
@@ -340,19 +358,23 @@ namespace Vts.MonteCarlo
                         0.5,
                         0.5,
                         0.5,
-                        new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                        new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()
                     ),
                     new LayerRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput())
                     }
                 ),
                 new List<IDetectorInput>()
@@ -393,13 +415,16 @@ namespace Vts.MonteCarlo
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput())
                     }
                 ),
                 new List<IDetectorInput>()
@@ -444,13 +469,16 @@ namespace Vts.MonteCarlo
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput())
                     }
                 ),
                 new List<IDetectorInput>()
@@ -489,16 +517,20 @@ namespace Vts.MonteCarlo
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(0.0, 10.0),
-                            new OpticalProperties(0.01, 1.0, 0.7, 1.33)), // Tyler's data
+                            new OpticalProperties(0.01, 1.0, 0.7, 1.33),
+                        new HenyeyGreensteinPhaseFunctionInput()), // Tyler's data
                         new LayerRegion(
                             new DoubleRange(10.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.7, 1.33)), 
+                            new OpticalProperties(0.01, 1.0, 0.7, 1.33),
+                        new HenyeyGreensteinPhaseFunctionInput()), 
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput())
                     }
                 ),
                 new List<IDetectorInput>()

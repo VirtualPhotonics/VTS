@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.DataStructuresValidation;
 
@@ -13,6 +14,9 @@ namespace Vts.MonteCarlo
     /// </summary>
     [KnownType(typeof(LayerRegion))]
     [KnownType(typeof(OpticalProperties))]
+    [KnownType(typeof(HenyeyGreensteinPhaseFunctionInput))]
+    [KnownType(typeof(LookupTablePhaseFunctionInput))]
+    [KnownType(typeof(BidirectionalPhaseFunctionInput))]
     [KnownType(typeof(List<OpticalProperties>))]
     [KnownType(typeof(List<LayerRegion>))]
     [KnownType(typeof(List<ITissueRegion>))]
@@ -24,7 +28,8 @@ namespace Vts.MonteCarlo
         /// constructor for Multi-layer tissue input
         /// </summary>
         /// <param name="regions">list of tissue regions comprising tissue</param>
-        public MultiLayerTissueInput(ITissueRegion[] regions)
+        public MultiLayerTissueInput(
+            ITissueRegion[] regions)
         {
             _regions = regions;
         }
@@ -38,13 +43,16 @@ namespace Vts.MonteCarlo
                 { 
                     new LayerRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                     new LayerRegion(
                         new DoubleRange(0.0, 100.0),
-                        new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                        new OpticalProperties(0.0, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                     new LayerRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput())
                 })
         {
         }
@@ -57,5 +65,6 @@ namespace Vts.MonteCarlo
         /// list of tissue regions comprising tissue
         /// </summary>
         public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
+        
     }
 }

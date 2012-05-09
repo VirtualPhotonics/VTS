@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.IO
@@ -57,7 +58,13 @@ namespace Vts.IO
                     typeof (DirectionalLineSourceInput),
                     typeof (FlatSourceProfile),
                     typeof (GaussianSourceProfile),
-					// typeof (DirectionalPointSource), todo: add all sources...
+
+                    // phase function types...
+                    typeof (LookupTablePhaseFunctionInput),
+                    typeof (HenyeyGreensteinPhaseFunctionInput),
+                    typeof (BidirectionalPhaseFunctionInput),
+                    typeof (PolarLookupTablePhaseFunctionData),
+                    typeof (PolarAndAzimuthalLookupTablePhaseFunctionData),
                 };
 
             _types = knownTypesArray.ToDictionary(type => type.ToString());

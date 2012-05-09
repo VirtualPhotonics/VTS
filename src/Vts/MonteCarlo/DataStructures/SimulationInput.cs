@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Tissues;
 
 
@@ -144,13 +145,16 @@ namespace Vts.MonteCarlo
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput())
                     }),
 
                 new List<IDetectorInput>

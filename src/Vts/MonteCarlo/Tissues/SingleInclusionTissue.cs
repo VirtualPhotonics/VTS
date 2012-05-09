@@ -29,11 +29,11 @@ namespace Vts.MonteCarlo.Tissues
             ITissueRegion inclusionRegion,
             IList<ITissueRegion> layerRegions,
             AbsorptionWeightingType absorptionWeightingType,
-            PhaseFunctionType phaseFunctionType,
+            IList<IPhaseFunction> phaseFunctions,
             double russianRouletteWeightThreshold)
             : base(layerRegions, 
-                   absorptionWeightingType, 
-                   phaseFunctionType,
+                   absorptionWeightingType,
+                   phaseFunctions,
                    russianRouletteWeightThreshold)
         {
             // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
@@ -54,7 +54,7 @@ namespace Vts.MonteCarlo.Tissues
                 new EllipsoidRegion(),
                 new MultiLayerTissueInput().Regions,
                 AbsorptionWeightingType.Discrete,
-                PhaseFunctionType.HenyeyGreenstein,
+                null,
                 0.0) { }
         /// <summary>
         /// method to get tissue region index of photon's current position

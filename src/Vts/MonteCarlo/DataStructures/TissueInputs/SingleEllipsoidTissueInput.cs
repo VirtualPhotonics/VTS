@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.Extensions;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.DataStructuresValidation;
 
@@ -15,6 +16,9 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(EllipsoidRegion))]
     [KnownType(typeof(LayerRegion))]
     [KnownType(typeof(OpticalProperties))]
+    [KnownType(typeof(HenyeyGreensteinPhaseFunctionInput))]
+    [KnownType(typeof(LookupTablePhaseFunctionInput))]
+    [KnownType(typeof(BidirectionalPhaseFunctionInput))]
     [KnownType(typeof(List<OpticalProperties>))]
     [KnownType(typeof(List<LayerRegion>))]
     [KnownType(typeof(List<ITissueRegion>))]
@@ -28,7 +32,9 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="ellipsoidRegion">ellipsoid region specification</param>
         /// <param name="layerRegions">tissue layer specification</param>
-        public SingleEllipsoidTissueInput(ITissueRegion ellipsoidRegion, ITissueRegion[] layerRegions)
+        public SingleEllipsoidTissueInput(
+            ITissueRegion ellipsoidRegion, 
+            ITissueRegion[] layerRegions)
         {
             _ellipsoidRegion = ellipsoidRegion;
             _layerRegions = layerRegions;
@@ -45,19 +51,23 @@ namespace Vts.MonteCarlo
                     0.5, 
                     0.5, 
                     0.5,
-                    new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()
                 ),
                 new ITissueRegion[] 
                 { 
                     new LayerRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                     new LayerRegion(
                         new DoubleRange(0.0, 100.0),
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new HenyeyGreensteinPhaseFunctionInput()),
                     new LayerRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0))
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                        new HenyeyGreensteinPhaseFunctionInput())
                 })
         {
         }
@@ -79,5 +89,6 @@ namespace Vts.MonteCarlo
         /// tissue layer regions
         /// </summary>
         public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+       
     }
 }

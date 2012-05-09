@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Vts.MonteCarlo.PhaseFunctionInputs;
+using Vts.MonteCarlo.PhaseFunctions;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Factories
@@ -17,13 +21,17 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="pft">PhaseFunctionType enum</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette weight threshold</param>
         /// <returns>ITissue</returns>
-        public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
+        public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, IList<IPhaseFunction> phaseFunctions, double russianRouletteWeightThreshold)
         {
             ITissue t = null;
             if (ti is MultiLayerTissueInput)
             {
                 var multiLayerTissueInput = (MultiLayerTissueInput) ti;
-                t = new MultiLayerTissue(multiLayerTissueInput.Regions, awt, pft, russianRouletteWeightThreshold);
+                t = new MultiLayerTissue(
+                    multiLayerTissueInput.Regions, 
+                    awt, 
+                    phaseFunctions,
+                    russianRouletteWeightThreshold);
             }
             if (ti is SingleEllipsoidTissueInput)
             {
@@ -32,7 +40,7 @@ namespace Vts.MonteCarlo.Factories
                     singleEllipsoidTissueInput.EllipsoidRegion,
                     singleEllipsoidTissueInput.LayerRegions,
                     awt,
-                    pft,
+                    phaseFunctions,
                     russianRouletteWeightThreshold);
             }
             if (t == null)

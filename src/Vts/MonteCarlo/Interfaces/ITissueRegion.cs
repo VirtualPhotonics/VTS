@@ -18,6 +18,11 @@ namespace Vts.MonteCarlo
         Position Center { get; }
 
         /// <summary>
+        /// Input data for phase function
+        /// </summary>
+        IPhaseFunctionInput PhaseFunctionInput { get; }
+
+        /// <summary>
         /// Checks to see if the specified position is within the tissue region.  Definition should be such
         /// that regions do not overlap, i.e. photon can only be in one region at a time.
         /// </summary>
