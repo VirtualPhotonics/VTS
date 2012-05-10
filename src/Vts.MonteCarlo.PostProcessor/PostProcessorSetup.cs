@@ -87,20 +87,21 @@ namespace Vts.MonteCarlo.PostProcessor
             {
                 IList<IDetectorInput> pMCDetectorInputs;
                 pMCDetectorInputs = input.DetectorInputs;
-                //pMCDetectorInputs = input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
-                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.pMCDiffuseReflectance,
-                    pMCDetectorInputs, 
+                    pMCDetectorInputs,
                     input.TallySecondMoment,
                     PhotonDatabaseFactory.GetpMCDatabase( // database filenames are assumed to be convention
                         VirtualBoundaryType.pMCDiffuseReflectance,
                         input.InputFolder),
                     databaseGenerationInputFile
-                );
+                    );
+                postProcessedOutput = postProcessor.Run();
             }
             else if (input.DetectorInputs.Where(di => di.TallyType.IsReflectanceTally()).Any())
             {
-                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+              
+                var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.DiffuseReflectance,
                     input.DetectorInputs, 
                     input.TallySecondMoment,
@@ -109,10 +110,11 @@ namespace Vts.MonteCarlo.PostProcessor
                         input.InputFolder),
                     databaseGenerationInputFile
                 );
+                postProcessedOutput = postProcessor.Run();
             }
             else if (input.DetectorInputs.Where(di => di.TallyType.IsTransmittanceTally()).Any())
             {
-                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.DiffuseTransmittance,
                     input.DetectorInputs,
                     input.TallySecondMoment,
@@ -121,10 +123,11 @@ namespace Vts.MonteCarlo.PostProcessor
                         input.InputFolder),
                     databaseGenerationInputFile
                 );
+                postProcessedOutput = postProcessor.Run();
             }
             else if (input.DetectorInputs.Where(di => di.TallyType.IsSpecularReflectanceTally()).Any())
             {
-                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.SpecularReflectance,
                     input.DetectorInputs,
                     input.TallySecondMoment,
@@ -133,7 +136,9 @@ namespace Vts.MonteCarlo.PostProcessor
                         input.InputFolder),
                     databaseGenerationInputFile
                 );
+                postProcessedOutput = postProcessor.Run();
             }
+
 
             var folderPath = input.OutputName;
             if (!Directory.Exists(folderPath))
