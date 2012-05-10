@@ -65,7 +65,7 @@ namespace Vts.SiteVisit.Test.ViewModel
         /// <param name="independentVariableAxis"></param>
         /// <param name="inverseFitType"></param>
         /// <returns></returns>
-        private IEnumerable<Point> ExecuteInverseSolver(
+        private Point[][] ExecuteInverseSolver(
             ForwardSolverType measuredForwardSolverType, 
             ForwardSolverType inverseForwardSolverType, 
             SolutionDomainType solutionDomainType, 
