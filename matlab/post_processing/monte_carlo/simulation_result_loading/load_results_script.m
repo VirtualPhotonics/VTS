@@ -8,8 +8,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'xml_toolbox']);
 
 % names of individual MC simulations
-% datanames = { 'one_layer_all_detectors' };
-datanames = { 'six_layer_ReflectedTimeOfRhoAndSubregionHist' };
+datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 %outdir = 'C:\Simulations';
@@ -54,23 +53,23 @@ for mci = 1:length(datanames)
     end
 
     if isfield(results{di}, 'ROfXAndY') && show.ROfXAndY
-        figname = sprintf('log(%s)',results{di}.ROfXAndY.Name); figure; imagesc(log(results{di}.ROfXAndY.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
+        figname = sprintf('log(%s)',results{di}.ROfXAndY.Name); figure; imagesc(results{di}.ROfXAndY.Y_Midpoints, results{di}.ROfXAndY.X_Midpoints, log(results{di}.ROfXAndY.Mean')); colorbar; title(figname); set(gcf,'Name', figname); ylabel('Y [mm]'); xlabel('X [mm]');
         disp(['Total reflectance captured by ROfXAndY detector: ' num2str(sum(results{di}.ROfXAndY.Mean(:)))]);
     end
 
     if isfield(results{di}, 'ROfRhoAndTime') && show.ROfRhoAndTime
-        figname = sprintf('log(%s)',results{di}.ROfRhoAndTime.Name); figure; imagesc(log(results{di}.ROfRhoAndTime.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
+        figname = sprintf('log(%s)',results{di}.ROfRhoAndTime.Name); figure; imagesc(results{di}.ROfRhoAndTime.Time_Midpoints, results{di}.ROfRhoAndTime.Rho_Midpoints,log(results{di}.ROfRhoAndTime.Mean')); colorbar; title(figname); set(gcf,'Name', figname); ylabel('time [ns]'); xlabel('\rho [mm]');
         disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(results{di}.ROfRhoAndTime.Mean(:)))]);
     end
 
     if isfield(results{di}, 'ROfRhoAndAngle') && show.ROfRhoAndAngle
-        figname = sprintf('log(%s)',results{di}.ROfRhoAndAngle.Name); figure; imagesc(log(results{di}.ROfRhoAndAngle.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
+        figname = sprintf('log(%s)',results{di}.ROfRhoAndAngle.Name); figure; imagesc(results{di}.ROfRhoAndAngle.Rho_Midpoints, results{di}.ROfRhoAndAngle.Angle_Midpoints, log(results{di}.ROfRhoAndAngle.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('\angle [rad]'); xlabel('\rho [mm]'); 
         disp(['Total reflectance captured by ROfRhoAndAngle detector: ' num2str(sum(results{di}.ROfRhoAndAngle.Mean(:)))]);
     end
 
     if isfield(results{di}, 'ROfRhoAndOmega') && show.ROfRhoAndOmega
-        figname = sprintf('%s - log(Amplitude)',results{di}.ROfRhoAndOmega.Name); figure; imagesc(log(results{di}.ROfRhoAndOmega.Amplitude)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
-        figname = sprintf('%s - Phase',results{di}.ROfRhoAndOmega.Name); figure; imagesc(results{di}.ROfRhoAndOmega.Phase); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
+        figname = sprintf('%s - log(Amplitude)',results{di}.ROfRhoAndOmega.Name); figure; imagesc(results{di}.ROfRhoAndOmega.Rho_Midpoints, results{di}.ROfRhoAndOmega.Omega_Midpoints, log(results{di}.ROfRhoAndOmega.Amplitude')); colorbar; title(figname); set(gcf,'Name', figname); ylabel('\omega [GHz]'); xlabel('\rho [mm]');
+        figname = sprintf('%s - Phase',results{di}.ROfRhoAndOmega.Name); figure; imagesc(results{di}.ROfRhoAndOmega.Rho_Midpoints, results{di}.ROfRhoAndOmega.Omega_Midpoints, results{di}.ROfRhoAndOmega.Phase'); colorbar; title(figname); set(gcf,'Name', figname); ylabel('\omega [GHz]'); xlabel('\rho [mm]');
         disp(['Total reflectance captured by ROfRhoAndOmega detector: ' num2str(sum(results{di}.ROfRhoAndOmega.Amplitude(:,1)))]);
     end
 
@@ -86,26 +85,26 @@ for mci = 1:length(datanames)
         disp(['Total transmittance captured by TOfAngle detector: ' num2str(sum(results{di}.TOfAngle.Mean(:)))]);
     end
     if isfield(results{di}, 'TOfRhoAndAngle') && show.TOfRhoAndAngle
-        figname = sprintf('log(%s)',results{di}.TOfRhoAndAngle.Name); figure; imagesc(log(results{di}.TOfRhoAndAngle.Mean)); axis off; colorbar; title(figname); set(gcf,'Name', figname);
+        figname = sprintf('log(%s)',results{di}.TOfRhoAndAngle.Name); figure; imagesc(results{di}.TOfRhoAndAngle.Angle_Midpoints, results{di}.TOfRhoAndAngle.Rho_Midpoints, log(results{di}.TOfRhoAndAngle.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('\angle [rad]');xlabel('\rho [mm]');
         disp(['Total transmittance captured by TOfRhoAndAngle detector: ' num2str(sum(results{di}.TOfRhoAndAngle.Mean(:)))]);
     end
     if isfield(results{di}, 'ATotal') && show.ATotal
         disp(['Total absorption captured by ATotal detector: ' num2str(results{di}.ATotal.Mean)]);
     end
     if isfield(results{di}, 'AOfRhoAndZ') && show.AOfRhoAndZ
-        figname = sprintf('log(%s)',results{di}.AOfRhoAndZ.Name); figure; imagesc(log(results{di}.AOfRhoAndZ.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
+        figname = sprintf('log(%s)',results{di}.AOfRhoAndZ.Name); figure; imagesc(results{di}.AOfRhoAndZ.Z_Midpoints, results{di}.AOfRhoAndZ.Rho_Midpoints, log(results{di}.AOfRhoAndZ.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]');xlabel('\rho mm]');
         disp(['Absorbed energy captured by AOfRhoAndZ detector: ' num2str(sum(results{di}.AOfRhoAndZ.Mean(:)))]);
     end
     if isfield(results{di}, 'FluenceOfRhoAndZ') && show.FluenceOfRhoAndZ
         %sum(results{di}.FluenceOfRhoAndZ.Mean(2:end,2:end))
-        figname = sprintf('log(%s)',results{di}.FluenceOfRhoAndZ.Name); figure; imagesc(log(results{di}.FluenceOfRhoAndZ.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
+        figname = sprintf('log(%s)',results{di}.FluenceOfRhoAndZ.Name); figure; imagesc(results{di}.FluenceOfRhoAndZ.Z_Midpoints, results{di}.FluenceOfRhoAndZ.Rho_Midpoints, log(results{di}.FluenceOfRhoAndZ.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
         disp(['Fluence captured by FluenceOfRhoAndZ detector: ' num2str(sum(results{di}.FluenceOfRhoAndZ.Mean(:)))]);
     end
     if isfield(results{di}, 'RadianceOfRhoAndZAndAngle') && show.RadianceOfRhoAndZAndAngle
         %sum(results{di}.RadianceOfRhoAndZAndAngle.Mean(2:end,2:end,2:end))
         numangles = length(results{di}.RadianceOfRhoAndZAndAngle.Angle) - 1;
         for i=1:numangles
-            figname = sprintf('log(%s) %5.3f<angle<%5.3f',results{di}.RadianceOfRhoAndZAndAngle.Name,(i-1)*pi/numangles,i*pi/numangles); figure; imagesc(log(results{di}.RadianceOfRhoAndZAndAngle.Mean(:,:,i))); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
+            figname = sprintf('log(%s) %5.3f<angle<%5.3f',results{di}.RadianceOfRhoAndZAndAngle.Name,(i-1)*pi/numangles,i*pi/numangles); figure; imagesc(results{di}.RadianceOfRhoAndZAndAngle.Z_Midpoints, results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints, log(results{di}.RadianceOfRhoAndZAndAngle.Mean(:,:,i)')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
         end
         disp(['Radiance captured by RadianceOfRhoAndZ detector: ' num2str(sum(results{di}.RadianceOfRhoAndZAndAngle.Mean(:)))]);
     end

@@ -87,6 +87,7 @@ for di = 1:numDetectors
             tempOmega = xml.DetectorInputs(di).anyType.Omega;
             ROfRhoAndOmega.Rho = linspace(str2num(tempRho.Start), str2num(tempRho.Stop), str2num(tempRho.Count));
             ROfRhoAndOmega.Omega = linspace(str2num(tempOmega.Start), str2num(tempOmega.Stop), str2num(tempOmega.Count));
+            ROfRhoAndOmega.Omega_Midpoints = (ROfRhoAndOmega.Omega(1:end-1) + ROfRhoAndOmega.Omega(2:end))/2;
             ROfRhoAndOmega.Rho_Midpoints = (ROfRhoAndOmega.Rho(1:end-1) + ROfRhoAndOmega.Rho(2:end))/2;
             tempData = readBinaryData([datadir slash detectorName],[2*(length(ROfRhoAndOmega.Rho)-1),length(ROfRhoAndOmega.Omega)]);  
             ROfRhoAndOmega.Mean = tempData(1:2:end,:) + 1i*tempData(2:2:end,:);
