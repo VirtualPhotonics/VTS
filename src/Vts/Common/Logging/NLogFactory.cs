@@ -60,6 +60,14 @@ namespace Vts.Common.Logging.NLogIntegration
             }
         }
 
+        /// <summary>
+        /// Destructor - added to try and fix an issue when using the logger in mono
+        /// </summary>
+        ~ NLogFactory()
+        {
+            LogManager.Configuration = null;
+        }
+
         private static LoggingConfiguration GetDefaultLoggingConfiguration()
         {
             var config = new LoggingConfiguration();
