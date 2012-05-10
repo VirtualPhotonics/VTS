@@ -74,11 +74,11 @@ namespace Vts.MonteCarlo
                 new List<IDetectorInput>()
                 {
                     new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
+                    new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 5)),
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
                     new ROfRhoAndAngleDetectorInput(
                         new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(Math.PI / 2 , Math.PI, 2)),
+                        new DoubleRange(Math.PI / 2 , Math.PI, 5)),
                     new ROfRhoAndTimeDetectorInput(
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101)),
@@ -89,11 +89,11 @@ namespace Vts.MonteCarlo
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 1, 21)), // GHz
                     new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 5)),
                     new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
                     new TOfRhoAndAngleDetectorInput(
                         new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 2)),
+                        new DoubleRange(0.0, Math.PI / 2, 5)),
                     new ATotalDetectorInput(),
                     new AOfRhoAndZDetectorInput(                            
                         new DoubleRange(0.0, 10, 101),
