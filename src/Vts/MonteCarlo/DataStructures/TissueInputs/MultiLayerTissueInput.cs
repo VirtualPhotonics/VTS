@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(OpticalProperties))]
     [KnownType(typeof(List<OpticalProperties>))]
     [KnownType(typeof(List<LayerRegion>))]
-    [KnownType(typeof(List<ITissueRegion>))]
+    [KnownType(typeof(ITissueRegion[]))]
     public class MultiLayerTissueInput : ITissueInput
     {
         private ITissueRegion[] _regions;

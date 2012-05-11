@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(OpticalProperties))]
     [KnownType(typeof(List<OpticalProperties>))]
     [KnownType(typeof(List<LayerRegion>))]
-    [KnownType(typeof(List<ITissueRegion>))]
+    [KnownType(typeof(ITissueRegion[]))]
     public class MultiEllipsoidTissueInput : ITissueInput
     {
         private ITissueRegion[] _ellipsoidRegions;
