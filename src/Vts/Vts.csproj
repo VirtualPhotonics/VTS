@@ -373,13 +373,13 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\CircularSourceInputs\CustomCircularSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\CircularSourceInputs\DirectionalCircularSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SurfaceEmittingCuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingCylindricalFiberSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\EllipticalSourceInputs\CustomEllipticalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\EllipticalSourceInputs\DirectionalEllipticalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\RectangularSourceInputs\CustomRectangularSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\RectangularSourceInputs\DirectionalRectangularSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\CustomSurfaceEmittingSphericalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\LambertianSurfaceEmittingSphericalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\TubularSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\EllipsoidalSourceInputs\IsotropicVolumetricEllipsoidalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidalSourceInputs\CustomVolumetricCuboidaldalSourceInput.cs" />
