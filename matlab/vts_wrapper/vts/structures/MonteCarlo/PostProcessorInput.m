@@ -4,7 +4,6 @@ classdef PostProcessorInput < handle % deriving from handle allows us to keep a 
         DetectorInput.ROfRho(linspace(0,40,201))...
     };
       TallySecondMoment = 0;
-      TrackStatistics = 0;
       InputFolder = 'results';
       DatabaseSimulationInputFilename = 'infile';
       OutputName = 'ppresults';
@@ -19,7 +18,6 @@ classdef PostProcessorInput < handle % deriving from handle allows us to keep a 
               input.DetectorInputs{i} = DetectorInput.FromInputNET(detectorInputsNET(i));
           end                    
           input.TallySecondMoment = logical(inputNET.OutputName);
-          input.TrackStatistics = inputNET.TrackStatistics;
           input.InputFolder = char(inputNET.InputFolder);
           input.DatabaseSimulationInputFilename = char(inputNET.DatabaseSimulationInputFilename);
           input.OutputName = char(inputNET.OutputName);
