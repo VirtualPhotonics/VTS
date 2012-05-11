@@ -247,8 +247,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 infiles[i].ToFile("infile_" + infiles[i].OutputName + ".xml"); 
             }
-            var sources = SourceInputProvider.GenerateAllSourceInputs();
-            sources.WriteToXML("infile_source_options_test.xml");
+            //var sources = SourceInputProvider.GenerateAllSourceInputs();
+            //sources.WriteToXML("infile_source_options_test.xml");
         }
 
         //private static SimulationInput LoadDefaultInputFile()

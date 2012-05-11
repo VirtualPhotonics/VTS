@@ -48,17 +48,33 @@ namespace Vts.IO
                     
 					typeof (ROfFxDetectorInput),
 					typeof (ROfFxAndTimeDetectorInput),
-
-					typeof (DirectionalCircularSourceInput),
+				
+				    // in order of files in folder Vts.MonteCarlo.DataStructures.SourceInput				
+                    typeof (CustomLineSourceInput),
+                    typeof (DirectionalLineSourceInput),
+					typeof (IsotropicLineSourceInput),
+				
+                    typeof (CustomPointSourceInput),
 					typeof (DirectionalPointSourceInput),
                     typeof (IsotropicPointSourceInput),
-                    typeof (CustomPointSourceInput),
-                    typeof (CustomLineSourceInput),
-                    typeof (CustomCircularSourceInput),
-                    typeof (DirectionalLineSourceInput),
-                    typeof (FlatSourceProfile),
-                    typeof (GaussianSourceProfile),
-					// typeof (DirectionalPointSource), todo: add all sources...
+				
+					typeof (LambertianSurfaceEmittingCylindricalFiberSourceInput),
+					typeof (CustomSurfaceEmittingSphericalSourceInput),
+					typeof (LambertianSurfaceEmittingSphericalSourceInput),
+					typeof (LambertianSurfaceEmittingTubularSourceInput),
+				
+					typeof (CustomCircularSourceInput),
+					typeof (DirectionalCircularSourceInput),
+					typeof (CustomEllipticalSourceInput),
+					typeof (DirectionalEllipticalSourceInput),
+					typeof (CustomRectangularSourceInput),
+					typeof (DirectionalRectangularSourceInput),
+				
+					typeof (CustomVolumetricEllipsoidalSourceInput),
+					typeof (IsotropicVolumetricEllipsoidalSourceInput),
+					typeof (CustomVolumetricCuboidalSourceInput),
+					typeof (IsotropicVolumetricCuboidalSourceInput),
+				
                 };
 
             _types = knownTypesArray.ToDictionary(type => type.ToString());

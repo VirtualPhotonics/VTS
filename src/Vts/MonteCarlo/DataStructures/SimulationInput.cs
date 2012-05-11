@@ -18,15 +18,32 @@ namespace Vts.MonteCarlo
     #endif
     
     // todo: Can we do this programmatcially? DataContractResolver? Automatically via convention?
-
-    [KnownType(typeof(DirectionalPointSourceInput))]
-    [KnownType(typeof(DirectionalCircularSourceInput))]
-    [KnownType(typeof(IsotropicPointSourceInput))]
-    [KnownType(typeof(CustomPointSourceInput))]
-    [KnownType(typeof(CustomCircularSourceInput))]
+	[KnownType(typeof(CustomLineSourceInput))]
     [KnownType(typeof(DirectionalLineSourceInput))]
-
-    // Tissue inputs
+	[KnownType(typeof(IsotropicLineSourceInput))]
+				
+    [KnownType(typeof(CustomPointSourceInput))]
+	[KnownType(typeof(DirectionalPointSourceInput))]
+    [KnownType(typeof(IsotropicPointSourceInput))]
+				
+	[KnownType(typeof(LambertianSurfaceEmittingCylindricalFiberSourceInput))]
+	[KnownType(typeof(CustomSurfaceEmittingSphericalSourceInput))]
+	[KnownType(typeof(LambertianSurfaceEmittingSphericalSourceInput))]
+	[KnownType(typeof(LambertianSurfaceEmittingTubularSourceInput))]
+				
+	[KnownType(typeof(CustomCircularSourceInput))]
+	[KnownType(typeof(DirectionalCircularSourceInput))]
+	[KnownType(typeof(CustomEllipticalSourceInput))]
+	[KnownType(typeof(DirectionalEllipticalSourceInput))]
+	[KnownType(typeof(CustomRectangularSourceInput))]
+	[KnownType(typeof(DirectionalRectangularSourceInput))]
+				
+	[KnownType(typeof(CustomVolumetricEllipsoidalSourceInput))]
+	[KnownType(typeof(IsotropicVolumetricEllipsoidalSourceInput))]
+	[KnownType(typeof(CustomVolumetricCuboidalSourceInput))]
+	[KnownType(typeof(IsotropicVolumetricCuboidalSourceInput))]
+    
+	           // Tissue inputs
     [KnownType(typeof(MultiLayerTissueInput))]
     [KnownType(typeof(SingleEllipsoidTissueInput))]
     
