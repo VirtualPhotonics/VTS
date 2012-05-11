@@ -676,13 +676,13 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs">
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingCylindricalFiberSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingCylindricalFiberSourceInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\CustomSurfaceEmittingSphericalSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\CustomSurfaceEmittingSphericalSourceInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs">
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\LambertianSurfaceEmittingSphericalSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\LambertianSurfaceEmittingSphericalSourceInput.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SurfaceEmittingCuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs">

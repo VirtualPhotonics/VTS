@@ -155,4 +155,10 @@ copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)" 
 "$(TargetDir)mc.exe" geninfiles
 </PostBuildEvent>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vts.Desktop\Vts.Desktop.csproj">
+      <Project>{05B6020A-B646-4BBB-B9A0-B524F5F85023}</Project>
+      <Name>Vts.Desktop</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
