@@ -151,7 +151,7 @@ namespace Vts.MonteCarlo.Detectors
             var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
             // using Acos, -1<Uz<1 goes to pi<theta<0, so first bin is most forward directed angle
             var it = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Theta.Count - 1, Theta.Delta, Theta.Start);
-            var ip = DetectorBinning.WhichBin(Math.Atan2(dp.Position.Y, dp.Position.X), Phi.Count - 1, Phi.Delta, Phi.Start);
+            var ip = DetectorBinning.WhichBin(Math.Atan2(dp.Direction.Uy, dp.Direction.Ux), Phi.Count - 1, Phi.Delta, Phi.Start);
 
             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
 
