@@ -8,11 +8,11 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'xml_toolbox']);
 
 % names of individual MC simulations
-datanames = { 'infile_radiance_mi' };
+datanames = { 'infile_radiance_demo' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
-outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
-% outdir = '.';
+%outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
+outdir = '.';
 
 show.RDiffuse =                 1;
 show.ROfRho =                   1;
@@ -113,8 +113,8 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'RadianceOfXAndYAndZAndThetaAndPhi') && show.RadianceOfXAndYAndZAndThetaAndPhi
         %sum(results{di}.RadianceOfRhoAndZAndAngle.Mean(2:end,2:end,2:end))
         numangles = length(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Phi) - 1;        
-        for i=1:5
-            figname = sprintf('log(%s) %5.3f<angle<%5.3f',results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Name,(i-1)*pi/numangles,i*pi/numangles); 
+        for i=1:4
+            figname = sprintf('log(%s) %5.3f<angle<%5.3f',results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Name,(i-1)*2*pi/numangles-pi,i*2*pi/numangles-pi); 
             figure; imagesc(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X_Midpoints, results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Z_Midpoints, log(squeeze(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean(:,1,:,1,i))')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');
         end
         disp(['Radiance captured by RadianceOfXAndYAndZAndThetaAndPhi detector: ' num2str(sum(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean(:)))]);

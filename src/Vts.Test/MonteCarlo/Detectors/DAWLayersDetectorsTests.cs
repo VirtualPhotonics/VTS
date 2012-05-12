@@ -105,7 +105,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(-10.0, 10.0, 101),
                         new DoubleRange(0.0, 10.0, 101), 
                         new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
-                        new DoubleRange(0.0, 2 * Math.PI, 5)), // phi (azimuthal angle)
+                        new DoubleRange(-Math.PI, Math.PI, 5)), // phi (azimuthal angle)
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput(
                            new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
                            new DoubleRange(0.0, 500.0, 51) // MT bins
