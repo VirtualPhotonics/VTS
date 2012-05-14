@@ -109,10 +109,10 @@ namespace Vts.MonteCarlo.Detectors
                 var timeInSubRegion = DetectorBinning.GetTimeDelay(photon.History.SubRegionInfoList[i].PathLength,
                                                                    _tissue.Regions[i].RegionOP.N);
                 var it = DetectorBinning.WhichBin(timeInSubRegion, Time.Count - 1, Time.Delta, Time.Start);
-                Mean[ir, i, it] += timeInSubRegion;
+                Mean[ir, i, it] += 1;
                 if (_tallySecondMoment)
                 {
-                    SecondMoment[ir, i, it] += timeInSubRegion * timeInSubRegion;
+                    SecondMoment[ir, i, it] += 1 * 1;
                 }
             }
             TallyCount++; 
