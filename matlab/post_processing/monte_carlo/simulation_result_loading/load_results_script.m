@@ -8,7 +8,8 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'xml_toolbox']);
 
 % names of individual MC simulations
-datanames = { 'infile_radiance_demo' };
+datanames = { 'three_layer_ReflectedTimeOfRhoAndSubregionHist' };
+% datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -59,7 +60,7 @@ for mci = 1:length(datanames)
     end
 
     if isfield(results{di}, 'ROfRhoAndTime') && show.ROfRhoAndTime
-        figname = sprintf('log(%s)',results{di}.ROfRhoAndTime.Name); figure; imagesc(results{di}.ROfRhoAndTime.Time_Midpoints, results{di}.ROfRhoAndTime.Rho_Midpoints,log(results{di}.ROfRhoAndTime.Mean')); colorbar; title(figname); set(gcf,'Name', figname); ylabel('time [ns]'); xlabel('\rho [mm]');
+        figname = sprintf('log(%s)',results{di}.ROfRhoAndTime.Name); figure; imagesc(results{di}.ROfRhoAndTime.Rho_Midpoints, results{di}.ROfRhoAndTime.Time_Midpoints,log(results{di}.ROfRhoAndTime.Mean')); colorbar; title(figname); set(gcf,'Name', figname); ylabel('time [ns]'); xlabel('\rho [mm]');
         disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(results{di}.ROfRhoAndTime.Mean(:)))]);
     end
 
@@ -86,19 +87,19 @@ for mci = 1:length(datanames)
         disp(['Total transmittance captured by TOfAngle detector: ' num2str(sum(results{di}.TOfAngle.Mean(:)))]);
     end
     if isfield(results{di}, 'TOfRhoAndAngle') && show.TOfRhoAndAngle
-        figname = sprintf('log(%s)',results{di}.TOfRhoAndAngle.Name); figure; imagesc(results{di}.TOfRhoAndAngle.Angle_Midpoints, results{di}.TOfRhoAndAngle.Rho_Midpoints, log(results{di}.TOfRhoAndAngle.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('\angle [rad]');xlabel('\rho [mm]');
+        figname = sprintf('log(%s)',results{di}.TOfRhoAndAngle.Name); figure; imagesc(results{di}.TOfRhoAndAngle.Rho_Midpoints, results{di}.TOfRhoAndAngle.Angle_Midpoints, log(results{di}.TOfRhoAndAngle.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('\angle [rad]');xlabel('\rho [mm]');
         disp(['Total transmittance captured by TOfRhoAndAngle detector: ' num2str(sum(results{di}.TOfRhoAndAngle.Mean(:)))]);
     end
     if isfield(results{di}, 'ATotal') && show.ATotal
         disp(['Total absorption captured by ATotal detector: ' num2str(results{di}.ATotal.Mean)]);
     end
     if isfield(results{di}, 'AOfRhoAndZ') && show.AOfRhoAndZ
-        figname = sprintf('log(%s)',results{di}.AOfRhoAndZ.Name); figure; imagesc(results{di}.AOfRhoAndZ.Z_Midpoints, results{di}.AOfRhoAndZ.Rho_Midpoints, log(results{di}.AOfRhoAndZ.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]');xlabel('\rho mm]');
+        figname = sprintf('log(%s)',results{di}.AOfRhoAndZ.Name); figure; imagesc(results{di}.AOfRhoAndZ.Rho_Midpoints, results{di}.AOfRhoAndZ.Z_Midpoints, log(results{di}.AOfRhoAndZ.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]');xlabel('\rho mm]');
         disp(['Absorbed energy captured by AOfRhoAndZ detector: ' num2str(sum(results{di}.AOfRhoAndZ.Mean(:)))]);
     end
     if isfield(results{di}, 'FluenceOfRhoAndZ') && show.FluenceOfRhoAndZ
         %sum(results{di}.FluenceOfRhoAndZ.Mean(2:end,2:end))
-        figname = sprintf('log(%s)',results{di}.FluenceOfRhoAndZ.Name); figure; imagesc(results{di}.FluenceOfRhoAndZ.Z_Midpoints, results{di}.FluenceOfRhoAndZ.Rho_Midpoints, log(results{di}.FluenceOfRhoAndZ.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
+        figname = sprintf('log(%s)',results{di}.FluenceOfRhoAndZ.Name); figure; imagesc(results{di}.FluenceOfRhoAndZ.Rho_Midpoints, results{di}.FluenceOfRhoAndZ.Z_Midpoints, log(results{di}.FluenceOfRhoAndZ.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
         disp(['Fluence captured by FluenceOfRhoAndZ detector: ' num2str(sum(results{di}.FluenceOfRhoAndZ.Mean(:)))]);
     end
     if isfield(results{di}, 'RadianceOfRhoAndZAndAngle') && show.RadianceOfRhoAndZAndAngle
@@ -132,9 +133,9 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'ReflectedTimeOfRhoAndSubregionHist') && show.ReflectedTimeOfRhoAndSubregionHist
         numtissueregions = length(results{di}.ReflectedTimeOfRhoAndSubregionHist.SubregionIndices);
         for i=1:numtissueregions
-            figname = sprintf('%s Region Index %d',results{di}.ReflectedTimeOfRhoAndSubregionHist.Name, i-1); figure; imagesc((reshape(results{di}.ReflectedTimeOfRhoAndSubregionHist.Mean(:,i,:),...
-               length(results{di}.ReflectedTimeOfRhoAndSubregionHist.Rho)-1,length(results{di}.ReflectedTimeOfRhoAndSubregionHist.Time)-1)'));...        
-               colorbar; title(figname); set(gcf,'Name', figname);
+            figname = sprintf('log(%s) Region Index %d',results{di}.ReflectedTimeOfRhoAndSubregionHist.Name, i-1); 
+            figure; imagesc(results{di}.ReflectedTimeOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.Time_Midpoints, log(squeeze(results{di}.ReflectedTimeOfRhoAndSubregionHist.Mean(:,i,:))'));       
+               colorbar; title(figname); set(gcf,'Name', figname); ylabel('time [ns]'); xlabel('\rho [mm]');
         end
         disp(['Time in Subregion captured by ReflectedTimeOfRhoAndSubregionHist detector: ' num2str(sum(results{di}.ReflectedTimeOfRhoAndSubregionHist.Mean(:)))]);
     end
