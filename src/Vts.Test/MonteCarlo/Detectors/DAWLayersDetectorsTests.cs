@@ -105,7 +105,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(-10.0, 10.0, 101),
                         new DoubleRange(0.0, 10.0, 101), 
                         new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
-                        new DoubleRange(0.0, 2 * Math.PI, 5)), // phi (azimuthal angle)
+                        new DoubleRange(-Math.PI, Math.PI, 5)), // phi (azimuthal angle)
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput(
                            new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
                            new DoubleRange(0.0, 500.0, 51) // MT bins
@@ -211,9 +211,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_ReflectedTimeOfRhoAndSubregionHist()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefTime_rs_hist[0, 1, 0] - 0.00078014), 0.00000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefTime_rs_hist[5, 1, 3] - 0.00112227), 0.00000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefTime_rs_hist[5, 2, 0] - 0.00008314), 0.00000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefTime_rs_hist[0, 1, 0] - 0.63661977), 0.00000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefTime_rs_hist[5, 1, 3] - 0.02893726), 0.00000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefTime_rs_hist[5, 2, 0] - 0.02893726), 0.00000001);
         }
         // Reflection R(rho,omega)
         [Test]
