@@ -11,10 +11,10 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Implements ITissueInput.  Defines input to MultiLayerTissue class.
     /// </summary>
-    [KnownType(typeof(LayerRegion))]
+    [KnownType(typeof(LayerRegion[]))]
     [KnownType(typeof(OpticalProperties))]
     [KnownType(typeof(List<OpticalProperties>))]
-    [KnownType(typeof(List<LayerRegion>))]
+    //[KnownType(typeof(List<LayerRegion>))]
     [KnownType(typeof(ITissueRegion[]))]
     public class MultiLayerTissueInput : ITissueInput
     {

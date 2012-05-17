@@ -46,7 +46,11 @@ namespace Vts.MonteCarlo
 	           // Tissue inputs
     [KnownType(typeof(MultiLayerTissueInput))]
     [KnownType(typeof(SingleEllipsoidTissueInput))]
-    
+	[KnownType(typeof(MultiEllipsoidTissueInput))]
+    [KnownType(typeof(ITissueRegion[]))]
+	[KnownType(typeof(EllipsoidRegion[]))]
+	[KnownType(typeof(LayerRegion[]))]
+	
     // Detector inputs
     [KnownType(typeof(RDiffuseDetectorInput))]
     [KnownType(typeof(ROfAngleDetectorInput))]

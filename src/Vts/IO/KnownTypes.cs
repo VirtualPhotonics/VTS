@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.IO
@@ -74,6 +75,14 @@ namespace Vts.IO
 					typeof (IsotropicVolumetricEllipsoidalSourceInput),
 					typeof (CustomVolumetricCuboidalSourceInput),
 					typeof (IsotropicVolumetricCuboidalSourceInput),
+				
+					// tissue types
+					typeof (MultiLayerTissueInput),
+					typeof (MultiEllipsoidTissueInput),
+					typeof (SingleEllipsoidTissueInput),
+					typeof (ITissueRegion[]),
+					typeof (LayerRegion[]),
+					typeof (EllipsoidRegion[]),
 				
                 };
 
