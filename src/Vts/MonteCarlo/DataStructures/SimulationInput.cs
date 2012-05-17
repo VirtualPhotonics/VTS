@@ -48,8 +48,8 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(SingleEllipsoidTissueInput))]
 	[KnownType(typeof(MultiEllipsoidTissueInput))]
     [KnownType(typeof(ITissueRegion[]))]
-	[KnownType(typeof(EllipsoidRegion[]))]
-	[KnownType(typeof(LayerRegion[]))]
+	//[KnownType(typeof(EllipsoidRegion[]))]  // tried adding these in but soln won't build in VS
+	//[KnownType(typeof(LayerRegion[]))]
 	
     // Detector inputs
     [KnownType(typeof(RDiffuseDetectorInput))]
