@@ -81,8 +81,8 @@ namespace Vts.IO
 					typeof (MultiEllipsoidTissueInput),
 					typeof (SingleEllipsoidTissueInput),
 					typeof (ITissueRegion[]),
-					//typeof (LayerRegion[]), // tried adding these in but soln doesn't build in VS
-					//typeof (EllipsoidRegion[]),
+					typeof (LayerRegion[]), 
+					typeof (EllipsoidRegion[]),
 				
                 };
 
