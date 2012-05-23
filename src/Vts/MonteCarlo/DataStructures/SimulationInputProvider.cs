@@ -141,7 +141,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -189,7 +189,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -240,7 +240,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -288,7 +288,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -343,7 +343,7 @@ namespace Vts.MonteCarlo
                         0.5,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4)
                     ),
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -390,7 +390,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -441,7 +441,7 @@ namespace Vts.MonteCarlo
                     new PolarAzimuthalAngles(0,0), // no beam rotation         
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -486,7 +486,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -539,7 +539,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
