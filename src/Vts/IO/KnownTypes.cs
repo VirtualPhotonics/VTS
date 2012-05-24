@@ -80,10 +80,8 @@ namespace Vts.IO
 					typeof (MultiLayerTissueInput),
 					typeof (MultiEllipsoidTissueInput),
 					typeof (SingleEllipsoidTissueInput),
-					typeof (ITissueRegion[]),
-					typeof (LayerRegion[]), 
-					typeof (EllipsoidRegion[]),
-				
+					typeof (LayerRegion), 
+					typeof (EllipsoidRegion),				
                 };
 
             _types = knownTypesArray.ToDictionary(type => type.ToString());

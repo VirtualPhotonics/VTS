@@ -210,8 +210,14 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInputTests.cs">
+      <Link>MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInputTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInputTests.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInputTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInputTests.cs">
+      <Link>MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInputTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs</Link>
