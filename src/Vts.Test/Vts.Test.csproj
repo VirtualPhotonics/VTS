@@ -252,6 +252,7 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInputTests.cs" />
     <Compile Include="MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
