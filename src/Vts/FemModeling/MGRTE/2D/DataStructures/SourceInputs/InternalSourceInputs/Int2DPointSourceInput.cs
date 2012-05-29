@@ -28,7 +28,7 @@ namespace Vts.FemModeling.MGRTE._2D.SourceInputs
         /// </summary>
         public Int2DPointSourceInput()
             : this(
-             new DoubleRange(0, 0.5),
+             new DoubleRange(0, 5.0),
              new DoubleRange(0, 2 * Math.PI)) { }
                 
         /// <summary>

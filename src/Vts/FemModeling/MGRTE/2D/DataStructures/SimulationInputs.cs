@@ -19,7 +19,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <summary>
         ///  Mesh simulation parameters
         /// </summary>
-        public MeshSimulationOptions SimulationParameterInput;
+        public MeshSimulationOptions SimulationOptionsInput;
         /// <summary>
         /// Specifying external source
         /// </summary>
@@ -37,20 +37,20 @@ namespace Vts.FemModeling.MGRTE._2D
         /// General constructor for simulation inputs 
         /// </summary>
         /// <param name="meshDataInput">Input data for spatial and angular mesh</param>
-        /// <param name="simulationParameterInput">Mesh simulation parameters</param> 
+        /// <param name="simulationOptionsInput">Mesh simulation options input</param> 
         /// <param name="extSourceInput">Specifying external source</param>
         /// <param name="intSourceInput">Specifying internal source</param>
         /// <param name="tissueInput">Specifying tissue definition</param>
         public SimulationInput(
             SquareMeshDataInput meshDataInput,
-            MeshSimulationOptions simulationParameterInput,
+            MeshSimulationOptions simulationOptionsInput,
             IExtFemSourceInput extSourceInput,
             IIntFemSourceInput intSourceInput,
             ITissueInput tissueInput
             )
         {
             MeshDataInput = meshDataInput;
-            SimulationParameterInput = simulationParameterInput;
+            SimulationOptionsInput = simulationOptionsInput;
             ExtSourceInput = extSourceInput;
             IntSourceInput = intSourceInput;
             TissueInput = tissueInput;

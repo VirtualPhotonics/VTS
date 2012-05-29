@@ -1171,21 +1171,21 @@ namespace Vts.FemModeling.MGRTE._2D
 
         // Purpose: this function is improved source-iteration (ISI) with vacuum or reflection boundary condition.
         {
-            int i, j, k, m, ii, jj, ns, nt, tri, bi, aMeshLevel, edge = 0;
+            int i, j, k, m, ii, jj, tri, bi, edge = -1;
             double[,] left = new double[3, 3];
             double[] right = new double[3];
             double[] temp = new double[3];
             double tempd;
-            double dettri, cosi, sini, a, b, c, source_corr;
+            double dettri, cosi, sini, a, b, c, sourceCorr;
             double[,] bv = new double[3, 3] { { 1.0 / 3, 1.0 / 6, 1.0 / 6 }, { 1.0 / 6, 1.0 / 3, 1.0 / 6 }, { 1.0 / 6, 1.0 / 6, 1.0 / 3 } };
             double[,] matrix1 = new double[3, 3];
             double[,] matrix2 = new double[3, 3];
 
             int[,] index = new int[3, 2];
 
-            ns = amesh.Ns;
-            aMeshLevel = Ns / ns;
-            nt = smesh.Nt;
+            int ns = amesh.Ns;
+            int aMeshLevel = Ns / ns;
+            int nt = smesh.Nt;
 
             index[0, 0] = 1; index[0, 1] = 2;
             index[1, 0] = 2; index[1, 1] = 0;
@@ -1234,8 +1234,8 @@ namespace Vts.FemModeling.MGRTE._2D
                             temp[ii] += -amesh.W[i][i] * flux[i][tri][ii];
                         }
 
-                        source_corr = smesh.A[tri] / 12;
-                        SourceAssign(us[tri], temp, right, RHS[i][tri], dettri, source_corr);
+                        sourceCorr = smesh.A[tri] / 12;
+                        SourceAssign(us[tri], temp, right, RHS[i][tri], dettri, sourceCorr);
 
 
                         // add edge contributions to left, or add upwind fluxes to right from boundary source or the adjacent triangle
@@ -1334,8 +1334,8 @@ namespace Vts.FemModeling.MGRTE._2D
                             temp[ii] += -amesh.W[i][i] * flux[i][tri][ii];
                         }
 
-                        source_corr = smesh.A[tri] / 12;
-                        SourceAssign(us[tri], temp, right, RHS[i][tri], dettri, source_corr);
+                        sourceCorr = smesh.A[tri] / 12;
+                        SourceAssign(us[tri], temp, right, RHS[i][tri], dettri, sourceCorr);
 
 
                         for (k = 0; k < 3; k++)

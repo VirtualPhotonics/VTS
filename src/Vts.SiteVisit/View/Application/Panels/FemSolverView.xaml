@@ -41,7 +41,7 @@
         		<TextBox Text="{Binding AMeshLevel, Mode=TwoWay}" Width="34" Height="22"/>
         	</StackPanel>
         	
-        	<TextBlock Text="Simulation Options" FontWeight="Bold"/>
+        	<TextBlock Text="Simulation Options (for Advanced users)" FontWeight="Bold"/>
         	<StackPanel Orientation="Horizontal">
         		<TextBlock Text="Multi-grid Type: "/>
                 <TextBox Text="{Binding MethodMg, Mode=TwoWay}" Width="24" Height="22" RenderTransformOrigin="0.471,0.5"/>
