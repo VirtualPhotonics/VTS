@@ -316,7 +316,7 @@ namespace Vts.FemModeling.MGRTE._2D
                         {
                             temp[ii] = 0;
                             for (k = 0; k < amesh.Ns; k++)
-                            { temp[ii] += amesh.W[i][k] * flux[k][j][ii]; }
+                            { temp[ii] += amesh.W[i][k][smesh.Region[smesh.T[j][ii]]] * flux[k][j][ii]; }
                         }
 
                         source_corr = smesh.A[j] / 12;
@@ -417,7 +417,7 @@ namespace Vts.FemModeling.MGRTE._2D
                         {
                             temp[ii] = 0;
                             for (k = 0; k < amesh.Ns; k++)
-                            { temp[ii] += amesh.W[i][k] * flux[k][j][ii]; }
+                            { temp[ii] += amesh.W[i][k][smesh.Region[smesh.T[j][ii]]] * flux[k][j][ii]; }
                         }
 
                         source_corr = smesh.A[j] / 12;
@@ -1211,9 +1211,9 @@ namespace Vts.FemModeling.MGRTE._2D
                         MatrixConvec(a, b, matrix1);
 
                         // matrix2: absorption term
-                        a = ua[tri][0] + (1 - amesh.W[i][i]) * us[tri][0];
-                        b = ua[tri][1] + (1 - amesh.W[i][i]) * us[tri][1];
-                        c = ua[tri][2] + (1 - amesh.W[i][i]) * us[tri][2];
+                        a = ua[tri][0] + (1 - amesh.W[i][i][smesh.Region[smesh.T[j][0]]]) * us[tri][0];
+                        b = ua[tri][1] + (1 - amesh.W[i][i][smesh.Region[smesh.T[j][1]]]) * us[tri][1];
+                        c = ua[tri][2] + (1 - amesh.W[i][i][smesh.Region[smesh.T[j][2]]]) * us[tri][2];
                         MatrixAbsorb(a, b, c, dettri, matrix2);
 
                         // left[][]: convection+absorption
@@ -1229,9 +1229,9 @@ namespace Vts.FemModeling.MGRTE._2D
                             temp[ii] = 0;
                             for (k = 0; k < ns; k++)
                             {
-                                temp[ii] += amesh.W[i][k] * flux[k][tri][ii];
+                                temp[ii] += amesh.W[i][k][smesh.Region[smesh.T[j][ii]]] * flux[k][tri][ii];
                             }
-                            temp[ii] += -amesh.W[i][i] * flux[i][tri][ii];
+                            temp[ii] += -amesh.W[i][i][smesh.Region[smesh.T[j][ii]]] * flux[i][tri][ii];
                         }
 
                         sourceCorr = smesh.A[tri] / 12;
@@ -1313,9 +1313,9 @@ namespace Vts.FemModeling.MGRTE._2D
                         b = cosi * (smesh.P[smesh.T[tri][0]][1] - smesh.P[smesh.T[tri][1]][1]) + sini * (smesh.P[smesh.T[tri][1]][0] - smesh.P[smesh.T[tri][0]][0]);
                         MatrixConvec(a, b, matrix1);
 
-                        a = ua[tri][0] + (1 - amesh.W[i][i]) * us[tri][0];
-                        b = ua[tri][1] + (1 - amesh.W[i][i]) * us[tri][1];
-                        c = ua[tri][2] + (1 - amesh.W[i][i]) * us[tri][2];
+                        a = ua[tri][0] + (1 - amesh.W[i][i][smesh.Region[smesh.T[j][0]]]) * us[tri][0];
+                        b = ua[tri][1] + (1 - amesh.W[i][i][smesh.Region[smesh.T[j][1]]]) * us[tri][1];
+                        c = ua[tri][2] + (1 - amesh.W[i][i][smesh.Region[smesh.T[j][2]]]) * us[tri][2];
                         MatrixAbsorb(a, b, c, dettri, matrix2);
 
                         for (ii = 0; ii < 3; ii++)
@@ -1329,9 +1329,9 @@ namespace Vts.FemModeling.MGRTE._2D
                             temp[ii] = 0;
                             for (k = 0; k < ns; k++)
                             {
-                                temp[ii] += amesh.W[i][k] * flux[k][tri][ii];
+                                temp[ii] += amesh.W[i][k][smesh.Region[smesh.T[j][ii]]] * flux[k][tri][ii];
                             }
-                            temp[ii] += -amesh.W[i][i] * flux[i][tri][ii];
+                            temp[ii] += -amesh.W[i][i][smesh.Region[smesh.T[j][ii]]] * flux[i][tri][ii];
                         }
 
                         sourceCorr = smesh.A[tri] / 12;

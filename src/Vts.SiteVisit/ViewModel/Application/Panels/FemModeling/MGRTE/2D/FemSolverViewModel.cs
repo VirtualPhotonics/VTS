@@ -50,32 +50,7 @@ namespace Vts.SiteVisit.ViewModel
                 OnPropertyChanged("MeshInputVM");
             }
         }
-
-        ///// <summary>
-        ///// Update medium optical property view model
-        ///// </summary>
-        //public OpticalPropertyViewModel MediumOpticalPropertyVM
-        //{
-        //    get { return _MediumOpticalPropertyVM; }
-        //    set
-        //    {
-        //        _MediumOpticalPropertyVM = value;
-        //        OnPropertyChanged("MediumOpticalPropertyVM");
-        //    }
-        //}
         
-        ///// <summary>
-        ///// Update inclusion optical property view model
-        ///// </summary>
-        //public OpticalPropertyViewModel InclusionOpticalPropertyVM
-        //{
-        //    get { return _InclusionOpticalPropertyVM; }
-        //    set
-        //    {
-        //        _InclusionOpticalPropertyVM = value;
-        //        OnPropertyChanged("InclusionOpticalPropertyVM");
-        //    }
-        //}
        
         /// <summary>
         /// Execute FEM Sovler
@@ -102,8 +77,6 @@ namespace Vts.SiteVisit.ViewModel
                Measurement measurement = SolverMGRTE.ExecuteMGRTE(_MeshInputVM.CurrentInput);
                var meshData = new MapData(measurement.inten, measurement.xloc, measurement.zloc, measurement.dx, measurement.dz);
                 Commands.Mesh_PlotMap.Execute(meshData);
-                   
-                
             }
         }
     }
