@@ -810,14 +810,14 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
             }
 
-            if (A[ind[1], 1] == 0)
+            if (A[ind[1], 1] == 0.0)
             { temp2 = ind[1]; ind[1] = ind[2]; ind[2] = temp2; }
             temp = A[ind[1], 1];
             B[ind[1]] = B[ind[1]] / temp;
             for (j = 1; j < 3; j++)
             { A[ind[1], j] = A[ind[1], j] / temp; }
 
-            if (A[ind[2], 1] == 0)
+            if (A[ind[2], 1] == 0.0)
             { }
             else
             {

@@ -253,6 +253,7 @@ namespace Vts.FemModeling.MGRTE._2D
             int[] idxzminArray;
             int[] idxzmaxArray;
 
+            // Assign large number for min and small number for max
             xmin = 1e10; xmax = -1e10; zmin = 1e10; zmax = -1e10;
 
             np = smesh.Np;
@@ -535,9 +536,9 @@ namespace Vts.FemModeling.MGRTE._2D
         public static void CreateAnglularMesh(ref AngularMesh[] amesh, int aLevel, MultiEllipsoidTissueInput tissueInput)
         {
             int i, j, k, l;
-            int nLayers = tissueInput.LayerRegions.Length;
-            int nInclusions = tissueInput.EllipsoidRegions.Length;
-            int nRegions = nLayers + nInclusions - 2;
+            int nLayerRegions = tissueInput.LayerRegions.Length;
+            int nInclusionRegions = tissueInput.EllipsoidRegions.Length;
+            int nRegions = nLayerRegions + nInclusionRegions - 2;
 
 
             for (i = 0; i <= aLevel; i++)
@@ -555,12 +556,12 @@ namespace Vts.FemModeling.MGRTE._2D
 
                 for (j = 0; j < amesh[i].Ns; j++)
                 {
-                    for (l = 0; l < nLayers - 2; l++)
+                    for (l = 0; l < nLayerRegions - 2; l++)
                         Weight_2D(amesh[i].W, amesh[i].Ang, amesh[i].Ns, tissueInput.LayerRegions[l + 1].RegionOP.G, l);
 
-                    for (l = 0; l < nInclusions; l++)
+                    for (l = 0; l < nInclusionRegions; l++)
                         Weight_2D(amesh[i].W, amesh[i].Ang, amesh[i].Ns, tissueInput.EllipsoidRegions[l].RegionOP.G,
-                                  l + nLayers - 2);
+                                  l + nLayerRegions - 2);
                 }
             }
         }
@@ -616,17 +617,12 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <param name="input">simulation input</param>
         public static void SetMua(ref double[][][] ua, SpatialMesh[] smesh, SimulationInput input)
         {
-            int j, k;
+            int j, k, l;
             int nt = smesh[input.MeshDataInput.SMeshLevel].Nt;
-
             var tissueInput = ((MultiEllipsoidTissueInput) input.TissueInput);
             int nLayerRegions = tissueInput.LayerRegions.Length;
             int nInclusionRegions = tissueInput.EllipsoidRegions.Length;
-            double medMua = tissueInput.LayerRegions[1].RegionOP.Mua;
-            double inMua = tissueInput.EllipsoidRegions[0].RegionOP.Mua;
-
             int sMeshLevel = input.MeshDataInput.SMeshLevel;
-            double tempx, tempz, tempr;
 
             ua[sMeshLevel] = new double[nt][];
             for (j = 0; j < nt; j++)
@@ -634,13 +630,17 @@ namespace Vts.FemModeling.MGRTE._2D
                 ua[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
                 {
-                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - ((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Center.X;
-                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - ((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Center.Z;
-                    tempr = Math.Sqrt(tempx * tempx + tempz * tempz);
-                    if (((EllipsoidRegion)tissueInput.EllipsoidRegions[1]).Dx < tempr) // todo: correct for ellipsoid
-                        ua[sMeshLevel][j][k] = medMua;
-                    else
-                        ua[sMeshLevel][j][k] = inMua;
+                     for (l = 0; l < nLayerRegions - 2; l++)
+                     {
+                         if (smesh[sMeshLevel].Region[smesh[sMeshLevel].T[j][0]] == l) 
+                             ua[sMeshLevel][j][k] = tissueInput.LayerRegions[l+1].RegionOP.Mua;
+                     }
+
+                     for (l = 0; l < nInclusionRegions; l++)
+                     {
+                         if (smesh[sMeshLevel].Region[smesh[sMeshLevel].T[j][0]] == l + nLayerRegions - 2) 
+                             ua[sMeshLevel][j][k] = tissueInput.EllipsoidRegions[l].RegionOP.Mua;
+                     }
                 }
             }
         }
@@ -653,17 +653,12 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <param name="input">simulation input</param>
         public static void SetMus(ref double[][][] us, SpatialMesh[] smesh, SimulationInput input)
         {
-            int j, k;
+            int j, k, l;
             int nt = smesh[input.MeshDataInput.SMeshLevel].Nt;
-            
             var tissueInput = ((MultiEllipsoidTissueInput)input.TissueInput);
             int nLayerRegions = tissueInput.LayerRegions.Length;
             int nInclusionRegions = tissueInput.EllipsoidRegions.Length;
-            double medMus = tissueInput.LayerRegions[1].RegionOP.Mus;
-            double inMus = tissueInput.EllipsoidRegions[0].RegionOP.Mus;
-
             int sMeshLevel = input.MeshDataInput.SMeshLevel;
-            double tempx, tempz, tempr;
 
             us[sMeshLevel] = new double[nt][];
             for (j = 0; j < nt; j++)
@@ -671,14 +666,17 @@ namespace Vts.FemModeling.MGRTE._2D
                 us[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
                 {
-                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - ((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Center.X;
-                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - ((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Center.Z;
-                    tempr = Math.Sqrt(tempx * tempx + tempz * tempz);
-                    if (((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Dx < tempr) // todo: correct for ellipsoid
-                    //if (input.InclusionInput.Regions[1].Radius < tempr)
-                        us[sMeshLevel][j][k] = medMus;
-                    else
-                        us[sMeshLevel][j][k] = inMus;
+                    for (l = 0; l < nLayerRegions - 2; l++)
+                    {
+                        if (smesh[sMeshLevel].Region[smesh[sMeshLevel].T[j][0]] == l)
+                            us[sMeshLevel][j][k] = tissueInput.LayerRegions[l + 1].RegionOP.Mus;
+                    }
+
+                    for (l = 0; l < nInclusionRegions; l++)
+                    {
+                        if (smesh[sMeshLevel].Region[smesh[sMeshLevel].T[j][0]] == l + nLayerRegions - 2)
+                            us[sMeshLevel][j][k] = tissueInput.EllipsoidRegions[l].RegionOP.Mus;
+                    }
                 }
             }
         }
