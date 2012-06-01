@@ -165,6 +165,20 @@ namespace Vts.Test.Modeling.Spectroscopy
         }
 
         /// <summary>
+        /// validate loading spectral database and header from tab-delimited file, writing to XML and reading back in
+        /// </summary>
+        [Test]
+        public void validate_Loading_Spectral_Database_and_header_from_tsv_write_read_xml()
+        {
+            Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
+
+            var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
+            testDictionary.WriteToXML("dictionary4.xml");
+            testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile("dictionary4.xml");
+            Assert.IsNotNull(testDictionary);
+        }
+
+        /// <summary>
         /// validate loading spectral database and header from tab-delimited file with conversion
         /// </summary>
         [Test]
