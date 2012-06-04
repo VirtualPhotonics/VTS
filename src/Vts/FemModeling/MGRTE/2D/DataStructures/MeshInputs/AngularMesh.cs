@@ -16,6 +16,6 @@
         /// <summary>
         /// angular weights: w[ns][ns] 
         /// </summary>
-        public double[][] W;   
+        public double[][][] W;   
     }
 }

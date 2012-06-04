@@ -40,16 +40,16 @@ namespace Vts.MonteCarlo
                 new ITissueRegion[]
                 {
                     new EllipsoidRegion(
-                        new Position(0, 0, 1), 
-                        0.5, 
-                        0.5, 
-                        0.5,
-                        new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
+                        new Position(10, 0, 10), 
+                        5.0, 
+                        1.0, 
+                        5.0,
+                        new OpticalProperties(0.1, 1.0, 0.8, 1.4)),
                     new EllipsoidRegion(
-                        new Position(0, 0, 2), 
-                        0.5, 
-                        0.5, 
-                        0.5,
+                        new Position(0, 0, 40), 
+                        5.0, 
+                        0, 
+                        5.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4))
                 },
                 new ITissueRegion[] 
@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
                     new LayerRegion(
-                        new DoubleRange(0.0, 100.0),
+                        new DoubleRange(0.0, 50.0),
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                     new LayerRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),

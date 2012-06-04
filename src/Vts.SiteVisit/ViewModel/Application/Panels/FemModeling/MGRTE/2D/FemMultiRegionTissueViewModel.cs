@@ -20,6 +20,10 @@ namespace Vts.SiteVisit.ViewModel
         private int _currentTissueRegionIndex;
         private int _currentInclusionRegionIndex;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
         public FemMultiRegionTissueViewModel(ITissueInput input)
         {
             _input = input;
@@ -46,11 +50,17 @@ namespace Vts.SiteVisit.ViewModel
             _currentInclusionRegionIndex = 0;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public FemMultiRegionTissueViewModel() 
             : this(new MultiLayerTissueInput())
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ObservableCollection<object> TissueRegionsVM
         {
             get { return _tissueRegionsVM; }
@@ -61,6 +71,9 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ObservableCollection<object> InclusionRegionsVM
         {
             get { return _inclusionRegionsVM; }
@@ -71,6 +84,9 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int CurrentTissueRegionIndex
         {
             get { return _currentTissueRegionIndex; }
@@ -85,6 +101,10 @@ namespace Vts.SiteVisit.ViewModel
                 //}
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int CurrentInclusionRegionIndex
         {
             get { return _currentInclusionRegionIndex; }
@@ -100,13 +120,22 @@ namespace Vts.SiteVisit.ViewModel
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int MinimumTissueRegionIndex { get { return 0; } }
         public int MaximumTissueRegionIndex { get { return _tissueRegionsVM != null ? _tissueRegionsVM.Count - 1 : 0; } }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public int MinimumInclusionRegionIndex { get { return 0; } }
         public int MaximumInclusionRegionIndex { get { return _inclusionRegionsVM != null ? _inclusionRegionsVM.Count - 1 : 0; } }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ITissueInput GetTissueInput()
         {
             return _input;

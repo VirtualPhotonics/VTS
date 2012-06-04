@@ -16,8 +16,7 @@ namespace Vts.FemModeling.MGRTE._2D
     {
         private SimulationInput _simulationInput;
         private OptionViewModel<Vts.MonteCarlo.TissueType> _tissueTypeViewModel;
-        //private OpticalPropertyViewModel _mediumOpticalPropertyViewModel;
-        //private OpticalPropertyViewModel _inclusionOpticalPropertyViewModel;
+        
 
         private object _tissueInputVM;
 
@@ -45,24 +44,6 @@ namespace Vts.FemModeling.MGRTE._2D
             };
             
             UpdateTissueInputVM(_simulationInput.TissueInput);
-
-            //MediumOpticalPropertyVM = new OpticalPropertyViewModel(
-            //    opticalProperties: input.TissueInput.Regions[1].RegionOP,
-            //    units: IndependentVariableAxisUnits.InverseMM.GetInternationalizedString(),
-            //    title: "Medium Optical Properties:",
-            //    enableMua: true,
-            //    enableMusp: true,
-            //    enableG: true,
-            //    enableN: false);
-
-            //InclusionOpticalPropertyVM = new OpticalPropertyViewModel(
-            //    opticalProperties: input.InclusionInput.Regions[1].RegionOP,
-            //    units: IndependentVariableAxisUnits.InverseMM.GetInternationalizedString(),
-            //    title: "Inclusion Optical Properties:",
-            //    enableMua: true,
-            //    enableMusp: true,
-            //    enableG: true,
-            //    enableN: false);
         }
 
         /// <summary>
@@ -82,10 +63,10 @@ namespace Vts.FemModeling.MGRTE._2D
         /// </summary>
         public double ConvTolerance
         {
-            get { return _simulationInput.SimulationParameterInput.ConvTolerance; }
+            get { return _simulationInput.SimulationOptionsInput.ConvTolerance; }
             set
             {
-                _simulationInput.SimulationParameterInput.ConvTolerance = value;
+                _simulationInput.SimulationOptionsInput.ConvTolerance = value;
                 this.OnPropertyChanged("ConvTolerance");
             }
         }
@@ -95,16 +76,17 @@ namespace Vts.FemModeling.MGRTE._2D
         /// </summary>
         public int MethodMg
         {
-            get { return _simulationInput.SimulationParameterInput.MethodMg; }
+            get { return _simulationInput.SimulationOptionsInput.MethodMg; }
             set
             {
                 if ((value >= 4)  && (value <= 7))
                 {
-                    _simulationInput.SimulationParameterInput.MethodMg = value;
+                    _simulationInput.SimulationOptionsInput.MethodMg = value;
                     this.OnPropertyChanged("MethodMg");
                 }
                 else
                 {
+                    _simulationInput.SimulationOptionsInput.MethodMg = 6;  // default
                     this.OnPropertyChanged("MethodMg"); 
                 }
             }
@@ -115,10 +97,10 @@ namespace Vts.FemModeling.MGRTE._2D
         /// </summary>
         public int NIterations
         {
-            get { return _simulationInput.SimulationParameterInput.NIterations; }
+            get { return _simulationInput.SimulationOptionsInput.NIterations; }
             set
             {
-                _simulationInput.SimulationParameterInput.NIterations = value;
+                _simulationInput.SimulationOptionsInput.NIterations = value;
                 this.OnPropertyChanged("NIterations");
             }
         }
@@ -140,6 +122,7 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
                 else
                 {
+                    _simulationInput.MeshDataInput.AMeshLevel = 5;   // default
                     this.OnPropertyChanged("AMeshLevel");
                 }
             }
@@ -159,7 +142,8 @@ namespace Vts.FemModeling.MGRTE._2D
                     this.OnPropertyChanged("SMeshLevel");
                 }
                 else
-                {
+                { 
+                    _simulationInput.MeshDataInput.SMeshLevel = 3;   // default
                     this.OnPropertyChanged("SMeshLevel");
                 }
                 
@@ -167,34 +151,6 @@ namespace Vts.FemModeling.MGRTE._2D
         }
 
        
-
-        ///// <summary>
-        ///// Optical Property of medium
-        ///// </summary>
-        //public OpticalPropertyViewModel MediumOpticalPropertyVM
-        //{
-        //    get { return _mediumOpticalPropertyViewModel; }
-        //    set
-        //    {
-        //        _mediumOpticalPropertyViewModel = value;
-        //        OnPropertyChanged("MediumOpticalPropertyVM");
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Optical Property of inclusion
-        ///// </summary>
-        //public OpticalPropertyViewModel InclusionOpticalPropertyVM
-        //{
-        //    get { return _inclusionOpticalPropertyViewModel; }
-        //    set
-        //    {
-        //        _inclusionOpticalPropertyViewModel = value;
-        //        OnPropertyChanged("InclusionOpticalPropertyVM");
-        //    }
-        //}
-        
-
         /// <summary>
         /// 
         /// </summary>
@@ -208,6 +164,9 @@ namespace Vts.FemModeling.MGRTE._2D
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public object TissueInputVM
         {
             get { return _tissueInputVM; }
@@ -218,6 +177,10 @@ namespace Vts.FemModeling.MGRTE._2D
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tissueType"></param>
         private void UpdateTissueTypeVM(Vts.MonteCarlo.TissueType tissueType)
         {
             switch (tissueType)
@@ -233,6 +196,10 @@ namespace Vts.FemModeling.MGRTE._2D
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tissueInput"></param>
         private void UpdateTissueInputVM(ITissueInput tissueInput)
         {
             switch (tissueInput.TissueType)

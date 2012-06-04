@@ -7,6 +7,8 @@ using Vts.FemModeling.MGRTE._2D.DataStructures;
 using Vts.FemModeling.MGRTE._2D.SourceInputs;
 using Vts.Common;
 using Vts.Common.Logging;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
 
 
 namespace Vts.FemModeling.MGRTE._2D
@@ -23,37 +25,22 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <returns>measurements</returns>
         public static Measurement ExecuteMGRTE(SimulationInput input)
         {
-            
+
             int nMismatch;
             int i, j, k, m, n;
-            int nf = 0;
             int level;
-            double depth;
             double res = 0, res0 = 1, rho = 1.0;
-            int ds = input.MeshDataInput.SMeshLevel - input.SimulationParameterInput.StartingSmeshLevel;
-            int da = input.MeshDataInput.AMeshLevel - input.SimulationParameterInput.StartingAmeshLevel;
+            int ds = input.MeshDataInput.SMeshLevel - input.SimulationOptionsInput.StartingSmeshLevel;
+            int da = input.MeshDataInput.AMeshLevel - input.SimulationOptionsInput.StartingAmeshLevel;
             
-           
-            // step 1: initialization
-
-            ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(SolverMGRTE));   
-
+            
             /* Read the initial time. */
             DateTime startTime1 = DateTime.Now;
-
-            if (Math.Abs(input.TissueInput.Regions[0].RegionOP.N - input.TissueInput.Regions[1].RegionOP.N) 
-                / input.TissueInput.Regions[0].RegionOP.N < 0.01) // refraction index mismatch at the boundary
-                nMismatch = 1; 
-            else
-                nMismatch = 0; 
-
-            //todo: Set the mesh length based on tissue thickness
-            depth = input.MeshDataInput.SideLength;
-                 
-
-            //  step 2: compute "level"
+            ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof (SolverMGRTE));
+            
+            //  step 1: compute "level"
             //  level: the indicator of mesh levels in multigrid  
-            switch (input.SimulationParameterInput.MethodMg)
+            switch (input.SimulationOptionsInput.MethodMg)
             {
                 case 1:
                     level = da;
@@ -80,6 +67,7 @@ namespace Vts.FemModeling.MGRTE._2D
                     level = -1;
                     break;
             }
+            
 
             //Create Dynamic arrays based on above values
             var amesh = new AngularMesh[input.MeshDataInput.AMeshLevel + 1];
@@ -89,25 +77,43 @@ namespace Vts.FemModeling.MGRTE._2D
             var noflevel = new int[level + 1][];
             var ua = new double[input.MeshDataInput.SMeshLevel + 1][][];
             var us = new double[input.MeshDataInput.SMeshLevel + 1][][];
-            var RHS = new double[level + 1][][][];
+            var rhs = new double[level + 1][][][];
             var d = new double[level + 1][][][];
             var flux = new double[level + 1][][][];
             var q = new double[level + 1][][][];
 
             var mgrid = new MultiGridCycle();
             var rteout = new OutputCalculation();
- 
-            //Avoid g value equal to 1
-            //if (input.TissueInput. >= 1.0)
-            //    input.TissueInput. = 1 - 1e-5;
 
-            //if (input.TissueInput. >= 1.0)
-            //    input.TissueInput. = 1 - 1e-5;
+            var tissueInput = (MultiEllipsoidTissueInput)input.TissueInput;
+            int incRegions = tissueInput.EllipsoidRegions.Length;
+            int tisRegions = tissueInput.LayerRegions.Length;
 
+            double depth = 0.0;
+            for (i = 1; i < tissueInput.LayerRegions.Length - 1; i++)
+                depth += ((LayerRegion)(tissueInput.LayerRegions[i])).ZRange.Stop - ((LayerRegion)(tissueInput.LayerRegions[i])).ZRange.Start;
+
+            input.MeshDataInput.SideLength = depth;
+            int totRegions = incRegions + tisRegions ;
+
+            //   MG-RTE does not converge when g = 1.0;
+            for (i = 0; i < totRegions; i++)
+                if (input.TissueInput.Regions[i].RegionOP.G >= 1.0)
+                    input.TissueInput.Regions[i].RegionOP.G = 1.0 - 1e-5;
+
+            // Check refractive index mismatch
+            if (Math.Abs(input.TissueInput.Regions[0].RegionOP.N - input.TissueInput.Regions[1].RegionOP.N)
+                / input.TissueInput.Regions[0].RegionOP.N < 0.01) // refraction index mismatch at the boundary
+                nMismatch = 1;
+            else
+                nMismatch = 0;
+            
             
             //Create spatial and angular mesh
-            MathFunctions.CreateAnglularMesh(ref amesh, input.MeshDataInput.AMeshLevel, input.TissueInput.Regions[1].RegionOP.G);      
             MathFunctions.CreateSquareMesh(ref smesh, input.MeshDataInput.SMeshLevel, depth);
+            MathFunctions.AssignRegions(ref smesh, input.MeshDataInput.SMeshLevel, tissueInput);
+            MathFunctions.CreateAnglularMesh(ref amesh, input.MeshDataInput.AMeshLevel, tissueInput);      
+            
 
             MathFunctions.SweepOrdering(ref smesh, amesh, input.MeshDataInput.SMeshLevel, input.MeshDataInput.AMeshLevel);
             MathFunctions.SetMus(ref us, smesh, input);
@@ -116,10 +122,10 @@ namespace Vts.FemModeling.MGRTE._2D
             // load optical property, angular mesh, and spatial mesh files
             Initialization.Initial(
                 ref amesh, ref smesh, ref flux, ref d, 
-                ref RHS, ref q, ref noflevel, ref b,
-                level, input.SimulationParameterInput.MethodMg,nMismatch,input.SimulationParameterInput.NExternal,
-                input.SimulationParameterInput.NExternal,input.MeshDataInput.AMeshLevel, input.SimulationParameterInput.StartingAmeshLevel,
-                input.MeshDataInput.SMeshLevel, input.SimulationParameterInput.StartingSmeshLevel, ua, us, mgrid);
+                ref rhs, ref q, ref noflevel, ref b,
+                level, input.SimulationOptionsInput.MethodMg,nMismatch,input.SimulationOptionsInput.NExternal,
+                input.SimulationOptionsInput.NExternal,input.MeshDataInput.AMeshLevel, input.SimulationOptionsInput.StartingAmeshLevel,
+                input.MeshDataInput.SMeshLevel, input.SimulationOptionsInput.StartingSmeshLevel, ua, us, mgrid);
             
             //Assign external source if available
             if (input.ExtSourceInput != null)
@@ -133,7 +139,7 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 //Assign an internal source
                 IIntSource intsource = FemSourceFactory.GetIntSource(input.IntSourceInput);
-                intsource.AssignMeshForIntSource(amesh, input.MeshDataInput.AMeshLevel, smesh, input.MeshDataInput.SMeshLevel, level, RHS);
+                intsource.AssignMeshForIntSource(amesh, input.MeshDataInput.AMeshLevel, smesh, input.MeshDataInput.SMeshLevel, level, rhs);
             }
            
             /* Read the end time. */
@@ -149,7 +155,7 @@ namespace Vts.FemModeling.MGRTE._2D
             int ns = amesh[input.MeshDataInput.AMeshLevel].Ns;
             
 
-            if (input.SimulationParameterInput.FullMg == 1)
+            if (input.SimulationOptionsInput.FullMg == 1)
             {
                 int nt1, ns1;
                 int nt2 = smesh[noflevel[level][0]].Nt;
@@ -161,17 +167,17 @@ namespace Vts.FemModeling.MGRTE._2D
                     ns1 = amesh[noflevel[n][1]].Ns;
                     if (nt1 == nt2)
                     {
-                        mgrid.FtoC_a(nt1, ns1, RHS[n + 1], RHS[n]);
+                        mgrid.FtoC_a(nt1, ns1, rhs[n + 1], rhs[n]);
                     }
                     else
                     {
                         if (ns1 == ns2)
                         {
-                            mgrid.FtoC_s(nt1, ns1, RHS[n + 1], RHS[n], smesh[noflevel[n][0] + 1].Smap, smesh[noflevel[n][0] + 1].Fc);
+                            mgrid.FtoC_s(nt1, ns1, rhs[n + 1], rhs[n], smesh[noflevel[n][0] + 1].Smap, smesh[noflevel[n][0] + 1].Fc);
                         }
                         else
                         {
-                            mgrid.FtoC(nt1, ns1, RHS[n + 1], RHS[n], smesh[noflevel[n][0] + 1].Smap, smesh[noflevel[n][0] + 1].Fc);
+                            mgrid.FtoC(nt1, ns1, rhs[n + 1], rhs[n], smesh[noflevel[n][0] + 1].Smap, smesh[noflevel[n][0] + 1].Fc);
                         }
 
                     }
@@ -183,53 +189,53 @@ namespace Vts.FemModeling.MGRTE._2D
 
                 for (n = 0; n < level; n++)
                 {
-                    if (input.SimulationParameterInput.MethodMg == 6)
+                    if (input.SimulationOptionsInput.MethodMg == 6)
                     {
                         if (((level - n) % 2) == 0)
                         {
-                            for (i = 0; i < input.SimulationParameterInput.NCycle; i++)
+                            for (i = 0; i < input.SimulationOptionsInput.NCycle; i++)
                             {
-                                res = mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, input.SimulationParameterInput.NPreIterations, input.SimulationParameterInput.NPostIterations, 
-                                    noflevel[n][1], input.SimulationParameterInput.StartingAmeshLevel, noflevel[n][0], input.SimulationParameterInput.StartingSmeshLevel, ns, nMismatch, 6);
+                                res = mgrid.MgCycle(amesh, smesh, b, q, rhs, ua, us, flux, d, input.SimulationOptionsInput.NPreIterations, input.SimulationOptionsInput.NPostIterations, 
+                                    noflevel[n][1], input.SimulationOptionsInput.StartingAmeshLevel, noflevel[n][0], input.SimulationOptionsInput.StartingSmeshLevel, ns, nMismatch, 6);
                             }
                         }
                         else
                         {
-                            for (i = 0; i < input.SimulationParameterInput.NCycle; i++)
+                            for (i = 0; i < input.SimulationOptionsInput.NCycle; i++)
                             {
-                                mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, input.SimulationParameterInput.NPreIterations, input.SimulationParameterInput.NPostIterations, 
-                                    noflevel[n][1], input.SimulationParameterInput.StartingAmeshLevel, noflevel[n][0], input.SimulationParameterInput.StartingSmeshLevel, ns, nMismatch, 7);
+                                mgrid.MgCycle(amesh, smesh, b, q, rhs, ua, us, flux, d, input.SimulationOptionsInput.NPreIterations, input.SimulationOptionsInput.NPostIterations, 
+                                    noflevel[n][1], input.SimulationOptionsInput.StartingAmeshLevel, noflevel[n][0], input.SimulationOptionsInput.StartingSmeshLevel, ns, nMismatch, 7);
                             }
                         }
                     }
                     else
                     {
-                        if (input.SimulationParameterInput.MethodMg== 7)
+                        if (input.SimulationOptionsInput.MethodMg== 7)
                         {
                             if (((level - n) % 2) == 0)
                             {
-                                for (i = 0; i < input.SimulationParameterInput.NCycle; i++)
+                                for (i = 0; i < input.SimulationOptionsInput.NCycle; i++)
                                 {
-                                    mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, input.SimulationParameterInput.NPreIterations, input.SimulationParameterInput.NPostIterations, 
-                                        noflevel[n][1], input.SimulationParameterInput.StartingAmeshLevel, noflevel[n][0], input.SimulationParameterInput.StartingSmeshLevel, ns, nMismatch, 7);
+                                    mgrid.MgCycle(amesh, smesh, b, q, rhs, ua, us, flux, d, input.SimulationOptionsInput.NPreIterations, input.SimulationOptionsInput.NPostIterations, 
+                                        noflevel[n][1], input.SimulationOptionsInput.StartingAmeshLevel, noflevel[n][0], input.SimulationOptionsInput.StartingSmeshLevel, ns, nMismatch, 7);
                                 }
                             }
                             else
                             {
-                                for (i = 0; i < input.SimulationParameterInput.NCycle; i++)
+                                for (i = 0; i < input.SimulationOptionsInput.NCycle; i++)
                                 {
-                                    mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, input.SimulationParameterInput.NPreIterations, input.SimulationParameterInput.NPostIterations, 
-                                        noflevel[n][1], input.SimulationParameterInput.StartingAmeshLevel, noflevel[n][0], input.SimulationParameterInput.StartingSmeshLevel, ns, nMismatch, 6);
+                                    mgrid.MgCycle(amesh, smesh, b, q, rhs, ua, us, flux, d, input.SimulationOptionsInput.NPreIterations, input.SimulationOptionsInput.NPostIterations, 
+                                        noflevel[n][1], input.SimulationOptionsInput.StartingAmeshLevel, noflevel[n][0], input.SimulationOptionsInput.StartingSmeshLevel, ns, nMismatch, 6);
                                 }
                             }
                         }
                         else
                         {
-                            for (i = 0; i < input.SimulationParameterInput.NCycle; i++)
+                            for (i = 0; i < input.SimulationOptionsInput.NCycle; i++)
                             {
-                                mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, input.SimulationParameterInput.NPreIterations, input.SimulationParameterInput.NPostIterations, 
-                                    noflevel[n][1], input.SimulationParameterInput.StartingAmeshLevel, noflevel[n][0], input.SimulationParameterInput.StartingSmeshLevel, ns, nMismatch, 
-                                    input.SimulationParameterInput.MethodMg);
+                                mgrid.MgCycle(amesh, smesh, b, q, rhs, ua, us, flux, d, input.SimulationOptionsInput.NPreIterations, input.SimulationOptionsInput.NPostIterations, 
+                                    noflevel[n][1], input.SimulationOptionsInput.StartingAmeshLevel, noflevel[n][0], input.SimulationOptionsInput.StartingSmeshLevel, ns, nMismatch, 
+                                    input.SimulationOptionsInput.MethodMg);
                             }
                         }
                     }
@@ -271,11 +277,11 @@ namespace Vts.FemModeling.MGRTE._2D
             // 2.2. multigrid solver on the finest mesh
             n = 0;           
 
-            while (n < input.SimulationParameterInput.NIterations)
+            while (n < input.SimulationOptionsInput.NIterations)
             {
                 n++;
-                res = mgrid.MgCycle(amesh, smesh, b, q, RHS, ua, us, flux, d, input.SimulationParameterInput.NPreIterations, input.SimulationParameterInput.NPostIterations, input.MeshDataInput.AMeshLevel, 
-                    input.SimulationParameterInput.StartingAmeshLevel, input.MeshDataInput.SMeshLevel, input.SimulationParameterInput.StartingSmeshLevel, ns, nMismatch, input.SimulationParameterInput.MethodMg);
+                res = mgrid.MgCycle(amesh, smesh, b, q, rhs, ua, us, flux, d, input.SimulationOptionsInput.NPreIterations, input.SimulationOptionsInput.NPostIterations, input.MeshDataInput.AMeshLevel, 
+                    input.SimulationOptionsInput.StartingAmeshLevel, input.MeshDataInput.SMeshLevel, input.SimulationOptionsInput.StartingSmeshLevel, ns, nMismatch, input.SimulationOptionsInput.MethodMg);
                 for (m = 0; m < level; m++)
                 {
                     for (i = 0; i < amesh[noflevel[m][1]].Ns; i++)
@@ -296,19 +302,18 @@ namespace Vts.FemModeling.MGRTE._2D
                     rho *= res / res0;
                     logger.Info(() => "Iteration: " + n + ", Current tolerance: " + res + "\n");  
 
-                    if (res < input.SimulationParameterInput.ConvTolerance)
+                    if (res < input.SimulationOptionsInput.ConvTolerance)
                     {
                         rho = Math.Pow(rho, 1.0 / (n - 1));
-                        nf = n;
-                        n = input.SimulationParameterInput.NIterations;
+                        n = input.SimulationOptionsInput.NIterations;
                     }
                 }
                 else
                 {
                     logger.Info(() => "Iteration: " + n + ", Current tolerance: " + res + "\n");
                     res0 = res;
-                    if (res < input.SimulationParameterInput.ConvTolerance)                    
-                        n = input.SimulationParameterInput.NIterations;                    
+                    if (res < input.SimulationOptionsInput.ConvTolerance)                    
+                        n = input.SimulationOptionsInput.NIterations;                    
                 }            
                             
             }

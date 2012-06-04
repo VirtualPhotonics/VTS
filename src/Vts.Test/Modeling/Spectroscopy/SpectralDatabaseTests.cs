@@ -4,14 +4,12 @@ using System.IO;
 using NUnit.Framework;
 using Vts.SpectralMapping;
 using Vts.IO;
-using System.Runtime.Serialization;
 
 namespace Vts.Test.Modeling.Spectroscopy
 {
     /// <summary>
     /// Tests for spectral database reading and writing
     /// </summary>
-    [KnownType(typeof(ChromophoreSpectrum))]
     [TestFixture]
     public class SpectralDatabaseTests
     {
@@ -83,9 +81,9 @@ namespace Vts.Test.Modeling.Spectroscopy
         /// validate loading the default spectral database
         /// </summary>
         [Test]
-        public void validate_loading_spectral_database()
+        public void validate_loading_spectral_database_from_xml_in_resources()
         {
-            var _testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
+            var _testDictionary = SpectralDatabase.GetDatabaseFromFile();
             Assert.IsNotNull(_testDictionary);
         }
 
@@ -95,7 +93,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         [Test]
         public void validate_serializing_spectral_database()
         {
-            var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
+            var testDictionary = CreateDictionary();
             testDictionary.WriteToXML("SpectralDictionary.xml");
             Assert.IsTrue(FileIO.FileExists("SpectralDictionary.xml"));
         }
@@ -106,7 +104,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         [Test]
         public void validate_deserializing_spectral_database()
         {
-            var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
+            var testDictionary = CreateDictionary();
             testDictionary.WriteToXML("dictionary.xml");
             var Dvalues = FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>("dictionary.xml");
             Assert.IsNotNull(Dvalues);
@@ -118,17 +116,17 @@ namespace Vts.Test.Modeling.Spectroscopy
         [Test]
         public void validate_serialized_data()
         {
-            var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
+            var testDictionary = CreateDictionary();
             testDictionary.WriteToXML("dictionary2.xml");
             var Dvalues = FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>("dictionary2.xml");
-            Assert.AreEqual(Dvalues["Hb"].Wavelengths[5], testDictionary["Hb"].Wavelengths[5]);
+            Assert.AreEqual(Dvalues["HbO2"].Wavelengths[2], testDictionary["HbO2"].Wavelengths[2]);
         }
 
         /// <summary>
         /// validate loading spectral data from tab-delimited file
         /// </summary>
         [Test]
-        public void validate_loading_spectral_database_from_tsv()
+        public void validate_loading_spectral_database_from_tsv_in_resources()
         {
             Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
 
@@ -155,27 +153,13 @@ namespace Vts.Test.Modeling.Spectroscopy
         /// validate loading spectral database and header from tab-delimited file with conversion
         /// </summary>
         [Test]
-        public void validate_Loading_Spectral_Database_and_header_from_tsv()
+        public void validate_Loading_Spectral_Database_and_header_from_tsv_in_resources()
         {
             Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
 
             var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
             testDictionary.WriteToXML("dictionary4.xml");
             Assert.IsTrue(FileIO.FileExists("dictionary4.xml"));
-        }
-
-        /// <summary>
-        /// validate loading spectral database and header from tab-delimited file, writing to XML and reading back in
-        /// </summary>
-        [Test]
-        public void validate_Loading_Spectral_Database_and_header_from_tsv_write_read_xml()
-        {
-            Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
-
-            var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
-            testDictionary.WriteToXML("dictionary4.xml");
-            testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile("dictionary4.xml");
-            Assert.IsNotNull(testDictionary);
         }
 
         /// <summary>
@@ -229,9 +213,9 @@ namespace Vts.Test.Modeling.Spectroscopy
         /// validate writing the tab-delimited text files
         /// </summary>
         [Test]
-        public void validate_write_text_files()
+        public void validate_write_text_files_from_xml_in_resources()
         {
-            var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
+            var testDictionary = SpectralDatabase.GetDatabaseFromFile();
             SpectralDatabase.WriteDatabaseToFiles(testDictionary);
             Assert.IsTrue(FileIO.FileExists("absorber-Fat.txt"));
             Assert.IsTrue(FileIO.FileExists("absorber-H2O.txt"));
@@ -239,6 +223,41 @@ namespace Vts.Test.Modeling.Spectroscopy
             Assert.IsTrue(FileIO.FileExists("absorber-HbO2.txt"));
             Assert.IsTrue(FileIO.FileExists("absorber-Melanin.txt"));
             Assert.IsTrue(FileIO.FileExists("absorber-Nigrosin.txt"));
+        }
+
+        private Dictionary<string, ChromophoreSpectrum> CreateDictionary()
+        {
+            string name = "Melanin";
+            AbsorptionCoefficientUnit muaUnit = AbsorptionCoefficientUnit.InverseMillimeters;
+            MolarUnit molarUnit = MolarUnit.MicroMolar;
+            ChromophoreCoefficientType coeffType = ChromophoreCoefficientType.FractionalAbsorptionCoefficient;
+
+            // populate list of wavelengths
+            List<double> wavelengths = new List<double>();
+            wavelengths.Add(0.0);
+            wavelengths.Add(1.0);
+            wavelengths.Add(2.0);
+
+            // populate list of values
+            List<double> values = new List<double>();
+            values.Add(0.1);
+            values.Add(1.1);
+            values.Add(2.1);
+
+            ChromophoreSpectrum chromophoreSpectrum = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit, WavelengthUnit.Nanometers);
+            
+            var testDictionary = new Dictionary<string, ChromophoreSpectrum>();
+            testDictionary.Add(chromophoreSpectrum.Name, chromophoreSpectrum);
+
+            name = "HbO2";
+            muaUnit = AbsorptionCoefficientUnit.InverseMillimeters;
+            molarUnit = MolarUnit.MicroMolar;
+            coeffType = ChromophoreCoefficientType.MolarAbsorptionCoefficient;
+
+            chromophoreSpectrum = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit, WavelengthUnit.Nanometers);
+            testDictionary.Add(chromophoreSpectrum.Name, chromophoreSpectrum);
+
+            return testDictionary;
         }
     }
 }

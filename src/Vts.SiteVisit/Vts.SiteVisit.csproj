@@ -189,7 +189,6 @@
     </Compile>
     <Compile Include="ViewModel\Application\Panels\FemModeling\MGRTE\2D\FemSimulationInputViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\FemModeling\MGRTE\2D\FemSolverViewModel.cs" />
-    <Compile Include="ViewModel\Application\Panels\FemModeling\MGRTE\2D\FemLayerRegionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\FemModeling\MGRTE\2D\FemMultiRegionTissueViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MeshViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\MultiRegionTissueViewModel.cs" />

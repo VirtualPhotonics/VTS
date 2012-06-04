@@ -195,6 +195,7 @@
     </Compile>
     <Compile Include="Common\Stopwatch.cs" />
     <Compile Include="FemModeling\MGRTE\2D\BoundaryCoupling.cs" />
+    <Compile Include="FemModeling\MGRTE\2D\DataStructures\IntPointSourceInput.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\AngularMesh.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationOptions.cs" />
     <Compile Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\SpatialMesh.cs" />
