@@ -6,6 +6,14 @@ namespace Vts.SpectralMapping
     /// <summary>
     /// A class representing the chromophore spectrum data
     /// </summary>
+    [KnownType(typeof (ChromophoreSpectrumDictionary))]
+    [CollectionDataContract(Name="ArrayOfChromophoreSpectrumKeyValue",
+        ItemName = "ChromophoreSpectrumKeyValue")]
+    public class ChromophoreSpectrumDictionary : Dictionary<string, ChromophoreSpectrum>
+    {
+
+    }
+
     [KnownType(typeof(ChromophoreSpectrum))]
     public class ChromophoreSpectrum : ISpectrum
     {
