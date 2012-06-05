@@ -43,6 +43,7 @@ obj/
 [Rr]esources/*
 [Tt]est[Rr]esult*
 [Bb]uild[Ll]og.*
+vts_libraries/
 *.[Pp]ublish.xml
 _ReSharper*\*
 glob:*.orig
