@@ -4,6 +4,7 @@ using System.IO;
 using NUnit.Framework;
 using Vts.SpectralMapping;
 using Vts.IO;
+using System.Runtime.Serialization;
 
 namespace Vts.Test.Modeling.Spectroscopy
 {
@@ -106,7 +107,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var testDictionary = CreateDictionary();
             testDictionary.WriteToXML("dictionary.xml");
-            var Dvalues = FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>("dictionary.xml");
+            var Dvalues = FileIO.ReadFromXML<ChromophoreSpectrumDictionary>("dictionary.xml");
             Assert.IsNotNull(Dvalues);
         }
 
@@ -118,7 +119,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var testDictionary = CreateDictionary();
             testDictionary.WriteToXML("dictionary2.xml");
-            var Dvalues = FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>("dictionary2.xml");
+            var Dvalues = FileIO.ReadFromXML<ChromophoreSpectrumDictionary>("dictionary2.xml");
             Assert.AreEqual(Dvalues["HbO2"].Wavelengths[2], testDictionary["HbO2"].Wavelengths[2]);
         }
 
@@ -225,7 +226,7 @@ namespace Vts.Test.Modeling.Spectroscopy
             Assert.IsTrue(FileIO.FileExists("absorber-Nigrosin.txt"));
         }
 
-        private Dictionary<string, ChromophoreSpectrum> CreateDictionary()
+        private ChromophoreSpectrumDictionary CreateDictionary()
         {
             string name = "Melanin";
             AbsorptionCoefficientUnit muaUnit = AbsorptionCoefficientUnit.InverseMillimeters;
@@ -246,7 +247,7 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             ChromophoreSpectrum chromophoreSpectrum = new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit, WavelengthUnit.Nanometers);
             
-            var testDictionary = new Dictionary<string, ChromophoreSpectrum>();
+            var testDictionary = new ChromophoreSpectrumDictionary();
             testDictionary.Add(chromophoreSpectrum.Name, chromophoreSpectrum);
 
             name = "HbO2";

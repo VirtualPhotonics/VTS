@@ -4,6 +4,20 @@ using System.Runtime.Serialization;
 namespace Vts.SpectralMapping
 {
     /// <summary>
+    /// A class representing a dictionary of the chromophore spectrum data
+    /// Added a collection data contract to define the node names and namespace 
+    /// when serializing and deserializing the class.
+    /// </summary>
+    [KnownType(typeof (ChromophoreSpectrumDictionary))]
+    [CollectionDataContract(Name="ArrayOfChromophoreSpectrumKeyValue",
+        ItemName = "ChromophoreSpectrumKeyValue",
+        Namespace = "Vts.SpectralMapping")]
+    public class ChromophoreSpectrumDictionary : Dictionary<string, ChromophoreSpectrum>
+    {
+
+    }
+
+    /// <summary>
     /// A class representing the chromophore spectrum data
     /// </summary>
     [KnownType(typeof(ChromophoreSpectrum))]
