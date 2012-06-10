@@ -18,8 +18,10 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         private double _zPlanePosition;
 
         /// <summary>
-        /// Creates an instance of a plane tranmission virtual boundary in direction given
+        /// Radiance virtual boundary
         /// </summary>
+        /// <param name="detectorController">IDetectorController</param>
+        /// <param name="name">string name</param>
         public RadianceVirtualBoundary(IDetectorController detectorController, string name)
         {
             _detectorController = detectorController;
@@ -51,17 +53,31 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         //    : this(null, null, null)
         //{
         //}
-
+        /// <summary>
+        /// VirtualBoundaryType
+        /// </summary>
         public VirtualBoundaryType VirtualBoundaryType { get; private set; }
+        /// <summary>
+        /// PhotonStateType
+        /// </summary>
         public PhotonStateType PhotonStateType { get; private set; }
+        /// <summary>
+        /// Name
+        /// </summary>
         public string Name { get; private set; }
+        /// <summary>
+        /// predicate of PhotonDataPoint providing whether photon will hit VB
+        /// </summary>
         public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
+        /// <summary>
+        /// IDetectorController
+        /// </summary>
         public IDetectorController DetectorController { get { return _detectorController; } }
 
         /// <summary>
         /// Finds the distance to the virtual boundary given direction of VB and photon
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="dp">photo data point</param>
         public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
             double distanceToBoundary = double.PositiveInfinity;

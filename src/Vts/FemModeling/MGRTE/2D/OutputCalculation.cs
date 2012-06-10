@@ -17,9 +17,9 @@ namespace Vts.FemModeling.MGRTE._2D
             int i, j, k;            
             int nxy;
             int[][] t;
-            int nt = smesh.nt, ns = amesh.ns, np = smesh.np;       
+            int nt = smesh.Nt, ns = amesh.Ns, np = smesh.Np;       
             double dtheta = 2 * Pi / ns;
-            t = smesh.t;
+            t = smesh.T;
 
             Measurement Det = new Measurement();
           

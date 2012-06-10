@@ -45,12 +45,12 @@
                         Text="Time-Domain"  Margin="2,2"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="1"
-                        DataContext="{Binding ROfRhoAndTOption}"
+                        DataContext="{Binding ROfRhoAndTimeOption}"
                         Tag="{Binding ID}" Content="{Binding DisplayName}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="OptionGroup" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="2"
-                        DataContext="{Binding ROfFxAndTOption}"
+                        DataContext="{Binding ROfFxAndTimeOption}"
                         Tag="{Binding ID}" Content="{Binding DisplayName}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="OptionGroup" Margin="2,3.5"/>
                     <!-- FREQUENCY-DOMAIN -->

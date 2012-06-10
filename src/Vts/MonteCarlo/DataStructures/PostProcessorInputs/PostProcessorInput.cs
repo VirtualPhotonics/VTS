@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Sources;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo
 {
@@ -30,14 +27,28 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(TOfAngleDetectorInput))]
     [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
     [KnownType(typeof(TOfRhoDetectorInput))]
-
+    
     public class PostProcessorInput
     {
+        /// <summary>
+        /// IList of IDetectorInput
+        /// </summary>
         public IList<IDetectorInput> DetectorInputs;
+        /// <summary>
+        /// boolean indicating whether to tally 2nd moment or not
+        /// </summary>
         public bool TallySecondMoment;
+        /// <summary>
+        /// string input folder
+        /// </summary>
         public string InputFolder;
-        public bool TrackStatistics;
+        /// <summary>
+        /// string identifying database SimulationInput filename
+        /// </summary>
         public string DatabaseSimulationInputFilename;
+        /// <summary>
+        /// string identifying output filename
+        /// </summary>
         public string OutputName;
 
         /// <summary>
@@ -45,21 +56,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="detectorInputs">list of detector inputs</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
-        /// <param name="trackStatistics">boolean indicating whether to tally statistics or not</param>
         /// <param name="inputFolder">input folder name, where database file(s), etc. reside</param>
         /// <param name="databaseSimulationInputFilename">filename of simulation input file that generated database to be post-processed</param>
         /// <param name="outputName"></param>
         public PostProcessorInput(
             IList<IDetectorInput> detectorInputs,
             bool tallySecondMoment,
-            bool trackStatistics,
             string inputFolder,
             string databaseSimulationInputFilename,
             string outputName)
         {
             DetectorInputs = detectorInputs;
             TallySecondMoment = tallySecondMoment;
-            TrackStatistics = trackStatistics;
             InputFolder = inputFolder;
             DatabaseSimulationInputFilename = databaseSimulationInputFilename;
             OutputName = outputName;
@@ -76,7 +84,6 @@ namespace Vts.MonteCarlo
                         new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
                     },
                 false, // tally second moment
-                false, // track statistics
                 "results",
                 "infile",
                 "ppresults"
@@ -85,8 +92,8 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method to read this class from xml file.
         /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
+        /// <param name="filename">string file name</param>
+        /// <returns>PostProcessorInput</returns>
         public static PostProcessorInput FromFile(string filename)
         {
             return FileIO.ReadFromXML<PostProcessorInput>(filename);
@@ -94,7 +101,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method to write this class to xml file.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename">string file name</param>
         public void ToFile(string filename)
         {
             FileIO.WriteToXML(this, filename);
@@ -104,7 +111,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="filename">filename to be read</param>
         /// <param name="project">project where file resides</param>
-        /// <returns></returns>
+        /// <returns>PostProcessorInput</returns>
         public static PostProcessorInput FromFileInResources(string filename, string project)
         {
             return FileIO.ReadFromXMLInResources<PostProcessorInput>(filename, project);

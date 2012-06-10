@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Vts.MonteCarlo.PhotonData;
@@ -22,7 +23,6 @@ namespace Vts.MonteCarlo.PostProcessing
         private PhotonDatabase _photonDatabase;
         private SimulationInput _databaseInput;
         private bool _ispMCPostProcessor;
-        private bool _trackStatistics;
 
         /// <summary>
         /// Creates an instance of PhotonDatabasePostProcessor for pMC database processing
@@ -30,21 +30,18 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <param name="virtualBoundaryType">virtual boundary type</param>
         /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
         /// <param name="tallySecondMoment">boolean indicating whether to tally 2nd moment or not</param>
-        /// <param name="trackStatistics">boolean indicating whether to track statistics or not</param>
         /// <param name="database">pMCDatabase</param>
         /// <param name="databaseInput">Database information needed for post-processing</param>
         public PhotonDatabasePostProcessor(
             VirtualBoundaryType virtualBoundaryType,
             IList<IDetectorInput> detectorInputs,
             bool tallySecondMoment,
-            bool trackStatistics,
             pMCDatabase database,
             SimulationInput databaseInput)
             : this(virtualBoundaryType, detectorInputs, tallySecondMoment, databaseInput)
         {
             _pMCDatabase = database;
             _ispMCPostProcessor = true;
-            _trackStatistics = trackStatistics;
         }
 
         /// <summary>
@@ -65,7 +62,6 @@ namespace Vts.MonteCarlo.PostProcessing
         {
             _photonDatabase = photonDatabase;
             _ispMCPostProcessor = false;
-            _trackStatistics = false;
         }
 
         /// <summary>
@@ -73,7 +69,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// </summary>
         /// <param name="virtualBoundaryType"></param>
         /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
-        /// <param name="database">PhotonTerminationDatabase</param>
+        /// <param name="tallySecondMoment">boolean indicating whether to tally 2nd moment or not</param>
         /// <param name="databaseInput">Database information needed for post-processing</param>
         private PhotonDatabasePostProcessor(
             VirtualBoundaryType virtualBoundaryType,
@@ -94,8 +90,6 @@ namespace Vts.MonteCarlo.PostProcessing
             _detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, tallySecondMoment);
 
             _detectorController = new DetectorController(_detectors);
-
-            _trackStatistics = false;
         }
 
         /// <summary>
@@ -103,13 +97,20 @@ namespace Vts.MonteCarlo.PostProcessing
         /// </summary>
         /// <param name="postProcessors"></param>
         /// <returns></returns>
-        public static Output[] RunAll(PhotonDatabasePostProcessor[] postProcessors)
+        public static SimulationOutput[] RunAll(PhotonDatabasePostProcessor[] postProcessors)
         {
-            var outputs = new Output[postProcessors.Length];
-
-            Parallel.For(0, postProcessors.Length, index =>
+            var outputs = new SimulationOutput[postProcessors.Length];
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            Parallel.ForEach(postProcessors, options, (sim, state, index) =>
             {
-                outputs[index] = postProcessors[index].Run();
+                try
+                {
+                    outputs[index] = postProcessors[index].Run();
+                }
+                catch
+                {
+                    Console.WriteLine("Problem occurred running simulation #{0}. Make sure all simulations have distinct 'OutputName' properties?", index);
+                }
             });
 
             return outputs;
@@ -119,7 +120,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// Executes the post-processor
         /// </summary>
         /// <returns></returns>
-        public Output Run()
+        public SimulationOutput Run()
         {
             if (_virtualBoundaryType.IsSurfaceVirtualBoundary())
             {
@@ -145,124 +146,9 @@ namespace Vts.MonteCarlo.PostProcessing
 
             _detectorController.NormalizeDetectors(_databaseInput.N);
 
-            var postProcessedOutput = new Output(_databaseInput, _detectors);
+            var postProcessedOutput = new SimulationOutput(_databaseInput, _detectors);
 
             return postProcessedOutput;
         }
-
-        #region Static methods for post-processing, granfathered in (todo: remove usage)
-
-        /// <summary>
-        /// GenerateOutput takes detector inputs, reads PhotonExitHistory, and generates 
-        /// Output.  This runs the conventional post-processing.
-        /// </summary>
-        /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
-        /// <param name="database">PhotonTerminationDatabase</param>
-        /// <param name="databaseInput">Database information needed for post-processing</param>
-        /// <returns></returns>
-        public static Output GenerateOutput(
-            VirtualBoundaryType virtualBoundaryType,
-            IList<IDetectorInput> detectorInputs,
-            bool tallySecondMoment,
-            PhotonDatabase database,
-            SimulationInput databaseInput)
-        {
-            var postProcessor = new PhotonDatabasePostProcessor(
-                virtualBoundaryType,
-                detectorInputs,
-                tallySecondMoment,
-                database,
-                databaseInput);
-
-            var output = postProcessor.Run();
-
-            return output;
-
-            //ITissue tissue = Factories.TissueFactory.GetTissue(
-            //    databaseInput.TissueInput,
-            //    databaseInput.Options.AbsorptionWeightingType,
-            //    databaseInput.Options.PhaseFunctionType,
-            //    databaseInput.Options.RussianRouletteWeightThreshold);
-
-            //var detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
-
-            //var detectorController = new DetectorController(detectors);
-
-            //// DetectorController tallies for post-processing
-            //if (virtualBoundaryType.IsSurfaceVirtualBoundary())
-            //{
-            //    var photon = new Photon();
-            //    foreach (var dp in database.DataPoints)
-            //    {
-            //        photon.DP = dp;
-            //        detectorController.Tally(photon); 
-            //    }
-            //}
-
-            //detectorController.NormalizeDetectors(databaseInput.N);
-
-            //var postProcessedOutput = new Output(databaseInput, detectors);
-
-            //return postProcessedOutput;
-        }
-
-        /// <summary>
-        /// pMC overload
-        /// GenerateOutput takes IDetectorInput (which designates tallies),
-        /// reads PhotonExitHistory, and generates Output.
-        /// </summary>
-        /// <param name="detectorInputs">List of IDetectorInputs designating binning</param>
-        /// <param name="database">PhotonTerminationDatabase</param>
-        /// <param name="databaseInput">Database information needed for post-processing</param>
-        /// <returns></returns>
-        public static Output GenerateOutput(
-            VirtualBoundaryType virtualBoundaryType,
-            IList<IDetectorInput> detectorInputs,
-            bool tallySecondMoment,
-            bool trackStatistics,
-            pMCDatabase database,
-            SimulationInput databaseInput)
-        {
-            var postProcessor = new PhotonDatabasePostProcessor(
-                virtualBoundaryType,
-                detectorInputs,
-                tallySecondMoment,
-                trackStatistics,
-                database,
-                databaseInput);
-
-            var output = postProcessor.Run();
-
-            return output;
-
-            //ITissue tissue = Factories.TissueFactory.GetTissue(
-            //    databaseInput.TissueInput, 
-            //    databaseInput.Options.AbsorptionWeightingType,
-            //    databaseInput.Options.PhaseFunctionType,
-            //    databaseInput.Options.RussianRouletteWeightThreshold);
-
-            //var detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, tallySecondMoment);
-
-            //var detectorController = new DetectorController(detectors);                
-
-            //if (virtualBoundaryType.IsSurfaceVirtualBoundary())
-            //{
-            //    var photon = new Photon();
-            //    foreach (var dp in database.DataPoints)
-            //    {
-            //        photon.DP = dp.PhotonDataPoint;
-            //        photon.History.SubRegionInfoList = dp.CollisionInfo;
-            //        detectorController.Tally(photon);
-            //    }
-            //}
-
-            //detectorController.NormalizeDetectors(databaseInput.N);
-
-            //var postProcessedOutput = new Output(databaseInput, detectors);
-
-            //return postProcessedOutput;
-        }
-
-        #endregion
     }
 }

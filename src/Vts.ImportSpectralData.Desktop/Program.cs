@@ -166,7 +166,7 @@ namespace Vts.ImportSpectralData.Desktop
             try
             {
                 bool firstFile = true;
-                Dictionary<string, ChromophoreSpectrum> testDictionary = new Dictionary<string, ChromophoreSpectrum>();
+                ChromophoreSpectrumDictionary testDictionary = new ChromophoreSpectrumDictionary();
                 // process the list of files found in the directory 
                 string[] fileEntries = Directory.GetFiles(sourceDir);
                 foreach (string fileName in fileEntries)

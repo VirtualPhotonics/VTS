@@ -78,9 +78,14 @@ namespace Vts.MonteCarlo.Detectors
         {
         }
 
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public double[,] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
 
@@ -105,6 +110,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Time { get; set; }
 
+        /// <summary>
+        /// Set the absorption to discrete or continuous
+        /// </summary>
+        /// <param name="awt">absorption weighting type</param>
         protected void SetAbsorbAction(AbsorptionWeightingType awt)
         {
             switch (awt)
@@ -206,6 +215,10 @@ namespace Vts.MonteCarlo.Detectors
             return weightFactor;
         }
 
+        /// <summary>
+        /// Method to normalize the tally to get Mean and Second Moment estimates
+        /// </summary>
+        /// <param name="numPhotons">Number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2 * Math.PI * Rho.Delta * Time.Delta;
@@ -224,6 +237,11 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// Method to determine if photon is within detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

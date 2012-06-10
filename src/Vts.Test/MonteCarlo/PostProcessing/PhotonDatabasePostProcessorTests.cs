@@ -69,12 +69,13 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var onTheFlyDAWOutput =  new MonteCarloSimulation(DAWinput).Run();
 
             var DAWdatabase = PhotonDatabase.FromFile("DiffuseReflectanceDatabase");
-            var postProcessedDAWOutput = PhotonDatabasePostProcessor.GenerateOutput(
+            var DAWpostProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.DiffuseReflectance,
                 _detectorInputs,
                 false, // tally second moment
                 DAWdatabase,
                 onTheFlyDAWOutput.Input);
+            var postProcessedDAWOutput = DAWpostProcessor.Run();
 
             ValidateROfRhoAndTime(onTheFlyDAWOutput, postProcessedDAWOutput);
 
@@ -83,12 +84,13 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var onTheFlyCAWOutput = new MonteCarloSimulation(CAWinput).Run();
 
             var CAWdatabase = PhotonDatabase.FromFile("DiffuseReflectanceDatabase");
-            var postProcessedCAWOutput = PhotonDatabasePostProcessor.GenerateOutput(
+            var CAWpostProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.DiffuseReflectance,
                 _detectorInputs,
                 false, // tally second moment
                 CAWdatabase,
                 onTheFlyCAWOutput.Input);
+            var postProcessedCAWOutput = CAWpostProcessor.Run();
 
             ValidateROfRhoAndTime(onTheFlyCAWOutput, postProcessedCAWOutput);
         }
@@ -147,7 +149,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         /// </summary>
         /// <param name="output1"></param>
         /// <param name="output2"></param>
-        private void ValidateROfRhoAndTime(Output output1, Output output2)
+        private void ValidateROfRhoAndTime(SimulationOutput output1, SimulationOutput output2)
         {
             var detector = (ROfRhoAndTimeDetectorInput)_detectorInputs.
                 Where(d => d.TallyType == TallyType.ROfRhoAndTime).First(); 

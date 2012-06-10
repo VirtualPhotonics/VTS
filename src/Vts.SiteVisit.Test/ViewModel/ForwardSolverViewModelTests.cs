@@ -20,7 +20,7 @@ namespace Vts.SiteVisit.Test.ViewModel
         public void Can_Execute_ROfRho() { TestCanExecuteForwardSolver(SolutionDomainType.ROfRho); }
         [Test]
         [Ignore]
-        public void Can_Execute_ROfRhoAndT() { TestCanExecuteForwardSolver(SolutionDomainType.ROfRhoAndT); }
+        public void Can_Execute_ROfRhoAndTime() { TestCanExecuteForwardSolver(SolutionDomainType.ROfRhoAndTime); }
         [Test]
         [Ignore]
         public void Can_Execute_ROfRhoAndFt() { TestCanExecuteForwardSolver(SolutionDomainType.ROfRhoAndFt); }
@@ -29,7 +29,7 @@ namespace Vts.SiteVisit.Test.ViewModel
         public void Can_Execute_ROfFx() { TestCanExecuteForwardSolver(SolutionDomainType.ROfFx); }
         [Test]
         [Ignore]
-        public void Can_Execute_ROfFxAndT() { TestCanExecuteForwardSolver(SolutionDomainType.ROfFxAndT); }
+        public void Can_Execute_ROfFxAndTime() { TestCanExecuteForwardSolver(SolutionDomainType.ROfFxAndTime); }
         [Test]
         [Ignore]
         public void Can_Execute_ROfFxAndFt() { TestCanExecuteForwardSolver(SolutionDomainType.ROfFxAndFt); }
@@ -68,7 +68,7 @@ namespace Vts.SiteVisit.Test.ViewModel
             _vm.SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue = independentVariableAxis;
             _vm.ForwardAnalysisTypeOptionVM.SelectedValue = forwardAnalysisType;
 
-            return _vm.ExecuteForwardSolver();
+            return _vm.ExecuteForwardSolver().First();
         }
     }
 }

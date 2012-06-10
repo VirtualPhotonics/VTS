@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,7 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vts.MonteCarlo.CommandLineApplication</RootNamespace>
     <AssemblyName>mc</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
     </SccProjectName>
@@ -25,7 +24,6 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <UpgradeBackupLocation />
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -74,6 +72,7 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -89,8 +88,17 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="NLog">
+      <HintPath>..\..\lib\NLog\NET40\NLog.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Vts\AssemblyFileVersion.cs">
+      <Link>AssemblyFileVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\AssemblyVersion.cs">
+      <Link>AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="MonteCarloSetup.cs" />
     <Compile Include="ParameterSweep.cs" />
     <Compile Include="Program.cs" />
@@ -108,12 +116,6 @@
     <Content Include="readme.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Vts.Desktop\Vts.Desktop.csproj">
-      <Project>{05B6020A-B646-4BBB-B9A0-B524F5F85023}</Project>
-      <Name>Vts.Desktop</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -148,15 +150,23 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">copy "$(SolutionDir)\..\lib\Vts.MonteCarlo.Unmanaged\Vts.MonteCarlo.Unmanaged.dll" "$(TargetDir)"</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(SolutionDir)\..\lib\Vts.MonteCarlo.Unmanaged\Vts.MonteCarlo.Unmanaged.dll" "$(TargetDir)"
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">copy "$(ProjectDir)..\..\lib\Vts.MonteCarlo.Unmanaged\Vts.MonteCarlo.Unmanaged.dll" "$(TargetDir)"
 
-IF NOT EXIST "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)"
-copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)" /y
+IF NOT EXIST "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)" mkdir "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)"
+copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)" /y
+
+IF NOT EXIST "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" mkdir "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries"
+copy "$(TargetDir)\*.exe" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
+copy "$(TargetDir)\*.dll" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
+copy "$(TargetDir)\*.config" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
 
 "$(TargetDir)mc.exe" geninfiles
 </PostBuildEvent>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vts.Desktop\Vts.Desktop.csproj">
+      <Project>{05B6020A-B646-4BBB-B9A0-B524F5F85023}</Project>
+      <Name>Vts.Desktop</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

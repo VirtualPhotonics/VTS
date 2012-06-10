@@ -4,8 +4,16 @@ using Vts.Common;
 
 namespace Vts.FemModeling.MGRTE._2D.SourceInputs
 {
+    /// <summary>
+    /// External point source
+    /// </summary>
     public class ExtPointSourceInput : IExtFemSourceInput
     {   
+        /// <summary>
+        /// General constructor for external point source
+        /// </summary>
+        /// <param name="launchPoint">Launch point (x,z)</param>
+        /// <param name="thetaRange">Theta Range</param>
         public ExtPointSourceInput(
             DoubleRange launchPoint,
             DoubleRange thetaRange)
@@ -15,6 +23,9 @@ namespace Vts.FemModeling.MGRTE._2D.SourceInputs
             ThetaRange = thetaRange;
         }
 
+        /// <summary>
+        /// Default constructor for external point source
+        /// </summary>
         public ExtPointSourceInput()
             : this(             
              new DoubleRange(0.0, 0.0),

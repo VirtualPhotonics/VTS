@@ -18,7 +18,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class SpecularLayerDetectorTests
     {
-        private Output _output;
+        private SimulationOutput _output;
         private double _specularReflectance;
 
         /// <summary>

@@ -282,7 +282,7 @@ namespace Vts.ReportForwardSolvers.Desktop
                 case SpatialDomainType.Real:
                     if (tD == TimeDomainType.TimeDomain)
                     {
-                        ReflectanceFunction = SolverFactory.GetForwardSolver(fST).ROfRhoAndT;
+                        ReflectanceFunction = SolverFactory.GetForwardSolver(fST).ROfRhoAndTime;
                     }
                     else if (tD == TimeDomainType.FrequencyDomain)
                     {
@@ -296,7 +296,7 @@ namespace Vts.ReportForwardSolvers.Desktop
                 case SpatialDomainType.SpatialFrequency:
                     if (tD == TimeDomainType.TimeDomain)
                     {
-                        ReflectanceFunction = SolverFactory.GetForwardSolver(fST).ROfFxAndT;
+                        ReflectanceFunction = SolverFactory.GetForwardSolver(fST).ROfFxAndTime;
                     }
                     else if (tD == TimeDomainType.FrequencyDomain)
                     {

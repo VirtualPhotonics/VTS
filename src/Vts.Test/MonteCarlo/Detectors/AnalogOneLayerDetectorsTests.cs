@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class AnalogOneLayerDetectorsTests
     {
-        private Output _output;
+        private SimulationOutput _output;
         private SimulationInput _input;
         private double _factor;
         private SimulationStatistics _simulationStatistics;
@@ -82,8 +82,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 1.0, 101)),
                     new ROfXAndYDetectorInput(
-                        new DoubleRange(-200.0, 200.0, 401), // x
-                        new DoubleRange(-200.0, 200.0, 401)), // y,
+                        new DoubleRange(-10.0, 10.0, 101), // x
+                        new DoubleRange(-10.0, 10.0, 101)), // y,
                     new ROfRhoAndOmegaDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.05, 1.0, 20)), //  new DoubleRange(0.0, 1.0, 21)) DJC - edited to reflect frequency sampling points (not bins)
@@ -172,19 +172,19 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_output.Td * _factor - 0.0194444444), 0.0000000001);
         }
-        // Transmittance T(rho)
+        // Transmittance Time(rho)
         [Test]
         public void validate_Analog_TOfRho()
         {
             Assert.Less(Math.Abs(_output.T_r[46] * _factor - 0.00332761231), 0.00000000001);
         }
-        // Transmittance T(angle)
+        // Transmittance Time(angle)
         [Test]
         public void validate_Analog_TOfAngle()
         {
             Assert.Less(Math.Abs(_output.T_a[0] * _factor - 0.00278619040), 0.00000000001);
         }
-        // Transmittance T(rho,angle)
+        // Transmittance Time(rho,angle)
         [Test]
         public void validate_Analog_TOfRhoAndAngle()
         {
@@ -233,7 +233,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_Analog_ROfXAndY()
         {
-            Assert.Less(Math.Abs(_output.R_xy[198, 201] * _factor - 0.0097222222), 0.0000000001);
+            Assert.Less(Math.Abs(_output.R_xy[0, 22] * _factor - 0.24305556), 0.00000001);
         }
         // sanity checks
         [Test]

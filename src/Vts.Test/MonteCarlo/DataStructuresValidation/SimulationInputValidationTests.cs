@@ -32,16 +32,17 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid);
         }
-        //[Test]
-        //public void validate_detector_input_not_implemented_is_invalid()
-        //{
-        //    // generate input with detector input not implemented yet
-        //    var input = new SimulationInput()
-        //    {
-        //        DetectorInputs = new List<IDetectorInput> {}
-        //    };
-        //    var result = SimulationInputValidation.ValidateInput(input);
-        //    Assert.IsFalse(result.IsValid);
-        //}
+        [Test]
+        public void validate_detector_input_not_implemented_is_invalid()
+        {
+            // generate input with detector input not implemented yet
+            var input = new SimulationInput()
+            {
+                Options = new SimulationOptions() { AbsorptionWeightingType = AbsorptionWeightingType.Continuous},
+                DetectorInputs = new List<IDetectorInput> { new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput()}
+            };
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid);
+        }
     }
 }

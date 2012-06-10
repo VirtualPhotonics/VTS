@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.IO
@@ -24,10 +24,10 @@ namespace Vts.IO
 					typeof (FluenceOfRhoAndZDetector),
 					typeof (FluenceOfRhoAndZAndTimeDetector),
                     typeof (FluenceOfXAndYAndZDetector),
-					typeof (MomentumTransferOfRhoAndZDetector),
 					typeof (pMCROfRhoDetector),
 					typeof (pMCROfRhoAndTimeDetector),
 					typeof (RadianceOfRhoAndZAndAngleDetector),
+                    typeof (RadianceOfXAndYAndZAndThetaAndPhiDetector),
                     typeof (RDiffuseDetector),
 					typeof (ROfAngleDetector),
 					typeof (ROfRhoDetector),
@@ -36,6 +36,8 @@ namespace Vts.IO
 					typeof (ROfRhoAndTimeDetector),
 					typeof (ROfFxDetector),
 					typeof (ROfFxAndTimeDetector),
+					typeof (ReflectedMTOfRhoAndSubregionHistDetector),
+					typeof (ReflectedTimeOfRhoAndSubregionHistDetector),
 					typeof (pMCROfFxDetector),
                     typeof (pMCROfFxAndTimeDetector),
 					typeof (ROfXAndYDetector),
@@ -47,17 +49,39 @@ namespace Vts.IO
                     
 					typeof (ROfFxDetectorInput),
 					typeof (ROfFxAndTimeDetectorInput),
-
-					typeof (DirectionalCircularSourceInput),
+				
+				    // in order of files in folder Vts.MonteCarlo.DataStructures.SourceInput				
+                    typeof (CustomLineSourceInput),
+                    typeof (DirectionalLineSourceInput),
+					typeof (IsotropicLineSourceInput),
+				
+                    typeof (CustomPointSourceInput),
 					typeof (DirectionalPointSourceInput),
                     typeof (IsotropicPointSourceInput),
-                    typeof (CustomPointSourceInput),
-                    typeof (CustomLineSourceInput),
-                    typeof (CustomCircularSourceInput),
-                    typeof (DirectionalLineSourceInput),
-                    typeof (FlatSourceProfile),
-                    typeof (GaussianSourceProfile),
-					// typeof (DirectionalPointSource), todo: add all sources...
+				
+					typeof (LambertianSurfaceEmittingCylindricalFiberSourceInput),
+					typeof (CustomSurfaceEmittingSphericalSourceInput),
+					typeof (LambertianSurfaceEmittingSphericalSourceInput),
+					typeof (LambertianSurfaceEmittingTubularSourceInput),
+				
+					typeof (CustomCircularSourceInput),
+					typeof (DirectionalCircularSourceInput),
+					typeof (CustomEllipticalSourceInput),
+					typeof (DirectionalEllipticalSourceInput),
+					typeof (CustomRectangularSourceInput),
+					typeof (DirectionalRectangularSourceInput),
+				
+					typeof (CustomVolumetricEllipsoidalSourceInput),
+					typeof (IsotropicVolumetricEllipsoidalSourceInput),
+					typeof (CustomVolumetricCuboidalSourceInput),
+					typeof (IsotropicVolumetricCuboidalSourceInput),
+				
+					// tissue types
+					typeof (MultiLayerTissueInput),
+					typeof (MultiEllipsoidTissueInput),
+					typeof (SingleEllipsoidTissueInput),
+					typeof (LayerRegion), 
+					typeof (EllipsoidRegion),				
                 };
 
             _types = knownTypesArray.ToDictionary(type => type.ToString());

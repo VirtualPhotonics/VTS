@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vts.Test</RootNamespace>
     <AssemblyName>Vts.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <SilverlightApplication>true</SilverlightApplication>
     <SupportedCultures>
     </SupportedCultures>
@@ -121,7 +121,10 @@
     <Reference Include="System.Interactive">
       <HintPath>..\..\lib\RxFramework\SL4\System.Interactive.dll</HintPath>
     </Reference>
-    <Reference Include="System.Numerics, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Numerics, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="System.Observable">
       <HintPath>..\..\lib\RxFramework\SL4\System.Observable.dll</HintPath>
     </Reference>
@@ -136,9 +139,9 @@
     <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />
-    <Reference Include="System.Xml.Linq, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Xml.Linq, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\tools\nunit\Silverlight\System.Xml.Linq.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Xml.Linq.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -200,9 +203,6 @@
     <Compile Include="Modeling\ForwardSolvers\NurbsGeneratorTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\pMCForwardSolverTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Modeling\ForwardSolvers\ValidateDiffusionReflectanceModelsTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -252,6 +252,9 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInputTests.cs" />
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInputTests.cs" />
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInputTests.cs" />
     <Compile Include="MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>

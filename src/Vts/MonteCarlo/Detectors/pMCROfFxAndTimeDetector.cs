@@ -11,20 +11,19 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[,]&gt;.  Tally for pMC estimation of reflectance 
-    /// as a function of Fx and Time.  Perturbations of just mua or mus alone are also
+    /// Implements IDetector&lt;Complex[,]&gt;. Tally for pMC estimation of reflectance 
+    /// as a function of Fx and Time. Perturbations of just mua or mus alone are also
     /// handled by this class.
     /// </summary>
     [KnownType(typeof(pMCROfFxAndTimeDetector))]
     public class pMCROfFxAndTimeDetector : IDetector<Complex[,]>
     {
-        private AbsorptionWeightingType _awt;
-        private IList<OpticalProperties> _referenceOps;
-        private IList<OpticalProperties> _perturbedOps;
-        private IList<int> _perturbedRegionsIndices;
-        private bool _tallySecondMoment;
-        private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
         private double[] _fxArray;
+        private OpticalProperties[] _perturbedOps;
+        private OpticalProperties[] _referenceOps;
+        private int[] _perturbedRegionsIndices;
+        private bool _tallySecondMoment;
+        private Func<long[], double[], OpticalProperties[], OpticalProperties[], int[], double> _absorbAction;
 
         /// <summary>
         /// Returns an instance of pMCROfFxAndTimeDetector. Tallies perturbed R(fx,time). Instantiate with reference optical properties. When
@@ -41,8 +40,8 @@ namespace Vts.MonteCarlo.Detectors
             DoubleRange fx,
             DoubleRange time,
             ITissue tissue,
-            IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionIndices,
+            OpticalProperties[] perturbedOps,
+            int[] perturbedRegionIndices,
             bool tallySecondMoment,
             String name)
         {
@@ -58,11 +57,10 @@ namespace Vts.MonteCarlo.Detectors
             }
             TallyType = TallyType.pMCROfFxAndTime;
             Name = name;
-            _awt = tissue.AbsorptionWeightingType;
-            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
+            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToArray();
             _perturbedOps = perturbedOps;
             _perturbedRegionsIndices = perturbedRegionIndices;
-            SetAbsorbAction(_awt);
+            _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
             TallyCount = 0;
         }
 
@@ -74,16 +72,22 @@ namespace Vts.MonteCarlo.Detectors
             new DoubleRange(),
             new DoubleRange(),
             new MultiLayerTissue(),
-            new List<OpticalProperties>(),
-            new List<int>(),
+            new OpticalProperties[0],
+            new int[0],
             true, // tallySecondMoment
             TallyType.pMCROfFxAndTime.ToString())
         {
         }
 
+        /// <summary>
+        /// mean of detector tally
+        /// </summary>
         [IgnoreDataMember]
         public Complex[,] Mean { get; set; }
 
+        /// <summary>
+        /// second moment of detector tally
+        /// </summary>
         [IgnoreDataMember]
         public Complex[,] SecondMoment { get; set; }
 
@@ -107,24 +111,9 @@ namespace Vts.MonteCarlo.Detectors
         /// time binning
         /// </summary>
         public DoubleRange Time { get; set; }
-
-        protected void SetAbsorbAction(AbsorptionWeightingType awt)
-        {
-            switch (awt)
-            {
-                // note: pMC is not applied to analog processing,
-                // only DAW and CAW
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                default:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-            }
-        }
+        
         /// <summary>
-        /// method to tally to detector
+        /// Method to tally to detector using information in Photon
         /// </summary>
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
@@ -133,6 +122,14 @@ namespace Vts.MonteCarlo.Detectors
 
             var x = dp.Position.X;
             var it = DetectorBinning.WhichBinExclusive(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
+            
+            double weightFactor = _absorbAction(
+                photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToArray(),
+                photon.History.SubRegionInfoList.Select(p => p.PathLength).ToArray(),
+                _perturbedOps,
+                _referenceOps,
+                _perturbedRegionsIndices);
+
             for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
             {
                 double freq = _fxArray[ifx];
@@ -142,11 +139,6 @@ namespace Vts.MonteCarlo.Detectors
 
                 /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-
-                double weightFactor = _absorbAction(
-                    photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
-                    photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
-                    _perturbedOps);
 
                 var deltaWeight = (weightFactor * dp.Weight) * (cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX);
 
@@ -212,6 +204,10 @@ namespace Vts.MonteCarlo.Detectors
             return weightFactor;
         }
 
+        /// <summary>
+        /// Method to normalize the tally to get Mean and Second Moment estimates
+        /// </summary>
+        /// <param name="numPhotons">Number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2 * Math.PI * Fx.Delta * Time.Delta;
@@ -230,6 +226,11 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// Method to determine if photon is within detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

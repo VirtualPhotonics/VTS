@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.IO;
@@ -76,7 +77,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 Directory.CreateDirectory(resultsFolder);
             }
 
-            Output postProcessedOutput = null;
+            SimulationOutput postProcessedOutput = null;
 
             var databaseGenerationInputFile = SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"));
             // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
@@ -86,21 +87,21 @@ namespace Vts.MonteCarlo.PostProcessor
             {
                 IList<IDetectorInput> pMCDetectorInputs;
                 pMCDetectorInputs = input.DetectorInputs;
-                //pMCDetectorInputs = input.DetectorInputs.Select(d => (IpMCDetectorInput)d).ToList();
-                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.pMCDiffuseReflectance,
-                    pMCDetectorInputs, 
+                    pMCDetectorInputs,
                     input.TallySecondMoment,
-                    input.TrackStatistics,
                     PhotonDatabaseFactory.GetpMCDatabase( // database filenames are assumed to be convention
                         VirtualBoundaryType.pMCDiffuseReflectance,
                         input.InputFolder),
                     databaseGenerationInputFile
-                );
+                    );
+                postProcessedOutput = postProcessor.Run();
             }
             else if (input.DetectorInputs.Where(di => di.TallyType.IsReflectanceTally()).Any())
             {
-                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+              
+                var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.DiffuseReflectance,
                     input.DetectorInputs, 
                     input.TallySecondMoment,
@@ -109,10 +110,11 @@ namespace Vts.MonteCarlo.PostProcessor
                         input.InputFolder),
                     databaseGenerationInputFile
                 );
+                postProcessedOutput = postProcessor.Run();
             }
             else if (input.DetectorInputs.Where(di => di.TallyType.IsTransmittanceTally()).Any())
             {
-                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.DiffuseTransmittance,
                     input.DetectorInputs,
                     input.TallySecondMoment,
@@ -121,10 +123,11 @@ namespace Vts.MonteCarlo.PostProcessor
                         input.InputFolder),
                     databaseGenerationInputFile
                 );
+                postProcessedOutput = postProcessor.Run();
             }
             else if (input.DetectorInputs.Where(di => di.TallyType.IsSpecularReflectanceTally()).Any())
             {
-                postProcessedOutput = PhotonDatabasePostProcessor.GenerateOutput(
+                var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.SpecularReflectance,
                     input.DetectorInputs,
                     input.TallySecondMoment,
@@ -133,7 +136,9 @@ namespace Vts.MonteCarlo.PostProcessor
                         input.InputFolder),
                     databaseGenerationInputFile
                 );
+                postProcessedOutput = postProcessor.Run();
             }
+
 
             var folderPath = input.OutputName;
             if (!Directory.Exists(folderPath))
@@ -153,6 +158,18 @@ namespace Vts.MonteCarlo.PostProcessor
                     DetectorIO.WriteDetectorToFile(result, folderPath);
                 }
             }
+        }
+
+        /// <summary>
+        /// Runs multiple Post-Processor tasks in parallel using all available CPU cores
+        /// </summary>
+        public static void RunPostProcessors(IEnumerable<PostProcessorInput> inputs, string outputFolderPath)
+        {
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            Parallel.ForEach(inputs, options, (input, state, index) =>
+            {
+                RunPostProcessor(input, outputFolderPath);
+            });
         }
     }
 }

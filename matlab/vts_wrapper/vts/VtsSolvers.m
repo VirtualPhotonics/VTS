@@ -76,7 +76,7 @@ classdef VtsSolvers
             %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
             %   FX is an 1 x M array of spatial frequencies (in 1/mm)
             %       eg. FX = linspace(0,0.5,11);
-            %   T is an 1 x O array of detector locations (in mm)
+            %   T is an 1 x O array of times (in ns)
             %       eg. T = [1:10];
 
             nop = size(op,1);
@@ -94,7 +94,7 @@ classdef VtsSolvers
                 op_net(i).N =    op(i,4);
             end;
 
-            r = reshape(double(fs.ROfFxAndT(op_net,fx,t)),[length(t) length(fx) nop]);
+            r = reshape(double(fs.ROfFxAndTime(op_net,fx,t)),[length(t) length(fx) nop]);
         end
         %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
         function r = ROfRhoAndT(op, rho, t)
@@ -106,7 +106,7 @@ classdef VtsSolvers
             %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
             %   RHO is an 1 x M array of detector locations (in mm)
             %       eg. RHO = [1:10];
-            %   T is an 1 x O array of detector locations (in mm)
+            %   T is an 1 x O array of times (in ns)
             %       eg. T = [1:10];
             
             nop = size(op,1);
@@ -120,7 +120,7 @@ classdef VtsSolvers
                 op_net(i) = Vts.OpticalProperties(op(i,1), op(i,2), op(i,3), op(i,4)); % call the constructor with the 4 values
             end;
 
-            r = reshape(double(fs.ROfRhoAndT(op_net,rho,t)),[length(t) length(rho) nop]);
+            r = reshape(double(fs.ROfRhoAndTime(op_net,rho,t)),[length(t) length(rho) nop]);
         end
         %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
         function r = ROfRhoAndFt(op, rho, ft)
@@ -209,14 +209,16 @@ classdef VtsSolvers
         r = complex(rReal, rImag);
         end
         %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
-        function r = FluenceOfRho(op, rhos, zs)
+        function r = FluenceOfRhoAndZ(op, rhos, zs)
             % FluenceOfRho
             %   FluenceOfRho(OP, RHOS, ZS) 
             %   
             %   OP is an N x 4 matrix of optical properties
             %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
-            %   RHO is an 1 x M array of spatial frequencies (in 1/mm)
-            %       eg. FX = [0.1 1.2 0.8 1.4];
+            %   RHO is an 1 x M array of detector locations (in mm)
+            %       eg. RHO = [1:10];
+            %   Z is a 1 x M array of z values (in mm)
+            %       eg. Z = linspace(0.1,19.9,100);
             
             nop = size(op,1);
 
@@ -236,19 +238,20 @@ classdef VtsSolvers
                 op_net(i).N =    op(i,4);
             end;
 
-            r = reshape(double(fs.FluenceOfRho(op_net,rhos,zs)),[length(zs) length(rhos) nop]);
+            r = reshape(double(fs.FluenceOfRhoAndZ(op_net,rhos,zs)),[length(zs) length(rhos) nop]);
         end
         %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
         function r = PHDOfRhoAndZ(op, rhos, zs, sd)
             % PHDOfRhoAndZ
-            %   PHDOfRhoAndZ(OP, RHOS, ZS)
+            %   PHDOfRhoAndZ(OP, RHOS, ZS, SD)
             %
             %   OP is an N x 4 matrix of optical properties
             %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
-            %   RHO is a 1 x M array of spatial frequencies (in 1/mm)
-            %       eg. FX = [0.1 1.2 0.8 1.4];
+            %   RHO is an 1 x M array of detector locations (in mm)
+            %       eg. RHO = [1:10];
             %   Z is a 1 x M array of z values (in mm)
             %       eg. Z = linspace(0.1,19.9,100);
+            %   SD is the source-detector separation in
 
             nop = size(op,1);
 
@@ -268,7 +271,7 @@ classdef VtsSolvers
                 op_net(i).N =    op(i,4);
             end;
 
-            fluence = double(fs.FluenceOfRho(op_net,rhos,zs));
+            fluence = double(fs.FluenceOfRhoAndZ(op_net,rhos,zs));
             %phd = Vts.Factories.ComputationFactory.GetPHD(fs, fluence, sd, op_net, rhos, zs);
             phd = Vts.Factories.ComputationFactory.GetPHD(fs, NET.convertArray(fluence,'System.Double'),...
                sd, op_net, NET.convertArray(rhos,'System.Double'), NET.convertArray(zs,'System.Double'));
@@ -283,8 +286,8 @@ classdef VtsSolvers
             %
             %   OP is an 1 x 4 matrix of optical properties
             %       eg. OP = [mua1, mus'1, g1, n1];
-            %   RHO is a 1 x M array of spatial frequencies (in 1/mm)
-            %       eg. FX = [0.1 1.2 0.8 1.4];
+            %   RHO is an 1 x M array of detector locations (in mm)
+            %       eg. RHO = [1:10];
             %   Z is a 1 x M array of z values (in mm)
             %       eg. Z = linspace(0.1,19.9,100);
 
@@ -306,7 +309,7 @@ classdef VtsSolvers
                 op_net(i).N =    op(i,4);
             end;
 
-            fluence = double(fs.FluenceOfRho(op_net,rhos,zs));
+            fluence = double(fs.FluenceOfRhoAndZ(op_net,rhos,zs));
             ae = Vts.Factories.ComputationFactory.GetAbsorbedEnergy(NET.convertArray(fluence,'System.Double'),...
                op_net(1).Mua);
 

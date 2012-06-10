@@ -62,7 +62,7 @@ namespace Vts.IO
                 dims[0] = array.Length;
                 subDims.CopyTo(dims, 1);
             }
-            else //if (myArray is T[] || myArray is T[,] || myArray is T[, ,] || myArray is T[, ,] || myArray is T[, , ,])
+            else //if (myArray is Time[] || myArray is Time[,] || myArray is Time[, ,] || myArray is Time[, ,] || myArray is Time[, , ,])
             {
                 dims = new int[myArray.Rank];
                 for (int i = 0; i < dims.Length; i++)
@@ -100,7 +100,7 @@ namespace Vts.IO
         //        dims[0] = array.Length;
         //        subDims.CopyTo(dims, 1);
         //    }
-        //    else if (myArray is T[] || myArray is T[,] || myArray is T[, ,] || myArray is T[, ,] || myArray is T[, , ,])
+        //    else if (myArray is Time[] || myArray is Time[,] || myArray is Time[, ,] || myArray is Time[, ,] || myArray is Time[, , ,])
         //    {
         //        dims = new int[myArray.Rank];
         //        for (int i = 0; i < dims.Length; i++)
@@ -115,7 +115,7 @@ namespace Vts.IO
         ///// Overload of the constructor to handle creation of Metadata for 3D jagged arrays
         ///// </summary>
         ///// <param name="input"></param>
-        //public MetaData(T[] input)
+        //public MetaData(Time[] input)
         //{
         //    ObjectType = input.GetType().ToString();
         //    dims = new int[1] { input.Length };
@@ -124,7 +124,7 @@ namespace Vts.IO
         ///// Overload of the constructor to handle creation of Metadata for 3D jagged arrays
         ///// </summary>
         ///// <param name="input"></param>
-        //public MetaData(T[,] input)
+        //public MetaData(Time[,] input)
         //{
         //    ObjectType = input.GetType().ToString();
         //    dims = new int[2] { input.GetLength(0), 
@@ -134,7 +134,7 @@ namespace Vts.IO
         ///// Overload of the constructor to handle creation of Metadata for 3D jagged arrays
         ///// </summary>
         ///// <param name="input"></param>
-        //public MetaData(T[, ,] input)
+        //public MetaData(Time[, ,] input)
         //{
         //    ObjectType = input.GetType().ToString();
         //    dims = new int[3] { input.GetLength(0), 
@@ -145,7 +145,7 @@ namespace Vts.IO
         ///// Overload of the constructor to handle creation of Metadata for 3D jagged arrays
         ///// </summary>
         ///// <param name="input"></param>
-        //public MetaData(T[, , ,] input)
+        //public MetaData(Time[, , ,] input)
         //{
         //    ObjectType = input.GetType().ToString();
         //    dims = new int[4] { input.GetLength(0), 
@@ -158,7 +158,7 @@ namespace Vts.IO
         ///// Overload of the constructor to handle creation of Metadata for 3D jagged arrays
         ///// </summary>
         ///// <param name="input"></param>
-        //public MetaData(T[][] input)
+        //public MetaData(Time[][] input)
         //{
         //    ObjectType = input.GetType().ToString();
         //    dims = new int[2] { input.Length, 
@@ -168,7 +168,7 @@ namespace Vts.IO
         ///// Overload of the constructor to handle creation of Metadata for 3D jagged arrays
         ///// </summary>
         ///// <param name="input"></param>
-        //public MetaData(T[][,] input)
+        //public MetaData(Time[][,] input)
         //{
         //    ObjectType = input.GetType().ToString();
         //    dims = new int[3] { input.Length, 
@@ -179,7 +179,7 @@ namespace Vts.IO
         ///// Overload of the constructor to handle creation of Metadata for 3D jagged arrays
         ///// </summary>
         ///// <param name="input"></param>
-        //public MetaData(T[][][,] input)
+        //public MetaData(Time[][][,] input)
         //{
         //    ObjectType = input.GetType().ToString();
         //    dims = new int[4] { input.Length, 

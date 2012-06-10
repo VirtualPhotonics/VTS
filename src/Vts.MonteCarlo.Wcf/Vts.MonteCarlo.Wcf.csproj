@@ -101,11 +101,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(SolutionDir)..\build\apps\wcf\Desktop\$(ConfigurationName)\" mkdir "$(SolutionDir)..\build\apps\wcf\Desktop\$(ConfigurationName)\" /y
-copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\apps\wcf\Desktop\$(ConfigurationName)\" /y</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>IF NOT EXIST "$(SolutionDir)..\build\apps\wcf\$(ConfigurationName)\" mkdir "$(SolutionDir)..\build\apps\wcf\$(ConfigurationName)\" /y
-copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\apps\wcf\$(ConfigurationName)\" /y</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(ProjectDir)..\..\build\apps\wcf\$(ConfigurationName)\" mkdir "$(ProjectDir)..\..\build\apps\wcf\$(ConfigurationName)\" /y
+copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\build\apps\wcf\$(ConfigurationName)\" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

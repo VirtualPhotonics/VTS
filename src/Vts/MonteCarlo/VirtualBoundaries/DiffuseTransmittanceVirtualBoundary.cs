@@ -20,8 +20,11 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         private double _zPlanePosition;
 
         /// <summary>
-        /// Creates an instance of a plane tranmission virtual boundary in direction given
+        /// diffuse transmittance VB
         /// </summary>
+        /// <param name="tissue">ITissue</param>
+        /// <param name="detectorController">IDetectorController</param>
+        /// <param name="name">string name</param>
         public DiffuseTransmittanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             _zPlanePosition = ((LayerRegion)tissue.Regions.Where(r => r is LayerRegion).Last()).ZRange.Start;
@@ -72,7 +75,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <summary>
         /// Finds the distance to the virtual boundary given direction of VB and photon
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="dp">photon data point</param>
         public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
             double distanceToBoundary = double.PositiveInfinity;

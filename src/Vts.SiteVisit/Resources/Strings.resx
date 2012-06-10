@@ -147,7 +147,7 @@
   <data name="IndependentVariableAxis_Rho" xml:space="preserve">
     <value>Detector Positions</value>
   </data>
-  <data name="IndependentVariableAxis_T" xml:space="preserve">
+  <data name="IndependentVariableAxis_Time" xml:space="preserve">
     <value>Detection Times</value>
   </data>
   <data name="IndependentVariableAxis_Wavelength" xml:space="preserve">
@@ -213,44 +213,44 @@
   <data name="Label_BloodVolume" xml:space="preserve">
     <value>Blood volume [vol. frac.]:</value>
   </data>
-  <data name="Label_AOfFx" xml:space="preserve">
+  <data name="Label_AOfFxAndZ" xml:space="preserve">
     <value>A(fx,z)</value>
   </data>
-  <data name="Label_AOfFxAndFt" xml:space="preserve">
-    <value>A(fx,ft)</value>
+  <data name="Label_AOfFxAndZAndFt" xml:space="preserve">
+    <value>A(fx,z,ft)</value>
   </data>
-  <data name="Label_AOfFxAndT" xml:space="preserve">
-    <value>A(fx,t,z)</value>
+  <data name="Label_AOfFxAndZAndTime" xml:space="preserve">
+    <value>A(fx,z,t)</value>
   </data>
-  <data name="Label_AOfRho" xml:space="preserve">
+  <data name="Label_AOfRhoAndZ" xml:space="preserve">
     <value>A(ρ,z)</value>
   </data>
-  <data name="Label_AOfRhoAndFt" xml:space="preserve">
-    <value>A(ρ,ft,z)</value>
+  <data name="Label_AOfRhoAndZAndFt" xml:space="preserve">
+    <value>A(ρ,z,ft)</value>
   </data>
-  <data name="Label_AOfRhoAndT" xml:space="preserve">
-    <value>A(ρ,t,z)</value>
+  <data name="Label_AOfRhoAndZAndTime" xml:space="preserve">
+    <value>A(ρ,z,t)</value>
   </data>
   <data name="Label_IndependentAxis" xml:space="preserve">
     <value>Independent Axis:</value>
   </data>
-  <data name="Label_PHDOfFx" xml:space="preserve">
+  <data name="Label_PHDOfFxAndZ" xml:space="preserve">
     <value>phd(fx,z)</value>
   </data>
-  <data name="Label_PHDOfFxAndFt" xml:space="preserve">
-    <value>phd(fx,ft,z)</value>
+  <data name="Label_PHDOfFxAndZAndFt" xml:space="preserve">
+    <value>phd(fx,z,ft)</value>
   </data>
-  <data name="Label_PHDOfFxAndT" xml:space="preserve">
-    <value>phd(fx,t,z)</value>
+  <data name="Label_PHDOfFxAndZAndTime" xml:space="preserve">
+    <value>phd(fx,z,t)</value>
   </data>
-  <data name="Label_PHDOfRho" xml:space="preserve">
+  <data name="Label_PHDOfRhoAndZ" xml:space="preserve">
     <value>phd(ρ,z)</value>
   </data>
-  <data name="Label_PHDOfRhoAndFt" xml:space="preserve">
-    <value>phd(ρ,ft)</value>
+  <data name="Label_PHDOfRhoAndZAndFt" xml:space="preserve">
+    <value>phd(ρ,z,ft)</value>
   </data>
-  <data name="Label_PHDOfRhoAndT" xml:space="preserve">
-    <value>phd(ρ,t,z)</value>
+  <data name="Label_PHDOfRhoAndZAndTime" xml:space="preserve">
+    <value>phd(ρ,z,t)</value>
   </data>
   <data name="Label_ROfFx" xml:space="preserve">
     <value />
@@ -258,7 +258,7 @@
   <data name="Label_ROfFxAndFt" xml:space="preserve">
     <value />
   </data>
-  <data name="Label_ROfFxAndT" xml:space="preserve">
+  <data name="Label_ROfFxAndTime" xml:space="preserve">
     <value />
   </data>
   <data name="Label_ROfRho" xml:space="preserve">
@@ -267,7 +267,7 @@
   <data name="Label_ROfRhoAndFt" xml:space="preserve">
     <value />
   </data>
-  <data name="Label_ROfRhoAndT" xml:space="preserve">
+  <data name="Label_ROfRhoAndTime" xml:space="preserve">
     <value />
   </data>
   <data name="Label_StO2" xml:space="preserve">
@@ -288,23 +288,23 @@
   <data name="Button_ExportImage" xml:space="preserve">
     <value>Export As Image</value>
   </data>
-  <data name="Label_FluenceOfFx" xml:space="preserve">
+  <data name="Label_FluenceOfFxAndZ" xml:space="preserve">
     <value>Φ(fx,z)</value>
   </data>
-  <data name="Label_FluenceOfFxAndFt" xml:space="preserve">
-    <value>Φ(fx,ft)</value>
+  <data name="Label_FluenceOfFxAndZAndFt" xml:space="preserve">
+    <value>Φ(fx,z,ft)</value>
   </data>
-  <data name="Label_FluenceOfFxAndT" xml:space="preserve">
-    <value>Φ(fx,t,z)</value>
+  <data name="Label_FluenceOfFxAndZAndTime" xml:space="preserve">
+    <value>Φ(fx,z,t)</value>
   </data>
-  <data name="Label_FluenceOfRho" xml:space="preserve">
+  <data name="Label_FluenceOfRhoAndZ" xml:space="preserve">
     <value>Φ(ρ,z)</value>
   </data>
-  <data name="Label_FluenceOfRhoAndFt" xml:space="preserve">
-    <value>Φ(ρ,ft,z)</value>
+  <data name="Label_FluenceOfRhoAndZAndFt" xml:space="preserve">
+    <value>Φ(ρ,z,ft)</value>
   </data>
-  <data name="Label_FluenceOfRhoAndT" xml:space="preserve">
-    <value>Φ(ρ,t,z)</value>
+  <data name="Label_FluenceOfRhoAndZAndTime" xml:space="preserve">
+    <value>Φ(ρ,z,t)</value>
   </data>
   <data name="Label_HoldOn" xml:space="preserve">
     <value>Hold On</value>

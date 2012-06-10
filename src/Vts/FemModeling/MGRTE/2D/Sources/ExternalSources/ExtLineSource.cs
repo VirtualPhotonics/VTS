@@ -4,8 +4,17 @@ using Vts.Common;
 
 namespace Vts.FemModeling.MGRTE._2D.DataStructures
 {
+    /// <summary>
+    ///  External Line source
+    /// </summary>
     public class ExtLineSource : IExtSource
     {
+        /// <summary>
+        /// General constructor for external line source
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="thetaRange"></param>
         public ExtLineSource(
             DoubleRange start,
             DoubleRange end,
@@ -16,6 +25,9 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             ThetaRange = thetaRange;
         }
 
+        /// <summary>
+        /// Default constructor for external line source
+        /// </summary>
         public ExtLineSource()
             : this(
              new DoubleRange(-0.25, 0),
@@ -37,7 +49,7 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
         /// </summary>
         public DoubleRange ThetaRange { get; set; }
 
-
+        
         public void AssignMeshForExtSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] q)
         {
         }

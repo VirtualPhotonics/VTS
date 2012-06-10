@@ -150,7 +150,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             mc.SetOutputPathForDatabases(path);
 
-            Output detectorResults = mc.Run();
+            SimulationOutput detectorResults = mc.Run();
 
             input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
 
@@ -166,10 +166,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
         /// </summary>
         public static void RunSimulations(IEnumerable<SimulationInput> inputs, string outputFolderPath)
         {
-            Parallel.ForEach(inputs, (input, state, index) =>
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount};
+            Parallel.ForEach(inputs, options, (input, state, index) =>
             {
                 input.Options.SimulationIndex = (int)index;
-                // todo: should we do something about the seed to avoid correlation? or fix by making wall-clock seed the default?
                 RunSimulation(input, outputFolderPath);
             });
         }

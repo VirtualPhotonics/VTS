@@ -60,7 +60,7 @@ namespace Vts.MonteCarlo
             //ToManagedOutput(ref unmanagedOutput, ref outptr);
         }
         
-        public static void ToManagedOutput(ref UnmanagedOutput unmanagedOutput, ref Output output)
+        public static void ToManagedOutput(ref UnmanagedOutput unmanagedOutput, ref SimulationOutput output)
         {
             //output.Atot = unmanagedOutput.Atot;
             //output.Rd = unmanagedOutput.Rd;

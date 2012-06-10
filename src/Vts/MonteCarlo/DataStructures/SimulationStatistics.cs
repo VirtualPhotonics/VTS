@@ -39,6 +39,9 @@ namespace Vts.MonteCarlo
             NumberOfPhotonsKilledByRussianRoulette = numberOfPhotonsKilledByRussianRoulette;
         }
 
+        /// <summary>
+        /// default constructor
+        /// </summary>
         public SimulationStatistics() : this(0, 0, 0, 0, 0, 0, 0) { }
 
         /// <summary>

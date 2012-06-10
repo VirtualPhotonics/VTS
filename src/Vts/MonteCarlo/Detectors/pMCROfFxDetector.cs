@@ -4,26 +4,24 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Numerics;
 using Vts.Common;
-using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[]&gt;.  Tally for pMC estimation of reflectance 
-    /// as a function of Rho.
+    /// Implements IDetector&lt;Complex[]&gt;.  Tally for pMC estimation of reflectance 
+    /// as a function of Fx.
     /// </summary>
     [KnownType(typeof(pMCROfFxDetector))]
     public class pMCROfFxDetector : IDetector<Complex[]>
     {
-        private IList<OpticalProperties> _referenceOps;
-        private IList<OpticalProperties> _perturbedOps;
-        private IList<int> _perturbedRegionsIndices;
-        private bool _tallySecondMoment;
-        private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
-        private AbsorptionWeightingType _awt;
         private double[] _fxArray;
+        private OpticalProperties[] _perturbedOps;
+        private OpticalProperties[] _referenceOps;
+        private int[] _perturbedRegionsIndices;
+        private bool _tallySecondMoment;
+        private Func<long[], double[], OpticalProperties[], OpticalProperties[], int[], double> _absorbAction;
 
         /// <summary>
         /// constructor for perturbation Monte Carlo reflectance as a function of spatial frequency input
@@ -37,8 +35,8 @@ namespace Vts.MonteCarlo.Detectors
         public pMCROfFxDetector(
             DoubleRange fx,
             ITissue tissue,
-            IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionIndices,
+            OpticalProperties[] perturbedOps,
+            int[] perturbedRegionIndices,
             bool tallySecondMoment,
             String name)
         {
@@ -54,11 +52,10 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = TallyType.pMCROfFx;
             Name = name;
             _perturbedOps = perturbedOps;
-            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
+            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToArray();
             _perturbedRegionsIndices = perturbedRegionIndices;
-            SetAbsorbAction(tissue.AbsorptionWeightingType);
+            _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
             TallyCount = 0;
-            _awt = tissue.AbsorptionWeightingType;
         }
 
         /// <summary>
@@ -68,16 +65,20 @@ namespace Vts.MonteCarlo.Detectors
             : this(
             new DoubleRange(),
             new MultiLayerTissue(),
-            new List<OpticalProperties>(),
-            new List<int>(),
+            new OpticalProperties[0],
+            new int[0], 
             true, // tallySecondMoment
             TallyType.pMCROfFx.ToString())
         {
         }
-
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public Complex[] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public Complex[] SecondMoment { get; set; }
         /// <summary>
@@ -97,21 +98,6 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Fx { get; set; }
 
-        protected void SetAbsorbAction(AbsorptionWeightingType awt)
-        {
-            switch (awt)
-            {
-                // note: pMC is not applied to analog processing,
-                // only DAW and CAW
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                default:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-            }
-        }
         /// <summary>
         /// method to tally to detector
         /// </summary>
@@ -121,6 +107,14 @@ namespace Vts.MonteCarlo.Detectors
             var dp = photon.DP;
 
             var x = dp.Position.X;
+
+            double weightFactor = _absorbAction(
+                photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToArray(),
+                photon.History.SubRegionInfoList.Select(p => p.PathLength).ToArray(),
+                _perturbedOps,
+                _referenceOps,
+                _perturbedRegionsIndices);
+
             for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
             {
                 double freq = _fxArray[ifx];
@@ -130,11 +124,6 @@ namespace Vts.MonteCarlo.Detectors
 
                 /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-
-                double weightFactor = _absorbAction(
-                    photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
-                    photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
-                    _perturbedOps);
 
                 var deltaWeight = (weightFactor * dp.Weight) * (cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX);
 
@@ -151,60 +140,10 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount++;
         }
 
-        private double AbsorbContinuous(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
-        {
-            double weightFactor = 1.0;
-
-            foreach (var i in _perturbedRegionsIndices)
-            {
-                weightFactor *=
-                    Math.Exp(-(perturbedOps[i].Mua - _referenceOps[i].Mua) * pathLength[i]); // mua pert
-                if (numberOfCollisions[i] > 0) // mus pert
-                {
-                    // the following is more numerically stable
-                    weightFactor *= Math.Pow(
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) * Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
-                            pathLength[i] / numberOfCollisions[i]),
-                        numberOfCollisions[i]);
-                }
-                else
-                {
-                    weightFactor *= Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) * pathLength[i]);
-                }
-            }
-            return weightFactor;
-        }
-
-        private double AbsorbDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
-        {
-            double weightFactor = 1.0;
-
-            foreach (var i in _perturbedRegionsIndices)
-            {
-                if (numberOfCollisions[i] > 0)
-                {
-                    weightFactor *=
-                        Math.Pow(
-                            (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
-                                Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                                pathLength[i] / numberOfCollisions[i]),
-                            numberOfCollisions[i]);
-                }
-                else
-                {
-                    weightFactor *=
-                        Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                                pathLength[i]);
-                }
-            }
-            return weightFactor;
-        }
-
         /// <summary>
         /// method to normalize detector results after numPhotons launched
         /// </summary>
         /// <param name="numPhotons">number of photons launched</param>
-
         public void Normalize(long numPhotons)
         {
             for (int ifx = 0; ifx < Fx.Count; ifx++)
@@ -217,6 +156,11 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// method to determine if photon within detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

@@ -4,9 +4,17 @@ using Vts.Common;
 
 namespace Vts.FemModeling.MGRTE._2D.SourceInputs
 {
+    /// <summary>
+    /// External line source
+    /// </summary>
     public class ExtLineSourceInput : IExtFemSourceInput
     {
-        
+        /// <summary>
+        /// General constructor for external line source
+        /// </summary>
+        /// <param name="start">starting point (x,z)</param>
+        /// <param name="end">end point (x,z)</param>
+        /// <param name="thetaRange">Theta Range</param>
         public ExtLineSourceInput(
             DoubleRange start,
             DoubleRange end,
@@ -18,6 +26,9 @@ namespace Vts.FemModeling.MGRTE._2D.SourceInputs
             ThetaRange = thetaRange;
         }
 
+        /// <summary>
+        /// Default constructor for external line source
+        /// </summary>
         public ExtLineSourceInput()
             : this(
              new DoubleRange(0.0, 0.0),

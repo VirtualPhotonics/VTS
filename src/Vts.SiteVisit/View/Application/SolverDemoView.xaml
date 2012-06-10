@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <UserControl.DataContext>
-        <vm:SolverDemoViewModel/>
+        <vm:SolverDemoViewModel />
     </UserControl.DataContext>
     <Grid x:Name="layoutRoot">
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
@@ -31,18 +31,39 @@
                     <ColumnDefinition Width="Auto" MinWidth="375" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-
-                <TextBlock 
+                <Grid
                     Grid.Row="0" 
 					Grid.Column="1"
-					Grid.ColumnSpan="2"
+					Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                        FontFamily="Verdana"
+                        FontSize="24"
+                        Foreground="White"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" Margin="20,0,0,0">
+                        Virtual Photonics General-Purpose ATK
+                    </TextBlock>
+                    <TextBlock
+                        Grid.Column="1"
+                        FontFamily="Verdana"
+                        FontSize="24"
+                        Foreground="White"
+                        HorizontalAlignment="Left" 
+                        Text="{Binding Version, Mode=OneWay}"
+                        VerticalAlignment="Center" Margin="10,0,0,0" />
+                    <TextBlock 
+					Grid.Column="2"
                     FontFamily="Verdana"
                     FontSize="24"
                     Foreground="White"
                     HorizontalAlignment="Left" 
-                    VerticalAlignment="Center" Margin="20,0,0,0">
-                    Virtual Photonics General-Purpose ATK 1.0.3 Beta
-                </TextBlock>
+                    VerticalAlignment="Center" Margin="10,0,0,0">Beta</TextBlock>
+                </Grid>
                 <Image 
                     Source="/Vts.SiteVisit;Component/Resources/Images/logo-small.png"
                     Grid.Row="0" 

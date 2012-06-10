@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[,,]&gt;.  Tally for Radiance(rho,z,angle).
+    /// Implements IHistoryDetector&lt;double[,,]&gt;.  Tally for Radiance(rho,z,angle).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
     [KnownType(typeof(RadianceOfRhoAndZAndAngleDetector))]
@@ -55,7 +55,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
             _tissue = tissue;
             _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetAbsorptionWeightingMethod(tissue, this);
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
         }
 
         /// <summary>
@@ -72,9 +72,14 @@ namespace Vts.MonteCarlo.Detectors
         {
         }
 
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public double[, ,] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public double[, ,] SecondMoment { get; set; }
 
@@ -117,6 +122,12 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// method to tally to detector given two consecutive photon data points
+        /// </summary>
+        /// <param name="previousDP">previous photon data point</param>
+        /// <param name="dp">current photon data point</param>
+        /// <param name="currentRegionIndex">index of region photon is currently in</param>
         public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
@@ -138,7 +149,11 @@ namespace Vts.MonteCarlo.Detectors
                 TallyCount++;
             }
         }
-        
+
+        /// <summary>
+        /// Method to normalize the tally to get Mean and Second Moment estimates
+        /// </summary>
+        /// <param name="numPhotons">Number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Z.Delta * 2.0 * Math.PI * Angle.Delta;
@@ -159,6 +174,11 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// Method to determine if photon is within detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true;

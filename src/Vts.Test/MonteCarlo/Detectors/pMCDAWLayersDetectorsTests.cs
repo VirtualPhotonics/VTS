@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     public class pMCDAWLayersDetectorsTests
     {
         private SimulationInput _referenceInputTwoLayerTissue;
-        private Output _referenceOutputTwoLayerTissue;
+        private SimulationOutput _referenceOutputTwoLayerTissue;
         private double _layerThickness = 1.0;
         private double _factor;
         private pMCDatabase _databaseTwoLayerTissue;
@@ -128,25 +128,24 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_pMC_DAW_ROfRhoAndTime_zero_perturbation_of_top_layer()
         {
-            var postProcessedOutput =
-                PhotonDatabasePostProcessor.GenerateOutput(
-                    VirtualBoundaryType.pMCDiffuseReflectance,
-                    new List<IDetectorInput>()
-                    {
-                        new pMCROfRhoAndTimeDetectorInput(
-                            new DoubleRange(0.0, 10.0, 101),
-                            new DoubleRange(0.0, 1.0, 101),
-                            new List<OpticalProperties>() { // perturbed ops
-                                _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
-                                _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
-                                _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
-                                _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
-                            new List<int>() { 1 })
-                    },
-                    false, // tally 2nd moment
-                    false, // track statistics
-                    _databaseTwoLayerTissue,
-                    _referenceInputTwoLayerTissue);
+            var postProcessor = new PhotonDatabasePostProcessor(
+                VirtualBoundaryType.pMCDiffuseReflectance,
+                new List<IDetectorInput>()
+                {
+                    new pMCROfRhoAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 1.0, 101),
+                        new List<OpticalProperties>() { // perturbed ops
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
+                        new List<int>() { 1 })
+                },
+                false, // tally 2nd moment
+                _databaseTwoLayerTissue,
+                _referenceInputTwoLayerTissue);
+            var postProcessedOutput = postProcessor.Run();
             // validation value obtained from reference results
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - _referenceOutputTwoLayerTissue.R_rt[0, 0]), 0.00000000001);
             // validation value obtained from linux run using above input and seeded the same

@@ -15,7 +15,7 @@ namespace Vts.SiteVisit.ViewModel
     /// <summary>
     /// View model implementing Fluence Solver panel functionality
     /// </summary>
-    public partial class FluenceSolverViewModel : BindableObject
+    public class FluenceSolverViewModel : BindableObject
     {
         private OptionViewModel<MapType> _MapTypeOptionVM;
         private FluenceSolutionDomainOptionViewModel _FluenceSolutionDomainTypeOptionVM;
@@ -50,9 +50,9 @@ namespace Vts.SiteVisit.ViewModel
                     ForwardSolverType.DistributedGaussianSourceSDA
                 }); // explicitly enabling these for the workshop;
 
-            FluenceSolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Fluence Solution Domain", FluenceSolutionDomainType.FluenceOfRho);
-            AbsorbedEnergySolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Absorbed Energy Solution Domain", FluenceSolutionDomainType.FluenceOfRho);
-            PhotonHittingDensitySolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("PHD Solution Domain", FluenceSolutionDomainType.FluenceOfRho);
+            FluenceSolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Fluence Solution Domain", FluenceSolutionDomainType.FluenceOfRhoAndZ);
+            AbsorbedEnergySolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Absorbed Energy Solution Domain", FluenceSolutionDomainType.FluenceOfRhoAndZ);
+            PhotonHittingDensitySolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("PHD Solution Domain", FluenceSolutionDomainType.FluenceOfRhoAndZ);
 
             MapTypeOptionVM = new OptionViewModel<MapType>(
                 "Map Type", 
@@ -279,7 +279,7 @@ namespace Vts.SiteVisit.ViewModel
                         ForwardSolverTypeOptionVM.SelectedValue,
                         fluence,
                         SourceDetectorSeparation,
-                        OpticalPropertyVM.GetOpticalProperties().AsEnumerable(),
+                        new[]{ OpticalPropertyVM.GetOpticalProperties() },
                         independentValues[0],
                         independentValues[1]).ToArray();
                     break;

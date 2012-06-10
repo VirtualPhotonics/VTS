@@ -46,9 +46,14 @@ namespace Vts.MonteCarlo.Detectors
         {
         }
 
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public double[] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public double[] SecondMoment { get; set; }
 

@@ -45,7 +45,7 @@ namespace Vts.Modeling.ForwardSolvers
             throw new NotImplementedException();
         }
 
-        public override double ROfFxAndT(OpticalProperties op, double fx, double t)
+        public override double ROfFxAndTime(OpticalProperties op, double fx, double t)
         {
             throw new NotImplementedException();
         }
@@ -56,7 +56,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
 
-        public override IEnumerable<double> FluenceOfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
+        public override IEnumerable<double> FluenceOfRhoAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
         {
             throw new NotImplementedException();
         }

@@ -37,7 +37,9 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
 
-
+        /// <summary>
+        /// center of layer
+        /// </summary>
         [IgnoreDataMember]
         public Position Center
         {
@@ -85,7 +87,12 @@ namespace Vts.MonteCarlo.Tissues
             }
             return onBoundary;
         }
-
+        /// <summary>
+        /// method to determine if photon track or ray intersects layer boundary
+        /// </summary>
+        /// <param name="p">Photon</param>
+        /// <param name="distanceToBoundary">return distance to boundary</param>
+        /// <returns>true if intersection, false otherwise</returns>
         public bool RayIntersectBoundary(Photon p, out double distanceToBoundary)
         {
             throw new System.NotImplementedException(); // currently, implemented by MultiLayerTissue...should revisit so this can be independent

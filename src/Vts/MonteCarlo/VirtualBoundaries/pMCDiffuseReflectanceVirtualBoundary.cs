@@ -16,8 +16,11 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         private double _zPlanePosition;
 
         /// <summary>
-        /// Creates an instance of a reflectance VB
+        /// class for perturbation Monte Carlo (pMC) diffuse reflectance virtual boundary
         /// </summary>
+        /// <param name="tissue">ITissue</param>
+        /// <param name="detectorController">IDetectorController</param>
+        /// <param name="name">string name</param>
         public pMCDiffuseReflectanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             _zPlanePosition = ((LayerRegion)tissue.Regions[0]).ZRange.Stop;
@@ -43,17 +46,31 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         //    : this(null, null, null)
         //{
         //}
-
+        /// <summary>
+        /// VirtualBoundaryType
+        /// </summary>
         public VirtualBoundaryType VirtualBoundaryType { get; private set; }
+        /// <summary>
+        /// PhotonStateType
+        /// </summary>
         public PhotonStateType PhotonStateType { get; private set; }
+        /// <summary>
+        /// string Name
+        /// </summary>
         public string Name { get; private set; }
+        /// <summary>
+        /// Predicate of PhotonDataPoint
+        /// </summary>
         public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
+        /// <summary>
+        /// IDetectorController
+        /// </summary>
         public IDetectorController DetectorController { get { return _detectorController; } }
 
         /// <summary>
         /// Finds the distance to the virtual boundary given direction of VB and photon
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="dp">photon data point</param>
         public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
             double distanceToBoundary = double.PositiveInfinity;

@@ -87,6 +87,7 @@ for di = 1:numDetectors
             tempOmega = xml.DetectorInputs(di).anyType.Omega;
             ROfRhoAndOmega.Rho = linspace(str2num(tempRho.Start), str2num(tempRho.Stop), str2num(tempRho.Count));
             ROfRhoAndOmega.Omega = linspace(str2num(tempOmega.Start), str2num(tempOmega.Stop), str2num(tempOmega.Count));
+            ROfRhoAndOmega.Omega_Midpoints = (ROfRhoAndOmega.Omega(1:end-1) + ROfRhoAndOmega.Omega(2:end))/2;
             ROfRhoAndOmega.Rho_Midpoints = (ROfRhoAndOmega.Rho(1:end-1) + ROfRhoAndOmega.Rho(2:end))/2;
             tempData = readBinaryData([datadir slash detectorName],[2*(length(ROfRhoAndOmega.Rho)-1),length(ROfRhoAndOmega.Omega)]);  
             ROfRhoAndOmega.Mean = tempData(1:2:end,:) + 1i*tempData(2:2:end,:);
@@ -203,7 +204,97 @@ for di = 1:numDetectors
                 RadianceOfRhoAndZAndAngle.Stdev = sqrt((RadianceOfRhoAndZAndAngle.SecondMoment - (RadianceOfRhoAndZAndAngle.Mean .* RadianceOfRhoAndZAndAngle.Mean)) / str2num(xml.N));               
             end
             results{di}.RadianceOfRhoAndZAndAngle = RadianceOfRhoAndZAndAngle;
-        case 'pMCROfRho'
+        case 'RadianceOfXAndYAndZAndThetaAndPhi'
+            RadianceOfXAndYAndZAndThetaAndPhi.Name = detectorName;
+            tempX = xml.DetectorInputs(di).anyType.X;
+            tempY = xml.DetectorInputs(di).anyType.Y;
+            tempZ = xml.DetectorInputs(di).anyType.Z;
+            tempTheta = xml.DetectorInputs(di).anyType.Theta;
+            tempPhi = xml.DetectorInputs(di).anyType.Phi;
+            RadianceOfXAndYAndZAndThetaAndPhi.X = linspace(str2num(tempX.Start), str2num(tempX.Stop), str2num(tempX.Count));
+            RadianceOfXAndYAndZAndThetaAndPhi.Y = linspace(str2num(tempY.Start), str2num(tempY.Stop), str2num(tempY.Count));
+            RadianceOfXAndYAndZAndThetaAndPhi.Z = linspace(str2num(tempZ.Start), str2num(tempZ.Stop), str2num(tempZ.Count));                      
+            RadianceOfXAndYAndZAndThetaAndPhi.Theta = linspace(str2num(tempTheta.Start), str2num(tempTheta.Stop), str2num(tempTheta.Count));    
+            RadianceOfXAndYAndZAndThetaAndPhi.Phi = linspace(str2num(tempPhi.Start), str2num(tempPhi.Stop), str2num(tempPhi.Count));
+            RadianceOfXAndYAndZAndThetaAndPhi.X_Midpoints = (RadianceOfXAndYAndZAndThetaAndPhi.X(1:end-1) + RadianceOfXAndYAndZAndThetaAndPhi.X(2:end))/2;
+            RadianceOfXAndYAndZAndThetaAndPhi.Y_Midpoints = (RadianceOfXAndYAndZAndThetaAndPhi.Y(1:end-1) + RadianceOfXAndYAndZAndThetaAndPhi.Y(2:end))/2;
+            RadianceOfXAndYAndZAndThetaAndPhi.Z_Midpoints = (RadianceOfXAndYAndZAndThetaAndPhi.Z(1:end-1) + RadianceOfXAndYAndZAndThetaAndPhi.Z(2:end))/2;
+            RadianceOfXAndYAndZAndThetaAndPhi.Theta_Midpoints = (RadianceOfXAndYAndZAndThetaAndPhi.Theta(1:end-1) + RadianceOfXAndYAndZAndThetaAndPhi.Theta(2:end))/2;
+            RadianceOfXAndYAndZAndThetaAndPhi.Phi_Midpoints = (RadianceOfXAndYAndZAndThetaAndPhi.Phi(1:end-1) + RadianceOfXAndYAndZAndThetaAndPhi.Phi(2:end))/2;
+            RadianceOfXAndYAndZAndThetaAndPhi.Mean = readBinaryData([datadir slash detectorName], ... 
+                [(length(RadianceOfXAndYAndZAndThetaAndPhi.X)-1) * ...
+                 (length(RadianceOfXAndYAndZAndThetaAndPhi.Y)-1) * ...
+                 (length(RadianceOfXAndYAndZAndThetaAndPhi.Z)-1) * ...
+                 (length(RadianceOfXAndYAndZAndThetaAndPhi.Theta)-1) * ...
+                 (length(RadianceOfXAndYAndZAndThetaAndPhi.Phi)-1)]);
+                %[length(RadianceOfXAndYAndZAndThetaAndPhi.Rho)-1,length(RadianceOfXAndYAndZAndThetaAndPhi.Z)-1,length(RadianceOfXAndYAndZAndThetaAndPhi.Angle)-1]);
+            RadianceOfXAndYAndZAndThetaAndPhi.Mean = reshape(RadianceOfXAndYAndZAndThetaAndPhi.Mean, ...
+                [length(RadianceOfXAndYAndZAndThetaAndPhi.X)-1, ...
+                length(RadianceOfXAndYAndZAndThetaAndPhi.Y)-1, ...
+                length(RadianceOfXAndYAndZAndThetaAndPhi.Z)-1, ...
+                length(RadianceOfXAndYAndZAndThetaAndPhi.Theta)-1, ...
+                length(RadianceOfXAndYAndZAndThetaAndPhi.Phi)-1]);
+            if(exist([datadir slash detectorName '_2'],'file'))
+                RadianceOfXAndYAndZAndThetaAndPhi.SecondMoment = readBinaryData([datadir slash detectorName '_2'], ... 
+                [(length(RadianceOfXAndYAndZAndThetaAndPhi.X)-1) * ...
+                 (length(RadianceOfXAndYAndZAndThetaAndPhi.Y)-1) * ...
+                 (length(RadianceOfXAndYAndZAndThetaAndPhi.Z)-1) * ...
+                 (length(RadianceOfXAndYAndZAndThetaAndPhi.Theta)-1) * ...
+                 (length(RadianceOfXAndYAndZAndThetaAndPhi.Phi)-1)]);
+                RadianceOfXAndYAndZAndThetaAndPhi.SecondMoment = reshape(RadianceOfXAndYAndZAndThetaAndPhi.SecondMoment, ...
+                [length(RadianceOfXAndYAndZAndThetaAndPhi.X)-1, ...
+                length(RadianceOfXAndYAndZAndThetaAndPhi.Y)-1, ...
+                length(RadianceOfXAndYAndZAndThetaAndPhi.Z)-1, ...
+                length(RadianceOfXAndYAndZAndThetaAndPhi.Theta)-1, ...
+                length(RadianceOfXAndYAndZAndThetaAndPhi.Phi)-1]);
+                RadianceOfXAndYAndZAndThetaAndPhi.Stdev = sqrt((RadianceOfXAndYAndZAndThetaAndPhi.SecondMoment - (RadianceOfXAndYAndZAndThetaAndPhi.Mean .* RadianceOfXAndYAndZAndThetaAndPhi.Mean)) / str2num(xml.N));               
+            end
+            results{di}.RadianceOfXAndYAndZAndThetaAndPhi = RadianceOfXAndYAndZAndThetaAndPhi;
+        case 'ReflectedMTOfRhoAndSubregionHist'
+            ReflectedMTOfRhoAndSubregionHist.Name = detectorName;
+            tempRho = xml.DetectorInputs(di).anyType.Rho;
+            tempMTBins = xml.DetectorInputs(di).anyType.MTBins;
+            tempSubregionIndices = (1:1:length(xml.TissueInput.Regions));
+            ReflectedMTOfRhoAndSubregionHist.Rho = linspace(str2num(tempRho.Start), str2num(tempRho.Stop), str2num(tempRho.Count));                     
+            ReflectedMTOfRhoAndSubregionHist.MTBins = linspace(str2num(tempMTBins.Start), str2num(tempMTBins.Stop), str2num(tempMTBins.Count));
+            ReflectedMTOfRhoAndSubregionHist.SubregionIndices = tempSubregionIndices;
+            ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints = (ReflectedMTOfRhoAndSubregionHist.Rho(1:end-1) + ReflectedMTOfRhoAndSubregionHist.Rho(2:end))/2;
+            ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints = (ReflectedMTOfRhoAndSubregionHist.MTBins(1:end-1) + ReflectedMTOfRhoAndSubregionHist.MTBins(2:end))/2;
+            ReflectedMTOfRhoAndSubregionHist.Mean = readBinaryData([datadir slash detectorName], ... 
+                [(length(ReflectedMTOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1)]);
+            ReflectedMTOfRhoAndSubregionHist.Mean = reshape(ReflectedMTOfRhoAndSubregionHist.Mean, ...
+                [length(ReflectedMTOfRhoAndSubregionHist.Rho)-1,length(tempSubregionIndices),length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1]);
+            if(exist([datadir slash detectorName '_2'],'file'))
+                ReflectedMTOfRhoAndSubregionHist.SecondMoment = readBinaryData([datadir slash detectorName '_2'], ... 
+                [(length(ReflectedMTOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1)]); 
+                ReflectedMTOfRhoAndSubregionHist.SecondMoment = reshape(ReflectedMTOfRhoAndSubregionHist.SecondMoment, ...
+                [length(ReflectedMTOfRhoAndSubregionHist.Rho)-1,length(tempSubregionIndices),length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1]);  
+                ReflectedMTOfRhoAndSubregionHist.Stdev = sqrt((ReflectedMTOfRhoAndSubregionHist.SecondMoment - (ReflectedMTOfRhoAndSubregionHist.Mean .* ReflectedMTOfRhoAndSubregionHist.Mean)) / str2num(xml.N));               
+            end
+            results{di}.ReflectedMTOfRhoAndSubregionHist = ReflectedMTOfRhoAndSubregionHist;
+        case 'ReflectedTimeOfRhoAndSubregionHist'
+            ReflectedTimeOfRhoAndSubregionHist.Name = detectorName;
+            tempRho = xml.DetectorInputs(di).anyType.Rho;
+            tempTime = xml.DetectorInputs(di).anyType.Time;
+            tempSubregionIndices = (1:1:length(xml.TissueInput.Regions));
+            ReflectedTimeOfRhoAndSubregionHist.Rho = linspace(str2num(tempRho.Start), str2num(tempRho.Stop), str2num(tempRho.Count));                     
+            ReflectedTimeOfRhoAndSubregionHist.Time = linspace(str2num(tempTime.Start), str2num(tempTime.Stop), str2num(tempTime.Count));
+            ReflectedTimeOfRhoAndSubregionHist.SubregionIndices = tempSubregionIndices;
+            ReflectedTimeOfRhoAndSubregionHist.Rho_Midpoints = (ReflectedTimeOfRhoAndSubregionHist.Rho(1:end-1) + ReflectedTimeOfRhoAndSubregionHist.Rho(2:end))/2;
+            ReflectedTimeOfRhoAndSubregionHist.Time_Midpoints = (ReflectedTimeOfRhoAndSubregionHist.Time(1:end-1) + ReflectedTimeOfRhoAndSubregionHist.Time(2:end))/2;
+            ReflectedTimeOfRhoAndSubregionHist.Mean = readBinaryData([datadir slash detectorName], ... 
+                [(length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedTimeOfRhoAndSubregionHist.Time)-1)]);
+            ReflectedTimeOfRhoAndSubregionHist.Mean = reshape(ReflectedTimeOfRhoAndSubregionHist.Mean, ...
+                [length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1,length(tempSubregionIndices),length(ReflectedTimeOfRhoAndSubregionHist.Time)-1]);
+            if(exist([datadir slash detectorName '_2'],'file'))
+                ReflectedTimeOfRhoAndSubregionHist.SecondMoment = readBinaryData([datadir slash detectorName '_2'], ... 
+                [(length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedTimeOfRhoAndSubregionHist.Time)-1)]); 
+                ReflectedTimeOfRhoAndSubregionHist.SecondMoment = reshape(ReflectedTimeOfRhoAndSubregionHist.SecondMoment, ...
+                [length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1,length(tempSubregionIndices),length(ReflectedTimeOfRhoAndSubregionHist.Time)-1]);  
+                ReflectedTimeOfRhoAndSubregionHist.Stdev = sqrt((ReflectedTimeOfRhoAndSubregionHist.SecondMoment - (ReflectedTimeOfRhoAndSubregionHist.Mean .* ReflectedTimeOfRhoAndSubregionHist.Mean)) / str2num(xml.N));               
+            end
+            results{di}.ReflectedTimeOfRhoAndSubregionHist = ReflectedTimeOfRhoAndSubregionHist;
+      case 'pMCROfRho'
             pMCROfRho.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
             pMCROfRho.Rho = linspace(str2num(tempRho.Start), str2num(tempRho.Stop), str2num(tempRho.Count));

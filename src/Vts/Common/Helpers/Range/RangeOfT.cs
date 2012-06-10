@@ -112,7 +112,7 @@ namespace Vts
         /// <summary>
         /// An abstract method to get the delta value. To be defined by the subclass
         /// </summary>
-        /// <returns>A value of type T</returns>
+        /// <returns>A value of type Time</returns>
         protected abstract T GetDelta();
         /// <summary>
         /// An abstract method to get the count. To be defined by the subclass
@@ -134,9 +134,9 @@ namespace Vts
 
         // todo: dc - revisit Ayende's INotifyPropertyChanged generics implementation
         /// <summary>
-        /// Returns an IEnumerable of type T that represents the range
+        /// Returns an IEnumerable of type Time that represents the range
         /// </summary>
-        /// <returns>An IEnumerable of type T that represents the range</returns>
+        /// <returns>An IEnumerable of type Time that represents the range</returns>
         public IEnumerable<T> AsEnumerable()
         {
             var increment = GetIncrement();

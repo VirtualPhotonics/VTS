@@ -27,7 +27,14 @@ namespace Vts.MonteCarlo
         private Random _rng;
         private bool _firstTimeEnteringDomain;
         private double _russianRouletteWeightThreshold;
-
+        /// <summary>
+        /// Class that keeps a photon's data as it moves through the tissue
+        /// </summary>
+        /// <param name="p">Position</param>
+        /// <param name="d">Direction</param>
+        /// <param name="tissue">Tissue></param>
+        /// <param name="currentTissueRegionIndex">integer index within ITissue definition indicating photon's current position</param>
+        /// <param name="generator">Random Number Generator</param>
         public Photon(
             Position p,
             Direction d,
@@ -61,7 +68,9 @@ namespace Vts.MonteCarlo
             _rng = generator;
             _russianRouletteWeightThreshold = _tissue.RussianRouletteWeightThreshold;
         }
-
+        /// <summary>
+        /// default constructor for Photon
+        /// </summary>
         public Photon()
             : this(
                 new Position(0, 0, 0),
@@ -74,9 +83,10 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// photon data point has position, direction etc. info
         /// </summary>
-        public PhotonDataPoint DP { get; set; }
-
-        // PhotonHistory has SubRegionCollisionInfo
+        public PhotonDataPoint DP { get; set; }        
+        /// <summary>
+        /// PhotonHistory has list of PhotonDataPoints and SubRegionCollisionInfo
+        /// </summary>
         public PhotonHistory History { get; set; }
         /// <summary>
         /// path length of current track, gets updated when passing tissue boundary
@@ -131,7 +141,9 @@ namespace Vts.MonteCarlo
                     break;
             }
         }
-
+        /// <summary>
+        /// method that determines photon's step size based on the RegionScatterLength (1/mus or 1/mut depending on CAW or DAW)
+        /// </summary>
         public void SetStepSize()
         {
             if (SLeft == 0.0)
@@ -144,7 +156,11 @@ namespace Vts.MonteCarlo
                 SLeft = 0.0;
             }
         }
-
+        /// <summary>
+        /// method to move the photon to its next location
+        /// </summary>
+        /// <param name="distance"></param>
+        /// <returns></returns>
          public bool Move(double distance)
          {
             bool willHitBoundary = S >= distance;
@@ -255,7 +271,9 @@ namespace Vts.MonteCarlo
             }
         }
 
-        /*****************************************************************/
+        /// <summary>
+        /// Method to scatter according to Henyey-Greenstein scatter function
+        /// </summary>
         public void ScatterHenyeyGreenstein()
         {
             // readability eased with local copies of following
@@ -299,6 +317,9 @@ namespace Vts.MonteCarlo
             }
 
         }
+        /// <summary>
+        /// Method to scatter bidirectionally
+        /// </summary>
         public void Scatter1D()
         {
             double g = this._tissue.Regions[CurrentRegionIndex].RegionOP.G;
@@ -309,7 +330,9 @@ namespace Vts.MonteCarlo
             else
                 this.DP.Direction.Uz *= -1.0;
         }
-        /*****************************************************************/
+        /// <summary>
+        /// Method to check for absorption according to analog random walk process
+        /// </summary>
         public void AbsorbAnalog()
         {
             if (_rng.NextDouble() > _tissue.Regions[CurrentRegionIndex].RegionOP.Mus /
@@ -321,6 +344,10 @@ namespace Vts.MonteCarlo
                 History.AddDPToHistory(DP);
             }
         }
+        /// <summary>
+        /// Method to deweight for absorption according to discrete absorption weighting (DAW)
+        /// random walk process
+        /// </summary>
         public void AbsorbDiscrete()
         {
             double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
@@ -336,7 +363,10 @@ namespace Vts.MonteCarlo
                 History.HistoryData[History.HistoryData.Count() - 1].Weight = DP.Weight;
             }
         }
-
+        /// <summary>
+        /// Method to deweight for absorption according to continuous absorption weighting (CAW)
+        /// random walk process
+        /// </summary>
         public void AbsorbContinuous()
         {
             double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
@@ -354,8 +384,9 @@ namespace Vts.MonteCarlo
             // update weight for current DP in History 
             History.HistoryData[History.HistoryData.Count() - 1].Weight = DP.Weight;
         }
-        /*********************************************************/
-
+        /// <summary>
+        /// Method to test for death of the photon
+        /// </summary>
         public void TestDeath()
         {
             TestWeightAndDistance();         
@@ -369,7 +400,9 @@ namespace Vts.MonteCarlo
                 History.AddDPToHistory(DP);
             }
         }
-        // RR weight limit: take out as parameter and inject into class
+        /// <summary>
+        /// Method that kills photon due to Russian Roulette, maximum path length, etc.
+        /// </summary>
         public void TestWeightAndDistance()
         {
             // kill by RR if weight < user-input WEIGHT_LIMIT (=0.0 then no RR)

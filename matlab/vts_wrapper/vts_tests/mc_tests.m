@@ -70,10 +70,13 @@ output = VtsMonteCarlo.RunPostProcessor(ppi, output.Input);
 % d = output.Detectors(output.DetectorNames{1});
 % figure; semilogy(d.Rho, d.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
 
-disp('Done!');
-
 % test the ability to run multiple simulations in parallel (todo: debug)
-% simInputs{1} = si;
-% si.N = 150;
-% simInputs{2} = si;
-% VtsMonteCarlo.RunSimulations(simInputs)
+simInputs{1} = SimulationInput();
+simInputs{1}.N = 50;
+simInputs{1}.OutputName = 'test1'; % having non-overlapping names is critical
+simInputs{2} = SimulationInput();
+simInputs{2}.N = 150;
+simInputs{2}.OutputName = 'test2'; % having non-overlapping names is critical
+outputs = VtsMonteCarlo.RunSimulations(simInputs);
+
+disp('Done!');

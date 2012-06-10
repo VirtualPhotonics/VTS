@@ -13,9 +13,9 @@ namespace Vts.MonteCarlo.Factories
         /// <summary>
         /// method to determine which tally type belongs to which virtual boundary
         /// </summary>
-        /// <param name="tallyType"></param>
-        /// <param name="vbType"></param>
-        /// <returns></returns>
+        /// <param name="tallyType">TallyType</param>
+        /// <param name="vbType">VirtualBoundaryTyp</param>
+        /// <returns>boolean indicating whether tally type belongs to VB</returns>
         public static bool AppliesToBoundary(this TallyType tallyType, VirtualBoundaryType vbType)
         {
             switch (vbType)
@@ -28,7 +28,8 @@ namespace Vts.MonteCarlo.Factories
                         tallyType == TallyType.ROfRhoAndTime ||
                         tallyType == TallyType.ROfRhoAndAngle ||
                         tallyType == TallyType.ROfXAndY ||
-                        tallyType == TallyType.ROfRhoAndOmega;
+                        tallyType == TallyType.ROfRhoAndOmega ||
+                        tallyType == TallyType.ReflectedMTOfRhoAndSubregionHist;
 
                 case VirtualBoundaryType.DiffuseTransmittance:
                     return
@@ -96,7 +97,13 @@ namespace Vts.MonteCarlo.Factories
     //        }
     //        return virtualBoundaries.ToList();
     //    }
-
+        /// <summary>
+        /// method that gets appropriate VB 
+        /// </summary>
+        /// <param name="vbType">VirtualBoundaryType</param>
+        /// <param name="tissue">ITissue</param>
+        /// <param name="detectorController">IDetectorController</param>
+        /// <returns>IVirtualBoundary</returns>
         public static IVirtualBoundary GetVirtualBoundary(
             VirtualBoundaryType vbType, ITissue tissue, IDetectorController detectorController)
         {

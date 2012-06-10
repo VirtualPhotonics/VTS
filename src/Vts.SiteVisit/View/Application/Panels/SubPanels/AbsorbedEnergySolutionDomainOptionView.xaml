@@ -32,13 +32,13 @@
                         Text="Steady-State"  Margin="2,2" />
                     <RadioButton 
                         Grid.Row="0" Grid.Column="1"
-                        DataContext="{Binding FluenceOfRhoOption}"
-                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfRho, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        DataContext="{Binding FluenceOfRhoAndZOption}"
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfRhoAndZ, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="0" Grid.Column="2"
-                        DataContext="{Binding FluenceOfFxOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfFx, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        DataContext="{Binding FluenceOfFxAndZOption}" IsEnabled="False"
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfFxAndZ, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <!-- TIME-DOMAIN -->
                     <TextBlock 
@@ -47,12 +47,12 @@
                     <RadioButton 
                         Grid.Row="1" Grid.Column="1" IsEnabled="False"
                         DataContext="{Binding FluenceOfRhoAndTOption}"
-                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfRhoAndT, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfRhoAndZAndTime, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="2" IsEnabled="False"
                         DataContext="{Binding FluenceOfFxAndTOption}"
-                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfFxAndT, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfFxAndZAndTime, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <!-- FREQUENCY-DOMAIN -->
                     <TextBlock 
@@ -61,12 +61,12 @@
                     <RadioButton 
                         Grid.Row="2" Grid.Column="1"
                         DataContext="{Binding FluenceOfRhoAndFtOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfRhoAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfRhoAndZAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="2"
                         DataContext="{Binding FluenceOfFxAndFtOption}" IsEnabled="False"
-                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfFxAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                        Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfFxAndZAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                 </Grid>
             </controls:HeaderedContentControl.Content>

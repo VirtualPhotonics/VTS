@@ -11,7 +11,15 @@ namespace Vts.MonteCarlo.Tissues
     public class EllipsoidRegion : ITissueRegion
     {
         private bool _onBoundary = false;
-
+        /// <summary>
+        /// class specifies ellipsoid tissue region (x-xc)^2/a^2 + (y-yc)^2/b^2 + (z-zc)^2/c^2 = 1
+        /// where center is (xc,yc,zc) and semi-axis along x-, y-, z- axes are a, b, c, respectively.
+        /// </summary>
+        /// <param name="center">Position (x,y,z) of the center of the ellipsoid</param>
+        /// <param name="radiusX">semi-axis along x-axis</param>
+        /// <param name="radiusY">semi-axis along y-axis</param>
+        /// <param name="radiusZ">semi-axis along z-axis</param>
+        /// <param name="op">OpticalProperties of ellipsoid</param>
         public EllipsoidRegion(Position center, double radiusX, double radiusY, double radiusZ,
             OpticalProperties op)
         {
@@ -21,7 +29,9 @@ namespace Vts.MonteCarlo.Tissues
             Dy = radiusY;
             Dz = radiusZ;
         }
-
+        /// <summary>
+        /// default constructor defines sphere with radius 0.5mm and center (0,0,1)
+        /// </summary>
         public EllipsoidRegion() : this (new Position(0, 0, 1), 0.5, 0.5, 0.5,
             new OpticalProperties(0.05, 1.0, 0.8, 1.4)) {}
 
@@ -45,7 +55,11 @@ namespace Vts.MonteCarlo.Tissues
         /// distance from center to z-axis radius
         /// </summary>
         public double Dz { get; set; }
-
+        /// <summary>
+        /// method to determine if given Position lies within ellipsoid
+        /// </summary>
+        /// <param name="position">Position</param>
+        /// <returns>boolean, true if within, false otherwise</returns>
         public bool ContainsPosition(Position position)
         {
                 double inside = (position.X - Center.X) * (position.X - Center.X) /
@@ -72,12 +86,21 @@ namespace Vts.MonteCarlo.Tissues
                     return true;
                 }
         }
-
+        /// <summary>
+        /// method to determine if given Position lies on boundary of ellipsoid
+        /// </summary>
+        /// <param name="position">Position</param>
+        /// <returns>true if on boundary, false otherwise</returns>
         public bool OnBoundary(Position position)
         {
             return !ContainsPosition(position) && _onBoundary;
         }
-        
+        /// <summary>
+        /// method to determine if photon track or ray intersects boundary of ellipsoid
+        /// </summary>
+        /// <param name="photon">Photon</param>
+        /// <param name="distanceToBoundary">return: distance to boundary</param>
+        /// <returns>boolean true if intersection, false otherwise</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
             distanceToBoundary = double.PositiveInfinity;

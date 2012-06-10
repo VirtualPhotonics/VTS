@@ -1,12 +1,7 @@
-using System;
-using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Runtime.Serialization;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
-using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Detectors;
@@ -292,25 +287,32 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(dcloned.Mean[1, 3], 8 + Complex.ImaginaryOne * 8);
         }
         [Test]
-        public void validate_MomentumTransferOfRhoAndZDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        public void validate_ReflectedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
-            string detectorName = "testmomentumtransferofrhoandz";
-            IDetector detector = new MomentumTransferOfRhoAndZDetector(
+            string detectorName = "testReflectedMTOfRhoAndSubregionHist";
+            IDetector detector = new ReflectedMTOfRhoAndSubregionHistDetector(
                 new DoubleRange(0, 10, 3),
-                new DoubleRange(0, 1, 4),
+                new DoubleRange(0, 10, 3),
+                new MultiLayerTissue(), 
                 true, // tally SecondMoment
-                detectorName) { Mean = new Double[,]  { { 1, 2, 3 }, { 4, 5, 6 } } };
+                detectorName) { Mean = new double[,,] { { { 1, 2 }, { 3, 4 }, { 5, 6 } }, { { 7, 8 }, { 9 , 10 }, { 11, 12 } } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (MomentumTransferOfRhoAndZDetector)DetectorIO.ReadDetectorFromFile(TallyType.MomentumTransferOfRhoAndZ, detectorName, "");
+            var dcloned = (ReflectedMTOfRhoAndSubregionHistDetector)DetectorIO.ReadDetectorFromFile(TallyType.ReflectedMTOfRhoAndSubregionHist, detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
+            Assert.AreEqual(dcloned.Mean[0, 0, 0], 1);
+            Assert.AreEqual(dcloned.Mean[0, 0, 1], 2);
+            Assert.AreEqual(dcloned.Mean[0, 1, 0], 3);
+            Assert.AreEqual(dcloned.Mean[0, 1, 1], 4);
+            Assert.AreEqual(dcloned.Mean[0, 2, 0], 5);
+            Assert.AreEqual(dcloned.Mean[0, 2, 1], 6);
+            Assert.AreEqual(dcloned.Mean[1, 0, 0], 7);
+            Assert.AreEqual(dcloned.Mean[1, 0, 1], 8);
+            Assert.AreEqual(dcloned.Mean[1, 1, 0], 9);
+            Assert.AreEqual(dcloned.Mean[1, 1, 1], 10);
+            Assert.AreEqual(dcloned.Mean[1, 2, 0], 11);
+            Assert.AreEqual(dcloned.Mean[1, 2, 1], 12);
 
-            Assert.AreEqual(dcloned.Mean[0, 0], 1);
-            Assert.AreEqual(dcloned.Mean[0, 1], 2);
-            Assert.AreEqual(dcloned.Mean[0, 2], 3);
-            Assert.AreEqual(dcloned.Mean[1, 0], 4);
-            Assert.AreEqual(dcloned.Mean[1, 1], 5);
-            Assert.AreEqual(dcloned.Mean[1, 2], 6);
         }
         [Test]
         public void validate_pMCMuaMusROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
@@ -342,7 +344,7 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void validate_FluenceOfRhoAndZAndTime_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
-            string detectorName = "testfluenceofrhoandtime";
+            string detectorName = "testfluenceofrhoandzandtime";
             var tissue = new MultiLayerTissue();
             IDetector detector = new FluenceOfRhoAndZAndTimeDetector(
                 new DoubleRange(0, 10, 3),
@@ -368,14 +370,14 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(dcloned.Mean[1, 1, 1], 11);
             Assert.AreEqual(dcloned.Mean[1, 1, 2], 12);
         }
-        //private static T Clone<T>(T myObject)
+        //private static Time Clone<Time>(Time myObject)
         //{
         //    using (MemoryStream ms = new MemoryStream(1024))
         //    {
-        //        var dcs = new DataContractSerializer(typeof(T));
+        //        var dcs = new DataContractSerializer(typeof(Time));
         //        dcs.WriteObject(ms, myObject);
         //        ms.Seek(0, SeekOrigin.Begin);
-        //        return (T)dcs.ReadObject(ms);
+        //        return (Time)dcs.ReadObject(ms);
         //    }
         //}
     }

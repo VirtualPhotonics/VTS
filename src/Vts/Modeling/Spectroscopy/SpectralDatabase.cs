@@ -2,24 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Xml;
-using System.Xml.Linq;
 using Vts.IO;
-using System.Runtime.Serialization;
-using Vts;
 
 namespace Vts.SpectralMapping
 {
     /// <summary>
     /// This static class provides simple, application-wide access to the loaded spectra. 
-    /// Actual loading is delegated to the LoadChromData class.
     /// </summary>
     public static class SpectralDatabase
     {
         /// <summary>
         /// Private property to store the loaded database
         /// </summary>
-        private static Dictionary<string, ChromophoreSpectrum> InternalDictionary
+        private static ChromophoreSpectrumDictionary InternalDictionary
         {
             get
             {
@@ -29,7 +24,7 @@ namespace Vts.SpectralMapping
             }
         }
 
-        private static Dictionary<string, ChromophoreSpectrum> _internalDictionary;
+        private static ChromophoreSpectrumDictionary _internalDictionary;
 
         //private static Dictionary<string, ChromophoreCoefficientType> _InternalDictionaryCoefficientType;
         /// <summary>
@@ -56,18 +51,18 @@ namespace Vts.SpectralMapping
         /// Returns a dictionary of Chromophore spectrum from the file SpectralDictionary.xml in resources
         /// </summary>
         /// <returns>Dictionary of Chromophore spectrum</returns>
-        public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile()
+        public static ChromophoreSpectrumDictionary GetDatabaseFromFile()
         {
-            return FileIO.ReadFromXMLInResources<Dictionary<string, ChromophoreSpectrum>>("Modeling/Spectroscopy/Resources/SpectralDictionary.xml", "Vts");
+            return FileIO.ReadFromXMLInResources<ChromophoreSpectrumDictionary>("Modeling/Spectroscopy/Resources/SpectralDictionary.xml", "Vts");
         }
 
         /// <summary>
         /// Returns a dictionary of Chromophore spectrum from the specified file
         /// </summary>
         /// <returns>Dictionary of Chromophore spectrum</returns>
-        public static Dictionary<string, ChromophoreSpectrum> GetDatabaseFromFile(string fileName)
+        public static ChromophoreSpectrumDictionary GetDatabaseFromFile(string fileName)
         {
-            return FileIO.ReadFromXML<Dictionary<string, ChromophoreSpectrum>>(fileName);
+            return FileIO.ReadFromXML<ChromophoreSpectrumDictionary>(fileName);
         }
 
         /// <summary>
@@ -78,10 +73,10 @@ namespace Vts.SpectralMapping
         /// <param name="fileStream">The file stream</param>
         /// <param name="startLine">Line number to start reading data</param>
         /// <returns>The new dictionary of chromophore spectrum</returns>
-        public static Dictionary<string, ChromophoreSpectrum> AppendDatabaseFromFile(Dictionary<string, ChromophoreSpectrum> existingDictionary, List<ChromophoreSpectrum> chromophoreSpectrumData, Stream fileStream, int startLine)
+        public static ChromophoreSpectrumDictionary AppendDatabaseFromFile(ChromophoreSpectrumDictionary existingDictionary, List<ChromophoreSpectrum> chromophoreSpectrumData, Stream fileStream, int startLine)
         {
             //create a new dictionary
-            Dictionary<string, ChromophoreSpectrum> chromophoreDictionary = CreateDatabaseFromFile(chromophoreSpectrumData, fileStream, startLine);
+            ChromophoreSpectrumDictionary chromophoreDictionary = CreateDatabaseFromFile(chromophoreSpectrumData, fileStream, startLine);
             foreach (var item in chromophoreDictionary)
             {
                 existingDictionary.Add(item.Key, item.Value);
@@ -95,10 +90,10 @@ namespace Vts.SpectralMapping
         /// <param name="existingDictionary">The existing dictionary to which to append</param>
         /// <param name="fileStream">The file stream</param>
         /// <returns>The new dictionary of chromophore spectrum</returns>
-        public static Dictionary<string, ChromophoreSpectrum> AppendDatabaseFromFile(Dictionary<string, ChromophoreSpectrum> existingDictionary, Stream fileStream)
+        public static ChromophoreSpectrumDictionary AppendDatabaseFromFile(ChromophoreSpectrumDictionary existingDictionary, Stream fileStream)
         {
             //create a new dictionary
-            Dictionary<string, ChromophoreSpectrum> chromophoreDictionary = CreateDatabaseFromFile(fileStream);
+            ChromophoreSpectrumDictionary chromophoreDictionary = CreateDatabaseFromFile(fileStream);
             foreach (var item in chromophoreDictionary)
             {
                 existingDictionary.Add(item.Key, item.Value);
@@ -111,11 +106,12 @@ namespace Vts.SpectralMapping
         /// </summary>
         /// <param name="existingDictionary">The existing dictionary to which to append</param>
         /// <param name="fileStream">The file stream</param>
+        /// <param name="convert">boolean value to determine if the data should be converted</param>
         /// <returns>The new dictionary of chromophore spectrum</returns>
-        public static Dictionary<string, ChromophoreSpectrum> AppendDatabaseFromFile(Dictionary<string, ChromophoreSpectrum> existingDictionary, Stream fileStream, bool convert)
+        public static ChromophoreSpectrumDictionary AppendDatabaseFromFile(ChromophoreSpectrumDictionary existingDictionary, Stream fileStream, bool convert)
         {
             //create a new dictionary
-            Dictionary<string, ChromophoreSpectrum> chromophoreDictionary = CreateDatabaseFromFile(fileStream, convert);
+            ChromophoreSpectrumDictionary chromophoreDictionary = CreateDatabaseFromFile(fileStream, convert);
             foreach (var item in chromophoreDictionary)
             {
                 existingDictionary.Add(item.Key, item.Value);
@@ -131,7 +127,7 @@ namespace Vts.SpectralMapping
         /// <param name="fileStream">The file stream</param>
         /// <param name="startLine">Line number to start reading data</param>
         /// <returns>The dictionary of chromophore spectrum</returns>
-        public static Dictionary<string, ChromophoreSpectrum> CreateDatabaseFromFile(List<ChromophoreSpectrum> chromophoreSpectrumData, Stream fileStream, int startLine)
+        public static ChromophoreSpectrumDictionary CreateDatabaseFromFile(List<ChromophoreSpectrum> chromophoreSpectrumData, Stream fileStream, int startLine)
         {
             //Get the number of items in the List of ChromophoreSpectrum
             int spectra = chromophoreSpectrumData.Count;
@@ -146,7 +142,7 @@ namespace Vts.SpectralMapping
             }
 
             //create a new dictionary
-            Dictionary<string, ChromophoreSpectrum> chromDictionary = new Dictionary<string, ChromophoreSpectrum>();
+            ChromophoreSpectrumDictionary chromDictionary = new ChromophoreSpectrumDictionary();
 
             // create a list of wavelengths
             List<double> wavelengths = new List<double>();
@@ -239,7 +235,7 @@ namespace Vts.SpectralMapping
         /// </summary>
         /// <param name="fileStream">The file stream of spectral data</param>
         /// <returns>The dictionary of chromophore spectrum</returns>
-        public static Dictionary<string, ChromophoreSpectrum> CreateDatabaseFromFile(Stream fileStream)
+        public static ChromophoreSpectrumDictionary CreateDatabaseFromFile(Stream fileStream)
         {
             return CreateDatabaseFromFile(fileStream, true);
         }
@@ -252,7 +248,7 @@ namespace Vts.SpectralMapping
         /// <param name="fileStream">The file stream of spectral data</param>
         /// <param name="convert">Boolean which is true if the data should be converted</param>
         /// <returns>The dictionary of chromophore spectrum</returns>
-        public static Dictionary<string, ChromophoreSpectrum> CreateDatabaseFromFile(Stream fileStream, bool convert)
+        public static ChromophoreSpectrumDictionary CreateDatabaseFromFile(Stream fileStream, bool convert)
         {
             //if the file stream is null return a null dictionary
             if (fileStream == null)
@@ -261,7 +257,7 @@ namespace Vts.SpectralMapping
             }
 
             //create a new dictionary
-            Dictionary<string, ChromophoreSpectrum> chromophoreDictionary = new Dictionary<string, ChromophoreSpectrum>();
+            ChromophoreSpectrumDictionary chromophoreDictionary = new ChromophoreSpectrumDictionary();
 
             //create a list of ChromophoreSpectrum
             List<ChromophoreSpectrum> ChromophoreList = new List<ChromophoreSpectrum>();
@@ -414,7 +410,7 @@ namespace Vts.SpectralMapping
         /// Writes the Chromophore dictionary to separate text files
         /// </summary>
         /// <param name="ChromophoreDictionary">The dictionary to write</param>
-        public static void WriteDatabaseToFiles(Dictionary<string, ChromophoreSpectrum> ChromophoreDictionary)
+        public static void WriteDatabaseToFiles(ChromophoreSpectrumDictionary ChromophoreDictionary)
         {
             //loop through each of the ChromophoreSpectrum objects
             foreach (var item in ChromophoreDictionary)

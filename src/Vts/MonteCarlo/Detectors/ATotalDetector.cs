@@ -32,7 +32,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
             _tissue = tissue;
             _tallySecondMoment = tallySecondMoment;
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetAbsorptionWeightingMethod(tissue, this);
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
         }
 
         /// <summary>
@@ -97,7 +97,11 @@ namespace Vts.MonteCarlo.Detectors
                 TallyCount++;
             }
         }
-        
+
+        /// <summary>
+        /// method to normalize detector tally results
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;
@@ -107,6 +111,11 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// method to determine if photon within detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <returns>this method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true;

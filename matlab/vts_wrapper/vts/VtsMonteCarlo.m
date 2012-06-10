@@ -118,25 +118,93 @@ classdef VtsMonteCarlo < handle
                 vbTypeNET, ...
                 ppInputNET.InputFolder);
             
-            
             %             sim = Vts.MonteCarlo.MonteCarloSimulation(ppInputNET);
             disp('Running post-processor...');
-            tstart = tic;
             
-            outputNET = Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor.GenerateOutput( ...
+            ppNET = Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor( ...
                 vbTypeNET, ...
                 ppInputNET.DetectorInputs, ... % not switching based on input type here (yet...)
                 ppInputNET.TallySecondMoment, ...
-                ppInputNET.TrackStatistics, ...
                 ppDatabase, ...
                 originalSimInputNET ...
                 );
+            
+            tstart = tic;
+            
+            outputNET = ppNET.Run();
+%             
+%             outputNET = Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor.GenerateOutput( ...
+%                 vbTypeNET, ...
+%                 ppInputNET.DetectorInputs, ... % not switching based on input type here (yet...)
+%                 ppInputNET.TallySecondMoment, ...
+%                 ppInputNET.TrackStatistics, ...
+%                 ppDatabase, ...
+%                 originalSimInputNET ...
+%                 );
             
             ellapsed = toc(tstart);
             disp(['Post-processing complete! Run time: ' num2str(ellapsed) ' seconds']);
             
             output = SimulationOutput.FromOutputNET(outputNET);
             output.PostProcessorInput = postProcessorInput;
+        end
+        function outputs = RunPostProcessors(postProcessorInputs, originalSimInputs)
+            npp = length(postProcessorInputs);
+            postProcessors = NET.createArray('Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor', npp);
+            for ppi = 1:npp
+                ppInputNET = PostProcessorInput.ToInputNET(postProcessorInputs{ppi});
+
+                if nargin < 2                
+                    originalSimInputNET = Vts.MonteCarlo.SimulationInput.FromFile( ...
+                        System.IO.Path.Combine( ...
+                            ppInputNET.InputFolder, ...
+                            System.String.Concat(ppInputNET.DatabaseSimulationInputFilename, '.xml')));
+                else
+                    originalSimInputNET = SimulationInput.ToInputNET(originalSimInputs{ppi});
+                end            
+
+                % hard-coding pMC to get started, than need to open this up
+                vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'pMCDiffuseReflectance');
+
+                ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetpMCDatabase(... % database filenames are assumed to be convention
+                    vbTypeNET, ...
+                    ppInputNET.InputFolder);
+
+                %             sim = Vts.MonteCarlo.MonteCarloSimulation(ppInputNET);
+
+                ppNET = Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor( ...
+                    vbTypeNET, ...
+                    ppInputNET.DetectorInputs, ... % not switching based on input type here (yet...)
+                    ppInputNET.TallySecondMoment, ...
+                    ppDatabase, ...
+                    originalSimInputNET ...
+                    );
+                
+                postProcessors(ppi) = ppNET;
+            end
+            
+            disp('Running post-processor...');
+            tstart = tic;
+            
+            outputsNET = ppNET.RunAll(postProcessors);
+%             
+%             outputNET = Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor.GenerateOutput( ...
+%                 vbTypeNET, ...
+%                 ppInputNET.DetectorInputs, ... % not switching based on input type here (yet...)
+%                 ppInputNET.TallySecondMoment, ...
+%                 ppInputNET.TrackStatistics, ...
+%                 ppDatabase, ...
+%                 originalSimInputNET ...
+%                 );
+            
+            ellapsed = toc(tstart);
+            disp([int2str(npp) ' post-processing simulations complete! Total run time: ' num2str(ellapsed) ' seconds']);
+            
+            for ppi = 1:npp
+                output = SimulationOutput.FromOutputNET(outputsNET(ppi));
+                output.PostProcessorInput = postProcessorInputs{ppi};
+                outputs{ppi} = output;
+            end
         end
     end
     

@@ -1,17 +1,15 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 using System.Numerics;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
+    /// Implements IDetector&lt;Complex[,]&gt;.  Tally for reflectance as a function 
     /// of Fx and Time.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
@@ -22,12 +20,12 @@ namespace Vts.MonteCarlo.Detectors
         private double[] _fxArray;
 
         /// <summary>
-        /// Returns an instance of ROfFxDetector
+        /// Returns an instance of ROfFxAndTimeDetector
         /// </summary>
-        /// <param name="fx"></param>
-        /// <param name="time"></param>
-        /// <param name="tallySecondMoment"></param>
-        /// <param name="name"></param>
+        /// <param name="fx">fx binning</param>
+        /// <param name="time">time binning</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
+        /// <param name="name">detector name</param>
         public ROfFxAndTimeDetector(DoubleRange fx, DoubleRange time, bool tallySecondMoment, String name)
         {
             Fx = fx;
@@ -44,29 +42,54 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
         }
         /// <summary>
-        /// Returns a default instance of ROfFxDetector (for serialization purposes only)
+        /// Returns a default instance of ROfFxAndTimeDetector (for serialization purposes only)
         /// </summary>
         public ROfFxAndTimeDetector()
             : this(new DoubleRange(),new DoubleRange(), true, TallyType.ROfFxAndTime.ToString())
         {
         }
 
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public Complex[,] Mean { get; set; }
 
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public Complex[,] SecondMoment { get; set; }
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
 
+        /// <summary>
+        /// Name of detector
+        /// </summary>
         public String Name { get; set; }
 
+        /// <summary>
+        /// number of times detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
 
+        /// <summary>
+        /// fx binning
+        /// </summary>
         public DoubleRange Fx { get; set; }
 
+        /// <summary>
+        /// time binning
+        /// </summary>
         public DoubleRange Time { get; set; }
 
+        /// <summary>
+        /// method to tally to detector
+        /// </summary>
+        /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
             var dp = photon.DP;
@@ -97,6 +120,10 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount++;
         }
 
+        /// <summary>
+        /// Method to normalize the tally to get Mean and Second Moment estimates
+        /// </summary>
+        /// <param name="numPhotons">Number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             for (int ifx = 0; ifx < Fx.Count; ifx++)
@@ -112,6 +139,11 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// Method to determine if photon is within detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

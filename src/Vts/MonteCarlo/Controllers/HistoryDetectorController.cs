@@ -12,7 +12,11 @@ namespace Vts.MonteCarlo.Controllers
     {
         private IList<IHistoryDetector> _detectors;
         private ITissue _tissue;
-
+        /// <summary>
+        /// controller for history type detectors
+        /// </summary>
+        /// <param name="detectors">IEnumerable of IHistoryDetector</param>
+        /// <param name="tissue">ITissue</param>
         public HistoryDetectorController(IEnumerable<IHistoryDetector> detectors, ITissue tissue)
         {
             //_detectors = (from d in detectors
@@ -21,9 +25,14 @@ namespace Vts.MonteCarlo.Controllers
             _detectors = detectors.ToList();
             _tissue = tissue;
         }
-
+        /// <summary>
+        /// Ilist of IDetector
+        /// </summary>
         public IList<IDetector> Detectors { get { return _detectors.Select(d => (IDetector)d).ToList(); } }
-
+        /// <summary>
+        /// method to tally to detectors managed by this controller
+        /// </summary>
+        /// <param name="photon">Photon</param>
         public void Tally(Photon photon)
         {
             PhotonDataPoint previousDP = photon.History.HistoryData.First();
@@ -38,7 +47,10 @@ namespace Vts.MonteCarlo.Controllers
                 previousDP = dp;
             }
         }
-
+        /// <summary>
+        /// method to normalize detector tallies
+        /// </summary>
+        /// <param name="N">number of photons launched from source</param>
         public virtual void NormalizeDetectors(long N)
         {
             foreach (var detector in _detectors)

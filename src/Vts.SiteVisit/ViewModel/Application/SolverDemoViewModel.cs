@@ -1,4 +1,7 @@
 //using SLExtensions.Input;
+using System.Reflection;
+
+using System;
 
 namespace Vts.SiteVisit.ViewModel
 {
@@ -17,6 +20,16 @@ namespace Vts.SiteVisit.ViewModel
         public MapViewModel MapVM { get; private set; }
         public MeshViewModel MeshVM { get; private set; }
         public TextOutputViewModel TextOutputVM { get; private set; }
+        public string Version
+        {
+            get
+            {
+                var currentVersion = new AssemblyName(Assembly.GetExecutingAssembly().FullName);
+                return currentVersion.Version.Major.ToString() + "." + currentVersion.Version.Minor.ToString() + "." + currentVersion.Version.Build.ToString();
+//              return currentVersion.Version.ToString(); // This line returns all 4 version numbers Major.Minor.Build.Revision
+            }
+        }
+
 
         public SolverDemoViewModel()
         {

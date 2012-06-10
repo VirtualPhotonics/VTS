@@ -269,13 +269,13 @@ namespace Vts.MonteCarlo.IO
 
                 if (detector is IDetector<double>)
                 {
-                    var d = detector as IDetector<double>;
-                    FileIO.WriteToXML(d, filePath + ".xml");
+                    //var d = detector as IDetector<double>;
+                    //FileIO.WriteToXML((RDiffuseDetector)d, filePath + ".xml");
                 }
                 if (detector is IDetector<double[]>)
                 {
                     var d = detector as IDetector<double[]>;
-                    FileIO.WriteToXML(d, filePath + ".xml");
+                    //FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                     // output of 2nd moment 
                     FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
@@ -283,71 +283,180 @@ namespace Vts.MonteCarlo.IO
                 if (detector is IDetector<double[,]>)
                 {
                     var d = detector as IDetector<double[,]>;
-                    FileIO.WriteToXML(d, filePath + ".xml");
+                    //FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<double[, ,]>)
                 {
                     var d = detector as IDetector<double[, ,]>;
-                    FileIO.WriteToXML(d, filePath + ".xml");
+                    //FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<double[, , ,]>)
                 {
                     var d = detector as IDetector<double[, , ,]>;
-                    FileIO.WriteToXML(d, filePath + ".xml");
+                    //FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<double[, , , ,]>)
                 {
                     var d = detector as IDetector<double[, , , ,]>;
-                    FileIO.WriteToXML(d, filePath + ".xml");
+                    //FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex>)
                 {
-                    var d = detector as IDetector<Complex>;
-                    FileIO.WriteToXML(d, filePath + ".xml");
+                    //var d = detector as IDetector<Complex>;
+                    //FileIO.WriteToXML(d, filePath + ".xml");
                 }
                 if (detector is IDetector<Complex[]>)
                 {
                     var d = detector as IDetector<Complex[]>;
-                    FileIO.WriteToXML(d, filePath + ".xml");
+                    //FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex[,]>)
                 {
                     var d = detector as IDetector<Complex[,]>;
-                    FileIO.WriteToXML(d, filePath + ".xml");
+                    //FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex[, ,]>)
                 {
                     var d = detector as IDetector<Complex[, ,]>;
-                    FileIO.WriteToXML(d, filePath + ".xml");
+                    //FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex[, , ,]>)
                 {
                     var d = detector as IDetector<Complex[, , ,]>;
-                    FileIO.WriteToXML(d, filePath + ".xml");
+                    //FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex[, , , ,]>)
                 {
                     var d = detector as IDetector<Complex[, , , ,]>;
-                    FileIO.WriteToXML(d, filePath + ".xml");
+                    //FileIO.WriteToXML(d, filePath + ".xml");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
+				
+				switch (detector.TallyType) {
+					case TallyType.RDiffuse:					
+	                    FileIO.WriteToXML((RDiffuseDetector)detector, filePath + ".xml");
+						break;
+					case TallyType.TDiffuse:
+	                    FileIO.WriteToXML((TDiffuseDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.ATotal:
+	                    FileIO.WriteToXML((ATotalDetector)detector, filePath + ".xml");
+						break;
+
+                    // "1D" detectors
+                    case TallyType.ROfRho:
+	                    FileIO.WriteToXML((ROfRhoDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.pMCROfRho:
+	                    FileIO.WriteToXML((pMCROfRhoDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.TOfRho:
+	                    FileIO.WriteToXML((TOfRhoDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.ROfAngle:
+	                    FileIO.WriteToXML((ROfAngleDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.ROfFx:
+	                    FileIO.WriteToXML((ROfFxDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.pMCROfFx:
+	                    FileIO.WriteToXML((pMCROfFxDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.TOfAngle:
+	                    FileIO.WriteToXML((TOfAngleDetector)detector, filePath + ".xml");
+						break;
+
+                    // "2D" detectors
+                    case TallyType.ROfRhoAndTime:
+	                    FileIO.WriteToXML((ROfRhoAndTimeDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.pMCROfRhoAndTime:
+	                    FileIO.WriteToXML((pMCROfRhoAndTimeDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.pMCROfFxAndTime:
+	                    FileIO.WriteToXML((pMCROfFxAndTimeDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.ROfRhoAndAngle:
+	                    FileIO.WriteToXML((ROfRhoAndAngleDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.TOfRhoAndAngle:
+	                    FileIO.WriteToXML((TOfRhoAndAngleDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.ROfRhoAndOmega:
+	                    FileIO.WriteToXML((ROfRhoAndOmegaDetector)detector, filePath + ".xml");
+						break;
+					
+                    case TallyType.ROfFxAndTime:
+	                    FileIO.WriteToXML((ROfFxAndTimeDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.ROfXAndY:
+	                    FileIO.WriteToXML((ROfXAndYDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.FluenceOfRhoAndZ:
+	                    FileIO.WriteToXML((FluenceOfRhoAndZDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.FluenceOfXAndYAndZ:
+	                    FileIO.WriteToXML((FluenceOfXAndYAndZDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.AOfRhoAndZ:
+	                    FileIO.WriteToXML((AOfRhoAndZDetector)detector, filePath + ".xml");
+						break;
+
+
+                    // "3D" detectors
+                    case TallyType.FluenceOfRhoAndZAndTime:
+	                    FileIO.WriteToXML((FluenceOfRhoAndZAndTimeDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.ReflectedMTOfRhoAndSubregionHist:
+	                    FileIO.WriteToXML((ReflectedMTOfRhoAndSubregionHistDetector)detector, filePath + ".xml");
+						break;
+
+                    case TallyType.ReflectedTimeOfRhoAndSubregionHist:
+	                    FileIO.WriteToXML((ReflectedTimeOfRhoAndSubregionHistDetector)detector, filePath + ".xml");
+						break;
+
+                    // "5D" detectors
+                    case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
+	                    FileIO.WriteToXML((RadianceOfXAndYAndZAndThetaAndPhiDetector)detector, filePath + ".xml");
+						break;
+					default:
+	                    FileIO.WriteToXML(detector, filePath + ".xml");
+						break;
+					}
             }
             catch (Exception e)
             {
@@ -361,7 +470,7 @@ namespace Vts.MonteCarlo.IO
         /// <param name="tallyType">TallyType of IDetector being read</param>
         /// <param name="fileName">filename string of file to be read</param>
         /// <param name="folderPath">path string where file resides</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector ReadDetectorFromFile(TallyType tallyType, string fileName, string folderPath)
         {
             try
@@ -500,13 +609,6 @@ namespace Vts.MonteCarlo.IO
                         aOfRhoAndZDetector.Mean = (double[,])FileIO.ReadArrayFromBinary<double>(filePath, aOfRhoAndZDetectorDims);
                         return aOfRhoAndZDetector;
 
-                    case TallyType.MomentumTransferOfRhoAndZ:
-                        var momentumTransferOfRhoAndZDetector =
-                            FileIO.ReadFromXML<MomentumTransferOfRhoAndZDetector>(filePath + ".xml");
-                        var momentumTransferOfRhoAndZDetectorDims = new int[] { momentumTransferOfRhoAndZDetector.Rho.Count - 1, momentumTransferOfRhoAndZDetector.Z.Count - 1 };
-                        momentumTransferOfRhoAndZDetector.Mean =
-                            (double[,])FileIO.ReadArrayFromBinary<double>(filePath, momentumTransferOfRhoAndZDetectorDims);
-                        return momentumTransferOfRhoAndZDetector;
 
                     // "3D" detectors
                     case TallyType.FluenceOfRhoAndZAndTime:
@@ -518,6 +620,41 @@ namespace Vts.MonteCarlo.IO
                             fluenceOfRhoAndZAndTimeDetector.Time.Count - 1 };
                         fluenceOfRhoAndZAndTimeDetector.Mean = (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfRhoAndZAndTimeDetectorDims);
                         return fluenceOfRhoAndZAndTimeDetector;
+
+                    case TallyType.ReflectedMTOfRhoAndSubregionHist:
+                        var reflectedMTOfRhoAndSubregionHistDetector =
+                            FileIO.ReadFromXML<ReflectedMTOfRhoAndSubregionHistDetector>(filePath + ".xml");
+                        var reflectedMTOfRhoAndSubregionHistDetectorDims = new int[] {
+                            reflectedMTOfRhoAndSubregionHistDetector.Rho.Count - 1, 
+                            reflectedMTOfRhoAndSubregionHistDetector.SubregionIndices.Count,
+                            reflectedMTOfRhoAndSubregionHistDetector.MTBins.Count - 1 };                                                 
+                        reflectedMTOfRhoAndSubregionHistDetector.Mean =
+                            (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, reflectedMTOfRhoAndSubregionHistDetectorDims);
+                        return reflectedMTOfRhoAndSubregionHistDetector;
+
+                    case TallyType.ReflectedTimeOfRhoAndSubregionHist:
+                        var reflectedTimeOfRhoAndSubregionHistDetector =
+                            FileIO.ReadFromXML<ReflectedTimeOfRhoAndSubregionHistDetector>(filePath + ".xml");
+                        var reflectedTimeOfRhoAndSubregionHistDetectorDims = new int[] {
+                            reflectedTimeOfRhoAndSubregionHistDetector.Rho.Count - 1, 
+                            reflectedTimeOfRhoAndSubregionHistDetector.SubregionIndices.Count,
+                            reflectedTimeOfRhoAndSubregionHistDetector.Time.Count - 1 };
+                        reflectedTimeOfRhoAndSubregionHistDetector.Mean =
+                            (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, reflectedTimeOfRhoAndSubregionHistDetectorDims);
+                        return reflectedTimeOfRhoAndSubregionHistDetector;
+
+                    // "5D" detectors
+                    case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
+                        var radianceOfXAndYAndZAndThetaAndPhiDetector =
+                            FileIO.ReadFromXML<RadianceOfXAndYAndZAndThetaAndPhiDetector>(filePath + ".xml");
+                        var radianceOfXAndYAndZAndThetaAndPhiDims = new int[] { 
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.X.Count - 1, 
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.Y.Count - 1,
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.Z.Count - 1,
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.Theta.Count - 1,
+                            radianceOfXAndYAndZAndThetaAndPhiDetector.Phi.Count - 1};
+                        radianceOfXAndYAndZAndThetaAndPhiDetector.Mean = (double[,,,,])FileIO.ReadArrayFromBinary<double>(filePath, radianceOfXAndYAndZAndThetaAndPhiDims);
+                        return radianceOfXAndYAndZAndThetaAndPhiDetector;
 
                     default:
                         throw new ArgumentOutOfRangeException("tallyType");
@@ -535,7 +672,7 @@ namespace Vts.MonteCarlo.IO
         /// </summary>
         /// <param name="tallyType">TallyType of IDetector being read</param>
         /// <param name="folderPath">path string of folder where file to be read resides</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector ReadDetectorFromFile(TallyType tallyType, string folderPath)
         {
             return ReadDetectorFromFile(tallyType, tallyType.ToString(), folderPath);
@@ -547,7 +684,7 @@ namespace Vts.MonteCarlo.IO
         /// <param name="fileName">filename string of file to be read</param>
         /// <param name="folderPath">path string of folder where file to be read resides</param>
         /// <param name="projectName">project name string where file resides in resources</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector ReadDetectorFromFileInResources(TallyType tallyType, string fileName, string folderPath, string projectName)
         {
             try
@@ -680,21 +817,11 @@ namespace Vts.MonteCarlo.IO
                             (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, aOfRhoAndZDetectorDims);
                         return aOfRhoAndZDetector;
 
-                    case TallyType.MomentumTransferOfRhoAndZ:
-                        var momentumTransferOfRhoAndZDetector =
-                            FileIO.ReadFromXMLInResources<MomentumTransferOfRhoAndZDetector>(filePath + ".xml",
-                                                                                             projectName);
-                        var momentumTransferOfRhoAndZDetectorDims =
-                            new int[] { momentumTransferOfRhoAndZDetector.Rho.Count, momentumTransferOfRhoAndZDetector.Z.Count };
-                        momentumTransferOfRhoAndZDetector.Mean =
-                            (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, momentumTransferOfRhoAndZDetectorDims);
-                        return momentumTransferOfRhoAndZDetector;
 
                     // "3D" detectors
                     case TallyType.FluenceOfRhoAndZAndTime:
                         var fluenceOfRhoAndZAndTimeDetector =
-                            FileIO.ReadFromXMLInResources<FluenceOfRhoAndZAndTimeDetector>(filePath + ".xml",
-                                                                                           projectName);
+                            FileIO.ReadFromXMLInResources<FluenceOfRhoAndZAndTimeDetector>(filePath + ".xml",  projectName);
                         var fluenceOfRhoAndZAndTimeDetectorDims =
                             new int[] { fluenceOfRhoAndZAndTimeDetector.Rho.Count, 
                                         fluenceOfRhoAndZAndTimeDetector.Z.Count,
@@ -702,6 +829,26 @@ namespace Vts.MonteCarlo.IO
                         fluenceOfRhoAndZAndTimeDetector.Mean =
                             (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, fluenceOfRhoAndZAndTimeDetectorDims);
                         return fluenceOfRhoAndZAndTimeDetector;
+                    case TallyType.ReflectedMTOfRhoAndSubregionHist:
+                        var reflectedMTOfRhoAndSubRegionHistDetector =
+                            FileIO.ReadFromXMLInResources<ReflectedMTOfRhoAndSubregionHistDetector>(filePath + ".xml", projectName);
+                        var ReflectedMTOfRhoAndSubregionHistDims =
+                            new int[] { reflectedMTOfRhoAndSubRegionHistDetector.Rho.Count, 
+                                        reflectedMTOfRhoAndSubRegionHistDetector.SubregionIndices.Count, 
+                                        reflectedMTOfRhoAndSubRegionHistDetector.MTBins.Count };
+                        reflectedMTOfRhoAndSubRegionHistDetector.Mean =
+                            (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, ReflectedMTOfRhoAndSubregionHistDims);
+                        return reflectedMTOfRhoAndSubRegionHistDetector;
+                    case TallyType.ReflectedTimeOfRhoAndSubregionHist:
+                        var reflectedTimeOfRhoAndSubregionHistDetector =
+                            FileIO.ReadFromXMLInResources<ReflectedTimeOfRhoAndSubregionHistDetector>(filePath + ".xml", projectName);
+                        var reflectedTimeOfRhoAndSubregionHistDims =
+                            new int[] { reflectedTimeOfRhoAndSubregionHistDetector.Rho.Count, 
+                                        reflectedTimeOfRhoAndSubregionHistDetector.SubregionIndices.Count, 
+                                        reflectedTimeOfRhoAndSubregionHistDetector.Time.Count };
+                        reflectedTimeOfRhoAndSubregionHistDetector.Mean =
+                            (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, reflectedTimeOfRhoAndSubregionHistDims);
+                        return reflectedTimeOfRhoAndSubregionHistDetector;
 
                     default:
                         throw new ArgumentOutOfRangeException("tallyType");
@@ -720,7 +867,7 @@ namespace Vts.MonteCarlo.IO
         /// <param name="tallyType">TallyType of IDetector to be read</param>
         /// <param name="folderPath">path string of folder where file to be read resides</param>
         /// <param name="projectName">project name string where the file resides in resources</param>
-        /// <returns></returns>
+        /// <returns>IDetector</returns>
         public static IDetector ReadDetectorFromFileInResources(TallyType tallyType, string folderPath, string projectName)
         {
             return ReadDetectorFromFileInResources(tallyType, tallyType.ToString(), folderPath, projectName);

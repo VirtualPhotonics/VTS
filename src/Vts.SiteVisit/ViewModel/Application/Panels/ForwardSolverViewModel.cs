@@ -16,7 +16,7 @@ namespace Vts.SiteVisit.ViewModel
     /// <summary>
     /// View model implementing Forward Solver panel functionality
     /// </summary>
-    public partial class ForwardSolverViewModel : BindableObject
+    public class ForwardSolverViewModel : BindableObject
     {
         private SolutionDomainOptionViewModel _SolutionDomainTypeOptionVM;
         private OptionViewModel<ForwardSolverType> _ForwardSolverTypeOptionVM;
@@ -44,13 +44,8 @@ namespace Vts.SiteVisit.ViewModel
 #else 
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model:",false);
 #endif
-            //ForwardSolverType.DistributedPointSourceSDA,
-                //ForwardSolverType.PointSourceSDA,
-                //ForwardSolverType.DistributedGaussianSourceSDA,
-                //ForwardSolverType.MonteCarlo); // explicitly enabling these for the workshop;
             ForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
             {
-            //    ForwardSolver = SolverFactory.GetForwardSolver(ForwardSolverTypeOptionVM.SelectedValue);
                   OnPropertyChanged("IsGaussianForwardModel");
                   OnPropertyChanged("ForwardSolver");
             };
@@ -60,17 +55,11 @@ namespace Vts.SiteVisit.ViewModel
             ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output:", true);
 
             SolutionDomainTypeOptionVM.SolverType = SolverType.Forward;
-
-            // model
-            //UpdateModels();
-
+            
             Commands.FS_ExecuteForwardSolver.Executed += ExecuteForwardSolver_Executed;
             Commands.FS_SetIndependentVariableRange.Executed += SetIndependentVariableRange_Executed;
         }
-
-        #region Properties
-
-
+        
         public IForwardSolver ForwardSolver
         {
             get
@@ -79,6 +68,7 @@ namespace Vts.SiteVisit.ViewModel
                     ForwardSolverTypeOptionVM.SelectedValue);
             }
         }
+
         public bool IsGaussianForwardModel
         {
             get { return ForwardSolverTypeOptionVM.SelectedValue.IsGaussianForwardModel(); }
@@ -102,6 +92,7 @@ namespace Vts.SiteVisit.ViewModel
                  OnPropertyChanged("ForwardSolverTypeOptionVM");
             }
         }
+        
         public RangeViewModel RangeVM
         {
             get { return _RangeVM; }
@@ -111,6 +102,7 @@ namespace Vts.SiteVisit.ViewModel
                 OnPropertyChanged("RangeVM");
             }
         }
+
         public OpticalPropertyViewModel OpticalPropertyVM
         {
             get { return _OpticalPropertyVM; }
@@ -120,6 +112,7 @@ namespace Vts.SiteVisit.ViewModel
                 OnPropertyChanged("OpticalPropertyVM");
             }
         }
+
         public OptionViewModel<ForwardAnalysisType> ForwardAnalysisTypeOptionVM
         {
             get { return _ForwardAnalysisTypeOptionVM; }
@@ -129,14 +122,7 @@ namespace Vts.SiteVisit.ViewModel
                 OnPropertyChanged("ForwardAnalysisTypeOptionVM");
             }
         }
-
-        #endregion
-
-        //private void UpdateModels()
-        //{
-        //    ForwardSolver = SolverFactory.GetForwardSolver(ForwardSolverTypeOptionVM.SelectedValue);
-        //}
-
+        
         void SetIndependentVariableRange_Executed(object sender, ExecutedEventArgs e)
         {
             if (e.Parameter is RangeViewModel)
@@ -147,13 +133,22 @@ namespace Vts.SiteVisit.ViewModel
 
         void ExecuteForwardSolver_Executed(object sender, ExecutedEventArgs e)
         {
-            IEnumerable<Point> points = ExecuteForwardSolver();
-
+            Point[][] points = ExecuteForwardSolver();
             PlotAxesLabels axesLabels = GetPlotLabels();
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
             string plotLabel = GetLegendLabel();
-            Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
+            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
+            {
+                var real = points[0];
+                var imag = points[1];
+                Commands.Plot_PlotValues.Execute(new PlotData(real, plotLabel + "\r(real)"));
+                Commands.Plot_PlotValues.Execute(new PlotData(imag, plotLabel + "\r(imag)"));
+            }
+            else
+            {
+                Commands.Plot_PlotValues.Execute(new PlotData(points.First(), plotLabel));
+            }
 
             Commands.TextOutput_PostMessage.Execute("Forward Solver: " + OpticalPropertyVM + "\r");
         }
@@ -191,9 +186,6 @@ namespace Vts.SiteVisit.ViewModel
                 case ForwardSolverType.MonteCarlo:
                     modelString = "Model - scaled MC \r";
                     break;
-                case ForwardSolverType.pMC:
-                    modelString = "Model - pMC \r";
-                    break;
                 case ForwardSolverType.Nurbs:
                     modelString = "Model - nurbs \r";
                     break;
@@ -203,7 +195,7 @@ namespace Vts.SiteVisit.ViewModel
             return modelString + opString;
         }
 
-        public IEnumerable<Point> ExecuteForwardSolver()
+        public Point[][] ExecuteForwardSolver()
         {
             double[] independentValues = RangeVM.Values.ToArray(); // ToList() necessary?
             
@@ -211,7 +203,7 @@ namespace Vts.SiteVisit.ViewModel
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                     ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
-            IEnumerable<double> query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            double[] query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                 ForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisTypeOptionVM.SelectedValue,
@@ -220,20 +212,31 @@ namespace Vts.SiteVisit.ViewModel
                 OpticalPropertyVM.GetOpticalProperties(),
                 constantValues);
 
-            // if it's reporting Real + Imaginary, we need a vector twice as long
+            // if it's reporting Real + Imaginary, we need two vectors
             if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
-                return EnumerableEx.Zip(
-                    independentValues.Concat(independentValues),
-                    query, 
-                    (x, y) => new Point(x, y));
+                var real = query.Take(independentValues.Length);
+                var imag = query.Skip(independentValues.Length).Take(independentValues.Length);
+
+                return new[] {
+                    EnumerableEx.Zip(
+                        independentValues,
+                        real,
+                        (x, y) => new Point(x, y)).ToArray(),
+                    EnumerableEx.Zip(
+                        independentValues,
+                        imag, 
+                        (x, y) => new Point(x, y)).ToArray()
+                };
             }
             else
             {
-                return  EnumerableEx.Zip(
-                    independentValues,
-                    query, 
-                    (x, y) => new Point(x, y));
+                return new[] {
+                    EnumerableEx.Zip(
+                        independentValues,
+                        query, 
+                        (x, y) => new Point(x, y)).ToArray()
+                };
             }
         }
     }

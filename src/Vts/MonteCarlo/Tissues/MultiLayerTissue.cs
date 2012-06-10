@@ -44,6 +44,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="input">multi-layer tissue input</param>
         /// <param name="absorptionWeightingType">absorption weighting type</param>
         /// <param name="phaseFunctionType">phase function type</param>
+        /// <param name="russianRouletteWeightThreshold">russian roulette weight threshold</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiLayerTissue(
             MultiLayerTissueInput input, 

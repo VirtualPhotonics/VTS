@@ -5,7 +5,7 @@ using Vts.Common;
 namespace Vts.MonteCarlo
 {
     /// <summary>
-    /// DetectorInput for T(angle)
+    /// DetectorInput for Time(angle)
     /// </summary>
     public class TOfAngleDetectorInput : IDetectorInput
     {

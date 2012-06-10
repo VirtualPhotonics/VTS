@@ -21,6 +21,9 @@ namespace Vts.MonteCarlo.PhotonData
         {
             VirtualBoundaryType = virtualBoundaryType;
         }
+        /// <summary>
+        /// virtual boundary type
+        /// </summary>
         public VirtualBoundaryType VirtualBoundaryType { get; set; }
     }
 }

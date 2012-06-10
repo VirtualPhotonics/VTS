@@ -28,7 +28,7 @@ namespace Vts.Test.MonteCarlo
                         true, // tally SecondMoment
                         "testName")
                 };
-            var output = new Output(new SimulationInput(), detectorList);
+            var output = new SimulationOutput(new SimulationInput(), detectorList);
 
             var detector = (ROfAngleDetector)output.ResultsDictionary["testName"];
             var angle = detector.Angle;
@@ -49,7 +49,7 @@ namespace Vts.Test.MonteCarlo
                     new ROfRhoDetector(new DoubleRange(0, 10, 10), false, "testName"),
                     new ROfRhoDetector(new DoubleRange(0, 20, 20), false, "testName")
                 };
-            Output output = new Output(new SimulationInput(), detectorList);
+            SimulationOutput output = new SimulationOutput(new SimulationInput(), detectorList);
             var detector = (ROfRhoDetector)output.ResultsDictionary["testName"];
             var rho = detector.Rho;
             Assert.AreEqual(rho.Start, 0d);
@@ -62,14 +62,14 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(rho1.Count, 20);
         }
 
-        //private static T Clone<T>(T myObject)
+        //private static Time Clone<Time>(Time myObject)
         //{
         //    using (MemoryStream ms = new MemoryStream(1024))
         //    {
-        //        var dcs = new DataContractSerializer(typeof(T));
+        //        var dcs = new DataContractSerializer(typeof(Time));
         //        dcs.WriteObject(ms, myObject);
         //        ms.Seek(0, SeekOrigin.Begin);
-        //        return (T)dcs.ReadObject(ms);
+        //        return (Time)dcs.ReadObject(ms);
         //    }
         //}
     }

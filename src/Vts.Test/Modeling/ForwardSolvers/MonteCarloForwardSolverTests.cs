@@ -106,7 +106,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             Assert.IsTrue(rOfFxArray[2] < rOfFxArray[0]);
             Assert.IsTrue(rOfFxArray[3] > rOfFxArray[4]);
 
-            var rOfRhoAndTArray = fs.ROfRhoAndT(ops, fxs, ts);
+            var rOfRhoAndTArray = fs.ROfRhoAndTime(ops, fxs, ts);
             Assert.IsTrue(rOfRhoAndTArray[0] > 0);
             Assert.IsTrue(rOfRhoAndTArray.Length == 12);
             Assert.IsTrue(rOfRhoAndTArray[0] > rOfRhoAndTArray[1]); // decreasing with time
@@ -140,7 +140,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             Assert.IsTrue(rOfFxArray[2] < rOfFxArray[0]);
             Assert.IsTrue(rOfFxArray[3] > rOfFxArray[4]);
 
-            var rOfRhoAndTArray = fs.ROfRhoAndT(ops, fxs, ts).ToArray();
+            var rOfRhoAndTArray = fs.ROfRhoAndTime(ops, fxs, ts).ToArray();
             Assert.IsTrue(rOfRhoAndTArray[0] > 0);
             Assert.IsTrue(rOfRhoAndTArray.Length == 12);
             Assert.IsTrue(rOfRhoAndTArray[0] > rOfRhoAndTArray[1]); // decreasing with time

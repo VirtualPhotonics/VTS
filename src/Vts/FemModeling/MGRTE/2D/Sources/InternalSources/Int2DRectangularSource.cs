@@ -4,8 +4,18 @@ using Vts.Common;
 
 namespace Vts.FemModeling.MGRTE._2D.DataStructures
 {
+    /// <summary>
+    /// Internal 2D Rectangular source
+    /// </summary>
     public class Int2DRectangularSource : IIntSource
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xLength"></param>
+        /// <param name="zHeight"></param>
+        /// <param name="center"></param>
+        /// <param name="thetaRange"></param>
         public Int2DRectangularSource(
             double xLength,
             double zHeight,
@@ -18,6 +28,9 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
             ThetaRange = thetaRange;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Int2DRectangularSource()
             : this(
                 0.5,
@@ -43,7 +56,7 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
         public DoubleRange ThetaRange { get; set; }
 
 
-        public void AssignMeshForIntSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] RHS)
+        public void AssignMeshForIntSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] rhs)
         {
         }
 

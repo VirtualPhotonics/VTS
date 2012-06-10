@@ -24,9 +24,6 @@ namespace Vts.SiteVisit.View
             InitializeComponent();
         }
 
-        private void OpticalPropertyView_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
     }
 }

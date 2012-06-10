@@ -21,8 +21,8 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class CAWLayersDetectorsTests
     {
-        private Output _outputOneLayerTissue;
-        private Output _outputTwoLayerTissue;
+        private SimulationOutput _outputOneLayerTissue;
+        private SimulationOutput _outputTwoLayerTissue;
         private double _layerThickness = 2.0;
         private double _factor;
 
@@ -68,8 +68,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, 1.0, 101)),
                     new ROfXAndYDetectorInput(
-                        new DoubleRange(-200.0, 200.0, 401), // x
-                        new DoubleRange(-200.0, 200.0, 401)), // y,
+                        new DoubleRange(-10.0, 10.0, 101), // x
+                        new DoubleRange(-10.0, 10.0, 101)), // y,
                     new ROfRhoAndOmegaDetectorInput(
                         new DoubleRange(0.0, 10.0, 101), 
                         new DoubleRange(0.05, 1.0, 20)), //  new DoubleRange(0.0, 1.0, 21)) DJC - edited to reflect frequency sampling points (not bins)
@@ -211,21 +211,21 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.Td * _factor - 0.0232993770), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Td * _factor - 0.0232993770), 0.000000001);
         }
-        // Transmittance T(rho)
+        // Transmittance Time(rho)
         [Test]
         public void validate_CAW_TOfRho()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_r[54] * _factor - 0.00167241353), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_r[54] * _factor - 0.00167241353), 0.00000000001);
         }
-        // Transmittance T(angle)
+        // Transmittance Time(angle)
         [Test]
         public void validate_CAW_TOfAngle()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_a[0] * _factor - 0.00333856288), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_a[0] * _factor - 0.00333856288), 0.00000000001);
         }
-        // Transmittance T(rho,angle)
+        // Transmittance Time(rho,angle)
         [Test]
         public void validate_CAW_TOfRhoAndAngle()
         {
@@ -238,8 +238,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_CAW_ROfXAndY()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[198, 201] * _factor - 0.00825066), 0.00000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[198, 201] * _factor - 0.00825066), 0.00000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[0, 14] * _factor - 0.00060744), 0.00000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[0, 14] * _factor - 0.00060744), 0.00000001);
         }
         // sanity checks
         //[Test] // wait on this until CAW ATotal worked out

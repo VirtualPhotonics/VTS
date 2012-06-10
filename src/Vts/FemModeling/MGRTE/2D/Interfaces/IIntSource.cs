@@ -9,7 +9,15 @@ namespace Vts.FemModeling.MGRTE._2D
     /// </summary>
     public interface IIntSource
     {
-        //Assign mesh values for an internal source
-        void AssignMeshForIntSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] RHS);
+        /// <summary>
+        /// Assign mesh arrays for an internal source
+        /// </summary>
+        /// <param name="amesh"></param>
+        /// <param name="ameshLevel"></param>
+        /// <param name="smesh"></param>
+        /// <param name="smeshLevel"></param>
+        /// <param name="level"></param>
+        /// <param name="rhs"></param>
+        void AssignMeshForIntSource(AngularMesh[] amesh, int ameshLevel, SpatialMesh[] smesh, int smeshLevel, int level, double[][][][] rhs);
     }
 }

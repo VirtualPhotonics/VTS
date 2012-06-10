@@ -45,10 +45,25 @@ namespace Vts.MonteCarlo
                 new DoubleRange(0.0, 1, 101), // time
                 TallyType.FluenceOfRhoAndZAndTime.ToString()) {}
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
+        /// <summary>
+        /// detector name
+        /// </summary>
         public String Name { get; set; }
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
+        /// <summary>
+        /// z binning
+        /// </summary>
         public DoubleRange Z { get; set; }
+        /// <summary>
+        /// time binning
+        /// </summary>
         public DoubleRange Time { get; set; }
     }
 }

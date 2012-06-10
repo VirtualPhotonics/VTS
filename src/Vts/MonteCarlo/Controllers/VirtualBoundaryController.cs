@@ -1,4 +1,4 @@
-using System;
+ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -19,7 +19,10 @@ namespace Vts.MonteCarlo.Controllers
     public class VirtualBoundaryController
     {
         private IList<IVirtualBoundary> _virtualBoundaries;
-
+        /// <summary>
+        /// virtual boundary controller
+        /// </summary>
+        /// <param name="virtualBoundaries">IList of virtual boundaries</param>
         public VirtualBoundaryController(
             IList<IVirtualBoundary> virtualBoundaries)
         {
@@ -31,11 +34,11 @@ namespace Vts.MonteCarlo.Controllers
         public IList<IVirtualBoundary> VirtualBoundaries { get { return _virtualBoundaries; } set { _virtualBoundaries = value; } }
 
         /// <summary>
-        /// Method to determine the distrance to the closest VB in VirtualBoundaries list.
+        /// Method to determine the distance to the closest VB in VirtualBoundaries list.
         /// </summary>
         /// <param name="dp">current PhotonDataPoint</param>
         /// <param name="distance">return: distance to closest VB</param>
-        /// <returns></returns>
+        /// <returns>closest VB</returns>
         public IVirtualBoundary GetClosestVirtualBoundary(PhotonDataPoint dp, out double distance)
         {
             IVirtualBoundary vb = null;

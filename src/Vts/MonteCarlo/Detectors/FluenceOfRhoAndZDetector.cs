@@ -10,7 +10,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[,]&gt;.  Tally for Fluence(rho,z).
+    /// Implements IHistoryDetector&lt;double[,]&gt;.  Tally for Fluence(rho,z).
     /// Note: this tally currently only works with discrete absorption weighting
     /// </summary>
     [KnownType(typeof(FluenceOfRhoAndZDetector))]
@@ -26,9 +26,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Returns an instance of FluenceOfRhoAndZDetector
         /// </summary>
-        /// <param name="rho"></param>
-        /// <param name="z"></param>
-        /// <param name="tissue"></param>
+        /// <param name="rho">rho binning</param>
+        /// <param name="z">z binning</param>
+        /// <param name="tissue">tissue</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
+        /// <param name="name">detector name</param>
         public FluenceOfRhoAndZDetector(
             DoubleRange rho,
             DoubleRange z,
@@ -48,7 +50,7 @@ namespace Vts.MonteCarlo.Detectors
             }
             TallyType = TallyType.FluenceOfRhoAndZ;
             Name = name;
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetAbsorptionWeightingMethod(tissue, this);
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
 
             TallyCount = 0;
             _tissue = tissue;
@@ -68,20 +70,36 @@ namespace Vts.MonteCarlo.Detectors
         {
         }
 
+        /// <summary>
+        /// detector mean
+        /// </summary>
         [IgnoreDataMember]
         public double[,] Mean { get; set; }
-
+        /// <summary>
+        /// detector second moment
+        /// </summary>
         [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
 
+        /// <summary>
+        /// detector identifier
+        /// </summary>
         public TallyType TallyType { get; set; }
-
+        /// <summary>
+        /// detector name
+        /// </summary>
         public String Name { get; set; }
-
+        /// <summary>
+        /// number of times detector gets tallied to
+        /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// rho binning
+        /// </summary>
         public DoubleRange Rho { get; set; }
-
+        /// <summary>
+        /// z binning
+        /// </summary>
         public DoubleRange Z { get; set; }
 
         /// <summary>
@@ -124,6 +142,10 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// Method to normalize the tally to get Mean and Second Moment estimates
+        /// </summary>
+        /// <param name="numPhotons">Number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Z.Delta;
@@ -141,6 +163,11 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+        /// <summary>
+        /// Method to determine if photon is within detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true;
