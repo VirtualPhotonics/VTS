@@ -155,10 +155,11 @@
 IF NOT EXIST "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)" mkdir "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)"
 copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)" /y
 
-IF NOT EXIST "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" mkdir "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries"
-copy "$(TargetDir)\*.exe" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
-copy "$(TargetDir)\*.dll" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
-copy "$(TargetDir)\*.config" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
+IF $(Configuration) == Release IF NOT EXIST "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" mkdir "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries"
+
+IF $(Configuration) == Release copy "$(TargetDir)\*.exe" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
+IF $(Configuration) == Release copy "$(TargetDir)\*.dll" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
+IF $(Configuration) == Release copy "$(TargetDir)\*.config" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
 
 "$(TargetDir)mc.exe" geninfiles
 </PostBuildEvent>
