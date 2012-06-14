@@ -113,6 +113,9 @@
     <Compile Include="..\Vts.Test\Common\Math\Convolution2DTests.cs">
       <Link>Common\Math\Convolution2DTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\Common\Math\InterpolationTests.cs">
+      <Link>Common\Math\InterpolationTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Common\OpticalPropertiesTests.cs">
       <Link>Common\OpticalPropertiesTests.cs</Link>
     </Compile>
