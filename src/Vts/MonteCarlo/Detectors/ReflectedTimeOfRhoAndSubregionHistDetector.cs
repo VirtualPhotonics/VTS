@@ -5,6 +5,7 @@ using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Tissues;
+using Vts.Extensions;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -37,6 +38,7 @@ namespace Vts.MonteCarlo.Detectors
             SubregionIndices = new IntRange(0, _tissue.Regions.Count - 1, _tissue.Regions.Count); // needed for DetectorIO
             Time = time;
             Mean = new double[Rho.Count - 1, SubregionIndices.Count, Time.Count - 1];
+            FractionalTime = new double[Rho.Count -1, SubregionIndices.Count];
             _tallySecondMoment = tallySecondMoment;
             if (_tallySecondMoment)
             {
@@ -69,6 +71,11 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         [IgnoreDataMember]
         public double[,,] SecondMoment { get; set; }
+        /// <summary>
+        /// fraction of time spent in each subregion
+        /// </summary>
+        [IgnoreDataMember]
+        public double[,] FractionalTime { get; set; }
 
         /// <summary>
         /// detector identifier
@@ -115,7 +122,7 @@ namespace Vts.MonteCarlo.Detectors
                     Mean[ir, i, it] += 1;
                     if (_tallySecondMoment)
                     {
-                        SecondMoment[ir, i, it] += 1*1;
+                        SecondMoment[ir, i, it] += 1 * 1;
                     }
                 }
             }
@@ -128,22 +135,30 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched from source</param>
         public void Normalize(long numPhotons)
         {
+            var totalTimeForThisSubregion = new double[Rho.Count - 1,SubregionIndices.Count];
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
+                var totalTimeOverAllSubregions = 0.0;
                 for (int isr = 0; isr < SubregionIndices.Count - 1; isr++)
                 {
+                    totalTimeForThisSubregion[ir, isr] =
+                        Enumerable.Range(0, Mean.GetLength(2)).Sum(i => Mean[ir, isr, i]);
                     for (int it = 0; it < Time.Count - 1; it++)
                     {
+                        totalTimeOverAllSubregions += Mean[ir, isr, it];
                         // normalize by area of surface area ring and N
                         var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
-                        Mean[ir, isr, it] /= areaNorm*numPhotons;
+                        Mean[ir, isr, it] /= areaNorm *numPhotons;
                         if (_tallySecondMoment)
                         {
                             SecondMoment[ir, isr, it] /= areaNorm * areaNorm * numPhotons;
                         }
-                        
                     }
+                }
+                for (int isr = 0; isr < SubregionIndices.Count - 1; isr++)
+                {
+                    FractionalTime[ir, isr] =  totalTimeForThisSubregion[ir, isr] / totalTimeOverAllSubregions;
                 }
             }
         }

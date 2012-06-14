@@ -447,6 +447,8 @@ namespace Vts.MonteCarlo.IO
 
                     case "ReflectedTimeOfRhoAndSubregionHist":
 	                    FileIO.WriteToXML((ReflectedTimeOfRhoAndSubregionHistDetector)detector, filePath + ".xml");
+                        var d = detector as ReflectedTimeOfRhoAndSubregionHistDetector;
+                        FileIO.WriteArrayToBinary<double>(d.FractionalTime, filePath + "_FractionalTime", false);
 						break;
 
                     // "5D" detectors

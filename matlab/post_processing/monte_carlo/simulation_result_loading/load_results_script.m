@@ -137,6 +137,9 @@ for mci = 1:length(datanames)
             figure; imagesc(results{di}.ReflectedTimeOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.Time_Midpoints, log(squeeze(results{di}.ReflectedTimeOfRhoAndSubregionHist.Mean(:,i,:))'));       
                colorbar; title(figname); set(gcf,'Name', figname); ylabel('time [ns]'); xlabel('\rho [mm]');
         end
+        figname = sprintf('%s Fractional Time',results{di}.ReflectedTimeOfRhoAndSubregionHist.Name); 
+        figure; imagesc(results{di}.ReflectedTimeOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.SubregionIndices-1, results{di}.ReflectedTimeOfRhoAndSubregionHist.FractionalTime');       
+               colorbar; title(figname); set(gcf,'Name', figname); ylabel('subregion index'); xlabel('\rho [mm]')
         disp(['Time in Subregion captured by ReflectedTimeOfRhoAndSubregionHist detector: ' num2str(sum(results{di}.ReflectedTimeOfRhoAndSubregionHist.Mean(:)))]);
     end
     if isfield(results{di}, 'pMCROfRho') && show.pMCROfRho
