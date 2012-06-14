@@ -97,7 +97,7 @@ namespace Vts.MonteCarlo
             // black list of unimplemented detectors
             foreach (var detectorInput in si.DetectorInputs)
             {
-                if (detectorInput.TallyType.IsNotImplementedYet())
+                if (detectorInput.IsNotImplementedYet())
                 {
                     return new ValidationResult(
                         false,
@@ -136,7 +136,7 @@ namespace Vts.MonteCarlo
                 {
                     var ellipsoid = (EllipsoidRegion)((SingleEllipsoidTissueInput)input.TissueInput).
                         EllipsoidRegion;
-                    if (detectorInput.TallyType.IsCylindricalTally() &&
+                    if (detectorInput.IsCylindricalTally() &&
                         (ellipsoid.Center.X != 0.0) && (ellipsoid.Center.Y != 0.0))
                         return new ValidationResult(
                             false,
@@ -162,7 +162,7 @@ namespace Vts.MonteCarlo
             {
                 foreach (var detectorInput in input.DetectorInputs)
                 {
-                    if (detectorInput.TallyType.IsNotImplementedForCAW())
+                    if (detectorInput.IsNotImplementedForCAW())
                     {
                         return new ValidationResult(
                             false,

@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo.Detectors
             _tallySecondMoment = tallySecondMoment;
             Mean = 0.0;
             SecondMoment = 0.0;
-            TallyType = TallyType.TDiffuse;
+            TallyType = "TDiffuse";
             Name = name;
             TallyCount = 0;
         }
@@ -27,7 +27,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of TDiffuseDetector (for serialization purposes only)
         /// </summary>
         public TDiffuseDetector()
-            : this(true, TallyType.TDiffuse.ToString())
+            : this(true, "TDiffuse")
         {
         }
         /// <summary>
@@ -42,11 +42,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>

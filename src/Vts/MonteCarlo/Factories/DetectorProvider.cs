@@ -41,7 +41,7 @@ namespace Vts.MonteCarlo.Factories
     {
         int[] Dimensions { get; set; }
         string Name { get; set; }
-        TallyType TallyType { get; set; }
+        string TallyType { get; set; }
     }
 
     public interface IDetectorOutput<T> : IDetectorOutput
@@ -57,6 +57,19 @@ namespace Vts.MonteCarlo.Factories
     }
 
 
+    public class TallyDetails
+    {
+        public bool IsReflectanceTally { get; set; }
+        public bool IsTransmittanceTally { get; set; }
+        public bool IsSpecularReflectanceTally { get; set; }
+        public bool IsInternalSurfaceTally { get; set; }
+        public bool IspMCReflectanceTally { get; set; }
+        public bool IsVolumeTally { get; set; }
+        public bool IsCylindricalTally { get; set; }
+        public bool IsNotImplementedForCAW { get; set; }
+        public bool IsNotImplementedYet { get; set; }
+    }
+
     // base class implementations
 
     /// <summary>
@@ -68,25 +81,28 @@ namespace Vts.MonteCarlo.Factories
         private T _mean;
         private T _secondMoment;
         private int[] _dimensions;
-
+        
         protected DetectorBase()
         {
             TallySecondMoment = false;
             Name = "";
 
-            IsReflectanceTally = false;
-            IsTransmittanceTally = false;
-            IsSpecularReflectanceTally = false;
-            IsInternalSurfaceTally = false;
-            IspMCReflectanceTally = false;
-            IsVolumeTally = false;
-            IsCylindricalTally = false;
-            IsNotImplementedForCAW = false;
-            IsNotImplementedYet = false;
+            TallyDetails = new TallyDetails
+            {
+                IsReflectanceTally = false,
+                IsTransmittanceTally = false,
+                IsSpecularReflectanceTally = false,
+                IsInternalSurfaceTally = false,
+                IspMCReflectanceTally = false,
+                IsVolumeTally = false,
+                IsCylindricalTally = false,
+                IsNotImplementedForCAW = false,
+                IsNotImplementedYet = false
+            };
         }
 
-        public string Name { get; set; } // shouldn't have public set_Name
-        public TallyType TallyType { get; set; } // shouldn't have public set_TallyType
+        public string Name { get; set; } // shouldn't have public set_Name (need constructor injection for AutoMapper)
+        public string TallyType { get; set; } // shouldn't have public set_TallyType (need constructor injection for AutoMapper)
 
         public T Mean
         {
@@ -122,19 +138,28 @@ namespace Vts.MonteCarlo.Factories
         public bool TallySecondMoment { get; set; }
         public long TallyCount { get; set; } // shouldn't have public set_TallyCount
 
-        public bool IsReflectanceTally { get; protected set; }
-        public bool IsTransmittanceTally { get; protected set; }
-        public bool IsSpecularReflectanceTally { get; protected set; }
-        public bool IsInternalSurfaceTally { get; protected set; }
-        public bool IspMCReflectanceTally { get; protected set; }
-        public bool IsVolumeTally { get; protected set; }
-        public bool IsCylindricalTally { get; protected set; }
-        public bool IsNotImplementedForCAW { get; protected set; }
-        public bool IsNotImplementedYet { get; protected set; }
+        protected TallyDetails TallyDetails { get; set; }
 
         protected abstract int[] GetDimensions();
         public abstract void Tally(Photon photon);
         public abstract void Normalize(long numPhotons);
+
+        public bool IsSurfaceTally()
+        {
+            return TallyDetails.IsTransmittanceTally || TallyDetails.IsReflectanceTally ||
+                   TallyDetails.IsSpecularReflectanceTally || TallyDetails.IsInternalSurfaceTally;
+        }
+        
+        public bool IsReflectanceTally() { return TallyDetails.IsReflectanceTally; }
+        public bool IsTransmittanceTally() { return TallyDetails.IsTransmittanceTally; }
+        public bool IsSpecularReflectanceTally() { return TallyDetails.IsSpecularReflectanceTally; }
+        public bool IsInternalSurfaceTally() { return TallyDetails.IsInternalSurfaceTally; }
+        public bool IspMCReflectanceTally() { return TallyDetails.IspMCReflectanceTally; }
+        public bool IsVolumeTally() { return TallyDetails.IsVolumeTally; }
+        public bool IsCylindricalTally() { return TallyDetails.IsCylindricalTally; }
+        public bool IsNotImplementedForCAW() { return TallyDetails.IsNotImplementedForCAW; }
+        public bool IsNotImplementedYet() { return TallyDetails.IsNotImplementedYet; }
+
     }
 
     public class DetectorProvider<TDetectorInput, TDetector, TDetectorOutput>
@@ -187,12 +212,12 @@ namespace Vts.MonteCarlo.Factories
     {
         public SampleDetectorInput()
         {
-            TallyType = TallyType.ROfFx;
+            TallyType = "ROfFx";
             Name = "ROfFx";
             QRange = new DoubleRange(0, 1, 10);
         }
 
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         public string Name { get; set; }
         public DoubleRange QRange { get; set; }
     }
@@ -206,20 +231,11 @@ namespace Vts.MonteCarlo.Factories
 
         public SampleDetector()
         {
-            QRange = new DoubleRange(0, 1, 10);
+            QRange = new DoubleRange(0, 1, 20);
             TallySecondMoment = false;
             Name = "SampleDetector";
 
-            // todo: I've created a monster...
-            IsReflectanceTally = true;
-            IsTransmittanceTally = false;
-            IsSpecularReflectanceTally = false;
-            IsInternalSurfaceTally = false;
-            IspMCReflectanceTally = false;
-            IsVolumeTally = false;
-            IsCylindricalTally = false;
-            IsNotImplementedForCAW = false;
-            IsNotImplementedYet = false;
+            TallyDetails.IsReflectanceTally = true;
         }
 
         public DoubleRange QRange { get; set; }
@@ -257,14 +273,13 @@ namespace Vts.MonteCarlo.Factories
 
         public int[] Dimensions { get; set; }
         public string Name { get; set; }
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
     }
 
     public class SampleDetectorOutput : DetectorOutput<double[]>
     {
         public DoubleRange QRange { get; set; }
     }
-
 
     /// <summary>
     /// Class that glues all the pieces together. In most cases, there shouldn't be any extra work to do here

@@ -24,7 +24,7 @@ namespace Vts.MonteCarlo
             IList<int> perturbedRegionsIndices,
             String name)
         {
-            TallyType = TallyType.pMCROfFxAndTime;
+            TallyType = "pMCROfFxAndTime";
             Name = name;
             Time = time;
             Fx = fx;
@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo
                 : this (fx, time,
                       perturbedOps, 
                       perturbedRegionsIndices, 
-                      TallyType.pMCROfFxAndTime.ToString()) {}
+                      "pMCROfFxAndTime") {}
 
         /// <summary>
         /// Default constructor tallies all tallies
@@ -60,17 +60,17 @@ namespace Vts.MonteCarlo
                     new OpticalProperties(0.0, 1.0, 0.8, 1.4),
                     new OpticalProperties(1e-10, 0.0, 0.0, 1.0) },
                 new List<int>() { 1 }, // perturbedRegionIndex
-                TallyType.pMCROfFxAndTime.ToString()
+                "pMCROfFxAndTime"
             ) {}
 
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user-specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// fx binning
         /// </summary>

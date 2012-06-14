@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo
         /// <param name="name"></param>
         public ROfFxDetectorInput(DoubleRange fx, String name)
         {
-            TallyType = TallyType.ROfFx;
+            TallyType = "ROfFx";
             Name = name;
             Fx = fx;
         }
@@ -25,23 +25,23 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="fx">spatial frequency sampling points (not binned)</param>
         public ROfFxDetectorInput(DoubleRange fx)
-            : this(fx, TallyType.ROfFx.ToString()) { }
+            : this(fx, "ROfFx") { }
 
         /// <summary>
         /// Default constructor uses default rho bins
         /// </summary>
         public ROfFxDetectorInput()
-            : this(new DoubleRange(0.0, 0.2, 21), TallyType.ROfFx.ToString()) { }
+            : this(new DoubleRange(0.0, 0.2, 21), "ROfFx") { }
 
         /// <summary>
         ///  Detector tally type
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
 
         /// <summary>
         /// Detector name
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Spatial frequency sampling points, fx (not binned)

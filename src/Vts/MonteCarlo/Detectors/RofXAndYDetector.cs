@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[X.Count - 1, Y.Count - 1];
             }
-            TallyType = TallyType.ROfXAndY;
+            TallyType = "ROfXAndY";
             Name = name;
             TallyCount = 0;
         }
@@ -42,7 +42,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of ROfXAndYDetector (for serialization purposes only)
         /// </summary>
         public ROfXAndYDetector()
-            : this(new DoubleRange(), new DoubleRange(), true, TallyType.ROfXAndY.ToString())
+            : this(new DoubleRange(), new DoubleRange(), true, "ROfXAndY")
         {
         }
         /// <summary>
@@ -59,11 +59,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user-specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// number of time detector gets tallied to
         /// </summary>

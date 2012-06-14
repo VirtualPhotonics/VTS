@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             Mean = 0;
             SecondMoment = 0;
-            TallyType = TallyType.RDiffuse;
+            TallyType = "RDiffuse";
             Name = name;
             TallyCount = 0;
             _tallySecondMoment = tallySecondMoment;
@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of RDiffuseDetector (for serialization purposes only)
         /// </summary>
         public RDiffuseDetector()
-            : this(true, TallyType.RDiffuse.ToString())
+            : this(true, "RDiffuse")
         {
         }
         /// <summary>
@@ -43,11 +43,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>

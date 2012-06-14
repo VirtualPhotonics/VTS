@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
         /// <param name="name">detector name</param>
         public ROfRhoAndAngleDetectorInput(DoubleRange rho, DoubleRange angle, String name)
         {
-            TallyType = TallyType.ROfRhoAndAngle;
+            TallyType = "ROfRhoAndAngle";
             Name = name;
             Rho = rho;
             Angle = angle;
@@ -28,7 +28,7 @@ namespace Vts.MonteCarlo
         /// <param name="rho">rho binning</param>
         /// <param name="angle">angle binning</param>
         public ROfRhoAndAngleDetectorInput(DoubleRange rho, DoubleRange angle) 
-            : this (rho, angle, TallyType.ROfRhoAndAngle.ToString()) {}
+            : this (rho, angle, "ROfRhoAndAngle") {}
 
         /// <summary>
         /// Default constructor uses default rho and angle bins
@@ -36,16 +36,16 @@ namespace Vts.MonteCarlo
         public ROfRhoAndAngleDetectorInput() 
             : this (new DoubleRange(0.0, 10, 101), 
                   new DoubleRange(0.0, Math.PI / 2, 2), 
-                  TallyType.ROfRhoAndAngle.ToString()) {}
+                  "ROfRhoAndAngle") {}
 
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// rho binning
         /// </summary>

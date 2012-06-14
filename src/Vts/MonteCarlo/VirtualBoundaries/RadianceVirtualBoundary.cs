@@ -27,7 +27,8 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             _detectorController = detectorController;
 
             // not sure following is best design
-            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyType == TallyType.RadianceOfRho).FirstOrDefault();
+            // todo: revisit design (dc 6/10/12)
+            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyType == "RadianceOfRho").FirstOrDefault();
 
             if (dosimetryDetector != null)
             {

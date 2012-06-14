@@ -41,7 +41,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[Rho.Count - 1];
             }
-            TallyType = TallyType.RadianceOfRho;
+            TallyType = "RadianceOfRho";
             Name = name;
             TallyCount = 0;
         }
@@ -50,7 +50,7 @@ namespace Vts.MonteCarlo.Detectors
         ///  Returns a default instance of RadianceOfRhoDetector (for serialization purposes only)
         /// </summary>
         public RadianceOfRhoDetector()
-            : this(10.0, new DoubleRange(), new MultiLayerTissue(), true, TallyType.RadianceOfRho.ToString())
+            : this(10.0, new DoubleRange(), new MultiLayerTissue(), true, "RadianceOfRho")
         {
         }
         /// <summary>
@@ -67,7 +67,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>

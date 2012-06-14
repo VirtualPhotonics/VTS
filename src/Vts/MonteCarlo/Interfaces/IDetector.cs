@@ -25,7 +25,8 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// TallyType enum specification
         /// </summary>
-        TallyType TallyType{ get; set; }
+        string TallyType{ get; set; }
+
         /// <summary>
         /// Name string of IDetector.  Default = TallyType.ToString().
         /// </summary>

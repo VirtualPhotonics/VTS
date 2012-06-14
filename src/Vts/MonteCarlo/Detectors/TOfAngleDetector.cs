@@ -30,7 +30,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[Angle.Count];
             }
-            TallyType = TallyType.TOfAngle;
+            TallyType = "TOfAngle";
             Name = name;
             TallyCount = 0;
         }
@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of TDiffuseDetector (for serialization purposes only)
         /// </summary>
         public TOfAngleDetector()
-            : this(new DoubleRange(), true, TallyType.TOfAngle.ToString())
+            : this(new DoubleRange(), true, "TOfAngle")
         {
         }
         /// <summary>
@@ -56,11 +56,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector tally identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>

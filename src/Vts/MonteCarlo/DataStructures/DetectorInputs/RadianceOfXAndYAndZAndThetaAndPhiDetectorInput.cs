@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo
         /// <param name="name">detector name</param>
         public RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(DoubleRange x, DoubleRange y, DoubleRange z, DoubleRange theta, DoubleRange phi, String name)
         {
-            TallyType = TallyType.RadianceOfXAndYAndZAndThetaAndPhi;
+            TallyType = "RadianceOfXAndYAndZAndThetaAndPhi";
             Name = name;
             X = x;
             Y = y;
@@ -36,7 +36,7 @@ namespace Vts.MonteCarlo
         /// <param name="theta">theta binning</param>
         /// <param name="phi">phi binning</param>
         public RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(DoubleRange x, DoubleRange y, DoubleRange z, DoubleRange theta, DoubleRange phi) 
-            : this (x, y, z, theta, phi, TallyType.RadianceOfXAndYAndZAndThetaAndPhi.ToString()) {}
+            : this (x, y, z, theta, phi, "RadianceOfXAndYAndZAndThetaAndPhi") {}
 
         /// <summary>
         /// Default constructor uses default rho bins
@@ -47,16 +47,16 @@ namespace Vts.MonteCarlo
                 new DoubleRange(0, 10, 101),
                 new DoubleRange(0.0, Math.PI, 2),  // theta goes from 0 to pi
                 new DoubleRange(0.0, 2 * Math.PI, 2), // phi goes from 0 to 2pi
-                TallyType.RadianceOfXAndYAndZAndThetaAndPhi.ToString()) {}
+                "RadianceOfXAndYAndZAndThetaAndPhi") {}
 
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, defaults to TallyType.ToString() but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// detector x binning
         /// </summary>

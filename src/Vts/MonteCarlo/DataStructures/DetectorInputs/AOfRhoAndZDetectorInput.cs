@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
         /// <param name="name">detector name</param>
         public AOfRhoAndZDetectorInput(DoubleRange rho, DoubleRange z, String name)
         {
-            TallyType = TallyType.AOfRhoAndZ;
+            TallyType = "AOfRhoAndZ";
             Name = name;
             Rho = rho;
             Z = z;
@@ -28,7 +28,7 @@ namespace Vts.MonteCarlo
         /// <param name="rho">rho binning</param>
         /// <param name="z">z binning</param>
         public AOfRhoAndZDetectorInput(DoubleRange rho, DoubleRange z) 
-            : this(rho, z, TallyType.AOfRhoAndZ.ToString()) { }
+            : this(rho, z, "AOfRhoAndZ") { }
 
         /// <summary>
         /// Default constructor uses default rho and z bins
@@ -37,16 +37,16 @@ namespace Vts.MonteCarlo
             : this(
                 new DoubleRange(0.0, 10.0, 101), //rho
                 new DoubleRange(0.0, 10.0, 101), // z
-                TallyType.AOfRhoAndZ.ToString()) { }
+                "AOfRhoAndZ") { }
 
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// rho binning
         /// </summary>

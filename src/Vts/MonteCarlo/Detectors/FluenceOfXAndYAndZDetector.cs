@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
             }
-            TallyType = TallyType.FluenceOfXAndYAndZ;
+            TallyType = "FluenceOfXAndYAndZ";
             Name = name;
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
 
@@ -68,7 +68,7 @@ namespace Vts.MonteCarlo.Detectors
             new DoubleRange(), 
             new MultiLayerTissue(), 
             true,
-            TallyType.FluenceOfXAndYAndZ.ToString())
+            "FluenceOfXAndYAndZ")
         {
         }
         /// <summary>
@@ -85,11 +85,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// number of zs detector gets tallied to
         /// </summary>

@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo
         public FluenceOfRhoAndZAndTimeDetectorInput(
             DoubleRange rho, DoubleRange z, DoubleRange time, String name)
         {
-            TallyType = TallyType.FluenceOfRhoAndZAndTime;
+            TallyType = "FluenceOfRhoAndZAndTime";
             Name = name;
             Rho = rho;
             Z = z;
@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo
         /// <param name="time">time binning</param>
         public FluenceOfRhoAndZAndTimeDetectorInput(
             DoubleRange rho, DoubleRange z, DoubleRange time) 
-            : this (rho, z, time, TallyType.FluenceOfRhoAndZAndTime.ToString()) {}
+            : this (rho, z, time, "FluenceOfRhoAndZAndTime") {}
 
         /// <summary>
         /// Default constructor uses default rho and z bins
@@ -43,16 +43,16 @@ namespace Vts.MonteCarlo
                 new DoubleRange(0.0, 10.0, 101), // rho
                 new DoubleRange(0.0, 10.0, 101), // z
                 new DoubleRange(0.0, 1, 101), // time
-                TallyType.FluenceOfRhoAndZAndTime.ToString()) {}
+                "FluenceOfRhoAndZAndTime") {}
 
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// rho binning
         /// </summary>

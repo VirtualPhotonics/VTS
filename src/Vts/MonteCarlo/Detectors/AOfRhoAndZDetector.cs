@@ -45,7 +45,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
             }
-            TallyType = TallyType.AOfRhoAndZ;
+            TallyType = "AOfRhoAndZ";
             Name = name;
             TallyCount = 0;
             _tissue = tissue;
@@ -56,7 +56,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of AOfRhoAndZDetector (for serialization purposes only)
         /// </summary>
         public AOfRhoAndZDetector()
-            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue(), true, TallyType.AOfRhoAndZ.ToString())
+            : this(new DoubleRange(), new DoubleRange(), new MultiLayerTissue(), true, "AOfRhoAndZ")
         {
         }
 
@@ -75,7 +75,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>

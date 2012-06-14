@@ -53,7 +53,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
             }
-            TallyType = TallyType.pMCROfRhoAndTime;
+            TallyType = "pMCROfRhoAndTime";
             Name = name;
             _awt = tissue.AbsorptionWeightingType;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
@@ -74,7 +74,7 @@ namespace Vts.MonteCarlo.Detectors
             new List<OpticalProperties>(), 
             new List<int>(),
             true, // tallySecondMoment
-            TallyType.pMCROfRhoAndTime.ToString())
+            "pMCROfRhoAndTime")
         {
         }
 
@@ -92,11 +92,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>

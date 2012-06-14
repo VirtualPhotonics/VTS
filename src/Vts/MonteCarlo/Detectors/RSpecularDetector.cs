@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             Mean = 0;
             SecondMoment = 0;
-            TallyType = TallyType.RSpecular;
+            TallyType = "RSpecular";
             Name = name;
             TallyCount = 0;
             _tallySecondMoment = tallySecondMoment;
@@ -27,7 +27,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of RDiffuseDetector (for serialization purposes only)
         /// </summary>
         public RSpecularDetector()
-            : this(true, TallyType.RSpecular.ToString())
+            : this(true, "RSpecular")
         {
         }
         /// <summary>
@@ -41,11 +41,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// number of time detector gets tallied to
         /// </summary>

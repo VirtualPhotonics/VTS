@@ -35,7 +35,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new Complex[Fx.Count];
             }
-            TallyType = TallyType.ROfFx;
+            TallyType = "ROfFx";
             Name = name;
             TallyCount = 0;
         }
@@ -43,7 +43,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of ROfFxDetector (for serialization purposes only)
         /// </summary>
         public ROfFxDetector()
-            : this(new DoubleRange(), true, TallyType.ROfFx.ToString())
+            : this(new DoubleRange(), true, "ROfFx")
         {
         }
 
@@ -60,7 +60,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name
         /// </summary>

@@ -4,79 +4,236 @@ namespace Vts.MonteCarlo.Extensions
     /// Methods used to determine if tally is reflectance or 
     /// transmittance tally.
     /// </summary>
+    /// <remarks>Methods implemented for both IDetector and IDetectorInput interfaces</remarks>
     public static class DetectorExtensionMethods
     {
         /// <summary>
-        /// Method to determine is IDetector is a reflectance tally or not.
+        /// Method to determine if IDetector is a reflectance tally or not.
         /// </summary>
-        /// <param name="type">TallyType enum</param>
+        /// <param name="detector">detector</param>
         /// <returns>boolean indicating whether reflectance tally or not</returns>
-        public static bool IsReflectanceTally(this TallyType type)
+        public static bool IsReflectanceTally(this IDetector detector)
         {
-            switch (type)
-            {
-                case TallyType.ROfRhoAndAngle:
-                case TallyType.ROfRho:
-                case TallyType.ROfAngle:
-                case TallyType.ROfRhoAndOmega:
-                case TallyType.ROfRhoAndTime:
-                case TallyType.ROfXAndY:
-                case TallyType.RDiffuse:
-                case TallyType.ROfFx:
-                case TallyType.ROfFxAndTime:
-                case TallyType.ReflectedMTOfRhoAndSubregionHist:
-                case TallyType.ReflectedTimeOfRhoAndSubregionHist:
-                    return true;
-                default:
-                    return false;
-            }
+            return IsReflectanceTallyString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method to determine if IDetectorInput is a reflectance tally or not.
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean indicating whether reflectance tally or not</returns>
+        public static bool IsReflectanceTally(this IDetectorInput detector)
+        {
+            return IsReflectanceTallyString(detector.TallyType);
         }
 
         /// <summary>
         /// Method to determine if IDetector is transmittance tally or not.
         /// </summary>
-        /// <param name="type">TallyType enum</param>
+        /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsTransmittanceTally(this TallyType type)
+        public static bool IsTransmittanceTally(this IDetector detector)
         {
-            switch (type)
-            {
-                case TallyType.TOfRhoAndAngle:
-                case TallyType.TOfRho:
-                case TallyType.TOfAngle:
-                case TallyType.TDiffuse:
-                    return true;
-                default:
-                    return false;
-            }
+            return IsTransmittanceTallyString(detector.TallyType);
         }
 
         /// <summary>
-        /// Method to determine if IDetector is specular tally or not.
+        /// Method to determine if IDetectorInput is transmittance tally or not.
         /// </summary>
-        /// <param name="type">TallyType enum</param>
+        /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsSpecularReflectanceTally(this TallyType type)
+        public static bool IsTransmittanceTally(this IDetectorInput detector)
         {
-            switch (type)
-            {
-                case TallyType.RSpecular:
-                    return true;
-                default:
-                    return false;
-            }
+            return IsTransmittanceTallyString(detector.TallyType);
+        }      
+
+
+        /// <summary>
+        /// Method to determine if IDetector is a specular tally or not.
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsSpecularReflectanceTally(this IDetector detector)
+        {
+            return IsSpecularReflectanceTallyString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method to determine if IDetectorInput is a specular tally or not.
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsSpecularReflectanceTally(this IDetectorInput detector)
+        {
+            return IsSpecularReflectanceTallyString(detector.TallyType);
         }
 
         /// <summary>
         /// Method to determine if IDetector is an internal (non-boundary) surface tally or not.
         /// </summary>
-        /// <param name="type">TallyType enum</param>
+        /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsInternalSurfaceTally(this TallyType type)
+        public static bool IsInternalSurfaceTally(this IDetector detector)
         {
-            switch (type)
+            return IsInternalSurfaceTallyString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method to determine if IDetectorInput is an internal (non-boundary) surface tally or not.
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsInternalSurfaceTally(this IDetectorInput detector)
+        {
+            return IsInternalSurfaceTallyString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method to determine if IDetector is a surface tally or not
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsSurfaceTally(this IDetector detector)
+        {
+            return detector.IsTransmittanceTally() || detector.IsReflectanceTally() ||
+                   detector.IsSpecularReflectanceTally() || detector.IsInternalSurfaceTally();
+        }
+
+        /// <summary>
+        /// Method to determine if IDetectorInput is a surface tally or not
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsSurfaceTally(this IDetectorInput detector)
+        {
+            return detector.IsTransmittanceTally() || detector.IsReflectanceTally() ||
+                   detector.IsSpecularReflectanceTally() || detector.IsInternalSurfaceTally();
+        }
+
+        /// <summary>
+        /// Method to determine if IDetector is a pMC tally or not
+        /// </summary>
+        /// <param name="detector">TallyType enum</param>
+        /// <returns>boolean</returns>
+        public static bool IspMCReflectanceTally(this IDetector detector)
+        {
+            return IspMCReflectanceTallyString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method to determine if IDetectorInput is a pMC tally or not
+        /// </summary>
+        /// <param name="detector">TallyType enum</param>
+        /// <returns>boolean</returns>
+        public static bool IspMCReflectanceTally(this IDetectorInput detector)
+        {
+            return IspMCReflectanceTallyString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method to determine if IDetector is volume tally or not.
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsVolumeTally(this IDetector detector)
+        {
+            return IsVolumeTallyString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method to determine if IDetector is volume tally or not.
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsVolumeTally(this IDetectorInput detector)
+        {
+            return IsVolumeTallyString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method determines whether detector is based on cylindrical coordinates
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsCylindricalTally(this IDetector detector)
+        {
+            return IsCylindricalTallyString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method determines whether detector is based on cylindrical coordinates
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsCylindricalTally(this IDetectorInput detector)
+        {
+            return IsCylindricalTallyString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method determines whether tally type is implemented for 
+        /// continous absorption weighting (CAW) or not
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsNotImplementedForCAW(this IDetector detector)
+        {
+            return IsNotImplementedForCAWString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method determines whether IDetectorInput is implemented for 
+        /// continous absorption weighting (CAW) or not
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsNotImplementedForCAW(this IDetectorInput detector)
+        {
+            return IsNotImplementedForCAWString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method determines whether tally type is implemented yet or not
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsNotImplementedYet(this IDetector detector)
+        {
+            return IsNotImplementedYetString(detector.TallyType);
+        }
+
+        /// <summary>
+        /// Method determines whether tally type is implemented yet or not
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        public static bool IsNotImplementedYet(this IDetectorInput detector)
+        {
+            return IsNotImplementedYetString(detector.TallyType);
+        }
+
+
+
+        /// <summary>
+        /// Method to determine if string represents a reflectance tally or not.
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean indicating whether reflectance tally or not</returns>
+        private static bool IsReflectanceTallyString(string detector)
+        {
+            switch (detector)
             {
-                case TallyType.RadianceOfRho:
+                case "ROfRhoAndAngle":
+                case "ROfRho":
+                case "ROfAngle":
+                case "ROfRhoAndOmega":
+                case "ROfRhoAndTime":
+                case "ROfXAndY":
+                case "RDiffuse":
+                case "ROfFx":
+                case "ROfFxAndTime":
+                case "ReflectedMTOfRhoAndSubregionHist":
+                case "ReflectedTimeOfRhoAndSubregionHist":
                     return true;
                 default:
                     return false;
@@ -84,29 +241,69 @@ namespace Vts.MonteCarlo.Extensions
         }
 
         /// <summary>
-        /// Method to determine if IDetector is a surface tally or not
+        /// Method to determine if represents a transmittance tally or not.
         /// </summary>
-        /// <param name="tallyType">TallyType enum</param>
+        /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsSurfaceTally(this TallyType tallyType)
+        private static bool IsTransmittanceTallyString(this string detector)
         {
-            return tallyType.IsTransmittanceTally() || tallyType.IsReflectanceTally() ||
-                   tallyType.IsSpecularReflectanceTally() || tallyType.IsInternalSurfaceTally();
+            switch (detector)
+            {
+                case "TOfRhoAndAngle":
+                case "TOfRho":
+                case "TOfAngle":
+                case "TDiffuse":
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         /// <summary>
-        /// Method to determine if IDetector is pMC tally or not
+        /// Method to determine if string represents a specular tally or not.
         /// </summary>
-        /// <param name="tallyType">TallyType enum</param>
+        /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IspMCReflectanceTally(this TallyType tallyType)
+        private static bool IsSpecularReflectanceTallyString(string detector)
         {
-            switch (tallyType)
+            switch (detector)
             {
-                case TallyType.pMCROfRho:
-                case TallyType.pMCROfRhoAndTime:
-                case TallyType.pMCROfFx:
-                case TallyType.pMCROfFxAndTime:
+                case "RSpecular":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Method to determine if string represents an internal (non-boundary) surface tally or not.
+        /// </summary>
+        /// <param name="detector">detector</param>
+        /// <returns>boolean</returns>
+        private static bool IsInternalSurfaceTallyString(string detector)
+        {
+            switch (detector)
+            {
+                case "RadianceOfRho":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Method to determine if string represents a pMC tally or not
+        /// </summary>
+        /// <param name="detector">TallyType enum</param>
+        /// <returns>boolean</returns>
+        private static bool IspMCReflectanceTallyString(string detector)
+        {
+            switch (detector)
+            {
+                case "pMCROfRho":
+                case "pMCROfRhoAndTime":
+                case "pMCROfFx":
+                case "pMCROfFxAndTime":
                     return true;
                 default:
                     return false;
@@ -116,19 +313,19 @@ namespace Vts.MonteCarlo.Extensions
         /// <summary>
         /// Method to determine if IDetector is volume tally or not.
         /// </summary>
-        /// <param name="tallyType">TallyType enum</param>
+        /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsVolumeTally(this TallyType tallyType)
+        private static bool IsVolumeTallyString(string detector)
         {
-            switch (tallyType)
+            switch (detector)
             {
-                case TallyType.FluenceOfRhoAndZ:
-                case TallyType.FluenceOfRhoAndZAndTime:
-                case TallyType.FluenceOfXAndYAndZ:
-                case TallyType.AOfRhoAndZ:
-                case TallyType.ATotal:
-                case TallyType.RadianceOfRhoAndZAndAngle:
-                case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
+                case "FluenceOfRhoAndZ":
+                case "FluenceOfRhoAndZAndTime":
+                case "FluenceOfXAndYAndZ":
+                case "AOfRhoAndZ":
+                case "ATotal":
+                case "RadianceOfRhoAndZAndAngle":
+                case "RadianceOfXAndYAndZAndThetaAndPhi":
                     return true;
                 default:
                     return false;
@@ -136,29 +333,29 @@ namespace Vts.MonteCarlo.Extensions
         }
 
         /// <summary>
-        /// Method determines whether tally type is based on cylindrical coordinates
+        /// Method determines whether detector is based on cylindrical coordinates
         /// </summary>
-        /// <param name="tallyType">TallyType enum</param>
+        /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsCylindricalTally(this TallyType tallyType)
+        private static bool IsCylindricalTallyString(string detector)
         {
-            switch (tallyType)
+            switch (detector)
             {
-                case TallyType.ROfRho:
-                case TallyType.ROfRhoAndOmega:
-                case TallyType.ROfRhoAndTime:
-                case TallyType.ROfRhoAndAngle:
-                case TallyType.TOfRho:
-                case TallyType.TOfRhoAndAngle:
-                case TallyType.FluenceOfRhoAndZ:
-                case TallyType.FluenceOfRhoAndZAndTime:
-                case TallyType.AOfRhoAndZ:
-                case TallyType.ReflectedMTOfRhoAndSubregionHist:
-                case TallyType.ReflectedTimeOfRhoAndSubregionHist:
-                case TallyType.RadianceOfRho:
-                case TallyType.RadianceOfRhoAndZAndAngle:
-                case TallyType.pMCROfRho:
-                case TallyType.pMCROfRhoAndTime:
+                case "ROfRho":
+                case "ROfRhoAndOmega":
+                case "ROfRhoAndTime":
+                case "ROfRhoAndAngle":
+                case "TOfRho":
+                case "TOfRhoAndAngle":
+                case "FluenceOfRhoAndZ":
+                case "FluenceOfRhoAndZAndTime":
+                case "AOfRhoAndZ":
+                case "ReflectedMTOfRhoAndSubregionHist":
+                case "ReflectedTimeOfRhoAndSubregionHist":
+                case "RadianceOfRho":
+                case "RadianceOfRhoAndZAndAngle":
+                case "pMCROfRho":
+                case "pMCROfRhoAndTime":
                     return true;
                 default:
                     return false;
@@ -169,19 +366,19 @@ namespace Vts.MonteCarlo.Extensions
         /// Method determines whether tally type is implemented for 
         /// continous absorption weighting (CAW) or not
         /// </summary>
-        /// <param name="tallyType">TallyType enum</param>
+        /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsNotImplementedForCAW(this TallyType tallyType)
+        private static bool IsNotImplementedForCAWString(string detector)
         {
-            switch (tallyType)
+            switch (detector)
             {
-                case TallyType.FluenceOfRhoAndZ:
-                case TallyType.FluenceOfRhoAndZAndTime:
-                case TallyType.FluenceOfXAndYAndZ:
-                case TallyType.AOfRhoAndZ:
-                case TallyType.ReflectedMTOfRhoAndSubregionHist:
-                case TallyType.RadianceOfRhoAndZAndAngle:
-                case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
+                case "FluenceOfRhoAndZ":
+                case "FluenceOfRhoAndZAndTime":
+                case "FluenceOfXAndYAndZ":
+                case "AOfRhoAndZ":
+                case "ReflectedMTOfRhoAndSubregionHist":
+                case "RadianceOfRhoAndZAndAngle":
+                case "RadianceOfXAndYAndZAndThetaAndPhi":
                     return true;
                 default:
                     return false;
@@ -191,18 +388,17 @@ namespace Vts.MonteCarlo.Extensions
         /// <summary>
         /// Method determines whether tally type is implemented yet or not
         /// </summary>
-        /// <param name="tallyType">TallyType enum</param>
+        /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsNotImplementedYet(this TallyType tallyType)
+        private static bool IsNotImplementedYetString(string detector)
         {
-            switch (tallyType)
+            switch (detector)
             {
-                //case TallyType.ReflectedMTOfRhoAndSubregionHist:
+                //case "ReflectedMTOfRhoAndSubregionHist":
                 //    return true;
                 default:
                     return false;
             }
-        }
-
+        } 
     }
 }

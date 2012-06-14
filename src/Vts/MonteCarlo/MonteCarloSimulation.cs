@@ -86,22 +86,23 @@ namespace Vts.MonteCarlo
                 {
                     case VirtualBoundaryType.DiffuseReflectance:
                     default:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IsReflectanceTally()).ToList();
-                        break;
-                    case VirtualBoundaryType.DiffuseTransmittance:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IsTransmittanceTally()).ToList();
-                        break;
-                    case VirtualBoundaryType.SpecularReflectance:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IsSpecularReflectanceTally()).ToList();
-                        break;
-                    case VirtualBoundaryType.GenericVolumeBoundary:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IsVolumeTally()).ToList();
-                        break;
-                    case VirtualBoundaryType.SurfaceRadiance:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IsInternalSurfaceTally()).ToList();
-                        break;
-                    case VirtualBoundaryType.pMCDiffuseReflectance:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyType.IspMCReflectanceTally()).ToList();
+                        detectorInputs = input.DetectorInputs.Where(d => d.IsReflectanceTally()).ToList();
+                        break;                                            
+                    case VirtualBoundaryType.DiffuseTransmittance:        
+                        detectorInputs = input.DetectorInputs.Where(d => d.IsTransmittanceTally()).ToList();
+                        break;                                            
+                    case VirtualBoundaryType.SpecularReflectance:         
+                        detectorInputs = input.DetectorInputs.Where(d => d.IsSpecularReflectanceTally()).ToList();
+                                                                          
+                        break;                                            
+                    case VirtualBoundaryType.GenericVolumeBoundary:       
+                        detectorInputs = input.DetectorInputs.Where(d => d.IsVolumeTally()).ToList();
+                        break;                                            
+                    case VirtualBoundaryType.SurfaceRadiance:             
+                        detectorInputs = input.DetectorInputs.Where(d => d.IsInternalSurfaceTally()).ToList();
+                        break;                                            
+                    case VirtualBoundaryType.pMCDiffuseReflectance:       
+                        detectorInputs = input.DetectorInputs.Where(d => d.IspMCReflectanceTally()).ToList();
                         break;
                 }
 

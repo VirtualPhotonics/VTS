@@ -38,7 +38,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new Complex[Rho.Count - 1, Omega.Count];
             }
-            TallyType = TallyType.ROfRhoAndOmega;
+            TallyType = "ROfRhoAndOmega";
             Name = name;
             TallyCount = 0;
         }
@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of ROfRhoAndAngleDetector (for serialization purposes only)
         /// </summary>
         public ROfRhoAndOmegaDetector()
-            : this(new DoubleRange(), new DoubleRange(), true, TallyType.ROfRhoAndOmega.ToString())
+            : this(new DoubleRange(), new DoubleRange(), true, "ROfRhoAndOmega")
         {
             
         }
@@ -63,11 +63,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// number time detector gets tallied to
         /// </summary>

@@ -32,7 +32,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[Rho.Count - 1, Angle.Count - 1];
             }
-            TallyType = TallyType.TOfRhoAndAngle;
+            TallyType = "TOfRhoAndAngle";
             Name = name;
             TallyCount = 0;
         }
@@ -41,7 +41,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Returns a default instance of TOfRhoAndAngleDetector (for serialization purposes only)
         /// </summary>
         public TOfRhoAndAngleDetector()
-            : this(new DoubleRange(), new DoubleRange(), true, TallyType.TOfRhoAndAngle.ToString())
+            : this(new DoubleRange(), new DoubleRange(), true, "TOfRhoAndAngle")
         {
         }
         /// <summary>
@@ -57,11 +57,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>

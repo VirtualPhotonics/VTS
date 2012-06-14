@@ -43,7 +43,7 @@ namespace Vts.MonteCarlo.Detectors
             OpticalProperties[] perturbedOps,
             int[] perturbedRegionIndices,
             bool tallySecondMoment,
-            String name)
+            string name)
         {
             Fx = fx;
             _fxArray = fx.AsEnumerable().ToArray();
@@ -55,7 +55,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new Complex[Fx.Count - 1, Time.Count - 1];
             }
-            TallyType = TallyType.pMCROfFxAndTime;
+            TallyType = "pMCROfFxAndTime";
             Name = name;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToArray();
             _perturbedOps = perturbedOps;
@@ -75,7 +75,7 @@ namespace Vts.MonteCarlo.Detectors
             new OpticalProperties[0],
             new int[0],
             true, // tallySecondMoment
-            TallyType.pMCROfFxAndTime.ToString())
+            "pMCROfFxAndTime")
         {
         }
 
@@ -94,11 +94,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>

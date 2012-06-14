@@ -9,9 +9,9 @@ namespace Vts.MonteCarlo
     public interface IDetectorInput
     {
         /// <summary>
-        /// TallyType enum identifying type of detector
+        /// TallyType string identifying type of detector
         /// </summary>
-       TallyType TallyType { get; set; }
+       string TallyType { get; set; }
         /// <summary>
         /// Name of detector.  User can define or default is TallyType.ToString().
         /// </summary>

@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo
         public FluenceOfXAndYAndZDetectorInput(
             DoubleRange x, DoubleRange y, DoubleRange z, String name)
         {
-            TallyType = TallyType.FluenceOfXAndYAndZ;
+            TallyType = "FluenceOfXAndYAndZ";
             Name = name;
             X = x;
             Y = y;
@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo
         /// <param name="z">z binning</param>
         public FluenceOfXAndYAndZDetectorInput(
             DoubleRange x, DoubleRange y, DoubleRange z) 
-            : this (x, y, z, TallyType.FluenceOfXAndYAndZ.ToString()) {}
+            : this (x, y, z,"FluenceOfXAndYAndZ") {}
 
         /// <summary>
         /// Default constructor uses default rho and z bins
@@ -43,16 +43,16 @@ namespace Vts.MonteCarlo
                 new DoubleRange(-10.0, 10.0, 101), // x
                 new DoubleRange(-10.0, 10.0, 101), // y
                 new DoubleRange(0.0, 10.0, 101), // z
-                TallyType.FluenceOfXAndYAndZ.ToString()) {}
+                "FluenceOfXAndYAndZ") {}
 
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// x binning
         /// </summary>

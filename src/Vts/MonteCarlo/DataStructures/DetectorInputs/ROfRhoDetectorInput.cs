@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo
         /// <param name="name">detector name</param>
         public ROfRhoDetectorInput(DoubleRange rho, String name)
         {
-            TallyType = TallyType.ROfRho;
+            TallyType = "ROfRho";
             Name = name;
             Rho = rho;
         }
@@ -25,22 +25,22 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="rho">rho binning</param>
         public ROfRhoDetectorInput(DoubleRange rho) 
-            : this (rho, TallyType.ROfRho.ToString()) {}
+            : this (rho, "ROfRho") {}
 
         /// <summary>
         /// Default constructor uses default rho bins
         /// </summary>
         public ROfRhoDetectorInput() 
-            : this(new DoubleRange(0.0, 10, 101), TallyType.ROfRho.ToString()) {}
+            : this(new DoubleRange(0.0, 10, 101),"ROfRho") {}
 
         /// <summary>
         /// detector tally identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, defaults to TallyType.ToString() but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// detector rho binning
         /// </summary>

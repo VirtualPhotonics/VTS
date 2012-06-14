@@ -53,28 +53,28 @@ namespace Vts.MonteCarlo
         private static ValidationResult ValidatePhotonDatabaseExistence(
             IList<IDetectorInput> detectorInputs, string inputFolder)
         {
-            if (detectorInputs.Select(di => di.TallyType.IsReflectanceTally()).Any())
+            if (detectorInputs.Select(di => di.IsReflectanceTally()).Any())
             {
                 return new ValidationResult(
                     File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")),
                     "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
                     "check that VirtualBoundaryType and database type agree");
             }
-            if (detectorInputs.Select(di => di.TallyType.IsTransmittanceTally()).Any())
+            if (detectorInputs.Select(di => di.IsTransmittanceTally()).Any())
             {
                 return new ValidationResult(
                     File.Exists(Path.Combine(inputFolder, "DiffuseTransmittanceDatabase")),
                     "PostProcessorInput:  file DiffuseTransmittanceDatabase does not exist",
                     "check that VirtualBoundaryType and database type agree");
             }
-            if (detectorInputs.Select(di => di.TallyType.IsSpecularReflectanceTally()).Any())
+            if (detectorInputs.Select(di => di.IsSpecularReflectanceTally()).Any())
             {
                 return new ValidationResult(
                     File.Exists(Path.Combine(inputFolder, "SpecularReflectanceDatabase")),
                     "PostProcessorInput:  file SpecularReflectanceDatabase does not exist",
                     "check that VirtualBoundaryType and database type agree");
             }
-            if (detectorInputs.Select(di => di.TallyType.IspMCReflectanceTally()).Any()) //pMC uses same exit db as regular post-processing
+            if (detectorInputs.Select(di => di.IspMCReflectanceTally()).Any()) //pMC uses same exit db as regular post-processing
             {
                 return new ValidationResult(
                       File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")) &&

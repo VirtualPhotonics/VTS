@@ -42,7 +42,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[Rho.Count - 1, SubregionIndices.Count, MTBins.Count - 1];
             }
-            TallyType = TallyType.ReflectedMTOfRhoAndSubregionHist; 
+            TallyType ="ReflectedMTOfRhoAndSubregionHist"; 
             Name = name;
             TallyCount = 0;
         }
@@ -56,7 +56,7 @@ namespace Vts.MonteCarlo.Detectors
             new DoubleRange(),
             new MultiLayerTissue(), 
             true, // tally SecondMoment
-            TallyType.ReflectedMTOfRhoAndSubregionHist.ToString())
+            "ReflectedMTOfRhoAndSubregionHist")
         {
         }
         /// <summary>
@@ -73,11 +73,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// name of detector, default uses TallyType 
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// number of times this detector gets tallied 
         /// </summary>

@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo
         /// <param name="name">detector name</param>
         public ReflectedMTOfRhoAndSubregionHistDetectorInput(DoubleRange rho, DoubleRange mtBins, String name)
         {
-            TallyType = TallyType.ReflectedMTOfRhoAndSubregionHist;
+            TallyType = "ReflectedMTOfRhoAndSubregionHist";
             Name = name;
             Rho = rho;
             MTBins = mtBins;
@@ -27,7 +27,7 @@ namespace Vts.MonteCarlo
         /// <param name="rho">rho binning</param>
         /// <param name="mtBins">momentum transfer binning</param>
         public ReflectedMTOfRhoAndSubregionHistDetectorInput(DoubleRange rho, DoubleRange mtBins) 
-            : this (rho, mtBins, TallyType.ReflectedMTOfRhoAndSubregionHist.ToString()) { }
+            : this (rho, mtBins, "ReflectedMTOfRhoAndSubregionHist") { }
 
         /// <summary>
         /// Default constructor uses default rho and mt bins
@@ -36,16 +36,16 @@ namespace Vts.MonteCarlo
             : this(
                 new DoubleRange(0.0, 10.0, 101), //rho
                 new DoubleRange(0.0, 300.0, 101), // mt bins
-                TallyType.ReflectedMTOfRhoAndSubregionHist.ToString()) {}
+                "ReflectedMTOfRhoAndSubregionHist") {}
 
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, defaults to TallyType.ToString() but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// detector rho binning
         /// </summary>

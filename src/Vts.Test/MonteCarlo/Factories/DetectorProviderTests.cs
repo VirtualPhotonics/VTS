@@ -20,7 +20,7 @@ namespace Vts.Test.MonteCarlo.Factories
         {
             var p = new DetectorProvider<SampleDetectorInput, SampleDetector, SampleDetectorOutput>();
 
-            var input1 = new SampleDetectorInput { Name = "ROfQ" };
+            var input1 = new SampleDetectorInput { Name = "ROfQ", QRange = new DoubleRange(0, 1, 5)};
 
             p.WriteInputToFile(input1, "sampleinput");
 

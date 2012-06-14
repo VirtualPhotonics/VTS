@@ -61,84 +61,84 @@ namespace Vts.MonteCarlo.Factories
             switch (detectorInput.TallyType)
             {
                 // IDetector(s):
-                case TallyType.RDiffuse:
+                case "RDiffuse":
                     var rdinput = (RDiffuseDetectorInput)detectorInput;
                     //return new RDiffuseDetector(tallySecondMoment, rdinput.Name);
                     return new RDiffuseDetector(tallySecondMoment, rdinput.Name);
-                case TallyType.RSpecular:
+                case "RSpecular":
                     var rsinput = (RSpecularDetectorInput)detectorInput;
                     return new RSpecularDetector(tallySecondMoment, rsinput.Name);
-                case TallyType.ROfRho:
+                case "ROfRho":
                     var rrinput = (ROfRhoDetectorInput)detectorInput;
                     return new ROfRhoDetector(rrinput.Rho, tallySecondMoment, rrinput.Name);
-                case TallyType.ROfAngle:
+                case "ROfAngle":
                     var rainput = (ROfAngleDetectorInput)detectorInput;
                     return new ROfAngleDetector(rainput.Angle, tallySecondMoment, rainput.Name);
-                case TallyType.ROfRhoAndTime:
+                case "ROfRhoAndTime":
                     var rrtinput = (ROfRhoAndTimeDetectorInput)detectorInput;
                     return new ROfRhoAndTimeDetector(rrtinput.Rho, rrtinput.Time, tallySecondMoment, rrtinput.Name);
-                case TallyType.ROfRhoAndAngle:
+                case "ROfRhoAndAngle":
                     var rrainput = (ROfRhoAndAngleDetectorInput)detectorInput;
                     return new ROfRhoAndAngleDetector(rrainput.Rho, rrainput.Angle, tallySecondMoment, rrainput.Name);
-                case TallyType.ROfXAndY:
+                case "ROfXAndY":
                     var rxyinput = (ROfXAndYDetectorInput)detectorInput;
                     return new ROfXAndYDetector(rxyinput.X, rxyinput.Y, tallySecondMoment, rxyinput.Name);
-                case TallyType.ROfRhoAndOmega:
+                case "ROfRhoAndOmega":
                     var rroinput = (ROfRhoAndOmegaDetectorInput)detectorInput;
                     return new ROfRhoAndOmegaDetector(rroinput.Rho, rroinput.Omega, tallySecondMoment, rroinput.Name);
-                case TallyType.ROfFx:
+                case "ROfFx":
                     var rfxinput = (ROfFxDetectorInput)detectorInput;
                     return new ROfFxDetector(rfxinput.Fx, tallySecondMoment, rfxinput.Name);
-                case TallyType.ROfFxAndTime:
+                case "ROfFxAndTime":
                     var rfxtinput = (ROfFxAndTimeDetectorInput)detectorInput;
                     return new ROfFxAndTimeDetector(rfxtinput.Fx, rfxtinput.Time, tallySecondMoment, rfxtinput.Name);
-                case TallyType.TDiffuse:
+                case "TDiffuse":
                     var tdinput = (TDiffuseDetectorInput)detectorInput;
                     return new TDiffuseDetector(tallySecondMoment, tdinput.Name);
-                case TallyType.TOfAngle:
+                case "TOfAngle":
                     var tainput = (TOfAngleDetectorInput)detectorInput;
                     return new TOfAngleDetector(tainput.Angle, tallySecondMoment, tainput.Name);
-                case TallyType.TOfRho:
+                case "TOfRho":
                     var trinput = (TOfRhoDetectorInput)detectorInput;
                     return new TOfRhoDetector(trinput.Rho, tallySecondMoment, trinput.Name);
-                case TallyType.TOfRhoAndAngle:
+                case "TOfRhoAndAngle":
                     var trainput = (TOfRhoAndAngleDetectorInput)detectorInput;
                     return new TOfRhoAndAngleDetector(trainput.Rho, trainput.Angle, tallySecondMoment, trainput.Name);
-                case TallyType.RadianceOfRho:
+                case "RadianceOfRho":
                     var drinput = (RadianceOfRhoDetectorInput)detectorInput;
                     return new RadianceOfRhoDetector(drinput.ZDepth, drinput.Rho, tissue, tallySecondMoment, drinput.Name);
 
                 // IHistoryDetector(s):
-                case TallyType.FluenceOfRhoAndZ:
+                case "FluenceOfRhoAndZ":
                     var frzinput = (FluenceOfRhoAndZDetectorInput)detectorInput;
                     return new FluenceOfRhoAndZDetector(frzinput.Rho, frzinput.Z, tissue, tallySecondMoment, frzinput.Name);
-                case TallyType.FluenceOfRhoAndZAndTime:
+                case "FluenceOfRhoAndZAndTime":
                     var frztinput = (FluenceOfRhoAndZAndTimeDetectorInput)detectorInput;
                     return new FluenceOfRhoAndZAndTimeDetector(frztinput.Rho, frztinput.Z, frztinput.Time, tissue, tallySecondMoment, frztinput.Name);
-                case TallyType.FluenceOfXAndYAndZ:
+                case "FluenceOfXAndYAndZ":
                     var fxyzinput = (FluenceOfXAndYAndZDetectorInput)detectorInput;
                     return new FluenceOfXAndYAndZDetector(fxyzinput.X, fxyzinput.Y, fxyzinput.Z, tissue, tallySecondMoment, fxyzinput.Name);
-                case TallyType.AOfRhoAndZ:
+                case "AOfRhoAndZ":
                     var arzinput = (AOfRhoAndZDetectorInput)detectorInput;
                     return new AOfRhoAndZDetector(arzinput.Rho, arzinput.Z, tissue, tallySecondMoment, arzinput.Name);
-                case TallyType.ATotal:
+                case "ATotal":
                     var ainput = (ATotalDetectorInput)detectorInput;
                     return new ATotalDetector(tissue, tallySecondMoment, ainput.Name);
-                case TallyType.RadianceOfRhoAndZAndAngle:
+                case "RadianceOfRhoAndZAndAngle":
                     var rrzainput = (RadianceOfRhoAndZAndAngleDetectorInput)detectorInput;
                     return new RadianceOfRhoAndZAndAngleDetector(rrzainput.Rho, rrzainput.Z, rrzainput.Angle, tissue, tallySecondMoment, rrzainput.Name);
-                case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
+                case "RadianceOfXAndYAndZAndThetaAndPhi":
                     var rxyztpinput = (RadianceOfXAndYAndZAndThetaAndPhiDetectorInput)detectorInput;
                     return new RadianceOfXAndYAndZAndThetaAndPhiDetector(rxyztpinput.X, rxyztpinput.Y, rxyztpinput.Z, rxyztpinput.Theta, rxyztpinput.Phi, tissue, tallySecondMoment, rxyztpinput.Name);
-                case TallyType.ReflectedMTOfRhoAndSubregionHist:
+                case "ReflectedMTOfRhoAndSubregionHist":
                     var rmtrsinput = (ReflectedMTOfRhoAndSubregionHistDetectorInput)detectorInput;
                     return new ReflectedMTOfRhoAndSubregionHistDetector(rmtrsinput.Rho, rmtrsinput.MTBins, tissue, tallySecondMoment, rmtrsinput.Name);
-                case TallyType.ReflectedTimeOfRhoAndSubregionHist:
+                case "ReflectedTimeOfRhoAndSubregionHist":
                     var rtrsinput = (ReflectedTimeOfRhoAndSubregionHistDetectorInput)detectorInput;
                     return new ReflectedTimeOfRhoAndSubregionHistDetector(rtrsinput.Rho, rtrsinput.Time, tissue, tallySecondMoment, rtrsinput.Name);
 
                 // pMC Detector(s):
-                case TallyType.pMCROfRhoAndTime:
+                case "pMCROfRhoAndTime":
                     var prrtinput = (pMCROfRhoAndTimeDetectorInput)detectorInput;
                     return new pMCROfRhoAndTimeDetector(
                         prrtinput.Rho,
@@ -148,7 +148,7 @@ namespace Vts.MonteCarlo.Factories
                         prrtinput.PerturbedRegionsIndices,
                         tallySecondMoment,
                         prrtinput.Name);
-                case TallyType.pMCROfRho:
+                case "pMCROfRho":
                     var prrinput = (pMCROfRhoDetectorInput)detectorInput;
                     return new pMCROfRhoDetector(
                         prrinput.Rho,
@@ -158,7 +158,7 @@ namespace Vts.MonteCarlo.Factories
                         tallySecondMoment,
                         prrinput.Name
                         );
-                case TallyType.pMCROfFx:
+                case "pMCROfFx":
                     var prfxinput = (pMCROfFxDetectorInput)detectorInput;
                     return new pMCROfFxDetector(
                         prfxinput.Fx,
@@ -168,7 +168,7 @@ namespace Vts.MonteCarlo.Factories
                         tallySecondMoment,
                         prfxinput.Name
                         );
-                case TallyType.pMCROfFxAndTime:
+                case "pMCROfFxAndTime":
                     var prfxtinput = (pMCROfFxAndTimeDetectorInput)detectorInput;
                     return new pMCROfFxAndTimeDetector(
                         prfxtinput.Fx,

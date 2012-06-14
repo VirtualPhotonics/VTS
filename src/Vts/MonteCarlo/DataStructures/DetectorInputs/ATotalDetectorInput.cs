@@ -15,21 +15,21 @@ namespace Vts.MonteCarlo
         /// <param name="name">detector name</param>
         public ATotalDetectorInput(String name)
         {
-            TallyType = TallyType.ATotal;
+            TallyType = "ATotal";
             Name = name;
         }
         /// <summary>
         /// default constructor uses TallyType for name
         /// </summary>
-        public ATotalDetectorInput() : this(TallyType.ATotal.ToString()) { }
+        public ATotalDetectorInput() : this("ATotal") { }
 
         /// <summary>
         /// detector tally identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, defaults to TallyType.ToString() but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
     }
 }

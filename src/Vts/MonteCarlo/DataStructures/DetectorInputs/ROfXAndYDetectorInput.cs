@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
         /// <param name="name">detector name</param>
         public ROfXAndYDetectorInput(DoubleRange x, DoubleRange y, String name)
         {
-            TallyType = TallyType.ROfXAndY;
+            TallyType = "ROfXAndY";
             Name = name;
             X = x;
             Y = y;
@@ -28,7 +28,7 @@ namespace Vts.MonteCarlo
         /// <param name="x">x binning</param>
         /// <param name="y">y binning</param>
         public ROfXAndYDetectorInput(DoubleRange x, DoubleRange y) 
-            : this (x, y, TallyType.ROfXAndY.ToString()) {}
+            : this (x, y, "ROfXAndY") {}
 
         /// <summary>
         /// Default constructor uses default x and y bins
@@ -36,16 +36,16 @@ namespace Vts.MonteCarlo
         public ROfXAndYDetectorInput() 
             : this (new DoubleRange(-200.0, 200.0, 401), 
                     new DoubleRange(-200.0, 200.0, 401), 
-                    TallyType.ROfXAndY.ToString()) {}
+                    "ROfXAndY") {}
 
         /// <summary>
         /// detector tally identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, defaults to TallyType.ToString() but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// x-axis binning 
         /// </summary>

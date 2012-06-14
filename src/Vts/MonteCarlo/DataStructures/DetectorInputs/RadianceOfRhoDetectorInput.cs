@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo
         /// <param name="name">detector name</param>
         public RadianceOfRhoDetectorInput(double zDepth, DoubleRange rho, String name)
         {
-            TallyType = TallyType.RadianceOfRho;
+            TallyType ="RadianceOfRho";
             Name = name;
             Rho = rho;
             ZDepth = zDepth;
@@ -29,22 +29,22 @@ namespace Vts.MonteCarlo
         /// <param name="zDepth">defines z plane tally surface</param>
         /// <param name="rho">rho binning on z plane surface</param>
         public RadianceOfRhoDetectorInput(double zDepth, DoubleRange rho) 
-            : this (zDepth, rho, TallyType.RadianceOfRho.ToString()) {}
+            : this (zDepth, rho, "RadianceOfRho") {}
 
         /// <summary>
         /// Default constructor uses default rho bins
         /// </summary>
         public RadianceOfRhoDetectorInput() 
-            : this(5.5, new DoubleRange(0.0, 10, 101), TallyType.RadianceOfRho.ToString()) {}
+            : this(5.5, new DoubleRange(0.0, 10, 101), "RadianceOfRho") {}
 
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// rho binning
         /// </summary>

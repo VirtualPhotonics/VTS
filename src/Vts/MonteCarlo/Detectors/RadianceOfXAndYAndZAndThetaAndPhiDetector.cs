@@ -56,7 +56,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[X.Count - 1, Y.Count - 1, Z.Count - 1, Theta.Count - 1, Phi.Count - 1];
             }
-            TallyType = TallyType.RadianceOfXAndYAndZAndThetaAndPhi;
+            TallyType ="RadianceOfXAndYAndZAndThetaAndPhi";
             Name = name;
             TallyCount = 0;
             _tissue = tissue;
@@ -76,7 +76,7 @@ namespace Vts.MonteCarlo.Detectors
             new DoubleRange(), 
             new MultiLayerTissue(), 
             true,
-            TallyType.RadianceOfRhoAndZAndAngle.ToString())
+            "RadianceOfRhoAndZAndAngle")
         {
         }
 
@@ -94,11 +94,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType but can be user specified
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>

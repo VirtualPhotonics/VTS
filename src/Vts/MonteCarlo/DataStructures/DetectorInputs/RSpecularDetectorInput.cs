@@ -15,21 +15,21 @@ namespace Vts.MonteCarlo
         /// <param name="name">detector name</param>
         public RSpecularDetectorInput(String name)
         {
-            TallyType = TallyType.RSpecular;
+            TallyType = "RSpecular";
             Name = name;
         }
         /// <summary>
         /// default constructor uses TallyType as name
         /// </summary>
-        public RSpecularDetectorInput() : this (TallyType.RSpecular.ToString()) {}
+        public RSpecularDetectorInput() : this ("RSpecular") {}
 
         /// <summary>
         /// detector tally name
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name, default uses TallyType, but can be different if user specifies
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
     }
 }

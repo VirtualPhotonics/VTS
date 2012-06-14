@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo
             IList<int> perturbedRegionsIndices,
             String name)
         {
-            TallyType = TallyType.pMCROfRhoAndTime;
+            TallyType = "pMCROfRhoAndTime";
             Name = name;
             Rho = rho;
             Time = time;
@@ -44,7 +44,7 @@ namespace Vts.MonteCarlo
             DoubleRange time,
             IList<OpticalProperties> perturbedOps,
             IList<int> perturbedRegionsIndices) 
-            : this (rho, time, perturbedOps, perturbedRegionsIndices, TallyType.pMCROfRhoAndTime.ToString()) {}
+            : this (rho, time, perturbedOps, perturbedRegionsIndices, "pMCROfRhoAndTime") {}
         
         /// <summary>
         /// Default constructor tallies all tallies
@@ -58,17 +58,17 @@ namespace Vts.MonteCarlo
                     new OpticalProperties(0.0, 1.0, 0.8, 1.4),
                     new OpticalProperties(1e-10, 0.0, 0.0, 1.0) },
                 new List<int>() { 1 }, // perturbedRegionIndex
-                TallyType.pMCROfRhoAndTime.ToString()
+               "pMCROfRhoAndTime"
             ) {}
 
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
         /// <summary>
         /// detector name
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// rho binning
         /// </summary>
