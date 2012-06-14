@@ -261,7 +261,7 @@ for di = 1:numDetectors
             ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints = (ReflectedMTOfRhoAndSubregionHist.Rho(1:end-1) + ReflectedMTOfRhoAndSubregionHist.Rho(2:end))/2;
             ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints = (ReflectedMTOfRhoAndSubregionHist.MTBins(1:end-1) + ReflectedMTOfRhoAndSubregionHist.MTBins(2:end))/2;
             ReflectedMTOfRhoAndSubregionHist.Mean = readBinaryData([datadir slash detectorName], ... 
-                [(length(ReflectedMTOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1)]);
+                (length(ReflectedMTOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1));
             ReflectedMTOfRhoAndSubregionHist.Mean = reshape(ReflectedMTOfRhoAndSubregionHist.Mean, ...
                 [length(ReflectedMTOfRhoAndSubregionHist.Rho)-1,length(tempSubregionIndices),length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1]);
             if(exist([datadir slash detectorName '_2'],'file'))
@@ -283,9 +283,11 @@ for di = 1:numDetectors
             ReflectedTimeOfRhoAndSubregionHist.Rho_Midpoints = (ReflectedTimeOfRhoAndSubregionHist.Rho(1:end-1) + ReflectedTimeOfRhoAndSubregionHist.Rho(2:end))/2;
             ReflectedTimeOfRhoAndSubregionHist.Time_Midpoints = (ReflectedTimeOfRhoAndSubregionHist.Time(1:end-1) + ReflectedTimeOfRhoAndSubregionHist.Time(2:end))/2;
             ReflectedTimeOfRhoAndSubregionHist.Mean = readBinaryData([datadir slash detectorName], ... 
-                [(length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedTimeOfRhoAndSubregionHist.Time)-1)]);
+                (length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedTimeOfRhoAndSubregionHist.Time)-1));
             ReflectedTimeOfRhoAndSubregionHist.Mean = reshape(ReflectedTimeOfRhoAndSubregionHist.Mean, ...
                 [length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1,length(tempSubregionIndices),length(ReflectedTimeOfRhoAndSubregionHist.Time)-1]);
+            ReflectedTimeOfRhoAndSubregionHist.FractionalTime = readBinaryData([datadir slash detectorName '_FractionalTime'], ... 
+                [length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1, length(tempSubregionIndices)]);
             if(exist([datadir slash detectorName '_2'],'file'))
                 ReflectedTimeOfRhoAndSubregionHist.SecondMoment = readBinaryData([datadir slash detectorName '_2'], ... 
                 [(length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedTimeOfRhoAndSubregionHist.Time)-1)]); 
