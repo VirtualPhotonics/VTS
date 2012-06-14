@@ -24,7 +24,7 @@ namespace Vts.Test.MonteCarlo
                 true, // tally SecondMoment
                 detectorName) { Mean = 100 };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (RDiffuseDetector)DetectorIO.ReadDetectorFromFile(TallyType.RDiffuse, detectorName, "");
+            var dcloned = (RDiffuseDetector)DetectorIO.ReadDetectorFromFile("RDiffuse", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean, 100);
@@ -35,7 +35,7 @@ namespace Vts.Test.MonteCarlo
             string detectorName = "testtdiffuse";
             IDetector detector = new TDiffuseDetector(false, detectorName) { Mean = 100 };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (TDiffuseDetector)DetectorIO.ReadDetectorFromFile(TallyType.TDiffuse, detectorName, "");
+            var dcloned = (TDiffuseDetector)DetectorIO.ReadDetectorFromFile("TDiffuse", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean, 100);
@@ -46,7 +46,7 @@ namespace Vts.Test.MonteCarlo
             string detectorName = "testatotal";
             IDetector detector = new ATotalDetector(new MultiLayerTissue(), true, detectorName) { Mean = 100 };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (ATotalDetector)DetectorIO.ReadDetectorFromFile(TallyType.ATotal, detectorName, "");
+            var dcloned = (ATotalDetector)DetectorIO.ReadDetectorFromFile("ATotal", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean, 100);
@@ -63,7 +63,7 @@ namespace Vts.Test.MonteCarlo
                 new DoubleRange(0, 10, 4), false, detectorName) // remember Count-1 is size of array 
                     { Mean = new double[] {100, 200, 300} };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (ROfRhoDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfRho, detectorName, "");
+            var dcloned = (ROfRhoDetector)DetectorIO.ReadDetectorFromFile("ROfRho", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0], 100);
@@ -78,7 +78,7 @@ namespace Vts.Test.MonteCarlo
                 new DoubleRange(0, 10, 4), false, detectorName) // remember Count-1 is size of array 
                     { Mean = new double[] { 100, 200, 300 } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (ROfAngleDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfAngle, detectorName, "");
+            var dcloned = (ROfAngleDetector)DetectorIO.ReadDetectorFromFile("ROfAngle", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0], 100);
@@ -93,7 +93,7 @@ namespace Vts.Test.MonteCarlo
                 new DoubleRange(0, 10, 4), false, detectorName) // remember Count-1 is size of array 
                     { Mean = new double[] { 100, 200, 300 } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (TOfAngleDetector)DetectorIO.ReadDetectorFromFile(TallyType.TOfAngle, detectorName, "");
+            var dcloned = (TOfAngleDetector)DetectorIO.ReadDetectorFromFile("TOfAngle", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0], 100);
@@ -108,7 +108,7 @@ namespace Vts.Test.MonteCarlo
                 new DoubleRange(0, 10, 4), false, detectorName) // remember Count-1 is size of array 
                     { Mean = new double[] { 100, 200, 300 } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (TOfRhoDetector)DetectorIO.ReadDetectorFromFile(TallyType.TOfRho, detectorName, "");
+            var dcloned = (TOfRhoDetector)DetectorIO.ReadDetectorFromFile("TOfRho", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0], 100);
@@ -128,7 +128,7 @@ namespace Vts.Test.MonteCarlo
                 detectorName)
                 { Mean = new double[] { 100, 200, 300 } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (pMCROfRhoDetector)DetectorIO.ReadDetectorFromFile(TallyType.pMCROfRho, detectorName, "");
+            var dcloned = (pMCROfRhoDetector)DetectorIO.ReadDetectorFromFile("pMCROfRho", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0], 100);
@@ -149,7 +149,7 @@ namespace Vts.Test.MonteCarlo
                 true, // tally SecondMoment
                 detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfRhoAndTime, detectorName, "");
+            var dcloned = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFile("ROfRhoAndTime", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0], 1);
@@ -169,7 +169,7 @@ namespace Vts.Test.MonteCarlo
                 true, // tally SecondMoment
                 detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (ROfRhoAndAngleDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfRhoAndAngle, detectorName, "");
+            var dcloned = (ROfRhoAndAngleDetector)DetectorIO.ReadDetectorFromFile("ROfRhoAndAngle", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0], 1);
@@ -189,7 +189,7 @@ namespace Vts.Test.MonteCarlo
                 false,
                 detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (TOfRhoAndAngleDetector)DetectorIO.ReadDetectorFromFile(TallyType.TOfRhoAndAngle, detectorName, "");
+            var dcloned = (TOfRhoAndAngleDetector)DetectorIO.ReadDetectorFromFile("TOfRhoAndAngle", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0], 1);
@@ -210,7 +210,7 @@ namespace Vts.Test.MonteCarlo
                 true,
                 detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (AOfRhoAndZDetector)DetectorIO.ReadDetectorFromFile(TallyType.AOfRhoAndZ, detectorName, "");
+            var dcloned = (AOfRhoAndZDetector)DetectorIO.ReadDetectorFromFile("AOfRhoAndZ", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0], 1);
@@ -230,7 +230,7 @@ namespace Vts.Test.MonteCarlo
                 false,
                 detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (ROfXAndYDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfXAndY, detectorName, "");
+            var dcloned = (ROfXAndYDetector)DetectorIO.ReadDetectorFromFile("ROfXAndY", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0], 1);
@@ -252,7 +252,7 @@ namespace Vts.Test.MonteCarlo
                 true, // tally SecondMoment
                 detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (FluenceOfRhoAndZDetector)DetectorIO.ReadDetectorFromFile(TallyType.FluenceOfRhoAndZ, detectorName, "");
+            var dcloned = (FluenceOfRhoAndZDetector)DetectorIO.ReadDetectorFromFile("FluenceOfRhoAndZ", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0], 1);
@@ -274,7 +274,7 @@ namespace Vts.Test.MonteCarlo
                                                         { 5 + Complex.ImaginaryOne * 5, 6 + Complex.ImaginaryOne * 6, 7 + Complex.ImaginaryOne * 7, 8 + Complex.ImaginaryOne * 8} }
                 };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (ROfRhoAndOmegaDetector)DetectorIO.ReadDetectorFromFile(TallyType.ROfRhoAndOmega, detectorName, "");
+            var dcloned = (ROfRhoAndOmegaDetector)DetectorIO.ReadDetectorFromFile("ROfRhoAndOmega", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0], 1 + Complex.ImaginaryOne * 1);
@@ -297,7 +297,7 @@ namespace Vts.Test.MonteCarlo
                 true, // tally SecondMoment
                 detectorName) { Mean = new double[,,] { { { 1, 2 }, { 3, 4 }, { 5, 6 } }, { { 7, 8 }, { 9 , 10 }, { 11, 12 } } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (ReflectedMTOfRhoAndSubregionHistDetector)DetectorIO.ReadDetectorFromFile(TallyType.ReflectedMTOfRhoAndSubregionHist, detectorName, "");
+            var dcloned = (ReflectedMTOfRhoAndSubregionHistDetector)DetectorIO.ReadDetectorFromFile("ReflectedMTOfRhoAndSubregionHist", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0, 0], 1);
@@ -327,7 +327,7 @@ namespace Vts.Test.MonteCarlo
                 true, // tally SecondMoment
                 detectorName) { Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (pMCROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFile(TallyType.pMCROfRhoAndTime, detectorName, "");
+            var dcloned = (pMCROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFile("pMCROfRhoAndTime", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0], 1);
@@ -354,7 +354,7 @@ namespace Vts.Test.MonteCarlo
                 true,
                 detectorName) { Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } } };
             DetectorIO.WriteDetectorToFile(detector, "");
-            var dcloned = (FluenceOfRhoAndZAndTimeDetector)DetectorIO.ReadDetectorFromFile(TallyType.FluenceOfRhoAndZAndTime, detectorName, "");
+            var dcloned = (FluenceOfRhoAndZAndTimeDetector)DetectorIO.ReadDetectorFromFile("FluenceOfRhoAndZAndTime", detectorName, "");
 
             Assert.AreEqual(dcloned.Name, detectorName);
             Assert.AreEqual(dcloned.Mean[0, 0, 0], 1);

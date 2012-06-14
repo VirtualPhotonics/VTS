@@ -83,7 +83,7 @@ namespace Vts.MonteCarlo.PostProcessor
             // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
 
             // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
-            if (input.DetectorInputs.Where(di => di.TallyType.IspMCReflectanceTally()).Any())
+            if (input.DetectorInputs.Where(di => di.IspMCReflectanceTally()).Any())
             {
                 IList<IDetectorInput> pMCDetectorInputs;
                 pMCDetectorInputs = input.DetectorInputs;
@@ -98,7 +98,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     );
                 postProcessedOutput = postProcessor.Run();
             }
-            else if (input.DetectorInputs.Where(di => di.TallyType.IsReflectanceTally()).Any())
+            else if (input.DetectorInputs.Where(di => di.IsReflectanceTally()).Any())
             {
               
                 var postProcessor = new PhotonDatabasePostProcessor(
@@ -112,7 +112,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 );
                 postProcessedOutput = postProcessor.Run();
             }
-            else if (input.DetectorInputs.Where(di => di.TallyType.IsTransmittanceTally()).Any())
+            else if (input.DetectorInputs.Where(di => di.IsTransmittanceTally()).Any())
             {
                 var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.DiffuseTransmittance,
@@ -125,7 +125,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 );
                 postProcessedOutput = postProcessor.Run();
             }
-            else if (input.DetectorInputs.Where(di => di.TallyType.IsSpecularReflectanceTally()).Any())
+            else if (input.DetectorInputs.Where(di => di.IsSpecularReflectanceTally()).Any())
             {
                 var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.SpecularReflectance,

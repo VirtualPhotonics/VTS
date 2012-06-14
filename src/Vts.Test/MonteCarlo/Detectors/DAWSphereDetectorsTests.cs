@@ -263,7 +263,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // undo angle bin normalization
             var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_inputOneRegionTissue.DetectorInputs.
-                Where(d => d.TallyType == TallyType.RadianceOfRhoAndZAndAngle).First()).Angle;
+                Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First()).Angle;
             var norm = 2 * Math.PI * angle.Delta;
             var integral = 0.0;
             for (int ia = 0; ia < angle.Count - 1; ia++)

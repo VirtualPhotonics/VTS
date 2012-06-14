@@ -49,7 +49,7 @@ namespace Vts.SiteVisit.ViewModel
 
             _simulationInputVM = new SimulationInputViewModel(simulationInput);
 
-            var rho = ((ROfRhoDetectorInput)simulationInput.DetectorInputs.Where(d => d.TallyType == TallyType.ROfRho).First()).Rho;
+            var rho = ((ROfRhoDetectorInput)simulationInput.DetectorInputs.Where(d => d.TallyType == "ROfRho").First()).Rho;
 
             ExecuteMonteCarloSolverCommand = new RelayCommand(() => MC_ExecuteMonteCarloSolver_Executed(null, null));
             CancelMonteCarloSolverCommand = new RelayCommand(() => MC_CancelMonteCarloSolver_Executed(null, null));

@@ -262,9 +262,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // undo angle bin normalization
             var angle = ((TOfRhoAndAngleDetectorInput)_inputOneLayerTissue.DetectorInputs.
-                Where(d => d.TallyType == TallyType.TOfRhoAndAngle).First()).Angle;
+                Where(d => d.TallyType == "TOfRhoAndAngle").First()).Angle;
             var rho = ((TOfRhoAndAngleDetectorInput)_inputOneLayerTissue.DetectorInputs.
-                Where(d => d.TallyType == TallyType.TOfRhoAndAngle).First()).Rho;
+                Where(d => d.TallyType == "TOfRhoAndAngle").First()).Rho;
             var norm = 2 * Math.PI * rho.Delta * 2 * Math.PI * angle.Delta;
             var integral = 0.0;
             for (int ir = 0; ir < rho.Count - 1; ir++)
@@ -318,7 +318,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // undo angle bin normalization
             var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_inputOneLayerTissue.DetectorInputs.
-                Where(d => d.TallyType == TallyType.RadianceOfRhoAndZAndAngle).First()).Angle;
+                Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First()).Angle;
             var norm = 2 * Math.PI * angle.Delta;
             var integral = 0.0;
             for (int ia = 0; ia < angle.Count - 1; ia++)
@@ -334,9 +334,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // undo angle bin normalization
             var theta = ((RadianceOfXAndYAndZAndThetaAndPhiDetectorInput)_inputOneLayerTissue.DetectorInputs.
-                Where(d => d.TallyType == TallyType.RadianceOfXAndYAndZAndThetaAndPhi).First()).Theta;
+                Where(d => d.TallyType == "RadianceOfXAndYAndZAndThetaAndPhi").First()).Theta;
             var phi = ((RadianceOfXAndYAndZAndThetaAndPhiDetectorInput)_inputOneLayerTissue.DetectorInputs.
-                Where(d => d.TallyType == TallyType.RadianceOfXAndYAndZAndThetaAndPhi).First()).Phi;
+                Where(d => d.TallyType == "RadianceOfXAndYAndZAndThetaAndPhi").First()).Phi;
             var norm = theta.Delta * phi.Delta;
             var integral = 0.0;
             for (int it = 0; it < theta.Count - 1; it++)
@@ -368,7 +368,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rs_hist[0, 1, 0] - 0.632816), 0.000001);
             // make sure over MT equals R(rho) results
             var mtbins = ((ReflectedMTOfRhoAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
-                Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First()).MTBins;
+                Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First()).MTBins;
             var integral = 0.0;
             for (int i = 0; i < mtbins.Count - 1; i++)
             {

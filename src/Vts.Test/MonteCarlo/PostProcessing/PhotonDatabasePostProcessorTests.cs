@@ -152,7 +152,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         private void ValidateROfRhoAndTime(SimulationOutput output1, SimulationOutput output2)
         {
             var detector = (ROfRhoAndTimeDetectorInput)_detectorInputs.
-                Where(d => d.TallyType == TallyType.ROfRhoAndTime).First(); 
+                Where(d => d.TallyType == "ROfRhoAndTime").First(); 
             // currently these are agreeing EXCEPT for last bin i=99, j=99
             var out1 = output1.R_rt[99, 99];
             var out2 = output2.R_rt[99, 99];
