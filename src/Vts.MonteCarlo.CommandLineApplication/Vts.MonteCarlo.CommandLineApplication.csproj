@@ -144,9 +144,7 @@ copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)" 
 
 IF $(Configuration) == Release IF NOT EXIST "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" mkdir "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries"
 
-IF $(Configuration) == Release copy "$(TargetDir)\*.exe" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
-IF $(Configuration) == Release copy "$(TargetDir)\*.dll" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
-IF $(Configuration) == Release copy "$(TargetDir)\*.config" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
+IF $(Configuration) == Release copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
 
 "$(TargetDir)mc.exe" geninfiles
 </PostBuildEvent>

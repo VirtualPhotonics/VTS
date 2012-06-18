@@ -13,11 +13,6 @@ if isempty(VTS_ASSEMBLIES)
         
         directory = getFullPath('vts_libraries\');
         
-        if (isempty(dir(directory)))            
-            directory = getFullPath('..\..\build\apps\mc\Release\');
-        end
-                   
-%         directory = getFullPath('vts_libraries\'); %'C:\Program Files\Modulated Imaging, Inc\MI Acquire\';
         assembly_names = { ...
             'mc.exe', ...
             'Ionic.Zip.dll', ...
