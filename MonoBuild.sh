@@ -1,10 +1,10 @@
 SolutionDir=$PWD
 
 #Build the solution in Debug configuration
-mdtool build --configuration:Debug $SolutionDir/src/Vts-All-Desktop.sln
+mdtool build --configuration:Debug $SolutionDir/src/Vts-Mono.sln
 
 #Build the solution in Release configuration
-mdtool build --configuration:Release $SolutionDir/src/Vts-All-Desktop.sln
+mdtool build --configuration:Release $SolutionDir/src/Vts-Mono.sln
 
 #Post build events:
 ConfigName=Debug
