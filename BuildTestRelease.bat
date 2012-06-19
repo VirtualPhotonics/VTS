@@ -17,7 +17,7 @@ call "%rootdir%src\Vts.MonteCarlo.CommandLineApplication\CreateRelease.bat" %ver
 call "%rootdir%matlab\CreateRelease.bat" %version% 
 
 rem ********** BUILD THE SILVERLIGHT VERSION **********
-rem call "%rootdir%SilverlightBuild.bat"
+ call "%rootdir%SilverlightBuild.bat"
 
 cd "%rootdir%src\Vts.Test\bin\Debug\"
 start TestPage.html
