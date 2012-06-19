@@ -87,7 +87,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseWhiteList|AnyCPU' ">
-    <OutputPath>bin\Release %28White List Gui Deployment%29\</OutputPath>
+    <OutputPath>bin\ReleaseWhiteList\</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT, WHITELIST</DefineConstants>
     <DocumentationFile>Bin\Release\Vts.SiteVisit.XML</DocumentationFile>
     <Optimize>true</Optimize>
