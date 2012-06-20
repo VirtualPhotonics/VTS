@@ -163,6 +163,9 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />
+    <Reference Include="Vts.dll" Condition="'$(Configuration)'=='ReleaseWhiteList'">
+      <HintPath>..\Vts\bin\Release\Vts.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Vts\AssemblyFileVersion.cs">
@@ -484,7 +487,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vts\Vts.csproj">
+    <ProjectReference Include="..\Vts\Vts.csproj" Condition="'$(Configuration)'=='Debug' OR '$(Configuration)'=='Release'">
       <Project>{92381E9C-57F9-4391-A3C6-A5FAA99E823B}</Project>
       <Name>Vts</Name>
     </ProjectReference>
