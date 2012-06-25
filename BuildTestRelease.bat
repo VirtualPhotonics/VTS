@@ -28,5 +28,5 @@ start TestPage.html
 
 pause
 
-cd "%rootdir%src\Vts.SiteVisit\bin\Debug\"
+cd "%rootdir%src\Vts.SiteVisit\bin\ReleaseWhiteList\"
 start TestPage.html

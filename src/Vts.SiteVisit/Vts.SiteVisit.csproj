@@ -163,9 +163,6 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />
-    <Reference Include="Vts.dll" Condition="'$(Configuration)'=='ReleaseWhiteList'">
-      <HintPath>..\Vts\bin\Release\Vts.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Vts\AssemblyFileVersion.cs">
@@ -487,12 +484,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vts\Vts.csproj" Condition="'$(Configuration)'=='Debug' OR '$(Configuration)'=='Release'">
-      <Project>{92381E9C-57F9-4391-A3C6-A5FAA99E823B}</Project>
-      <Name>Vts</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
@@ -515,6 +506,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vts\Vts.csproj">
+      <Project>{92381E9C-57F9-4391-A3C6-A5FAA99E823B}</Project>
+      <Name>Vts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
