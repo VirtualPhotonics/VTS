@@ -1,7 +1,7 @@
 <OutOfBrowserSettings ShortName="Vts General Purpose ATK" EnableGPUAcceleration="True" ShowInstallMenuItem="True">
-  <OutOfBrowserSettings.Blurb>Vts.SiteVisit Application on your desktop; at home, at work or on the go.</OutOfBrowserSettings.Blurb>
+  <OutOfBrowserSettings.Blurb>Vts.Gui.Silverlight Application on your desktop; at home, at work or on the go.</OutOfBrowserSettings.Blurb>
   <OutOfBrowserSettings.WindowSettings>
-    <WindowSettings Title="Vts.SiteVisit Application" />
+    <WindowSettings Title="Vts.Gui.Silverlight Application" />
   </OutOfBrowserSettings.WindowSettings>
   <OutOfBrowserSettings.Icons />
 </OutOfBrowserSettings>

@@ -1,6 +1,6 @@
 using Vts.SpectralMapping;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary>
     /// View model implementing Blood Concentration sub-panel functionality

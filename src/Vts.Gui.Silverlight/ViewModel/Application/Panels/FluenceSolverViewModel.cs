@@ -6,11 +6,11 @@ using SLExtensions.Input;
 using Vts.Common;
 using Vts.Extensions;
 using Vts.Factories;
-using Vts.SiteVisit.Extensions;
-using Vts.SiteVisit.Input;
-using Vts.SiteVisit.Model;
+using Vts.Gui.Silverlight.Input;
+using Vts.Gui.Silverlight.Model;
+using Vts.Gui.Silverlight.Extensions;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary>
     /// View model implementing Fluence Solver panel functionality

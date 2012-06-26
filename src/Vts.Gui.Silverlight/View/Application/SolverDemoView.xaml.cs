@@ -10,12 +10,12 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Vts;
-using Vts.SiteVisit.Input;
-using Vts.SiteVisit.ViewModel;
+using Vts.Gui.Silverlight.Input;
+using Vts.Gui.Silverlight.ViewModel;
 using Vts.Extensions;
 //using SLExtensions.Input;
 
-namespace Vts.SiteVisit.View
+namespace Vts.Gui.Silverlight.View
 {
     public partial class SolverDemoView : UserControl
     {

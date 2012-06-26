@@ -4,15 +4,15 @@ using System.Linq;
 using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
+using Vts.Gui.Silverlight.Extensions;
+using Vts.Gui.Silverlight.Input;
+using Vts.Gui.Silverlight.Model;
+using Vts.Gui.Silverlight.View;
 using Vts.IO;
 using Vts.Extensions;
-using Vts.SiteVisit.Input;
-using Vts.SiteVisit.Model;
-using Vts.SiteVisit.View;
-using Vts.SiteVisit.Extensions;
 using System.Collections.Generic;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     public class MapViewModel : BindableObject
     {

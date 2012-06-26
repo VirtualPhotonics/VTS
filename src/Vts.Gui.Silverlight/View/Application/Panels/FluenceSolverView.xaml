@@ -1,8 +1,8 @@
 ﻿<UserControl 
-    x:Class="Vts.SiteVisit.View.FluenceSolverView"
+    x:Class="Vts.Gui.Silverlight.View.FluenceSolverView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:v="clr-namespace:Vts.SiteVisit.View"
+    xmlns:v="clr-namespace:Vts.Gui.Silverlight.View"
     xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
         <!-- Solver Engine -->

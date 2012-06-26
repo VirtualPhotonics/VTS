@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using Vts.SpectralMapping;
 
-namespace Vts.SiteVisit.View
+namespace Vts.Gui.Silverlight.View
 {
     public class ScatteringTemplateSelector : UserControl
     {

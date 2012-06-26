@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.IO.IsolatedStorage;
 
-namespace Vts.SiteVisit.View
+namespace Vts.Gui.Silverlight.View
 {
     public partial class IsolatedStorageView : UserControl
     {

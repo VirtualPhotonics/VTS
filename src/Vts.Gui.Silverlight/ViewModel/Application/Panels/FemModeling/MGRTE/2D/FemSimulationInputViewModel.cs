@@ -5,7 +5,7 @@ using System.Text;
 using Vts.Common;
 using Vts.FemModeling.MGRTE._2D.SourceInputs;
 using Vts.MonteCarlo;
-using Vts.SiteVisit.ViewModel;
+using Vts.Gui.Silverlight.ViewModel;
 
 namespace Vts.FemModeling.MGRTE._2D
 {

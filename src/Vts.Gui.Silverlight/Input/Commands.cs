@@ -1,6 +1,6 @@
 using SLExtensions.Input;
 
-namespace Vts.SiteVisit.Input
+namespace Vts.Gui.Silverlight.Input
 {
     public static class Commands
     {

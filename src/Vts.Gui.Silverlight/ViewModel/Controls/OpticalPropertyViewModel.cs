@@ -1,4 +1,4 @@
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary>
     /// View model exposing the OpticalProperties model class with change notification

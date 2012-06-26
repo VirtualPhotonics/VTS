@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Vts.SiteVisit")]
+[assembly: AssemblyTitle("Vts.Gui.Silverlight")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Virtual Photonics Technology Initiative")]
-[assembly: AssemblyProduct("Vts.SiteVisit")]
+[assembly: AssemblyProduct("Vts.Gui.Silverlight")]
 [assembly: AssemblyCopyright("Copyright © 2012 Laser Microbeam and Medical Program")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

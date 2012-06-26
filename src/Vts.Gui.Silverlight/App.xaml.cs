@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Vts.Common.Logging;
-using Vts.SiteVisit.Input;
-using Vts.SiteVisit.View;
+using Vts.Gui.Silverlight.Input;
+using Vts.Gui.Silverlight.View;
 
-namespace Vts.SiteVisit
+namespace Vts.Gui.Silverlight
 {
     /// <summary>
     /// Top-level application class for General-Purpose ATK

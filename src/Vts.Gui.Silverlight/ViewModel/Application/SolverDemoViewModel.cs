@@ -3,7 +3,7 @@ using System.Reflection;
 
 using System;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary>
     /// View model implementing highest-level panel functionality for the general-purpose ATK

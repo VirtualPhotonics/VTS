@@ -10,12 +10,12 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Vts;
-using Vts.SiteVisit.ViewModel;
+using Vts.Gui.Silverlight.ViewModel;
 using Vts.Extensions;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Vts.SiteVisit.View
+namespace Vts.Gui.Silverlight.View
 {
     public partial class FemSolverView : UserControl
     {

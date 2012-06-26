@@ -2,17 +2,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using NUnit.Framework;
+using Vts.Gui.Silverlight.ViewModel;
 
-namespace Vts.SiteVisit.Test.ViewModel
+namespace Vts.Gui.Silverlight.Test.ViewModel
 {
     [TestFixture]
     public class ForwardSolverViewModelTests
     {
-        private Vts.SiteVisit.ViewModel.ForwardSolverViewModel _vm;
+        private ForwardSolverViewModel _vm;
 
         public ForwardSolverViewModelTests()
         {
-            _vm = new Vts.SiteVisit.ViewModel.ForwardSolverViewModel();
+            _vm = new ForwardSolverViewModel();
         }
 
         [Test]

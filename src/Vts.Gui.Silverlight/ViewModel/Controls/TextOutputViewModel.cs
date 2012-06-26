@@ -1,8 +1,8 @@
 using System;
 using SLExtensions.Input;
-using Vts.SiteVisit.Input;
+using Vts.Gui.Silverlight.Input;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     public class TextOutputViewModel : BindableObject
     {

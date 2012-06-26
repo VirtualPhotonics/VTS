@@ -2,14 +2,14 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
+using Vts.Gui.Silverlight.Input;
+using Vts.Gui.Silverlight.Model;
+using Vts.Gui.Silverlight.View;
 using Vts.IO;
 using Vts.Extensions;
-using Vts.SiteVisit.Input;
-using Vts.SiteVisit.Model;
-using Vts.SiteVisit.View;
 using System.Collections.Generic;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     public class MeshViewModel : BindableObject
     {

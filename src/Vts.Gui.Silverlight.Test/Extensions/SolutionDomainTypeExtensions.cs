@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Vts.SiteVisit.Test
+namespace Vts.Gui.Silverlight.Test
 {
     public static class SolutionDomainTypeExtensions
     {

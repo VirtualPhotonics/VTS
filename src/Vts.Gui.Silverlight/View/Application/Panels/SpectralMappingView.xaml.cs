@@ -14,7 +14,7 @@ using System.Windows.Data;
 using System.Globalization;
 
 
-namespace Vts.SiteVisit.View
+namespace Vts.Gui.Silverlight.View
 {
     public partial class SpectralMappingView : UserControl
     {

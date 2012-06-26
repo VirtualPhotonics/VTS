@@ -8,9 +8,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using Vts.SiteVisit.Resources;
+using Vts.Gui.Silverlight.Resources;
 
-namespace Vts.SiteVisit.Extensions
+namespace Vts.Gui.Silverlight.Extensions
 {
     /// <summary>
     /// Class for looking up strings from XAML
@@ -21,11 +21,11 @@ namespace Vts.SiteVisit.Extensions
         {
         }
 
-        private static SiteVisit.Resources.Strings _resource = new Vts.SiteVisit.Resources.Strings();
+        private static Strings _resource = new Strings();
 
         /// <summary>
         /// MainResource pulls the relevant string from resources
         /// </summary>
-        public SiteVisit.Resources.Strings MainResource { get { return _resource; } }
+        public Strings MainResource { get { return _resource; } }
     }
 }

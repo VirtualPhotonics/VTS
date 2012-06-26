@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace Vts.SiteVisit.View
+namespace Vts.Gui.Silverlight.View
 {
     /// <summary>
     /// Work-around class for proper databinding, implemented by Rocky Lhotka and described here:
@@ -29,7 +29,7 @@ namespace Vts.SiteVisit.View
         #region SelectedValue DependencyProperty
 
         public static DependencyProperty SelectedValueProperty =
-          DependencyProperty.Register("SelectedValue", typeof(object), typeof(Vts.SiteVisit.View.ListBox),
+          DependencyProperty.Register("SelectedValue", typeof(object), typeof(ListBox),
           new PropertyMetadata((o, e) =>
           {
               ((ListBox)o).SetSelectionFromValue();
@@ -52,7 +52,7 @@ namespace Vts.SiteVisit.View
         #region ValueMemberPath DependencyProperty
 
         public static DependencyProperty ValueMemberPathProperty =
-          DependencyProperty.Register("ValueMemberPath", typeof(string), typeof(Vts.SiteVisit.View.ListBox), null);
+          DependencyProperty.Register("ValueMemberPath", typeof(string), typeof(ListBox), null);
 
         public string ValueMemberPath
         {

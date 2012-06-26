@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo;
 #if WHITELIST
-using Vts.SiteVisit.ViewModel.Application;
+using Vts.Gui.Silverlight.ViewModel.Application;
 #endif
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     public class SimulationInputViewModel : BindableObject
     {

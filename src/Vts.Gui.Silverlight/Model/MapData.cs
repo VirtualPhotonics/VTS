@@ -3,7 +3,7 @@ using System.Linq;
 using Vts.Common.Math;
 using Vts.Extensions;
 
-namespace Vts.SiteVisit.Model
+namespace Vts.Gui.Silverlight.Model
 {
     public class MapData : BindableObject
     {

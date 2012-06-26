@@ -1,6 +1,6 @@
 using Vts.Common;
 
-namespace Vts.SiteVisit.Extensions
+namespace Vts.Gui.Silverlight.Extensions
 {
     public static class EnumExtensions
     {

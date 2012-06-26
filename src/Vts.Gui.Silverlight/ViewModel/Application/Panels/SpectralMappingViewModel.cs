@@ -5,14 +5,14 @@ using SLExtensions.Input;
 using Vts.Common;
 using Vts.Extensions;
 using Vts.Factories;
-using Vts.SiteVisit.Input;
-using Vts.SiteVisit.Model;
+using Vts.Gui.Silverlight.Input;
+using Vts.Gui.Silverlight.Model;
 using Vts.SpectralMapping;
 #if WHITELIST
-using Vts.SiteVisit.ViewModel.Application;
+using Vts.Gui.Silverlight.ViewModel.Application;
 #endif
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary>
     /// View model implementing Spectral panel functionality

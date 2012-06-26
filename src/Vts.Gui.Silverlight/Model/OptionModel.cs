@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace Vts.SiteVisit.Model
+namespace Vts.Gui.Silverlight.Model
 {
     /// <summary>
     /// Represents a value with a user-friendly name that can be selected by the user.

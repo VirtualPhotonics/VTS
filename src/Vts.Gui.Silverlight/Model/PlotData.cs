@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Vts.SiteVisit.Model
+namespace Vts.Gui.Silverlight.Model
 {
     /// <summary>
     /// Class to hold all data necessary for describing a single line plot

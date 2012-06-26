@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Vts.Common;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary>
     /// View model exposing the Position model class with change notification

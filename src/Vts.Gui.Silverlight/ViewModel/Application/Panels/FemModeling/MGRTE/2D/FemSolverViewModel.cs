@@ -1,11 +1,11 @@
 ﻿using Vts.FemModeling.MGRTE._2D;
 using GalaSoft.MvvmLight.Command;
 using Vts.FemModeling.MGRTE._2D.DataStructures;
-using Vts.SiteVisit.Input;
-using Vts.SiteVisit.Model;
+using Vts.Gui.Silverlight.Input;
+using Vts.Gui.Silverlight.Model;
 using Vts.Common.Logging;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary>
     /// FEM Solver view model

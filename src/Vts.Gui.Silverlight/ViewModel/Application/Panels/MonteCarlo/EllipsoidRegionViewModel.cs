@@ -4,7 +4,7 @@ using System.Linq;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Tissues;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     public class EllipsoidRegionViewModel : BindableObject
     {

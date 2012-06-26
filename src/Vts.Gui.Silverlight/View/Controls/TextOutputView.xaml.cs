@@ -11,10 +11,10 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
 using Vts;
-using Vts.SiteVisit.ViewModel;
+using Vts.Gui.Silverlight.ViewModel;
 using Vts.Extensions;
 
-namespace Vts.SiteVisit.View
+namespace Vts.Gui.Silverlight.View
 {
     public partial class TextOutputView : UserControl
     {

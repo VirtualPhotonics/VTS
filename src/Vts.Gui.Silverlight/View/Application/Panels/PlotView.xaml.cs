@@ -1,12 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Vts.Gui.Silverlight.View.Helpers;
 using Vts.IO;
-using Vts.SiteVisit.View.Helpers;
-
 using System.Windows.Media.Imaging;
-using Vts.SiteVisit.ViewModel;
+using Vts.Gui.Silverlight.ViewModel;
 
-namespace Vts.SiteVisit.View
+namespace Vts.Gui.Silverlight.View
 {
     public partial class PlotView : UserControl
     {

@@ -7,7 +7,7 @@ using System.Collections;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Collections.Generic;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary>
     /// Enum for ChartHelper to identify correct series type

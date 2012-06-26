@@ -1,4 +1,4 @@
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary>
     /// Data structure to hold data for plot information

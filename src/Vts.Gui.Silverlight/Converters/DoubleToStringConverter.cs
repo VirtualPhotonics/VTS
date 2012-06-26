@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Data;
 
-namespace Vts.SiteVisit.Converters
+namespace Vts.Gui.Silverlight.Converters
 {
     public class DoubleToStringConverter: IValueConverter
     {

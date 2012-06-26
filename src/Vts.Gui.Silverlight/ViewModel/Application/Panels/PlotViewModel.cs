@@ -4,14 +4,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Vts.Extensions;
+using Vts.Gui.Silverlight.Input;
+using Vts.Gui.Silverlight.Model;
 using Vts.IO;
-using Vts.SiteVisit.Input;
-using Vts.SiteVisit.Model;
 using System.IO;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary>
     /// View model implementing Plot panel functionality

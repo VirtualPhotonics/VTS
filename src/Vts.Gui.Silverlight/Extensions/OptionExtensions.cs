@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Vts.SiteVisit.Extensions
+namespace Vts.Gui.Silverlight.Extensions
 {
     public static class OptionExtensions
     {

@@ -10,10 +10,10 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Vts;
-using Vts.SiteVisit.ViewModel;
+using Vts.Gui.Silverlight.ViewModel;
 using Vts.Extensions;
 
-namespace Vts.SiteVisit.View
+namespace Vts.Gui.Silverlight.View
 {
     // Since this is a control, we want dependency properties (or attached properties?)
     // This really seems to make the ViewModel redundant (it's much more testable, but also more complex...two copies of OpticalProperties)

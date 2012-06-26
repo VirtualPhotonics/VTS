@@ -5,12 +5,12 @@ using System.Windows;
 using SLExtensions.Input;
 using Vts.Extensions;
 using Vts.Factories;
-using Vts.SiteVisit.Extensions;
-using Vts.SiteVisit.Input;
-using Vts.SiteVisit.Model;
+using Vts.Gui.Silverlight.Input;
+using Vts.Gui.Silverlight.Model;
+using Vts.Gui.Silverlight.Extensions;
 using GalaSoft.MvvmLight.Command;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary>
     /// View model implementing Inverse Solver panel functionality

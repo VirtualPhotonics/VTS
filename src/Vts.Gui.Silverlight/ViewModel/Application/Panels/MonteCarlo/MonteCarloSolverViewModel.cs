@@ -11,16 +11,16 @@ using SLExtensions.Input;
 using Vts.Common;
 using Vts.Common.Logging;
 using Vts.Extensions;
+using Vts.Gui.Silverlight.Input;
+using Vts.Gui.Silverlight.Model;
+using Vts.Gui.Silverlight.View;
 using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Tissues;
-using Vts.SiteVisit.Input;
-using Vts.SiteVisit.Model;
-using Vts.SiteVisit.View;
 using System.Security;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary> 
     /// View model implementing the Monte Carlo panel functionality (experimental)

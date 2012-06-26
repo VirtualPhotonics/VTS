@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Resources;
 using System.Threading;
-using Vts.SiteVisit.Resources;
+using Vts.Gui.Silverlight.Resources;
 
-namespace Vts.SiteVisit.Extensions
+namespace Vts.Gui.Silverlight.Extensions
 {
     /// <summary>
     /// Class to retrieve strings from a resources file
@@ -17,7 +17,7 @@ namespace Vts.SiteVisit.Extensions
         /// <returns>string in the correct language</returns>
         public static string GetLocalizedString(string stringName)
         {
-            ResourceManager rm = new ResourceManager("Vts.SiteVisit.Resources.Strings", typeof(Strings).Assembly);
+            ResourceManager rm = new ResourceManager("Vts.Gui.Silverlight.Resources.Strings", typeof(Strings).Assembly);
 
             string s = rm.GetString(stringName, Thread.CurrentThread.CurrentCulture);
             if (s != null)
@@ -55,7 +55,7 @@ namespace Vts.SiteVisit.Extensions
             string type = baseString.Substring(baseString.IndexOf('.') + 1);
             string name = enumType.ToString();
 
-            ResourceManager rm = new ResourceManager("Vts.SiteVisit.Resources.Strings", typeof(Strings).Assembly);
+            ResourceManager rm = new ResourceManager("Vts.Gui.Silverlight.Resources.Strings", typeof(Strings).Assembly);
 
             string s = rm.GetString(type + "_" + name, Thread.CurrentThread.CurrentCulture);
             if (s != null)

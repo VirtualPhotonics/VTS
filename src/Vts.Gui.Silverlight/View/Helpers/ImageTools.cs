@@ -5,7 +5,7 @@ using System.Windows.Media.Imaging;
 using FluxJpeg.Core;
 using Vts.IO;
 
-namespace Vts.SiteVisit.View.Helpers
+namespace Vts.Gui.Silverlight.View.Helpers
 {
     /// <summary>
     /// Contains static helper methods to generate images of UIElements

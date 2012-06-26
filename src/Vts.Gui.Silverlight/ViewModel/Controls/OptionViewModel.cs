@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using Vts.SiteVisit.Model;
+using Vts.Gui.Silverlight.Model;
 
-namespace Vts.SiteVisit.ViewModel
+namespace Vts.Gui.Silverlight.ViewModel
 {
     // todo: consider refactoring to derive from ObservableCollection:
     // http://www.thejoyofcode.com/ViewModels_and_CheckListBoxes.aspx

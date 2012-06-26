@@ -2,17 +2,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using NUnit.Framework;
+using Vts.Gui.Silverlight.ViewModel;
 
-namespace Vts.SiteVisit.Test.ViewModel
+namespace Vts.Gui.Silverlight.Test.ViewModel
 {
     [TestFixture]
     public class InverseSolverViewModelTests
     {
-        private Vts.SiteVisit.ViewModel.InverseSolverViewModel _vm;
+        private InverseSolverViewModel _vm;
 
         public InverseSolverViewModelTests()
         {
-            _vm = new Vts.SiteVisit.ViewModel.InverseSolverViewModel();
+            _vm = new InverseSolverViewModel();
         }
 
         [Test]

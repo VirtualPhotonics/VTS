@@ -12,7 +12,7 @@ using System.Windows.Shapes;
 using Microsoft.Silverlight.Testing.UnitTesting.Metadata.NUnit;
 using Microsoft.Silverlight.Testing;
 
-namespace Vts.SiteVisit.Test
+namespace Vts.Gui.Silverlight.Test
 {
     public partial class App : Application
     {

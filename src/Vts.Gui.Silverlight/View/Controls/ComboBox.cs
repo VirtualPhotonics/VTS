@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Vts.SiteVisit.View
+namespace Vts.Gui.Silverlight.View
 {
     /// <summary>
     /// Work-around class for proper databinding, implemented by Rocky Lhotka and described here:

@@ -1,8 +1,8 @@
-﻿<UserControl x:Class="Vts.SiteVisit.View.PositionView"
+﻿<UserControl x:Class="Vts.Gui.Silverlight.View.PositionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:v="clr-namespace:Vts.SiteVisit.View"
-    xmlns:vm="clr-namespace:Vts.SiteVisit.ViewModel" >
+    xmlns:v="clr-namespace:Vts.Gui.Silverlight.View"
+    xmlns:vm="clr-namespace:Vts.Gui.Silverlight.ViewModel" >
     <UserControl.DataContext>
         <vm:PositionViewModel/>
     </UserControl.DataContext>

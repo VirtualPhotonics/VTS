@@ -1,8 +1,8 @@
 ﻿<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-             x:Class="Vts.SiteVisit.App"
-             xmlns:converters="clr-namespace:Vts.SiteVisit.Converters"
-             xmlns:local="clr-namespace:Vts.SiteVisit.Extensions"
+             x:Class="Vts.Gui.Silverlight.App"
+             xmlns:converters="clr-namespace:Vts.Gui.Silverlight.Converters"
+             xmlns:local="clr-namespace:Vts.Gui.Silverlight.Extensions"
              xmlns:System="clr-namespace:System;assembly=mscorlib">
     <Application.Resources>
         <ResourceDictionary>
