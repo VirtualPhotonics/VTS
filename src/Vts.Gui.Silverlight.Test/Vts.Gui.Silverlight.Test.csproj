@@ -135,9 +135,9 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vts.SiteVisit\Vts.SiteVisit.csproj">
+    <ProjectReference Include="..\Vts.Gui.Silverlight\Vts.Gui.Silverlight.csproj">
       <Project>{A04010C3-E896-445B-AAA2-8FC12E6471AF}</Project>
-      <Name>Vts.SiteVisit</Name>
+      <Name>Vts.Gui.Silverlight</Name>
     </ProjectReference>
     <ProjectReference Include="..\Vts\Vts.csproj">
       <Project>{92381E9C-57F9-4391-A3C6-A5FAA99E823B}</Project>

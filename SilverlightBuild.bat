@@ -8,9 +8,9 @@ set msbuild=%WINDIR%\Microsoft.Net\Framework\v4.0.30319\msbuild
 "%msbuild%" "%rootdir%\src\Vts\Vts.csproj" %debugbuildswitches%
 "%msbuild%" "%rootdir%\src\Vts\Vts.csproj" %releasebuildswitches%
 
-"%msbuild%" "%rootdir%\src\Vts.SiteVisit\Vts.SiteVisit.csproj" %debugbuildswitches%
-"%msbuild%" "%rootdir%\src\Vts.SiteVisit\Vts.SiteVisit.csproj" %releasebuildswitches%
-"%msbuild%" "%rootdir%\src\Vts.SiteVisit\Vts.SiteVisit.csproj" %releaseWLbuildswitches%
+"%msbuild%" "%rootdir%\src\Vts.Gui.Silverlight\Vts.Gui.Silverlight.csproj" %debugbuildswitches%
+"%msbuild%" "%rootdir%\src\Vts.Gui.Silverlight\Vts.Gui.Silverlight.csproj" %releasebuildswitches%
+"%msbuild%" "%rootdir%\src\Vts.Gui.Silverlight\Vts.Gui.Silverlight.csproj" %releaseWLbuildswitches%
 
 "%msbuild%" "%rootdir%\src\Vts.Test\Vts.Test.csproj" %debugbuildswitches%
 "%msbuild%" "%rootdir%\src\Vts.Test\Vts.Test.csproj" %releasebuildswitches%
