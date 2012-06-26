@@ -89,7 +89,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseWhiteList|AnyCPU' ">
     <OutputPath>bin\ReleaseWhiteList\</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT, WHITELIST</DefineConstants>
-    <DocumentationFile>Bin\Release\Vts.SiteVisit.XML</DocumentationFile>
+    <DocumentationFile>Bin\Release\Vts.Gui.Silverlight.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <NoStdLib>true</NoStdLib>
     <DebugType>pdbonly</DebugType>
