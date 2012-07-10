@@ -1,10 +1,10 @@
 SolutionDir=$PWD
 
 #Build the solution in Debug configuration
-mdtool build --configuration:Debug $SolutionDir/src/Vts-Mono.sln
+xbuild $SolutionDir/src/Vts-Mono.sln /p:WarningLevel=2
 
 #Build the solution in Release configuration
-mdtool build --configuration:Release $SolutionDir/src/Vts-Mono.sln
+xbuild $SolutionDir/src/Vts-Mono.sln /p:configuration=Release /p:WarningLevel=2
 
 #Post build events:
 ConfigName=Debug
