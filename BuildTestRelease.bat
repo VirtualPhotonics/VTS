@@ -1,6 +1,6 @@
 rem ********** RUN THIS FILE AS ADMINISTRATOR **********
 set rootdir=%~dp0
-set version=1.0.5
+set version=1.0.6
 
 rem ********** CHANGE CURRENT DIR TO LOCATION OF BAT FILE **********
 cd %~dp0
