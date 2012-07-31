@@ -8,7 +8,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'xml_toolbox']);
 
 % names of individual MC simulations
-datanames = { 'three_layer_ReflectedTimeOfRhoAndSubregionHist' };
+datanames = { 'two_layer_ReflectedMTOfRhoAndSubregionHist' };
 % datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
@@ -121,14 +121,16 @@ for mci = 1:length(datanames)
         end
         disp(['Radiance captured by RadianceOfXAndYAndZAndThetaAndPhi detector: ' num2str(sum(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean(:)))]);
     end
-    if isfield(results{di}, 'ReflectedMTOfRhoAndSubregionHist') && show.ReflectedMTOfRhoAndSubRegionHist
-        numtissueregions = length(results{di}.ReflectedMTOfRhoAndSubregionHist.SubregionIndices);
-        for i=1:numtissueregions
-            figname = sprintf('log(%s) Region Index %d',results{di}.ReflectedMTOfRhoAndSubregionHist.Name, i-1); figure; imagesc(log(reshape(results{di}.ReflectedMTOfRhoAndSubregionHist.Mean(:,i,:),...
-               length(results{di}.ReflectedMTOfRhoAndSubregionHist.Rho)-1,length(results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins)-1)'));...        
-               colorbar; title(figname); set(gcf,'Name', figname);
+    if isfield(results{di}, 'ReflectedMTOfRhoAndSubregionHist') && show.ReflectedMTOfRhoAndSubregionHist
+        numrhos = length(results{di}.ReflectedMTOfRhoAndSubregionHist.Rho) - 1;
+        figname = sprintf('log(%s)',results{di}.ReflectedMTOfRhoAndSubregionHist.Name); 
+        figure; imagesc(results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints, log(results{di}.ReflectedMTOfRhoAndSubregionHist.Mean'));...        
+           colorbar; title(figname); xlabel('\rho [mm]'); ylabel('MT'); set(gcf,'Name', figname);
+        for i=1:10:21         
+            figname = sprintf('%s Fractional MT, Rho = %f',results{di}.ReflectedMTOfRhoAndSubregionHist.Name, results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
+            figure; imagesc(results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints, results{di}.ReflectedMTOfRhoAndSubregionHist.SubregionIndices-1, squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,:))');       
+               colorbar; title(figname); set(gcf,'Name', figname); ylabel('subregion index'); xlabel('MT')
         end
-        disp(['Momentum Transfer captured by ReflectedMTOfRhoAndSubregionHist detector: ' num2str(sum(results{di}.ReflectedMTOfRhoAndSubregionHist.Mean(:)))]);
     end
     if isfield(results{di}, 'ReflectedTimeOfRhoAndSubregionHist') && show.ReflectedTimeOfRhoAndSubregionHist
         numtissueregions = length(results{di}.ReflectedTimeOfRhoAndSubregionHist.SubregionIndices);

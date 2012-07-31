@@ -214,6 +214,8 @@ namespace Vts.MonteCarlo.IO
 
                     case TallyType.ReflectedMTOfRhoAndSubregionHist:
 	                    FileIO.WriteToXML((ReflectedMTOfRhoAndSubregionHistDetector)detector, filePath + ".xml");
+                        var dmt = detector as ReflectedMTOfRhoAndSubregionHistDetector;
+                        FileIO.WriteArrayToBinary<double>(dmt.FractionalMT, filePath + "_FractionalMT", false);
 						break;
 
                     case TallyType.ReflectedTimeOfRhoAndSubregionHist:
@@ -398,10 +400,9 @@ namespace Vts.MonteCarlo.IO
                             FileIO.ReadFromXML<ReflectedMTOfRhoAndSubregionHistDetector>(filePath + ".xml");
                         var reflectedMTOfRhoAndSubregionHistDetectorDims = new int[] {
                             reflectedMTOfRhoAndSubregionHistDetector.Rho.Count - 1, 
-                            reflectedMTOfRhoAndSubregionHistDetector.SubregionIndices.Count,
                             reflectedMTOfRhoAndSubregionHistDetector.MTBins.Count - 1 };                                                 
                         reflectedMTOfRhoAndSubregionHistDetector.Mean =
-                            (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, reflectedMTOfRhoAndSubregionHistDetectorDims);
+                            (double[,])FileIO.ReadArrayFromBinary<double>(filePath, reflectedMTOfRhoAndSubregionHistDetectorDims);
                         return reflectedMTOfRhoAndSubregionHistDetector;
 
                     case TallyType.ReflectedTimeOfRhoAndSubregionHist:
@@ -605,11 +606,10 @@ namespace Vts.MonteCarlo.IO
                         var reflectedMTOfRhoAndSubRegionHistDetector =
                             FileIO.ReadFromXMLInResources<ReflectedMTOfRhoAndSubregionHistDetector>(filePath + ".xml", projectName);
                         var ReflectedMTOfRhoAndSubregionHistDims =
-                            new int[] { reflectedMTOfRhoAndSubRegionHistDetector.Rho.Count, 
-                                        reflectedMTOfRhoAndSubRegionHistDetector.SubregionIndices.Count, 
+                            new int[] { reflectedMTOfRhoAndSubRegionHistDetector.Rho.Count,  
                                         reflectedMTOfRhoAndSubRegionHistDetector.MTBins.Count };
                         reflectedMTOfRhoAndSubRegionHistDetector.Mean =
-                            (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, ReflectedMTOfRhoAndSubregionHistDims);
+                            (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, ReflectedMTOfRhoAndSubregionHistDims);
                         return reflectedMTOfRhoAndSubRegionHistDetector;
                     case TallyType.ReflectedTimeOfRhoAndSubregionHist:
                         var reflectedTimeOfRhoAndSubregionHistDetector =

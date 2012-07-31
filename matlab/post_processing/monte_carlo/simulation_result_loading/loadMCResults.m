@@ -261,14 +261,18 @@ for di = 1:numDetectors
             ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints = (ReflectedMTOfRhoAndSubregionHist.Rho(1:end-1) + ReflectedMTOfRhoAndSubregionHist.Rho(2:end))/2;
             ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints = (ReflectedMTOfRhoAndSubregionHist.MTBins(1:end-1) + ReflectedMTOfRhoAndSubregionHist.MTBins(2:end))/2;
             ReflectedMTOfRhoAndSubregionHist.Mean = readBinaryData([datadir slash detectorName], ... 
-                (length(ReflectedMTOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1));
+                (length(ReflectedMTOfRhoAndSubregionHist.Rho)-1) * (length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1));
             ReflectedMTOfRhoAndSubregionHist.Mean = reshape(ReflectedMTOfRhoAndSubregionHist.Mean, ...
-                [length(ReflectedMTOfRhoAndSubregionHist.Rho)-1,length(tempSubregionIndices),length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1]);
+                [length(ReflectedMTOfRhoAndSubregionHist.Rho)-1,length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1]);            
+            ReflectedMTOfRhoAndSubregionHist.FractionalMT = readBinaryData([datadir slash detectorName '_FractionalMT'], ... 
+                (length(ReflectedMTOfRhoAndSubregionHist.Rho)-1) * (length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1) * (length(tempSubregionIndices)));
+            ReflectedMTOfRhoAndSubregionHist.FractionalMT = reshape(ReflectedMTOfRhoAndSubregionHist.FractionalMT, ...            
+                [length(ReflectedMTOfRhoAndSubregionHist.Rho)-1, length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1, length(tempSubregionIndices)]);
             if(exist([datadir slash detectorName '_2'],'file'))
                 ReflectedMTOfRhoAndSubregionHist.SecondMoment = readBinaryData([datadir slash detectorName '_2'], ... 
-                [(length(ReflectedMTOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1)]); 
+                [(length(ReflectedMTOfRhoAndSubregionHist.Rho)-1) * (length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1)]); 
                 ReflectedMTOfRhoAndSubregionHist.SecondMoment = reshape(ReflectedMTOfRhoAndSubregionHist.SecondMoment, ...
-                [length(ReflectedMTOfRhoAndSubregionHist.Rho)-1,length(tempSubregionIndices),length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1]);  
+                [length(ReflectedMTOfRhoAndSubregionHist.Rho)-1,length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1]);  
                 ReflectedMTOfRhoAndSubregionHist.Stdev = sqrt((ReflectedMTOfRhoAndSubregionHist.SecondMoment - (ReflectedMTOfRhoAndSubregionHist.Mean .* ReflectedMTOfRhoAndSubregionHist.Mean)) / str2num(xml.N));               
             end
             results{di}.ReflectedMTOfRhoAndSubregionHist = ReflectedMTOfRhoAndSubregionHist;

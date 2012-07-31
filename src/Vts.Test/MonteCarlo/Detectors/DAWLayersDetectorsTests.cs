@@ -365,14 +365,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_ReflectedMTOfRhoAndSubregionHist()
         {
             // use initial results to verify any new changes to the code
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rs_hist[0, 1, 0] - 0.632816), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rs_hist[0, 0] - 0.632816), 0.000001);
             // make sure over MT equals R(rho) results
             var mtbins = ((ReflectedMTOfRhoAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
                 Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First()).MTBins;
             var integral = 0.0;
             for (int i = 0; i < mtbins.Count - 1; i++)
             {
-                integral += _outputOneLayerTissue.RefMT_rs_hist[0, 1, i];
+                integral += _outputOneLayerTissue.RefMT_rs_hist[0, i];
             }
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] - integral), 0.000001);
         }

@@ -230,11 +230,11 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT
         /// </summary>
-        public double[,,] RefMT_rs_hist { get { return ((ReflectedMTOfRhoAndSubregionHistDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First().Name]).Mean; } }
+        public double[,] RefMT_rs_hist { get { return ((ReflectedMTOfRhoAndSubregionHistDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First().Name]).Mean; } }
         /// <summary>
         /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT 2nd moment
         /// </summary>
-        public double[,,] RefMT_rs_hist2 { get { return ((ReflectedMTOfRhoAndSubregionHistDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First().Name]).SecondMoment; } }
+        public double[,] RefMT_rs_hist2 { get { return ((ReflectedMTOfRhoAndSubregionHistDetector)ResultsDictionary[_detectorResults.Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First().Name]).SecondMoment; } }
         /// <summary>
         /// Reflected Time of Rho and Tissue SubRegion with a histogram of Time
         /// </summary>
