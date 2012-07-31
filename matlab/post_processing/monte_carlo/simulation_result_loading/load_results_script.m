@@ -126,10 +126,13 @@ for mci = 1:length(datanames)
         figname = sprintf('log(%s)',results{di}.ReflectedMTOfRhoAndSubregionHist.Name); 
         figure; imagesc(results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints, log(results{di}.ReflectedMTOfRhoAndSubregionHist.Mean'));...        
            colorbar; title(figname); xlabel('\rho [mm]'); ylabel('MT'); set(gcf,'Name', figname);
-        for i=1:10:21         
-            figname = sprintf('%s Fractional MT, Rho = %f',results{di}.ReflectedMTOfRhoAndSubregionHist.Name, results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
-            figure; imagesc(results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints, results{di}.ReflectedMTOfRhoAndSubregionHist.SubregionIndices-1, squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,:))');       
-               colorbar; title(figname); set(gcf,'Name', figname); ylabel('subregion index'); xlabel('MT')
+        for i=1:20:41  
+            % debug figures: figure; plot(results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints,results{di}.ReflectedMTOfRhoAndSubregionHist.Mean(i,:));
+            figure;figname = sprintf('Fractional MT, Rho = %5.3f mm',results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
+            X=results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints;
+            %layerfrac=bsxfun(@times,results{di}.ReflectedMTOfRhoAndSubregionHist.Mean(i,:)',squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,:)));      
+            layerfrac=squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,:));
+            bar(X,layerfrac,'stacked'); title(figname);xlabel('MT'),ylabel('fractional MT');legend('layer0','layer1','layer2','layer3'); % need to adjust legend for particular geometry
         end
     end
     if isfield(results{di}, 'ReflectedTimeOfRhoAndSubregionHist') && show.ReflectedTimeOfRhoAndSubregionHist

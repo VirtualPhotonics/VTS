@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo.Detectors
     {
         private bool _tallySecondMoment;
         private ITissue _tissue;
-        private int[,,] _fractionalMTCount;
+        private int[,] _fractionalMTCount;
 
         /// <summary>
         /// constructor for momentum transfer as a function of rho and tissue subregion with histogram for MT detector input
@@ -42,7 +42,7 @@ namespace Vts.MonteCarlo.Detectors
             //Mean = new double[Rho.Count - 1, SubregionIndices.Count, MTBins.Count - 1];
             Mean = new double[Rho.Count - 1, MTBins.Count - 1];
             FractionalMT = new double[Rho.Count - 1, MTBins.Count - 1, SubregionIndices.Count];
-            _fractionalMTCount = new int[Rho.Count - 1, MTBins.Count - 1, SubregionIndices.Count];
+            _fractionalMTCount = new int[Rho.Count - 1, MTBins.Count - 1];
             _tallySecondMoment = tallySecondMoment;
             if (_tallySecondMoment)
             {
@@ -155,10 +155,13 @@ namespace Vts.MonteCarlo.Detectors
                     if (subregionMT[isr] > 0.0)
                     {
                         FractionalMT[ir, imt, isr] += subregionMT[isr] / totalMT;
-                        _fractionalMTCount[ir, imt, isr] += 1;
                     }
                 }
-
+                // increase _fractionalMTCount if any subregion had non-zero MT
+                if (subregionMT.Any(i => i > 0.0))
+                {
+                    _fractionalMTCount[ir, imt] += 1;
+                }
             }
         }
         
@@ -180,11 +183,12 @@ namespace Vts.MonteCarlo.Detectors
                     {
                         SecondMoment[ir, imt] /= areaNorm * areaNorm * numPhotons;
                     }
-                    for (int isr = 0; isr < SubregionIndices.Count; isr++)
+                    // if MT in ANY subregion
+                    if (_fractionalMTCount[ir, imt] > 0)
                     {
-                        if (_fractionalMTCount[ir, imt, isr] > 0)
+                        for (int isr = 0; isr < SubregionIndices.Count; isr++)
                         {
-                            FractionalMT[ir, imt, isr] /= _fractionalMTCount[ir, imt, isr];  
+                            FractionalMT[ir, imt, isr] /= _fractionalMTCount[ir, imt];
                         }
                     }
                 }
