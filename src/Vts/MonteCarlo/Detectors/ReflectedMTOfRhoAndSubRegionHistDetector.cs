@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo.Detectors
     {
         private bool _tallySecondMoment;
         private ITissue _tissue;
-        private int[,] _fractionalMTCount;
+        private DoubleRange _fractionalMTBins;
 
         /// <summary>
         /// constructor for momentum transfer as a function of rho and tissue subregion with histogram for MT detector input
@@ -39,14 +39,13 @@ namespace Vts.MonteCarlo.Detectors
             _tissue = tissue;
             SubregionIndices = new IntRange(0, _tissue.Regions.Count - 1, _tissue.Regions.Count); // needed for DetectorIO
             MTBins = momentumTransferBins;
-            //Mean = new double[Rho.Count - 1, SubregionIndices.Count, MTBins.Count - 1];
             Mean = new double[Rho.Count - 1, MTBins.Count - 1];
-            FractionalMT = new double[Rho.Count - 1, MTBins.Count - 1, SubregionIndices.Count];
-            _fractionalMTCount = new int[Rho.Count - 1, MTBins.Count - 1];
+            // assume 10 fractional bins for now [0,0.1],[0.1,0.2],[0.2,0.3],[0.3,0.4],[0.4,0.5],[0.5,0.6],[0.6,0.7],[0.7,0.8],[0.8,0.9],[0.9,1]
+            _fractionalMTBins = new DoubleRange(0, 1, 11);
+            FractionalMT = new double[Rho.Count - 1,MTBins.Count - 1,SubregionIndices.Count, _fractionalMTBins.Count - 1];
             _tallySecondMoment = tallySecondMoment;
             if (_tallySecondMoment)
             {
-                //SecondMoment = new double[Rho.Count - 1, SubregionIndices.Count, MTBins.Count - 1];
                 SecondMoment = new double[Rho.Count - 1, MTBins.Count - 1];
             }
             TallyType = TallyType.ReflectedMTOfRhoAndSubregionHist; 
@@ -76,11 +75,12 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
+
         /// <summary>
         /// fraction of MT spent in each subregion
         /// </summary>
         [IgnoreDataMember]
-        public double[,,] FractionalMT { get; set; }
+        public double[,,,] FractionalMT { get; set; }
 
         /// <summary>
         /// detector identifier
@@ -154,13 +154,10 @@ namespace Vts.MonteCarlo.Detectors
                 {
                     if (subregionMT[isr] > 0.0)
                     {
-                        FractionalMT[ir, imt, isr] += subregionMT[isr] / totalMT;
+                        var ifrac = DetectorBinning.WhichBin(subregionMT[isr]/totalMT,
+                                                             _fractionalMTBins.Count - 1, _fractionalMTBins.Delta, _fractionalMTBins.Start);
+                        FractionalMT[ir, imt, isr, ifrac] += photon.DP.Weight;
                     }
-                }
-                // increase _fractionalMTCount if any subregion had non-zero MT
-                if (subregionMT.Any(i => i > 0.0))
-                {
-                    _fractionalMTCount[ir, imt] += 1;
                 }
             }
         }
@@ -182,14 +179,6 @@ namespace Vts.MonteCarlo.Detectors
                     if (_tallySecondMoment)
                     {
                         SecondMoment[ir, imt] /= areaNorm * areaNorm * numPhotons;
-                    }
-                    // if MT in ANY subregion
-                    if (_fractionalMTCount[ir, imt] > 0)
-                    {
-                        for (int isr = 0; isr < SubregionIndices.Count; isr++)
-                        {
-                            FractionalMT[ir, imt, isr] /= _fractionalMTCount[ir, imt];
-                        }
                     }
                 }
             }

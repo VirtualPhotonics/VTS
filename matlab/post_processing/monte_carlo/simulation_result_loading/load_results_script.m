@@ -128,11 +128,17 @@ for mci = 1:length(datanames)
            colorbar; title(figname); xlabel('\rho [mm]'); ylabel('MT'); set(gcf,'Name', figname);
         for i=1:20:41  
             % debug figures: figure; plot(results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints,results{di}.ReflectedMTOfRhoAndSubregionHist.Mean(i,:));
-            figure;figname = sprintf('Fractional MT, Rho = %5.3f mm',results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
+            figure;figname = sprintf('Fractional MT in Layer 1, Rho = %5.3f mm',results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
             X=results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints;
             %layerfrac=bsxfun(@times,results{di}.ReflectedMTOfRhoAndSubregionHist.Mean(i,:)',squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,:)));      
-            layerfrac=squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,:));
-            bar(X,layerfrac,'stacked'); title(figname);xlabel('MT'),ylabel('fractional MT');legend('layer0','layer1','layer2','layer3'); % need to adjust legend for particular geometry
+            layerfrac=squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,2,:));
+            bar(X,layerfrac,'stacked'); title(figname);xlabel('MT'),ylabel('photon count');
+            legend('[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]');
+            figure;figname = sprintf('Fractional MT in Layer 2, Rho = %5.3f mm',results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
+            X=results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints;
+            layerfrac=squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,3,:));
+            bar(X,layerfrac,'stacked'); title(figname);xlabel('MT'),ylabel('photon count');
+            legend('(0-0.1]','(0.1-0.2]','(0.2-0.3]','(0.3-0.4]','(0.4-0.5]','(0.5-0.6]','(0.6-0.7]','(0.7-0.8]','(0.8-0.9]','(0.9,1]');
         end
     end
     if isfield(results{di}, 'ReflectedTimeOfRhoAndSubregionHist') && show.ReflectedTimeOfRhoAndSubregionHist
