@@ -107,9 +107,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
                         new DoubleRange(-Math.PI, Math.PI, 5)), // phi (azimuthal angle)
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput(
-                           new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
-                           new DoubleRange(0.0, 500.0, 51) // MT bins
-                   )
+                        new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
+                        new DoubleRange(0.0, 500.0, 51), // MT bins
+                        new DoubleRange(0.0, 1.0, 11))
                 };
             _inputOneLayerTissue = new SimulationInput(
                 100,

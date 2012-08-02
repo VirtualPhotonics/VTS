@@ -293,6 +293,7 @@ namespace Vts.Test.MonteCarlo
             IDetector detector = new ReflectedMTOfRhoAndSubregionHistDetector(
                 new DoubleRange(0, 10, 3),
                 new DoubleRange(0, 10, 3),
+                new DoubleRange(0, 1, 11), 
                 new MultiLayerTissue(),
                 true, // tally SecondMoment
                 detectorName) { Mean = new double[,] { { 1, 2 }, { 3, 4 } } };

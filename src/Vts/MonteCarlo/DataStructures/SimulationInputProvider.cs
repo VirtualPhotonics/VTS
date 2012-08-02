@@ -508,7 +508,8 @@ namespace Vts.MonteCarlo
                         new DoubleRange(0.0, 10.0, 101)),
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput(
                         new DoubleRange(0.0, 10.0, 101), // rho bins
-                        new DoubleRange(0.0, 500.0, 51)) // MT bins
+                        new DoubleRange(0.0, 500.0, 51), // MT bins
+                        new DoubleRange(0.0, 1.0, 11)) // fractional MT bins
                 }
             );
         }

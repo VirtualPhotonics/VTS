@@ -123,22 +123,25 @@ for mci = 1:length(datanames)
     end
     if isfield(results{di}, 'ReflectedMTOfRhoAndSubregionHist') && show.ReflectedMTOfRhoAndSubregionHist
         numrhos = length(results{di}.ReflectedMTOfRhoAndSubregionHist.Rho) - 1;
+        numsubregions = length(results{di}.ReflectedMTOfRhoAndSubregionHist.SubregionIndices);
         figname = sprintf('log(%s)',results{di}.ReflectedMTOfRhoAndSubregionHist.Name); 
         figure; imagesc(results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints, log(results{di}.ReflectedMTOfRhoAndSubregionHist.Mean'));...        
            colorbar; title(figname); xlabel('\rho [mm]'); ylabel('MT'); set(gcf,'Name', figname);
-        for i=1:20:41  
-            % debug figures: figure; plot(results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints,results{di}.ReflectedMTOfRhoAndSubregionHist.Mean(i,:));
-            figure;figname = sprintf('Fractional MT in Layer 1, Rho = %5.3f mm',results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
+        color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
+        for j=2:3 % customized, general form: j=1:numsubregions
+        for i=1:20:41 % customized, general form: i=1:numrhos
+            %figure; plot(results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints,results{di}.ReflectedMTOfRhoAndSubregionHist.Mean(i,:)); % debug plots
+            figure;figname = sprintf('Fractional MT in Region %2d, Rho = %5.3f mm',j-1,results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
             X=results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints;
-            %layerfrac=bsxfun(@times,results{di}.ReflectedMTOfRhoAndSubregionHist.Mean(i,:)',squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,:)));      
-            layerfrac=squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,2,:));
-            bar(X,layerfrac,'stacked'); title(figname);xlabel('MT'),ylabel('photon count');
-            legend('[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]');
-            figure;figname = sprintf('Fractional MT in Layer 2, Rho = %5.3f mm',results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
-            X=results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints;
-            layerfrac=squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,3,:));
-            bar(X,layerfrac,'stacked'); title(figname);xlabel('MT'),ylabel('photon count');
-            legend('(0-0.1]','(0.1-0.2]','(0.2-0.3]','(0.3-0.4]','(0.4-0.5]','(0.5-0.6]','(0.6-0.7]','(0.7-0.8]','(0.8-0.9]','(0.9,1]');
+            %layerfrac=squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,:));
+            %bar(X,layerfrac,'stacked'); title(figname);xlabel('MT'),ylabel('photon weight');
+            stack=zeros(size(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,1)));
+            for k=1:size(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT,4)                
+                stack=stack+results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,k);
+                semilogy(X,stack,color(k,:),'LineWidth',3);axis([0 max(X) 1e-7 1]);title(figname);xlabel('MT'),ylabel('stacked log(photon weight)'); hold on;
+            end
+            legend('[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]'); % customized
+        end
         end
     end
     if isfield(results{di}, 'ReflectedTimeOfRhoAndSubregionHist') && show.ReflectedTimeOfRhoAndSubregionHist

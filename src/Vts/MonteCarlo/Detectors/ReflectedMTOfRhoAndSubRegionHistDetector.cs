@@ -31,6 +31,7 @@ namespace Vts.MonteCarlo.Detectors
         public ReflectedMTOfRhoAndSubregionHistDetector(
             DoubleRange rho, 
             DoubleRange momentumTransferBins,
+            DoubleRange fractionalMTBins,
             ITissue tissue, 
             bool tallySecondMoment,
             String name)
@@ -40,8 +41,7 @@ namespace Vts.MonteCarlo.Detectors
             SubregionIndices = new IntRange(0, _tissue.Regions.Count - 1, _tissue.Regions.Count); // needed for DetectorIO
             MTBins = momentumTransferBins;
             Mean = new double[Rho.Count - 1, MTBins.Count - 1];
-            // assume 10 fractional bins for now [0,0.1],[0.1,0.2],[0.2,0.3],[0.3,0.4],[0.4,0.5],[0.5,0.6],[0.6,0.7],[0.7,0.8],[0.8,0.9],[0.9,1]
-            _fractionalMTBins = new DoubleRange(0, 1, 11);
+            _fractionalMTBins = fractionalMTBins;
             FractionalMT = new double[Rho.Count - 1,MTBins.Count - 1,SubregionIndices.Count, _fractionalMTBins.Count - 1];
             _tallySecondMoment = tallySecondMoment;
             if (_tallySecondMoment)
@@ -60,6 +60,7 @@ namespace Vts.MonteCarlo.Detectors
             : this(
             new DoubleRange(0.0, 10.0, 101), 
             new DoubleRange(),
+            new DoubleRange(0.0, 1.0, 11), 
             new MultiLayerTissue(), 
             true, // tally SecondMoment
             TallyType.ReflectedMTOfRhoAndSubregionHist.ToString())
@@ -106,6 +107,10 @@ namespace Vts.MonteCarlo.Detectors
         /// momentum transfer binning
         /// </summary>
         public DoubleRange MTBins { get; set; }
+        /// <summary>
+        /// fractional momentum transfer binning
+        /// </summary>
+        public DoubleRange FractionalMTBins { get; set; }
 
         /// <summary>
         /// method to tally reflected photon by determining cumulative MT in each tissue subregion and binning in MT
@@ -179,6 +184,13 @@ namespace Vts.MonteCarlo.Detectors
                     if (_tallySecondMoment)
                     {
                         SecondMoment[ir, imt] /= areaNorm * areaNorm * numPhotons;
+                    }
+                    for (int isr = 0; isr < SubregionIndices.Count; isr++)
+                    {
+                        for (int ifrac = 0; ifrac < _fractionalMTBins.Count - 1; ifrac++)
+                        {
+                            FractionalMT[ir, imt, isr, ifrac] /= areaNorm*numPhotons;
+                        }
                     }
                 }
             }

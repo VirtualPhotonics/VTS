@@ -111,7 +111,7 @@ namespace Vts.MonteCarlo.Factories
                     return new RadianceOfXAndYAndZAndThetaAndPhiDetector(rxyztpinput.X, rxyztpinput.Y, rxyztpinput.Z, rxyztpinput.Theta, rxyztpinput.Phi, tissue, tallySecondMoment, rxyztpinput.Name);
                 case TallyType.ReflectedMTOfRhoAndSubregionHist:
                     var rmtrsinput = (ReflectedMTOfRhoAndSubregionHistDetectorInput)detectorInput;
-                    return new ReflectedMTOfRhoAndSubregionHistDetector(rmtrsinput.Rho, rmtrsinput.MTBins, tissue, tallySecondMoment, rmtrsinput.Name);
+                    return new ReflectedMTOfRhoAndSubregionHistDetector(rmtrsinput.Rho, rmtrsinput.MTBins, rmtrsinput.FractionalMTBins, tissue, tallySecondMoment, rmtrsinput.Name);
                 case TallyType.ReflectedTimeOfRhoAndSubregionHist:
                     var rtrsinput = (ReflectedTimeOfRhoAndSubregionHistDetectorInput)detectorInput;
                     return new ReflectedTimeOfRhoAndSubregionHistDetector(rtrsinput.Rho, rtrsinput.Time, tissue, tallySecondMoment, rtrsinput.Name);
