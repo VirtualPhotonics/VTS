@@ -101,6 +101,7 @@
     <Reference Include="NLog">
       <HintPath>..\..\lib\NLog\SL4\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.CoreEx">
       <HintPath>..\..\lib\RxFramework\SL4\System.CoreEx.dll</HintPath>
     </Reference>
@@ -588,9 +589,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MonteCarlo\DataStructuresValidation\DetectorInputs\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

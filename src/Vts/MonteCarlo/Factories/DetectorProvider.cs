@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.Composition;
+using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo.Detectors;
 using AutoMapper;
 using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.Factories
 {
     // interfaces
-
     public interface IDetectorProvider<TDetector, TDetectorInput, TDetectorOutput> : IProvider<IDetector>
         where TDetector : IDetector
         where TDetectorInput : IDetectorInput
@@ -29,7 +26,6 @@ namespace Vts.MonteCarlo.Factories
     {
         Type TargetType { get; set; }
     }
-
 
     //public interface IOutput<TDetector>
     //    where TDetector : IDetector
@@ -175,6 +171,12 @@ namespace Vts.MonteCarlo.Factories
             KnownTypes.Add(typeof(TDetectorOutput));
         }
 
+        public static DetectorProvider<TIn, TDet, TOut> Create<TIn, TDet, TOut>(Type inputType, Type detectorType, Type outputType)
+        {
+            MethodInfo genericMethod = typeof(DetectorProvider).GetMethod("ContainSameValues");
+            return new DetectorProvider<TIn, TDet, TOut>();
+        }
+
         public DetectorProvider()
         {
             CreateDetector = input => Mapper.Map<TDetectorInput, TDetector>(input);
@@ -276,6 +278,8 @@ namespace Vts.MonteCarlo.Factories
         public string TallyType { get; set; }
     }
 
+    [Export(typeof(IDetectorOutput))]
+    [ExportMetadata("Target Class", "SampleDetector")]
     public class SampleDetectorOutput : DetectorOutput<double[]>
     {
         public DoubleRange QRange { get; set; }
