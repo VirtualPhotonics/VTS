@@ -297,6 +297,11 @@ namespace Vts.SpectralMapping
 
                     //read the second line of data, check that the number of columns match
                     line = readFile.ReadLine();
+                    //keep reading the file until the data row
+                    while (line == "")
+                    {
+                        line = readFile.ReadLine();
+                    }
                     row = line.Split('\t'); //file is separated by tabs
                     columns = row.Length;
 
@@ -348,7 +353,7 @@ namespace Vts.SpectralMapping
 
                         do
                         {
-                            if (!line.StartsWith("%"))
+                            if ((line != "") && (!line.StartsWith("%"))) //check that the line has data and is not a comment
                             {
                                 row = line.Split('\t');
 
@@ -385,7 +390,11 @@ namespace Vts.SpectralMapping
                             if (convert)
                             {
                                 ChromophoreList[i].AbsorptionCoefficientUnit = AbsorptionCoefficientUnit.InverseMillimeters;
-                                ChromophoreList[i].MolarUnit = MolarUnit.MicroMolar;
+                                //only rewrite the molar units if it is not none
+                                if (ChromophoreList[i].MolarUnit != MolarUnit.None)
+                                {
+                                    ChromophoreList[i].MolarUnit = MolarUnit.MicroMolar;
+                                }
                                 ChromophoreList[i].WavelengthUnit = WavelengthUnit.Nanometers;
                             }
                             chromophoreDictionary.Add(ChromophoreList[i].Name, ChromophoreList[i]);

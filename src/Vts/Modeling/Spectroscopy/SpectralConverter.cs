@@ -92,20 +92,29 @@ namespace Vts.SpectralMapping
         /// <returns>enum of type WavelengthUnit</returns>
         public static WavelengthUnit getWavelengthUnit(string wavelengthUnit)
         {
-            switch (wavelengthUnit.ToLower())
+            //pull out the unit values
+            Match match = Regex.Match(wavelengthUnit, @"([a-zA-Z]+)");
+            if (match.Success)
             {
-                case "nm":
-                    return WavelengthUnit.Nanometers;
-                case "um":
-                    return WavelengthUnit.Micrometers;
-                case "m":
-                    return WavelengthUnit.Meters;
-                case "1/m":
-                    return WavelengthUnit.InverseMeters;
-                case "1/cm":
-                    return WavelengthUnit.InverseCentimeters;
-                default:
-                    throw new Exception("Not a valid wavelength unit");
+                switch (match.Groups[1].Value.ToLower())
+                {
+                    case "nm":
+                        return WavelengthUnit.Nanometers;
+                    case "um":
+                        return WavelengthUnit.Micrometers;
+                    case "m":
+                        return WavelengthUnit.Meters;
+                    case "1/m":
+                        return WavelengthUnit.InverseMeters;
+                    case "1/cm":
+                        return WavelengthUnit.InverseCentimeters;
+                    default:
+                        throw new Exception("Not a valid wavelength unit");
+                }
+            }
+            else
+            {
+                throw new Exception("Not a valid wavelength unit");
             }
         }
 
@@ -150,7 +159,7 @@ namespace Vts.SpectralMapping
                 //get the value(s) in parentheses
                 units = match.Groups[1].Value;
                 unit = units.Split('*');
-                switch (unit[0])
+                switch (unit[0].ToLower())
                 {
                     case "mm":
                         return AbsorptionCoefficientUnit.InverseMillimeters;
