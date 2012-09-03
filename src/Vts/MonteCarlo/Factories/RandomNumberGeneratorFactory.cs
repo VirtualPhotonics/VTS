@@ -8,14 +8,13 @@ namespace Vts.MonteCarlo.Factories
     public static class RandomNumberGeneratorFactory
     {
         /// <summary>
-        /// Returns an instance of the desired random number generator with default seeding
+        /// Returns an instance of the desired random number generator with random seeding
         /// </summary>
         /// <param name="type">RandomNumberGeneratorType</param>
         /// <returns>Random</returns>
         public static Random GetRandomNumberGenerator(RandomNumberGeneratorType type)
         {
-            // todo: is this the desired default behavior?
-            return GetRandomNumberGenerator(type, 0);
+            return GetRandomNumberGenerator(type, -1);
         }
 
         /// <summary>
