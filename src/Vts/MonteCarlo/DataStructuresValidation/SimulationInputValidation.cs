@@ -172,6 +172,20 @@ namespace Vts.MonteCarlo
                 }
 
             }
+            if (input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Discrete)
+            {
+                foreach (var detectorInput in input.DetectorInputs)
+                {
+                    if (detectorInput.TallyType.IsNotImplementedForDAW())
+                    {
+                        return new ValidationResult(
+                            false,
+                            "The use of Discrete Absorption Weighting with path length type detectors not implemented yet",
+                            "Modify AbsorptionWeightingType to Continuous");
+                    }
+                }
+
+            }
             return new ValidationResult(
                 true,
                 "Detector definitions are consistent with use of Continuous Absorption Weighting");

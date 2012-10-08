@@ -189,6 +189,23 @@ namespace Vts.MonteCarlo.Extensions
         }
 
         /// <summary>
+        /// Method determines whether tally type is implemented for 
+        /// discrete absorption weighting (DAW) or not
+        /// </summary>
+        /// <param name="tallyType">TallyType enum</param>
+        /// <returns>boolean</returns>
+        public static bool IsNotImplementedForDAW(this TallyType tallyType)
+        {
+            switch (tallyType)
+            {
+                case TallyType.ReflectedTimeOfRhoAndSubregionHist:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
         /// Method determines whether tally type is implemented yet or not
         /// </summary>
         /// <param name="tallyType">TallyType enum</param>
