@@ -78,8 +78,11 @@ namespace Vts.ImportSpectralData.Desktop
 
         static void Main(string[] args)
         {
-            bool runImport = true;
-            string importPath = "";
+            var skipImport = false;
+            string[] filenames = null;
+            string path = null;
+            string outname = null;
+            string outpath = null;
 
             args.Process(() =>
             {
@@ -87,165 +90,179 @@ namespace Vts.ImportSpectralData.Desktop
                 logger.Info("For more information type import.exe help");
                 logger.Info("For help on a specific topic type import.exe help=<topicname>\n");
             },
-               new CommandLine.Switch("help", val =>
-               {
-                   var helpTopic = val.First();
-                   if (helpTopic != "")
-                       ShowHelp(helpTopic);
-                   else
-                       ShowHelp();
-                   runImport = false;
-                   return;
-               }),
-               new CommandLine.Switch("generatefiles", val =>
-               {
-                   logger.Info(() => "Generating spectral data files...");
-                   try
-                   {
-                       var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
-                       SpectralDatabase.WriteDatabaseToFiles(testDictionary);
-                   }
-                   catch (Exception e)
-                   {
-                       logger.Info("****  An error occurred while generating the import files  ****");
-                       logger.Info("Detailed error: " + e.Message);
-                   }
-                   runImport = false;
-                   return;
-               }),
-               new CommandLine.Switch("importpath", val =>
-               {
-                   importPath = val.First();
-                   logger.Info(() => "import path specified as " + importPath);
-               }));
-            
-            if (runImport)
+            new CommandLine.Switch("help", val =>
             {
-                // import the default files
-                if (importPath == "")
+                var helpTopic = val.FirstOrDefault();
+                ShowHelp(helpTopic);
+                skipImport = true;
+            }),
+            new CommandLine.Switch("@/help", val =>
+            {
+                var helpTopic = val.FirstOrDefault();
+                ShowHelp(helpTopic);
+                skipImport = true;
+            }),
+            new CommandLine.Switch("generatefiles", val =>
+            {
+                logger.Info(() => "Generating spectral data files...");
+                try
                 {
-                    logger.Info(() => "Importing spectral data files");
+                    var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
+                    SpectralDatabase.WriteDatabaseToFiles(testDictionary);
+                }
+                catch (Exception e)
+                {
+                    logger.Info("****  An error occurred while generating the import files  ****");
+                    logger.Info("Detailed error: " + e.Message);
+                }
+                skipImport = true;
+            }),
+            new CommandLine.Switch("filename", val =>
+            {
+                filenames = new[] { val.FirstOrDefault() };
+                logger.Info(() => "import files specified as: " + filenames[0]);
+            }),
+            new CommandLine.Switch("filenames", val =>
+            {
+                filenames = val.ToArray();
+                var message = "import files specified as: ";
+                if (filenames.Length > 0)
+                {
+                    message = message + filenames.First();
+                    for (int i = 1; i < filenames.Count(); i++)
+                    {
+                        message = message + ", " + filenames[i];
+                    }
+                }
+                logger.Info(() => message);
+            }),
+            new CommandLine.Switch("path", val =>
+            {
+                path = val.FirstOrDefault();
+                logger.Info(() => "import path specified as " + path);
+            }),
+            new CommandLine.Switch("outname", val =>
+            {
+                outname = val.FirstOrDefault();
+                logger.Info(() => "outname specified as " + outname);
+            }),
+            new CommandLine.Switch("outpath", val =>
+            {
+                outpath = val.FirstOrDefault();
+                logger.Info(() => "outpath specified as " + outpath);
+            }));
+
+            if (skipImport)
+            {
+                return;
+            }
+
+            ImportSpectra(filenames, path, outname, outpath);
+        }
+
+        private static void ImportSpectra(
+            string[] importFiles = null,
+            string importPath = "",
+            string outname = "SpectralDictionary", 
+            string outpath = "")
+        {
+            if (importFiles == null || importFiles.Length == 0 || string.IsNullOrEmpty(importFiles[0]))
+            {
+                importFiles = new string[] { "absorber-*.txt" };
+            }
+
+            var allFiles = importFiles.SelectMany(file => Directory.GetFiles(
+                importPath ?? Directory.GetCurrentDirectory(), file));
+
+            var chromophoreDictionary = new ChromophoreSpectrumDictionary();
+                
+            logger.Info(() => "Importing spectral data files");
+            foreach (var file in allFiles)
+            {
+                if(File.Exists(file))
+                { 
                     try
                     {
-                        //import the values for Fat
-                        Stream stream = StreamFinder.GetFileStream("absorber-Fat.txt", FileMode.Open);
-                        var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
-                        //import the values for H2O
-                        stream = StreamFinder.GetFileStream("absorber-H2O.txt", FileMode.Open);
-                        SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-                        //import the values for Hb
-                        stream = StreamFinder.GetFileStream("absorber-Hb.txt", FileMode.Open);
-                        SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-                        //import the values for HbO2
-                        stream = StreamFinder.GetFileStream("absorber-HbO2.txt", FileMode.Open);
-                        SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-                        //import the values for Melanin
-                        stream = StreamFinder.GetFileStream("absorber-Melanin.txt", FileMode.Open);
-                        SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-                        //import the values for Nigrosin
-                        stream = StreamFinder.GetFileStream("absorber-Nigrosin.txt", FileMode.Open);
-                        SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-                        testDictionary.WriteToXML("SpectralDictionary.xml");
+                        logger.Info("Importing file: " + file);
+                        var stream = StreamFinder.GetFileStream(file, FileMode.Open);
+
+                        SpectralDatabase.AppendDatabaseFromFile(chromophoreDictionary, stream);
                     }
                     catch (Exception e)
                     {
-                       logger.Info("****  An error occurred while importing default files  ****");
-                       logger.Info("Detailed error: " + e.Message);
+                        logger.Info("****  An error occurred while importing file: " + file);
+                        logger.Info("Detailed error: " + e.Message);
                     }
                 }
-                else
-                {
-                    logger.Info(() => "Importing spectral data files");
-                    ProcessDir(importPath);
-                }
             }
+            chromophoreDictionary.WriteToXML(Path.Combine(outpath ?? "", outname ?? "SpectralDictionary"));
         }
-
-        public static void ProcessDir(string sourceDir)
-        {
-            try
-            {
-                bool firstFile = true;
-                ChromophoreSpectrumDictionary testDictionary = new ChromophoreSpectrumDictionary();
-                // process the list of files found in the directory 
-                string[] fileEntries = Directory.GetFiles(sourceDir);
-                foreach (string fileName in fileEntries)
-                {
-                    // if this is the first file then use it to create the dictionary
-                    if (firstFile)
-                    {
-                        logger.Info("Creating dictionary from file: " + fileName);
-                        Stream stream = StreamFinder.GetFileStream(fileName, FileMode.Open);
-                        testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
-                        firstFile = false;
-                    }
-                    else
-                    {
-                        // append the remaining files to the dictionary
-                        logger.Info("Importing file: " + fileName);
-                        Stream stream = StreamFinder.GetFileStream(fileName, FileMode.Open);
-                        SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-                    }
-                }
-                testDictionary.WriteToXML("SpectralDictionary.xml");
-            }
-            catch (Exception e)
-            {
-                logger.Info("****  An error occurred while importing files from " + sourceDir + "  ****");
-                logger.Info("Detailed error: " + e.Message);
-            }
-        }
-
-        /// <summary>
-        /// Displays the help text for detailed usage of the application
-        /// </summary>
-        private static void ShowHelp()
-        {
-            logger.Info("Spectral Data Importer");
-            logger.Info("For more detailed help type import.exe help=<topicname>");
-            logger.Info("\nlist of arguments:");
-            logger.Info("generatefiles\tgenerates tab-delimited text files with default spectral data");
-            logger.Info("importpath\tname of the folder containing import files");
-            logger.Info("\nsample usage:");
-            logger.Info("import.exe generatefiles");
-            logger.Info("import.exe importpath=ImportFiles");
-        }
-
+        
         /// <summary>
         /// Displays the help text for the topic passed as a parameter
         /// </summary>
         /// <param name="helpTopic">Help topic</param>
         private static void ShowHelp(string helpTopic)
         {
-            switch (helpTopic)
+            if (string.IsNullOrEmpty(helpTopic))
             {
-                case "generatefiles":
-                    logger.Info("\nGENERATEFILES");
-                    logger.Info("generates the tab delimited text files with the default spectral data");
-                    logger.Info("EXAMPLE:");
-                    logger.Info("\nimport.exe generatefiles");
-                    break;
-                case "outpath":
-                    logger.Info("\nOUTPATH");
-                    logger.Info("This is the name of the output path, it can be a relative or absolute path.");
-                    logger.Info("If the path name has any spaces enclose it in double quotes.");
-                    logger.Info("For relative paths, omit the leading slash.");
-                    logger.Info("EXAMPLES:");
-                    logger.Info("\toutpath=C:\\SpectralData\\OutputFiles");
-                    logger.Info("\toutpath=OutputFiles");
-                    break;
-                case "importpath":
-                    logger.Info("\nIMPORTPATH");
-                    logger.Info("This is the name of the import path, it can be a relative or absolute path.");
-                    logger.Info("If the path name has any spaces enclose it in double quotes.");
-                    logger.Info("For relative paths, omit the leading slash.");
-                    logger.Info("EXAMPLES:");
-                    logger.Info("\timportpath=C:\\SpectralData\\ImportFiles");
-                    logger.Info("\timportpath=ImportFiles");
-                    break;
-                default:
-                    ShowHelp();
-                    break;
+                logger.Info("Spectral Data Importer");
+                logger.Info("For more detailed help type import.exe help=<topicname>");
+                logger.Info("\nlist of arguments:");
+                logger.Info("generatefiles\tgenerates tab-delimited text files with default spectral data");
+                logger.Info("importpath\tname of the folder containing import files");
+                logger.Info("\nsample usages:");
+                logger.Info("\timport.exe generatefiles");
+                logger.Info("\timport.exe"); // imports all files matching "absorber-*.txt" in current directory
+                logger.Info("\timport.exe path=myDirectory"); // imports all files matching "absorber-*.txt" in specified directory
+                logger.Info("\timport.exe filename=myChromophoreFile.txt"); // imports specified file in current directory
+                logger.Info("\timport.exe filenames=myChromophoreFile1.txt,myChromophoreFile2.txt,..."); // imports all specified files in current directory
+                logger.Info("\timport.exe outname=myChromophoreDictionary.xml"); // specifies the name of the resulting output xml spectral dictionary
+                logger.Info("\timport.exe outpath=myDirectory"); // specifies the output directory of the generated xml dictionary
+                return;
+            }
+            else
+            {
+                switch (helpTopic)
+                {
+                    case "generatefiles":
+                        logger.Info("\nGENERATEFILES");
+                        logger.Info("generates the tab delimited text files with the default spectral data");
+                        logger.Info("EXAMPLE:");
+                        logger.Info("\nimport.exe generatefiles");
+                        break;
+                    case "filenames":
+                        logger.Info("\nFILENAMES or FILENAME");
+                        logger.Info("specifies the file or files to load. FILENAMES should be separated by commas with no spaces.");
+                        logger.Info("EXAMPLES:");
+                        logger.Info("\timport.exe filename=myChromophoreFile1.txt");
+                        logger.Info("\timport.exe filenames=myChromophoreFile1.txt,myChromophoreFile2.txt,...");
+                        break;
+                    case "path":
+                        logger.Info("\nPATH");
+                        logger.Info("This is the name of the import path, it can be a relative or absolute path.");
+                        logger.Info("If the path name has any spaces enclose it in double quotes.");
+                        logger.Info("For relative paths, omit the leading slash.");
+                        logger.Info("EXAMPLES:");
+                        logger.Info("\timportpath=C:\\SpectralData\\");
+                        logger.Info("\timportpath=SpectralData");
+                        break;
+                    case "outname":
+                        logger.Info("\nOUTNAME");
+                        logger.Info("specifies the output xml file to create.");
+                        logger.Info("EXAMPLES:");
+                        logger.Info("\timport.exe outname=myChromophoreDictionary.xml");
+                        break;
+                    case "outpath":
+                        logger.Info("\nOUTPATH");
+                        logger.Info("This is the name of the output path, it can be a relative or absolute path.");
+                        logger.Info("If the path name has any spaces enclose it in double quotes.");
+                        logger.Info("For relative paths, omit the leading slash.");
+                        logger.Info("EXAMPLES:");
+                        logger.Info("\toutpath=C:\\SpectralData\\OutputFiles");
+                        logger.Info("\toutpath=OutputFiles");
+                        break;
+                }
             }
         }
     }
