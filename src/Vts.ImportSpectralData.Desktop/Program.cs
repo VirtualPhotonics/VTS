@@ -157,45 +157,7 @@ namespace Vts.ImportSpectralData.Desktop
                 return;
             }
 
-            ImportSpectra(filenames, path, outname, outpath);
-        }
-
-        private static void ImportSpectra(
-            string[] importFiles = null,
-            string importPath = "",
-            string outname = "SpectralDictionary", 
-            string outpath = "")
-        {
-            if (importFiles == null || importFiles.Length == 0 || string.IsNullOrEmpty(importFiles[0]))
-            {
-                importFiles = new string[] { "absorber-*.txt" };
-            }
-
-            var allFiles = importFiles.SelectMany(file => Directory.GetFiles(
-                importPath ?? Directory.GetCurrentDirectory(), file));
-
-            var chromophoreDictionary = new ChromophoreSpectrumDictionary();
-                
-            logger.Info(() => "Importing spectral data files");
-            foreach (var file in allFiles)
-            {
-                if(File.Exists(file))
-                { 
-                    try
-                    {
-                        logger.Info("Importing file: " + file);
-                        var stream = StreamFinder.GetFileStream(file, FileMode.Open);
-
-                        SpectralDatabase.AppendDatabaseFromFile(chromophoreDictionary, stream);
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Info("****  An error occurred while importing file: " + file);
-                        logger.Info("Detailed error: " + e.Message);
-                    }
-                }
-            }
-            chromophoreDictionary.WriteToXML(Path.Combine(outpath ?? "", outname ?? "SpectralDictionary"));
+            SpectralImporter.ImportSpectra(filenames, path, outname, outpath);
         }
         
         /// <summary>
