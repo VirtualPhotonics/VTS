@@ -84,7 +84,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         [Test]
         public void validate_loading_spectral_database_from_xml_in_resources()
         {
-            var _testDictionary = SpectralDatabase.GetDatabaseFromFile();
+            var _testDictionary = SpectralDatabase.GetDefaultDatabaseFromFileInResources();
             Assert.IsNotNull(_testDictionary);
         }
 
@@ -145,7 +145,7 @@ namespace Vts.Test.Modeling.Spectroscopy
             c2.MolarUnit = MolarUnit.None;
             c2.ChromophoreCoefficientType = ChromophoreCoefficientType.MolarAbsorptionCoefficient;
             myChromophoreList.Add(c2);
-            var testDictionary = SpectralDatabase.CreateDatabaseFromFile(myChromophoreList, stream, 2);
+            var testDictionary = myChromophoreList.ToDictionary();
             testDictionary.WriteToXML("dictionary3.xml");
             Assert.IsTrue(FileIO.FileExists("dictionary3.xml"));
         }
@@ -158,7 +158,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
 
-            var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
+            var testSpectra = SpectralDatabase.GetSpectraFromFile(stream, true);
+            var testDictionary = testSpectra.ToDictionary();
             testDictionary.WriteToXML("dictionary4.xml");
             Assert.IsTrue(FileIO.FileExists("dictionary4.xml"));
         }
@@ -174,7 +175,8 @@ namespace Vts.Test.Modeling.Spectroscopy
             string[] row;
 
             Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
-            var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream);
+            var testSpectra = SpectralDatabase.GetSpectraFromFile(stream, true);
+            var testDictionary = testSpectra.ToDictionary();
             stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
             using (StreamReader readFile = new StreamReader(stream))
             {
@@ -205,7 +207,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             Stream stream = StreamFinder.GetFileStreamFromResources("Modeling/Spectroscopy/Resources/Spectra.txt", "Vts");
 
-            var testDictionary = SpectralDatabase.CreateDatabaseFromFile(stream, false);
+            var testSpectra = SpectralDatabase.GetSpectraFromFile(stream, false);
+            var testDictionary = testSpectra.ToDictionary();
             testDictionary.WriteToXML("dictionary5.xml");
             Assert.IsTrue(FileIO.FileExists("dictionary5.xml"));
         }
@@ -216,7 +219,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         [Test]
         public void validate_write_text_files_from_xml_in_resources()
         {
-            var testDictionary = SpectralDatabase.GetDatabaseFromFile();
+            var testDictionary = SpectralDatabase.GetDefaultDatabaseFromFileInResources();
             SpectralDatabase.WriteDatabaseToFiles(testDictionary);
             Assert.IsTrue(FileIO.FileExists("absorber-Fat.txt"));
             Assert.IsTrue(FileIO.FileExists("absorber-H2O.txt"));

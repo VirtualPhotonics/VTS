@@ -107,7 +107,7 @@ namespace Vts.ImportSpectralData.Desktop
                 logger.Info(() => "Generating spectral data files...");
                 try
                 {
-                    var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile();
+                    var testDictionary = Vts.SpectralMapping.SpectralDatabase.GetDefaultDatabaseFromFileInResources();
                     SpectralDatabase.WriteDatabaseToFiles(testDictionary);
                 }
                 catch (Exception e)
