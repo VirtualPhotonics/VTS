@@ -20,7 +20,7 @@ namespace Vts.ImportSpectralData.Desktop
         /// <param name="importPath">the path of the files to import (relative or absolute)</param>
         /// <param name="outname">the name of the resulting output xml spectral dictionary</param>
         /// <param name="outpath">the output directory of the generated xml dictionary (relative or absolute)</param>
-        public static void ImportSpectra(
+        public static ChromophoreSpectrumDictionary ImportSpectraFromFile(
             string[] importFiles = null,
             string importPath = "",
             string outname = "SpectralDictionary",
@@ -56,7 +56,7 @@ namespace Vts.ImportSpectralData.Desktop
                 }
             }
 
-            chromophoreDictionary.WriteToXML(Path.Combine(outpath ?? "", outname ?? "SpectralDictionary"));
+            return chromophoreDictionary;
         }
     }
 }
