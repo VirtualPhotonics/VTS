@@ -8,7 +8,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'xml_toolbox']);
 
 % names of individual MC simulations
-datanames = { 'two_layer_ReflectedMTOfRhoAndSubregionHist' };
+datanames = { 'one_layer_angled_source_FluenceOfXAndYAndZ' };
 % datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
@@ -29,6 +29,7 @@ show.TOfAngle =                 1;
 show.ATotal =                   1;
 show.AOfRhoAndZ =               1;
 show.FluenceOfRhoAndZ =         1;
+show.FluenceOfXAndYAndZ =       1;
 show.RadianceOfRhoAndZAndAngle = 1;
 show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
 show.pMCROfRho =                1;
@@ -61,7 +62,7 @@ for mci = 1:length(datanames)
 
     if isfield(results{di}, 'ROfRhoAndTime') && show.ROfRhoAndTime
         figname = sprintf('log(%s)',results{di}.ROfRhoAndTime.Name); figure; imagesc(results{di}.ROfRhoAndTime.Rho_Midpoints, results{di}.ROfRhoAndTime.Time_Midpoints,log(results{di}.ROfRhoAndTime.Mean')); colorbar; title(figname); set(gcf,'Name', figname); ylabel('time [ns]'); xlabel('\rho [mm]');
-        disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(results{di}.ROfRhoAndTime.Mean(:)))]);
+        caxis([-15 0]);disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(results{di}.ROfRhoAndTime.Mean(:)))]);
     end
 
     if isfield(results{di}, 'ROfRhoAndAngle') && show.ROfRhoAndAngle
@@ -101,6 +102,14 @@ for mci = 1:length(datanames)
         %sum(results{di}.FluenceOfRhoAndZ.Mean(2:end,2:end))
         figname = sprintf('log(%s)',results{di}.FluenceOfRhoAndZ.Name); figure; imagesc(results{di}.FluenceOfRhoAndZ.Rho_Midpoints, results{di}.FluenceOfRhoAndZ.Z_Midpoints, log(results{di}.FluenceOfRhoAndZ.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
         disp(['Fluence captured by FluenceOfRhoAndZ detector: ' num2str(sum(results{di}.FluenceOfRhoAndZ.Mean(:)))]);
+    end
+    if isfield(results{di}, 'FluenceOfXAndYAndZ') && show.FluenceOfXAndYAndZ
+        numY = length(results{di}.FluenceOfXAndYAndZ.Y) - 1;
+        for i=1:numY
+            figname = sprintf('log(%s) y=%5.3f',results{di}.FluenceOfXAndYAndZ.Name,results{di}.FluenceOfXAndYAndZ.Y_Midpoints(i)); figure; imagesc(results{di}.FluenceOfXAndYAndZ.X_Midpoints, results{di}.FluenceOfXAndYAndZ.Z_Midpoints, log(squeeze(results{di}.FluenceOfXAndYAndZ.Mean(:,i,:))')); 
+            colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');
+            disp(['Fluence captured by FluenceOfXAndYAndZ detector: ' num2str(sum(results{di}.FluenceOfXAndYAndZ.Mean(:)))]);
+        end
     end
     if isfield(results{di}, 'RadianceOfRhoAndZAndAngle') && show.RadianceOfRhoAndZAndAngle
         %sum(results{di}.RadianceOfRhoAndZAndAngle.Mean(2:end,2:end,2:end))
@@ -149,7 +158,7 @@ for mci = 1:length(datanames)
         for i=1:numtissueregions
             figname = sprintf('log(%s) Region Index %d',results{di}.ReflectedTimeOfRhoAndSubregionHist.Name, i-1); 
             figure; imagesc(results{di}.ReflectedTimeOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.Time_Midpoints, log(squeeze(results{di}.ReflectedTimeOfRhoAndSubregionHist.Mean(:,i,:))'));       
-               colorbar; title(figname); set(gcf,'Name', figname); ylabel('time [ns]'); xlabel('\rho [mm]');
+               colorbar; caxis([-15 0]);title(figname); set(gcf,'Name', figname); ylabel('time [ns]'); xlabel('\rho [mm]');
         end
         figname = sprintf('%s Fractional Time',results{di}.ReflectedTimeOfRhoAndSubregionHist.Name); 
         figure; imagesc(results{di}.ReflectedTimeOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.SubregionIndices-1, results{di}.ReflectedTimeOfRhoAndSubregionHist.FractionalTime');       

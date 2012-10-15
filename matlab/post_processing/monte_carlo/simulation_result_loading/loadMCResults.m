@@ -180,6 +180,28 @@ for di = 1:numDetectors
                 FluenceOfRhoAndZ.Stdev = sqrt((FluenceOfRhoAndZ.SecondMoment - (FluenceOfRhoAndZ.Mean .* FluenceOfRhoAndZ.Mean)) / str2num(xml.N));  
             end
             results{di}.FluenceOfRhoAndZ = FluenceOfRhoAndZ;
+        case 'FluenceOfXAndYAndZ'
+            FluenceOfXAndYAndZ.Name = detectorName;
+            tempX = xml.DetectorInputs(di).anyType.X;
+            tempY = xml.DetectorInputs(di).anyType.Y;
+            tempZ = xml.DetectorInputs(di).anyType.Z;
+            FluenceOfXAndYAndZ.X = linspace(str2num(tempX.Start), str2num(tempX.Stop), str2num(tempX.Count));
+            FluenceOfXAndYAndZ.Y = linspace(str2num(tempY.Start), str2num(tempY.Stop), str2num(tempY.Count));
+            FluenceOfXAndYAndZ.Z = linspace(str2num(tempZ.Start), str2num(tempZ.Stop), str2num(tempZ.Count));
+            FluenceOfXAndYAndZ.X_Midpoints = (FluenceOfXAndYAndZ.X(1:end-1) + FluenceOfXAndYAndZ.X(2:end))/2;
+            FluenceOfXAndYAndZ.Y_Midpoints = (FluenceOfXAndYAndZ.Y(1:end-1) + FluenceOfXAndYAndZ.Y(2:end))/2;
+            FluenceOfXAndYAndZ.Z_Midpoints = (FluenceOfXAndYAndZ.Z(1:end-1) + FluenceOfXAndYAndZ.Z(2:end))/2;
+            FluenceOfXAndYAndZ.Mean = readBinaryData([datadir slash detectorName],[(length(FluenceOfXAndYAndZ.X)-1) * (length(FluenceOfXAndYAndZ.Y)-1) * (length(FluenceOfXAndYAndZ.Z)-1)]);
+            FluenceOfXAndYAndZ.Mean = reshape(FluenceOfXAndYAndZ.Mean, ...
+                [length(FluenceOfXAndYAndZ.X)-1,length(FluenceOfXAndYAndZ.Y)-1,length(FluenceOfXAndYAndZ.Z)-1]);
+            if(exist([datadir slash detectorName '_2'],'file'))
+                FluenceOfXAndAndZ.SecondMoment = readBinaryData([datadir slash detectorName '_2'], ...
+                    [(length(FluenceOfXAndYAndZ.X)-1) * (length(FluenceOfXAndYAndZ.Y)-1) * (length(FluenceOfXAndYAndZ.Z)-1)]);
+                FluenceOfXAndYAndZ.SecondMoment = reshape(FluenceOfXAndYAndZ.Mean, ...
+                    [length(FluenceOfXAndYAndZ.X)-1,length(FluenceOfXAndYAndZ.Y)-1,length(FluenceOfXAndYAndZ.Z)-1]);
+                FluenceOfXAndYAndZ.Stdev = sqrt((FluenceOfXAndYAndZ.SecondMoment - (FluenceOfXAndYAndZ.Mean .* FluenceOfXAndYAndZ.Mean)) / str2num(xml.N));  
+            end
+            results{di}.FluenceOfXAndYAndZ = FluenceOfXAndYAndZ;
         case 'RadianceOfRhoAndZAndAngle'
             RadianceOfRhoAndZAndAngle.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
