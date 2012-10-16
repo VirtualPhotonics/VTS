@@ -8,7 +8,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'xml_toolbox']);
 
 % names of individual MC simulations
-datanames = { 'one_layer_angled_source_FluenceOfXAndYAndZ' };
+datanames = { 'PostProcessor_pMC_sDOSI_gate_case1c' };
 % datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
@@ -62,7 +62,7 @@ for mci = 1:length(datanames)
 
     if isfield(results{di}, 'ROfRhoAndTime') && show.ROfRhoAndTime
         figname = sprintf('log(%s)',results{di}.ROfRhoAndTime.Name); figure; imagesc(results{di}.ROfRhoAndTime.Rho_Midpoints, results{di}.ROfRhoAndTime.Time_Midpoints,log(results{di}.ROfRhoAndTime.Mean')); colorbar; title(figname); set(gcf,'Name', figname); ylabel('time [ns]'); xlabel('\rho [mm]');
-        caxis([-15 0]);disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(results{di}.ROfRhoAndTime.Mean(:)))]);
+        disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(results{di}.ROfRhoAndTime.Mean(:)))]);
     end
 
     if isfield(results{di}, 'ROfRhoAndAngle') && show.ROfRhoAndAngle
@@ -170,7 +170,7 @@ for mci = 1:length(datanames)
         disp(['Total reflectance captured by pMCROfRho detector: ' num2str(sum(results{di}.pMCROfRho.Mean(:)))]);
     end
     if isfield(results{di}, 'pMCROfRhoAndTime') && show.pMCROfRhoAndTime
-        figname = sprintf('log(%s)',results{di}.pMCROfRhoAndTime.Name); figure; imagesc(log(results{di}.pMCROfRhoAndTime.Mean)); axis image; axis off; colorbar; title(figname); set(gcf,'Name', figname);
+        figname = sprintf('log(%s)',results{di}.pMCROfRhoAndTime.Name); figure; imagesc(results{di}.pMCROfRhoAndTime.Rho_Midpoints, results{di}.pMCROfRhoAndTime.Time_Midpoints,log(results{di}.pMCROfRhoAndTime.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]');
         disp(['Total reflectance captured by pMCROfRhoAndTime detector: ' num2str(sum(results{di}.pMCROfRhoAndTime.Mean(:)))]);
     end
   end
