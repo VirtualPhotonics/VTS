@@ -1,8 +1,5 @@
-﻿using System;
+﻿
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 
 namespace Vts.MonteCarlo.CommandLineApplication.Test
@@ -47,6 +44,26 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             if (Directory.Exists("myResults_mua1_0.03"))
             {
                 Directory.Delete("myResults_mua1_0.03", true);
+            } 
+            if (Directory.Exists("pMC_one_layer_ROfRho_DAW"))
+            {
+                Directory.Delete("pMC_one_layer_ROfRho_DAW", true);
+            } 
+            if (File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase"))
+            {
+                File.Delete("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase");
+            } 
+            if (File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase.xml"))
+            {
+                File.Delete("pMC_one_layer_ROfRho_DAW/DiffuseReflectance.xml");
+            }
+            if (File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase"))
+            {
+                File.Delete("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase");
+            }
+            if (File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.xml"))
+            {
+                File.Delete("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.xml");
             }
         }
         /// <summary>
@@ -100,6 +117,22 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Assert.IsTrue(Directory.Exists("myResults_mua1_0.01"));
             Assert.IsTrue(Directory.Exists("myResults_mua1_0.02"));
             Assert.IsTrue(Directory.Exists("myResults_mua1_0.03"));
+        }
+        /// <summary>
+        /// test to verify database gets generated for post-processing
+        /// </summary>
+        //can't get following to work because of the string problem
+        [Test]
+        public void validate_database_generation()
+        {
+            // have to break up arg. strings, otherwise outname taken to be "myResults paramsweep..."
+            string[] arguments = new string[] { "infile=infile_pMC_one_layer_ROfRho_DAW.xml" };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("pMC_one_layer_ROfRho_DAW"));
+            Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase"));
+            Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase.xml"));
+            Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase"));
+            Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.xml"));
         }
     }
 }
