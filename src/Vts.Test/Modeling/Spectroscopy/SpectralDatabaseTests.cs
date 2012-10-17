@@ -190,8 +190,10 @@ namespace Vts.Test.Modeling.Spectroscopy
                 row = line.Split('\t');
             }
             Assert.AreEqual(testDictionary["Hb"].Wavelengths[linenumber], Convert.ToDouble(row[0]));
+            // dc: this would be only for MolarExtinctionCoefficient or FractionalExtinctionCoefficient, not MolarAbsorptionCoefficient or FractionalAbsorptionCoefficient
             // multiply the value by ln(10)
-            double k =  Math.Log(10);
+            // double k =  Math.Log(10);
+            double k = 1D;
             double spectra = Convert.ToDouble(row[1]) * k;
             // test that the values in the text stream match the ones in the object
             Assert.AreEqual(testDictionary["HbO2"].Spectrum[linenumber], spectra);

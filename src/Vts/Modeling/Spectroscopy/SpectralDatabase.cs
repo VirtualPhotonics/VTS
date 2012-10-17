@@ -223,12 +223,13 @@ namespace Vts.SpectralMapping
                                 //loop through the spectra and get the data
                                 for (int i = 0; i < columns - 1; i++)
                                 {
-                                    //need to multiply MolarAbsorptionCoefficients by ln(10)
                                     double k = 1.0;
-                                    if (ChromophoreList[i].ChromophoreCoefficientType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
-                                    {
-                                        k = Math.Log(10);
-                                    }
+                                    // dc: this would be only for MolarExtinctionCoefficient or FractionalExtinctionCoefficient, not MolarAbsorptionCoefficient or FractionalAbsorptionCoefficient
+                                    //// need to multiply MolarAbsorptionCoefficients by ln(10)
+                                    //if (ChromophoreList[i].ChromophoreCoefficientType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
+                                    //{
+                                    //    k = Math.Log(10);
+                                    //}
                                     double valEntry = convert ? Convert.ToDouble(row[i+1]).ConvertCoefficient(ChromophoreList[i].AbsorptionCoefficientUnit, ChromophoreList[i].MolarUnit) : Convert.ToDouble(row[i+1]);
                                     valuesList[i].Add((double)valEntry * k);
 
