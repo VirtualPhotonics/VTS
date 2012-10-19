@@ -101,6 +101,10 @@ namespace Vts.MonteCarlo
                     new FluenceOfRhoAndZDetectorInput(                            
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101)),
+                    new FluenceOfRhoAndZAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101), 
+                        new DoubleRange(0.0, 10, 101)),
                     new FluenceOfXAndYAndZDetectorInput(
                         new DoubleRange(-10, 10, 201),
                         new DoubleRange(-10, 10, 2),
