@@ -8,7 +8,8 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'xml_toolbox']);
 
 % names of individual MC simulations
-datanames = { 'PostProcessor_pMC_sDOSI_gate_case1c' };
+%datanames = { 'three_layer_normal_source_ROfRho_FluenceOfXAndYAndZ' };
+datanames = { 'ellip_450nm_g0p9' };
 % datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
@@ -30,6 +31,7 @@ show.ATotal =                   1;
 show.AOfRhoAndZ =               1;
 show.FluenceOfRhoAndZ =         1;
 show.FluenceOfXAndYAndZ =       1;
+show.FluenceOfRhoAndZAndTime =  1;
 show.RadianceOfRhoAndZAndAngle = 1;
 show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
 show.pMCROfRho =                1;
@@ -65,7 +67,7 @@ for mci = 1:length(datanames)
         disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(results{di}.ROfRhoAndTime.Mean(:)))]);
     end
 
-    if isfield(results{di}, 'ROfRhoAndAngle') && show.ROfRhoAndAngle
+    if isfield(results{di}, 'ROfRhoAndAngle') && show.ROfRhoAndAngle        
         figname = sprintf('log(%s)',results{di}.ROfRhoAndAngle.Name); figure; imagesc(results{di}.ROfRhoAndAngle.Rho_Midpoints, results{di}.ROfRhoAndAngle.Angle_Midpoints, log(results{di}.ROfRhoAndAngle.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('\angle [rad]'); xlabel('\rho [mm]'); 
         disp(['Total reflectance captured by ROfRhoAndAngle detector: ' num2str(sum(results{di}.ROfRhoAndAngle.Mean(:)))]);
     end
@@ -102,6 +104,14 @@ for mci = 1:length(datanames)
         %sum(results{di}.FluenceOfRhoAndZ.Mean(2:end,2:end))
         figname = sprintf('log(%s)',results{di}.FluenceOfRhoAndZ.Name); figure; imagesc(results{di}.FluenceOfRhoAndZ.Rho_Midpoints, results{di}.FluenceOfRhoAndZ.Z_Midpoints, log(results{di}.FluenceOfRhoAndZ.Mean')); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
         disp(['Fluence captured by FluenceOfRhoAndZ detector: ' num2str(sum(results{di}.FluenceOfRhoAndZ.Mean(:)))]);
+    end
+    if isfield(results{di}, 'FluenceOfRhoAndZAndTime') && show.FluenceOfRhoAndZAndTime
+        numtimes = length(results{di}.FluenceOfRhoAndZAndTime.Time)-1;
+        for i=1:10:numtimes % do every 10 time bins
+            figname = sprintf('log(%s) time=%5.3f ns',results{di}.FluenceOfRhoAndZAndTime.Name,results{di}.FluenceOfRhoAndZAndTime.Time_Midpoints(i)); figure; imagesc(results{di}.FluenceOfRhoAndZAndTime.Rho_Midpoints, results{di}.FluenceOfRhoAndZAndTime.Z_Midpoints, log(squeeze(results{di}.FluenceOfRhoAndZAndTime.Mean(:,:,i))')); 
+            colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
+            disp(['Fluence captured by FluenceOfRhoAndZAndTime detector: ' num2str(sum(results{di}.FluenceOfRhoAndZAndTime.Mean(:)))]);  
+        end
     end
     if isfield(results{di}, 'FluenceOfXAndYAndZ') && show.FluenceOfXAndYAndZ
         numY = length(results{di}.FluenceOfXAndYAndZ.Y) - 1;
