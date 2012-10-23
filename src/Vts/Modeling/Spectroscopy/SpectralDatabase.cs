@@ -85,14 +85,14 @@ namespace Vts.SpectralMapping
             //create a new dictionary
             var chromophoreSpectra = GetSpectraFromFile(fileStream, true);
 
-            foreach (var item in existingDictionary)
+            foreach (var item in chromophoreSpectra)
             {
                 ChromophoreSpectrum spectrum = null;
-                if(existingDictionary.TryGetValue(item.Key, out spectrum))
+                if(existingDictionary.TryGetValue(item.Name, out spectrum))
                 {
-                    existingDictionary.Remove(item.Key);
+                    existingDictionary.Remove(item.Name);
                 }
-                existingDictionary.Add(item.Key, item.Value);
+                existingDictionary.Add(item.Name, item);
             }
 
             return existingDictionary;

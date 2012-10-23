@@ -124,7 +124,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         }
 
         /// <summary>
-        /// validate loading spectral data from tab-delimited file
+        /// validate loading spectral data from tab-delimited file and update existing data
         /// </summary>
         [Test]
         public void validate_loading_spectral_database_from_tsv_in_resources()
@@ -146,6 +146,7 @@ namespace Vts.Test.Modeling.Spectroscopy
             c2.ChromophoreCoefficientType = ChromophoreCoefficientType.MolarAbsorptionCoefficient;
             myChromophoreList.Add(c2);
             var testDictionary = myChromophoreList.ToDictionary();
+            SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
             testDictionary.WriteToXML("dictionary3.xml");
             Assert.IsTrue(FileIO.FileExists("dictionary3.xml"));
         }
