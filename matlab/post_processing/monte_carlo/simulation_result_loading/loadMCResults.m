@@ -4,6 +4,11 @@ slash = filesep;  % get correct path delimiter for platform
 datadir = [outdir slash dataname];
 
 xml = xml_load([datadir slash dataname '.xml']);
+postProcessorResults = false;
+if (exist([datadir slash dataname '_database_infile.xml'],'file'))
+    postProcessorResults = true;
+    databaseInputXml = xml_load([datadir slash dataname '_database_infile.xml']);
+end
 numDetectors = length(xml.DetectorInputs);
 for di = 1:numDetectors
     detectorName = xml.DetectorInputs(di).anyType.Name;
@@ -299,7 +304,13 @@ for di = 1:numDetectors
             ReflectedMTOfRhoAndSubregionHist.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
             tempMTBins = xml.DetectorInputs(di).anyType.MTBins;
-            tempSubregionIndices = (1:1:length(xml.TissueInput.Regions));
+            if (postProcessorResults)        
+                tempSubregionIndices = (1:1:length(databaseInputXml.TissueInput.Regions));
+                N = databaseInputXml.N;
+            else   
+                tempSubregionIndices = (1:1:length(xml.TissueInput.Regions));
+                N = xml.N;
+            end
             ReflectedMTOfRhoAndSubregionHist.Rho = linspace(str2num(tempRho.Start), str2num(tempRho.Stop), str2num(tempRho.Count));                     
             ReflectedMTOfRhoAndSubregionHist.MTBins = linspace(str2num(tempMTBins.Start), str2num(tempMTBins.Stop), str2num(tempMTBins.Count));
             ReflectedMTOfRhoAndSubregionHist.SubregionIndices = tempSubregionIndices;
@@ -318,14 +329,20 @@ for di = 1:numDetectors
                 (length(ReflectedMTOfRhoAndSubregionHist.Rho)-1) * (length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1)); 
                 ReflectedMTOfRhoAndSubregionHist.SecondMoment = reshape(ReflectedMTOfRhoAndSubregionHist.SecondMoment, ...
                 [length(ReflectedMTOfRhoAndSubregionHist.Rho)-1,length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1]);  
-                ReflectedMTOfRhoAndSubregionHist.Stdev = sqrt((ReflectedMTOfRhoAndSubregionHist.SecondMoment - (ReflectedMTOfRhoAndSubregionHist.Mean .* ReflectedMTOfRhoAndSubregionHist.Mean)) / str2num(xml.N));               
+                ReflectedMTOfRhoAndSubregionHist.Stdev = sqrt((ReflectedMTOfRhoAndSubregionHist.SecondMoment - (ReflectedMTOfRhoAndSubregionHist.Mean .* ReflectedMTOfRhoAndSubregionHist.Mean)) / str2num(N));               
             end
             results{di}.ReflectedMTOfRhoAndSubregionHist = ReflectedMTOfRhoAndSubregionHist;
         case 'ReflectedTimeOfRhoAndSubregionHist'
             ReflectedTimeOfRhoAndSubregionHist.Name = detectorName;
             tempRho = xml.DetectorInputs(di).anyType.Rho;
             tempTime = xml.DetectorInputs(di).anyType.Time;
-            tempSubregionIndices = (1:1:length(xml.TissueInput.Regions));
+            if (postProcessorResults)        
+                tempSubregionIndices = (1:1:length(databaseInputXml.TissueInput.Regions));
+                N = databaseInputXml.N;
+            else   
+                tempSubregionIndices = (1:1:length(xml.TissueInput.Regions));
+                N = xml.N;
+            end
             ReflectedTimeOfRhoAndSubregionHist.Rho = linspace(str2num(tempRho.Start), str2num(tempRho.Stop), str2num(tempRho.Count));                     
             ReflectedTimeOfRhoAndSubregionHist.Time = linspace(str2num(tempTime.Start), str2num(tempTime.Stop), str2num(tempTime.Count));
             ReflectedTimeOfRhoAndSubregionHist.SubregionIndices = tempSubregionIndices;
@@ -342,7 +359,7 @@ for di = 1:numDetectors
                 [(length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedTimeOfRhoAndSubregionHist.Time)-1)]); 
                 ReflectedTimeOfRhoAndSubregionHist.SecondMoment = reshape(ReflectedTimeOfRhoAndSubregionHist.SecondMoment, ...
                 [length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1,length(tempSubregionIndices),length(ReflectedTimeOfRhoAndSubregionHist.Time)-1]);  
-                ReflectedTimeOfRhoAndSubregionHist.Stdev = sqrt((ReflectedTimeOfRhoAndSubregionHist.SecondMoment - (ReflectedTimeOfRhoAndSubregionHist.Mean .* ReflectedTimeOfRhoAndSubregionHist.Mean)) / str2num(xml.N));               
+                ReflectedTimeOfRhoAndSubregionHist.Stdev = sqrt((ReflectedTimeOfRhoAndSubregionHist.SecondMoment - (ReflectedTimeOfRhoAndSubregionHist.Mean .* ReflectedTimeOfRhoAndSubregionHist.Mean)) / str2num(N));               
             end
             results{di}.ReflectedTimeOfRhoAndSubregionHist = ReflectedTimeOfRhoAndSubregionHist;
       case 'pMCROfRho'
@@ -352,7 +369,6 @@ for di = 1:numDetectors
             pMCROfRho.Rho_Midpoints = (pMCROfRho.Rho(1:end-1) + pMCROfRho.Rho(2:end))/2;
             pMCROfRho.Mean = readBinaryData([datadir slash detectorName],length(pMCROfRho.Rho)-1);              
             if(exist([datadir slash detectorName '_2'],'file'))
-                databaseInputxml = xml_load([datadir slash dataname '_database_infile.xml']);
                 pMCROfRho.SecondMoment = readBinaryData([datadir slash detectorName '_2'],length(pMCROfRho.Rho)-1);
                 pMCROfRho.Stdev = sqrt((pMCROfRho.SecondMoment - (pMCROfRho.Mean .* pMCROfRho.Mean)) / str2num(databaseInputxml.N));
             end
@@ -367,9 +383,8 @@ for di = 1:numDetectors
             pMCROfRhoAndTime.Time_Midpoints = (pMCROfRhoAndTime.Time(1:end-1) + pMCROfRhoAndTime.Time(2:end))/2;
             pMCROfRhoAndTime.Mean = readBinaryData([datadir slash detectorName],[length(pMCROfRhoAndTime.Rho)-1,length(pMCROfRhoAndTime.Time)-1]);              
             if(exist([datadir slash detectorName '_2'],'file'))
-                databaseInputxml = xml_load([datadir slash dataname '_database_infile.xml']);
                 pMCROfRhoAndTime.SecondMoment = readBinaryData([datadir slash detectorName '_2'],[length(pMCROfRhoAndTime.Rho)-1,length(pMCROfRhoAndTime.Time)-1]);
-                pMCROfRhoAndTime.Stdev = sqrt((pMCROfRhoAndTime.SecondMoment - (pMCROfRhoAndTime.Mean .* pMCROfRhoAndTime.Mean)) / str2num(databaseInputxml.N));
+                pMCROfRhoAndTime.Stdev = sqrt((pMCROfRhoAndTime.SecondMoment - (pMCROfRhoAndTime.Mean .* pMCROfRhoAndTime.Mean)) / str2num(databaseInputXml.N));
             end
             results{di}.pMCROfRhoAndTime = pMCROfRhoAndTime;
     end %detectorName switch
