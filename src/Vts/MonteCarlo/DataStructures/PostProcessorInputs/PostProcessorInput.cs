@@ -9,13 +9,7 @@ namespace Vts.MonteCarlo
 #if !SILVERLIGHT
     [Serializable]
 #endif     
-        
-    [KnownType(typeof(AOfRhoAndZDetectorInput))]
-    [KnownType(typeof(ATotalDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
-    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(pMCROfRhoDetectorInput))]
+    // the following list should be equivalent to detector list in SimulationInput
     [KnownType(typeof(RDiffuseDetectorInput))]
     [KnownType(typeof(ROfAngleDetectorInput))]
     [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
@@ -23,10 +17,26 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(ROfRhoAndTimeDetectorInput))]
     [KnownType(typeof(ROfRhoDetectorInput))]
     [KnownType(typeof(ROfXAndYDetectorInput))]
+    [KnownType(typeof(ROfFxDetectorInput))]
+    [KnownType(typeof(ROfFxAndTimeDetectorInput))]
     [KnownType(typeof(TDiffuseDetectorInput))]
     [KnownType(typeof(TOfAngleDetectorInput))]
     [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
     [KnownType(typeof(TOfRhoDetectorInput))]
+    [KnownType(typeof(RSpecularDetectorInput))]
+    [KnownType(typeof(AOfRhoAndZDetectorInput))]
+    [KnownType(typeof(ATotalDetectorInput))]
+    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
+    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
+    [KnownType(typeof(FluenceOfXAndYAndZDetectorInput))]
+    [KnownType(typeof(RadianceOfRhoAndZAndAngleDetectorInput))]
+    [KnownType(typeof(RadianceOfXAndYAndZAndThetaAndPhiDetectorInput))]
+    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
+    [KnownType(typeof(pMCROfRhoDetectorInput))]
+    [KnownType(typeof(pMCROfFxDetectorInput))]
+    [KnownType(typeof(pMCROfFxAndTimeDetectorInput))]
+    [KnownType(typeof(ReflectedMTOfRhoAndSubregionHistDetectorInput))]
+    [KnownType(typeof(ReflectedTimeOfRhoAndSubregionHistDetectorInput))]
     
     public class PostProcessorInput
     {

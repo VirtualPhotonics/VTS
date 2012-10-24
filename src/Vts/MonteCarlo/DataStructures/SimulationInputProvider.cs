@@ -73,6 +73,7 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
+                    // units space[mm], time[ns], temporal-freq[GHz], abs./scat. coeff[/mm]
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 5)),
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
