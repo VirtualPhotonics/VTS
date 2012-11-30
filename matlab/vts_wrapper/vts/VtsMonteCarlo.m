@@ -1,4 +1,7 @@
 classdef VtsMonteCarlo < handle
+    % VTSMONTECARLO - Class containing static methods for running Monte Carlo simulations
+    % single or multiple simulations or post processing.
+
     % static properties
     properties (Constant, GetAccess='private') % can be used like a static constructor for static properties
         Assemblies = loadAssemblies();
@@ -8,6 +11,11 @@ classdef VtsMonteCarlo < handle
     methods (Static)
         % static method to run simulation
         function output = RunSimulation(simulationInput, writeDetectors)
+            % RUNSIMULATION Runs a single Monte Carlo simulation
+            %   RUNSIMULATION(SIMULATIONINPUT, WRITEDETECTORS)
+            %   SIMULATIONINPUT Simulation input class defining the data for 
+            %       the simulation, see also SIMULATIONINPUT
+            %   WRITEDETECTORS
             if nargin < 2
                 writeDetectors = false;
             end

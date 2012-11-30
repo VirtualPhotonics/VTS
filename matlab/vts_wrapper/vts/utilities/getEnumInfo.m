@@ -1,5 +1,5 @@
 function info = getEnumInfo(enumType)
-
+% GETENUMINFO 
 namesNET = System.Enum.GetNames(enumType);
 names = cell(1, namesNET.Length);
 

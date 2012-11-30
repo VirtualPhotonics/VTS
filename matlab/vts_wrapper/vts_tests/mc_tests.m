@@ -1,3 +1,4 @@
+% Unit tests for the Monte Carlo simulations
 disp('Running unit tests for Monte Carlo simulations...');
 
 % create a simple Matlab-wrapped SimulationInput DTO

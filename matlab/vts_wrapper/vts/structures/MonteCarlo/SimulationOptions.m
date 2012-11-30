@@ -1,3 +1,7 @@
+% SIMULATIONOPTIONS Defines options for the Monte Carlo simulation
+% 	Designates a random number generator, absorption weighting type 
+%   and flags input to the Monte Carlo simulation (e.g. tally second moment 
+%   and specify seed for RNG).
 classdef SimulationOptions < handle % deriving from handle allows us to keep a singleton around (reference based) - see Doug's post here: http://www.mathworks.com/matlabcentral/newsreader/view_thread/171344
   properties
     % seed of random number generator (-1=randomly selected seed, >=0 reproducible sequence)

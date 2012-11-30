@@ -1,4 +1,5 @@
 classdef EnumHelper
+    % Helper methods to return a .NET enum instance based on a string input
     properties (Constant, GetAccess='private') % can be used like a static constructor for static properties
         Assemblies = loadAssemblies();
 

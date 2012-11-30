@@ -1,3 +1,4 @@
+% SIMULATIONOUTPUT Output from a Monte Carlo simulation
 classdef SimulationOutput    
     methods (Static)
         function output = FromOutputNET(outputNET)

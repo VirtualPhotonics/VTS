@@ -1,4 +1,5 @@
-% script for demoing use of Vts within Matlab
+% Script for running all unit tests within Matlab
+%   Set runDemosToo to 'true' to run the demos and the unit tests
 clear all
 clc
 dbstop if error;

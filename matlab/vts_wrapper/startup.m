@@ -1,5 +1,5 @@
 function [ output_args ] = startup( input_args )
-
+% startup - Add the required paths, load the assemblies & set default values (font, colors).
 v = genpath(getFullPath('vts'));
 addpath(v);
 
@@ -17,7 +17,7 @@ warning off MATLAB:class:cannotUpdateClass:Change;
 % addpath('gridlayout\Layout');
 % addpath('gridlayout\Parse');
 
-set(0,'DefaultAxesFontName','Times New Roman')
+set(0,'DefaultAxesFontName','Calibri')
 set(0,'DefaultAxesFontSize',18)
 set(0,'DefaultAxesFontWeight','bold')
 set(0,'DefaultAxesLineWidth',2)

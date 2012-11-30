@@ -1,3 +1,4 @@
+% MULTILAYERTISSUEINPUT Defines the input data for multi-layer tissue
 classdef MultiLayerTissueInput < handle % deriving from handle allows us to keep a singleton around (reference based) - see Doug's post here: http://www.mathworks.com/matlabcentral/newsreader/view_thread/171344
     properties
         LayerRegions = struct(...

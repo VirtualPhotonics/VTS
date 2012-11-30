@@ -1,4 +1,16 @@
 classdef VtsSolvers
+    % VTSSOLVERS Definitions for the main solvers in the VTS
+    %   For more information, see <a href="matlab:doc vtssolvers">VtsSolvers</a>.
+    %
+    %       see also ROfRho,
+    %       ROfFx,
+    %       ROfFxAndT,
+    %       ROfRhoAndT,
+    %       ROfRhoAndFt,
+    %       ROfFxAndFt,
+    %       FluenceOfRhoAndZ,
+    %       PHDOfRhoAndZ,
+    %       AbsorbedEnergyOfRhoAndZ
     properties (Constant, GetAccess='private')
         Assemblies = loadAssemblies();
         Options = SolverOptions(); % only instantiate this class once
@@ -168,7 +180,6 @@ classdef VtsSolvers
         %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
         function r = ROfFxAndFt(op, fx, ft) 
         % ROfFxAndFt
-        %
         %   ROfFxAndFt(OP, FX, FT)
         %
         %   OP is an N x 4 matrix of optical properties
@@ -210,8 +221,8 @@ classdef VtsSolvers
         end
         %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
         function r = FluenceOfRhoAndZ(op, rhos, zs)
-            % FluenceOfRho
-            %   FluenceOfRho(OP, RHOS, ZS) 
+            % FluenceOfRhoAndZ
+            %   FluenceOfRhoAndZ(OP, RHOS, ZS) 
             %   
             %   OP is an N x 4 matrix of optical properties
             %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];

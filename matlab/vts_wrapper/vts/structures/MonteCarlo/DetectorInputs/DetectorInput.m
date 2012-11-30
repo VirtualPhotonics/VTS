@@ -1,3 +1,4 @@
+% DETECTORINPUT Defines the input data for detector
 classdef DetectorInput
     methods (Static)
         function input = Default()
