@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Vts.Common.Math
 {
@@ -35,6 +36,33 @@ namespace Vts.Common.Math
             else
                 R = AdaptiveRecursiveSimpson(f, a, c, epsilon / 2.0, left) + AdaptiveRecursiveSimpson(f, c, b, epsilon / 2.0, right);
             return R;
+        }
+        public static double IntegrateTrapezoidRuleForTwoLists(List<double> x, List<double> y, double a, double b)
+        {
+            int indexA = x.BinarySearch(a);
+            if(indexA<0)
+            {
+                x.Insert(~indexA, a);
+                x.Sort();
+                indexA = x.BinarySearch(a);
+                y.Insert(indexA, Vts.Common.Math.Interpolation.interp1(x, y, a));
+            }
+            int indexB = x.BinarySearch(b);
+            if (indexB < 0)
+            {
+                x.Insert(~indexB, b);
+                x.Sort();
+                indexB = x.BinarySearch(b);
+                y.Insert(indexB, Vts.Common.Math.Interpolation.interp1(x, y, b));
+            }
+            double sum = 0;
+            if (indexA == indexB)
+                return 0.0;
+            for (int i = indexA; i < indexB; i++)
+            {
+                sum += (x[i + 1] - x[i]) * (y[i + 1] + y[i]);
+            }
+            return 0.5*sum;
         }
     }
 }

@@ -314,10 +314,9 @@ namespace Vts.SpectralMapping
                 MieScattParams.S11[k] = 0.5 * (Math.Pow(ComplexAbs(MieScattParams.S1[k]), 2)
                     + Math.Pow(ComplexAbs(MieScattParams.S2[k]), 2));
             }
-            for (int st = 0; st < MieScattParams.S11.Length; st++)
-            {
-
-            }
+//            for (int st = 0; st < MieScattParams.S11.Length; st++)
+//            {
+//            }
             return MieScattParams;
         }
 

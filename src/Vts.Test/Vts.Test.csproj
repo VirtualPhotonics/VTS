@@ -241,6 +241,9 @@
     <Compile Include="MonteCarlo\DataStructures\OutputTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\LookupTablePhaseFunctionInputTest.cs" />
+    <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\PolarLookupTablePhaseFunctionDataTest.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\LookupTablePhaseFunctionTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
