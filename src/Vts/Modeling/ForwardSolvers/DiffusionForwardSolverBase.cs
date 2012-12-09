@@ -291,7 +291,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
 
-        public override IEnumerable<double> FluenceOfRhoAndZAndFt(
+        public override IEnumerable<Complex> FluenceOfRhoAndZAndFt(
             IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos,
             IEnumerable<double> zs, IEnumerable<double> fts)
         {
@@ -357,7 +357,7 @@ namespace Vts.Modeling.ForwardSolvers
             }
         }
 
-        public override IEnumerable<double> FluenceOfFxAndZAndFt(
+        public override IEnumerable<Complex> FluenceOfFxAndZAndFt(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs,
             IEnumerable<double> zs,

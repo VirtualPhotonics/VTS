@@ -8,10 +8,11 @@
             VerticalAlignment="Top">
             <controls:HeaderedContentControl.Header>
                 <!-- Solution Domain Title -->
-                <TextBlock Text="{Binding GroupName}" 
-                           Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}" 
-                           TextDecorations="Underline" 
-                           FontSize="16" />
+                <TextBlock 
+                    Text="{Binding GroupName}" 
+                    Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}" 
+                    TextDecorations="Underline" 
+                    FontSize="16" />
             </controls:HeaderedContentControl.Header>
             <controls:HeaderedContentControl.Content>
                 <Grid>
@@ -33,40 +34,40 @@
                         Grid.Row="0" Grid.Column="1"
                         DataContext="{Binding FluenceOfRhoAndZOption}"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDOfRhoAndZ, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="{Binding GroupName}" Margin="2,3.5"/>
+                        GroupName="PHDSolutionDomainOptionView" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="0" Grid.Column="2"
                         DataContext="{Binding FluenceOfFxAndZOption}" IsEnabled="False"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDOfFxAndZ, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="{Binding GroupName}" Margin="2,3.5"/>
+                        GroupName="PHDSolutionDomainOptionView" Margin="2,3.5"/>
                     <!-- TIME-DOMAIN -->
                     <TextBlock 
                         Grid.Row="1" Grid.Column="0" 
                         Text="Time-Domain"  Margin="2,2"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="1"
-                        DataContext="{Binding FluenceOfRhoAndTOption}" IsEnabled="False"
+                        DataContext="{Binding FluenceOfRhoAndZAndTOption}" IsEnabled="False"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDOfRhoAndZAndTime, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="{Binding GroupName}" Margin="2,3.5"/>
+                        GroupName="PHDSolutionDomainOptionView" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="2"
-                        DataContext="{Binding FluenceOfFxAndTOption}" IsEnabled="False"
+                        DataContext="{Binding FluenceOfFxAndZAndTOption}" IsEnabled="False"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDOfFxAndZAndTime, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="{Binding GroupName}" Margin="2,3.5"/>
+                        GroupName="PHDSolutionDomainOptionView" Margin="2,3.5"/>
                     <!-- FREQUENCY-DOMAIN -->
                     <TextBlock 
                         Grid.Row="2" Grid.Column="0" 
                         Text="Frequency-Domain"  Margin="2,2"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="1"
-                        DataContext="{Binding FluenceOfRhoAndFtOption}" IsEnabled="False"
+                        DataContext="{Binding FluenceOfRhoAndZAndFtOption}" IsEnabled="True"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDOfRhoAndZAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="{Binding GroupName}" Margin="2,3.5"/>
+                        GroupName="PHDSolutionDomainOptionView" Margin="2,3.5"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="2"
-                        DataContext="{Binding FluenceOfFxAndFtOption}" IsEnabled="False"
+                        DataContext="{Binding FluenceOfFxAndZAndFtOption}" IsEnabled="False"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_PHDOfFxAndZAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="{Binding GroupName}" Margin="2,3.5"/>
+                        GroupName="PHDSolutionDomainOptionView" Margin="2,3.5"/>
                 </Grid>
             </controls:HeaderedContentControl.Content>
         </controls:HeaderedContentControl>

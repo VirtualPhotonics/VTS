@@ -160,37 +160,37 @@ namespace Vts.Gui.Silverlight.ViewModel
                 case FluenceSolutionDomainType.FluenceOfRhoAndZ:
                 default:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("",
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             new[] { IndependentVariableAxis.Rho});
                     ConstantLabelVisible = false;
                     break;
                 case FluenceSolutionDomainType.FluenceOfFxAndZ:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("",
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             new[] { IndependentVariableAxis.Fx});
                     ConstantLabelVisible = false;
                     break;
                 case FluenceSolutionDomainType.FluenceOfRhoAndZAndTime:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("",
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time });
                     ConstantLabelVisible = true;
                     break;
                 case FluenceSolutionDomainType.FluenceOfFxAndZAndTime:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("",
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Time });
                     ConstantLabelVisible = true;
                     break;
                 case FluenceSolutionDomainType.FluenceOfRhoAndZAndFt:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("",
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
                     break;
                 case FluenceSolutionDomainType.FluenceOfFxAndZAndFt:
                     IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("",
+                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
                     break;

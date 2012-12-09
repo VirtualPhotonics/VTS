@@ -42,6 +42,35 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
         //    }
         //}
 
+
+        public static IEnumerable<Complex> TimeFrequencyDomainFluence2SurfacePointPHD(
+            this IForwardSolver myForwardSolver,
+            double timeModulationFrequency,
+            IEnumerable<OpticalProperties> ops,
+             IEnumerable<double> rhoPrimes, IEnumerable<double> zs)
+        {
+            foreach (var op in ops)
+            {
+                DiffusionParameters dp = DiffusionParameters.Create(op, ForwardModel.SDA);
+                Complex k =
+                (
+                    (op.Mua * dp.cn + Complex.ImaginaryOne * timeModulationFrequency * 2 * Math.PI) /
+                    (dp.D * dp.cn)
+                ).SquareRoot();
+                foreach (var rho in rhoPrimes)
+                {
+                    foreach (var z in zs)
+                    {
+                        var r21 = CalculatorToolbox.GetRadius(rho, z);
+                        var r22 = CalculatorToolbox.GetRadius(rho, z + 2 * dp.zb);
+                        yield return
+                            DiffusionGreensFunctions.TemporalFrequencyPointSourceImageGreensFunction(dp, r21, r22, k);
+                    }
+                }
+            }
+        }
+
+
         public static IEnumerable<double> SteadyStateFluence2SurfacePointPHD(
             this IForwardSolver myForwardSolver,
             IEnumerable<OpticalProperties> ops,

@@ -43,6 +43,13 @@ namespace Vts.Factories
                 (solutionDomainType == SolutionDomainType.ROfFxAndFt);
         }
 
+        public static bool IsComplexSolver(FluenceSolutionDomainType solutionDomainType)
+        {
+            return
+                (solutionDomainType == FluenceSolutionDomainType.FluenceOfRhoAndZAndFt) ||
+                (solutionDomainType == FluenceSolutionDomainType.FluenceOfFxAndZAndFt);
+        }
+
         private static double[] FlattenRealAndImaginary(this Complex[] values)
         {
             var flattened = new double[values.Length * 2];
@@ -177,6 +184,46 @@ namespace Vts.Factories
             return func(parameters, inputValues.ToArray());
         }
 
+        public static Complex[] GetVectorizedMultidimensionalIndependentVariableQueryNewComplex(
+            ForwardSolverType forwardSolverType,
+            FluenceSolutionDomainType solutionDomainType, // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            IndependentVariableAxis[] independentAxesTypes,
+            double[][] independentValues,
+            OpticalProperties opticalProperties,
+            params double[] constantValues)
+        {
+            // use factory method on each call, as opposed to injecting an instance from the outside
+            // -- still time-efficient if singletons are used
+            // -- potentially memory-inefficient if the user creates lots of large solver instances
+            return GetVectorizedMultidimensionalIndependentVariableQueryNewComplex(
+                SolverFactory.GetForwardSolver(forwardSolverType),
+                solutionDomainType,
+                independentAxesTypes,
+                independentValues,
+                opticalProperties,
+                constantValues);
+        }
+
+        public static Complex[] GetVectorizedMultidimensionalIndependentVariableQueryNewComplex(
+            IForwardSolver forwardSolver,
+            FluenceSolutionDomainType solutionDomainType, // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            IndependentVariableAxis[] independentAxesTypes,
+            double[][] independentValues,
+            OpticalProperties opticalProperties,
+            params double[] constantValues)
+        {
+            var parameters = new double[4] { opticalProperties.Mua, opticalProperties.Musp, opticalProperties.G, opticalProperties.N };
+
+            // todo: current assumption below is that the second axis is z. need to generalize
+            var func = GetForwardFluenceFuncComplex(forwardSolver, solutionDomainType, independentAxesTypes[0]);
+
+            // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
+            List<object> inputValues = new List<object>(independentValues);
+            constantValues.ForEach(cv => inputValues.Add(cv));
+
+            return func(parameters, inputValues.ToArray());
+        }
+
         /// <summary>
         /// Overload of GetPHD that uses internal DI framework-supplied solver singletons
         /// </summary>
@@ -220,6 +267,78 @@ namespace Vts.Factories
             //System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green).ToArray();
         }
 
+
+        /// <summary>
+        /// Overload of GetPHD that uses internal DI framework-supplied solver singletons
+        /// </summary>
+        /// <param name="forwardSolverType">enum of forward solver type</param>
+        /// <param name="fluence">fluence</param>
+        /// <param name="sdSeparation">source detector separation (in mm)</param>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rhos">detector locations (in mm)</param>
+        /// <param name="zs">z values (in mm)</param>
+        /// <returns></returns>
+        public static double[] GetPHD(ForwardSolverType forwardSolverType, Complex[] fluence, double sdSeparation, double timeModulationFrequency, OpticalProperties[] ops, double[] rhos, double[] zs)
+        {
+            return GetPHD(SolverFactory.GetForwardSolver(forwardSolverType), fluence, sdSeparation, timeModulationFrequency, ops, rhos, zs);
+        }
+
+
+        /// <summary>
+        /// Method to generate PHD 
+        /// </summary>
+        /// <param name="forwardSolver">forward solver</param>
+        /// <param name="fluence">fluence</param>
+        /// <param name="sdSeparation">source detector separation (in mm)</param>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rhos">detector locations (in mm)</param>
+        /// <param name="zs">z values (in mm)</param>
+        /// <returns></returns>
+        public static double[] GetPHD(IForwardSolver forwardSolver, Complex[] fluence, double sdSeparation, double modulationFrequency, OpticalProperties[] ops, double[] rhos, double[] zs)
+        {
+            var rhoPrimes =
+                from r in rhos
+                select r - sdSeparation;
+
+            var greensFunction = forwardSolver.TimeFrequencyDomainFluence2SurfacePointPHD(modulationFrequency, ops, rhoPrimes, zs);
+
+            var phd = new double[fluence.Length];
+
+            phd.PopulateFromEnumerable(Enumerable.Zip(fluence, greensFunction, (flu, green) => (flu * green).Magnitude));
+
+            return phd;
+
+            // replaced with pre-initialized array + "PopulateFromEnumerable" call instead of growing array dynamically 
+            //System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green).ToArray();
+        }
+        ///// <summary>
+        ///// Method to generate PHD 
+        ///// </summary>
+        ///// <param name="forwardSolver">forward solver</param>
+        ///// <param name="fluence">fluence</param>
+        ///// <param name="sdSeparation">source detector separation (in mm)</param>
+        ///// <param name="ops">optical properties</param>
+        ///// <param name="rhos">detector locations (in mm)</param>
+        ///// <param name="zs">z values (in mm)</param>
+        ///// <returns></returns>
+        //public static Complex[] GetPHD(IForwardSolver forwardSolver, Complex[] fluence, double sdSeparation, double timeModulationFrequency, OpticalProperties[] ops, double[] rhos, double[] zs)
+        //{
+        //    var rhoPrimes =
+        //        from r in rhos
+        //        select r - sdSeparation;
+
+        //    var greensFunction = forwardSolver.TimeFrequencyDomainFluence2SurfacePointPHD(timeModulationFrequency, ops, rhoPrimes, zs);
+
+        //    var phd = new Complex[fluence.Length];
+
+        //    phd.PopulateFromEnumerable(Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green));
+
+        //    return phd;
+
+        //    // replaced with pre-initialized array + "PopulateFromEnumerable" call instead of growing array dynamically 
+        //    //System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green).ToArray();
+        //}
+
         /// <summary>
         /// Method to generate absorbed energy given fluence and mua.  Note only works for homogeneous tissue.
         /// </summary>
@@ -229,6 +348,17 @@ namespace Vts.Factories
         public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, double mua)
         {
             return fluence.Select(flu => flu * mua);
+        }
+
+        /// <summary>
+        /// Method to generate absorbed energy given fluence and mua.  Note only works for homogeneous tissue.
+        /// </summary>
+        /// <param name="fluence">fluence serialized to a 1D IEnumerable of double</param>
+        /// <param name="mua">absorption coefficient for entire tissue</param>
+        /// <returns>absorbed energy in a 1D IEnumerable of double</returns>
+        public static IEnumerable<Complex> GetAbsorbedEnergy(IEnumerable<Complex> fluence, double mua)
+        {
+            return fluence.Select(flu => flu * mua); // todo: is this correct?? DC 12/08/12
         }
 
         public static double[] ConstructAndExecuteVectorizedOptimizer(
@@ -410,13 +540,27 @@ namespace Vts.Factories
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
+                default:
+                    throw new ArgumentOutOfRangeException("type");
+            }
+        }
+
+        private static Func<double[], object[], Complex[]> GetForwardFluenceFuncComplex(
+           IForwardSolver fs, FluenceSolutionDomainType type, IndependentVariableAxis axis)
+        {
+            Func<double[], OpticalProperties> getOP = op => new OpticalProperties(op[0], op[1], op[2], op[3]);
+
+            // note: the following uses the convention that the independent variable(s) is (are) first in the forward data object array
+            // note: secondly, if there are multiple independent axes, they will be assigned in order of appearance in the method signature
+            switch (type)
+            {
                 case FluenceSolutionDomainType.FluenceOfRhoAndZAndFt:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndFt(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
+                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndFt(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1], new[] { (double)otherData[2] });
                         case IndependentVariableAxis.Ft:
-                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndFt(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
+                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndFt(new[] { getOP(fitData) }, new[] { (double)otherData[2] }, (double[])otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
@@ -424,9 +568,9 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.FluenceOfFxAndZAndFt(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
+                            return (fitData, otherData) => fs.FluenceOfFxAndZAndFt(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1], new[] { (double)otherData[2] });
                         case IndependentVariableAxis.Ft:
-                            return (fitData, otherData) => fs.FluenceOfFxAndZAndFt(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
+                            return (fitData, otherData) => fs.FluenceOfFxAndZAndFt(new[] { getOP(fitData) }, new[] { (double)otherData[2] }, (double[])otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }

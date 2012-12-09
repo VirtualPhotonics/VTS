@@ -7,6 +7,7 @@
         <controls:HeaderedContentControl
             VerticalAlignment="Top">
             <controls:HeaderedContentControl.Header>
+                <!-- Solution Domain Title -->
                 <TextBlock 
                     Text="{Binding GroupName}" 
                     Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}" 
@@ -59,7 +60,7 @@
                         Text="Frequency-Domain"  Margin="2,2"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="1"
-                        DataContext="{Binding FluenceOfRhoAndZAndFtOption}" IsEnabled="False"
+                        DataContext="{Binding FluenceOfRhoAndZAndFtOption}" IsEnabled="True"
                         Tag="{Binding ID}" Content="{Binding DisplayName}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" Margin="2,3.5"/>
                     <RadioButton 

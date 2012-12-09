@@ -372,4 +372,10 @@
   <data name="Label_ScalingType" xml:space="preserve">
     <value>Scaling Type:</value>
   </data>
+  <data name="Label_ModulationFrequency" xml:space="preserve">
+    <value>Modulation Frequency:</value>
+  </data>
+  <data name="Measurement_GHz" xml:space="preserve">
+    <value>GHz</value>
+  </data>
 </root>
