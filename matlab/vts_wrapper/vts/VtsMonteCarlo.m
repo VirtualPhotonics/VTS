@@ -1,6 +1,7 @@
 classdef VtsMonteCarlo < handle
-    % VTSMONTECARLO - Class containing static methods for running Monte Carlo simulations
+    %% VtsMonteCarlo Class containing static methods for running Monte Carlo simulations
     % single or multiple simulations or post processing.
+    % For more information about the class see VtsMonteCarlo
 
     % static properties
     properties (Constant, GetAccess='private') % can be used like a static constructor for static properties
@@ -11,11 +12,13 @@ classdef VtsMonteCarlo < handle
     methods (Static)
         % static method to run simulation
         function output = RunSimulation(simulationInput, writeDetectors)
-            % RUNSIMULATION Runs a single Monte Carlo simulation
-            %   RUNSIMULATION(SIMULATIONINPUT, WRITEDETECTORS)
+            %% RunSimulation Runs a single Monte Carlo simulation
+            %
+            %   RunSimulation(SIMULATIONINPUT, WRITEDETECTORS)
             %   SIMULATIONINPUT Simulation input class defining the data for 
-            %       the simulation, see also SIMULATIONINPUT
-            %   WRITEDETECTORS
+            %   the simulation. 
+            %
+            %   see also SIMULATIONINPUT, WRITEDETECTORS
             if nargin < 2
                 writeDetectors = false;
             end
@@ -58,6 +61,10 @@ classdef VtsMonteCarlo < handle
         end
         
         function outputs = RunSimulations(simulationInputs, writeDetectors)
+            %% RunSimulations Runs multiple Monte Carlo simulations
+            %   RunSimulations(SIMULATIONINPUTS, WRITEDETECTORS)
+            %   SIMULATIONINPUTS List of simulation input classes defining the data for 
+            %       the simulation. see also SIMULATIONINPUT, WRITEDETECTORS
             if nargin < 2
                 writeDetectors = false;
             end
@@ -106,8 +113,14 @@ classdef VtsMonteCarlo < handle
             end
         end
         
-        % static method to run simulation
+        % static method to run post processor
         function output = RunPostProcessor(postProcessorInput, originalSimInput)
+            %% RunPostProcessor Runs the post processor for the Monte Carlo simulation
+            %   RunPostProcessor(POSTPROCESSORINPUT, ORIGINALSIMINPUT)
+            %   POSTPROCESSORINPUT postprocessor input class defining the data for 
+            %       post processing.
+            %   ORIGINALSIMINPUT original simulation input class. 
+            %       see also POSTPROCESSORINPUT, SIMULATIONINPUT
             ppInputNET = PostProcessorInput.ToInputNET(postProcessorInput);
             
             if nargin < 2                
@@ -157,6 +170,12 @@ classdef VtsMonteCarlo < handle
             output.PostProcessorInput = postProcessorInput;
         end
         function outputs = RunPostProcessors(postProcessorInputs, originalSimInputs)
+            %% RunPostProcessors Runs multiple post processors for the Monte Carlo simulations
+            %   RunPostProcessors(POSTPROCESSORINPUTS, ORIGINALSIMINPUTS)
+            %   POSTPROCESSORINPUTS postprocessor input classes defining the data for 
+            %       post processing.
+            %   ORIGINALSIMINPUTS original simulation input classes. 
+            %       see also POSTPROCESSORINPUT, SIMULATIONINPUT
             npp = length(postProcessorInputs);
             postProcessors = NET.createArray('Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor', npp);
             for ppi = 1:npp

@@ -1,4 +1,5 @@
-% script for demoing use of Vts Monte Carlo tools within Matlab
+%% Monte Carlo Demo
+% Script for demoing use of VTS Monte Carlo tools within Matlab
 clear all
 clc
 
@@ -6,7 +7,7 @@ startup();
 
 % ======================================================================= %
 
-% Example 1: run a simple Monte Carlo simulation with 1000 photons
+%% Example 1: run a simple Monte Carlo simulation with 1000 photons
 
 % create a default set of inputs
 si = SimulationInput();
@@ -26,7 +27,7 @@ figure; semilogy(d.Rho, d.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (m
 
 % ======================================================================= %
 
-% Example 2: run Monte Carlo simulations for two absorption weighting types 
+%% Example 2: run Monte Carlo simulations for two absorption weighting types 
 % with 1000 photons each and compare computation time
 
 % create a default set of inputs
@@ -47,7 +48,7 @@ output2 = VtsMonteCarlo.RunSimulation(si);
 
 % ======================================================================= %
 
-% Example 3: run a Monte Carlo simulation with a fully-customized input
+%% Example 3: run a Monte Carlo simulation with a fully-customized input
 % (values used here are the class defaults)
 
 % 1) define a source...

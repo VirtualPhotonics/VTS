@@ -1,0 +1,153 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>VtsMonteCarlo</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-12-12"><meta name="DC.source" content="VtsMonteCarlo_help.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>VtsMonteCarlo</h1><!--introduction--><p>Class containing static methods for running Monte Carlo simulations, single or multiple simulations or post processing.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">RunPostProcessor</a></li><li><a href="#4">RunPostProcessors</a></li><li><a href="#6">RunSimulation</a></li><li><a href="#8">RunSimulations</a></li></ul></div><p>
+For more information about the class see <a href="matlab:doc VtsMonteCarlo">VtsMonteCarlo</a>
+</p><h2>RunPostProcessor<a name="2"></a></h2><pre> Static method to run the post processor for the Monte Carlo simulation</pre><pre> RunPostProcessor(POSTPROCESSORINPUT, ORIGINALSIMINPUT)
+ POSTPROCESSORINPUT postprocessor input class defining the data for
+     post processing.
+ ORIGINALSIMINPUT original simulation input class.</pre><p>
+See also <a href="matlab:doc PostProcessorInput">PostProcessorInput</a>, <a href="matlab:doc SimulationInput">SimulationInput</a>
+</p><h2>RunPostProcessors<a name="4"></a></h2><pre> Static method to run multiple post processors for the Monte Carlo simulations</pre><pre> RunPostProcessors(POSTPROCESSORINPUTS, ORIGINALSIMINPUTS)
+ POSTPROCESSORINPUTS postprocessor input classes defining the data for
+     post processing.
+ ORIGINALSIMINPUTS original simulation input classes.</pre><p>
+See also <a href="matlab:doc PostProcessorInput">PostProcessorInput</a>, <a href="matlab:doc SimulationInput">SimulationInput</a>
+</p><h2>RunSimulation<a name="6"></a></h2><pre> Static method to run a single Monte Carlo simulation</pre><pre> RunSimulation(SIMULATIONINPUT, WRITEDETECTORS)
+ SIMULATIONINPUT Simulation input class defining the data for
+ the simulation.</pre><p>
+See also <a href="matlab:doc SimulationInput">SimulationInput</a>
+</p><h2>RunSimulations<a name="8"></a></h2><pre> Static method to run multiple Monte Carlo simulations</pre><pre> RunSimulations(SIMULATIONINPUTS, WRITEDETECTORS)
+ SIMULATIONINPUTS List of simulation input classes defining the data for
+ the simulation.</pre><p>
+See also <a href="matlab:doc SimulationInput">SimulationInput</a>
+</p><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%% VtsMonteCarlo
+% Class containing static methods for running Monte Carlo simulations, 
+% single or multiple simulations or post processing. 
+%%
+% 
+% <html>
+% For more information about the class see <a href="matlab:doc VtsMonteCarlo">VtsMonteCarlo</a>
+% </html>
+% 
+%% RunPostProcessor 
+%   Static method to run the post processor for the Monte Carlo simulation
+%
+%   RunPostProcessor(POSTPROCESSORINPUT, ORIGINALSIMINPUT)
+%   POSTPROCESSORINPUT postprocessor input class defining the data for 
+%       post processing.
+%   ORIGINALSIMINPUT original simulation input class. 
+%
+%%
+% 
+% <html>
+% See also <a href="matlab:doc PostProcessorInput">PostProcessorInput</a>, <a href="matlab:doc SimulationInput">SimulationInput</a>
+% </html>
+%
+%% RunPostProcessors 
+%   Static method to run multiple post processors for the Monte Carlo simulations
+%
+%   RunPostProcessors(POSTPROCESSORINPUTS, ORIGINALSIMINPUTS)
+%   POSTPROCESSORINPUTS postprocessor input classes defining the data for 
+%       post processing.
+%   ORIGINALSIMINPUTS original simulation input classes. 
+%
+%%
+% 
+% <html>
+% See also <a href="matlab:doc PostProcessorInput">PostProcessorInput</a>, <a href="matlab:doc SimulationInput">SimulationInput</a>
+% </html>
+%
+%% RunSimulation 
+%   Static method to run a single Monte Carlo simulation
+%
+%   RunSimulation(SIMULATIONINPUT, WRITEDETECTORS)
+%   SIMULATIONINPUT Simulation input class defining the data for 
+%   the simulation. 
+%
+%%
+% 
+% <html>
+% See also <a href="matlab:doc SimulationInput">SimulationInput</a>
+% </html>
+%
+%% RunSimulations 
+%   Static method to run multiple Monte Carlo simulations
+%
+%   RunSimulations(SIMULATIONINPUTS, WRITEDETECTORS)
+%   SIMULATIONINPUTS List of simulation input classes defining the data for 
+%   the simulation. 
+%
+%%
+% 
+% <html>
+% See also <a href="matlab:doc SimulationInput">SimulationInput</a>
+% </html>
+%
+
+##### SOURCE END #####
+--></body></html>

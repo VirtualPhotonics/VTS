@@ -1,5 +1,5 @@
 classdef VtsSolvers
-    % VTSSOLVERS Definitions for the main solvers in the VTS
+    %%  Definitions for the main solvers in the VTS
     %   For more information, see <a href="matlab:doc vtssolvers">VtsSolvers</a>.
     %
     %       see also ROfRho,
@@ -11,6 +11,7 @@ classdef VtsSolvers
     %       FluenceOfRhoAndZ,
     %       PHDOfRhoAndZ,
     %       AbsorbedEnergyOfRhoAndZ
+
     properties (Constant, GetAccess='private')
         Assemblies = loadAssemblies();
         Options = SolverOptions(); % only instantiate this class once
@@ -23,9 +24,8 @@ classdef VtsSolvers
             o = VtsSolvers.Options; % need to get the reference first
             o.SolverType = solverType; % this HAS to be on a separate line
         end
-        %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
         function r = ROfRho(op, rho)
-            % ROfRho
+            %% ROfRho
             %   ROfRho(OP, RHO) returns the steady-state spatially-resolved
             %   reflectance 
             %   
@@ -33,7 +33,7 @@ classdef VtsSolvers
             %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
             %   RHO is an 1 x M array of detector locations (in mm)
             %       eg. RHO = [1:10];
-            
+
             nop = size(op,1);
             
             fs = Vts.Factories.SolverFactory.GetForwardSolver(VtsSolvers.Options.SolverType); 
@@ -50,10 +50,9 @@ classdef VtsSolvers
             end;
 
             r = reshape(double(fs.ROfRho(op_net,rho)),[length(rho) nop]);
-        end       
-        %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+        end
         function r = ROfFx(op, fx)
-            % ROfFx
+            %% ROfFx
             %   ROfFx(OP, FX) returns the steady-state reflectance in the
             %   spatial frequency domain
             %
@@ -79,9 +78,9 @@ classdef VtsSolvers
 
             r = reshape(double(fs.ROfFx(op_net,fx)),[length(fx) nop]);
         end
-        %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+        
         function r = ROfFxAndT(op, fx, t)
-            % ROfFxAndT
+            %% ROfFxAndT
             %   ROfFxAndT(OP, FX, T) 
             %
             %   OP is an N x 4 matrix of optical properties
@@ -108,9 +107,9 @@ classdef VtsSolvers
 
             r = reshape(double(fs.ROfFxAndTime(op_net,fx,t)),[length(t) length(fx) nop]);
         end
-        %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+        
         function r = ROfRhoAndT(op, rho, t)
-            % ROfRhoAndT
+            %% ROfRhoAndT
             %   ROfRhoAndT(OP, RHO, T) returns time-resolved reflectance at
             %   specified detector locations
             %   
@@ -120,7 +119,7 @@ classdef VtsSolvers
             %       eg. RHO = [1:10];
             %   T is an 1 x O array of times (in ns)
             %       eg. T = [1:10];
-            
+
             nop = size(op,1);
 
             fs = Vts.Factories.SolverFactory.GetForwardSolver(VtsSolvers.Options.SolverType); 
@@ -132,11 +131,11 @@ classdef VtsSolvers
                 op_net(i) = Vts.OpticalProperties(op(i,1), op(i,2), op(i,3), op(i,4)); % call the constructor with the 4 values
             end;
 
-            r = reshape(double(fs.ROfRhoAndTime(op_net,rho,t)),[length(t) length(rho) nop]);
+            r = reshape(double(fs.ROfRhoAndTime(op_net,rho,t)),[length(t) length(rho) nop]); 
         end
-        %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+        
         function r = ROfRhoAndFt(op, rho, ft)
-        % ROfRhoAndFt
+        %% ROfRhoAndFt
         %   ROfRhoAndFt(OP, RHO, FT) 
         %
         %   OP is an N x 4 matrix of optical properties
@@ -177,9 +176,9 @@ classdef VtsSolvers
         end
         r = complex(rReal, rImag);
         end
-        %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
-        function r = ROfFxAndFt(op, fx, ft) 
-        % ROfFxAndFt
+        
+        function r = ROfFxAndFt(op, fx, ft)
+        %% ROfFxAndFt
         %   ROfFxAndFt(OP, FX, FT)
         %
         %   OP is an N x 4 matrix of optical properties
@@ -188,6 +187,7 @@ classdef VtsSolvers
         %       eg. FX = linspace(0,0.5,11);
         %   FT is an 1 x M array of modulation frequencies (in GHz)
         %       eg. FT = [0:0.01:0.5];
+        
         nop = size(op,1);
         nfx = length(fx);
         nft = length(ft);
@@ -219,9 +219,9 @@ classdef VtsSolvers
         end
         r = complex(rReal, rImag);
         end
-        %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+        
         function r = FluenceOfRhoAndZ(op, rhos, zs)
-            % FluenceOfRhoAndZ
+            %% FluenceOfRhoAndZ
             %   FluenceOfRhoAndZ(OP, RHOS, ZS) 
             %   
             %   OP is an N x 4 matrix of optical properties
@@ -251,9 +251,9 @@ classdef VtsSolvers
 
             r = reshape(double(fs.FluenceOfRhoAndZ(op_net,rhos,zs)),[length(zs) length(rhos) nop]);
         end
-        %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+        
         function r = PHDOfRhoAndZ(op, rhos, zs, sd)
-            % PHDOfRhoAndZ
+            %% PHDOfRhoAndZ
             %   PHDOfRhoAndZ(OP, RHOS, ZS, SD)
             %
             %   OP is an N x 4 matrix of optical properties
@@ -290,9 +290,9 @@ classdef VtsSolvers
             %r = double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},phd));
             r = reshape(double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},phd)),[length(zs) length(rhos) nop]);
         end
-        %//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
+        
         function r = AbsorbedEnergyOfRhoAndZ(op, rhos, zs)
-            % AbsorbedEnergyOfRhoAndZ
+            %% AbsorbedEnergyOfRhoAndZ
             %   AbsorbedEnergyOfRhoAndZ(OP, RHOS, ZS)
             %
             %   OP is an 1 x 4 matrix of optical properties
