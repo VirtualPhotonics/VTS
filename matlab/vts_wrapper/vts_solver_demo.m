@@ -1,5 +1,7 @@
 %% Solver Demos
-% Script for demoing use of the VTS solvers within Matlab
+% Script for demoing the use of the VTS solvers within Matlab, to view the
+% source code see the vts_solver_demo.m script file
+%% 
 clear all
 clc
 dbstop if error;
@@ -18,6 +20,7 @@ VtsSolvers.SetSolverType('PointSourceSDA');
 test = VtsSolvers.ROfRhoAndFt(op, rho, ft);
 
 f = figure;
+set(f, 'OuterPosition', [100, 50, 600, 800]);
 subplot(3,1,1); plot(ft, [real(test) -imag(test)] );
 title('Reflectance vs f_t'); 
 ylabel('R(f_t)');
@@ -44,6 +47,7 @@ ft = linspace(0,0.5,51); % temporal frequency in GHz
 test = VtsSolvers.ROfFxAndFt(op, fx, ft);
 
 f = figure;
+set(f, 'OuterPosition', [100, 50, 600, 800]);
 subplot(3,1,1); plot(ft, [real(test) -imag(test)] );
 title('Reflectance vs f_t'); 
 ylabel('R(f_t)');
@@ -175,9 +179,12 @@ op = [[0.1 1.2 0.8 1.4]; [0.2 1.2 0.8 1.4]];
 rho = 10; %s-d separation, in mm
 t = 0:0.001:0.5; % range of times in ns
 test0 = VtsSolvers.ROfRhoAndT(op, rho, t);
-f = figure; plot(t,squeeze(test0));
+f = figure; plot(t, squeeze(test0));
 set(f,'Name','R of Rho and t');
-title('Reflectance vs time for various optical properties'); 
+% create the legend with just the mua value from the optical properties
+options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
+PlotHelper.CreateLegend(op(:,1), '\mu_a: ', 'mm^-^1', options);
+title({'Reflectance vs time for various optical properties'; ' '}); 
 ylabel('R(t)');
 xlabel('Time, t [ns]');
 
@@ -190,6 +197,7 @@ t = linspace(0,0.05,501); % range of times in ns
 test = VtsSolvers.ROfFxAndT(op, fx, t);
 f = figure; plot(t,squeeze(test(:,:,:)));
 set(f,'Name','R of fx and t (Reflectance vs time)');
+set(f, 'OuterPosition', [100, 50, 700, 700]);
 title('Reflectance vs time at various spatial frequencies'); 
 ylabel('R(f_x, t)');
 xlabel('Time, t [ns]');
@@ -234,7 +242,10 @@ op(:,1) = mua;
 test2 = VtsSolvers.ROfFx(op, fx);
 f = figure; plot(fx, test2);
 set(f, 'Name', 'R of fx (varying mua linearly)');
+set(f, 'OuterPosition', [100, 50, 700, 700]);
 title('Reflectance vs spatial frequency'); 
+options = [{'Location', 'NorthEast'}; {'FontSize', 12}; {'Box', 'on'}];
+PlotHelper.CreateLegend(op(:,1), '\mu_a: ', 'mm^-^1', options);
 ylabel('R(f_x)');
 xlabel('Spatial frequency, f_x [mm^-^1]');
 
@@ -269,7 +280,7 @@ op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
 % plot the absorption spectrum
 f = figure; plot(wv, op(:,1));
 set(f, 'Name', 'R of fx (plot absorption spectrum)');
-title('Absorption vs wavelength'); 
+title('Absorption vs wavelength');
 ylabel('\mu_a(\lambda)');
 xlabel('Wavelength, \lambda [nm]');
 
@@ -294,7 +305,7 @@ set(f, 'Name', 'R of fx (plot resulting reflectance spectrum at each frequency)'
 title('SFD Reflectance vs wavelength'); 
 ylabel('R(\lambda)');
 xlabel('Wavelength, \lambda [nm]');
-options = {'FontSize', 12};
+options = [{'Location', 'NorthWest'}; {'FontSize', 12}; {'Box', 'on'}];
 PlotHelper.CreateLegend(fx, 'f_x = ', 'mm^-^1', options);
 
 %% Example ROfFx
@@ -302,7 +313,7 @@ PlotHelper.CreateLegend(fx, 'f_x = ', 'mm^-^1', options);
 % properties, varying the scattering prefactor as a function of wavelength
 
 fx = 0; % spatial frequency in 1/mm
-wv = 450:0.5:1000;
+wv = 400:0.5:1000;
 
 % create a list of chromophore absorbers and their concentrations
 absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
@@ -323,6 +334,7 @@ end
 
 f = figure; plot(wv, test4');
 set(f, 'Name', 'Planar reflectance');
+set(f, 'OuterPosition', [100, 50, 800, 800]);
 title('SFD Reflectance vs wavelength'); 
 ylabel('R(\lambda)');
 xlabel('Wavelength, \lambda [nm]');

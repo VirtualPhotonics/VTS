@@ -2,12 +2,17 @@
 opt.outputDir = 'html';
 publish('getting_started', opt);
 publish('user_guide', opt);
+publish('demo', opt);
 
 %% publish the demo documentation
 opt.outputDir = 'html\demo';
+opt.showCode = false;
+opt.createThumbnail = false;
 publish('vts_mc_demo', opt);
 % need to reset opt because the monte carlo demo clears all values
 opt.outputDir = 'html\demo';
+opt.showCode = false;
+opt.createThumbnail = false;
 publish('vts_solver_demo', opt);
 
 %% publish the solver documentation
@@ -25,7 +30,12 @@ publish('ROfRhoAndT_help', opt);
 %% publish the monte carlo documentation
 opt.outputDir = 'html/monte_carlo';
 publish('VtsMonteCarlo_help', opt);
+publish('RunPostProcessor_help', opt);
+publish('RunPostProcessors_help', opt);
+publish('RunSimulation_help', opt);
+publish('RunSimulations_help', opt);
 
 %% publish the spectroscopy documentation
 opt.outputDir = 'html/spectroscopy';
 publish('VtsSpectroscopy_help', opt);
+publish('GetOP_help', opt);

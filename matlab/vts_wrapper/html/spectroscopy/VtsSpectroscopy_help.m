@@ -1,11 +1,10 @@
 %% VtsSpectroscopy
-% Class
+% Class summary
+%%
+% 
+% * <GetOP_help.html GetOP>
+% 
+% <html>
+% For more information about the class see <a href="matlab:doc vtsSpectroscopy">VtsSpectroscopy</a>
+% </html>
 %
-%% GetOP
-% Static method to get the optical properties
-%
-% GetOP(ABSORBERS, SCATTERER, WAVELENGTHS)
-%
-% ABSORBERS
-% SCATTERER
-% WAVELENGTHS

@@ -1,5 +1,7 @@
 %% Monte Carlo Demo
-% Script for demoing use of VTS Monte Carlo tools within Matlab
+% Script for demoing use of VTS Monte Carlo tools within Matlab, to view
+% the source code see vts_mc_demo.m
+%%
 clear all
 clc
 

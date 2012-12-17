@@ -32,12 +32,12 @@
         <!-- The first file lists all of the functions, categorizing them -->
         <tocitem target="function_categories.html" image="HelpIcon.FUNCTION">Functions 
             <!-- First category, with link to anchor in above page -->
-            <tocitem target="VtsMonteCarlo_help.html">Monte Carlo 
+            <tocitem target="monte_carlo/VtsMonteCarlo_help.html">Monte Carlo 
                 <!-- Inside category, list its functions alphabetically -->
-                <tocitem target="VtsMonteCarlo_help.html#1" image="HelpIcon.FUNCTION">RunPostProcessor</tocitem>
-                <tocitem target="VtsMonteCarlo_help.html#2" image="HelpIcon.FUNCTION">RunPostProcessors</tocitem>
-                <tocitem target="VtsMonteCarlo_help.html#3" image="HelpIcon.FUNCTION">RunSimulation</tocitem>
-                <tocitem target="VtsMonteCarlo_help.html#4" image="HelpIcon.FUNCTION">RunSimulations</tocitem>
+                <tocitem target="monte_carlo/RunPostProcessor_help.html" image="HelpIcon.FUNCTION">RunPostProcessor</tocitem>
+                <tocitem target="monte_carlo/RunPostProcessors_help.html" image="HelpIcon.FUNCTION">RunPostProcessors</tocitem>
+                <tocitem target="monte_carlo/RunSimulation_help.html" image="HelpIcon.FUNCTION">RunSimulation</tocitem>
+                <tocitem target="monte_carlo/RunSimulations_help.html" image="HelpIcon.FUNCTION">RunSimulations</tocitem>
                 <!-- ... -->
             </tocitem>
             <!-- Second category, with link to anchor in above page -->
@@ -54,16 +54,16 @@
                 <!-- ... -->
             </tocitem>
             <!-- Third category, with link to anchor in above page -->
-            <tocitem target="VtsSpectroscopy_help.html">Spectroscopy
+            <tocitem target="spectroscopy/VtsSpectroscopy_help.html">Spectroscopy
                 <!-- Inside category, list its functions alphabetically -->
-                <tocitem target="VtsSpectroscopy_help.html#1" image="HelpIcon.FUNCTION">GetOP</tocitem>
+                <tocitem target="spectroscopy/GetOP_help.html" image="HelpIcon.FUNCTION">GetOP</tocitem>
                 <!-- ... -->
             </tocitem>
         </tocitem>
         <!-- Optional List of Examples, with hyperlinks to examples in other files -->
         <tocitem target="demo.html" image="HelpIcon.EXAMPLES">VTS Examples
-            <tocitem target="vts_solver_demo.html">Solver Demo</tocitem>
-            <tocitem target="vts_mc_demo.html">Monte Carlo Demo</tocitem>
+            <tocitem target="demo/vts_solver_demo.html">Solver Demo</tocitem>
+            <tocitem target="demo/vts_mc_demo.html">Monte Carlo Demo</tocitem>
         </tocitem>
         <!-- Optional link or links to your or other Web sites -->
         <tocitem target="http://www.virtualphotonics.org" 
