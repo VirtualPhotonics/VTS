@@ -1,0 +1,337 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>vts_mc_demo</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2012-12-17"><meta name="DC.source" content="vts_mc_demo.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Monte Carlo Demo</a></li><li><a href="#2">Example 1: run a simple Monte Carlo simulation with 1000 photons</a></li><li><a href="#3">Example 2: run Monte Carlo simulations for two absorption weighting types</a></li><li><a href="#4">Example 3: run a Monte Carlo simulation with a fully-customized input</a></li></ul></div><h2>Monte Carlo Demo<a name="1"></a></h2><p>Script for demoing use of VTS Monte Carlo tools within Matlab</p><pre class="codeinput">clear <span class="string">all</span>
+clc
+
+startup();
+
+<span class="comment">% ======================================================================= %</span>
+</pre><h2>Example 1: run a simple Monte Carlo simulation with 1000 photons<a name="2"></a></h2><pre class="codeinput"><span class="comment">% create a default set of inputs</span>
+si = SimulationInput();
+
+<span class="comment">% modify number of photons</span>
+si.N = 1000;
+
+<span class="comment">% specify a single R(rho) detector by the endpoints of rho bins</span>
+si.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
+
+<span class="comment">% use this to run a Matlab-wrapped MonteCarloSimulation using static method</span>
+output = VtsMonteCarlo.RunSimulation(si);
+
+<span class="comment">% more work to do on making outputs friendly, but it's working :)</span>
+d = output.Detectors(output.DetectorNames{1});
+figure; semilogy(d.Rho, d.Mean); ylabel(<span class="string">'log(R(\rho)) [mm^-^2]'</span>); xlabel(<span class="string">'Rho (mm)'</span>);
+
+<span class="comment">% ======================================================================= %</span>
+</pre><pre class="codeoutput">Running simulation...
+Simulation complete! Run time: 14.124 seconds
+</pre><img vspace="5" hspace="5" src="vts_mc_demo_01.png" alt=""> <h2>Example 2: run Monte Carlo simulations for two absorption weighting types<a name="3"></a></h2><p>with 1000 photons each and compare computation time</p><pre class="codeinput"><span class="comment">% create a default set of inputs</span>
+si = SimulationInput();
+
+<span class="comment">% specify a single R(rho) detector by the endpoints of rho bins</span>
+si.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
+
+si.Options.AbsorptionWeightingType = <span class="string">'Continuous'</span>;
+
+<span class="comment">% use this to run a Matlab-wrapped MonteCarloSimulation using static method</span>
+output1 = VtsMonteCarlo.RunSimulation(si);
+
+si.Options.AbsorptionWeightingType = <span class="string">'Discrete'</span>;
+
+<span class="comment">% use this to run a Matlab-wrapped MonteCarloSimulation using static method</span>
+output2 = VtsMonteCarlo.RunSimulation(si);
+
+<span class="comment">% ======================================================================= %</span>
+</pre><pre class="codeoutput">Running simulation...
+Simulation complete! Run time: 1.4362 seconds
+Running simulation...
+Simulation complete! Run time: 1.7045 seconds
+</pre><img vspace="5" hspace="5" src="vts_mc_demo_02.png" alt=""> <h2>Example 3: run a Monte Carlo simulation with a fully-customized input<a name="4"></a></h2><p>(values used here are the class defaults)</p><pre class="codeinput"><span class="comment">% 1) define a source...</span>
+
+<span class="comment">% create a new 'instance' of the DirectionalPointSourceInput class</span>
+sourceInput = DirectionalPointSourceInput();
+<span class="comment">% Point source type</span>
+sourceInput.SourceType = <span class="string">'DirectionalPoint'</span>; <span class="comment">% dc - this shouldn't be necesary...look at detector inputs</span>
+<span class="comment">% New position</span>
+sourceInput.PointLocation = [0 0 0];
+<span class="comment">% Point source emitting direction</span>
+sourceInput.Direction = [0 0 1];
+<span class="comment">% Initial tissue region index</span>
+sourceInput.InitialTissueRegionIndex = 0;
+
+<span class="comment">% 2) define a tissue...</span>
+
+<span class="comment">% create a new 'instance' of the MultiLayerTissueInput class</span>
+tissueInput = MultiLayerTissueInput();
+<span class="comment">% assign the tissue layer regions struct</span>
+tissueInput.LayerRegions = struct(<span class="keyword">...</span>
+    <span class="string">'ZRange'</span>, <span class="keyword">...</span>
+    {<span class="keyword">...</span>
+        [-Inf, 0], <span class="keyword">...</span><span class="comment"> % air "z" range</span>
+        [0, 100], <span class="keyword">...</span><span class="comment"> % tissue "z" range</span>
+        [100, +Inf] <span class="keyword">...</span><span class="comment"> % air "z" range</span>
+    }, <span class="keyword">...</span>
+    <span class="string">'RegionOP'</span>, <span class="keyword">...</span>
+    {<span class="keyword">...</span>
+        [0.0, 1e-10, 1.0, 1.0], <span class="keyword">...</span><span class="comment"> % air optical properties</span>
+        [0.0, 1.0, 0.8, 1.4], <span class="keyword">...</span><span class="comment"> % tissue optical properties</span>
+        [0.0, 1e-10, 1.0, 1.0] <span class="keyword">...</span><span class="comment"> % air optical properties</span>
+        } <span class="keyword">...</span>
+    );
+
+<span class="comment">% 3) specify one or more detector geometries to tally...</span>
+
+detectorInputs = {<span class="keyword">...</span>
+    DetectorInput.ROfRho(linspace(0,40,201))<span class="keyword">...</span><span class="comment"> % specifies endpoints of rho bins</span>
+};
+
+<span class="comment">% 4) set all options...</span>
+
+<span class="comment">% creates a new 'instance' of the SimulationOptions class</span>
+options = SimulationOptions();
+<span class="comment">% seed of random number generator (-1=randomly selected seed, &gt;=0 reproducible sequence)</span>
+options.Seed = -1;
+<span class="comment">% random number generator type</span>
+options.RandomNumberGeneratorType = <span class="string">'MersenneTwister'</span>;
+<span class="comment">% absorption weighting type</span>
+options.AbsorptionWeightingType = <span class="string">'Discrete'</span>;
+<span class="comment">% phase function type</span>
+options.PhaseFunctionType  = <span class="string">'HenyeyGreenstein'</span>;
+<span class="comment">% list of databases to be written</span>
+options.Databases = {};
+<span class="comment">% flag indicating whether to tally second moment information for error results</span>
+options.TallySecondMoment = 1;
+<span class="comment">% flag indicating whether to track statistics about where photon ends up</span>
+options.TrackStatistics = 0;
+<span class="comment">% photon weight threshold to perform Russian Roulette.  Default = 0 means no RR performed.</span>
+options.RussianRouletteWeightThreshold = 0;
+<span class="comment">% simulation index</span>
+options.SimulationIndex = 0;
+
+<span class="comment">% finally, create a new 'instance' of the SimulationInput class</span>
+input = SimulationInput();
+<span class="comment">% number of photons</span>
+input.N = 100;
+<span class="comment">% name of output folder (if being written to file)</span>
+input.OutputName = <span class="string">'results'</span>;
+
+<span class="comment">% assign source, tissue, and detector above to our input class</span>
+input.SourceInput = sourceInput;
+input.TissueInput = tissueInput;
+input.DetectorInputs = detectorInputs;
+input.Options = options;
+
+output = VtsMonteCarlo.RunSimulation(input);
+
+<span class="comment">% ======================================================================= %</span>
+<span class="comment">% Example 4: run a Monte Carlo simulation with post-processing enabled, and</span>
+<span class="comment">% compare on-the-fly results with post-processing</span>
+</pre><pre class="codeoutput">Running simulation...
+Simulation complete! Run time: 1.6899 seconds
+</pre><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%% Monte Carlo Demo
+% Script for demoing use of VTS Monte Carlo tools within Matlab
+clear all
+clc
+
+startup();
+
+% ======================================================================= %
+
+%% Example 1: run a simple Monte Carlo simulation with 1000 photons
+
+% create a default set of inputs
+si = SimulationInput();
+
+% modify number of photons
+si.N = 1000;
+
+% specify a single R(rho) detector by the endpoints of rho bins
+si.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
+
+% use this to run a Matlab-wrapped MonteCarloSimulation using static method
+output = VtsMonteCarlo.RunSimulation(si);
+
+% more work to do on making outputs friendly, but it's working :)
+d = output.Detectors(output.DetectorNames{1});
+figure; semilogy(d.Rho, d.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+
+% ======================================================================= %
+
+%% Example 2: run Monte Carlo simulations for two absorption weighting types 
+% with 1000 photons each and compare computation time
+
+% create a default set of inputs
+si = SimulationInput();
+
+% specify a single R(rho) detector by the endpoints of rho bins
+si.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
+
+si.Options.AbsorptionWeightingType = 'Continuous';
+
+% use this to run a Matlab-wrapped MonteCarloSimulation using static method
+output1 = VtsMonteCarlo.RunSimulation(si);
+
+si.Options.AbsorptionWeightingType = 'Discrete';
+
+% use this to run a Matlab-wrapped MonteCarloSimulation using static method
+output2 = VtsMonteCarlo.RunSimulation(si);
+
+% ======================================================================= %
+
+%% Example 3: run a Monte Carlo simulation with a fully-customized input
+% (values used here are the class defaults)
+
+% 1) define a source...
+
+% create a new 'instance' of the DirectionalPointSourceInput class
+sourceInput = DirectionalPointSourceInput();
+% Point source type 
+sourceInput.SourceType = 'DirectionalPoint'; % dc - this shouldn't be necesary...look at detector inputs
+% New position 
+sourceInput.PointLocation = [0 0 0];    
+% Point source emitting direction
+sourceInput.Direction = [0 0 1];  
+% Initial tissue region index        
+sourceInput.InitialTissueRegionIndex = 0;
+
+% 2) define a tissue...
+
+% create a new 'instance' of the MultiLayerTissueInput class
+tissueInput = MultiLayerTissueInput();
+% assign the tissue layer regions struct
+tissueInput.LayerRegions = struct(...
+    'ZRange', ...
+    {...
+        [-Inf, 0], ... % air "z" range
+        [0, 100], ... % tissue "z" range
+        [100, +Inf] ... % air "z" range
+    }, ...
+    'RegionOP', ...
+    {...
+        [0.0, 1e-10, 1.0, 1.0], ... % air optical properties
+        [0.0, 1.0, 0.8, 1.4], ... % tissue optical properties
+        [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
+        } ...
+    ); 
+
+% 3) specify one or more detector geometries to tally...
+
+detectorInputs = {...
+    DetectorInput.ROfRho(linspace(0,40,201))... % specifies endpoints of rho bins
+};
+
+% 4) set all options...
+
+% creates a new 'instance' of the SimulationOptions class
+options = SimulationOptions(); 
+% seed of random number generator (-1=randomly selected seed, >=0 reproducible sequence)
+options.Seed = -1;
+% random number generator type
+options.RandomNumberGeneratorType = 'MersenneTwister';
+% absorption weighting type
+options.AbsorptionWeightingType = 'Discrete';
+% phase function type
+options.PhaseFunctionType  = 'HenyeyGreenstein';
+% list of databases to be written
+options.Databases = {};
+% flag indicating whether to tally second moment information for error results
+options.TallySecondMoment = 1;
+% flag indicating whether to track statistics about where photon ends up
+options.TrackStatistics = 0;
+% photon weight threshold to perform Russian Roulette.  Default = 0 means no RR performed.
+options.RussianRouletteWeightThreshold = 0;
+% simulation index 
+options.SimulationIndex = 0;
+
+% finally, create a new 'instance' of the SimulationInput class
+input = SimulationInput();
+% number of photons
+input.N = 100;
+% name of output folder (if being written to file)
+input.OutputName = 'results';
+
+% assign source, tissue, and detector above to our input class
+input.SourceInput = sourceInput;
+input.TissueInput = tissueInput;
+input.DetectorInputs = detectorInputs;
+input.Options = options;
+
+output = VtsMonteCarlo.RunSimulation(input);
+
+% ======================================================================= %
+% Example 4: run a Monte Carlo simulation with post-processing enabled, and
+% compare on-the-fly results with post-processing
+
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

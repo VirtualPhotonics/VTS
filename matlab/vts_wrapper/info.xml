@@ -38,7 +38,7 @@
             <!-- A menu item label for a opening a demo -->
             <label>VTS Demo</label>
             <!-- A command to open a demo if any -->
-            <callback>web /html/vts_solver_demo.html -helpbrowser</callback>
+            <callback>web /html/demo/vts_solver_demo.html -helpbrowser</callback>
             <!-- The icon for this menu item -->
             <icon>$toolbox/matlab/icons/demoicon.gif</icon>
         </listitem>
