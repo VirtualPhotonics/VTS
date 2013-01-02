@@ -6,6 +6,9 @@ addpath(v);
 t = genpath(getFullPath('vts_tests'));
 addpath(t);
 
+h = genpath(getFullPath('html'));
+addpath(h);
+
 loadAssemblies();
 
 % Lisa, let's talk about this...don't know if it's an issue w/o more unit
