@@ -18,6 +18,7 @@ publish('vts_solver_demo', opt);
 %% publish the solver documentation
 opt.outputDir = 'html\solvers';
 publish('VtsSolvers_help', opt);
+publish('AbsorbedEnergyOfRhoAndZ_help', opt);
 publish('FluenceOfRhoAndZ_help', opt);
 publish('PHDOfRhoAndZ_help', opt);
 publish('ROfFx_help', opt);

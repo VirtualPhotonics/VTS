@@ -1,6 +1,6 @@
 %% Solver Demos
 % Script for demoing the use of the VTS solvers within Matlab, to view the
-% source code see the vts_solver_demo.m script file
+% source code see the vts_solver_demo.m script file.
 %% 
 clear all
 clc
@@ -9,7 +9,8 @@ dbstop if error;
 startup();
 
 %% Example ROfRhoAndFt
-% Evaluate ROfRhoAndFt with one set of optical properites
+% Evaluate reflectance as a function of rho and temporal-frequency with one 
+% set of optical properites.
 
 op = [0.01 1.2 0.8 1.4];
 rho = 10; % s-d separation, in mm
@@ -38,11 +39,12 @@ xlabel('f_t');
 set(f,'Name','Frequency-domain reflectance');
 
 %% Example ROfFxAndFt
-% Evaluate ROfFxAndFt with one set of optical properites
+% Evaluate reflectance as a function of spatial- and temporal- frequencies 
+% with one set of optical properites.
 
 op = [0.01 1 0.8 1.4];
 fx = 0; % spatial frequency in 1/mm
-ft = linspace(0,0.5,51); % temporal frequency in GHz
+ft = linspace(0,0.5,51); % range of temporal frequencies in GHz
 
 test = VtsSolvers.ROfFxAndFt(op, fx, ft);
 
@@ -64,7 +66,9 @@ xlabel('f_t');
 set(f,'Name','ROfFxAndFt');
 
 %% Example FluenceOfRhoAndZ
-% Evaluate FluenceOfRhoAndZ
+% Evaluate fluence as a function of rho and z using optical properties from 
+% a list of chromophore absorbers with their concentrations and a power law 
+% scatterer for a range of wavelengths.
 
 rhos = 0.1:0.1:10; % s-d separation, in mm
 zs = 0.1:0.1:10; % z range in mm
@@ -98,7 +102,8 @@ f = figure; imagesc(log(squeeze(test(:,1,:))));
 set(f,'Name','Fluence of Rho and z');
 
 %% Example FluenceOfRhoAndZ
-% Evaluate FluenceOfRhoAndZ
+% Evaluate fluence as a function of rho and z using one set of optical 
+% properties and a distributed gaussian source SDA solver type.
 
 op = [0.01 1 0.8 1.4];
 rhos = linspace(0.1,19.9,100); % s-d separation, in mm
@@ -120,7 +125,9 @@ ylabel('z [mm]')
 set(f,'Name','Fluence of Rho and z');
 
 %% Example PHDOfRhoAndZ
-% Evaluate PHDOfRhoAndZ
+% Evaluate Photon Hitting Density in cylindrical coordinates
+% using one set of optical properties and a distributed gaussian source SDA
+% solver type.
 
 op = [0.01 1 0.8 1.4];
 rhos = linspace(0.1,19.9,100); % s-d separation, in mm
@@ -137,7 +144,8 @@ ylabel('z [mm]')
 set(f,'Name','PHD of Rho and z');
 
 %% Example AbsorbedEnergyOfRhoAndZ
-% Evaluate AbsorbedEnergyOfRhoAndZ
+% Evaluate Absorbed Energy of rho and z using one set of optical properties 
+% and a point source SDA solver type.
 
 op = [0.1 1 0.8 1.4];
 rhos = linspace(0.1,19.9,100); % s-d separation, in mm
@@ -157,7 +165,8 @@ ylabel('z [mm]')
 set(f,'Name','Absorbed Energy of Rho and z');
 
 %% Example ROfRho
-% Evaluate ROfRho with two sets of optical properites
+% Evaluate reflectance as a function of rho with three sets
+% of optical properites.
 
 op = [[0.01 1 0.8 1.4]; [0.1 1 0.8 1.4]; [1 1 0.8 1.4]];
 rho = 0.5:0.05:9.5; %s-d separation, in mm
@@ -173,7 +182,8 @@ ylabel('R(\rho)');
 xlabel('\rho');
 
 %% Example ROfRhoAndT
-% Evaluate ROfRhoAndT at one s-d separation and two sets of optical properites
+% Evaluate reflectance of rho and t at one s-d separation and 
+% two sets of optical properites.
 
 op = [[0.1 1.2 0.8 1.4]; [0.2 1.2 0.8 1.4]];
 rho = 10; %s-d separation, in mm
@@ -189,7 +199,8 @@ ylabel('R(t)');
 xlabel('Time, t [ns]');
 
 %% Example ROfFxAndT 
-% Evaluate ROfFxAndT one set of optical properites
+% Evaluate reflectance as a function of spacial-frequency and t using one 
+% set of optical properites.
 
 op = [0.1 1 0.8 1.4];
 fx = linspace(0,0.5,11); % range of spatial frequencies in 1/mm
@@ -220,7 +231,8 @@ end
 legend(l2, 'FontSize', 12);
 
 %% Example ROfFx (single set of optical properties)
-% Evaluate ROfFx with single set of optical properties
+% Evaluate reflectance as a function of spacial-frequency with a single set 
+% of optical properties.
 
 fx = 0:0.001:0.2; % range of spatial frequencies in 1/mm
 op = [0.1 1.2 0.8 1.4];
@@ -232,7 +244,8 @@ ylabel('R(f_x)');
 xlabel('Spatial frequency, f_x [mm^-^1]');
 
 %% Example ROfFx (multiple sets of optical properties)
-% Evaluate ROfFx with multiple sets of optical properties, varying mua linearly 
+% Evaluate reflectance as a function of spacial-frequency
+% with multiple sets of optical properties, varying mua linearly.
 
 fx = 0:0.001:0.2; % range of spatial frequencies in 1/mm
 mua = (0:0.01:0.1)';
@@ -250,7 +263,8 @@ ylabel('R(f_x)');
 xlabel('Spatial frequency, f_x [mm^-^1]');
 
 %% Example ROfFx (multiple optical properties, varying mua as a function of wavelength)
-% Call ROfFx with multiple sets of optical properties, varying mua as a function of wavelength
+% Evaluate reflectance as a function of spacial-frequency with multiple 
+% sets of optical properties, varying mua as a function of wavelength.
 
 fx = 0:0.05:0.2; % range of spatial frequencies in 1/mm
 wv = 450:0.5:1000;
@@ -310,7 +324,7 @@ PlotHelper.CreateLegend(fx, 'f_x = ', 'mm^-^1', options);
 
 %% Example ROfFx
 % Call planar reflectance with multiple sets of optical
-% properties, varying the scattering prefactor as a function of wavelength
+% properties, varying the scattering prefactor as a function of wavelength.
 
 fx = 0; % spatial frequency in 1/mm
 wv = 400:0.5:1000;

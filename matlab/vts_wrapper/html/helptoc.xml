@@ -43,6 +43,7 @@
             <!-- Second category, with link to anchor in above page -->
             <tocitem target="solvers/VtsSolvers_help.html">Solvers
                 <!-- Inside category, list its functions alphabetically -->
+                <tocitem target="solvers/AbsorbedEnergyOfRhoAndZ_help.html" image="HelpIcon.FUNCTION">AbsorbedEnergyOfRhoAndZ</tocitem>
                 <tocitem target="solvers/FluenceOfRhoAndZ_help.html" image="HelpIcon.FUNCTION">FluenceOfRhoAndZ</tocitem>
                 <tocitem target="solvers/PHDOfRhoAndZ_help.html" image="HelpIcon.FUNCTION">PHDOfRhoAndZ</tocitem>
                 <tocitem target="solvers/ROfFx_help.html" image="HelpIcon.FUNCTION">ROfFx</tocitem>

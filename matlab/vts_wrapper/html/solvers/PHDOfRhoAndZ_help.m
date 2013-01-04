@@ -27,6 +27,7 @@
 %
 %% See Also
 % <VtsSolvers_help.html VtsSolvers> | 
+% <AbsorbedEnergyOfRhoAndZ_help.html AbsorbedEnergyOfRhoAndZ> | 
 % <FluenceOfRhoAndZ_help.html FluenceOfRhoAndZ> | 
 % <ROfFx_help.html ROfFx> | 
 % <ROfFxAndFt_help.html ROfFxAndFt> |
