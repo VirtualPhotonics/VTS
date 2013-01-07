@@ -17,6 +17,7 @@
             Getting Started with the VTS Toolbox
         </tocitem>
         <!-- User Guide comes next -->
+<!--    Commented until we have content
         <tocitem target="user_guide.html" 
             image="HelpIcon.USER_GUIDE">VTS User Guide
             <tocitem target="user_guide.html">Setting Up VTS
@@ -28,6 +29,7 @@
                 </tocitem>
             </tocitem>
         </tocitem>
+-->
          <!-- Function reference next -->
         <!-- The first file lists all of the functions, categorizing them -->
         <tocitem target="function_categories.html" image="HelpIcon.FUNCTION">Functions 

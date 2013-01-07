@@ -2,7 +2,7 @@
 % Photon Hitting Density in cylindrical coordinates
 %
 %% Syntax
-%   PHDOfRhoAndZ(OP, RHOS, ZS, SD)
+%  PHDOfRhoAndZ(OP, RHOS, ZS, SD)
 %
 %       OP is an N x 4 matrix of optical properties
 %           eg. OP = [[mua1, mus1', g1, n1]; [mua2, mus2', g2, n2]; ...];

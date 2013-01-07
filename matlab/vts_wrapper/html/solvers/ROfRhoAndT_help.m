@@ -2,7 +2,7 @@
 % Reflectance as a function of rho and time
 %
 %% Syntax
-%   ROfRhoAndT(OP, RHO, T) 
+%  ROfRhoAndT(OP, RHO, T) 
 %   
 %       OP is an N x 4 matrix of optical properties
 %           eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];

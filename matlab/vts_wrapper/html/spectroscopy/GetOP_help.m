@@ -1,10 +1,8 @@
 %% GetOP
-% Summary of function
+% Returns the optical properties.
 %
 %% Syntax
-% GetOP(ABSORBERS, SCATTERER, WAVELENGTHS) gets the optical properties from
-% a list of chromophore absorbers and their concentrations for a range of
-% wavelengths.
+% GetOP(ABSORBERS, SCATTERER, WAVELENGTHS)
 %   
 %   ABSORBERS is a class that defines the list of absorbers and their
 %   concentrations
@@ -23,18 +21,33 @@
 %           eg. WAVELENGTHS = 450:0.5:1000;
 %
 %% Description
-%       Description of function
+% Returns the optical properties from a list of chromophore absorbers and 
+% their concentrations for a range of wavelengths.
 %
 %% Examples
-%       Examples go here
+%       absorbers.Names = {'HbO2', 'Hb', 'H2O'};
+%       absorbers.Concentrations =  [70, 30, 0.8];
+%       scatterer.Type = 'PowerLaw';
+%       scatterer.A = 1.2;
+%       scatterer.b = 1.42;
+%       wv = 450:0.5:1000;
+%       op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
 %
+%       absorbers.Names = {'HbO2', 'Hb', 'H2O'};
+%       absorbers.Concentrations =  [70, 30, 0.8];
 %       scatterer.Type = 'Intralipid';
 %       scatterer.vol_frac = 0.5;
+%       wv = 450:0.5:1000;
+%       op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
 %  
+%       absorbers.Names = {'HbO2', 'Hb', 'H2O'};
+%       absorbers.Concentrations =  [70, 30, 0.8];
 %       scatterer.Type = 'Mie';
 %       scatterer.radius = 0.5;
 %       scatterer.n = 1.4;
 %       scatterer.nMedium = 1.0;
+%       wv = 450:0.5:1000;
+%       op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
 %
 %% See Also
 % <VtsSpectroscopy_help.html VtsSpectroscopy>

@@ -1,6 +1,6 @@
 %% Solver Demos
 % Script for demoing the use of the VTS solvers within Matlab, to view the
-% source code see the vts_solver_demo.m script file.
+% source code open the *vts_solver_demo.m* script file.
 %% 
 clear all
 clc

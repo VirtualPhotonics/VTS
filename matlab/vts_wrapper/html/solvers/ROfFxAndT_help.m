@@ -2,7 +2,7 @@
 % Reflectance as a function of spatial-frequency and time
 %
 %% Syntax
-% ROfFxAndT(OP, FX, T) 
+%  ROfFxAndT(OP, FX, T) 
 %
 %       OP is an N x 4 matrix of optical properties
 %           eg. OP = [[mua1, mus1', g1, n1]; [mua2, mus2', g2, n2]; ...];
