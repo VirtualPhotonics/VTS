@@ -70,7 +70,7 @@ classdef VtsMonteCarlo < handle
             end
             simulations = NET.createArray('Vts.MonteCarlo.MonteCarloSimulation', length(simulationInputs));
             for si = 1:length(simulationInputs)
-                simulationInput = simulationInputs{si};
+                simulationInput = simulationInputs(si);
                 
                 inputNET = SimulationInput.ToInputNET(simulationInput);
                 sim = Vts.MonteCarlo.MonteCarloSimulation(inputNET);

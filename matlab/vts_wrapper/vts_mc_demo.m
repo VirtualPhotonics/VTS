@@ -130,8 +130,30 @@ input.Options = options;
 
 output = VtsMonteCarlo.RunSimulation(input);
 
+%% ======================================================================= %
+% Example 4: run a list of Monte Carlo simulations
+
+% create a list of two default SimulationInput with different numbers of 
+% photons
+si1 = SimulationInput();
+% modify number of photons
+si1.N = 1000;
+si2 = SimulationInput();
+s12.N = 100;
+% specify a single R(rho) detector by the endpoints of rho bins
+si1.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
+si2.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
+% create list of these 2 imput
+si = [ si1; si2 ];
+% use this to run a Matlab-wrapped MonteCarloSimulation using static method
+output = VtsMonteCarlo.RunSimulations(si);
+d1 = output{1}.Detectors(output{1}.DetectorNames{1});
+figure; semilogy(d1.Rho, d1.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+d2 = output{2}.Detectors(output{2}.DetectorNames{1});
+figure; semilogy(d2.Rho, d2.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+
 % ======================================================================= %
-% Example 4: run a Monte Carlo simulation with post-processing enabled, and
+% Example 5: run a Monte Carlo simulation with post-processing enabled, and
 % compare on-the-fly results with post-processing
 
 
