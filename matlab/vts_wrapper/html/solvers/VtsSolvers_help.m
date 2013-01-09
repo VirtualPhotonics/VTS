@@ -1,5 +1,5 @@
 %% VtsSolvers
-% Definitions for the main solvers in the VTS.
+% Class containing definitions for the main solvers in the VTS.
 %%
 % 
 % * <AbsorbedEnergyOfRhoAndZ_help.html AbsorbedEnergyOfRhoAndZ>
