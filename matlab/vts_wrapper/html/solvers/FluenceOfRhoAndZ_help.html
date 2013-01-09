@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>FluenceOfRhoAndZ</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-01-07"><meta name="DC.source" content="FluenceOfRhoAndZ_help.m"><style type="text/css">
+      --><title>FluenceOfRhoAndZ</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-01-09"><meta name="DC.source" content="FluenceOfRhoAndZ_help.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -68,8 +68,7 @@ p.footer {
      RHO is an 1 x M array of detector locations (in mm)
          eg. RHO = [1:10];
      Z is a 1 x M array of z values (in mm)
-         eg. Z = linspace(0.1,19.9,100);</pre><h2>Description<a name="2"></a></h2><pre>     Returns fluence as a function of source-detector separation (rho = sqrt(x*x+y*y)) and
-     depth (z).  Cylindrical symmetry centered about rho = 0 is assumed.</pre><h2>Examples<a name="3"></a></h2><pre>     op = [0.01, 1, 0.9, 1.4]; % optical properties
+         eg. Z = linspace(0.1,19.9,100);</pre><h2>Description<a name="2"></a></h2><p>Returns fluence as a function of source-detector separation (rho = sqrt(x*x+y*y)) and depth (z).  Cylindrical symmetry centered about rho = 0 is assumed.</p><h2>Examples<a name="3"></a></h2><pre>     op = [0.01, 1, 0.9, 1.4]; % optical properties
      rhos = 0.1:0.1:10; % s-d separation, in mm
      zs = 0.1:0.1:10; % z range in mm
      VtsSolvers.SetSolverType('DistributedGaussianSourceSDA')
@@ -91,8 +90,8 @@ p.footer {
 %           eg. Z = linspace(0.1,19.9,100);
 %
 %% Description
-%       Returns fluence as a function of source-detector separation (rho = sqrt(x*x+y*y)) and
-%       depth (z).  Cylindrical symmetry centered about rho = 0 is assumed.
+% Returns fluence as a function of source-detector separation (rho = sqrt(x*x+y*y)) and
+% depth (z).  Cylindrical symmetry centered about rho = 0 is assumed.
 %
 %% Examples
 %       op = [0.01, 1, 0.9, 1.4]; % optical properties 

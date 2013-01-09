@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>PHDOfRhoAndZ</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-01-07"><meta name="DC.source" content="PHDOfRhoAndZ_help.m"><style type="text/css">
+      --><title>PHDOfRhoAndZ</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-01-09"><meta name="DC.source" content="PHDOfRhoAndZ_help.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -69,9 +69,7 @@ p.footer {
          eg. RHO = [1:10];
      Z is a 1 x M array of z values (in mm)
          eg. Z = linspace(0.1,19.9,100);
-     SD is the source-detector separation in mm</pre><h2>Description<a name="2"></a></h2><pre>     Returns photon hitting density as a function of source-detector separation
-     (rho = sqrt(x*x+y*y)) and depth (z).  Cylindrical symmetry centered
-     about rho = 0 is assumed.</pre><h2>Examples<a name="3"></a></h2><pre>     op = [0.01 1 0.8 1.4]; % optical properties
+     SD is the source-detector separation in mm</pre><h2>Description<a name="2"></a></h2><p>Returns photon hitting density as a function of source-detector separation (rho = sqrt(x*x+y*y)) and depth (z).  Cylindrical symmetry centered about rho = 0 is assumed.</p><h2>Examples<a name="3"></a></h2><pre>     op = [0.01 1 0.8 1.4]; % optical properties
      rhos = linspace(0.1,19.9,100); % s-d separation, in mm
      zs = linspace(0.1,19.9,100); % z range in mm
      VtsSolvers.SetSolverType('DistributedGaussianSourceSDA');
@@ -94,9 +92,9 @@ p.footer {
 %       SD is the source-detector separation in mm
 %
 %% Description
-%       Returns photon hitting density as a function of source-detector separation
-%       (rho = sqrt(x*x+y*y)) and depth (z).  Cylindrical symmetry centered
-%       about rho = 0 is assumed.
+% Returns photon hitting density as a function of source-detector separation
+% (rho = sqrt(x*x+y*y)) and depth (z).  Cylindrical symmetry centered
+% about rho = 0 is assumed.
 %
 %% Examples
 %       op = [0.01 1 0.8 1.4]; % optical properties

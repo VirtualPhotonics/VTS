@@ -8,7 +8,6 @@ clc
 startup();
 
 % ======================================================================= %
-
 %% Example 1: run a simple Monte Carlo simulation with 1000 photons
 
 % create a default set of inputs
@@ -28,7 +27,6 @@ d = output.Detectors(output.DetectorNames{1});
 figure; semilogy(d.Rho, d.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
 
 % ======================================================================= %
-
 %% Example 2: run Monte Carlo simulations for two absorption weighting types 
 % with 1000 photons each and compare computation time
 
@@ -49,7 +47,6 @@ si.Options.AbsorptionWeightingType = 'Discrete';
 output2 = VtsMonteCarlo.RunSimulation(si);
 
 % ======================================================================= %
-
 %% Example 3: run a Monte Carlo simulation with a fully-customized input
 % (values used here are the class defaults)
 
@@ -130,11 +127,11 @@ input.Options = options;
 
 output = VtsMonteCarlo.RunSimulation(input);
 
-%% ======================================================================= %
-% Example 4: run a list of Monte Carlo simulations
-
+% ======================================================================= %
+%% Example 4: run a list of Monte Carlo simulations
 % create a list of two default SimulationInput with different numbers of 
 % photons
+
 si1 = SimulationInput();
 % modify number of photons
 si1.N = 1000;

@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>ROfFxAndFt</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-01-07"><meta name="DC.source" content="ROfFxAndFt_help.m"><style type="text/css">
+      --><title>ROfFxAndFt</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-01-09"><meta name="DC.source" content="ROfFxAndFt_help.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -67,8 +67,7 @@ p.footer {
      FX is an 1 x M array of spatial frequencies (in 1/mm)
          eg. FX = linspace(0,0.5,11);
      FT is an 1 x M array of modulation frequencies (in GHz)
-         eg. FT = [0:0.01:0.5];</pre><h2>Description<a name="2"></a></h2><pre>     Returns reflectance as a function of spatial-frequencies (fx) and
-     temporal-frequencies (ft)</pre><h2>Examples<a name="3"></a></h2><pre>     op = [0.1 1 0.8 1.4]; % optical properties
+         eg. FT = [0:0.01:0.5];</pre><h2>Description<a name="2"></a></h2><p>Returns reflectance as a function of spatial-frequencies (fx) and temporal-frequencies (ft)</p><h2>Examples<a name="3"></a></h2><pre>     op = [0.1 1 0.8 1.4]; % optical properties
      fx = linspace(0,0.5,11); % range of spatial frequencies in 1/mm
      ft = linspace(0,0.05,51); % range of frequency in GHz
      VtsSolvers.SetSolverType('PointSourceSDA'); % set solver type
@@ -89,8 +88,8 @@ p.footer {
 %           eg. FT = [0:0.01:0.5];
 %
 %% Description
-%       Returns reflectance as a function of spatial-frequencies (fx) and
-%       temporal-frequencies (ft)
+% Returns reflectance as a function of spatial-frequencies (fx) and
+% temporal-frequencies (ft)
 %
 %% Examples
 %       op = [0.1 1 0.8 1.4]; % optical properties

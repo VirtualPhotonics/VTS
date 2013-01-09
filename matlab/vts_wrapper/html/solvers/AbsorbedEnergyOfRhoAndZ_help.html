@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>AbsorbedEnergyOfRhoAndZ</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-01-07"><meta name="DC.source" content="AbsorbedEnergyOfRhoAndZ_help.m"><style type="text/css">
+      --><title>AbsorbedEnergyOfRhoAndZ</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-01-09"><meta name="DC.source" content="AbsorbedEnergyOfRhoAndZ_help.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -68,8 +68,7 @@ p.footer {
      RHO is an 1 x M array of detector locations (in mm)
          eg. RHO = [1:10];
      Z is a 1 x M array of z values (in mm)
-         eg. Z = linspace(0.1,19.9,100);</pre><h2>Description<a name="2"></a></h2><pre>     Returns absorbed energy as a function of source-detector separation
-     (rho = sqrt(x*x+y*y)) and depth (z).</pre><h2>Examples<a name="3"></a></h2><pre>     op = [0.01 1 0.8 1.4]; % optical properties
+         eg. Z = linspace(0.1,19.9,100);</pre><h2>Description<a name="2"></a></h2><p>Returns absorbed energy as a function of source-detector separation (rho = sqrt(x*x+y*y)) and depth (z).</p><h2>Examples<a name="3"></a></h2><pre>     op = [0.01 1 0.8 1.4]; % optical properties
      rhos = linspace(0.1,19.9,100); % s-d separation, in mm
      zs = linspace(0.1,19.9,100); % z range in mm
      VtsSolvers.SetSolverType('PointSourceSDA');
@@ -91,8 +90,8 @@ p.footer {
 %           eg. Z = linspace(0.1,19.9,100);
 %
 %% Description
-%       Returns absorbed energy as a function of source-detector separation
-%       (rho = sqrt(x*x+y*y)) and depth (z).
+% Returns absorbed energy as a function of source-detector separation
+% (rho = sqrt(x*x+y*y)) and depth (z).
 %
 %% Examples
 %       op = [0.01 1 0.8 1.4]; % optical properties

@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>ROfFxAndT</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-01-07"><meta name="DC.source" content="ROfFxAndT_help.m"><style type="text/css">
+      --><title>ROfFxAndT</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-01-09"><meta name="DC.source" content="ROfFxAndT_help.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -67,7 +67,7 @@ p.footer {
      FX is an 1 x M array of spatial frequencies (in 1/mm)
          eg. FX = linspace(0,0.5,11);
      T is an 1 x O array of times (in ns)
-         eg. T = [1:10];</pre><h2>Description<a name="2"></a></h2><pre>     Returns reflectance as a function of spatial-frequency (fx) and time (t).</pre><h2>Examples<a name="3"></a></h2><pre>     op = [0.1 1 0.8 1.4]; % optical properties
+         eg. T = [1:10];</pre><h2>Description<a name="2"></a></h2><p>Returns reflectance as a function of spatial-frequency (fx) and time (t).</p><h2>Examples<a name="3"></a></h2><pre>     op = [0.1 1 0.8 1.4]; % optical properties
      fx = linspace(0,0.5,11); % range of spatial frequencies in 1/mm
      t = linspace(0,0.05,501); % range of times in ns
      VtsSolvers.SetSolverType('PointSourceSDA'); % set solver type
@@ -88,7 +88,7 @@ p.footer {
 %           eg. T = [1:10];
 %
 %% Description
-%       Returns reflectance as a function of spatial-frequency (fx) and time (t).
+% Returns reflectance as a function of spatial-frequency (fx) and time (t).
 %
 %% Examples
 %       op = [0.1 1 0.8 1.4]; % optical properties
