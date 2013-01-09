@@ -11,7 +11,7 @@
 %           eg. FX = linspace(0,0.5,11);
 %
 %% Description
-%       Returns steady-state reflectance in the spatial frequency domain
+% Returns steady-state reflectance in the spatial frequency domain
 %
 %% Examples
 %       op = [0.1 1.2 0.8 1.4]; % optical properties

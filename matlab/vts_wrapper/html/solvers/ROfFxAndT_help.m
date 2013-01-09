@@ -12,7 +12,7 @@
 %           eg. T = [1:10];
 %
 %% Description
-%       Returns reflectance as a function of spatial-frequency (fx) and time (t).
+% Returns reflectance as a function of spatial-frequency (fx) and time (t).
 %
 %% Examples
 %       op = [0.1 1 0.8 1.4]; % optical properties

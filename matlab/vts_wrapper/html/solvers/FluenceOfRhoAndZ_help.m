@@ -13,8 +13,8 @@
 %           eg. Z = linspace(0.1,19.9,100);
 %
 %% Description
-%       Returns fluence as a function of source-detector separation (rho = sqrt(x*x+y*y)) and
-%       depth (z).  Cylindrical symmetry centered about rho = 0 is assumed.
+% Returns fluence as a function of source-detector separation (rho = sqrt(x*x+y*y)) and
+% depth (z).  Cylindrical symmetry centered about rho = 0 is assumed.
 %
 %% Examples
 %       op = [0.01, 1, 0.9, 1.4]; % optical properties 

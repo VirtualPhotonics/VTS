@@ -14,9 +14,9 @@
 %       SD is the source-detector separation in mm
 %
 %% Description
-%       Returns photon hitting density as a function of source-detector separation
-%       (rho = sqrt(x*x+y*y)) and depth (z).  Cylindrical symmetry centered
-%       about rho = 0 is assumed.
+% Returns photon hitting density as a function of source-detector separation
+% (rho = sqrt(x*x+y*y)) and depth (z).  Cylindrical symmetry centered
+% about rho = 0 is assumed.
 %
 %% Examples
 %       op = [0.01 1 0.8 1.4]; % optical properties

@@ -2,16 +2,16 @@
 % Static method to run a single Monte Carlo simulation
 %
 %% Syntax
-%      RunSimulation(SIMULATIONINPUT, WRITEDETECTORS)
-%         SIMULATIONINPUT Simulation input class defining the data for 
-%            the simulation.
-%         WRITEDETECTORS
+%  RunSimulation(SIMULATIONINPUT, WRITEDETECTORS)
+%       SIMULATIONINPUT Simulation input class defining the data for 
+%           the simulation.
+%       WRITEDETECTORS
 %
 %% Description
 % Description of function
 % 
 %% Examples
-% Examples go here
+%       Examples go here
 %% See Also
 % <VtsMonteCarlo_help.html VtsMonteCarlo> | 
 % <RunPostProcessor_help.html RunPostProcessor> | 

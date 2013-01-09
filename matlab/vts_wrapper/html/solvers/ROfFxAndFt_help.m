@@ -12,8 +12,8 @@
 %           eg. FT = [0:0.01:0.5];
 %
 %% Description
-%       Returns reflectance as a function of spatial-frequencies (fx) and
-%       temporal-frequencies (ft)
+% Returns reflectance as a function of spatial-frequencies (fx) and
+% temporal-frequencies (ft)
 %
 %% Examples
 %       op = [0.1 1 0.8 1.4]; % optical properties

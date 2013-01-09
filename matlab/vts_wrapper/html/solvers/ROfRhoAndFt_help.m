@@ -13,8 +13,8 @@
 %           eg. FT = [0:0.01:0.5];
 %
 %% Description
-%       Returns reflectance as a function of source-detector separation (rho =
-%       sqrt(x*x+y*y)) and temporal-frequency (ft)
+% Returns reflectance as a function of source-detector separation (rho =
+% sqrt(x*x+y*y)) and temporal-frequency (ft)
 %
 %% Examples
 %       op = [0.01 1.2 0.8 1.4]; % optical properties

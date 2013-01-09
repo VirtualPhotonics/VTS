@@ -13,8 +13,8 @@
 %           eg. T = [1:10];
 %
 %% Description
-%       Returns reflectance as a function of source-detector separation
-%       (rho = sqrt(x*x+y*y)) and time (t)
+% Returns reflectance as a function of source-detector separation
+% (rho = sqrt(x*x+y*y)) and time (t)
 %
 %% Examples
 %       op = [0.1 1.2 0.8 1.4]; % optical properties

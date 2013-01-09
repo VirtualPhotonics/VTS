@@ -13,8 +13,8 @@
 %           eg. Z = linspace(0.1,19.9,100);
 %
 %% Description
-%       Returns absorbed energy as a function of source-detector separation
-%       (rho = sqrt(x*x+y*y)) and depth (z).
+% Returns absorbed energy as a function of source-detector separation
+% (rho = sqrt(x*x+y*y)) and depth (z).
 %
 %% Examples
 %       op = [0.01 1 0.8 1.4]; % optical properties
