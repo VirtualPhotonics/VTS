@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using Vts.Common;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.DataStructuresValidation;
 
@@ -23,14 +21,41 @@ namespace Vts.MonteCarlo
             var layers = input.Regions.Select(region => (LayerRegion)region).ToArray();
 
             // other stuff could go here...
-
-            return ValidateLayers(layers);
+            var tempResult = ValidateLayers(layers);
+            if (tempResult.IsValid)
+            {
+                tempResult = ValidateTopAndBottomLayersAreAir(layers);
+            }
+            return tempResult;
+        }
+        /// <summary>
+        /// This verifies that the top and bottom layers are air.  The photon propagation algorithm in
+        /// Photon class assumes that these layers are air and that the photon exits the domain
+        /// after crossing into these layers and is no longer propagated.
+        /// </summary>
+        /// <param name="layers">list of LayerRegion</param>
+        /// <returns></returns>
+        public static ValidationResult ValidateTopAndBottomLayersAreAir(IList<LayerRegion> layers)
+        {
+            // test if first and last layer are not air layers 
+            if (!layers[0].IsAir() || !layers[layers.Count - 1].IsAir())
+            {
+                return new ValidationResult(
+                    false,
+                    "MultiLayerTissueInput: top and bottom layer must be air",
+                    "Make last layer very thick if need semi-infinite media assumption"); 
+            }
+            return new ValidationResult(
+                true,
+                "MultiLayerTissueInput: top and bottom layer have been defined as air");
         }
 
         /// <summary>
         /// This verifies that the layers do not overlap.  It assumes that the layers are
         /// adjacent and defined in order. Public because SimulationInputValidation calls it.
         /// </summary>
+        /// <param name="layers">list of LayerRegion</param>
+        /// <returns></returns>
         public static ValidationResult ValidateLayers(IList<LayerRegion> layers )
         {
             for (int i = 0; i < layers.Count - 1; i++)
