@@ -157,12 +157,9 @@ namespace Vts.MonteCarlo.Detectors
                 // tally fractional MT in each subregion
                 for (int isr = 0; isr < SubregionIndices.Count; isr++)
                 {
-                    if (subregionMT[isr] > 0.0)
-                    {
-                        var ifrac = DetectorBinning.WhichBin(subregionMT[isr]/totalMT,
-                                                             _fractionalMTBins.Count - 1, _fractionalMTBins.Delta, _fractionalMTBins.Start);
-                        FractionalMT[ir, imt, isr, ifrac] += photon.DP.Weight;
-                    }
+                    var ifrac = DetectorBinning.WhichBin(subregionMT[isr] / totalMT,
+                                                         _fractionalMTBins.Count - 1, _fractionalMTBins.Delta, _fractionalMTBins.Start);
+                    FractionalMT[ir, imt, isr, ifrac] += photon.DP.Weight;         
                 }
             }
         }
