@@ -37,9 +37,9 @@ namespace Vts.MonteCarlo.PhaseFunctions
                 //TODO fill this out.
                 return;
             }
-            ScatterToSpecificDirection(incomingDirectionToModify, _theta, _phi);
+            ScatterToThetaAndPhi(incomingDirectionToModify, _theta, _phi);
         }
-        public void ScatterToSpecificDirection(Direction incomingDirectionToModify, double theta, double phi)
+        public void ScatterToThetaAndPhi(Direction incomingDirectionToModify, double theta, double phi)
         {
             var pLookUpTablePhaseFunctionData = (PolarLookupTablePhaseFunctionData)_lutData;
 

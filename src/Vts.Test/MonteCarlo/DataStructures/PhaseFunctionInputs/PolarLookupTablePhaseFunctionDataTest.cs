@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Linq;
 using Vts.Common;
 using Vts.Common.Math;
 using Vts.MonteCarlo;
@@ -29,7 +30,7 @@ namespace Vts.Test.MonteCarlo
         public void validate_PDF()
         {
             var lutData = new PolarLookupTablePhaseFunctionData();
-            var testCdf = Integration.IntegrateTrapezoidRuleForTwoLists(lutData.LutAngles, lutData.LutPdf, 0, 0.5* Math.PI );
+            var testCdf = Integration.IntegrateTrapezoidRuleForTwoLists(lutData.LutAngles.ToList(), lutData.LutPdf.ToList(), 0, Math.PI);
         }
     }
 }

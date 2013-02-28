@@ -28,6 +28,7 @@ namespace Vts.MonteCarlo
                 PointSourceTwoLayerTissueROfRhoDetector(),
                 PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
+                PointSourceOneLayerTissueLUTPhaseFunctionROfRho(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 GaussianSourceOneLayerTissueROfRhoDetector(),
                 PointSourceMultiLayerReflectedMTOfRhoAndSubRegionHistDetector()
@@ -382,6 +383,54 @@ namespace Vts.MonteCarlo
                     new FluenceOfRhoAndZDetectorInput(                            
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101))
+                }
+            );
+        }
+        #endregion
+
+        #region point source one layer LUT Phase function R(rho) 
+        /// <summary>
+        /// Point source, two-layer tissue definition, only ROfRho detector included
+        /// </summary>
+        public static SimulationInput PointSourceOneLayerTissueLUTPhaseFunctionROfRhoDetector()
+        {
+            return new SimulationInput(
+                100,
+                "one_layer_LUT_ROfRho",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.LookupTable,
+                    new List<DatabaseType>() { }, // databases to be written
+                    true, // tally Second Moment
+                    false, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                new MultiLayerTissueInput(
+                    new LayerRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new LookupTablePhaseFunctionInput()),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 1.5),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        new LookupTablePhaseFunctionInput()),
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        new LookupTablePhaseFunctionInput())
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
                 }
             );
         }
