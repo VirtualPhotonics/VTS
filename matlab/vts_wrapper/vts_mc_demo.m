@@ -150,10 +150,25 @@ d2 = output{2}.Detectors(output{2}.DetectorNames{1});
 figure; semilogy(d2.Rho, d2.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
 
 % ======================================================================= %
-% Example 5: run a Monte Carlo simulation with post-processing enabled, and
-% compare on-the-fly results with post-processing
-
-
+% Example 5: run a Monte Carlo simulation with post-processing enabled
+% First run a simulation, then post-process the generated database and
+% compare on-the-fly results with post-processed results
+% si = SimulationInput();
+% si.N = 1000;
+% % modify database generation to specifying creating pMC database
+% options = SimulationOptions();
+% options.Databases = { Vts.MonteCarlo.DatabaseType.pMCDiffuseReflectance };
+% % specify a single R(rho) detector by the endpoints of rho bins
+% si.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
+% output = VtsMonteCarlo.RunSimulation(si);
+% d1 = output.Detectors(output.DetectorNames{1});
+% % specify post-processing of generated database 
+% ppi = PostProcessorInput();
+% ppi.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) } ;
+% ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si);
+% d2 = ppoutput.Detectors(ppoutput.DetectorNames{1});
+% figure; semilogy(d1.Rho, d1.Mean, d2.Rho, d2.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+% legend('on-the-fly','post-processed');
 
 
 
