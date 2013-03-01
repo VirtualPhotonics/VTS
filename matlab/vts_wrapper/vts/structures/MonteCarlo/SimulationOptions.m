@@ -47,7 +47,7 @@ classdef SimulationOptions < handle % deriving from handle allows us to keep a s
       function optionsNET = ToOptionsNET(options)          
           databasesNET = NET.createArray('Vts.MonteCarlo.DatabaseType', length(options.Databases));  
           for i=1:databasesNET.Length;
-              databasesNET(i) = EnumHelper.GetValueNET('Vts.MonteCarlo.DatabaseType', options.Databases{i});
+              databasesNET(i) = EnumHelper.GetValueNET('Vts.MonteCarlo.DatabaseType', char(options.Databases{i}));
           end     
           optionsNET = Vts.MonteCarlo.SimulationOptions( ...
               options.Seed, ... 

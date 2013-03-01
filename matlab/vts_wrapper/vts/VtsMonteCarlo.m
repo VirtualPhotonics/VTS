@@ -48,7 +48,7 @@ classdef VtsMonteCarlo < handle
                     detectorsNET = NET.invokeGenericMethod('System.Linq.Enumerable', ...
                         'ToArray', {'Vts.MonteCarlo.IDetector'}, outputNET.ResultsDictionary.Values);
                     for i=1:detectorsNET.Length
-                        Vts.IO.DetectorIO.WriteDetectorToFile(detectorsNET(i), folderPath)
+                        Vts.MonteCarlo.IO.DetectorIO.WriteDetectorToFile(detectorsNET(i), folderPath)
                     end
                 end
                 output = SimulationOutput.FromOutputNET(outputNET);
@@ -100,7 +100,7 @@ classdef VtsMonteCarlo < handle
                         detectorsNET = NET.invokeGenericMethod('System.Linq.Enumerable', ...
                             'ToArray', {'Vts.MonteCarlo.IDetector'}, outputsNET(si).ResultsDictionary.Values);
                         for i=1:detectorsNET.Length
-                            Vts.IO.DetectorIO.WriteDetectorToFile(detectorsNET(i), folderPath)
+                            Vts.MonteCarlo.IO.DetectorIO.WriteDetectorToFile(detectorsNET(i), folderPath)
                         end
                     end
                     outputs{si} = SimulationOutput.FromOutputNET(outputsNET(si));
@@ -132,10 +132,11 @@ classdef VtsMonteCarlo < handle
                 originalSimInputNET = SimulationInput.ToInputNET(originalSimInput);
             end            
             
-            % hard-coding pMC to get started, than need to open this up
-            vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'pMCDiffuseReflectance');
+            % hard-coding regular post-processing to get started, than need
+            % to open this up to pMC
+            vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'DiffuseReflectance');
             
-            ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetpMCDatabase(... % database filenames are assumed to be convention
+            ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetPhotonDatabase(... % database filenames are assumed to be convention
                 vbTypeNET, ...
                 ppInputNET.InputFolder);
             
