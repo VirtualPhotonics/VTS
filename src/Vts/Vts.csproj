@@ -289,8 +289,12 @@
     <Compile Include="MonteCarlo\Interfaces\IVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\Extensions\PhotonDataExtensionMethods.cs" />
     <Compile Include="MonteCarlo\PhaseFunctions\BidirectionalPhaseFunction.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\MuellerMatrix.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\StokesVector.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\RejectionSampledLookupTablePhaseFunction.cs" />
     <Compile Include="MonteCarlo\PhaseFunctions\HenyeyGreensteinPhaseFunction.cs" />
     <Compile Include="MonteCarlo\PhaseFunctions\LookupTablePhaseFunction.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\PolarAndAzimuthalPhaseFunction.cs" />
     <Compile Include="MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs" />
     <Compile Include="MonteCarlo\Rng\SerializableMersenneTwister.cs" />
     <Compile Include="Factories\ComputationFactory.cs" />
