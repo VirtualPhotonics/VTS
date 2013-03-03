@@ -161,16 +161,87 @@ options.Databases = { Vts.MonteCarlo.DatabaseType.DiffuseReflectance };
 si.Options = options;
 % specify a single R(rho) detector by the endpoints of rho bins
 si.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
+% default writes database to "results" folder
 output = VtsMonteCarlo.RunSimulation(si);
 d1 = output.Detectors(output.DetectorNames{1});
 % specify post-processing of generated database 
 ppi = PostProcessorInput();
+% default reads from "results" folder
 ppi.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) } ;
+% run post-processor with exact detector as specified in simulation
 ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si);
 d2 = ppoutput.Detectors(ppoutput.DetectorNames{1});
+% plot results and view that they are identical
 figure; semilogy(d1.Rho, d1.Mean, 'r-',d2.Rho, d2.Mean,'g:'); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
 legend('on-the-fly','post-processed');
 
+% ======================================================================= %
+% Example 6: run a Monte Carlo simulation with pMC post-processing enabled
+% First run a simulation, then post-process the generated database with
+% varying optical properties
+si = SimulationInput();
+si.N = 1000;
+options = SimulationOptions();
+options.AbsorptionWeightingType = 'Continuous';
+% modify database generation to specifying creating pMC reflectance database
+options.Databases = { Vts.MonteCarlo.DatabaseType.pMCDiffuseReflectance };
+% create a new 'instance' of the MultiLayerTissueInput class
+tissueInput = MultiLayerTissueInput();
+% assign the tissue layer regions struct
+tissueInput.LayerRegions = struct(...
+    'ZRange', ...
+    {...
+        [-Inf, 0], ... % air "z" range
+        [0, 100], ... % tissue "z" range
+        [100, +Inf] ... % air "z" range
+    }, ...
+    'RegionOP', ...
+    {...
+        [0.0, 1e-10, 1.0, 1.0], ... % air optical properties
+        [0.01, 1.0, 0.8, 1.4], ... % tissue optical properties
+        [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
+        } ...
+    );
+si.Options = options;
+si.TissueInput = tissueInput;
+output = VtsMonteCarlo.RunSimulation(si);
+% specify post-processing of generated database 
+ppi = PostProcessorInput();
+% specify detector based on baseline infile tissue optical properties
+di = DetectorInput.pMCROfRho(linspace(0,40,201));
+di.PerturbedOps = ...
+                [...
+                [1e-10, 0.0, 0.0, 1.0]; ...
+                [0.01,   1.0, 0.8, 1.4]; ...
+                [1e-10, 0.0, 0.0, 1.0]; ...
+                ];
+di.PerturbedRegions = [ 1 ];
+% specify detector with perturbed mus = 0.5xbaseline
+di0p5xmua = DetectorInput.pMCROfRho(linspace(0,40,201),'pMCROfRho_0p5xmua');
+di0p5xmua.PerturbedOps = ...
+                [...
+                [1e-10, 0.0, 0.0, 1.0]; ...
+                [0.005,   1.0, 0.8, 1.4]; ...
+                [1e-10, 0.0, 0.0, 1.0]; ...
+                ];
+di0p5xmua.PerturbedRegions = [ 1 ]; 
+% specify detector with perturbed mus = 2xbaseline
+di2xmua = DetectorInput.pMCROfRho(linspace(0,40,201),'pMCROfRho_2xmua');
+di2xmua.PerturbedOps = ...
+                [...
+                [1e-10, 0.0, 0.0, 1.0]; ...
+                [0.02,   1.0, 0.8, 1.4]; ...
+                [1e-10, 0.0, 0.0, 1.0]; ...
+                ];
+di2xmua.PerturbedRegions = [ 1 ];
+ppi.DetectorInputs = { di, di0p5xmua, di2xmua} ;
+ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si);
+do = ppoutput.Detectors(ppoutput.DetectorNames{1});
+do0p5xmua = ppoutput.Detectors(ppoutput.DetectorNames{2});
+do2xmua = ppoutput.Detectors(ppoutput.DetectorNames{3});
+figure; semilogy(do.Rho, do.Mean, 'r-',do0p5xmua.Rho, do0p5xmua.Mean,'g-', do2xmua.Rho, do2xmua.Mean, 'b-'); 
+ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+legend('baseline','0.5x mua','2x mua');
 
 
 

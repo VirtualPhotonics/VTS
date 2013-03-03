@@ -131,21 +131,28 @@ classdef VtsMonteCarlo < handle
             else
                 originalSimInputNET = SimulationInput.ToInputNET(originalSimInput);
             end            
-            
-            % hard-coding regular post-processing to get started, than need
-            % to open this up to pMC
-            vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'DiffuseReflectance');
-            
-            ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetPhotonDatabase(... % database filenames are assumed to be convention
-                vbTypeNET, ...
-                ppInputNET.InputFolder);
+
+            % the following assumes only one database specified for now
+            switch char(originalSimInput.Options.Databases{1})
+                case 'DiffuseReflectance'
+                vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'DiffuseReflectance');
+                % the following assumes database filnames are convention
+                ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetPhotonDatabase(...
+                    vbTypeNET, ...
+                    ppInputNET.InputFolder);
+                case 'pMCDiffuseReflectance'
+                vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'pMCDiffuseReflectance');
+                ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetpMCDatabase(...
+                    vbTypeNET, ...
+                    ppInputNET.InputFolder);
+            end
             
             %             sim = Vts.MonteCarlo.MonteCarloSimulation(ppInputNET);
             disp('Running post-processor...');
             
             ppNET = Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor( ...
                 vbTypeNET, ...
-                ppInputNET.DetectorInputs, ... % not switching based on input type here (yet...)
+                ppInputNET.DetectorInputs, ...
                 ppInputNET.TallySecondMoment, ...
                 ppDatabase, ...
                 originalSimInputNET ...
@@ -191,12 +198,20 @@ classdef VtsMonteCarlo < handle
                     originalSimInputNET = SimulationInput.ToInputNET(originalSimInputs{ppi});
                 end            
 
-                % hard-coding pMC to get started, than need to open this up
-                vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'pMCDiffuseReflectance');
-
-                ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetpMCDatabase(... % database filenames are assumed to be convention
-                    vbTypeNET, ...
-                    ppInputNET.InputFolder);
+                % the following assumes only one database specified for now
+                switch char(originalSimInput.Options.Databases{1})
+                    case 'DiffuseReflectance'
+                    vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'DiffuseReflectance');
+                    % the following assumes database filnames are convention
+                    ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetPhotonDatabase(...
+                        vbTypeNET, ...
+                        ppInputNET.InputFolder);
+                    case 'pMCDiffuseReflectance'
+                    vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'pMCDiffuseReflectance');
+                    ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetpMCDatabase(...
+                        vbTypeNET, ...
+                        ppInputNET.InputFolder);
+                end
 
                 %             sim = Vts.MonteCarlo.MonteCarloSimulation(ppInputNET);
 
