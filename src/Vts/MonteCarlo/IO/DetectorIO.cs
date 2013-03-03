@@ -141,6 +141,14 @@ namespace Vts.MonteCarlo.IO
 	                    FileIO.WriteToXML((pMCROfRhoDetector)detector, filePath + ".xml");
 						break;
 
+                    case TallyType.dMCdROfRhodMua:
+                        FileIO.WriteToXML((dMCdROfRhodMuaDetector)detector, filePath + ".xml");
+                        break;
+
+                    case TallyType.dMCdROfRhodMus:
+                        FileIO.WriteToXML((dMCdROfRhodMusDetector)detector, filePath + ".xml");
+                        break;
+
                     case TallyType.TOfRho:
 	                    FileIO.WriteToXML((TOfRhoDetector)detector, filePath + ".xml");
 						break;
@@ -283,6 +291,18 @@ namespace Vts.MonteCarlo.IO
                         var pMCROfRhoDetectorDims = new int[] { pMCROfRhoDetector.Rho.Count - 1 };
                         pMCROfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, pMCROfRhoDetectorDims);
                         return pMCROfRhoDetector;
+
+                    case TallyType.dMCdROfRhodMua:
+                        var dMCdROfRhodMuaDetector = FileIO.ReadFromXML<dMCdROfRhodMuaDetector>(filePath + ".xml");
+                        var dMCdROfRhodMuaDetectorDims = new int[] { dMCdROfRhodMuaDetector.Rho.Count - 1 };
+                        dMCdROfRhodMuaDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, dMCdROfRhodMuaDetectorDims);
+                        return dMCdROfRhodMuaDetector;
+
+                    case TallyType.dMCdROfRhodMus:
+                        var dMCdROfRhodMusDetector = FileIO.ReadFromXML<dMCdROfRhodMusDetector>(filePath + ".xml");
+                        var dMCdROfRhodMusDetectorDims = new int[] { dMCdROfRhodMusDetector.Rho.Count - 1 };
+                        dMCdROfRhodMusDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, dMCdROfRhodMusDetectorDims);
+                        return dMCdROfRhodMusDetector;
 
                     case TallyType.TOfRho:
                         var tOfRhoDetector = FileIO.ReadFromXML<TOfRhoDetector>(filePath + ".xml");
@@ -487,6 +507,18 @@ namespace Vts.MonteCarlo.IO
                         var pMCROfRhoDetectorDims = new int[] { pMuaMusROfRhoDetector.Rho.Count - 1 };
                         pMuaMusROfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, pMCROfRhoDetectorDims);
                         return pMuaMusROfRhoDetector;
+
+                    case TallyType.dMCdROfRhodMua:
+                        var dMCdROfRhodMuaDetector = FileIO.ReadFromXMLInResources<dMCdROfRhodMuaDetector>(filePath + ".xml", projectName);
+                        var dMCdROfRhodMuaDetectorDims = new int[] { dMCdROfRhodMuaDetector.Rho.Count - 1 };
+                        dMCdROfRhodMuaDetector.Mean = (double[])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, dMCdROfRhodMuaDetectorDims);
+                        return dMCdROfRhodMuaDetector;
+
+                    case TallyType.dMCdROfRhodMus:
+                        var dMCdROfRhodMusDetector = FileIO.ReadFromXMLInResources<dMCdROfRhodMusDetector>(filePath + ".xml", projectName);
+                        var dMCdROfRhodMusDetectorDims = new int[] { dMCdROfRhodMusDetector.Rho.Count - 1 };
+                        dMCdROfRhodMusDetector.Mean = (double[])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, dMCdROfRhodMusDetectorDims);
+                        return dMCdROfRhodMusDetector;
 
                     case TallyType.TOfRho:
                         var tOfRhoDetector = FileIO.ReadFromXMLInResources<TOfRhoDetector>(filePath + ".xml", projectName);

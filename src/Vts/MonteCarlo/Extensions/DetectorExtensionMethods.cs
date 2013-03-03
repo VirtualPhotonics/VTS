@@ -107,6 +107,8 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.pMCROfRhoAndTime:
                 case TallyType.pMCROfFx:
                 case TallyType.pMCROfFxAndTime:
+                case TallyType.dMCdROfRhodMua:  
+                case TallyType.dMCdROfRhodMus:
                     return true;
                 default:
                     return false;
@@ -159,6 +161,8 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.RadianceOfRhoAndZAndAngle:
                 case TallyType.pMCROfRho:
                 case TallyType.pMCROfRhoAndTime:
+                case TallyType.dMCdROfRhodMua:
+                case TallyType.dMCdROfRhodMus:
                     return true;
                 default:
                     return false;

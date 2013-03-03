@@ -158,6 +158,26 @@ namespace Vts.MonteCarlo.Factories
                         tallySecondMoment,
                         prfxtinput.Name
                         );
+                case TallyType.dMCdROfRhodMua:
+                    var pdrrainput = (dMCdROfRhodMuaDetectorInput)detectorInput;
+                    return new dMCdROfRhodMuaDetector(
+                        pdrrainput.Rho,
+                        tissue,
+                        pdrrainput.PerturbedOps,
+                        pdrrainput.PerturbedRegionsIndices,
+                        tallySecondMoment,
+                        pdrrainput.Name
+                        );
+                case TallyType.dMCdROfRhodMus:
+                    var pdrrsinput = (dMCdROfRhodMusDetectorInput)detectorInput;
+                    return new dMCdROfRhodMusDetector(
+                        pdrrsinput.Rho,
+                        tissue,
+                        pdrrsinput.PerturbedOps,
+                        pdrrsinput.PerturbedRegionsIndices,
+                        tallySecondMoment,
+                        pdrrsinput.Name
+                        );
                 default:
                     return null;
             }
