@@ -243,5 +243,84 @@ figure; semilogy(do.Rho, do.Mean, 'r-',do0p5xmua.Rho, do0p5xmua.Mean,'g-', do2xm
 ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
 legend('baseline','0.5x mua','2x mua');
 
+% ======================================================================= %
+% Example 7: run a Monte Carlo simulation with pMC post-processing enabled
+% Use generated database to solve inverse problem
+%% Create database
+si = SimulationInput();
+si.N = 1000;
+options = SimulationOptions();
+options.AbsorptionWeightingType = 'Discrete';
+% modify database generation to specifying creating pMC reflectance database
+options.Databases = { Vts.MonteCarlo.DatabaseType.pMCDiffuseReflectance };
+% create a new 'instance' of the MultiLayerTissueInput class
+tissueInput = MultiLayerTissueInput();
+% assign the tissue layer regions struct
+tissueInput.LayerRegions = struct(...
+    'ZRange', ...
+    {...
+        [-Inf, 0], ... % air "z" range
+        [0, 100], ... % tissue "z" range
+        [100, +Inf] ... % air "z" range
+    }, ...
+    'RegionOP', ...
+    {...
+        [0.0, 1e-10, 1.0, 1.0], ... % air optical properties
+        [0.01, 1.0, 0.8, 1.4], ... % tissue optical properties
+        [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
+        } ...
+    );
+si.Options = options;
+rho = linspace(0,10,11);
+rhoMidpoints = (rho(1:end-1) + rho(2:end))/2;
+% specify a single R(rho) detector by the endpoints of rho bins
+si.DetectorInputs = { DetectorInput.ROfRho(rho) };
+si.TissueInput = tissueInput;
+output = VtsMonteCarlo.RunSimulation(si);
+%% Send lsqcurvefit function that post-processes database for pMC/dMC results
+options = optimset('Jacobian','on','diagnostics','on','largescale','on');
+% specify initial guess [mua mus] NOTE: mus not mus'
+x0 = [0.01, 5.0]; lb=[0 0]; ub=[inf inf];
+% create measData using nurbs with changed optical properties
+measOP = [0.005 1.1 0.8 1.4]; % NOTE 2nd element is mus' not mus
+VtsSolvers.SetSolverType('Nurbs');
+measData = VtsSolvers.ROfRho(measOP, rhoMidpoints)';
+recoveredOPs = lsqcurvefit('pmc_F_dmc_J',x0,rhoMidpoints,measData,lb,ub,options,si);
+% determine forward data at initial guess = background optical properties
+diInitialGuess = DetectorInput.pMCROfRho(rho,'pMCROfRho_initial_guess');
+diInitialGuess.PerturbedOps = ...
+                [...
+                [1e-10, 0.0, 0.0, 1.0]; ...
+                [x0(1), x0(2)*(1-0.8), 0.8, 1.4]; ...
+                [1e-10, 0.0, 0.0, 1.0]; ...
+                ];
+diInitialGuess.PerturbedRegions = [ 1 ];
+% determine forward results at converged optical properties
+diRecovered = DetectorInput.pMCROfRho(rho,'pMCROfRho_recovered');
+diRecovered.PerturbedOps = ...
+                [...
+                [1e-10, 0.0, 0.0, 1.0]; ...
+                [recoveredOPs(1), recoveredOPs(2)*(1-0.8), 0.8, 1.4]; ...
+                [1e-10, 0.0, 0.0, 1.0]; ...
+                ];
+diRecovered.PerturbedRegions = [ 1 ];
+ppi = PostProcessorInput();
+ppi.DetectorInputs = { diInitialGuess diRecovered } ;
+ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si); 
+doInitialGuess = ppoutput.Detectors(ppoutput.DetectorNames{1});
+doRecovered = ppoutput.Detectors(ppoutput.DetectorNames{2});
+figure; semilogy(rhoMidpoints,measData,'ro',...
+    rhoMidpoints,doInitialGuess.Mean,'g-',...
+    rhoMidpoints,doRecovered.Mean,'b:');
+legend('Meas','IG','Converged');
+disp(sprintf('Meas =    [%f %6.4f]',measOP(1),measOP(2)/(1-0.8)));
+disp(sprintf('IG =      [%f %6.4f] Chi2=%5.3e',x0(1),x0(2),...
+    (measData-doInitialGuess.Mean')*(measData-doInitialGuess.Mean')'));
+disp(sprintf('Conv=     [%f %6.4f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
+    (measData-doRecovered.Mean')*(measData-doRecovered.Mean')'));
+% NOTE: convergence to measured data optical properties affected by:
+% 1) number of photons launched in baseline simulation, N
+% 2) placement and number of rho
+% 3) distance of initial guess from actual
 
 
