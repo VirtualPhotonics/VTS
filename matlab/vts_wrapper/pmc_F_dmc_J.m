@@ -1,4 +1,4 @@
-function [F,J]=pmc_F_dmc_J(muamus,rhoMidpoints,simInput)
+function [F,J]=pmc_F_dmc_J(muamus,rhoMidpoints,simInput,measData)
 % the following code assumes 1-layer tissue with varying mua and mus only
 % g and n are fixed and not optimized
 % specify post-processing of generated database 
@@ -42,5 +42,7 @@ do1 = ppoutput.Detectors(ppoutput.DetectorNames{1});
 do2 = ppoutput.Detectors(ppoutput.DetectorNames{2});
 do3 = ppoutput.Detectors(ppoutput.DetectorNames{3});
 F = do1.Mean';
+% option: normalize forward model by measured data
+F = F./measData;
 J = [ do2.Mean do3.Mean ];
 end

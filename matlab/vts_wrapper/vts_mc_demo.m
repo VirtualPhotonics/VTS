@@ -248,7 +248,7 @@ legend('baseline','0.5x mua','2x mua');
 % Use generated database to solve inverse problem
 %% Create database
 si = SimulationInput();
-si.N = 1000;
+si.N = 1000; % NOTE: this number should be at least 1e6 for decent results
 options = SimulationOptions();
 options.AbsorptionWeightingType = 'Discrete';
 % modify database generation to specifying creating pMC reflectance database
@@ -279,13 +279,17 @@ si.TissueInput = tissueInput;
 output = VtsMonteCarlo.RunSimulation(si);
 %% Send lsqcurvefit function that post-processes database for pMC/dMC results
 options = optimset('Jacobian','on','diagnostics','on','largescale','on');
-% specify initial guess [mua mus] NOTE: mus not mus'
+% specify initial guess equal to basline value [mua mus] NOTE: mus not mus'
 x0 = [0.01, 5.0]; lb=[0 0]; ub=[inf inf];
 % create measData using nurbs with changed optical properties
 measOP = [0.005 1.1 0.8 1.4]; % NOTE 2nd element is mus' not mus
 VtsSolvers.SetSolverType('Nurbs');
 measData = VtsSolvers.ROfRho(measOP, rhoMidpoints)';
-recoveredOPs = lsqcurvefit('pmc_F_dmc_J',x0,rhoMidpoints,measData,lb,ub,options,si);
+% option: divide measured data and forward model by measured data
+% this counters log decay of data and relative importance of small rho data
+% NOTE: if use option here, need to use option in pmc_F_dmc_J.m 
+measDataNorm = measData./measData;
+recoveredOPs = lsqcurvefit('pmc_F_dmc_J',x0,rhoMidpoints,measDataNorm,lb,ub,options,si,measData);
 % determine forward data at initial guess = background optical properties
 diInitialGuess = DetectorInput.pMCROfRho(rho,'pMCROfRho_initial_guess');
 diInitialGuess.PerturbedOps = ...
@@ -306,13 +310,14 @@ diRecovered.PerturbedOps = ...
 diRecovered.PerturbedRegions = [ 1 ];
 ppi = PostProcessorInput();
 ppi.DetectorInputs = { diInitialGuess diRecovered } ;
-ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si); 
+ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si);  
 doInitialGuess = ppoutput.Detectors(ppoutput.DetectorNames{1});
 doRecovered = ppoutput.Detectors(ppoutput.DetectorNames{2});
 figure; semilogy(rhoMidpoints,measData,'ro',...
     rhoMidpoints,doInitialGuess.Mean,'g-',...
     rhoMidpoints,doRecovered.Mean,'b:');
 legend('Meas','IG','Converged');
+disp('              mua     mus');
 disp(sprintf('Meas =    [%f %6.4f]',measOP(1),measOP(2)/(1-0.8)));
 disp(sprintf('IG =      [%f %6.4f] Chi2=%5.3e',x0(1),x0(2),...
     (measData-doInitialGuess.Mean')*(measData-doInitialGuess.Mean')'));
