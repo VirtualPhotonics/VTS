@@ -43,6 +43,6 @@ do2 = ppoutput.Detectors(ppoutput.DetectorNames{2});
 do3 = ppoutput.Detectors(ppoutput.DetectorNames{3});
 F = do1.Mean';
 % option: normalize forward model by measured data
-F = F./measData;
+%F = F./measData;
 J = [ do2.Mean do3.Mean ];
 end

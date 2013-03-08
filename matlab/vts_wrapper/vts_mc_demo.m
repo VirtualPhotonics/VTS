@@ -245,10 +245,16 @@ legend('baseline','0.5x mua','2x mua');
 
 % ======================================================================= %
 % Example 7: run a Monte Carlo simulation with pMC post-processing enabled
-% Use generated database to solve inverse problem
-%% Create database
+% Use generated database to solve inverse problem with measured data
+% generated using Nurbs
+% NOTE: convergence to measured data optical properties affected by:
+% 1) number of photons launched in baseline simulation, N
+% 2) placement and number of rho
+% 3) distance of initial guess from actual
+% 4) normalization of chi2
+%% create input to simulation
 si = SimulationInput();
-si.N = 1000; % NOTE: this number should be at least 1e6 for decent results
+si.N = 1000; 
 options = SimulationOptions();
 options.AbsorptionWeightingType = 'Discrete';
 % modify database generation to specifying creating pMC reflectance database
@@ -271,25 +277,31 @@ tissueInput.LayerRegions = struct(...
         } ...
     );
 si.Options = options;
-rho = linspace(0,10,11);
-rhoMidpoints = (rho(1:end-1) + rho(2:end))/2;
-% specify a single R(rho) detector by the endpoints of rho bins
-si.DetectorInputs = { DetectorInput.ROfRho(rho) };
 si.TissueInput = tissueInput;
+%% create database
 output = VtsMonteCarlo.RunSimulation(si);
 %% Send lsqcurvefit function that post-processes database for pMC/dMC results
 options = optimset('Jacobian','on','diagnostics','on','largescale','on');
-% specify initial guess equal to basline value [mua mus] NOTE: mus not mus'
-x0 = [0.01, 5.0]; lb=[0 0]; ub=[inf inf];
+% specify initial guess equal to baseline value [mua mus] NOTE: mus not mus'
+muaBaseline=si.TissueInput.LayerRegions(2).RegionOP(1);
+musBaseline=si.TissueInput.LayerRegions(2).RegionOP(2)/...
+    (1-si.TissueInput.LayerRegions(2).RegionOP(3));
+x0 = [muaBaseline, musBaseline]; 
+% use unconstrained optimization, constrained option lb=[0 0]; ub=[inf inf];
+lb=[]; ub=[];
 % create measData using nurbs with changed optical properties
-measOP = [0.005 1.1 0.8 1.4]; % NOTE 2nd element is mus' not mus
+measOP = [0.04 0.95 0.8 1.4]; % NOTE 2nd element is mus' not mus
 VtsSolvers.SetSolverType('Nurbs');
+% specify rho bins for pMC/dMC processing and rhoMidpoints for nurbs
+rho = linspace(0,6,7);
+rhoMidpoints = (rho(1:end-1) + rho(2:end))/2;
 measData = VtsSolvers.ROfRho(measOP, rhoMidpoints)';
 % option: divide measured data and forward model by measured data
 % this counters log decay of data and relative importance of small rho data
 % NOTE: if use option here, need to use option in pmc_F_dmc_J.m 
 measDataNorm = measData./measData;
-recoveredOPs = lsqcurvefit('pmc_F_dmc_J',x0,rhoMidpoints,measDataNorm,lb,ub,options,si,measData);
+recoveredOPs = lsqcurvefit('pmc_F_dmc_J',x0,rhoMidpoints,measData,lb,ub,...
+    options,si,measData);
 % determine forward data at initial guess = background optical properties
 diInitialGuess = DetectorInput.pMCROfRho(rho,'pMCROfRho_initial_guess');
 diInitialGuess.PerturbedOps = ...
@@ -310,22 +322,20 @@ diRecovered.PerturbedOps = ...
 diRecovered.PerturbedRegions = [ 1 ];
 ppi = PostProcessorInput();
 ppi.DetectorInputs = { diInitialGuess diRecovered } ;
-ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si);  
+ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si); 
 doInitialGuess = ppoutput.Detectors(ppoutput.DetectorNames{1});
 doRecovered = ppoutput.Detectors(ppoutput.DetectorNames{2});
 figure; semilogy(rhoMidpoints,measData,'ro',...
     rhoMidpoints,doInitialGuess.Mean,'g-',...
     rhoMidpoints,doRecovered.Mean,'b:');
+xlabel('\rho [mm]');
+ylabel('log10(R(\rho))');
 legend('Meas','IG','Converged');
-disp('              mua     mus');
-disp(sprintf('Meas =    [%f %6.4f]',measOP(1),measOP(2)/(1-0.8)));
-disp(sprintf('IG =      [%f %6.4f] Chi2=%5.3e',x0(1),x0(2),...
+disp(sprintf('Meas =    [%f %5.3f]',measOP(1),measOP(2)/(1-0.8)));
+disp(sprintf('IG =      [%f %5.3f] Chi2=%5.3e',x0(1),x0(2),...
     (measData-doInitialGuess.Mean')*(measData-doInitialGuess.Mean')'));
-disp(sprintf('Conv=     [%f %6.4f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
+disp(sprintf('Conv=     [%f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
     (measData-doRecovered.Mean')*(measData-doRecovered.Mean')'));
-% NOTE: convergence to measured data optical properties affected by:
-% 1) number of photons launched in baseline simulation, N
-% 2) placement and number of rho
-% 3) distance of initial guess from actual
+
 
 
