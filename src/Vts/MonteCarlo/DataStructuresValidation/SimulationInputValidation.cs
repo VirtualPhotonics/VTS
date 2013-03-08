@@ -207,11 +207,22 @@ namespace Vts.MonteCarlo
                             "Modify AbsorptionWeightingType to Continuous");
                     }
                 }
-
             }
+            // can only run dMC detectors with 1 perturbed region for the present
+            foreach (var detectorInput in input.DetectorInputs)
+            {
+                if (detectorInput is dMCdROfRhodMuaDetectorInput)
+                {
+                    return dMCdROfRhodMuaDetectorInputValidation.ValidateInput(detectorInput);
+                }
+                if (detectorInput is dMCdROfRhodMusDetectorInput)
+                {
+                    return dMCdROfRhodMusDetectorInputValidation.ValidateInput(detectorInput);
+                }
+            }         
             return new ValidationResult(
                 true,
-                "Detector definitions are consistent with use of Continuous Absorption Weighting");
+                "Detector definitions are consistent with current capabilities");
         }
     }
 }
