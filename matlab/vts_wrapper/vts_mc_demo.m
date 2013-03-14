@@ -252,9 +252,10 @@ legend('baseline','0.5x mua','2x mua');
 % 2) placement and number of rho
 % 3) distance of initial guess from actual
 % 4) normalization of chi2
+% 5) optimset options selected
 %% create input to simulation
 si = SimulationInput();
-si.N = 1000; 
+si.N = 1000; % need to run 1e5 or greater to get decent results
 options = SimulationOptions();
 options.AbsorptionWeightingType = 'Discrete';
 % modify database generation to specifying creating pMC reflectance database
@@ -290,12 +291,13 @@ x0 = [muaBaseline, musBaseline];
 % use unconstrained optimization, constrained option lb=[0 0]; ub=[inf inf];
 lb=[]; ub=[];
 % create measData using nurbs with changed optical properties
-measOP = [0.04 0.95 0.8 1.4]; % NOTE 2nd element is mus' not mus
+measOPs = [0.04 0.95 0.8 1.4]; % NOTE 2nd element is mus' not mus
+measMus = measOPs(2)/(1-0.8);
 VtsSolvers.SetSolverType('Nurbs');
 % specify rho bins for pMC/dMC processing and rhoMidpoints for nurbs
 rho = linspace(0,6,7);
 rhoMidpoints = (rho(1:end-1) + rho(2:end))/2;
-measData = VtsSolvers.ROfRho(measOP, rhoMidpoints)';
+measData = VtsSolvers.ROfRho(measOPs, rhoMidpoints)';
 % option: divide measured data and forward model by measured data
 % this counters log decay of data and relative importance of small rho data
 % NOTE: if use option here, need to use option in pmc_F_dmc_J.m 
@@ -331,11 +333,13 @@ figure; semilogy(rhoMidpoints,measData,'ro',...
 xlabel('\rho [mm]');
 ylabel('log10(R(\rho))');
 legend('Meas','IG','Converged');
-disp(sprintf('Meas =    [%f %5.3f]',measOP(1),measOP(2)/(1-0.8)));
+disp(sprintf('Meas =    [%f %5.3f]',measOPs(1),measOPs(2)/(1-0.8)));
 disp(sprintf('IG =      [%f %5.3f] Chi2=%5.3e',x0(1),x0(2),...
     (measData-doInitialGuess.Mean')*(measData-doInitialGuess.Mean')'));
-disp(sprintf('Conv=     [%f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
+disp(sprintf('Conv =    [%f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
     (measData-doRecovered.Mean')*(measData-doRecovered.Mean')'));
+disp(sprintf('error =   [%f %5.3f]',abs(measOPs(1)-recoveredOPs(1))/measOPs(1),...
+    abs(measMus-recoveredOPs(2))/measOPs(2)));
 
 
 
