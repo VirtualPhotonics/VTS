@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using SLExtensions.Input;
 using Vts.Extensions;
+using Vts.Common;
 using Vts.Factories;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
@@ -141,10 +143,10 @@ namespace Vts.Gui.Silverlight.ViewModel
             string plotLabel = GetLegendLabel();
             if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
-                var real = points[0];
-                var imag = points[1];
-                Commands.Plot_PlotValues.Execute(new PlotData(real, plotLabel + "\r(real)"));
-                Commands.Plot_PlotValues.Execute(new PlotData(imag, plotLabel + "\r(imag)"));
+                var phase = points[0];
+                var amp = points[1];
+                Commands.Plot_PlotValues.Execute(new PlotData(phase, plotLabel + "\r(phase[deg])"));
+                Commands.Plot_PlotValues.Execute(new PlotData(amp, plotLabel + "\r(amp)"));
             }
             else
             {
@@ -216,17 +218,19 @@ namespace Vts.Gui.Silverlight.ViewModel
             // if it's reporting Real + Imaginary, we need two vectors
             if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
-                var real = query.Take(independentValues.Length);
-                var imag = query.Skip(independentValues.Length).Take(independentValues.Length);
+                var real = query.Take(independentValues.Length).ToArray();
+                var imag = query.Skip(independentValues.Length).Take(independentValues.Length).ToArray();
+                var phase = Vts.Common.Math.Convert.ToPhase(real, imag);
+                var amp = Vts.Common.Math.Convert.ToAmplitude(real, imag);
 
                 return new[] {
                     EnumerableEx.Zip(
                         independentValues,
-                        real,
+                        phase,
                         (x, y) => new Point(x, y)).ToArray(),
                     EnumerableEx.Zip(
                         independentValues,
-                        imag, 
+                        amp, 
                         (x, y) => new Point(x, y)).ToArray()
                 };
             }

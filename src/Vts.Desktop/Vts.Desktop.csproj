@@ -227,6 +227,9 @@
     <Compile Include="..\Vts\Common\Logging\ObservableTarget.cs">
       <Link>Common\Logging\ObservableTarget.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Common\Math\Convert.cs">
+      <Link>Common\Math\Convert.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Common\Math\Convolution2D.cs">
       <Link>Common\Math\Convolution2D.cs</Link>
     </Compile>

@@ -182,6 +182,7 @@
     <Compile Include="Common\Logging\NLogLogger.cs" />
     <Compile Include="Common\Logging\ObservableTarget.cs" />
     <Compile Include="Common\Math\Convolution2D.cs" />
+    <Compile Include="Common\Math\Convert.cs" />
     <Compile Include="Common\Math\Integration.cs" />
     <Compile Include="Common\Math\Interpolation.cs" />
     <Compile Include="Common\Math\Statistics.cs" />

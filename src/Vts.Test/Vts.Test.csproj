@@ -134,6 +134,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\Math\ConvertTests.cs" />
     <Compile Include="Common\Math\InterpolationTests.cs" />
     <Compile Include="Common\OpticalPropertiesTests.cs" />
     <Compile Include="Common\StopwatchTests.cs" />
