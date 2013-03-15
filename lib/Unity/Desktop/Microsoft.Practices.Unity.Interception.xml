@@ -164,7 +164,7 @@
         </member>
         <member name="M:Microsoft.Practices.Unity.InterceptionExtension.DefaultInterceptor.#ctor(Microsoft.Practices.Unity.InterceptionExtension.IInterceptor)">
             <summary>
-            Construt a new <see cref="T:Microsoft.Practices.Unity.InterceptionExtension.DefaultInterceptor"/> instance that,
+            Construct a new <see cref="T:Microsoft.Practices.Unity.InterceptionExtension.DefaultInterceptor"/> instance that,
             when applied to a container, will register the given
             interceptor as the default one.
             </summary>
@@ -562,6 +562,56 @@
             Type of the object that will actually be intercepted.
             </summary>
         </member>
+        <member name="T:Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper">
+            <summary>
+            Maps types involving generic parameter types from reflected types into equivalent versions involving generated types.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper.#ctor(System.Type,Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper"/> class.
+            </summary>
+            <param name="type">A constructed generic type, open or closed.</param>
+            <param name="parent">The parent mapper, or <see langword="null"/>.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper.#ctor(System.Type[],System.Type[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper"/> class.
+            </summary>
+            <param name="reflectedParameters">The reflected generic parameters.</param>
+            <param name="generatedParameters">The generated generic parameters.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper.#ctor(System.Type[],System.Type[],Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper"/> class.
+            </summary>
+            <param name="reflectedParameters">The reflected generic parameters.</param>
+            <param name="generatedParameters">The generated generic parameters.</param>
+            <param name="parent">The parent mapper, or <see langword="null"/>.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper.Map(System.Type)">
+            <summary>
+            Maps a type to an equivalent type involving generated types.
+            </summary>
+            <param name="typeToMap">The type to map.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper.GetReflectedParameters">
+            <summary>
+            Gets the formal parameters.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper.GetGeneratedParameters">
+            <summary>
+            Gets the actual parameters.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Microsoft.Practices.Unity.InterceptionExtension.GenericParameterMapper.DefaultMapper">
+            <summary>
+            Gets the default mapper.
+            </summary>
+        </member>
         <member name="T:Microsoft.Practices.Unity.InterceptionExtension.IInterceptingProxy">
             <summary>
             This interface is implemented by all proxy objects, type or instance based.
@@ -932,9 +982,28 @@
             PostBuildUp method is called when the chain has finished the PreBuildUp
             phase and executes in reverse order from the PreBuildUp calls.
             </summary>
-            <remarks>In this class, PostBuildUp checks to see if the object was proxyable,
+            <remarks>In this class, PostBuildUp checks to see if the object was proxiable,
             and if it was, wires up the handlers.</remarks>
             <param name="context">Context of the build operation.</param>
+        </member>
+        <member name="T:Microsoft.Practices.Unity.InterceptionExtension.InterceptingClassGenerator">
+            <summary>
+            Class that handles generating the dynamic types used for interception.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.InterceptingClassGenerator.#ctor(System.Type,System.Type[])">
+            <summary>
+            Create a new <see cref="T:Microsoft.Practices.Unity.InterceptionExtension.InterceptingClassGenerator"/> that will generate a
+            wrapper class for the requested <paramref name="typeToIntercept"/>.
+            </summary>
+            <param name="typeToIntercept">Type to generate the wrapper for.</param>
+            <param name="additionalInterfaces">Additional interfaces the proxy must implement.</param>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.InterceptingClassGenerator.GenerateType">
+            <summary>
+            Create the wrapper class for the given type.
+            </summary>
+            <returns>Wrapper type.</returns>
         </member>
         <member name="T:Microsoft.Practices.Unity.InterceptionExtension.InterceptingProxyImplementor">
             <summary>
@@ -954,7 +1023,7 @@
             <summary>
             A utility class that takes a set of <see cref="T:System.Reflection.MethodInfo"/>s
             and pulls out shadowed methods, only returning the ones that
-            are actually accessible to be overriden.
+            are actually accessible to be overridden.
             </summary>
         </member>
         <member name="M:Microsoft.Practices.Unity.InterceptionExtension.MethodSorter.GroupMethodsByName(System.Collections.Generic.IEnumerable{System.Reflection.MethodInfo})">
@@ -1128,6 +1197,11 @@
             <param name="other">Object to compare to.</param>
             <returns>True if the two keys are equal, false if not.</returns>
         </member>
+        <member name="T:Microsoft.Practices.Unity.InterceptionExtension.UtilityExtensions">
+            <summary>
+            Some utility extension methods to make things portable to Silverlight.
+            </summary>
+        </member>
         <member name="T:Microsoft.Practices.Unity.InterceptionExtension.PipelineManager">
             <summary>
             A collection of <see cref="T:Microsoft.Practices.Unity.InterceptionExtension.HandlerPipeline"/> objects, indexed
@@ -1137,7 +1211,7 @@
         </member>
         <member name="M:Microsoft.Practices.Unity.InterceptionExtension.PipelineManager.GetPipeline(System.Reflection.MethodBase)">
             <summary>
-            Retrieve the pipeline assocated with the requested <paramref name="method"/>.
+            Retrieve the pipeline associated with the requested <paramref name="method"/>.
             </summary>
             <param name="method">The method for which the pipeline is being requested.</param>
             <returns>The handler pipeline for the given method. If no pipeline has
@@ -1211,7 +1285,7 @@
         <member name="M:Microsoft.Practices.Unity.InterceptionExtension.InjectionPolicy.GetMethodSet(System.Reflection.MethodBase)">
             <summary>
             Given a method on an object, return the set of MethodBases for that method,
-            plus any inteface methods that the member implements.
+            plus any interface methods that the member implements.
             </summary>
             <param name="member">Member to get Method Set for.</param>
             <returns>The set of methods</returns>
@@ -1612,6 +1686,13 @@
             </summary>
             <param name="parameterName">Name of the parameter.</param>
             <returns>ParameterInfo object for the named parameter.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.IParameterCollection.ContainsParameter(System.String)">
+            <summary>
+            Does this collection contain a parameter value with the given name?
+            </summary>
+            <param name="parameterName">Name of parameter to find.</param>
+            <returns>True if the parameter name is in the collection, false if not.</returns>
         </member>
         <member name="P:Microsoft.Practices.Unity.InterceptionExtension.IParameterCollection.Item(System.String)">
             <summary>
@@ -2095,7 +2176,7 @@
         </member>
         <member name="M:Microsoft.Practices.Unity.InterceptionExtension.PropertyMatchingInfo.#ctor(System.String,Microsoft.Practices.Unity.InterceptionExtension.PropertyMatchingOption,System.Boolean)">
             <summary>
-            Construt a new <see cref="T:Microsoft.Practices.Unity.InterceptionExtension.PropertyMatchingInfo"/> that matches the given methods of
+            Construct a new <see cref="T:Microsoft.Practices.Unity.InterceptionExtension.PropertyMatchingInfo"/> that matches the given methods of
             the given property name.
             </summary>
             <param name="match">Property name to match.</param>
@@ -2169,7 +2250,7 @@
             false, case insensitive if <paramref name="ignoreCase"/> is true.
             </summary>
             <param name="tagToMatch">tag string to match.</param>
-            <param name="ignoreCase">if false, case-senstive comparison. If true, case-insensitive comparison.</param>
+            <param name="ignoreCase">if false, case-sensitive comparison. If true, case-insensitive comparison.</param>
         </member>
         <member name="M:Microsoft.Practices.Unity.InterceptionExtension.TagAttributeMatchingRule.Matches(System.Reflection.MethodBase)">
             <summary>
@@ -2242,7 +2323,7 @@
             given array of arguments.
             </summary>
             <param name="arguments">Complete collection of arguments.</param>
-            <param name="argumentInfo">Type information about about each parameter.</param>
+            <param name="argumentInfo">Type information about each parameter.</param>
             <param name="isArgumentPartOfCollection">A <see cref="T:System.Predicate`1"/> that indicates
             whether a particular parameter is part of the collection. Used to filter out only input
             parameters, for example.</param>
@@ -2267,6 +2348,13 @@
             </summary>
             <param name="index">Index of parameter to get the name for.</param>
             <returns>Name of the requested parameter.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.ParameterCollection.ContainsParameter(System.String)">
+            <summary>
+            Does this collection contain a parameter value with the given name?
+            </summary>
+            <param name="parameterName">Name of parameter to find.</param>
+            <returns>True if the parameter name is in the collection, false if not.</returns>
         </member>
         <member name="M:Microsoft.Practices.Unity.InterceptionExtension.ParameterCollection.Add(System.Object)">
             <summary>
@@ -2806,9 +2894,19 @@
               Looks up a localized string similar to Could not create instance of type {0} with no constructor arguments..
             </summary>
         </member>
+        <member name="P:Microsoft.Practices.Unity.InterceptionExtension.Properties.Resources.ExceptionCannotMapGenericTypeDefinition">
+            <summary>
+              Looks up a localized string similar to Cannot map generic type parameters on a generic type definition (an unbound generic type)..
+            </summary>
+        </member>
         <member name="P:Microsoft.Practices.Unity.InterceptionExtension.Properties.Resources.ExceptionContainsNullElement">
             <summary>
               Looks up a localized string similar to Collection contains a null element..
+            </summary>
+        </member>
+        <member name="P:Microsoft.Practices.Unity.InterceptionExtension.Properties.Resources.ExceptionMappedParametersDoNotMatch">
+            <summary>
+              Looks up a localized string similar to The lengths of the mapped generic parameters do not match..
             </summary>
         </member>
         <member name="P:Microsoft.Practices.Unity.InterceptionExtension.Properties.Resources.ExceptionNullInterfacesCollection">
@@ -2945,7 +3043,7 @@
             remoting call and return messages.
             </summary>
         </member>
-        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.TransparentProxyMethodReturn.#ctor(System.Runtime.Remoting.Messaging.IMethodCallMessage,System.Object,System.Object[],System.Collections.IDictionary)">
+        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.TransparentProxyMethodReturn.#ctor(System.Runtime.Remoting.Messaging.IMethodCallMessage,System.Object,System.Object[],System.Collections.Generic.IDictionary{System.String,System.Object})">
             <summary>
             Creates a new <see cref="T:Microsoft.Practices.Unity.InterceptionExtension.TransparentProxyMethodReturn"/> object that contains a
             return value.
@@ -2956,7 +3054,7 @@
             values of any out params).</param>
             <param name="invocationContext">Invocation context dictionary passed into the call.</param>
         </member>
-        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.TransparentProxyMethodReturn.#ctor(System.Exception,System.Runtime.Remoting.Messaging.IMethodCallMessage,System.Collections.IDictionary)">
+        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.TransparentProxyMethodReturn.#ctor(System.Exception,System.Runtime.Remoting.Messaging.IMethodCallMessage,System.Collections.Generic.IDictionary{System.String,System.Object})">
             <summary>
             Creates a new <see cref="T:Microsoft.Practices.Unity.InterceptionExtension.TransparentProxyMethodReturn"/> object that contains an
             exception thrown by the target.
@@ -3317,25 +3415,6 @@
             MethodInfo objects for the methods we need to generate
             calls to on IMethodInvocation.
             </summary>
-        </member>
-        <member name="T:Microsoft.Practices.Unity.InterceptionExtension.InterceptingClassGenerator">
-            <summary>
-            Class that handles generating the dynamic types used for interception.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.InterceptingClassGenerator.#ctor(System.Type,System.Type[])">
-            <summary>
-            Create a new <see cref="T:Microsoft.Practices.Unity.InterceptionExtension.InterceptingClassGenerator"/> that will generate a
-            wrapper class for the requested <paramref name="typeToIntercept"/>.
-            </summary>
-            <param name="typeToIntercept">Type to generate the wrapper for.</param>
-            <param name="additionalInterfaces">Additional interfaces the proxy must implement.</param>
-        </member>
-        <member name="M:Microsoft.Practices.Unity.InterceptionExtension.InterceptingClassGenerator.GenerateType">
-            <summary>
-            Create the wrapper class for the given type.
-            </summary>
-            <returns>Wrapper type.</returns>
         </member>
         <member name="T:Microsoft.Practices.Unity.InterceptionExtension.MethodOverride">
             <summary>

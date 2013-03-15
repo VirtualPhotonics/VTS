@@ -4044,6 +4044,63 @@
             </summary>
             <param name="context">Context of the build operation.</param>
         </member>
+        <member name="T:Microsoft.Practices.ObjectBuilder2.SingletonLifetimePolicy">
+            <summary>
+            A <see cref="T:Microsoft.Practices.ObjectBuilder2.ILifetimePolicy"/> that stores objects in the locator and
+            lifetime container provided by the context.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.ObjectBuilder2.SingletonLifetimePolicy.GetValue">
+            <summary>
+            Retrieve a value from the backing store associated with this Lifetime policy.
+            </summary>
+            <returns>the object desired, or null if no such object is currently stored.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.ObjectBuilder2.SingletonLifetimePolicy.SetValue(System.Object)">
+            <summary>
+            Stores the given value into backing store for retrieval later.
+            </summary>
+            <param name="newValue">The object being stored.</param>
+        </member>
+        <member name="M:Microsoft.Practices.ObjectBuilder2.SingletonLifetimePolicy.RemoveValue">
+            <summary>
+            Remove the given object from backing store.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.ObjectBuilder2.SingletonLifetimePolicy.Recover">
+            <summary>
+            A method that does whatever is needed to clean up
+            as part of cleaning up after an exception.
+            </summary>
+            <remarks>
+            Don't do anything that could throw in this method,
+            it will cause later recover operations to get skipped
+            and play real havok with the stack trace.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Practices.ObjectBuilder2.TransientLifetimePolicy">
+            <summary>
+            An implementation of <see cref="T:Microsoft.Practices.ObjectBuilder2.ILifetimePolicy"/> that does nothing,
+            ensuring that a new object gets created every time.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Practices.ObjectBuilder2.TransientLifetimePolicy.GetValue">
+            <summary>
+            Retrieve a value from the backing store associated with this Lifetime policy.
+            </summary>
+            <returns>the object desired, or null if no such object is currently stored.</returns>
+        </member>
+        <member name="M:Microsoft.Practices.ObjectBuilder2.TransientLifetimePolicy.SetValue(System.Object)">
+            <summary>
+            Stores the given value into backing store for retrieval later.
+            </summary>
+            <param name="newValue">The object being stored.</param>
+        </member>
+        <member name="M:Microsoft.Practices.ObjectBuilder2.TransientLifetimePolicy.RemoveValue">
+            <summary>
+            Remove the given object from backing store.
+            </summary>
+        </member>
         <member name="T:Microsoft.Practices.ObjectBuilder2.StagedStrategyChain`1">
             <summary>
             Represents a chain of responsibility for builder strategies partitioned by stages.
