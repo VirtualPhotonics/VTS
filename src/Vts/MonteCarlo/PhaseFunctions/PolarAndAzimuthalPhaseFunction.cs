@@ -3,10 +3,10 @@ using Vts.Common;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
-    public class PolarAndAzimuthalPhaseFunction : IPhaseFunction
+    public class PolarAndAzimuthalRejectionSampledLookUpTablePhaseFunction : IPhaseFunction
     {
 
-        public PolarAndAzimuthalPhaseFunction();
+        public PolarAndAzimuthalRejectionSampledLookUpTablePhaseFunction();
         public void Scatter(Direction incomingDirectionToModify, double theta, double phi)
         {
             double cosPsi = Math.Cos(phi);

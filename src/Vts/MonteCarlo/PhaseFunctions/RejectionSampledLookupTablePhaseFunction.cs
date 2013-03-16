@@ -5,18 +5,18 @@ using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
-    public class RejectionSampledLookupTablePhaseFunction : PolarAndAzimuthalPhaseFunction
+    public class RejectionSampledLookupTablePhaseFunction : PolarAndAzimuthalRejectionSampledLookUpTablePhaseFunction
     {
         private Random _rng;
         private ILookupTablePhaseFunctionData _lutData;//shouldn't ILookupTablePhaseFunctionData have PDF and CDF and angles?
-        private double[] _st11, _s12;
+        private MuellerMatrix _m;
+        //private double[] _st11, _s12;
 
-        public RejectionSampledLookupTablePhaseFunction(Random rng, ILookupTablePhaseFunctionData lutData, double [] st11, double []s12)
+        public RejectionSampledLookupTablePhaseFunction(Random rng, ILookupTablePhaseFunctionData lutData, MuellerMatrix m)
         {
             _rng = rng;
             _lutData = lutData;
-            _st11 = st11;
-            _s12 = s12;
+            _m = m;
         }
 
         /// <summary>
@@ -39,14 +39,14 @@ namespace Vts.MonteCarlo.PhaseFunctions
 		        theta = rand2*Math.PI;
 		        theta_index = (int)Math.Ceiling(theta*180.0/Math.PI*4.0);
         		//Normalization = 1.3*pmax;
-                temp = (_st11[theta_index] * Math.Sin(theta) * s.S0 + _s12[theta_index] * Math.Sin(theta) * (s.S1 * Math.Cos(2 * phi) + s.S2 * Math.Sin(2 * phi)));
+                temp = (_m.St11[theta_index] * Math.Sin(theta) * s.S0 + _m.S12[theta_index] * Math.Sin(theta) * (s.S1 * Math.Cos(2 * phi) + s.S2 * Math.Sin(2 * phi)));
                     ///Normalization;
 		        if (rand3 > temp)
 		            phi = -1.0;
 		        if (phi > -1.0) 
                     break;
 	        }
-            s.rotate(theta, phi, m);
+            s.rotate(theta, phi, _m);
             Scatter(incomingDirectionToModify, theta, phi);
         }
     }

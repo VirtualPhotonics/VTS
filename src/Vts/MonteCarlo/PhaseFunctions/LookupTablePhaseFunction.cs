@@ -5,10 +5,10 @@ using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
-    public class LookupTablePhaseFunction : PolarAndAzimuthalPhaseFunction
+    public class LookupTablePhaseFunction : PolarAndAzimuthalRejectionSampledLookUpTablePhaseFunction
     {
         private Random _rng;
-        private ILookupTablePhaseFunctionData _lutData;//shouldn't ILookupTablePhaseFunctionData have PDF and CDF and angles?
+        private ILookupTablePhaseFunctionData _lutData;
 
         public LookupTablePhaseFunction(Random rng, ILookupTablePhaseFunctionData lutData)
         {
