@@ -1,16 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
+    /// <summary>
+    /// A Mueller Matrix class for Mie Scatterers.  Choosing this class optimizes the MultiplyByVector function when multiplying the Mueller Matrix to a Stokes Vector.
+    /// </summary>
     public class MieScattererMuellerMatrix:MuellerMatrix
     {
-        public double[] Theta { get; set; }
-
-        //default constructor sets mueller matrix as linear vertical polarizer.
-        public MieScattererMuellerMatrix(double [] st11, double [] s12, double [] s22, double [] s33, double [] s34, double [] s44)
+        /// <summary>
+        /// Default constructor intializes Theta, St11, S12, S22, S33, and S34 and also sets the type as a MuellerMatrix for Mie Scatterers.
+        /// </summary>
+        public MieScattererMuellerMatrix(double [] theta, double [] st11, double [] s12, double [] s22, double [] s33, double [] s34)
         {
+            Theta = theta;
             St11 = st11;
             S12 = s12;
             S22 = s22;
@@ -19,7 +24,12 @@ namespace Vts.MonteCarlo.PhaseFunctions
             MuellerMatrixType = MuellerMatrixType.Mie;
         }
 
-        public void MultiplyByVector(StokesVector v, double theta)
+        /// <summary>
+        /// Multiplies the elements of this Mueller Matrix at theta to a Stokes Vector v.
+        /// </summary>
+        /// <param name="v">  Stokes vector of some photon.  </param>
+        /// <param name="theta">  Polar angle.  </param>
+        public override void MultiplyByVector(StokesVector v, double theta)
         {
             int index = ReturnIndexAtThetaValue(theta);
 

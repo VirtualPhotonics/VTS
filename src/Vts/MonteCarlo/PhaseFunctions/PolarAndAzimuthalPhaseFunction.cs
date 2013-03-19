@@ -1,12 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 using Vts.Common;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
-    public class PolarAndAzimuthalRejectionSampledLookUpTablePhaseFunction : IPhaseFunction
+    /// <summary>
+    /// An abstract class from which other phase function classes may inherit from.  Subclasses must be able to sample polar and azimuthal angles.
+    /// </summary>
+    public abstract class PolarAndAzimuthalPhaseFunction
     {
 
-        public PolarAndAzimuthalRejectionSampledLookUpTablePhaseFunction();
+        /// <summary>
+        /// An abstract constructor for this class.
+        /// </summary>
+        public abstract PolarAndAzimuthalPhaseFunction();
+
+        /// <summary>
+        /// Rotates the vector incomingDirectionToModify by the polar angle theta and azimuthal angle phi.  
+        /// </summary>
+        /// <param name="incomingDirectionToModify">The input direction</param>
+        /// <param name="theta">The polar angle.</param>
+        /// <param name="phi">The azimuthalangle.</param>
         public void Scatter(Direction incomingDirectionToModify, double theta, double phi)
         {
             double cosPsi = Math.Cos(phi);
@@ -33,6 +47,5 @@ namespace Vts.MonteCarlo.PhaseFunctions
             incomingDirectionToModify.Uy = uyp;
             incomingDirectionToModify.Uz = uzp;
         }
-
     }
 }

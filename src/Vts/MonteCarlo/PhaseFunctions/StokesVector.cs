@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
+    /// <summary>
+    /// A Stokes Vector class that describes photon polarization.  See Van De Hulst's "Light Scattering by Small Particles" for more info.
+    /// </summary>
     public class StokesVector
     {
         public double S0 { get; set; }
@@ -11,6 +15,13 @@ namespace Vts.MonteCarlo.PhaseFunctions
         public double S2 { get; set; }
         public double S3 { get; set; }
 
+        /// <summary>
+        /// Constructor that initializes S0, S1, S2, S3 elements.
+        /// </summary>
+        /// <param name="s0">Input for S0.</param>
+        /// <param name="s1">Input for S1.</param>
+        /// <param name="s2">Input for S2.</param>
+        /// <param name="s3">Input for S3.</param>
         public StokesVector(double s0, double s1, double s2, double s3)
         {
             S0 = s0;
@@ -22,7 +33,6 @@ namespace Vts.MonteCarlo.PhaseFunctions
         /// <summary>
         /// Default constructor that creates an unpolarized Stokes Vector.
         /// </summary>
-        /// <param name="incomingDirectionToModify">The input direction</param>
         public StokesVector()
         {
             S0 = 1;
@@ -31,8 +41,13 @@ namespace Vts.MonteCarlo.PhaseFunctions
             S3 = 0;
         }
 
-        // The input Stokes vector is  (S0, S1, S2, S3)
-        // Scattering reference frame defined such that (1,1,0,0) is horizontal and (1,-1,0,0) is vertical
+        /// <summary>
+        /// Using Mueller Matrix m, rotate this Stokes vector by polar angle theta and azimuthal angle phi.  
+        /// Scattering reference frame defined such that (1,1,0,0) is horizontal and (1,-1,0,0) is vertical
+        /// </summary>
+        /// <param name="theta">polar angle.</param>
+        /// <param name="phi">azimuthal angle.</param>
+        /// <param name="m">mueller matrix of the current region.</param>
         public void rotate(double theta, double phi, MuellerMatrix m)
         {
             double cos2Psi, sin2Psi;

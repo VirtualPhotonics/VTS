@@ -1,17 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
-    public class RejectionSampledLookupTablePhaseFunction : PolarAndAzimuthalRejectionSampledLookUpTablePhaseFunction
+    /// <summary>
+    /// A Look-up Table Phase Function that uses the rejection sampling method to sample the polar and azimuthal angles.
+    /// </summary>
+    public class RejectionSampledLookupTablePhaseFunction : PolarAndAzimuthalPhaseFunction
+        //comment: I'm not sure how to scatter without the stokes vector information when rejection sampling.  IPhaseFunction requires a
+        //ScatterToNewDirection() method without the input of a stokes vector.  I know this class should probably implement the IPhaseFunction
+        //interface, but I'm not sure how to go about doing that.
     {
         private Random _rng;
-        private ILookupTablePhaseFunctionData _lutData;//shouldn't ILookupTablePhaseFunctionData have PDF and CDF and angles?
+        private ILookupTablePhaseFunctionData _lutData;
         private MuellerMatrix _m;
-        //private double[] _st11, _s12;
 
+
+        /// <summary>
+        /// Constructor that initializes private member variables.
+        /// </summary>
         public RejectionSampledLookupTablePhaseFunction(Random rng, ILookupTablePhaseFunctionData lutData, MuellerMatrix m)
         {
             _rng = rng;
@@ -20,7 +30,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
         }
 
         /// <summary>
-        /// Method to scatter based on a discretized lookup table
+        /// Method to scatter based on a discretized lookup table.  Rotates the Stokes vector, s, appropriately as well.
         /// </summary>
         /// <param name="incomingDirectionToModify">The input direction</param>
         public void ScatterToNewDirection(Direction incomingDirectionToModify, StokesVector s)

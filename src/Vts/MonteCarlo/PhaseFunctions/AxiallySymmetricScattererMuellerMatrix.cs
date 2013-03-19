@@ -4,12 +4,16 @@ using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
-    public class AxiySymmetricScattererMuellerMatrix:MuellerMatrix
+    /// <summary>
+    /// A Mueller matrix class for scatterers that are axially symmetric.  (Mainly for Mueller matrices generated from the T-Matrix method.)
+    /// </summary>
+    public class AxiallySymmetricScattererMuellerMatrix:MuellerMatrix
     {
-        public double[] Theta { get; set; }
-
-        //default constructor sets mueller matrix as linear vertical polarizer.
-        public AxiySymmetricScattererMuellerMatrix(double [] st11, double [] s12, double [] s22, double [] s33, double [] s34, double [] s44)
+        /// <summary>
+        /// A constructor that initalizes the non-zero elements of the Mueller matrix for axially symmetric particles.
+        /// Also initializes the Theta and MuellerMatrixType.
+        /// </summary>
+        public AxiallySymmetricScattererMuellerMatrix(double [] theta, double [] st11, double [] s12, double [] s22, double [] s33, double [] s34, double [] s44)
         {
             St11 = st11;
             S12 = s12;
@@ -17,10 +21,16 @@ namespace Vts.MonteCarlo.PhaseFunctions
             S33 = s33;
             S34 = s34;
             S44 = s44;
+            Theta = theta;
             MuellerMatrixType = MuellerMatrixType.TMatrix;
         }
 
-        public void MultiplyByVector(StokesVector v, double theta)
+        /// <summary>
+        /// Multiplies this MuellerMatrix instance (evaluated at polar angle theta) by the StokesVector v and saves the product to v.
+        /// </summary>
+        /// <param name="v">Current Stokes vector of the photon.</param>
+        /// <param name="theta">The polar angle.</param>
+        public override void MultiplyByVector(StokesVector v, double theta)
         {
             int index = ReturnIndexAtThetaValue(theta);
 
@@ -35,11 +45,5 @@ namespace Vts.MonteCarlo.PhaseFunctions
             v.S2 = S2sn;
             v.S3 = S3sn;
         }
-
-        /// <summary>
-        /// Mueller Matrix type
-        /// </summary>
-        [IgnoreDataMember]
-        public MuellerMatrixType MuellerMatrixType{ get; set; }
     }
 }

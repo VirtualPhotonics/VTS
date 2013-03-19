@@ -28,7 +28,7 @@ namespace Vts.MonteCarlo
                 PointSourceTwoLayerTissueROfRhoDetector(),
                 PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
-                PointSourceOneLayerTissueLUTPhaseFunctionROfRho(),
+                PointSourceOneLayerTissueLUTPhaseFunctionROfRhoDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 GaussianSourceOneLayerTissueROfRhoDetector(),
                 PointSourceMultiLayerReflectedMTOfRhoAndSubRegionHistDetector()

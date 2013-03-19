@@ -4,8 +4,29 @@ using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
-    public class MuellerMatrix
+    /// <summary>
+    /// A class that stores the values of a Mueller Matrix.  Elements of the Mueller Matrix may depend on the polar angle.
+    /// </summary>
+    /// <param name="theta">  An array storing all the polar angles st11, s12, s22, s33, and s34 were evaluated at.</param>
+    /// <param name="st11">  The element in the first row and column of this Mueller Matrix.  </param>
+    /// <param name="s12">  The element in the 1st row and 2nd column of this Mueller Matrix.  </param>
+    /// <param name="s13">  The element in the 1st row and 3rd column of this Mueller Matrix.  </param>
+    /// <param name="s14">  The element in the 1st row and 4th column of this Mueller Matrix.  </param>
+    /// <param name="s21">  The element in the 2nd row and 1st column of this Mueller Matrix.  </param>
+    /// <param name="s22">  The element in the 2nd row and 2nd column of this Mueller Matrix.  </param>
+    /// <param name="s23">  The element in the 2nd row and 3rd column of this Mueller Matrix.  </param>
+    /// <param name="s24">  The element in the 2nd row and 4th column of this Mueller Matrix.  </param>
+    /// <param name="s31">  The element in the 3rd row and 1st column of this Mueller Matrix.  </param>
+    /// <param name="s32">  The element in the 3rd row and 2nd column of this Mueller Matrix.  </param>
+    /// <param name="s33">  The element in the 3rd row and 3rd column of this Mueller Matrix.  </param>
+    /// <param name="s34">  The element in the 3rd row and 4th column of this Mueller Matrix.  </param>
+    /// <param name="s41">  The element in the 4th row and 1st column of this Mueller Matrix.  </param>
+    /// <param name="s42">  The element in the 4th row and 2nd column of this Mueller Matrix.  </param>
+    /// <param name="s43">  The element in the 4th row and 3rd column of this Mueller Matrix.  </param>
+    /// <param name="s44">  The element in the 4th row and 4th column of this Mueller Matrix.  </param>
+    public abstract class MuellerMatrix
     {
+
         public double[] St11 { get; set; }
         public double[] S12 { get; set; }
         public double[] S13 { get; set; }
@@ -23,7 +44,10 @@ namespace Vts.MonteCarlo.PhaseFunctions
         public double[] S43 { get; set; }
         public double[] S44 { get; set; }
         public double[] Theta { get; set; }
-        //default constructor sets mueller matrix as linear vertical polarizer.
+
+        /// <summary>
+        /// Default constructor sets mueller matrix as linear vertical polarizer.
+        /// </summary>
         public MuellerMatrix()
         {
             St11 = new double[1];
@@ -63,13 +87,18 @@ namespace Vts.MonteCarlo.PhaseFunctions
             MuellerMatrixType = MuellerMatrixType.LinearVerticalPolarizer;
         }
 
-        public void MultiplyByVector(StokesVector v, double theta)
-        { 
-            //TODO
-        }
+        /// <summary>
+        /// An abstract function for subclasses to implement.  This function multiplies the Stokes vector, vectorToBeModified by this 
+        /// Mueller Matrix evaluated at polar angle theta.  The function then saves the product of the two to vectorToBeModified.
+        /// </summary>
+        /// <param name="vectorToBeModified">  Describes the current polarization of the photon.  At the end of this function, this 
+        /// vector will store the product of the original Stokes vector and the Mueller matrix.</param>
+        /// <param name="theta">  A polar angle that this Mueller matrix will be evaluated at.</param>
+        public abstract void MultiplyByVector(StokesVector vectorToBeModified, double theta);
 
-
-        //does a binary search for thetavalue in the array theta.
+        /// <summary>
+        /// Does a binary search for thetaValue in the array Theta.  Returns the index of the array element closest to thetaValue.  Assumes that Theta is sorted.
+        /// </summary>
         public int ReturnIndexAtThetaValue(double thetaValue)
         {
             int imin = 0;
