@@ -182,6 +182,7 @@
     <Compile Include="Extensions\StringLookup.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\ComplexPoint.cs" />
     <Compile Include="Model\MapData.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>

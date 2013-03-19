@@ -309,6 +309,9 @@
   <data name="Label_HoldOn" xml:space="preserve">
     <value>Hold On</value>
   </data>
+  <data name="Label_PlotToggle" xml:space="preserve">
+    <value>Plot Toggle:</value>
+  </data>
   <data name="Label_Normalization" xml:space="preserve">
     <value>Normalization:</value>
   </data>

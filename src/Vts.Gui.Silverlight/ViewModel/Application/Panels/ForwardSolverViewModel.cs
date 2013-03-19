@@ -1,10 +1,8 @@
-﻿using System;
+﻿using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using SLExtensions.Input;
-using Vts.Extensions;
-using Vts.Common;
 using Vts.Factories;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
@@ -143,10 +141,20 @@ namespace Vts.Gui.Silverlight.ViewModel
             string plotLabel = GetLegendLabel();
             if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
-                var phase = points[0];
-                var amp = points[1];
-                Commands.Plot_PlotValues.Execute(new PlotData(phase, plotLabel + "\r(phase[deg])"));
-                Commands.Plot_PlotValues.Execute(new PlotData(amp, plotLabel + "\r(amp)"));
+                Commands.Plot_SetComplexPlotFlag.Execute();
+                var real = points[0];
+                var imag = points[1];
+                // convert Point to ComplexPoint
+                var complexPoints = new List<ComplexPoint>();
+                for (int i = 0; i < real.Length; i++)
+                {
+                    complexPoints.Add(new ComplexPoint(real[i].X, new Complex(real[i].Y, imag[i].Y)));
+                }
+
+                //Commands.Plot_PlotValues.Execute(new PlotData(real, plotLabel + "\r(real)"));
+                //Commands.Plot_PlotValues.Execute(new PlotData(imag, plotLabel + "\r(imag)"));
+                Commands.Plot_PlotValues.Execute(new PlotData(complexPoints, plotLabel + "\r(real)",
+                    plotLabel + "\r(imag)"));
             }
             else
             {
@@ -226,11 +234,11 @@ namespace Vts.Gui.Silverlight.ViewModel
                 return new[] {
                     EnumerableEx.Zip(
                         independentValues,
-                        phase,
+                        real,
                         (x, y) => new Point(x, y)).ToArray(),
                     EnumerableEx.Zip(
                         independentValues,
-                        amp, 
+                        imag, 
                         (x, y) => new Point(x, y)).ToArray()
                 };
             }

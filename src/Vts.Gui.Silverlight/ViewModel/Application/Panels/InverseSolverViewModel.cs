@@ -1,4 +1,4 @@
-using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -230,14 +230,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                 if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
                 {
                     var numValues = RangeVM.Number;
-                    var real = MeasuredDataValues.Take(numValues).ToArray();
-                    var imag = MeasuredDataValues.Skip(numValues).Take(numValues).ToArray();
+                    var real = MeasuredDataValues.Take(numValues);
+                    var imag = MeasuredDataValues.Skip(numValues).Take(numValues);
 
                     return new[] {
                         new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
-                            RangeVM.Values, Vts.Common.Math.Convert.ToPhase(real, imag), (x, y) => new Point(x, y))),
+                            RangeVM.Values, real, (x, y) => new Point(x, y))),
                         new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
-                            RangeVM.Values, Vts.Common.Math.Convert.ToAmplitude(real, imag), (x, y) => new Point(x, y)))
+                            RangeVM.Values, imag, (x, y) => new Point(x, y)))
                     };
                 }
 
@@ -260,13 +260,13 @@ namespace Vts.Gui.Silverlight.ViewModel
                 if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
                 {
                     var numValues = RangeVM.Number;
-                    var real = InitialGuessDataValues.Take(numValues).ToArray();
-                    var imag = InitialGuessDataValues.Skip(numValues).Take(numValues).ToArray();
+                    var real = InitialGuessDataValues.Take(numValues);
+                    var imag = InitialGuessDataValues.Skip(numValues).Take(numValues);
                     return new[] {
                         new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
-                            RangeVM.Values, Vts.Common.Math.Convert.ToPhase(real, imag), (x, y) => new Point(x, y))),
+                            RangeVM.Values, real, (x, y) => new Point(x, y))),
                         new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
-                            RangeVM.Values, Vts.Common.Math.Convert.ToAmplitude(real, imag), (x, y) => new Point(x, y)))
+                            RangeVM.Values, imag, (x, y) => new Point(x, y)))
                     };
                 }
 
@@ -288,13 +288,13 @@ namespace Vts.Gui.Silverlight.ViewModel
                 if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
                 {
                     var numValues = RangeVM.Number;
-                    var real = ResultDataValues.Take(numValues).ToArray();
-                    var imag = ResultDataValues.Skip(numValues).Take(numValues).ToArray();
+                    var real = ResultDataValues.Take(numValues);
+                    var imag = ResultDataValues.Skip(numValues).Take(numValues);
                     return new[] {
                         new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
-                            RangeVM.Values, Vts.Common.Math.Convert.ToPhase(real, imag), (x, y) => new Point(x, y))),
+                            RangeVM.Values, real, (x, y) => new Point(x, y))),
                         new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
-                            RangeVM.Values, Vts.Common.Math.Convert.ToAmplitude(real, imag), (x, y) => new Point(x, y)))
+                            RangeVM.Values, imag, (x, y) => new Point(x, y)))
                     };
                 }
 
@@ -426,17 +426,23 @@ namespace Vts.Gui.Silverlight.ViewModel
             string plotLabel = GetLegendLabel(dataType);
             if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
+                Commands.Plot_SetComplexPlotFlag.Execute();
                 var real = points[0];
                 var imag = points[1];
-                Commands.Plot_PlotValues.Execute(new PlotData(real, plotLabel + "\r(phase[deg])"));
-                Commands.Plot_PlotValues.Execute(new PlotData(imag, plotLabel + "\r(amp)"));
+                // convert Point to ComplexPoint
+                var complexPoints = new List<ComplexPoint>();
+                for (int i = 0; i < real.Length; i++)
+                {
+                    complexPoints.Add(new ComplexPoint(real[i].X, new Complex(real[i].Y, imag[i].Y)));
+                }
+                Commands.Plot_PlotValues.Execute(new PlotData(complexPoints, plotLabel + "\r(real)",
+                    plotLabel + "\r(imag)"));
             }
             else
             {
                 Commands.Plot_PlotValues.Execute(new PlotData(points.First(), plotLabel));
             }
         }
-
 
         public double[] CalculateMeasuredData()
         {

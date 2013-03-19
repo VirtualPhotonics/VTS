@@ -404,6 +404,20 @@ namespace Vts
         Log
     }
     /// <summary>
+    /// plot toggle types
+    /// </summary>
+    public enum PlotToggleType
+    {
+        /// <summary>
+        /// real/imag type
+        /// </summary>
+        RealImag,
+        /// <summary>
+        /// phase/amplitude type
+        /// </summary>
+        PhaseAmp
+    }
+    /// <summary>
     /// plot normalization types
     /// </summary>
     public enum PlotNormalizationType
