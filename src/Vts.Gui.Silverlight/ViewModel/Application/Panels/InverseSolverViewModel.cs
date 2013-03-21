@@ -227,7 +227,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             get
             {
                 // if it's reporting Real + Imaginary, we need a vector twice as long
-                if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
+                if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
                 {
                     var numValues = RangeVM.Number;
                     var real = MeasuredDataValues.Take(numValues);
@@ -257,7 +257,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             get
             {
                 // if it's reporting Real + Imaginary, we need a vector twice as long
-                if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
+                if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
                 {
                     var numValues = RangeVM.Number;
                     var real = InitialGuessDataValues.Take(numValues);
@@ -285,7 +285,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             get
             {
                 // if it's reporting Real + Imaginary, we need a vector twice as long
-                if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
+                if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
                 {
                     var numValues = RangeVM.Number;
                     var real = ResultDataValues.Take(numValues);
@@ -424,8 +424,8 @@ namespace Vts.Gui.Silverlight.ViewModel
         void PlotValues(Point[][] points, PlotDataType dataType)
         {
             string plotLabel = GetLegendLabel(dataType);
-            Commands.Plot_SetRequestedIndependentVariableAxis.Execute(SolutionDomainTypeOptionVM.SelectedValue);
-            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
+            Commands.Plot_SetRequestedIndependentVariableAxis.Execute(SolutionDomainTypeOptionVM.IndependentAxisType);
+            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
             {
                 var real = points[0];
                 var imag = points[1];
