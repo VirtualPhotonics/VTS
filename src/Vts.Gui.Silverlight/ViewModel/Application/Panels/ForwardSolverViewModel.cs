@@ -137,11 +137,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             Point[][] points = ExecuteForwardSolver();
             PlotAxesLabels axesLabels = GetPlotLabels();
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
+            Commands.Plot_SetRequestedIndependentVariableAxis.Execute(SolutionDomainTypeOptionVM.IndependentAxisType);
 
             string plotLabel = GetLegendLabel();
-            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
+            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
             {
-                Commands.Plot_SetComplexPlotFlag.Execute();
                 var real = points[0];
                 var imag = points[1];
                 // convert Point to ComplexPoint

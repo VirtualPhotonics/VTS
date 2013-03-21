@@ -424,9 +424,9 @@ namespace Vts.Gui.Silverlight.ViewModel
         void PlotValues(Point[][] points, PlotDataType dataType)
         {
             string plotLabel = GetLegendLabel(dataType);
+            Commands.Plot_SetRequestedIndependentVariableAxis.Execute(SolutionDomainTypeOptionVM.SelectedValue);
             if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
-                Commands.Plot_SetComplexPlotFlag.Execute();
                 var real = points[0];
                 var imag = points[1];
                 // convert Point to ComplexPoint

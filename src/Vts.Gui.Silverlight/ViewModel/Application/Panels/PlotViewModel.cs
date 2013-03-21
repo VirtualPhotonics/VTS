@@ -32,7 +32,6 @@ namespace Vts.Gui.Silverlight.ViewModel
         private OptionViewModel<PlotNormalizationType> _PlotNormalizationTypeOptionVM;
         private string _CustomPlotLabel;
         private bool _ShowAxes;
-        private bool _IsComplexPlot;
         
         private double _MinYValue;
         private double _MaxYValue;
@@ -41,6 +40,9 @@ namespace Vts.Gui.Silverlight.ViewModel
         private bool _AutoScaleX;
         private bool _AutoScaleY;
         private List<IList<Point>> _DataSeriesCollectionToggle;
+        private IndependentVariableAxis _RequestedIndependentVariableAxis;
+        private bool _IsFtPlot;
+        private IndependentVariableAxis _currentIndependentVariableAxis;
 
         public PlotViewModel()
         {
@@ -56,11 +58,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             DataSeriesCollection = new List<IList<Point>>();
             PlotSeriesCollection = new ObservableCollection<IList<Point>>();
             DataSeriesCollectionToggle = new List<IList<Point>>();
+            IsFtPlot = false;
 
             PlotType = ReflectancePlotType.ForwardSolver;
             HoldOn = true;
             ShowAxes = false;
-            IsComplexPlot = false;
 
             XAxisSpacingOptionVM = new OptionViewModel<ScalingType>("XAxisSpacing", false);
             XAxisSpacingOptionVM.PropertyChanged += (sender, args) => UpdatePlotSeries();
@@ -78,7 +80,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             
             Commands.Plot_PlotValues.Executed += Plot_Executed;
             Commands.Plot_SetAxesLabels.Executed += Plot_SetAxesLabels_Executed;
-            Commands.Plot_SetComplexPlotFlag.Executed += Plot_SetComplexPlotFlag_Executed;
+            Commands.Plot_SetRequestedIndependentVariableAxis.Executed += Plot_SetRequestedIndependentVariableAxis_Executed;
 
             ClearPlotCommand = new RelayCommand(() => Plot_Cleared(null, null));
             ClearPlotSingleCommand = new RelayCommand(() => Plot_ClearedSingle(null, null));
@@ -122,7 +124,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._CustomPlotLabel = plotToClone._CustomPlotLabel;
             output._Title = plotToClone._Title;
             output._ShowAxes = plotToClone._ShowAxes;
-            output._IsComplexPlot = plotToClone._IsComplexPlot;
             output._MinYValue = plotToClone._MinYValue;
             output._MaxYValue = plotToClone._MaxYValue;
             output._MinXValue = plotToClone._MinXValue;
@@ -223,13 +224,22 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("PlotToggleTypeOptionVM");
             }
         }
-        public bool IsComplexPlot
+        public IndependentVariableAxis RequestedIndependentVariableAxis
         {
-            get { return _IsComplexPlot; }
+            get { return _RequestedIndependentVariableAxis; }
             set
             {
-                _IsComplexPlot = value;
-                this.OnPropertyChanged("IsComplexPlot");
+                _RequestedIndependentVariableAxis = value;
+                this.OnPropertyChanged("RequestedIndependentVariableAxis");
+            }
+        }
+        public bool IsFtPlot
+        {
+            get { return _IsFtPlot; }
+            set
+            {
+                _IsFtPlot = value;
+                this.OnPropertyChanged("IsFtPlot");
             }
         }
         public OptionViewModel<PlotNormalizationType> PlotNormalizationTypeOptionVM
@@ -431,22 +441,28 @@ namespace Vts.Gui.Silverlight.ViewModel
             ClearPlotSingle();
             UpdatePlotSeries();
         }
-        void Plot_SetComplexPlotFlag_Executed(object sender, ExecutedEventArgs e)
+        void Plot_SetRequestedIndependentVariableAxis_Executed(object sender, ExecutedEventArgs e)
         {
-            IsComplexPlot = true;
+            if (e.Parameter is IndependentVariableAxis)
+            {
+                var independentVariableAxis = (IndependentVariableAxis)e.Parameter;
+                RequestedIndependentVariableAxis = independentVariableAxis;
+            }
         }
         void Plot_Executed(object sender, ExecutedEventArgs e)
         {
             var data = e.Parameter as PlotData;
             if (data != null)
             {
-                if ((IsComplexPlot)&&(data.Points == null)) // check for user request of nonComplex with Complex
+                if ((RequestedIndependentVariableAxis == IndependentVariableAxis.Ft)&&(data.Points == null))
                 {
                     AddValuesToPlotData(data.ComplexPoints, data.Title, data.Title2);
+                    IsFtPlot = true;
                 }
-                else
+                else // non-Ft plot
                 {
                     AddValuesToPlotData(data.Points, data.Title);
+                    IsFtPlot = false;
                 }
             }
         }
@@ -458,9 +474,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 ClearPlot();
             }
-            if (IsComplexPlot)
+            if (RequestedIndependentVariableAxis != _currentIndependentVariableAxis)
             {
                 ClearPlot();
+                Commands.TextOutput_PostMessage.Execute("Plot View: plot cleared due to independent axis variable change\r");
+                _currentIndependentVariableAxis = RequestedIndependentVariableAxis;
             }
 
             //// filter the results if we're not auto-scaling (the default)
@@ -487,9 +505,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 ClearPlot();
             }
-            if (!IsComplexPlot)
+            if (_currentIndependentVariableAxis != IndependentVariableAxis.Ft)
             {
                 ClearPlot();
+                Commands.TextOutput_PostMessage.Execute("Plot View: plot cleared due to independent axis variable change\r");
+                _currentIndependentVariableAxis = IndependentVariableAxis.Ft;
             }
             // default data stored in DataSeriesCollection is real/imag
             var realPoints = new List<Point>();
@@ -526,7 +546,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             DataSeriesCollection.Clear();
             PlotSeriesCollection.Clear();
             Labels.Clear();
-            IsComplexPlot = false;
             DataSeriesCollectionToggle.Clear();
         }
 
@@ -548,7 +567,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 PlotSeriesCollection.RemoveAt(PlotSeriesCollection.Count - 1);
                 Labels.RemoveAt(Labels.Count - 1);
                 DataSeriesCollectionToggle.RemoveAt(DataSeriesCollectionToggle.Count - 1);
-                if (IsComplexPlot) // remove 2nd complex plot info
+                if (_currentIndependentVariableAxis == IndependentVariableAxis.Ft) // remove 2nd complex plot info
                 {
                     DataSeriesCollection.RemoveAt(DataSeriesCollection.Count - 1);
                     PlotSeriesCollection.RemoveAt(PlotSeriesCollection.Count - 1);
@@ -569,7 +588,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             int normCurveNumber = 0;
 
             var tempDSC = DataSeriesCollection;
-            if (IsComplexPlot)
+            if (_currentIndependentVariableAxis == IndependentVariableAxis.Ft)
             {
                 if (PlotToggleTypeOptionVM.SelectedValue == PlotToggleType.PhaseAmp)
                 {

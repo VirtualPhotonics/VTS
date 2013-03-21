@@ -30,7 +30,7 @@ namespace Vts.Gui.Silverlight.Input
             Plot_AddLegendItem = new Command("Plot_AddLegendItem");
             Plot_SetAxesLabels = new Command("Plot_SetAxesLabels");
             Plot_ExportDataToText = new Command("Plot_ExportDataToText");
-            Plot_SetComplexPlotFlag = new Command("Plot_SetComplexPlotFlag");
+            Plot_SetRequestedIndependentVariableAxis = new Command("Plot_SetRequestedIndependentVariableAxis");
 
             Maps_PlotMap = new Command("Maps_PlotNewMap");
 
@@ -83,7 +83,7 @@ namespace Vts.Gui.Silverlight.Input
         public static Command Plot_AddLegendItem { get; private set; }
         public static Command Plot_SetAxesLabels { get; private set; }
         public static Command Plot_ExportDataToText { get; private set; }
-        public static Command Plot_SetComplexPlotFlag { get; private set; }
+        public static Command Plot_SetRequestedIndependentVariableAxis { get; private set; }
 
         // Fluence Map commands
         //public static Command Maps_CreateDemoMap { get; private set; }
