@@ -13,24 +13,23 @@ namespace Vts.Test.MonteCarlo
     public class PolarLookupTablePhaseFunctionDataTests
     {
         /// <summary>
-        /// Tests to validate if last value of CDF is 1.
+        /// Test the constructor.
         /// </summary>
         [Test]
-        public void validate_CDF()
+        public void validate_constructor()
         {
-            var d1 = new Direction(1, 0, 0);
-            var rng = new Random();
-            var lutData = new PolarLookupTablePhaseFunctionData();
-            Assert.IsTrue(lutData.LutCdf[lutData.LutCdf.Length - 1] == 1);
+            var data = new PolarLookupTablePhaseFunctionData();
+            Assert.IsTrue(data.Name.Equals("PolarLookuptablePhaseFunctionData"));
         }
         /// <summary>
-        /// Tests to validate if integral of PDF is CDF.
+        /// Test setting the member variables.
         /// </summary>
         [Test]
-        public void validate_PDF()
+        public void validate_setting_member_vars()
         {
-            var lutData = new PolarLookupTablePhaseFunctionData();
-            var testCdf = Integration.IntegrateTrapezoidRuleForTwoLists(lutData.LutAngles.ToList(), lutData.LutPdf.ToList(), 0, Math.PI);
+            var data = new PolarLookupTablePhaseFunctionData();
+            data.LutAngles = new[] { 0.0, Math.PI/2, Math.PI };
+            Assert.IsTrue(data.LutAngles.Equals(new[] {0.0, Math.PI/2, Math.PI});
         }
     }
 }

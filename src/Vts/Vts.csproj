@@ -247,7 +247,7 @@
     <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\PolarAndAzimuthalLookupTablePhaseFunctionData.cs" />
     <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\HenyeyGreensteinPhaseFunctionInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\LookupTablePhaseFunctionInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PolarLookupTablePhaseFunctionData.cs" />
+    <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\PolarLookupTablePhaseFunctionData.cs" />
     <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />

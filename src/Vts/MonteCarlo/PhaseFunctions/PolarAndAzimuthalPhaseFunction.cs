@@ -11,9 +11,9 @@ namespace Vts.MonteCarlo.PhaseFunctions
     {
 
         /// <summary>
-        /// An abstract constructor for this class.
+        /// An constructor for this class.
         /// </summary>
-        public abstract PolarAndAzimuthalPhaseFunction();
+        public PolarAndAzimuthalPhaseFunction() { }
 
         /// <summary>
         /// Rotates the vector incomingDirectionToModify by the polar angle theta and azimuthal angle phi.  
