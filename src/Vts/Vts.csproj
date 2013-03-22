@@ -112,21 +112,9 @@
     <Reference Include="NLog">
       <HintPath>..\..\lib\NLog\SL4\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="System.CoreEx">
-      <HintPath>..\..\lib\RxFramework\SL4\System.CoreEx.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Interactive">
-      <HintPath>..\..\lib\RxFramework\SL4\System.Interactive.dll</HintPath>
-    </Reference>
     <Reference Include="System.Numerics, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Numerics.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Observable">
-      <HintPath>..\..\lib\RxFramework\SL4\System.Observable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive">
-      <HintPath>..\..\lib\RxFramework\SL4\System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\SL5\System.Reactive.Core.dll</HintPath>
