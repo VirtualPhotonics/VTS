@@ -128,6 +128,18 @@
     <Reference Include="System.Reactive">
       <HintPath>..\..\lib\RxFramework\SL4\System.Reactive.dll</HintPath>
     </Reference>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\SL5\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\SL5\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\SL5\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\SL5\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Threading.Tasks">
       <HintPath>..\..\lib\TasksSL\System.Threading.Tasks.dll</HintPath>
@@ -580,6 +592,7 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt" />
+    <None Include="packages.config" />
     <None Include="Sources.cd" />
     <None Include="Vts.snk" />
   </ItemGroup>

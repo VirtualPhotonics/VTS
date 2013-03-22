@@ -627,14 +627,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                     (_AutoScaleY ? true : (p.Y <= MaxYValue && p.Y >= MinYValue));
 
             var pointsToPlot =
-                from ds in EnumerableEx.Zip(
+                from ds in Enumerable.Zip(
                     tempDSC,
                     normalizationPoints, (p, n) => new {DataPoints = p, NormValues = n})
                 let xValues = ds.DataPoints.Select(dp => dp.X)
-                let yValues = EnumerableEx.Zip(ds.DataPoints, ds.NormValues, (dp, nv) => dp.Y/nv)
+                let yValues = Enumerable.Zip(ds.DataPoints, ds.NormValues, (dp, nv) => dp.Y/nv)
                 let useLogX = XAxisSpacingOptionVM.SelectedValue == ScalingType.Log
                 let useLogY = YAxisSpacingOptionVM.SelectedValue == ScalingType.Log
-                select  EnumerableEx.Zip(xValues, yValues, (x, y) =>
+                select  Enumerable.Zip(xValues, yValues, (x, y) =>
                     new Point(
                         useLogX ? Math.Log10(x) : x,
                         useLogY ? Math.Log10(y) : y))

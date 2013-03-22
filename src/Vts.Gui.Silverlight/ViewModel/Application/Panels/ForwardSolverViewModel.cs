@@ -232,11 +232,11 @@ namespace Vts.Gui.Silverlight.ViewModel
                 var amp = Vts.Common.Math.Convert.ToAmplitude(real, imag);
 
                 return new[] {
-                    EnumerableEx.Zip(
+                    Enumerable.Zip(
                         independentValues,
                         real,
                         (x, y) => new Point(x, y)).ToArray(),
-                    EnumerableEx.Zip(
+                    Enumerable.Zip(
                         independentValues,
                         imag, 
                         (x, y) => new Point(x, y)).ToArray()
@@ -245,7 +245,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             else
             {
                 return new[] {
-                    EnumerableEx.Zip(
+                    Enumerable.Zip(
                         independentValues,
                         query, 
                         (x, y) => new Point(x, y)).ToArray()

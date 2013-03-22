@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{E87433B1-D691-4D36-BB6B-3B766192CC8E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{D6A3DE7A-7E93-4932-AA8F-C612FD97830E}"
@@ -46,6 +46,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationTester", "SerializationTester\SerializationTester.csproj", "{295333B2-EA52-4425-9EE2-A97E1745C0D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.ImportSpectralData.Desktop", "Vts.ImportSpectralData.Desktop\Vts.ImportSpectralData.Desktop.csproj", "{B2B25DB9-0E34-455B-A717-37F1D179C867}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{29A8C805-7367-4C69-8F62-60FC753AFD12}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

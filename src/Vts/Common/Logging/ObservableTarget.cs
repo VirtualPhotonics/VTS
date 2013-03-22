@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive.Subjects;
 using NLog;
 using NLog.Targets;
 

@@ -274,7 +274,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 from w in independentValues
                 select SelectedTissue.GetMua(w);
 
-            return  EnumerableEx.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
+            return  Enumerable.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
         }
 
         void PlotMusprimeSpectra_Executed(object sender, ExecutedEventArgs e)
@@ -295,7 +295,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             var independentValues = WavelengthRangeVM.Values;
             var dependentValues = independentValues.Select(w => SelectedTissue.GetMusp(w));
 
-            return  EnumerableEx.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
+            return  Enumerable.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
         }
 
         void UpdateOpticalProperties_Executed(object sender, ExecutedEventArgs e)

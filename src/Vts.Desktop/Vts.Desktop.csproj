@@ -69,15 +69,19 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.CoreEx">
-      <HintPath>..\..\lib\RxFramework\NET40\System.CoreEx.dll</HintPath>
-    </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Reactive">
-      <HintPath>..\..\lib\RxFramework\NET40\System.Reactive.dll</HintPath>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net40\System.Reactive.Core.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.ClientProfile">
-      <HintPath>..\..\lib\RxFramework\NET40\System.Reactive.ClientProfile.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net40\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\Net40\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\Net40\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -107,9 +111,6 @@
     </Reference>
     <Reference Include="MPFitLib">
       <HintPath>..\..\lib\mpfit\build\Desktop\MPFitLib.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Interactive">
-      <HintPath>..\..\lib\RxFramework\NET40\System.Interactive.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -1248,6 +1249,7 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="packages.config" />
     <None Include="Vts.snk" />
   </ItemGroup>
   <ItemGroup>
