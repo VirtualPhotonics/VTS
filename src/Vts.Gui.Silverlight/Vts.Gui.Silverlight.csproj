@@ -110,11 +110,11 @@
     <Reference Include="FloatableWindow">
       <HintPath>..\..\lib\gui\FloatableWindow\FloatableWindow.dll</HintPath>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight.Extras.SL4">
-      <HintPath>..\..\lib\MVVMLight\Silverlight4\GalaSoft.MvvmLight.Extras.SL4.dll</HintPath>
+    <Reference Include="GalaSoft.MvvmLight.Extras.SL5">
+      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\SL5\GalaSoft.MvvmLight.Extras.SL5.dll</HintPath>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight.SL4">
-      <HintPath>..\..\lib\MVVMLight\Silverlight4\GalaSoft.MvvmLight.SL4.dll</HintPath>
+    <Reference Include="GalaSoft.MvvmLight.SL5">
+      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\SL5\GalaSoft.MvvmLight.SL5.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\DotNetZip\Silverlight\Ionic.Zip.dll</HintPath>
@@ -180,6 +180,10 @@
     <Reference Include="System.Windows.Controls.Toolkit, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\SilverlightControlToolkit\System.Windows.Controls.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\SL5\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />
