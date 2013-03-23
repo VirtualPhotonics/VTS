@@ -11,8 +11,9 @@
     <RootNamespace>Vts</RootNamespace>
     <AssemblyName>Vts</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Vts.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
@@ -63,6 +64,13 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="MathNet.Numerics, Version=2.4.0.26, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MathNet.Numerics.2.4.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics.IO">
+      <HintPath>..\packages\MathNet.Numerics.2.4.0\lib\net40\MathNet.Numerics.IO.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -110,9 +118,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="zlib.net">
       <HintPath>..\..\lib\Math.NET\lib\Net40\zlib.net.dll</HintPath>
-    </Reference>
-    <Reference Include="MathNet.Numerics">
-      <HintPath>..\..\lib\Math.NET\lib\Net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics">
       <HintPath>..\..\lib\Meta.Numerics\build\Desktop\Meta.Numerics.dll</HintPath>
@@ -1251,11 +1256,13 @@
       <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.xml</Link>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Content Include="App_Readme\MathNet\MathNet.Numerics.authors.txt" />
+    <Content Include="App_Readme\MathNet\MathNet.Numerics.copyright.txt" />
+    <Content Include="App_Readme\MathNet\MathNet.Numerics.readme.txt" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
-    <None Include="Vts.snk" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

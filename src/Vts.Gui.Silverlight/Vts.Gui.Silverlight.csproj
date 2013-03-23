@@ -119,6 +119,9 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\DotNetZip\Silverlight\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.2.4.0\lib\portable-net40+windows8+wp8+sl5\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\SL30\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -132,7 +135,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\SilverlightExtensions\SLExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.Numerics, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\SL5\System.Reactive.Core.dll</HintPath>
     </Reference>
@@ -500,6 +502,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
+    <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />
+    <Content Include="App_Readme\MathNet.Numerics.readme.txt" />
     <Content Include="Resources\Images\xml_notepad.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

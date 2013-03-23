@@ -11,6 +11,7 @@ namespace Vts.Test.MonteCarlo.Sources
     [TestFixture]
     public class SourceToolboxTests
     {
+        private const double ACCEPTABLE_PRECISION = 0.00000001;
         Position _position;
         Direction _direction;
         Position _translation;
@@ -111,9 +112,9 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             var dir = SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(_polarAngle, pos);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[31]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[32]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[33]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[31]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[32]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[33]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -125,9 +126,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var dir = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(_polRange, _aziRange, rng);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[34]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[35]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[36]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[34]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[35]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[36]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -139,9 +140,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var dir = SourceToolbox.GetDirectionForIsotropicDistributionRandom(rng);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[37]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[38]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[39]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[37]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[38]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[39]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -156,8 +157,8 @@ namespace Vts.Test.MonteCarlo.Sources
 
            SourceToolbox.GetDoubleNormallyDistributedRandomNumbers(ref nrng1, ref nrng2, _limitL, _limitU, rng);
 
-           Assert.Less(Math.Abs(nrng1 - _tp[40]), 0.0000000001);
-           Assert.Less(Math.Abs(nrng2 - _tp[41]), 0.0000000001);            
+           Assert.Less(Math.Abs(nrng1 - _tp[40]), ACCEPTABLE_PRECISION);
+           Assert.Less(Math.Abs(nrng2 - _tp[41]), ACCEPTABLE_PRECISION);            
         }
         
         /// <summary>
@@ -168,7 +169,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             var limit = SourceToolbox.GetLimit(_factor);
 
-            Assert.Less(Math.Abs(limit - _tp[42]), 0.0000000001);
+            Assert.Less(Math.Abs(limit - _tp[42]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -180,8 +181,8 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var angPair = SourceToolbox.GetPolarAzimuthalPairForGivenAngleRangeRandom(_polRange, _aziRange,rng);
 
-            Assert.Less(Math.Abs(angPair.Theta - _tp[43]), 0.0000000001);
-            Assert.Less(Math.Abs(angPair.Phi - _tp[44]), 0.0000000001);
+            Assert.Less(Math.Abs(angPair.Theta - _tp[43]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(angPair.Phi - _tp[44]), ACCEPTABLE_PRECISION);
         }
 
 
@@ -196,8 +197,8 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var angPair = SourceToolbox.GetPolarAzimuthalPairFromDirection(dir);
 
-            Assert.Less(Math.Abs(angPair.Theta - _tp[45]), 0.0000000001);
-            Assert.Less(Math.Abs(angPair.Phi - _tp[46]), 0.0000000001);
+            Assert.Less(Math.Abs(angPair.Theta - _tp[45]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(angPair.Phi - _tp[46]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -210,9 +211,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInACircleRandomFlat(_position, _innerRadius, _outerRadius, rng);
 
-            Assert.Less(Math.Abs(pos.X - _tp[47]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[48]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[49]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[47]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[48]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[49]), ACCEPTABLE_PRECISION);
         }
         
         /// <summary>
@@ -225,9 +226,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInACircleRandomGaussian(_position, _outerRadius, _innerRadius, _bdFWHM, rng);
 
-            Assert.Less(Math.Abs(pos.X - _tp[50]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[51]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[52]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[50]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[51]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[52]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -240,9 +241,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInACuboidRandomFlat(_position, _lengthX, _widthY, _heightZ, rng);
 
-            Assert.Less(Math.Abs(pos.X - _tp[53]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[54]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[55]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[53]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[54]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[55]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -255,9 +256,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInACuboidRandomGaussian(_position, 0.5*_lengthX, 0.5*_widthY, 0.5*_heightZ, _bdFWHM, rng);
 
-            Assert.Less(Math.Abs(pos.X - _tp[56]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[57]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[58]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[56]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[57]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[58]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -270,9 +271,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInALineRandomFlat(_position, _lengthX, rng);
 
-            Assert.Less(Math.Abs(pos.X - _tp[59]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[60]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[61]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[59]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[60]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[61]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -285,9 +286,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInALineRandomGaussian(_position, 0.5*_lengthX, _bdFWHM, rng);
 
-            Assert.Less(Math.Abs(pos.X - _tp[62]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[63]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[64]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[62]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[63]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[64]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -300,9 +301,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInAnEllipseRandomFlat(_position, _aParameter, _bParameter, rng);
 
-            Assert.Less(Math.Abs(pos.X - _tp[65]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[66]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[67]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[65]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[66]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[67]), ACCEPTABLE_PRECISION);
         }
         
         /// <summary>
@@ -315,9 +316,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInAnEllipseRandomGaussian(_position, _aParameter, _bParameter, _bdFWHM, rng);
 
-            Assert.Less(Math.Abs(pos.X - _tp[68]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[69]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[70]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[68]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[69]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[70]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -330,9 +331,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInAnEllipsoidRandomFlat(_position, _aParameter, _bParameter, _cParameter, rng);
 
-            Assert.Less(Math.Abs(pos.X - _tp[71]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[72]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[73]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[71]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[72]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[73]), ACCEPTABLE_PRECISION);
         }
 
 
@@ -346,9 +347,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInAnEllipsoidRandomGaussian(_position, _aParameter, _bParameter, _cParameter, _bdFWHM, rng);
 
-            Assert.Less(Math.Abs(pos.X - _tp[74]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[75]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[76]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[74]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[75]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[76]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -361,9 +362,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInARectangleRandomFlat(_position, _lengthX, _widthY, rng);
 
-            Assert.Less(Math.Abs(pos.X - _tp[77]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[78]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[79]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[77]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[78]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[79]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -376,9 +377,9 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInARectangleRandomGaussian(_position, 0.5*_lengthX, 0.5*_widthY, _bdFWHM, rng);
 
-            Assert.Less(Math.Abs(pos.X - _tp[80]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[81]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[82]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[80]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[81]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[82]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -391,7 +392,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var loc = SourceToolbox.GetPositionOfASymmetricalLineRandomFlat(_lengthX, rng);
 
-            Assert.Less(Math.Abs(loc - _tp[83]), 0.0000000001);            
+            Assert.Less(Math.Abs(loc - _tp[83]), ACCEPTABLE_PRECISION);            
         }
 
         /// <summary>
@@ -404,7 +405,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var nrng = SourceToolbox.GetSingleNormallyDistributedRandomNumber(_limitL, rng);
 
-            Assert.Less(Math.Abs(nrng - _tp[84]), 0.0000000001);
+            Assert.Less(Math.Abs(nrng - _tp[84]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -417,9 +418,9 @@ namespace Vts.Test.MonteCarlo.Sources
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundThreeAxis(_angRot, dir);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[85]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[86]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[87]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[85]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[86]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[87]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -432,9 +433,9 @@ namespace Vts.Test.MonteCarlo.Sources
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundXAxis(_angRot.XRotation, dir);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[88]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[89]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[90]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[88]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[89]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[90]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -447,9 +448,9 @@ namespace Vts.Test.MonteCarlo.Sources
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundYAxis(_angRot.YRotation, dir);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[91]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[92]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[93]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[91]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[92]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[93]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -461,9 +462,9 @@ namespace Vts.Test.MonteCarlo.Sources
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundZAxis(_angRot.ZRotation, dir);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[94]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[95]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[96]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[94]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[95]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[96]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -476,9 +477,9 @@ namespace Vts.Test.MonteCarlo.Sources
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingByGivenAnglePair(_angPair, dir);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[97]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[98]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[99]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[97]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[98]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[99]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -491,13 +492,13 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(ref pos, ref dir, _angPair, _translation, _flags);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[100]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[101]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[102]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[100]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[101]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[102]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(pos.X - _tp[103]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[104]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[105]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[103]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[104]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[105]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -510,13 +511,13 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(ref pos, ref dir, _angPair, _translation, _angPair, _flags);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[106]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[107]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[108]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[106]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[107]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[108]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(pos.X - _tp[109]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[110]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[111]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[109]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[110]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[111]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -529,13 +530,13 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             SourceToolbox.UpdateDirectionPositionAfterRotatingAroundXAxis(_angRot.XRotation, ref dir, ref pos);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[112]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[113]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[114]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[112]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[113]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[114]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(pos.X - _tp[115]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[116]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[117]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[115]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[116]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[117]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -548,13 +549,13 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             SourceToolbox.UpdateDirectionPositionAfterRotatingAroundYAxis(_angRot.YRotation, ref dir, ref pos);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[118]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[119]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[120]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[118]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[119]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[120]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(pos.X - _tp[121]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[122]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[123]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[121]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[122]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[123]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -567,13 +568,13 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             SourceToolbox.UpdateDirectionPositionAfterRotatingAroundZAxis(_angRot.ZRotation, ref dir, ref pos);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[124]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[125]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[126]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[124]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[125]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[126]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(pos.X - _tp[127]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[128]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[129]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[127]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[128]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[129]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -586,13 +587,13 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             SourceToolbox.UpdateDirectionPositionAfterRotatingByGivenAnglePair(_angPair, ref dir, ref pos);
 
-            Assert.Less(Math.Abs(dir.Ux - _tp[130]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uy - _tp[131]), 0.0000000001);
-            Assert.Less(Math.Abs(dir.Uz - _tp[132]), 0.0000000001);
+            Assert.Less(Math.Abs(dir.Ux - _tp[130]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uy - _tp[131]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(dir.Uz - _tp[132]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(pos.X - _tp[133]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[134]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[135]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[133]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[134]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[135]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -607,7 +608,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 _innerRadius,
                 _polarAngle);
 
-            Assert.Less(Math.Abs(polAngle - _tp[136]), 0.0000000001);
+            Assert.Less(Math.Abs(polAngle - _tp[136]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -620,9 +621,9 @@ namespace Vts.Test.MonteCarlo.Sources
             var pos = _position.Clone();
             pos = SourceToolbox.UpdatePositionAfterTranslation(pos, _translation);
 
-            Assert.Less(Math.Abs(pos.X - _tp[137]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Y - _tp[138]), 0.0000000001);
-            Assert.Less(Math.Abs(pos.Z - _tp[139]), 0.0000000001);
+            Assert.Less(Math.Abs(pos.X - _tp[137]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[138]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[139]), ACCEPTABLE_PRECISION);
         }
     }
 }
