@@ -116,9 +116,6 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="zlib.net">
-      <HintPath>..\..\lib\Math.NET\lib\Net40\zlib.net.dll</HintPath>
-    </Reference>
     <Reference Include="Meta.Numerics">
       <HintPath>..\..\lib\Meta.Numerics\build\Desktop\Meta.Numerics.dll</HintPath>
     </Reference>
