@@ -130,15 +130,20 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._MaxXValue = plotToClone._MaxXValue;
             output._AutoScaleX = plotToClone._AutoScaleX;
             output._AutoScaleY = plotToClone._AutoScaleY;
+            output._IsFtPlot = plotToClone._IsFtPlot;
+            output._RequestedIndependentVariableAxis = plotToClone._RequestedIndependentVariableAxis;
             output._XAxisSpacingOptionVM.Options[plotToClone._XAxisSpacingOptionVM.SelectedValue].IsSelected = true;
             output._YAxisSpacingOptionVM.Options[plotToClone._YAxisSpacingOptionVM.SelectedValue].IsSelected = true;
-            output._PlotToggleTypeOptionVM.Options[plotToClone._PlotToggleTypeOptionVM.SelectedValue].IsSelected = true;
             output._PlotNormalizationTypeOptionVM.Options[plotToClone._PlotNormalizationTypeOptionVM.SelectedValue].IsSelected = true;
 
             output.DataSeriesCollection =
                 plotToClone.DataSeriesCollection.Select(ds => (IList<Point>)ds.Select(val => val).ToList()).ToList();
             output.DataSeriesCollectionToggle =
                 plotToClone.DataSeriesCollectionToggle.Select(ds => (IList<Point>)ds.Select(val => val).ToList()).ToList();
+
+            // this needs to be after DataSeriesCollection and DataSeriesCollectionToggle are set because UpdatePlotSeries
+            // will get invoked if the PlotToggleTypeOptionVM is updated
+            output._PlotToggleTypeOptionVM.Options[plotToClone._PlotToggleTypeOptionVM.SelectedValue].IsSelected = true;
 
             return output;
         }
@@ -588,7 +593,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             int normCurveNumber = 0;
 
             var tempDSC = DataSeriesCollection;
-            if (_currentIndependentVariableAxis == IndependentVariableAxis.Ft)
+            if (RequestedIndependentVariableAxis == IndependentVariableAxis.Ft)
             {
                 if (PlotToggleTypeOptionVM.SelectedValue == PlotToggleType.PhaseAmp)
                 {
