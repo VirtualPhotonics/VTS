@@ -103,10 +103,6 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FJ.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\fjcore\build\Silverlight\FJ.Core.dll</HintPath>
-    </Reference>
     <Reference Include="GalaSoft.MvvmLight.Extras.SL5">
       <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\SL5\GalaSoft.MvvmLight.Extras.SL5.dll</HintPath>
     </Reference>
@@ -205,6 +201,30 @@
     <Compile Include="Extensions\StringLookup.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helpers\fjcore\DCT.cs" />
+    <Compile Include="Helpers\fjcore\DecodedJpeg.cs" />
+    <Compile Include="Helpers\fjcore\Decoder\HuffmanTable.cs" />
+    <Compile Include="Helpers\fjcore\Decoder\JpegComponent.cs" />
+    <Compile Include="Helpers\fjcore\Decoder\JpegDecoder.cs" />
+    <Compile Include="Helpers\fjcore\Decoder\JpegFrame.cs" />
+    <Compile Include="Helpers\fjcore\Decoder\JpegHuffmanTable.cs" />
+    <Compile Include="Helpers\fjcore\Decoder\JpegQuantizationTable.cs" />
+    <Compile Include="Helpers\fjcore\Decoder\JpegScan.cs" />
+    <Compile Include="Helpers\fjcore\Encoder\JpegEncoder.cs" />
+    <Compile Include="Helpers\fjcore\FDCT.cs" />
+    <Compile Include="Helpers\fjcore\Filter\Convolution.cs" />
+    <Compile Include="Helpers\fjcore\Filter\FilterBase.cs" />
+    <Compile Include="Helpers\fjcore\Filter\FilterLowpassResize.cs" />
+    <Compile Include="Helpers\fjcore\Filter\FilterNNResize.cs" />
+    <Compile Include="Helpers\fjcore\Filter\GrayImage.cs" />
+    <Compile Include="Helpers\fjcore\Image.cs" />
+    <Compile Include="Helpers\fjcore\IO\BinaryReader.cs" />
+    <Compile Include="Helpers\fjcore\IO\BinaryWriter.cs" />
+    <Compile Include="Helpers\fjcore\IO\JpegBinaryReader.cs" />
+    <Compile Include="Helpers\fjcore\JpegMarker.cs" />
+    <Compile Include="Helpers\fjcore\Resize\ImageResizer.cs" />
+    <Compile Include="Helpers\fjcore\YCbCr.cs" />
+    <Compile Include="Helpers\fjcore\ZigZag.cs" />
     <Compile Include="Model\ComplexPoint.cs" />
     <Compile Include="Model\MapData.cs" />
     <Compile Include="Properties\Resources.Designer.cs" />
@@ -511,6 +531,12 @@
     <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />
     <Content Include="App_Readme\MathNet.Numerics.readme.txt" />
+    <Content Include="Helpers\fjcore\FJCore.csproj" />
+    <Content Include="Helpers\fjcore\FJCoreWin.csproj" />
+    <Content Include="Helpers\fjcore\IJG.txt" />
+    <Content Include="Helpers\fjcore\JAI.txt" />
+    <Content Include="Helpers\fjcore\License.txt" />
+    <Content Include="Helpers\fjcore\README.txt" />
     <Content Include="Resources\Images\xml_notepad.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
