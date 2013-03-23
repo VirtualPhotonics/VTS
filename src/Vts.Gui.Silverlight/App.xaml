@@ -15,5 +15,6 @@
             <local:LocalizedStrings x:Key="LocalizedStrings" />
             <System:String x:Key="ScientificFormat">{0:0.##e-0;;0}</System:String>
         </ResourceDictionary>
+
     </Application.Resources>
 </Application>

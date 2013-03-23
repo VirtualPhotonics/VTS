@@ -107,9 +107,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\fjcore\build\Silverlight\FJ.Core.dll</HintPath>
     </Reference>
-    <Reference Include="FloatableWindow">
-      <HintPath>..\..\lib\gui\FloatableWindow\FloatableWindow.dll</HintPath>
-    </Reference>
     <Reference Include="GalaSoft.MvvmLight.Extras.SL5">
       <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\SL5\GalaSoft.MvvmLight.Extras.SL5.dll</HintPath>
     </Reference>
@@ -210,6 +207,7 @@
     </Compile>
     <Compile Include="Model\ComplexPoint.cs" />
     <Compile Include="Model\MapData.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -250,6 +248,9 @@
     <Compile Include="View\Application\Panels\SubPanels\BloodConcentrationView.xaml.cs">
       <DependentUpon>BloodConcentrationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\FloatableWindow\FloatableWindow.cs" />
+    <Compile Include="View\Controls\FloatableWindow\FloatableWindowAutomationPeer.cs" />
+    <Compile Include="View\Controls\FloatableWindow\ResizeMode.cs" />
     <Compile Include="View\Controls\PositionView.xaml.cs">
       <DependentUpon>PositionView.xaml</DependentUpon>
     </Compile>
@@ -413,6 +414,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Controls\PositionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -509,6 +514,7 @@
     <Content Include="Resources\Images\xml_notepad.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="View\Controls\FloatableWindow\README.txt" />
     <None Include="Properties\OutOfBrowserSettings.xml" />
     <Resource Include="Resources\Images\logo-small.png" />
     <Content Include="Resources\Images\vpbanner.jpg">
@@ -516,6 +522,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx" />
     <EmbeddedResource Include="Resources\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
@@ -545,6 +552,7 @@
       <Name>Vts</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
