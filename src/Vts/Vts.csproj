@@ -109,7 +109,7 @@
       <HintPath>..\packages\csmpfit.1.0.0\lib\sl50\MPFitLib.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
-      <HintPath>..\..\lib\NLog\SL4\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\sl4\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

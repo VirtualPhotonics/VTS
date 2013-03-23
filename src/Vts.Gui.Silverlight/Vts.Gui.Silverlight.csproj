@@ -126,7 +126,7 @@
       <HintPath>..\packages\Unity.2.1.505.2\lib\SL30\Microsoft.Practices.Unity.Silverlight.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
-      <HintPath>..\..\lib\NLog\SL4\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\sl4\NLog.dll</HintPath>
     </Reference>
     <Reference Include="SLExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
