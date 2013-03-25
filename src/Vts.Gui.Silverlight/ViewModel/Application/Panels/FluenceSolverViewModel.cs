@@ -242,14 +242,14 @@ namespace Vts.Gui.Silverlight.ViewModel
             if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
             {
                 axesLabels = new PlotAxesLabels(
-                    sd.IndependentAxisLabel, sd.IndependentAxisUnits,
+                    sd.IndependentAxisLabel, sd.IndependentAxisUnits, sd.IndependentAxisType,
                     sd.SelectedDisplayName, sd.SelectedValue.GetUnits(), sd.ConstantAxisLabel,
                     sd.ConstantAxisUnits, sd.ConstantAxisValue);
             }
             else
             {
-                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel,
-                    sd.IndependentAxisUnits, sd.SelectedDisplayName, sd.SelectedValue.GetUnits());
+                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel, sd.IndependentAxisUnits, 
+                    sd.IndependentAxisType, sd.SelectedDisplayName, sd.SelectedValue.GetUnits());
             }
             return axesLabels;
         }

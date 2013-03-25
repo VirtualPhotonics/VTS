@@ -14,7 +14,7 @@ namespace Vts.Gui.Silverlight.Model
     public class PlotData
     {
         public PlotData() 
-            : this(null, null)
+            : this(new List<Point>(){}, null)
         {
         }
 
@@ -29,25 +29,22 @@ namespace Vts.Gui.Silverlight.Model
             Title = title;
             plotColor = c;
         }
-        public PlotData(IEnumerable<ComplexPoint> points, string title, string title2)
-            : this(points, title, title2, Colors.Blue, Colors.Red)
+        // Complex Plot data is assumed to be real and imag 
+        public PlotData(IEnumerable<ComplexPoint> points, string title)
+            : this(points, title, Colors.Blue)
         {
         }
-        public PlotData(IEnumerable<ComplexPoint> points, string title, string title2, Color c, Color c2)
+        public PlotData(IEnumerable<ComplexPoint> points, string title, Color c)
         {
             ComplexPoints = points.ToList();
             Title = title;
-            Title2 = title2;
             plotColor = c;
-            plotColor2 = c2;
         }
 
         public IList<Point> Points { get; set; }
         public string Title { get; set; }
         public Color plotColor { get; set; }
         public IList<ComplexPoint> ComplexPoints { get; set; }
-        public string Title2 { get; set; }
-        public Color plotColor2 { get; set; }
 
     }
 }

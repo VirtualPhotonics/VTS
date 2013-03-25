@@ -137,8 +137,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             Point[][] points = ExecuteForwardSolver();
             PlotAxesLabels axesLabels = GetPlotLabels();
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
-            Commands.Plot_SetRequestedIndependentVariableAxis.Execute(SolutionDomainTypeOptionVM.IndependentAxisType);
-
+            
             string plotLabel = GetLegendLabel();
             if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
             {
@@ -150,11 +149,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     complexPoints.Add(new ComplexPoint(real[i].X, new Complex(real[i].Y, imag[i].Y)));
                 }
-
-                //Commands.Plot_PlotValues.Execute(new PlotData(real, plotLabel + "\r(real)"));
-                //Commands.Plot_PlotValues.Execute(new PlotData(imag, plotLabel + "\r(imag)"));
-                Commands.Plot_PlotValues.Execute(new PlotData(complexPoints, plotLabel + "\r(real)",
-                    plotLabel + "\r(imag)"));
+                Commands.Plot_PlotValues.Execute(new PlotData(complexPoints, plotLabel));
             }
             else
             {
@@ -171,14 +166,14 @@ namespace Vts.Gui.Silverlight.ViewModel
             if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
             {
                 axesLabels = new PlotAxesLabels(
-                    sd.IndependentAxisLabel, sd.IndependentAxisUnits,
+                    sd.IndependentAxisLabel, sd.IndependentAxisUnits, sd.IndependentAxisType,
                     sd.SelectedDisplayName, sd.SelectedValue.GetUnits(), sd.ConstantAxisLabel,
                     sd.ConstantAxisUnits, sd.ConstantAxisValue);
             }
             else
             {
-                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel,
-                    sd.IndependentAxisUnits, sd.SelectedDisplayName, sd.SelectedValue.GetUnits());
+                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel, sd.IndependentAxisUnits, 
+                    sd.IndependentAxisType, sd.SelectedDisplayName, sd.SelectedValue.GetUnits());
             }
             return axesLabels;
         }
@@ -224,12 +219,10 @@ namespace Vts.Gui.Silverlight.ViewModel
                 constantValues);
 
             // if it's reporting Real + Imaginary, we need two vectors
-            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
+            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
             {
                 var real = query.Take(independentValues.Length).ToArray();
                 var imag = query.Skip(independentValues.Length).Take(independentValues.Length).ToArray();
-                var phase = Vts.Common.Math.Convert.ToPhase(real, imag);
-                var amp = Vts.Common.Math.Convert.ToAmplitude(real, imag);
 
                 return new[] {
                     EnumerableEx.Zip(

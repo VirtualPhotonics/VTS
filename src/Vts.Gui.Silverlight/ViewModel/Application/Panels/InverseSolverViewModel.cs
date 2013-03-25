@@ -384,14 +384,14 @@ namespace Vts.Gui.Silverlight.ViewModel
             if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
             {
                 axesLabels = new PlotAxesLabels(
-                    sd.IndependentAxisLabel, sd.IndependentAxisUnits,
+                    sd.IndependentAxisLabel, sd.IndependentAxisUnits, sd.IndependentAxisType,
                     sd.SelectedDisplayName, sd.SelectedValue.GetUnits(), sd.ConstantAxisLabel,
                     sd.ConstantAxisUnits, sd.ConstantAxisValue);
             }
             else
             {
-                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel,
-                    sd.IndependentAxisUnits, sd.SelectedDisplayName, sd.SelectedValue.GetUnits());
+                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel, sd.IndependentAxisUnits, 
+                    sd.IndependentAxisType, sd.SelectedDisplayName, sd.SelectedValue.GetUnits());
             }
             return axesLabels;
         }
@@ -424,7 +424,6 @@ namespace Vts.Gui.Silverlight.ViewModel
         void PlotValues(Point[][] points, PlotDataType dataType)
         {
             string plotLabel = GetLegendLabel(dataType);
-            Commands.Plot_SetRequestedIndependentVariableAxis.Execute(SolutionDomainTypeOptionVM.IndependentAxisType);
             if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
             {
                 var real = points[0];
@@ -435,8 +434,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     complexPoints.Add(new ComplexPoint(real[i].X, new Complex(real[i].Y, imag[i].Y)));
                 }
-                Commands.Plot_PlotValues.Execute(new PlotData(complexPoints, plotLabel + "\r(real)",
-                    plotLabel + "\r(imag)"));
+                Commands.Plot_PlotValues.Execute(new PlotData(complexPoints, plotLabel));
             }
             else
             {

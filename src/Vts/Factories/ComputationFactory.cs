@@ -35,6 +35,13 @@ namespace Vts.Factories
                 !(solutionDomainType == FluenceSolutionDomainType.FluenceOfRhoAndZ) &&
                 !(solutionDomainType == FluenceSolutionDomainType.FluenceOfFxAndZ);
         }
+        // CH proposed new extension method prior version is not refined enough, need to 
+        // know independent axis variable to know whether solver is complex, e.g. ROfRhoAndFt
+        // with independent axis varaible = rho is not complex
+        public static bool IsComplexSolver(IndependentVariableAxis independentVariableAxis)
+        {
+            return (independentVariableAxis == IndependentVariableAxis.Ft);
+        }
 
         public static bool IsComplexSolver(SolutionDomainType solutionDomainType)
         {

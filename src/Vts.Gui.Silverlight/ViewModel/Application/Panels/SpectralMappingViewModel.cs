@@ -256,7 +256,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 
         void PlotMuaSpectra_Executed(object sender, ExecutedEventArgs e)
         {
-            PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", "μa", "mm-1");
+            PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μa", "mm-1");
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
             IEnumerable<Point> points = ExecutePlotMuaSpectra();
@@ -279,7 +279,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         void PlotMusprimeSpectra_Executed(object sender, ExecutedEventArgs e)
         {
-            PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", "μs'", "mm-1");
+            PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μs'", "mm-1");
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
             IEnumerable<Point> points = ExecutePlotMusprimeSpectra();
