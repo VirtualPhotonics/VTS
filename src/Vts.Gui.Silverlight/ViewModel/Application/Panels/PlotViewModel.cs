@@ -233,7 +233,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                 // if user switches independent variable, clear plot
                 if (_CurrentIndependentVariableAxis != value)
                 {
-                    ClearPlot();
+                    ClearPlot(); 
+                    Commands.TextOutput_PostMessage.Execute("Plot View: plot cleared due to independent axis variable change\r");                
                 }
                 _CurrentIndependentVariableAxis = value;
                 OnPropertyChanged("CurrentIndpendentVariableAxis");
@@ -492,12 +493,12 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 ClearPlot();
             }
-            if (CurrentIndependentVariableAxis != IndependentVariableAxis.Ft)
-            {
-                ClearPlot();
-                Commands.TextOutput_PostMessage.Execute("Plot View: plot cleared due to independent axis variable change\r");
-                CurrentIndependentVariableAxis = IndependentVariableAxis.Ft;
-            }
+            //if (CurrentIndependentVariableAxis != IndependentVariableAxis.Ft)
+            //{
+            //    ClearPlot();
+            //    Commands.TextOutput_PostMessage.Execute("Plot View: plot cleared due to independent axis variable change\r");
+            //    CurrentIndependentVariableAxis = IndependentVariableAxis.Ft;
+            //}
             // default data stored in DataSeriesCollection is real/imag
             var realPoints = new List<Point>();
             var imagPoints = new List<Point>();
