@@ -409,21 +409,17 @@ namespace Vts
     public enum PlotToggleType
     {
         /// <summary>
-        /// real type
+        /// real/imag type
         /// </summary>
-        Re,
-        /// <summary>
-        /// imag type
-        /// </summary>
-        Im,
+        Complex,
         /// <summary>
         /// phase type
         /// </summary>
-        Ph,
+        Phase,
         /// <summary>
         /// amplitude plot
         /// </summary>
-        Am,
+        Amp,
     }
     /// <summary>
     /// plot normalization types

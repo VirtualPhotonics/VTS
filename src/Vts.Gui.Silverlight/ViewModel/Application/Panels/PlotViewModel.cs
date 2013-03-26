@@ -39,9 +39,8 @@ namespace Vts.Gui.Silverlight.ViewModel
         private double _MaxXValue;
         private bool _AutoScaleX;
         private bool _AutoScaleY;
-        private List<IList<Point>> _DataSeriesCollectionToggle;
         private bool _IsFtPlot;
-        private IndependentVariableAxis _CurrentIndependentVariableAxis;
+        private IndependentVariableAxis _CurrentIndependentVariableAxis; 
 
         public PlotViewModel()
         {
@@ -52,11 +51,14 @@ namespace Vts.Gui.Silverlight.ViewModel
             _AutoScaleX = true;
             _AutoScaleY = true;
 
+            RealImagLabels = new List<string>();
+            PhaseLabels = new List<string>();
+            AmplitudeLabels = new List<string>();;
+            DataSeriesCollectionToggle = new List<IList<Point>>();
             Labels = new List<string>();
             PlotTitles = new List<string>();
             DataSeriesCollection = new List<IList<Point>>();
             PlotSeriesCollection = new ObservableCollection<IList<Point>>();
-            DataSeriesCollectionToggle = new List<IList<Point>>();
             IsFtPlot = false;
 
             PlotType = ReflectancePlotType.ForwardSolver;
@@ -99,6 +101,9 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private IList<IList<Point>> DataSeriesCollection { get; set; }
         private IList<IList<Point>> DataSeriesCollectionToggle { get; set; }
+        private IList<string> RealImagLabels { get; set; }
+        private IList<string> PhaseLabels { get; set; }
+        private IList<string> AmplitudeLabels { get; set; }
 
         public PlotViewModel Clone()
         {
@@ -129,18 +134,20 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._IsFtPlot = plotToClone._IsFtPlot;
             output._CurrentIndependentVariableAxis = plotToClone._CurrentIndependentVariableAxis;
             
-            output.DataSeriesCollection =
-                plotToClone.DataSeriesCollection.Select(ds => (IList<Point>)ds.Select(val => val).ToList()).ToList();
-            output.DataSeriesCollectionToggle =
-                plotToClone.DataSeriesCollectionToggle.Select(ds => (IList<Point>)ds.Select(val => val).ToList()).ToList();
-
-            // these needs to be after DataSeriesCollection and DataSeriesCollectionToggle are set because need
-            // to call UpdatePlotSeries and update PlotSeriesData if data has been normalized
+            output.RealImagLabels = plotToClone.RealImagLabels;
+            output.PhaseLabels = plotToClone.PhaseLabels; 
+            output.AmplitudeLabels = plotToClone.AmplitudeLabels;
+            
             output._YAxisSpacingOptionVM.Options[plotToClone._YAxisSpacingOptionVM.SelectedValue].IsSelected = true;
             output._PlotNormalizationTypeOptionVM.Options[plotToClone._PlotNormalizationTypeOptionVM.SelectedValue].IsSelected = true;
             output._PlotToggleTypeOptionVM.Options[plotToClone._PlotToggleTypeOptionVM.SelectedValue].IsSelected = true;
             output._XAxisSpacingOptionVM.Options[plotToClone._XAxisSpacingOptionVM.SelectedValue].IsSelected = true;
-           
+            
+            output.DataSeriesCollection =
+                  plotToClone.DataSeriesCollection.Select(ds => (IList<Point>)ds.Select(val => val).ToList()).ToList();
+            output.DataSeriesCollectionToggle =
+                plotToClone.DataSeriesCollectionToggle.Select(ds => (IList<Point>)ds.Select(val => val).ToList()).ToList();
+          
             return output;
         }
 
@@ -389,7 +396,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             if (e.Parameter is PlotAxesLabels)
             {
                 var labels = e.Parameter as PlotAxesLabels;
-                // set CurrentIndependtVariable Axis prior to setting Title because property
+                // set CurrentIndependtVariableAxis prior to setting Title because property
                 // might ClearPlot including Title
                 CurrentIndependentVariableAxis = labels.IndependentAxisType;
                 if (labels.ConstantAxisName == null || labels.ConstantAxisName.Length == 0)
@@ -493,12 +500,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 ClearPlot();
             }
-            //if (CurrentIndependentVariableAxis != IndependentVariableAxis.Ft)
-            //{
-            //    ClearPlot();
-            //    Commands.TextOutput_PostMessage.Execute("Plot View: plot cleared due to independent axis variable change\r");
-            //    CurrentIndependentVariableAxis = IndependentVariableAxis.Ft;
-            //}
             // default data stored in DataSeriesCollection is real/imag
             var realPoints = new List<Point>();
             var imagPoints = new List<Point>();
@@ -512,14 +513,21 @@ namespace Vts.Gui.Silverlight.ViewModel
                 phasePoints.Add(new Point(point.X, -Math.Atan2(point.Y.Imaginary, point.Y.Real) * (180 / Math.PI)));
                 ampPoints.Add(new Point(point.X, Math.Sqrt(point.Y.Real * point.Y.Real + point.Y.Imaginary * point.Y.Imaginary)));
             }
-            // store real/imag and phase/amp data, plot real
+            // store real data
             DataSeriesCollection.Add(realPoints);
-            DataSeriesCollection.Add(imagPoints);
-            PlotTitles.Add(Title);
-            DataSeriesCollectionToggle.Add(phasePoints);
-            DataSeriesCollectionToggle.Add(ampPoints); 
             var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
-            Labels.Add(title + customLabel); // has to happen before updating the bound collection
+            RealImagLabels.Add(title + "\r(real)" + customLabel); // has to happen before updating the bound collection
+            PlotTitles.Add(Title); 
+            // store phase data prior to updating plot
+            DataSeriesCollectionToggle.Add(phasePoints);
+            PhaseLabels.Add(title + "\r(phase)" + customLabel);
+            UpdatePlotSeries();
+            // store imag data
+            DataSeriesCollection.Add(imagPoints);
+            RealImagLabels.Add(title + "\r(imag)" + customLabel);
+            // store amplitude data prior to updating plot
+            DataSeriesCollectionToggle.Add(ampPoints);
+            AmplitudeLabels.Add(title + "\r(amp)" + customLabel);
             UpdatePlotSeries();
         }
 
@@ -548,14 +556,20 @@ namespace Vts.Gui.Silverlight.ViewModel
                     Title = PlotTitles.Last();
                 }
                 PlotSeriesCollection.RemoveAt(PlotSeriesCollection.Count - 1);
-                Labels.RemoveAt(Labels.Count - 1);
+                // remove real
                 DataSeriesCollection.RemoveAt(DataSeriesCollection.Count - 1);
-                // if Ft plot, remove imag and 2 from DataSeriesCollection Toggle
+                Labels.RemoveAt(Labels.Count - 1);
+                // if Ft plot, remove imag, phase and amplitude
                 if (CurrentIndependentVariableAxis == IndependentVariableAxis.Ft)
                 {
                     DataSeriesCollection.RemoveAt(DataSeriesCollection.Count - 1);
+                    // remove phase and amplitude toggle data
                     DataSeriesCollectionToggle.RemoveAt(DataSeriesCollectionToggle.Count - 1);
                     DataSeriesCollectionToggle.RemoveAt(DataSeriesCollectionToggle.Count - 1);
+                    if (PlotToggleTypeOptionVM.SelectedValue == PlotToggleType.Complex)
+                    {
+                        Labels.RemoveAt(Labels.Count - 1);
+                    }
                 }
             }
         }
@@ -575,21 +589,20 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 switch (PlotToggleTypeOptionVM.SelectedValue)
                 {
-                    case PlotToggleType.Re:
-                        // get even elements of default list that contain real data
-                        tempDSC = DataSeriesCollection.Where((data, index) => index%2 == 0).ToList();
-                        break;
-                    case PlotToggleType.Im:
+                    case PlotToggleType.Complex:
                         // get odd elements of default list that contain imag data
-                        tempDSC = DataSeriesCollection.Where((data, index) => index%2 != 0).ToList();
+                        tempDSC = DataSeriesCollection;
+                        Labels = RealImagLabels;
                         break;
-                    case PlotToggleType.Ph:
+                    case PlotToggleType.Phase:
                         // get even elements of toggle list that contain phase data
                         tempDSC = DataSeriesCollectionToggle.Where((data, index) => index%2 == 0).ToList();
+                        Labels = PhaseLabels;
                         break;
-                    case PlotToggleType.Am:
+                    case PlotToggleType.Amp:
                         // get odd elements of toggle list that contain amp data
                         tempDSC = DataSeriesCollectionToggle.Where((data, index) => index%2 != 0).ToList();
+                        Labels = AmplitudeLabels;
                         break;
                 }
             }
