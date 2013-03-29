@@ -131,16 +131,16 @@ classdef SimulationOutput
                         rho_endpoints = input.DetectorInputs{n}.Rho; 
                         detectorOutput.Rho = (rho_endpoints(1:end-1) + rho_endpoints(2:end))/2;
                   catch, end
-                  
-                  % Fx results are determined at specified Fx values not binned
-                  % so no midpoint calculation needed I think (CKH)
-                  try
-                        detectorOutput.Fx = input.DetectorInputs{n}.Fx;
-                  catch, end
-                  
+                                    
                   try
                         time_endpoints = input.DetectorInputs{n}.Time;
                         detectorOutput.Time = (time_endpoints(1:end-1) + time_endpoints(2:end))/2;
+                  catch, end
+                  
+                  % Fx and Omega results are determined at specified Fx , Omega values not binned
+                  % so no midpoint calculation needed I think (CKH)
+                  try
+                        detectorOutput.Fx = input.DetectorInputs{n}.Fx;
                   catch, end
                   
                   try 
