@@ -33,5 +33,6 @@ namespace Vts.Test.MonteCarlo
         public void validate_rotate()
         {
             StokesVector v = new StokesVector(1, 0, 1, 0);
+        }
     }
 }

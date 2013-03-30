@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
+using Meta.Numerics.Statistics;
 using System;
-using System.Linq;
 using Vts.Common;
 using Vts.Common.Math;
 using Vts.MonteCarlo;
