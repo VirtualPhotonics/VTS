@@ -244,7 +244,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     Commands.TextOutput_PostMessage.Execute("Plot View: plot cleared due to independent axis variable change\r");                
                 }
                 _CurrentIndependentVariableAxis = value;
-                OnPropertyChanged("CurrentIndpendentVariableAxis");
+                OnPropertyChanged("CurrentIndependentVariableAxis");
             }
         }
         public bool IsFtPlot
