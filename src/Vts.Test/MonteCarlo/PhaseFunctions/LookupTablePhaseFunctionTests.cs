@@ -23,8 +23,10 @@ namespace Vts.Test.MonteCarlo
             List<double> sampleXi = new List<double>();
             Random rng = new Random();
             
-            //TODO load real tabulated phase function data here!!!!!!!
             PolarLookupTablePhaseFunctionData data = new PolarLookupTablePhaseFunctionData();
+            data.LutAngles = new[] { 0, Math.PI/6, Math.PI/3, Math.PI/2, 2*Math.PI/3, Math.PI*5/6, Math.PI };
+            data.LutPdf = new[] { 1 / (4 * Math.PI), 1 / (4 * Math.PI), 1 / (4 * Math.PI), 1 / (4 * Math.PI), 1 / (4 * Math.PI), 1 / (4 * Math.PI), 1 / (4 * Math.PI) };
+            data.LutCdf = new[] { 0, 0.5 * (1 - Math.Sqrt(3) / 2), 0.25 , 0.5, 0.75 , 0.5 * (1 + Math.Sqrt(3) / 2), 1};
             LookupTablePhaseFunction tester = new LookupTablePhaseFunction(rng, data);
             Direction dir = new Direction(1, 0, 0);
             

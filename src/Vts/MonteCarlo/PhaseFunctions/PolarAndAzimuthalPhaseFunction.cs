@@ -35,7 +35,10 @@ namespace Vts.MonteCarlo.PhaseFunctions
             {
                 uxp = sinTh * cosPsi;
                 uyp = sinTh * sinPsi;
-                uzp = incomingDirectionToModify.Uz > 0 ? cosTh : -cosTh;
+                if (incomingDirectionToModify.Uz > 0)
+                    uzp = cosTh;
+                else
+                    uzp = -cosTh;
             }
             else
             {
