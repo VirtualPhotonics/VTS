@@ -341,5 +341,51 @@ disp(sprintf('Conv =    [%f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),.
 disp(sprintf('error =   [%f %5.3f]',abs(measOPs(1)-recoveredOPs(1))/measOPs(1),...
     abs(measMus-recoveredOPs(2))/measOPs(2)));
 
+% ======================================================================= %
+% Example 8: run a Monte Carlo simulation and verify results with
+% those in unit tests in Visual Studio
+% spell out all input to ensure same settings as in unit test
+si = SimulationInput();
+si.N = 100;
+options = SimulationOptions();
+options.AbsorptionWeightingType = 'Analog';
+options.Seed = 0;
+si.Options = options;
+sourceInput = DirectionalPointSourceInput();
+sourceInput.SourceType = 'DirectionalPoint'; 
+sourceInput.PointLocation = [0 0 0];  
+sourceInput.Direction = [0 0 1];       
+sourceInput.InitialTissueRegionIndex = 1;
+si.SourceInput = sourceInput;
+tissueInput = MultiLayerTissueInput();
+tissueInput.LayerRegions = struct(...
+    'ZRange', ...
+    {...
+        [-Inf, 0], ... % air "z" range
+        [0, 20], ... % tissue "z" range
+        [20, +Inf] ... % air "z" range
+    }, ...
+    'RegionOP', ...
+    {...
+        [0.0, 1e-10, 1.0, 1.0], ... % air optical properties
+        [0.01, 1.0, 0.8, 1.4], ... % tissue optical properties
+        [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
+        } ...
+    )
+si.TissueInput = tissueInput;
+si.DetectorInputs =  { ...
+    %DetectorInput.RDiffuse(),...
+    DetectorInput.ROfRho(linspace(0,10,101)),...
+    DetectorInput.ROfRhoAndOmega(linspace(0,10,101),linspace(0.05,1,101)), ...
+    DetectorInput.ROfRhoAndTime(linspace(0,10,101), linspace(0,1,101))};
+output = VtsMonteCarlo.RunSimulation(si);
+d1 = output.Detectors(output.DetectorNames{1});
+d2 = output.Detectors(output.DetectorNames{2});
+d3 = output.Detectors(output.DetectorNames{3});
+if ((abs(d1.Mean(1,1)-0.95492965855)<0.00000000001) && ...
+    (abs(d2.Mean(1,1)-(0.95492885-i*0.000817329)<0.00000001)) && ...
+    (abs(d3.Mean(1,1)-95.492965855)<0.000000001))
+  disp('unit tests pass');
+end
 
 

@@ -397,6 +397,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             return new PlotAxesLabels(
                 IndependentVariableAxis.Rho.GetInternationalizedString(),
                 IndependentVariableAxisUnits.MM.GetInternationalizedString(),
+                IndependentVariableAxis.Rho,
                 SolutionDomainType.ROfRho.GetInternationalizedString(),
                 DependentVariableAxisUnits.PerMMSquared.GetInternationalizedString());
         }

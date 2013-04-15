@@ -9,8 +9,8 @@ addpath([cd slash 'xml_toolbox']);
 
 % names of individual MC simulations
 %datanames = { 'three_layer_normal_source_ROfRho_FluenceOfXAndYAndZ' };
-datanames = { 'ellip_450nm_g0p9' };
-% datanames = { 'one_layer_all_detectors' };
+%datanames = { 'ellip_450nm_g0p9' };
+datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';

@@ -234,14 +234,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var imag = MeasuredDataValues.Skip(numValues).Take(numValues);
 
                     return new[] {
-                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
+                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
                             RangeVM.Values, real, (x, y) => new Point(x, y))),
-                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
+                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
                             RangeVM.Values, imag, (x, y) => new Point(x, y)))
                     };
                 }
 
-                return new[] { new Point[RangeVM.Number].PopulateFromEnumerable2(Enumerable.Zip(RangeVM.Values, MeasuredDataValues, (x, y) => new Point(x, y))) };
+                return new[] { new Point[RangeVM.Number].PopulateFromEnumerable2(EnumerableEx.Zip(RangeVM.Values, MeasuredDataValues, (x, y) => new Point(x, y))) };
 
             }
         }
@@ -263,14 +263,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var real = InitialGuessDataValues.Take(numValues);
                     var imag = InitialGuessDataValues.Skip(numValues).Take(numValues);
                     return new[] {
-                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
+                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
                             RangeVM.Values, real, (x, y) => new Point(x, y))),
-                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
+                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
                             RangeVM.Values, imag, (x, y) => new Point(x, y)))
                     };
                 }
 
-                return new[] {new Point[ RangeVM.Number].PopulateFromEnumerable2( Enumerable.Zip(RangeVM.Values, InitialGuessDataValues, (x, y) => new Point(x, y))) };
+                return new[] {new Point[ RangeVM.Number].PopulateFromEnumerable2( EnumerableEx.Zip(RangeVM.Values, InitialGuessDataValues, (x, y) => new Point(x, y))) };
             }
         }
 
@@ -291,14 +291,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var real = ResultDataValues.Take(numValues);
                     var imag = ResultDataValues.Skip(numValues).Take(numValues);
                     return new[] {
-                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
+                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
                             RangeVM.Values, real, (x, y) => new Point(x, y))),
-                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
+                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
                             RangeVM.Values, imag, (x, y) => new Point(x, y)))
                     };
                 }
 
-                return new[] { new Point[ RangeVM.Number].PopulateFromEnumerable2(Enumerable.Zip(RangeVM.Values, ResultDataValues, (x, y) => new Point(x, y))) };
+                return new[] { new Point[ RangeVM.Number].PopulateFromEnumerable2(EnumerableEx.Zip(RangeVM.Values, ResultDataValues, (x, y) => new Point(x, y))) };
             }
         }
 
@@ -384,14 +384,14 @@ namespace Vts.Gui.Silverlight.ViewModel
             if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
             {
                 axesLabels = new PlotAxesLabels(
-                    sd.IndependentAxisLabel, sd.IndependentAxisUnits,
+                    sd.IndependentAxisLabel, sd.IndependentAxisUnits, sd.IndependentAxisType,
                     sd.SelectedDisplayName, sd.SelectedValue.GetUnits(), sd.ConstantAxisLabel,
                     sd.ConstantAxisUnits, sd.ConstantAxisValue);
             }
             else
             {
-                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel,
-                    sd.IndependentAxisUnits, sd.SelectedDisplayName, sd.SelectedValue.GetUnits());
+                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel, sd.IndependentAxisUnits, 
+                    sd.IndependentAxisType, sd.SelectedDisplayName, sd.SelectedValue.GetUnits());
             }
             return axesLabels;
         }
@@ -424,7 +424,6 @@ namespace Vts.Gui.Silverlight.ViewModel
         void PlotValues(Point[][] points, PlotDataType dataType)
         {
             string plotLabel = GetLegendLabel(dataType);
-            Commands.Plot_SetRequestedIndependentVariableAxis.Execute(SolutionDomainTypeOptionVM.IndependentAxisType);
             if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
             {
                 var real = points[0];
@@ -435,8 +434,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     complexPoints.Add(new ComplexPoint(real[i].X, new Complex(real[i].Y, imag[i].Y)));
                 }
-                Commands.Plot_PlotValues.Execute(new PlotData(complexPoints, plotLabel + "\r(real)",
-                    plotLabel + "\r(imag)"));
+                Commands.Plot_PlotValues.Execute(new PlotData(complexPoints, plotLabel));
             }
             else
             {

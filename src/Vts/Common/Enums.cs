@@ -411,11 +411,15 @@ namespace Vts
         /// <summary>
         /// real/imag type
         /// </summary>
-        RealImag,
+        Complex,
         /// <summary>
-        /// phase/amplitude type
+        /// phase type
         /// </summary>
-        PhaseAmp
+        Phase,
+        /// <summary>
+        /// amplitude plot
+        /// </summary>
+        Amp,
     }
     /// <summary>
     /// plot normalization types

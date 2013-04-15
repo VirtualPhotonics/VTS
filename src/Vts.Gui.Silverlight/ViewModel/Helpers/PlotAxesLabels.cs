@@ -7,6 +7,7 @@ namespace Vts.Gui.Silverlight.ViewModel
     {
         public string IndependentAxisUnits { get; set; }
         public string IndependentAxisName { get; set; }
+        public IndependentVariableAxis IndependentAxisType { get; set; }
         public string DependentAxisUnits { get; set; }
         public string DependentAxisName { get; set; }
         public string ConstantAxisName { get; set; }
@@ -15,11 +16,14 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public PlotAxesLabels(
             string independentAxisName, string independentAxisUnits,
+            IndependentVariableAxis independentAxisType,
             string dependentAxisName, string dependentAxisUnits,
-            string constantAxisName, string constantAxisUnits, double constantAxisValue)
+            string constantAxisName, string constantAxisUnits, 
+            double constantAxisValue)
         {
             IndependentAxisName = independentAxisName;
             IndependentAxisUnits = independentAxisUnits;
+            IndependentAxisType = independentAxisType;
             DependentAxisName = dependentAxisName;
             DependentAxisUnits = dependentAxisUnits;
             ConstantAxisName = constantAxisName;
@@ -27,8 +31,9 @@ namespace Vts.Gui.Silverlight.ViewModel
             ConstantAxisValue = constantAxisValue;
         }
         public PlotAxesLabels(
-            string independentAxisName, string independentAxisUnits,
+            string independentAxisName, string independentAxisUnits, IndependentVariableAxis independentAxisType,
             string dependentAxisName, string dependentAxisUnits)
-            : this(independentAxisName, independentAxisUnits, dependentAxisName, dependentAxisUnits, "", "", 0) { }
+            : this(independentAxisName, independentAxisUnits, independentAxisType, 
+            dependentAxisName, dependentAxisUnits, "", "", 0) { }
     }
 }
