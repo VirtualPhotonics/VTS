@@ -234,14 +234,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var imag = MeasuredDataValues.Skip(numValues).Take(numValues);
 
                     return new[] {
-                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
+                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
                             RangeVM.Values, real, (x, y) => new Point(x, y))),
-                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
+                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
                             RangeVM.Values, imag, (x, y) => new Point(x, y)))
                     };
                 }
 
-                return new[] { new Point[RangeVM.Number].PopulateFromEnumerable2(EnumerableEx.Zip(RangeVM.Values, MeasuredDataValues, (x, y) => new Point(x, y))) };
+                return new[] { new Point[RangeVM.Number].PopulateFromEnumerable2(Enumerable.Zip(RangeVM.Values, MeasuredDataValues, (x, y) => new Point(x, y))) };
 
             }
         }
@@ -263,14 +263,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var real = InitialGuessDataValues.Take(numValues);
                     var imag = InitialGuessDataValues.Skip(numValues).Take(numValues);
                     return new[] {
-                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
+                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
                             RangeVM.Values, real, (x, y) => new Point(x, y))),
-                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
+                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
                             RangeVM.Values, imag, (x, y) => new Point(x, y)))
                     };
                 }
 
-                return new[] {new Point[ RangeVM.Number].PopulateFromEnumerable2( EnumerableEx.Zip(RangeVM.Values, InitialGuessDataValues, (x, y) => new Point(x, y))) };
+                return new[] {new Point[ RangeVM.Number].PopulateFromEnumerable2( Enumerable.Zip(RangeVM.Values, InitialGuessDataValues, (x, y) => new Point(x, y))) };
             }
         }
 
@@ -291,14 +291,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var real = ResultDataValues.Take(numValues);
                     var imag = ResultDataValues.Skip(numValues).Take(numValues);
                     return new[] {
-                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
+                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
                             RangeVM.Values, real, (x, y) => new Point(x, y))),
-                        new Point[numValues].PopulateFromEnumerable2(EnumerableEx.Zip(
+                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
                             RangeVM.Values, imag, (x, y) => new Point(x, y)))
                     };
                 }
 
-                return new[] { new Point[ RangeVM.Number].PopulateFromEnumerable2(EnumerableEx.Zip(RangeVM.Values, ResultDataValues, (x, y) => new Point(x, y))) };
+                return new[] { new Point[ RangeVM.Number].PopulateFromEnumerable2(Enumerable.Zip(RangeVM.Values, ResultDataValues, (x, y) => new Point(x, y))) };
             }
         }
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Windows;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Vts.MonteCarlo.PhotonData
 {

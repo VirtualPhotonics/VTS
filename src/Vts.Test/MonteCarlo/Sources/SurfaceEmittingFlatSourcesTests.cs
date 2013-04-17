@@ -17,6 +17,7 @@ namespace Vts.Test.MonteCarlo.Sources
     [TestFixture]
     public class SurfaceEmittingSourcesTests
     {
+        private const double ACCEPTABLE_PRECISION = 0.00000001;
         Position _position;
         Direction _direction;
         Position _translation;
@@ -108,13 +109,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[25]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[26]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[27]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[25]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[26]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[27]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[28]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[29]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[30]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[28]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[29]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[30]), ACCEPTABLE_PRECISION);
         }
 
 
@@ -137,13 +138,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[31]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[32]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[33]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[31]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[32]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[33]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[34]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[35]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[36]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[34]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[35]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[36]), ACCEPTABLE_PRECISION);
         }
 
 
@@ -167,13 +168,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[37]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[38]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[39]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[37]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[38]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[39]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[40]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[41]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[42]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[40]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[41]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[42]), ACCEPTABLE_PRECISION);
         }
 
 
@@ -196,13 +197,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[43]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[44]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[45]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[43]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[44]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[45]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[46]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[47]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[48]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[46]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[47]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[48]), ACCEPTABLE_PRECISION);
         }
 
 
@@ -226,13 +227,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[49]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[50]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[51]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[49]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[50]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[51]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[52]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[53]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[54]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[52]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[53]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[54]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -254,13 +255,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[55]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[56]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[57]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[55]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[56]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[57]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[58]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[59]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[60]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[58]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[59]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[60]), ACCEPTABLE_PRECISION);
         }
 
 
@@ -284,13 +285,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[61]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[62]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[63]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[61]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[62]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[63]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[64]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[65]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[66]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[64]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[65]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[66]), ACCEPTABLE_PRECISION);
         }
 
 
@@ -313,13 +314,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[67]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[68]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[69]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[67]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[68]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[69]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[70]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[71]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[72]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[70]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[71]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[72]), ACCEPTABLE_PRECISION);
         }
 
 
@@ -343,13 +344,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[73]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[74]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[75]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[73]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[74]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[75]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[76]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[77]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[78]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[76]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[77]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[78]), ACCEPTABLE_PRECISION);
         }
 
         /// <summary>
@@ -371,13 +372,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[79]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[80]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[81]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[79]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[80]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[81]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[82]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[83]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[84]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[82]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[83]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[84]), ACCEPTABLE_PRECISION);
         }
 
 
@@ -401,13 +402,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[85]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[86]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[87]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[85]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[86]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[87]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[88]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[89]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[90]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[88]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[89]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[90]), ACCEPTABLE_PRECISION);
         }
 
 
@@ -430,13 +431,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[91]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[92]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[93]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _tp[91]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _tp[92]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _tp[93]), ACCEPTABLE_PRECISION);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[94]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[95]), 0.0000000001);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[96]), 0.0000000001);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _tp[94]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[95]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[96]), ACCEPTABLE_PRECISION);
         }
     }
 }

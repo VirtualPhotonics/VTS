@@ -50,6 +50,8 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -78,7 +80,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MathNet.Numerics">
-      <HintPath>..\..\lib\Math.NET\lib\SL4\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\packages\MathNet.Numerics.2.4.0\lib\portable-net40+windows8+wp8+sl5\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics.Silverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -100,22 +102,6 @@
     </Reference>
     <Reference Include="NUnit.Silverlight.Metadata">
       <HintPath>..\..\tools\nunit\Silverlight\NUnit.Silverlight.Metadata.dll</HintPath>
-    </Reference>
-    <Reference Include="System.CoreEx">
-      <HintPath>..\..\lib\RxFramework\SL4\System.CoreEx.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Interactive">
-      <HintPath>..\..\lib\RxFramework\SL4\System.Interactive.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Numerics.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Observable">
-      <HintPath>..\..\lib\RxFramework\SL4\System.Observable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive">
-      <HintPath>..\..\lib\RxFramework\SL4\System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
@@ -307,6 +293,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +324,11 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
+    <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />
+    <Content Include="App_Readme\MathNet.Numerics.readme.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -352,4 +344,5 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

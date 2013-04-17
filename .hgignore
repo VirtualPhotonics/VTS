@@ -40,6 +40,7 @@ obj/
 [Rr]esults*/
 [Rr]elease*/
 [Ll]ibraries/*.dll
+[Pp]ackages/*
 [Rr]esources/*
 [Tt]est[Rr]esult*
 [Bb]uild[Ll]og.*

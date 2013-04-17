@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{E87433B1-D691-4D36-BB6B-3B766192CC8E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{D6A3DE7A-7E93-4932-AA8F-C612FD97830E}"
@@ -14,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.Gui.Silverlight", "Vts.Gui.Silverlight\Vts.Gui.Silverlight.csproj", "{A04010C3-E896-445B-AAA2-8FC12E6471AF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MonteCarlo.CommandLineApplication", "Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj", "{8E45BF42-5B0B-4AEF-9E63-B2966622FC23}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MonteCarlo.Wcf", "Vts.MonteCarlo.Wcf\Vts.MonteCarlo.Wcf.csproj", "{19274E6B-E96C-4DC6-84B1-63B46FD35996}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MonteCarlo.GenerateReferenceData", "Vts.MonteCarlo.GenerateReferenceData\Vts.MonteCarlo.GenerateReferenceData.csproj", "{74BE087C-69FB-423A-9FA6-EAC1B97D7D75}"
 EndProject
@@ -46,6 +44,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationTester", "SerializationTester\SerializationTester.csproj", "{295333B2-EA52-4425-9EE2-A97E1745C0D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.ImportSpectralData.Desktop", "Vts.ImportSpectralData.Desktop\Vts.ImportSpectralData.Desktop.csproj", "{B2B25DB9-0E34-455B-A717-37F1D179C867}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{29A8C805-7367-4C69-8F62-60FC753AFD12}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,25 +108,6 @@ Global
 		{8E45BF42-5B0B-4AEF-9E63-B2966622FC23}.ReleaseWhiteList|Mixed Platforms.Build.0 = Release|Any CPU
 		{8E45BF42-5B0B-4AEF-9E63-B2966622FC23}.ReleaseWhiteList|Win32.ActiveCfg = Release|Any CPU
 		{8E45BF42-5B0B-4AEF-9E63-B2966622FC23}.ReleaseWhiteList|x86.ActiveCfg = Release|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Debug|Win32.Build.0 = Debug|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Release|Win32.ActiveCfg = Release|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Release|Win32.Build.0 = Release|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.Release|x86.ActiveCfg = Release|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.ReleaseWhiteList|Any CPU.ActiveCfg = Release|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.ReleaseWhiteList|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.ReleaseWhiteList|Mixed Platforms.Build.0 = Release|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.ReleaseWhiteList|Win32.ActiveCfg = Release|Any CPU
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996}.ReleaseWhiteList|x86.ActiveCfg = Release|Any CPU
 		{74BE087C-69FB-423A-9FA6-EAC1B97D7D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{74BE087C-69FB-423A-9FA6-EAC1B97D7D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74BE087C-69FB-423A-9FA6-EAC1B97D7D75}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -397,7 +384,6 @@ Global
 		{92381E9C-57F9-4391-A3C6-A5FAA99E823B} = {E87433B1-D691-4D36-BB6B-3B766192CC8E}
 		{05B6020A-B646-4BBB-B9A0-B524F5F85023} = {E87433B1-D691-4D36-BB6B-3B766192CC8E}
 		{8E45BF42-5B0B-4AEF-9E63-B2966622FC23} = {D6A3DE7A-7E93-4932-AA8F-C612FD97830E}
-		{19274E6B-E96C-4DC6-84B1-63B46FD35996} = {D6A3DE7A-7E93-4932-AA8F-C612FD97830E}
 		{169F5A43-1079-4E1F-87A2-C5E8E7A69BF9} = {D6A3DE7A-7E93-4932-AA8F-C612FD97830E}
 		{A8043ED2-2536-46BB-A856-F051C43A985D} = {D6A3DE7A-7E93-4932-AA8F-C612FD97830E}
 		{74BE087C-69FB-423A-9FA6-EAC1B97D7D75} = {E3F0B7B7-920E-4820-A025-4D643FBDC01B}
@@ -412,5 +398,8 @@ Global
 		{8A1194A0-C773-483B-BD78-9D013105CEA1} = {920000AB-D955-4399-AD00-78523C740E2A}
 		{295333B2-EA52-4425-9EE2-A97E1745C0D0} = {920000AB-D955-4399-AD00-78523C740E2A}
 		{A04010C3-E896-445B-AAA2-8FC12E6471AF} = {22E09293-1EF5-46A4-86FC-3B1CD9DD2977}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal
