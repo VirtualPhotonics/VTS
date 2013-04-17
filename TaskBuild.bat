@@ -2,6 +2,7 @@ set rootdir=%~dp0
 set debugbuildswitches=/p:WarningLevel=2 /nologo /v:n
 set releasebuildswitches=/p:Configuration=Release /p:WarningLevel=2 /nologo /v:n
 set msbuild=%WINDIR%\Microsoft.Net\Framework64\v4.0.30319\msbuild
+set EnableNuGetPackageRestore=true
 
 "%msbuild%" "%rootdir%\src\Vts.ImportSpectralData.Desktop\Vts.ImportSpectralData.Desktop.csproj" %debugbuildswitches%
 "%msbuild%" "%rootdir%\src\Vts.ImportSpectralData.Desktop\Vts.ImportSpectralData.Desktop.csproj" %releasebuildswitches%

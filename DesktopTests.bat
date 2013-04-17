@@ -1,5 +1,6 @@
 rem @echo off
 set rootdir=%~dp0
+set EnableNuGetPackageRestore=true
 
 set nunit=%rootdir%\tools\nunit\Desktop\
 
