@@ -515,6 +515,10 @@ namespace Vts
         /// Mueller Matrix for a linear vertical polarizer.  (Default constructor for the Mueller Matrix class.)
         /// </summary>
         LinearVerticalPolarizer,
+        /// <summary>
+        /// Mueller Matrix for an arbitrary scatterer.
+        /// </summary>
+        General,
     }
     /// <summary>
     /// input parameters types used in the Monte Carlo CommandLine application for parameter sweeps

@@ -244,6 +244,7 @@
     <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\LookupTablePhaseFunctionInputTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\PolarLookupTablePhaseFunctionDataTest.cs" />
     <Compile Include="MonteCarlo\PhaseFunctions\AxiallySymmetricScattererMuellerMatrixTests.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\MuellerMatrixTests.cs" />
     <Compile Include="MonteCarlo\PhaseFunctions\LookupTablePhaseFunctionTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs">
       <SubType>Code</SubType>

@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
         /// A constructor that initalizes the non-zero elements of the Mueller matrix for axially symmetric particles.
         /// Also initializes the Theta and MuellerMatrixType.
         /// </summary>
-        public AxiallySymmetricScattererMuellerMatrix(double [] theta, double [] st11, double [] s12, double [] s22, double [] s33, double [] s34, double [] s44)
+        public AxiallySymmetricScattererMuellerMatrix(List <double> theta, double [] st11, double [] s12, double [] s22, double [] s33, double [] s34, double [] s44)
         {
             St11 = st11;
             S12 = s12;

@@ -9,6 +9,9 @@ using Vts.MonteCarlo.PhaseFunctionInputs;
 
 namespace Vts.Test.MonteCarlo
 {
+    /// <summary>
+    /// Test the class PolarLookupTablePhaseFunctionData.
+    /// </summary>
     [TestFixture]
     public class PolarLookupTablePhaseFunctionDataTests
     {
@@ -19,7 +22,7 @@ namespace Vts.Test.MonteCarlo
         public void validate_constructor()
         {
             var data = new PolarLookupTablePhaseFunctionData();
-            Assert.IsTrue(data.Name.Equals("PolarLookuptablePhaseFunctionData"));
+            Assert.IsTrue(Equals(data.Name, "PolarLookupTablePhaseFunctionData"));
         }
         /// <summary>
         /// Test setting the member variables.
@@ -29,7 +32,9 @@ namespace Vts.Test.MonteCarlo
         {
             var data = new PolarLookupTablePhaseFunctionData();
             data.LutAngles = new[] { 0.0, Math.PI/2, Math.PI };
-            Assert.IsTrue(data.LutAngles.Equals(new[] {0.0, Math.PI/2, Math.PI});
+            Assert.AreEqual(data.LutAngles[0], 0.0);
+            Assert.AreEqual(data.LutAngles[1], Math.PI/2);
+            Assert.AreEqual(data.LutAngles[2], Math.PI);
         }
     }
 }
