@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 
 namespace Vts.MonteCarlo
 {
@@ -17,7 +18,7 @@ namespace Vts.MonteCarlo
         /// <param name="seed">random number generator seed (-1=randomly chosen seed, >=0 reproducible sequence)</param>
         /// <param name="rngType">random number generator type</param>
         /// <param name="absWeightingType">absorption weighting type</param>
-        /// <param name="phaseFunctionType">phase function type</param>
+        /// <param name="IPhaseFunctionInput">phase function input</param>
         /// <param name="databases">list of DatabaseType indicating data to be written database for post-processing</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment information for error results</param>
         /// <param name="trackStatistics">flag indicating whether to track statistics about where photons end up</param>
@@ -27,7 +28,7 @@ namespace Vts.MonteCarlo
             int seed, 
             RandomNumberGeneratorType rngType, 
             AbsorptionWeightingType absWeightingType,
-            PhaseFunctionType phaseFunctionType,
+            IPhaseFunctionInput phaseFunctionInput,
             IList<DatabaseType> databases,
             bool tallySecondMoment,
             bool trackStatistics,
@@ -36,7 +37,7 @@ namespace Vts.MonteCarlo
         {
             RandomNumberGeneratorType = rngType;
             AbsorptionWeightingType = absWeightingType;
-            PhaseFunctionType = phaseFunctionType;
+            PhaseFunctionInput = phaseFunctionInput;
             Databases = databases;
             // check if databases list is null and if so make empty
             if (Databases == null)
@@ -67,7 +68,7 @@ namespace Vts.MonteCarlo
             : this(seed, 
                 rngType, 
                 absWeightingType, 
-                PhaseFunctionType.HenyeyGreenstein,
+                new HenyeyGreensteinPhaseFunctionInput(), 
                 new List<DatabaseType>() { }, // databases to be written
                 true, // tally 2nd moment
                 false, // track statistics
@@ -82,7 +83,7 @@ namespace Vts.MonteCarlo
             : this(seed, 
                 RandomNumberGeneratorType.MersenneTwister,  
                 AbsorptionWeightingType.Discrete, 
-                PhaseFunctionType.HenyeyGreenstein,
+                new HenyeyGreensteinPhaseFunctionInput(),
                 null,
                 true,
                 false,
@@ -96,7 +97,7 @@ namespace Vts.MonteCarlo
             : this(-1, // default constructor needs -1 here to invoke GetRandomSeed
                 RandomNumberGeneratorType.MersenneTwister, 
                 AbsorptionWeightingType.Discrete, 
-                PhaseFunctionType.HenyeyGreenstein,
+                new HenyeyGreensteinPhaseFunctionInput(),
                 null,
                 true,
                 false,
@@ -116,9 +117,9 @@ namespace Vts.MonteCarlo
         /// </summary>
         public AbsorptionWeightingType AbsorptionWeightingType { get; set; }
         /// <summary>
-        /// phase function type
+        /// phase function input
         /// </summary>
-        public PhaseFunctionType PhaseFunctionType { get; set; }
+        public IPhaseFunctionInput PhaseFunctionInput { get; set; }
         /// <summary>
         /// list of databases to be written
         /// </summary>

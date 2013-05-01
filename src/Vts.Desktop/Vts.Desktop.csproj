@@ -995,6 +995,9 @@
     <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\LookupTablePhaseFunction.cs">
       <Link>MonteCarlo\PhaseFunctions\LookupTablePhaseFunction.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\PolarAndAzimuthalPhaseFunction.cs">
+      <Link>MonteCarlo\PhaseFunctions\PolarAndAzimuthalPhaseFunction.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Photon.cs">
       <Link>MonteCarlo\Photon.cs</Link>
     </Compile>

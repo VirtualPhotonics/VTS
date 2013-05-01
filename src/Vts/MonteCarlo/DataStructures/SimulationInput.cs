@@ -132,7 +132,7 @@ namespace Vts.MonteCarlo
                     -1, // get random seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { },
                     true, // compute Second Moment
                     false, // track statistics

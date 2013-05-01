@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhaseFunctionInputs;
-using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.PhaseFunctions;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
 
@@ -48,7 +48,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -134,7 +134,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -185,7 +185,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -239,7 +239,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -291,7 +291,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    new HenyeyGreensteinPhaseFunctionInput(),
                     new [] { DatabaseType.DiffuseReflectance }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -343,7 +343,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -401,7 +401,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.LookupTable,
+                    new LookupTablePhaseFunctionInput(), 
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -419,7 +419,7 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         new LookupTablePhaseFunctionInput()),
                         new LayerRegion(
-                            new DoubleRange(0.0, 1.5),
+                            new DoubleRange(0.0, 100),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         new LookupTablePhaseFunctionInput()),
                         new LayerRegion(
@@ -449,7 +449,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -497,7 +497,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -551,7 +551,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     true, // track statistics
