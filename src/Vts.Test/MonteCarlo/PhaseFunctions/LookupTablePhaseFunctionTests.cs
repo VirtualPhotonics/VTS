@@ -36,9 +36,6 @@ namespace Vts.Test.MonteCarlo
             for (int i = 0; i < sampleSize; i++)
                 sampleXi2.Add(tester.ScatterToNewTheta(dir));
             sampleXi2.Sort();
-            System.Diagnostics.Debug.WriteLine("Thetas: ");
-            for (int i = 0; i < sampleSize; i++)
-                System.Diagnostics.Debug.WriteLine(sampleXi2[i]);
             for (int i = 0; i < sampleSize; i++)
                 sampleXi.Add(-1*Math.Cos(sampleXi2[i]));
             sampleXi.Sort();
@@ -59,22 +56,11 @@ namespace Vts.Test.MonteCarlo
             double temp = Math.Abs(Vts.Common.Math.Interpolation.interp1(mu, data.LutCdf, sampleXi[0]));
             if (temp > Dn)
                     Dn = temp;
-            //TextWriterTraceListener writer = new TextWriterTraceListener(System.Console.Out);
-            //Debug.Listeners.Add(writer);
-            System.Diagnostics.Debug.WriteLine("Fn: ");
-            for (int i = 0; i < sampleSize; i++)
-                System.Diagnostics.Debug.WriteLine(Fn[i]);
-            System.Diagnostics.Debug.WriteLine("sampleXi/mu: ");
-            for (int i = 0; i < sampleSize; i++)
-                System.Diagnostics.Debug.WriteLine(sampleXi[i]);
-            System.Diagnostics.Debug.WriteLine("interp: ");
             for (int i = 0; i < sampleSize-1; i++)
             {
                 temp = Math.Abs(Fn[i] - Vts.Common.Math.Interpolation.interp1(mu, data.LutCdf, sampleXi[i + 1]));
                 if (temp > Dn)
                     Dn = temp;
-
-                System.Diagnostics.Debug.WriteLine(Vts.Common.Math.Interpolation.interp1(mu, data.LutCdf, sampleXi[i + 1]));
             }
             temp = Math.Abs(1 - Vts.Common.Math.Interpolation.interp1(mu, data.LutCdf, sampleXi[sampleSize - 1]));
             if (temp > Dn)
@@ -85,7 +71,6 @@ namespace Vts.Test.MonteCarlo
                 temp = Math.Abs(Fn[i] - Vts.Common.Math.Interpolation.interp1(mu, data.LutCdf, sampleXi[i]));
                 if (temp > Dn)
                     Dn = temp;
-                System.Diagnostics.Debug.WriteLine(temp);
             }
             //if sqrt(n)*Dn > K_alpha, then reject the null hypothesis.  Null hypothesis is that the sample came from this probability distribution.
             Assert.LessOrEqual(Math.Sqrt((double)sampleSize) * Dn, K_alpha);
