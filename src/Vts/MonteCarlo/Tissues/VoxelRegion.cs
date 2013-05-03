@@ -57,7 +57,7 @@ namespace Vts.MonteCarlo.Tissues
             new DoubleRange(0.0, 10),
             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
             new HenyeyGreensteinPhaseFunctionInput()) {}  
-        }
+
 
         /// <summary>
         /// x range of voxel

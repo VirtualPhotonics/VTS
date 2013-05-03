@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Sources.SourceProfiles;
