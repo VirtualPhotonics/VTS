@@ -103,11 +103,11 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(-10.0, 10.0, 101),
                         new DoubleRange(0.0, 10.0, 101), 
                         new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
-                        new DoubleRange(0.0, 2 * Math.PI, 5)), // phi (azimuthal angle)
-                        new ReflectedMTOfRhoAndSubRegionHistDetectorInput(
-                           new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
-                           new DoubleRange(0.0, 500.0, 51) // MT bins
-                   )
+                        new DoubleRange(-Math.PI, Math.PI, 5)), // phi (azimuthal angle)
+                    new ReflectedMTOfRhoAndSubregionHistDetectorInput(
+                        new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
+                        new DoubleRange(0.0, 500.0, 51), // MT bins
+                        new DoubleRange(0.0, 1.0, 11))
                 };
             _inputOneLayerTissue = new SimulationInput(
                 100,
@@ -212,7 +212,6 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
         }
-
         // Reflection R(rho,omega)
         [Test]
         public void validate_DAW_ROfRhoAndOmega()
@@ -360,19 +359,41 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
         // Reflected Momentum Transfer of Rho and SubRegion
         [Test]
-        public void validate_DAW_ReflectedMTOfRhoAndSubRegionHist()
+        public void validate_DAW_ReflectedMTOfRhoAndSubregionHist()
         {
             // use initial results to verify any new changes to the code
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rs_hist[0, 1, 0] - 0.632816), 0.000001);
-            // make sure over MT equals R(rho) results
-            var mtbins = ((ReflectedMTOfRhoAndSubRegionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
-                Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubRegionHist).First()).MTBins;
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rs_hist[0, 0] - 0.632816), 0.000001);
+            // make sure mean integral over MT equals R(rho) results
+            var mtbins = ((ReflectedMTOfRhoAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First()).MTBins;
             var integral = 0.0;
             for (int i = 0; i < mtbins.Count - 1; i++)
             {
-                integral += _outputOneLayerTissue.RefMT_rs_hist[0, 1, i];
+                integral += _outputOneLayerTissue.RefMT_rs_hist[0, i];
             }
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] - integral), 0.000001);
+            // the following does not work with current algorithm
+            //// make sure FractionalMT integral over subregions and fractional MT bins equals mean results
+            //var fracbins = ((ReflectedMTOfRhoAndSubregionHistDetectorInput)_inputTwoLayerTissue.DetectorInputs.
+            //    Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First()).FractionalMTBins;
+            //var rhobins = ((ReflectedMTOfRhoAndSubregionHistDetectorInput)_inputTwoLayerTissue.DetectorInputs.
+            //    Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First()).Rho;
+            //var srcount = _inputTwoLayerTissue.TissueInput.Regions.Count();
+            //for (int i = 0; i < rhobins.Count - 1; i++)
+            //{
+            //    for (int j = 0; j < mtbins.Count - 1; j++)
+            //    {
+            //        integral = 0.0;
+            //        for (int k = 0; k < srcount; k++)
+            //        {
+            //            for (int l = 0; l < fracbins.Count - 1; l++)
+            //            {
+            //                integral += _outputTwoLayerTissue.RefMT_rs_frac[i, j, k, l];
+            //            }
+            //        }
+            //        Assert.AreEqual(integral, _outputTwoLayerTissue.RefMT_rs_hist[i, j]);
+            //    }
+            //}
         }
     }
 }

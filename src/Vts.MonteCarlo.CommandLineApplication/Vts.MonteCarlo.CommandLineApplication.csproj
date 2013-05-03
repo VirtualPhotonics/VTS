@@ -10,7 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vts.MonteCarlo.CommandLineApplication</RootNamespace>
     <AssemblyName>mc</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
     </SccProjectName>
@@ -25,7 +24,6 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <UpgradeBackupLocation />
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -40,6 +38,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,19 +63,10 @@
     <DocumentationFile>bin\Release\mc.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release %28White List Gui Deployment%29|AnyCPU' ">
-    <OutputPath>bin\Release %28White List Gui Deployment%29\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>bin\Release\mc.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -116,12 +107,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vts.Desktop\Vts.Desktop.csproj">
-      <Project>{05B6020A-B646-4BBB-B9A0-B524F5F85023}</Project>
-      <Name>Vts.Desktop</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -144,6 +129,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -154,15 +140,23 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">copy "$(SolutionDir)\..\lib\Vts.MonteCarlo.Unmanaged\Vts.MonteCarlo.Unmanaged.dll" "$(TargetDir)"</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(SolutionDir)\..\lib\Vts.MonteCarlo.Unmanaged\Vts.MonteCarlo.Unmanaged.dll" "$(TargetDir)"
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">copy "$(ProjectDir)..\..\lib\Vts.MonteCarlo.Unmanaged\Vts.MonteCarlo.Unmanaged.dll" "$(TargetDir)"
 
-IF NOT EXIST "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)" mkdir "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)"
-copy "$(TargetDir)\*.*" "$(SolutionDir)..\build\apps\mc\$(ConfigurationName)" /y
+IF NOT EXIST "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)" mkdir "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)"
+copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)" /y
+
+IF $(Configuration) == Release IF NOT EXIST "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" mkdir "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries"
+
+IF $(Configuration) == Release copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
 
 "$(TargetDir)mc.exe" geninfiles
 </PostBuildEvent>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vts.Desktop\Vts.Desktop.csproj">
+      <Project>{05B6020A-B646-4BBB-B9A0-B524F5F85023}</Project>
+      <Name>Vts.Desktop</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

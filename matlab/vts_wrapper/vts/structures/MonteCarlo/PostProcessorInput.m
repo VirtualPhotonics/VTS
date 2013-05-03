@@ -1,10 +1,10 @@
+% Defines the post processor input for a Monte Carlo simulation
 classdef PostProcessorInput < handle % deriving from handle allows us to keep a singleton around (reference based) - see Doug's post here: http://www.mathworks.com/matlabcentral/newsreader/view_thread/171344
   properties
     DetectorInputs = {...
         DetectorInput.ROfRho(linspace(0,40,201))...
     };
       TallySecondMoment = 0;
-      TrackStatistics = 0;
       InputFolder = 'results';
       DatabaseSimulationInputFilename = 'infile';
       OutputName = 'ppresults';
@@ -19,7 +19,6 @@ classdef PostProcessorInput < handle % deriving from handle allows us to keep a 
               input.DetectorInputs{i} = DetectorInput.FromInputNET(detectorInputsNET(i));
           end                    
           input.TallySecondMoment = logical(inputNET.OutputName);
-          input.TrackStatistics = inputNET.TrackStatistics;
           input.InputFolder = char(inputNET.InputFolder);
           input.DatabaseSimulationInputFilename = char(inputNET.DatabaseSimulationInputFilename);
           input.OutputName = char(inputNET.OutputName);

@@ -50,6 +50,8 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,23 +78,9 @@
     <DocumentationFile>Bin\Release\Vts.Test.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release %28White List Gui Deployment%29|AnyCPU' ">
-    <OutputPath>bin\Release %28White List Gui Deployment%29\</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
-    <DocumentationFile>Bin\Release\Vts.Test.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <NoConfig>true</NoConfig>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MathNet.Numerics">
-      <HintPath>..\..\lib\Math.NET\lib\SL4\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\packages\MathNet.Numerics.2.4.0\lib\portable-net40+windows8+wp8+sl5\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics.Silverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -115,22 +103,6 @@
     <Reference Include="NUnit.Silverlight.Metadata">
       <HintPath>..\..\tools\nunit\Silverlight\NUnit.Silverlight.Metadata.dll</HintPath>
     </Reference>
-    <Reference Include="System.CoreEx">
-      <HintPath>..\..\lib\RxFramework\SL4\System.CoreEx.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Interactive">
-      <HintPath>..\..\lib\RxFramework\SL4\System.Interactive.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Numerics.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Observable">
-      <HintPath>..\..\lib\RxFramework\SL4\System.Observable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive">
-      <HintPath>..\..\lib\RxFramework\SL4\System.Reactive.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
     <Reference Include="mscorlib" />
@@ -148,6 +120,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\Math\ConvertTests.cs" />
+    <Compile Include="Common\Math\InterpolationTests.cs" />
     <Compile Include="Common\OpticalPropertiesTests.cs" />
     <Compile Include="Common\StopwatchTests.cs" />
     <Compile Include="Common\Extensions\ArrayExtensionsTests.cs">
@@ -228,9 +202,12 @@
     <Compile Include="MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMusDetectorInputValidationTests.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidationTests.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidationTests.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidationTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
       <SubType>Code</SubType>
@@ -258,6 +235,9 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointSourceInputs\IsotropicPointSourceInputTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInputTests.cs" />
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInputTests.cs" />
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInputTests.cs" />
     <Compile Include="MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -322,6 +302,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +333,11 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
+    <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />
+    <Content Include="App_Readme\MathNet.Numerics.readme.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -367,4 +353,5 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

@@ -91,15 +91,292 @@ namespace Vts.Extensions
                     }
                 }
             }
+            else if (myArray is T[, , , ,])
+            {
+                var array = myArray as T[, , , ,];
+                int vLength = array.GetLength(4);
+                int wLength = array.GetLength(3);
+                int zLength = array.GetLength(2);
+                int length = array.GetLength(1);
+                int width = array.GetLength(0);
+                for (int v = 0; v < vLength; ++v )
+                {
+                    for (int w = 0; w < wLength; ++w)
+                    {
+                        for (int z = 0; z < zLength; ++z)
+                        {
+                            for (int y = 0; y < length; ++y) //for every pixel
+                            {
+                                for (int x = 0; x < width; ++x)
+                                {
+                                    yield return array[x, y, z, w, v];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (myArray is T[, , , , ,])
+            {
+                var array = myArray as T[, , , , ,];
+                int uLength = array.GetLength(5);
+                int vLength = array.GetLength(4);
+                int wLength = array.GetLength(3);
+                int zLength = array.GetLength(2);
+                int length = array.GetLength(1);
+                int width = array.GetLength(0);
+                for (int u = 0; u < uLength; ++u)
+                {
+                    for (int v = 0; v < vLength; ++v)
+                    {
+                        for (int w = 0; w < wLength; ++w)
+                        {
+                            for (int z = 0; z < zLength; ++z)
+                            {
+                                for (int y = 0; y < length; ++y) //for every pixel
+                                {
+                                    for (int x = 0; x < width; ++x)
+                                    {
+                                        yield return array[x, y, z, w, v, u];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (myArray is T[, , , , , ,])
+            {
+                var array = myArray as T[, , , , , ,];
+                int tLength = array.GetLength(6);
+                int uLength = array.GetLength(5);
+                int vLength = array.GetLength(4);
+                int wLength = array.GetLength(3);
+                int zLength = array.GetLength(2);
+                int length = array.GetLength(1);
+                int width = array.GetLength(0);
+                for (int t = 0; t < tLength; ++t)
+                {
+                    for (int u = 0; u < uLength; ++u)
+                    {
+                        for (int v = 0; v < vLength; ++v)
+                        {
+                            for (int w = 0; w < wLength; ++w)
+                            {
+                                for (int z = 0; z < zLength; ++z)
+                                {
+                                    for (int y = 0; y < length; ++y) //for every pixel
+                                    {
+                                        for (int x = 0; x < width; ++x)
+                                        {
+                                            yield return array[x, y, z, w, v, u, t];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        public static void PopulateFromEnumerable<T>(this Array myArray, IEnumerable<T> enumerable) where T : struct
+        public static Array PopulateFromEnumerable<T>(this Array myArray, IEnumerable<T> enumerable) where T : struct
         {
             var enumerator = enumerable.GetEnumerator();
             myArray.PopulateFromEnumerator(enumerator);
+            return myArray;
         }
 
+
         private static void PopulateFromEnumerator<T>(this Array myArray, IEnumerator<T> enumerator) where T : struct
+        {
+            if (myArray is Array[][])
+            {
+                var array = myArray as Array[][];
+                foreach (var item in array)
+                {
+                    foreach (var subItem in item)
+                    {
+                        subItem.PopulateFromEnumerator(enumerator);
+                    }
+                }
+            }
+            else if (myArray is Array[])
+            {
+                var array = myArray as Array[];
+                foreach (var item in array)
+                {
+                    item.PopulateFromEnumerator(enumerator);
+                }
+            }
+            else if (myArray is T[])
+            {
+                var array = myArray as T[];
+                for (int i = 0; i < array.Length; i++)
+                {
+                    if (enumerator.MoveNext())
+                        array[i] = enumerator.Current;
+                }
+            }
+            else if (myArray is T[,])
+            {
+                var array = myArray as T[,];
+                int length = array.GetLength(1);
+                int width = array.GetLength(0);
+                for (int y = 0; y < length; ++y) //for every pixel
+                {
+                    for (int x = 0; x < width; ++x)
+                    {
+                        if (enumerator.MoveNext())
+                            array[x, y] = enumerator.Current;
+                    }
+                }
+            }
+            else if (myArray is T[, ,])
+            {
+                var array = myArray as T[, ,];
+                int zLength = array.GetLength(2);
+                int length = array.GetLength(1);
+                int width = array.GetLength(0);
+                for (int z = 0; z < zLength; ++z)
+                {
+                    for (int y = 0; y < length; ++y) //for every pixel
+                    {
+                        for (int x = 0; x < width; ++x)
+                        {
+                            if (enumerator.MoveNext())
+                                array[x, y, z] = enumerator.Current;
+                        }
+                    }
+                }
+            }
+            else if (myArray is T[, , ,])
+            {
+                var array = myArray as T[, , ,];
+                int wLength = array.GetLength(3);
+                int zLength = array.GetLength(2);
+                int length = array.GetLength(1);
+                int width = array.GetLength(0);
+                for (int w = 0; w < wLength; ++w)
+                {
+                    for (int z = 0; z < zLength; ++z)
+                    {
+                        for (int y = 0; y < length; ++y) //for every pixel
+                        {
+                            for (int x = 0; x < width; ++x)
+                            {
+                                if (enumerator.MoveNext())
+                                    array[x, y, z, w] = enumerator.Current;
+                            }
+                        }
+                    }
+                }
+            }
+            else if (myArray is T[, , , ,])
+            {
+                var array = myArray as T[, , , ,];
+                int vLength = array.GetLength(4);
+                int wLength = array.GetLength(3);
+                int zLength = array.GetLength(2);
+                int length = array.GetLength(1);
+                int width = array.GetLength(0);
+                for (int v = 0; v < vLength; ++v)
+                {
+                    for (int w = 0; w < wLength; ++w)
+                    {
+                        for (int z = 0; z < zLength; ++z)
+                        {
+                            for (int y = 0; y < length; ++y) //for every pixel
+                            {
+                                for (int x = 0; x < width; ++x)
+                                {
+                                    if (enumerator.MoveNext())
+                                        array[x, y, z, w, v] = enumerator.Current;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (myArray is T[, , , , ,])
+            {
+                var array = myArray as T[, , , , ,];
+                int uLength = array.GetLength(5);
+                int vLength = array.GetLength(4);
+                int wLength = array.GetLength(3);
+                int zLength = array.GetLength(2);
+                int length = array.GetLength(1);
+                int width = array.GetLength(0);
+                for (int u = 0; u < uLength; ++u)
+                {
+                    for (int v = 0; v < vLength; ++v)
+                    {
+                        for (int w = 0; w < wLength; ++w)
+                        {
+                            for (int z = 0; z < zLength; ++z)
+                            {
+                                for (int y = 0; y < length; ++y) //for every pixel
+                                {
+                                    for (int x = 0; x < width; ++x)
+                                    {
+                                        if (enumerator.MoveNext())
+                                            array[x, y, z, w, v, u] = enumerator.Current;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (myArray is T[, , , , , ,])
+            {
+                var array = myArray as T[, , , , , ,];
+                int tLength = array.GetLength(6);
+                int uLength = array.GetLength(5);
+                int vLength = array.GetLength(4);
+                int wLength = array.GetLength(3);
+                int zLength = array.GetLength(2);
+                int length = array.GetLength(1);
+                int width = array.GetLength(0);
+                for (int t = 0; t < tLength; ++t)
+                {
+                    for (int u = 0; u < uLength; ++u)
+                    {
+                        for (int v = 0; v < vLength; ++v)
+                        {
+                            for (int w = 0; w < wLength; ++w)
+                            {
+                                for (int z = 0; z < zLength; ++z)
+                                {
+                                    for (int y = 0; y < length; ++y) //for every pixel
+                                    {
+                                        for (int x = 0; x < width; ++x)
+                                        {
+                                            if (enumerator.MoveNext())
+                                                array[x, y, z, w, v, u, t] = enumerator.Current;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static TArray PopulateFromEnumerable2<T, TArray>(this TArray myArray, IEnumerable<T> enumerable) where T : struct
+        {
+            if(!(myArray is Array))
+            {
+                throw new ArgumentException("Only arrays can use this method");
+            }
+
+            var enumerator = enumerable.GetEnumerator();
+            myArray.PopulateFromEnumerator2(enumerator);
+            return myArray;
+        }
+
+        private static void PopulateFromEnumerator2<T, TArray>(this TArray myArray, IEnumerator<T> enumerator) where T : struct
         {
             if (myArray is Array[][])
             {

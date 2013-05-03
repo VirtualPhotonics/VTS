@@ -24,7 +24,8 @@ namespace Vts.IO
 					typeof (FluenceOfRhoAndZDetector),
 					typeof (FluenceOfRhoAndZAndTimeDetector),
                     typeof (FluenceOfXAndYAndZDetector),
-					typeof (ReflectedMTOfRhoAndSubRegionHistDetector),
+                    typeof (dMCdROfRhodMuaDetector),
+                    typeof (dMCdROfRhodMusDetector),
 					typeof (pMCROfRhoDetector),
 					typeof (pMCROfRhoAndTimeDetector),
 					typeof (RadianceOfRhoAndZAndAngleDetector),
@@ -37,6 +38,8 @@ namespace Vts.IO
 					typeof (ROfRhoAndTimeDetector),
 					typeof (ROfFxDetector),
 					typeof (ROfFxAndTimeDetector),
+					typeof (ReflectedMTOfRhoAndSubregionHistDetector),
+					typeof (ReflectedTimeOfRhoAndSubregionHistDetector),
 					typeof (pMCROfFxDetector),
                     typeof (pMCROfFxAndTimeDetector),
 					typeof (ROfXAndYDetector),
@@ -48,16 +51,25 @@ namespace Vts.IO
                     
 					typeof (ROfFxDetectorInput),
 					typeof (ROfFxAndTimeDetectorInput),
-
-					typeof (DirectionalCircularSourceInput),
+				
+				    // in order of files in folder Vts.MonteCarlo.DataStructures.SourceInput				
+                    typeof (CustomLineSourceInput),
+                    typeof (DirectionalLineSourceInput),
+					typeof (IsotropicLineSourceInput),
+				
+                    typeof (CustomPointSourceInput),
 					typeof (DirectionalPointSourceInput),
                     typeof (IsotropicPointSourceInput),
-                    typeof (CustomPointSourceInput),
-                    typeof (CustomLineSourceInput),
-                    typeof (CustomCircularSourceInput),
-                    typeof (DirectionalLineSourceInput),
-                    typeof (FlatSourceProfile),
-                    typeof (GaussianSourceProfile),
+				
+					typeof (LambertianSurfaceEmittingCylindricalFiberSourceInput),
+					typeof (CustomSurfaceEmittingSphericalSourceInput),
+					typeof (LambertianSurfaceEmittingSphericalSourceInput),
+					typeof (LambertianSurfaceEmittingTubularSourceInput),
+				
+					typeof (CustomCircularSourceInput),
+					typeof (DirectionalCircularSourceInput),
+					typeof (CustomEllipticalSourceInput),
+					typeof (DirectionalEllipticalSourceInput),
 
                     // phase function types...
                     typeof (LookupTablePhaseFunctionInput),
@@ -65,6 +77,13 @@ namespace Vts.IO
                     typeof (BidirectionalPhaseFunctionInput),
                     typeof (PolarLookupTablePhaseFunctionData),
                     typeof (PolarAndAzimuthalLookupTablePhaseFunctionData),
+				
+					// tissue types
+					typeof (MultiLayerTissueInput),
+					typeof (MultiEllipsoidTissueInput),
+					typeof (SingleEllipsoidTissueInput),
+					typeof (LayerRegion), 
+					typeof (EllipsoidRegion),				
                 };
 
             _types = knownTypesArray.ToDictionary(type => type.ToString());

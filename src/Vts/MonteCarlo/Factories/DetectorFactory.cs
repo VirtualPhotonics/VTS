@@ -109,9 +109,12 @@ namespace Vts.MonteCarlo.Factories
                 case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
                     var rxyztpinput = (RadianceOfXAndYAndZAndThetaAndPhiDetectorInput)detectorInput;
                     return new RadianceOfXAndYAndZAndThetaAndPhiDetector(rxyztpinput.X, rxyztpinput.Y, rxyztpinput.Z, rxyztpinput.Theta, rxyztpinput.Phi, tissue, tallySecondMoment, rxyztpinput.Name);
-                case TallyType.ReflectedMTOfRhoAndSubRegionHist:
-                    var rmtrsinput = (ReflectedMTOfRhoAndSubRegionHistDetectorInput)detectorInput;
-                    return new ReflectedMTOfRhoAndSubRegionHistDetector(rmtrsinput.Rho, rmtrsinput.MTBins, tissue, tallySecondMoment, rmtrsinput.Name);
+                case TallyType.ReflectedMTOfRhoAndSubregionHist:
+                    var rmtrsinput = (ReflectedMTOfRhoAndSubregionHistDetectorInput)detectorInput;
+                    return new ReflectedMTOfRhoAndSubregionHistDetector(rmtrsinput.Rho, rmtrsinput.MTBins, rmtrsinput.FractionalMTBins, tissue, tallySecondMoment, rmtrsinput.Name);
+                case TallyType.ReflectedTimeOfRhoAndSubregionHist:
+                    var rtrsinput = (ReflectedTimeOfRhoAndSubregionHistDetectorInput)detectorInput;
+                    return new ReflectedTimeOfRhoAndSubregionHistDetector(rtrsinput.Rho, rtrsinput.Time, tissue, tallySecondMoment, rtrsinput.Name);
 
                 // pMC Detector(s):
                 case TallyType.pMCROfRhoAndTime:
@@ -154,6 +157,26 @@ namespace Vts.MonteCarlo.Factories
                         prfxtinput.PerturbedRegionsIndices.ToArray(),// todo: temp...make everything arrays (and deal w/ any pre/post serialization issues)
                         tallySecondMoment,
                         prfxtinput.Name
+                        );
+                case TallyType.dMCdROfRhodMua:
+                    var pdrrainput = (dMCdROfRhodMuaDetectorInput)detectorInput;
+                    return new dMCdROfRhodMuaDetector(
+                        pdrrainput.Rho,
+                        tissue,
+                        pdrrainput.PerturbedOps,
+                        pdrrainput.PerturbedRegionsIndices,
+                        tallySecondMoment,
+                        pdrrainput.Name
+                        );
+                case TallyType.dMCdROfRhodMus:
+                    var pdrrsinput = (dMCdROfRhodMusDetectorInput)detectorInput;
+                    return new dMCdROfRhodMusDetector(
+                        pdrrsinput.Rho,
+                        tissue,
+                        pdrrsinput.PerturbedOps,
+                        pdrrsinput.PerturbedRegionsIndices,
+                        tallySecondMoment,
+                        pdrrsinput.Name
                         );
                 default:
                     return null;

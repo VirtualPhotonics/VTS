@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Vts.Common;
 using Vts.FemModeling.MGRTE._2D.DataStructures;
 using System.IO;
 using Vts.MonteCarlo;
@@ -95,7 +96,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <param name="theta">Angular array</param>
         /// <param name="nAngle">number of angles</param>
         /// <param name="g">anisotropy factor</param>
-        public static void Weight_2D(double[][] w, double[][] theta, int nAngle, double g)
+        public static void Weight_2D(double[][][] w, double[][] theta, int nAngle, double g, int region)
         {
             int i, j, n, nj;
             double dx, norm;
@@ -113,22 +114,22 @@ namespace Vts.FemModeling.MGRTE._2D
 
             HGPhaseFunction_2D(f, x, n, g);
 
-            w[0][0] = 2.0 / 6.0 * (2.0 * f[0] + f[1]) * dx;
-            w[0][n - 1] = 2.0 / 6.0 * (f[n - 2] + 2.0 * f[n - 1]) * dx;
+            w[0][0][region] = 2.0 / 6.0 * (2.0 * f[0] + f[1]) * dx;
+            w[0][n - 1][region] = 2.0 / 6.0 * (f[n - 2] + 2.0 * f[n - 1]) * dx;
 
             for (i = 1; i < n - 1; i++)
             {
-                w[0][i] = 1.0 / 6.0 * (f[i - 1] + 2.0 * f[i]) * dx + 1.0 / 6.0 * (2.0 * f[i] + f[i + 1]) * dx;
-                w[0][2 * n - 2 - i] = w[0][i];
+                w[0][i][region] = 1.0 / 6.0 * (f[i - 1] + 2.0 * f[i]) * dx + 1.0 / 6.0 * (2.0 * f[i] + f[i + 1]) * dx;
+                w[0][2 * n - 2 - i][region] = w[0][i][region];
             }
 
             norm = 0;
             for (i = 0; i < nAngle; i++)
-                norm += w[0][i];
+                norm += w[0][i][region];
 
             //Normalize
             for (i = 0; i < nAngle; i++)
-                w[0][i] = w[0][i] / norm;
+                w[0][i][region] = w[0][i][region] / norm;
 
 
 
@@ -140,7 +141,7 @@ namespace Vts.FemModeling.MGRTE._2D
                     {
                         nj = 0;
                     }
-                    w[i][nj] = w[0][j];
+                    w[i][nj][region] = w[0][j][region];
                 }
 
             for (i = 0; i < nAngle; i++)
@@ -238,21 +239,22 @@ namespace Vts.FemModeling.MGRTE._2D
             double d2, d3;
             double[] r1p = new double[2];
 
-            double xmin, xmax, ymin, ymax;
+            double xmin, xmax, zmin, zmax;
             double temp;
             double tiny = 2.2204e-12;
 
             double[] xminArray;
             double[] xmaxArray;
-            double[] yminArray;
-            double[] ymaxArray;
+            double[] zminArray;
+            double[] zmaxArray;
 
             int[] idxxminArray;
             int[] idxxmaxArray;
-            int[] idxyminArray;
-            int[] idxymaxArray;
+            int[] idxzminArray;
+            int[] idxzmaxArray;
 
-            xmin = 1e10; xmax = -1e10; ymin = 1e10; ymax = -1e10;
+            // Assign large number for min and small number for max
+            xmin = 1e10; xmax = -1e10; zmin = 1e10; zmax = -1e10;
 
             np = smesh.Np;
             nt = smesh.Nt;
@@ -261,32 +263,32 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 xmin = Math.Min(smesh.P[i][0], xmin);
                 xmax = Math.Max(smesh.P[i][0], xmax);
-                ymin = Math.Min(smesh.P[i][1], ymin);
-                ymax = Math.Max(smesh.P[i][1], ymax);
+                zmin = Math.Min(smesh.P[i][1], zmin);
+                zmax = Math.Max(smesh.P[i][1], zmax);
             }
 
             dx = (xmax - xmin) / (nxy - 1);
-            dy = (ymax - ymin) / (nxy - 1);           
+            dy = (zmax - zmin) / (nxy - 1);           
 
             for (i = 0; i < nxy; i++)
             {
                 x[i] = xmin + i * dx;
-                y[i] = ymin + i * dy;
+                y[i] = zmin + i * dy;
             }
 
             xminArray = new double[nt];
             xmaxArray = new double[nt];
-            yminArray = new double[nt];
-            ymaxArray = new double[nt];
+            zminArray = new double[nt];
+            zmaxArray = new double[nt];
 
             idxxminArray = new int[nt];
             idxxmaxArray = new int[nt];
-            idxyminArray = new int[nt];
-            idxymaxArray = new int[nt];
+            idxzminArray = new int[nt];
+            idxzmaxArray = new int[nt];
 
             for (i = 0; i < nt; i++)
             {
-                xmin = 1e10; xmax = -1e10; ymin = 1e10; ymax = -1e10;
+                xmin = 1e10; xmax = -1e10; zmin = 1e10; zmax = -1e10;
 
                 xmin = Math.Min(smesh.P[smesh.T[i][0]][0], xmin);
                 xmin = Math.Min(smesh.P[smesh.T[i][1]][0], xmin);
@@ -296,29 +298,29 @@ namespace Vts.FemModeling.MGRTE._2D
                 xmax = Math.Max(smesh.P[smesh.T[i][1]][0], xmax);
                 xmax = Math.Max(smesh.P[smesh.T[i][2]][0], xmax);
 
-                ymin = Math.Min(smesh.P[smesh.T[i][0]][1], ymin);
-                ymin = Math.Min(smesh.P[smesh.T[i][1]][1], ymin);
-                ymin = Math.Min(smesh.P[smesh.T[i][2]][1], ymin);
+                zmin = Math.Min(smesh.P[smesh.T[i][0]][1], zmin);
+                zmin = Math.Min(smesh.P[smesh.T[i][1]][1], zmin);
+                zmin = Math.Min(smesh.P[smesh.T[i][2]][1], zmin);
 
-                ymax = Math.Max(smesh.P[smesh.T[i][0]][1], ymax);
-                ymax = Math.Max(smesh.P[smesh.T[i][1]][1], ymax);
-                ymax = Math.Max(smesh.P[smesh.T[i][2]][1], ymax);
+                zmax = Math.Max(smesh.P[smesh.T[i][0]][1], zmax);
+                zmax = Math.Max(smesh.P[smesh.T[i][1]][1], zmax);
+                zmax = Math.Max(smesh.P[smesh.T[i][2]][1], zmax);
 
                 xminArray[i] = xmin;
                 xmaxArray[i] = xmax;
-                yminArray[i] = ymin;
-                ymaxArray[i] = ymax;
+                zminArray[i] = zmin;
+                zmaxArray[i] = zmax;
 
                 idxxminArray[i] = i;
                 idxxmaxArray[i] = i;
-                idxyminArray[i] = i;
-                idxymaxArray[i] = i;
+                idxzminArray[i] = i;
+                idxzmaxArray[i] = i;
             }
 
             QuickSort(xminArray, idxxminArray, 0, nt - 1);
             QuickSort(xmaxArray, idxxmaxArray, 0, nt - 1);
-            QuickSort(yminArray, idxyminArray, 0, nt - 1);
-            QuickSort(ymaxArray, idxymaxArray, 0, nt - 1);
+            QuickSort(zminArray, idxzminArray, 0, nt - 1);
+            QuickSort(zmaxArray, idxzmaxArray, 0, nt - 1);
 
             j = 0;
             for (i = 0; i < nt; i++)
@@ -356,14 +358,14 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 if (j < nxy)
                 {
-                    while (y[j] < yminArray[i])
+                    while (y[j] < zminArray[i])
                     {
                         j++;
                         if (j >= nxy)
                             break;
                     }
                 }
-                yminArray[i] = j;
+                zminArray[i] = j;
             }
 
             j = nxy - 1;
@@ -371,20 +373,20 @@ namespace Vts.FemModeling.MGRTE._2D
             {
                 if (j >= 0)
                 {
-                    while (y[j] > ymaxArray[i])
+                    while (y[j] > zmaxArray[i])
                     {
                         j--;
                         if (j < 0)
                             break;
                     }
                 }
-                ymaxArray[i] = j;
+                zmaxArray[i] = j;
             }
 
             RearrangeArray(ref xminArray, idxxminArray, nt);
             RearrangeArray(ref xmaxArray, idxxmaxArray, nt);
-            RearrangeArray(ref yminArray, idxyminArray, nt);
-            RearrangeArray(ref ymaxArray, idxymaxArray, nt);
+            RearrangeArray(ref zminArray, idxzminArray, nt);
+            RearrangeArray(ref zmaxArray, idxzmaxArray, nt);
 
 
             tn = new int[nxy][];
@@ -407,7 +409,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
             for (i = 0; i < nt; i++)
             {
-                if ((xminArray[i] <= xmaxArray[i]) && (yminArray[i] <= ymaxArray[i]))
+                if ((xminArray[i] <= xmaxArray[i]) && (zminArray[i] <= zmaxArray[i]))
                 {
                     for (j = 0; j < 2; j++)
                     {
@@ -423,7 +425,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
                     for (j = (int)xminArray[i]; j <= (int)xmaxArray[i]; j++)
                     {
-                        for (k = (int)yminArray[i]; k <= (int)ymaxArray[i]; k++)
+                        for (k = (int)zminArray[i]; k <= (int)zmaxArray[i]; k++)
                         {
                             if (tn[k][j] == -1)
                             {
@@ -448,7 +450,6 @@ namespace Vts.FemModeling.MGRTE._2D
 
 
             double tt1, tt2, tt3;
-
 
             for (i = 0; i < nxy; i++)
                 for (j = 0; j < nxy; j++)
@@ -531,22 +532,81 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <param name="amesh"></param>
         /// <param name="aLevel"></param>
         /// <param name="g"></param>
-        public static void CreateAnglularMesh(ref AngularMesh[] amesh, int aLevel, double g)
+        /// <param name="tissueInput"> </param>
+        public static void CreateAnglularMesh(ref AngularMesh[] amesh, int aLevel, MultiEllipsoidTissueInput tissueInput)
         {
-            int i,j;
-            for (i = 0; i <=aLevel; i++)
+            int i, j, k, l;
+            int nLayerRegions = tissueInput.LayerRegions.Length;
+            int nInclusionRegions = tissueInput.EllipsoidRegions.Length;
+            int nRegions = nLayerRegions + nInclusionRegions - 2;
+
+
+            for (i = 0; i <= aLevel; i++)
             {
-                amesh[i].Ns = (int)Math.Pow(2.0, (double)(i+1));
+                amesh[i].Ns = (int) Math.Pow(2.0, (double) (i + 1));
                 amesh[i].Ang = new double[amesh[i].Ns][];
-                amesh[i].W = new double[amesh[i].Ns][];
+                amesh[i].W = new double[amesh[i].Ns][][];
                 for (j = 0; j < amesh[i].Ns; j++)
                 {
                     amesh[i].Ang[j] = new double[3];
-                    amesh[i].W[j] = new double[amesh[i].Ns];
+                    amesh[i].W[j] = new double[amesh[i].Ns][];
+                    for (k = 0; k < amesh[i].Ns; k++)
+                        amesh[i].W[j][k] = new double[nRegions];
                 }
-                Weight_2D(amesh[i].W, amesh[i].Ang, amesh[i].Ns, g);
-            }
 
+                for (j = 0; j < amesh[i].Ns; j++)
+                {
+                    for (l = 0; l < nLayerRegions - 2; l++)
+                        Weight_2D(amesh[i].W, amesh[i].Ang, amesh[i].Ns, tissueInput.LayerRegions[l + 1].RegionOP.G, l);
+
+                    for (l = 0; l < nInclusionRegions; l++)
+                        Weight_2D(amesh[i].W, amesh[i].Ang, amesh[i].Ns, tissueInput.EllipsoidRegions[l].RegionOP.G,
+                                  l + nLayerRegions - 2);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Assign region values to smesh[].Region variable
+        /// </summary>
+        /// <param name="smesh">spatial mesh</param>
+        /// <param name="np">number of nodes</param>
+        /// <param name="tissueInput">tissue input</param>
+        public static void AssignRegions(ref SpatialMesh[] smesh, int np, MultiEllipsoidTissueInput tissueInput)
+        {
+            int i, j, k;
+            double x, z;
+
+            int nLayers = tissueInput.LayerRegions.Length;
+            int nInclusions = tissueInput.EllipsoidRegions.Length;
+
+            for (i = 0; i <= np; i++)
+                for (j = 0; j < smesh[i].Np; j++)
+                {
+                    x = smesh[i].P[j][0];
+                    z = smesh[i].P[j][1];
+
+                    for (k = 1; k < nLayers - 1; k++)
+                    {
+                        if ((z >= ((LayerRegion)tissueInput.LayerRegions[k]).ZRange.Start) &&
+                           (z <= ((LayerRegion)tissueInput.LayerRegions[k]).ZRange.Stop))
+                            smesh[i].Region[j] = k - 1;
+
+                    }
+
+                    for (k = 0; k < nInclusions; k++)
+                    {
+                        double dx = ((EllipsoidRegion)tissueInput.EllipsoidRegions[k]).Dx;
+                        double dz = ((EllipsoidRegion)tissueInput.EllipsoidRegions[k]).Dz;
+
+                        Position center = ((EllipsoidRegion)tissueInput.EllipsoidRegions[k]).Center;
+
+                        double func = ((x - center.X) * (x - center.X) / (dx * dx)) + ((z - center.Z) * (z - center.Z) / (dz * dz));
+                        if (func <= 1)
+                            smesh[i].Region[j] = nLayers - 2 + k;
+
+                    }
+                }
         }
 
         /// <summary>
@@ -557,17 +617,12 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <param name="input">simulation input</param>
         public static void SetMua(ref double[][][] ua, SpatialMesh[] smesh, SimulationInput input)
         {
-            int j, k;
+            int j, k, l;
             int nt = smesh[input.MeshDataInput.SMeshLevel].Nt;
-
             var tissueInput = ((MultiEllipsoidTissueInput) input.TissueInput);
             int nLayerRegions = tissueInput.LayerRegions.Length;
             int nInclusionRegions = tissueInput.EllipsoidRegions.Length;
-            double medMua = tissueInput.LayerRegions[1].RegionOP.Mua;
-            double inMua = tissueInput.EllipsoidRegions[0].RegionOP.Mua;
-
             int sMeshLevel = input.MeshDataInput.SMeshLevel;
-            double tempx, tempz, tempr;
 
             ua[sMeshLevel] = new double[nt][];
             for (j = 0; j < nt; j++)
@@ -575,13 +630,17 @@ namespace Vts.FemModeling.MGRTE._2D
                 ua[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
                 {
-                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - ((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Center.X;
-                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - ((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Center.Z;
-                    tempr = Math.Sqrt(tempx * tempx + tempz * tempz);
-                    if (((EllipsoidRegion)tissueInput.EllipsoidRegions[1]).Dx < tempr) // todo: correct for ellipsoid
-                        ua[sMeshLevel][j][k] = medMua;
-                    else
-                        ua[sMeshLevel][j][k] = inMua;
+                     for (l = 0; l < nLayerRegions - 2; l++)
+                     {
+                         if (smesh[sMeshLevel].Region[smesh[sMeshLevel].T[j][0]] == l) 
+                             ua[sMeshLevel][j][k] = tissueInput.LayerRegions[l+1].RegionOP.Mua;
+                     }
+
+                     for (l = 0; l < nInclusionRegions; l++)
+                     {
+                         if (smesh[sMeshLevel].Region[smesh[sMeshLevel].T[j][0]] == l + nLayerRegions - 2) 
+                             ua[sMeshLevel][j][k] = tissueInput.EllipsoidRegions[l].RegionOP.Mua;
+                     }
                 }
             }
         }
@@ -594,17 +653,12 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <param name="input">simulation input</param>
         public static void SetMus(ref double[][][] us, SpatialMesh[] smesh, SimulationInput input)
         {
-            int j, k;
+            int j, k, l;
             int nt = smesh[input.MeshDataInput.SMeshLevel].Nt;
-            
             var tissueInput = ((MultiEllipsoidTissueInput)input.TissueInput);
             int nLayerRegions = tissueInput.LayerRegions.Length;
             int nInclusionRegions = tissueInput.EllipsoidRegions.Length;
-            double medMus = tissueInput.LayerRegions[1].RegionOP.Mus;
-            double inMus = tissueInput.EllipsoidRegions[0].RegionOP.Mus;
-
             int sMeshLevel = input.MeshDataInput.SMeshLevel;
-            double tempx, tempz, tempr;
 
             us[sMeshLevel] = new double[nt][];
             for (j = 0; j < nt; j++)
@@ -612,14 +666,17 @@ namespace Vts.FemModeling.MGRTE._2D
                 us[sMeshLevel][j] = new double[3];
                 for (k = 0; k < 3; k++)
                 {
-                    tempx = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][0] - ((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Center.X;
-                    tempz = smesh[input.MeshDataInput.SMeshLevel].P[smesh[input.MeshDataInput.SMeshLevel].T[j][k]][1] - ((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Center.Z;
-                    tempr = Math.Sqrt(tempx * tempx + tempz * tempz);
-                    if (((EllipsoidRegion)tissueInput.EllipsoidRegions[0]).Dx < tempr) // todo: correct for ellipsoid
-                    //if (input.InclusionInput.Regions[1].Radius < tempr)
-                        us[sMeshLevel][j][k] = medMus;
-                    else
-                        us[sMeshLevel][j][k] = inMus;
+                    for (l = 0; l < nLayerRegions - 2; l++)
+                    {
+                        if (smesh[sMeshLevel].Region[smesh[sMeshLevel].T[j][0]] == l)
+                            us[sMeshLevel][j][k] = tissueInput.LayerRegions[l + 1].RegionOP.Mus;
+                    }
+
+                    for (l = 0; l < nInclusionRegions; l++)
+                    {
+                        if (smesh[sMeshLevel].Region[smesh[sMeshLevel].T[j][0]] == l + nLayerRegions - 2)
+                            us[sMeshLevel][j][k] = tissueInput.EllipsoidRegions[l].RegionOP.Mus;
+                    }
                 }
             }
         }
@@ -664,7 +721,6 @@ namespace Vts.FemModeling.MGRTE._2D
 
             if (sMeshLevel > 0)
                 CreateMultigrid(ref smesh, pts, edge, tri, np, ne, nt, sMeshLevel);
-
         }
 
         /// <summary>
@@ -722,7 +778,7 @@ namespace Vts.FemModeling.MGRTE._2D
             //char[] level[4];	       
 
             for (j = 1; j <= sMeshLevel; j++)
-            {
+            {   
                 //npt gets the total number of point after sub division
                 npt = 0;
 
@@ -765,6 +821,12 @@ namespace Vts.FemModeling.MGRTE._2D
 
                 AssignSpatialMesh(ref smesh, oldp, olde, oldt, np, ne, nt, j);
             }
+
+            for (j = 0; j <= sMeshLevel; j++)
+                smesh[j].Region = new int[smesh[j].Np];
+            
+
+
         }
                 
         private static void FindPTemp(double[][] ptemp, double[][] p, int[][] t, int nt)
@@ -1019,6 +1081,6 @@ namespace Vts.FemModeling.MGRTE._2D
                     smesh[level].E[i][j] = e[i][j];
             }
 
-        }
+        } 
     }
 }

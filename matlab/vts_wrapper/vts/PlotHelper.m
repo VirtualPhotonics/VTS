@@ -1,5 +1,5 @@
 classdef PlotHelper
-    %Class containing helper functions
+    % Class containing helper functions
     %   Helper functions for MATLAB for items like creating legends
     %   plot title and other global MATLAB specific functions
     

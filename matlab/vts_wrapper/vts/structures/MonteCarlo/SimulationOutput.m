@@ -1,3 +1,4 @@
+% SIMULATIONOUTPUT Output from a Monte Carlo simulation
 classdef SimulationOutput    
     methods (Static)
         function output = FromOutputNET(outputNET)
@@ -12,57 +13,61 @@ classdef SimulationOutput
             
             detectorNames = cell(1, detectorNamesNET.Length); 
             detectorOutputs = cell(1, detectorNamesNET.Length);             
-            for i=1:detectorNamesNET.Length
+            for n=1:detectorNamesNET.Length
                 % need variability with types here (DetectorOutput static
                 % methods)
-                detectorNames{i} = char(detectorNamesNET(i));
-                type = char(valuesNET(i).Mean.GetType().ToString());
+                detectorNames{n} = char(detectorNamesNET(n));
+                type = char(valuesNET(n).Mean.GetType().ToString());
                 switch type
                     case {'System.Numerics.Complex[]'}
-                        nValues = valuesNET(i).Mean.Length;               
+                        nValues = valuesNET(n).Mean.Length;               
                         detectorOutput.Mean = zeros([nValues 1]);
                         for j=1:nValues
-                            re = valuesNET(i).Mean(j).Real;
-                            im = valuesNET(i).Mean(j).Imaginary;
-                            detectorOutput.Mean(j) = sqrt(re.^2 + im.^2);
+                            re = valuesNET(n).Mean(j).Real;
+                            im = valuesNET(n).Mean(j).Imaginary;
+                            %detectorOutput.Mean(j) = sqrt(re.^2 + im.^2);
+                            % return complex values not amp CKH 3/26/13
+                            detectorOutput.Mean(j) = re + i * im;
                         end
                     case {'System.Numerics.Complex[,]'}
-                        dim1 = valuesNET(i).Mean.GetLength(0);
-                        dim2 = valuesNET(i).Mean.GetLength(1);
+                        dim1 = valuesNET(n).Mean.GetLength(0);
+                        dim2 = valuesNET(n).Mean.GetLength(1);
                         detectorOutput.Mean = zeros([dim1 dim2]);
                         for j=1:dim1
                             for k=1:dim2
-                                re = valuesNET(i).Mean(j,k).Real;
-                                im = valuesNET(i).Mean(j,k).Imaginary;
-                                detectorOutput.Mean(j,k) = sqrt(re.^2 + im.^2);
+                                re = valuesNET(n).Mean(j,k).Real;
+                                im = valuesNET(n).Mean(j,k).Imaginary;
+                                %detectorOutput.Mean(j,k) = sqrt(re.^2 + im.^2);
+                                % return complex values not amp CKH 3/26/13
+                                detectorOutput.Mean(j,k) = re + i * im;
                             end
                         end
                     case {'System.Double[,]'}
-                        dim1 = valuesNET(i).Mean.GetLength(0);
-                        dim2 = valuesNET(i).Mean.GetLength(1);
+                        dim1 = valuesNET(n).Mean.GetLength(0);
+                        dim2 = valuesNET(n).Mean.GetLength(1);
                         detectorOutput.Mean = zeros([dim1 dim2]);
                         for j=1:dim1
                             for k=1:dim2
-                                detectorOutput.Mean(j,k) = valuesNET(i).Mean(j,k);
+                                detectorOutput.Mean(j,k) = valuesNET(n).Mean(j,k);
                             end
                         end
                     case {'System.Double[,,]'}
-                        dim1 = valuesNET(i).Mean.GetLength(0);
-                        dim2 = valuesNET(i).Mean.GetLength(1);
-                        dim3 = valuesNET(i).Mean.GetLength(2);
+                        dim1 = valuesNET(n).Mean.GetLength(0);
+                        dim2 = valuesNET(n).Mean.GetLength(1);
+                        dim3 = valuesNET(n).Mean.GetLength(2);
                         detectorOutput.Mean = zeros([dim1 dim2 dim3]);
                         for j=1:dim1
                             for k=1:dim2
                                 for l=1:dim3
-                                    detectorOutput.Mean(j,k,l) = valuesNET(i).Mean(j,k,l);
+                                    detectorOutput.Mean(j,k,l) = valuesNET(n).Mean(j,k,l);
                                 end
                             end
                         end
                     otherwise
-                        nValues = valuesNET(i).Mean.Length;               
+                        nValues = valuesNET(n).Mean.Length;               
                         detectorOutput.Mean = zeros([nValues 1]);
                         for j=1:nValues
-                            detectorOutput.Mean(j) = valuesNET(i).Mean(j);
+                            detectorOutput.Mean(j) = valuesNET(n).Mean(j);
                         end
                 end
 %                 detectorOutput.Mean = NET.convertArray(valuesNET(i).Mean, 'System.Double');
@@ -71,43 +76,51 @@ classdef SimulationOutput
 %                     for j=1:nValues
 %                         detectorOutput.SecondMoment(j) = valuesNET(i).SecondMoment(j);
 %                     end
-                    type = char(valuesNET(i).SecondMoment.GetType().ToString());
+                    type = char(valuesNET(n).SecondMoment.GetType().ToString());
                     switch type
                         case {'System.Numerics.Complex[]'}
-%                             nValues = valuesNET(i).SecondMoment.Length;               
-%                             detectorOutput.SecondMoment = zeros([nValues 1]);
-%                             for j=1:nValues
-%                                 re = valuesNET(i).SecondMoment(j).Real;
-%                                 im = valuesNET(i).SecondMoment(j).Imaginary;
-%                                 detectorOutput.SecondMoment(j) = sqrt(re.^2 + im.^2);
-%                             end
+                            nValues = valuesNET(i).SecondMoment.Length;               
+                             detectorOutput.SecondMoment = zeros([nValues 1]);
+                             for j=1:nValues
+                                 re = valuesNET(i).SecondMoment(j).Real;
+                                 im = valuesNET(i).SecondMoment(j).Imaginary;
+                                 detectorOutput.SecondMoment(j) = re + i * im;
+                             end
                         case {'System.Numerics.Complex[,]'}
-                        case {'System.Double[,]'}
-                            dim1 = valuesNET(i).SecondMoment.GetLength(0);
-                            dim2 = valuesNET(i).SecondMoment.GetLength(1);
+                            dim1 = valuesNET(n).SecondMoment.GetLength(0);
+                            dim2 = valuesNET(n).SecondMoment.GetLength(1);
                             detectorOutput.SecondMoment = zeros([dim1 dim2]);
                             for j=1:dim1
                                 for k=1:dim2
-                                    detectorOutput.SecondMoment(j,k) = valuesNET(i).SecondMoment(j,k);
+                                    detectorOutput.SecondMoment(j,k) = re + i * im;
+                                end
+                            end
+                        case {'System.Double[,]'}
+                            dim1 = valuesNET(n).SecondMoment.GetLength(0);
+                            dim2 = valuesNET(n).SecondMoment.GetLength(1);
+                            detectorOutput.SecondMoment = zeros([dim1 dim2]);
+                            for j=1:dim1
+                                for k=1:dim2
+                                    detectorOutput.SecondMoment(j,k) = valuesNET(n).SecondMoment(j,k);
                                 end
                             end
                         case {'System.Double[,,]'}
-                            dim1 = valuesNET(i).SecondMoment.GetLength(0);
-                            dim2 = valuesNET(i).SecondMoment.GetLength(1);
-                            dim3 = valuesNET(i).SecondMoment.GetLength(2);
+                            dim1 = valuesNET(n).SecondMoment.GetLength(0);
+                            dim2 = valuesNET(n).SecondMoment.GetLength(1);
+                            dim3 = valuesNET(n).SecondMoment.GetLength(2);
                             detectorOutput.SecondMoment = zeros([dim1 dim2 dim3]);
                             for j=1:dim1
                                 for k=1:dim2
                                     for l=1:dim3
-                                        detectorOutput.SecondMoment(j,k,l) = valuesNET(i).SecondMoment(j,k,l);
+                                        detectorOutput.SecondMoment(j,k,l) = valuesNET(n).SecondMoment(j,k,l);
                                     end
                                 end
                             end
                         otherwise
-                            nValues = valuesNET(i).SecondMoment.Length;               
+                            nValues = valuesNET(n).SecondMoment.Length;               
                             detectorOutput.SecondMoment = zeros([nValues 1]);
                             for j=1:nValues
-                                detectorOutput.SecondMoment(j) = valuesNET(i).SecondMoment(j);
+                                detectorOutput.SecondMoment(j) = valuesNET(n).SecondMoment(j);
                             end
                     end
 %                     detectorOutput.SecondMoment = NET.convertArray(valuesNET(i).SecondMoment, 'System.Double');
@@ -115,19 +128,26 @@ classdef SimulationOutput
 %                 switch outputNET.TallyType %%%%%
 %                     otherwise 
                   try
-                        rho_endpoints = input.DetectorInputs{i}.Rho; 
+                        rho_endpoints = input.DetectorInputs{n}.Rho; 
                         detectorOutput.Rho = (rho_endpoints(1:end-1) + rho_endpoints(2:end))/2;
                   catch, end
-                  
+                                    
                   try
-                        detectorOutput.Fx = input.DetectorInputs{i}.Fx;
+                        time_endpoints = input.DetectorInputs{n}.Time;
+                        detectorOutput.Time = (time_endpoints(1:end-1) + time_endpoints(2:end))/2;
                   catch, end
                   
+                  % Fx and Omega results are determined at specified Fx , Omega values not binned
+                  % so no midpoint calculation needed I think (CKH)
                   try
-                        detectorOutput.Time = input.DetectorInputs{i}.Time;
+                        detectorOutput.Fx = input.DetectorInputs{n}.Fx;
                   catch, end
                   
-                  detectorOutputs{i} = detectorOutput;
+                  try 
+                        detectorOutput.Omega = input.DetectorInputs{n}.Omega;
+                  catch, end
+                  
+                  detectorOutputs{n} = detectorOutput;
 %                 end
             end
             

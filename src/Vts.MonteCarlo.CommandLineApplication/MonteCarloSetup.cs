@@ -152,7 +152,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             SimulationOutput detectorResults = mc.Run();
 
-            input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
+            input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".xml"));
 
             foreach (var result in detectorResults.ResultsDictionary.Values)
             {

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using NLog;
 using Vts.Common.Logging;
 using Vts.IO;
 
@@ -237,7 +238,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     logger.Info("\nSimulation complete.");
                 }
             }
-            return;
+
+            LogManager.Configuration = null;
         }
 
         private static void GenerateDefaultInputFiles()
@@ -247,8 +249,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 infiles[i].ToFile("infile_" + infiles[i].OutputName + ".xml"); 
             }
-            var sources = SourceInputProvider.GenerateAllSourceInputs();
-            sources.WriteToXML("infile_source_options_test.xml");
+            //var sources = SourceInputProvider.GenerateAllSourceInputs();
+            //sources.WriteToXML("infile_source_options_test.xml");
         }
 
         //private static SimulationInput LoadDefaultInputFile()

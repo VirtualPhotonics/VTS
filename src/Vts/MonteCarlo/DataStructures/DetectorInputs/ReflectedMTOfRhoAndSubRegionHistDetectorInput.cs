@@ -6,7 +6,7 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// DetectorInput for Flu(r,z)
     /// </summary>
-    public class ReflectedMTOfRhoAndSubRegionHistDetectorInput : IDetectorInput
+    public class ReflectedMTOfRhoAndSubregionHistDetectorInput : IDetectorInput
     {
         /// <summary>
         /// constructor for fluence as a function of rho and z detector input
@@ -14,29 +14,31 @@ namespace Vts.MonteCarlo
         /// <param name="rho">rho binning</param> 
         /// <param name="mtBins">momentum transfer binning</param>
         /// <param name="name">detector name</param>
-        public ReflectedMTOfRhoAndSubRegionHistDetectorInput(DoubleRange rho, DoubleRange mtBins, String name)
+        public ReflectedMTOfRhoAndSubregionHistDetectorInput(DoubleRange rho, DoubleRange mtBins, DoubleRange fractionalMTBins, String name)
         {
-            TallyType = TallyType.ReflectedMTOfRhoAndSubRegionHist;
+            TallyType = TallyType.ReflectedMTOfRhoAndSubregionHist;
             Name = name;
             Rho = rho;
             MTBins = mtBins;
+            FractionalMTBins = fractionalMTBins;
         }
         /// <summary>
         /// constructor that uses TallyType for name
         /// </summary>
         /// <param name="rho">rho binning</param>
         /// <param name="mtBins">momentum transfer binning</param>
-        public ReflectedMTOfRhoAndSubRegionHistDetectorInput(DoubleRange rho, DoubleRange mtBins) 
-            : this (rho, mtBins, TallyType.ReflectedMTOfRhoAndSubRegionHist.ToString()) { }
+        public ReflectedMTOfRhoAndSubregionHistDetectorInput(DoubleRange rho, DoubleRange mtBins, DoubleRange fractionalMTBins) 
+            : this (rho, mtBins, fractionalMTBins, TallyType.ReflectedMTOfRhoAndSubregionHist.ToString()) { }
 
         /// <summary>
         /// Default constructor uses default rho and mt bins
         /// </summary>
-        public ReflectedMTOfRhoAndSubRegionHistDetectorInput()
+        public ReflectedMTOfRhoAndSubregionHistDetectorInput()
             : this(
                 new DoubleRange(0.0, 10.0, 101), //rho
                 new DoubleRange(0.0, 300.0, 101), // mt bins
-                TallyType.ReflectedMTOfRhoAndSubRegionHist.ToString()) {}
+                new DoubleRange(0.0, 1.0, 11), // fractional mt bins
+                TallyType.ReflectedMTOfRhoAndSubregionHist.ToString()) {}
 
         /// <summary>
         /// detector identifier
@@ -54,5 +56,9 @@ namespace Vts.MonteCarlo
         /// momentum transfer binning
         /// </summary>
         public DoubleRange MTBins { get; set; }
+        /// <summary>
+        /// fractional momentum transfer binning
+        /// </summary>
+        public DoubleRange FractionalMTBins { get; set; }
     }
 }

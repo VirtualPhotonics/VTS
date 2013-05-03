@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="Vts.Gui.Silverlight.View.MapView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:v="clr-namespace:Vts.Gui.Silverlight.View;assembly=Vts.Gui.Silverlight"
+    xmlns:vm="clr-namespace:Vts.Gui.Silverlight.ViewModel;assembly=Vts.Gui.Silverlight"
+    xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" 
+    xmlns:Charts="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+    HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Grid Background="White" ShowGridLines="False">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition MinHeight="250"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition MinWidth="450"/>
+        </Grid.ColumnDefinitions>
+        <!-- Places the rho values on the map view -->
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=MainResource.Label_NegRhoMax, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="0" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=MainResource.Label_PosRhoMax, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Right"/>
+        </Grid>
+        <!-- Places the z values on the map view -->
+        <Grid Grid.Row="1" Grid.Column="0" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="210"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="{Binding Path=MainResource.Label_Z0, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+            <TextBlock Grid.Row="1" Text="{Binding Path=MainResource.Label_ZMax, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        </Grid>
+        <!-- Map and the map options -->
+        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+            <Image Height="225"
+                   Width="450"
+                   Source="{Binding Bitmap}" Stretch="Uniform" VerticalAlignment="Top" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                    <TextBlock Text="{Binding Path=MainResource.Label_MeanDepth, Source={StaticResource LocalizedStrings}}" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding YExpectationValue, Mode=OneWay, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}" VerticalAlignment="Center" MinWidth="30"/>
+                    <TextBlock Text="{Binding Path=MainResource.Measurement_mm, Source={StaticResource LocalizedStrings}}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="{Binding Path=MainResource.Label_PlotType, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,0,4,0" />
+                    <v:RadioButtonOptionView DataContext="{Binding ScalingTypeOptionVM}" />
+                </StackPanel>
+                <CheckBox Content="{Binding Path=MainResource.Label_AutoScale, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding AutoScale, Mode=TwoWay}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+        <!--  -->
+        <Grid Grid.Column="1" Grid.Row="2" Width="450" HorizontalAlignment="Center" VerticalAlignment="Top" ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="225"/>
+                <ColumnDefinition Width="225"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition MinHeight="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!-- Min and max values for the color map -->
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
+                <TextBlock Text="{Binding Path=MainResource.Label_Min, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,0,4,0" />
+                <TextBox Text="{Binding MinValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" IsEnabled="{Binding ManualScale}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Right">
+                <TextBlock Text="{Binding Path=MainResource.Label_Max, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,0,4,0" />
+                <TextBox Text="{Binding MaxValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" IsEnabled="{Binding ManualScale}"/>
+            </StackPanel>
+            <!-- Color map image -->
+            <Image Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Top"
+                   Height="30" Width="450"
+                   Source="{Binding ColorBar}" Stretch="Fill" />
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3">
+                <!-- Color map dropdown -->
+                <v:ComboBoxOptionView DataContext="{Binding ColormapTypeOptionVM}" Margin="5,0,5,0"/>
+                <!-- Export buttons -->
+                <Button Content="{Binding Path=MainResource.Button_ExportImage, Source={StaticResource LocalizedStrings}}" Click="Button_Click" Margin="5,0,5,0"/>
+                
+                <Button Command="{Binding ExportDataToTextCommand}"
+                        Content="{Binding Path=MainResource.Button_ExportData, Source={StaticResource LocalizedStrings}}" Margin="5,0,5,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

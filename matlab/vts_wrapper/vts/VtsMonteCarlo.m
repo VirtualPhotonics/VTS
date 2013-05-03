@@ -1,4 +1,8 @@
 classdef VtsMonteCarlo < handle
+    %% VtsMonteCarlo Class containing static methods for running Monte Carlo simulations
+    % single or multiple simulations or post processing.
+    % For more information about the class see VtsMonteCarlo
+
     % static properties
     properties (Constant, GetAccess='private') % can be used like a static constructor for static properties
         Assemblies = loadAssemblies();
@@ -8,6 +12,13 @@ classdef VtsMonteCarlo < handle
     methods (Static)
         % static method to run simulation
         function output = RunSimulation(simulationInput, writeDetectors)
+            %% RunSimulation Runs a single Monte Carlo simulation
+            %
+            %   RunSimulation(SIMULATIONINPUT, WRITEDETECTORS)
+            %   SIMULATIONINPUT Simulation input class defining the data for 
+            %   the simulation. 
+            %
+            %   see also SIMULATIONINPUT, WRITEDETECTORS
             if nargin < 2
                 writeDetectors = false;
             end
@@ -37,7 +48,7 @@ classdef VtsMonteCarlo < handle
                     detectorsNET = NET.invokeGenericMethod('System.Linq.Enumerable', ...
                         'ToArray', {'Vts.MonteCarlo.IDetector'}, outputNET.ResultsDictionary.Values);
                     for i=1:detectorsNET.Length
-                        Vts.IO.DetectorIO.WriteDetectorToFile(detectorsNET(i), folderPath)
+                        Vts.MonteCarlo.IO.DetectorIO.WriteDetectorToFile(detectorsNET(i), folderPath)
                     end
                 end
                 output = SimulationOutput.FromOutputNET(outputNET);
@@ -50,12 +61,16 @@ classdef VtsMonteCarlo < handle
         end
         
         function outputs = RunSimulations(simulationInputs, writeDetectors)
+            %% RunSimulations Runs multiple Monte Carlo simulations
+            %   RunSimulations(SIMULATIONINPUTS, WRITEDETECTORS)
+            %   SIMULATIONINPUTS List of simulation input classes defining the data for 
+            %       the simulation. see also SIMULATIONINPUT, WRITEDETECTORS
             if nargin < 2
                 writeDetectors = false;
             end
             simulations = NET.createArray('Vts.MonteCarlo.MonteCarloSimulation', length(simulationInputs));
             for si = 1:length(simulationInputs)
-                simulationInput = simulationInputs{si};
+                simulationInput = simulationInputs(si);
                 
                 inputNET = SimulationInput.ToInputNET(simulationInput);
                 sim = Vts.MonteCarlo.MonteCarloSimulation(inputNET);
@@ -85,7 +100,7 @@ classdef VtsMonteCarlo < handle
                         detectorsNET = NET.invokeGenericMethod('System.Linq.Enumerable', ...
                             'ToArray', {'Vts.MonteCarlo.IDetector'}, outputsNET(si).ResultsDictionary.Values);
                         for i=1:detectorsNET.Length
-                            Vts.IO.DetectorIO.WriteDetectorToFile(detectorsNET(i), folderPath)
+                            Vts.MonteCarlo.IO.DetectorIO.WriteDetectorToFile(detectorsNET(i), folderPath)
                         end
                     end
                     outputs{si} = SimulationOutput.FromOutputNET(outputsNET(si));
@@ -98,8 +113,14 @@ classdef VtsMonteCarlo < handle
             end
         end
         
-        % static method to run simulation
+        % static method to run post processor
         function output = RunPostProcessor(postProcessorInput, originalSimInput)
+            %% RunPostProcessor Runs the post processor for the Monte Carlo simulation
+            %   RunPostProcessor(POSTPROCESSORINPUT, ORIGINALSIMINPUT)
+            %   POSTPROCESSORINPUT postprocessor input class defining the data for 
+            %       post processing.
+            %   ORIGINALSIMINPUT original simulation input class. 
+            %       see also POSTPROCESSORINPUT, SIMULATIONINPUT
             ppInputNET = PostProcessorInput.ToInputNET(postProcessorInput);
             
             if nargin < 2                
@@ -110,20 +131,28 @@ classdef VtsMonteCarlo < handle
             else
                 originalSimInputNET = SimulationInput.ToInputNET(originalSimInput);
             end            
-            
-            % hard-coding pMC to get started, than need to open this up
-            vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'pMCDiffuseReflectance');
-            
-            ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetpMCDatabase(... % database filenames are assumed to be convention
-                vbTypeNET, ...
-                ppInputNET.InputFolder);
+
+            % the following assumes only one database specified for now
+            switch char(originalSimInput.Options.Databases{1})
+                case 'DiffuseReflectance'
+                vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'DiffuseReflectance');
+                % the following assumes database filnames are convention
+                ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetPhotonDatabase(...
+                    vbTypeNET, ...
+                    ppInputNET.InputFolder);
+                case 'pMCDiffuseReflectance'
+                vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'pMCDiffuseReflectance');
+                ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetpMCDatabase(...
+                    vbTypeNET, ...
+                    ppInputNET.InputFolder);
+            end
             
             %             sim = Vts.MonteCarlo.MonteCarloSimulation(ppInputNET);
             disp('Running post-processor...');
             
             ppNET = Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor( ...
                 vbTypeNET, ...
-                ppInputNET.DetectorInputs, ... % not switching based on input type here (yet...)
+                ppInputNET.DetectorInputs, ...
                 ppInputNET.TallySecondMoment, ...
                 ppDatabase, ...
                 originalSimInputNET ...
@@ -149,6 +178,12 @@ classdef VtsMonteCarlo < handle
             output.PostProcessorInput = postProcessorInput;
         end
         function outputs = RunPostProcessors(postProcessorInputs, originalSimInputs)
+            %% RunPostProcessors Runs multiple post processors for the Monte Carlo simulations
+            %   RunPostProcessors(POSTPROCESSORINPUTS, ORIGINALSIMINPUTS)
+            %   POSTPROCESSORINPUTS postprocessor input classes defining the data for 
+            %       post processing.
+            %   ORIGINALSIMINPUTS original simulation input classes. 
+            %       see also POSTPROCESSORINPUT, SIMULATIONINPUT
             npp = length(postProcessorInputs);
             postProcessors = NET.createArray('Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor', npp);
             for ppi = 1:npp
@@ -163,12 +198,20 @@ classdef VtsMonteCarlo < handle
                     originalSimInputNET = SimulationInput.ToInputNET(originalSimInputs{ppi});
                 end            
 
-                % hard-coding pMC to get started, than need to open this up
-                vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'pMCDiffuseReflectance');
-
-                ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetpMCDatabase(... % database filenames are assumed to be convention
-                    vbTypeNET, ...
-                    ppInputNET.InputFolder);
+                % the following assumes only one database specified for now
+                switch char(originalSimInput.Options.Databases{1})
+                    case 'DiffuseReflectance'
+                    vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'DiffuseReflectance');
+                    % the following assumes database filnames are convention
+                    ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetPhotonDatabase(...
+                        vbTypeNET, ...
+                        ppInputNET.InputFolder);
+                    case 'pMCDiffuseReflectance'
+                    vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'pMCDiffuseReflectance');
+                    ppDatabase = Vts.MonteCarlo.Factories.PhotonDatabaseFactory.GetpMCDatabase(...
+                        vbTypeNET, ...
+                        ppInputNET.InputFolder);
+                end
 
                 %             sim = Vts.MonteCarlo.MonteCarloSimulation(ppInputNET);
 
@@ -176,7 +219,6 @@ classdef VtsMonteCarlo < handle
                     vbTypeNET, ...
                     ppInputNET.DetectorInputs, ... % not switching based on input type here (yet...)
                     ppInputNET.TallySecondMoment, ...
-                    ppInputNET.TrackStatistics, ...
                     ppDatabase, ...
                     originalSimInputNET ...
                     );

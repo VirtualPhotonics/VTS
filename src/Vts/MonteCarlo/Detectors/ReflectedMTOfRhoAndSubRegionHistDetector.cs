@@ -9,13 +9,16 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[,,]&gt;.  Tally for reflected MomentumTransfer(rho,subregion,momentumtransfer).
+    /// Implements IDetector&lt;double[,]&gt;.  Tally for reflected MomentumTransfer(rho,momentumtransfer).
+    /// Also tallies FractionalMT(rho,momentumtransfer,subregion), the average fractional MT each photon tallied
+    /// in each subregiion.
     /// </summary>
-    [KnownType(typeof(ReflectedMTOfRhoAndSubRegionHistDetector))]
-    public class ReflectedMTOfRhoAndSubRegionHistDetector : IDetector<double[,,]> 
+    [KnownType(typeof(ReflectedMTOfRhoAndSubregionHistDetector))]
+    public class ReflectedMTOfRhoAndSubregionHistDetector : IDetector<double[,]> 
     {
         private bool _tallySecondMoment;
         private ITissue _tissue;
+        private DoubleRange _fractionalMTBins;
 
         /// <summary>
         /// constructor for momentum transfer as a function of rho and tissue subregion with histogram for MT detector input
@@ -25,24 +28,27 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="tissue">ITissue used to determine subregion binning</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment data for error results</param>
         /// <param name="name">detector name</param>
-        public ReflectedMTOfRhoAndSubRegionHistDetector(
+        public ReflectedMTOfRhoAndSubregionHistDetector(
             DoubleRange rho, 
             DoubleRange momentumTransferBins,
+            DoubleRange fractionalMTBins,
             ITissue tissue, 
             bool tallySecondMoment,
             String name)
         {
             Rho = rho;
             _tissue = tissue;
-            SubRegionIndices = new IntRange(0, _tissue.Regions.Count - 1, _tissue.Regions.Count); // needed for DetectorIO
+            SubregionIndices = new IntRange(0, _tissue.Regions.Count - 1, _tissue.Regions.Count); // needed for DetectorIO
             MTBins = momentumTransferBins;
-            Mean = new double[Rho.Count - 1, SubRegionIndices.Count, MTBins.Count - 1];
+            Mean = new double[Rho.Count - 1, MTBins.Count - 1];
+            _fractionalMTBins = fractionalMTBins;
+            FractionalMT = new double[Rho.Count - 1,MTBins.Count - 1,SubregionIndices.Count, _fractionalMTBins.Count - 1];
             _tallySecondMoment = tallySecondMoment;
             if (_tallySecondMoment)
             {
-                SecondMoment = new double[Rho.Count - 1, SubRegionIndices.Count, MTBins.Count - 1];
+                SecondMoment = new double[Rho.Count - 1, MTBins.Count - 1];
             }
-            TallyType = TallyType.ReflectedMTOfRhoAndSubRegionHist; 
+            TallyType = TallyType.ReflectedMTOfRhoAndSubregionHist; 
             Name = name;
             TallyCount = 0;
         }
@@ -50,25 +56,32 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Returns a default instance of ReflectMTOfRhoAndSubRegionHistDetector (for serialization purposes only)
         /// </summary>
-        public ReflectedMTOfRhoAndSubRegionHistDetector()
+        public ReflectedMTOfRhoAndSubregionHistDetector()
             : this(
             new DoubleRange(0.0, 10.0, 101), 
             new DoubleRange(),
+            new DoubleRange(0.0, 1.0, 11), 
             new MultiLayerTissue(), 
             true, // tally SecondMoment
-            TallyType.ReflectedMTOfRhoAndSubRegionHist.ToString())
+            TallyType.ReflectedMTOfRhoAndSubregionHist.ToString())
         {
         }
         /// <summary>
         /// mean of tally
         /// </summary>
         [IgnoreDataMember]
-        public double[,,] Mean { get; set; }
+        public double[,] Mean { get; set; }
         /// <summary>
         /// 2nd moment of tally
         /// </summary>
         [IgnoreDataMember]
-        public double[,,] SecondMoment { get; set; }
+        public double[,] SecondMoment { get; set; }
+
+        /// <summary>
+        /// fraction of MT spent in each subregion
+        /// </summary>
+        [IgnoreDataMember]
+        public double[,,,] FractionalMT { get; set; }
 
         /// <summary>
         /// detector identifier
@@ -89,11 +102,15 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// subregion index binning, needed by DetectorIO
         /// </summary>
-        public IntRange SubRegionIndices { get; set; } 
+        public IntRange SubregionIndices { get; set; } 
         /// <summary>
         /// momentum transfer binning
         /// </summary>
         public DoubleRange MTBins { get; set; }
+        /// <summary>
+        /// fractional momentum transfer binning
+        /// </summary>
+        public DoubleRange FractionalMTBins { get; set; }
 
         /// <summary>
         /// method to tally reflected photon by determining cumulative MT in each tissue subregion and binning in MT
@@ -102,9 +119,10 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(Photon photon)
         {
             // calculate the radial bin to attribute the deposition
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y),
+                                              Rho.Count - 1, Rho.Delta, Rho.Start);
 
-            var cumulativeMT = new double[SubRegionIndices.Count];
+            var subregionMT = new double[SubregionIndices.Count];
             bool talliedMT = false;
 
             // go through photon history and calculate momentum transfer
@@ -114,33 +132,36 @@ namespace Vts.MonteCarlo.Detectors
             PhotonDataPoint currentDP = photon.History.HistoryData.Skip(1).Take(1).First();
             foreach (PhotonDataPoint nextDP in photon.History.HistoryData.Skip(2))
             {
-                if (previousDP.Weight != currentDP.Weight)  // only for true collision points
+                if (previousDP.Weight != currentDP.Weight) // only for true collision points
                 {
                     var isr = _tissue.GetRegionIndex(currentDP.Position); // get current region index
                     // get angle between current and next
                     double cosineBetweenTrajectories = Direction.GetDotProduct(currentDP.Direction, nextDP.Direction);
                     var momentumTransfer = 1 - cosineBetweenTrajectories;
-                    cumulativeMT[isr] += momentumTransfer;
+                    subregionMT[isr] += momentumTransfer;
                     talliedMT = true;
                 }
-
                 previousDP = currentDP;
                 currentDP = nextDP;
             }
-
-            for (int i = 0; i < SubRegionIndices.Count; i++)
+            // tally total MT
+            double totalMT = subregionMT.Sum();
+            if (totalMT > 0.0)  // only tally if momentum transfer accumulated
             {
-                if (cumulativeMT[i] > 0.0)  // only tally if MT has accumulated for that tissue region, check this with Tyler
+                var imt = DetectorBinning.WhichBin(totalMT, MTBins.Count - 1, MTBins.Delta, MTBins.Start);
+                Mean[ir, imt] += photon.DP.Weight;
+                SecondMoment[ir, imt] += photon.DP.Weight * photon.DP.Weight;
+
+                if (talliedMT) TallyCount++;
+
+                // tally fractional MT in each subregion
+                for (int isr = 0; isr < SubregionIndices.Count; isr++)
                 {
-                    var imt = DetectorBinning.WhichBin(cumulativeMT[i], MTBins.Count - 1, MTBins.Delta, MTBins.Start);
-                    Mean[ir, i, imt] += photon.DP.Weight;
-                    if (_tallySecondMoment)
-                    {
-                        SecondMoment[ir, i, imt] += photon.DP.Weight*photon.DP.Weight;
-                    }
+                    var ifrac = DetectorBinning.WhichBin(subregionMT[isr] / totalMT,
+                                                         _fractionalMTBins.Count - 1, _fractionalMTBins.Delta, _fractionalMTBins.Start);
+                    FractionalMT[ir, imt, isr, ifrac] += photon.DP.Weight;         
                 }
             }
-            if (talliedMT) TallyCount++; 
         }
         
         /// <summary>
@@ -152,16 +173,20 @@ namespace Vts.MonteCarlo.Detectors
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                for (int isr = 0; isr < SubRegionIndices.Count - 1; isr++)
+                for (int imt = 0; imt < MTBins.Count - 1; imt++)
                 {
-                    for (int imt = 0; imt < MTBins.Count - 1; imt++)
+                    // normalize by area of surface area ring and N
+                    var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
+                    Mean[ir, imt] /= areaNorm * numPhotons;
+                    if (_tallySecondMoment)
                     {
-                        // normalize by area of surface area ring and N
-                        var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
-                        Mean[ir, isr, imt] /= areaNorm * numPhotons;
-                        if (_tallySecondMoment)
+                        SecondMoment[ir, imt] /= areaNorm * areaNorm * numPhotons;
+                    }
+                    for (int isr = 0; isr < SubregionIndices.Count; isr++)
+                    {
+                        for (int ifrac = 0; ifrac < _fractionalMTBins.Count - 1; ifrac++)
                         {
-                            SecondMoment[ir, isr, imt] /= areaNorm * areaNorm * numPhotons;
+                            FractionalMT[ir, imt, isr, ifrac] /= areaNorm*numPhotons;
                         }
                     }
                 }

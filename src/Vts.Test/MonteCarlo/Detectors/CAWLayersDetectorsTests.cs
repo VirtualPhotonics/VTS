@@ -59,6 +59,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             var detectors = 
                 new List<IDetectorInput>
                 {
+                    //new ATotalDetectorInput() ckh 11/6/11 comment out for now with new Abs.Wt.Method rule
+                    // CAW not coded for volume tallies yet
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
@@ -80,7 +82,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfRhoAndAngleDetectorInput(
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(0.0, Math.PI / 2, 2)),
-                    //new ATotalDetectorInput() ckh 11/6/11 comment out for now with new Abs.Wt.Method rule
+                    new ReflectedTimeOfRhoAndSubregionHistDetectorInput(
+                        new DoubleRange(0.0, 10.0, 101),
+                        new DoubleRange(0.0, 1.0, 101)),
                 };
             // one tissue layer
             var inputOneLayerTissue = new SimulationInput(
@@ -136,7 +140,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 ),
                 detectors);
 
-           _outputTwoLayerTissue = new MonteCarloSimulation(inputTwoLayerTissue).Run();
+            _outputTwoLayerTissue = new MonteCarloSimulation(inputTwoLayerTissue).Run();
 
            _factor = 1.0 - Optics.Specular(
                            inputOneLayerTissue.TissueInput.Regions[0].RegionOP.N,
@@ -249,12 +253,20 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[0, 14] * _factor - 0.00060744), 0.00000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[0, 14] * _factor - 0.00060744), 0.00000001);
         }
+
         // sanity checks
-        //[Test] // wait on this until CAW ATotal worked out
+        //[Test] // wait on this until CAW volume tallies worked out
         //public void validate_CAW_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         //{
         //    // no specular because photons started inside tissue
         //    Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.00000000001);
         //}
+
+        // ReflectedTimeOfRhoAndSubregionHist : this is validated using initial run results since no supporting linux code 
+        [Test]
+        public void validate_CAW_ReflectedTimeOfRhoAndSubregionHist()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefTime_rs_hist[0, 1, 0] - 0.9487656), 0.0000001);
+        }
     }
 }

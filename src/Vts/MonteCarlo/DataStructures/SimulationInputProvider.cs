@@ -31,7 +31,8 @@ namespace Vts.MonteCarlo
                 PointSourceOneLayerTissueLUTPhaseFunctionROfRhoDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 GaussianSourceOneLayerTissueROfRhoDetector(),
-                PointSourceMultiLayerReflectedMTOfRhoAndSubRegionHistDetector()
+                PointSourceMultiLayerReflectedMTOfRhoAndSubregionHistDetector(),
+                PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector()
             };
         }
 
@@ -59,7 +60,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -77,12 +78,13 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
+                    // units space[mm], time[ns], temporal-freq[GHz], abs./scat. coeff[/mm]
                     new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
+                    new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 5)),
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
                     new ROfRhoAndAngleDetectorInput(
                         new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(Math.PI / 2 , Math.PI, 2)),
+                        new DoubleRange(Math.PI / 2 , Math.PI, 5)),
                     new ROfRhoAndTimeDetectorInput(
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101)),
@@ -93,11 +95,11 @@ namespace Vts.MonteCarlo
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 1, 21)), // GHz
                     new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
+                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 5)),
                     new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
                     new TOfRhoAndAngleDetectorInput(
                         new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 2)),
+                        new DoubleRange(0.0, Math.PI / 2, 5)),
                     new ATotalDetectorInput(),
                     new AOfRhoAndZDetectorInput(                            
                         new DoubleRange(0.0, 10, 101),
@@ -105,6 +107,14 @@ namespace Vts.MonteCarlo
                     new FluenceOfRhoAndZDetectorInput(                            
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101)),
+                    new FluenceOfRhoAndZAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101), 
+                        new DoubleRange(0.0, 10, 101)),
+                    new FluenceOfXAndYAndZDetectorInput(
+                        new DoubleRange(-10, 10, 201),
+                        new DoubleRange(-10, 10, 2),
+                        new DoubleRange(0, 10, 101)),
                     new RadianceOfRhoAndZAndAngleDetectorInput(
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101),
@@ -114,7 +124,7 @@ namespace Vts.MonteCarlo
                         new DoubleRange(-10.0, 10.0, 101),
                         new DoubleRange(0.0, 10.0, 101), 
                         new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
-                        new DoubleRange(0.0, 2 * Math.PI, 5)), // phi (azimuthal angle)
+                        new DoubleRange(-Math.PI, Math.PI, 5)), // phi (azimuthal angle)
                     new RSpecularDetectorInput()
                 }
                 );
@@ -145,7 +155,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -196,7 +206,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -250,7 +260,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -302,7 +312,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -362,7 +372,7 @@ namespace Vts.MonteCarlo
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4),
                         new HenyeyGreensteinPhaseFunctionInput()
                     ),
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -460,7 +470,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -514,7 +524,7 @@ namespace Vts.MonteCarlo
                     new PolarAzimuthalAngles(0,0), // no beam rotation         
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -542,11 +552,11 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, multi-layer tissue definition, only ReflectedMCOfRhoAndSubRegionHistDetector detector included
         /// </summary>
-        public static SimulationInput PointSourceMultiLayerReflectedMTOfRhoAndSubRegionHistDetector()
+        public static SimulationInput PointSourceMultiLayerReflectedMTOfRhoAndSubregionHistDetector()
         {
             return new SimulationInput(
                 100,
-                "two_layer_ReflectedMTOfRhoAndSubRegionHist",
+                "two_layer_ReflectedMTOfRhoAndSubregionHist",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -562,18 +572,18 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
                 new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         new HenyeyGreensteinPhaseFunctionInput()),
                         new LayerRegion(
-                            new DoubleRange(0.0, 10.0),
+                            new DoubleRange(0.0, 1.0), // upper layer 1mm
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33),
                         new HenyeyGreensteinPhaseFunctionInput()), // Tyler's data
                         new LayerRegion(
-                            new DoubleRange(10.0, 100.0),
+                            new DoubleRange(1.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33),
                         new HenyeyGreensteinPhaseFunctionInput()), 
                         new LayerRegion(
@@ -585,10 +595,68 @@ namespace Vts.MonteCarlo
                 new List<IDetectorInput>()
                 {
                     new ROfRhoDetectorInput(
-                        new DoubleRange(0.0, 60.0, 601)),
-                    new ReflectedMTOfRhoAndSubRegionHistDetectorInput(
-                        new DoubleRange(0.0, 60.0, 601), // rho bins
-                        new DoubleRange(0.0, 500.0, 5001)) // MT bins
+                        new DoubleRange(0.0, 10.0, 101)),
+                    new ReflectedMTOfRhoAndSubregionHistDetectorInput(
+                        new DoubleRange(0.0, 10.0, 101), // rho bins
+                        new DoubleRange(0.0, 500.0, 51), // MT bins
+                        new DoubleRange(0.0, 1.0, 11)) // fractional MT bins
+                }
+            );
+        }
+        #endregion
+
+        #region point source three layer SubRegion Time
+        /// <summary>
+        /// Point source, three-layer tissue definition, with R(rho,time) and
+        /// ReflectedTimeOfRhoAndSubregionHistDetector detector included
+        /// </summary>
+        public static SimulationInput PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector()
+        {
+            return new SimulationInput(
+                100,
+                "three_layer_ReflectedTimeOfRhoAndSubregionHist",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Continuous,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
+                    true, // tally Second Moment
+                    true, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
+                new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 5.0),
+                            new OpticalProperties(0.01, 1.0, 0.9, 1.4)),  
+                        new LayerRegion(
+                            new DoubleRange(5.0, 10.0),
+                            new OpticalProperties(0.01, 1.0, 0.9, 1.4)), 
+                        new LayerRegion(
+                            new DoubleRange(10.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.9, 1.4)), 
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10.0, 21), // rho bins
+                        new DoubleRange(0.0, 1.0, 11)),  // time bins
+                    new ReflectedTimeOfRhoAndSubregionHistDetectorInput(
+                        new DoubleRange(0.0, 10.0, 21), // rho bins
+                        new DoubleRange(0.0, 1.0, 11)) // time bins
                 }
             );
         }

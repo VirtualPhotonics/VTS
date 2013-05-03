@@ -48,7 +48,7 @@ namespace Vts.IO
             return stream;
 #else
             string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string fullPath = currentAssemblyDirectoryName + "\\" + projectName;
+            string fullPath = Path.Combine(currentAssemblyDirectoryName,projectName);
 
             Assembly assembly = null;
 

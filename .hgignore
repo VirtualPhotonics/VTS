@@ -18,6 +18,7 @@ syntax: glob
 *.nlb
 *.clw
 *.pdb
+*.pidb
 *.tlb
 *.tlh
 *.bak
@@ -29,6 +30,9 @@ syntax: glob
 *.scc
 *.sig
 *.asv
+*.userprefs
+*.xap
+*.zip
 [Bb]in
 [Cc]lient[Bb]in
 [Dd]ebug*/
@@ -36,9 +40,11 @@ obj/
 [Rr]esults*/
 [Rr]elease*/
 [Ll]ibraries/*.dll
+[Pp]ackages/*
 [Rr]esources/*
 [Tt]est[Rr]esult*
 [Bb]uild[Ll]og.*
+vts_libraries/
 *.[Pp]ublish.xml
 _ReSharper*\*
 glob:*.orig

@@ -19,9 +19,6 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(HenyeyGreensteinPhaseFunctionInput))]
     [KnownType(typeof(LookupTablePhaseFunctionInput))]
     [KnownType(typeof(BidirectionalPhaseFunctionInput))]
-    [KnownType(typeof(List<OpticalProperties>))]
-    [KnownType(typeof(List<LayerRegion>))]
-    [KnownType(typeof(List<ITissueRegion>))]
     public class SingleEllipsoidTissueInput : ITissueInput
     {
         private ITissueRegion _ellipsoidRegion;

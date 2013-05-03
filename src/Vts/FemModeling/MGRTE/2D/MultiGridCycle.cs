@@ -316,7 +316,7 @@ namespace Vts.FemModeling.MGRTE._2D
                         {
                             temp[ii] = 0;
                             for (k = 0; k < amesh.Ns; k++)
-                            { temp[ii] += amesh.W[i][k] * flux[k][j][ii]; }
+                            { temp[ii] += amesh.W[i][k][smesh.Region[smesh.T[j][ii]]] * flux[k][j][ii]; }
                         }
 
                         source_corr = smesh.A[j] / 12;
@@ -417,7 +417,7 @@ namespace Vts.FemModeling.MGRTE._2D
                         {
                             temp[ii] = 0;
                             for (k = 0; k < amesh.Ns; k++)
-                            { temp[ii] += amesh.W[i][k] * flux[k][j][ii]; }
+                            { temp[ii] += amesh.W[i][k][smesh.Region[smesh.T[j][ii]]] * flux[k][j][ii]; }
                         }
 
                         source_corr = smesh.A[j] / 12;
@@ -810,14 +810,14 @@ namespace Vts.FemModeling.MGRTE._2D
                 }
             }
 
-            if (A[ind[1], 1] == 0)
+            if (A[ind[1], 1] == 0.0)
             { temp2 = ind[1]; ind[1] = ind[2]; ind[2] = temp2; }
             temp = A[ind[1], 1];
             B[ind[1]] = B[ind[1]] / temp;
             for (j = 1; j < 3; j++)
             { A[ind[1], j] = A[ind[1], j] / temp; }
 
-            if (A[ind[2], 1] == 0)
+            if (A[ind[2], 1] == 0.0)
             { }
             else
             {
@@ -1171,21 +1171,21 @@ namespace Vts.FemModeling.MGRTE._2D
 
         // Purpose: this function is improved source-iteration (ISI) with vacuum or reflection boundary condition.
         {
-            int i, j, k, m, ii, jj, ns, nt, tri, bi, aMeshLevel, edge = 0;
+            int i, j, k, m, ii, jj, tri, bi, edge = -1;
             double[,] left = new double[3, 3];
             double[] right = new double[3];
             double[] temp = new double[3];
             double tempd;
-            double dettri, cosi, sini, a, b, c, source_corr;
+            double dettri, cosi, sini, a, b, c, sourceCorr;
             double[,] bv = new double[3, 3] { { 1.0 / 3, 1.0 / 6, 1.0 / 6 }, { 1.0 / 6, 1.0 / 3, 1.0 / 6 }, { 1.0 / 6, 1.0 / 6, 1.0 / 3 } };
             double[,] matrix1 = new double[3, 3];
             double[,] matrix2 = new double[3, 3];
 
             int[,] index = new int[3, 2];
 
-            ns = amesh.Ns;
-            aMeshLevel = Ns / ns;
-            nt = smesh.Nt;
+            int ns = amesh.Ns;
+            int aMeshLevel = Ns / ns;
+            int nt = smesh.Nt;
 
             index[0, 0] = 1; index[0, 1] = 2;
             index[1, 0] = 2; index[1, 1] = 0;
@@ -1211,9 +1211,9 @@ namespace Vts.FemModeling.MGRTE._2D
                         MatrixConvec(a, b, matrix1);
 
                         // matrix2: absorption term
-                        a = ua[tri][0] + (1 - amesh.W[i][i]) * us[tri][0];
-                        b = ua[tri][1] + (1 - amesh.W[i][i]) * us[tri][1];
-                        c = ua[tri][2] + (1 - amesh.W[i][i]) * us[tri][2];
+                        a = ua[tri][0] + (1 - amesh.W[i][i][smesh.Region[smesh.T[j][0]]]) * us[tri][0];
+                        b = ua[tri][1] + (1 - amesh.W[i][i][smesh.Region[smesh.T[j][1]]]) * us[tri][1];
+                        c = ua[tri][2] + (1 - amesh.W[i][i][smesh.Region[smesh.T[j][2]]]) * us[tri][2];
                         MatrixAbsorb(a, b, c, dettri, matrix2);
 
                         // left[][]: convection+absorption
@@ -1229,13 +1229,13 @@ namespace Vts.FemModeling.MGRTE._2D
                             temp[ii] = 0;
                             for (k = 0; k < ns; k++)
                             {
-                                temp[ii] += amesh.W[i][k] * flux[k][tri][ii];
+                                temp[ii] += amesh.W[i][k][smesh.Region[smesh.T[j][ii]]] * flux[k][tri][ii];
                             }
-                            temp[ii] += -amesh.W[i][i] * flux[i][tri][ii];
+                            temp[ii] += -amesh.W[i][i][smesh.Region[smesh.T[j][ii]]] * flux[i][tri][ii];
                         }
 
-                        source_corr = smesh.A[tri] / 12;
-                        SourceAssign(us[tri], temp, right, RHS[i][tri], dettri, source_corr);
+                        sourceCorr = smesh.A[tri] / 12;
+                        SourceAssign(us[tri], temp, right, RHS[i][tri], dettri, sourceCorr);
 
 
                         // add edge contributions to left, or add upwind fluxes to right from boundary source or the adjacent triangle
@@ -1313,9 +1313,9 @@ namespace Vts.FemModeling.MGRTE._2D
                         b = cosi * (smesh.P[smesh.T[tri][0]][1] - smesh.P[smesh.T[tri][1]][1]) + sini * (smesh.P[smesh.T[tri][1]][0] - smesh.P[smesh.T[tri][0]][0]);
                         MatrixConvec(a, b, matrix1);
 
-                        a = ua[tri][0] + (1 - amesh.W[i][i]) * us[tri][0];
-                        b = ua[tri][1] + (1 - amesh.W[i][i]) * us[tri][1];
-                        c = ua[tri][2] + (1 - amesh.W[i][i]) * us[tri][2];
+                        a = ua[tri][0] + (1 - amesh.W[i][i][smesh.Region[smesh.T[j][0]]]) * us[tri][0];
+                        b = ua[tri][1] + (1 - amesh.W[i][i][smesh.Region[smesh.T[j][1]]]) * us[tri][1];
+                        c = ua[tri][2] + (1 - amesh.W[i][i][smesh.Region[smesh.T[j][2]]]) * us[tri][2];
                         MatrixAbsorb(a, b, c, dettri, matrix2);
 
                         for (ii = 0; ii < 3; ii++)
@@ -1329,13 +1329,13 @@ namespace Vts.FemModeling.MGRTE._2D
                             temp[ii] = 0;
                             for (k = 0; k < ns; k++)
                             {
-                                temp[ii] += amesh.W[i][k] * flux[k][tri][ii];
+                                temp[ii] += amesh.W[i][k][smesh.Region[smesh.T[j][ii]]] * flux[k][tri][ii];
                             }
-                            temp[ii] += -amesh.W[i][i] * flux[i][tri][ii];
+                            temp[ii] += -amesh.W[i][i][smesh.Region[smesh.T[j][ii]]] * flux[i][tri][ii];
                         }
 
-                        source_corr = smesh.A[tri] / 12;
-                        SourceAssign(us[tri], temp, right, RHS[i][tri], dettri, source_corr);
+                        sourceCorr = smesh.A[tri] / 12;
+                        SourceAssign(us[tri], temp, right, RHS[i][tri], dettri, sourceCorr);
 
 
                         for (k = 0; k < 3; k++)

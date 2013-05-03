@@ -24,7 +24,8 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.RDiffuse:
                 case TallyType.ROfFx:
                 case TallyType.ROfFxAndTime:
-                case TallyType.ReflectedMTOfRhoAndSubRegionHist:
+                case TallyType.ReflectedMTOfRhoAndSubregionHist:
+                case TallyType.ReflectedTimeOfRhoAndSubregionHist:
                     return true;
                 default:
                     return false;
@@ -106,6 +107,8 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.pMCROfRhoAndTime:
                 case TallyType.pMCROfFx:
                 case TallyType.pMCROfFxAndTime:
+                case TallyType.dMCdROfRhodMua:  
+                case TallyType.dMCdROfRhodMus:
                     return true;
                 default:
                     return false;
@@ -152,11 +155,14 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.FluenceOfRhoAndZ:
                 case TallyType.FluenceOfRhoAndZAndTime:
                 case TallyType.AOfRhoAndZ:
-                case TallyType.ReflectedMTOfRhoAndSubRegionHist:
+                case TallyType.ReflectedMTOfRhoAndSubregionHist:
+                case TallyType.ReflectedTimeOfRhoAndSubregionHist:
                 case TallyType.RadianceOfRho:
                 case TallyType.RadianceOfRhoAndZAndAngle:
                 case TallyType.pMCROfRho:
                 case TallyType.pMCROfRhoAndTime:
+                case TallyType.dMCdROfRhodMua:
+                case TallyType.dMCdROfRhodMus:
                     return true;
                 default:
                     return false;
@@ -177,9 +183,26 @@ namespace Vts.MonteCarlo.Extensions
                 case TallyType.FluenceOfRhoAndZAndTime:
                 case TallyType.FluenceOfXAndYAndZ:
                 case TallyType.AOfRhoAndZ:
-                case TallyType.ReflectedMTOfRhoAndSubRegionHist:
+                case TallyType.ReflectedMTOfRhoAndSubregionHist:
                 case TallyType.RadianceOfRhoAndZAndAngle:
                 case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Method determines whether tally type is implemented for 
+        /// discrete absorption weighting (DAW) or not
+        /// </summary>
+        /// <param name="tallyType">TallyType enum</param>
+        /// <returns>boolean</returns>
+        public static bool IsNotImplementedForDAW(this TallyType tallyType)
+        {
+            switch (tallyType)
+            {
+                case TallyType.ReflectedTimeOfRhoAndSubregionHist:
                     return true;
                 default:
                     return false;
@@ -195,7 +218,7 @@ namespace Vts.MonteCarlo.Extensions
         {
             switch (tallyType)
             {
-                //case TallyType.ReflectedMTOfRhoAndSubRegionHist:
+                //case TallyType.ReflectedMTOfRhoAndSubregionHist:
                 //    return true;
                 default:
                     return false;

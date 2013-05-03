@@ -19,9 +19,6 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(HenyeyGreensteinPhaseFunctionInput))]
     [KnownType(typeof(LookupTablePhaseFunctionInput))]
     [KnownType(typeof(BidirectionalPhaseFunctionInput))]
-    [KnownType(typeof(List<OpticalProperties>))]
-    [KnownType(typeof(List<LayerRegion>))]
-    [KnownType(typeof(List<ITissueRegion>))]
     public class MultiEllipsoidTissueInput : ITissueInput
     {
         private ITissueRegion[] _ellipsoidRegions;
@@ -30,7 +27,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// allows definition of single ellipsoid tissue
         /// </summary>
-        /// <param name="ellipsoidRegion">ellipsoid region specification</param>
+        /// <param name="ellipsoidRegions">ellipsoid region specification</param>
         /// <param name="layerRegions">tissue layer specification</param>
         public MultiEllipsoidTissueInput(
             ITissueRegion[] ellipsoidRegions, 
@@ -49,17 +46,17 @@ namespace Vts.MonteCarlo
                 new ITissueRegion[]
                 {
                     new EllipsoidRegion(
-                        new Position(0, 0, 1), 
-                        0.5, 
-                        0.5, 
-                        0.5,
+                        new Position(10, 0, 10), 
+                        5.0, 
+                        1.0, 
+                        5.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4),
                         new HenyeyGreensteinPhaseFunctionInput()),
                     new EllipsoidRegion(
-                        new Position(0, 0, 2), 
-                        0.5, 
-                        0.5, 
-                        0.5,
+                        new Position(0, 0, 40), 
+                        5.0, 
+                        0, 
+                        5.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4),
                         new HenyeyGreensteinPhaseFunctionInput())
                 },
@@ -70,7 +67,7 @@ namespace Vts.MonteCarlo
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
                         new HenyeyGreensteinPhaseFunctionInput()),
                     new LayerRegion(
-                        new DoubleRange(0.0, 100.0),
+                        new DoubleRange(0.0, 50.0),
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         new HenyeyGreensteinPhaseFunctionInput()),
                     new LayerRegion(

@@ -18,8 +18,13 @@
         /// <summary>
         /// number of triangles 
         /// </summary>
-        public int Nt;                  
+        public int Nt;
 
+        /// <summary>
+        /// tissue region Region[np]
+        /// </summary>
+        public int []Region;
+        
         /// <summary>
         /// nodal coordinates: p[np][2] 
         /// </summary>

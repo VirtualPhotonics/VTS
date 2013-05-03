@@ -7,6 +7,13 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
     /// </summary>
     public class FlatSourceProfile : ISourceProfile
     {
+		/// <summary>
+        /// Initializes the default constructor of FlatSourceProfile class
+        /// for serialization purposes
+        /// </summary>
+        public FlatSourceProfile()            
+            { }
+		
         /// <summary>
         /// Returns flat profile type
         /// </summary>
