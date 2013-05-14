@@ -619,7 +619,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    //PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     true, // track statistics

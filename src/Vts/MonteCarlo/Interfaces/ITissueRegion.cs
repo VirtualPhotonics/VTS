@@ -17,10 +17,15 @@ namespace Vts.MonteCarlo
         /// </summary>
         Position Center { get; }
 
+        ///// <summary>
+        ///// Input data for phase function
+        ///// </summary>
+        //IPhaseFunctionInput PhaseFunctionInput { get; }
+
         /// <summary>
-        /// Input data for phase function
+        /// string that serves as the key in ITissue's dictionary of phase functions
         /// </summary>
-        IPhaseFunctionInput PhaseFunctionInput { get; }
+        string PhaseFunctionKey { get; set; }
 
         /// <summary>
         /// Checks to see if the specified position is within the tissue region.  Definition should be such

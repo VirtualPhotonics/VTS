@@ -39,8 +39,8 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Region-wise class instances that specify phase function
         /// </summary>
-        IList<IPhaseFunction> RegionPhaseFunctions { get; }
-
+        //IList<IPhaseFunction> RegionPhaseFunctions { get; }
+        IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
         /// <summary>
         /// Method that gives the current region index within Regions list (above) at the current
         /// position of the photon.

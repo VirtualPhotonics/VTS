@@ -11,10 +11,12 @@ namespace Vts.MonteCarlo
         /// Type of tissue
         /// </summary>
         TissueType TissueType { get; }
-        
+
         /// <summary>
         /// List of tissue regions comprising tissue.
         /// </summary>
         ITissueRegion[] Regions { get; }
+
+        IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
     }
 }

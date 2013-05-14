@@ -8,11 +8,11 @@ namespace Vts.MonteCarlo.Factories
 {
     public static class PhaseFunctionFactory
     {
-        public static IPhaseFunction GetPhaseFunction(ITissueRegion tissueRegion, Random rng)
+        public static IPhaseFunction GetPhaseFunction(ITissueRegion tissueRegion, ITissueInput ti, Random rng)
         {
             IPhaseFunction phaseFunction = null;
 
-            var input = tissueRegion.PhaseFunctionInput;
+            var input = ti.RegionPhaseFunctionInputs[tissueRegion.PhaseFunctionKey];
 
             if (input is HenyeyGreensteinPhaseFunctionInput)
             {
