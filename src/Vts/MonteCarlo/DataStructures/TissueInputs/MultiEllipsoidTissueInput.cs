@@ -46,37 +46,44 @@ namespace Vts.MonteCarlo
                 new ITissueRegion[]
                 {
                     new EllipsoidRegion(
-                        new Position(10, 0, 10), 
+                        new Position(0, 0, 40), 
                         5.0, 
                         1.0, 
                         5.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4),
-                        new HenyeyGreensteinPhaseFunctionInput()),
+                        "HenyeyGreensteinKey1"),
                     new EllipsoidRegion(
                         new Position(0, 0, 40), 
                         5.0, 
                         0, 
                         5.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4),
-                        new HenyeyGreensteinPhaseFunctionInput())
+                        "HenyeyGreensteinKey1")
                 },
                 new ITissueRegion[] 
                 { 
                     new LayerRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
-                        new HenyeyGreensteinPhaseFunctionInput()),
+                        "HenyeyGreensteinKey1"),
                     new LayerRegion(
                         new DoubleRange(0.0, 50.0),
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        new HenyeyGreensteinPhaseFunctionInput()),
+                        "HenyeyGreensteinKey1"),
                     new LayerRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
-                        new HenyeyGreensteinPhaseFunctionInput())
+                        "HenyeyGreensteinKey1")
                 })
         {
+            if(!RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
+                RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
         }
+
+        /// <summary>
+        /// Dictionary that contains all the phase function inputs
+        /// </summary>
+        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
         /// <summary>
         /// tissue type
         /// </summary>

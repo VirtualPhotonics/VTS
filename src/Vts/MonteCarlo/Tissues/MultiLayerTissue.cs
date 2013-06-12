@@ -28,7 +28,7 @@ namespace Vts.MonteCarlo.Tissues
         public MultiLayerTissue(
             IList<ITissueRegion> regions,
             AbsorptionWeightingType absorptionWeightingType,
-            IList<IPhaseFunction> phaseFunctions,
+            IDictionary<string, IPhaseFunction> phaseFunctions,
             double russianRouletteWeightThreshold)
             : base(regions, absorptionWeightingType, phaseFunctions, russianRouletteWeightThreshold)
         {
@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo.Tissues
         public MultiLayerTissue(
             MultiLayerTissueInput input,
             AbsorptionWeightingType absorptionWeightingType,
-            IList<IPhaseFunction> phaseFunctions,
+            IDictionary<string, IPhaseFunction> phaseFunctions,
             double russianRouletteWeightThreshold)
             : this(input.Regions, absorptionWeightingType, phaseFunctions, russianRouletteWeightThreshold)
         {

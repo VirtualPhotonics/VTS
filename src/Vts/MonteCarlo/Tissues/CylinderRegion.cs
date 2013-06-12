@@ -13,20 +13,24 @@ namespace Vts.MonteCarlo.Tissues
     public class CylinderRegion : ITissueRegion
     {
         /// <summary>
+        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// </summary>
+        public string PhaseFunctionKey { get; set; }
+        /// <summary>
         /// CylinderRegion assumes cylinder axis is parallel with z-axis
         /// </summary>
         /// <param name="center">center position</param>
         /// <param name="radius">radius in x-y plane</param>
         /// <param name="height">height along z axis</param>
         /// <param name="op">optical properties of cylinder</param>
-        public CylinderRegion(Position center, double radius, double height, OpticalProperties op, IPhaseFunctionInput phaseFunctionInput) 
+        public CylinderRegion(Position center, double radius, double height, OpticalProperties op, string phaseFunctionKey) 
         {
             Center = center;
             Radius = radius;
             Height = height;
             RegionOP = op;
 
-            PhaseFunctionInput = phaseFunctionInput;
+            PhaseFunctionKey = phaseFunctionKey;
         }
 
         /// <summary>
@@ -36,8 +40,8 @@ namespace Vts.MonteCarlo.Tissues
             new Position(0, 0, 5), 
             1, 
             5, 
-            new OpticalProperties(0.01, 1.0, 0.8, 1.4), 
-            new HenyeyGreensteinPhaseFunctionInput()) {}
+            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+            "HenyeyGreensteinKey1") { }
 
         /// <summary>
         /// center of cyliner
@@ -55,10 +59,10 @@ namespace Vts.MonteCarlo.Tissues
         /// optical properties of cylinder
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
-        /// <summary>
+        /*/// <summary>
         /// Input data for phase function
         /// </summary>
-        public IPhaseFunctionInput PhaseFunctionInput { get; set; }
+        public IPhaseFunctionInput PhaseFunctionInput { get; set; }*/
         
         /// <summary>
         /// method to determine if photon position within cylinder

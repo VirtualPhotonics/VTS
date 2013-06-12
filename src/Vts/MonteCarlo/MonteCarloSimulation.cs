@@ -68,13 +68,11 @@ namespace Vts.MonteCarlo
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            //Dictionary <string, IPhaseFunction> phaseFunctions; 
-/*            foreach (KeyValuePair<string, IPhaseFunctionInput> pair in _input.TissueInput.RegionPhaseFunctionInputs)
-            {
-                phaseFunctions.Add(pair.Key, PhaseFunctionFactory.GetPhaseFunction(pair.Key, _input.TissueInput, _rng));
-            }*/
-            var phaseFunctions = input.TissueInput.Regions.Select((region, idx) => PhaseFunctionFactory.GetPhaseFunction(region, _input.TissueInput, _rng)).ToList();
-            //TODO
+            Dictionary <string, IPhaseFunction> phaseFunctions = null; 
+            for(int i = 0; i < _input.TissueInput.Regions.Length; i++)
+                phaseFunctions.Add(_input.TissueInput.Regions[i].PhaseFunctionKey, PhaseFunctionFactory.GetPhaseFunction(_input.TissueInput.Regions[i], _input.TissueInput, _rng));
+            //Dictionary phaseFunctions = input.TissueInput.Regions.Select((region, idx) => PhaseFunctionFactory.GetPhaseFunction(region, _input.TissueInput, _rng)).ToList();
+
             _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, phaseFunctions, input.Options.RussianRouletteWeightThreshold);
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
 

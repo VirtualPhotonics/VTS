@@ -13,27 +13,31 @@ namespace Vts.MonteCarlo.Tissues
     public class LayerRegion : ITissueRegion
     {
         /// <summary>
+        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// </summary>
+        public string PhaseFunctionKey { get; set; }
+        /// <summary>
         /// constructor for layer region
         /// </summary>
         /// <param name="zRange">specifies extent of layer</param>
         /// <param name="op">optical properties of layer</param>
         /// <param name="phaseFunctionInput">phase function input for layer</param>
-        public LayerRegion(DoubleRange zRange, OpticalProperties op, IPhaseFunctionInput phaseFunctionInput)
+        public LayerRegion(DoubleRange zRange, OpticalProperties op, string phaseFunctionKey)
         {
             ZRange = zRange;
             RegionOP = op;
-            PhaseFunctionInput = phaseFunctionInput;
+            PhaseFunctionKey = phaseFunctionKey;
         }
 
-        ///// <summary>
-        ///// constructor for layer region
-        ///// </summary>
-        ///// <param name="zRange">specifies extent of layer</param>
-        ///// <param name="op">optical properties of layer</param>
-        //public LayerRegion(DoubleRange zRange, OpticalProperties op)
-        //    : this (zRange, op, new HenyeyGreensteinPhaseFunctionInput())
-        //{
-        //}
+        /// <summary>
+        /// constructor for layer region
+        /// </summary>
+        /// <param name="zRange">specifies extent of layer</param>
+        /// <param name="op">optical properties of layer</param>
+        public LayerRegion(DoubleRange zRange, OpticalProperties op)
+            : this(zRange, op, "HenyeyGreensteinKey1")
+        {
+        }
 
         /// <summary>
         /// default constructor
@@ -42,7 +46,7 @@ namespace Vts.MonteCarlo.Tissues
             : this(
                 new DoubleRange(0.0, 10),
                 new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                new HenyeyGreensteinPhaseFunctionInput()) { }
+                "HenyeyGreensteinKey1") { }
         /// <summary>
         /// extent of z layer
         /// </summary>
@@ -52,10 +56,10 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
 
-        /// <summary>
+        /*/// <summary>
         /// Input data for phase function
         /// </summary>
-        public IPhaseFunctionInput PhaseFunctionInput { get; set; }
+        public IPhaseFunctionInput PhaseFunctionInput { get; set; }*/
 
         /// <summary>
         /// center of layer

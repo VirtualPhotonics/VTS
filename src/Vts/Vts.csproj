@@ -285,7 +285,6 @@
     </Compile>
     <Compile Include="MonteCarlo\Factories\VirtualBoundaryFactory.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs" />
-    <Compile Include="MonteCarlo\Interfaces\ITissueRegionInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\ILookupTablePhaseFunctionData.cs" />

@@ -11,7 +11,12 @@ namespace Vts.MonteCarlo.Tissues
     /// x,y,z ranges.
     /// </summary>
     public class VoxelRegion : ITissueRegion
-    {       
+    {
+        /// <summary>
+        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// </summary>
+        public string PhaseFunctionKey { get; set; }
+
         /// <summary>
         /// constructor for voxel region
         /// </summary>
@@ -23,14 +28,14 @@ namespace Vts.MonteCarlo.Tissues
         public VoxelRegion(
             DoubleRange x, DoubleRange y, DoubleRange z,
             OpticalProperties op,
-            IPhaseFunctionInput phaseFunctionInput)
+            string phaseFunctionKey)
         {
             X = x;
             Y = y;
             Z = z;
             RegionOP = op;
 
-            PhaseFunctionInput = phaseFunctionInput;
+            PhaseFunctionKey = phaseFunctionKey;
         }
 
         ///// <summary>
@@ -56,7 +61,7 @@ namespace Vts.MonteCarlo.Tissues
             new DoubleRange(-10.0, 10),
             new DoubleRange(0.0, 10),
             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-            new HenyeyGreensteinPhaseFunctionInput()) {}  
+            "HenyeyGreensteinKey1") { }  
 
 
         /// <summary>
@@ -78,10 +83,10 @@ namespace Vts.MonteCarlo.Tissues
         /// optical properties of voxel
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
-        /// <summary>
+        /*/// <summary>
         /// Input data for phase function
         /// </summary>
-        public IPhaseFunctionInput PhaseFunctionInput { get; set; }
+        public IPhaseFunctionInput PhaseFunctionInput { get; set; }*/
 
         /// <summary>
         /// center of voxel

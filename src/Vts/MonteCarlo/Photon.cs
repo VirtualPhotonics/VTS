@@ -57,6 +57,7 @@ namespace Vts.MonteCarlo
             S = 0.0;
             SLeft = 0.0;        
             CurrentRegionIndex = currentTissueRegionIndex;
+            CurrentRegionKey = _tissue.Regions[CurrentRegionIndex].PhaseFunctionKey;
             // flag to determin whether passing through specular or not
             // the following assumes tissues considered are slabs, only ones we have coded to date
             // todo: make more general to handle other types of tissues
@@ -107,6 +108,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// index of current track of photon
         /// </summary>
+        public string CurrentRegionKey { get; set; }
         public int CurrentTrackIndex { get; private set; }
         /// <summary>
         /// absorb action: analog, discrete, continuous
@@ -237,6 +239,7 @@ namespace Vts.MonteCarlo
                     }
 
                     CurrentRegionIndex = neighborIndex;
+                    CurrentRegionKey = _tissue.Regions[neighborIndex].PhaseFunctionKey;
                     //don't need to update these unless photon not dead upon exiting tissue
                     //DP.Direction.Ux *= nCurrent / nNext;
                     //DP.Direction.Uy *= nCurrent / nNext;
@@ -245,6 +248,7 @@ namespace Vts.MonteCarlo
                 else // not on domain boundary, at internal interface or first time enter tissue, pass to next
                 {
                     CurrentRegionIndex = neighborIndex;
+                    CurrentRegionKey = _tissue.Regions[neighborIndex].PhaseFunctionKey;
                     DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                         nCurrent, nNext, cosThetaSnell);
                     if (_firstTimeEnteringDomain)
@@ -266,7 +270,7 @@ namespace Vts.MonteCarlo
 
         public void Scatter()
         {
-            _tissue.RegionPhaseFunctions[CurrentRegionIndex].ScatterToNewDirection(DP.Direction);
+            _tissue.RegionPhaseFunctions[CurrentRegionKey].ScatterToNewDirection(DP.Direction);
         }
 
         /// <summary>

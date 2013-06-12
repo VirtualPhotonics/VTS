@@ -20,12 +20,12 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="russianRouletteWeightThreshold">russian roulette weight threshold</param>
         public TissueBase(IList<ITissueRegion> regions, 
             AbsorptionWeightingType absorptionWeightingType,
-            //IList<IPhaseFunction> phaseFunctions,
+            IDictionary<string, IPhaseFunction> phaseFunctions,
             double russianRouletteWeightThreshold)
         {
             Regions = regions;
             AbsorptionWeightingType = absorptionWeightingType;
-            //RegionPhaseFunctions = phaseFunctions;
+            RegionPhaseFunctions = phaseFunctions;
 
             // obsolete: phase function now region-specific
             // PhaseFunctionType = phaseFunctionType;
@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo.Tissues
         ///// Phase function used within each region
         ///// </summary>
         //public IList<IPhaseFunction> RegionPhaseFunctions { get; protected set; }
-        IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
+        public IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
         /// <summary>
         /// photon weight threshold, below which turns on Russian Roulette
         /// </summary>

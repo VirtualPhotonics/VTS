@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.Tissues
             ITissueRegion inclusionRegion,
             IList<ITissueRegion> layerRegions,
             AbsorptionWeightingType absorptionWeightingType,
-            IList<IPhaseFunction> phaseFunctions,
+            IDictionary<string, IPhaseFunction> phaseFunctions,
             double russianRouletteWeightThreshold)
             : base(layerRegions, 
                    absorptionWeightingType,

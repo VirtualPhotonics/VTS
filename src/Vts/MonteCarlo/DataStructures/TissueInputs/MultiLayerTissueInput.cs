@@ -19,6 +19,7 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(BidirectionalPhaseFunctionInput))]
     public class MultiLayerTissueInput : ITissueInput
     {
+        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
         private ITissueRegion[] _regions;
 
         /// <summary>
@@ -41,17 +42,19 @@ namespace Vts.MonteCarlo
                     new LayerRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
-                        new HenyeyGreensteinPhaseFunctionInput()),
+                        "HenyeyGreensteinKey1"),
                     new LayerRegion(
                         new DoubleRange(0.0, 100.0),
                         new OpticalProperties(0.0, 1.0, 0.8, 1.4),
-                        new HenyeyGreensteinPhaseFunctionInput()),
+                        "HenyeyGreensteinKey1"),
                     new LayerRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        new HenyeyGreensteinPhaseFunctionInput())
+                        "HenyeyGreensteinKey1")
                 })
         {
+            if (!RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
+                RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
         }
         /// <summary>
         /// tissue identifier

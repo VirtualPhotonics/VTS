@@ -13,6 +13,11 @@ namespace Vts.MonteCarlo.Tissues
     {
         private bool _onBoundary = false;
         /// <summary>
+        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// </summary>
+        public string PhaseFunctionKey { get; set; }
+
+        /// <summary>
         /// class specifies ellipsoid tissue region (x-xc)^2/a^2 + (y-yc)^2/b^2 + (z-zc)^2/c^2 = 1
         /// where center is (xc,yc,zc) and semi-axis along x-, y-, z- axes are a, b, c, respectively.
         /// </summary>
@@ -23,7 +28,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="op">OpticalProperties of ellipsoid</param>
         /// <param name="phaseFunctionInput">phase function input for layer</param>
         public EllipsoidRegion(Position center, double radiusX, double radiusY, double radiusZ,
-            OpticalProperties op, IPhaseFunctionInput phaseFunctionInput)
+            OpticalProperties op, string phaseFunctionKey)
         {
             RegionOP = op;
             Center = center;
@@ -31,7 +36,7 @@ namespace Vts.MonteCarlo.Tissues
             Dy = radiusY;
             Dz = radiusZ;
 
-            PhaseFunctionInput = phaseFunctionInput;
+            PhaseFunctionKey = phaseFunctionKey;
         }
 
         ///// <summary>
@@ -54,7 +59,7 @@ namespace Vts.MonteCarlo.Tissues
         public EllipsoidRegion() : this (
             new Position(0, 0, 1), 0.5, 0.5, 0.5,
             new OpticalProperties(0.05, 1.0, 0.8, 1.4), 
-            new HenyeyGreensteinPhaseFunctionInput()) {}
+            "HenyeyGreensteinKey1") {}
 
         /// <summary>
         /// optical properties of ellipsoid

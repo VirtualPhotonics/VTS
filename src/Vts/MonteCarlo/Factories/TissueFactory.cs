@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="pft">PhaseFunctionType enum</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette weight threshold</param>
         /// <returns>ITissue</returns>
-        public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, IList<IPhaseFunction> phaseFunctions, double russianRouletteWeightThreshold)
+        public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> phaseFunctions, double russianRouletteWeightThreshold)
         {
             ITissue t = null;
             if (ti is MultiLayerTissueInput)
