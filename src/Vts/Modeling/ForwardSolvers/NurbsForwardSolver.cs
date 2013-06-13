@@ -256,7 +256,8 @@ namespace Vts.Modeling.ForwardSolvers
                 }
                 else
                 {
-                    var time = _rdGenerator.NativeTimes;
+                    //var time = _rdGenerator.NativeTimes;
+                    var time = _rdGenerator.NativeTimes.ToArray();
                     for (int i = 0; i < time.Length; i++)
                     {
                         time[i] = time[i] * _opReference.Musp / op.Musp;
