@@ -16,28 +16,31 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
         [Test]
         public void validate_layers_do_not_overlap()
         {
-            var input = new SimulationInput(
-                10,
-                "",
-                new SimulationOptions(),
-                new DirectionalPointSourceInput(),
-                new MultiLayerTissueInput(
+            MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        new HenyeyGreensteinPhaseFunctionInput()),
+                        "HenyeyGreesteinKey1"),
                         new LayerRegion(
                             new DoubleRange(0.0, 50.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        new HenyeyGreensteinPhaseFunctionInput()),
+                        "HenyeyGreesteinKey1"),
                         new LayerRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        new HenyeyGreensteinPhaseFunctionInput())
+                        "HenyeyGreesteinKey1")
                     }
-                ),
+                );
+            if (!ti.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreesteinKey1"))
+                ti.RegionPhaseFunctionInputs.Add("HenyeyGreesteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            var input = new SimulationInput(
+                10,
+                "",
+                new SimulationOptions(),
+                new DirectionalPointSourceInput(),
+                ti,
                 new List<IDetectorInput>(){ }
             );
             var result = SimulationInputValidation.ValidateInput(input);

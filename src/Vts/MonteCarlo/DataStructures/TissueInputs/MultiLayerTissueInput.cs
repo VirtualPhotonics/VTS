@@ -30,6 +30,7 @@ namespace Vts.MonteCarlo
             ITissueRegion[] regions)
         {
             _regions = regions;
+            RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
         /// <summary>

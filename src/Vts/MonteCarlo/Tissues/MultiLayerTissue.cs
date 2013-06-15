@@ -59,6 +59,7 @@ namespace Vts.MonteCarlo.Tissues
         public MultiLayerTissue() 
             : this(new MultiLayerTissueInput().Regions, AbsorptionWeightingType.Discrete, null, 0.0)
         {
+            RegionPhaseFunctions = new Dictionary<string, IPhaseFunction>();
         }
         /// <summary>
         /// method to determine region index of region photon is currently in

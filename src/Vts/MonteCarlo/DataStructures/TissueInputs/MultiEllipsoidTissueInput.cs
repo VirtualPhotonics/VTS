@@ -35,6 +35,7 @@ namespace Vts.MonteCarlo
         {
             _ellipsoidRegions = ellipsoidRegions;
             _layerRegions = layerRegions;
+            RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
         /// <summary>

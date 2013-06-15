@@ -425,19 +425,19 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1"),
+                        "LookupTablePhaseFunctionKey1"),
                         new LayerRegion(
                             new DoubleRange(0.0, 100),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "LookupTablePhaseFunctionKey1"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "LookupTablePhaseFunctionKey1")
                     }
                 );
-            if (!ti.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
-                ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            if (!ti.RegionPhaseFunctionInputs.ContainsKey("LookupTablePhaseFunctionKey1"))
+                ti.RegionPhaseFunctionInputs.Add("LookupTablePhaseFunctionKey1", new LookupTablePhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "one_layer_LUT_ROfRho",
