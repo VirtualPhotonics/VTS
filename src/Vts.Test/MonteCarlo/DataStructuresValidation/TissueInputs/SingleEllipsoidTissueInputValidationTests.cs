@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new DirectionalPointSourceInput(),
                 new SingleEllipsoidTissueInput(
                     // set ellipsoid axis to 0.0
-                    new EllipsoidRegion(new Position(0, 0, 1), 0.0, 1.0, 1.0, new OpticalProperties()), 
+                    new EllipsoidRegion(new Position(0, 0, 1), 0.0, 1.0, 1.0, new OpticalProperties(), ""), 
                     new ITissueRegion[]
                     { 
                         new LayerRegion(
@@ -81,7 +81,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new SimulationOptions(),
                 new DirectionalPointSourceInput(),
                 new SingleEllipsoidTissueInput(
-                    new EllipsoidRegion(new Position(0,0,0), 1.0, 1.0, 1.0, new OpticalProperties() ), 
+                    new EllipsoidRegion(new Position(0,0,0), 1.0, 1.0, 1.0, new OpticalProperties(), ""), 
                     new ITissueRegion[]
                     { 
                         new LayerRegion(

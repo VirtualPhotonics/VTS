@@ -72,7 +72,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 0,
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Continuous,
-                PhaseFunctionType.HenyeyGreenstein,
+                //PhaseFunctionType.HenyeyGreenstein,
                 new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance },
                 true, // tally 2nd moment
                 false, // track statistics
@@ -90,32 +90,37 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new DoubleRange(0.0, 1.0, 101)),
             };
 
-            _referenceInputTwoLayerTissue = new SimulationInput(
-                100,
-                "",
-                simulationOptions,
-                sourceInput,
-                new MultiLayerTissueInput(
+            MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        new HenyeyGreensteinPhaseFunctionInput()),
+                        "HenyeyGreensteinKey1"),
                         new LayerRegion(
                             new DoubleRange(0.0, _layerThickness),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        new HenyeyGreensteinPhaseFunctionInput()),
+                        "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(_layerThickness, 20.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        new HenyeyGreensteinPhaseFunctionInput()),
+                        "HenyeyGreensteinKey3"),
                         new LayerRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        new HenyeyGreensteinPhaseFunctionInput())
+                        "HenyeyGreensteinKey4")
                     }
-                ),
+                );
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+            _referenceInputTwoLayerTissue = new SimulationInput(
+                100,
+                "",
+                simulationOptions,
+                sourceInput,
+                ti,
                 detectorInputs);
             _factor = 1.0 - Optics.Specular(
                             _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP.N,

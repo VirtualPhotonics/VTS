@@ -68,9 +68,10 @@ namespace Vts.MonteCarlo
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            Dictionary <string, IPhaseFunction> phaseFunctions = null; 
-            for(int i = 0; i < _input.TissueInput.Regions.Length; i++)
-                phaseFunctions.Add(_input.TissueInput.Regions[i].PhaseFunctionKey, PhaseFunctionFactory.GetPhaseFunction(_input.TissueInput.Regions[i], _input.TissueInput, _rng));
+            IDictionary <string, IPhaseFunction> phaseFunctions = new Dictionary <string, IPhaseFunction>();
+            for (int i = 0; i < _input.TissueInput.Regions.Length; i++)
+                if(!phaseFunctions.ContainsKey(input.TissueInput.Regions[i].PhaseFunctionKey))
+                    phaseFunctions.Add(_input.TissueInput.Regions[i].PhaseFunctionKey, PhaseFunctionFactory.GetPhaseFunction(_input.TissueInput.Regions[i], _input.TissueInput, _rng));
             //Dictionary phaseFunctions = input.TissueInput.Regions.Select((region, idx) => PhaseFunctionFactory.GetPhaseFunction(region, _input.TissueInput, _rng)).ToList();
 
             _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, phaseFunctions, input.Options.RussianRouletteWeightThreshold);
@@ -145,7 +146,8 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Phase function enum type as specified in SimulationOptions
         /// </summary>
-        public PhaseFunctionType PhaseFunctionType { get; set; }
+        /// 
+        //public PhaseFunctionType PhaseFunctionType { get; set; }  use of this member now deprecated.
         /// <summary>
         /// Boolean indicating whether simulation is running or not
         /// </summary>

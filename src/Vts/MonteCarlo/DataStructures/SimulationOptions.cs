@@ -117,9 +117,9 @@ namespace Vts.MonteCarlo
         /// </summary>
         public AbsorptionWeightingType AbsorptionWeightingType { get; set; }
         /// <summary>
-        /// phase function input
+        /// phase function input.  This is deprecated.
         /// </summary>
-        public IPhaseFunctionInput PhaseFunctionInput { get; set; }
+        //public IPhaseFunctionInput PhaseFunctionInput { get; set; }
         /// <summary>
         /// list of databases to be written
         /// </summary>

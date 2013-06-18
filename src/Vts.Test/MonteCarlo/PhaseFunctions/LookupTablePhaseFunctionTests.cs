@@ -42,7 +42,7 @@ namespace Vts.Test.MonteCarlo
 
             //do a KS test at alpha = 0.01 to see if sample is compliant to distribution.
             KolmogorovDistribution k = new KolmogorovDistribution();
-            double K_alpha = k.LeftProbability(1-0.01);
+            double K_alpha = k.LeftProbability(1-0.001);
             double Dn = 0;                                        //variable for KS test statistic.
             double [] Fn = new double[sampleSize];              //empircal distribution function.
             

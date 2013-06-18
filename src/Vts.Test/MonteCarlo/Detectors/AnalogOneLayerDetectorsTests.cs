@@ -39,42 +39,47 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 File.Delete("statistics.xml");
             }
-           _input = new SimulationInput(
-                100,
-                "Output",
-                new SimulationOptions(
-                    0, 
-                    RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Analog, 
-                    PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
-                    true, // tally SecondMoment
-                    true, // track statistics
-                    0.0, // RR threshold -> 0 = no RR performed
-                    0),
-                new DirectionalPointSourceInput(
-                    new Position(0.0, 0.0, 0.0),
-                    new Direction(0.0, 0.0, 1.0),
-                    1 // start off inside tissue 
-                ),
-                new MultiLayerTissueInput(
+
+            MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        new HenyeyGreensteinPhaseFunctionInput()),
+                        "HenyeyGreensteinKey1"),
                         new LayerRegion(
                             new DoubleRange(0.0, 20.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        new HenyeyGreensteinPhaseFunctionInput()),
+                        "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        new HenyeyGreensteinPhaseFunctionInput())
+                        "HenyeyGreensteinKey3")
                     }
-                ),
-                new List<IDetectorInput>
+                );
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            _input = new SimulationInput(
+                 100,
+                 "Output",
+                 new SimulationOptions(
+                     0,
+                     RandomNumberGeneratorType.MersenneTwister,
+                     AbsorptionWeightingType.Analog,
+                //PhaseFunctionType.HenyeyGreenstein,
+                     new List<DatabaseType>() { }, // databases to be written
+                     true, // tally SecondMoment
+                     true, // track statistics
+                     0.0, // RR threshold -> 0 = no RR performed
+                     0),
+                 new DirectionalPointSourceInput(
+                     new Position(0.0, 0.0, 0.0),
+                     new Direction(0.0, 0.0, 1.0),
+                     1 // start off inside tissue 
+                 ),
+                 ti,
+                 new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
@@ -109,7 +114,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(0.0, 10.0, 101),
                         new DoubleRange(-Math.PI / 2, Math.PI / 2, 5))
                 }
-            );
+             );
 
             _output = new MonteCarloSimulation(_input).Run();
 
@@ -119,14 +124,14 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _input.TissueInput.Regions[0].RegionOP.N,
                             _input.TissueInput.Regions[1].RegionOP.N);
         }
-   
+
         // validation values obtained from linux run using above input and seeded 
         // the same for:
         // Diffuse Reflectance
         [Test]
         public void validate_Analog_RDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Rd * _factor - 0.670833333), 0.000000001); 
+            Assert.Less(Math.Abs(_output.Rd * _factor - 0.670833333), 0.000000001);
             //var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Rd, _output.Rd2);
             // for analog 1st and 2nd moment should be equal (since weight tallied is 1)
             Assert.AreEqual(_output.Rd, _output.Rd2);

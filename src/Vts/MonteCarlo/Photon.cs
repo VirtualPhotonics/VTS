@@ -57,7 +57,8 @@ namespace Vts.MonteCarlo
             S = 0.0;
             SLeft = 0.0;        
             CurrentRegionIndex = currentTissueRegionIndex;
-            CurrentRegionKey = _tissue.Regions[CurrentRegionIndex].PhaseFunctionKey;
+            CurrentRegionKey = tissue.Regions[CurrentRegionIndex].PhaseFunctionKey;
+
             // flag to determin whether passing through specular or not
             // the following assumes tissues considered are slabs, only ones we have coded to date
             // todo: make more general to handle other types of tissues
@@ -72,6 +73,7 @@ namespace Vts.MonteCarlo
 
             _rng = generator;
             _russianRouletteWeightThreshold = _tissue.RussianRouletteWeightThreshold;
+            
         }
         /// <summary>
         /// default constructor for Photon
