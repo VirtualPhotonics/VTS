@@ -52,14 +52,16 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey3")
                     }
                 );
             ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "one_layer_all_detectors",
@@ -67,7 +69,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    //new HenyeyGreensteinPhaseFunctionInput(),
+                //new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -149,15 +151,16 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey3")
                     }
                 );
-            if(!ti.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
-                ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "one_layer_ROfRho_FluenceOfRhoAndZ",
@@ -165,7 +168,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    //new HenyeyGreensteinPhaseFunctionInput(),
+                //new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -203,13 +206,16 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey3")
                     }
                 );
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
@@ -258,19 +264,21 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(0.0, 1.5),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(1.5, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey3"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey4")
                     }
                 );
-            if (!ti.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
-                ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "two_layer_ROfRho",
@@ -278,7 +286,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    //new HenyeyGreensteinPhaseFunctionInput(),
+                //new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -313,19 +321,21 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(0.0, 1.5),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(1.5, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey3"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey4")
                     }
                 );
-            if (!ti.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
-                ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "two_layer_ROfRho_with_db",
@@ -333,8 +343,8 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    //new HenyeyGreensteinPhaseFunctionInput(),
-                    new [] { DatabaseType.DiffuseReflectance }, // databases to be written
+                //new HenyeyGreensteinPhaseFunctionInput(),
+                    new[] { DatabaseType.DiffuseReflectance }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
@@ -372,19 +382,21 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey3"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey4")
                     }
                 );
-            if (!ti.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
-                ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "ellip_FluenceOfRhoAndZ",
@@ -392,7 +404,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    //new HenyeyGreensteinPhaseFunctionInput(),
+                //new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -413,7 +425,7 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region point source one layer LUT Phase function R(rho) 
+        #region point source one layer LUT Phase function R(rho)
         /// <summary>
         /// Point source, two-layer tissue definition, only ROfRho detector included
         /// </summary>
@@ -429,15 +441,16 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(0.0, 100),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "LookupTablePhaseFunctionKey1"),
+                        "LookupTablePhaseFunctionKey2"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "LookupTablePhaseFunctionKey1")
+                        "LookupTablePhaseFunctionKey3")
                     }
                 );
-            if (!ti.RegionPhaseFunctionInputs.ContainsKey("LookupTablePhaseFunctionKey1"))
-                ti.RegionPhaseFunctionInputs.Add("LookupTablePhaseFunctionKey1", new LookupTablePhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("LookupTablePhaseFunctionKey1", new LookupTablePhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("LookupTablePhaseFunctionKey2", new LookupTablePhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("LookupTablePhaseFunctionKey3", new LookupTablePhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "one_layer_LUT_ROfRho",
@@ -445,7 +458,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    //new LookupTablePhaseFunctionInput(), 
+                //new LookupTablePhaseFunctionInput(), 
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -480,15 +493,16 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey3")
                     }
                 );
-            if (!ti.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
-                ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "pMC_one_layer_ROfRho_DAW",
@@ -496,7 +510,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    //new HenyeyGreensteinPhaseFunctionInput(),
+                //new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -531,15 +545,16 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey3")
                     }
                 );
-            if (!ti.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
-                ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "Gaussian_source_one_layer_ROfRho",
@@ -547,7 +562,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    //new HenyeyGreensteinPhaseFunctionInput(),
+                //new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     false, // track statistics
@@ -558,10 +573,10 @@ namespace Vts.MonteCarlo
                     0.0, // inner radius
                     new GaussianSourceProfile(1.0), // fwhm
                     new DoubleRange(0.0, 0.0), // polar angle emission range
-                    new DoubleRange (0.0, 0.0), // azimuthal angle emmision range
+                    new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
                     new Direction(0, 0, 1), // normal to tissue
                     new Position(0, 0, 0), // center of beam on surface
-                    new PolarAzimuthalAngles(0,0), // no beam rotation         
+                    new PolarAzimuthalAngles(0, 0), // no beam rotation         
                     0), // 0=start in air, 1=start in tissue
                 ti,
                 new List<IDetectorInput>()
@@ -588,19 +603,21 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(0.0, 1.0), // upper layer 1mm
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33),
-                        "HenyeyGreensteinKey1"), // Tyler's data
+                        "HenyeyGreensteinKey2"), // Tyler's data
                         new LayerRegion(
                             new DoubleRange(1.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33),
-                        "HenyeyGreensteinKey1"), 
+                        "HenyeyGreensteinKey3"), 
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey4")
                     }
                 );
-            if (!ti.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
-                ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "two_layer_ReflectedMTOfRhoAndSubregionHist",
@@ -608,7 +625,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    //new HenyeyGreensteinPhaseFunctionInput(),
+                //new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     true, // track statistics
@@ -646,7 +663,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous,
-                    //PhaseFunctionType.HenyeyGreenstein,
+                //PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     true, // track statistics

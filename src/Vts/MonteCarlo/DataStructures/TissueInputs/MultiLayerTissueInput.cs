@@ -47,15 +47,16 @@ namespace Vts.MonteCarlo
                     new LayerRegion(
                         new DoubleRange(0.0, 100.0),
                         new OpticalProperties(0.0, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey2"),
                     new LayerRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey3")
                 })
         {
-            if (!RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
-                RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
         }
         /// <summary>
         /// tissue identifier

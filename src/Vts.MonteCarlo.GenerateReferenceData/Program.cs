@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                         0,
                         RandomNumberGeneratorType.MersenneTwister,
                         AbsorptionWeightingType.Continuous,
-                        PhaseFunctionType.HenyeyGreenstein,
+                        //PhaseFunctionType.HenyeyGreenstein,
                         new List<DatabaseType>() { }, // databases to be written
                         true, // compute Second Moment
                         false, // track statistics
@@ -38,7 +38,8 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                            new HenyeyGreensteinPhaseFunctionInput()
+                            "HenyeyGreensteinPhaseFunctionKey1"
+                            //new HenyeyGreensteinPhaseFunctionInput()
                             ),
                         //new LayerRegion(
                         //    new DoubleRange(0.0, 0.1),
@@ -47,12 +48,14 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.0, 1.0, 0.8, 1.38),
-                            new HenyeyGreensteinPhaseFunctionInput()
+                            "HenyeyGreensteinPhaseFunctionKey2"
+                            //new HenyeyGreensteinPhaseFunctionInput()
                             ),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0, 1e-10, 0.0, 1.0),
-                            new HenyeyGreensteinPhaseFunctionInput()
+                            "HenyeyGreensteinPhaseFunctionKey3"
+                            //new HenyeyGreensteinPhaseFunctionInput()
                             )
                     }
                     ),
@@ -63,6 +66,9 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                             new DoubleRange(0.0, 4, 801)) // numbers for scaled MC
                     }
                 );
+                input.TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinPhaseFunctionKey1", new HenyeyGreensteinPhaseFunctionInput());
+                input.TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinPhaseFunctionKey2", new HenyeyGreensteinPhaseFunctionInput());
+                input.TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinPhaseFunctionKey3", new HenyeyGreensteinPhaseFunctionInput());
 
             SimulationOutput output = new MonteCarloSimulation(input).Run();
             input.ToFile("infile.xml");

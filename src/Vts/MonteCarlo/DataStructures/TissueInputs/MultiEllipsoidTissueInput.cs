@@ -59,26 +59,29 @@ namespace Vts.MonteCarlo
                         0, 
                         5.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey2")
                 },
                 new ITissueRegion[] 
                 { 
                     new LayerRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey3"),
                     new LayerRegion(
                         new DoubleRange(0.0, 50.0),
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey4"),
                     new LayerRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey5")
                 })
         {
-            if(!RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
-                RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey5", new HenyeyGreensteinPhaseFunctionInput());
         }
 
         /// <summary>

@@ -14,41 +14,41 @@ namespace Vts.MonteCarlo
     /// file name, number of photons to execute (N), source, tissue and detector
     /// definitions.
     ///</summary>
-    #if !SILVERLIGHT
+#if !SILVERLIGHT
         [Serializable]
-    #endif
-    
+#endif
+
     // todo: Can we do this programmatcially? DataContractResolver? Automatically via convention?
-	[KnownType(typeof(CustomLineSourceInput))]
+    [KnownType(typeof(CustomLineSourceInput))]
     [KnownType(typeof(DirectionalLineSourceInput))]
-	[KnownType(typeof(IsotropicLineSourceInput))]
-				
+    [KnownType(typeof(IsotropicLineSourceInput))]
+
     [KnownType(typeof(CustomPointSourceInput))]
-	[KnownType(typeof(DirectionalPointSourceInput))]
+    [KnownType(typeof(DirectionalPointSourceInput))]
     [KnownType(typeof(IsotropicPointSourceInput))]
-				
-	[KnownType(typeof(LambertianSurfaceEmittingCylindricalFiberSourceInput))]
-	[KnownType(typeof(CustomSurfaceEmittingSphericalSourceInput))]
-	[KnownType(typeof(LambertianSurfaceEmittingSphericalSourceInput))]
-	[KnownType(typeof(LambertianSurfaceEmittingTubularSourceInput))]
-				
-	[KnownType(typeof(CustomCircularSourceInput))]
-	[KnownType(typeof(DirectionalCircularSourceInput))]
-	[KnownType(typeof(CustomEllipticalSourceInput))]
-	[KnownType(typeof(DirectionalEllipticalSourceInput))]
-	[KnownType(typeof(CustomRectangularSourceInput))]
-	[KnownType(typeof(DirectionalRectangularSourceInput))]
-				
-	[KnownType(typeof(CustomVolumetricEllipsoidalSourceInput))]
-	[KnownType(typeof(IsotropicVolumetricEllipsoidalSourceInput))]
-	[KnownType(typeof(CustomVolumetricCuboidalSourceInput))]
-	[KnownType(typeof(IsotropicVolumetricCuboidalSourceInput))]
-    
+
+    [KnownType(typeof(LambertianSurfaceEmittingCylindricalFiberSourceInput))]
+    [KnownType(typeof(CustomSurfaceEmittingSphericalSourceInput))]
+    [KnownType(typeof(LambertianSurfaceEmittingSphericalSourceInput))]
+    [KnownType(typeof(LambertianSurfaceEmittingTubularSourceInput))]
+
+    [KnownType(typeof(CustomCircularSourceInput))]
+    [KnownType(typeof(DirectionalCircularSourceInput))]
+    [KnownType(typeof(CustomEllipticalSourceInput))]
+    [KnownType(typeof(DirectionalEllipticalSourceInput))]
+    [KnownType(typeof(CustomRectangularSourceInput))]
+    [KnownType(typeof(DirectionalRectangularSourceInput))]
+
+    [KnownType(typeof(CustomVolumetricEllipsoidalSourceInput))]
+    [KnownType(typeof(IsotropicVolumetricEllipsoidalSourceInput))]
+    [KnownType(typeof(CustomVolumetricCuboidalSourceInput))]
+    [KnownType(typeof(IsotropicVolumetricCuboidalSourceInput))]
+
     // Tissue inputs
     [KnownType(typeof(MultiLayerTissueInput))]
     [KnownType(typeof(SingleEllipsoidTissueInput))]
-	[KnownType(typeof(MultiEllipsoidTissueInput))]
-	
+    [KnownType(typeof(MultiEllipsoidTissueInput))]
+
     // Detector inputs
     [KnownType(typeof(RDiffuseDetectorInput))]
     [KnownType(typeof(ROfAngleDetectorInput))]
@@ -123,11 +123,11 @@ namespace Vts.MonteCarlo
         /// <param name="tissueInput">ITissueInput specifying tissue definition</param>
         /// <param name="detectorInputs">IDetectorInput specifying which detectors to tally</param>
         public SimulationInput(
-            long numberOfPhotons, 
+            long numberOfPhotons,
             string outputName,
             SimulationOptions simulationOptions,
             ISourceInput sourceInput,
-            ITissueInput tissueInput,  
+            ITissueInput tissueInput,
             IList<IDetectorInput> detectorInputs)
         {
             N = numberOfPhotons;
@@ -135,11 +135,11 @@ namespace Vts.MonteCarlo
             Options = simulationOptions;
             SourceInput = sourceInput;
             TissueInput = tissueInput;
-            DetectorInputs = detectorInputs;       
+            DetectorInputs = detectorInputs;
             // check if detectorInputs list is null and if so make empty
             if (DetectorInputs == null)
             {
-                DetectorInputs = new List<IDetectorInput>() {};
+                DetectorInputs = new List<IDetectorInput>() { };
             }
         }
         /// <summary>
@@ -153,7 +153,7 @@ namespace Vts.MonteCarlo
                     -1, // get random seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    //new HenyeyGreensteinPhaseFunctionInput(),
+                //new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { },
                     true, // compute Second Moment
                     false, // track statistics
@@ -171,21 +171,23 @@ namespace Vts.MonteCarlo
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                        "HenyeyGreensteinKey3")
                     }),
 
                 new List<IDetectorInput>
                 {
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
                 }
-                ) 
+                )
         {
-            if (!TissueInput.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
-                TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+
+            TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
         }
         /// <summary>
         /// Method to read SimulationInput from file
