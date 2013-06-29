@@ -79,11 +79,11 @@ classdef SimulationOutput
                     type = char(valuesNET(n).SecondMoment.GetType().ToString());
                     switch type
                         case {'System.Numerics.Complex[]'}
-                            nValues = valuesNET(i).SecondMoment.Length;               
+                            nValues = valuesNET(n).SecondMoment.Length;               
                              detectorOutput.SecondMoment = zeros([nValues 1]);
                              for j=1:nValues
-                                 re = valuesNET(i).SecondMoment(j).Real;
-                                 im = valuesNET(i).SecondMoment(j).Imaginary;
+                                 re = valuesNET(n).SecondMoment(j).Real;
+                                 im = valuesNET(n).SecondMoment(j).Imaginary;
                                  detectorOutput.SecondMoment(j) = re + i * im;
                              end
                         case {'System.Numerics.Complex[,]'}

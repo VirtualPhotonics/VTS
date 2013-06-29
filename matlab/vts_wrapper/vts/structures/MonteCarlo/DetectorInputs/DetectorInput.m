@@ -397,9 +397,9 @@ classdef DetectorInput
                     input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
                     input.Time = linspace(inputNET.Time.Start, inputNET.Time.Stop, inputNET.Time.Count);
                 case 'ROfFx'
-                    input.Fx = linspace(inputNET.Fx.Start, inputNET.Fx.Stop, inputNET.Rho.Count);
+                    input.Fx = linspace(inputNET.Fx.Start, inputNET.Fx.Stop, inputNET.Fx.Count);
                 case 'ROfFxAndTime'
-                    input.Fx = linspace(inputNET.Fx.Start, inputNET.Fx.Stop, inputNET.Rho.Count);
+                    input.Fx = linspace(inputNET.Fx.Start, inputNET.Fx.Stop, inputNET.Fx.Count);
                     input.Time = linspace(inputNET.Time.Start, inputNET.Time.Stop, inputNET.Time.Count);
                 case 'pMCROfRho'
                     input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
