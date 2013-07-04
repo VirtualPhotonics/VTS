@@ -16,6 +16,9 @@ op = [0.01 1.2 0.8 1.4];
 rho = 10; % s-d separation, in mm
 ft = 0:0.01:0.5; % range of temporal frequencies in GHz
 
+% Solver type options: 'PointSourceSDA','DistributedGaussianSourceSDA',
+% 'DistributedPointSourceSDA','MonteCarlo' (basic scaled),'Nurbs' (scaled
+% with smoothing and adaptive binning)
 VtsSolvers.SetSolverType('PointSourceSDA');
 
 test = VtsSolvers.ROfRhoAndFt(op, rho, ft);
@@ -354,3 +357,90 @@ ylabel('R(\lambda)');
 xlabel('Wavelength, \lambda [nm]');
 options = [{'Location', 'NorthWest'}; {'FontSize', 12}; {'Box', 'on'}];
 PlotHelper.CreateLegend(A, '\mu_s''(1000nm) = ', 'mm^-^1', options);
+
+%% Example ROfRho (multiple wavelengths, multiple rho)
+% Call reflectance varying the wavelength.
+
+VtsSolvers.SetSolverType('PointSourceSDA');
+rho = 0.2:0.2:1;  % source-detector separation in mm
+wv = 400:0.5:1000;
+
+% create a list of chromophore absorbers and their concentrations
+absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
+absorbers.Concentrations =  [70,     30,   0.8  ];
+
+% create a scatterer (PowerLaw, Intralipid, or Mie)
+scatterer.Type = 'PowerLaw';
+scatterer.A = 1.2;
+scatterer.b = 1.42;
+
+op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+test = zeros([length(rho) length(wv)]);
+for i=1:length(rho)
+    test(i,:) = VtsSolvers.ROfRho(op, rho(i));
+end
+
+f = figure; plot(wv, test');
+set(f, 'Name', 'Reflectance');
+set(f, 'OuterPosition', [100, 50, 800, 800]);
+title('SDA Reflectance vs wavelength'); 
+ylabel('R(\lambda)');
+xlabel('Wavelength, \lambda [nm]');
+options = [{'Location', 'NorthEast'}; {'FontSize', 12}; {'Box', 'on'}];
+PlotHelper.CreateLegend(rho,'\rho = ', 'mm',options);
+
+%% Example ROfRho (inverse solution for chromophore concentrations for
+% multiple wavelengths, single rho)
+rho = 1;  % source-detector separation in mm
+wv = 400:50:1000;
+
+% create a list of chromophore absorbers and their concentrations
+% these values are the EXACT solution
+absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
+measConc =                  [70,     30,   0.8  ];
+absorbers.Concentrations =  [measConc(1), measConc(2), measConc(3)];
+
+% create a scatterer (PowerLaw, Intralipid, or Mie)
+scatterer.Type = 'PowerLaw';
+scatterer.A = 1.2;
+scatterer.b = 1.42;
+
+op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+
+% create simulated measured data at EXACT data using MC Nurbs solution
+VtsSolvers.SetSolverType('Nurbs');
+measData = VtsSolvers.ROfRho(op, rho);
+
+% Set up lsqcurvefit function
+options = optimset('diagnostics','on','largescale','on');
+% use unconstrained optimization, constrained option lb=[0 0]; ub=[inf inf];
+lb=[]; ub=[];
+% specify initial guess 
+conc0 = [ 70,    30,   0.8  ];
+% run inverse solver using SDAPointSource forward model
+recoveredConc = lsqcurvefit('sda_F',conc0,wv,measData,lb,ub,options,rho,scatterer);
+% determine forward solver solution at recovered concentrations
+VtsSolvers.SetSolverType('PointSourceSDA');
+absorbers.Concentrations =  [recoveredConc(1), recoveredConc(2), recoveredConc(3) ];
+op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+recovered = VtsSolvers.ROfRho(op, rho);
+% determine forward solver solution at initial guess
+absorbers.Concentrations =  [conc0(1), conc0(2), conc0(3)];
+op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+initialGuess = VtsSolvers.ROfRho(op, rho);
+
+f = figure; plot(wv, measData,'ro',...
+    wv, initialGuess,'go',...
+    wv, recovered,'b:');
+xlabel('Wavelength, \lambda [nm]');
+ylabel('R(\lambda)');
+legend('Meas','IG','Converged');
+set(f, 'OuterPosition', [100, 50, 800, 800]); 
+options = [{'Location', 'NorthEast'}; {'FontSize', 12}; {'Box', 'on'}];
+disp(sprintf('Meas =    [%5.3f %5.3f %5.3f]',measConc(1),measConc(2),measConc(3)));
+disp(sprintf('IG =      [%5.3f %5.3f %5.3f] Chi2=%5.3e',conc0(1),conc0(2),conc0(3),...
+    (measData-initialGuess)*(measData-initialGuess)'));
+disp(sprintf('Conv =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',recoveredConc(1),recoveredConc(2),recoveredConc(3),...
+    (measData-recovered)*(measData-recovered)'));
+disp(sprintf('error =   [%5.3f %5.3f %5.3f]',abs(measData(1)-recovered(1))/measData(1),...
+    abs(measData(2)-recovered(2))/measData(2),abs(measData(3)-recovered(3))/measData(3)));
