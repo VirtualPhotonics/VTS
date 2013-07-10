@@ -62,7 +62,11 @@ namespace Vts
         /// scaled Monte Carlo forward solver with non-uniform rational b-splines forward solver
         /// </summary>
         Nurbs,
-//        DiscreteOrdinates
+        /// <summary>
+        /// multi-layer forward solver based on standard diffusion
+        /// </summary>
+        MultiLayerSDA,
+        //        DiscreteOrdinates
     }
     /// <summary>
     /// spatial-frequency domain types
@@ -523,7 +527,7 @@ namespace Vts
         /// <summary>
         /// y position of the source definition
         /// </summary>
-        YSourcePosition, 
+        YSourcePosition,
         /// <summary>
         /// x center position of the embedded ellipse
         /// </summary>
@@ -531,19 +535,19 @@ namespace Vts
         /// <summary>
         /// y center position of the embedded ellipse
         /// </summary>
-        YEllipsePosition, 
+        YEllipsePosition,
         /// <summary>
         /// z center position of the embedded ellipse
         /// </summary>
-        ZEllipsePosition, 
+        ZEllipsePosition,
         /// <summary>
         /// x-axis radius of embedded ellipse
         /// </summary>
-        XEllipseRadius, 
+        XEllipseRadius,
         /// <summary>
         /// y-axis radius of embedded ellipse
         /// </summary>
-        YEllipseRadius, 
+        YEllipseRadius,
         /// <summary>
         /// z-axis radius of embedded ellipse
         /// </summary>
@@ -551,7 +555,7 @@ namespace Vts
         /// <summary>
         /// absorption coefficient of top layer of tissue
         /// </summary>
-        Mua1, 
+        Mua1,
         /// <summary>
         /// absorption coefficient of second layer of tissue
         /// </summary>
@@ -648,7 +652,7 @@ namespace Vts
     /// <summary>
     /// units allowed for blood concentration
     /// </summary>
-    public enum BloodConcentrationUnit 
+    public enum BloodConcentrationUnit
     {
         /// <summary>
         /// oxy-hemoglobin + deoxy-hemoglobin
@@ -744,42 +748,42 @@ namespace Vts
         Custom
     }
 
-   ///// <summary>
-   // /// Chromophore data distance units. For future GUI spectral upload tool...
-   ///// </summary>
-   // public enum ChromDataDistanceUnits 
-   // {
-   //     /// <summary>
-   //     /// [1/mm]
-   //     /// </summary>
-   //     PerMillimeter,
-   //     /// <summary>
-   //     /// [1/cm]
-   //     /// </summary>
-   //     PerCentimeter,
-   //     /// <summary>
-   //     /// [1/m]
-   //     /// </summary>
-   //     PerMeter,
-   // }
-   // /// <summary>
-   // /// chromophore data concentration units. For future GUI spectral upload tool...
-   // /// </summary>
-   // public enum ChromDataConcentrationUnits  
-   // {
-   //     /// <summary>
-   //     /// [1/uM]
-   //     /// </summary>
-   //     PerMicroMolar,
-   //     /// <summary>
-   //     /// [1/mM]
-   //     /// </summary>
-   //     PerMilliMolar,
-   //     /// <summary>
-   //     /// [1/M]
-   //     /// </summary>
-   //     PerMolar,
-   // }
+    ///// <summary>
+    // /// Chromophore data distance units. For future GUI spectral upload tool...
+    ///// </summary>
+    // public enum ChromDataDistanceUnits 
+    // {
+    //     /// <summary>
+    //     /// [1/mm]
+    //     /// </summary>
+    //     PerMillimeter,
+    //     /// <summary>
+    //     /// [1/cm]
+    //     /// </summary>
+    //     PerCentimeter,
+    //     /// <summary>
+    //     /// [1/m]
+    //     /// </summary>
+    //     PerMeter,
+    // }
+    // /// <summary>
+    // /// chromophore data concentration units. For future GUI spectral upload tool...
+    // /// </summary>
+    // public enum ChromDataConcentrationUnits  
+    // {
+    //     /// <summary>
+    //     /// [1/uM]
+    //     /// </summary>
+    //     PerMicroMolar,
+    //     /// <summary>
+    //     /// [1/mM]
+    //     /// </summary>
+    //     PerMilliMolar,
+    //     /// <summary>
+    //     /// [1/M]
+    //     /// </summary>
+    //     PerMolar,
+    // }
 
     //public enum ChromDataUnit
     //{
@@ -797,7 +801,7 @@ namespace Vts
     /// <summary>
     /// solver type. Added to determine which panel is in context LMM 
     /// </summary>
-    public enum SolverType 
+    public enum SolverType
     {
         /// <summary>
         /// forward solver

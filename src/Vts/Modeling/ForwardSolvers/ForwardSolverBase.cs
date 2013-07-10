@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Vts.Extensions;
+using Vts.MonteCarlo;
 
 namespace Vts.Modeling.ForwardSolvers
 {
@@ -25,7 +26,7 @@ namespace Vts.Modeling.ForwardSolvers
             SourceConfiguration = sourceConfiguration;
             BeamDiameter = beamDiameter;
         }
-        
+
         /// <summary>
         /// default constructor
         /// </summary>
@@ -67,6 +68,17 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">source-detector separation (mm)</param>
         /// <returns>reflectance at given single set of optical properties and single rho</returns>     
         public virtual double ROfRho(OpticalProperties op, double rho)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Scalar ROfRho function.  Determines reflectance at source-detector separation rho - must be implemented in child class
+        /// </summary>
+        /// <param name="op">optical properties of the medium</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <returns>reflectance at given single set of optical properties and single rho</returns>     
+        public virtual double ROfRho(ITissueRegion[] op, double rho)
         {
             throw new NotImplementedException();
         }
@@ -157,6 +169,20 @@ namespace Vts.Modeling.ForwardSolvers
             IEnumerable<double> rhos)
         {
             return ((Func<OpticalProperties, double, double>)ROfRho).LoopOverVariables(ops, rhos);
+        }
+
+        /// <summary>
+        /// Vector ROfRho function. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos'
+        /// Override these in child classes to take advantage of optimization strategies.
+        /// </summary>
+        /// <param name="ops">sets of optical properties of the medium</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <returns>reflectance at given optical properties and rhos</returns>
+        public virtual IEnumerable<double> ROfRho(
+            IEnumerable<ITissueRegion[]> regions,
+            IEnumerable<double> rhos)
+        {
+            return ((Func<ITissueRegion[], double, double>)ROfRho).LoopOverVariables(regions, rhos);
         }
 
         public virtual IEnumerable<double> ROfTheta(
@@ -254,6 +280,21 @@ namespace Vts.Modeling.ForwardSolvers
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
+
+        /// <summary>
+        /// Convenience array overload of ROfRho. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <returns>Reflectance at given optical properties and rhos</returns>
+        public double[] ROfRho(ITissueRegion[][] regions, double[] rhos)
+        {
+            var output = new double[regions.Length * rhos.Length];
+            var query = ROfRho((IEnumerable<ITissueRegion[]>)regions, (IEnumerable<double>)rhos);
+            Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
+            return output;
+        }
+
         /// <summary>
         /// Convenience array overload of ROfTheta.  Determines reflectances at optical properties 'ops' and polar angle 'thetas'
         /// </summary>
@@ -356,6 +397,17 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
+        /// Overload of ROfRho. Determines reflectances at optical properties 'op' and source-detector separations 'rhos'
+        /// </summary>
+        /// <param name="regions">medium optical properties</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <returns>reflectance at given optical properties and rhos</returns>
+        public double[] ROfRho(ITissueRegion[] regions, double[] rhos)
+        {
+            return ROfRho(new[] { regions }, rhos);
+        }
+
+        /// <summary>
         /// Overload of ROfRho. Determines reflectances at optical properties 'ops' and source-detector separation 'rho'
         /// </summary>
         /// <param name="ops">sets of medium optical properties</param>
@@ -365,6 +417,18 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfRho(ops, new[] { rho });
         }
+
+        /// <summary>
+        /// Overload of ROfRho. Determines reflectances at optical properties 'ops' and source-detector separation 'rho'
+        /// </summary>
+        /// <param name="regions">sets of medium optical properties</param>
+        /// <param name="rho">source-detector separations (mm)</param>
+        /// <returns>reflectance at given optical properties and rhos</returns>
+        public double[] ROfRho(ITissueRegion[][] regions, double rho)
+        {
+            return ROfRho(regions, new[] { rho });
+        }
+
         /// <summary>
         /// Overload of ROFTheta.  Determines reflectances at optical properties 'ops' and polar angles 'thetas'
         /// </summary>
@@ -813,7 +877,7 @@ namespace Vts.Modeling.ForwardSolvers
         #endregion
 
         #region Convenience array overloads for fluence methods
-        
+
         /// <summary>
         /// Overload of FluenceOfRhoAndZ function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and 'zs'
         /// </summary>

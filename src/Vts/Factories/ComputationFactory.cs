@@ -2,9 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Vts.Common;
 using Vts.Extensions;
 using Vts.Modeling;
+using Vts.Modeling.ForwardSolvers;
 using Vts.Modeling.ForwardSolvers.Extensions;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
 
 #if DESKTOP
 using System.Runtime.InteropServices;
@@ -17,7 +21,7 @@ namespace Vts.Factories
     /// </summary>
 #if DESKTOP
     [ComVisible(true)]
-#endif    
+#endif
     public static class ComputationFactory
     {
         // todo: the following two methods are a result of a leaky abstraction 
@@ -79,9 +83,9 @@ namespace Vts.Factories
         /// <param name="opticalProperties"></param>
         /// <param name="constantValues"></param>
         /// <returns></returns>
-        #if DESKTOP
+#if DESKTOP
             [ComVisible(true)] 
-        #endif
+#endif
         public static double[] GetVectorizedIndependentVariableQueryNew(
              string forwardSolverType,
              string solutionDomainType,
@@ -114,12 +118,34 @@ namespace Vts.Factories
             // -- still time-efficient if singletons are used
             // -- potentially memory-inefficient if the user creates lots of large solver instances
             return GetVectorizedIndependentVariableQueryNew(
-                SolverFactory.GetForwardSolver(forwardSolverType), 
+                SolverFactory.GetForwardSolver(forwardSolverType),
                 solutionDomainType,
                 forwardAnalysisType,
                 independentAxisType,
                 independentValues,
                 opticalProperties,
+                constantValues);
+        }
+        // overload for ITissueRegion forward solvers todo: merge with above?
+        public static double[] GetVectorizedIndependentVariableQueryNew(
+            ForwardSolverType forwardSolverType,
+            SolutionDomainType solutionDomainType,
+            ForwardAnalysisType forwardAnalysisType,
+            IndependentVariableAxis independentAxisType,
+            IEnumerable<double> independentValues,
+            ITissueRegion[] tissueRegions,
+            params double[] constantValues)
+        {
+            // use factory method on each call, as opposed to injecting an instance from the outside
+            // -- still time-efficient if singletons are used
+            // -- potentially memory-inefficient if the user creates lots of large solver instances
+            return GetVectorizedIndependentVariableQueryNew(
+                SolverFactory.GetForwardSolver(forwardSolverType),
+                solutionDomainType,
+                forwardAnalysisType,
+                independentAxisType,
+                independentValues,
+                tissueRegions,
                 constantValues);
         }
 
@@ -133,6 +159,58 @@ namespace Vts.Factories
             params double[] constantValues)
         {
             var parameters = new double[4] { opticalProperties.Mua, opticalProperties.Musp, opticalProperties.G, opticalProperties.N };
+
+            Func<double[], object[], double[]> func = GetForwardReflectanceFunc(forwardSolver, solutionDomainType, independentAxisType);
+
+            // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
+            List<object> inputValues = new List<object>();
+            inputValues.Add(independentValues.ToArray());
+            constantValues.ForEach(cv => inputValues.Add(cv));
+
+            if (forwardAnalysisType == ForwardAnalysisType.R)
+            {
+                return func(parameters, inputValues.ToArray());
+            }
+            else
+            {
+                return func.GetDerivativeFunc(forwardAnalysisType)(parameters, inputValues.ToArray());
+            }
+        }
+
+        // overload for ITissueRegion forward solvers todo: merge with above?
+        public static double[] GetVectorizedIndependentVariableQueryNew(
+            IForwardSolver forwardSolver,
+            SolutionDomainType solutionDomainType,
+            ForwardAnalysisType forwardAnalysisType,
+            IndependentVariableAxis independentAxisType,
+            IEnumerable<double> independentValues,
+            ITissueRegion[] tissueRegions,
+            params double[] constantValues)
+        {
+            var parameters = tissueRegions.SelectMany(region =>
+            {
+                double[] regionParameters = null;
+                if (region is LayerRegion)
+                {
+                    var layerRegion = (LayerRegion)region;
+                    regionParameters = new[]
+                    {
+                        layerRegion.RegionOP.Mua, layerRegion.RegionOP.Musp, layerRegion.RegionOP.G,
+                        layerRegion.RegionOP.N, layerRegion.ZRange.Delta
+                    };
+                }
+                //else if(region is EllipsoidRegion)
+                //{
+                //  
+                //}
+                else
+                {
+                    throw new Exception("Forward model " + forwardSolver.ToString() + " is not supported.");
+                }
+                return regionParameters;
+            }).ToArray();
+
+            //var parameters = new double[4] { opticalProperties.Mua, opticalProperties.Musp, opticalProperties.G, opticalProperties.N };
 
             Func<double[], object[], double[]> func = GetForwardReflectanceFunc(forwardSolver, solutionDomainType, independentAxisType);
 
@@ -180,7 +258,7 @@ namespace Vts.Factories
             params double[] constantValues)
         {
             var parameters = new double[4] { opticalProperties.Mua, opticalProperties.Musp, opticalProperties.G, opticalProperties.N };
-            
+
             // todo: current assumption below is that the second axis is z. need to generalize
             var func = GetForwardFluenceFunc(forwardSolver, solutionDomainType, independentAxesTypes[0]);
 
@@ -384,7 +462,7 @@ namespace Vts.Factories
             // -- still time-efficient if singletons are used
             // -- potentially memory-inefficient if the user creates lots of large solver instances
             return ConstructAndExecuteVectorizedOptimizer(
-                SolverFactory.GetForwardSolver(forwardSolverType), 
+                SolverFactory.GetForwardSolver(forwardSolverType),
                 SolverFactory.GetOptimizer(optimizerType),
                 solutionDomainType,
                 independentAxisType,
@@ -428,7 +506,7 @@ namespace Vts.Factories
 
             return fit;
         }
-        
+
         private static Func<double[], object[], double[]> GetForwardReflectanceFunc(
            IForwardSolver fs, SolutionDomainType type, IndependentVariableAxis axis)
         {
@@ -439,7 +517,32 @@ namespace Vts.Factories
             switch (type)
             {
                 case SolutionDomainType.ROfRho:
-                    return (fitData, otherData) => fs.ROfRho(getOP(fitData), (double[])otherData[0]);
+                    if (fs is MultiLayerSDAForwardSolver) // todo: future generalization to IMultiRegionForwardSolver?
+                    {
+                        Func<double[], ITissueRegion[]> getTissueRegionArray = layerProps =>
+                        {
+                            int numRegions = layerProps.Length / 5; // mua, musp, g, n, thickness (delta)
+                            var regionArray = new ITissueRegion[numRegions];
+                            regionArray[0] = new LayerRegion(
+                                new DoubleRange(0, layerProps[4]),
+                                new OpticalProperties(layerProps[0], layerProps[1], layerProps[2], layerProps[3]));
+                            for (int i = 1; i < numRegions; i++)
+                            {
+                                var currentLayerProps = layerProps.Skip(i * 5).Take(5).ToArray();
+                                var previousStop = ((LayerRegion)regionArray[i - 1]).ZRange.Stop;
+                                regionArray[i] = new LayerRegion(
+                                    new DoubleRange(previousStop, previousStop + currentLayerProps[4]),
+                                    new OpticalProperties(currentLayerProps[0], currentLayerProps[1], currentLayerProps[2], currentLayerProps[3]));
+                            }
+                            return regionArray;
+                        };
+
+                        return (fitData, otherData) => fs.ROfRho(getTissueRegionArray(fitData), (double[])otherData[0]);
+                    }
+                    else
+                    {
+                        return (fitData, otherData) => fs.ROfRho(getOP(fitData), (double[])otherData[0]);
+                    }
                 case SolutionDomainType.ROfFx:
                     return (fitData, otherData) => fs.ROfFx(getOP(fitData), (double[])otherData[0]);
                 case SolutionDomainType.ROfRhoAndTime:
@@ -511,16 +614,16 @@ namespace Vts.Factories
             switch (type)
             {
                 case FluenceSolutionDomainType.FluenceOfRhoAndZ:
-                    return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
+                    return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
                 case FluenceSolutionDomainType.FluenceOfFxAndZ:
-                    return (fitData, otherData) => fs.FluenceOfFxAndZ(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
+                    return (fitData, otherData) => fs.FluenceOfFxAndZ(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
                 case FluenceSolutionDomainType.FluenceOfRhoAndZAndTime:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndTime(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
+                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndTime(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1], new[] { (double)otherData[2] });
                         case IndependentVariableAxis.Time:
-                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndTime(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
+                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndTime(new[] { getOP(fitData) }, new[] { (double)otherData[2] }, (double[])otherData[1], (double[])otherData[0]);
                         //case IndependentVariableAxis.Wavelength:
                         //    return (chromPlusMusp, constantData) =>
                         //               {
@@ -541,9 +644,9 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.FluenceOfFxAndZAndTime(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
+                            return (fitData, otherData) => fs.FluenceOfFxAndZAndTime(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1], new[] { (double)otherData[2] });
                         case IndependentVariableAxis.Time:
-                            return (fitData, otherData) => fs.FluenceOfFxAndZAndTime(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
+                            return (fitData, otherData) => fs.FluenceOfFxAndZAndTime(new[] { getOP(fitData) }, new[] { (double)otherData[2] }, (double[])otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }

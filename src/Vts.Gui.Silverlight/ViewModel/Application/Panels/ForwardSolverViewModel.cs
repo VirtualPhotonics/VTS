@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using SLExtensions.Input;
+using Vts.Common;
 using Vts.Factories;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
 using Vts.Gui.Silverlight.Extensions;
+using Vts.Modeling.ForwardSolvers;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
 
 #if WHITELIST
 using Vts.Gui.Silverlight.ViewModel.Application;
@@ -42,13 +46,13 @@ namespace Vts.Gui.Silverlight.ViewModel
             // confused, though - do we need to use strings? or, how to make generics work with dependency properties?
 #if WHITELIST 
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model:",false, WhiteList.ForwardSolverTypes);
-#else 
-            ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model:",false);
+#else
+            ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model:", false);
 #endif
             ForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
             {
-                  OnPropertyChanged("IsGaussianForwardModel");
-                  OnPropertyChanged("ForwardSolver");
+                OnPropertyChanged("IsGaussianForwardModel");
+                OnPropertyChanged("ForwardSolver");
             };
 
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain:", SolutionDomainType.ROfRho);
@@ -56,11 +60,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output:", true);
 
             SolutionDomainTypeOptionVM.SolverType = SolverType.Forward;
-            
+
             Commands.FS_ExecuteForwardSolver.Executed += ExecuteForwardSolver_Executed;
             Commands.FS_SetIndependentVariableRange.Executed += SetIndependentVariableRange_Executed;
         }
-        
+
         public IForwardSolver ForwardSolver
         {
             get
@@ -86,14 +90,14 @@ namespace Vts.Gui.Silverlight.ViewModel
         }
         public OptionViewModel<ForwardSolverType> ForwardSolverTypeOptionVM
         {
-           get { return _ForwardSolverTypeOptionVM; }
+            get { return _ForwardSolverTypeOptionVM; }
             set
             {
                 _ForwardSolverTypeOptionVM = value;
-                 OnPropertyChanged("ForwardSolverTypeOptionVM");
+                OnPropertyChanged("ForwardSolverTypeOptionVM");
             }
         }
-        
+
         public RangeViewModel RangeVM
         {
             get { return _RangeVM; }
@@ -123,7 +127,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("ForwardAnalysisTypeOptionVM");
             }
         }
-        
+
         void SetIndependentVariableRange_Executed(object sender, ExecutedEventArgs e)
         {
             if (e.Parameter is RangeViewModel)
@@ -137,7 +141,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             Point[][] points = ExecuteForwardSolver();
             PlotAxesLabels axesLabels = GetPlotLabels();
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
-            
+
             string plotLabel = GetLegendLabel();
             if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
             {
@@ -172,7 +176,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
             else
             {
-                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel, sd.IndependentAxisUnits, 
+                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel, sd.IndependentAxisUnits,
                     sd.IndependentAxisType, sd.SelectedDisplayName, sd.SelectedValue.GetUnits());
             }
             return axesLabels;
@@ -204,19 +208,38 @@ namespace Vts.Gui.Silverlight.ViewModel
         public Point[][] ExecuteForwardSolver()
         {
             double[] independentValues = RangeVM.Values.ToArray(); // ToList() necessary?
-            
+
             double[] constantValues =
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                     ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
-            double[] query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
-                ForwardSolverTypeOptionVM.SelectedValue,
-                SolutionDomainTypeOptionVM.SelectedValue,
-                ForwardAnalysisTypeOptionVM.SelectedValue,
-                SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
-                independentValues,
-                OpticalPropertyVM.GetOpticalProperties(),
-                constantValues);
+            double[] query = null;
+            if (ForwardSolver is MultiLayerSDAForwardSolver)
+            {
+                query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+                        ForwardSolverTypeOptionVM.SelectedValue,
+                        SolutionDomainTypeOptionVM.SelectedValue,
+                        ForwardAnalysisTypeOptionVM.SelectedValue,
+                        SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
+                        independentValues,
+                        new ITissueRegion[]
+                        { 
+                            new LayerRegion(new DoubleRange(0, 2), OpticalPropertyVM.GetOpticalProperties() ), // todo: add GUI capability for multiple layers
+                            new LayerRegion(new DoubleRange(2, double.PositiveInfinity), OpticalPropertyVM.GetOpticalProperties() ), // todo: add GUI capability for multiple layers
+                        },
+                        constantValues);
+            }
+            else
+            {
+                query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+                     ForwardSolverTypeOptionVM.SelectedValue,
+                     SolutionDomainTypeOptionVM.SelectedValue,
+                     ForwardAnalysisTypeOptionVM.SelectedValue,
+                     SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
+                     independentValues,
+                     OpticalPropertyVM.GetOpticalProperties(),
+                     constantValues);
+            }
 
             // if it's reporting Real + Imaginary, we need two vectors
             if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)

@@ -25,7 +25,6 @@ namespace Vts.Modeling.ForwardSolvers
         DeltaPOne,
     }
 
-
     public abstract class DiffusionForwardSolverBase : ForwardSolverBase
     {
         protected DiffusionForwardSolverBase(SourceConfiguration sourceConfiguration, double beamDiameter)
@@ -155,7 +154,7 @@ namespace Vts.Modeling.ForwardSolvers
                     foreach (var t in ts)
                     {
                         yield return
-                            2 * Math.PI * 
+                            2 * Math.PI *
                             HankelTransform.DigitalFitlerOfOrderZero(
                                 2 * Math.PI * fx, rho => ROfRhoAndTime(op, rho, t));
                     }
