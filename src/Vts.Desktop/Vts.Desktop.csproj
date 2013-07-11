@@ -445,6 +445,9 @@
     <Compile Include="..\Vts\Modeling\ForwardSolvers\MonteCarloLoader.cs">
       <Link>Modeling\ForwardSolvers\MonteCarloLoader.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MultiLayerSDAForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\MultiLayerSDAForwardSolver.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\NurbsForwardSolver.cs">
       <Link>Modeling\ForwardSolvers\NurbsForwardSolver.cs</Link>
     </Compile>

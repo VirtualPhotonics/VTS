@@ -223,6 +223,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IO\KnownTypes.cs" />
+    <Compile Include="Modeling\ForwardSolvers\MultiLayerSDAForwardSolver.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
     <Compile Include="MonteCarlo\AbsorptionWeightingMethods.cs" />
     <Compile Include="MonteCarlo\Controllers\HistoryDetectorController.cs" />
