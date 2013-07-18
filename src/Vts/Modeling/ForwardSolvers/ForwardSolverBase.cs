@@ -75,10 +75,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Scalar ROfRho function.  Determines reflectance at source-detector separation rho - must be implemented in child class
         /// </summary>
-        /// <param name="op">optical properties of the medium</param>
+        /// <param name="regions">tissue regions of the medium</param>
         /// <param name="rho">source-detector separation (mm)</param>
-        /// <returns>reflectance at given single set of optical properties and single rho</returns>     
-        public virtual double ROfRho(ITissueRegion[] op, double rho)
+        /// <returns>reflectance at given tissue regions and single rho</returns>     
+        public virtual double ROfRho(ITissueRegion[] regions, double rho)
         {
             throw new NotImplementedException();
         }
@@ -172,10 +172,10 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Vector ROfRho function. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos'
+        /// Vector ROfRho function. Determines reflectances at regions and source-detector separations 'rhos'
         /// Override these in child classes to take advantage of optimization strategies.
         /// </summary>
-        /// <param name="ops">sets of optical properties of the medium</param>
+        /// <param name="regions">sets of optical and geometrical properties of the medium</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns>reflectance at given optical properties and rhos</returns>
         public virtual IEnumerable<double> ROfRho(
@@ -284,7 +284,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Convenience array overload of ROfRho. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos'
         /// </summary>
-        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="regions">sets of medium optical and geometrical properties of each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns>Reflectance at given optical properties and rhos</returns>
         public double[] ROfRho(ITissueRegion[][] regions, double[] rhos)
@@ -399,7 +399,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Overload of ROfRho. Determines reflectances at optical properties 'op' and source-detector separations 'rhos'
         /// </summary>
-        /// <param name="regions">medium optical properties</param>
+        /// <param name="regions">medium optical and geometrical properties of each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns>reflectance at given optical properties and rhos</returns>
         public double[] ROfRho(ITissueRegion[] regions, double[] rhos)

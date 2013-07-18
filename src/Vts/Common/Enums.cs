@@ -63,9 +63,9 @@ namespace Vts
         /// </summary>
         Nurbs,
         /// <summary>
-        /// multi-layer forward solver based on standard diffusion
+        /// two-layer forward solver based on standard diffusion
         /// </summary>
-        MultiLayerSDA,
+        TwoLayerSDA,
         //        DiscreteOrdinates
     }
     /// <summary>

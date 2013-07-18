@@ -4,6 +4,8 @@ using System.Linq;
 using System.Numerics;
 using MathNet.Numerics;
 using Vts.Extensions;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Modeling.ForwardSolvers
 {
@@ -55,6 +57,35 @@ namespace Vts.Modeling.ForwardSolvers
             }
         }
 
+        // this assumes: 
+        // (1) first region in ITissueRegion[] is top layer of tissue because need to know what OPs 
+        // to use for FresnelReflection
+        // (2) regions are LayerRegions so I can define layer thicknesses
+        public override IEnumerable<double> ROfRho(
+            IEnumerable<ITissueRegion[]> regions,
+            IEnumerable<double> rhos)
+        {
+            foreach (var region in regions)
+            {
+                // get ops of top tissue region
+                var op0 = region[0].RegionOP;
+                var fr1 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder1(op0.N);
+                var fr2 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder2(op0.N);
+                var dp = new DiffusionParameters[region.Length];
+                var tissueParameters = new double[region.Length];
+                for (int i = 0; i < region.Length; i++)
+                {
+                    dp[i] = DiffusionParameters.Create(region[i].RegionOP, this.ForwardModel);
+                    // in future may add switch here to set other types of tissue parameters
+                    // for tissue types other than layered tissue
+                    tissueParameters[i] = ((LayerRegion) region[i]).ZRange.Stop;
+                }
+                foreach (var rho in rhos)
+                {
+                    yield return StationaryReflectance(dp, tissueParameters, rho, fr1, fr2);
+                }
+            }
+        }
         public override double ROfRhoAndTime(
             OpticalProperties op, double rho, double t)
         {
@@ -385,6 +416,8 @@ namespace Vts.Modeling.ForwardSolvers
         //Reflectance
         public abstract double StationaryReflectance(
             DiffusionParameters dp, double rho, double fr1, double fr2);
+        //public abstract double StationaryReflectance(
+        //    DiffusionParameters[] dp, double[] tissueParameters, double rho, double fr1, double fr2);
         public abstract double TemporalReflectance(
             DiffusionParameters dp, double rho, double t, double fr1, double fr2);
         public abstract Complex TemporalFrequencyReflectance(
@@ -393,6 +426,8 @@ namespace Vts.Modeling.ForwardSolvers
         //Fluence
         public abstract double StationaryFluence(
             double rho, double z, DiffusionParameters dp);
+        //public abstract double StationaryFluence(
+        //    double rho, double z, DiffusionParameters[] dp, double[] tissueParameters);
         public abstract double TemporalFluence(
             DiffusionParameters dp, double rho, double z, double t);
         public abstract Complex TemporalFrequencyFluence(

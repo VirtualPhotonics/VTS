@@ -214,7 +214,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
             double[] query = null;
-            if (ForwardSolver is MultiLayerSDAForwardSolver)
+            if (ForwardSolver is TwoLayerSDAForwardSolver)
             {
                 query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                         ForwardSolverTypeOptionVM.SelectedValue,

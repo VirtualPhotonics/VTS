@@ -517,7 +517,7 @@ namespace Vts.Factories
             switch (type)
             {
                 case SolutionDomainType.ROfRho:
-                    if (fs is MultiLayerSDAForwardSolver) // todo: future generalization to IMultiRegionForwardSolver?
+                    if (fs is TwoLayerSDAForwardSolver) // todo: future generalization to IMultiRegionForwardSolver?
                     {
                         Func<double[], ITissueRegion[]> getTissueRegionArray = layerProps =>
                         {
