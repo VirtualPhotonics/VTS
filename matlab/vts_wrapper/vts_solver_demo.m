@@ -388,7 +388,6 @@ ylabel('R(\lambda)');
 xlabel('Wavelength, \lambda [nm]');
 options = [{'Location', 'NorthEast'}; {'FontSize', 12}; {'Box', 'on'}];
 PlotHelper.CreateLegend(rho,'\rho = ', 'mm',options);
-
 %% Example ROfRho (inverse solution for chromophore concentrations for
 % multiple wavelengths, single rho)
 rho = 1;  % source-detector separation in mm
@@ -411,15 +410,19 @@ op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
 VtsSolvers.SetSolverType('Nurbs');
 measData = VtsSolvers.ROfRho(op, rho);
 
-% Set up lsqcurvefit function
+% Set up options for lsqcurvefit/fminsearch function
 options = optimset('diagnostics','on','largescale','on');
 % use unconstrained optimization, constrained option lb=[0 0]; ub=[inf inf];
 lb=[]; ub=[];
 % specify initial guess 
 conc0 = [ 70,    30,   0.8  ];
 % run inverse solver using SDAPointSource forward model
-recoveredConc = lsqcurvefit('sda_F',conc0,wv,measData,lb,ub,options,rho,scatterer);
-% determine forward solver solution at recovered concentrations
+if(exist('lsqcurvefit','file'))
+    recoveredConc = lsqcurvefit('sda_F',conc0,wv,measData,lb,ub,options,rho,scatterer);
+else
+    recoveredConc = fminsearch('sda_Chi2',conc0,options,wv,rho,scatterer,measData);
+end
+    % determine forward solver solution at recovered concentrations
 VtsSolvers.SetSolverType('PointSourceSDA');
 absorbers.Concentrations =  [recoveredConc(1), recoveredConc(2), recoveredConc(3) ];
 op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
