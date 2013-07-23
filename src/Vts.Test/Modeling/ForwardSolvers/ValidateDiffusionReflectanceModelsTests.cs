@@ -1,7 +1,10 @@
 using System;
 using NUnit.Framework;
+using Vts.Common;
 using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.Modeling.ForwardSolvers
 {
@@ -57,7 +60,28 @@ namespace Vts.Test.Modeling.ForwardSolvers
                     "mm, with relative difference " + relDiff);
             }
         }
-
+        // generated two layers with identical properties and use SteadyStatePointSource results for validation
+        [Test]
+        public void SteadyStateTwoLayerSDATest()
+        {
+            var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
+            var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
+            double[] ROfRhos = new double[rhos.Length];
+            LayerRegion[] _twoLayerTissue = 
+                new LayerRegion[]
+                    {
+                        new LayerRegion(new DoubleRange(0, 1), new OpticalProperties(ops)),
+                        new LayerRegion(new DoubleRange(1,100), new OpticalProperties(ops) ), 
+                    };
+            for (int irho = 0; irho < rhos.Length; irho++)
+            {
+                var oneLayerResult = _oneLayerPointSourceForwardSolver.ROfRho(ops, rhos[irho]);
+                var twoLayerResult = _twoLayerSDAForwardSolver.ROfRho(_twoLayerTissue, rhos[irho]);
+                var relDiff = Math.Abs(twoLayerResult - oneLayerResult)/oneLayerResult;
+                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                    "mm, with relative difference " + relDiff);
+            }
+        }
         //[Test]
         //public void SteadyStateGaussianBeamSourceTest()
         //{

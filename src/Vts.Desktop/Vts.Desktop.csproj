@@ -466,6 +466,9 @@
     <Compile Include="..\Vts\Modeling\ForwardSolvers\StubNurbsGenerator.cs">
       <Link>Modeling\ForwardSolvers\StubNurbsGenerator.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\TwoLayerSDAForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\TwoLayerSDAForwardSolver.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs">
       <Link>Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs</Link>
     </Compile>
@@ -1144,7 +1147,6 @@
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs</Link>
     </Compile>
-    <Compile Include="Modeling\ForwardSolvers\TwoLayerSDAForwardSolver.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedDetectorDefinition.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedFlags.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedHistory.cs" />
