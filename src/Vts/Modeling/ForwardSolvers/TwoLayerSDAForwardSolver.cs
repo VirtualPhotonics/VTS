@@ -8,8 +8,15 @@ namespace Vts.Modeling.ForwardSolvers
 {
     /// <summary>
     /// This implements Kienle's two-layer SDA solutions described in:
-    /// Kienle et al., "Noninvasive determination of the optical properties of two-layered
+    /// 1) Kienle et al., "Noninvasive determination of the optical properties of two-layered
     /// turbid media", Applied Optics 37(4), 1998.
+    /// 2) Kienle et al., "In vivo determination of the optical properties of muscle with time-
+    /// resolved reflectance using a layered model, Phys. Med. Biol. 44, 1999 (in particular, the
+    /// appendix)
+    /// Notes:
+    /// 1) this solution assumes that the embedded source is within top layer.
+    /// 2) zp = location of embedded isotropic source is determined using layer 1 opt. props.
+    /// 3) zb = extrapolated boundary is determined using layer 1 opt. props.
     /// </summary>
     public class TwoLayerSDAForwardSolver : ForwardSolverBase
     {
@@ -23,6 +30,11 @@ namespace Vts.Modeling.ForwardSolvers
             base(SourceConfiguration.Point, 0.0)
         {
             ConvertToTwoLayerParameters(regions);
+            // check that embedded source is within top layer, otherwise solution invalid
+            if (_diffusionParameters[0].zp > _layerThicknesses[0])
+            {
+                throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
+            }
             //read input stuff
             string projectName = "Vts";
             string dataLocation = "Modeling/Resources/HankelData/";
@@ -60,8 +72,8 @@ namespace Vts.Modeling.ForwardSolvers
                                             double rho, double fr1, double fr2)
         {
             // this could use GetBackwardHemisphereIntegralDiffuseReflectance possibly?
-            return (1 - fr1) / 4 * StationaryFluence(rho, 0.0, dp, layerThicknesses) + 
-                (fr2 - 1) /2 * StationaryFlux(rho, 0.0, dp, layerThicknesses);
+            return (1 - fr1) / 4 * StationaryFluence(rho, 0.0, dp, layerThicknesses) -
+                (fr2 - 1) /2 * dp[0].D * StationaryFlux(rho, 0.0, dp, layerThicknesses);
         }
 
         /// <summary>
@@ -79,25 +91,34 @@ namespace Vts.Modeling.ForwardSolvers
             double fluence = 0.0;
             for (int i = 0; i < hankelPoints.Length; i++)
             {
-                double scaledHankelPoint = hankelPoints[i] / rho;
+                double scaledHankelPoint = hankelPoints[i]/rho; // divide by rho?
                 double scaledHankelPointSq = scaledHankelPoint * scaledHankelPoint;
-                var alpha1 = Math.Sqrt(dp[0].D * scaledHankelPointSq * dp[0].mua);
-                var alpha2 = Math.Sqrt(dp[1].D * scaledHankelPointSq * dp[1].mua);
-                var dum = (Math.Sinh(alpha1 * (dp[0].zb + dp[0].zp) / (dp[0].D * alpha1))) *
-                          (dp[0].D * alpha1 * Math.Cosh(alpha1 * (layerThickness - z)) +
-                           dp[1].D * alpha2 * Math.Sinh(alpha1 * (layerThickness - z))) /
-                          (dp[0].D * alpha1 * Math.Cosh(alpha1 * (layerThickness + dp[0].zb)) +
-                           dp[1].D * alpha2 * Math.Sinh(alpha1 * (layerThickness + dp[0].zb)));
-                if (z < dp[0].zp)
+                var alpha1 = Math.Sqrt((dp[0].D * scaledHankelPointSq + dp[0].mua)/dp[0].D);
+                var alpha2 = Math.Sqrt((dp[1].D * scaledHankelPointSq + dp[1].mua)/dp[1].D);
+                // use approximation to avoid numerical errors ref: Kienle et al., Phys. Med. Biol. 44, 1999
+                var Da = (dp[0].D*alpha1 - dp[1].D*alpha2)/(dp[0].D*alpha1 + dp[1].D*alpha2);
+                var dum1 = Math.Exp(-alpha1*(dp[0].zp - z)) -
+                           Math.Exp(-alpha1*(2*dp[0].zb + dp[0].zp + z));
+                var dum2 = Math.Exp(-alpha1*(-dp[0].zp + 2*layerThickness - z)) -
+                           Math.Exp(-alpha1*(2*dp[0].zb + dp[0].zp + 2*layerThickness - z)) -
+                           Math.Exp(-alpha1*(-dp[0].zp + 2*layerThickness + 2*dp[0].zb + z)) +
+                           Math.Exp(-alpha1*(4*dp[0].zb + dp[0].zp + 2*layerThickness + z));
+                if (z < layerThickness) // phi1 solution
                 {
-                    fluence += (dum - Math.Sinh(alpha1 * (dp[0].zb - z)) / (dp[0].D * alpha1)) * hankelWeights[i];
+                    // in this formulation phi1 for 0<z<zb and zb<z<l are the same
+                    fluence += ((dum1 + Da * dum2) / (2*dp[0].D*alpha1)) * hankelWeights[i];
                 }
-                else
+                else // phi2 solution
                 {
-                    fluence += dum*hankelWeights[i];
+                    var dum3 = Math.Exp(alpha2*(layerThickness - z))/(dp[0].D*alpha1 + dp[1].D*alpha2);
+                    var dum4 = Math.Exp(alpha1*(dp[0].zp - layerThickness)) -
+                               Math.Exp(-alpha1*(2*dp[0].zb + dp[0].zp + layerThickness));
+                    var dum5 = Math.Exp(alpha1*(dp[0].zp - 3*layerThickness - 2*dp[0].zb)) -
+                               Math.Exp(-alpha1*(4*dp[0].zb + dp[0].zp + 3*layerThickness));
+                    fluence += dum3*(dum4-Da*dum5)*hankelWeights[i];
                 }
             }
-            return fluence / rho; // scale back...
+            return fluence/(2*Math.PI*rho); // divide by rho?
         }
 
         /// <summary>
@@ -117,23 +138,32 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 double scaledHankelPoint = hankelPoints[i]/rho;
                 double scaledHankelPointSq = scaledHankelPoint*scaledHankelPoint;
-                var alpha1 = Math.Sqrt(dp[0].D*scaledHankelPointSq*dp[0].mua);
-                var alpha2 = Math.Sqrt(dp[1].D*scaledHankelPointSq*dp[1].mua);
-                var dum = (Math.Sinh(alpha1*(dp[0].zb + dp[0].zp)/(dp[0].D*alpha1)))*
-                          (-dp[0].D*alpha1*alpha1*Math.Sinh(alpha1*(layerThickness - z)) -
-                           dp[1].D*alpha2*alpha1*Math.Cosh(alpha1*(layerThickness - z)))/
-                          (dp[0].D*alpha1*Math.Cosh(alpha1*(layerThickness + dp[0].zb)) +
-                           dp[1].D*alpha2*Math.Sinh(alpha1*(layerThickness + dp[0].zb)));
-                if (z < dp[0].zp)
+                var alpha1 = Math.Sqrt((dp[0].D*scaledHankelPointSq+dp[0].mua)/dp[0].D);
+                var alpha2 = Math.Sqrt((dp[1].D*scaledHankelPointSq+dp[1].mua)/dp[1].D);
+                // use approximation to avoid numerical errors ref: Kienle et al., Phys. Med. Biol. 44, 1999
+                var Da = (dp[0].D * alpha1 - dp[1].D * alpha2) / (dp[0].D * alpha1 + dp[1].D * alpha2);
+                var dum1 = Math.Exp(-alpha1 * (dp[0].zp - z)) +
+                           Math.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + z));
+                var dum2 = Math.Exp(-alpha1 * (-dp[0].zp + 2 * layerThickness - z)) -
+                           Math.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + 2 * layerThickness - z)) +
+                           Math.Exp(-alpha1 * (-dp[0].zp + 2 * layerThickness + 2 * dp[0].zb + z)) -
+                           Math.Exp(-alpha1 * (4 * dp[0].zb + dp[0].zp + 2 * layerThickness + z));
+                if (z < layerThickness) // phi1 solution
                 {
-                    flux += (dum + Math.Cosh(alpha1*(dp[0].zb - z))/(dp[0].D*alpha1))*hankelWeights[i];
+                    // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
+                    flux += ((dum1 + Da * dum2) / (2 * dp[0].D)) * hankelWeights[i];
                 }
-                else
+                else // phi2 solution
                 {
-                    flux += dum*hankelWeights[i];
-                }
+                    var dum3 = Math.Exp(alpha2 * (layerThickness - z)) / (dp[0].D * alpha1 + dp[1].D * alpha2);
+                    var dum4 = Math.Exp(alpha1 * (dp[0].zp - layerThickness)) -
+                               Math.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + layerThickness));
+                    var dum5 = Math.Exp(alpha1 * (dp[0].zp - 3 * layerThickness - 2 * dp[0].zb)) -
+                               Math.Exp(-alpha1 * (4 * dp[0].zb + dp[0].zp + 3 * layerThickness));
+                    flux += -alpha2 * (dum3 * (dum4 - Da * dum5)) * hankelWeights[i];
+                 }
             }
-            return flux/rho;
+            return flux/(2*Math.PI*rho); // divide by rho?
         }
         // this assumes: 
         // first region in ITissueRegion[] is top layer of tissue because need to know what OPs 
