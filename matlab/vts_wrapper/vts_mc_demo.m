@@ -311,7 +311,8 @@ if(exist('lsqcurvefit','file'))
     recoveredOPs = lsqcurvefit('pmc_F_dmc_J',x0,rhoMidpoints,measData,lb,ub,...
         options,si,measData);
 else
-    options = optimset('diagnostics','on','largescale','on');
+%     options = optimset('diagnostics','on','largescale','on');
+    options = [];
     recoveredOPs = fminsearch('pmc_Chi2',x0,options,rhoMidpoints,si,measData);
 end
 % determine forward data at initial guess = background optical properties

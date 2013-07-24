@@ -411,15 +411,17 @@ VtsSolvers.SetSolverType('Nurbs');
 measData = VtsSolvers.ROfRho(op, rho);
 
 % Set up options for lsqcurvefit/fminsearch function
-options = optimset('diagnostics','on','largescale','on');
+
 % use unconstrained optimization, constrained option lb=[0 0]; ub=[inf inf];
 lb=[]; ub=[];
 % specify initial guess 
 conc0 = [ 70,    30,   0.8  ];
 % run inverse solver using SDAPointSource forward model
 if(exist('lsqcurvefit','file'))
+    options = optimset('diagnostics','on','largescale','on');
     recoveredConc = lsqcurvefit('sda_F',conc0,wv,measData,lb,ub,options,rho,scatterer);
 else
+    options = [];
     recoveredConc = fminsearch('sda_Chi2',conc0,options,wv,rho,scatterer,measData);
 end
     % determine forward solver solution at recovered concentrations
