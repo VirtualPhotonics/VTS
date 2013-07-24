@@ -157,7 +157,7 @@ namespace Vts.Modeling.ForwardSolvers
                     {
                         yield return
                             2 * Math.PI *
-                            HankelTransform.DigitalFitlerOfOrderZero(
+                            HankelTransform.DigitalFilterOfOrderZero(
                                 2 * Math.PI * fx, rho => ROfRhoAndTime(op, rho, t));
                     }
                 }
@@ -350,7 +350,7 @@ namespace Vts.Modeling.ForwardSolvers
                         foreach (var t in ts)
                         {
                             yield return
-                                HankelTransform.DigitalFitlerOfOrderZero(
+                                HankelTransform.DigitalFilterOfOrderZero(
                                     fx, rho => TemporalFluence(dp, rho, z, t));
                         }
                     }

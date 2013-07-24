@@ -35,7 +35,7 @@ namespace Vts.Modeling
                 (dataLocation + @"hankelweights.dat", projectName, dataLength);
         }
 
-        public static double DigitalFitlerOfOrderZero(double varInt, Func<double, double> func)
+        public static double DigitalFilterOfOrderZero(double varInt, Func<double, double> func)
         {
             if (varInt == 0)
                 varInt = 1e-9;

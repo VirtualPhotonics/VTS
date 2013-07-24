@@ -91,11 +91,10 @@ namespace Vts.Modeling.ForwardSolvers
             double fluence = 0.0;
             for (int i = 0; i < hankelPoints.Length; i++)
             {
-                double scaledHankelPoint = hankelPoints[i]/rho; // divide by rho?
+                double scaledHankelPoint = hankelPoints[i] / rho; // divide by rho to normalize points
                 double scaledHankelPointSq = scaledHankelPoint * scaledHankelPoint;
-                var alpha1 = Math.Sqrt((dp[0].D * scaledHankelPointSq + dp[0].mua)/dp[0].D);
-                var alpha2 = Math.Sqrt((dp[1].D * scaledHankelPointSq + dp[1].mua)/dp[1].D);
-                // use approximation to avoid numerical errors ref: Kienle et al., Phys. Med. Biol. 44, 1999
+                var alpha1 = Math.Sqrt((dp[0].D * scaledHankelPointSq + dp[0].mua) / dp[0].D);
+                var alpha2 = Math.Sqrt((dp[1].D * scaledHankelPointSq + dp[1].mua) / dp[1].D);
                 var Da = (dp[0].D*alpha1 - dp[1].D*alpha2)/(dp[0].D*alpha1 + dp[1].D*alpha2);
                 var dum1 = Math.Exp(-alpha1*(dp[0].zp - z)) -
                            Math.Exp(-alpha1*(2*dp[0].zb + dp[0].zp + z));
@@ -106,7 +105,7 @@ namespace Vts.Modeling.ForwardSolvers
                 if (z < layerThickness) // phi1 solution
                 {
                     // in this formulation phi1 for 0<z<zb and zb<z<l are the same
-                    fluence += ((dum1 + Da * dum2) / (2*dp[0].D*alpha1)) * hankelWeights[i];
+                    fluence += scaledHankelPoint * ((dum1 + Da * dum2) / (2*dp[0].D*alpha1)) * hankelWeights[i];
                 }
                 else // phi2 solution
                 {
@@ -118,7 +117,7 @@ namespace Vts.Modeling.ForwardSolvers
                     fluence += dum3*(dum4-Da*dum5)*hankelWeights[i];
                 }
             }
-            return fluence/(2*Math.PI*rho); // divide by rho?
+            return fluence/(2*Math.PI*rho); // divide by rho
         }
 
         /// <summary>
@@ -151,7 +150,7 @@ namespace Vts.Modeling.ForwardSolvers
                 if (z < layerThickness) // phi1 solution
                 {
                     // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
-                    flux += ((dum1 + Da * dum2) / (2 * dp[0].D)) * hankelWeights[i];
+                    flux += scaledHankelPoint * ((dum1 + Da * dum2) / (2 * dp[0].D)) * hankelWeights[i];
                 }
                 else // phi2 solution
                 {
@@ -163,7 +162,7 @@ namespace Vts.Modeling.ForwardSolvers
                     flux += -alpha2 * (dum3 * (dum4 - Da * dum5)) * hankelWeights[i];
                  }
             }
-            return flux/(2*Math.PI*rho); // divide by rho?
+            return flux/(2*Math.PI*rho); // divide by rho
         }
         // this assumes: 
         // first region in ITissueRegion[] is top layer of tissue because need to know what OPs 

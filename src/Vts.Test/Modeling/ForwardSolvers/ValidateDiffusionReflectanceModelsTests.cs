@@ -64,22 +64,24 @@ namespace Vts.Test.Modeling.ForwardSolvers
         [Test]
         public void SteadyStateTwoLayerSDATest()
         {
+            var _thresholdValue = 1e-8;
             var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
             var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
             double[] ROfRhos = new double[rhos.Length];
+            // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
             LayerRegion[] _twoLayerTissue = 
                 new LayerRegion[]
                     {
-                        new LayerRegion(new DoubleRange(0, 10), new OpticalProperties(ops)),
-                        new LayerRegion(new DoubleRange(10,100), new OpticalProperties(ops) ), 
+                        new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
+                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops) ), 
                     };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
                 var oneLayerResult = _oneLayerPointSourceForwardSolver.ROfRho(ops, rhos[irho]);
                 var twoLayerResult = _twoLayerSDAForwardSolver.ROfRho(_twoLayerTissue, rhos[irho]);
                 var relDiff = Math.Abs(twoLayerResult - oneLayerResult)/oneLayerResult;
-                //Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
-                //    "mm, with relative difference " + relDiff);
+                Assert.IsTrue(relDiff < _thresholdValue, "Test failed for rho =" + rhos[irho] +
+                    "mm, with relative difference " + relDiff);
             }
         }
         //[Test]
