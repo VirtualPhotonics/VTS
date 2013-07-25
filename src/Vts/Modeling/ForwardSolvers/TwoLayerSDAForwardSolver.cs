@@ -22,9 +22,6 @@ namespace Vts.Modeling.ForwardSolvers
     {
         private static DiffusionParameters[] _diffusionParameters;
         private static double[] _layerThicknesses;
-        const int dataLength = 801;
-        static double[] hankelPoints = new double[dataLength];
-        static double[] hankelWeights = new double[dataLength];
 
         public TwoLayerSDAForwardSolver(ITissueRegion[] regions) : 
             base(SourceConfiguration.Point, 0.0)
@@ -35,13 +32,6 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
             }
-            //read input stuff
-            string projectName = "Vts";
-            string dataLocation = "Modeling/Resources/HankelData/";
-            hankelPoints = (double[])FileIO.ReadArrayFromBinaryInResources<double>
-               (dataLocation + @"basepoints.dat", projectName, dataLength);
-            hankelWeights = (double[])FileIO.ReadArrayFromBinaryInResources<double>
-                (dataLocation + @"hankelweights.dat", projectName, dataLength);
         }
 
         public TwoLayerSDAForwardSolver() :
@@ -88,36 +78,18 @@ namespace Vts.Modeling.ForwardSolvers
         public double StationaryFluence(double rho, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
-            double fluence = 0.0;
-            for (int i = 0; i < hankelPoints.Length; i++)
+            double fluence;
+            if (z < layerThickness) // top layer phi1 solution
             {
-                double scaledHankelPoint = hankelPoints[i] / rho; // divide by rho to normalize points
-                double scaledHankelPointSq = scaledHankelPoint * scaledHankelPoint;
-                var alpha1 = Math.Sqrt((dp[0].D * scaledHankelPointSq + dp[0].mua) / dp[0].D);
-                var alpha2 = Math.Sqrt((dp[1].D * scaledHankelPointSq + dp[1].mua) / dp[1].D);
-                var Da = (dp[0].D*alpha1 - dp[1].D*alpha2)/(dp[0].D*alpha1 + dp[1].D*alpha2);
-                var dum1 = Math.Exp(-alpha1*(dp[0].zp - z)) -
-                           Math.Exp(-alpha1*(2*dp[0].zb + dp[0].zp + z));
-                var dum2 = Math.Exp(-alpha1*(-dp[0].zp + 2*layerThickness - z)) -
-                           Math.Exp(-alpha1*(2*dp[0].zb + dp[0].zp + 2*layerThickness - z)) -
-                           Math.Exp(-alpha1*(-dp[0].zp + 2*layerThickness + 2*dp[0].zb + z)) +
-                           Math.Exp(-alpha1*(4*dp[0].zb + dp[0].zp + 2*layerThickness + z));
-                if (z < layerThickness) // phi1 solution
-                {
-                    // in this formulation phi1 for 0<z<zb and zb<z<l are the same
-                    fluence += scaledHankelPoint * ((dum1 + Da * dum2) / (2*dp[0].D*alpha1)) * hankelWeights[i];
-                }
-                else // phi2 solution
-                {
-                    var dum3 = Math.Exp(alpha2*(layerThickness - z))/(dp[0].D*alpha1 + dp[1].D*alpha2);
-                    var dum4 = Math.Exp(alpha1*(dp[0].zp - layerThickness)) -
-                               Math.Exp(-alpha1*(2*dp[0].zb + dp[0].zp + layerThickness));
-                    var dum5 = Math.Exp(alpha1*(dp[0].zp - 3*layerThickness - 2*dp[0].zb)) -
-                               Math.Exp(-alpha1*(4*dp[0].zb + dp[0].zp + 3*layerThickness));
-                    fluence += dum3*(dum4-Da*dum5)*hankelWeights[i];
-                }
+                fluence = HankelTransform.DigitalFilterOfOrderZero(
+                    rho, s => Phi1(s, z, dp, layerThicknesses));
             }
-            return fluence/(2*Math.PI*rho); // divide by rho
+            else // bottome layer phi2 solution
+            {
+                fluence = HankelTransform.DigitalFilterOfOrderZero(
+                    rho, s => Phi2(s, z, dp, layerThicknesses));
+            }           
+            return fluence/(2*Math.PI); 
         }
 
         /// <summary>
@@ -132,37 +104,76 @@ namespace Vts.Modeling.ForwardSolvers
         public double StationaryFlux(double rho, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
-            double flux = 0.0;
-            for (int i = 0; i < hankelPoints.Length; i++)
+            double flux;
+            if (z < layerThickness) // top layer dphi1/dz solution
             {
-                double scaledHankelPoint = hankelPoints[i]/rho;
-                double scaledHankelPointSq = scaledHankelPoint*scaledHankelPoint;
-                var alpha1 = Math.Sqrt((dp[0].D*scaledHankelPointSq+dp[0].mua)/dp[0].D);
-                var alpha2 = Math.Sqrt((dp[1].D*scaledHankelPointSq+dp[1].mua)/dp[1].D);
-                // use approximation to avoid numerical errors ref: Kienle et al., Phys. Med. Biol. 44, 1999
-                var Da = (dp[0].D * alpha1 - dp[1].D * alpha2) / (dp[0].D * alpha1 + dp[1].D * alpha2);
-                var dum1 = Math.Exp(-alpha1 * (dp[0].zp - z)) +
-                           Math.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + z));
-                var dum2 = Math.Exp(-alpha1 * (-dp[0].zp + 2 * layerThickness - z)) -
-                           Math.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + 2 * layerThickness - z)) +
-                           Math.Exp(-alpha1 * (-dp[0].zp + 2 * layerThickness + 2 * dp[0].zb + z)) -
-                           Math.Exp(-alpha1 * (4 * dp[0].zb + dp[0].zp + 2 * layerThickness + z));
-                if (z < layerThickness) // phi1 solution
-                {
-                    // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
-                    flux += scaledHankelPoint * ((dum1 + Da * dum2) / (2 * dp[0].D)) * hankelWeights[i];
-                }
-                else // phi2 solution
-                {
-                    var dum3 = Math.Exp(alpha2 * (layerThickness - z)) / (dp[0].D * alpha1 + dp[1].D * alpha2);
-                    var dum4 = Math.Exp(alpha1 * (dp[0].zp - layerThickness)) -
-                               Math.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + layerThickness));
-                    var dum5 = Math.Exp(alpha1 * (dp[0].zp - 3 * layerThickness - 2 * dp[0].zb)) -
-                               Math.Exp(-alpha1 * (4 * dp[0].zb + dp[0].zp + 3 * layerThickness));
-                    flux += -alpha2 * (dum3 * (dum4 - Da * dum5)) * hankelWeights[i];
-                 }
+                flux = HankelTransform.DigitalFilterOfOrderZero(
+                            rho, s => dPhi1(s, z, dp, layerThicknesses));
             }
-            return flux/(2*Math.PI*rho); // divide by rho
+            else // bottom layer phi2/dz solution
+            {
+                flux = HankelTransform.DigitalFilterOfOrderZero(
+                            rho, s => dPhi2(s, z, dp, layerThicknesses));
+            }
+            return flux/(2*Math.PI); 
+        }
+        public double Phi1(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
+        {
+            var layerThickness = layerThicknesses[0];
+            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
+            var alpha1 = Math.Sqrt((dp[0].D * s * s + dp[0].mua) / dp[0].D);
+            var alpha2 = Math.Sqrt((dp[1].D * s * s + dp[1].mua) / dp[1].D);
+            var Da = (dp[0].D*alpha1 - dp[1].D*alpha2)/(dp[0].D*alpha1 + dp[1].D*alpha2);
+            var dum1 = Math.Exp(-alpha1*(dp[0].zp - z)) -
+                       Math.Exp(-alpha1*(2*dp[0].zb + dp[0].zp + z));
+            var dum2 = Math.Exp(-alpha1*(-dp[0].zp + 2*layerThickness - z)) -
+                       Math.Exp(-alpha1*(2*dp[0].zb + dp[0].zp + 2*layerThickness - z)) -
+                       Math.Exp(-alpha1*(-dp[0].zp + 2*layerThickness + 2*dp[0].zb + z)) +
+                       Math.Exp(-alpha1*(4*dp[0].zb + dp[0].zp + 2*layerThickness + z));
+            return (dum1 + Da*dum2)/(2*dp[0].D*alpha1);
+        }
+        public double Phi2(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
+        {
+            var layerThickness = layerThicknesses[0];
+            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
+            var alpha1 = Math.Sqrt((dp[0].D * s * s + dp[0].mua) / dp[0].D);
+            var alpha2 = Math.Sqrt((dp[1].D * s * s + dp[1].mua) / dp[1].D);
+            var Da = (dp[0].D * alpha1 - dp[1].D * alpha2) / (dp[0].D * alpha1 + dp[1].D * alpha2);
+            var dum3 = Math.Exp(alpha2 * (layerThickness - z)) / (dp[0].D * alpha1 + dp[1].D * alpha2);
+            var dum4 = Math.Exp(alpha1 * (dp[0].zp - layerThickness)) -
+                       Math.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + layerThickness));
+            var dum5 = Math.Exp(alpha1 * (dp[0].zp - 3 * layerThickness - 2 * dp[0].zb)) -
+                       Math.Exp(-alpha1 * (4 * dp[0].zb + dp[0].zp + 3 * layerThickness));
+            return dum3 * (dum4 - Da * dum5);
+        }
+        public double dPhi1(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
+        {
+            var layerThickness = layerThicknesses[0];
+            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
+            var alpha1 = Math.Sqrt((dp[0].D * s * s + dp[0].mua) / dp[0].D);
+            var alpha2 = Math.Sqrt((dp[1].D * s * s + dp[1].mua) / dp[1].D);
+            var Da = (dp[0].D*alpha1 - dp[1].D*alpha2)/(dp[0].D*alpha1 + dp[1].D*alpha2);
+            var dum1 = Math.Exp(-alpha1*(dp[0].zp - z)) +
+                       Math.Exp(-alpha1*(2*dp[0].zb + dp[0].zp + z));
+            var dum2 = Math.Exp(-alpha1*(-dp[0].zp + 2*layerThickness - z)) -
+                       Math.Exp(-alpha1*(2*dp[0].zb + dp[0].zp + 2*layerThickness - z)) +
+                       Math.Exp(-alpha1*(-dp[0].zp + 2*layerThickness + 2*dp[0].zb + z)) -
+                       Math.Exp(-alpha1*(4*dp[0].zb + dp[0].zp + 2*layerThickness + z));
+            return ((dum1 + Da * dum2) / (2 * dp[0].D));
+        }
+        public double dPhi2(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
+        {
+            var layerThickness = layerThicknesses[0];
+            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
+            var alpha1 = Math.Sqrt((dp[0].D * s * s + dp[0].mua) / dp[0].D);
+            var alpha2 = Math.Sqrt((dp[1].D * s * s + dp[1].mua) / dp[1].D);
+            var Da = (dp[0].D * alpha1 - dp[1].D * alpha2) / (dp[0].D * alpha1 + dp[1].D * alpha2);
+            var dum3 = Math.Exp(alpha2 * (layerThickness - z)) / (dp[0].D * alpha1 + dp[1].D * alpha2);
+            var dum4 = Math.Exp(alpha1 * (dp[0].zp - layerThickness)) -
+                       Math.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + layerThickness));
+            var dum5 = Math.Exp(alpha1 * (dp[0].zp - 3 * layerThickness - 2 * dp[0].zb)) -
+                       Math.Exp(-alpha1 * (4 * dp[0].zb + dp[0].zp + 3 * layerThickness));
+            return -alpha2 * (dum3 * (dum4 - Da * dum5));
         }
         // this assumes: 
         // first region in ITissueRegion[] is top layer of tissue because need to know what OPs 
