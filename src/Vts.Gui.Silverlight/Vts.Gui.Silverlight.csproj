@@ -241,7 +241,6 @@
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SingleEllipsoidTissueViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\EllipsoidRegionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SimulationOptionsViewModel.cs" />
-    <Compile Include="ViewModel\Application\Panels\MonteCarlo\MultiLayerTissueViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\LayerRegionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SimulationInputViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\BloodConcentrationViewModel.cs" />
@@ -267,6 +266,9 @@
     </Compile>
     <Compile Include="View\Application\Panels\SubPanels\BloodConcentrationView.xaml.cs">
       <DependentUpon>BloodConcentrationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\MultiRegionOpticalPropertyView.xaml.cs">
+      <DependentUpon>MultiRegionOpticalPropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\FloatableWindow\FloatableWindow.cs" />
     <Compile Include="View\Controls\FloatableWindow\FloatableWindowAutomationPeer.cs" />
@@ -397,6 +399,10 @@
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Controls\MultiRegionOpticalPropertyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\ComboBoxOptionView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>

@@ -13,7 +13,8 @@ namespace Vts.Gui.Silverlight.ViewModel.Application
                     ForwardSolverType.DistributedPointSourceSDA,
                     ForwardSolverType.DistributedGaussianSourceSDA,
                     ForwardSolverType.MonteCarlo,
-                    ForwardSolverType.Nurbs
+                    ForwardSolverType.Nurbs,
+                    // ForwardSolverType.TwoLayerSDA, // todo: add in for deployment
                 };
             }
         }

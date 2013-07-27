@@ -1,6 +1,4 @@
 using System;
-using Vts.Common;
-using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 
@@ -20,36 +18,77 @@ namespace Vts.Modeling.ForwardSolvers
     /// </summary>
     public class TwoLayerSDAForwardSolver : ForwardSolverBase
     {
-        private static DiffusionParameters[] _diffusionParameters;
-        private static double[] _layerThicknesses;
-
-        public TwoLayerSDAForwardSolver(ITissueRegion[] regions) : 
+        //private static DiffusionParameters[] _diffusionParameters;
+        //private static double[] _layerThicknesses;
+        
+        /// <summary>
+        /// Returns an instance of TwoLayerSDAForwardSolver
+        /// </summary>
+        public TwoLayerSDAForwardSolver() :
             base(SourceConfiguration.Point, 0.0)
         {
-            ConvertToTwoLayerParameters(regions);
+        }
+
+        //public TwoLayerSDAForwardSolver(ITissueRegion[] regions) : 
+        //    base(SourceConfiguration.Point, 0.0)
+        //{
+        //    ConvertToTwoLayerParameters(regions);
+        //    // check that embedded source is within top layer, otherwise solution invalid
+        //    if (_diffusionParameters[0].zp > _layerThicknesses[0])
+        //    {
+        //        throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
+        //    }
+        //}
+
+        //public TwoLayerSDAForwardSolver() :
+        //    this(new[] {new LayerRegion(new DoubleRange(0, 100), new OpticalProperties())})
+        //{
+        //}
+
+        // this assumes: 
+        // first region in ITissueRegion[] is top layer of tissue because need to know what OPs 
+        // to use for FresnelReflection and so I can define layer thicknesses
+        public override double ROfRho(ITissueRegion[] regions, double rho)
+        {
+            // get ops of top tissue region
+            var op0 = regions[0].RegionOP;
+            var fr1 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder1(op0.N);
+            var fr2 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder2(op0.N);
+
+            var diffusionParameters = GetDiffusionParameters(regions);
+            var layerThicknesses = GetLayerThicknesses(regions);
+
             // check that embedded source is within top layer, otherwise solution invalid
-            if (_diffusionParameters[0].zp > _layerThicknesses[0])
+            if (diffusionParameters[0].zp > layerThicknesses[0])
             {
                 throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
             }
+
+            return StationaryReflectance(diffusionParameters, layerThicknesses, rho, fr1, fr2);
         }
 
-        public TwoLayerSDAForwardSolver() :
-            this(new LayerRegion[] {new LayerRegion(new DoubleRange(0, 100), new OpticalProperties())}) {}
-
-        public static void ConvertToTwoLayerParameters(ITissueRegion[] regions)
+        private static DiffusionParameters[] GetDiffusionParameters(ITissueRegion[] regions)
         {
-            _diffusionParameters = new DiffusionParameters[regions.Length];
-            _layerThicknesses = new double[regions.Length];
+            var diffusionParameters = new DiffusionParameters[regions.Length];
             for (int i = 0; i < regions.Length; i++)
             {
-                _diffusionParameters[i] = DiffusionParameters.Create(
-                    new OpticalProperties(
-                        regions[i].RegionOP.Mua, regions[i].RegionOP.Musp, regions[i].RegionOP.G, regions[i].RegionOP.N),
-                        ForwardModel.SDA);
-                _layerThicknesses[i] = ((LayerRegion)regions[i]).ZRange.Stop;
-            } 
+                diffusionParameters[i] = DiffusionParameters.Create(
+                    new OpticalProperties(regions[i].RegionOP.Mua, regions[i].RegionOP.Musp, regions[i].RegionOP.G, regions[i].RegionOP.N),
+                    ForwardModel.SDA);
+            }
+            return diffusionParameters;
         }
+
+        private static double[] GetLayerThicknesses(ITissueRegion[] regions)
+        {
+            var layerThicknesses = new double[regions.Length];
+            for (int i = 0; i < regions.Length; i++)
+            {
+                layerThicknesses[i] = ((LayerRegion)regions[i]).ZRange.Stop;
+            }
+            return layerThicknesses;
+        }
+
         /// <summary>
         /// Evaluate the stationary radially resolved reflectance with the point source-image configuration
         /// </summary>
@@ -58,12 +97,12 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fr1">Fresnel moment 1, R1</param>
         /// <param name="fr2">Fresnel moment 2, R2</param>
         /// <returns>reflectance</returns>
-        public double StationaryReflectance(DiffusionParameters[] dp, double[] layerThicknesses,
+        private static double StationaryReflectance(DiffusionParameters[] dp, double[] layerThicknesses,
                                             double rho, double fr1, double fr2)
         {
             // this could use GetBackwardHemisphereIntegralDiffuseReflectance possibly?
             return (1 - fr1) / 4 * StationaryFluence(rho, 0.0, dp, layerThicknesses) -
-                (fr2 - 1) /2 * dp[0].D * StationaryFlux(rho, 0.0, dp, layerThicknesses);
+                (fr2 - 1) / 2 * dp[0].D * StationaryFlux(rho, 0.0, dp, layerThicknesses);
         }
 
         /// <summary>
@@ -75,7 +114,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">DiffusionParameters for layer 1 and 2</param>
         /// <param name="layerThicknesses">in this class, layer thickness</param>
         /// <returns>fluence</returns>
-        public double StationaryFluence(double rho, double z, DiffusionParameters[] dp, double[] layerThicknesses)
+        private static double StationaryFluence(double rho, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
             double fluence;
@@ -101,7 +140,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">DiffusionParameters for layer 1 and 2</param>
         /// <param name="layerThicknesses">thickness of top layer, array but only need first element</param>
         /// <returns></returns>
-        public double StationaryFlux(double rho, double z, DiffusionParameters[] dp, double[] layerThicknesses)
+        private static double StationaryFlux(double rho, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
             double flux;
@@ -117,7 +156,8 @@ namespace Vts.Modeling.ForwardSolvers
             }
             return flux/(2*Math.PI); 
         }
-        public double Phi1(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
+
+        private static double Phi1(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
             // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
@@ -132,7 +172,8 @@ namespace Vts.Modeling.ForwardSolvers
                        Math.Exp(-alpha1*(4*dp[0].zb + dp[0].zp + 2*layerThickness + z));
             return (dum1 + Da*dum2)/(2*dp[0].D*alpha1);
         }
-        public double Phi2(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
+
+        private static double Phi2(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
             // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
@@ -146,7 +187,8 @@ namespace Vts.Modeling.ForwardSolvers
                        Math.Exp(-alpha1 * (4 * dp[0].zb + dp[0].zp + 3 * layerThickness));
             return dum3 * (dum4 - Da * dum5);
         }
-        public double dPhi1(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
+
+        private static double dPhi1(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
             // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
@@ -161,7 +203,8 @@ namespace Vts.Modeling.ForwardSolvers
                        Math.Exp(-alpha1*(4*dp[0].zb + dp[0].zp + 2*layerThickness + z));
             return ((dum1 + Da * dum2) / (2 * dp[0].D));
         }
-        public double dPhi2(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
+
+        private static double dPhi2(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
             // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
@@ -174,18 +217,6 @@ namespace Vts.Modeling.ForwardSolvers
             var dum5 = Math.Exp(alpha1 * (dp[0].zp - 3 * layerThickness - 2 * dp[0].zb)) -
                        Math.Exp(-alpha1 * (4 * dp[0].zb + dp[0].zp + 3 * layerThickness));
             return -alpha2 * (dum3 * (dum4 - Da * dum5));
-        }
-        // this assumes: 
-        // first region in ITissueRegion[] is top layer of tissue because need to know what OPs 
-        // to use for FresnelReflection and so I can define layer thicknesses
-        public override double ROfRho(ITissueRegion[] regions, double rho)
-        {
-            // get ops of top tissue region
-            var op0 = regions[0].RegionOP;
-            var fr1 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder1(op0.N);
-            var fr2 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder2(op0.N);
-            ConvertToTwoLayerParameters(regions);
-            return StationaryReflectance(_diffusionParameters, _layerThicknesses, rho, fr1, fr2);
         }
     }
 }

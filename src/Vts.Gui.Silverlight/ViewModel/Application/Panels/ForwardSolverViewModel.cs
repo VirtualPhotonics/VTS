@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -8,6 +9,7 @@ using Vts.Factories;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
 using Vts.Gui.Silverlight.Extensions;
+using Vts.IO;
 using Vts.Modeling.ForwardSolvers;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
@@ -27,21 +29,19 @@ namespace Vts.Gui.Silverlight.ViewModel
         private OptionViewModel<ForwardSolverType> _ForwardSolverTypeOptionVM;
         private OptionViewModel<ForwardAnalysisType> _ForwardAnalysisTypeOptionVM;
         private RangeViewModel _RangeVM;
-        private OpticalPropertyViewModel _OpticalPropertyVM;
 
-        // todo: This should be handled by a Controller, not dealt with directly
-        // by the ViewModel. Job of ViewModel is just to "surface" Model information
-        // to the View - shouldn't have to do any appreciable work/thinking/analysis.
-        // Currently, the Factories class is serving this need, but I'm afraid it's 
-        // getting too big...
-        // public IForwardSolver ForwardSolver { get; set; }
-        //private IAnalyzer Analyzer { get; set; }
-
+        private object _tissueInputVM; // either an OpticalPropertyViewModel or a MultiRegionTissueViewModel is stored here, and dynamically displayed
+        
+        // private fields to cache created instances of tissue inputs, created on-demand in GetTissueInputVM (vs up-front in constructor)
+        private OpticalProperties _currentHomogeneousOpticalProperties;
+        private SemiInfiniteTissueInput _currentSemiInfiniteTissueInput;
+        private MultiLayerTissueInput _currentMultiLayerTissueInput;
+        private SingleEllipsoidTissueInput _currentSingleEllipsoidTissueInput;
+        
         public ForwardSolverViewModel()
         {
             RangeVM = new RangeViewModel { Title = "Detection Parameters:" };
-            OpticalPropertyVM = new OpticalPropertyViewModel { Title = "Optical Properties:" };
-
+            
             // right now, we're doing manual databinding to the selected item. need to enable databinding 
             // confused, though - do we need to use strings? or, how to make generics work with dependency properties?
 #if WHITELIST 
@@ -53,7 +53,12 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 OnPropertyChanged("IsGaussianForwardModel");
                 OnPropertyChanged("ForwardSolver");
+
+                OnPropertyChanged("IsMultiRegion");
+                OnPropertyChanged("IsSemiInfinite");
+                TissueInputVM = GetTissueInputVM(IsMultiRegion ? MonteCarlo.TissueType.MultiLayer : MonteCarlo.TissueType.SemiInfinite);
             };
+            ForwardSolverTypeOptionVM.SelectedValue = ForwardSolverType.PointSourceSDA; // force the model choice here?
 
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain:", SolutionDomainType.ROfRho);
 
@@ -67,16 +72,22 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public IForwardSolver ForwardSolver
         {
-            get
-            {
-                return SolverFactory.GetForwardSolver(
-                    ForwardSolverTypeOptionVM.SelectedValue);
-            }
+            get { return SolverFactory.GetForwardSolver(ForwardSolverTypeOptionVM.SelectedValue); }
         }
 
         public bool IsGaussianForwardModel
         {
             get { return ForwardSolverTypeOptionVM.SelectedValue.IsGaussianForwardModel(); }
+        }
+
+        public bool IsMultiRegion
+        {
+            get { return ForwardSolverTypeOptionVM.SelectedValue.IsMultiRegionForwardModel(); }
+        }
+
+        public bool IsSemiInfinite
+        {
+            get { return !ForwardSolverTypeOptionVM.SelectedValue.IsMultiRegionForwardModel(); }
         }
 
         public SolutionDomainOptionViewModel SolutionDomainTypeOptionVM
@@ -108,13 +119,13 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        public OpticalPropertyViewModel OpticalPropertyVM
+        public object TissueInputVM
         {
-            get { return _OpticalPropertyVM; }
-            set
+            get { return _tissueInputVM; }
+            private set
             {
-                _OpticalPropertyVM = value;
-                OnPropertyChanged("OpticalPropertyVM");
+                _tissueInputVM = value;
+                OnPropertyChanged("TissueInputVM");
             }
         }
 
@@ -160,7 +171,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 Commands.Plot_PlotValues.Execute(new PlotData(points.First(), plotLabel));
             }
 
-            Commands.TextOutput_PostMessage.Execute("Forward Solver: " + OpticalPropertyVM + "\r");
+            Commands.TextOutput_PostMessage.Execute("Forward Solver: " + TissueInputVM + "\r"); // todo: override ToString() for MultiRegionTissueViewModel
         }
 
         private PlotAxesLabels GetPlotLabels()
@@ -181,6 +192,52 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
             return axesLabels;
         }
+        
+        private object GetTissueInputVM(Vts.MonteCarlo.TissueType tissueType)
+        {
+            // ops to use as the basis for instantiating multi-region tissues based on homogeneous values (for differential comparison)
+            if (_currentHomogeneousOpticalProperties == null)
+            {
+                _currentHomogeneousOpticalProperties = new OpticalProperties(0.01, 1, 0.8, 1.4);
+            }
+
+            switch (tissueType)
+            {
+                case MonteCarlo.TissueType.SemiInfinite:
+                    if (_currentSemiInfiniteTissueInput == null)
+                    {
+                        _currentSemiInfiniteTissueInput = new SemiInfiniteTissueInput(new SemiInfiniteRegion(_currentHomogeneousOpticalProperties));
+                    }
+                    return new OpticalPropertyViewModel(
+                        ((SemiInfiniteTissueInput)_currentSemiInfiniteTissueInput).Regions.First().RegionOP,
+                         IndependentVariableAxisUnits.InverseMM.GetInternationalizedString(),
+                        "Optical Properties:");
+                    break;
+                case MonteCarlo.TissueType.MultiLayer:
+                    if (_currentMultiLayerTissueInput == null)
+                    {
+                        _currentMultiLayerTissueInput = new MultiLayerTissueInput(new ITissueRegion[]
+                            { 
+                                new LayerRegion(new DoubleRange(0, 2), _currentHomogeneousOpticalProperties.Clone() ), 
+                                new LayerRegion(new DoubleRange(2, double.PositiveInfinity), _currentHomogeneousOpticalProperties.Clone() ), 
+                            });
+                    }
+                    return new MultiRegionTissueViewModel(_currentMultiLayerTissueInput);
+                case MonteCarlo.TissueType.SingleEllipsoid:
+                    if (_currentSingleEllipsoidTissueInput == null)
+                    {
+                        _currentSingleEllipsoidTissueInput = new SingleEllipsoidTissueInput(
+                            new EllipsoidRegion(new Position(0, 0, 10), 5, 5, 5, new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
+                            new ITissueRegion[]
+                            { 
+                                new LayerRegion(new DoubleRange(0, double.PositiveInfinity), _currentHomogeneousOpticalProperties.Clone()), 
+                            });
+                    }
+                    return new MultiRegionTissueViewModel(_currentSingleEllipsoidTissueInput);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
         // todo: rename? this was to get a concise name for the legend
         private string GetLegendLabel()
@@ -200,7 +257,24 @@ namespace Vts.Gui.Silverlight.ViewModel
                     modelString = "Model - nurbs \r";
                     break;
             }
-            string opString = "μa=" + OpticalPropertyVM.Mua + " \rμs'=" + OpticalPropertyVM.Musp;
+            string opString = null;
+
+            if (IsMultiRegion)
+            {
+                ITissueRegion[] regions = null;
+                if (ForwardSolver is TwoLayerSDAForwardSolver)
+                {
+                    regions = ((MultiRegionTissueViewModel)TissueInputVM).GetTissueInput().Regions;
+                    opString =
+                        "μa1=" + regions[0].RegionOP.Mua + " \rμs'1=" + regions[0].RegionOP.Musp + 
+                        "μa2=" + regions[1].RegionOP.Mua + " \rμs'2=" + regions[1].RegionOP.Musp;
+                }
+            }
+            else
+            {
+                var opticalProperties = ((OpticalPropertyViewModel)TissueInputVM).GetOpticalProperties();
+                opString = "μa=" + opticalProperties.Mua + " \rμs'=" + opticalProperties.Musp;
+            }
 
             return modelString + opString;
         }
@@ -214,30 +288,38 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
             double[] query = null;
-            if (ForwardSolver is TwoLayerSDAForwardSolver)
+            if (IsMultiRegion)
             {
+                ITissueRegion[] regions = null;
+                if (ForwardSolver is TwoLayerSDAForwardSolver)
+                {
+                    regions = ((MultiRegionTissueViewModel) TissueInputVM).GetTissueInput().Regions;
+                }
+
+                if (regions == null)
+                {
+                    return null;
+                }
+
                 query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                         ForwardSolverTypeOptionVM.SelectedValue,
                         SolutionDomainTypeOptionVM.SelectedValue,
                         ForwardAnalysisTypeOptionVM.SelectedValue,
                         SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
                         independentValues,
-                        new ITissueRegion[]
-                        { 
-                            new LayerRegion(new DoubleRange(0, 2), OpticalPropertyVM.GetOpticalProperties() ), // todo: add GUI capability for multiple layers
-                            new LayerRegion(new DoubleRange(2, double.PositiveInfinity), OpticalPropertyVM.GetOpticalProperties() ), // todo: add GUI capability for multiple layers
-                        },
+                        regions,
                         constantValues);
             }
             else
             {
+                var opticalProperties = ((OpticalPropertyViewModel) TissueInputVM).GetOpticalProperties();
                 query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
                      ForwardSolverTypeOptionVM.SelectedValue,
                      SolutionDomainTypeOptionVM.SelectedValue,
                      ForwardAnalysisTypeOptionVM.SelectedValue,
                      SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
                      independentValues,
-                     OpticalPropertyVM.GetOpticalProperties(),
+                     opticalProperties,
                      constantValues);
             }
 

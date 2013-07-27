@@ -67,7 +67,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var _thresholdValue = 1e-8;
             var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
             var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
-            double[] ROfRhos = new double[rhos.Length];
+            
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
             LayerRegion[] _twoLayerTissue = 
                 new LayerRegion[]

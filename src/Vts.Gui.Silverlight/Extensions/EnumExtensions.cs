@@ -19,6 +19,22 @@ namespace Vts.Gui.Silverlight.Extensions
             }
         }
 
+        public static bool IsMultiRegionForwardModel(this ForwardSolverType forwardSolverType)
+        {
+            switch (forwardSolverType)
+            {
+                case ForwardSolverType.PointSourceSDA:
+                case ForwardSolverType.DistributedPointSourceSDA:
+                case ForwardSolverType.DistributedGaussianSourceSDA:
+                case ForwardSolverType.DeltaPOne:
+                case ForwardSolverType.MonteCarlo:
+                default:
+                    return false;
+                case ForwardSolverType.TwoLayerSDA:
+                    return true;
+            }
+        }
+
         public static int GetMaxArgumentLocation(this IndependentVariableAxis axis)
         {
             switch (axis)

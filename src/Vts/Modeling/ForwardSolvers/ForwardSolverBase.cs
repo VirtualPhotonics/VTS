@@ -58,7 +58,6 @@ namespace Vts.Modeling.ForwardSolvers
             }
         }
 
-
         #region Dummy virtual methods - must be implemented in child classes
 
         /// <summary>

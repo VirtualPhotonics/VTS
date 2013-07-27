@@ -12,6 +12,7 @@ namespace Vts
     public interface IForwardSolver : INotifyPropertyChanged
     {
         #region IMultiRegionForwardSolver // ?
+
         // prototype of new interface methods for multi-region capabilities
         #region double ROfRho(ITissueRegion[] regions, double rho);
         /// <summary>

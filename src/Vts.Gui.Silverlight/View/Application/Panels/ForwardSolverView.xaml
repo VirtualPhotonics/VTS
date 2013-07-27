@@ -28,8 +28,15 @@
         <v:SolutionDomainOptionView DataContext="{Binding SolutionDomainTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <!-- Detection Parameters -->
         <v:RangeView DataContext="{Binding RangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <!-- Optical Properties -->
-        <v:OpticalPropertyView Mua="1.0" DataContext="{Binding OpticalPropertyVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <!-- Optical Properties (single- or multi-region property editor shown, depending on forward model type -->
+        
+        <StackPanel Visibility="{Binding IsSemiInfinite, Converter={StaticResource myBooleanToVisibilityConverter}}">
+            <v:OpticalPropertyView Mua="1.0" DataContext="{Binding TissueInputVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+        <StackPanel Visibility="{Binding IsMultiRegion, Converter={StaticResource myBooleanToVisibilityConverter}}">
+            <v:MultiRegionOpticalPropertyView DataContext="{Binding TissueInputVM}" HorizontalAlignment="Left" VerticalAlignment="Top"  />
+        </StackPanel>
+        
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
