@@ -9,7 +9,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.Modeling.ForwardSolvers
 {
     [TestFixture]
-    public class ValidateDiffusionReflectanceModelsTests
+    public class AAValidateDiffusionReflectanceModelsTests
     {
         //const double thresholdValue = 1e-5;
         const double thresholdValue = 1e-2;
@@ -129,6 +129,29 @@ namespace Vts.Test.Modeling.ForwardSolvers
             }
         }
 
+        // generated two layers with identical properties and use SteadyStatePointSource results for validation
+        [Test]
+        public void TemporalTwoLayerSDATest()
+        {
+            var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
+            var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
+
+            // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
+            LayerRegion[] _twoLayerTissue =
+                new LayerRegion[]
+                    {
+                        new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
+                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops) ), 
+                    };
+            for (int irho = 0; irho < rhos.Length; irho++)
+            {
+                var oneLayerResult = _oneLayerPointSourceForwardSolver.ROfRhoAndTime(ops, rhos[irho], t);
+                var twoLayerResult = _twoLayerSDAForwardSolver.ROfRhoAndTime(_twoLayerTissue, rhos[irho], t);
+                var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
+                //Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                //    "mm, with relative difference " + relDiff);
+            }
+        }
         #endregion Temporal Reflectance
 
         #region Temporal Frequency Reflectance

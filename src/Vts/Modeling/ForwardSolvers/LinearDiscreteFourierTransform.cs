@@ -72,5 +72,37 @@ namespace Vts.Modeling
             return R * (Math.Cos(2 * Math.PI * ft * t) -
                     Complex.ImaginaryOne * Math.Sin(2 * Math.PI * ft * t)) * dt;
         }
+
+        /// <summary>
+        /// Calculate the inverse Fourier Transform using a discrete Riemann middle sum with uniform frequencies
+        /// </summary>
+        /// <param name="frequencies">vector of discrete frequency values</param>
+        /// <param name="ROfFt">vector of discrete R(ft) values</param>
+        /// <param name="df">delta frequency</param>
+        /// <param name="t">the time at which to evaluate</param>
+        /// <returns>ROfTime</returns>
+        public static double GetInverseFourierTransform(double[] frequencies, Complex[] ROfFt, double df, double t)
+        {
+            if (frequencies.Length != ROfFt.Length)
+            {
+                throw new Meta.Numerics.DimensionMismatchException();
+            }
+            double sum = 0.0;
+
+            for (int i = 0; i < frequencies.Length; i++)
+            {
+                sum += EvaluateDiscreteInverseFourierTransform(frequencies[i], ROfFt[i], df, t);      
+            }
+            return sum;
+        }
+
+        private static double EvaluateDiscreteInverseFourierTransform(double ft, Complex R, double df, double t)
+        {
+            // dum is complex currently, I think it should have a 0 imag part, but not sure it will with this
+            // algorithm, so take real part in end
+             var dum = R * (Math.Cos(2 * Math.PI * ft * t) +
+                    Complex.ImaginaryOne * Math.Sin(2 * Math.PI * ft * t)) * df;
+            return dum.Real;
+        }
     }
 }

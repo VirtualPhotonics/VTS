@@ -94,6 +94,18 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
+        /// Scalar ROfRhoAndTime function.  Determines reflectance for tissue with regions, at
+        /// source-detector separation rho and time t - must be implemented in child class
+        /// </summary>
+        /// <param name="regions">medium regions</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="t">time (ns)</param>
+        /// <returns>reflectance at given single set of optical properties, single rho and single time</returns>
+        public virtual double ROfRhoAndTime(ITissueRegion[] regions, double rho, double t)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
         /// Scalar ROfRhoAndTime function.  Determines reflectance at source-detector separation rho and time t - must be implemented in child class
         /// </summary>
         /// <param name="op">optical properties of the medium</param>
@@ -104,7 +116,6 @@ namespace Vts.Modeling.ForwardSolvers
         {
             throw new NotImplementedException();
         }
-
         /// <summary>
         /// Scalar ROfRhoAndFt function.  Determines reflectance at source-detector separation rho and modulation frequency ft - must be implemented in child class
         /// </summary>
@@ -217,7 +228,21 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ((Func<OpticalProperties, double, double, double>)ROfRhoAndTime).LoopOverVariables(ops, rhos, ts);
         }
-
+        /// <summary>
+        /// Vector ROfRhoAndTime function. Determines reflectances of tissue with 'regions', source-detector separations 'rhos' and times 'ts'
+        /// Override these in child classes to take advantage of optimization strategies.
+        /// </summary>
+        /// <param name="regions">sets of medium regions</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns>reflectance of tissue regions, rhos and times</returns>
+        public virtual IEnumerable<double> ROfRhoAndTime(
+            IEnumerable<ITissueRegion[]> regions,
+            IEnumerable<double> rhos,
+            IEnumerable<double> ts)
+        {
+            return ((Func<ITissueRegion[], double, double, double>)ROfRhoAndTime).LoopOverVariables(regions, rhos, ts);
+        }
         /// <summary>
         /// Vector ROfRhoAndFt function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and time frequencies 'fts'
         /// Override these in child classes to take advantage of optimization strategies.
@@ -345,7 +370,18 @@ namespace Vts.Modeling.ForwardSolvers
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
-
+        /// </summary>
+        /// <param name="regions">sets of medium regions</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns>reflectance at given optical properties, rhos and times</returns>
+        public double[] ROfRhoAndTime(ITissueRegion[][] regions, double[] rhos, double[] ts)
+        {
+            var output = new double[regions.Length * rhos.Length * ts.Length];
+            var query = ROfRhoAndTime((IEnumerable<ITissueRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)ts);
+            Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
+            return output;
+        }
         /// <summary>
         /// Convenience array overload of ROfRhoAndFt. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and time frequencies 'fts'
         /// </summary>
@@ -498,6 +534,18 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfRhoAndTime(new[] { op }, rhos, ts);
         }
+        /// <summary>
+        /// Overload of ROfRhoAndTime. Determines reflectances of tissue regions 'regions', source-detector 
+        /// separations 'rhos' and times 'ts'
+        /// </summary>
+        /// <param name="regions">medium regions</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns>reflectance at given optical properties, rhos and times</returns>
+        public double[] ROfRhoAndTime(ITissueRegion[] regions, double[] rhos, double[] ts)
+        {
+            return ROfRhoAndTime(new[] { regions }, rhos, ts);
+        }
 
         /// <summary>
         /// Overload of ROfRhoAndTime. Determines reflectances at optical properties 'ops', source-detector separation 'rho' and times 'ts'
@@ -509,6 +557,18 @@ namespace Vts.Modeling.ForwardSolvers
         public double[] ROfRhoAndTime(OpticalProperties[] ops, double rho, double[] ts)
         {
             return ROfRhoAndTime(ops, new[] { rho }, ts);
+        }
+        /// <summary>
+        /// Overload of ROfRhoAndTime. Determines reflectances of tissue with regions 'regions', source-detector 
+        /// separation 'rho' and times 'ts'
+        /// </summary>
+        /// <param name="regions">sets of medium regions</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns>reflectance at given optical properties, rhos and times</returns>
+        public double[] ROfRhoAndTime(ITissueRegion[][] regions, double rho, double[] ts)
+        {
+            return ROfRhoAndTime(regions, new[] { rho }, ts);
         }
 
         /// <summary>
@@ -522,7 +582,18 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfRhoAndTime(ops, rhos, new[] { t });
         }
-
+        /// <summary>
+        /// Overload of ROfRhoAndTime. Determines reflectances of tissue with 'regions', source-detector 
+        /// separations 'rhos' and time 't'
+        /// </summary>
+        /// <param name="regions">sets of medium regions</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="t">time (ns)</param>
+        /// <returns>reflectance at given optical properties, rhos and times </returns>
+        public double[] ROfRhoAndTime(ITissueRegion[][] regions, double[] rhos, double t)
+        {
+            return ROfRhoAndTime(regions, rhos, new[] { t });
+        }
         /// <summary>
         /// Overload of ROfRhoAndTime. Determines reflectances at optical properties 'op', source-detector separation 'rho' and times 'ts'
         /// </summary>
@@ -534,7 +605,18 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfRhoAndTime(new[] { op }, new[] { rho }, ts);
         }
-
+        /// <summary>
+        /// Overload of ROfRhoAndTime. Determines reflectances of tissue with 'regions', source-detector 
+        /// separation 'rho' and times 'ts'
+        /// </summary>
+        /// <param name="regions">medium regions</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns>reflectance at given optical properties, rhos and times</returns>
+        public double[] ROfRhoAndTime(ITissueRegion[] regions, double rho, double[] ts)
+        {
+            return ROfRhoAndTime(new[] { regions }, new[] { rho }, ts);
+        }
         /// <summary>
         /// Overload of ROfRhoAndTime. Determines reflectances at optical properties 'op', source-detector separations 'rhos' and time 't'
         /// </summary>
@@ -546,7 +628,17 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfRhoAndTime(new[] { op }, rhos, new[] { t });
         }
-
+        /// <summary>
+        /// Overload of ROfRhoAndTime. Determines reflectances at tissue regions 'regions', source-detector separations 'rhos' and time 't'
+        /// </summary>
+        /// <param name="op">medium optical properties</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="t">time (ns)</param>
+        /// <returns>reflectance at given optical properties, rhos and time</returns>
+        public double[] ROfRhoAndTime(ITissueRegion[] regions, double[] rhos, double t)
+        {
+            return ROfRhoAndTime(new[] { regions }, rhos, new[] { t });
+        }
         /// <summary>
         /// Overload of ROfRhoAndTime. Determines reflectances at optical properties 'ops', source-detector separation 'rho' and time 't'
         /// </summary>
@@ -557,6 +649,18 @@ namespace Vts.Modeling.ForwardSolvers
         public double[] ROfRhoAndTime(OpticalProperties[] ops, double rho, double t)
         {
             return ROfRhoAndTime(ops, new[] { rho }, new[] { t });
+        }
+        /// <summary>
+        /// Overload of ROfRhoAndTime. Determines reflectances of tissue with 'regions', source-detector 
+        /// separation 'rho' and time 't'
+        /// </summary>
+        /// <param name="regions">sets of medium regions</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="t">time (ns)</param>
+        /// <returns>reflectance at given optical properties, rho and time</returns>
+        public double[] ROfRhoAndTime(ITissueRegion[][] regions, double rho, double t)
+        {
+            return ROfRhoAndTime(regions, new[] { rho }, new[] { t });
         }
 
         //ROfRhoAndFt

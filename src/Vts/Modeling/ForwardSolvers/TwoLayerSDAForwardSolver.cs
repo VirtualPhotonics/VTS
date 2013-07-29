@@ -1,5 +1,6 @@
 using System;
 using System.Numerics;
+using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 
@@ -45,9 +46,35 @@ namespace Vts.Modeling.ForwardSolvers
                 throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
             }
 
-            return StationaryReflectance(diffusionParameters, layerThicknesses, rho, fr1, fr2);
+            return StationaryReflectance(rho, diffusionParameters, layerThicknesses, fr1, fr2);
         }
+        public override double ROfRhoAndTime(ITissueRegion[] regions, double rho, double time)
+        {
+            // get ops of top tissue region
+            var op0 = regions[0].RegionOP;
+            var fr1 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder1(op0.N);
+            var fr2 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder2(op0.N);
 
+            var diffusionParameters = GetDiffusionParameters(regions);
+            var layerThicknesses = GetLayerThicknesses(regions);
+
+            // check that embedded source is within top layer, otherwise solution invalid
+            if (diffusionParameters[0].zp > layerThicknesses[0])
+            {
+                throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
+            }
+            int numFrequencies = 512; // Kienle used this number
+            double deltaFrequency = 2.0/numFrequencies; // GHz, this value changes results quite a bit
+            var rOfFt = new Complex[numFrequencies];
+            var ft = new double[numFrequencies];
+            for (int i = 0; i < numFrequencies; i++)
+            {
+                ft[i] = i*deltaFrequency;
+                rOfFt[i] = TemporalFrequencyReflectance(rho, ft[i], diffusionParameters, layerThicknesses, fr1, fr2);
+            }
+            var temp = LinearDiscreteFourierTransform.GetInverseFourierTransform(ft, rOfFt, deltaFrequency, time);
+            return temp;
+        }
         public override Complex ROfRhoAndFt(ITissueRegion[] regions, double rho, double ft)
         {
             // get ops of top tissue region
@@ -64,7 +91,7 @@ namespace Vts.Modeling.ForwardSolvers
                 throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
             }
 
-            return TemporalFrequencyReflectance(diffusionParameters, layerThicknesses, rho, ft, fr1, fr2);
+            return TemporalFrequencyReflectance(rho, ft, diffusionParameters, layerThicknesses, fr1, fr2);
         }
         private static DiffusionParameters[] GetDiffusionParameters(ITissueRegion[] regions)
         {
@@ -96,8 +123,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fr1">Fresnel moment 1, R1</param>
         /// <param name="fr2">Fresnel moment 2, R2</param>
         /// <returns>reflectance</returns>
-        private static double StationaryReflectance(DiffusionParameters[] dp, double[] layerThicknesses,
-                                            double rho, double fr1, double fr2)
+        private static double StationaryReflectance(double rho, DiffusionParameters[] dp, double[] layerThicknesses,
+                                            double fr1, double fr2)
         {
             // this could use GetBackwardHemisphereIntegralDiffuseReflectance possibly? no protected
             return (1 - fr1) / 4 * StationaryFluence(rho, 0.0, dp, layerThicknesses) -
@@ -113,7 +140,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">DiffusionParameters for layer 1 and 2</param>
         /// <param name="layerThicknesses">in this class, layer thickness</param>
         /// <returns>fluence</returns>
-        private static double StationaryFluence(double rho, double z, DiffusionParameters[] dp, double[] layerThicknesses)
+        private static double StationaryFluence(double rho, double z, DiffusionParameters[] dp, 
+            double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
             double fluence;
@@ -156,7 +184,7 @@ namespace Vts.Modeling.ForwardSolvers
             return flux/(2*Math.PI); 
         }
         public static Complex TemporalFrequencyReflectance(
-            DiffusionParameters[] dp, double[] layerThicknesses, double rho, double temporalFrequency, double fr1, double fr2)
+            double rho, double temporalFrequency, DiffusionParameters[] dp, double[] layerThicknesses, double fr1, double fr2)
         {
             return (1 - fr1) / 4 * TemporalFrequencyFluence(rho, 0.0, temporalFrequency, dp, layerThicknesses) -
                 (fr2 - 1) / 2 * dp[0].D * TemporalFrequencyZFlux(rho, 0.0, temporalFrequency, dp, layerThicknesses);
