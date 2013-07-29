@@ -163,7 +163,33 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 "mm, with relative difference " + relDiff);
             }
         }
+        // generated two layers with identical properties and use TemporalPointSource results for validation
+        [Test]
+        public void TemporalFrequencyTwoLayerSDATest()
+        {
+            var _thresholdValue = 1e-8;
+            var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
+            var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
 
+            // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
+            LayerRegion[] _twoLayerTissue =
+                new LayerRegion[]
+                    {
+                        new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
+                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops) ), 
+                    };
+            for (int irho = 0; irho < rhos.Length; irho++)
+            {
+                var oneLayerResult = _oneLayerPointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft);
+                var twoLayerResult = _twoLayerSDAForwardSolver.ROfRhoAndFt(_twoLayerTissue, rhos[irho], ft);
+                var relDiffRe = Math.Abs(twoLayerResult.Real - oneLayerResult.Real) / oneLayerResult.Real;
+                var relDiffIm = Math.Abs(twoLayerResult.Imaginary - oneLayerResult.Imaginary) / oneLayerResult.Imaginary;
+                Assert.IsTrue(relDiffRe < _thresholdValue, "Test failed for rho =" + rhos[irho] +
+                    "mm, with Real relative difference " + relDiffRe);
+                Assert.IsTrue(relDiffIm < _thresholdValue, "Test failed for rho =" + rhos[irho] +
+                    "mm, with Imaginary relative difference " + relDiffIm);
+            }
+        }
         #endregion Temporal Frequency Reflectance
 
 
