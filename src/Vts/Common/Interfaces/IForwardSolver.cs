@@ -136,6 +136,121 @@ namespace Vts
         /// <param name="fts">temporal frequencies</param>
         /// <returns></returns>
         Complex[] ROfRhoAndFt(ITissueRegion[][] regions, double[] rhos, double[] fts);
+
+        #region double ROFx(ITissueRegion[] regions, double fx);
+        /// <summary>
+        /// Determines reflectance at spatial frequency 
+        /// </summary>
+        /// <param name="regions">optical and geometrical properties of the medium for each sub-region</param>
+        /// <param name="fx">spatial frequency</param>
+        /// <returns>reflectance at spatial frequency fx</returns>
+        double ROfFx(ITissueRegion[] regions, double fx);
+        #endregion
+
+        #region IEnumerable<double> ROfFx(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> fxs);
+        /// <summary>
+        /// Overload of scalar ROfRho function. Determines reflectances at tissue regions and source-detector separations 'rhos'
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <returns></returns>
+        IEnumerable<double> ROfFx(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> fxs);
+        #endregion
+
+        /// <summary>
+        /// Overload of scalar ROfFx function. Determines reflectances given tissue regions and spatia freqs 'fxs'
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <returns>reflectance at sptail frequency</returns>
+        double[] ROfFx(ITissueRegion[][] regions, double[] fxs);
+
+        #region double ROfFxAndTime(ITissueRegion[] regions, double fx, double time);
+        /// <summary>
+        /// Determines reflectance at spatial frequency and time
+        /// </summary>
+        /// <param name="regions">optical and geometrical properties of the medium for each sub-region</param>
+        /// <param name="fx">spatial frequency</param>
+        /// <param name="time">time (ns)</param>
+        /// <returns>reflectance at spatial frequency fx</returns>
+        double ROfFxAndTime(ITissueRegion[] regions, double fx, double time);
+        #endregion
+
+        #region IEnumerable<double> ROfFxAndTime(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> times)
+        /// <summary>
+        /// Overload of scalar ROfFxAndTim function. Determines reflectances at tissue regions, spatial freqs 'fxs', 
+        /// and times 'times'
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="times">times (ns)</param>
+        /// <returns>reflectance at spatial freq and time</returns>
+        IEnumerable<double> ROfFxAndTime(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> fxs,
+            IEnumerable<double> times);
+        #endregion
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectances given tissue regions, spatial freqs 'fxs', 
+        /// and times 'times'
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="times">times (ns)</param>
+        /// <returns>reflectance at spatial freq. and time</returns>
+        double[] ROfFxAndTime(ITissueRegion[] regions, double[] fxs, double[] times);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectances given tissue regions, spatial freqs 'fxs', 
+        /// and times 'times'
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="times">times (ns)</param>
+        /// <returns>reflectance at spatial freq. and time</returns>
+        double[] ROfFxAndTime(ITissueRegion[][] regions, double[] fxs, double[] times);
+
+        #region Complex ROfFxAndFt(ITissueRegion[] regions, double fx, double ft);
+        /// <summary>
+        /// Determines reflectance at spatial frequnecy fx and temporal frequency ft
+        /// </summary>
+        /// <param name="regions">optical and geometrical properties of the medium for each sub-region</param>
+        /// <param name="fx">spatial frequency</param>
+        /// <param name="ft">temporal frequency</param>
+        /// <returns>reflectance at spatial freq. and temporal freq.</returns>
+        Complex ROfFxAndFt(ITissueRegion[] regions, double fx, double ft);
+        #endregion
+
+        #region IEnumerable<Complex> ROfFxAndFt(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> fts);
+        /// <summary>
+        /// Overload of scalar ROfFxAndFt function. Determines reflectances at tissue regions, spatial freqs 'fxs' and 
+        /// temporal frequencies fts
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="fts">temporal frequencies</param>
+        /// <returns></returns>
+        IEnumerable<Complex> ROfFxAndFt(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> fts);
+        #endregion
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndFt function. Determines reflectances given tissue regions, spatial 
+        /// frequencies 'fxs'and temporal frequencies fts
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="fts">temporal frequencies</param>
+        /// <returns>reflectance at spatial freq. and temporal freq.</returns>
+        Complex[] ROfFxAndFt(ITissueRegion[] regions, double[] fxs, double[] fts);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndFt function. Determines reflectances given tissue regions, spatial 
+        /// frequencies 'fxs', and temporal frequencies fts
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="fts">temporal frequencies</param>
+        /// <returns>reflectance at spatial freq. and temporal freq.</returns>
+        Complex[] ROfFxAndFt(ITissueRegion[][] regions, double[] fxs, double[] fts);
         #endregion
 
         #region double ROfRho(OpticalProperties op, double rho);
