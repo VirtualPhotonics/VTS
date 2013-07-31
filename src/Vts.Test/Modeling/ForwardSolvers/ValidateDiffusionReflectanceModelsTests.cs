@@ -3,7 +3,6 @@ using NUnit.Framework;
 using Vts.Common;
 using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers;
-using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.Modeling.ForwardSolvers
@@ -129,29 +128,30 @@ namespace Vts.Test.Modeling.ForwardSolvers
             }
         }
 
-        // generated two layers with identical properties and use SteadyStatePointSource results for validation
-        [Test]
-        public void TemporalTwoLayerSDATest()
-        {
-            var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
-            var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
+        // for next case forward solution not working yet
+        // generated two layers in TwoLayerSDAForwardSolver with identical properties and use Nurbs results for validation
+        //[Test]
+        //public void TemporalTwoLayerSDATest()
+        //{
+        //    var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
+        //    var _oneLayerNurbsForwardSolver = new NurbsForwardSolver();
 
-            // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
-            LayerRegion[] _twoLayerTissue =
-                new LayerRegion[]
-                    {
-                        new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
-                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops) ), 
-                    };
-            for (int irho = 0; irho < rhos.Length; irho++)
-            {
-                var oneLayerResult = _oneLayerPointSourceForwardSolver.ROfRhoAndTime(ops, rhos[irho], t);
-                var twoLayerResult = _twoLayerSDAForwardSolver.ROfRhoAndTime(_twoLayerTissue, rhos[irho], t);
-                var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
-                //Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
-                //    "mm, with relative difference " + relDiff);
-            }
-        }
+        //    // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
+        //    LayerRegion[] _twoLayerTissue =
+        //        new LayerRegion[]
+        //            {
+        //                new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
+        //                new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
+        //            };
+        //    for (int irho = 0; irho < rhos.Length; irho++)
+        //    {
+        //        var oneLayerResult = _oneLayerNurbsForwardSolver.ROfRhoAndTime(ops, rhos[irho], t);
+        //        var twoLayerResult = _twoLayerSDAForwardSolver.ROfRhoAndTime(_twoLayerTissue, rhos[irho], t);
+        //        var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
+        //        Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+        //            "mm, with relative difference " + relDiff);
+        //    }
+        //}
         #endregion Temporal Reflectance
 
         #region Temporal Frequency Reflectance
@@ -186,27 +186,27 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 "mm, with relative difference " + relDiff);
             }
         }
-        // generated two layers with identical properties and use TemporalPointSource results for validation
+        // generated two layers with identical properties and use PointSourceSDA results for validation
         [Test]
         public void TemporalFrequencyTwoLayerSDATest()
         {
             var _thresholdValue = 1e-8;
             var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
-            var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
+            var _oneLayerPointSourceSDAForwardSolver = new PointSourceSDAForwardSolver();
 
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
             LayerRegion[] _twoLayerTissue =
                 new LayerRegion[]
                     {
                         new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
-                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops) ), 
+                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
                     };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
-                var oneLayerResult = _oneLayerPointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft);
+                var oneLayerResult = _oneLayerPointSourceSDAForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft);
                 var twoLayerResult = _twoLayerSDAForwardSolver.ROfRhoAndFt(_twoLayerTissue, rhos[irho], ft);
                 var relDiffRe = Math.Abs(twoLayerResult.Real - oneLayerResult.Real) / oneLayerResult.Real;
-                var relDiffIm = Math.Abs(twoLayerResult.Imaginary - oneLayerResult.Imaginary) / oneLayerResult.Imaginary;
+                var relDiffIm = Math.Abs((twoLayerResult.Imaginary - oneLayerResult.Imaginary) / oneLayerResult.Imaginary);
                 Assert.IsTrue(relDiffRe < _thresholdValue, "Test failed for rho =" + rhos[irho] +
                     "mm, with Real relative difference " + relDiffRe);
                 Assert.IsTrue(relDiffIm < _thresholdValue, "Test failed for rho =" + rhos[irho] +
@@ -231,57 +231,57 @@ namespace Vts.Test.Modeling.ForwardSolvers
         //            "1/mm, with relative difference " + relDiff);
         //    }
         //}
-        // generated two layers with identical properties and use SpatialPointSource results for validation
+        // generated two layers with identical properties and use Nurbs results for validation
         [Test]
         public void SpatialFrequencyTwoLayerSDATest()
         {
-            var _thresholdValue = 0.04; // this is kind of large!  may need Svaasand
-            double[] fxs = new double[] { 0.0, 0.02 };  // add in 0.3 later when Svaasand implemented
+            var _thresholdValue = 0.03; 
+            double[] fxs = new double[] { 0.0, 0.02 };  // 0.3 results not good
             var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
-            var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
+            var _oneLayerNurbsForwardSolver = new NurbsForwardSolver();
 
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
             LayerRegion[] _twoLayerTissue =
                 new LayerRegion[]
                     {
                         new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
-                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops) ), 
+                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
                     };
             for (int ifx = 0; ifx < fxs.Length; ifx++)
             {
-                var oneLayerResult = _oneLayerPointSourceForwardSolver.ROfFx(ops, fxs[ifx]);
+                var oneLayerResult = _oneLayerNurbsForwardSolver.ROfFx(ops, fxs[ifx]);
                 var twoLayerResult = _twoLayerSDAForwardSolver.ROfFx(_twoLayerTissue, fxs[ifx]);
                 var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
                 Assert.IsTrue(relDiff < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
                     ", with relative difference " + relDiff);
             }
         }
-        // generated two layers with identical properties and use SpatialPointSource results for validation
+        // generated two layers with identical properties and use Nurbs results for validation
         [Test]
         public void SpatialAndTemporalFrequencyTwoLayerSDATest()
         {
-            var _thresholdValue = 0.04; // this is kind of large!  may need Svaasand
-            double[] fxs = new double[] { 0.0, 0.02 };  // add in 0.3 later when Svaasand implemented
+            var _thresholdValue = 0.03;
+            double[] fxs = new double[] { 0.0, 0.02 };  // 0.3 just doesn't give good results
             var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
-            var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
+            var _oneLayerNurbsForwardSolver = new NurbsForwardSolver();
 
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
             LayerRegion[] _twoLayerTissue =
                 new LayerRegion[]
                     {
                         new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
-                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops) ), 
+                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
                     };
             for (int ifx = 0; ifx < fxs.Length; ifx++)
             {
-                var oneLayerResult = _oneLayerPointSourceForwardSolver.ROfFxAndFt(ops, fxs[ifx], ft);
+                var oneLayerResult = _oneLayerNurbsForwardSolver.ROfFxAndFt(ops, fxs[ifx], ft);
                 var twoLayerResult = _twoLayerSDAForwardSolver.ROfFxAndFt(_twoLayerTissue, fxs[ifx], ft);
                 var relDiffRe = Math.Abs(twoLayerResult.Real - oneLayerResult.Real) / oneLayerResult.Real;
-                var relDiffIm = Math.Abs(twoLayerResult.Imaginary - oneLayerResult.Imaginary) / oneLayerResult.Imaginary;
-                //Assert.IsTrue(relDiffRe < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
-                //    " and ft=", +ft + ", with Real relative difference " + relDiffRe); 
-                //Assert.IsTrue(relDiffIm < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
-                //    " and ft=", +ft + ", with Imag relative difference " + relDiffIm);
+                var relDiffIm = Math.Abs((twoLayerResult.Imaginary - oneLayerResult.Imaginary) / oneLayerResult.Imaginary);
+                Assert.IsTrue(relDiffRe < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
+                    " and ft=", +ft + ", with Real relative difference " + relDiffRe);
+                Assert.IsTrue(relDiffIm < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
+                    " and ft=", +ft + ", with Imag relative difference " + relDiffIm);
             }
         }
         #endregion Stationary Spatial Frequency Reflectance
