@@ -58,7 +58,7 @@ namespace Vts.Modeling.ForwardSolvers
             }
         }
 
-        #region Dummy virtual methods - must be implemented in child classes
+        #region Dummy reflectance virtual methods - must be implemented in child classes
 
         /// <summary>
         /// Scalar ROfRho function.  Determines reflectance at source-detector separation rho - must be implemented in child class
@@ -203,7 +203,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
         #endregion
 
-        #region Dummy default versions of the vectorized methods. Override these in child classes to take advantage of optimization strategies.
+        #region Dummy default reflectance versions of the vectorized methods. Override these in child classes to take advantage of optimization strategies.
 
         /// <summary>
         /// Vector ROfRho function. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos'
@@ -374,7 +374,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
         #endregion
 
-        #region Convenience array overloads (todo: these could alternatively be IForwardSolverExtensions instead of part of the contract)
+        #region Convenience reflectance array overloads (todo: these could alternatively be IForwardSolverExtensions instead of part of the contract)
 
         /// <summary>
         /// Convenience array overload of ROfRho. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos'
@@ -1115,7 +1115,20 @@ namespace Vts.Modeling.ForwardSolvers
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Overload of scalar FluenceOfRhoAndZ function. Determines reflectances of tissue 'regions' and source-detector separations 'rhos' and 'zs'
+        /// </summary>
+        /// <param name="regions">sets of medium regions </param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <returns>reflectance of given tissue regions, rhos and depths (zs)</returns>
+        public virtual IEnumerable<double> FluenceOfRhoAndZ(
+            IEnumerable<ITissueRegion[]> regions,
+            IEnumerable<double> rhos,
+            IEnumerable<double> zs)
+        {
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// Overload of scalar FluenceOfRhoAndZAndTime function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos', 'zs' and times 'ts'
         /// </summary>
@@ -1219,7 +1232,20 @@ namespace Vts.Modeling.ForwardSolvers
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
-
+        /// <summary>
+        /// Overload of FluenceOfRhoAndZ function. Determines reflectances of tissue 'regions', source-detector separations 'rhos' and 'zs'
+        /// </summary>
+        /// <param name="regions">sets of medium regions </param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <returns>reflectance of given tissue regions, rhos and z values</returns>
+        public double[] FluenceOfRhoAndZ(ITissueRegion[][] ops, double[] rhos, double[] zs)
+        {
+            var output = new double[ops.Length * rhos.Length * zs.Length];
+            var query = FluenceOfRhoAndZ((IEnumerable<ITissueRegion[]>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)zs);
+            Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
+            return output;
+        }
         /// <summary>
         /// Overload of FluenceOfRhoAndZAndTime function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos', 'zs' and times 'ts'
         /// </summary>

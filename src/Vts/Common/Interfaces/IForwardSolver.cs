@@ -251,6 +251,9 @@ namespace Vts
         /// <param name="fts">temporal frequencies</param>
         /// <returns>reflectance at spatial freq. and temporal freq.</returns>
         Complex[] ROfFxAndFt(ITissueRegion[][] regions, double[] fxs, double[] fts);
+
+        IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> rhos,
+                                             IEnumerable<double> zs);
         #endregion
 
         #region double ROfRho(OpticalProperties op, double rho);

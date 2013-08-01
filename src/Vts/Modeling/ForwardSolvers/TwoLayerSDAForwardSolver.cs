@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 using Vts.Common;
@@ -151,6 +152,26 @@ namespace Vts.Modeling.ForwardSolvers
             return SpatialAndTemporalFrequencyReflectance(2 * Math.PI * fx, ft, diffusionParameters, 
                 layerThicknesses, fr1, fr2);
         }
+        public override IEnumerable<double> FluenceOfRhoAndZ(
+            IEnumerable<ITissueRegion[]> regions,
+            IEnumerable<double> rhos,
+            IEnumerable<double> zs)
+        {
+
+            foreach (var region in regions)
+            {
+                var dp = GetDiffusionParameters(region);
+                var layerThicknesses = GetLayerThicknesses(region);
+                foreach (var rho in rhos)
+                {
+                    foreach (var z in zs)
+                    {
+                        yield return StationaryFluence(rho, z, dp, layerThicknesses);
+                    }
+                }
+            }
+        }
+
         private static DiffusionParameters[] GetDiffusionParameters(ITissueRegion[] regions)
         {
             var diffusionParameters = new DiffusionParameters[regions.Length];
@@ -181,14 +202,14 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fr1">Fresnel moment 1, R1</param>
         /// <param name="fr2">Fresnel moment 2, R2</param>
         /// <returns>reflectance</returns>
-        private static double StationaryReflectance(double rho, DiffusionParameters[] dp, double[] layerThicknesses,
+        public static double StationaryReflectance(double rho, DiffusionParameters[] dp, double[] layerThicknesses,
                                             double fr1, double fr2)
         {
             // this could use GetBackwardHemisphereIntegralDiffuseReflectance possibly? no protected
             return (1 - fr1) / 4 * StationaryFluence(rho, 0.0, dp, layerThicknesses) -
                 (fr2 - 1) / 2 * dp[0].D * StationaryFlux(rho, 0.0, dp, layerThicknesses);
         }
-        private static double SpatialFrequencyReflectance(double s, DiffusionParameters[] dp, double[] layerThicknesses,
+        public static double SpatialFrequencyReflectance(double s, DiffusionParameters[] dp, double[] layerThicknesses,
                                     double fr1, double fr2)
         {
             return (1 - fr1) / 4 * Phi1(s, 0.0, dp, layerThicknesses) -
@@ -225,7 +246,7 @@ namespace Vts.Modeling.ForwardSolvers
                 fluence = HankelTransform.DigitalFilterOfOrderZero(
                     rho, s => Phi1(s, z, dp, layerThicknesses));
             }
-            else // bottome layer phi2 solution
+            else // bottom layer phi2 solution
             {
                 fluence = HankelTransform.DigitalFilterOfOrderZero(
                     rho, s => Phi2(s, z, dp, layerThicknesses));
@@ -306,7 +327,7 @@ namespace Vts.Modeling.ForwardSolvers
             }
             return flux / (2 * Math.PI);
         }
-        // Note that the "guts" of Phi1 and TemporalFrequencyPhi1, and all other pairs, are equivalent,
+        // Note that the "guts" of Phi1 and TemporalFrequencyPhi1 and all other pairs, are equivalent,
         // the only difference is changing alpha1 and alpha2 to be complex
         private static double Phi1(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
@@ -314,8 +335,16 @@ namespace Vts.Modeling.ForwardSolvers
             var alpha1 = Math.Sqrt((dp[0].D * s * s + dp[0].mua) / dp[0].D);
             var alpha2 = Math.Sqrt((dp[1].D * s * s + dp[1].mua) / dp[1].D);
             var Da = (dp[0].D * alpha1 - dp[1].D * alpha2) / (dp[0].D * alpha1 + dp[1].D * alpha2);
-            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
-            var dum1 = Math.Exp(-alpha1 * (dp[0].zp - z)) -
+            double arg;
+            if (z < dp[0].zp) // in top layer and above isotropic source
+            {
+                arg = dp[0].zp - z;
+            }
+            else // in top layer and below isotropic source
+            {
+                arg = z - dp[0].zp;
+            }
+            var dum1 = Math.Exp(-alpha1 * arg) -
                        Math.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + z));
             var dum2 = Math.Exp(-alpha1 * (-dp[0].zp + 2 * layerThickness - z)) -
                        Math.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + 2 * layerThickness - z)) -
@@ -330,8 +359,16 @@ namespace Vts.Modeling.ForwardSolvers
             var alpha1 = Complex.Sqrt((dp[0].D * s * s + dp[0].mua + 2 * Math.PI * ft * Complex.ImaginaryOne / dp[0].cn) / dp[0].D);
             var alpha2 = Complex.Sqrt((dp[1].D * s * s + dp[1].mua + 2 * Math.PI * ft * Complex.ImaginaryOne / dp[0].cn) / dp[1].D);
             var Da = (dp[0].D * alpha1 - dp[1].D * alpha2) / (dp[0].D * alpha1 + dp[1].D * alpha2);
-            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
-            var dum1 = Complex.Exp(-alpha1 * (dp[0].zp - z)) -
+            double arg;
+            if (z < dp[0].zp) // in top layer and above isotropic source
+            {
+                arg = dp[0].zp - z;
+            }
+            else // in top layer and below isotropic source
+            {
+                arg = z - dp[0].zp;
+            }
+            var dum1 = Complex.Exp(-alpha1 * arg) -
                        Complex.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + z));
             var dum2 = Complex.Exp(-alpha1 * (-dp[0].zp + 2 * layerThickness - z)) -
                        Complex.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + 2 * layerThickness - z)) -
@@ -342,10 +379,8 @@ namespace Vts.Modeling.ForwardSolvers
         private static double Phi2(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
-            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
             var alpha1 = Math.Sqrt((dp[0].D * s * s + dp[0].mua) / dp[0].D);
             var alpha2 = Math.Sqrt((dp[1].D * s * s + dp[1].mua) / dp[1].D);
-            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
             var Da = (dp[0].D * alpha1 - dp[1].D * alpha2) / (dp[0].D * alpha1 + dp[1].D * alpha2);
             var dum3 = Math.Exp(alpha2 * (layerThickness - z)) / (dp[0].D * alpha1 + dp[1].D * alpha2);
             var dum4 = Math.Exp(alpha1 * (dp[0].zp - layerThickness)) -
@@ -357,10 +392,8 @@ namespace Vts.Modeling.ForwardSolvers
         private static Complex TemporalFrequencyPhi2(double s, double z, double ft, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
-            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
             var alpha1 = Complex.Sqrt((dp[0].D * s * s + dp[0].mua + 2 * Math.PI * ft * Complex.ImaginaryOne / dp[0].cn) / dp[0].D);
             var alpha2 = Complex.Sqrt((dp[1].D * s * s + dp[1].mua + 2 * Math.PI * ft * Complex.ImaginaryOne / dp[0].cn) / dp[1].D);
-            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
             var Da = (dp[0].D * alpha1 - dp[1].D * alpha2) / (dp[0].D * alpha1 + dp[1].D * alpha2);
             var dum3 = Complex.Exp(alpha2 * (layerThickness - z)) / (dp[0].D * alpha1 + dp[1].D * alpha2);
             var dum4 = Complex.Exp(alpha1 * (dp[0].zp - layerThickness)) -
@@ -372,13 +405,19 @@ namespace Vts.Modeling.ForwardSolvers
         private static double dPhi1(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
-            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
             var alpha1 = Math.Sqrt((dp[0].D * s * s + dp[0].mua) / dp[0].D);
             var alpha2 = Math.Sqrt((dp[1].D * s * s + dp[1].mua) / dp[1].D);
-
-            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
             var Da = (dp[0].D * alpha1 - dp[1].D * alpha2) / (dp[0].D * alpha1 + dp[1].D * alpha2);
-            var dum1 = Math.Exp(-alpha1 * (dp[0].zp - z)) +
+            double arg;
+            if (z < dp[0].zp) // in top layer and above isotropic source
+            {
+                arg = dp[0].zp - z;
+            }
+            else // in top layer and below isotropic source
+            {
+                arg = z - dp[0].zp;
+            }
+            var dum1 = Math.Exp(-alpha1 * arg) +
                        Math.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + z));
             var dum2 = Math.Exp(-alpha1 * (-dp[0].zp + 2 * layerThickness - z)) -
                        Math.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + 2 * layerThickness - z)) +
@@ -390,13 +429,19 @@ namespace Vts.Modeling.ForwardSolvers
             DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
-            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
             var alpha1 = Complex.Sqrt((dp[0].D * s * s + dp[0].mua + 2 * Math.PI * ft * Complex.ImaginaryOne / dp[0].cn) / dp[0].D);
             var alpha2 = Complex.Sqrt((dp[1].D * s * s + dp[1].mua + 2 * Math.PI * ft * Complex.ImaginaryOne / dp[0].cn) / dp[1].D);
-
-            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
             var Da = (dp[0].D * alpha1 - dp[1].D * alpha2) / (dp[0].D * alpha1 + dp[1].D * alpha2);
-            var dum1 = Complex.Exp(-alpha1 * (dp[0].zp - z)) +
+            double arg;
+            if (z < dp[0].zp) // in top layer and above isotropic source
+            {
+                arg = dp[0].zp - z;
+            }
+            else // in top layer and below isotropic source
+            {
+                arg = z - dp[0].zp;
+            }
+            var dum1 = Complex.Exp(-alpha1 * arg) +
                        Complex.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + z));
             var dum2 = Complex.Exp(-alpha1 * (-dp[0].zp + 2 * layerThickness - z)) -
                        Complex.Exp(-alpha1 * (2 * dp[0].zb + dp[0].zp + 2 * layerThickness - z)) +
@@ -407,7 +452,6 @@ namespace Vts.Modeling.ForwardSolvers
         private static double dPhi2(double s, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
-            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
             var alpha1 = Math.Sqrt((dp[0].D * s * s + dp[0].mua) / dp[0].D);
             var alpha2 = Math.Sqrt((dp[1].D * s * s + dp[1].mua) / dp[1].D);
             var Da = (dp[0].D * alpha1 - dp[1].D * alpha2) / (dp[0].D * alpha1 + dp[1].D * alpha2);
@@ -421,7 +465,6 @@ namespace Vts.Modeling.ForwardSolvers
         private static Complex TemporalFrequencydPhi2(double s, double z, double ft, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
-            // in this formulation phi1 for 0<z<zb and zb<z<l are the same, so dphi1/dz are same
             var alpha1 = Complex.Sqrt((dp[0].D * s * s + dp[0].mua + 2 * Math.PI * ft * Complex.ImaginaryOne / dp[0].cn) / dp[0].D);
             var alpha2 = Complex.Sqrt((dp[1].D * s * s + dp[1].mua + 2 * Math.PI * ft * Complex.ImaginaryOne / dp[0].cn) / dp[1].D);
             var Da = (dp[0].D * alpha1 - dp[1].D * alpha2) / (dp[0].D * alpha1 + dp[1].D * alpha2);

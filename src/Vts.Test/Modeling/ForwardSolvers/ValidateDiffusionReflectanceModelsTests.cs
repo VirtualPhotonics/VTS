@@ -1,14 +1,17 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers;
+using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.Modeling.ForwardSolvers
 {
     [TestFixture]
-    public class AAValidateDiffusionReflectanceModelsTests
+    public class ValidateDiffusionReflectanceModelsTests
     {
         //const double thresholdValue = 1e-5;
         const double thresholdValue = 1e-2;
@@ -25,8 +28,14 @@ namespace Vts.Test.Modeling.ForwardSolvers
         private static OpticalProperties ops = new OpticalProperties(mua, musp, g, n);
         private static DiffusionParameters dp = DiffusionParameters.Create(ops, ForwardModel.SDA);
 
+        private static DiffusionParameters[] dps = new DiffusionParameters[]
+                                                     {
+                                                         DiffusionParameters.Create(ops, ForwardModel.SDA),
+                                                         DiffusionParameters.Create(ops, ForwardModel.SDA)
+                                                     };
 
         private double[] rhos = new double[] { 1, 3, 10 }; //[mm]
+        private double[] zs = new double[] { 0.5, 1.5, 5}; //[mm] above, below l* in top layer, in bottom layer 
 
 
         #region SteadyState Reflectance
@@ -285,5 +294,35 @@ namespace Vts.Test.Modeling.ForwardSolvers
             }
         }
         #endregion Stationary Spatial Frequency Reflectance
+
+        #region Fluence
+        // generated two layers with identical properties and use SteadyStatePointSource results for validation
+        [Test]
+        public void StationaryFluenceTwoLayerSDATest()
+        {
+            var _thresholdValue = 1e-7;
+            var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
+            var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
+            double _topLayerThickness = 3; // mm
+
+            // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
+            LayerRegion[] _twoLayerTissue =
+                new LayerRegion[]
+                    {
+                        new LayerRegion(new DoubleRange(0, _topLayerThickness), new OpticalProperties(ops)),
+                        new LayerRegion(new DoubleRange(_topLayerThickness,100), new OpticalProperties(ops) ), 
+                    };
+            var _listOfOps = new List<OpticalProperties> {ops};
+            var _listOfTissueRegions = new List<ITissueRegion[]> { _twoLayerTissue };
+            var oneLayerResult = _oneLayerPointSourceForwardSolver.FluenceOfRhoAndZ(_listOfOps, rhos, zs);
+            var twoLayerResult = _twoLayerSDAForwardSolver.FluenceOfRhoAndZ(_listOfTissueRegions, rhos, zs);
+            var relDiff = Enumerable.Zip(oneLayerResult, twoLayerResult,
+                           (x, y) => Math.Abs((y - x)/x));
+            foreach (var r in relDiff)
+            {
+                Assert.IsTrue(r < _thresholdValue, "Test failed  with relative difference " + relDiff);
+            }                    
+        }
+        #endregion
     }
 }
