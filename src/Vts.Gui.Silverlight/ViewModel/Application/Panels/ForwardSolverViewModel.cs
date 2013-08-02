@@ -256,6 +256,9 @@ namespace Vts.Gui.Silverlight.ViewModel
                 case ForwardSolverType.Nurbs:
                     modelString = "Model - nurbs \r";
                     break;
+                case ForwardSolverType.TwoLayerSDA:
+                    modelString = "Model - 2 layer SDA \r";
+                    break;
             }
             string opString = null;
 
@@ -266,8 +269,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     regions = ((MultiRegionTissueViewModel)TissueInputVM).GetTissueInput().Regions;
                     opString =
-                        "μa1=" + regions[0].RegionOP.Mua + " \rμs'1=" + regions[0].RegionOP.Musp + 
-                        "μa2=" + regions[1].RegionOP.Mua + " \rμs'2=" + regions[1].RegionOP.Musp;
+                        "μa1=" + regions[0].RegionOP.Mua + " μs'1=" + regions[0].RegionOP.Musp + "\n" +
+                        "μa2=" + regions[1].RegionOP.Mua + " μs'2=" + regions[1].RegionOP.Musp; 
                 }
             }
             else
