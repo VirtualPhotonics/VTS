@@ -269,7 +269,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     regions = ((MultiRegionTissueViewModel)TissueInputVM).GetTissueInput().Regions;
                     opString =
-                        "μa1=" + regions[0].RegionOP.Mua + " μs'1=" + regions[0].RegionOP.Musp + "\n" +
+                        "μa1=" + regions[0].RegionOP.Mua + " μs'1=" + regions[0].RegionOP.Musp + "\r" +
                         "μa2=" + regions[1].RegionOP.Mua + " μs'2=" + regions[1].RegionOP.Musp; 
                 }
             }

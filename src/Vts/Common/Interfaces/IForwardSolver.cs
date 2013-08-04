@@ -122,6 +122,24 @@ namespace Vts
         /// separations 'rhos'and temporal frequencies fts
         /// </summary>
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="fts">temporal frequencies</param>
+        /// <returns></returns>
+        Complex[] ROfRhoAndFt(ITissueRegion[] regions, double rho, double[] fts);
+        /// <summary>
+        /// Overload of scalar ROfRho function. Determines reflectances given tissue regions, source-detector 
+        /// separations 'rhos'and temporal frequencies fts
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="rhos">source-detector separation (mm)</param>
+        /// <param name="ft">temporal frequencies</param>
+        /// <returns></returns>
+        Complex[] ROfRhoAndFt(ITissueRegion[] regions, double[] rhos, double ft);
+        /// <summary>
+        /// Overload of scalar ROfRho function. Determines reflectances given tissue regions, source-detector 
+        /// separations 'rhos'and temporal frequencies fts
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">temporal frequencies</param>
         /// <returns></returns>
@@ -156,6 +174,14 @@ namespace Vts
         /// <returns></returns>
         IEnumerable<double> ROfFx(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> fxs);
         #endregion
+
+        /// <summary>
+        /// Overload of scalar ROfFx function. Determines reflectances given tissue regions and spatia freqs 'fxs'
+        /// </summary>
+        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <returns>reflectance at sptail frequency</returns>
+        double[] ROfFx(ITissueRegion[] regions, double[] fxs);
 
         /// <summary>
         /// Overload of scalar ROfFx function. Determines reflectances given tissue regions and spatia freqs 'fxs'

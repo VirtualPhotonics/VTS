@@ -885,7 +885,16 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfFx(new[] { op }, fxs);
         }
-
+        /// <summary>
+        /// Overload of ROfFx. Determines reflectances at tissue 'regions' and spatial frequencies 'fxs'
+        /// </summary>
+        /// <param name="regions">medium optical and geometric properties</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <returns>reflectance at given single set of optical properties and spatial frequencies</returns>
+        public double[] ROfFx(ITissueRegion[] regions, double[] fxs)
+        {
+            return ROfFx(new[] { regions }, fxs);
+        }
         /// <summary>
         /// Overload of ROfFx. Determines reflectances at optical properties 'ops' and spatial frequency 'fx'
         /// </summary>
