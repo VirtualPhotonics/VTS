@@ -11,7 +11,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.Modeling.ForwardSolvers
 {
     [TestFixture]
-    public class ValidateDiffusionReflectanceModelsTests
+    public class AAValidateDiffusionReflectanceModelsTests
     {
         //const double thresholdValue = 1e-5;
         const double thresholdValue = 1e-2;
@@ -157,8 +157,8 @@ namespace Vts.Test.Modeling.ForwardSolvers
         //        var oneLayerResult = _oneLayerNurbsForwardSolver.ROfRhoAndTime(ops, rhos[irho], t);
         //        var twoLayerResult = _twoLayerSDAForwardSolver.ROfRhoAndTime(_twoLayerTissue, rhos[irho], t);
         //        var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
-        //        Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
-        //            "mm, with relative difference " + relDiff);
+        //        //Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+        //        //    "mm, with relative difference " + relDiff);
         //    }
         //}
         #endregion Temporal Reflectance

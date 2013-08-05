@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 using Vts.Common;
@@ -65,34 +66,32 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
             }
-            // Adam's suggestions:
-            //int numFrequencies = 512; // Kienle used this number
-            //int numTime = 100;
-            //double dtime = 0.01; // 5-10 ns?
-            //var deltaFrequency = 1/(numTime*dtime); // deltaTime = 1/deltaFrequency;
-            // frequency span would be deltaFrequency * numTime
-            // considerations: 2n datapoint and pad with 0s beyond
 
-
-            //double deltaFrequency = 1.0/numFrequencies; // GHz, this value changes results quite a bit
-            //var rOfFt = new Complex[numFrequencies];
-            //var ft = new double[numFrequencies];
-            //var t = new double[numFrequencies];
-            //var deltaTime = 1.0/deltaFrequency;
-            //for (int i = 0; i < numFrequencies; i++)
+            //int numTime = 512; // = numFrequencies Kienle used this number
+            //double deltaTime = 0.01; // ns
+            //var deltaFrequency = 1/(numTime*deltaTime); // time window = numTime * deltaTime = ~5ns?
+            //// frequency span would be deltaFrequency * numTime
+            //// considerations: 2n datapoint and pad with 0s beyond
+            //var rOfFt = new Complex[2*numTime];
+            //var ft = new double[2*numTime];
+            //var t = new double[2*numTime];
+            //for (int i = 0; i < 2*numTime; i++)
             //{
             //    ft[i] = i*deltaFrequency;
             //    t[i] = i*deltaTime;
-            //    rOfFt[i] = TemporalFrequencyReflectance(rho, ft[i], diffusionParameters, layerThicknesses, fr1, fr2);
-            //}
-            //var temp = LinearDiscreteFourierTransform.GetInverseFourierTransform(ft, rOfFt, deltaFrequency, time);
-            //MathNet.Numerics.IntegralTransforms.Transform.FourierInverse(rOfFt, FourierOptions.InverseExponent);
-            //var temp2 = temp;
-            return 1;
-            // Adam's tries
-            // Algorithms.DiscreteFourierTransform with Matlab option
-            // Radix2Forward (2n) fastest way
-            // normalization * deltaFrequency * numFrequencies
+            //    if (i<numTime) // pad with 0s beyond numTime
+            //    {
+            //        rOfFt[i] = TemporalFrequencyReflectance(rho, ft[i], diffusionParameters, layerThicknesses, fr1, fr2);         
+            //    }
+            //}            
+            //MathNet.Numerics.IntegralTransforms.Transform.FourierInverse(rOfFt, FourierOptions.Matlab);
+            //// Adam's suggestion Radix2Inverse(2n), normalization = deltaFrequency * numFrequencies
+            ////var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
+            ////dft.Radix2Inverse(rOfFt, FourierOptions.Matlab);
+            //var rOfTimeNorm = rOfFt.Select(r => r.Magnitude*numTime*deltaFrequency);
+            //var temp = Common.Math.Interpolation.interp1(t.ToList(), rOfTimeNorm.ToList(), time);
+            //return temp;
+            return 0;
         }
         public override Complex ROfRhoAndFt(ITissueRegion[] regions, double rho, double ft)
         {

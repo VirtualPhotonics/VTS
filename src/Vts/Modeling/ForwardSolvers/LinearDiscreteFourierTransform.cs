@@ -73,6 +73,7 @@ namespace Vts.Modeling
                     Complex.ImaginaryOne * Math.Sin(2 * Math.PI * ft * t)) * dt;
         }
 
+        // NOT SURE ABOUT following 2 methods, they haven't been checked out CKH
         /// <summary>
         /// Calculate the inverse Fourier Transform using a discrete Riemann middle sum with uniform frequencies
         /// </summary>
