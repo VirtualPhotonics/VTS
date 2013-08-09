@@ -138,6 +138,9 @@
   <data name="ForwardSolverType_PointSourceSDA" xml:space="preserve">
     <value>Standard Diffusion (Analytic - Isotropic Point Source)</value>
   </data>
+  <data name="ForwardSolverType_TwoLayerSDA" xml:space="preserve">
+    <value>Two Layer SDA - Beta version R(ρ) only</value>
+  </data>
   <data name="IndependentVariableAxis_Rho" xml:space="preserve">
     <value>ρ</value>
   </data>
