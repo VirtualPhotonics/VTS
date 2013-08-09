@@ -538,6 +538,9 @@ namespace Vts.Gui.Silverlight.ViewModel
             DataSeriesCollection.Clear();
             PlotSeriesCollection.Clear();
             Labels.Clear();
+            RealImagLabels.Clear();
+            PhaseLabels.Clear();
+            AmplitudeLabels.Clear();
             DataSeriesCollectionToggle.Clear();
         }
 
