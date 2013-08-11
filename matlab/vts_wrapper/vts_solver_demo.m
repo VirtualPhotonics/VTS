@@ -171,7 +171,8 @@ xlabel('\rho [mm]')
 ylabel('z [mm]')
 set(f,'Name','Fluence of Rho and z and ft (ft=1GHz)');
 
-figure; imagesc(squeeze(test(2,:,:)./test(1,:,:)))
+modulation = squeeze(test(2,:,:)./test(1,:,:));
+figure; imagesc(xs,zs,[fliplr(modulation(:,2:end)), modulation]);
 axis image
 title('Modulation of fluence (AC/DC) of \rho and z and ft (ft=1GHz)'); 
 xlabel('\rho [mm]')
