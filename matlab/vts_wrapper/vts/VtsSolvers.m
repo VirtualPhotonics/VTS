@@ -51,6 +51,31 @@ classdef VtsSolvers
 
             r = reshape(double(fs.ROfRho(op_net,rho)),[length(rho) nop]);
         end
+%         function r = ROfRhoTissueInput(tissueInput, rho)
+%         %% ROfRho
+%             %   ROfRho(tissueInput, RHO) returns the steady-state spatially-resolved
+%             %   reflectance 
+%             %   
+%             %   tissueInput 
+%             %   RHO is an 1 x M array of detector locations (in mm)
+%             %       eg. RHO = [1:10];
+%             nr = size(tissueInput,1);
+%             
+%             fs = Vts.Factories.SolverFactory.GetForwardSolver(VtsSolvers.Options.SolverType); 
+% 
+%             ti_net = NET.('Vts.MultiLayerTissue',nr);
+%             for i=1:nr
+%                 ti_net(i).LayerRegions = Vts.TissueLayer;
+%                 ti_net(i).RegionOP.Mua = tissueInput(i).RegionOP.Mua;
+%                 ti_net(i).RegionOP.Musp = tissueInput(i).RegionOP.Musp;
+%                 ti_net(i).RegionOP.G = tissueInput(i).RegionOP.G;
+%                 ti_net(i).RegionOP.N = tissueInput(i).RegionOP.N;
+%                 ti_net(i).ZRange.Start = tissueInput(i).ZRange.Start;
+%                 ti_net(i).ZRange.Stop = tissueInput(i).ZRange.Stop;
+%                 ti_net(i).ZRange.Count = tissueInput(i).ZRange.Count;
+%             end;
+%             r = reshape(double(fs.ROfRho(ti_net,rho)),[length(rho) nr]);
+%         end
         function r = ROfFx(op, fx)
             %% ROfFx
             %   ROfFx(OP, FX) returns the steady-state reflectance in the
