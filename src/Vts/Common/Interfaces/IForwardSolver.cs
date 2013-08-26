@@ -244,6 +244,24 @@ namespace Vts
         /// <param name="ft">temporal frequency</param>
         /// <returns>reflectance at spatial freq. and temporal freq.</returns>
         Complex ROfFxAndFt(ITissueRegion[] regions, double fx, double ft);
+        /// <summary>
+        /// Overload of scalar ROfFxAndFt function. Determines reflectances given tissue regions, source-detector 
+        /// separations 'rhos'and temporal frequencies fts
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="fts">temporal frequencies</param>
+        /// <returns></returns>
+        Complex[] ROfFxAndFt(ITissueRegion[] regions, double fx, double[] fts);
+        /// <summary>
+        /// Overload of scalar ROfFxAndFt function. Determines reflectances given tissue regions, spatial freqs 
+        /// 'fs'and temporal frequencies fts
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fxs">spatial freqs</param>
+        /// <param name="ft">temporal frequencies</param>
+        /// <returns></returns>
+        Complex[] ROfFxAndFt(ITissueRegion[] regions, double[] fxs, double ft);
         #endregion
 
         #region IEnumerable<Complex> ROfFxAndFt(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> fts);

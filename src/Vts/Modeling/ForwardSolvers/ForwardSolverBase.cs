@@ -464,8 +464,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>Reflectance at given optical properties and rhos</returns>
         public Complex[] ROfRhoAndFt(ITissueRegion[][] regions, double[] rhos, double[] fts)
         {
-            var output = new Complex[regions.Length * rhos.Length];
-            var query = ROfRho((IEnumerable<ITissueRegion[]>)regions, (IEnumerable<double>)rhos);
+            var output = new Complex[regions.Length * rhos.Length * fts.Length];
+            var query = ROfRhoAndFt((IEnumerable<ITissueRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)fts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
@@ -821,7 +821,18 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Overload of ROfRhoAndFt. Determines reflectances of tissue 'regions', source-detector separations 'rhos' and time frequency 'ft'
         /// </summary>
-        /// <param name="regions">sets of medium tissue regions</param>
+        /// <param name="regions">sets of tissue regions</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="ft">modulation frequency (GHz)</param>
+        /// <returns>reflectance of given tissue regions, rhos and single modulation frequencies</returns>
+        public Complex[] ROfRhoAndFt(ITissueRegion[][] regions, double[] rhos, double ft)
+        {
+            return ROfRhoAndFt(regions, rhos, new[] { ft });
+        }
+        /// <summary>
+        /// Overload of ROfRhoAndFt. Determines reflectances of tissue 'regions', source-detector separations 'rhos' and time frequency 'ft'
+        /// </summary>
+        /// <param name="regions">tissue regions</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
         /// <returns>reflectance of given tissue regions, rhos and single modulation frequencies</returns>
@@ -862,6 +873,7 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfRhoAndFt(new[] { op }, rhos, new[] { ft });
         }
+
         /// <summary>
         /// Overload of ROfRhoAndTime. Determines reflectances at optical properties 'ops', source-detector separation 'rho' and time frequency 'ft'
         /// </summary>
@@ -1064,7 +1076,17 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfFxAndFt(ops, fxs, new[] { ft });
         }
-
+        /// <summary>
+        /// Overload of ROfFxAndFt. Determines reflectances of tissue 'regions', spatial frequency 'fx' and time frequencies 'fts'
+        /// </summary>
+        /// <param name="regions">sets of medium regions</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="ft">modulation frequency (GHz)</param>
+        /// <returns>reflectance of given tissue regions, single spatial frequency and modulation frequencies</returns>
+        public Complex[] ROfFxAndFt(ITissueRegion[][] regions, double[] fxs, double ft)
+        {
+            return ROfFxAndFt(regions, fxs, new[] { ft });
+        }
         /// <summary>
         /// Overload of ROfFxAndFt. Determines reflectances at optical properties 'op', spatial frequency 'fx' and time frequencies 'fts'
         /// </summary>
@@ -1076,7 +1098,28 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfFxAndFt(new[] { op }, new[] { fx }, fts);
         }
-
+        /// <summary>
+        /// Overload of ROfFxAndFt. Determines reflectances of tissue 'regions', spatial frequency 'fx' and time frequencies 'fts'
+        /// </summary>
+        /// <param name="regions">sets of medium regions</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="ft">modulation frequency (GHz)</param>
+        /// <returns>reflectance of given tissue regions, single spatial frequency and modulation frequencies</returns>
+        public Complex[] ROfFxAndFt(ITissueRegion[] regions, double[] fxs, double ft)
+        {
+            return ROfFxAndFt(regions, fxs, new[] { ft });
+        }
+        /// <summary>
+        /// Overload of ROfFxAndFt. Determines reflectances of tissue 'regions', spatial frequency 'fx' and time frequencies 'fts'
+        /// </summary>
+        /// <param name="regions">sets of medium regions</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <param name="fts">modulation frequencies (GHz)</param>
+        /// <returns>reflectance of given tissue regions, single spatial frequency and modulation frequencies</returns>
+        public Complex[] ROfFxAndFt(ITissueRegion[] regions, double fx, double[] fts)
+        {
+            return ROfFxAndFt(regions, new[] { fx }, fts);
+        }
         /// <summary>
         /// Overload of ROfFxAndFt. Determines reflectances at optical properties 'op', spatial frequencies 'fxs' and time frequency 'ft'
         /// </summary>

@@ -625,16 +625,18 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            //if (fs is TwoLayerSDAForwardSolver)
-                            //{
-                            //    return (fitData, otherData) => fs.ROfRhoAndFt(getTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary;
-                            //}
+                            if (fs is TwoLayerSDAForwardSolver)
+                            {
+                                return (fitData, otherData) =>
+                                    fs.ROfRhoAndFt(getTissueRegionArray(fitData), (double[]) otherData[0], (double) otherData[1]).FlattenRealAndImaginary();
+                            }
                             return (fitData, otherData) => fs.ROfRhoAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
                         case IndependentVariableAxis.Ft:
-                            //if (fs is TwoLayerSDAForwardSolver)
-                            //{
-                            //    return (fitData, otherData) => fs.ROfRhoAndFt(getTissueRegionArray(fitData), (double[])otherData[1], (double)otherData[0]).FlattenRealAndImaginary;
-                            //}
+                            if (fs is TwoLayerSDAForwardSolver)
+                            {
+                                return (fitData, otherData) => 
+                                    fs.ROfRhoAndFt(getTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
+                            }
                             return (fitData, otherData) => fs.ROfRhoAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
                         default:
                             throw new ArgumentOutOfRangeException("axis");
@@ -643,8 +645,18 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
+                            if (fs is TwoLayerSDAForwardSolver)
+                            {
+                                return (fitData, otherData) =>
+                                    fs.ROfFxAndFt(getTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
+                            }
                             return (fitData, otherData) => fs.ROfFxAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
                         case IndependentVariableAxis.Ft:
+                            if (fs is TwoLayerSDAForwardSolver)
+                            {
+                                return (fitData, otherData) =>
+                                    fs.ROfFxAndFt(getTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
+                            }
                             return (fitData, otherData) => fs.ROfFxAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
                         default:
                             throw new ArgumentOutOfRangeException("axis");

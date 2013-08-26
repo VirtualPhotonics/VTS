@@ -349,7 +349,7 @@ namespace Vts.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Two Layer SDA - Beta version R(ρ) only.
+        ///   Looks up a localized string similar to Two Layer SDA - Beta version R(ρ,fx,ft) only.
         /// </summary>
         public static string ForwardSolverType_TwoLayerSDA {
             get {
