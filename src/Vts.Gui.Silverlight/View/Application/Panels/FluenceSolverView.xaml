@@ -60,8 +60,13 @@
             <TextBlock Text="{Binding Path=MainResource.Label_zRange, Source={StaticResource LocalizedStrings}}" Margin="5,0,15,0" VerticalAlignment="Center"/>
             <v:RangeView DataContext="{Binding ZRangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </StackPanel>
-        <!-- Optical Properties -->
-        <v:OpticalPropertyView Mua="1.0" DataContext="{Binding OpticalPropertyVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+         <!-- Optical Properties (single- or multi-region property editor shown, depending on forward model type -->
+        <StackPanel Visibility="{Binding IsSemiInfinite, Converter={StaticResource myBooleanToVisibilityConverter}}">
+            <v:OpticalPropertyView Mua="1.0" DataContext="{Binding TissueInputVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+        <StackPanel Visibility="{Binding IsMultiRegion, Converter={StaticResource myBooleanToVisibilityConverter}}">
+            <v:MultiRegionOpticalPropertyView DataContext="{Binding TissueInputVM}" HorizontalAlignment="Left" VerticalAlignment="Top"  />
+        </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
             <!-- This Radio button choice does not appear on the panel -->
             <v:RadioButtonOptionView DataContext="{Binding ForwardAnalysisTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>

@@ -291,6 +291,74 @@ namespace Vts.Factories
             return func(parameters, inputValues.ToArray());
         }
 
+        public static double[] GetVectorizedMultidimensionalIndependentVariableQueryNew(
+            ForwardSolverType forwardSolverType,
+            FluenceSolutionDomainType solutionDomainType,
+            // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            IndependentVariableAxis[] independentAxesTypes,
+            double[][] independentValues,
+            ITissueRegion[] tissueRegions,
+            params double[] constantValues)
+        {
+            // use factory method on each call, as opposed to injecting an instance from the outside
+            // -- still time-efficient if singletons are used
+            // -- potentially memory-inefficient if the user creates lots of large solver instances
+            return GetVectorizedMultidimensionalIndependentVariableQueryNew(
+                SolverFactory.GetForwardSolver(forwardSolverType),
+                solutionDomainType,
+                independentAxesTypes,
+                independentValues,
+                tissueRegions,
+                constantValues);
+        }
+        // overload for ITissueRegion forward solvers todo: merge with above?
+        public static double[] GetVectorizedMultidimensionalIndependentVariableQueryNew(
+            IForwardSolver forwardSolver,
+            FluenceSolutionDomainType solutionDomainType,
+            // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            IndependentVariableAxis[] independentAxesTypes,
+            double[][] independentValues,
+            ITissueRegion[] tissueRegions,
+            params double[] constantValues)
+        {
+            var parameters = tissueRegions.SelectMany(region =>
+            {
+                double[] regionParameters = null;
+                if (region is LayerRegion)
+                {
+                    var layerRegion = (LayerRegion)region;
+                    regionParameters = new[]
+                        {
+                            layerRegion.RegionOP.Mua,
+                            layerRegion.RegionOP.Musp,
+                            layerRegion.RegionOP.G,
+                            layerRegion.RegionOP.N,
+                            layerRegion.ZRange.Delta
+                        };
+                }
+                //else if(region is EllipsoidRegion)
+                //{
+                //  
+                //}
+                else
+                {
+                    throw new Exception("Forward model " +
+                                        forwardSolver.ToString() +
+                                        " is not supported.");
+                }
+                return regionParameters;
+            }).ToArray();
+
+            // todo: current assumption below is that the second axis is z. need to generalize
+            var func = GetForwardFluenceFunc(forwardSolver, solutionDomainType, independentAxesTypes[0]);
+
+            // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
+            List<object> inputValues = new List<object>(independentValues);
+            constantValues.ForEach(cv => inputValues.Add(cv));
+
+            return func(parameters, inputValues.ToArray());
+        }
+
         public static Complex[] GetVectorizedMultidimensionalIndependentVariableQueryNewComplex(
             ForwardSolverType forwardSolverType,
             FluenceSolutionDomainType solutionDomainType,
@@ -677,6 +745,10 @@ namespace Vts.Factories
             switch (type)
             {
                 case FluenceSolutionDomainType.FluenceOfRhoAndZ:
+                    if (fs is TwoLayerSDAForwardSolver) // todo: future generalization to IMultiRegionForwardSolver?
+                    {
+                        return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[] { getTissueRegionArray(fitData) }, (double[])otherData[0], (double[])otherData[1]);
+                    }
                     return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
                 case FluenceSolutionDomainType.FluenceOfFxAndZ:
                     return (fitData, otherData) => fs.FluenceOfFxAndZ(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);

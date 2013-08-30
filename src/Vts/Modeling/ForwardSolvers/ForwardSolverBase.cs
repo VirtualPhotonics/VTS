@@ -1181,6 +1181,7 @@ namespace Vts.Modeling.ForwardSolvers
         {
             throw new NotImplementedException();
         }
+
         /// <summary>
         /// Overload of scalar FluenceOfRhoAndZAndTime function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos', 'zs' and times 'ts'
         /// </summary>
@@ -1291,10 +1292,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <returns>reflectance of given tissue regions, rhos and z values</returns>
-        public double[] FluenceOfRhoAndZ(ITissueRegion[][] ops, double[] rhos, double[] zs)
+        public double[] FluenceOfRhoAndZ(ITissueRegion[][] regions, double[] rhos, double[] zs)
         {
-            var output = new double[ops.Length * rhos.Length * zs.Length];
-            var query = FluenceOfRhoAndZ((IEnumerable<ITissueRegion[]>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)zs);
+            var output = new double[regions.Length * rhos.Length * zs.Length];
+            var query = FluenceOfRhoAndZ((IEnumerable<ITissueRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)zs);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
