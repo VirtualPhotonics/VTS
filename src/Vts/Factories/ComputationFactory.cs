@@ -9,6 +9,7 @@ using Vts.Modeling.ForwardSolvers;
 using Vts.Modeling.ForwardSolvers.Extensions;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Helpers;
 
 #if DESKTOP
 using System.Runtime.InteropServices;
@@ -550,6 +551,20 @@ namespace Vts.Factories
             return fluence.Select(flu => flu*mua); // todo: is this correct?? DC 12/08/12
         }
 
+        /// <summary>
+        /// Method to generate absorbed energy given fluence and mua for heterogeneous tissue.
+        /// </summary>
+        /// <param name="fluence">fluence serialized to a 1D IEnumerable of double</param>
+        /// <param name="mua">absorption coefficient serialized to a 1D IEnumerable</param>
+        /// <returns>absorbed energy in a 1D IEnumerable of double</returns>
+        public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, IEnumerable<double> muas)
+        {
+            if (fluence.Count() != muas.Count())
+                throw new ArgumentException("fluence and muas must be same length");
+            IEnumerable<double> result = Enumerable.Zip(fluence, muas, (flu, mua) => flu*mua);
+            return result;
+        }
+
         public static double[] ConstructAndExecuteVectorizedOptimizer(
             ForwardSolverType forwardSolverType,
             OptimizerType optimizerType,
@@ -633,6 +648,22 @@ namespace Vts.Factories
                     new OpticalProperties(currentLayerProps[0], currentLayerProps[1], currentLayerProps[2], currentLayerProps[3]));
             }
             return regionArray;
+        };
+
+        // the following function determines a flattened mua array for layered tissue
+        public static Func<ITissueRegion[],double[],double[],double[]> getRhoZMuaArrayFromRegions = (regions,rhos,zs) =>
+        {
+            int numBins = rhos.Length * zs.Length;
+            var muaArray = new double[numBins];
+            for (int i = 0; i < zs.Length; i++)
+            {
+                var layerIndex = DetectorBinning.WhichBin(zs[i], regions.Select(r => ((LayerRegion)r).ZRange.Stop).ToArray());
+                for (int j = 0; j < rhos.Length; j++)
+                {
+                    muaArray[i * rhos.Length + j] = regions[layerIndex].RegionOP.Mua;
+                }
+            }
+            return muaArray;
         };
 
         private static Func<double[], object[], double[]> GetForwardReflectanceFunc(

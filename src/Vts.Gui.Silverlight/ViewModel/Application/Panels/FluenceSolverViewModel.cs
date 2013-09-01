@@ -469,6 +469,20 @@ namespace Vts.Gui.Silverlight.ViewModel
                             results = fluence;
                             break;
                         case MapType.AbsorbedEnergy:
+                            if (IsMultiRegion)
+                            {
+                                ITissueRegion[] regions = null;
+                                if (ForwardSolver is TwoLayerSDAForwardSolver)
+                                {
+                                    regions = ((MultiRegionTissueViewModel)TissueInputVM).GetTissueInput().Regions;
+                                }
+                                if (regions == null)
+                                {
+                                    return null;
+                                }
+                                var muas = ComputationFactory.getRhoZMuaArrayFromRegions(regions, rhos, zs);
+                                results = ComputationFactory.GetAbsorbedEnergy(fluence, muas).ToArray(); 
+                            }
                             results = ComputationFactory.GetAbsorbedEnergy(fluence, OpticalPropertyVM.GetOpticalProperties().Mua).ToArray();
                             break;
                         case MapType.PhotonHittingDensity:

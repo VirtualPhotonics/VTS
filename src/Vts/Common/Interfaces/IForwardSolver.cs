@@ -288,7 +288,6 @@ namespace Vts
         Complex[] ROfFxAndFt(ITissueRegion[][] regions, double[] fxs, double[] fts);
         #endregion
 
-
         #region double[] FluenceOfRhoAndZ(ITissueRegion[][] regions, double[] rhos, double[] zs);
         /// <summary>
         ///  Overload of scalar FluenceOfRhoAndZ function. Determines fluence of tissue 'regions' and source-detector separations 'rhos' and 'zs'
