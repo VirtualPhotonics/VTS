@@ -29,4 +29,5 @@
 % <ROfFxAndFt_help.html ROfFxAndFt> |
 % <ROfFxAndT_help.html ROfFxAndT> | 
 % <ROfRhoAndFt_help.html ROfRhoAndFt> | 
-% <ROfRhoAndT_help.html ROfRhoAndT>
+% <ROfRhoAndT_help.html ROfRhoAndT> |
+% <SetSolverType_help.html SetSolverType>

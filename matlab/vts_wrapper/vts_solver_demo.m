@@ -171,10 +171,11 @@ xlabel('\rho [mm]')
 ylabel('z [mm]')
 set(f,'Name','Fluence of Rho and z and ft (ft=1GHz)');
 
+% 2nd figure to show modulation
 modulation = squeeze(test(2,:,:)./test(1,:,:));
-figure; imagesc(xs,zs,[fliplr(modulation(:,2:end)), modulation]);
+f = figure; imagesc(xs,zs,[fliplr(modulation(:,2:end)), modulation]);
 axis image
-title('Modulation of fluence (AC/DC) of \rho and z and ft (ft=1GHz)'); 
+title('Modulation of fluence (AC/DC) of \rho & z & ft (ft=1GHz)'); 
 xlabel('\rho [mm]')
 ylabel('z [mm]')
 set(f,'Name','Modulation of fluence (AC/DC) of Rho and z and ft (ft=1GHz)');
@@ -433,15 +434,15 @@ for i=1:length(rho)
 end
 
 f = figure; plot(wv, test');
-set(f, 'Name', 'Reflectance');
+set(f, 'Name', 'SDA Reflectance vs wavelength');
 set(f, 'OuterPosition', [100, 50, 800, 800]);
 title('SDA Reflectance vs wavelength'); 
 ylabel('R(\lambda)');
 xlabel('Wavelength, \lambda [nm]');
 options = [{'Location', 'NorthEast'}; {'FontSize', 12}; {'Box', 'on'}];
 PlotHelper.CreateLegend(rho,'\rho = ', 'mm',options);
-%% Example ROfRho (inverse solution for chromophore concentrations for
-% multiple wavelengths, single rho)
+%% Example ROfRho (inverse solution for chromophore concentrations for multiple wavelengths, single rho)
+
 rho = 1;  % source-detector separation in mm
 wv = 400:50:1000;
 
@@ -492,7 +493,9 @@ f = figure; plot(wv, measData,'ro',...
 xlabel('Wavelength, \lambda [nm]');
 ylabel('R(\lambda)');
 legend('Meas','IG','Converged');
-set(f, 'OuterPosition', [100, 50, 800, 800]); 
+set(f, 'Name', 'ROfRho (inverse solution for chromophore concentrations, multiple wavelengths, single rho)');
+title('ROfRho (inverse solution for chromophore concentrations, multiple wavelengths, single \rho)'); 
+set(f, 'OuterPosition', [100, 50, 960, 850]); 
 options = [{'Location', 'NorthEast'}; {'FontSize', 12}; {'Box', 'on'}];
 disp(sprintf('Meas =    [%5.3f %5.3f %5.3f]',measConc(1),measConc(2),measConc(3)));
 disp(sprintf('IG =      [%5.3f %5.3f %5.3f] Chi2=%5.3e',conc0(1),conc0(2),conc0(3),...
