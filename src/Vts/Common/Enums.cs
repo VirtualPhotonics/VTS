@@ -43,7 +43,7 @@ namespace Vts
         /// </summary>
         PointSourceSDA,
         /// <summary>
-        /// Standard Diffusion Appoximation (SDA) with distributed point source forward solver
+        /// Standard Diffusion Approximation (SDA) with distributed point source forward solver
         /// </summary>
         DistributedPointSourceSDA,
         /// <summary>
