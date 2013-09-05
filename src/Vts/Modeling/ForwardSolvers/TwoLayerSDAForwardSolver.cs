@@ -66,32 +66,45 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
             }
-
-            //int numTime = 512; // = numFrequencies Kienle used this number
-            //double deltaTime = 0.01; // ns
-            //var deltaFrequency = 1/(numTime*deltaTime); // time window = numTime * deltaTime = ~5ns?
-            //// frequency span would be deltaFrequency * numTime
-            //// considerations: 2n datapoint and pad with 0s beyond
-            //var rOfFt = new Complex[2*numTime];
-            //var ft = new double[2*numTime];
-            //var t = new double[2*numTime];
-            //for (int i = 0; i < 2*numTime; i++)
-            //{
-            //    ft[i] = i*deltaFrequency;
-            //    t[i] = i*deltaTime;
-            //    if (i<numTime) // pad with 0s beyond numTime
-            //    {
-            //        rOfFt[i] = TemporalFrequencyReflectance(rho, ft[i], diffusionParameters, layerThicknesses, fr1, fr2);         
-            //    }
-            //}            
-            //MathNet.Numerics.IntegralTransforms.Transform.FourierInverse(rOfFt, FourierOptions.Matlab);
-            //// Adam's suggestion Radix2Inverse(2n), normalization = deltaFrequency * numFrequencies
-            ////var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
-            ////dft.Radix2Inverse(rOfFt, FourierOptions.Matlab);
-            //var rOfTimeNorm = rOfFt.Select(r => r.Magnitude*numTime*deltaFrequency);
-            //var temp = Common.Math.Interpolation.interp1(t.ToList(), rOfTimeNorm.ToList(), time);
-            //return temp;
-            return 0;
+            
+            int numFreq = 512; // Kienle used 512 and deltaFreq = 0.1
+            // Kienle says deltaFrequency depends on source-detector separation
+            var deltaFrequency = 0.1; // 100 MHz
+            if (rho <= 5)
+            {
+                deltaFrequency = 0.5;
+            }           
+            var F = numFreq*deltaFrequency; // 51 GHz
+            var deltaTime = 1.0/(numFreq*deltaFrequency); // 0.02 ns => T = 10 ns
+            var homoSDA = new PointSourceSDAForwardSolver(); // debug with homo SDA
+            var rOfTime = new Complex[numFreq];
+            // considerations: 2n datapoint and pad with 0s beyond (deltaTime * numFreq)
+            var rOfFt = new Complex[numFreq];
+            var ft = new double[numFreq];
+            var t = new double[numFreq];
+            for (int i = 0; i < numFreq; i++)
+            {
+                ft[i] = i * deltaFrequency;
+                t[i] = (i + 1) * deltaTime;
+                // normalize by F=(numFreq*deltaFrequency)
+                rOfFt[i] = TemporalFrequencyReflectance(rho, ft[i], diffusionParameters, layerThicknesses, fr1, fr2) * F;
+                rOfTime[i] = homoSDA.ROfRhoAndTime(regions[1].RegionOP, rho, t[i]);
+            }
+            // to debug, use R(t) and FFT to see if result R(ft) is close to rOfFt
+            //var dft2 = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
+            //dft2.Radix2Forward(rOfTime, FourierOptions.NoScaling);  // convert to R(ft) to compare with rOfFt
+            //var relDiffReal = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Real - x.Real) / x.Real));
+            //var relDiffImag = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Imaginary - x.Imaginary) / x.Imaginary));
+            //var maxReal = relDiffReal.Max();
+            //var maxImag = relDiffImag.Max();
+            //var dum1 = maxReal;
+            //var dum2 = maxImag;
+            // FFT R(ft) to R(t)
+            var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
+            dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
+            //dft2.Radix2Inverse(rOfTime, FourierOptions.NoScaling); // convert to R(t)
+            var temp = Common.Math.Interpolation.interp1(t.ToList(), rOfFt.Select(r => r.Real/(numFreq/2)).ToList(), time);            
+            return temp;
         }
         public override Complex ROfRhoAndFt(ITissueRegion[] regions, double rho, double ft)
         {

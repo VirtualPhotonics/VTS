@@ -729,7 +729,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Overload of ROfRhoAndTime. Determines reflectances at tissue regions 'regions', source-detector separations 'rhos' and time 't'
         /// </summary>
-        /// <param name="op">medium optical properties</param>
+        /// <param name="regions">medium regions</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="t">time (ns)</param>
         /// <returns>reflectance at given optical properties, rhos and time</returns>

@@ -81,6 +81,26 @@ namespace Vts
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances given tissue regions, source-detector 
+        /// separations 'rhos', and time 'time'
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="time">time (ns)</param>
+        /// <returns></returns>
+        double[] ROfRhoAndTime(ITissueRegion[] regions, double[] rhos, double time);
+
+        /// <summary>
+        /// Overload of scalar ROfRho function. Determines reflectances given tissue regions, source-detector 
+        /// separation 'rho', and times 'times'
+        /// </summary>
+        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="rho">source-detector separations (mm)</param>
+        /// <param name="times">times (ns)</param>
+        /// <returns></returns>
+        double[] ROfRhoAndTime(ITissueRegion[] regions, double rho, double[] times);
+
+        /// <summary>
+        /// Overload of scalar ROfRho function. Determines reflectances given tissue regions, source-detector 
         /// separations 'rhos', and times 'times'
         /// </summary>
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>

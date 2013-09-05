@@ -137,7 +137,6 @@ namespace Vts.Test.Modeling.ForwardSolvers
             }
         }
 
-        // for next case forward solution not working yet
         // generated two layers in TwoLayerSDAForwardSolver with identical properties and use Nurbs results for validation
         //[Test]
         //public void TemporalTwoLayerSDATest()
@@ -157,8 +156,8 @@ namespace Vts.Test.Modeling.ForwardSolvers
         //        var oneLayerResult = _oneLayerNurbsForwardSolver.ROfRhoAndTime(ops, rhos[irho], t);
         //        var twoLayerResult = _twoLayerSDAForwardSolver.ROfRhoAndTime(_twoLayerTissue, rhos[irho], t);
         //        var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
-        //        //Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
-        //        //    "mm, with relative difference " + relDiff);
+        //        Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+        //            "mm, with relative difference " + relDiff);
         //    }
         //}
         #endregion Temporal Reflectance

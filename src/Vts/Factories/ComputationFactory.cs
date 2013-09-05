@@ -691,8 +691,16 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
+                            if (fs is TwoLayerSDAForwardSolver)
+                            {
+                                return (fitData, otherData) => fs.ROfRhoAndTime(getTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]);
+                            }
                             return (fitData, otherData) => fs.ROfRhoAndTime(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
                         case IndependentVariableAxis.Time:
+                            if (fs is TwoLayerSDAForwardSolver)
+                            {
+                                return (fitData, otherData) => fs.ROfRhoAndTime(getTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]);
+                            }
                             return (fitData, otherData) => fs.ROfRhoAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
                         //case IndependentVariableAxis.Wavelength:
                         //    return (chromPlusMusp, constantData) =>
