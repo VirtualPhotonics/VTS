@@ -722,8 +722,16 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
+                            if (fs is TwoLayerSDAForwardSolver)
+                            {
+                                return (fitData, otherData) => fs.ROfFxAndTime(getTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]);
+                            }
                             return (fitData, otherData) => fs.ROfFxAndTime(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
                         case IndependentVariableAxis.Time:
+                            if (fs is TwoLayerSDAForwardSolver)
+                            {
+                                return (fitData, otherData) => fs.ROfFxAndTime(getTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]);
+                            }
                             return (fitData, otherData) => fs.ROfFxAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");

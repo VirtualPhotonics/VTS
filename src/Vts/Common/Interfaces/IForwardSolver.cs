@@ -230,17 +230,37 @@ namespace Vts
         /// Overload of scalar ROfFxAndTime function. Determines reflectances given tissue regions, spatial freqs 'fxs', 
         /// and times 'times'
         /// </summary>
-        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="times">times (ns)</param>
         /// <returns>reflectance at spatial freq. and time</returns>
         double[] ROfFxAndTime(ITissueRegion[] regions, double[] fxs, double[] times);
 
         /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectances given tissue regions, spatial freq 'fx',
+        /// and times 'times'
+        /// </summary>
+        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fx">spatial frequency</param>
+        /// <param name="times">times (ns)</param>
+        /// <returns></returns>
+        double[] ROfFxAndTime(ITissueRegion[] regions, double fx, double[] times);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function.  Determines reflectances given tissue regions, spatial freqs 'fxs',
+        /// and time 'time'
+        /// </summary>
+        /// <param name="regions">medium optical and geometrical properties for each sub-reion</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="time">time (ns)</param>
+        /// <returns></returns>
+        double[] ROfFxAndTime(ITissueRegion[] regions, double[] fxs, double time);
+
+        /// <summary>
         /// Overload of scalar ROfFxAndTime function. Determines reflectances given tissue regions, spatial freqs 'fxs', 
         /// and times 'times'
         /// </summary>
-        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="times">times (ns)</param>
         /// <returns>reflectance at spatial freq. and time</returns>
@@ -271,7 +291,7 @@ namespace Vts
         /// Overload of scalar ROfFxAndFt function. Determines reflectances given tissue regions, source-detector 
         /// separations 'rhos'and temporal frequencies fts
         /// </summary>
-        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="fts">temporal frequencies</param>
         /// <returns></returns>
@@ -281,7 +301,7 @@ namespace Vts
         /// Overload of scalar ROfFxAndFt function. Determines reflectances given tissue regions, spatial freqs 
         /// 'fs'and temporal frequencies fts
         /// </summary>
-        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial freqs</param>
         /// <param name="ft">temporal frequencies</param>
         /// <returns></returns>
@@ -291,7 +311,7 @@ namespace Vts
         /// Overload of scalar ROfFxAndFt function. Determines reflectances given tissue regions, spatial 
         /// frequencies 'fxs'and temporal frequencies fts
         /// </summary>
-        /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
+        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="fts">temporal frequencies</param>
         /// <returns>reflectance at spatial freq. and temporal freq.</returns>

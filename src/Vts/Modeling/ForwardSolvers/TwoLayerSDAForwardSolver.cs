@@ -76,8 +76,8 @@ namespace Vts.Modeling.ForwardSolvers
             }           
             var F = numFreq*deltaFrequency; // 51 GHz
             var deltaTime = 1.0/(numFreq*deltaFrequency); // 0.02 ns => T = 10 ns
-            var homoSDA = new PointSourceSDAForwardSolver(); // debug with homo SDA
-            var rOfTime = new Complex[numFreq];
+            //var homoSDA = new PointSourceSDAForwardSolver(); // debug with homo SDA
+            // var rOfTime = new Complex[numFreq]; // debug array
             // considerations: 2n datapoint and pad with 0s beyond (deltaTime * numFreq)
             var rOfFt = new Complex[numFreq];
             var ft = new double[numFreq];
@@ -85,10 +85,10 @@ namespace Vts.Modeling.ForwardSolvers
             for (int i = 0; i < numFreq; i++)
             {
                 ft[i] = i * deltaFrequency;
-                t[i] = (i + 1) * deltaTime;
+                t[i] = i * deltaTime;
                 // normalize by F=(numFreq*deltaFrequency)
                 rOfFt[i] = TemporalFrequencyReflectance(rho, ft[i], diffusionParameters, layerThicknesses, fr1, fr2) * F;
-                rOfTime[i] = homoSDA.ROfRhoAndTime(regions[1].RegionOP, rho, t[i]);
+                // rOfTime[i] = homoSDA.ROfRhoAndTime(regions[1].RegionOP, rho, t[i]); // debug array
             }
             // to debug, use R(t) and FFT to see if result R(ft) is close to rOfFt
             //var dft2 = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
@@ -99,10 +99,12 @@ namespace Vts.Modeling.ForwardSolvers
             //var maxImag = relDiffImag.Max();
             //var dum1 = maxReal;
             //var dum2 = maxImag;
+            //dft2.Radix2Inverse(rOfTime, FourierOptions.NoScaling); // debug convert to R(t)
+            // end debug code
+
             // FFT R(ft) to R(t)
             var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
             dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
-            //dft2.Radix2Inverse(rOfTime, FourierOptions.NoScaling); // convert to R(t)
             var temp = Common.Math.Interpolation.interp1(t.ToList(), rOfFt.Select(r => r.Real/(numFreq/2)).ToList(), time);            
             return temp;
         }
