@@ -137,29 +137,32 @@ namespace Vts.Test.Modeling.ForwardSolvers
             }
         }
 
-        // generated two layers in TwoLayerSDAForwardSolver with identical properties and use Nurbs results for validation
-        //[Test]
-        //public void TemporalTwoLayerSDATest()
-        //{
-        //    var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
-        //    var _oneLayerNurbsForwardSolver = new NurbsForwardSolver();
+        // generated two layers in TwoLayerSDAForwardSolver with identical properties and use 1 layer results for validation
+        [Test]
+        public void TemporalTwoLayerSDATest()
+        {
+            var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
+            var _oneLayerForwardSolver = new PointSourceSDAForwardSolver();
+            double _thresholdValue = 0.06;
+            double[] _rhos = {1, 3, 6};
+            double[] _time = {0.004, 0.01, 0.05}; // ns
 
-        //    // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
-        //    LayerRegion[] _twoLayerTissue =
-        //        new LayerRegion[]
-        //            {
-        //                new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
-        //                new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
-        //            };
-        //    for (int irho = 0; irho < rhos.Length; irho++)
-        //    {
-        //        var oneLayerResult = _oneLayerNurbsForwardSolver.ROfRhoAndTime(ops, rhos[irho], t);
-        //        var twoLayerResult = _twoLayerSDAForwardSolver.ROfRhoAndTime(_twoLayerTissue, rhos[irho], t);
-        //        var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
-        //        Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
-        //            "mm, with relative difference " + relDiff);
-        //    }
-        //}
+            // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
+            LayerRegion[] _twoLayerTissue =
+                new LayerRegion[]
+                    {
+                        new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
+                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
+                    };
+            for (int i = 0; i < _rhos.Length; i++)
+            {
+                var oneLayerResult = _oneLayerForwardSolver.ROfRhoAndTime(ops, _rhos[i], _time[i]);
+                var twoLayerResult = _twoLayerSDAForwardSolver.ROfRhoAndTime(_twoLayerTissue, _rhos[i], _time[i]);
+                var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
+                Assert.IsTrue(relDiff < _thresholdValue, "Test failed for rho =" + rhos[i] +
+                    "mm, with relative difference " + relDiff);
+            }
+        }
         #endregion Temporal Reflectance
 
         #region Temporal Frequency Reflectance

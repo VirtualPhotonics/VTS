@@ -22,7 +22,9 @@ namespace Vts.Modeling.ForwardSolvers
     /// 3) zb = extrapolated boundary is determined using layer 1 opt. props.
     /// </summary>
     public class TwoLayerSDAForwardSolver : ForwardSolverBase
-    {     
+    {
+        //private new Dictionary<ITissueRegion[],ROfFt> ROfFtLUT;
+ 
         /// <summary>
         /// Returns an instance of TwoLayerSDAForwardSolver
         /// </summary>
@@ -66,13 +68,21 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
             }
-            
+            double[] FFTtime;
+            var rOfTime = BuildROfFtAndFFT(rho, diffusionParameters, layerThicknesses, fr1, fr2, out FFTtime);
+            return Common.Math.Interpolation.interp1(FFTtime.ToList(), rOfTime.ToList(), time);  
+        }
+
+        // this method builds an R(ft) array and then uses FFT to generate R(t)
+        private double[] BuildROfFtAndFFT(double rho, DiffusionParameters[] diffusionParameters, double[] layerThicknesses, 
+            double fr1, double fr2, out double[] FFTtime)
+        {
             int numFreq = 512; // Kienle used 512 and deltaFreq = 0.1
             // Kienle says deltaFrequency depends on source-detector separation
             var deltaFrequency = 0.1; // 100 MHz
             if (rho <= 5)
             {
-                deltaFrequency = 0.5;
+                deltaFrequency = 0.5; // so far I've found this value works for smaller rho
             }           
             var F = numFreq*deltaFrequency; // 51 GHz
             var deltaTime = 1.0/(numFreq*deltaFrequency); // 0.02 ns => T = 10 ns
@@ -81,11 +91,11 @@ namespace Vts.Modeling.ForwardSolvers
             // considerations: 2n datapoint and pad with 0s beyond (deltaTime * numFreq)
             var rOfFt = new Complex[numFreq];
             var ft = new double[numFreq];
-            var t = new double[numFreq];
+            FFTtime = new double[numFreq];
             for (int i = 0; i < numFreq; i++)
             {
                 ft[i] = i * deltaFrequency;
-                t[i] = i * deltaTime;
+                FFTtime[i] = i * deltaTime;
                 // normalize by F=(numFreq*deltaFrequency)
                 rOfFt[i] = TemporalFrequencyReflectance(rho, ft[i], diffusionParameters, layerThicknesses, fr1, fr2) * F;
                 // rOfTime[i] = homoSDA.ROfRhoAndTime(regions[1].RegionOP, rho, t[i]); // debug array
@@ -105,9 +115,9 @@ namespace Vts.Modeling.ForwardSolvers
             // FFT R(ft) to R(t)
             var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
             dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
-            var temp = Common.Math.Interpolation.interp1(t.ToList(), rOfFt.Select(r => r.Real/(numFreq/2)).ToList(), time);            
-            return temp;
+            return rOfFt.Select(r => r.Real/(numFreq/2)).ToArray();
         }
+
         public override Complex ROfRhoAndFt(ITissueRegion[] regions, double rho, double ft)
         {
             // get ops of top tissue region
@@ -206,6 +216,18 @@ namespace Vts.Modeling.ForwardSolvers
                 layerThicknesses[i] = ((LayerRegion)regions[i]).ZRange.Stop;
             }
             return layerThicknesses;
+        }
+
+        private static bool AreSameTissueDefinition(ITissueRegion[] regions1, ITissueRegion[] regions2)
+        {
+            if ((regions1[0].RegionOP.Mua == regions2[0].RegionOP.Mua) &&
+                (regions1[0].RegionOP.Musp == regions2[0].RegionOP.Musp) &&
+                (regions1[0].RegionOP.N == regions2[0].RegionOP.N) &&
+                (regions1[0].Center == regions2[0].Center))
+            {
+                return true;  
+            }
+            return false;
         }
 
         /// <summary>
