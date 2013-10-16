@@ -23,8 +23,6 @@ namespace Vts.Modeling.ForwardSolvers
     /// </summary>
     public class TwoLayerSDAForwardSolver : ForwardSolverBase
     {
-        //private new Dictionary<ITissueRegion[],ROfFt> ROfFtLUT;
- 
         /// <summary>
         /// Returns an instance of TwoLayerSDAForwardSolver
         /// </summary>
@@ -55,11 +53,6 @@ namespace Vts.Modeling.ForwardSolvers
         }
         public override double ROfRhoAndTime(ITissueRegion[] regions, double rho, double time)
         {
-            // get ops of top tissue region
-            var op0 = regions[0].RegionOP;
-            var fr1 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder1(op0.N);
-            var fr2 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder2(op0.N);
-
             var diffusionParameters = GetDiffusionParameters(regions);
             var layerThicknesses = GetLayerThicknesses(regions);
 
@@ -68,15 +61,23 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
             }
-            double[] FFTtime;
-            var rOfTime = BuildROfFtAndFFT(rho, diffusionParameters, layerThicknesses, fr1, fr2, out FFTtime);
-            return Common.Math.Interpolation.interp1(FFTtime.ToList(), rOfTime.ToList(), time);  
+            double[] FFTtimeSequence;
+            var rOfTime = DetermineROfTimeFromROfFt(rho, regions, out FFTtimeSequence); 
+            return Common.Math.Interpolation.interp1(FFTtimeSequence.ToList(), rOfTime.ToList(), time);
         }
 
         // this method builds an R(ft) array and then uses FFT to generate R(t)
-        private double[] BuildROfFtAndFFT(double rho, DiffusionParameters[] diffusionParameters, double[] layerThicknesses, 
-            double fr1, double fr2, out double[] FFTtime)
+        private double[] DetermineROfTimeFromROfFt(double rho, ITissueRegion[] regions, out double[] FFTtimeSequence)
         {
+            Dictionary<ITissueRegion[], double[]> ROfTimeLUT = new Dictionary<ITissueRegion[], double[]>();
+
+            // get ops of top tissue region
+            var op0 = regions[0].RegionOP;
+            var fr1 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder1(op0.N);
+            var fr2 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder2(op0.N);
+            var diffusionParameters = GetDiffusionParameters(regions);
+            var layerThicknesses = GetLayerThicknesses(regions);
+
             int numFreq = 512; // Kienle used 512 and deltaFreq = 0.1
             // Kienle says deltaFrequency depends on source-detector separation
             var deltaFrequency = 0.1; // 100 MHz
@@ -86,36 +87,59 @@ namespace Vts.Modeling.ForwardSolvers
             }           
             var F = numFreq*deltaFrequency; // 51 GHz
             var deltaTime = 1.0/(numFreq*deltaFrequency); // 0.02 ns => T = 10 ns
-            //var homoSDA = new PointSourceSDAForwardSolver(); // debug with homo SDA
+            
+            // var homoSDA = new PointSourceSDAForwardSolver(); // debug with homo SDA
             // var rOfTime = new Complex[numFreq]; // debug array
+
             // considerations: 2n datapoint and pad with 0s beyond (deltaTime * numFreq)
             var rOfFt = new Complex[numFreq];
-            var ft = new double[numFreq];
-            FFTtime = new double[numFreq];
-            for (int i = 0; i < numFreq; i++)
-            {
-                ft[i] = i * deltaFrequency;
-                FFTtime[i] = i * deltaTime;
-                // normalize by F=(numFreq*deltaFrequency)
-                rOfFt[i] = TemporalFrequencyReflectance(rho, ft[i], diffusionParameters, layerThicknesses, fr1, fr2) * F;
-                // rOfTime[i] = homoSDA.ROfRhoAndTime(regions[1].RegionOP, rho, t[i]); // debug array
-            }
-            // to debug, use R(t) and FFT to see if result R(ft) is close to rOfFt
-            //var dft2 = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
-            //dft2.Radix2Forward(rOfTime, FourierOptions.NoScaling);  // convert to R(ft) to compare with rOfFt
-            //var relDiffReal = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Real - x.Real) / x.Real));
-            //var relDiffImag = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Imaginary - x.Imaginary) / x.Imaginary));
-            //var maxReal = relDiffReal.Max();
-            //var maxImag = relDiffImag.Max();
-            //var dum1 = maxReal;
-            //var dum2 = maxImag;
-            //dft2.Radix2Inverse(rOfTime, FourierOptions.NoScaling); // debug convert to R(t)
-            // end debug code
+            double[] ft = Enumerable.Range(0, numFreq).Select(x => x * deltaFrequency).ToArray();
+            FFTtimeSequence = Enumerable.Range(0, numFreq).Select(x => x*deltaTime).ToArray();
 
-            // FFT R(ft) to R(t)
-            var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
-            dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
-            return rOfFt.Select(r => r.Real/(numFreq/2)).ToArray();
+            double[] rOfTime;
+            if (ROfTimeLUT.ContainsKey(regions)) // use already generated R(time)
+            {
+                rOfTime = ROfTimeLUT[regions];
+            }
+            else  // generate R(ft), FFT to obtain new R(time), and add to dictionary
+            {
+                for (int i = 0; i < numFreq; i++)
+                {
+                    // normalize by F=(numFreq*deltaFrequency)
+                    rOfFt[i] = TemporalFrequencyReflectance(rho, ft[i], diffusionParameters, layerThicknesses, fr1, fr2) * F;
+                    // rOfTime[i] = homoSDA.ROfRhoAndTime(regions[1].RegionOP, rho, t[i]); // debug array
+                }
+                // to debug, use R(t) and FFT to see if result R(ft) is close to rOfFt
+                //var dft2 = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
+                //dft2.Radix2Forward(rOfTime, FourierOptions.NoScaling);  // convert to R(ft) to compare with rOfFt
+                //var relDiffReal = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Real - x.Real) / x.Real));
+                //var relDiffImag = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Imaginary - x.Imaginary) / x.Imaginary));
+                //var maxReal = relDiffReal.Max();
+                //var maxImag = relDiffImag.Max();
+                //var dum1 = maxReal;
+                //var dum2 = maxImag;
+                //dft2.Radix2Inverse(rOfTime, FourierOptions.NoScaling); // debug convert to R(t)
+                // end debug code
+
+                // FFT R(ft) to R(t)
+                var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
+                dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
+                rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
+                ROfTimeLUT.Add(regions, rOfTime);
+            }
+            return rOfTime;
+        }
+
+        private static bool AreSameTissueDefinition(ITissueRegion[] regions1, ITissueRegion[] regions2)
+        {
+            if ((regions1[0].RegionOP.Mua == regions2[0].RegionOP.Mua) &&
+                (regions1[0].RegionOP.Musp == regions2[0].RegionOP.Musp) &&
+                (regions1[0].RegionOP.N == regions2[0].RegionOP.N) &&
+                (regions1[0].Center == regions2[0].Center))
+            {
+                return true;
+            }
+            return false;
         }
 
         public override Complex ROfRhoAndFt(ITissueRegion[] regions, double rho, double ft)
@@ -218,17 +242,6 @@ namespace Vts.Modeling.ForwardSolvers
             return layerThicknesses;
         }
 
-        private static bool AreSameTissueDefinition(ITissueRegion[] regions1, ITissueRegion[] regions2)
-        {
-            if ((regions1[0].RegionOP.Mua == regions2[0].RegionOP.Mua) &&
-                (regions1[0].RegionOP.Musp == regions2[0].RegionOP.Musp) &&
-                (regions1[0].RegionOP.N == regions2[0].RegionOP.N) &&
-                (regions1[0].Center == regions2[0].Center))
-            {
-                return true;  
-            }
-            return false;
-        }
 
         /// <summary>
         /// Evaluate the stationary radially resolved reflectance with the point source-image configuration
