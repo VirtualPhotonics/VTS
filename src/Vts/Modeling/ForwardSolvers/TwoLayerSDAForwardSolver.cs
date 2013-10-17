@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.IntegralTransforms;
-using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 
@@ -23,6 +22,18 @@ namespace Vts.Modeling.ForwardSolvers
     /// </summary>
     public class TwoLayerSDAForwardSolver : ForwardSolverBase
     {
+        Dictionary<TissueRhoKey, double[]> rOfTimeLUT = new Dictionary<TissueRhoKey, double[]>();
+        public struct TissueRhoKey
+        {
+            private ITissueRegion[] _regions;
+            private double _rho;
+            public TissueRhoKey(ITissueRegion[] regions, double rho) // key as struct allows use of dictionary ContainsKey
+            {
+                _regions = regions;
+                _rho = rho;
+            }
+        }
+
         /// <summary>
         /// Returns an instance of TwoLayerSDAForwardSolver
         /// </summary>
@@ -69,8 +80,6 @@ namespace Vts.Modeling.ForwardSolvers
         // this method builds an R(ft) array and then uses FFT to generate R(t)
         private double[] DetermineROfTimeFromROfFt(double rho, ITissueRegion[] regions, out double[] FFTtimeSequence)
         {
-            Dictionary<ITissueRegion[], double[]> ROfTimeLUT = new Dictionary<ITissueRegion[], double[]>();
-
             // get ops of top tissue region
             var op0 = regions[0].RegionOP;
             var fr1 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder1(op0.N);
@@ -81,10 +90,11 @@ namespace Vts.Modeling.ForwardSolvers
             int numFreq = 512; // Kienle used 512 and deltaFreq = 0.1
             // Kienle says deltaFrequency depends on source-detector separation
             var deltaFrequency = 0.1; // 100 MHz
-            if (rho <= 5)
+            if (rho <= 3)
             {
                 deltaFrequency = 0.5; // so far I've found this value works for smaller rho
-            }           
+            }     
+            // since using different deltaFrequency for different rho, dictionary key needs to include rho
             var F = numFreq*deltaFrequency; // 51 GHz
             var deltaTime = 1.0/(numFreq*deltaFrequency); // 0.02 ns => T = 10 ns
             
@@ -97,9 +107,10 @@ namespace Vts.Modeling.ForwardSolvers
             FFTtimeSequence = Enumerable.Range(0, numFreq).Select(x => x*deltaTime).ToArray();
 
             double[] rOfTime;
-            if (ROfTimeLUT.ContainsKey(regions)) // use already generated R(time)
+            TissueRhoKey lutKey = new TissueRhoKey(regions, rho);
+            if (rOfTimeLUT.ContainsKey(lutKey)) // use already generated R(time)
             {
-                rOfTime = ROfTimeLUT[regions];
+                rOfTime = rOfTimeLUT[lutKey];
             }
             else  // generate R(ft), FFT to obtain new R(time), and add to dictionary
             {
@@ -125,22 +136,12 @@ namespace Vts.Modeling.ForwardSolvers
                 var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
                 dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
                 rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
-                ROfTimeLUT.Add(regions, rOfTime);
+
+                rOfTimeLUT.Add(lutKey, rOfTime);
             }
             return rOfTime;
         }
 
-        private static bool AreSameTissueDefinition(ITissueRegion[] regions1, ITissueRegion[] regions2)
-        {
-            if ((regions1[0].RegionOP.Mua == regions2[0].RegionOP.Mua) &&
-                (regions1[0].RegionOP.Musp == regions2[0].RegionOP.Musp) &&
-                (regions1[0].RegionOP.N == regions2[0].RegionOP.N) &&
-                (regions1[0].Center == regions2[0].Center))
-            {
-                return true;
-            }
-            return false;
-        }
 
         public override Complex ROfRhoAndFt(ITissueRegion[] regions, double rho, double ft)
         {

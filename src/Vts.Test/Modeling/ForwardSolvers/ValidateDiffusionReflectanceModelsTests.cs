@@ -143,9 +143,9 @@ namespace Vts.Test.Modeling.ForwardSolvers
         {
             var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
             var _oneLayerForwardSolver = new PointSourceSDAForwardSolver();
-            double _thresholdValue = 0.06;
-            double[] _rhos = {1, 3, 6};
-            double[] _time = {0.004, 0.01, 0.05}; // ns
+            double _thresholdValue = 0.03;
+            double[] _rhos = {1, 3, 6, 10};
+            double[] _time = {0.0038, 0.014, 0.058, 0.14}; // ns
 
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
             LayerRegion[] _twoLayerTissue =
@@ -159,7 +159,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var oneLayerResult = _oneLayerForwardSolver.ROfRhoAndTime(ops, _rhos[i], _time[i]);
                 var twoLayerResult = _twoLayerSDAForwardSolver.ROfRhoAndTime(_twoLayerTissue, _rhos[i], _time[i]);
                 var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
-                Assert.IsTrue(relDiff < _thresholdValue, "Test failed for rho =" + rhos[i] +
+                Assert.IsTrue(relDiff < _thresholdValue, "Test failed for rho =" + _rhos[i] +
                     "mm, with relative difference " + relDiff);
             }
         }
