@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.IntegralTransforms;
+using Vts.Extensions;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 
@@ -22,7 +23,6 @@ namespace Vts.Modeling.ForwardSolvers
     /// </summary>
     public class TwoLayerSDAForwardSolver : ForwardSolverBase
     {
-        Dictionary<TissueRhoKey, double[]> rOfTimeLUT = new Dictionary<TissueRhoKey, double[]>();
         public struct TissueRhoKey
         {
             private ITissueRegion[] _regions;
@@ -72,11 +72,34 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
             }
-            double[] FFTtimeSequence;
-            var rOfTime = DetermineROfTimeFromROfFt(rho, regions, out FFTtimeSequence); 
-            return Common.Math.Interpolation.interp1(FFTtimeSequence.ToList(), rOfTime.ToList(), time);
+            return ROfRhoAndTime(regions.AsEnumerable(), rho.AsEnumerable(), time.AsEnumerable()).First();
         }
 
+        /// <summary>
+        /// Evaluates spatially- and temporally- resolved reflectance at sets of tissue regions, rhos and times
+        /// </summary>
+        /// <param name="regions">multiple sets of tissue regions</param>
+        /// <param name="rhos">rhos</param>
+        /// <param name="times">times</param>
+        /// <returns>reflectance at specified optical properties, rhos and times</returns>
+        public override IEnumerable<double> ROfRhoAndTime(IEnumerable<ITissueRegion[]> setsOfRegions,
+            IEnumerable<double> rhos, IEnumerable<double> times)
+        {
+            double[] rOfTime = new double[times.Count()];
+            double[] FFTtimeSequence;
+            foreach (var regions in setsOfRegions)
+            {
+                foreach (var rho in rhos)
+                {
+                    rOfTime = DetermineROfTimeFromROfFt(rho, regions, out FFTtimeSequence);
+                    foreach (var time in times)
+                    {
+                        yield return Vts.Common.Math.Interpolation.interp1(FFTtimeSequence,
+                            rOfTime.ToList(), time);
+                    }
+                }
+            }
+        }
         // this method builds an R(ft) array and then uses FFT to generate R(t)
         private double[] DetermineROfTimeFromROfFt(double rho, ITissueRegion[] regions, out double[] FFTtimeSequence)
         {
@@ -106,42 +129,31 @@ namespace Vts.Modeling.ForwardSolvers
             double[] ft = Enumerable.Range(0, numFreq).Select(x => x * deltaFrequency).ToArray();
             FFTtimeSequence = Enumerable.Range(0, numFreq).Select(x => x*deltaTime).ToArray();
 
-            double[] rOfTime;
-            TissueRhoKey lutKey = new TissueRhoKey(regions, rho);
-            if (rOfTimeLUT.ContainsKey(lutKey)) // use already generated R(time)
+            for (int i = 0; i < numFreq; i++)
             {
-                rOfTime = rOfTimeLUT[lutKey];
+                // normalize by F=(numFreq*deltaFrequency)
+                rOfFt[i] = TemporalFrequencyReflectance(rho, ft[i], diffusionParameters, layerThicknesses, fr1, fr2) * F;
+                // rOfTime[i] = homoSDA.ROfRhoAndTime(regions[1].RegionOP, rho, t[i]); // debug array
             }
-            else  // generate R(ft), FFT to obtain new R(time), and add to dictionary
-            {
-                for (int i = 0; i < numFreq; i++)
-                {
-                    // normalize by F=(numFreq*deltaFrequency)
-                    rOfFt[i] = TemporalFrequencyReflectance(rho, ft[i], diffusionParameters, layerThicknesses, fr1, fr2) * F;
-                    // rOfTime[i] = homoSDA.ROfRhoAndTime(regions[1].RegionOP, rho, t[i]); // debug array
-                }
-                // to debug, use R(t) and FFT to see if result R(ft) is close to rOfFt
-                //var dft2 = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
-                //dft2.Radix2Forward(rOfTime, FourierOptions.NoScaling);  // convert to R(ft) to compare with rOfFt
-                //var relDiffReal = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Real - x.Real) / x.Real));
-                //var relDiffImag = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Imaginary - x.Imaginary) / x.Imaginary));
-                //var maxReal = relDiffReal.Max();
-                //var maxImag = relDiffImag.Max();
-                //var dum1 = maxReal;
-                //var dum2 = maxImag;
-                //dft2.Radix2Inverse(rOfTime, FourierOptions.NoScaling); // debug convert to R(t)
-                // end debug code
+            // to debug, use R(t) and FFT to see if result R(ft) is close to rOfFt
+            //var dft2 = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
+            //dft2.Radix2Forward(rOfTime, FourierOptions.NoScaling);  // convert to R(ft) to compare with rOfFt
+            //var relDiffReal = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Real - x.Real) / x.Real));
+            //var relDiffImag = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Imaginary - x.Imaginary) / x.Imaginary));
+            //var maxReal = relDiffReal.Max();
+            //var maxImag = relDiffImag.Max();
+            //var dum1 = maxReal;
+            //var dum2 = maxImag;
+            //dft2.Radix2Inverse(rOfTime, FourierOptions.NoScaling); // debug convert to R(t)
+            // end debug code
 
-                // FFT R(ft) to R(t)
-                var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
-                dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
-                rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
-
-                rOfTimeLUT.Add(lutKey, rOfTime);
-            }
+            // FFT R(ft) to R(t)
+            var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
+            dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
+            var rOfTime = new double[FFTtimeSequence.Length];
+            rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
         }
-
 
         public override Complex ROfRhoAndFt(ITissueRegion[] regions, double rho, double ft)
         {

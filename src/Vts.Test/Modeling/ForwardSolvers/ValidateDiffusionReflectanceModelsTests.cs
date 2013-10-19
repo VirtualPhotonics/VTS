@@ -11,7 +11,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.Modeling.ForwardSolvers
 {
     [TestFixture]
-    public class AAValidateDiffusionReflectanceModelsTests
+    public class ValidateDiffusionReflectanceModelsTests
     {
         //const double thresholdValue = 1e-5;
         const double thresholdValue = 1e-2;
