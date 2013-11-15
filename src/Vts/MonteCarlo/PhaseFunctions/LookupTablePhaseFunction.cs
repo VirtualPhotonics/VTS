@@ -39,11 +39,5 @@ namespace Vts.MonteCarlo.PhaseFunctions
             theta = Vts.Common.Math.Interpolation.interp1(pLookUpTablePhaseFunctionData.LutCdf, pLookUpTablePhaseFunctionData.LutAngles, mu);
             Scatter(incomingDirectionToModify, theta, phi);
         }
-        public double ScatterToNewTheta(Direction incomingDirectionToModify)
-        {
-            var pLookUpTablePhaseFunctionData = (PolarLookupTablePhaseFunctionData)_lutData;
-            double mu = _rng.NextDouble();//random variable for picking theta
-            return Vts.Common.Math.Interpolation.interp1(pLookUpTablePhaseFunctionData.LutCdf, pLookUpTablePhaseFunctionData.LutAngles, mu);
-        }
     }
 }
