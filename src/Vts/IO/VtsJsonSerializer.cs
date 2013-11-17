@@ -7,6 +7,8 @@ using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.IO
 {
@@ -35,7 +37,10 @@ namespace Vts.IO
 
         public static List<JsonConverter> KnownConverters = new List<JsonConverter>
         {
-            //new ConventionBasedConverter<ThingyType, IThingy>(typeof(FirstThingy)),
+            new ConventionBasedConverter<Vts.MonteCarlo.SourceType, ISourceInput>(typeof(IsotropicPointSourceInput)),
+            new ConventionBasedConverter<Vts.MonteCarlo.TissueType, ITissueInput>(typeof(MultiLayerTissueInput)),
+            new ConventionBasedConverter<Vts.MonteCarlo.TissueRegionType, ITissueRegion>(typeof(VoxelRegion), "Region"),
+            new ConventionBasedConverter<Vts.MonteCarlo.TallyType, IDetectorInput>(typeof(ROfRhoDetectorInput)),
         };
 
         public static T ReadFromJson<T>(this string myString)

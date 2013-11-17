@@ -83,25 +83,17 @@ namespace Vts.Test.IO
         [Test]
         public void validate_serialization_of_SimulationInput()
         {
-            VtsJsonSerializer.KnownConverters.Add(new ConventionBasedConverter<Vts.MonteCarlo.SourceType, ISourceInput>(typeof(IsotropicPointSourceInput)));
-            VtsJsonSerializer.KnownConverters.Add(new ConventionBasedConverter<Vts.MonteCarlo.TissueType, ITissueInput>(typeof(MultiLayerTissueInput)));
-            VtsJsonSerializer.KnownConverters.Add(new ConventionBasedConverter<Vts.MonteCarlo.TissueRegionType, ITissueRegion>(typeof(VoxelRegion), "Region"));
-            VtsJsonSerializer.KnownConverters.Add(new ConventionBasedConverter<Vts.MonteCarlo.TallyType, IDetectorInput>(typeof(ROfRhoDetectorInput)));
             var jsonSerialized = VtsJsonSerializer.WriteToJson(new SimulationInput());
             Assert.IsTrue(jsonSerialized != null && jsonSerialized.Length > 0);
         }
 
-        //[Test]
-        //public void validate_deserialization_of_SimulationInput()
-        //{
-        //    VtsJsonSerializer.KnownConverters.Add(new ConventionBasedConverter<Vts.MonteCarlo.SourceType, ISourceInput>(typeof(IsotropicPointSourceInput)));
-        //    VtsJsonSerializer.KnownConverters.Add(new ConventionBasedConverter<Vts.MonteCarlo.TissueType, ITissueInput>(typeof(MultiLayerTissueInput)));
-        //    VtsJsonSerializer.KnownConverters.Add(new ConventionBasedConverter<Vts.MonteCarlo.TissueRegionType, ITissueRegion>(typeof(VoxelRegion), "Region"));
-        //    VtsJsonSerializer.KnownConverters.Add(new ConventionBasedConverter<Vts.MonteCarlo.TallyType, IDetectorInput>(typeof(ROfRhoDetectorInput)));
-        //    var jsonSerialized = VtsJsonSerializer.WriteToJson(new SimulationInput());
-        //    var inputDerialized = VtsJsonSerializer.ReadFromJson<SimulationInput>(jsonSerialized);
-        //    Assert.IsTrue(inputDerialized != null);
-        //}
+        [Test]
+        public void validate_deserialization_of_SimulationInput()
+        {
+            var jsonSerialized = VtsJsonSerializer.WriteToJson(new SimulationInput());
+            var inputDerialized = VtsJsonSerializer.ReadFromJson<SimulationInput>(jsonSerialized);
+            Assert.IsTrue(inputDerialized != null);
+        }
     }
 
     public class CompositeThingy

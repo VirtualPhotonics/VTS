@@ -18,6 +18,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="op">optical properties of layer</param>
         public LayerRegion(DoubleRange zRange, OpticalProperties op)
         {
+            TissueRegionType = TissueRegionType.Layer;
             ZRange = zRange;
             RegionOP = op;
         }
@@ -32,8 +33,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// tissue region identifier
         /// </summary>
-        [IgnoreDataMember]
-        public TissueRegionType TissueRegionType { get { return TissueRegionType.Layer; } }
+        public TissueRegionType TissueRegionType { get; set; }
 
         /// <summary>
         /// extent of z layer
