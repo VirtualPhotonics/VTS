@@ -94,6 +94,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\tools\nunit\Silverlight\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NUnit.Silverlight.Compatibility">
       <HintPath>..\..\tools\nunit\Silverlight\NUnit.Silverlight.Compatibility.dll</HintPath>
     </Reference>
@@ -161,6 +164,7 @@
     <Compile Include="Factories\SolverFactoryTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IO\VtsJsonSerializerTests.cs" />
     <Compile Include="IO\FileIOTests.cs" />
     <Compile Include="Modeling\ForwardSolvers\BSplinesCoefficientsTests.cs">
       <SubType>Code</SubType>

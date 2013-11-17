@@ -5,8 +5,13 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Defines contract for TissueRegion classes.
     /// </summary>
-    public interface ITissueRegion 
+    public interface ITissueRegion
     {
+        /// <summary>
+        /// tissue region identifier
+        /// </summary>
+        TissueRegionType TissueRegionType { get; }
+
         /// <summary>
         /// Optical properties of tissue region.
         /// </summary>

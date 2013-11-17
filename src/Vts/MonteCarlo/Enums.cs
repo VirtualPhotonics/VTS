@@ -357,6 +357,14 @@ namespace Vts.MonteCarlo
         MultiEllipsoid,
     }
 
+    public enum TissueRegionType
+    {
+        Voxel,
+        Layer,
+        Ellipsoid,
+        Cylinder
+    }
+
     ///// <summary>
     ///// Detector types
     ///// </summary>

@@ -40,6 +40,12 @@ namespace Vts.MonteCarlo.Tissues
         }
 
         /// <summary>
+        /// tissue region identifier
+        /// </summary>
+        [IgnoreDataMember]
+        public TissueRegionType TissueRegionType { get { return TissueRegionType.Voxel; } }
+
+        /// <summary>
         /// x range of voxel
         /// </summary>
         public DoubleRange X { get; set; }

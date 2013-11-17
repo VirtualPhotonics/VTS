@@ -28,6 +28,13 @@ namespace Vts.MonteCarlo.Tissues
             : this(
                 new DoubleRange(0.0, 10),
                 new OpticalProperties(0.01, 1.0, 0.8, 1.4)) { }
+
+        /// <summary>
+        /// tissue region identifier
+        /// </summary>
+        [IgnoreDataMember]
+        public TissueRegionType TissueRegionType { get { return TissueRegionType.Layer; } }
+
         /// <summary>
         /// extent of z layer
         /// </summary>

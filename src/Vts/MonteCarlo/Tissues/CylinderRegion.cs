@@ -33,6 +33,12 @@ namespace Vts.MonteCarlo.Tissues
             new OpticalProperties(0.01, 1.0, 0.8, 1.4), AbsorptionWeightingType.Discrete) {}
 
         /// <summary>
+        /// tissue region identifier
+        /// </summary>
+        [IgnoreDataMember]
+        public TissueRegionType TissueRegionType { get { return TissueRegionType.Cylinder; } }
+
+        /// <summary>
         /// center of cyliner
         /// </summary>
         public Position Center { get; set; }
