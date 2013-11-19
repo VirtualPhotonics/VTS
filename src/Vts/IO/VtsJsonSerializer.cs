@@ -52,10 +52,10 @@ namespace Vts.IO
 
         public static List<JsonConverter> KnownConverters = new List<JsonConverter>
         {
-            new ConventionBasedConverter<Vts.MonteCarlo.SourceType, ISourceInput>(typeof(IsotropicPointSourceInput)),
-            new ConventionBasedConverter<Vts.MonteCarlo.TissueType, ITissueInput>(typeof(MultiLayerTissueInput)),
-            new ConventionBasedConverter<Vts.MonteCarlo.TissueRegionType, ITissueRegion>(typeof(VoxelRegion), "Region"),
-            new ConventionBasedConverter<Vts.MonteCarlo.TallyType, IDetectorInput>(typeof(ROfRhoDetectorInput)),
+            ConventionBasedConverter<ISourceInput>.CreateFromEnum<Vts.MonteCarlo.SourceType>(typeof(IsotropicPointSourceInput)),
+            ConventionBasedConverter<ITissueInput>.CreateFromEnum<Vts.MonteCarlo.TissueType>(typeof(MultiLayerTissueInput)),
+            ConventionBasedConverter<ITissueRegion>.CreateFromEnum<Vts.MonteCarlo.TissueRegionType>(typeof(VoxelRegion), "Region"),
+            ConventionBasedConverter<IDetectorInput>.CreateFromEnum<Vts.MonteCarlo.TallyType>(typeof(ROfRhoDetectorInput)),
         };
 
         public static T ReadFromJson<T>(this string myString)
@@ -96,7 +96,7 @@ namespace Vts.IO
     }
 
     // from http://stackoverflow.com/questions/8030538/how-to-implement-custom-jsonconverter-in-json-net-to-deserialize-a-list-of-base
-    public class ConventionBasedConverter<TEnum, TInterface> : JsonCreationConverter<TInterface> where TEnum : struct
+    public class ConventionBasedConverter<TInterface> : JsonCreationConverter<TInterface> 
     {
         private static readonly UnityContainer _container;
 
@@ -104,8 +104,7 @@ namespace Vts.IO
         private readonly string _assemblyName;
         private readonly Type _interfaceType;
         private readonly string _classBasename;
-        private readonly Type _enumType;
-        private readonly string _enumName;
+        private readonly string _typeCategoryString;
         private readonly IDictionary<string, VtsClassInfo> _classInfoDictionary;
         
         /// <summary>
@@ -115,7 +114,7 @@ namespace Vts.IO
         {
             public Type ClassType { get; set; }
             public string ClassName { get; set; }
-            public string EnumValueName { get; set; }
+            public string ClassPrefixString { get; set; }
         }
 
         /// <summary>
@@ -131,31 +130,27 @@ namespace Vts.IO
         /// </summary>
         /// <param name="exampleType"></param>
         /// <param name="classBasename"></param>
-        public ConventionBasedConverter(Type exampleType, string classBasename = null)
+        public ConventionBasedConverter(Type exampleType, string typeCategoryString, IEnumerable<string> classPrefixStrings,  string classBasename = null)
         {
             _namespace = exampleType.Namespace;
             _assemblyName = exampleType.Assembly.FullName;
 
             _interfaceType = typeof(TInterface);
             _classBasename = classBasename ?? _interfaceType.Name.Substring(1);
-            _enumType = typeof(TEnum);
-            _enumName = _enumType.Name;
+            _typeCategoryString = typeCategoryString;
 
-            // use convention to map class names to enum types  e.g. ThingyType.First will register to FirstThingy 
-            var enumValues = EnumHelper.GetValues<TEnum>();
             var useSingleton = true;
             var useDefaultConstructor = true;
             
-            var classList = 
-                from enumValue in enumValues
-                let className = _namespace + @"." + enumValue + _classBasename
+            var classList =
+                from classPrefixString in classPrefixStrings
+                let className = _namespace + @"." + classPrefixString + _classBasename
                 let classType = Type.GetType(className + "," +  _assemblyName, false, true)
-                let enumValueName = enumValue.ToString()
                 select new VtsClassInfo
                 {
                     ClassType = classType,
                     ClassName = className,
-                    EnumValueName = enumValueName,
+                    ClassPrefixString = classPrefixString,
                 };
 
             foreach (var item in classList)
@@ -165,39 +160,49 @@ namespace Vts.IO
                     _container.RegisterType(
                         _interfaceType,
                         item.ClassType,
-                        item.EnumValueName, // use the enum string to register each class
+                        item.ClassPrefixString, // use the prefix string to register each class
                         useSingleton ? new ContainerControlledLifetimeManager() : null,
                         useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
                 }
             }
 
-            _classInfoDictionary = classList.ToDictionary(item => item.EnumValueName);
+            _classInfoDictionary = classList.ToDictionary(item => item.ClassPrefixString);
         }
         
+        public static ConventionBasedConverter<TInterface> CreateFromEnum<TEnum>(Type exampleType, string classBasename = null)
+        {
+            return new ConventionBasedConverter<TInterface>(
+                exampleType,
+                typeof(TEnum).Name,
+                // use convention to map class names to enum types  e.g. ThingyType.First will register to FirstThingy 
+                EnumHelper.GetValues<TEnum>().Select(value => value.ToString()),
+                classBasename);
+        }
+
         protected override TInterface Create(Type objectType, JObject jObject)
         {
-            if (!FieldExists(_enumName, jObject))
+            if (!FieldExists(_typeCategoryString, jObject))
             {
                 throw new Exception(String.Format("The given object type {0} is not supported!", objectType));
             }
 
-            var enumString = jObject[_enumName].ToString();
+            var classPrefixString = jObject[_typeCategoryString].ToString();
             
-            TEnum enumValue = default(TEnum);
-            string enumValueName = null;
-            if (Enum.TryParse(enumString, out enumValue)) // if it's an integer, representing an Enum class
-            {
-                enumValueName = enumValue.ToString();
-            }
-            else
-            {
-                enumValueName = enumString; // if it's a string, representing the actual name
-            }
+            //TEnum enumValue = default(TEnum);
+            //string enumValueName = null;
+            //if (Enum.TryParse(enumString, out enumValue)) // if it's an integer, representing an Enum class
+            //{
+            //    enumValueName = enumValue.ToString();
+            //}
+            //else
+            //{
+            //    enumValueName = enumString; // if it's a string, representing the actual name
+            //}
             
             // get name of Enum from interface (e.g. if it's "IThingy", get "ThingyType" Enum and generate names for all source classes, and then use the corresponding factory, possibly also using convention "ThingyFactory")
-            var classInfo = _classInfoDictionary[enumValueName];
+            var classInfo = _classInfoDictionary[classPrefixString];
 
-            var classInstance = _container.Resolve<TInterface>(classInfo.EnumValueName);
+            var classInstance = _container.Resolve<TInterface>(classInfo.ClassPrefixString);
 
             return classInstance;
         }

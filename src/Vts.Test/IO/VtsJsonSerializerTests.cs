@@ -96,7 +96,7 @@ namespace Vts.Test.IO
         [Test]
         public void validate_deserialization_of_interface_object_from_string()
         {
-            VtsJsonSerializer.KnownConverters.Add(new ConventionBasedConverter<ThingyType, IThingy>(typeof(FirstThingy)));
+            VtsJsonSerializer.KnownConverters.Add(ConventionBasedConverter<IThingy>.CreateFromEnum<ThingyType>(typeof(FirstThingy)));
             var compositeThingy = new CompositeThingy
             {
                 OneThingy = new FirstThingy(),
