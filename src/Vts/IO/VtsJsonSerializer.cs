@@ -21,13 +21,18 @@ namespace Vts.IO
 #endif
         public static string WriteToJson<T>(this T myObject)
         {
-            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None, TraceWriter = _traceWriter };
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.None, 
+            };
+#if DEBUG
+            settings.TraceWriter = _traceWriter;
+#endif
             settings.Converters.Add(new StringEnumConverter());
             string json = JsonConvert.SerializeObject(
                 myObject,
                 Formatting.Indented,
                 settings);
-
 #if DEBUG
             Console.WriteLine(_traceWriter);
 #endif
@@ -61,14 +66,21 @@ namespace Vts.IO
             {
                 serializer.Converters.Add(jsonConverter);
             }
-
             serializer.NullValueHandling = NullValueHandling.Ignore;
+#if DEBUG
+            serializer.TraceWriter = _traceWriter;
+#endif
+
+            T deserializedProduct = default(T);
             using (var sr = new StringReader(myString))
             using (var reader = new JsonTextReader(sr))
             {
-                T deserializedProduct = serializer.Deserialize<T>(reader);
-                return deserializedProduct;
+                deserializedProduct = serializer.Deserialize<T>(reader);
             }
+#if DEBUG
+            Console.WriteLine(_traceWriter);
+#endif
+            return deserializedProduct;
         }
 
         public static T ReadFromJsonFile<T>(string filename)
