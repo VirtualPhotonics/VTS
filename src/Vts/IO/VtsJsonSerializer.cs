@@ -6,7 +6,9 @@ using Meta.Numerics.Statistics;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using System.IO;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 
@@ -14,13 +16,21 @@ namespace Vts.IO
 {
     public static class VtsJsonSerializer
     {
+#if DEBUG
+        private static MemoryTraceWriter _traceWriter = new MemoryTraceWriter();
+#endif
         public static string WriteToJson<T>(this T myObject)
         {
+            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None, TraceWriter = _traceWriter };
+            settings.Converters.Add(new StringEnumConverter());
             string json = JsonConvert.SerializeObject(
                 myObject,
                 Formatting.Indented,
-                new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.None });
+                settings);
 
+#if DEBUG
+            Console.WriteLine(_traceWriter);
+#endif
             return json;
         }
 
@@ -46,6 +56,7 @@ namespace Vts.IO
         public static T ReadFromJson<T>(this string myString)
         {
             JsonSerializer serializer = new JsonSerializer();
+            serializer.Converters.Add(new StringEnumConverter());
             foreach (var jsonConverter in KnownConverters)
             {
                 serializer.Converters.Add(jsonConverter);
@@ -71,14 +82,6 @@ namespace Vts.IO
             }
         }
     }
-
-    //public class KnownTypeConverter<TInterface> : JsonCreationConverter<TInterface>
-    //{
-    //    public KnownTypeConverter(Type[] knownTypes)
-    //    {
-            
-    //    }
-    //}
 
     // from http://stackoverflow.com/questions/8030538/how-to-implement-custom-jsonconverter-in-json-net-to-deserialize-a-list-of-base
     public class ConventionBasedConverter<TEnum, TInterface> : JsonCreationConverter<TInterface> where TEnum : struct
