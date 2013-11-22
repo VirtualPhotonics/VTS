@@ -1,7 +1,10 @@
 using System;
+using System.Linq;
 using NUnit.Framework;
+using Vts.Common;
 using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers;
+using Vts.SpectralMapping;
 
 namespace Vts.Test.Modeling.ForwardSolvers
 {
@@ -158,9 +161,92 @@ namespace Vts.Test.Modeling.ForwardSolvers
         //    }
         //}
         #endregion Stationary Spatial Frequency Reflectance
+        
+        [Test]
+        public void validate_forward_solver_can_vectorize_based_on_OpticalProperties()
+        {
+            var muas = new double[] {0.02, 0.02, 0.3};
+            var musps = new double[] {1.5, 1.25, 1.25};
+            var wvs = new double[] {650, 750, 850};
+            var rho = 10;
+            var n = 1.4;
+            var g = 0.9;
 
+            var fs = new PointSourceSDAForwardSolver();
+            var ops = Enumerable.Zip(muas, musps, (mua, musp) => new OpticalProperties(mua, musp, g, n)).ToArray();
 
+            var reflectanceVsWavelength = fs.ROfRho(ops, rho);
 
+            Assert.NotNull(reflectanceVsWavelength);
+            Assert.AreEqual(reflectanceVsWavelength.Length, 3);
 
+            // check that change in scattering changes the reflectance
+            Assert.IsTrue(reflectanceVsWavelength[0] != reflectanceVsWavelength[1]);
+            // check that change in absorption changes the reflectance
+            Assert.IsTrue(reflectanceVsWavelength[1] != reflectanceVsWavelength[2]);
+        }
+
+        [Test]
+        public void validate_spectral_generation_of_OpticalProperties_with_scatterers_and_absorbers()
+        {
+            var scatterer = new IntralipidScatterer(0.01);
+            var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.01);
+            var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.99);
+            var wvs = new DoubleRange(650, 1000, 36).AsEnumerable().ToArray();
+            var n = 1.4;
+            var rho = 10;
+
+            var ops = wvs.Select(wv =>
+                {
+                    var mua = fatAbsorber.GetMua(wv) + waterAbsorber.GetMua(wv);
+                    var musp = scatterer.GetMusp(wv);
+                    var g = scatterer.GetG(wv);
+                    return new OpticalProperties(mua, musp, g, n);
+                }).ToArray();
+
+            var fs = new PointSourceSDAForwardSolver();
+
+            var reflectanceVsWavelength = fs.ROfRho(ops, rho);
+
+            Assert.NotNull(reflectanceVsWavelength);
+            Assert.AreEqual(reflectanceVsWavelength.Length, wvs.Length);
+
+            // check that change in scattering changes the reflectance
+            Assert.IsTrue(reflectanceVsWavelength[0] != reflectanceVsWavelength[1]);
+            // check that change in absorption changes the reflectance
+            Assert.IsTrue(reflectanceVsWavelength[1] != reflectanceVsWavelength[2]);
+        }
+
+        [Test]
+        public void validate_spectral_generation_of_OpticalProperties_with_tissue()
+        {
+            var scatterer = new IntralipidScatterer(0.01);
+            var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.01);
+            var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.99);
+
+            var n = 1.4;
+            var wvs = new DoubleRange(650, 1000, 36).AsEnumerable().ToArray();
+            var rho = 10;
+
+            var tissue = new Tissue(
+                new IChromophoreAbsorber[] {fatAbsorber, waterAbsorber},
+                scatterer,
+                "test_tissue",
+                n);
+
+            var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
+
+            var fs = new PointSourceSDAForwardSolver();
+
+            var reflectanceVsWavelength = fs.ROfRho(ops, rho);
+
+            Assert.NotNull(reflectanceVsWavelength);
+            Assert.AreEqual(reflectanceVsWavelength.Length, wvs.Length);
+
+            // check that change in scattering changes the reflectance
+            Assert.IsTrue(reflectanceVsWavelength[0] != reflectanceVsWavelength[1]);
+            // check that change in absorption changes the reflectance
+            Assert.IsTrue(reflectanceVsWavelength[1] != reflectanceVsWavelength[2]);
+        }
     }
 }
