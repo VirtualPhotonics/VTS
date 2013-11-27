@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.IntegralTransforms;
+using Vts.Common;
 using Vts.Extensions;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
@@ -91,7 +92,8 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 foreach (var rho in rhos)
                 {
-                    rOfTime = DetermineROfTimeFromROfFt(rho, regions, out FFTtimeSequence);
+                    // for fixed time and looping over rhos, this still is slow
+                    rOfTime = DetermineROfTimeFromROfFtForFixedRho(rho, regions, out FFTtimeSequence);
                     foreach (var time in times)
                     {
                         yield return Vts.Common.Math.Interpolation.interp1(FFTtimeSequence,
@@ -101,7 +103,7 @@ namespace Vts.Modeling.ForwardSolvers
             }
         }
         // this method builds an R(ft) array and then uses FFT to generate R(t)
-        private double[] DetermineROfTimeFromROfFt(double rho, ITissueRegion[] regions, out double[] FFTtimeSequence)
+        private double[] DetermineROfTimeFromROfFtForFixedRho(double rho, ITissueRegion[] regions, out double[] FFTTimeSequence)
         {
             // get ops of top tissue region
             var op0 = regions[0].RegionOP;
@@ -127,7 +129,7 @@ namespace Vts.Modeling.ForwardSolvers
             // considerations: 2n datapoint and pad with 0s beyond (deltaTime * numFreq)
             var rOfFt = new Complex[numFreq];
             double[] ft = Enumerable.Range(0, numFreq).Select(x => x * deltaFrequency).ToArray();
-            FFTtimeSequence = Enumerable.Range(0, numFreq).Select(x => x*deltaTime).ToArray();
+            FFTTimeSequence = Enumerable.Range(0, numFreq).Select(x => x*deltaTime).ToArray();
 
             for (int i = 0; i < numFreq; i++)
             {
@@ -150,7 +152,7 @@ namespace Vts.Modeling.ForwardSolvers
             // FFT R(ft) to R(t)
             var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
             dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
-            var rOfTime = new double[FFTtimeSequence.Length];
+            var rOfTime = new double[FFTTimeSequence.Length];
             rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
         }
@@ -173,6 +175,7 @@ namespace Vts.Modeling.ForwardSolvers
 
             return TemporalFrequencyReflectance(rho, ft, diffusionParameters, layerThicknesses, fr1, fr2);
         }
+
         public override double ROfFx(ITissueRegion[] regions, double fx)
         {
             // get ops of top tissue region
@@ -190,10 +193,44 @@ namespace Vts.Modeling.ForwardSolvers
             }
             return SpatialFrequencyReflectance(2*Math.PI*fx, diffusionParameters, layerThicknesses, fr1, fr2);
         }
-        public override double ROfFxAndTime(ITissueRegion[] regions, double fx, double time)
+        private double[] DetermineROfFxFromROfRhoForFixedTime(double time, ITissueRegion[] regions, out double[] HankelFxs)
         {
-            return 2 * Math.PI * HankelTransform.DigitalFilterOfOrderZero(
-                   2 * Math.PI * fx, rho => ROfRhoAndTime(regions, rho, time));
+            int numFxs = 100;
+            double deltaFx = 0.02;
+            HankelFxs = new double[numFxs];
+            var ROfFx = new double[numFxs];
+            for (int i = 0; i < numFxs; i++)
+            {
+                HankelFxs[i] = i * deltaFx;
+                ROfFx[i] = 2 * Math.PI * HankelTransform.DigitalFilterOfOrderZero(
+                            2 * Math.PI * HankelFxs[i], rho => ROfRhoAndTime(regions, rho, time));
+            }
+            return ROfFx;
+        }
+        /// <summary>
+        /// Evaluates spatial-frequency and temporally- resolved reflectance at sets of tissue regions, fs and times
+        /// </summary>
+        /// <param name="regions">multiple sets of tissue regions</param>
+        /// <param name="fx">spatial frequencies</param>
+        /// <param name="times">times</param>
+        /// <returns>reflectance at specified optical properties, rhos and times</returns>
+        public override IEnumerable<double> ROfFxAndTime(IEnumerable<ITissueRegion[]> setsOfRegions,
+            IEnumerable<double> fxs, IEnumerable<double> times)
+        {
+            double[] rOfTime = new double[times.Count()];
+            double[] HankelFxs;
+            double[] FFTTimes;
+            foreach (var regions in setsOfRegions)
+            {
+                foreach (var fx in fxs)
+                {
+                    rOfTime = DetermineROfTimeFromROfFtForFixedRho(2 * Math.PI * fx, regions, out FFTTimes);
+                    foreach (var time in times)
+                    {
+                        yield return Vts.Common.Math.Interpolation.interp1(FFTTimes, rOfTime.ToList(), time);
+                    }
+                }
+            }
         }
         public override Complex ROfFxAndFt(ITissueRegion[] regions, double fx, double ft)
         {
@@ -213,6 +250,7 @@ namespace Vts.Modeling.ForwardSolvers
             return SpatialAndTemporalFrequencyReflectance(2 * Math.PI * fx, ft, diffusionParameters, 
                 layerThicknesses, fr1, fr2);
         }
+
         public override IEnumerable<double> FluenceOfRhoAndZ(
             IEnumerable<ITissueRegion[]> regions,
             IEnumerable<double> rhos,
@@ -305,13 +343,11 @@ namespace Vts.Modeling.ForwardSolvers
             double fluence;
             if (z < layerThickness) // top layer phi1 solution
             {
-                fluence = HankelTransform.DigitalFilterOfOrderZero(
-                    rho, s => Phi1(s, z, dp, layerThicknesses));
+                fluence = HankelTransform.DigitalFilterOfOrderZero(rho, s => Phi1(s, z, dp, layerThicknesses));
             }
             else // bottom layer phi2 solution
             {
-                fluence = HankelTransform.DigitalFilterOfOrderZero(
-                    rho, s => Phi2(s, z, dp, layerThicknesses));
+                fluence = HankelTransform.DigitalFilterOfOrderZero(rho, s => Phi2(s, z, dp, layerThicknesses));
             }           
             return fluence/(2*Math.PI); 
         }
@@ -331,13 +367,11 @@ namespace Vts.Modeling.ForwardSolvers
             double flux;
             if (z < layerThickness) // top layer dphi1/dz solution
             {
-                flux = HankelTransform.DigitalFilterOfOrderZero(
-                            rho, s => dPhi1(s, z, dp, layerThicknesses));
+                flux = HankelTransform.DigitalFilterOfOrderZero(rho, s => dPhi1(s, z, dp, layerThicknesses));
             }
             else // bottom layer phi2/dz solution
             {
-                flux = HankelTransform.DigitalFilterOfOrderZero(
-                            rho, s => dPhi2(s, z, dp, layerThicknesses));
+                flux = HankelTransform.DigitalFilterOfOrderZero(rho, s => dPhi2(s, z, dp, layerThicknesses));
             }
             return flux/(2*Math.PI); 
         }
