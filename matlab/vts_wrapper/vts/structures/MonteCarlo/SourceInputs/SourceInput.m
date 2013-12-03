@@ -1,6 +1,6 @@
+%SOURCEINPUT Defines input data for Source implementation
+%   
 classdef SourceInput
-    %SOURCEINPUTS Source inputs
-    %   
     methods (Static)
         function input = Default()
             % Point source type 

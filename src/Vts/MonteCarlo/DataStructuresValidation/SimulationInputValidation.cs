@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Vts.Common;
 using Vts.MonteCarlo.DataStructuresValidation;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Extensions;
@@ -138,12 +139,34 @@ namespace Vts.MonteCarlo
                         EllipsoidRegion;
                     if (detectorInput.IsCylindricalTally() &&
                         (ellipsoid.Center.X != 0.0) && (ellipsoid.Center.Y != 0.0))
+                    {
                         return new ValidationResult(
                             false,
                             "Ellipsoid must be centered at (x,y)=(0,0) for cylindrical tallies",
-                            "Change ellipsoid center to (0,0) or specify non-cylindrical type tally");
+                            "Change ellipsoid center to (0,0) or specify non-cylindrical type tally");            
+                    }
+
                 }
 
+            }
+            // check that if non-normal source defined, that detectors defined are not cylindrical tallies
+            // this could be greatly expanded, just an initial start 
+            if (input.SourceInput is DirectionalPointSourceInput)
+            {
+                var source = (DirectionalPointSourceInput) input.SourceInput;
+                if (source.Direction != new Direction(0,0,1))
+                {
+                    foreach (var detectorInput in input.DetectorInputs)
+                    {
+                        if (detectorInput.TallyType.IsCylindricalTally())
+                        {
+                            return new ValidationResult(
+                                false,
+                                "If source is angled, cannot define cylindrically symmetric detectors",
+                                "Change detector to Cartesian equivalent or define source to be normal"); 
+                        }
+                    }
+                }
             }
             return new ValidationResult(
                 true,
@@ -172,9 +195,34 @@ namespace Vts.MonteCarlo
                 }
 
             }
+            if (input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Discrete)
+            {
+                foreach (var detectorInput in input.DetectorInputs)
+                {
+                    if (detectorInput.TallyType.IsNotImplementedForDAW())
+                    {
+                        return new ValidationResult(
+                            false,
+                            "The use of Discrete Absorption Weighting with path length type detectors not implemented yet",
+                            "Modify AbsorptionWeightingType to Continuous");
+                    }
+                }
+            }
+            // can only run dMC detectors with 1 perturbed region for the present
+            foreach (var detectorInput in input.DetectorInputs)
+            {
+                if (detectorInput is dMCdROfRhodMuaDetectorInput)
+                {
+                    return dMCdROfRhodMuaDetectorInputValidation.ValidateInput(detectorInput);
+                }
+                if (detectorInput is dMCdROfRhodMusDetectorInput)
+                {
+                    return dMCdROfRhodMusDetectorInputValidation.ValidateInput(detectorInput);
+                }
+            }         
             return new ValidationResult(
                 true,
-                "Detector definitions are consistent with use of Continuous Absorption Weighting");
+                "Detector definitions are consistent with current capabilities");
         }
     }
 }

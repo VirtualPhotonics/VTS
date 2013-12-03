@@ -6,6 +6,9 @@ In Visual Studio 2010, open the file <VTS dir>/src/Vts.sln
 For detailed instructions on how to launch the VTS GUI visit:
 http://virtualphotonics.codeplex.com/wikipage?title=Compiling%20and%20running%20the%20VTS%20GUI
 
+To Build, Test and Run the VTS without Visual Studio visit:
+http://virtualphotonics.codeplex.com/wikipage?title=Build%2c%20Test%20and%20Run
+
 For more information about coding conventions and how to contribute to our Open Source effort see our developer website at:
 http://virtualphotonics.codeplex.com
 

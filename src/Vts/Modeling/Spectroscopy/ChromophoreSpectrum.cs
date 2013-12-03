@@ -3,6 +3,21 @@ using System.Runtime.Serialization;
 
 namespace Vts.SpectralMapping
 {
+    public static class ChromophoreSpectrumExtensions
+    {
+        public static ChromophoreSpectrumDictionary ToDictionary(this IEnumerable<ChromophoreSpectrum> spectra)
+        {
+            var dictionary = new ChromophoreSpectrumDictionary();
+
+            foreach (var chromophoreSpectrum in spectra)
+            {
+                dictionary.Add(chromophoreSpectrum.Name, chromophoreSpectrum);
+            }
+
+            return dictionary;
+        }
+    }
+
     /// <summary>
     /// A class representing a dictionary of the chromophore spectrum data
     /// Added a collection data contract to define the node names and namespace 
@@ -23,6 +38,19 @@ namespace Vts.SpectralMapping
     [KnownType(typeof(ChromophoreSpectrum))]
     public class ChromophoreSpectrum : ISpectrum
     {
+        /// <summary>
+        /// Constructor to create the chromophore spectrum starting with empty lists
+        /// </summary>
+        /// <param name="name">The name of the chromophore absorber</param>
+        /// <param name="coeffType">The chromophore coefficient type</param>
+        /// <param name="absUnits">The absorption coefficient units</param>
+        /// <param name="molarUnit">The molar units</param>
+        /// <param name="wavelengthUnit">The wavelength units</param>
+        public ChromophoreSpectrum(string name, ChromophoreCoefficientType coeffType, AbsorptionCoefficientUnit absUnits, MolarUnit molarUnit, WavelengthUnit wavelengthUnit)
+            : this(new List<double>(), new List<double>(), name, coeffType, absUnits, molarUnit, wavelengthUnit)
+        {
+        }
+
         /// <summary>
         /// Constructor to create the chromophore spectrum
         /// </summary>

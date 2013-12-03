@@ -370,7 +370,14 @@ namespace Vts.MonteCarlo.IO
 	                    FileIO.WriteToXML((pMCROfRhoDetector)detector, filePath + ".xml");
 						break;
 
-                    case "TOfRho":
+                    case TallyType.dMCdROfRhodMua:
+                        FileIO.WriteToXML((dMCdROfRhodMuaDetector)detector, filePath + ".xml");
+                        break;
+
+                    case TallyType.dMCdROfRhodMus:
+                        FileIO.WriteToXML((dMCdROfRhodMusDetector)detector, filePath + ".xml");
+                        break;
+
 	                    FileIO.WriteToXML((TOfRhoDetector)detector, filePath + ".xml");
 						break;
 
@@ -443,6 +450,8 @@ namespace Vts.MonteCarlo.IO
 
                     case "ReflectedMTOfRhoAndSubregionHist":
 	                    FileIO.WriteToXML((ReflectedMTOfRhoAndSubregionHistDetector)detector, filePath + ".xml");
+                        var dmt = detector as ReflectedMTOfRhoAndSubregionHistDetector;
+                        FileIO.WriteArrayToBinary<double>(dmt.FractionalMT, filePath + "_FractionalMT", false);
 						break;
 
                     case "ReflectedTimeOfRhoAndSubregionHist":
@@ -512,7 +521,18 @@ namespace Vts.MonteCarlo.IO
                         pMCROfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, pMCROfRhoDetectorDims);
                         return pMCROfRhoDetector;
 
-                    case "TOfRho":
+                    case "dMCdROfRhodMua":
+                        var dMCdROfRhodMuaDetector = FileIO.ReadFromXML<dMCdROfRhodMuaDetector>(filePath + ".xml");
+                        var dMCdROfRhodMuaDetectorDims = new int[] { dMCdROfRhodMuaDetector.Rho.Count - 1 };
+                        dMCdROfRhodMuaDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, dMCdROfRhodMuaDetectorDims);
+                        return dMCdROfRhodMuaDetector;
+
+                    case "dMCdROfRhodMus":
+                        var dMCdROfRhodMusDetector = FileIO.ReadFromXML<dMCdROfRhodMusDetector>(filePath + ".xml");
+                        var dMCdROfRhodMusDetectorDims = new int[] { dMCdROfRhodMusDetector.Rho.Count - 1 };
+                        dMCdROfRhodMusDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, dMCdROfRhodMusDetectorDims);
+                        return dMCdROfRhodMusDetector;
+
                         var tOfRhoDetector = FileIO.ReadFromXML<TOfRhoDetector>(filePath + ".xml");
                         var tOfRhoDetectorDims = new int[] { tOfRhoDetector.Rho.Count - 1 };
                         tOfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, tOfRhoDetectorDims);
@@ -628,10 +648,9 @@ namespace Vts.MonteCarlo.IO
                             FileIO.ReadFromXML<ReflectedMTOfRhoAndSubregionHistDetector>(filePath + ".xml");
                         var reflectedMTOfRhoAndSubregionHistDetectorDims = new int[] {
                             reflectedMTOfRhoAndSubregionHistDetector.Rho.Count - 1, 
-                            reflectedMTOfRhoAndSubregionHistDetector.SubregionIndices.Count,
                             reflectedMTOfRhoAndSubregionHistDetector.MTBins.Count - 1 };                                                 
                         reflectedMTOfRhoAndSubregionHistDetector.Mean =
-                            (double[, ,])FileIO.ReadArrayFromBinary<double>(filePath, reflectedMTOfRhoAndSubregionHistDetectorDims);
+                            (double[,])FileIO.ReadArrayFromBinary<double>(filePath, reflectedMTOfRhoAndSubregionHistDetectorDims);
                         return reflectedMTOfRhoAndSubregionHistDetector;
 
                     case "ReflectedTimeOfRhoAndSubregionHist":
@@ -717,7 +736,18 @@ namespace Vts.MonteCarlo.IO
                         pMuaMusROfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, pMCROfRhoDetectorDims);
                         return pMuaMusROfRhoDetector;
 
-                    case "TOfRho":
+                    case "dMCdROfRhodMua":
+                        var dMCdROfRhodMuaDetector = FileIO.ReadFromXMLInResources<dMCdROfRhodMuaDetector>(filePath + ".xml", projectName);
+                        var dMCdROfRhodMuaDetectorDims = new int[] { dMCdROfRhodMuaDetector.Rho.Count - 1 };
+                        dMCdROfRhodMuaDetector.Mean = (double[])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, dMCdROfRhodMuaDetectorDims);
+                        return dMCdROfRhodMuaDetector;
+
+                    case "dMCdROfRhodMus":
+                        var dMCdROfRhodMusDetector = FileIO.ReadFromXMLInResources<dMCdROfRhodMusDetector>(filePath + ".xml", projectName);
+                        var dMCdROfRhodMusDetectorDims = new int[] { dMCdROfRhodMusDetector.Rho.Count - 1 };
+                        dMCdROfRhodMusDetector.Mean = (double[])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, dMCdROfRhodMusDetectorDims);
+                        return dMCdROfRhodMusDetector;
+
                         var tOfRhoDetector = FileIO.ReadFromXMLInResources<TOfRhoDetector>(filePath + ".xml", projectName);
                         tOfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName);
                         return tOfRhoDetector;
@@ -835,11 +865,10 @@ namespace Vts.MonteCarlo.IO
                         var reflectedMTOfRhoAndSubRegionHistDetector =
                             FileIO.ReadFromXMLInResources<ReflectedMTOfRhoAndSubregionHistDetector>(filePath + ".xml", projectName);
                         var ReflectedMTOfRhoAndSubregionHistDims =
-                            new int[] { reflectedMTOfRhoAndSubRegionHistDetector.Rho.Count, 
-                                        reflectedMTOfRhoAndSubRegionHistDetector.SubregionIndices.Count, 
+                            new int[] { reflectedMTOfRhoAndSubRegionHistDetector.Rho.Count,  
                                         reflectedMTOfRhoAndSubRegionHistDetector.MTBins.Count };
                         reflectedMTOfRhoAndSubRegionHistDetector.Mean =
-                            (double[, ,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, ReflectedMTOfRhoAndSubregionHistDims);
+                            (double[,])FileIO.ReadArrayFromBinaryInResources<double>(filePath, projectName, ReflectedMTOfRhoAndSubregionHistDims);
                         return reflectedMTOfRhoAndSubRegionHistDetector;
                     case "ReflectedTimeOfRhoAndSubregionHist":
                         var reflectedTimeOfRhoAndSubregionHistDetector =

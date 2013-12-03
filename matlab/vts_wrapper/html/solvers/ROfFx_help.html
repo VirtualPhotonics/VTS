@@ -1,0 +1,108 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ROfFx</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-09-04"><meta name="DC.source" content="ROfFx_help.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>ROfFx</h1><!--introduction--><p>Spatial-frequency reflectance</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>ROfFx(OP, FX)</pre><pre>     OP is an N x 4 matrix of optical properties
+         eg. OP = [[mua1, mus1', g1, n1]; [mua2, mus2', g2, n2]; ...];
+         mua and mus' values in (1/mm)
+     FX is an 1 x M array of spatial frequencies (in 1/mm)
+         eg. FX = linspace(0,0.5,11);</pre><h2>Description<a name="2"></a></h2><p>Returns steady-state reflectance in the spatial frequency domain</p><h2>Examples<a name="3"></a></h2><pre>     op = [0.1 1.2 0.8 1.4]; % optical properties
+     fx = 0:0.001:0.2; % range of spatial frequencies in 1/mm
+     VtsSolvers.SetSolverType('PointSourceSDA'); % set solver type
+     reflectance = VtsSolvers.ROfFx(op, fx);</pre><h2>See Also<a name="4"></a></h2><p><a href="VtsSolvers_help.html">VtsSolvers</a> | <a href="AbsorbedEnergyOfRhoAndZ_help.html">AbsorbedEnergyOfRhoAndZ</a> | <a href="FluenceOfRhoAndZ_help.html">FluenceOfRhoAndZ</a> | <a href="PHDOfRhoAndZ_help.html">PHDOfRhoAndZ</a> | <a href="ROfFxAndFt_help.html">ROfFxAndFt</a> | <a href="ROfFxAndT_help.html">ROfFxAndT</a> | <a href="ROfRho_help.html">ROfRho</a> | <a href="ROfRhoAndFt_help.html">ROfRhoAndFt</a> | <a href="ROfRhoAndT_help.html">ROfRhoAndT</a> | <a href="SetSolverType_help.html">SetSolverType</a></p><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%% ROfFx
+% Spatial-frequency reflectance 
+%
+%% Syntax
+%  ROfFx(OP, FX) 
+%
+%       OP is an N x 4 matrix of optical properties
+%           eg. OP = [[mua1, mus1', g1, n1]; [mua2, mus2', g2, n2]; ...];
+%           mua and mus' values in (1/mm)
+%       FX is an 1 x M array of spatial frequencies (in 1/mm)
+%           eg. FX = linspace(0,0.5,11);
+%
+%% Description
+% Returns steady-state reflectance in the spatial frequency domain
+%
+%% Examples
+%       op = [0.1 1.2 0.8 1.4]; % optical properties
+%       fx = 0:0.001:0.2; % range of spatial frequencies in 1/mm
+%       VtsSolvers.SetSolverType('PointSourceSDA'); % set solver type
+%       reflectance = VtsSolvers.ROfFx(op, fx);
+%
+%% See Also
+% <VtsSolvers_help.html VtsSolvers> | 
+% <AbsorbedEnergyOfRhoAndZ_help.html AbsorbedEnergyOfRhoAndZ> | 
+% <FluenceOfRhoAndZ_help.html FluenceOfRhoAndZ> | 
+% <PHDOfRhoAndZ_help.html PHDOfRhoAndZ> | 
+% <ROfFxAndFt_help.html ROfFxAndFt> |
+% <ROfFxAndT_help.html ROfFxAndT> | 
+% <ROfRho_help.html ROfRho> |
+% <ROfRhoAndFt_help.html ROfRhoAndFt> | 
+% <ROfRhoAndT_help.html ROfRhoAndT> |
+% <SetSolverType_help.html SetSolverType>
+##### SOURCE END #####
+--></body></html>

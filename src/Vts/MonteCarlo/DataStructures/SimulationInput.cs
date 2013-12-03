@@ -73,6 +73,8 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
     [KnownType(typeof(pMCROfRhoDetectorInput))]
     [KnownType(typeof(pMCROfFxDetectorInput))]
+    [KnownType(typeof(dMCdROfRhodMuaDetectorInput))]
+    [KnownType(typeof(dMCdROfRhodMusDetectorInput))]
     [KnownType(typeof(pMCROfFxAndTimeDetectorInput))]
     [KnownType(typeof(ReflectedMTOfRhoAndSubregionHistDetectorInput))]
     [KnownType(typeof(ReflectedTimeOfRhoAndSubregionHistDetectorInput))]

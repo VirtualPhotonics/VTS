@@ -752,7 +752,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>reflectance at given optical properties, rhos, depths (zs) and modulation frequencies</returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
-        public virtual IEnumerable<double> FluenceOfRhoAndZAndFt(
+        public virtual IEnumerable<Complex> FluenceOfRhoAndZAndFt(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos,
             IEnumerable<double> zs,
@@ -801,7 +801,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>reflectance at vien optical properties, spatial frequencies, z values and modulation frequencies</returns>
-        public virtual IEnumerable<double> FluenceOfFxAndZAndFt(
+        public virtual IEnumerable<Complex> FluenceOfFxAndZAndFt(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs,
             IEnumerable<double> zs,
@@ -853,9 +853,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>reflectance at given optical properties, rhos, z values (depths) and modulation frequencies</returns>
-        public double[] FluenceOfRhoAndZAndFt(OpticalProperties[] ops, double[] rhos, double[] zs, double[] fts)
+        public Complex[] FluenceOfRhoAndZAndFt(OpticalProperties[] ops, double[] rhos, double[] zs, double[] fts)
         {
-            var output = new double[ops.Length * rhos.Length * zs.Length * fts.Length];
+            var output = new Complex[ops.Length * rhos.Length * zs.Length * fts.Length];
             var query = FluenceOfRhoAndZAndFt((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)zs, (IEnumerable<double>)fts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
@@ -900,9 +900,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>reflectance at given optical properties, spatial frequencies z values (depths) and modulation frequencies</returns>        
-        public double[] FluenceOfFxAndZAndFt(OpticalProperties[] ops, double[] fx, double[] zs, double[] fts)
+        public Complex[] FluenceOfFxAndZAndFt(OpticalProperties[] ops, double[] fx, double[] zs, double[] fts)
         {
-            var output = new double[ops.Length * fx.Length * zs.Length * fts.Length];
+            var output = new Complex[ops.Length * fx.Length * zs.Length * fts.Length];
             var query = FluenceOfFxAndZAndFt((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)fx, (IEnumerable<double>)zs, (IEnumerable<double>)fts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;

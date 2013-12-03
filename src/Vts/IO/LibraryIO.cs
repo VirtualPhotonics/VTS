@@ -1,14 +1,14 @@
-using System;
-using System.Reflection;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Threading;
-using System.Windows;
-using System.Runtime.Serialization;
-using System.Windows.Threading;
-using Vts.Extensions;
 
+#if SILVERLIGHT
+using System;
+using System.Net;
+using System.Windows;
+using System.Threading;
+#else
+using System.Reflection;
+using System.IO;
+#endif
 
 namespace Vts.IO
 {

@@ -68,7 +68,7 @@ namespace Vts.MonteCarlo.Detectors
             new List<OpticalProperties>(), 
             new List<int>(), 
             true, // tallySecondMoment
-            "dMCdROfRhodMua")
+            "dMCdROfRhodMua" )
         {
         }
 
@@ -89,7 +89,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public string Name { get; set; }
+        public String Name { get; set; }
         /// <summary>
         /// number of time detector gets tallied to
         /// </summary>
@@ -145,9 +145,9 @@ namespace Vts.MonteCarlo.Detectors
         {
             double weightFactor = 1.0;
 
+            // NOTE: following code only works for single perturbed region
             foreach (var i in _perturbedRegionsIndices)
             {
-                // need to verify following
                 weightFactor *=
                     -pathLength[i] * // dMua* factor
                     (Math.Exp(-perturbedOps[i].Mua * pathLength[i]) / Math.Exp(-_referenceOps[i].Mua * pathLength[i])); // mua pert
@@ -171,9 +171,9 @@ namespace Vts.MonteCarlo.Detectors
         {
             double weightFactor = 1.0;
 
+            // NOTE: following code only works for single perturbed region
             foreach (var i in _perturbedRegionsIndices)
             {
-                // need to verify following
                 weightFactor *=
                     -pathLength[i] * // dMua* factor
                     Math.Pow(

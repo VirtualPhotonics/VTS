@@ -1,3 +1,6 @@
+% SIMULATIONINPUT Defines input to the Monte Carlo simulation
+% This includes the output file name, number of photons to execute (N), 
+% source, tissue and detector definitions.
 classdef SimulationInput < handle % deriving from handle allows us to keep a singleton around (reference based) - see Doug's post here: http://www.mathworks.com/matlabcentral/newsreader/view_thread/171344
     properties
         N = 100;

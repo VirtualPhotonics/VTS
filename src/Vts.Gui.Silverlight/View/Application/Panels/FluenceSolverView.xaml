@@ -1,0 +1,78 @@
+﻿<UserControl 
+    x:Class="Vts.Gui.Silverlight.View.FluenceSolverView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:v="clr-namespace:Vts.Gui.Silverlight.View"
+    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
+    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+        <!-- Solver Engine -->
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=MainResource.Label_ForwardSolver, Source={StaticResource LocalizedStrings }}" FontSize="12" FontWeight="Bold" Margin="3,3" />
+        <v:ComboBoxOptionView  DataContext="{Binding ForwardSolverTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,0,0,0"/>
+        <!-- Map Type -->
+        <v:RadioButtonOptionView DataContext="{Binding MapTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <!-- Gaussian Beam Diameter -->
+        <StackPanel Orientation="Horizontal" Visibility="{Binding IsGaussianForwardModel, Converter={StaticResource myBooleanToVisibilityConverter}}" Margin="5">
+            <TextBlock Text="{Binding Path=MainResource.Label_GaussianBeam, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
+            <TextBox Width="40" Margin="3" Text="{Binding ForwardSolver.BeamDiameter, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Path=MainResource.Measurement_mm, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
+        </StackPanel>
+        <!-- Solution Domains (One for each map type) -->
+        <!-- Fluence -->
+        <StackPanel
+            Visibility="{Binding IsFluence, Converter={StaticResource myBooleanToVisibilityConverter}}">
+            <v:FluenceSolutionDomainOptionView 
+                DataContext="{Binding FluenceSolutionDomainTypeOptionVM}" 
+                HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+        <!-- Absorbed Energy -->
+        <StackPanel
+            Visibility="{Binding IsAbsorbedEnergy, Converter={StaticResource myBooleanToVisibilityConverter}}">
+            <v:AbsorbedEnergySolutionDomainOptionView 
+            DataContext="{Binding AbsorbedEnergySolutionDomainTypeOptionVM}" 
+            HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+        <!-- Photon Hitting Density -->
+        <StackPanel
+                Visibility="{Binding IsPhotonHittingDensity, Converter={StaticResource myBooleanToVisibilityConverter}}">
+            <v:PhotonHittingDensitySolutionDomainOptionView
+                DataContext="{Binding PhotonHittingDensitySolutionDomainTypeOptionVM}" 
+                HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+        <!-- Source Detector Separation -->
+        <StackPanel Orientation="Horizontal" Visibility="{Binding IsPhotonHittingDensity, Converter={StaticResource myBooleanToVisibilityConverter}}" Margin="5">
+            <TextBlock Text="{Binding Path=MainResource.Label_SourceDetector, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
+            <TextBox Width="40" Margin="3" Text="{Binding SourceDetectorSeparation, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Path=MainResource.Measurement_mm, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
+        </StackPanel>
+        <!-- Modulation Frequency -->
+        <StackPanel Orientation="Horizontal" Visibility="{Binding IsTimeFrequencyDomain, Converter={StaticResource myBooleanToVisibilityConverter}}" Margin="5">
+            <TextBlock Text="{Binding Path=MainResource.Label_ModulationFrequency, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
+            <TextBox Width="40" Margin="3" Text="{Binding TimeModulationFrequency, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Path=MainResource.Measurement_GHz, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
+        </StackPanel>
+        <!-- Rho Range -->
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="{Binding Path=MainResource.Label_RhoRange, Source={StaticResource LocalizedStrings}}" Margin="5,0,5,0" VerticalAlignment="Center"/>
+            <v:RangeView DataContext="{Binding RhoRangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+        <!-- z Range -->
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="{Binding Path=MainResource.Label_zRange, Source={StaticResource LocalizedStrings}}" Margin="5,0,15,0" VerticalAlignment="Center"/>
+            <v:RangeView DataContext="{Binding ZRangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+        <!-- Optical Properties -->
+        <v:OpticalPropertyView Mua="1.0" DataContext="{Binding OpticalPropertyVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <!-- This Radio button choice does not appear on the panel -->
+            <v:RadioButtonOptionView DataContext="{Binding ForwardAnalysisTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <!-- Button -->
+            <Button 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                input:CommandService.Command="FluenceSolver_ExecuteFluenceSolver"
+                input:CommandService.CommandParameter="{Binding}"
+                Content="{Binding Path=MainResource.Button_GenerateFluence, Source={StaticResource LocalizedStrings}}"  
+                Height="30" Margin="5"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

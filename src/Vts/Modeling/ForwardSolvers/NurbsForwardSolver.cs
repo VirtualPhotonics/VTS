@@ -256,7 +256,8 @@ namespace Vts.Modeling.ForwardSolvers
                 }
                 else
                 {
-                    var time = _rdGenerator.NativeTimes;
+                    //var time = _rdGenerator.NativeTimes;
+                    var time = _rdGenerator.NativeTimes.ToArray();
                     for (int i = 0; i < time.Length; i++)
                     {
                         time[i] = time[i] * _opReference.Musp / op.Musp;
@@ -539,7 +540,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">temporal frequency (GHz)</param>
         /// <returns></returns>
-        public override IEnumerable<double> FluenceOfRhoAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
+        public override IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
         {
             throw new NotImplementedException();
         }
@@ -580,7 +581,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">temporal frequencies (GHz)</param>
         /// <returns></returns>
-        public override IEnumerable<double> FluenceOfFxAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts)
+        public override IEnumerable<Complex> FluenceOfFxAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts)
         {
             throw new NotImplementedException();
         }

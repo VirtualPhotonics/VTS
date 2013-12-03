@@ -1,4 +1,5 @@
 classdef VtsSpectroscopy
+    % VTSSPECTROSCOPY  
     properties (Constant, GetAccess='private') % can be used like a static constructor for static properties
          Assemblies = loadAssemblies();
 %          ChromEnumInfo = getEnumInfo(Vts.ChromophoreType.Hb.GetType());
@@ -35,7 +36,7 @@ classdef VtsSpectroscopy
                         scattererNET = Vts.SpectralMapping.IntralipidScatterer(...
                             scatterer.VolumeFraction);
                     else % call default constructor
-                        scattererNET = Vts.SpectralMapping.IntralipidScatterer
+                        scattererNET = Vts.SpectralMapping.IntralipidScatterer;
                     end
                 case 'Mie'
                     if(isfield(scatterer, 'radius'))

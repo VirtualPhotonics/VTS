@@ -1,11 +1,14 @@
 ﻿// copy from before change:
 
+using System.Runtime.Serialization;
+
 namespace Vts
 {
     /// <summary>
     /// Describes optical properties needed as input for various 
     /// forward solver models.
     /// </summary>
+    [DataContract]
     public class OpticalProperties : BindableObject
     {
         private double _Mua;
@@ -47,6 +50,7 @@ namespace Vts
         /// <summary>
         /// absorption coefficient = probability of absorption per unit distance traveled
         /// </summary>
+        [DataMember]
         public double Mua
         {
             get { return _Mua; }
@@ -63,41 +67,10 @@ namespace Vts
         }
 
         /// <summary>
-        /// reduced scattering coefficient = probability of having scattered per unit distance traveled
-        /// </summary>
-        /// <remarks>Warning - Setting this value also modifies Mus!</remarks>
-        public double Musp
-        {
-            get 
-            {
-                if(_G == 1)
-                {
-                    return _Mus;
-                } 
-                else
-                {
-                    return _Mus * (1 - _G);
-                } 
-            }
-            set
-            {
-                if (_G == 1)
-                {
-                    _Mus = value;
-                }
-                else
-                {
-                    _Mus = value / (1 - _G);
-                }
-                this.OnPropertyChanged("Musp");
-                this.OnPropertyChanged("Mus");
-            }
-        }
-
-        /// <summary>
         /// scattering coefficient = probability of having scattered per unit distance traveled
         /// </summary>
         /// <remarks>Warning - Setting this value also modifies Musp!</remarks>
+        [DataMember]
         public double Mus
         {
             get { return _Mus; }
@@ -113,6 +86,7 @@ namespace Vts
         /// anisotropy coefficient = cosine of an average scattering angle (where the angle is relative to the incoming and outgoing unit direction vectors)
         /// </summary>
         /// <remarks>Warning - Setting this value also modifies Mus!</remarks>
+        [DataMember]
         public double G
         {
             get { return _G; }
@@ -128,6 +102,7 @@ namespace Vts
         /// <summary>
         /// refractive index mismatch
         /// </summary>
+        [DataMember]
         public double N
         {
             get { return _N; }
@@ -135,6 +110,43 @@ namespace Vts
             {
                 _N = value;
                 this.OnPropertyChanged("N");
+            }
+        }
+
+        /// <summary>
+        /// reduced scattering coefficient = probability of having scattered per unit distance traveled
+        /// </summary>
+        /// <remarks>
+        /// Warning - Setting this value also modifies Mus!
+        /// Warning - This must be defined AFTER Mus and G to deserialize correctly
+        ///           (or alternatively, we should use [IgnoreDataMember] either here or for Mus)
+        /// </remarks>
+        [DataMember]
+        public double Musp
+        {
+            get
+            {
+                if (_G == 1)
+                {
+                    return _Mus;
+                }
+                else
+                {
+                    return _Mus * (1 - _G);
+                }
+            }
+            set
+            {
+                if (_G == 1)
+                {
+                    _Mus = value;
+                }
+                else
+                {
+                    _Mus = value / (1 - _G);
+                }
+                this.OnPropertyChanged("Musp");
+                this.OnPropertyChanged("Mus");
             }
         }
 

@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo
             return new List<PostProcessorInput>()
             {
                 PostProcessorROfRho(),
-                pMCROfRho()
+                pMCROfRhoROfRhoAndTime()
             };
         }
 
@@ -43,11 +43,12 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region pMC R(rho) 
+        #region pMC R(rho) and R(rho,time)
         /// <summary>
-        /// Perturbation MC R(rho) 
+        /// Perturbation MC R(rho).  This assumes database being post-processed is for
+        /// tissue system with one layer.
         /// </summary>
-        public static PostProcessorInput pMCROfRho()
+        public static PostProcessorInput pMCROfRhoROfRhoAndTime()
         {
             return new PostProcessorInput(
                 //VirtualBoundaryType.pMCDiffuseReflectance,
@@ -63,28 +64,35 @@ namespace Vts.MonteCarlo
                         },
                         new List<int>() { 1 }),
                     new pMCROfRhoDetectorInput(
-                        new DoubleRange(0.0, 40, 21),
+                        new DoubleRange(0.0, 10, 101),
                         new List<OpticalProperties>() { 
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
                         new List<int>() { 1 },
                         "pMCROfRho_mus1p5"),
                     new pMCROfRhoDetectorInput(
-                        new DoubleRange(0.0, 40, 21),
+                        new DoubleRange(0.0, 10, 101),
                         new List<OpticalProperties>() { 
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 0.5, 0.8, 1.4),
-                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
                         new List<int>() { 1 },
                         "pMCROfRho_mus0p5"),
+                    new pMCROfRhoAndTimeDetectorInput( 
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101),
+                        new List<OpticalProperties>() {
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                            new OpticalProperties(0.01, 1.5, 0.8, 1.4),
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        new List<int>() { 1 },
+                        "pMCROfRhoAndTime_mus1p5"),
                 },
                 true,
                 "pMC_one_layer_ROfRho_DAW",
                 "pMC_one_layer_ROfRho_DAW",
-                "PostProcessor_pMC_ROfRho"
+                "PostProcessor_pMC_ROfRhoROfRhoAndTime"
             );
         }
         #endregion

@@ -11,6 +11,7 @@ namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// Implements IDetector&lt;double[,,]&gt;.  Tally for reflected Time(rho,subregion,time).
+    /// Currently, the tally only works for Continuous Absorption Weighting (CAW)
     /// </summary>
     [KnownType(typeof(ReflectedTimeOfRhoAndSubregionHistDetector))]
     public class ReflectedTimeOfRhoAndSubregionHistDetector : IDetector<double[,,]> 
@@ -44,7 +45,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[Rho.Count - 1, SubregionIndices.Count, Time.Count - 1];
             }
-            TallyType = "ReflectedTimeOfRhoAndSubregionHist"; 
+            TallyType = TallyType.ReflectedTimeOfRhoAndSubregionHist; 
             Name = name;
             TallyCount = 0;
         }
@@ -119,10 +120,12 @@ namespace Vts.MonteCarlo.Detectors
                 if (timeInSubRegion > 1e-14) 
                 {
                     var it = DetectorBinning.WhichBin(timeInSubRegion, Time.Count - 1, Time.Delta, Time.Start);
-                    Mean[ir, i, it] += 1;
+                    // tally Continuous Absorption Weighting (CAW) 
+                    var tally = Math.Exp(-_tissue.Regions[i].RegionOP.Mua * photon.History.SubRegionInfoList[i].PathLength);
+                    Mean[ir, i, it] += tally;
                     if (_tallySecondMoment)
                     {
-                        SecondMoment[ir, i, it] += 1 * 1;
+                        SecondMoment[ir, i, it] += tally * tally;
                     }
                 }
             }

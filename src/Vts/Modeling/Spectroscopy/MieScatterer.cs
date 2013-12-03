@@ -20,16 +20,17 @@ namespace Vts.SpectralMapping
         private double _ParticleRadius;
         private double _ParticleRefractiveIndexMismatch;
         private double _MediumRefractiveIndexMismatch;
+        private double _VolumeFraction;
 
         private MieScatteringParameters MieScattParams;
 
         private class MieScatteringParameters
         {
-
             public double[] Q { get; set; }
             public Complex[] S1 { get; set; }
             public Complex[] S2 { get; set; }
             public double[] S11 { get; set; }
+            public double G { get; set; }
         }
 
         /// <summary>
@@ -41,11 +42,13 @@ namespace Vts.SpectralMapping
         public MieScatterer(
             double particleRadius,
             double particleRefractiveIndex,
-            double mediumRefractiveIndex)
+            double mediumRefractiveIndex,
+            double volumeFraction)
         {
             ParticleRadius = particleRadius;
             ParticleRefractiveIndexMismatch = particleRefractiveIndex;
             MediumRefractiveIndexMismatch = mediumRefractiveIndex;
+            VolumeFraction = volumeFraction;
         }
 
         /// <summary>
@@ -61,6 +64,7 @@ namespace Vts.SpectralMapping
                     ParticleRadius = 0.5;
                     ParticleRefractiveIndexMismatch = 1.4;
                     MediumRefractiveIndexMismatch = 1.0;
+                    VolumeFraction = 0.01;
                     break;
             }
         }
@@ -120,6 +124,18 @@ namespace Vts.SpectralMapping
         }
 
         /// <summary>
+        /// Volume fraction
+        /// </summary>
+        public double VolumeFraction
+        {
+            get { return _VolumeFraction; }
+            set
+            {
+                _VolumeFraction = value;
+            }
+        }
+
+        /// <summary>
         /// Returns the anisotropy coefficient for a given wavelength
         /// </summary>
         /// <param name="wavelength">Wavelength</param>
@@ -128,11 +144,7 @@ namespace Vts.SpectralMapping
         {
             MieScattParams = new MieScatteringParameters();
             BohrenHuffmanMie(wavelength);
-
-            var n = Integration.IntegrateAdaptiveSimpsonRule(Numerator, 0.0, Math.PI, 0.0001);
-            var d = Integration.IntegrateAdaptiveSimpsonRule(Denominator, 0.0, Math.PI, 0.0001);
-            double g = n / d;
-            return g;
+            return MieScattParams.G;
         }
 
         /// <summary>
@@ -143,12 +155,8 @@ namespace Vts.SpectralMapping
         public double GetMus(double wavelength)
         {
             MieScattParams = new MieScatteringParameters();
-            double sizeParameter = GetSizeParameter(wavelength);
-
             BohrenHuffmanMie(wavelength);
-
-            double Qsca = MieScattParams.Q[0];
-            double fv = 0.001;//particle volume fraction
+            double qSca = MieScattParams.Q[0];
 
             //Let a = particle radius;
             //fv = particle volume fraction;
@@ -157,10 +165,7 @@ namespace Vts.SpectralMapping
             //A = Pi*a^2 = area
             // Then mus = rho_s*sigma_s, which, upon simplifying, produces:
             // mus = (fv*Qsca)/((4/3)*a)
-            double mus = fv * Qsca / ((4.0 / 3.0) * ParticleRadius);
-
-            //to convert to mus per millimeter, multiply by 10^3:
-            mus *= 1000;
+            double mus = VolumeFraction * qSca / ((4.0 / 3.0) * ParticleRadius*1e-3);  //radius in m
             return mus;
         }
 
@@ -171,8 +176,9 @@ namespace Vts.SpectralMapping
         /// <returns>The reduced scattering coefficient Mus'</returns>
         public double GetMusp(double wavelength)
         {
-            //MieScattParams = new MieScatteringParameters();
-            return GetMus(wavelength) * (1.0 - GetG(wavelength));
+            var mus = GetMus(wavelength);
+            var g = GetG(wavelength);   //This call may not be required. GetMus calculate both mus and g. Fix later
+            return mus * (1 - g);
         }
 
         private double GetSizeParameter(double wavelength)
@@ -182,17 +188,17 @@ namespace Vts.SpectralMapping
 
         private MieScatteringParameters BohrenHuffmanMie(double wavelength)
         {
-            double sizeParameter = GetSizeParameter(wavelength);
-
-
-            int i, j, n, rn, jj, nMx;
+            int rn;
             double[] amu = new double[angles];
             double[] theta = new double[angles];
             double[] tau = new double[angles];
-            double[] pi = new double[angles];
+            double[] pi =  new double[angles];
             double[] pi0 = new double[angles];
             double[] pi1 = new double[angles];
+            Complex[] s1 = new Complex[nAngles];
+            Complex[] s2 = new Complex[nAngles];
 
+            double sizeParameter = GetSizeParameter(wavelength);
             double nStop = (int)(sizeParameter + 4.0 * Math.Pow(sizeParameter, 1 / 3) + 2.0);//number of terms in the series
             double kMedium = 0.0;
             double kSphere = 0.0;
@@ -201,74 +207,52 @@ namespace Vts.SpectralMapping
             Complex refrel = new Complex(nSphere, kSphere) / (new Complex(nMedium, kMedium));
 
             double ym = Math.Abs(sizeParameter * ComplexAbs(refrel));
-            Complex y = sizeParameter * refrel;
-            nMx = (int)(ym > nStop ? (ym + 15) : (nStop + 15));
+            int nMx = (int)(ym > nStop ? (ym + 15) : (nStop + 15));
 
             Complex[] d = new Complex[nMx + 1];
-
-            theta[0] = 0;
-            amu[0] = 1.0;
-
-            for (i = 1; i < angles; i++)  /* theta[0-360] goes from 0 to pi rad. */
-            {
-                theta[i] = theta[i - 1] + dTheta;
-                amu[i] = Math.Cos(theta[i]);
-            }
-
-            Complex z = new Complex();
             for (int p = nMx; p > 0; p--)
             {
-                z = (Complex)(p + 1) / (sizeParameter * refrel);
+                Complex z = (p + 1) / (sizeParameter * refrel);
                 d[p - 1] = z - 1.0 / (d[p] + z);
             }
-
-            Complex[] s1 = new Complex[nAngles];
-            Complex[] s2 = new Complex[nAngles];
-
-            for (i = 0; i < angles; i++)  /* pi0[0-360] = 0, pi1[0-360] = 1 */
+            
+            for (int i = 0; i < angles; i++)  /* theta[0-360] goes from 0 to pi rad. */
             {
+                theta[i] = i*dTheta;
+                amu[i] = Math.Cos(theta[i]);
                 pi0[i] = 0.0;
                 pi1[i] = 1.0;
             }
+            
+            double psi0 = Math.Cos(sizeParameter);
+            double psi1 = Math.Sin(sizeParameter);
+            double chi0 = -psi1;
+            double chi1 = psi0;
+            var xi1 = new Complex(psi1, -chi1);
 
-            double psi0, psi1, chi0, chi1, psi;
-            chi1 = psi0 = Math.Cos(sizeParameter);
-            psi1 = Math.Sin(sizeParameter);
-            chi0 = -psi1;
-            Complex xi0 = new Complex(psi0, -chi0);
-            Complex xi1 = new Complex(psi1, -chi1);
-
-            double Qscat = 0.0;
-            double Qext = 0.0;
-            double Qback = 0.0;
-
-            for (n = 0; n < nStop; n++)  /* Recursive series until nStop is reached */
+            double qSca = 0.0;
+            
+            for (int n = 0; n < nStop; n++)  /* Recursive series until nStop is reached */
             {
-                double fn, chi;
-
-                Complex an = new Complex();
-                Complex bn = new Complex();
-
                 rn = n + 1;
-                fn = (2.0 * rn + 1) / (rn * (rn + 1));
-                psi = (2.0 * rn - 1) * psi1 / sizeParameter - psi0;
-                chi = (2.0 * rn - 1) * chi1 / sizeParameter - chi0;
-                Complex xi = new Complex(psi, -chi);
-                an = ((d[n] / refrel + rn / sizeParameter) * psi - psi1) /
-                    ((d[n] / refrel + rn / sizeParameter) * xi - xi1);
-                bn = ((refrel * d[n] + rn / sizeParameter) * psi - psi1) /
-                    ((refrel * d[n] + rn / sizeParameter) * xi - xi1);
-                Qscat += (2.0 * rn + 1) * (Math.Pow(ComplexAbs(an), 2) + Math.Pow(ComplexAbs(bn), 2));
+                double fn = (2.0 * rn + 1) / (rn * (rn + 1));
+                double psi = (2.0 * rn - 1) * psi1 / sizeParameter - psi0;
+                double chi = (2.0 * rn - 1) * chi1 / sizeParameter - chi0;
+                var xi = new Complex(psi, -chi);
+                Complex an = ((d[n] / refrel + rn / sizeParameter) * psi - psi1) /
+                             ((d[n] / refrel + rn / sizeParameter) * xi - xi1);
+                Complex bn = ((refrel * d[n] + rn / sizeParameter) * psi - psi1) /
+                             ((refrel * d[n] + rn / sizeParameter) * xi - xi1);
+                qSca += (2.0 * rn + 1) * (Math.Pow(ComplexAbs(an), 2) + Math.Pow(ComplexAbs(bn), 2));
 
-                for (j = 0; j < angles; j++)  /* j from 0 to 360 */
+                double p = Math.Pow(-1.0, rn - 1);
+                double t = Math.Pow(-1.0, rn);
+                for (int j = 0; j < angles; j++)  /* j from 0 to 360 */
                 {
-                    double p, t;
-                    jj = nAngles - 1 - j; /* jj = 720-j (i.e. jj from 720 to 360) */
+                    int jj = nAngles - 1 - j; /* jj = 720-j (i.e. jj from 720 to 360) */
                     pi[j] = pi1[j];
                     tau[j] = rn * amu[j] * pi[j] - (rn + 1) * pi0[j];
-
-                    p = Math.Pow(-1.0, n - 1);
-                    t = Math.Pow(-1, n);
+                   
                     s1[j] += fn * (an * pi[j] + bn * tau[j]);
                     s2[j] += fn * (an * tau[j] + bn * pi[j]);
                     if (j == jj)
@@ -284,66 +268,44 @@ namespace Vts.SpectralMapping
                 xi1.Re = psi1;
                 xi1.Im = -chi1;
                 rn += 1;
-                for (j = 0; j < angles; j++)
+                for (int j = 0; j < angles; j++)
                 {
                     pi1[j] = ((2.0 * rn - 1) * amu[j] * pi[j] - rn * pi0[j]) / (rn - 1);
                     pi0[j] = pi[j];
                 }
             } /* end of recursive series loop */
 
-            Qscat *= 2.0 / (sizeParameter * sizeParameter);
-            Qext = (4.0 * s1[0].Re) / (sizeParameter * sizeParameter);
-            Qback = 4.0 / (sizeParameter * sizeParameter) * Math.Pow(ComplexAbs(s1[nAngles - 1]), 2);
             //return the whole class
             //remove definitions from the constructor
-
             MieScattParams.Q = new double[3];
-            MieScattParams.Q[0] = Qscat;
-            MieScattParams.Q[1] = Qext;
-            MieScattParams.Q[2] = Qback;
-            int l = s1.Length;
-            MieScattParams.S1 = new Complex[l];
-            MieScattParams.S2 = new Complex[l];
-            MieScattParams.S11 = new double[l];
+            MieScattParams.Q[0] = qSca*2.0 / (sizeParameter * sizeParameter);;
+            MieScattParams.Q[1] = (4.0 * s1[0].Re) / (sizeParameter * sizeParameter);
+            MieScattParams.Q[2] = 4.0 / (sizeParameter * sizeParameter) * Math.Pow(ComplexAbs(s1[nAngles - 1]), 2);
+
+            MieScattParams.S1 = new Complex[nAngles];
+            MieScattParams.S2 = new Complex[nAngles];
+            MieScattParams.S11 = new double[nAngles];
 
             MieScattParams.S1 = s1;
             MieScattParams.S2 = s2;
 
-            for (int k = 0; k < s1.Length; k++)
+            //Calculate unpolarized amplitude and g (anisotropy)
+            double gNumerator = 0.0;
+            double gDenominator = 0.0;
+            for (int j = 0; j < nAngles; j++)
             {
-                MieScattParams.S11[k] = 0.5 * (Math.Pow(ComplexAbs(MieScattParams.S1[k]), 2)
-                    + Math.Pow(ComplexAbs(MieScattParams.S2[k]), 2));
+                double cost = Math.Cos(j*dTheta);
+                double sint = Math.Sqrt(1 - cost*cost);
+                MieScattParams.S11[j] = 0.5 * (Math.Pow(ComplexAbs(MieScattParams.S1[j]), 2)
+                    + Math.Pow(ComplexAbs(MieScattParams.S2[j]), 2));
+                gNumerator  += MieScattParams.S11[j] * cost * 2 * Math.PI * sint * dTheta;
+                gDenominator += MieScattParams.S11[j] * 2 * Math.PI * sint* dTheta;
             }
-            for (int st = 0; st < MieScattParams.S11.Length; st++)
-            {
-
-            }
+            MieScattParams.G = gNumerator/gDenominator;
+            
             return MieScattParams;
         }
-
-        private double S11OfTheta(double theta)
-        {
-            List<double> thetai = new List<double>();
-            List<double> S11i = new List<double>();
-
-            for (int i = 0; i < nAngles; i++)
-            {
-                thetai.Add(i * dTheta);
-                S11i.Add(MieScattParams.S11[i]);
-            }
-            double answ = Interpolation.interp1(thetai, S11i, theta);
-            return answ;
-
-        }
-        private double Numerator(double theta)
-        {
-            return S11OfTheta(theta) * Math.Cos(theta) * 2.0 * Math.PI * Math.Sin(theta);
-        }
-        private double Denominator(double theta)
-        {
-            return S11OfTheta(theta) * 2.0 * Math.PI * Math.Sin(theta);
-        }
-
+        
         private double ComplexAbs(Complex z)
         {
             double re = z.Re;

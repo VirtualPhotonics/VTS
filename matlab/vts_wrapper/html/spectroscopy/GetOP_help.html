@@ -1,0 +1,151 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>GetOP</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-09-04"><meta name="DC.source" content="GetOP_help.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>GetOP</h1><!--introduction--><p>Returns the optical properties</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p>GetOP(ABSORBERS, SCATTERER, WAVELENGTHS)</p><pre> ABSORBERS is a class that defines the list of absorbers and their
+ concentrations
+     ABSORBERS.Name is a list of absorber names
+         eg. ABSORBERS.Names = {'HbO2', 'Hb', 'H2O'};
+     ABSORBERS.Concentrations is a list of concentrations
+         eg. ABSORBERS.Concentrations =  [70, 30, 0.8];</pre><pre> SCATTERER is a class that defines the scatterer
+     SCATTERER.Type (PowerLaw, Intralipid or Mie) Mie is the default
+         eg. SCATTERER.Type = 'PowerLaw';
+             SCATTERER.A = 1.2;
+             SCATTERER.b = 1.42;</pre><pre> WAVELENGTHS is an 1 x M array of wavelengths
+         eg. WAVELENGTHS = 450:0.5:1000;</pre><h2>Description<a name="2"></a></h2><p>Returns the optical properties from a list of chromophore absorbers and their concentrations for a range of wavelengths.</p><h2>Examples<a name="3"></a></h2><pre>     absorbers.Names = {'HbO2', 'Hb', 'H2O'};
+     absorbers.Concentrations =  [70, 30, 0.8];
+     scatterer.Type = 'PowerLaw';
+     scatterer.A = 1.2;
+     scatterer.b = 1.42;
+     wv = 450:0.5:1000;
+     op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);</pre><pre>     absorbers.Names = {'HbO2', 'Hb', 'H2O'};
+     absorbers.Concentrations =  [70, 30, 0.8];
+     scatterer.Type = 'Intralipid';
+     scatterer.vol_frac = 0.5;
+     wv = 450:0.5:1000;
+     op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);</pre><pre>     absorbers.Names = {'HbO2', 'Hb', 'H2O'};
+     absorbers.Concentrations =  [70, 30, 0.8];
+     scatterer.Type = 'Mie';
+     scatterer.radius = 0.5;
+     scatterer.n = 1.4;
+     scatterer.nMedium = 1.0;
+     wv = 450:0.5:1000;
+     op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);</pre><h2>See Also<a name="4"></a></h2><p><a href="VtsSpectroscopy_help.html">VtsSpectroscopy</a></p><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%% GetOP
+% Returns the optical properties
+%
+%% Syntax
+% GetOP(ABSORBERS, SCATTERER, WAVELENGTHS)
+%   
+%   ABSORBERS is a class that defines the list of absorbers and their
+%   concentrations
+%       ABSORBERS.Name is a list of absorber names
+%           eg. ABSORBERS.Names = {'HbO2', 'Hb', 'H2O'};
+%       ABSORBERS.Concentrations is a list of concentrations
+%           eg. ABSORBERS.Concentrations =  [70, 30, 0.8];
+%
+%   SCATTERER is a class that defines the scatterer
+%       SCATTERER.Type (PowerLaw, Intralipid or Mie) Mie is the default
+%           eg. SCATTERER.Type = 'PowerLaw';
+%               SCATTERER.A = 1.2;
+%               SCATTERER.b = 1.42;
+%
+%   WAVELENGTHS is an 1 x M array of wavelengths
+%           eg. WAVELENGTHS = 450:0.5:1000;
+%
+%% Description
+% Returns the optical properties from a list of chromophore absorbers and 
+% their concentrations for a range of wavelengths.
+%
+%% Examples
+%       absorbers.Names = {'HbO2', 'Hb', 'H2O'};
+%       absorbers.Concentrations =  [70, 30, 0.8];
+%       scatterer.Type = 'PowerLaw';
+%       scatterer.A = 1.2;
+%       scatterer.b = 1.42;
+%       wv = 450:0.5:1000;
+%       op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+%
+%       absorbers.Names = {'HbO2', 'Hb', 'H2O'};
+%       absorbers.Concentrations =  [70, 30, 0.8];
+%       scatterer.Type = 'Intralipid';
+%       scatterer.vol_frac = 0.5;
+%       wv = 450:0.5:1000;
+%       op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+%  
+%       absorbers.Names = {'HbO2', 'Hb', 'H2O'};
+%       absorbers.Concentrations =  [70, 30, 0.8];
+%       scatterer.Type = 'Mie';
+%       scatterer.radius = 0.5;
+%       scatterer.n = 1.4;
+%       scatterer.nMedium = 1.0;
+%       wv = 450:0.5:1000;
+%       op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+%
+%% See Also
+% <VtsSpectroscopy_help.html VtsSpectroscopy>
+
+##### SOURCE END #####
+--></body></html>

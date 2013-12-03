@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Button_GenerateFluence" xml:space="preserve">
+    <value>Generate Fluence/Interrogation Map</value>
+  </data>
+  <data name="Button_InverseSolver" xml:space="preserve">
+    <value>Run Inverse Solver</value>
+  </data>
+  <data name="Button_PlotInitialGuess" xml:space="preserve">
+    <value>Plot Initial Guess</value>
+  </data>
+  <data name="Button_PlotMeasured" xml:space="preserve">
+    <value>Plot Measured Data</value>
+  </data>
+  <data name="Button_PlotMua" xml:space="preserve">
+    <value>Plot μa Spectrum</value>
+  </data>
+  <data name="Button_PlotMusPrime" xml:space="preserve">
+    <value>Plot μs' Spectrum</value>
+  </data>
+  <data name="Button_PlotReflectance" xml:space="preserve">
+    <value>Plot Reflectance</value>
+  </data>
+  <data name="IndependentVariableAxis_Ft" xml:space="preserve">
+    <value>Temporal Frequency</value>
+  </data>
+  <data name="IndependentVariableAxis_Fx" xml:space="preserve">
+    <value>Spatial Frequency</value>
+  </data>
+  <data name="IndependentVariableAxis_Rho" xml:space="preserve">
+    <value>Detector Positions</value>
+  </data>
+  <data name="IndependentVariableAxis_Time" xml:space="preserve">
+    <value>Detection Times</value>
+  </data>
+  <data name="IndependentVariableAxis_Wavelength" xml:space="preserve">
+    <value>IndependentVariableAxis_Wavelength</value>
+  </data>
+  <data name="Label_AbsorberConcentrations" xml:space="preserve">
+    <value>Absorber Concentrations:</value>
+  </data>
+  <data name="Label_ForwardSolver" xml:space="preserve">
+    <value>Fwd Solver Engine:</value>
+  </data>
+  <data name="Label_GaussianBeam" xml:space="preserve">
+    <value>Gaussian Beam Diameter:</value>
+  </data>
+  <data name="Label_InverseSolver" xml:space="preserve">
+    <value>Inv Solver Engine:</value>
+  </data>
+  <data name="Label_PercentNoise" xml:space="preserve">
+    <value>% noise</value>
+  </data>
+  <data name="Label_PowerLawDefinitionA" xml:space="preserve">
+    <value>(A = μs' at 1000nm)</value>
+  </data>
+  <data name="Label_RhoRange" xml:space="preserve">
+    <value>ρ (Rho) Range:</value>
+  </data>
+  <data name="Label_SourceDetector" xml:space="preserve">
+    <value>Source Detector Separation:</value>
+  </data>
+  <data name="Label_TissueTypes" xml:space="preserve">
+    <value>Tissue Types:</value>
+  </data>
+  <data name="Label_zRange" xml:space="preserve">
+    <value>z Range:</value>
+  </data>
+  <data name="Measurement_mm" xml:space="preserve">
+    <value>mm</value>
+  </data>
+  <data name="Value_A" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="Value_b" xml:space="preserve">
+    <value>b</value>
+  </data>
+  <data name="Value_MediumN" xml:space="preserve">
+    <value>Medium n</value>
+  </data>
+  <data name="Value_ParticleN" xml:space="preserve">
+    <value>Particle n</value>
+  </data>
+  <data name="Value_ParticleRadius" xml:space="preserve">
+    <value>Particle radius</value>
+  </data>
+  <data name="Value_VolumeFraction" xml:space="preserve">
+    <value>Volume Fraction</value>
+  </data>
+  <data name="Label_At" xml:space="preserve">
+    <value>at</value>
+  </data>
+  <data name="Label_BloodConcentration" xml:space="preserve">
+    <value>Blood Concentration:</value>
+  </data>
+  <data name="Label_BloodVolume" xml:space="preserve">
+    <value>Blood volume [vol. frac.]:</value>
+  </data>
+  <data name="Label_AOfFxAndZ" xml:space="preserve">
+    <value>A(fx,z)</value>
+  </data>
+  <data name="Label_AOfFxAndZAndFt" xml:space="preserve">
+    <value>A(fx,z,ft)</value>
+  </data>
+  <data name="Label_AOfFxAndZAndTime" xml:space="preserve">
+    <value>A(fx,z,t)</value>
+  </data>
+  <data name="Label_AOfRhoAndZ" xml:space="preserve">
+    <value>A(ρ,z)</value>
+  </data>
+  <data name="Label_AOfRhoAndZAndFt" xml:space="preserve">
+    <value>A(ρ,z,ft)</value>
+  </data>
+  <data name="Label_AOfRhoAndZAndTime" xml:space="preserve">
+    <value>A(ρ,z,t)</value>
+  </data>
+  <data name="Label_IndependentAxis" xml:space="preserve">
+    <value>Independent Axis:</value>
+  </data>
+  <data name="Label_PHDOfFxAndZ" xml:space="preserve">
+    <value>phd(fx,z)</value>
+  </data>
+  <data name="Label_PHDOfFxAndZAndFt" xml:space="preserve">
+    <value>phd(fx,z,ft)</value>
+  </data>
+  <data name="Label_PHDOfFxAndZAndTime" xml:space="preserve">
+    <value>phd(fx,z,t)</value>
+  </data>
+  <data name="Label_PHDOfRhoAndZ" xml:space="preserve">
+    <value>phd(ρ,z)</value>
+  </data>
+  <data name="Label_PHDOfRhoAndZAndFt" xml:space="preserve">
+    <value>phd(ρ,z,ft)</value>
+  </data>
+  <data name="Label_PHDOfRhoAndZAndTime" xml:space="preserve">
+    <value>phd(ρ,z,t)</value>
+  </data>
+  <data name="Label_ROfFx" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_ROfFxAndFt" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_ROfFxAndTime" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_ROfRho" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_ROfRhoAndFt" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_ROfRhoAndTime" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_StO2" xml:space="preserve">
+    <value>StO2 [frac.]:</value>
+  </data>
+  <data name="Label_TotalHb" xml:space="preserve">
+    <value>Total Hb [μM]:</value>
+  </data>
+  <data name="Button_ClearAll" xml:space="preserve">
+    <value>Clear All</value>
+  </data>
+  <data name="Button_ClearNewest" xml:space="preserve">
+    <value>Clear Newest</value>
+  </data>
+  <data name="Button_ExportData" xml:space="preserve">
+    <value>Export Data</value>
+  </data>
+  <data name="Button_ExportImage" xml:space="preserve">
+    <value>Export As Image</value>
+  </data>
+  <data name="Label_FluenceOfFxAndZ" xml:space="preserve">
+    <value>Φ(fx,z)</value>
+  </data>
+  <data name="Label_FluenceOfFxAndZAndFt" xml:space="preserve">
+    <value>Φ(fx,z,ft)</value>
+  </data>
+  <data name="Label_FluenceOfFxAndZAndTime" xml:space="preserve">
+    <value>Φ(fx,z,t)</value>
+  </data>
+  <data name="Label_FluenceOfRhoAndZ" xml:space="preserve">
+    <value>Φ(ρ,z)</value>
+  </data>
+  <data name="Label_FluenceOfRhoAndZAndFt" xml:space="preserve">
+    <value>Φ(ρ,z,ft)</value>
+  </data>
+  <data name="Label_FluenceOfRhoAndZAndTime" xml:space="preserve">
+    <value>Φ(ρ,z,t)</value>
+  </data>
+  <data name="Label_HoldOn" xml:space="preserve">
+    <value>Hold On</value>
+  </data>
+  <data name="Label_PlotToggle" xml:space="preserve">
+    <value>Plot Toggle:</value>
+  </data>
+  <data name="Label_Normalization" xml:space="preserve">
+    <value>Normalization:</value>
+  </data>
+  <data name="Label_PlotLabel" xml:space="preserve">
+    <value>Plot Label:</value>
+  </data>
+  <data name="Label_XAxisSpacing" xml:space="preserve">
+    <value>X Axis Spacing:</value>
+  </data>
+  <data name="Label_YAxisSpacing" xml:space="preserve">
+    <value>Y Axis Spacing:</value>
+  </data>
+  <data name="Label_AutoScale" xml:space="preserve">
+    <value>Auto Scale</value>
+  </data>
+  <data name="Label_Max" xml:space="preserve">
+    <value>Max:</value>
+  </data>
+  <data name="Label_MeanDepth" xml:space="preserve">
+    <value>Mean Depth:</value>
+  </data>
+  <data name="Label_Min" xml:space="preserve">
+    <value>Min:</value>
+  </data>
+  <data name="Label_NegRhoMax" xml:space="preserve">
+    <value>-rho_max</value>
+  </data>
+  <data name="Label_PlotType" xml:space="preserve">
+    <value>Plot Type:</value>
+  </data>
+  <data name="Label_PosRhoMax" xml:space="preserve">
+    <value>+rho_max</value>
+  </data>
+  <data name="Label_Z0" xml:space="preserve">
+    <value>z=0</value>
+  </data>
+  <data name="Label_ZMax" xml:space="preserve">
+    <value>z_max</value>
+  </data>
+  <data name="Label_AutoScaleX" xml:space="preserve">
+    <value>Auto-X</value>
+  </data>
+  <data name="Label_AutoScaleY" xml:space="preserve">
+    <value>Auto-Y</value>
+  </data>
+  <data name="Label_MaxX" xml:space="preserve">
+    <value>Max X:</value>
+  </data>
+  <data name="Label_MaxY" xml:space="preserve">
+    <value>Max Y:</value>
+  </data>
+  <data name="Label_MinX" xml:space="preserve">
+    <value>Min X:</value>
+  </data>
+  <data name="Label_MinY" xml:space="preserve">
+    <value>Min Y:</value>
+  </data>
+  <data name="Label_ColormapType" xml:space="preserve">
+    <value>Colormap Type:</value>
+  </data>
+  <data name="Label_ScalingType" xml:space="preserve">
+    <value>Scaling Type:</value>
+  </data>
+  <data name="Label_ModulationFrequency" xml:space="preserve">
+    <value>Modulation Frequency:</value>
+  </data>
+  <data name="Measurement_GHz" xml:space="preserve">
+    <value>GHz</value>
+  </data>
+</root>

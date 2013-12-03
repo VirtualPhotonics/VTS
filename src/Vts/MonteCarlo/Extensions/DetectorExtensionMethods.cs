@@ -304,6 +304,8 @@ namespace Vts.MonteCarlo.Extensions
                 case "pMCROfRhoAndTime":
                 case "pMCROfFx":
                 case "pMCROfFxAndTime":
+                case"dMCdROfRhodMua":  
+                case "dMCdROfRhodMus":
                     return true;
                 default:
                     return false;
@@ -356,6 +358,8 @@ namespace Vts.MonteCarlo.Extensions
                 case "RadianceOfRhoAndZAndAngle":
                 case "pMCROfRho":
                 case "pMCROfRhoAndTime":
+                case "dMCdROfRhodMua":
+                case "dMCdROfRhodMus":
                     return true;
                 default:
                     return false;
@@ -379,6 +383,23 @@ namespace Vts.MonteCarlo.Extensions
                 case "ReflectedMTOfRhoAndSubregionHist":
                 case "RadianceOfRhoAndZAndAngle":
                 case "RadianceOfXAndYAndZAndThetaAndPhi":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Method determines whether tally type is implemented for 
+        /// discrete absorption weighting (DAW) or not
+        /// </summary>
+        /// <param name="tallyType">TallyType enum</param>
+        /// <returns>boolean</returns>
+        public static bool IsNotImplementedForDAW(this string tallyType)
+        {
+            switch (tallyType)
+            {
+                case "ReflectedTimeOfRhoAndSubregionHist":
                     return true;
                 default:
                     return false;

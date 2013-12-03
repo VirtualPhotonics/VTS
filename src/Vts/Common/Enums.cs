@@ -43,7 +43,7 @@ namespace Vts
         /// </summary>
         PointSourceSDA,
         /// <summary>
-        /// Standard Diffusion Appoximation (SDA) with distributed point source forward solver
+        /// Standard Diffusion Approximation (SDA) with distributed point source forward solver
         /// </summary>
         DistributedPointSourceSDA,
         /// <summary>
@@ -402,6 +402,24 @@ namespace Vts
         /// logarithmic scaling type
         /// </summary>
         Log
+    }
+    /// <summary>
+    /// plot toggle types
+    /// </summary>
+    public enum PlotToggleType
+    {
+        /// <summary>
+        /// real/imag type
+        /// </summary>
+        Complex,
+        /// <summary>
+        /// phase type
+        /// </summary>
+        Phase,
+        /// <summary>
+        /// amplitude plot
+        /// </summary>
+        Amp,
     }
     /// <summary>
     /// plot normalization types

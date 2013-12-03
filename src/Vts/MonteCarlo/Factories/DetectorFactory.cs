@@ -132,7 +132,7 @@ namespace Vts.MonteCarlo.Factories
                     return new RadianceOfXAndYAndZAndThetaAndPhiDetector(rxyztpinput.X, rxyztpinput.Y, rxyztpinput.Z, rxyztpinput.Theta, rxyztpinput.Phi, tissue, tallySecondMoment, rxyztpinput.Name);
                 case "ReflectedMTOfRhoAndSubregionHist":
                     var rmtrsinput = (ReflectedMTOfRhoAndSubregionHistDetectorInput)detectorInput;
-                    return new ReflectedMTOfRhoAndSubregionHistDetector(rmtrsinput.Rho, rmtrsinput.MTBins, tissue, tallySecondMoment, rmtrsinput.Name);
+                    return new ReflectedMTOfRhoAndSubregionHistDetector(rmtrsinput.Rho, rmtrsinput.MTBins, rmtrsinput.FractionalMTBins, tissue, tallySecondMoment, rmtrsinput.Name);
                 case "ReflectedTimeOfRhoAndSubregionHist":
                     var rtrsinput = (ReflectedTimeOfRhoAndSubregionHistDetectorInput)detectorInput;
                     return new ReflectedTimeOfRhoAndSubregionHistDetector(rtrsinput.Rho, rtrsinput.Time, tissue, tallySecondMoment, rtrsinput.Name);
@@ -178,6 +178,26 @@ namespace Vts.MonteCarlo.Factories
                         prfxtinput.PerturbedRegionsIndices.ToArray(),// todo: temp...make everything arrays (and deal w/ any pre/post serialization issues)
                         tallySecondMoment,
                         prfxtinput.Name
+                        );
+                case "dMCdROfRhodMua":
+                    var pdrrainput = (dMCdROfRhodMuaDetectorInput)detectorInput;
+                    return new dMCdROfRhodMuaDetector(
+                        pdrrainput.Rho,
+                        tissue,
+                        pdrrainput.PerturbedOps,
+                        pdrrainput.PerturbedRegionsIndices,
+                        tallySecondMoment,
+                        pdrrainput.Name
+                        );
+                case "dMCdROfRhodMus":
+                    var pdrrsinput = (dMCdROfRhodMusDetectorInput)detectorInput;
+                    return new dMCdROfRhodMusDetector(
+                        pdrrsinput.Rho,
+                        tissue,
+                        pdrrsinput.PerturbedOps,
+                        pdrrsinput.PerturbedRegionsIndices,
+                        tallySecondMoment,
+                        pdrrsinput.Name
                         );
                 default:
                     return null;

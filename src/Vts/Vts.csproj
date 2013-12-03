@@ -19,7 +19,8 @@
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>Vts.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <FileUpgradeFlags>
@@ -42,6 +43,8 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,15 +71,26 @@
     <DocumentationFile>Bin\Release\Vts.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWhiteList|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <DocumentationFile>Bin\Release\Vts.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <NoConfig>true</NoConfig>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper">
-      <HintPath>..\..\lib\AutoMapper\sl4\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\DotNetZip\Silverlight\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics">
-      <HintPath>..\..\lib\Math.NET\lib\SL4\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\packages\MathNet.Numerics.2.4.0\lib\portable-net40+windows8+wp8+sl5\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics.Silverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -86,37 +100,32 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\Microsoft.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Unity\Silverlight\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\SL30\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity.Silverlight, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Unity\Silverlight\Microsoft.Practices.Unity.Silverlight.dll</HintPath>
+    <Reference Include="Microsoft.Practices.Unity.Silverlight">
+      <HintPath>..\packages\Unity.2.1.505.2\lib\SL30\Microsoft.Practices.Unity.Silverlight.dll</HintPath>
     </Reference>
-    <Reference Include="MPFitLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\mpfit\build\Silverlight\MPFitLib.dll</HintPath>
+    <Reference Include="MPFitLib">
+      <HintPath>..\packages\csmpfit.1.0.0\lib\sl50\MPFitLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
-      <HintPath>..\..\lib\NLog\SL4\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\sl4\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="System.ComponentModel.Composition, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.CoreEx">
-      <HintPath>..\..\lib\RxFramework\SL4\System.CoreEx.dll</HintPath>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\SL5\System.Reactive.Core.dll</HintPath>
     </Reference>
-    <Reference Include="System.Interactive">
-      <HintPath>..\..\lib\RxFramework\SL4\System.Interactive.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\SL5\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="System.Numerics, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Numerics.dll</HintPath>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\SL5\System.Reactive.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="System.Observable">
-      <HintPath>..\..\lib\RxFramework\SL4\System.Observable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive">
-      <HintPath>..\..\lib\RxFramework\SL4\System.Reactive.dll</HintPath>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\SL5\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Threading.Tasks">
@@ -148,7 +157,6 @@
     <Compile Include="Common\Extensions\EnumExtensions.cs" />
     <Compile Include="Common\Extensions\IEnumerableArrayExtensions.cs" />
     <Compile Include="Common\Extensions\OpticalPropertiesExtensions.cs" />
-    <Compile Include="Common\Extensions\TypeExtensions.cs" />
     <Compile Include="Common\GlobalConstants.cs" />
     <Compile Include="Common\Helpers\EnumHelper.cs" />
     <Compile Include="Common\Helpers\FuncOfT.cs" />
@@ -173,6 +181,7 @@
     <Compile Include="Common\Logging\NLogLogger.cs" />
     <Compile Include="Common\Logging\ObservableTarget.cs" />
     <Compile Include="Common\Math\Convolution2D.cs" />
+    <Compile Include="Common\Math\Convert.cs" />
     <Compile Include="Common\Math\Integration.cs" />
     <Compile Include="Common\Math\Interpolation.cs" />
     <Compile Include="Common\Math\Statistics.cs" />
@@ -217,6 +226,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IO\KnownTypes.cs" />
+    <Compile Include="IO\VtsJsonSerializer.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
     <Compile Include="MonteCarlo\AbsorptionWeightingMethods.cs" />
     <Compile Include="MonteCarlo\Controllers\HistoryDetectorController.cs" />
@@ -224,8 +234,12 @@
     <Compile Include="MonteCarlo\Controllers\pMCDatabaseWriterController.cs" />
     <Compile Include="MonteCarlo\Controllers\DatabaseWriterController.cs" />
     <Compile Include="MonteCarlo\Controllers\VirtualBoundaryController.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMusDetectorInputValidation.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\dMCdROfRhodMusDetectorInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\dMCdROfRhodMuaDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ReflectedTimeOfRhoAndSubregionHistDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ReflectedMTOfRhoAndSubregionHistDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfXAndYAndZAndThetaAndPhiDetectorInput.cs" />
@@ -263,7 +277,6 @@
     <Compile Include="MonteCarlo\Extensions\ITissueRegionExtensions.cs" />
     <Compile Include="MonteCarlo\Factories\DatabaseWriterFactory.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
-    <Compile Include="MonteCarlo\Factories\DetectorProvider.cs" />
     <Compile Include="MonteCarlo\Factories\PhotonDatabaseFactory.cs" />
     <Compile Include="MonteCarlo\Factories\SourceFactory.cs">
       <SubType>Code</SubType>
@@ -567,8 +580,8 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt" />
+    <None Include="packages.config" />
     <None Include="Sources.cd" />
-    <None Include="Vts.snk" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -588,7 +601,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MonteCarlo\DataStructuresValidation\DetectorInputs\" />
+    <Content Include="App_Readme\MathNet\MathNet.Numerics.authors.txt" />
+    <Content Include="App_Readme\MathNet\MathNet.Numerics.copyright.txt" />
+    <Content Include="App_Readme\MathNet\MathNet.Numerics.readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -609,4 +627,5 @@
     <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(ProjectDir)..\..\build\core\Silverlight\$(ConfigurationName)" mkdir "$(ProjectDir)..\..\build\core\Silverlight\$(ConfigurationName)"
 copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\build\core\Silverlight\$(ConfigurationName)" /y</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

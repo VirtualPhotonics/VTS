@@ -90,7 +90,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
-        public string Name { get; set; }
+        public String Name { get; set; }
 
         /// <summary>
         /// number of time detector gets tallied to
@@ -148,19 +148,26 @@ namespace Vts.MonteCarlo.Detectors
         {
             double weightFactor = 1.0;
 
+            // NOTE: following code only works for single perturbed region
             foreach (var i in _perturbedRegionsIndices)
             {
-                // need to verify following
                 weightFactor *=
-                    (Math.Exp(-perturbedOps[i].Mua * pathLength[i]) / Math.Exp(-_referenceOps[i].Mua * pathLength[i])) * // mua pert
-                    numberOfCollisions[i] * (1.0 / _referenceOps[i].Mus) * // dMus* factor
-                    -pathLength[i]; // dMus* factor from second part
+                    Math.Exp(-perturbedOps[i].Mua * pathLength[i]) / Math.Exp(-_referenceOps[i].Mua * pathLength[i]); // mua pert
                 if (numberOfCollisions[i] - 1 > 0)
                 {
-                    weightFactor *= Math.Pow(
-                    (_perturbedOps[i].Mus / _referenceOps[i].Mus) * Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
+                    weightFactor *=
+                    (numberOfCollisions[i] * (1.0 / _referenceOps[i].Mus) * // dMus* 1st factor
+                    Math.Pow(
+                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) * 
+                           Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
                         pathLength[i] / (numberOfCollisions[i] - 1)),
-                    numberOfCollisions[i] - 1); // minus one here
+                        numberOfCollisions[i] - 1) // minus one here
+                    -pathLength[i] * // dMus* 2nd factor
+                    Math.Pow(
+                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
+                            Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
+                            pathLength[i] / numberOfCollisions[i]),
+                        numberOfCollisions[i])); // one here
                 }
                 else
                 {
@@ -174,17 +181,22 @@ namespace Vts.MonteCarlo.Detectors
         {
             double weightFactor = 1.0;
 
+            // NOTE: following code only works for single perturbed region
             foreach (var i in _perturbedRegionsIndices)
             {
-                // need to verify following
                 weightFactor *=
-                    numberOfCollisions[i] * (1.0 / _referenceOps[i].Mus) * // dMus* factor
+                    (numberOfCollisions[i] * (1.0 / _referenceOps[i].Mus) * // dMus* 1st factor
                     Math.Pow(
                         (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
                             Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
                             pathLength[i] / (numberOfCollisions[i] - 1)),
-                        numberOfCollisions[i] - 1) * // minus one here
-                    -pathLength[i]; // dMus* factor
+                        numberOfCollisions[i] - 1)  // minus one here
+                    -pathLength[i] * // dMus* 2nd factor
+                    Math.Pow(
+                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
+                            Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                            pathLength[i] / numberOfCollisions[i]),
+                        numberOfCollisions[i])); // one here
             }
             return weightFactor;
         }

@@ -1,3 +1,4 @@
+% Defines the post processor input for a Monte Carlo simulation
 classdef PostProcessorInput < handle % deriving from handle allows us to keep a singleton around (reference based) - see Doug's post here: http://www.mathworks.com/matlabcentral/newsreader/view_thread/171344
   properties
     DetectorInputs = {...

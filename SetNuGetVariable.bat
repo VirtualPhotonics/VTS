@@ -1,0 +1,1 @@
+setx EnableNuGetPackageRestore true

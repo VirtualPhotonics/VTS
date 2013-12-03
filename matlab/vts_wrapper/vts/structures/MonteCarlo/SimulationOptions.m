@@ -1,3 +1,7 @@
+% SIMULATIONOPTIONS Defines options for the Monte Carlo simulation
+% 	Designates a random number generator, absorption weighting type 
+%   and flags input to the Monte Carlo simulation (e.g. tally second moment 
+%   and specify seed for RNG).
 classdef SimulationOptions < handle % deriving from handle allows us to keep a singleton around (reference based) - see Doug's post here: http://www.mathworks.com/matlabcentral/newsreader/view_thread/171344
   properties
     % seed of random number generator (-1=randomly selected seed, >=0 reproducible sequence)
@@ -43,7 +47,7 @@ classdef SimulationOptions < handle % deriving from handle allows us to keep a s
       function optionsNET = ToOptionsNET(options)          
           databasesNET = NET.createArray('Vts.MonteCarlo.DatabaseType', length(options.Databases));  
           for i=1:databasesNET.Length;
-              databasesNET(i) = EnumHelper.GetValueNET('Vts.MonteCarlo.DatabaseType', options.Databases{i});
+              databasesNET(i) = EnumHelper.GetValueNET('Vts.MonteCarlo.DatabaseType', char(options.Databases{i}));
           end     
           optionsNET = Vts.MonteCarlo.SimulationOptions( ...
               options.Seed, ... 

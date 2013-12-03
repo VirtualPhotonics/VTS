@@ -73,6 +73,7 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
+                    // units space[mm], time[ns], temporal-freq[GHz], abs./scat. coeff[/mm]
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 5)),
                     new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
@@ -101,6 +102,14 @@ namespace Vts.MonteCarlo
                     new FluenceOfRhoAndZDetectorInput(                            
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101)),
+                    new FluenceOfRhoAndZAndTimeDetectorInput(
+                        new DoubleRange(0.0, 10, 101),
+                        new DoubleRange(0.0, 10, 101), 
+                        new DoubleRange(0.0, 10, 101)),
+                    new FluenceOfXAndYAndZDetectorInput(
+                        new DoubleRange(-10, 10, 201),
+                        new DoubleRange(-10, 10, 2),
+                        new DoubleRange(0, 10, 101)),
                     new RadianceOfRhoAndZAndAngleDetectorInput(
                         new DoubleRange(0.0, 10, 101),
                         new DoubleRange(0.0, 10, 101),
@@ -492,10 +501,10 @@ namespace Vts.MonteCarlo
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerRegion(
-                            new DoubleRange(0.0, 10.0),
+                            new DoubleRange(0.0, 1.0), // upper layer 1mm
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33)), // Tyler's data
                         new LayerRegion(
-                            new DoubleRange(10.0, 100.0),
+                            new DoubleRange(1.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33)), 
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
@@ -505,10 +514,11 @@ namespace Vts.MonteCarlo
                 new List<IDetectorInput>()
                 {
                     new ROfRhoDetectorInput(
-                        new DoubleRange(0.0, 60.0, 601)),
+                        new DoubleRange(0.0, 10.0, 101)),
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput(
-                        new DoubleRange(0.0, 60.0, 601), // rho bins
-                        new DoubleRange(0.0, 500.0, 5001)) // MT bins
+                        new DoubleRange(0.0, 10.0, 101), // rho bins
+                        new DoubleRange(0.0, 500.0, 51), // MT bins
+                        new DoubleRange(0.0, 1.0, 11)) // fractional MT bins
                 }
             );
         }
@@ -527,12 +537,12 @@ namespace Vts.MonteCarlo
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Discrete,
+                    AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
                     true, // tally Second Moment
                     true, // track statistics
-                    0.0001, // RR threshold -> no RR performed
+                    0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),

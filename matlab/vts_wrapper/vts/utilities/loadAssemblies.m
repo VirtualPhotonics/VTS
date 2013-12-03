@@ -1,4 +1,13 @@
 function assemblies = loadAssemblies(varargin)
+% Loads the assemblies required to run the VTS code
+% loadAssemblies()
+% loadAssemblies(Names, Directory, Boolean)
+% INPUT:
+%   None: The assemblies will be loaded from the default location \vts_libraries\
+%   Name: Array of assembly names.
+%   Directory: String, folder name.
+%   Verbose: Boolean, output detailed error messages in case of errors
+%           loading libraries.
 
 persistent VTS_ASSEMBLIES;
 
@@ -13,11 +22,6 @@ if isempty(VTS_ASSEMBLIES)
         
         directory = getFullPath('vts_libraries\');
         
-        if (isempty(dir(directory)))            
-            directory = getFullPath('..\..\build\apps\mc\Release\');
-        end
-                   
-%         directory = getFullPath('vts_libraries\'); %'C:\Program Files\Modulated Imaging, Inc\MI Acquire\';
         assembly_names = { ...
             'mc.exe', ...
             'Ionic.Zip.dll', ...
