@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Reflection;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
@@ -171,11 +170,11 @@ namespace Vts.MonteCarlo.Factories
             KnownTypes.Add(typeof(TDetectorOutput));
         }
 
-        public static DetectorProvider<TIn, TDet, TOut> Create<TIn, TDet, TOut>(Type inputType, Type detectorType, Type outputType)
-        {
-            MethodInfo genericMethod = typeof(DetectorProvider).GetMethod("ContainSameValues");
-            return new DetectorProvider<TIn, TDet, TOut>();
-        }
+        //public static DetectorProvider<TIn, TDet, TOut> Create<TIn, TDet, TOut>(Type inputType, Type detectorType, Type outputType)
+        //{
+        //    MethodInfo genericMethod = typeof(DetectorProvider).GetMethod("ContainSameValues");
+        //    return new DetectorProvider<TIn, TDet, TOut>();
+        //}
 
         public DetectorProvider()
         {

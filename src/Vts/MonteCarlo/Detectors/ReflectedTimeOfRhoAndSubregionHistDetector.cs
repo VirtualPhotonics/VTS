@@ -45,7 +45,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment = new double[Rho.Count - 1, SubregionIndices.Count, Time.Count - 1];
             }
-            TallyType = TallyType.ReflectedTimeOfRhoAndSubregionHist; 
+            TallyType = "ReflectedTimeOfRhoAndSubregionHist"; 
             Name = name;
             TallyCount = 0;
         }

@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo
     /// or http://stackoverflow.com/questions/93744/most-common-c-bitwise-operations
     /// </summary>
     [Flags]
-    public enum PhotonStateType 
+    public enum PhotonStateType
     {
         //     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
         //   8000 4000 2000 1000 0800 0400 0200 0100 0080 0040 0020 0010 0008 0004 0002 0001
@@ -64,7 +64,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// photon pseudo-collision at DiffuseReflectance Virtual Boundary (VB)
         /// </summary>
-        PseudoDiffuseReflectanceVirtualBoundary   = 0x10000,
+        PseudoDiffuseReflectanceVirtualBoundary = 0x10000,
         /// <summary>
         /// photon pseudo-collision at DiffuseTransmittance Virtual Boundary (VB)
         /// </summary>
@@ -72,15 +72,15 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// photon pseudo-collision at SpecularReflectance Virtual Boundary (VB)
         /// </summary>
-        PseudoSpecularReflectanceVirtualBoundary  = 0x40000,
+        PseudoSpecularReflectanceVirtualBoundary = 0x40000,
         /// <summary>
         /// photon pseudo-collision at Generic Volume Virtual Boundary (VB)
         /// </summary>
-        PseudoGenericVolumeVirtualBoundary        = 0x80000,
+        PseudoGenericVolumeVirtualBoundary = 0x80000,
         /// <summary>
         /// photon pseudo-collision at SurfaceRadiance Virtual Boundary (VB)
         /// </summary>
-        PseudoSurfaceRadianceVirtualBoundary      = 0x100000,
+        PseudoSurfaceRadianceVirtualBoundary = 0x100000,
     }
     /// <summary>
     /// Virtual boundaries are entities upon which detectors are attached.
@@ -170,7 +170,7 @@ namespace Vts.MonteCarlo
     public enum SourceType
     {
         //POINT AND LINE SOURCES
-         
+
         //Point Sources
         /// <summary>
         /// Point sources: isotropic
@@ -183,7 +183,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point sources: custom point
         /// </summary>
-        CustomPoint,       
+        CustomPoint,
 
         // Line Sources
         /// <summary>
@@ -261,9 +261,9 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Cylindrical fiber sources: Lambertian cylindrial fiber
         /// </summary>
-        LambertianSurfaceEmittingCylindricalFiber,  
+        LambertianSurfaceEmittingCylindricalFiber,
 
-        
+
         // VOLUMETRIC SOURCES (3D)
 
         // Cubiodal Volume Sources
@@ -346,7 +346,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Multilayer tissue type.  Includes homogeneous tissues.
         /// </summary>
-        MultiLayer,  
+        MultiLayer,
         /// <summary>
         /// Tissue slab with embedded ellipsoid
         /// </summary>
@@ -480,7 +480,7 @@ namespace Vts.MonteCarlo
     //    /// <summary>
     //    /// Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
     //    /// </summary>
-    //    RadianceOfRhoAndZAndAngle,        
+    //    RadianceOfRhoAndZAndAngle,
     //    /// <summary>
     //    /// Volume randiance as a function of x, y, z, theta and phi
     //    /// </summary>
@@ -496,11 +496,11 @@ namespace Vts.MonteCarlo
     //    /// <summary>
     //    /// perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
     //    /// </summary>
-    //    pMCROfFx,        
+    //    pMCROfFx,
     //    /// <summary>
     //    /// perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx) and time
     //    /// </summary>
-    //    pMCROfFxAndTime, 
+    //    pMCROfFxAndTime,
     //    /// <summary>
     //    /// differential Monte Carlo (dMC) d(reflectance)/dMua as a function of source-detector separation (rho)
     //    /// </summary>
@@ -510,5 +510,253 @@ namespace Vts.MonteCarlo
     //    /// </summary>
     //    dMCdROfRhodMus,
     //}
+
+    public static class TallyType
+    {
+        public static readonly string[] BuiltInTypes =
+        {
+             /// <summary>
+            /// Reflectance as a function of source-detector separation (rho) and angle
+            /// </summary>
+            "ROfRhoAndAngle",
+            /// <summary>
+            /// Reflectance as a function of source-detector separation (rho)
+            /// </summary>
+            "ROfRho",
+            /// <summary>
+            /// Reflectance as a function of angle
+            /// </summary>
+            "ROfAngle",
+            /// <summary>
+            /// Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
+            /// </summary>
+            "ROfRhoAndOmega",
+            /// <summary>
+            /// Reflectance as a function of source-detector separation (rho) and time
+            /// </summary>
+            "ROfRhoAndTime",
+            /// <summary>
+            /// Reflectance as a function of Cartesian position on the surface of the tissue
+            /// </summary>
+            "ROfXAndY",
+            /// <summary>
+            /// Total diffuse reflectance
+            /// </summary>
+            "RDiffuse",
+            /// <summary>
+            /// Total specular reflectance
+            /// </summary>
+            "RSpecular",
+            /// <summary>
+            /// Reflectance as a function of spatial frequency along the x-axis
+            /// </summary>
+            "ROfFx",
+            /// <summary>
+            /// Reflectance as a function of spatial frequency along the x-axis, and time
+            /// </summary>
+            "ROfFxAndTime",
+            /// <summary>
+            /// Transmittance as a function of source-detector separation (rho) and angle
+            /// </summary>
+            "TOfRhoAndAngle",
+            /// <summary>
+            /// Transmittance as a functino of source-detector separation (rho)
+            /// </summary>
+            "TOfRho",
+            /// <summary>
+            /// Transmittance as a function of angle
+            /// </summary>
+            "TOfAngle",
+            /// <summary>
+            /// Total diffuse transmittance
+            /// </summary>
+            "TDiffuse",
+            /// <summary>
+            /// Fluence as a function of source-detector separation (rho) and tissue depth (Z)
+            /// </summary>
+            "FluenceOfRhoAndZ",
+            /// <summary>
+            /// Fluence as a function of source-detector separation (rho) and tissue depth (Z) and time
+            /// </summary>
+            "FluenceOfRhoAndZAndTime",
+            /// <summary>
+            /// Fluence as a function of x, y and z
+            /// </summary>
+            "FluenceOfXAndYAndZ",
+            /// <summary>
+            /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
+            /// </summary>
+            "AOfRhoAndZ",
+            /// <summary>
+            /// Total absorbed energy
+            /// </summary>
+            "ATotal",
+            /// <summary>
+            /// Reflected momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
+            /// </summary>
+            "ReflectedMTOfRhoAndSubregionHist",
+            /// <summary>
+            /// Reflected subregion time as a function of source-detector separation (rho) and tissue region 
+            /// </summary>
+            "ReflectedTimeOfRhoAndSubregionHist",
+            /// <summary>
+            /// Surface radiance as a function of source-detector separation (rho)
+            /// </summary>
+            "RadianceOfRho",
+            /// <summary>
+            /// Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
+            /// </summary>
+            "RadianceOfRhoAndZAndAngle",
+            /// <summary>
+            /// Volume randiance as a function of x, y, z, theta and phi
+            /// </summary>
+            "RadianceOfXAndYAndZAndThetaAndPhi",
+            /// <summary>
+            /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
+            /// </summary>
+            "pMCROfRhoAndTime", // maybe these should be in separate enum?
+            /// <summary>
+            /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
+            /// </summary>
+            "pMCROfRho",
+            /// <summary>
+            /// perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
+            /// </summary>
+            "pMCROfFx",
+            /// <summary>
+            /// perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx) and time
+            /// </summary>
+            "pMCROfFxAndTime",
+            /// <summary>
+            /// differential Monte Carlo (dMC) d(reflectance)/dMua as a function of source-detector separation (rho)
+            /// </summary>
+            "dMCdROfRhodMua",
+            /// <summary>
+            /// differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho) 
+            /// </summary>
+            "dMCdROfRhodMus",
+        };
+
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) and angle
+        /// </summary>
+        public static string ROfRhoAndAngle { get { return "ROfRhoAndAngle"; } }
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho)
+        /// </summary>
+        public static string ROfRho { get { return "ROfRho"; } }
+        /// <summary>
+        /// Reflectance as a function of angle
+        /// </summary>
+        public static string ROfAngle { get { return "ROfAngle"; } }
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
+        /// </summary>
+        public static string ROfRhoAndOmega { get { return "ROfRhoAndOmega"; } }
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) and time
+        /// </summary>
+        public static string ROfRhoAndTime { get { return "ROfRhoAndTime"; } }
+        /// <summary>
+        /// Reflectance as a function of Cartesian position on the surface of the tissue
+        /// </summary>
+        public static string ROfXAndY { get { return "ROfXAndY"; } }
+        /// <summary>
+        /// Total diffuse reflectance
+        /// </summary>
+        public static string RDiffuse { get { return "RDiffuse"; } }
+        /// <summary>
+        /// Total specular reflectance
+        /// </summary>
+        public static string RSpecular { get { return "RSpecular"; } }
+        /// <summary>
+        /// Reflectance as a function of spatial frequency along the x-axis
+        /// </summary>
+        public static string ROfFx { get { return "ROfFx"; } }
+        /// <summary>
+        /// Reflectance as a function of spatial frequency along the x-axis, and time
+        /// </summary>
+        public static string ROfFxAndTime { get { return "ROfFxAndTime"; } }
+        /// <summary>
+        /// Transmittance as a function of source-detector separation (rho) and angle
+        /// </summary>
+        public static string TOfRhoAndAngle { get { return "TOfRhoAndAngle"; } }
+        /// <summary>
+        /// Transmittance as a functino of source-detector separation (rho)
+        /// </summary>
+        public static string TOfRho { get { return "TOfRho"; } }
+        /// <summary>
+        /// Transmittance as a function of angle
+        /// </summary>
+        public static string TOfAngle { get { return "TOfAngle"; } }
+        /// <summary>
+        /// Total diffuse transmittance
+        /// </summary>
+        public static string TDiffuse { get { return "TDiffuse"; } }
+        /// <summary>
+        /// Fluence as a function of source-detector separation (rho) and tissue depth (Z)
+        /// </summary>
+        public static string FluenceOfRhoAndZ { get { return "FluenceOfRhoAndZ"; } }
+        /// <summary>
+        /// Fluence as a function of source-detector separation (rho) and tissue depth (Z) and time
+        /// </summary>
+        public static string FluenceOfRhoAndZAndTime { get { return "FluenceOfRhoAndZAndTime"; } }
+        /// <summary>
+        /// Fluence as a function of x, y and z
+        /// </summary>
+        public static string FluenceOfXAndYAndZ { get { return "FluenceOfXAndYAndZ"; } }
+        /// <summary>
+        /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
+        /// </summary>
+        public static string AOfRhoAndZ { get { return "AOfRhoAndZ"; } }
+        /// <summary>
+        /// Total absorbed energy
+        /// </summary>
+        public static string ATotal { get { return "ATotal"; } }
+        /// <summary>
+        /// Reflected momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
+        /// </summary>
+        public static string ReflectedMTOfRhoAndSubregionHist { get { return "ReflectedMTOfRhoAndSubregionHist"; } }
+        /// <summary>
+        /// Reflected subregion time as a function of source-detector separation (rho) and tissue region 
+        /// </summary>
+        public static string ReflectedTimeOfRhoAndSubregionHist { get { return "ReflectedTimeOfRhoAndSubregionHist"; } }
+        /// <summary>
+        /// Surface radiance as a function of source-detector separation (rho)
+        /// </summary>
+        public static string RadianceOfRho { get { return "RadianceOfRho"; } }
+        /// <summary>
+        /// Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
+        /// </summary>
+        public static string RadianceOfRhoAndZAndAngle { get { return "RadianceOfRhoAndZAndAngle"; } }
+        /// <summary>
+        /// Volume randiance as a function of x, y, z, theta and phi
+        /// </summary>
+        public static string RadianceOfXAndYAndZAndThetaAndPhi { get { return "RadianceOfXAndYAndZAndThetaAndPhi"; } }
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
+        /// </summary>
+        public static string pMCROfRhoAndTime { get { return "pMCROfRhoAndTime"; } } // maybe these should be in separate enum?
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
+        /// </summary>
+        public static string pMCROfRho { get { return "pMCROfRho"; } }
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
+        /// </summary>
+        public static string pMCROfFx { get { return "pMCROfFx"; } }
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx) and time
+        /// </summary>
+        public static string pMCROfFxAndTime { get { return "pMCROfFxAndTime"; } }
+        /// <summary>
+        /// differential Monte Carlo (dMC) d(reflectance)/dMua as a function of source-detector separation (rho)
+        /// </summary>
+        public static string dMCdROfRhodMua { get { return "dMCdROfRhodMua"; } }
+        /// <summary>
+        /// differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho) 
+        /// </summary>
+        public static string dMCdROfRhodMus { get { return "dMCdROfRhodMus"; } }
+    }
 
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vts.Common.Extensions
+namespace Vts.Extensions
 {
     public static class TypeExtensions
     {

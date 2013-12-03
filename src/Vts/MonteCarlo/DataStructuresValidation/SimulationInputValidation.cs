@@ -158,7 +158,7 @@ namespace Vts.MonteCarlo
                 {
                     foreach (var detectorInput in input.DetectorInputs)
                     {
-                        if (detectorInput.TallyType.IsCylindricalTally())
+                        if (detectorInput.IsCylindricalTally())
                         {
                             return new ValidationResult(
                                 false,

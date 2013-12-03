@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo
             IList<int> perturbedRegionsIndices,
             String name)
         {
-            TallyType = TallyType.dMCdROfRhodMus;
+            TallyType = "dMCdROfRhodMus";
             Name = name;
             Rho = rho;
             PerturbedOps = perturbedOps;
@@ -40,8 +40,8 @@ namespace Vts.MonteCarlo
             IList<int> perturbedRegionsIndices) 
                 : this (rho, 
                       perturbedOps, 
-                      perturbedRegionsIndices, 
-                      "pMCROfRho") {}
+                      perturbedRegionsIndices,
+                      "dMCdROfRhodMus") { }
 
         /// <summary>
         /// Default constructor tallies all tallies
@@ -54,7 +54,7 @@ namespace Vts.MonteCarlo
                     new OpticalProperties(0.0, 1.0, 0.8, 1.4),
                     new OpticalProperties(1e-10, 0.0, 0.0, 1.0) },
                 new List<int>() { 1 }, // perturbedRegionIndex
-                "pMCROfRho"
+                "dMCdROfRhodMus"
             ) {}
 
         /// <summary>

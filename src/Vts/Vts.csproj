@@ -86,6 +86,12 @@
     <NoConfig>true</NoConfig>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.1.0\lib\sl5\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.SL5">
+      <HintPath>..\packages\AutoMapper.3.1.0\lib\sl5\AutoMapper.SL5.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\DotNetZip\Silverlight\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -115,6 +121,7 @@
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.0.0.2000\lib\sl4\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\SL5\System.Reactive.Core.dll</HintPath>
     </Reference>
@@ -157,6 +164,7 @@
     <Compile Include="Common\Extensions\EnumExtensions.cs" />
     <Compile Include="Common\Extensions\IEnumerableArrayExtensions.cs" />
     <Compile Include="Common\Extensions\OpticalPropertiesExtensions.cs" />
+    <Compile Include="Common\Extensions\TypeExtensions.cs" />
     <Compile Include="Common\GlobalConstants.cs" />
     <Compile Include="Common\Helpers\EnumHelper.cs" />
     <Compile Include="Common\Helpers\FuncOfT.cs" />
@@ -277,6 +285,7 @@
     <Compile Include="MonteCarlo\Extensions\ITissueRegionExtensions.cs" />
     <Compile Include="MonteCarlo\Factories\DatabaseWriterFactory.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\DetectorProvider.cs" />
     <Compile Include="MonteCarlo\Factories\PhotonDatabaseFactory.cs" />
     <Compile Include="MonteCarlo\Factories\SourceFactory.cs">
       <SubType>Code</SubType>
@@ -601,6 +610,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\packages\AutoMapper.3.1.0\lib\sl5\AutoMapper.SL5.dll">
+      <Link>AutoMapper.SL5.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Readme\MathNet\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.copyright.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.readme.txt" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using Vts.Common.Extensions;
+using Vts.Extensions;
 using Vts.IO;
 using Vts.MonteCarlo.Detectors;
 using System.Runtime.Serialization;
@@ -370,16 +370,13 @@ namespace Vts.MonteCarlo.IO
 	                    FileIO.WriteToXML((pMCROfRhoDetector)detector, filePath + ".xml");
 						break;
 
-                    case TallyType.dMCdROfRhodMua:
+                    case "dMCdROfRhodMua":
                         FileIO.WriteToXML((dMCdROfRhodMuaDetector)detector, filePath + ".xml");
                         break;
 
-                    case TallyType.dMCdROfRhodMus:
+                    case "dMCdROfRhodMus":
                         FileIO.WriteToXML((dMCdROfRhodMusDetector)detector, filePath + ".xml");
                         break;
-
-	                    FileIO.WriteToXML((TOfRhoDetector)detector, filePath + ".xml");
-						break;
 
                     case "ROfAngle":
 	                    FileIO.WriteToXML((ROfAngleDetector)detector, filePath + ".xml");
@@ -532,7 +529,7 @@ namespace Vts.MonteCarlo.IO
                         var dMCdROfRhodMusDetectorDims = new int[] { dMCdROfRhodMusDetector.Rho.Count - 1 };
                         dMCdROfRhodMusDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, dMCdROfRhodMusDetectorDims);
                         return dMCdROfRhodMusDetector;
-
+                    case "TOfRho":
                         var tOfRhoDetector = FileIO.ReadFromXML<TOfRhoDetector>(filePath + ".xml");
                         var tOfRhoDetectorDims = new int[] { tOfRhoDetector.Rho.Count - 1 };
                         tOfRhoDetector.Mean = (double[])FileIO.ReadArrayFromBinary<double>(filePath, tOfRhoDetectorDims);
