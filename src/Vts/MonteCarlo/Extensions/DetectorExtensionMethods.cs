@@ -131,6 +131,16 @@ namespace Vts.MonteCarlo.Extensions
         }
 
         /// <summary>
+        /// Method to determine if IDetector is a dosimetry tally or not.
+        /// </summary>
+        /// <param name="detector">TallyType enum</param>
+        /// <returns>boolean</returns>
+        public static bool IsDosimetryTally(this IDetector detector)
+        {
+            return IsDosimetryTallyString(detector.TallyType);
+        }
+
+        /// <summary>
         /// Method to determine if IDetector is volume tally or not.
         /// </summary>
         /// <param name="detector">detector</param>
@@ -211,9 +221,7 @@ namespace Vts.MonteCarlo.Extensions
         {
             return IsNotImplementedYetString(detector.TallyType);
         }
-
-
-
+        
         /// <summary>
         /// Method to determine if string represents a reflectance tally or not.
         /// </summary>
@@ -306,6 +314,22 @@ namespace Vts.MonteCarlo.Extensions
                 case "pMCROfFxAndTime":
                 case"dMCdROfRhodMua":  
                 case "dMCdROfRhodMus":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Method to determine if string represents a dosimetry tally or not
+        /// </summary>
+        /// <param name="tallyType">TallyType enum</param>
+        /// <returns>boolean</returns>
+        public static bool IsDosimetryTallyString(string detector)
+        {
+            switch (detector)
+            {
+                case "RadianceOfRho":
                     return true;
                 default:
                     return false;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Factories;
@@ -28,7 +29,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
 
             // not sure following is best design
             // todo: revisit design (dc 6/10/12)
-            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyType == "RadianceOfRho").FirstOrDefault();
+            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.IsDosimetryTally()).FirstOrDefault();
 
             if (dosimetryDetector != null)
             {

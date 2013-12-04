@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
@@ -59,6 +60,7 @@ namespace Vts.MonteCarlo.Factories
         public bool IsSpecularReflectanceTally { get; set; }
         public bool IsInternalSurfaceTally { get; set; }
         public bool IspMCReflectanceTally { get; set; }
+        public bool IsDosimetryTally { get; set; }
         public bool IsVolumeTally { get; set; }
         public bool IsCylindricalTally { get; set; }
         public bool IsNotImplementedForCAW { get; set; }
@@ -89,6 +91,7 @@ namespace Vts.MonteCarlo.Factories
                 IsSpecularReflectanceTally = false,
                 IsInternalSurfaceTally = false,
                 IspMCReflectanceTally = false,
+                IsDosimetryTally = false,
                 IsVolumeTally = false,
                 IsCylindricalTally = false,
                 IsNotImplementedForCAW = false,
@@ -204,7 +207,210 @@ namespace Vts.MonteCarlo.Factories
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /// <summary>
+    /// Properties and methods that all IDetectors must implement
+    /// </summary>
+    public interface IDetector2
+    {
+        /// <summary>
+        /// TallyType enum specification
+        /// </summary>
+        string TallyType { get; }
+
+        /// <summary>
+        /// Name string of IDetector.  Default = TallyType.ToString().
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
+        /// Details of the tally - booleans that specify when they should be tallied
+        /// </summary>
+        TallyDetails TallyDetails { get; set; }
+
+        /// <summary>
+        /// Method to normalize the tally to get Mean and Second Moment estimates
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched</param>
+        void Normalize(long numPhotons);
+
+        /// <summary>
+        /// Method to tally to detector using information in Photon
+        /// </summary>
+        /// <param name="photon">photon data needed to tally</param>
+        void Tally(Photon photon);
+    }
+
+    public interface IDetectorOutput2
+    {
+        string Name { get; set; }
+        string TallyType { get; set; }
+        BinaryArrayInfo[] GetArraysForBinarySerialization();
+    }
+
     // user code
+
+    public class FancyDetectorInput : IDetectorInput
+    {
+        public FancyDetectorInput()
+        {
+            // assign defaults for mandatory values
+            TallyType = "Fancy";
+            Name = "test";
+
+            // assign defaults for optional values
+            XRange = new DoubleRange(0, 1, 10);
+            YRange = new DoubleRange(0, 1, 10);
+            TallySecondMoment = true;
+        }
+
+        public string TallyType { get; set; } // required, in order for the class to implement IDetectorInput
+        public string Name { get; set; } // required, in order for the class to implement IDetectorInput
+        public DoubleRange XRange { get; set; }
+        public DoubleRange YRange { get; set; }
+        public bool TallySecondMoment { get; set; }
+
+        public IDetector2 CreateDetector() // required, in order for the class to implement IDetectorInput
+        {
+            return new FancyDetector(this);
+        }
+    }
+
+    public class FancyDetector : IDetector2
+    {
+        // put private variables here that you only want to use internally and don't want saved
+        private FancyDetectorInput _detectorInput;
+        private int[] _dimensions;
+        private bool _tallySecondMoment;
+        private long _tallyCount;
+        private double[,] _mean;
+        private double[,] _secondMoment;
+        private Random _rng;
+
+        public FancyDetector(FancyDetectorInput detectorInput)
+        {
+            // assign mandatory values 
+            TallyDetails = new TallyDetails()
+            {
+                IsReflectanceTally = false,
+                IsTransmittanceTally = false,
+                IsSpecularReflectanceTally = false,
+                IsInternalSurfaceTally = false,
+                IspMCReflectanceTally = true, // ours is a simple x-y reflectance tally
+                IsDosimetryTally = false,
+                IsVolumeTally = false,
+                IsCylindricalTally = false,
+                IsNotImplementedForCAW = false,
+                IsNotImplementedYet = false
+            };
+
+            // assign any private members that you'll need for the Tally/Normalize/CreateOutput methods
+            _dimensions = new[] { detectorInput.XRange.Count, detectorInput.YRange.Count };
+            _tallyCount = 0;
+            _tallySecondMoment = detectorInput.TallySecondMoment;
+            _mean = new double[_dimensions[0], _dimensions[1]];
+            if (_tallySecondMoment)
+            {
+                _secondMoment = new double[_dimensions[0], _dimensions[1]];
+            }
+
+             _rng = new Random(); // for demo purposes only 
+        }
+        
+        // These public properties and methods are required, in order for the class to implement IDetector
+        public string TallyType { get { return _detectorInput.TallyType; } }
+        public string Name { get { return _detectorInput.Name; } }
+        public TallyDetails TallyDetails { get; set; }
+
+        public void Tally(Photon photon)
+        {
+            // for demo purposes, just place in random x-y bins
+            var xIndex = _rng.Next(0, _dimensions[0] - 1);
+            var yIndex = _rng.Next(0, _dimensions[1] - 1); 
+
+            _mean[xIndex, yIndex] += photon.DP.Weight;
+            _secondMoment[xIndex, yIndex] += photon.DP.Weight * photon.DP.Weight;
+            _tallyCount++;
+        }
+
+        public void Normalize(long numPhotons)
+        {
+            for (int i = 0; i < _dimensions[0]; i++)
+            {
+                for (int j = 0; j < _dimensions[1]; j++)
+                {
+                    _mean[i, j] /= _tallyCount;
+                }
+            }
+
+            for (int i = 0; i < _dimensions[0]; i++)
+            {
+                for (int j = 0; j < _dimensions[1]; j++)
+                {
+                    _secondMoment[i, j] /= _tallyCount;
+                }
+            }
+        }
+
+        public IDetectorOutput2 CreateOutput()
+        {
+            // create an object that represents the output you need (and implements IDetectorOutput)
+            return new FancyDetectorOutput()
+            {
+                TallyType = this.TallyType,
+                Name = this.Name,
+                TallyCount = _tallyCount,
+                XValues = _detectorInput.XRange.AsEnumerable().ToArray(),
+                YValues = _detectorInput.YRange.AsEnumerable().ToArray(),
+                Mean = _mean,
+                SecondMoment = _secondMoment
+            };
+        }
+    }
+
+    public class FancyDetectorOutput : IDetectorOutput2
+    {
+        // These properties are required, in order for the class to implement IDetectorOutput
+        public string TallyType { get; set; }
+        public string Name { get; set; }
+
+        // Place properties below that you want to save/load later
+        public long TallyCount { get; set; }
+        public double[] XValues { get; set; }
+        public double[] YValues { get; set; }
+
+        // Use "[IgnoreDataMember]" to ignore large arrays which you prefer to have serialized in binary form 
+        // (to save storage space & memory), then implement GetArraysForBinarySerialization() to return them
+        [IgnoreDataMember]
+        public double[,] Mean { get; set; }
+        [IgnoreDataMember]
+        public double[,] SecondMoment { get; set; }
+
+        public BinaryArrayInfo[] GetArraysForBinarySerialization()
+        {
+            return new []
+            {
+                new BinaryArrayInfo
+                {
+                    DataArray = Mean, 
+                    Name = "Mean", 
+                    Dimensions = new [] {XValues.Length, YValues.Length}
+                },
+                new BinaryArrayInfo
+                {
+                    DataArray = SecondMoment, 
+                    Name = "SecondMoment", 
+                    Dimensions = new [] {XValues.Length, YValues.Length}
+                },
+            };
+        }
+    }
+
+    public class BinaryArrayInfo
+    {
+        public Array DataArray { get; set; }
+        public string Name { get; set; }
+        public int[] Dimensions { get; set; }
+    }
 
     /// <summary>
     /// Class to hold information necessary for creating detector
