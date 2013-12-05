@@ -7,6 +7,7 @@ using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
+using Vts.SpectralMapping;
 
 namespace Vts.Test.Modeling.ForwardSolvers
 {
@@ -346,7 +347,6 @@ namespace Vts.Test.Modeling.ForwardSolvers
             Assert.IsTrue(reflectanceVsWavelength[1] != reflectanceVsWavelength[2]);
         }
 
-
         [Test]
         public void validate_spectral_generation_of_OpticalProperties_with_scatterers_and_absorbers()
         {
@@ -377,18 +377,6 @@ namespace Vts.Test.Modeling.ForwardSolvers
             // check that change in absorption changes the reflectance
             Assert.IsTrue(reflectanceVsWavelength[1] != reflectanceVsWavelength[2]);
         }
-            {
-                var oneLayerResult = _oneLayerNurbsForwardSolver.ROfFxAndFt(ops, fxs[ifx], ft);
-                var twoLayerResult = _twoLayerSDAForwardSolver.ROfFxAndFt(_twoLayerTissue, fxs[ifx], ft);
-                var relDiffRe = Math.Abs(twoLayerResult.Real - oneLayerResult.Real) / oneLayerResult.Real;
-                var relDiffIm = Math.Abs((twoLayerResult.Imaginary - oneLayerResult.Imaginary) / oneLayerResult.Imaginary);
-                Assert.IsTrue(relDiffRe < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
-                    " and ft=", +ft + ", with Real relative difference " + relDiffRe);
-                Assert.IsTrue(relDiffIm < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
-                    " and ft=", +ft + ", with Imag relative difference " + relDiffIm);
-            }
-        }
-        #endregion Stationary Spatial Frequency Reflectance
 
         [Test]
         public void validate_spectral_generation_of_OpticalProperties_with_tissue()

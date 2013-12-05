@@ -27,6 +27,11 @@ namespace Vts.MonteCarlo.Tissues
             : this(new OpticalProperties(0.01, 1.0, 0.8, 1.4)) { }
 
         /// <summary>
+        /// tissue region identifier
+        /// </summary>
+        public TissueRegionType TissueRegionType { get; set; }
+
+        /// <summary>
         /// optical properties of layer
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
