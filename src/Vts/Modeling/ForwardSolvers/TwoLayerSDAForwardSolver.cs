@@ -102,7 +102,8 @@ namespace Vts.Modeling.ForwardSolvers
                 }
             }
         }
-        // this method builds an R(ft) array and then uses FFT to generate R(t)
+
+        // this method builds an R(rho, ft) array and then uses FFT to generate R(rho, t)
         private double[] DetermineROfTimeFromROfFtForFixedRho(double rho, ITissueRegion[] regions, out double[] FFTTimeSequence)
         {
             // get ops of top tissue region
@@ -119,7 +120,6 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 deltaFrequency = 0.5; // so far I've found this value works for smaller rho
             }     
-            // since using different deltaFrequency for different rho, dictionary key needs to include rho
             var F = numFreq*deltaFrequency; // 51 GHz
             var deltaTime = 1.0/(numFreq*deltaFrequency); // 0.02 ns => T = 10 ns
             
@@ -157,6 +157,41 @@ namespace Vts.Modeling.ForwardSolvers
             return rOfTime;
         }
 
+        // this method builds an R(fx, ft) array and then uses FFT to generate R(fx, t)
+        private double[] DetermineROfTimeFromROfFtForFixedFx(double fx, ITissueRegion[] regions, out double[] FFTTimeSequence)
+        {
+            // get ops of top tissue region
+            var op0 = regions[0].RegionOP;
+            var fr1 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder1(op0.N);
+            var fr2 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder2(op0.N);
+            var diffusionParameters = GetDiffusionParameters(regions);
+            var layerThicknesses = GetLayerThicknesses(regions);
+
+            int numFreq = 512; // Kienle used 512 and deltaFreq = 0.1
+            // Kienle says deltaFrequency depends on source-detector separation
+            var deltaFrequency = 0.5; // 500 MHz good for all fx
+
+            var F = numFreq * deltaFrequency; // 51 GHz
+            var deltaTime = 1.0 / (numFreq * deltaFrequency); // 0.02 ns => T = 10 ns
+
+            // considerations: 2n datapoint and pad with 0s beyond (deltaTime * numFreq)
+            var rOfFt = new Complex[numFreq];
+            double[] ft = Enumerable.Range(0, numFreq).Select(x => x * deltaFrequency).ToArray();
+            FFTTimeSequence = Enumerable.Range(0, numFreq).Select(x => x * deltaTime).ToArray();
+
+            for (int i = 0; i < numFreq; i++)
+            {
+                // normalize by F=(numFreq*deltaFrequency)
+                rOfFt[i] = SpatialAndTemporalFrequencyReflectance(2 * Math.PI * fx, ft[i], diffusionParameters, layerThicknesses, fr1, fr2) * F;
+            }
+
+            // FFT R(ft) to R(t)
+            var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
+            dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
+            var rOfTime = new double[FFTTimeSequence.Length];
+            rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
+            return rOfTime;
+        }
         public override Complex ROfRhoAndFt(ITissueRegion[] regions, double rho, double ft)
         {
             // get ops of top tissue region
@@ -193,19 +228,18 @@ namespace Vts.Modeling.ForwardSolvers
             }
             return SpatialFrequencyReflectance(2*Math.PI*fx, diffusionParameters, layerThicknesses, fr1, fr2);
         }
-        private double[] DetermineROfFxFromROfRhoForFixedTime(double time, ITissueRegion[] regions, out double[] HankelFxs)
+
+        public override double ROfFxAndTime(ITissueRegion[] regions, double fx, double time)
         {
-            int numFxs = 100;
-            double deltaFx = 0.02;
-            HankelFxs = new double[numFxs];
-            var ROfFx = new double[numFxs];
-            for (int i = 0; i < numFxs; i++)
+            var diffusionParameters = GetDiffusionParameters(regions);
+            var layerThicknesses = GetLayerThicknesses(regions);
+
+            // check that embedded source is within top layer, otherwise solution invalid
+            if (diffusionParameters[0].zp > layerThicknesses[0])
             {
-                HankelFxs[i] = i * deltaFx;
-                ROfFx[i] = 2 * Math.PI * HankelTransform.DigitalFilterOfOrderZero(
-                            2 * Math.PI * HankelFxs[i], rho => ROfRhoAndTime(regions, rho, time));
+                throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
             }
-            return ROfFx;
+            return ROfFxAndTime(regions.AsEnumerable(), fx.AsEnumerable(), time.AsEnumerable()).First();
         }
         /// <summary>
         /// Evaluates spatial-frequency and temporally- resolved reflectance at sets of tissue regions, fs and times
@@ -218,16 +252,15 @@ namespace Vts.Modeling.ForwardSolvers
             IEnumerable<double> fxs, IEnumerable<double> times)
         {
             double[] rOfTime = new double[times.Count()];
-            double[] HankelFxs;
-            double[] FFTTimes;
+            double[] FFTTimeSequence;
             foreach (var regions in setsOfRegions)
             {
                 foreach (var fx in fxs)
                 {
-                    rOfTime = DetermineROfTimeFromROfFtForFixedRho(2 * Math.PI * fx, regions, out FFTTimes);
+                    rOfTime = DetermineROfTimeFromROfFtForFixedFx(fx, regions, out FFTTimeSequence);
                     foreach (var time in times)
                     {
-                        yield return Vts.Common.Math.Interpolation.interp1(FFTTimes, rOfTime.ToList(), time);
+                        yield return Vts.Common.Math.Interpolation.interp1(FFTTimeSequence, rOfTime.ToList(), time);
                     }
                 }
             }
