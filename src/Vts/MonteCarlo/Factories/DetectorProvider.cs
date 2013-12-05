@@ -205,6 +205,49 @@ namespace Vts.MonteCarlo.Factories
 
     }
 
+
+    public class DetectorProvider2<TDetectorInput, TDetector, TDetectorOutput>
+        where TDetector : IDetector2
+        where TDetectorOutput : IDetectorOutput2
+    {
+        static DetectorProvider2()
+        {
+            KnownTypes.Add(typeof(TDetectorInput));
+            KnownTypes.Add(typeof(TDetectorOutput));
+        }
+
+        //public static DetectorProvider<TIn, TDet, TOut> Create<TIn, TDet, TOut>(Type inputType, Type detectorType, Type outputType)
+        //{
+        //    MethodInfo genericMethod = typeof(DetectorProvider).GetMethod("ContainSameValues");
+        //    return new DetectorProvider<TIn, TDet, TOut>();
+        //}
+
+        public DetectorProvider2()
+        {
+            CreateDetector = input => Mapper.Map<TDetectorInput, TDetector>(input);
+            CreateOutput = detector => Mapper.Map<TDetector, TDetectorOutput>(detector);
+
+            ReadInputFromFile = filename => Vts.IO.FileIO.ReadFromXML<TDetectorInput>(filename);
+            WriteInputToFile = (input, filename) => Vts.IO.FileIO.WriteToXML(input, filename);
+            ReadInputFromResources = (filename, projectName) => Vts.IO.FileIO.ReadFromXMLInResources<TDetectorInput>(filename, projectName);
+
+            WriteOutputToFile = (output, filename) => DetectorIO.WriteDetectorOutputToFile(output, filename);
+            ReadOutputFromFile = (filename, folderPath) => DetectorIO.ReadDetectorOutputFromFile<TDetectorOutput>(filename, folderPath);
+
+            TargetType = typeof(TDetector);
+        }
+
+        public Type TargetType { get; set; }
+        public Func<TDetectorInput, TDetector> CreateDetector { get; set; }
+        public Func<TDetector, TDetectorOutput> CreateOutput { get; set; }
+        public Func<string, TDetectorInput> ReadInputFromFile { get; set; }
+        public Func<string, string, TDetectorInput> ReadInputFromResources { get; set; }
+        public Action<TDetectorInput, string> WriteInputToFile { get; set; }
+        public Func<string, string, TDetectorOutput> ReadOutputFromFile { get; set; }
+        public Action<TDetectorOutput, string> WriteOutputToFile { get; set; }
+
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
@@ -244,7 +287,7 @@ namespace Vts.MonteCarlo.Factories
     {
         string Name { get; set; }
         string TallyType { get; set; }
-        BinaryArrayInfo[] GetArraysForBinarySerialization();
+        BinaryArrayInfo[] GetAllBinaryArrayInfo();
     }
 
     // user code
@@ -280,7 +323,6 @@ namespace Vts.MonteCarlo.Factories
         // put private variables here that you only want to use internally and don't want saved
         private FancyDetectorInput _detectorInput;
         private int[] _dimensions;
-        private bool _tallySecondMoment;
         private long _tallyCount;
         private double[,] _mean;
         private double[,] _secondMoment;
@@ -304,11 +346,11 @@ namespace Vts.MonteCarlo.Factories
             };
 
             // assign any private members that you'll need for the Tally/Normalize/CreateOutput methods
+            _detectorInput = detectorInput;
             _dimensions = new[] { detectorInput.XRange.Count, detectorInput.YRange.Count };
             _tallyCount = 0;
-            _tallySecondMoment = detectorInput.TallySecondMoment;
             _mean = new double[_dimensions[0], _dimensions[1]];
-            if (_tallySecondMoment)
+            if (_detectorInput.TallySecondMoment)
             {
                 _secondMoment = new double[_dimensions[0], _dimensions[1]];
             }
@@ -342,11 +384,14 @@ namespace Vts.MonteCarlo.Factories
                 }
             }
 
-            for (int i = 0; i < _dimensions[0]; i++)
+            if (_detectorInput.TallySecondMoment)
             {
-                for (int j = 0; j < _dimensions[1]; j++)
+                for (int i = 0; i < _dimensions[0]; i++)
                 {
-                    _secondMoment[i, j] /= _tallyCount;
+                    for (int j = 0; j < _dimensions[1]; j++)
+                    {
+                        _secondMoment[i, j] /= _tallyCount;
+                    }
                 }
             }
         }
@@ -354,13 +399,13 @@ namespace Vts.MonteCarlo.Factories
         public IDetectorOutput2 CreateOutput()
         {
             // create an object that represents the output you need (and implements IDetectorOutput)
-            return new FancyDetectorOutput()
+            return new FancyDetectorOutput
             {
                 TallyType = this.TallyType,
                 Name = this.Name,
                 TallyCount = _tallyCount,
-                XValues = _detectorInput.XRange.AsEnumerable().ToArray(),
-                YValues = _detectorInput.YRange.AsEnumerable().ToArray(),
+                XRange = _detectorInput.XRange,
+                YRange = _detectorInput.YRange,
                 Mean = _mean,
                 SecondMoment = _secondMoment
             };
@@ -375,8 +420,8 @@ namespace Vts.MonteCarlo.Factories
 
         // Place properties below that you want to save/load later
         public long TallyCount { get; set; }
-        public double[] XValues { get; set; }
-        public double[] YValues { get; set; }
+        public DoubleRange XRange { get; set; }
+        public DoubleRange YRange { get; set; }
 
         // Use "[IgnoreDataMember]" to ignore large arrays which you prefer to have serialized in binary form 
         // (to save storage space & memory), then implement GetArraysForBinarySerialization() to return them
@@ -385,7 +430,7 @@ namespace Vts.MonteCarlo.Factories
         [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
 
-        public BinaryArrayInfo[] GetArraysForBinarySerialization()
+        public BinaryArrayInfo[] GetAllBinaryArrayInfo()
         {
             return new []
             {
@@ -393,13 +438,13 @@ namespace Vts.MonteCarlo.Factories
                 {
                     DataArray = Mean, 
                     Name = "Mean", 
-                    Dimensions = new [] {XValues.Length, YValues.Length}
+                    Dimensions = new [] {XRange.Count, YRange.Count}
                 },
                 new BinaryArrayInfo
                 {
                     DataArray = SecondMoment, 
                     Name = "SecondMoment", 
-                    Dimensions = new [] {XValues.Length, YValues.Length}
+                    Dimensions = new [] {XRange.Count, YRange.Count}
                 },
             };
         }
