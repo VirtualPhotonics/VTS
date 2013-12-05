@@ -119,11 +119,6 @@ namespace Vts
         /// </summary>
         /// <returns>A value of type Time</returns>
         protected abstract T GetDelta();
-        /// <summary>
-        /// An abstract method to get the count. To be defined by the subclass
-        /// </summary>
-        /// <returns>An integer representing the count</returns>
-        protected abstract int GetNewCount();
 
         /// <summary>
         /// Returns a string that represents the range
