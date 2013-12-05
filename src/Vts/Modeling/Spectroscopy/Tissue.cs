@@ -15,12 +15,19 @@ namespace Vts.SpectralMapping
         /// <param name="absorbers">List of chromophore absorbers</param>
         /// <param name="scatterer">scatterer</param>
         /// <param name="name">Name of the tissue</param>
-        public Tissue(IList<IChromophoreAbsorber> absorbers, IScatterer scatterer, string name)
+        public Tissue(IList<IChromophoreAbsorber> absorbers, IScatterer scatterer, string name, double? n =  1.4)
         {
             Absorbers = absorbers;
             Scatterer = scatterer;
             Name = name;
+            N = n ?? 1.4;
+            //N = n != null ? n.Value : 1.4;
         }
+
+        /// <summary>
+        /// Index of refraction (default == 1.4)
+        /// </summary>
+        public double N { get; set; }
 
         /// <summary>
         /// Creates a tissue with the specified tissue type
@@ -121,6 +128,20 @@ namespace Vts.SpectralMapping
         public double GetMus(double wavelength)
         {
             return Scatterer != null ? Scatterer.GetMus(wavelength) : 0;
+        }
+
+        /// <summary>
+        /// Returns the optical properties for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The optical properties</returns>
+        public OpticalProperties GetOpticalProperties(double wavelength)
+        {
+            var mua = GetMua(wavelength);
+            var musp = GetMusp(wavelength);
+            var g = GetG(wavelength);
+            var n = N;
+            return new OpticalProperties(mua, musp, g, n);
         }
     }
 

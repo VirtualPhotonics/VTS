@@ -11,6 +11,7 @@
 % * <ROfRho_help.html ROfRho>
 % * <ROfRhoAndFt_help.html ROfRhoAndFt>
 % * <ROfRhoAndT_help.html ROfRhoAndT>
+% * <SetSolverType_help.html SetSolverType>
 % 
 % <html>
 % For more information about the class see <a href="matlab:doc vtssolvers">VtsSolvers</a>

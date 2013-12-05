@@ -1,5 +1,5 @@
 %% GetOP
-% Returns the optical properties.
+% Returns the optical properties
 %
 %% Syntax
 % GetOP(ABSORBERS, SCATTERER, WAVELENGTHS)

@@ -27,6 +27,7 @@ namespace Vts.MonteCarlo
         /// <param name="layerRegions">tissue layer specification</param>
         public MultiEllipsoidTissueInput(ITissueRegion[] ellipsoidRegions, ITissueRegion[] layerRegions)
         {
+            TissueType = TissueType.MultiEllipsoid;
             _ellipsoidRegions = ellipsoidRegions;
             _layerRegions = layerRegions;
         }
@@ -66,11 +67,11 @@ namespace Vts.MonteCarlo
                 })
         {
         }
+
         /// <summary>
         /// tissue type
         /// </summary>
-        [IgnoreDataMember]
-        public TissueType TissueType { get { return TissueType.MultiEllipsoid; } }
+        public TissueType TissueType { get; set; }
         /// <summary>
         /// regions of tissue (layers and ellipsoid)
         /// </summary>

@@ -13,6 +13,8 @@ using Vts.MonteCarlo.Helpers;
 
 #if DESKTOP
 using System.Runtime.InteropServices;
+using Vts.SpectralMapping;
+
 #endif
 
 namespace Vts.Factories
@@ -702,19 +704,19 @@ namespace Vts.Factories
                                 return (fitData, otherData) => fs.ROfRhoAndTime(getTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]);
                             }
                             return (fitData, otherData) => fs.ROfRhoAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
-                        //case IndependentVariableAxis.Wavelength:
-                        //    return (chromPlusMusp, constantData) =>
-                        //               {
-                        //                   var wv = (double[]) constantData[0];
-                        //                   var tissue = (Tissue) constantData[1];
-                        //                   int i = 0;
-                        //                   tissue.Absorbers.ForEach(abs => abs.Concentration = chromPlusMusp[i++]);
-                        //                   tissue.Scatterer = new PowerLawScatterer(chromPlusMusp[i], chromPlusMusp[i + 1]);
-                        //                   var muas = wv.Select(w => tissue.GetMua(w)); 
-                        //                   var musps = wv.Select(w => tissue.GetMusp(w));
-                        //                   return EnumerableExtensions.Zip(muas,musps,(mua,musp)=>fs.ROfRhoAndTime())...
-                        //               }; 
-                        //    return op => fs.ROfRhoAndTime(op, ((double)constantValues[0]).AsEnumerable(), ((double)constantValues[1]).AsEnumerable());
+                        case IndependentVariableAxis.Wavelength:
+                            //return (chromPlusMusp, constantData) =>
+                            //           {
+                            //               var wv = (double[]) constantData[0];
+                            //               var tissue = (Tissue) constantData[1];
+                            //               int i = 0;
+                            //               tissue.Absorbers.ForEach(abs => abs.Concentration = chromPlusMusp[i++]);
+                            //               tissue.Scatterer = new PowerLawScatterer(chromPlusMusp[i], chromPlusMusp[i + 1]);
+                            //               var muas = wv.Select(w => tissue.GetMua(w)); 
+                            //               var musps = wv.Select(w => tissue.GetMusp(w));
+                            //               return EnumerableExtensions.Zip(muas,musps,(mua,musp)=>fs.ROfRhoAndTime())...
+                            //           }; 
+                            //return op => fs.ROfRhoAndTime(op, ((double)constantValues[0]).AsEnumerable(), ((double)constantValues[1]).AsEnumerable());
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }

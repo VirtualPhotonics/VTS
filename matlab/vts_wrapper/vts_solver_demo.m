@@ -2,7 +2,7 @@
 % Script for demoing the use of the VTS solvers within Matlab, to view the
 % source code open the *vts_solver_demo.m* script file.
 %% 
-clear all
+clear vars
 clc
 dbstop if error;
 
@@ -104,28 +104,81 @@ test = VtsSolvers.FluenceOfRhoAndZ(op, rhos, zs);
 f = figure; imagesc(log(squeeze(test(:,1,:))));
 set(f,'Name','Fluence of Rho and z');
 
+
 %% Example FluenceOfRhoAndZ
+% Evaluate fluence as a function of rho and z using optical properties from 
+% a list of chromophore absorbers with their concentrations and a power law 
+% scatterer for a range of wavelengths.
+
+rhos = 0.1:0.1:10; % s-d separation, in mm
+zs = 0.1:0.1:10; % z range in mm
+
+wv = 450:0.5:1000;
+
+% create a list of chromophore absorbers and their concentrations
+absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
+absorbers.Concentrations =  [70,     30,   0.8  ];
+
+% create a scatterer (PowerLaw, Intralipid, or Mie)
+scatterer.Type = 'PowerLaw';
+scatterer.A = 1.2;
+scatterer.b = 1.42;
+
+% % or 
+% scatterer.Type = 'Intralipid';
+% scatterer.vol_frac =  0.5;
+
+% % or 
+% scatterer.Type = 'Mie';
+% scatterer.radius =  0.5;
+% scatterer.n =       1.4;
+% scatterer.nMedium = 1.0;
+
+op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+
+test = VtsSolvers.FluenceOfRhoAndZ(op, rhos, zs);
+
+f = figure; imagesc(log(squeeze(test(:,1,:))));
+set(f,'Name','Fluence of Rho and z');
+
+%% Example FluenceOfRhoAndZAndFt
 % Evaluate fluence as a function of rho and z using one set of optical 
 % properties and a distributed gaussian source SDA solver type.
 
 op = [0.01 1 0.8 1.4];
 rhos = linspace(0.1,19.9,100); % s-d separation, in mm
 zs = linspace(0.1,19.9,100); % z range in mm
+fts = linspace(0,1,2); % frequency range in GHz
 
-VtsSolvers.SetSolverType('DistributedGaussianSourceSDA');
-test = VtsSolvers.FluenceOfRhoAndZ(op, rhos, zs);
+VtsSolvers.SetSolverType('DistributedPointSourceSDA');
+test = VtsSolvers.FluenceOfRhoAndZAndFt(op, rhos, zs, fts);
 
 xs = [-fliplr(rhos(2:end)),rhos];
 % xs = [-rhos(end:-1:2), rhos];
 
 % f = figure; imagesc(log(test));
-f = figure; imagesc(xs,zs,...
-    log([fliplr(test(:,2:end)),test]));
+f = figure; imagesc(xs,zs,log([fliplr(squeeze(test(1,:,2:end))),squeeze(test(1,:,:))]));
 axis image
-title('Fluence of \rho and z'); 
+title('Fluence of \rho and z and ft (ft=0GHz)'); 
 xlabel('\rho [mm]')
 ylabel('z [mm]')
-set(f,'Name','Fluence of Rho and z');
+set(f,'Name','Fluence of Rho and z and ft (ft=0GHz)');
+
+f = figure; imagesc(xs,zs,log([fliplr(squeeze(test(2,:,2:end))),squeeze(test(2,:,:))]));
+axis image
+title('Fluence of \rho and z and ft (ft=1GHz)'); 
+xlabel('\rho [mm]')
+ylabel('z [mm]')
+set(f,'Name','Fluence of Rho and z and ft (ft=1GHz)');
+
+% 2nd figure to show modulation
+modulation = squeeze(test(2,:,:)./test(1,:,:));
+f = figure; imagesc(xs,zs,[fliplr(modulation(:,2:end)), modulation]);
+axis image
+title('Modulation of fluence (AC/DC) of \rho & z & ft (ft=1GHz)'); 
+xlabel('\rho [mm]')
+ylabel('z [mm]')
+set(f,'Name','Modulation of fluence (AC/DC) of Rho and z and ft (ft=1GHz)');
 
 %% Example PHDOfRhoAndZ
 % Evaluate Photon Hitting Density in cylindrical coordinates
@@ -381,15 +434,15 @@ for i=1:length(rho)
 end
 
 f = figure; plot(wv, test');
-set(f, 'Name', 'Reflectance');
+set(f, 'Name', 'SDA Reflectance vs wavelength');
 set(f, 'OuterPosition', [100, 50, 800, 800]);
 title('SDA Reflectance vs wavelength'); 
 ylabel('R(\lambda)');
 xlabel('Wavelength, \lambda [nm]');
 options = [{'Location', 'NorthEast'}; {'FontSize', 12}; {'Box', 'on'}];
 PlotHelper.CreateLegend(rho,'\rho = ', 'mm',options);
-%% Example ROfRho (inverse solution for chromophore concentrations for
-% multiple wavelengths, single rho)
+%% Example ROfRho (inverse solution for chromophore concentrations for multiple wavelengths, single rho)
+
 rho = 1;  % source-detector separation in mm
 wv = 400:50:1000;
 
@@ -440,7 +493,9 @@ f = figure; plot(wv, measData,'ro',...
 xlabel('Wavelength, \lambda [nm]');
 ylabel('R(\lambda)');
 legend('Meas','IG','Converged');
-set(f, 'OuterPosition', [100, 50, 800, 800]); 
+set(f, 'Name', 'ROfRho (inverse solution for chromophore concentrations, multiple wavelengths, single rho)');
+title('ROfRho (inverse solution for chromophore concentrations, multiple wavelengths, single \rho)'); 
+set(f, 'OuterPosition', [100, 50, 960, 850]); 
 options = [{'Location', 'NorthEast'}; {'FontSize', 12}; {'Box', 'on'}];
 disp(sprintf('Meas =    [%5.3f %5.3f %5.3f]',measConc(1),measConc(2),measConc(3)));
 disp(sprintf('IG =      [%5.3f %5.3f %5.3f] Chi2=%5.3e',conc0(1),conc0(2),conc0(3),...

@@ -276,7 +276,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] _times = { 0.004, 0.014 }; // ns, these times were chosen for each fx
             var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
             var _oneLayerSDAForwardSolver = new PointSourceSDAForwardSolver();
-
+        
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
             LayerRegion[] _twoLayerTissue =
                 new LayerRegion[]
@@ -301,7 +301,6 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] fxs = new double[] { 0.0, 0.02 };  // 0.3 just doesn't give good results
             var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
             var _oneLayerNurbsForwardSolver = new NurbsForwardSolver();
-
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
             LayerRegion[] _twoLayerTissue =
                 new LayerRegion[]
@@ -321,36 +320,109 @@ namespace Vts.Test.Modeling.ForwardSolvers
                     " and ft=", +ft + ", with Imag relative difference " + relDiffIm);
             }
         }
+        #endregion Stationary Spatial Frequency Reflectance   
+            
+        [Test]
+        public void validate_forward_solver_can_vectorize_based_on_OpticalProperties()
+        {
+            var muas = new double[] {0.02, 0.02, 0.3};
+            var musps = new double[] {1.5, 1.25, 1.25};
+            var wvs = new double[] {650, 750, 850};
+            var rho = 10;
+            var n = 1.4;
+            var g = 0.9;
+
+            var fs = new PointSourceSDAForwardSolver();
+            var ops = Enumerable.Zip(muas, musps, (mua, musp) => new OpticalProperties(mua, musp, g, n)).ToArray();
+
+            var reflectanceVsWavelength = fs.ROfRho(ops, rho);
+
+            Assert.NotNull(reflectanceVsWavelength);
+            Assert.AreEqual(reflectanceVsWavelength.Length, 3);
+
+            // check that change in scattering changes the reflectance
+            Assert.IsTrue(reflectanceVsWavelength[0] != reflectanceVsWavelength[1]);
+            // check that change in absorption changes the reflectance
+            Assert.IsTrue(reflectanceVsWavelength[1] != reflectanceVsWavelength[2]);
+        }
+
+
+        [Test]
+        public void validate_spectral_generation_of_OpticalProperties_with_scatterers_and_absorbers()
+        {
+            var scatterer = new IntralipidScatterer(0.01);
+            var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.01);
+            var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.99);
+            var wvs = new DoubleRange(650, 1000, 36).AsEnumerable().ToArray();
+            var n = 1.4;
+            var rho = 10;
+
+            var ops = wvs.Select(wv =>
+                {
+                    var mua = fatAbsorber.GetMua(wv) + waterAbsorber.GetMua(wv);
+                    var musp = scatterer.GetMusp(wv);
+                    var g = scatterer.GetG(wv);
+                    return new OpticalProperties(mua, musp, g, n);
+                }).ToArray();
+
+            var fs = new PointSourceSDAForwardSolver();
+
+            var reflectanceVsWavelength = fs.ROfRho(ops, rho);
+
+            Assert.NotNull(reflectanceVsWavelength);
+            Assert.AreEqual(reflectanceVsWavelength.Length, wvs.Length);
+
+            // check that change in scattering changes the reflectance
+            Assert.IsTrue(reflectanceVsWavelength[0] != reflectanceVsWavelength[1]);
+            // check that change in absorption changes the reflectance
+            Assert.IsTrue(reflectanceVsWavelength[1] != reflectanceVsWavelength[2]);
+        }
+            {
+                var oneLayerResult = _oneLayerNurbsForwardSolver.ROfFxAndFt(ops, fxs[ifx], ft);
+                var twoLayerResult = _twoLayerSDAForwardSolver.ROfFxAndFt(_twoLayerTissue, fxs[ifx], ft);
+                var relDiffRe = Math.Abs(twoLayerResult.Real - oneLayerResult.Real) / oneLayerResult.Real;
+                var relDiffIm = Math.Abs((twoLayerResult.Imaginary - oneLayerResult.Imaginary) / oneLayerResult.Imaginary);
+                Assert.IsTrue(relDiffRe < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
+                    " and ft=", +ft + ", with Real relative difference " + relDiffRe);
+                Assert.IsTrue(relDiffIm < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
+                    " and ft=", +ft + ", with Imag relative difference " + relDiffIm);
+            }
+        }
         #endregion Stationary Spatial Frequency Reflectance
 
-        #region Fluence
-        // generated two layers with identical properties and use SteadyStatePointSource results for validation
         [Test]
-        public void StationaryFluenceTwoLayerSDATest()
+        public void validate_spectral_generation_of_OpticalProperties_with_tissue()
         {
-            var _thresholdValue = 1e-7;
+            var scatterer = new IntralipidScatterer(0.01);
+            var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.01);
+            var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.99);
             var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
             var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
             double _topLayerThickness = 3; // mm
 
-            // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
-            LayerRegion[] _twoLayerTissue =
-                new LayerRegion[]
-                    {
-                        new LayerRegion(new DoubleRange(0, _topLayerThickness), new OpticalProperties(ops)),
-                        new LayerRegion(new DoubleRange(_topLayerThickness,100), new OpticalProperties(ops) ), 
-                    };
-            var _listOfOps = new List<OpticalProperties> {ops};
-            var _listOfTissueRegions = new List<ITissueRegion[]> { _twoLayerTissue };
-            var oneLayerResult = _oneLayerPointSourceForwardSolver.FluenceOfRhoAndZ(_listOfOps, rhos, zs);
-            var twoLayerResult = _twoLayerSDAForwardSolver.FluenceOfRhoAndZ(_listOfTissueRegions, rhos, zs);
-            var relDiff = Enumerable.Zip(oneLayerResult, twoLayerResult,
-                           (x, y) => Math.Abs((y - x)/x));
-            foreach (var r in relDiff)
-            {
-                Assert.IsTrue(r < _thresholdValue, "Test failed  with relative difference " + relDiff);
-            }                    
+            var n = 1.4;
+            var wvs = new DoubleRange(650, 1000, 36).AsEnumerable().ToArray();
+            var rho = 10;
+
+            var tissue = new Tissue(
+                new IChromophoreAbsorber[] {fatAbsorber, waterAbsorber},
+                scatterer,
+                "test_tissue",
+                n);
+
+            var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
+
+            var fs = new PointSourceSDAForwardSolver();
+
+            var reflectanceVsWavelength = fs.ROfRho(ops, rho);
+
+            Assert.NotNull(reflectanceVsWavelength);
+            Assert.AreEqual(reflectanceVsWavelength.Length, wvs.Length);
+
+            // check that change in scattering changes the reflectance
+            Assert.IsTrue(reflectanceVsWavelength[0] != reflectanceVsWavelength[1]);
+            // check that change in absorption changes the reflectance
+            Assert.IsTrue(reflectanceVsWavelength[1] != reflectanceVsWavelength[2]);
         }
-        #endregion
     }
 }

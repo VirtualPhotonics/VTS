@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.Extensions;
 
@@ -23,6 +24,7 @@ namespace Vts.MonteCarlo.Tissues
         public EllipsoidRegion(Position center, double radiusX, double radiusY, double radiusZ,
             OpticalProperties op)
         {
+            TissueRegionType = TissueRegionType.Ellipsoid;
             RegionOP = op;
             Center = center;
             Dx = radiusX;
@@ -34,6 +36,12 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public EllipsoidRegion() : this (new Position(0, 0, 1), 0.5, 0.5, 0.5,
             new OpticalProperties(0.05, 1.0, 0.8, 1.4)) {}
+
+
+        /// <summary>
+        /// tissue region identifier
+        /// </summary>
+        public TissueRegionType TissueRegionType { get; set; }
 
         /// <summary>
         /// optical properties of ellipsoid
