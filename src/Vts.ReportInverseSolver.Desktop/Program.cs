@@ -353,9 +353,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                 if (IFT == InverseFitType.Mua) { gOp.Musp = rOp.Musp; }
                                 if (IFT == InverseFitType.Musp) { gOp.Mua = rOp.Mua; }
                                 //solve inverse problem
-                                double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
-                                                               fST, oT, SolutionDomainType.ROfFx,
-                                                               IndependentVariableAxis.Rho, mfxs, mR, mS, gOp, IFT);
+                                double[] fit = ComputationFactory.SolveInverse(fST, oT, SolutionDomainType.ROfFx, IndependentVariableAxis.Rho, mfxs, mR, mS, gOp, IFT);
                                 if (fit[0] != 0 && fit[1] != 0)
                                 {
                                     converged = true;
@@ -509,9 +507,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                 if (IFT == InverseFitType.Mua) { gOp.Musp = rOp.Musp; }
                                 if (IFT == InverseFitType.Musp) { gOp.Mua = rOp.Mua; }
                                 //solve inverse problem
-                                double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
-                                                               fST, oT, SolutionDomainType.ROfRho,
-                                                               IndependentVariableAxis.Rho, mrhos, mR, mS, gOp, IFT);
+                                double[] fit = ComputationFactory.SolveInverse(fST, oT, SolutionDomainType.ROfRho, IndependentVariableAxis.Rho, mrhos, mR, mS, gOp, IFT);
                                 if (fit[0] != 0 && fit[1] != 0)
                                 {
                                     converged = true;
@@ -663,10 +659,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                     if (IFT == InverseFitType.Mua) { gOp.Musp = rOp.Musp; }
                                     if (IFT == InverseFitType.Musp) { gOp.Mua = rOp.Mua; }
                                     //solve inverse problem
-                                    double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
-                                                                   fST, oT, SolutionDomainType.ROfRhoAndTime,
-                                                                   IndependentVariableAxis.Time, T, R, S, gOp,
-                                                                   IFT, constantVals);
+                                    double[] fit = ComputationFactory.SolveInverse(fST, oT, SolutionDomainType.ROfRhoAndTime, IndependentVariableAxis.Time, T, R, S, gOp, IFT, constantVals);
                                     if (fit[0] != 0 && fit[1] != 0)
                                     {
                                         converged = true;

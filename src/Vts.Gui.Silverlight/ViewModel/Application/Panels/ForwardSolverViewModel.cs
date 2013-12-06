@@ -209,7 +209,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                     ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
-            double[] query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            double[] query = ComputationFactory.ComputeReflectance(
                 ForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisTypeOptionVM.SelectedValue,
