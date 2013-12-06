@@ -197,7 +197,6 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\LocalizedStrings.cs" />
-    <Compile Include="Extensions\OptionExtensions.cs" />
     <Compile Include="Extensions\StringLookup.cs">
       <SubType>Code</SubType>
     </Compile>

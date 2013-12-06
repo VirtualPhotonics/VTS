@@ -17,9 +17,6 @@ namespace Vts.Factories
     /// <summary>
     /// Class that composes forward and optimization calculations based on high-level inputs
     /// </summary>
-#if DESKTOP
-    [ComVisible(true)]
-#endif    
     public static class ComputationFactory
     {
         // todo: the following two methods are a result of a leaky abstraction 
@@ -81,9 +78,6 @@ namespace Vts.Factories
         /// <param name="opticalProperties"></param>
         /// <param name="constantValues"></param>
         /// <returns></returns>
-        #if DESKTOP
-            [ComVisible(true)] 
-        #endif
         public static double[] GetVectorizedIndependentVariableQueryNew(
              string forwardSolverType,
              string solutionDomainType,
