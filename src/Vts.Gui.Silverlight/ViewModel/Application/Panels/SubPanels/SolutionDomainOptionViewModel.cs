@@ -261,8 +261,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 case SolutionDomainType.ROfRho:
                     IndependentVariableAxisOptionVM = UseSpectralInputs 
-                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Wavelength })
-                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, new[] { IndependentVariableAxis.Rho});
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Wavelength })
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho });
                     ConstantLabelVisible = UseSpectralInputs;
                     ConstantLabelTwoVisible = false;
                     break;
@@ -274,9 +274,9 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ConstantLabelTwoVisible = false;
                     break;
                 case SolutionDomainType.ROfRhoAndTime:
-                    IndependentVariableAxisOptionVM = UseSpectralInputs 
-                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time, IndependentVariableAxis.Wavelength })
-                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time });
+                    IndependentVariableAxisOptionVM = UseSpectralInputs
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time, IndependentVariableAxis.Wavelength })
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time });
                     ConstantLabelVisible = true;
                     ConstantLabelTwoVisible = UseSpectralInputs;
                     break;
@@ -288,9 +288,9 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ConstantLabelTwoVisible = UseSpectralInputs;
                     break;
                 case SolutionDomainType.ROfRhoAndFt:
-                    IndependentVariableAxisOptionVM = UseSpectralInputs 
-                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft, IndependentVariableAxis.Wavelength })
-                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft });
+                    IndependentVariableAxisOptionVM = UseSpectralInputs
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft, IndependentVariableAxis.Wavelength })
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
                     ConstantLabelTwoVisible = UseSpectralInputs;
                     break;
@@ -320,7 +320,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 // this filters to find the *other* choice (the one not selected).
                 // assumes that there are only two choices 
-                // TODO: make compatible with wavelengths? (should be fine if only one other axis)
                 var constantAxisOption = IndependentVariableAxisOptionVM.Options.Where(o => o.Key != IndependentAxisType).First().Value;
                 ConstantAxisType = constantAxisOption.Value;
                 ConstantAxisLabel = constantAxisOption.DisplayName;

@@ -1,3 +1,4 @@
+using System;
 using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,16 +35,65 @@ namespace Vts.Gui.Silverlight.ViewModel
         private double[] _InitialGuessDataValues;
         private double[] _ResultDataValues;
 
+        private bool _showOpticalProperties;
+        private bool _useSpectralPanelData;
+
         public InverseSolverViewModel()
         {
+            _showOpticalProperties = true;
+            _useSpectralPanelData = false;
+
             RangeVM = new RangeViewModel { Title = "" };
 
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
+            Action<double> updateSolutionDomainWithWavelength = wv =>
+            {
+                if (SolutionDomainTypeOptionVM.ConstantAxisType == IndependentVariableAxis.Wavelength)
+                {
+                    SolutionDomainTypeOptionVM.ConstantAxisValue = wv;
+                }
+                else if (SolutionDomainTypeOptionVM.ConstantAxisTwoType == IndependentVariableAxis.Wavelength)
+                {
+                    SolutionDomainTypeOptionVM.ConstantAxisTwoValue = wv;
+                }
+            };
             SolutionDomainTypeOptionVM.PropertyChanged += (sender, args) =>
             {
+                if (args.PropertyName == "UseSpectralInputs")
+                {
+                    if (SolutionDomainTypeOptionVM.UseSpectralInputs)
+                    {
+                        UseSpectralPanelData = true;
+                    }
+                    else
+                    {
+                        UseSpectralPanelData = false;
+                    }
+                }
                 if (args.PropertyName == "IndependentAxisType")
                 {
-                    RangeVM = SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
+                    // if using spectral panel inputs, assign RangeVM, tissue, etc, accordingly
+                    if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
+                    {
+                        //// if the independent axis is wavelength, then hide optical properties (because they come from spectral panel)
+                        if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength)
+                        {
+                            ShowOpticalProperties = false; // don't show optical properties at all
+                            RangeVM = SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM; // bind to same instance, not a copy
+                        }
+                        else // still show optical properties and wavelength, but link them to spectral panel and pull wavelength
+                        {
+                            ShowOpticalProperties = true;
+                            RangeVM = SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
+                            updateSolutionDomainWithWavelength(SolverDemoViewModel.Current.SpectralMappingVM.Wavelength);
+                        }
+                        //_spectralPanelTissue = SolverDemoViewModel.Current.SpectralMappingVM.SelectedTissue; ... (or, do this at execution time?)s
+                    }
+                    else
+                    {
+                        ShowOpticalProperties = true;
+                        RangeVM = SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
+                    }
                 }
             };
 
@@ -68,7 +118,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("Optimizer");
 
             InverseFitTypeOptionVM = new OptionViewModel<InverseFitType>("Optimization Parameters", true);
-            //InverseFitTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
 
             MeasuredOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "" };
             InitialGuessOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "" };
@@ -77,14 +126,27 @@ namespace Vts.Gui.Silverlight.ViewModel
             SimulateMeasuredDataCommand = new RelayCommand(() => SimulateMeasuredDataCommand_Executed(null, null));
             CalculateInitialGuessCommand = new RelayCommand(() => CalculateInitialGuessCommand_Executed(null, null));
             SolveInverseCommand = new RelayCommand(() => SolveInverseCommand_Executed(null, null));
+
+            Commands.Spec_UpdateWavelength.Executed += (sender, args) =>
+            {
+                if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
+                {
+                    updateSolutionDomainWithWavelength(SolverDemoViewModel.Current.SpectralMappingVM.Wavelength);
+                }
+            };
+            Commands.Spec_UpdateOpticalProperties.Executed += (sender, args) =>
+            {
+                if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
+                {
+                    MeasuredOpticalPropertyVM.SetOpticalProperties(SolverDemoViewModel.Current.SpectralMappingVM.OpticalProperties);
+                }
+            };
         }
 
         public RelayCommand SimulateMeasuredDataCommand { get; set; }
         public RelayCommand CalculateInitialGuessCommand { get; set; }
         public RelayCommand SolveInverseCommand { get; set; }
-
-        #region Sub-View-Models
-
+        
         public SolutionDomainOptionViewModel SolutionDomainTypeOptionVM
         {
             get { return _SolutionDomainTypeOptionVM; }
@@ -157,35 +219,53 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public OpticalPropertyViewModel MeasuredOpticalPropertyVM
         {
-            get { return (OpticalPropertyViewModel)_MeasuredOpticalPropertyVM; }
+            get { return _MeasuredOpticalPropertyVM; }
             set
             {
                 _MeasuredOpticalPropertyVM = value;
                 OnPropertyChanged("MeasuredOpticalPropertyVM");
             }
         }
+
+        public bool UseSpectralPanelData // for measured data
+        {
+            get { return _useSpectralPanelData; }
+            set
+            {
+                _useSpectralPanelData = value;
+                OnPropertyChanged("UseSpectralPanelData");
+            }
+        }
+
+        public bool ShowOpticalProperties // for measured data
+        {
+            get { return _showOpticalProperties; }
+            set
+            {
+                _showOpticalProperties = value;
+                OnPropertyChanged("ShowOpticalProperties");
+            }
+        }
+
         public OpticalPropertyViewModel InitialGuessOpticalPropertyVM
         {
-            get { return (OpticalPropertyViewModel)_InitialGuessOpticalPropertyVM; }
+            get { return _InitialGuessOpticalPropertyVM; }
             set
             {
                 _InitialGuessOpticalPropertyVM = value;
                 OnPropertyChanged("InitialGuessOpticalPropertyVM");
             }
         }
+
         public OpticalPropertyViewModel ResultOpticalPropertyVM
         {
-            get { return (OpticalPropertyViewModel)_ResultOpticalPropertyVM; }
+            get { return _ResultOpticalPropertyVM; }
             set
             {
                 _ResultOpticalPropertyVM = value;
                 OnPropertyChanged("ResultOpticalPropertyVM");
             }
         }
-
-        #endregion
-
-        #region Model-Related
 
         public double PercentNoise
         {
@@ -223,8 +303,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                     OptimizerTypeOptionVM.SelectedValue);
             }
         }
-
-        #endregion
         
         public Point[][] MeasuredDataPoints
         {

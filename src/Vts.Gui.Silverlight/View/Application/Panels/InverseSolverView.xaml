@@ -46,12 +46,14 @@
                 <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <!-- TODO: Need to put these TextBlocks into the resources -->
-            <StackPanel VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="0">
+                <!-- TODO: Need to put these TextBlocks into the resources -->
+            <StackPanel VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="0" Visibility="{Binding ShowOpticalProperties, Converter={StaticResource myBooleanToVisibilityConverter}}">
                 <TextBlock HorizontalAlignment="Left">Forward Simulation</TextBlock>
                 <TextBlock HorizontalAlignment="Left">Optical Properties:</TextBlock>
             </StackPanel>
-            <v:OpticalPropertyView Grid.Row="0" Grid.Column="1" DataContext="{Binding MeasuredOpticalPropertyVM}" />
+            <StackPanel Grid.Row="0" Grid.Column="1"  Visibility="{Binding ShowOpticalProperties, Converter={StaticResource myBooleanToVisibilityConverter}}">
+                <v:OpticalPropertyView DataContext="{Binding MeasuredOpticalPropertyVM}"/>
+            </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="0">
                 <TextBlock HorizontalAlignment="Left">Initial Guess:</TextBlock>
                 <TextBlock HorizontalAlignment="Left">Optical Properties:</TextBlock>

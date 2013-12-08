@@ -19,7 +19,7 @@
                     <TextBlock Text="{Binding Units}" />
                     <TextBlock Text="]"/>
                 </StackPanel>
-                <TextBox Width="40" Text="{Binding Mua, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableMua}"/>
+                <TextBox Width="40" Text="{Binding Mua, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableMua}" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" Width="70">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
@@ -27,16 +27,15 @@
                     <TextBlock Text="{Binding Units}" />
                     <TextBlock Text="]"/>
                 </StackPanel>
-                <TextBox Width="40" Text="{Binding Musp, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableMusp}"/>
+                <TextBox Width="40" Text="{Binding Musp, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableMusp}" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
             <StackPanel Orientation="Vertical" Width="60">
                 <TextBlock Text="g" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-                <TextBox Width="40" Text="{Binding G, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableG}"/>
+                <TextBox Width="40" Text="{Binding G, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableG}" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
-
             <StackPanel Orientation="Vertical" Width="60">
                 <TextBlock Text="n" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-                <TextBox Width="40" Text="{Binding N, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableN}"/>
+                <TextBox Width="40" Text="{Binding N, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableN}" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
         </StackPanel>
     </StackPanel>

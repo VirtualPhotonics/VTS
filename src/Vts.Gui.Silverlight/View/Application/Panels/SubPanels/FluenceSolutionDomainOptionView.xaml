@@ -83,7 +83,7 @@
             <TextBlock Text="{Binding Path=MainResource.Label_At, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" />
             <TextBlock Text="{Binding ConstantAxisLabel}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" />
             <TextBlock Text="="  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,0,1,0"/>
-            <TextBox Width="40" Text="{Binding ConstantAxisValue, Mode=TwoWay}"  VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <TextBox Width="40" Text="{Binding ConstantAxisValue, Mode=TwoWay}"  VerticalAlignment="Center" HorizontalAlignment="Left" KeyDown="TextBox_KeyDown"/>
             <TextBlock Text="{Binding ConstantAxisUnits}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,0,0,0" />
         </StackPanel>
     </StackPanel>

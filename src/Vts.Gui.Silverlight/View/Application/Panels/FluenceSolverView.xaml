@@ -15,7 +15,7 @@
         <!-- Gaussian Beam Diameter -->
         <StackPanel Orientation="Horizontal" Visibility="{Binding IsGaussianForwardModel, Converter={StaticResource myBooleanToVisibilityConverter}}" Margin="5">
             <TextBlock Text="{Binding Path=MainResource.Label_GaussianBeam, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
-            <TextBox Width="40" Margin="3" Text="{Binding ForwardSolver.BeamDiameter, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <TextBox Width="40" Margin="3" Text="{Binding ForwardSolver.BeamDiameter, Mode=TwoWay}" VerticalAlignment="Center" KeyDown="TextBox_KeyDown"/>
             <TextBlock Text="{Binding Path=MainResource.Measurement_mm, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
         </StackPanel>
         <!-- Solution Domains (One for each map type) -->
@@ -43,13 +43,13 @@
         <!-- Source Detector Separation -->
         <StackPanel Orientation="Horizontal" Visibility="{Binding IsPhotonHittingDensity, Converter={StaticResource myBooleanToVisibilityConverter}}" Margin="5">
             <TextBlock Text="{Binding Path=MainResource.Label_SourceDetector, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
-            <TextBox Width="40" Margin="3" Text="{Binding SourceDetectorSeparation, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <TextBox Width="40" Margin="3" Text="{Binding SourceDetectorSeparation, Mode=TwoWay}" VerticalAlignment="Center" KeyDown="TextBox_KeyDown"/>
             <TextBlock Text="{Binding Path=MainResource.Measurement_mm, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
         </StackPanel>
         <!-- Modulation Frequency -->
         <StackPanel Orientation="Horizontal" Visibility="{Binding IsTimeFrequencyDomain, Converter={StaticResource myBooleanToVisibilityConverter}}" Margin="5">
             <TextBlock Text="{Binding Path=MainResource.Label_ModulationFrequency, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
-            <TextBox Width="40" Margin="3" Text="{Binding TimeModulationFrequency, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <TextBox Width="40" Margin="3" Text="{Binding TimeModulationFrequency, Mode=TwoWay}" VerticalAlignment="Center" KeyDown="TextBox_KeyDown"/>
             <TextBlock Text="{Binding Path=MainResource.Measurement_GHz, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
         </StackPanel>
         <!-- Rho Range -->
@@ -63,7 +63,7 @@
             <v:RangeView DataContext="{Binding ZRangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </StackPanel>
         <!-- Optical Properties -->
-        <v:OpticalPropertyView Mua="1.0" DataContext="{Binding OpticalPropertyVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
+        <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
             <!-- This Radio button choice does not appear on the panel -->
             <v:RadioButtonOptionView DataContext="{Binding ForwardAnalysisTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>

@@ -6,11 +6,11 @@
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Mie scattering law:" />
             <TextBlock Text="n_rel = "/>
-            <TextBox Text="{Binding n, Mode=TwoWay}" Width="50"/>
+            <TextBox Text="{Binding n, Mode=TwoWay}" Width="50" KeyDown="TextBox_KeyDown"/>
             <TextBlock Text="scatt. radius = "/>
-            <TextBox Text="{Binding radius, Mode=TwoWay}" Width="50"/>
+            <TextBox Text="{Binding radius, Mode=TwoWay}" Width="50" KeyDown="TextBox_KeyDown"/>
             <TextBlock Text="λ = "/>
-            <TextBox Text="{Binding wavelength, Mode=TwoWay}" Width="50"/>
+            <TextBox Text="{Binding wavelength, Mode=TwoWay}" Width="50" KeyDown="TextBox_KeyDown"/>
           </StackPanel>
     </Grid>
 </UserControl>

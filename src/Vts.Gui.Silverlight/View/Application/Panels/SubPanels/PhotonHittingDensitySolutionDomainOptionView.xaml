@@ -84,7 +84,7 @@
             <TextBlock Text="{Binding ConstantAxisLabel}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" />
             <TextBlock Text="="  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,0,1,0"/>
             <TextBox Width="40" Text="{Binding ConstantAxisValue, Mode=TwoWay}"  VerticalAlignment="Center" HorizontalAlignment="Left" />
-            <TextBlock Text="{Binding ConstantAxisUnits}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" />
+            <TextBlock Text="{Binding ConstantAxisUnits}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" KeyDown="TextBox_KeyDown"/>
         </StackPanel>
     </StackPanel>
 </UserControl>
