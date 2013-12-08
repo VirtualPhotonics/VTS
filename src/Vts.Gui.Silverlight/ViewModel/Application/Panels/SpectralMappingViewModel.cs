@@ -80,7 +80,9 @@ namespace Vts.Gui.Silverlight.ViewModel
             // Upon setting SelectedTissue (below), we internally update the BloodConcentrationVM hemoglobin references 
             // This is the simplest solution, but maybe violates SOC...(see SelectedTissue property for details)
             // A second alternative way would be to override AfterPropertyChanged (see AfterPropertyChanged method below)
-            #endregion 
+            #endregion
+            BloodConcentrationVM.PropertyChanged += (sender, args) => UpdateOpticalProperties();
+
             SelectedTissue = Tissues.First();
             ScatteringTypeName = SelectedTissue.GetType().FullName;
             OpticalProperties = new OpticalProperties(0.01, 1, 0.8, 1.4);

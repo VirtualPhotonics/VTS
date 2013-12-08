@@ -119,7 +119,7 @@
                             <TextBox Text="{Binding Wavelength, Mode=TwoWay, NotifyOnValidationError=True}" 
                                      VerticalContentAlignment="Bottom" Width="40" KeyDown="TextBox_KeyDown"/>
                         </StackPanel>
-                        <Button input:CommandService.Command="UpdateOpticalProperties"
+                        <Button input:CommandService.Command="Spec_UpdateWavelength"
                                 input:CommandService.CommandParameter="{Binding}"
                                 Margin="5,0,0,0" Height="25" VerticalAlignment="Center" 
                                 Content="Update" />
@@ -145,13 +145,13 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                         <v:RangeView DataContext="{Binding WavelengthRangeVM}" Margin="0,3,0,0" VerticalAlignment="Top"/>
                         <!-- Plot Buttons -->
-                        <Button input:CommandService.Command="PlotMuaSpectra"
+                        <Button input:CommandService.Command="Spec_PlotMuaSpectra"
                             input:CommandService.CommandParameter="{Binding}"
-                            Margin="0,2,0,5" Height="25" VerticalAlignment="Bottom" 
+                            Margin="10,2,0,0" Height="25" VerticalAlignment="Bottom" 
                             Content="{Binding Path=MainResource.Button_PlotMua, Source={StaticResource LocalizedStrings}}"/>
-                        <Button input:CommandService.Command="PlotMusprimeSpectra"
+                        <Button input:CommandService.Command="Spec_PlotMusprimeSpectra"
                             input:CommandService.CommandParameter="{Binding}"
-                            Margin="5,2,0,5" Height="25" VerticalAlignment="Bottom" 
+                            Margin="10,2,0,0" Height="25" VerticalAlignment="Bottom" 
                             Content="{Binding Path=MainResource.Button_PlotMusPrime, Source={StaticResource LocalizedStrings}}"/>
                     </StackPanel>
                 </StackPanel>
