@@ -37,7 +37,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
 #if WHITELIST 
             ScatteringTypeVM = new OptionViewModel<ScatteringType>("Scatterer Type", true, WhiteList.ScatteringTypes);
-#else 
+#else
             ScatteringTypeVM = new OptionViewModel<ScatteringType>("Scatterer Type", true);
 #endif
             ScatteringTypeVM.PropertyChanged += (sender, args) =>
@@ -48,20 +48,18 @@ namespace Vts.Gui.Silverlight.ViewModel
                     //LM - Temporary Fix to reset the tissue type after a new scatterer is created
                     if (SelectedTissue.ScattererType == ScatteringType.PowerLaw)
                     {
-                       PowerLawScatterer myScatterer = (PowerLawScatterer)SelectedTissue.Scatterer;
-                       myScatterer.SetTissueType(SelectedTissue.TissueType);
+                        PowerLawScatterer myScatterer = (PowerLawScatterer)SelectedTissue.Scatterer;
+                        myScatterer.SetTissueType(SelectedTissue.TissueType);
                     }
                     ScatteringTypeName = SelectedTissue.Scatterer.GetType().FullName;
                 }
                 OnPropertyChanged("Scatterer");
+                UpdateOpticalProperties();
             };
 
-            WavelengthRangeVM =
-                new RangeViewModel(
-                    new DoubleRange(650.0, 1000.0, 176),
-                    "nm", "Wavelength Range");
+            WavelengthRangeVM = new RangeViewModel(new DoubleRange(650.0, 1000.0, 176), "nm", "Wavelength Range");
 
-           Tissues = new List<Tissue>
+            Tissues = new List<Tissue>
             {
                 new Tissue(TissueType.Skin),
                 new Tissue(TissueType.BrainWhiteMatter),
@@ -73,7 +71,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 //new Tissue(TissueType.PolystyreneSpherePhantom),
                 new Tissue(TissueType.Custom)
             };
-            
+
             BloodConcentrationVM = new BloodConcentrationViewModel();
             #region DC notes 1
             // DC NOTES on how to propagate the correct hemoglobin instances into BloodConcentrationVM:
@@ -98,7 +96,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 // Commands.Spec_UpdateWavelength.Execute(_wavelength); (don't do this)
                 Commands.Spec_UpdateOpticalProperties.Execute(OpticalProperties);
                 this.OnPropertyChanged("Wavelength");
-            }; 
+            };
         }
 
         #region DC notes 2
@@ -120,7 +118,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         //    }
         //    base.AfterPropertyChanged(propertyName);
         //}
-        #endregion 
+        #endregion
 
         /// <summary>
         /// Simple pass-through for SelectedTissue.Scatterer 
@@ -249,14 +247,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                 this.OnPropertyChanged("N");
             }
         }
-        
+
         public RangeViewModel WavelengthRangeVM
         {
             get { return _wavelengthRangeVM; }
             set
             {
                 _wavelengthRangeVM = value;
-//                this.OnPropertyChanged("WavelengthRangeVM");
+                //                this.OnPropertyChanged("WavelengthRangeVM");
 
             }
         }
@@ -281,7 +279,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             this.OnPropertyChanged("N");
             this.OnPropertyChanged("OpticalProperties");
         }
-                
+
         void PlotMuaSpectra_Executed(object sender, ExecutedEventArgs e)
         {
             PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μa", "mm-1");
@@ -302,7 +300,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 from w in independentValues
                 select SelectedTissue.GetMua(w);
 
-            return  Enumerable.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
+            return Enumerable.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
         }
 
         void PlotMusprimeSpectra_Executed(object sender, ExecutedEventArgs e)
@@ -323,7 +321,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             var independentValues = WavelengthRangeVM.Values;
             var dependentValues = independentValues.Select(w => SelectedTissue.GetMusp(w));
 
-            return  Enumerable.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
+            return Enumerable.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
         }
     }
 }
