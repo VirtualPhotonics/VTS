@@ -151,11 +151,11 @@ namespace Vts.SpectralMapping
         }
 
         /// <summary>
-        /// Returns a fixed g (scattering anisotropy) of 0.9
+        /// Returns a fixed g (scattering anisotropy) of 0.8
         /// </summary>
         /// <param name="wavelength">The wavelength, in nanometers</param>
         /// <returns>The scattering anisotropy. This is the cosine of the average scattering angle.</returns>
-        public double GetG(double wavelength) { return 0.9; }
+        public double GetG(double wavelength) { return 0.8; }
 
         /// <summary>
         /// Returns mus based on mus' and g 

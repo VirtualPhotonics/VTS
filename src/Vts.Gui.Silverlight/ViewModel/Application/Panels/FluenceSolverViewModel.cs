@@ -56,11 +56,18 @@ namespace Vts.Gui.Silverlight.ViewModel
             FluenceSolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Fluence Solution Domain", FluenceSolutionDomainType.FluenceOfRhoAndZ);
             AbsorbedEnergySolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Absorbed Energy Solution Domain", FluenceSolutionDomainType.FluenceOfRhoAndZ);
             PhotonHittingDensitySolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("PHD Solution Domain", FluenceSolutionDomainType.FluenceOfRhoAndZ);
-
-            PropertyChangedEventHandler updateTimeFD = (sender, args) => this.OnPropertyChanged("IsTimeFrequencyDomain");
-            FluenceSolutionDomainTypeOptionVM.PropertyChanged += updateTimeFD;
-            AbsorbedEnergySolutionDomainTypeOptionVM.PropertyChanged += updateTimeFD;
-            PhotonHittingDensitySolutionDomainTypeOptionVM.PropertyChanged += updateTimeFD;
+            PropertyChangedEventHandler updateSolutionDomain = (sender, args) => 
+            {
+                if (args.PropertyName == "IndependentAxisType")
+                {
+                    RhoRangeVM = ((FluenceSolutionDomainOptionViewModel)sender).IndependentAxisType.GetDefaultIndependentAxisRange();
+                }
+                // todo: must this fire on ANY property, or is there a specific one we can listen to, as above?
+                this.OnPropertyChanged("IsTimeFrequencyDomain");
+            };
+            FluenceSolutionDomainTypeOptionVM.PropertyChanged += updateSolutionDomain;
+            AbsorbedEnergySolutionDomainTypeOptionVM.PropertyChanged += updateSolutionDomain;
+            PhotonHittingDensitySolutionDomainTypeOptionVM.PropertyChanged += updateSolutionDomain;
 
             MapTypeOptionVM = new OptionViewModel<MapType>(
                 "Map Type", 
@@ -79,15 +86,13 @@ namespace Vts.Gui.Silverlight.ViewModel
                 this.OnPropertyChanged("IsTimeFrequencyDomain");
             };
 
-            ForwardSolverTypeOptionVM.PropertyChanged +=
-                (sender, args) =>
+            ForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
                     {
                         OnPropertyChanged("ForwardSolver");
                         OnPropertyChanged("IsGaussianForwardModel");
                     };
 
             Commands.FluenceSolver_ExecuteFluenceSolver.Executed += ExecuteFluenceSolver_Executed;
-            Commands.FluenceSolver_SetIndependentVariableRange.Executed += SetIndependentVariableRange_Executed;
         }
 
         public IForwardSolver ForwardSolver
@@ -212,13 +217,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("OpticalPropertyVM");
             }
         }
-        void SetIndependentVariableRange_Executed(object sender, ExecutedEventArgs e)
-        {
-            if (e.Parameter is RangeViewModel)
-            {
-                RhoRangeVM = (RangeViewModel)e.Parameter;
-            }
-        }
 
         void ExecuteFluenceSolver_Executed(object sender, ExecutedEventArgs e)
         {
@@ -243,8 +241,10 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 axesLabels = new PlotAxesLabels(
                     sd.IndependentAxisLabel, sd.IndependentAxisUnits, sd.IndependentAxisType,
-                    sd.SelectedDisplayName, sd.SelectedValue.GetUnits(), sd.ConstantAxisLabel,
-                    sd.ConstantAxisUnits, sd.ConstantAxisValue);
+                    sd.SelectedDisplayName, sd.SelectedValue.GetUnits(),
+                    sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue,
+                    "", "", 0);// sd.ConstantAxisTwoLabel, sd.ConstantAxisTwoUnits, sd.ConstantAxisTwoValue); // wavelength-dependence not implemented for fluence
+                    
             }
             else
             {
@@ -290,7 +290,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             if (ComputationFactory.IsComplexSolver(sd.SelectedValue))
             {
 
-               IEnumerable<Complex> fluence =
+               Complex[] fluence =
                     ComputationFactory.ComputeFluenceComplex(
                         ForwardSolverTypeOptionVM.SelectedValue,
                         sd.SelectedValue,
@@ -302,7 +302,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                 switch (MapTypeOptionVM.SelectedValue)
                 {
                     case MapType.Fluence:
-                    default:
                         results = fluence.Select(f=>f.Magnitude).ToArray();
                         break;
                     case MapType.AbsorbedEnergy:
@@ -324,15 +323,16 @@ namespace Vts.Gui.Silverlight.ViewModel
                             case FluenceSolutionDomainType.FluenceOfFxAndZAndFt:
                                 break;
                             default:
-                                throw new ArgumentOutOfRangeException();
+                                throw new ArgumentOutOfRangeException("FluenceSolutionDomainType");
                         }
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException("MapType");
                 }
 
             }
             else
             {
-
                 double[] fluence =
                     ComputationFactory.ComputeFluence(
                         ForwardSolverTypeOptionVM.SelectedValue,
@@ -345,7 +345,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                 switch (MapTypeOptionVM.SelectedValue)
                 {
                     case MapType.Fluence:
-                    default:
                         results = fluence;
                         break;
                     case MapType.AbsorbedEnergy:
@@ -370,9 +369,11 @@ namespace Vts.Gui.Silverlight.ViewModel
                             case FluenceSolutionDomainType.FluenceOfFxAndZAndTime:
                                 break;
                             default:
-                                throw new ArgumentOutOfRangeException();
+                                throw new ArgumentOutOfRangeException("PhotonHittingDensitySolutionDomainTypeOptionVM.SelectedValue");
                         }
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException("MapTypeOptionVM.SelectedValue");
                 }
 
             }
@@ -419,7 +420,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 case MapType.PhotonHittingDensity:
                     return PhotonHittingDensitySolutionDomainTypeOptionVM;
                 default:
-                    throw new InvalidEnumArgumentException("No solution domain of the specified type exists.");
+                    throw new ArgumentException("No solution domain of the specified type exists.", "MapTypeOptionVM.SelectedValue");
             }
         }
     }

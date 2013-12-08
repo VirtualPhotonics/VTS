@@ -1,16 +1,18 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Automation;
 using SLExtensions.Input;
 using Vts.Factories;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
 using Vts.Gui.Silverlight.Extensions;
-
 #if WHITELIST
 using Vts.Gui.Silverlight.ViewModel.Application;
 #endif
+using Vts.SpectralMapping;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {
@@ -25,6 +27,9 @@ namespace Vts.Gui.Silverlight.ViewModel
         private RangeViewModel _RangeVM;
         private OpticalPropertyViewModel _OpticalPropertyVM;
 
+        private bool _showOpticalProperties;
+        private bool _useSpectralPanelData;
+
         // todo: This should be handled by a Controller, not dealt with directly
         // by the ViewModel. Job of ViewModel is just to "surface" Model information
         // to the View - shouldn't have to do any appreciable work/thinking/analysis.
@@ -35,15 +40,17 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public ForwardSolverViewModel()
         {
-            RangeVM = new RangeViewModel { Title = "Detection Parameters:" };
-            OpticalPropertyVM = new OpticalPropertyViewModel { Title = "Optical Properties:" };
+            _showOpticalProperties = true;
+            _useSpectralPanelData = false;
 
+            RangeVM = new RangeViewModel { Title = "Detection Parameters" };
+            OpticalPropertyVM = new OpticalPropertyViewModel { Title = "Optical Properties" };
             // right now, we're doing manual databinding to the selected item. need to enable databinding 
             // confused, though - do we need to use strings? or, how to make generics work with dependency properties?
 #if WHITELIST 
-            ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model:",false, WhiteList.ForwardSolverTypes);
+            ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model",false, WhiteList.ForwardSolverTypes);
 #else 
-            ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model:",false);
+            ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model",false);
 #endif
             ForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
             {
@@ -51,14 +58,75 @@ namespace Vts.Gui.Silverlight.ViewModel
                   OnPropertyChanged("ForwardSolver");
             };
 
-            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain:", SolutionDomainType.ROfRho);
+            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
+            Action<double> updateSolutionDomainWithWavelength = wv =>
+            {
+                if (SolutionDomainTypeOptionVM.ConstantAxisType == IndependentVariableAxis.Wavelength)
+                {
+                    SolutionDomainTypeOptionVM.ConstantAxisValue = wv;
+                }
+                else if (SolutionDomainTypeOptionVM.ConstantAxisTwoType == IndependentVariableAxis.Wavelength)
+                {
+                    SolutionDomainTypeOptionVM.ConstantAxisTwoValue = wv;
+                }
+            };
+            SolutionDomainTypeOptionVM.PropertyChanged += (sender, args) => 
+            {
+                if (args.PropertyName == "UseSpectralInputs")
+                {
+                    if (SolutionDomainTypeOptionVM.UseSpectralInputs)
+                    {
+                        UseSpectralPanelData = true;
+                    }
+                    else
+                    {
+                        UseSpectralPanelData = false;
+                    }
+                }
+                if (args.PropertyName == "IndependentAxisType")
+                {
+                    // if using spectral panel inputs, assign RangeVM, tissue, etc, accordingly
+                    if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
+                    {
+                        //// if the independent axis is wavelength, then hide optical properties (because they come from spectral panel)
+                        if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength)
+                        {
+                            ShowOpticalProperties = false; // don't show optical properties at all
+                            RangeVM = SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM; // bind to same instance, not a copy
+                        }
+                        else // still show optical properties and wavelength, but link them to spectral panel and pull wavelength
+                        {
+                            ShowOpticalProperties = true;
+                            RangeVM = SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
+                            updateSolutionDomainWithWavelength(SolverDemoViewModel.Current.SpectralMappingVM.Wavelength);
+                        }
+                        //_spectralPanelTissue = SolverDemoViewModel.Current.SpectralMappingVM.SelectedTissue; ... (or, do this at execution time?)s
+                    }
+                    else
+                    {
+                        ShowOpticalProperties = true;
+                        RangeVM = SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
+                    }
+                }
+            };
 
-            ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output:", true);
-
-            SolutionDomainTypeOptionVM.SolverType = SolverType.Forward;
+            ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output", true);
             
+            Commands.Spec_UpdateWavelength.Executed += (sender, args) =>
+            {
+                if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
+                {
+                    updateSolutionDomainWithWavelength(SolverDemoViewModel.Current.SpectralMappingVM.Wavelength);
+                }
+            };
+            Commands.Spec_UpdateOpticalProperties.Executed += (sender, args) =>
+            {
+                if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
+                {
+                    OpticalPropertyVM.SetOpticalProperties(SolverDemoViewModel.Current.SpectralMappingVM.OpticalProperties);
+                }
+            };
             Commands.FS_ExecuteForwardSolver.Executed += ExecuteForwardSolver_Executed;
-            Commands.FS_SetIndependentVariableRange.Executed += SetIndependentVariableRange_Executed;
         }
         
         public IForwardSolver ForwardSolver
@@ -75,6 +143,26 @@ namespace Vts.Gui.Silverlight.ViewModel
             get { return ForwardSolverTypeOptionVM.SelectedValue.IsGaussianForwardModel(); }
         }
 
+        public bool ShowOpticalProperties
+        {
+            get { return _showOpticalProperties; }
+            set
+            {
+                _showOpticalProperties = value;
+                OnPropertyChanged("ShowOpticalProperties");
+            }
+        }
+
+        public bool UseSpectralPanelData
+        {
+            get { return _useSpectralPanelData; }
+            set
+            {
+                _useSpectralPanelData = value;
+                OnPropertyChanged("UseSpectralPanelData");
+            }
+        }
+
         public SolutionDomainOptionViewModel SolutionDomainTypeOptionVM
         {
             get { return _SolutionDomainTypeOptionVM; }
@@ -84,6 +172,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("SolutionDomainTypeOptionVM");
             }
         }
+
         public OptionViewModel<ForwardSolverType> ForwardSolverTypeOptionVM
         {
            get { return _ForwardSolverTypeOptionVM; }
@@ -123,14 +212,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("ForwardAnalysisTypeOptionVM");
             }
         }
-        
-        void SetIndependentVariableRange_Executed(object sender, ExecutedEventArgs e)
-        {
-            if (e.Parameter is RangeViewModel)
-            {
-                RangeVM = (RangeViewModel)e.Parameter;
-            }
-        }
 
         void ExecuteForwardSolver_Executed(object sender, ExecutedEventArgs e)
         {
@@ -167,8 +248,9 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 axesLabels = new PlotAxesLabels(
                     sd.IndependentAxisLabel, sd.IndependentAxisUnits, sd.IndependentAxisType,
-                    sd.SelectedDisplayName, sd.SelectedValue.GetUnits(), sd.ConstantAxisLabel,
-                    sd.ConstantAxisUnits, sd.ConstantAxisValue);
+                    sd.SelectedDisplayName, sd.SelectedValue.GetUnits(),
+                    sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue,
+                    sd.ConstantAxisTwoLabel, sd.ConstantAxisTwoUnits, sd.ConstantAxisTwoValue);
             }
             else
             {
@@ -203,13 +285,13 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public Point[][] ExecuteForwardSolver()
         {
-            double[] independentValues = RangeVM.Values.ToArray(); // ToList() necessary?
+            double[] independentValues = RangeVM.Values.ToArray();
             
             double[] constantValues =
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                     ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
-            double[] query = ComputationFactory.ComputeReflectance(
+            double[] reflectance = ComputationFactory.ComputeReflectance(
                 ForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisTypeOptionVM.SelectedValue,
@@ -218,31 +300,25 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OpticalPropertyVM.GetOpticalProperties(),
                 constantValues);
 
-            // if it's reporting Real + Imaginary, we need two vectors
+            var numPoints = independentValues.Length;
             if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
             {
-                var real = query.Take(independentValues.Length).ToArray();
-                var imag = query.Skip(independentValues.Length).Take(independentValues.Length).ToArray();
-
-                return new[] {
-                    Enumerable.Zip(
-                        independentValues,
-                        real,
-                        (x, y) => new Point(x, y)).ToArray(),
-                    Enumerable.Zip(
-                        independentValues,
-                        imag, 
-                        (x, y) => new Point(x, y)).ToArray()
-                };
+                var points = new[] { new Point[numPoints], new Point[numPoints] };
+                for (int i = 0; i < numPoints; i++)
+                {
+                    points[0][i] = new Point(independentValues[i], reflectance[i]);
+                    points[1][i] = new Point(independentValues[i], reflectance[numPoints + i]); // Imaginary is stored after Real
+                }
+                return points;
             }
             else
             {
-                return new[] {
-                    Enumerable.Zip(
-                        independentValues,
-                        query, 
-                        (x, y) => new Point(x, y)).ToArray()
-                };
+                var points = new[] { new Point[numPoints] };
+                for (int i = 0; i < numPoints; i++)
+                {
+                    points[0][i] = new Point(independentValues[i], reflectance[i]);
+                }
+                return points;
             }
         }
     }

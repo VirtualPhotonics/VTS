@@ -7,16 +7,11 @@ namespace Vts.Gui.Silverlight.ViewModel
     /// </summary>
     public class BloodConcentrationViewModel : BindableObject
     {
-        #region Fields
-
         // Backing-fields for chromophores. For consistency, all other properties are
         // designed to set these values, and do not have a backing store of their own
         private IChromophoreAbsorber _Hb;
         private IChromophoreAbsorber _HbO2;
-
-        #endregion Fields
-
-        #region Constructor
+        private bool _DisplayBloodVM = true;
 
         public BloodConcentrationViewModel()
             : this(
@@ -27,52 +22,40 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
             HbO2 = hbO2;
             Hb = hb;
-            //DoubleToStringConverter myNumberFormatter = new DoubleToStringConverter();
-            //DisplayBloodConcentrationOptions();
         }
-
-        #endregion Constructor
-
-        #region Properties
 
         /// <summary>
         /// ChromophoreAbsorber representing the concentration of oxy-hemoglobin (uM)
         /// </summary>
-        private bool _DisplayBloodVM = true;
         public bool DisplayBloodVM
         {
             get { return _DisplayBloodVM; }
             set
             {
                 _DisplayBloodVM = value;
-                //if (Hb.Concentration == 0.0 || Hb == null)
-                //    _DisplayBloodVM = false;
-                //else
-                //    _DisplayBloodVM = true;
-                //this.OnPropertyChanged("Hb");
                 this.OnPropertyChanged("DisplayBloodVM");
             }
         }
+
         public IChromophoreAbsorber HbO2
         {
             get { return _HbO2; }
             set
             {
                 if (_HbO2 != null) // unsubscribe any existing property changed event
+                {
                     _HbO2.PropertyChanged -= (s, a) => UpdateStO2AndTotalHb();
+                }
 
                 if (value != null)
                 {
                     _HbO2 = value;
-                    //_HbO2.Concentration = FormatOutput(_HbO2.Concentration);
                     this.OnPropertyChanged("HbO2");
                     // subscribe to the new property changed event
                     _HbO2.PropertyChanged += (s, a) => UpdateStO2AndTotalHb();
                     // make sure that whatever's bound to StO2 and TotalHb will update
                     UpdateStO2AndTotalHb();
-
                 }
-
             }
         }
 
@@ -103,12 +86,9 @@ namespace Vts.Gui.Silverlight.ViewModel
                     _Hb.PropertyChanged += (s, a) => UpdateStO2AndTotalHb();
                     // make sure that whatever's bound to StO2 and TotalHb will update
                     UpdateStO2AndTotalHb();
-
                 }
-
             }
         }
-
 
         /// <summary>
         /// Property to specify tissue oxygen saturation (unitless)
@@ -118,10 +98,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         /// </remarks>
         public double StO2
         {
-            get
-            {
-                return HbO2.Concentration / (Hb.Concentration + HbO2.Concentration);
-            }
+            get{ return HbO2.Concentration / (Hb.Concentration + HbO2.Concentration); }
             set
             {
                 // calculate the new Hb and HbO2 values based on the existing TotalHb
@@ -187,30 +164,5 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             }
         }
-
-        #endregion Properties
-
-
-        //public double FormatOutput(double formatIn)
-        //{
-        //    return Double.Parse(formatIn.ToString("N4"));
-        //    //Hb.Concentration = Double.Parse(Hb.Concentration.ToString("N4"));
-        //    //HbO2.Concentration = Double.Parse(HbO2.Concentration.ToString("N4"));
-        //    //TotalHb = Double.Parse(TotalHb.ToString("N4"));
-        //    //BloodVolumeFraction = Double.Parse(BloodVolumeFraction.ToString("N4"));
-        //    //StO2 = Double.Parse(StO2.ToString("N4"));
-
-        //}
-        #region Methods
-        private bool DisplayBloodConcentrationOptions()
-        {
-            bool display = true;
-            if (Hb == null || Hb.Concentration == 0.0)
-                display = false;
-            return display;
-
-        }
-        #endregion Methods
-
     }
 }

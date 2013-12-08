@@ -6,9 +6,8 @@
     <controls:HeaderedItemsControl ItemsSource="{Binding Options.Values}" >
             <controls:HeaderedItemsControl.Header>
                 <TextBlock Text="{Binding GroupName, Mode=TwoWay}"
-                    Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}" 
-                    FontSize="16" 
-                    TextDecorations="Underline" />
+                    Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}"
+                    FontWeight="Bold"/>
             </controls:HeaderedItemsControl.Header>
             <controls:HeaderedItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -22,7 +21,7 @@
                                  Content="{Binding DisplayName, Mode=TwoWay}"
                                  IsChecked="{Binding IsSelected, Mode=TwoWay}"
                                  GroupName="{Binding GroupName, Mode=TwoWay}"
-                                 Margin="2,4"/>
+                                 Margin="1.5,3"/>
                 </DataTemplate>
             </controls:HeaderedItemsControl.ItemTemplate>
         </controls:HeaderedItemsControl>

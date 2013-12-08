@@ -35,19 +35,19 @@
 
         	<TextBlock Text="Mesh Info" FontWeight="Bold"/>
         	<StackPanel Orientation="Horizontal">
-        		<TextBlock Text="Spatial Mesh Levels: "/>
+                <TextBlock Text="Spatial Mesh Levels:" Margin="3,0,2,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
         		<TextBox Text="{Binding SMeshLevel, Mode=TwoWay}" Width="34" Height="22"/>
-        		<TextBlock Text="  Angular Mesh Levels: "/>
+                <TextBlock Text="Angular Mesh Levels:" Margin="5,0,2,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
         		<TextBox Text="{Binding AMeshLevel, Mode=TwoWay}" Width="34" Height="22"/>
         	</StackPanel>
         	
         	<TextBlock Text="Simulation Options (for Advanced users)" FontWeight="Bold"/>
         	<StackPanel Orientation="Horizontal">
-        		<TextBlock Text="Multi-grid Type: "/>
-                <TextBox Text="{Binding MethodMg, Mode=TwoWay}" Width="24" Height="22" RenderTransformOrigin="0.471,0.5"/>
-        		<TextBlock Text="    Max. Iterations: "/>
+                <TextBlock Text="Multi-grid Type:" Margin="3,0,2,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding MethodMg, Mode=TwoWay}" Width="24" Height="22"/>
+                <TextBlock Text="Max. Iterations:" Margin="5,0,2,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBox Text="{Binding NIterations, Mode=TwoWay}" Width="44" Height="22"/>
-        		<TextBlock Text="   Tolerance: "/>
+                <TextBlock Text="Tolerance:" Margin="5,0,2,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <TextBox Text="{Binding ConvTolerance, Mode=TwoWay}" Width="60" Height="22"/>
         	</StackPanel>
 

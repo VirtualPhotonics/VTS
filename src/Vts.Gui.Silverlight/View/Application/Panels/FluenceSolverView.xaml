@@ -6,8 +6,10 @@
     xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
         <!-- Solver Engine -->
-        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=MainResource.Label_ForwardSolver, Source={StaticResource LocalizedStrings }}" FontSize="12" FontWeight="Bold" Margin="3,3" />
-        <v:ComboBoxOptionView  DataContext="{Binding ForwardSolverTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,0,0,0"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Path=MainResource.Label_ForwardSolver, Source={StaticResource LocalizedStrings }}" FontWeight="Bold" Width="75"/>
+            <v:ComboBoxOptionView  DataContext="{Binding ForwardSolverTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
         <!-- Map Type -->
         <v:RadioButtonOptionView DataContext="{Binding MapTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <!-- Gaussian Beam Diameter -->
@@ -51,17 +53,17 @@
             <TextBlock Text="{Binding Path=MainResource.Measurement_GHz, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center"/>
         </StackPanel>
         <!-- Rho Range -->
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="{Binding Path=MainResource.Label_RhoRange, Source={StaticResource LocalizedStrings}}" Margin="5,0,5,0" VerticalAlignment="Center"/>
+        <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+            <TextBlock Text="{Binding Path=MainResource.Label_RhoRange, Source={StaticResource LocalizedStrings}}" Margin="3,7,0,0" VerticalAlignment="Center"/>
             <v:RangeView DataContext="{Binding RhoRangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </StackPanel>
         <!-- z Range -->
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="{Binding Path=MainResource.Label_zRange, Source={StaticResource LocalizedStrings}}" Margin="5,0,15,0" VerticalAlignment="Center"/>
+        <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+            <TextBlock Text="{Binding Path=MainResource.Label_zRange, Source={StaticResource LocalizedStrings}}" Margin="3,7,0,0" VerticalAlignment="Center"/>
             <v:RangeView DataContext="{Binding ZRangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </StackPanel>
         <!-- Optical Properties -->
-        <v:OpticalPropertyView Mua="1.0" DataContext="{Binding OpticalPropertyVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <v:OpticalPropertyView Mua="1.0" DataContext="{Binding OpticalPropertyVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
             <!-- This Radio button choice does not appear on the panel -->
             <v:RadioButtonOptionView DataContext="{Binding ForwardAnalysisTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top"/>

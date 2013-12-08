@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Windows;
 using Vts.Gui.Silverlight.Input;
@@ -19,21 +20,28 @@ namespace Vts.Gui.Silverlight.ViewModel
         private string _ConstantAxisLabel;
         private string _ConstantAxisUnits;
 
+        // dc additions for reflectance vs wavelength at fixed space/time
+        private IndependentVariableAxis _ConstantAxisTwoType;
+        private double _ConstantAxisTwoValue;
+        private string _ConstantAxisTwoLabel;
+        private string _ConstantAxisTwoUnits;
+
         private IndependentVariableAxis _IndependentAxisType;
         private string _IndependentAxisLabel;
         private string _IndependentAxisUnits;
 
         private bool _constantLabelVisible;
+        private bool _constantLabelTwoVisible;
         private double _ConstantAxisValueImageHeight;
+        private double _ConstantAxisValueTwoImageHeight;
 
-        //Need to know what Solver panel is selected so we can trigger the correct command
-        //todo: Needs to be rewritten so that this UserControl is not aware of the container
-        private SolverType _SolverType;
+        private bool _useSpectralInputs;
 
         public SolutionDomainOptionViewModel(string groupName, SolutionDomainType defaultType)
             : base(groupName)
         {
-            //InitializeControls();
+            _useSpectralInputs = false;
+
             ROfRhoOption = Options[SolutionDomainType.ROfRho];
             ROfFxOption = Options[SolutionDomainType.ROfFx];
             ROfRhoAndTimeOption = Options[SolutionDomainType.ROfRhoAndTime];
@@ -43,8 +51,9 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             this.PropertyChanged += (sender, args) =>
             {
-                if (sender is SolutionDomainOptionViewModel &&
-                    args.PropertyName == "SelectedValue")
+                if (sender is SolutionDomainOptionViewModel && 
+                    args.PropertyName == "SelectedValue" ||
+                    args.PropertyName == "UseSpectralInputs")
                     UpdateOptions(SelectedValue);
             };
             UpdateOptions(defaultType);
@@ -52,6 +61,8 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public SolutionDomainOptionViewModel()
             : this("", SolutionDomainType.ROfRho) { }
+
+        public event EventHandler SettingsLoaded = delegate { };
 
         public OptionModel<SolutionDomainType> ROfRhoOption { get; private set; }
         public OptionModel<SolutionDomainType> ROfFxOption { get; private set; }
@@ -69,6 +80,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("IndependentVariableAxisOptionVM");
             }
         }
+
         public IndependentVariableAxis IndependentAxisType
         {
             get { return _IndependentAxisType; }
@@ -78,6 +90,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("IndependentAxisType");
             }
         }
+
         public string IndependentAxisLabel
         {
             get { return _IndependentAxisLabel; }
@@ -87,6 +100,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("IndependentAxisLabel");
             }
         }
+
         public string IndependentAxisUnits
         {
             get { return _IndependentAxisUnits; }
@@ -107,15 +121,21 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("ConstantAxisType");
             }
         }
+
         public double ConstantAxisValue
         {
             get { return _ConstantAxisValue; }
             set
             {
                 _ConstantAxisValue = value;
+                if (ConstantAxisType == IndependentVariableAxis.Wavelength)
+                {
+                    Commands.SD_SetWavelength.Execute(_ConstantAxisValue);
+                }
                 OnPropertyChanged("ConstantAxisValue");
             }
         }
+
         public string ConstantAxisLabel
         {
             get { return _ConstantAxisLabel; }
@@ -125,6 +145,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("ConstantAxisLabel");
             }
         }
+
         public string ConstantAxisUnits
         {
             get { return _ConstantAxisUnits; }
@@ -134,17 +155,76 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("ConstantAxisUnits");
             }
         }
+        
+        //dc additions for data vs lambda at fixed time & space
+        public IndependentVariableAxis ConstantAxisTwoType
+        {
+            get { return _ConstantAxisTwoType; }
+            set
+            {
+                _ConstantAxisTwoType = value;
+
+                OnPropertyChanged("ConstantAxisTwoType");
+            }
+        }
+
+        public double ConstantAxisTwoValue
+        {
+            get { return _ConstantAxisTwoValue; }
+            set
+            {
+                _ConstantAxisTwoValue = value;
+                // update the world that this has changed, and react to it if desired (e.g. in Spectral Panel)
+                if (ConstantAxisTwoType == IndependentVariableAxis.Wavelength)
+                {
+                    Commands.SD_SetWavelength.Execute(_ConstantAxisTwoValue);
+                }
+                OnPropertyChanged("ConstantAxisTwoValue");
+            }
+        }
+
+        public string ConstantAxisTwoLabel
+        {
+            get { return _ConstantAxisTwoLabel; }
+            set
+            {
+                _ConstantAxisTwoLabel = value;
+                OnPropertyChanged("ConstantAxisTwoLabel");
+            }
+        }
+
+        public string ConstantAxisTwoUnits
+        {
+            get { return _ConstantAxisTwoUnits; }
+            set
+            {
+                _ConstantAxisTwoUnits = value;
+                OnPropertyChanged("ConstantAxisTwoUnits");
+            }
+        }
+
         public bool ConstantLabelVisible
         {
             get { return _constantLabelVisible; }
             set
             {
                 _constantLabelVisible = value;
-
                 ConstantAxisValueImageHeight = ConstantLabelVisible ? 50 : 0;
                 OnPropertyChanged("ConstantLabelVisible");
             }
         }
+
+        public bool ConstantLabelTwoVisible
+        {
+            get { return _constantLabelTwoVisible; }
+            set
+            {
+                _constantLabelTwoVisible = value;
+                ConstantAxisValueTwoImageHeight = ConstantLabelTwoVisible ? 50 : 0;
+                OnPropertyChanged("ConstantLabelTwoVisible");
+            }
+        }
+
         public double ConstantAxisValueImageHeight
         {
             get { return _ConstantAxisValueImageHeight; }
@@ -154,13 +234,24 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("ConstantAxisValueImageHeight");
             }
         }
-        public SolverType SolverType
+
+        public double ConstantAxisValueTwoImageHeight
         {
-            get { return _SolverType; }
+            get { return _ConstantAxisValueTwoImageHeight; }
             set
             {
-                _SolverType = value;
-                OnPropertyChanged("SolverType");
+                _ConstantAxisValueTwoImageHeight = value;
+                OnPropertyChanged("ConstantAxisValueTwoImageHeight");
+            }
+        }
+
+        public bool UseSpectralInputs
+        {
+            get { return _useSpectralInputs; }
+            set
+            {
+                _useSpectralInputs = value;
+                OnPropertyChanged("UseSpectralInputs");
             }
         }
 
@@ -169,42 +260,49 @@ namespace Vts.Gui.Silverlight.ViewModel
             switch (selectedType)
             {
                 case SolutionDomainType.ROfRho:
-                default:
-                    IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
-                            new[] { IndependentVariableAxis.Rho });
-                    ConstantLabelVisible = false;
+                    IndependentVariableAxisOptionVM = UseSpectralInputs 
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Wavelength })
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, new[] { IndependentVariableAxis.Rho});
+                    ConstantLabelVisible = UseSpectralInputs;
+                    ConstantLabelTwoVisible = false;
                     break;
                 case SolutionDomainType.ROfFx:
-                    IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
-                            new[] { IndependentVariableAxis.Fx });
-                    ConstantLabelVisible = false;
+                    IndependentVariableAxisOptionVM = UseSpectralInputs 
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Wavelength })
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx });
+                    ConstantLabelVisible = UseSpectralInputs;
+                    ConstantLabelTwoVisible = false;
                     break;
                 case SolutionDomainType.ROfRhoAndTime:
-                    IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
-                            new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time });
+                    IndependentVariableAxisOptionVM = UseSpectralInputs 
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time, IndependentVariableAxis.Wavelength })
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time });
                     ConstantLabelVisible = true;
+                    ConstantLabelTwoVisible = UseSpectralInputs;
                     break;
                 case SolutionDomainType.ROfFxAndTime:
-                    IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
-                            new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Time });
+                    IndependentVariableAxisOptionVM = UseSpectralInputs 
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Time, IndependentVariableAxis.Wavelength })
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Time });
                     ConstantLabelVisible = true;
+                    ConstantLabelTwoVisible = UseSpectralInputs;
                     break;
                 case SolutionDomainType.ROfRhoAndFt:
-                    IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
-                            new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft });
+                    IndependentVariableAxisOptionVM = UseSpectralInputs 
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft, IndependentVariableAxis.Wavelength })
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
+                    ConstantLabelTwoVisible = UseSpectralInputs;
                     break;
                 case SolutionDomainType.ROfFxAndFt:
-                    IndependentVariableAxisOptionVM =
-                        new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx,
-                            new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft });
+                    IndependentVariableAxisOptionVM = UseSpectralInputs 
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft, IndependentVariableAxis.Wavelength })
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
+                    ConstantLabelTwoVisible = UseSpectralInputs;
                     break;
+                default:
+                    throw new NotImplementedException("selectedType");
             }
             // create a new callback based on the new viewmodel
             IndependentVariableAxisOptionVM.PropertyChanged += (s, a) => UpdateAxes();
@@ -218,21 +316,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             IndependentAxisLabel = IndependentVariableAxisOptionVM.SelectedDisplayName;
             IndependentAxisUnits = IndependentAxisType.GetUnits();
 
-            //todo: expose AfterUpdateAxes() event and wire these up from parent VM
-            switch (SolverType)
-            {
-                case SolverType.Fluence:
-                    Commands.FluenceSolver_SetIndependentVariableRange.Execute(GetDefaultIndependentAxisRange(IndependentAxisType));
-                    break;
-                case SolverType.Inverse:
-                    Commands.IS_SetIndependentVariableRange.Execute(GetDefaultIndependentAxisRange(IndependentAxisType));
-                    break;
-                case SolverType.Forward:
-                default:
-                    Commands.FS_SetIndependentVariableRange.Execute(GetDefaultIndependentAxisRange(IndependentAxisType));
-                    break;
-            }
-
             if (IndependentVariableAxisOptionVM.Options.Count > 1)
             {
                 // this filters to find the *other* choice (the one not selected).
@@ -242,16 +325,18 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ConstantAxisType = constantAxisOption.Value;
                 ConstantAxisLabel = constantAxisOption.DisplayName;
                 ConstantAxisUnits = ConstantAxisType.GetUnits();
-
                 ConstantAxisValue = ConstantAxisType.GetDefaultConstantAxisValue();
+
+                var constantAxisTwoOptionQuery = IndependentVariableAxisOptionVM.Options.Where(o => o.Key != IndependentAxisType).Skip(1).Take(1);
+                if (constantAxisTwoOptionQuery.Any())
+                {
+                    var constantAxisTwoOption = constantAxisTwoOptionQuery.First().Value;
+                    ConstantAxisTwoType = constantAxisTwoOption.Value;
+                    ConstantAxisTwoLabel = constantAxisTwoOption.DisplayName;
+                    ConstantAxisTwoUnits = ConstantAxisTwoType.GetUnits();
+                    ConstantAxisTwoValue = ConstantAxisTwoType.GetDefaultConstantAxisValue();
+                }
             }
         }
-
-        private RangeViewModel GetDefaultIndependentAxisRange(IndependentVariableAxis independentAxisType)
-        {
-            return new RangeViewModel(independentAxisType.GetDefaultRange(), independentAxisType.GetUnits(), independentAxisType.GetTitle());
-        }
-
-
     }
 }

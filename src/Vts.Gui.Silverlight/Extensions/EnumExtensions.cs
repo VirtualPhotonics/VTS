@@ -1,4 +1,6 @@
+using System;
 using Vts.Common;
+using Vts.Gui.Silverlight.ViewModel;
 
 namespace Vts.Gui.Silverlight.Extensions
 {
@@ -24,7 +26,6 @@ namespace Vts.Gui.Silverlight.Extensions
             switch (axis)
             {
                 case IndependentVariableAxis.Rho:
-                default:
                     return 0;
                 case IndependentVariableAxis.Time:
                     return 2;
@@ -34,6 +35,8 @@ namespace Vts.Gui.Silverlight.Extensions
                     return 2;
                 case IndependentVariableAxis.Z:
                     return 1;
+                default:
+                    throw new NotImplementedException("Independent axis " + axis + " is not implemented for this software feature.");
             }
         }
 
@@ -50,6 +53,8 @@ namespace Vts.Gui.Silverlight.Extensions
                     return IndependentVariableAxisUnits.InverseMM.GetInternationalizedString();
                 case IndependentVariableAxis.Ft:
                     return IndependentVariableAxisUnits.GHz.GetInternationalizedString();
+                case IndependentVariableAxis.Wavelength:
+                    return IndependentVariableAxisUnits.NM.GetInternationalizedString();
             }
         }
 
@@ -66,6 +71,8 @@ namespace Vts.Gui.Silverlight.Extensions
                     return IndependentVariableAxis.Fx.GetLocalizedString();
                 case IndependentVariableAxis.Ft:
                     return IndependentVariableAxis.Ft.GetLocalizedString();
+                case IndependentVariableAxis.Wavelength:
+                    return IndependentVariableAxis.Wavelength.GetLocalizedString();
             }
         }
 
@@ -143,7 +150,10 @@ namespace Vts.Gui.Silverlight.Extensions
                     return 650.0;
             }
         }
-
-
+        
+        public static RangeViewModel GetDefaultIndependentAxisRange(this IndependentVariableAxis independentAxisType)
+        {
+            return new RangeViewModel(independentAxisType.GetDefaultRange(), independentAxisType.GetUnits(), independentAxisType.GetTitle());
+        }
     }
 }

@@ -36,17 +36,23 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public InverseSolverViewModel()
         {
-            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain:", SolutionDomainType.ROfRho);
             RangeVM = new RangeViewModel { Title = "" };
 
-            SolutionDomainTypeOptionVM.SolverType = SolverType.Inverse;
+            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
+            SolutionDomainTypeOptionVM.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == "IndependentAxisType")
+                {
+                    RangeVM = SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
+                }
+            };
 
             // todo: white-list solvers as in ForwardSolverViewModel
             MeasuredForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
                 "Forward Model Engine",
                 false);
 
-            MeasuredDataTypeOptionVM = new OptionViewModel<MeasuredDataType>("Measured Data Type:");
+            MeasuredDataTypeOptionVM = new OptionViewModel<MeasuredDataType>("Measured Data Type");
             MeasuredDataTypeOptionVM.PropertyChanged += (sender, args) =>
                 OnPropertyChanged("MeasuredForwardSolver");
 
@@ -57,11 +63,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             InverseForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
                 OnPropertyChanged("InverseForwardSolver");
 
-            OptimizerTypeOptionVM = new OptionViewModel<OptimizerType>("Optimizer Type:", true);
+            OptimizerTypeOptionVM = new OptionViewModel<OptimizerType>("Optimizer Type", true);
             OptimizerTypeOptionVM.PropertyChanged += (sender, args) =>
                 OnPropertyChanged("Optimizer");
 
-            InverseFitTypeOptionVM = new OptionViewModel<InverseFitType>("Optimization Parameters:", true);
+            InverseFitTypeOptionVM = new OptionViewModel<InverseFitType>("Optimization Parameters", true);
             //InverseFitTypeOptionVM.PropertyChanged += (sender, args) => UpdateModels();
 
             MeasuredOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "" };
@@ -71,8 +77,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             SimulateMeasuredDataCommand = new RelayCommand(() => SimulateMeasuredDataCommand_Executed(null, null));
             CalculateInitialGuessCommand = new RelayCommand(() => CalculateInitialGuessCommand_Executed(null, null));
             SolveInverseCommand = new RelayCommand(() => SolveInverseCommand_Executed(null, null));
-
-            Commands.IS_SetIndependentVariableRange.Executed += SetIndependentVariableRange_Executed;
         }
 
         public RelayCommand SimulateMeasuredDataCommand { get; set; }
@@ -385,8 +389,9 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 axesLabels = new PlotAxesLabels(
                     sd.IndependentAxisLabel, sd.IndependentAxisUnits, sd.IndependentAxisType,
-                    sd.SelectedDisplayName, sd.SelectedValue.GetUnits(), sd.ConstantAxisLabel,
-                    sd.ConstantAxisUnits, sd.ConstantAxisValue);
+                    sd.SelectedDisplayName, sd.SelectedValue.GetUnits(), 
+                    sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue,
+                    sd.ConstantAxisTwoLabel, sd.ConstantAxisTwoUnits, sd.ConstantAxisTwoValue);
             }
             else
             {

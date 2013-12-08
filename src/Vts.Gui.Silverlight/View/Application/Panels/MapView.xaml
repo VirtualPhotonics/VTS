@@ -84,7 +84,7 @@
                    Source="{Binding ColorBar}" Stretch="Fill" />
             <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3">
                 <!-- Color map dropdown -->
-                <v:ComboBoxOptionView DataContext="{Binding ColormapTypeOptionVM}" Margin="5,0,5,0"/>
+                <v:ComboBoxOptionView DataContext="{Binding ColormapTypeOptionVM}" Margin="3,0,0,0"/>
                 <!-- Export buttons -->
                 <Button Content="{Binding Path=MainResource.Button_ExportImage, Source={StaticResource LocalizedStrings}}" Click="Button_Click" Margin="5,0,5,0"/>
                 

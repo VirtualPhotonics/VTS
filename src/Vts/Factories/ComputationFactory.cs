@@ -5,12 +5,12 @@ using System.Numerics;
 using Vts.Extensions;
 using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers.Extensions;
-
 #if DESKTOP
 using System.Runtime.InteropServices;
 using Vts.SpectralMapping;
 
 #endif
+using Vts.SpectralMapping;
 
 namespace Vts.Factories
 {
@@ -435,7 +435,27 @@ namespace Vts.Factories
             switch (type)
             {
                 case SolutionDomainType.ROfRho:
-                    return (fitData, otherData) => fs.ROfRho(getOP(fitData), (double[])otherData[0]);
+                    switch (axis)
+                    {
+                        case IndependentVariableAxis.Rho:
+                            return (fitData, otherData) => fs.ROfRho(getOP(fitData), (double[])otherData[0]);
+                        case IndependentVariableAxis.Wavelength:
+                            return (fitData, otherData) =>
+                            {
+                                var wv = (double[])otherData[0];
+                                var rho = (double)otherData[1];
+                                var tissue = (Tissue)otherData[2];
+                                var numAbsorbers = tissue.Absorbers.Count;
+                                tissue.Absorbers.ForEach((absorber, i) => absorber.Concentration = fitData[i]);
+                                var A = fitData[numAbsorbers + 0];
+                                var b = fitData[numAbsorbers + 1];
+                                tissue.Scatterer = new PowerLawScatterer(A, b);
+                                var ops = wv.Select(tissue.GetOpticalProperties).ToArray();
+                                return ops.Select(opi => fs.ROfRho(opi, rho)).ToArray();
+                            };
+                        default:
+                            throw new ArgumentOutOfRangeException("axis");
+                    }
                 case SolutionDomainType.ROfFx:
                     return (fitData, otherData) => fs.ROfFx(getOP(fitData), (double[])otherData[0]);
                 case SolutionDomainType.ROfRhoAndTime:

@@ -16,16 +16,10 @@ namespace Vts.Gui.Silverlight.ViewModel
         public LayerRegionViewModel(LayerRegion region, string name)
         {
             _region = region;
-            if (string.IsNullOrEmpty(name))
-            {
-                _name = _region.IsAir() ? "Air" : "Tissue";
-            }
-            else
-            {
-                _name = name;
-            }
+            _name = name ?? "";
             _zRangeVM = new RangeViewModel(_region.ZRange, "mm", "", false);
             _opticalPropertyVM = new OpticalPropertyViewModel(_region.RegionOP, "mm-1", "", true, true, true, true);
+            _opticalPropertyVM.PropertyChanged += (s, a) => OnPropertyChanged("Name");
         }
 
         //public LayerRegionViewModel(LayerRegion region) : this(region, "")
@@ -49,7 +43,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public string Name
         {
-            get { return _name; }
+            get { return _name + (_region.IsAir() ? " (Air)" : " (Tissue)"); }
             set
             {
                 _name = value;
@@ -69,10 +63,5 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public bool IsLayer { get { return true; } }
         public bool IsEllipsoid { get { return false; } }
-
-        //public LayerRegion GetLayerRegion()
-        //{
-        //    return _region;
-        //}
     }
 }

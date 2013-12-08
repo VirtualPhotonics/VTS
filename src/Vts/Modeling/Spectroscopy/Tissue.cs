@@ -74,6 +74,7 @@ namespace Vts.SpectralMapping
             TissueType = tissueType;
             Absorbers = TissueProvider.CreateAbsorbers(tissueType);
             Scatterer = TissueProvider.CreateScatterer(tissueType);
+            N = 1.4;
         }
         
         /// <summary>
