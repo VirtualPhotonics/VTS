@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,9 +43,14 @@ namespace Vts.Gui.Silverlight.ViewModel
 #endif
             ScatteringTypeVM.PropertyChanged += (sender, args) =>
             {
-                if (SelectedTissue.ScattererType != ScatteringTypeVM.SelectedValue)
+                if (args.PropertyName == "SelectedValue" && SelectedTissue != null)//SelectedTissue.ScattererType != ScatteringTypeVM.SelectedValue)
                 {
                     SelectedTissue.Scatterer = SolverFactory.GetScattererType(ScatteringTypeVM.SelectedValue);
+                    var bindableScatterer = SelectedTissue.Scatterer as INotifyPropertyChanged;
+                    if (bindableScatterer != null)
+                    {
+                        bindableScatterer.PropertyChanged += (s, a) => UpdateOpticalProperties();
+                    }
                     //LM - Temporary Fix to reset the tissue type after a new scatterer is created
                     if (SelectedTissue.ScattererType == ScatteringType.PowerLaw)
                     {
@@ -82,6 +88,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             BloodConcentrationVM.PropertyChanged += (sender, args) => UpdateOpticalProperties();
 
             SelectedTissue = Tissues.First();
+            ScatteringTypeVM.SelectedValue = SelectedTissue.ScattererType; // forces update to all bindings established in hanlder for ScatteringTypeVM.PropertyChanged above
             ScatteringTypeName = SelectedTissue.GetType().FullName;
             OpticalProperties = new OpticalProperties(0.01, 1, 0.8, 1.4);
             Wavelength = 650;
