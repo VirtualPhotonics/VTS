@@ -101,7 +101,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 _wavelength = (double)args.Parameter;
                 UpdateOpticalProperties();
                 // Commands.Spec_UpdateWavelength.Execute(_wavelength); (don't do this)
-                Commands.Spec_UpdateOpticalProperties.Execute(OpticalProperties);
+                
                 this.OnPropertyChanged("Wavelength");
             };
         }
@@ -207,7 +207,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                 _wavelength = value;
                 UpdateOpticalProperties();
                 Commands.Spec_UpdateWavelength.Execute(_wavelength);
-                Commands.Spec_UpdateOpticalProperties.Execute(OpticalProperties);
                 this.OnPropertyChanged("Wavelength");
             }
         }
@@ -285,6 +284,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             this.OnPropertyChanged("G");
             this.OnPropertyChanged("N");
             this.OnPropertyChanged("OpticalProperties");
+            Commands.Spec_UpdateOpticalProperties.Execute(OpticalProperties);
         }
 
         void PlotMuaSpectra_Executed(object sender, ExecutedEventArgs e)
