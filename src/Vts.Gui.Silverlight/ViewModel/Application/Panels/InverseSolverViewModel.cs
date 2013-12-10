@@ -306,26 +306,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         
         public Point[][] MeasuredDataPoints
         {
-            get
-            {
-                // if it's reporting Real + Imaginary, we need a vector twice as long
-                if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
-                {
-                    var numValues = RangeVM.Number;
-                    var real = MeasuredDataValues.Take(numValues);
-                    var imag = MeasuredDataValues.Skip(numValues).Take(numValues);
-
-                    return new[] {
-                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
-                            RangeVM.Values, real, (x, y) => new Point(x, y))),
-                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
-                            RangeVM.Values, imag, (x, y) => new Point(x, y)))
-                    };
-                }
-
-                return new[] { new Point[RangeVM.Number].PopulateFromEnumerable2(Enumerable.Zip(RangeVM.Values, MeasuredDataValues, (x, y) => new Point(x, y))) };
-
-            }
+            get { return GetPoints(RangeVM.Values.ToArray(), MeasuredDataValues, ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue)); }
         }
 
         public double[] MeasuredDataValues
@@ -336,24 +317,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public Point[][] InitialGuessDataPoints
         {
-            get
-            {
-                // if it's reporting Real + Imaginary, we need a vector twice as long
-                if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
-                {
-                    var numValues = RangeVM.Number;
-                    var real = InitialGuessDataValues.Take(numValues);
-                    var imag = InitialGuessDataValues.Skip(numValues).Take(numValues);
-                    return new[] {
-                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
-                            RangeVM.Values, real, (x, y) => new Point(x, y))),
-                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
-                            RangeVM.Values, imag, (x, y) => new Point(x, y)))
-                    };
-                }
-
-                return new[] {new Point[ RangeVM.Number].PopulateFromEnumerable2( Enumerable.Zip(RangeVM.Values, InitialGuessDataValues, (x, y) => new Point(x, y))) };
-            }
+            get { return GetPoints(RangeVM.Values.ToArray(), InitialGuessDataValues, ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue)); }
         }
 
         public double[] InitialGuessDataValues
@@ -364,24 +328,26 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public Point[][] ResultDataPoints
         {
-            get
-            {
-                // if it's reporting Real + Imaginary, we need a vector twice as long
-                if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
-                {
-                    var numValues = RangeVM.Number;
-                    var real = ResultDataValues.Take(numValues);
-                    var imag = ResultDataValues.Skip(numValues).Take(numValues);
-                    return new[] {
-                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
-                            RangeVM.Values, real, (x, y) => new Point(x, y))),
-                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
-                            RangeVM.Values, imag, (x, y) => new Point(x, y)))
-                    };
-                }
+            get { return GetPoints(RangeVM.Values.ToArray(), ResultDataValues, ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue)); }
+        }
 
-                return new[] { new Point[ RangeVM.Number].PopulateFromEnumerable2(Enumerable.Zip(RangeVM.Values, ResultDataValues, (x, y) => new Point(x, y))) };
+        private static Point[][] GetPoints(double[] rangeValues, double[] results, bool isComplex)
+        {
+            // if it's reporting Real + Imaginary, we need a vector twice as long
+            if (isComplex)
+            {
+                var numValues = rangeValues.Length;
+                var real = results.Take(numValues);
+                var imag = results.Skip(numValues).Take(numValues);
+                return new[] {
+                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
+                            rangeValues, real, (x, y) => new Point(x, y))),
+                        new Point[numValues].PopulateFromEnumerable2(Enumerable.Zip(
+                            rangeValues, imag, (x, y) => new Point(x, y)))
+                    };
             }
+
+            return new[] { new Point[rangeValues.Length].PopulateFromEnumerable2(Enumerable.Zip(rangeValues, results, (x, y) => new Point(x, y))) };
         }
 
         public double[] ResultDataValues
@@ -394,7 +360,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        void SetIndependentVariableRange_Executed(object sender, ExecutedEventArgs e)
+        void SetIndependentVariableRange_Executed(object sender, ExecutedEventArgs e) // todo: delete? (who used to use this?)
         {
             if (e.Parameter is RangeViewModel)
             {
@@ -530,12 +496,13 @@ namespace Vts.Gui.Silverlight.ViewModel
             switch (MeasuredDataTypeOptionVM.SelectedValue)
             {
                 case MeasuredDataType.Simulated:
-                default:
                     return GetSimulatedMeasuredData();
                     break;
                 case MeasuredDataType.FromFile:
                     return GetMeasuredDataFromFile();
                     break;
+                default:
+                    throw new ArgumentException("SelectedValue");
             }
         }
 
@@ -543,9 +510,26 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
             var independentValues = RangeVM.Values.ToArray();
 
-            double[] constantValues =
-                ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
-                ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
+            double[] constantValues = ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
+                ? (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxisValue, SolutionDomainTypeOptionVM.ConstantAxisTwoValue } : new[] { SolutionDomainTypeOptionVM.ConstantAxisValue })
+                : (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0]);
+
+            OpticalProperties[] opticalProperties = null;
+            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength &&
+                UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
+            {
+                var wavelengths = independentValues;
+                var tissue = SolverDemoViewModel.Current.SpectralMappingVM.SelectedTissue;
+                opticalProperties = new OpticalProperties[wavelengths.Length];
+                for (int wvi = 0; wvi < opticalProperties.Length; wvi++)
+                {
+                    opticalProperties[wvi] = tissue.GetOpticalProperties(wavelengths[wvi]);
+                }
+            }
+            else
+            {
+                opticalProperties = new[] { MeasuredOpticalPropertyVM.GetOpticalProperties() };
+            }
 
             var measuredData = ComputationFactory.ComputeReflectance(
                 MeasuredForwardSolverTypeOptionVM.SelectedValue,
@@ -553,7 +537,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ForwardAnalysisType.R,
                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
                 independentValues,
-                MeasuredOpticalPropertyVM.GetOpticalProperties(),
+                opticalProperties,
                 constantValues).ToArray();
 
             return measuredData.AddNoise(PercentNoise);
@@ -568,9 +552,9 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
             var independentValues = RangeVM.Values.ToArray();
 
-            double[] constantValues =
-                ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
-                ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
+            double[] constantValues = ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
+                ? (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxisValue, SolutionDomainTypeOptionVM.ConstantAxisTwoValue } : new[] { SolutionDomainTypeOptionVM.ConstantAxisValue })
+                : (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0]);
 
             return ComputationFactory.ComputeReflectance(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
@@ -586,17 +570,12 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
             MeasuredDataValues = GetSimulatedMeasuredData();
 
-            //var op = ResultOpticalPropertyVM;
-            // Solve the inverse problem for optical properties
-            // todo: is this a good format for the solver?
-            //var opGuess = InitialGuessOpticalPropertyVM;
-
             var independentValues = RangeVM.Values.ToArray();
             var dependentValues = MeasuredDataValues.ToArray();
-
-            double[] constantValues =
-                ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
-                    ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
+            
+            double[] constantValues = ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
+                ? (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxisValue, SolutionDomainTypeOptionVM.ConstantAxisTwoValue } : new[] { SolutionDomainTypeOptionVM.ConstantAxisValue })
+                : (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0]);
 
             double[] fit = ComputationFactory.SolveInverse(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
