@@ -34,13 +34,16 @@ namespace Vts.Factories
                 !(solutionDomainType == FluenceSolutionDomainType.FluenceOfRhoAndZ) &&
                 !(solutionDomainType == FluenceSolutionDomainType.FluenceOfFxAndZ);
         }
-        // CH proposed new extension method prior version is not refined enough, need to 
-        // know independent axis variable to know whether solver is complex, e.g. ROfRhoAndFt
-        // with independent axis varaible = rho is not complex
-        public static bool IsComplexSolver(IndependentVariableAxis independentVariableAxis)
-        {
-            return (independentVariableAxis == IndependentVariableAxis.Ft);
-        }
+        // dc - commented 12/10/13 - should plot real/imag/phase/amp regardless of the independent axis
+        // instead rely on complex/not complex solution domain (above)
+
+        //// CH proposed new extension method prior version is not refined enough, need to 
+        //// know independent axis variable to know whether solver is complex, e.g. ROfRhoAndFt
+        //// with independent axis varaible = rho is not complex
+        //public static bool IsComplexSolver(IndependentVariableAxis independentVariableAxis)
+        //{
+        //    return (independentVariableAxis == IndependentVariableAxis.Ft);
+        //}
 
         public static bool IsComplexSolver(SolutionDomainType solutionDomainType)
         {
@@ -174,19 +177,24 @@ namespace Vts.Factories
             }
 
             var numOp = opticalProperties.Length;
-            var numIv = independentValues.Length;
-            var reflectance = new double[numOp * numIv];
+            var numIv = independentAxisType == IndependentVariableAxis.Wavelength ? 1 : independentValues.Length; // for now, if wavelength is the independent axis, assume everything else is fixed (need to open this up)
+            var isComplex = IsComplexSolver(solutionDomainType);
+            var reflectance = new double[numOp * numIv * (isComplex ? 2 : 1)];
             for (int opi = 0; opi < numOp; opi++) // todo: parallelize
             {
                 var op = opticalProperties[opi];
                 var parameters = new[] { op.Mua, op.Musp, op.G, op.N };
-                var tempValues = forwardAnalysisType == ForwardAnalysisType.R
+                var reflectanceTemp = forwardAnalysisType == ForwardAnalysisType.R
                     ? func(parameters, inputValues.ToArray())
                     : func.GetDerivativeFunc(forwardAnalysisType)(parameters, inputValues.ToArray());
 
                 for (int ivi = 0; ivi < numIv; ivi++)
                 {
-                    reflectance[opi * numIv + ivi] = tempValues[ivi];
+                    reflectance[opi * numIv + ivi] = reflectanceTemp[ivi];
+                    if (IsComplexSolver(solutionDomainType))// then add the additional complex values in the second half of the array
+                    {
+                        reflectance[numOp * numIv + opi * numIv + ivi] = reflectanceTemp[ivi];
+                    }
                 }
             }
             return reflectance;
@@ -560,8 +568,9 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                        case IndependentVariableAxis.Wavelength:
                             return (fitData, otherData) => fs.ROfRho(getOP(fitData), (double[])otherData[0]);
+                        case IndependentVariableAxis.Wavelength:
+                            return (fitData, otherData) => fs.ROfRho(new[] { getOP(fitData) }, (double)otherData[1]); // a little wasteful to have to create an array? will use later?
                         //case IndependentVariableAxis.Wavelength:
                         //    return (fitData, otherData) =>
                         //    {
@@ -580,7 +589,15 @@ namespace Vts.Factories
                             throw new ArgumentOutOfRangeException("axis");
                     }
                 case SolutionDomainType.ROfFx:
-                    return (fitData, otherData) => fs.ROfFx(getOP(fitData), (double[])otherData[0]);
+                    switch (axis)
+                    {
+                        case IndependentVariableAxis.Fx:
+                            return (fitData, otherData) => fs.ROfFx(getOP(fitData), (double[])otherData[0]);
+                        case IndependentVariableAxis.Wavelength:
+                            return (fitData, otherData) => fs.ROfFx(new[] { getOP(fitData) }, (double)otherData[1]); // a little wasteful to have to create an array? will use later?
+                        default:
+                            throw new ArgumentOutOfRangeException("axis");
+                    }
                 case SolutionDomainType.ROfRhoAndTime:
                     switch (axis)
                     {
@@ -589,6 +606,7 @@ namespace Vts.Factories
                         case IndependentVariableAxis.Time:
                             return (fitData, otherData) => fs.ROfRhoAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
                         case IndependentVariableAxis.Wavelength:
+                            return (fitData, otherData) => fs.ROfRhoAndTime(new []{ getOP(fitData) }, (double)otherData[1], (double)otherData[2]);
                             //return (chromPlusMusp, constantData) =>
                             //           {
                             //               var wv = (double[]) constantData[0];
@@ -611,6 +629,8 @@ namespace Vts.Factories
                             return (fitData, otherData) => fs.ROfFxAndTime(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
                         case IndependentVariableAxis.Time:
                             return (fitData, otherData) => fs.ROfFxAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
+                        case IndependentVariableAxis.Wavelength:
+                            return (fitData, otherData) => fs.ROfFxAndTime(new[] { getOP(fitData) }, (double)otherData[1], (double)otherData[2]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
@@ -621,6 +641,8 @@ namespace Vts.Factories
                             return (fitData, otherData) => fs.ROfRhoAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
                         case IndependentVariableAxis.Ft:
                             return (fitData, otherData) => fs.ROfRhoAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
+                        case IndependentVariableAxis.Wavelength:
+                            return (fitData, otherData) => fs.ROfRhoAndFt(new[] { getOP(fitData) }, (double)otherData[1], (double)otherData[2]).FlattenRealAndImaginary();
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }
@@ -631,6 +653,8 @@ namespace Vts.Factories
                             return (fitData, otherData) => fs.ROfFxAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
                         case IndependentVariableAxis.Ft:
                             return (fitData, otherData) => fs.ROfFxAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
+                        case IndependentVariableAxis.Wavelength:
+                            return (fitData, otherData) => fs.ROfFxAndFt(new[] { getOP(fitData) }, (double)otherData[1], (double)otherData[2]).FlattenRealAndImaginary();
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }

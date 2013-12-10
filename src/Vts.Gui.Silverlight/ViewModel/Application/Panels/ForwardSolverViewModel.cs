@@ -3,7 +3,6 @@ using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Automation;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
 using Vts.Factories;
@@ -13,7 +12,6 @@ using Vts.Gui.Silverlight.Extensions;
 #if WHITELIST
 using Vts.Gui.Silverlight.ViewModel.Application;
 #endif
-using Vts.SpectralMapping;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {
@@ -290,10 +288,10 @@ namespace Vts.Gui.Silverlight.ViewModel
         public Point[][] ExecuteForwardSolver()
         {
             double[] independentValues = RangeVM.Values.ToArray();
-            
-            double[] constantValues =
-                ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
-                    ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
+
+            double[] constantValues = ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
+                ? (UseSpectralPanelData ? new [] { SolutionDomainTypeOptionVM.ConstantAxisValue, SolutionDomainTypeOptionVM.ConstantAxisTwoValue } : new [] { SolutionDomainTypeOptionVM.ConstantAxisValue })
+                : (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0]);
 
             OpticalProperties[] opticalProperties = null;
             if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength &&
@@ -325,7 +323,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ? opticalProperties.Length
                 : opticalProperties.Length * independentValues.Length;
 
-            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
+            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
                 var points = new[] { new Point[numPoints], new Point[numPoints] };
                 for (int i = 0; i < numPoints; i++)
