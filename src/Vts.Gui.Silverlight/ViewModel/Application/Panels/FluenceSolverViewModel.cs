@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
+using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
 using Vts.Common;
 using Vts.Extensions;
@@ -92,8 +93,10 @@ namespace Vts.Gui.Silverlight.ViewModel
                         OnPropertyChanged("IsGaussianForwardModel");
                     };
 
-            Commands.FluenceSolver_ExecuteFluenceSolver.Executed += ExecuteFluenceSolver_Executed;
+            ExecuteFluenceSolverCommand = new RelayCommand(() => ExecuteFluenceSolver_Executed(null, null));
         }
+
+        public RelayCommand ExecuteFluenceSolverCommand { get; set; }
 
         public IForwardSolver ForwardSolver
         {

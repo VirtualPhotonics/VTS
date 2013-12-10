@@ -12,7 +12,7 @@ namespace Vts.Gui.Silverlight.View
            InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ExportImage_Click(object sender, RoutedEventArgs e)
         {
             ImageTools.SaveUIElementToJpegImage(this);
         }

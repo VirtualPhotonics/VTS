@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Messaging;
+using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
 using Vts.Common;
 using Vts.Extensions;
@@ -93,8 +94,9 @@ namespace Vts.Gui.Silverlight.ViewModel
             OpticalProperties = new OpticalProperties(0.01, 1, 0.8, 1.4);
             Wavelength = 650;
 
-            Commands.Spec_PlotMuaSpectra.Executed += PlotMuaSpectra_Executed;
-            Commands.Spec_PlotMusprimeSpectra.Executed += PlotMusprimeSpectra_Executed;
+            PlotMuaSpectrumCommand = new RelayCommand(() => PlotMuaSpectrum_Executed(null, null));
+            PlotMuspSpectrumCommand = new RelayCommand(() => PlotMuspSpectrum_Executed(null, null));
+
             Commands.SD_SetWavelength.Executed += (snder, args) => // updates when solution domain is involved in spectral feedback
             {
                 // Wavelength = (double) args.Parameter; // this will ping-pong back to FS (stack overflow), so repeating setter logic here:
@@ -105,6 +107,9 @@ namespace Vts.Gui.Silverlight.ViewModel
                 this.OnPropertyChanged("Wavelength");
             };
         }
+
+        public RelayCommand PlotMuaSpectrumCommand { get; set; }
+        public RelayCommand PlotMuspSpectrumCommand { get; set; }
 
         #region DC notes 2
         //protected override void AfterPropertyChanged(string propertyName)
@@ -287,7 +292,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             Commands.Spec_UpdateOpticalProperties.Execute(OpticalProperties);
         }
 
-        void PlotMuaSpectra_Executed(object sender, ExecutedEventArgs e)
+        void PlotMuaSpectrum_Executed(object sender, ExecutedEventArgs e)
         {
             PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μa", "mm-1");
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
@@ -310,7 +315,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             return Enumerable.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
         }
 
-        void PlotMusprimeSpectra_Executed(object sender, ExecutedEventArgs e)
+        void PlotMuspSpectrum_Executed(object sender, ExecutedEventArgs e)
         {
             PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μs'", "mm-1");
             Commands.Plot_SetAxesLabels.Execute(axesLabels);

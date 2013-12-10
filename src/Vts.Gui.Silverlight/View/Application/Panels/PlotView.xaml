@@ -64,9 +64,10 @@
                     </StackPanel>
                     <!-- Buttons for exporting results -->
                     <Button Content="{Binding Path=MainResource.Button_ExportImage, Source={StaticResource LocalizedStrings}}" 
-                        Click="Button_Click"
+                        Click="ExportImage_Click"
                         Margin="0,5,0,0"/>
-                    <Button Command="{Binding ExportDataToTextCommand}"
+                    <Button 
+                        Command="{Binding ExportDataToTextCommand}"
                         Content="{Binding Path=MainResource.Button_ExportData, Source={StaticResource LocalizedStrings}}"  
                         Margin="0,5,0,0"/>
                 </StackPanel>

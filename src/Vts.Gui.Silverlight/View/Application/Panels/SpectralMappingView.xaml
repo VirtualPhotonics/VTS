@@ -145,12 +145,12 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                         <v:RangeView DataContext="{Binding WavelengthRangeVM}" Margin="0,3,0,0" VerticalAlignment="Top"/>
                         <!-- Plot Buttons -->
-                        <Button input:CommandService.Command="Spec_PlotMuaSpectra"
-                            input:CommandService.CommandParameter="{Binding}"
+                        <Button 
+                            Command="{Binding PlotMuaSpectrumCommand}"
                             Margin="10,2,0,0" Height="25" VerticalAlignment="Bottom" 
                             Content="{Binding Path=MainResource.Button_PlotMua, Source={StaticResource LocalizedStrings}}"/>
-                        <Button input:CommandService.Command="Spec_PlotMusprimeSpectra"
-                            input:CommandService.CommandParameter="{Binding}"
+                        <Button
+                            Command="{Binding PlotMuspSpectrumCommand}"
                             Margin="10,2,0,0" Height="25" VerticalAlignment="Bottom" 
                             Content="{Binding Path=MainResource.Button_PlotMusPrime, Source={StaticResource LocalizedStrings}}"/>
                     </StackPanel>

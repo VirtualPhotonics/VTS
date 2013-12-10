@@ -27,8 +27,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             _MeshInputVM = new FemSimulationInputDataViewModel();
             //_MediumOpticalPropertyVM = new OpticalPropertyViewModel() { Title = "Medium Optical Properties:", G = 0.8, N = 1.0, EnableG = true, EnableN = false };
             //_InclusionOpticalPropertyVM = new OpticalPropertyViewModel() { Title ="Inclusion Optical Properties:", G = 0.8, N = 1.0, EnableG = true, EnableN = false };
-
-            Commands.FEM_ExecuteFemSolver.Executed += FemExecuteFemSolverExecuted;
+            
             ExecuteFemSolverCommand = new RelayCommand(() => FemExecuteFemSolverExecuted(null, null));
         }
 

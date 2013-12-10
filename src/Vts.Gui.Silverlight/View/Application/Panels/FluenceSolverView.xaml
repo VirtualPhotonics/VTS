@@ -71,8 +71,7 @@
             <Button 
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"
-                input:CommandService.Command="FluenceSolver_ExecuteFluenceSolver"
-                input:CommandService.CommandParameter="{Binding}"
+                Command="{Binding ExecuteFluenceSolverCommand}"
                 Content="{Binding Path=MainResource.Button_GenerateFluence, Source={StaticResource LocalizedStrings}}"  
                 Height="30" Margin="5"/>
         </StackPanel>

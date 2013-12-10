@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Automation;
+using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
 using Vts.Factories;
 using Vts.Gui.Silverlight.Input;
@@ -112,6 +113,8 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output", true);
             
+            ExecuteForwardSolverCommand = new RelayCommand(() => ExecuteForwardSolver_Executed(null, null));
+
             Commands.Spec_UpdateWavelength.Executed += (sender, args) =>
             {
                 if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
@@ -126,8 +129,9 @@ namespace Vts.Gui.Silverlight.ViewModel
                     OpticalPropertyVM.SetOpticalProperties(SolverDemoViewModel.Current.SpectralMappingVM.OpticalProperties);
                 }
             };
-            Commands.FS_ExecuteForwardSolver.Executed += ExecuteForwardSolver_Executed;
         }
+
+        public RelayCommand ExecuteForwardSolverCommand { get; set; }
         
         public IForwardSolver ForwardSolver
         {

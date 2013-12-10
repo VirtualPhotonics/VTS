@@ -42,8 +42,7 @@
                 Grid.Column="1"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"
-                input:CommandService.Command="FS_ExecuteForwardSolver"
-                input:CommandService.CommandParameter="{Binding}"
+                Command="{Binding ExecuteForwardSolverCommand}"
                 Content="{Binding Path=MainResource.Button_PlotReflectance, Source={StaticResource LocalizedStrings}}"  
                 Width="100" Height="30" />
         </Grid>
