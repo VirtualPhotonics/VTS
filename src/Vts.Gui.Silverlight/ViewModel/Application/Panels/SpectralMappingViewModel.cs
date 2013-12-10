@@ -94,8 +94,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             OpticalProperties = new OpticalProperties(0.01, 1, 0.8, 1.4);
             Wavelength = 650;
 
-            PlotMuaSpectrumCommand = new RelayCommand(() => PlotMuaSpectrum_Executed(null, null));
-            PlotMuspSpectrumCommand = new RelayCommand(() => PlotMuspSpectrum_Executed(null, null));
+            PlotMuaSpectrumCommand = new RelayCommand(PlotMuaSpectrum_Executed);
+            PlotMuspSpectrumCommand = new RelayCommand(PlotMuspSpectrum_Executed);
 
             Commands.SD_SetWavelength.Executed += (snder, args) => // updates when solution domain is involved in spectral feedback
             {
@@ -292,12 +292,19 @@ namespace Vts.Gui.Silverlight.ViewModel
             Commands.Spec_UpdateOpticalProperties.Execute(OpticalProperties);
         }
 
-        void PlotMuaSpectrum_Executed(object sender, ExecutedEventArgs e)
+        private void PlotMuaSpectrum_Executed()
         {
             PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μa", "mm-1");
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
-            IEnumerable<Point> points = ExecutePlotMuaSpectra();
+            var tissue = SelectedTissue;
+            var wavelengths = WavelengthRangeVM.Values.ToArray();
+            var points = new Point[wavelengths.Length];
+            for (int wvi = 0; wvi < wavelengths.Length; wvi++)
+            {
+                var wavelength = wavelengths[wvi];
+                points[wvi] = new Point(wavelength, tissue.GetMua(wavelength));
+            }
             Commands.Plot_PlotValues.Execute(new PlotData(points, "μa spectra"));
 
             double minWavelength = WavelengthRangeVM.Values.Min();
@@ -305,35 +312,25 @@ namespace Vts.Gui.Silverlight.ViewModel
             Commands.TextOutput_PostMessage.Execute("Plotted μa spectrum; wavelength range [nm]: [" + minWavelength + ", " + maxWavelength + "]\r");
         }
 
-        public IEnumerable<Point> ExecutePlotMuaSpectra()
-        {
-            var independentValues = WavelengthRangeVM.Values;
-            var dependentValues =
-                from w in independentValues
-                select SelectedTissue.GetMua(w);
-
-            return Enumerable.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
-        }
-
-        void PlotMuspSpectrum_Executed(object sender, ExecutedEventArgs e)
+        private void PlotMuspSpectrum_Executed()
         {
             PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μs'", "mm-1");
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
-            IEnumerable<Point> points = ExecutePlotMusprimeSpectra();
+            var tissue = SelectedTissue;
+            var wavelengths = WavelengthRangeVM.Values.ToArray();
+            var points = new Point[wavelengths.Length];
+            for (int wvi = 0; wvi < wavelengths.Length; wvi++)
+            {
+                var wavelength = wavelengths[wvi];
+                points[wvi] = new Point(wavelength, tissue.GetMusp(wavelength));
+            }
+
             Commands.Plot_PlotValues.Execute(new PlotData(points, "μs' spectra"));
 
             double minWavelength = WavelengthRangeVM.Values.Min();
             double maxWavelength = WavelengthRangeVM.Values.Max();
             Commands.TextOutput_PostMessage.Execute("Plotted μs' spectrum; wavelength range [nm]: [" + minWavelength + ", " + maxWavelength + "]\r");
-        }
-
-        public IEnumerable<Point> ExecutePlotMusprimeSpectra()
-        {
-            var independentValues = WavelengthRangeVM.Values;
-            var dependentValues = independentValues.Select(w => SelectedTissue.GetMusp(w));
-
-            return Enumerable.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
         }
     }
 }

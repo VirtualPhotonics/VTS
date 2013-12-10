@@ -87,13 +87,22 @@ namespace Vts.Factories
              double[] opticalProperties,
              double[] constantValues)
         {
+            var opLength = opticalProperties.Length/4;
+            var opClassArray = Enumerable.Range(0,opLength)
+                .Select(i => new OpticalProperties(
+                    opticalProperties[i*4], 
+                    opticalProperties[i*4+1], 
+                    opticalProperties[i*4+2], 
+                    opticalProperties[i*4+3]))
+                .ToArray();
+
             return ComputeReflectance(
                 (ForwardSolverType)Enum.Parse(typeof(ForwardSolverType), forwardSolverType, true),
                 (SolutionDomainType)Enum.Parse(typeof(SolutionDomainType), solutionDomainType, true),
                 (ForwardAnalysisType)Enum.Parse(typeof(ForwardAnalysisType), forwardAnalysisType, true),
                 (IndependentVariableAxis)Enum.Parse(typeof(IndependentVariableAxis), independentVariableAxisType, true),
                 independentValues,
-                new OpticalProperties(opticalProperties[0], opticalProperties[1], opticalProperties[2], opticalProperties[3]),
+                opClassArray,
                 constantValues).ToArray();
         }
 
@@ -102,8 +111,8 @@ namespace Vts.Factories
             SolutionDomainType solutionDomainType,
             ForwardAnalysisType forwardAnalysisType,
             IndependentVariableAxis independentAxisType,
-            IEnumerable<double> independentValues,
-            OpticalProperties opticalProperties,
+            double[] independentValues,
+            OpticalProperties[] opticalProperties,
             params double[] constantValues)
         {
             // use factory method on each call, as opposed to injecting an instance from the outside
@@ -119,17 +128,35 @@ namespace Vts.Factories
                 constantValues);
         }
 
+        // overload that calls the above method with just one set of optical properties
+        public static double[] ComputeReflectance(
+            ForwardSolverType forwardSolverType,
+            SolutionDomainType solutionDomainType,
+            ForwardAnalysisType forwardAnalysisType,
+            IndependentVariableAxis independentAxisType,
+            double[] independentValues,
+            OpticalProperties opticalProperties,
+            params double[] constantValues)
+        {
+            return ComputeReflectance(
+                forwardSolverType,
+                solutionDomainType,
+                forwardAnalysisType,
+                independentAxisType,
+                independentValues,
+                new [] { opticalProperties },
+                constantValues);
+        }
+
         public static double[] ComputeReflectance(
             IForwardSolver forwardSolver,
             SolutionDomainType solutionDomainType,
             ForwardAnalysisType forwardAnalysisType,
             IndependentVariableAxis independentAxisType,
-            IEnumerable<double> independentValues,
-            OpticalProperties opticalProperties,
+            double[] independentValues,
+            OpticalProperties[] opticalProperties,
             params double[] constantValues)
         {
-            var parameters = new double[4] { opticalProperties.Mua, opticalProperties.Musp, opticalProperties.G, opticalProperties.N };
-
             Func<double[], object[], double[]> func = GetForwardReflectanceFunc(forwardSolver, solutionDomainType, independentAxisType);
 
             // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
@@ -137,14 +164,52 @@ namespace Vts.Factories
             inputValues.Add(independentValues.ToArray());
             constantValues.ForEach(cv => inputValues.Add(cv));
 
-            if (forwardAnalysisType == ForwardAnalysisType.R)
+            if (opticalProperties.Length == 1) // optimization that skips duplicate arrays if we're not multiplexing over optical properties (e.g. wavelength)
             {
-                return func(parameters, inputValues.ToArray());
+                var op = opticalProperties[0];
+                var parameters = new[] { op.Mua, op.Musp, op.G, op.N };
+                return forwardAnalysisType == ForwardAnalysisType.R
+                    ? func(parameters, inputValues.ToArray())
+                    : func.GetDerivativeFunc(forwardAnalysisType)(parameters, inputValues.ToArray());
             }
-            else
+
+            var numOp = opticalProperties.Length;
+            var numIv = independentValues.Length;
+            var reflectance = new double[numOp * numIv];
+            for (int opi = 0; opi < numOp; opi++) // todo: parallelize
             {
-                return func.GetDerivativeFunc(forwardAnalysisType)(parameters, inputValues.ToArray());
+                var op = opticalProperties[opi];
+                var parameters = new[] { op.Mua, op.Musp, op.G, op.N };
+                var tempValues = forwardAnalysisType == ForwardAnalysisType.R
+                    ? func(parameters, inputValues.ToArray())
+                    : func.GetDerivativeFunc(forwardAnalysisType)(parameters, inputValues.ToArray());
+
+                for (int ivi = 0; ivi < numIv; ivi++)
+                {
+                    reflectance[opi * numIv + ivi] = tempValues[ivi];
+                }
             }
+            return reflectance;
+        }
+
+        // overload that calls the above method with just one set of optical properties
+        public static double[] ComputeReflectance(
+            IForwardSolver forwardSolver,
+            SolutionDomainType solutionDomainType,
+            ForwardAnalysisType forwardAnalysisType,
+            IndependentVariableAxis independentAxisType,
+            double[] independentValues,
+            OpticalProperties opticalProperties,
+            params double[] constantValues)
+        {
+            return ComputeReflectance(
+                forwardSolver,
+                solutionDomainType,
+                forwardAnalysisType,
+                independentAxisType,
+                independentValues,
+                new[] { opticalProperties },
+                constantValues);
         }
 
         public static double[] ComputeFluence(
@@ -152,7 +217,7 @@ namespace Vts.Factories
             FluenceSolutionDomainType solutionDomainType, // keeping us from uniting the above. needs to be a single SolutionDomainType enum
             IndependentVariableAxis[] independentAxesTypes,
             double[][] independentValues,
-            OpticalProperties opticalProperties,
+            OpticalProperties[] opticalProperties,
             params double[] constantValues)
         {
             // use factory method on each call, as opposed to injecting an instance from the outside
@@ -167,16 +232,33 @@ namespace Vts.Factories
                 constantValues);
         }
 
+        // overload that calls the above method with just one set of optical properties
         public static double[] ComputeFluence(
-            IForwardSolver forwardSolver,
-            FluenceSolutionDomainType solutionDomainType, // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            ForwardSolverType forwardSolverType,
+            FluenceSolutionDomainType solutionDomainType,
+            // keeping us from uniting the above. needs to be a single SolutionDomainType enum
             IndependentVariableAxis[] independentAxesTypes,
             double[][] independentValues,
             OpticalProperties opticalProperties,
             params double[] constantValues)
         {
-            var parameters = new double[4] { opticalProperties.Mua, opticalProperties.Musp, opticalProperties.G, opticalProperties.N };
-            
+            return ComputeFluence(
+                forwardSolverType,
+                solutionDomainType,
+                independentAxesTypes,
+                independentValues,
+                new [] { opticalProperties },
+                constantValues);
+        }
+
+        public static double[] ComputeFluence(
+            IForwardSolver forwardSolver,
+            FluenceSolutionDomainType solutionDomainType, // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            IndependentVariableAxis[] independentAxesTypes,
+            double[][] independentValues,
+            OpticalProperties[] opticalProperties,
+            params double[] constantValues)
+        {
             // todo: current assumption below is that the second axis is z. need to generalize
             var func = GetForwardFluenceFunc(forwardSolver, solutionDomainType, independentAxesTypes[0]);
 
@@ -184,7 +266,47 @@ namespace Vts.Factories
             List<object> inputValues = new List<object>(independentValues);
             constantValues.ForEach(cv => inputValues.Add(cv));
 
-            return func(parameters, inputValues.ToArray());
+            if (opticalProperties.Length == 1) // optimization that skips duplicate arrays if we're not multiplexing over optical properties (e.g. wavelength)
+            {
+                var op = opticalProperties[0];
+                var parameters = new[] { op.Mua, op.Musp, op.G, op.N };
+                return func(parameters, inputValues.ToArray());
+            }
+
+            var numOp = opticalProperties.Length;
+            var numIv = independentValues.Length;
+            var fluence = new double[numOp * numIv];
+            for (int opi = 0; opi < numOp; opi++) // todo: parallelize
+            {
+                var op = opticalProperties[opi];
+                var parameters = new[] { op.Mua, op.Musp, op.G, op.N };
+                var tempValues = func(parameters, inputValues.ToArray());
+
+                for (int ivi = 0; ivi < numIv; ivi++)
+                {
+                    fluence[opi * numIv + ivi] = tempValues[ivi];
+                }
+            }
+            return fluence;
+        }
+
+        // overload that calls the above method with just one set of optical properties
+        public static double[] ComputeFluence(
+            IForwardSolver forwardSolver,
+            FluenceSolutionDomainType solutionDomainType,
+            // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            IndependentVariableAxis[] independentAxesTypes,
+            double[][] independentValues,
+            OpticalProperties opticalProperties,
+            params double[] constantValues)
+        {
+            return ComputeFluence(
+                forwardSolver,
+                solutionDomainType,
+                independentAxesTypes,
+                independentValues,
+                new []{ opticalProperties },
+                constantValues);
         }
 
         public static Complex[] ComputeFluenceComplex(
@@ -438,21 +560,22 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.ROfRho(getOP(fitData), (double[])otherData[0]);
                         case IndependentVariableAxis.Wavelength:
-                            return (fitData, otherData) =>
-                            {
-                                var wv = (double[])otherData[0];
-                                var rho = (double)otherData[1];
-                                var tissue = (Tissue)otherData[2];
-                                var numAbsorbers = tissue.Absorbers.Count;
-                                tissue.Absorbers.ForEach((absorber, i) => absorber.Concentration = fitData[i]);
-                                var A = fitData[numAbsorbers + 0];
-                                var b = fitData[numAbsorbers + 1];
-                                tissue.Scatterer = new PowerLawScatterer(A, b);
-                                var ops = wv.Select(tissue.GetOpticalProperties).ToArray();
-                                return ops.Select(opi => fs.ROfRho(opi, rho)).ToArray();
-                            };
+                            return (fitData, otherData) => fs.ROfRho(getOP(fitData), (double[])otherData[0]);
+                        //case IndependentVariableAxis.Wavelength:
+                        //    return (fitData, otherData) =>
+                        //    {
+                        //        var wv = (double[])otherData[0];
+                        //        var rho = (double)otherData[1];
+                        //        var tissue = (Tissue)otherData[2];
+                        //        var numAbsorbers = tissue.Absorbers.Count;
+                        //        tissue.Absorbers.ForEach((absorber, i) => absorber.Concentration = fitData[i]);
+                        //        var A = fitData[numAbsorbers + 0];
+                        //        var b = fitData[numAbsorbers + 1];
+                        //        tissue.Scatterer = new PowerLawScatterer(A, b);
+                        //        var ops = wv.Select(tissue.GetOpticalProperties).ToArray();
+                        //        return ops.Select(opi => fs.ROfRho(opi, rho)).ToArray();
+                        //    };
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }

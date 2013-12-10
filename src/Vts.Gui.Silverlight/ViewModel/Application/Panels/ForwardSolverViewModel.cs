@@ -295,16 +295,36 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                     ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
-            double[] reflectance = ComputationFactory.ComputeReflectance(
-                ForwardSolverTypeOptionVM.SelectedValue,
-                SolutionDomainTypeOptionVM.SelectedValue,
-                ForwardAnalysisTypeOptionVM.SelectedValue,
-                SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
-                independentValues,
-                OpticalPropertyVM.GetOpticalProperties(),
-                constantValues);
+            OpticalProperties[] opticalProperties = null;
+            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength &&
+                UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
+            {
+                var wavelengths = independentValues;
+                var tissue = SolverDemoViewModel.Current.SpectralMappingVM.SelectedTissue;
+                opticalProperties = new OpticalProperties[wavelengths.Length];
+                for (int wvi = 0; wvi < opticalProperties.Length; wvi++)
+                {
+                    opticalProperties[wvi] = tissue.GetOpticalProperties(wavelengths[wvi]);
+                }
+            }
+            else
+            {
+                opticalProperties = new[] { OpticalPropertyVM.GetOpticalProperties() };
+            }
 
-            var numPoints = independentValues.Length;
+            double[] reflectance = ComputationFactory.ComputeReflectance(
+                    ForwardSolverTypeOptionVM.SelectedValue,
+                    SolutionDomainTypeOptionVM.SelectedValue,
+                    ForwardAnalysisTypeOptionVM.SelectedValue,
+                    SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
+                    independentValues,
+                    opticalProperties,
+                    constantValues);
+
+            var numPoints = SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength
+                ? opticalProperties.Length
+                : opticalProperties.Length * independentValues.Length;
+
             if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
             {
                 var points = new[] { new Point[numPoints], new Point[numPoints] };
