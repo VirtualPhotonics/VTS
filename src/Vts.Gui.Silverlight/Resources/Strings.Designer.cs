@@ -412,7 +412,7 @@ namespace Vts.Gui.Silverlight.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Independent Axis:.
+        ///   Looks up a localized string similar to Independent Axis.
         /// </summary>
         public static string Label_IndependentAxis {
             get {

@@ -232,7 +232,7 @@
     <value>A(ρ,z,t)</value>
   </data>
   <data name="Label_IndependentAxis" xml:space="preserve">
-    <value>Independent Axis:</value>
+    <value>Independent Axis</value>
   </data>
   <data name="Label_PHDOfFxAndZ" xml:space="preserve">
     <value>phd(fx,z)</value>

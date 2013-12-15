@@ -35,6 +35,76 @@ namespace Vts.Gui.Silverlight.Extensions
                     return 2;
                 case IndependentVariableAxis.Z:
                     return 1;
+                case IndependentVariableAxis.Wavelength:
+                    return 2;
+                default:
+                    throw new NotImplementedException("Independent axis " + axis + " is not implemented for this software feature.");
+            }
+        }
+
+        public static bool IsSpatialAxis(this IndependentVariableAxis axis)
+        {
+            switch (axis)
+            {
+                case IndependentVariableAxis.Rho:
+                case IndependentVariableAxis.Fx:
+                    return true;
+                case IndependentVariableAxis.Time:
+                case IndependentVariableAxis.Ft:
+                case IndependentVariableAxis.Z:
+                case IndependentVariableAxis.Wavelength:
+                    return false;
+                default:
+                    throw new NotImplementedException("Independent axis " + axis + " is not implemented for this software feature.");
+            }
+        }
+
+        public static bool IsTemporalAxis(this IndependentVariableAxis axis)
+        {
+            switch (axis)
+            {
+                case IndependentVariableAxis.Time:
+                case IndependentVariableAxis.Ft:
+                    return true;
+                case IndependentVariableAxis.Rho:
+                case IndependentVariableAxis.Fx:
+                case IndependentVariableAxis.Z:
+                case IndependentVariableAxis.Wavelength:
+                    return false;
+                default:
+                    throw new NotImplementedException("Independent axis " + axis + " is not implemented for this software feature.");
+            }
+        }
+
+        public static bool IsDepthAxis(this IndependentVariableAxis axis)
+        {
+            switch (axis)
+            {
+                case IndependentVariableAxis.Z:
+                    return true;
+                case IndependentVariableAxis.Time:
+                case IndependentVariableAxis.Ft:
+                case IndependentVariableAxis.Rho:
+                case IndependentVariableAxis.Fx:
+                case IndependentVariableAxis.Wavelength:
+                    return false;
+                default:
+                    throw new NotImplementedException("Independent axis " + axis + " is not implemented for this software feature.");
+            }
+        }
+
+        public static bool IsWavelengthAxis(this IndependentVariableAxis axis)
+        {
+            switch (axis)
+            {
+                case IndependentVariableAxis.Wavelength:
+                    return true;
+                case IndependentVariableAxis.Time:
+                case IndependentVariableAxis.Ft:
+                case IndependentVariableAxis.Rho:
+                case IndependentVariableAxis.Fx:
+                case IndependentVariableAxis.Z:
+                    return false;
                 default:
                     throw new NotImplementedException("Independent axis " + axis + " is not implemented for this software feature.");
             }

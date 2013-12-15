@@ -287,41 +287,24 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public Point[][] ExecuteForwardSolver()
         {
-            double[] independentValues = RangeVM.Values.ToArray();
+            var parameters = GetParametersInOrder();
 
-            double[] constantValues = ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
-                ? (UseSpectralPanelData ? new [] { SolutionDomainTypeOptionVM.ConstantAxisValue, SolutionDomainTypeOptionVM.ConstantAxisTwoValue } : new [] { SolutionDomainTypeOptionVM.ConstantAxisValue })
-                : (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0]);
-
-            OpticalProperties[] opticalProperties = null;
-            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength &&
-                UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
-            {
-                var wavelengths = independentValues;
-                var tissue = SolverDemoViewModel.Current.SpectralMappingVM.SelectedTissue;
-                opticalProperties = new OpticalProperties[wavelengths.Length];
-                for (int wvi = 0; wvi < opticalProperties.Length; wvi++)
-                {
-                    opticalProperties[wvi] = tissue.GetOpticalProperties(wavelengths[wvi]);
-                }
-            }
-            else
-            {
-                opticalProperties = new[] { OpticalPropertyVM.GetOpticalProperties() };
-            }
+            //// test code
+            //var methodInfo = typeof(IForwardSolver).GetMethod("ROfRho");
+            //var result = methodInfo.Invoke(SolverFactory.GetForwardSolver(ForwardSolverType.PointSourceSDA), parameters.ToArray());
+            //Console.WriteLine(result);
 
             double[] reflectance = ComputationFactory.ComputeReflectance(
                     ForwardSolverTypeOptionVM.SelectedValue,
                     SolutionDomainTypeOptionVM.SelectedValue,
                     ForwardAnalysisTypeOptionVM.SelectedValue,
-                    SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
-                    independentValues,
-                    opticalProperties,
-                    constantValues);
+                    parameters);
 
-            var numPoints = SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength
-                ? opticalProperties.Length
-                : opticalProperties.Length * independentValues.Length;
+            // this all needs to change if we add multi-axis ranges
+            var independentValues = RangeVM.Values.ToArray();
+            var numPoints = ((OpticalProperties[])parameters[0]).Length * 
+                (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength
+                    ? 1 : independentValues.Length);
 
             if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
@@ -342,6 +325,77 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
                 return points;
             }
+        }
+
+        private object[] GetParametersInOrder()
+        {
+            var opticalProperties = GetOpticalProperties();
+
+            var parameters = new List<object>
+            {
+                opticalProperties
+            };
+
+            switch (SolutionDomainTypeOptionVM.SelectedValue)
+            {
+                case SolutionDomainType.ROfRho:
+                case SolutionDomainType.ROfFx:
+                    switch (SolutionDomainTypeOptionVM.IndependentAxisType)
+                    {
+                        case IndependentVariableAxis.Rho:
+                        case IndependentVariableAxis.Fx:
+                            parameters.Add(RangeVM.Values.ToArray());
+                            break;
+                        case IndependentVariableAxis.Wavelength:
+                            parameters.Add(new[] {SolutionDomainTypeOptionVM.ConstantAxisValue});
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                case SolutionDomainType.ROfRhoAndTime:
+                case SolutionDomainType.ROfFxAndTime:
+                case SolutionDomainType.ROfRhoAndFt:
+                case SolutionDomainType.ROfFxAndFt:
+                    switch (SolutionDomainTypeOptionVM.IndependentAxisType)
+                    {
+                        case IndependentVariableAxis.Rho:
+                        case IndependentVariableAxis.Fx:
+                            parameters.Add(RangeVM.Values.ToArray());
+                            parameters.Add(new[] {SolutionDomainTypeOptionVM.ConstantAxisValue});
+                            break;
+                        case IndependentVariableAxis.Time:
+                        case IndependentVariableAxis.Ft:
+                            parameters.Add(new[] {SolutionDomainTypeOptionVM.ConstantAxisValue});
+                            parameters.Add(RangeVM.Values.ToArray());
+                            break;
+                        case IndependentVariableAxis.Wavelength:
+                            parameters.Add(new[] {SolutionDomainTypeOptionVM.ConstantAxisValue});
+                            parameters.Add(new[] {SolutionDomainTypeOptionVM.ConstantAxisTwoValue});
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return parameters.ToArray();
+        }
+
+        private OpticalProperties[] GetOpticalProperties()
+        {
+            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength &&
+                UseSpectralPanelData && 
+                SolverDemoViewModel.Current != null &&
+                SolverDemoViewModel.Current.SpectralMappingVM != null)
+            {
+                var tissue = SolverDemoViewModel.Current.SpectralMappingVM.SelectedTissue;
+                return tissue.GetOpticalProperties(RangeVM.Values.ToArray());
+            }
+
+            return new[] { OpticalPropertyVM.GetOpticalProperties() };
         }
     }
 }

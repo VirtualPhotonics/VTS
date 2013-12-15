@@ -144,6 +144,21 @@ namespace Vts.SpectralMapping
             var n = N;
             return new OpticalProperties(mua, musp, g, n);
         }
+
+        /// <summary>
+        /// Returns the optical properties for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The optical properties</returns>
+        public OpticalProperties[] GetOpticalProperties(double[] wavelengths)
+        {
+            var opArray = new OpticalProperties[wavelengths.Length];
+            for (int i = 0; i < wavelengths.Length; i++)
+            {
+                opArray[i] = GetOpticalProperties(wavelengths[i]);
+            }
+            return opArray;
+        }
     }
 
     public static class TissueProvider
