@@ -272,6 +272,9 @@
     <Compile Include="View\Controls\PositionView.xaml.cs">
       <DependentUpon>PositionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\CheckBoxOptionView.xaml.cs">
+      <DependentUpon>CheckBoxOptionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Helpers\Colormap.cs" />
     <Compile Include="View\Controls\ComboBox.cs" />
     <Compile Include="View\Controls\ComboBoxOptionView.xaml.cs">
@@ -443,6 +446,10 @@
     <Page Include="View\Controls\ListBoxOptionView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Controls\CheckBoxOptionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

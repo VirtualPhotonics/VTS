@@ -13,7 +13,7 @@
                            Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}" 
                            FontWeight="Bold"/>
                     <CheckBox IsChecked="{Binding UseSpectralInputs, Mode=TwoWay}" HorizontalAlignment="Left" Margin="22,0,0,0"/>
-                    <TextBlock Text="use spectral panel inputs for forward solver" HorizontalAlignment="Left"/>
+                    <TextBlock Text="use spectral panel inputs" HorizontalAlignment="Left"/>
                 </StackPanel>
             </controls:HeaderedContentControl.Header>
             <controls:HeaderedContentControl.Content>
@@ -78,14 +78,28 @@
         <StackPanel Visibility="{Binding ConstantLabelVisible, Converter={StaticResource myBooleanToVisibilityConverter}}"
                     Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" 
                     LayoutUpdated="StackPanel_LayoutUpdated" Margin="0,1,0,0">
-            <TextBlock Text="{Binding Path=MainResource.Label_IndependentAxis, Source={StaticResource LocalizedStrings}}" 
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=MainResource.Label_IndependentAxis, Source={StaticResource LocalizedStrings}}" 
                        VerticalAlignment="Center" HorizontalAlignment="Left"
                        FontWeight="Bold"/>
+                <CheckBox IsChecked="{Binding AllowMultiAxis, Mode=TwoWay}" HorizontalAlignment="Left" Margin="15,0,0,0"/>
+                <TextBlock Text="allow multi-axis selection" HorizontalAlignment="Left"/>
+            </StackPanel>
+            
             <!-- Radio button options -->
             <StackPanel Orientation="Horizontal" Margin="3,1,0,0">
-                <v:RadioButtonOptionView DataContext="{Binding IndependentVariableAxisOptionVM}" 
-                                     VerticalContentAlignment="Center"
-                                     VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <StackPanel Visibility="{Binding AllowSingleAxis, Converter={StaticResource myBooleanToVisibilityConverter}}">
+                    <v:RadioButtonOptionView 
+                        DataContext="{Binding IndependentVariableAxisOptionVM}" 
+                        VerticalContentAlignment="Center"
+                        VerticalAlignment="Center" HorizontalAlignment="Left" />                    
+                </StackPanel>
+                <StackPanel Visibility="{Binding AllowMultiAxis, Converter={StaticResource myBooleanToVisibilityConverter}}">
+                    <v:CheckBoxOptionView 
+                        DataContext="{Binding IndependentVariableAxisOptionVM}" 
+                        VerticalContentAlignment="Center"
+                        VerticalAlignment="Center" HorizontalAlignment="Left"/>                    
+                </StackPanel>
                 <TextBlock Text="{Binding Path=MainResource.Label_At, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" />
                 <TextBlock Text="{Binding ConstantAxisLabel}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" />
                 <TextBlock Text="="  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,0,1,0"/>
