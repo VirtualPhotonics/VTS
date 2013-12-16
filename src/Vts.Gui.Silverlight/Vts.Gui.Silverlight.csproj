@@ -272,9 +272,6 @@
     <Compile Include="View\Controls\PositionView.xaml.cs">
       <DependentUpon>PositionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Controls\CheckBoxOptionView.xaml.cs">
-      <DependentUpon>CheckBoxOptionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Helpers\Colormap.cs" />
     <Compile Include="View\Controls\ComboBox.cs" />
     <Compile Include="View\Controls\ComboBoxOptionView.xaml.cs">
@@ -299,14 +296,15 @@
     <Compile Include="View\Controls\ListBoxOptionView.xaml.cs">
       <DependentUpon>ListBoxOptionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Helpers\DataTemplateSelector.cs" />
     <Compile Include="View\Helpers\ImageTools.cs" />
+    <Compile Include="View\Helpers\OptionTemplateSelector.cs" />
     <Compile Include="View\Templates\MieScatteringView.xaml.cs">
       <DependentUpon>MieScatteringView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Application\Panels\MonteCarloSolverView.xaml.cs">
       <DependentUpon>MonteCarloSolverView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Helpers\PlotExtensions.cs" />
     <Compile Include="View\Templates\PowerLawScatteringView.xaml.cs">
       <DependentUpon>PowerLawScatteringView.xaml</DependentUpon>
     </Compile>
@@ -446,10 +444,6 @@
     <Page Include="View\Controls\ListBoxOptionView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Controls\CheckBoxOptionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

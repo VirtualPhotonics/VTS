@@ -88,18 +88,10 @@
             
             <!-- Radio button options -->
             <StackPanel Orientation="Horizontal" Margin="3,1,0,0">
-                <StackPanel Visibility="{Binding AllowSingleAxis, Converter={StaticResource myBooleanToVisibilityConverter}}">
-                    <v:RadioButtonOptionView 
-                        DataContext="{Binding IndependentVariableAxisOptionVM}" 
-                        VerticalContentAlignment="Center"
-                        VerticalAlignment="Center" HorizontalAlignment="Left" />                    
-                </StackPanel>
-                <StackPanel Visibility="{Binding AllowMultiAxis, Converter={StaticResource myBooleanToVisibilityConverter}}">
-                    <v:CheckBoxOptionView 
-                        DataContext="{Binding IndependentVariableAxisOptionVM}" 
-                        VerticalContentAlignment="Center"
-                        VerticalAlignment="Center" HorizontalAlignment="Left"/>                    
-                </StackPanel>
+                <v:RadioButtonOptionView 
+                    DataContext="{Binding IndependentVariableAxisOptionVM}" 
+                    VerticalContentAlignment="Center"
+                    VerticalAlignment="Center" HorizontalAlignment="Left" />   
                 <TextBlock Text="{Binding Path=MainResource.Label_At, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" />
                 <TextBlock Text="{Binding ConstantAxisLabel}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" />
                 <TextBlock Text="="  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,0,1,0"/>

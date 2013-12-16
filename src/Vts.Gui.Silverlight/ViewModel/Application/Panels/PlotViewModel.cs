@@ -627,6 +627,10 @@ namespace Vts.Gui.Silverlight.ViewModel
                     (_AutoScaleX ? true : (p.X <= MaxXValue && p.X >= MinXValue)) &&
                     (_AutoScaleY ? true : (p.Y <= MaxYValue && p.Y >= MinYValue));
 
+            Func<Point, bool> isValidDataPoint = p =>
+                !double.IsInfinity(Math.Abs(p.X)) && !double.IsNaN(p.X) &&
+                !double.IsInfinity(Math.Abs(p.Y)) && !double.IsNaN(p.Y);
+
             var pointsToPlot =
                 from ds in Enumerable.Zip(
                     tempDSC,
@@ -639,7 +643,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     new Point(
                         useLogX ? Math.Log10(x) : x,
                         useLogY ? Math.Log10(y) : y))
-                    .Where(p => p.IsValidDataPoint() && isWithinAxes(p));
+                    .Where(p => isValidDataPoint(p) && isWithinAxes(p));
 
             // get stats for reference - do this better/faster in the future...
             if (AutoScaleX || AutoScaleY)

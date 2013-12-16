@@ -16,18 +16,20 @@ namespace Vts.Gui.Silverlight.ViewModel
         private string _SelectedDisplayName;
         private bool _ShowTitle;
         private string _GroupName;
+        private bool _enableMultiSelect;
         //private ReadOnlyCollection<OptionModel<TValue>> _Options;
         private Dictionary<TValue, OptionModel<TValue>> _Options;
         //private Dictionary<TValue, Dictionary<TValue, OptionModel<TValue>>> _SubOptions;
 
         
-        public OptionViewModel(string groupName, bool showTitle, TValue initialValue, TValue[] allValues)
+        public OptionViewModel(string groupName, bool showTitle, TValue initialValue, TValue[] allValues, bool enableMultiSelect = false)
         {
             ShowTitle = showTitle;
             GroupName = groupName;
+            _enableMultiSelect = enableMultiSelect;
 
             // todo: CreateAvailableOptions should be owned by either this class or an OptionModelService class
-            Options = OptionModel<TValue>.CreateAvailableOptions(OnOptionPropertyChanged, groupName, initialValue, allValues);
+            Options = OptionModel<TValue>.CreateAvailableOptions(OnOptionPropertyChanged, groupName, initialValue, allValues, _enableMultiSelect);
 
             SelectedValue = initialValue;
         }
@@ -98,6 +100,16 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 _GroupName = value;
                 this.OnPropertyChanged("GroupName");
+            }
+        }
+
+        public bool EnableMultiSelect
+        {
+            get { return _enableMultiSelect; }
+            set
+            {
+                _enableMultiSelect = value;
+                this.OnPropertyChanged("EnableMultiSelect");
             }
         }
 

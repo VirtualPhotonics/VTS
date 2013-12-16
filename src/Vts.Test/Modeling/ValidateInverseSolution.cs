@@ -24,9 +24,7 @@ namespace Vts.Test.Modeling
                 ForwardSolverType.DistributedPointSourceSDA,
                 SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
-                IndependentVariableAxis.Rho,
-                independentValues,
-                actualProperties).ToArray();
+                new object[] {new[] {actualProperties}, independentValues});
 
             var standardDeviation = simulatedMeasured;
 
@@ -63,9 +61,7 @@ namespace Vts.Test.Modeling
                 ForwardSolverType.MonteCarlo,
                 SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
-                IndependentVariableAxis.Rho,
-                independentValues,
-                actualProperties).ToArray();
+                new object[] { new[] { actualProperties }, independentValues });
 
             var standardDeviation = simulatedMeasured;
 
@@ -102,9 +98,7 @@ namespace Vts.Test.Modeling
                 ForwardSolverType.MonteCarlo,
                 SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
-                IndependentVariableAxis.Rho,
-                independentValues,
-                actualProperties).ToArray();
+                new object[] { new[] { actualProperties }, independentValues });
             
             var standardDeviation = simulatedMeasured;
 

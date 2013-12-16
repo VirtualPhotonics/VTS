@@ -53,9 +53,9 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             this.PropertyChanged += (sender, args) =>
             {
-                if (sender is SolutionDomainOptionViewModel && 
-                    args.PropertyName == "SelectedValue" ||
-                    args.PropertyName == "UseSpectralInputs")
+                if (args.PropertyName == "SelectedValue" ||
+                    args.PropertyName == "UseSpectralInputs" ||
+                    args.PropertyName == "AllowMultiAxis")
                     UpdateOptions(SelectedValue);
             };
             UpdateOptions(defaultType);
@@ -268,10 +268,10 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        public bool AllowSingleAxis
-        {
-            get { return !_allowMultiAxis; }
-        }
+        //public bool AllowSingleAxis
+        //{
+        //    get { return !_allowMultiAxis; }
+        //}
 
         private void UpdateOptions(SolutionDomainType selectedType)
         {
@@ -279,43 +279,43 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 case SolutionDomainType.ROfRho:
                     IndependentVariableAxisOptionVM = UseSpectralInputs 
-                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Wavelength })
-                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho });
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Wavelength }, _allowMultiAxis)
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho }, _allowMultiAxis);
                     ConstantLabelVisible = UseSpectralInputs;
                     ConstantLabelTwoVisible = false;
                     break;
                 case SolutionDomainType.ROfFx:
-                    IndependentVariableAxisOptionVM = UseSpectralInputs 
-                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Wavelength })
-                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx });
+                    IndependentVariableAxisOptionVM = UseSpectralInputs
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Wavelength }, _allowMultiAxis)
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx }, _allowMultiAxis);
                     ConstantLabelVisible = UseSpectralInputs;
                     ConstantLabelTwoVisible = false;
                     break;
                 case SolutionDomainType.ROfRhoAndTime:
                     IndependentVariableAxisOptionVM = UseSpectralInputs
-                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time, IndependentVariableAxis.Wavelength })
-                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time });
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time, IndependentVariableAxis.Wavelength }, _allowMultiAxis)
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Time }, _allowMultiAxis);
                     ConstantLabelVisible = true;
                     ConstantLabelTwoVisible = UseSpectralInputs;
                     break;
                 case SolutionDomainType.ROfFxAndTime:
-                    IndependentVariableAxisOptionVM = UseSpectralInputs 
-                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Time, IndependentVariableAxis.Wavelength })
-                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Time });
+                    IndependentVariableAxisOptionVM = UseSpectralInputs
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Time, IndependentVariableAxis.Wavelength }, _allowMultiAxis)
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Time }, _allowMultiAxis);
                     ConstantLabelVisible = true;
                     ConstantLabelTwoVisible = UseSpectralInputs;
                     break;
                 case SolutionDomainType.ROfRhoAndFt:
                     IndependentVariableAxisOptionVM = UseSpectralInputs
-                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft, IndependentVariableAxis.Wavelength })
-                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft });
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft, IndependentVariableAxis.Wavelength }, _allowMultiAxis)
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Rho, new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Ft }, _allowMultiAxis);
                     ConstantLabelVisible = true;
                     ConstantLabelTwoVisible = UseSpectralInputs;
                     break;
                 case SolutionDomainType.ROfFxAndFt:
-                    IndependentVariableAxisOptionVM = UseSpectralInputs 
-                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft, IndependentVariableAxis.Wavelength })
-                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft });
+                    IndependentVariableAxisOptionVM = UseSpectralInputs
+                        ? new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft, IndependentVariableAxis.Wavelength }, _allowMultiAxis)
+                        : new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false, IndependentVariableAxis.Fx, new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft }, _allowMultiAxis);
                     ConstantLabelVisible = true;
                     ConstantLabelTwoVisible = UseSpectralInputs;
                     break;
