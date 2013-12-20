@@ -441,7 +441,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     {
                         return null;
                     }
-                    fluence = ComputationalFactory.ComputeFluence(
+                    fluence = ComputationFactory.ComputeFluence(
                             ForwardSolverTypeOptionVM.SelectedValue,
                             sd.SelectedValue,
                             independentAxes,
@@ -451,7 +451,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
                 else
                 {
-                        ComputationFactory.ComputeFluence(
+                    fluence = ComputationFactory.ComputeFluence(
                             ForwardSolverTypeOptionVM.SelectedValue,
                             sd.SelectedValue,
                             independentAxes,

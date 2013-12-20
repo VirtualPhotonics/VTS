@@ -130,7 +130,7 @@ namespace Vts.Factories
         }
 
         // overload for ITissueRegion forward solvers todo: merge with above?
-        public static double[] GetReflectance(
+        public static double[] ComputeReflectance(
             ForwardSolverType forwardSolverType,
             SolutionDomainType solutionDomainType,
             ForwardAnalysisType forwardAnalysisType,
@@ -142,7 +142,7 @@ namespace Vts.Factories
             // use factory method on each call, as opposed to injecting an instance from the outside
             // -- still time-efficient if singletons are used
             // -- potentially memory-inefficient if the user creates lots of large solver instances
-            return GetReflectance(
+            return ComputeReflectance(
                 SolverFactory.GetForwardSolver(forwardSolverType),
                 solutionDomainType,
                 forwardAnalysisType,
@@ -152,6 +152,7 @@ namespace Vts.Factories
                 constantValues);
         }
 
+        public static double[] ComputeReflectance(
             IForwardSolver forwardSolver,
             SolutionDomainType solutionDomainType,
             ForwardAnalysisType forwardAnalysisType,
@@ -185,7 +186,7 @@ namespace Vts.Factories
         }
 
         // overload for ITissueRegion forward solvers todo: merge with above?
-        public static double[] GetVectorizedIndependentVariableQueryNew(
+        public static double[] ComputeReflectance(
             IForwardSolver forwardSolver,
             SolutionDomainType solutionDomainType,
             ForwardAnalysisType forwardAnalysisType,
@@ -288,7 +289,7 @@ namespace Vts.Factories
             return func(parameters, inputValues.ToArray());
         }
 
-        public static double[] GetVectorizedMultidimensionalIndependentVariableQueryNew(
+        public static double[] ComputeFluence(
             ForwardSolverType forwardSolverType,
             FluenceSolutionDomainType solutionDomainType,
             // keeping us from uniting the above. needs to be a single SolutionDomainType enum
@@ -300,7 +301,7 @@ namespace Vts.Factories
             // use factory method on each call, as opposed to injecting an instance from the outside
             // -- still time-efficient if singletons are used
             // -- potentially memory-inefficient if the user creates lots of large solver instances
-            return GetVectorizedMultidimensionalIndependentVariableQueryNew(
+            return ComputeFluence(
                 SolverFactory.GetForwardSolver(forwardSolverType),
                 solutionDomainType,
                 independentAxesTypes,
@@ -309,7 +310,7 @@ namespace Vts.Factories
                 constantValues);
         }
         // overload for ITissueRegion forward solvers todo: merge with above?
-        public static double[] GetVectorizedMultidimensionalIndependentVariableQueryNew(
+        public static double[] ComputeFluence(
             IForwardSolver forwardSolver,
             FluenceSolutionDomainType solutionDomainType,
             // keeping us from uniting the above. needs to be a single SolutionDomainType enum

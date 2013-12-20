@@ -316,7 +316,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             else
             {
                 var opticalProperties = ((OpticalPropertyViewModel) TissueInputVM).GetOpticalProperties();
-                query = ComputationFactory.GetReflectance(
+                query = ComputationFactory.ComputeReflectance(
                      ForwardSolverTypeOptionVM.SelectedValue,
                      SolutionDomainTypeOptionVM.SelectedValue,
                      ForwardAnalysisTypeOptionVM.SelectedValue,
