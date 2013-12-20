@@ -387,7 +387,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
 
                IEnumerable<Complex> fluence =
-                    ComputationFactory.GetVectorizedMultidimensionalIndependentVariableQueryNewComplex(
+                    ComputationFactory.ComputeFluenceComplex(
                         ForwardSolverTypeOptionVM.SelectedValue,
                         sd.SelectedValue,
                         independentAxes,
@@ -441,8 +441,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     {
                         return null;
                     }
-                    fluence =
-                        ComputationFactory.GetVectorizedMultidimensionalIndependentVariableQueryNew(
+                    fluence = ComputationalFactory.ComputeFluence(
                             ForwardSolverTypeOptionVM.SelectedValue,
                             sd.SelectedValue,
                             independentAxes,
@@ -452,8 +451,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
                 else
                 {
-                    fluence =
-                        ComputationFactory.GetVectorizedMultidimensionalIndependentVariableQueryNew(
+                        ComputationFactory.ComputeFluence(
                             ForwardSolverTypeOptionVM.SelectedValue,
                             sd.SelectedValue,
                             independentAxes,

@@ -14,12 +14,12 @@ namespace Vts.Test.Factories
         }
 
         /// <summary>
-        /// Test against the ComputationFactory class GetVectorizedIndependentVariableQueryNew routine
+        /// Test against the ComputationFactory class ComputeReflectance routine
         /// </summary>
         [Test]
         public void GetVectorizedIndependentVariableQueryNew_can_be_called_using_string_inputs()
         {
-            var test = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            var test = ComputationFactory.ComputeReflectance(
                 "MonteCarlo",
                 "ROfRho",
                 "R",
@@ -30,12 +30,12 @@ namespace Vts.Test.Factories
         }
 
         /// <summary>
-        /// Test against the ComputationFactory class GetVectorizedIndependentVariableQueryNew routine
+        /// Test against the ComputationFactory class ComputeReflectance routine
         /// </summary>
         [Test]
         public void GetVectorizedIndependentVariableQueryNew_can_be_called_using_enum_inputs()
         {
-            var test = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            var test = ComputationFactory.ComputeReflectance(
                 ForwardSolverType.MonteCarlo,
                 SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,

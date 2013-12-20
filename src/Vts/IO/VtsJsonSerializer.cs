@@ -17,7 +17,7 @@ namespace Vts.IO
     public static class VtsJsonSerializer
     {
 #if DEBUG
-        private static MemoryTraceWriter _traceWriter = new MemoryTraceWriter();
+        public static MemoryTraceWriter TraceWriter = new MemoryTraceWriter();
 #endif
         public static string WriteToJson<T>(this T myObject)
         {
@@ -26,7 +26,7 @@ namespace Vts.IO
                 TypeNameHandling = TypeNameHandling.None, 
             };
 #if DEBUG
-            settings.TraceWriter = _traceWriter;
+            settings.TraceWriter = TraceWriter;
 #endif
             settings.Converters.Add(new StringEnumConverter());
             string json = JsonConvert.SerializeObject(
@@ -34,7 +34,7 @@ namespace Vts.IO
                 Formatting.Indented,
                 settings);
 #if DEBUG
-            Console.WriteLine(_traceWriter);
+            Console.WriteLine(TraceWriter);
 #endif
             return json;
         }
@@ -68,7 +68,7 @@ namespace Vts.IO
             }
             serializer.NullValueHandling = NullValueHandling.Ignore;
 #if DEBUG
-            serializer.TraceWriter = _traceWriter;
+            serializer.TraceWriter = TraceWriter;
 #endif
 
             T deserializedProduct = default(T);
@@ -78,7 +78,7 @@ namespace Vts.IO
                 deserializedProduct = serializer.Deserialize<T>(reader);
             }
 #if DEBUG
-            Console.WriteLine(_traceWriter);
+            Console.WriteLine(TraceWriter);
 #endif
             return deserializedProduct;
         }
@@ -139,7 +139,7 @@ namespace Vts.IO
             _classBasename = classBasename ?? _interfaceType.Name.Substring(1);
             _typeCategoryString = typeCategoryString;
 
-            var useSingleton = true;
+            var useSingleton = false;
             var useDefaultConstructor = true;
             
             var classList =

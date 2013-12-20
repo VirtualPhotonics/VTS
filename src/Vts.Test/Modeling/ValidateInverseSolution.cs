@@ -20,7 +20,7 @@ namespace Vts.Test.Modeling
             var actualProperties = new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4);
             var initialGuess =     new OpticalProperties(mua: 0.02, musp: 1.2, g: 0.8, n: 1.4);
 
-            var simulatedMeasured = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            var simulatedMeasured = ComputationFactory.ComputeReflectance(
                 ForwardSolverType.DistributedPointSourceSDA,
                 SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
@@ -30,7 +30,7 @@ namespace Vts.Test.Modeling
 
             var standardDeviation = simulatedMeasured;
 
-            double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
+            double[] fit = ComputationFactory.SolveInverse(
                 ForwardSolverType.DistributedPointSourceSDA,
                 OptimizerType.MPFitLevenbergMarquardt,
                 SolutionDomainType.ROfRho,
@@ -59,7 +59,7 @@ namespace Vts.Test.Modeling
             var actualProperties = new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4);
             var initialGuess = new OpticalProperties(mua: 0.02, musp: 1.2, g: 0.8, n: 1.4);
 
-            var simulatedMeasured = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            var simulatedMeasured = ComputationFactory.ComputeReflectance(
                 ForwardSolverType.MonteCarlo,
                 SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
@@ -69,7 +69,7 @@ namespace Vts.Test.Modeling
 
             var standardDeviation = simulatedMeasured;
 
-            double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
+            double[] fit = ComputationFactory.SolveInverse(
                 ForwardSolverType.DistributedPointSourceSDA,
                 OptimizerType.MPFitLevenbergMarquardt,
                 SolutionDomainType.ROfRho,
@@ -98,7 +98,7 @@ namespace Vts.Test.Modeling
             var actualProperties = new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4);
             var initialGuess = new OpticalProperties(mua: 0.02, musp: 1.2, g: 0.8, n: 1.4);
 
-            var simulatedMeasured = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            var simulatedMeasured = ComputationFactory.ComputeReflectance(
                 ForwardSolverType.MonteCarlo,
                 SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
@@ -108,7 +108,7 @@ namespace Vts.Test.Modeling
             
             var standardDeviation = simulatedMeasured;
 
-            double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
+            double[] fit = ComputationFactory.SolveInverse(
                 ForwardSolverType.MonteCarlo,
                 OptimizerType.MPFitLevenbergMarquardt,
                 SolutionDomainType.ROfRho,

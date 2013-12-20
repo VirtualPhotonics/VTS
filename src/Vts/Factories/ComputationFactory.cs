@@ -22,9 +22,6 @@ namespace Vts.Factories
     /// <summary>
     /// Class that composes forward and optimization calculations based on high-level inputs
     /// </summary>
-#if DESKTOP
-    [ComVisible(true)]
-#endif
     public static class ComputationFactory
     {
         // todo: the following two methods are a result of a leaky abstraction 
@@ -88,19 +85,17 @@ namespace Vts.Factories
         /// <param name="opticalProperties"></param>
         /// <param name="constantValues"></param>
         /// <returns></returns>
-#if DESKTOP
-            [ComVisible(true)] 
-#endif
-        public static double[] GetVectorizedIndependentVariableQueryNew(
-            string forwardSolverType,
-            string solutionDomainType,
-            string forwardAnalysisType,
-            string independentVariableAxisType,
-            double[] independentValues,
-            double[] opticalProperties,
-            double[] constantValues)
+        public static double[] ComputeReflectance(
+
+             string forwardSolverType,
+             string solutionDomainType,
+             string forwardAnalysisType,
+             string independentVariableAxisType,
+             double[] independentValues,
+             double[] opticalProperties,
+             double[] constantValues)
         {
-            return GetVectorizedIndependentVariableQueryNew(
+            return ComputeReflectance(
                 (ForwardSolverType) Enum.Parse(typeof (ForwardSolverType), forwardSolverType, true),
                 (SolutionDomainType) Enum.Parse(typeof (SolutionDomainType), solutionDomainType, true),
                 (ForwardAnalysisType) Enum.Parse(typeof (ForwardAnalysisType), forwardAnalysisType, true),
@@ -112,7 +107,7 @@ namespace Vts.Factories
                 constantValues).ToArray();
         }
 
-        public static double[] GetVectorizedIndependentVariableQueryNew(
+        public static double[] ComputeReflectance(
             ForwardSolverType forwardSolverType,
             SolutionDomainType solutionDomainType,
             ForwardAnalysisType forwardAnalysisType,
@@ -124,7 +119,7 @@ namespace Vts.Factories
             // use factory method on each call, as opposed to injecting an instance from the outside
             // -- still time-efficient if singletons are used
             // -- potentially memory-inefficient if the user creates lots of large solver instances
-            return GetVectorizedIndependentVariableQueryNew(
+            return ComputeReflectance(
                 SolverFactory.GetForwardSolver(forwardSolverType),
                 solutionDomainType,
                 forwardAnalysisType,
@@ -135,7 +130,7 @@ namespace Vts.Factories
         }
 
         // overload for ITissueRegion forward solvers todo: merge with above?
-        public static double[] GetVectorizedIndependentVariableQueryNew(
+        public static double[] GetReflectance(
             ForwardSolverType forwardSolverType,
             SolutionDomainType solutionDomainType,
             ForwardAnalysisType forwardAnalysisType,
@@ -147,7 +142,7 @@ namespace Vts.Factories
             // use factory method on each call, as opposed to injecting an instance from the outside
             // -- still time-efficient if singletons are used
             // -- potentially memory-inefficient if the user creates lots of large solver instances
-            return GetVectorizedIndependentVariableQueryNew(
+            return GetReflectance(
                 SolverFactory.GetForwardSolver(forwardSolverType),
                 solutionDomainType,
                 forwardAnalysisType,
@@ -157,7 +152,6 @@ namespace Vts.Factories
                 constantValues);
         }
 
-        public static double[] GetVectorizedIndependentVariableQueryNew(
             IForwardSolver forwardSolver,
             SolutionDomainType solutionDomainType,
             ForwardAnalysisType forwardAnalysisType,
@@ -248,7 +242,7 @@ namespace Vts.Factories
             }
         }
 
-        public static double[] GetVectorizedMultidimensionalIndependentVariableQueryNew(
+        public static double[] ComputeFluence(
             ForwardSolverType forwardSolverType,
             FluenceSolutionDomainType solutionDomainType,
             // keeping us from uniting the above. needs to be a single SolutionDomainType enum
@@ -260,7 +254,7 @@ namespace Vts.Factories
             // use factory method on each call, as opposed to injecting an instance from the outside
             // -- still time-efficient if singletons are used
             // -- potentially memory-inefficient if the user creates lots of large solver instances
-            return GetVectorizedMultidimensionalIndependentVariableQueryNew(
+            return ComputeFluence(
                 SolverFactory.GetForwardSolver(forwardSolverType),
                 solutionDomainType,
                 independentAxesTypes,
@@ -269,7 +263,7 @@ namespace Vts.Factories
                 constantValues);
         }
 
-        public static double[] GetVectorizedMultidimensionalIndependentVariableQueryNew(
+        public static double[] ComputeFluence(
             IForwardSolver forwardSolver,
             FluenceSolutionDomainType solutionDomainType,
             // keeping us from uniting the above. needs to be a single SolutionDomainType enum
@@ -362,7 +356,7 @@ namespace Vts.Factories
             return func(parameters, inputValues.ToArray());
         }
 
-        public static Complex[] GetVectorizedMultidimensionalIndependentVariableQueryNewComplex(
+        public static Complex[] ComputeFluenceComplex(
             ForwardSolverType forwardSolverType,
             FluenceSolutionDomainType solutionDomainType,
             // keeping us from uniting the above. needs to be a single SolutionDomainType enum
@@ -374,7 +368,7 @@ namespace Vts.Factories
             // use factory method on each call, as opposed to injecting an instance from the outside
             // -- still time-efficient if singletons are used
             // -- potentially memory-inefficient if the user creates lots of large solver instances
-            return GetVectorizedMultidimensionalIndependentVariableQueryNewComplex(
+            return ComputeFluenceComplex(
                 SolverFactory.GetForwardSolver(forwardSolverType),
                 solutionDomainType,
                 independentAxesTypes,
@@ -383,7 +377,7 @@ namespace Vts.Factories
                 constantValues);
         }
 
-        public static Complex[] GetVectorizedMultidimensionalIndependentVariableQueryNewComplex(
+        public static Complex[] ComputeFluenceComplex(
             IForwardSolver forwardSolver,
             FluenceSolutionDomainType solutionDomainType,
             // keeping us from uniting the above. needs to be a single SolutionDomainType enum
@@ -567,7 +561,7 @@ namespace Vts.Factories
             return result;
         }
 
-        public static double[] ConstructAndExecuteVectorizedOptimizer(
+        public static double[] SolveInverse(
             ForwardSolverType forwardSolverType,
             OptimizerType optimizerType,
             SolutionDomainType solutionDomainType,
@@ -582,7 +576,7 @@ namespace Vts.Factories
             // use factory method on each call, as opposed to injecting an instance from the outside
             // -- still time-efficient if singletons are used
             // -- potentially memory-inefficient if the user creates lots of large solver instances
-            return ConstructAndExecuteVectorizedOptimizer(
+            return SolveInverse(
                 SolverFactory.GetForwardSolver(forwardSolverType),
                 SolverFactory.GetOptimizer(optimizerType),
                 solutionDomainType,
@@ -595,7 +589,7 @@ namespace Vts.Factories
                 constantValues);
         }
 
-        public static double[] ConstructAndExecuteVectorizedOptimizer(
+        public static double[] SolveInverse(
             IForwardSolver forwardSolver,
             IOptimizer optimizer,
             SolutionDomainType solutionDomainType,

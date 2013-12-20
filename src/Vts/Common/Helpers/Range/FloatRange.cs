@@ -44,24 +44,15 @@ namespace Vts.Common
         {
             if (Count == 1)
             {
-                return 0F;
+                if (Start != Stop)
+                {
+                    return Stop - Start;
+                }
+
+                return 0f;
             }
 
             return (Stop - Start) / (Count - 1F);
-        }
-
-        /// <summary>
-        /// Returns the count
-        /// </summary>
-        /// <returns>An integer representing the count</returns>
-        protected override int GetNewCount()
-        {
-            if (Delta == 0f)
-            {
-                return 1;
-            }
-
-            return (int)((Stop - Start) / Delta + 1);
         }
 
         /// <summary>

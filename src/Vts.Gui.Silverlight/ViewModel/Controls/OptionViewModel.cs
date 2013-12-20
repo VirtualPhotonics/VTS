@@ -28,9 +28,6 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             // todo: CreateAvailableOptions should be owned by either this class or an OptionModelService class
             Options = OptionModel<TValue>.CreateAvailableOptions(OnOptionPropertyChanged, groupName, initialValue, allValues);
-            //_SubOptions =
-            //    (from k in Options.Keys.Where(key=>key.HasSubOptions())
-            //     select OptionModel<k.GetType>.CreateAvailableOptions(OnOptionPropertyChanged, groupName,k.GetSubOptions().ToArray())).ToArray();
 
             SelectedValue = initialValue;
         }

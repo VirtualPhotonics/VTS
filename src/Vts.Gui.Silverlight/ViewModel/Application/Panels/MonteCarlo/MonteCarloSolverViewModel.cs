@@ -255,7 +255,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     logger.Info(() => "Saving simulation results to temporary directory...");
                     string resultsFolder = input.OutputName;
                     FileIO.CreateDirectory(resultsFolder);
-                    input.ToFile(Path.Combine(resultsFolder, "infile_" + input.OutputName + ".xml"));
+                    input.ToXMLFile(Path.Combine(resultsFolder, "infile_" + input.OutputName + ".xml"));
 
                     foreach (var result in _output.ResultsDictionary.Values)
                     {
@@ -338,7 +338,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                     foreach (var file in files)
                     {
-                        file.Input.ToFile(file.Name);
+                        file.Input.ToXMLFile(file.Name);
                     }
 
                     FileIO.ZipFiles(files.Select(file => file.Name), "", stream);

@@ -304,7 +304,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     return null;
                 }
 
-                query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+                query = ComputationFactory.ComputeReflectance(
                         ForwardSolverTypeOptionVM.SelectedValue,
                         SolutionDomainTypeOptionVM.SelectedValue,
                         ForwardAnalysisTypeOptionVM.SelectedValue,
@@ -316,7 +316,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             else
             {
                 var opticalProperties = ((OpticalPropertyViewModel) TissueInputVM).GetOpticalProperties();
-                query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+                query = ComputationFactory.GetReflectance(
                      ForwardSolverTypeOptionVM.SelectedValue,
                      SolutionDomainTypeOptionVM.SelectedValue,
                      ForwardAnalysisTypeOptionVM.SelectedValue,

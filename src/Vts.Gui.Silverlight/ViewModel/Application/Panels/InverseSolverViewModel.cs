@@ -464,7 +464,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                 ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
-            var measuredData = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            var measuredData = ComputationFactory.ComputeReflectance(
                 MeasuredForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisType.R,
@@ -489,7 +489,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                 ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
-            return ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            return ComputationFactory.ComputeReflectance(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisType.R,
@@ -515,7 +515,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                     ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
-            double[] fit = ComputationFactory.ConstructAndExecuteVectorizedOptimizer(
+            double[] fit = ComputationFactory.SolveInverse(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
                 OptimizerTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
@@ -532,7 +532,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             ResultOpticalPropertyVM.G = fit[2];
             ResultOpticalPropertyVM.N = fit[3];
 
-            ResultDataValues = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            ResultDataValues = ComputationFactory.ComputeReflectance(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisType.R,
