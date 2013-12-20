@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
         public void validate_PhotonDatabase_deserialized_class_is_correct_when_using_WriteToFile()
         {
             // test serialization
-            new SimulationInput().ToFile("SimulationInputTest.xml");
+            new SimulationInput().ToXMLFile("SimulationInputTest.xml");
 
             string databaseFilename = "testphotondatabase";
 
