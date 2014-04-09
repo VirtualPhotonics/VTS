@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using Vts.FemModeling.MGRTE._2D.DataStructures;
-using Vts.FemModeling.MGRTE._2D.SourceInputs;
-using Vts.Common;
 using Vts.Common.Logging;
+using Vts.FemModeling.MGRTE._2D.DataStructures;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
-
 
 namespace Vts.FemModeling.MGRTE._2D
 {

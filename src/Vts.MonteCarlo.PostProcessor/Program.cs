@@ -1,16 +1,10 @@
 //#define PROCESS_ATTACH_DEBUG
 
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
-using Vts.IO;
-using Vts.Common;
-using Vts.MonteCarlo.PostProcessing;
-using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.PostProcessor
 {

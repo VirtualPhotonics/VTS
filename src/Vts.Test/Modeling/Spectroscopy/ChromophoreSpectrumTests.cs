@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Vts.SpectralMapping;
 using Vts.IO;
+using Vts.SpectralMapping;
 
 namespace Vts.Test.Modeling.Spectroscopy
 {

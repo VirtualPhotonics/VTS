@@ -6,8 +6,6 @@
 //       since there is some overhead in emitting CIL dynamically.
 
 using System;
-using System.Reflection.Emit;
-using System.Reflection;
 
 namespace FluxJpeg.Core
 {

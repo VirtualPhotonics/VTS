@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using Vts.MonteCarlo.PhotonData;
-
 namespace Vts.MonteCarlo.Extensions
 {
     /// <summary>

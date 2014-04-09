@@ -4,7 +4,6 @@ using System.Linq;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.IO
 {

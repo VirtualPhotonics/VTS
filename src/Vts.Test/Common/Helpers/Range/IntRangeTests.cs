@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Threading;
 using NUnit.Framework;
 using Vts.Common;
 

@@ -1,7 +1,5 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Vts.Common;
-using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo;
 
 namespace Vts.Test.MonteCarlo.Sources

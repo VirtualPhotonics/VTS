@@ -1,12 +1,12 @@
-﻿using System.Numerics;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Windows;
 using SLExtensions.Input;
 using Vts.Factories;
+using Vts.Gui.Silverlight.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
-using Vts.Gui.Silverlight.Extensions;
 
 #if WHITELIST
 using Vts.Gui.Silverlight.ViewModel.Application;

@@ -5,11 +5,10 @@ using System.Linq;
 using System.Numerics;
 using SLExtensions.Input;
 using Vts.Common;
-using Vts.Extensions;
 using Vts.Factories;
+using Vts.Gui.Silverlight.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
-using Vts.Gui.Silverlight.Extensions;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {

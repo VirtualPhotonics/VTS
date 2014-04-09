@@ -5,7 +5,6 @@ using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Tissues;
 
-
 namespace Vts.MonteCarlo
 {
     ///<summary>

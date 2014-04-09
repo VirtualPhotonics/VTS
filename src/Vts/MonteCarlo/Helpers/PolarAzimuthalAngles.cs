@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Vts.MonteCarlo.Helpers
+﻿namespace Vts.MonteCarlo.Helpers
 {
     /// <summary>
     /// Methods to help with the determination of polar azimuthal angles.

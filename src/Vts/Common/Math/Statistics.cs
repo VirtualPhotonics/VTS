@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Vts.Extensions;
 
 namespace Vts.Common.Math
 {

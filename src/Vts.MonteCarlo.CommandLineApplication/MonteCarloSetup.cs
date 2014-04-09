@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Vts.Common;
 using Vts.Common.Logging;
 using Vts.Extensions;
-using Vts.IO;
-using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Extensions;
+using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.CommandLineApplication
 {

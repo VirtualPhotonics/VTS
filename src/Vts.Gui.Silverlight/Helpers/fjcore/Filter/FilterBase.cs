@@ -1,10 +1,10 @@
 /// Copyright (c) 2008-09 Jeffrey Powers for Occipital Open Source.
 /// Under the MIT License, details: License.txt.
 
+using System;
+
 namespace FluxJpeg.Core.Filtering
 {
-    using System;
-
     public enum ResamplingFilters
     {
         NearestNeighbor,

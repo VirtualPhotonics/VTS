@@ -1,8 +1,5 @@
-using System;
 using System.Linq;
-using System.Runtime.Serialization;
 using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.PhotonData
 {

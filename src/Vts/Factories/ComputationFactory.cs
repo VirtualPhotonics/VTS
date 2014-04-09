@@ -5,10 +5,7 @@ using System.Numerics;
 using Vts.Extensions;
 using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers.Extensions;
-
 #if DESKTOP
-using System.Runtime.InteropServices;
-using Vts.SpectralMapping;
 
 #endif
 

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Vts.Common;
 
 namespace Vts.Gui.Silverlight.ViewModel

@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Vts.IO;
-using Vts.Extensions;
-using Vts.MonteCarlo.Tissues;
 using Vts.Common;
+using Vts.IO;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Extensions
 {

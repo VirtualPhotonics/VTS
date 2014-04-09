@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.Serialization;
-using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;

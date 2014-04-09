@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using Vts.IO;
-using Vts.Factories;
-using Vts.Modeling.ForwardSolvers;
-using Vts.Modeling.Optimizers;
-using Vts.Extensions;
 using Vts.Common;
+using Vts.Extensions;
+using Vts.Factories;
+using Vts.IO;
 
 namespace Vts.ReportInverseSolver.Desktop
 {

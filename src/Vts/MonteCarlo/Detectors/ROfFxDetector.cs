@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
-using System.Numerics;
 
 namespace Vts.MonteCarlo.Detectors
 {

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using NUnit.Framework;
-using Vts;
+﻿using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.IO;
 
 namespace Vts.Test.MonteCarlo.PhotonData
 {

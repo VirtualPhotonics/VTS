@@ -1,6 +1,6 @@
 using System;
-using System.Numerics;
 using System.Collections.Generic;
+using System.Numerics;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;

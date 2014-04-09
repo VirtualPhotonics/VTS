@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 //[assembly: InternalsVisibleTo("Vts.IO")]
 //[assembly: InternalsVisibleTo("Vts.Common.Test")] 

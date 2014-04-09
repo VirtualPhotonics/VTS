@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using Vts.MonteCarlo.PhotonData;
-using Vts.Common;
 
 namespace Vts.MonteCarlo
 {

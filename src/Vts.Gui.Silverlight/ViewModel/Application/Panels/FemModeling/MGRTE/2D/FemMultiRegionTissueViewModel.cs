@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿//using Vts.FemModeling.MGRTE._2D;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Vts.Extensions;
-//using Vts.FemModeling.MGRTE._2D;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Tissues;

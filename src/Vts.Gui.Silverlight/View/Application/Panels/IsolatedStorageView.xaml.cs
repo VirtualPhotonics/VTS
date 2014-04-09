@@ -1,7 +1,7 @@
 ﻿using System;
+using System.IO.IsolatedStorage;
 using System.Windows;
 using System.Windows.Controls;
-using System.IO.IsolatedStorage;
 
 namespace Vts.Gui.Silverlight.View
 {

@@ -1,11 +1,10 @@
 using System;
 using System.Linq;
 using Vts.Common;
+using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.Controllers;
 
 namespace Vts.MonteCarlo
 {

@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using NLog;
+
 namespace Vts.Common.Logging.NLogIntegration
 {
-    using System;
-
-    using NLog;
-
     /// <summary>
     ///   Implementation of <see cref = "ILogger" /> for NLog.
     /// </summary>
@@ -96,10 +95,10 @@ namespace Vts.Common.Logging.NLogIntegration
         protected internal Logger Logger { get; set; }
 
         /// <summary>
-        ///   Returns a <see cref = "String" /> that represents this instance.
+        ///   Returns a <see cref = "string" /> that represents this instance.
         /// </summary>
         /// <returns>
-        ///   A <see cref = "String" /> that represents this instance.
+        ///   A <see cref = "string" /> that represents this instance.
         /// </returns>
         public override string ToString()
         {

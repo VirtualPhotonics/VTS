@@ -8,14 +8,10 @@ using System.IO.IsolatedStorage;
 using System.Runtime.Serialization;
 using System.Text;
 using Ionic.Zip;
-using Newtonsoft.Json;
 using Vts.Extensions;
-using Vts.MonteCarlo;
-
 #if !SILVERLIGHT
 using System.Runtime.Serialization.Formatters.Binary;
 #endif
-using Vts.MonteCarlo.Detectors;
 
 
 namespace Vts.IO
