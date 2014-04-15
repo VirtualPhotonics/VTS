@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
+using MathNet.Numerics;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;

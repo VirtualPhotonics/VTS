@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 using MathNet.Numerics;
 using NUnit.Framework;
 using Vts.Modeling.ForwardSolvers;

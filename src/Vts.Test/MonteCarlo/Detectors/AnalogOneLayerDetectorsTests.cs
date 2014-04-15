@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Numerics;
+using MathNet.Numerics;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
