@@ -90,7 +90,6 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment[ix, iy] += photon.DP.Weight * photon.DP.Weight;
             }
-            TallyCount++;
         }
 
         /// <summary>
