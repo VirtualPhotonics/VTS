@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
+using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
-using Vts.Common;
 using Vts.Extensions;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;

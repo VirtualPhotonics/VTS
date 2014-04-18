@@ -95,7 +95,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\portable-net40+sl5+wp80+win8+monotouch+monoandroid\Newtonsoft.Json.dll</HintPath>
     </Reference>
-      <SpecificVersion>False</SpecificVersion>
     <Reference Include="NUnit.Silverlight.Framework">
       <HintPath>..\..\tools\nunit\Silverlight\NUnit.Silverlight.Framework.dll</HintPath>
     </Reference>
