@@ -3,22 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
-using Vts.Common;
 using Vts.Common.Logging;
-using Vts.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
 using Vts.Gui.Silverlight.View;
 using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.Tissues;
-using System.Security;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {
@@ -255,7 +252,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     logger.Info(() => "Saving simulation results to temporary directory...");
                     string resultsFolder = input.OutputName;
                     FileIO.CreateDirectory(resultsFolder);
-                    input.ToFile(Path.Combine(resultsFolder, "infile_" + input.OutputName + ".xml"));
+                    input.ToXMLFile(Path.Combine(resultsFolder, "infile_" + input.OutputName + ".xml"));
 
                     foreach (var result in _output.ResultsDictionary.Values)
                     {
@@ -338,7 +335,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                     foreach (var file in files)
                     {
-                        file.Input.ToFile(file.Name);
+                        file.Input.ToXMLFile(file.Name);
                     }
 
                     FileIO.ZipFiles(files.Select(file => file.Name), "", stream);

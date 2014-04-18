@@ -54,6 +54,7 @@
                 <tocitem target="solvers/ROfRho_help.html" image="HelpIcon.FUNCTION">ROfRho</tocitem>
                 <tocitem target="solvers/ROfRhoAndFt_help.html" image="HelpIcon.FUNCTION">ROfRhoAndFt</tocitem>
                 <tocitem target="solvers/ROfRhoAndT_help.html" image="HelpIcon.FUNCTION">ROfRhoAndT</tocitem>
+                <tocitem target="solvers/SetSolverType_help.html" image="HelpIcon.FUNCTION">SetSolverType</tocitem>
                 <!-- ... -->
             </tocitem>
             <!-- Third category, with link to anchor in above page -->

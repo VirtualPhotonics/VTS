@@ -1,6 +1,4 @@
-﻿using System;
-using Vts.Common;
-using Vts.FemModeling.MGRTE._2D.DataStructures;
+﻿using Vts.FemModeling.MGRTE._2D.DataStructures;
 
 namespace Vts.FemModeling.MGRTE._2D
 {

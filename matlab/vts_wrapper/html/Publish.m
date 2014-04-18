@@ -3,6 +3,7 @@ opt.outputDir = 'html';
 publish('getting_started', opt);
 publish('user_guide', opt);
 publish('demo', opt);
+publish('function_categories', opt);
 
 %% publish the demo documentation
 opt.outputDir = 'html\demo';
@@ -27,6 +28,7 @@ publish('ROfFxAndT_help', opt);
 publish('ROfRho_help', opt);
 publish('ROfRhoAndFt_help', opt);
 publish('ROfRhoAndT_help', opt);
+publish('SetSolverType_help', opt);
 
 %% publish the monte carlo documentation
 opt.outputDir = 'html/monte_carlo';

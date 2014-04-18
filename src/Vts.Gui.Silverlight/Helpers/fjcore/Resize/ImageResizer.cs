@@ -2,8 +2,6 @@
 /// Under the MIT License, details: License.txt.
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using FluxJpeg.Core.Filtering;
 
 namespace FluxJpeg.Core

@@ -251,6 +251,59 @@ classdef VtsSolvers
 
             r = reshape(double(fs.FluenceOfRhoAndZ(op_net,rhos,zs)),[length(zs) length(rhos) nop]);
         end
+
+        function r = FluenceOfRhoAndZAndFt(op, rhos, zs, fts)
+            %% FluenceOfRhoAndZ
+            %   FluenceOfRhoAndZ(OP, RHOS, ZS) 
+            %   
+            %   OP is an N x 4 matrix of optical properties
+            %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
+            %   RHO is an 1 x M array of detector locations (in mm)
+            %       eg. RHO = [1:10];
+            %   Z is a 1 x M array of z values (in mm)
+            %       eg. Z = linspace(0.1,19.9,100);
+            
+            nop = size(op,1);
+            nrho = length(rhos);
+            nft = length(fts);
+            nz = length(zs);
+
+            if strfind(VtsSolvers.Options.SolverType, 'SDA')
+                fs = Vts.Factories.SolverFactory.GetForwardSolver(VtsSolvers.Options.SolverType); 
+            else
+                fs =  Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver();
+            end
+            
+            op_net = NET.createArray('Vts.OpticalProperties', nop);
+
+            for i=1:nop
+                op_net(i) = Vts.OpticalProperties;
+                op_net(i).Mua =  op(i,1);
+                op_net(i).Musp = op(i,2);
+                op_net(i).G =    op(i,3);
+                op_net(i).N =    op(i,4);
+            end;
+            
+            % call the solver, which returns an array of (.NET) Complex structs
+            fComplexNET = fs.FluenceOfRhoAndZAndFt(op_net,rhos,zs,fts);%,[length(fts) length(zs) length(rhos) nop]);
+            
+            % create a native Matlab array
+            fReal = zeros([nft nz nrho nop]);
+            fImag = zeros([nft nz nrho nop]);
+            ci = 1;
+            for i=1:nop
+                for j=1:nrho
+                    for k=1:nz
+                        for el=1:nft
+                            fReal(el,k,j,i) = fComplexNET(ci).Real;
+                            fImag(el,k,j,i) = fComplexNET(ci).Imaginary;
+                            ci=ci+1;
+                        end
+                    end
+                end    
+            end
+            r = complex(fReal, fImag);
+        end
         
         function r = PHDOfRhoAndZ(op, rhos, zs, sd)
             %% PHDOfRhoAndZ

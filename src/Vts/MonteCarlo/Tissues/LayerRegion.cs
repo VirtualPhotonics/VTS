@@ -1,4 +1,3 @@
-using Vts.Common;
 using System;
 using System.Runtime.Serialization;
 using Vts.MonteCarlo.PhaseFunctionInputs;
@@ -24,6 +23,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="phaseFunctionInput">phase function input for layer</param>
         public LayerRegion(DoubleRange zRange, OpticalProperties op, string phaseFunctionKey)
         {
+            TissueRegionType = TissueRegionType.Layer;
             ZRange = zRange;
             RegionOP = op;
             PhaseFunctionKey = phaseFunctionKey;
@@ -47,6 +47,11 @@ namespace Vts.MonteCarlo.Tissues
                 new DoubleRange(0.0, 10),
                 new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                 "HenyeyGreensteinKey1") { }
+        /// <summary>
+        /// tissue region identifier
+        /// </summary>
+        public TissueRegionType TissueRegionType { get; set; }
+
         /// <summary>
         /// extent of z layer
         /// </summary>

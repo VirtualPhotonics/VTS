@@ -1,4 +1,3 @@
-using System;
 using SLExtensions.Input;
 using Vts.Gui.Silverlight.Input;
 

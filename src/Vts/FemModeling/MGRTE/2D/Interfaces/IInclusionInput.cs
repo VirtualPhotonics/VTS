@@ -1,5 +1,4 @@
-﻿using Vts.Common;
-using Vts.MonteCarlo;
+﻿using Vts.MonteCarlo;
 
 namespace Vts.FemModeling.MGRTE._2D
 {

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using NUnit.Framework;
 using Vts.Common;
@@ -50,6 +51,56 @@ namespace Vts.Test.Common
             Assert.AreEqual(deserializedR.Stop, 9);
             Assert.AreEqual(deserializedR.Delta, 1);
             Assert.AreEqual(deserializedR.Count, 10);
+        }
+
+        [Test]
+        public void validate_single_count_returns_correct_delta_for_matched_start_stop()
+        {
+            var r = new IntRange(10, 10, 1);
+
+            var delta = r.Delta;
+            var count = r.Count;
+
+            Assert.AreEqual(delta, 0);
+            Assert.AreEqual(count, 1);
+        }
+
+        [Test]
+        public void validate_single_count_returns_correct_delta_for_mismatched_start_stop()
+        {
+            var r = new IntRange(10, 20, 1);
+
+            var delta = r.Delta;
+            var count = r.Count;
+
+            Assert.AreEqual(delta, 10);
+            Assert.AreEqual(count, 1);
+        }
+
+        [Test]
+        public void validate_multi_count_returns_correct_delta_for_matched_start_stop()
+        {
+            var r = new IntRange(10, 10, 3);
+
+            var count = r.Count;
+            var delta = r.Delta;
+
+            Assert.AreEqual(count, 3);
+            Assert.AreEqual(delta, 0);
+        }
+
+        [Test]
+        public void validate_multi_count_returns_multiple_values_for_matched_start_stop()
+        {
+            var r = new IntRange(10, 10, 3);
+
+            var values = r.AsEnumerable().ToArray();
+
+            Assert.AreEqual(values.Length, 3);
+            for (int i = 0; i < values.Length; i++)
+            {
+                Assert.AreEqual(values[i], 10);
+            }
         }
 
         private static T Clone<T>(T myObject)

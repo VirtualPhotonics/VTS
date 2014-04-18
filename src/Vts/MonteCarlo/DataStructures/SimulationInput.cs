@@ -6,7 +6,6 @@ using Vts.IO;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Tissues;
 
-
 namespace Vts.MonteCarlo
 {
     ///<summary>
@@ -190,21 +189,38 @@ namespace Vts.MonteCarlo
             TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
         }
         /// <summary>
-        /// Method to read SimulationInput from file
+        /// Method to read SimulationInput from xml file
         /// </summary>
         /// <param name="filename">string filename of file to be read</param>
         /// <returns>SimulationInput</returns>
-        public static SimulationInput FromFile(string filename)
+        public static SimulationInput FromXMLFile(string filename)
         {
             return FileIO.ReadFromXML<SimulationInput>(filename);
+        }
+        /// <summary>
+        /// Method to write SimulationInput to xml file
+        /// </summary>
+        /// <param name="filename">string filename to write to</param>
+        public void ToXMLFile(string filename)
+        {
+            FileIO.WriteToXML(this, filename);
+        }
+        /// <summary>
+        /// Method to read SimulationInput from JSON file
+        /// </summary>
+        /// <param name="filename">string filename of file to be read</param>
+        /// <returns>SimulationInput</returns>
+        public static SimulationInput FromJsonFile(string filename)
+        {
+            return VtsJsonSerializer.ReadFromJsonFile<SimulationInput>(filename);
         }
         /// <summary>
         /// Method to write SimulationInput to file
         /// </summary>
         /// <param name="filename">string filename to write to</param>
-        public void ToFile(string filename)
+        public void ToJsonFile(string filename)
         {
-            FileIO.WriteToXML(this, filename);
+            VtsJsonSerializer.WriteToJsonFile(this, filename);
         }
         /// <summary>
         /// Method to read SimulationInput xml from file in resources

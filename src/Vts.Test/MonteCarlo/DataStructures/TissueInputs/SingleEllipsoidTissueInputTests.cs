@@ -2,9 +2,9 @@
 using System.Runtime.Serialization;
 using NUnit.Framework;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
-using Vts.IO;
 
 namespace Vts.Test.MonteCarlo
 {

@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{E87433B1-D691-4D36-BB6B-3B766192CC8E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{D6A3DE7A-7E93-4932-AA8F-C612FD97830E}"
@@ -41,8 +43,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MonteCarlo.CommandLineA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MonteCarlo.PostProcessor.Test", "Vts.MonteCarlo.PostProcessor.Test\Vts.MonteCarlo.PostProcessor.Test.csproj", "{8A1194A0-C773-483B-BD78-9D013105CEA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationTester", "SerializationTester\SerializationTester.csproj", "{295333B2-EA52-4425-9EE2-A97E1745C0D0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.ImportSpectralData.Desktop", "Vts.ImportSpectralData.Desktop\Vts.ImportSpectralData.Desktop.csproj", "{B2B25DB9-0E34-455B-A717-37F1D179C867}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{29A8C805-7367-4C69-8F62-60FC753AFD12}"
@@ -50,7 +50,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{29A8C8
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
-		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
 Global
@@ -342,23 +341,6 @@ Global
 		{8A1194A0-C773-483B-BD78-9D013105CEA1}.ReleaseWhiteList|Mixed Platforms.Build.0 = Release|Any CPU
 		{8A1194A0-C773-483B-BD78-9D013105CEA1}.ReleaseWhiteList|Win32.ActiveCfg = Release|Any CPU
 		{8A1194A0-C773-483B-BD78-9D013105CEA1}.ReleaseWhiteList|x86.ActiveCfg = Release|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.Release|Win32.ActiveCfg = Release|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.Release|x86.ActiveCfg = Release|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.ReleaseWhiteList|Any CPU.ActiveCfg = Release|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.ReleaseWhiteList|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.ReleaseWhiteList|Mixed Platforms.Build.0 = Release|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.ReleaseWhiteList|Win32.ActiveCfg = Release|Any CPU
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0}.ReleaseWhiteList|x86.ActiveCfg = Release|Any CPU
 		{B2B25DB9-0E34-455B-A717-37F1D179C867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B2B25DB9-0E34-455B-A717-37F1D179C867}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2B25DB9-0E34-455B-A717-37F1D179C867}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -396,7 +378,6 @@ Global
 		{2C5074CA-FBA8-46F1-A430-5437D67B63E5} = {920000AB-D955-4399-AD00-78523C740E2A}
 		{36DE9584-F033-4EC0-A18F-1AE60EE55754} = {920000AB-D955-4399-AD00-78523C740E2A}
 		{8A1194A0-C773-483B-BD78-9D013105CEA1} = {920000AB-D955-4399-AD00-78523C740E2A}
-		{295333B2-EA52-4425-9EE2-A97E1745C0D0} = {920000AB-D955-4399-AD00-78523C740E2A}
 		{A04010C3-E896-445B-AAA2-8FC12E6471AF} = {22E09293-1EF5-46A4-86FC-3B1CD9DD2977}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

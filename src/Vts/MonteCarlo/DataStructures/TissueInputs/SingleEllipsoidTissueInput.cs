@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.Extensions;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.DataStructuresValidation;
 
 namespace Vts.MonteCarlo
 {
@@ -33,6 +30,7 @@ namespace Vts.MonteCarlo
             ITissueRegion ellipsoidRegion, 
             ITissueRegion[] layerRegions)
         {
+            TissueType = TissueType.SingleEllipsoid;
             _ellipsoidRegion = ellipsoidRegion;
             _layerRegions = layerRegions;
             RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
@@ -88,6 +86,7 @@ namespace Vts.MonteCarlo
             RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
             RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
         }
+
         /// <summary>
         /// Dictionary that contains all the phase function inputs
         /// </summary>
@@ -95,8 +94,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// tissue type
         /// </summary>
-        [IgnoreDataMember]
-        public TissueType TissueType { get { return TissueType.SingleEllipsoid; } }
+        public TissueType TissueType { get; set; }
         /// <summary>
         /// regions of tissue (layers and ellipsoid)
         /// </summary>

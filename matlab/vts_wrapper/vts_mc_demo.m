@@ -256,10 +256,10 @@ legend('baseline','0.5x mua','2x mua');
 %% create input to simulation
 si = SimulationInput();
 si.N = 1000; % need to run 1e5 or greater to get decent results
-options = SimulationOptions();
-options.AbsorptionWeightingType = 'Discrete';
+simOptions = SimulationOptions();
+simOptions.AbsorptionWeightingType = 'Discrete';
 % modify database generation to specifying creating pMC reflectance database
-options.Databases = { Vts.MonteCarlo.DatabaseType.pMCDiffuseReflectance };
+simOptions.Databases = { Vts.MonteCarlo.DatabaseType.pMCDiffuseReflectance };
 % create a new 'instance' of the MultiLayerTissueInput class
 tissueInput = MultiLayerTissueInput();
 % assign the tissue layer regions struct
@@ -277,12 +277,11 @@ tissueInput.LayerRegions = struct(...
         [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
         } ...
     );
-si.Options = options;
+si.Options = simOptions;
 si.TissueInput = tissueInput;
 %% create database
 output = VtsMonteCarlo.RunSimulation(si);
-%% Send lsqcurvefit function that post-processes database for pMC/dMC results
-options = optimset('Jacobian','on','diagnostics','on','largescale','on');
+%% Send optimization function that post-processes database for pMC/dMC results
 % specify initial guess equal to baseline value [mua mus] NOTE: mus not mus'
 muaBaseline=si.TissueInput.LayerRegions(2).RegionOP(1);
 musBaseline=si.TissueInput.LayerRegions(2).RegionOP(2)/...
@@ -301,9 +300,21 @@ measData = VtsSolvers.ROfRho(measOPs, rhoMidpoints)';
 % option: divide measured data and forward model by measured data
 % this counters log decay of data and relative importance of small rho data
 % NOTE: if use option here, need to use option in pmc_F_dmc_J.m 
-measDataNorm = measData./measData;
-recoveredOPs = lsqcurvefit('pmc_F_dmc_J',x0,rhoMidpoints,measData,lb,ub,...
-    options,si,measData);
+% measDataNorm = measData./measData;
+
+% run lsqcurvefit if have Optimization Toolbox because it makes use of
+% dMC differential Monte Carlo predictions
+% if don't have Optimization Toolbox, run non-gradient, non-constrained
+% fminsearch
+if(exist('lsqcurvefit','file'))
+    options = optimset('Jacobian','on','diagnostics','on','largescale','on');
+    recoveredOPs = lsqcurvefit('pmc_F_dmc_J',x0,rhoMidpoints,measData,lb,ub,...
+        options,si,measData);
+else
+%     options = optimset('diagnostics','on','largescale','on');
+    options = [];
+    recoveredOPs = fminsearch('pmc_Chi2',x0,options,rhoMidpoints,si,measData);
+end
 % determine forward data at initial guess = background optical properties
 diInitialGuess = DetectorInput.pMCROfRho(rho,'pMCROfRho_initial_guess');
 diInitialGuess.PerturbedOps = ...
@@ -387,5 +398,4 @@ if ((abs(d1.Mean(1,1)-0.95492965855)<0.00000000001) && ...
     (abs(d3.Mean(1,1)-95.492965855)<0.000000001))
   disp('unit tests pass');
 end
-
 

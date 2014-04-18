@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
-using Vts.SpectralMapping;
 using Vts.IO;
-using System.Runtime.Serialization;
+using Vts.SpectralMapping;
 
 namespace Vts.Test.Modeling.Spectroscopy
 {

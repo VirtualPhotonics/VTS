@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
     public class ProgramTest
     {
         /// <summary>
-        /// clear all previously generated folders and files.
+        /// clear all previously generated folders and files, then regenerate sample infiles using "geninfiles" option.
         /// </summary>
         [TestFixtureSetUp]
         public void clear_folders_and_files()
@@ -65,6 +65,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             {
                 File.Delete("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.xml");
             }
+            // generate sample infiles because unit tests below rely on infiles being generated
+            string[] arguments = new string[] { "geninfiles" };
+            Program.Main(arguments);
         }
         /// <summary>
         /// test to verify "geninfile" option works successfully"
@@ -72,8 +75,6 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         [Test]
         public void validate_generate_infile()
         {
-            string[] arguments = new string[] {"geninfiles"};
-            Program.Main(arguments);
             Assert.IsTrue(File.Exists("infile_one_layer_ROfRho_FluenceOfRhoAndZ.xml"));
         }
         /// <summary>

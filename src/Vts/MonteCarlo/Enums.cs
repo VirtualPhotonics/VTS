@@ -1,4 +1,5 @@
 using System;
+
 namespace Vts.MonteCarlo
 {
     /// <summary>
@@ -355,6 +356,14 @@ namespace Vts.MonteCarlo
         /// Tissue slab with multiple embedded ellipsoids
         /// </summary>
         MultiEllipsoid,
+    }
+
+    public enum TissueRegionType
+    {
+        Voxel,
+        Layer,
+        Ellipsoid,
+        Cylinder
     }
 
     ///// <summary>

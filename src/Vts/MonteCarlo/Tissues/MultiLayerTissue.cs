@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
-using Vts.Extensions;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Tissues
 {
@@ -61,6 +58,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             RegionPhaseFunctions = new Dictionary<string, IPhaseFunction>();
         }
+
         /// <summary>
         /// method to determine region index of region photon is currently in
         /// </summary>

@@ -9,12 +9,9 @@ using System.Runtime.Serialization;
 using System.Text;
 using Ionic.Zip;
 using Vts.Extensions;
-using Vts.MonteCarlo;
-
 #if !SILVERLIGHT
 using System.Runtime.Serialization.Formatters.Binary;
 #endif
-using Vts.MonteCarlo.Detectors;
 
 
 namespace Vts.IO
@@ -123,6 +120,18 @@ namespace Vts.IO
             var dcs = new DataContractSerializer(typeof(T), KnownTypes.CurrentKnownTypes.Values);
             dcs.WriteObject(stream, myObject);
         }
+        
+        /// <summary>
+        /// Static method to write an object to a stream
+        /// </summary>
+        /// <typeparam name="T">Type of the object to be written</typeparam>
+        /// <param name="myObject">Object to be written</param>
+        /// <param name="stream">Stream to which to write the object</param>
+        public static void WriteJsonToStream<T>(this T myObject, Stream stream)
+        {
+            var serializedJson = VtsJsonSerializer.WriteToJson(myObject);
+            WriteTextToStream(serializedJson, stream);
+        }
 
         /// <summary>
         /// Static method to read a specified type from a stream
@@ -134,6 +143,22 @@ namespace Vts.IO
         {
             var dcs = new DataContractSerializer(typeof(T), KnownTypes.CurrentKnownTypes.Values);
             return (T)dcs.ReadObject(stream);
+        }
+
+        /// <summary>
+        /// Static method to read a specified type from a stream
+        /// </summary>
+        /// <typeparam name="T">Type of the data to be read</typeparam>
+        /// <param name="stream">Stream from which to read</param>
+        /// <returns>The data as the specified type</returns>
+        public static T ReadFromJsonStream<T>(Stream stream)
+        {
+            using (var sr = new StreamReader(stream))
+            {
+                var serializedJson = sr.ReadToEnd();
+                var myObject = VtsJsonSerializer.ReadFromJson<T>(serializedJson);
+                return myObject;
+            }
         }
 
         /// <summary>
@@ -179,6 +204,21 @@ namespace Vts.IO
         }
 
         /// <summary>
+        /// Writes data of a specified type to an XML file
+        /// </summary>
+        /// <typeparam name="T">Type of the data to be written</typeparam>
+        /// <param name="myObject">Object to be written</param>
+        /// <param name="filename">Name of the XML file to write</param>
+        public static void WriteToJson<T>(this T myObject, string filename)
+        {
+            using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
+            {
+                //new DataContractSerializer(typeof(Time)).WriteObject(stream, myObject);
+                myObject.WriteJsonToStream(stream);
+            }
+        }
+
+        /// <summary>
         /// Reads data of a specified type from an XML file
         /// </summary>
         /// <typeparam name="T">Type of the data</typeparam>
@@ -190,6 +230,20 @@ namespace Vts.IO
             {
                 return ReadFromStream<T>(stream);
                 //return (Time)new DataContractSerializer(typeof(Time)).ReadObject(stream);
+            }
+        }
+
+        /// <summary>
+        /// Reads data of a specified type from a JSON file
+        /// </summary>
+        /// <typeparam name="T">Type of the data</typeparam>
+        /// <param name="filename">Name of the JSON file to be read</param>
+        /// <returns>The data as the specified type</returns>
+        public static T ReadFromJson<T>(String filename)
+        {
+            using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
+            {
+                return ReadFromJsonStream<T>(stream);
             }
         }
 

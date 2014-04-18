@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Vts.Common.Math;
 using Vts.Extensions;
 using Vts.Modeling.ForwardSolvers.DiscreteOrdinates;
-using System.Collections.Generic;
 
 namespace Vts.Modeling.ForwardSolvers
 {

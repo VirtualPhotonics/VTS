@@ -1,7 +1,5 @@
 using System;
-using System.Runtime.Serialization;
 using Vts.Common;
-using Vts.Extensions;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 
 namespace Vts.MonteCarlo.Tissues
@@ -25,6 +23,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="op">optical properties of cylinder</param>
         public CylinderRegion(Position center, double radius, double height, OpticalProperties op, string phaseFunctionKey) 
         {
+            TissueRegionType = TissueRegionType.Cylinder;
             Center = center;
             Radius = radius;
             Height = height;
@@ -42,6 +41,7 @@ namespace Vts.MonteCarlo.Tissues
             5, 
             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
             "HenyeyGreensteinKey1") { }
+        public TissueRegionType TissueRegionType { get; set; }
 
         /// <summary>
         /// center of cyliner

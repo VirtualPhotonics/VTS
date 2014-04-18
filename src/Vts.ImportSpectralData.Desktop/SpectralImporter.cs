@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Vts.Common.Logging;
 using Vts.IO;
 using Vts.SpectralMapping;

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Numerics;
 using MathNet.Numerics;
 
 namespace Vts

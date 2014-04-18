@@ -1,12 +1,12 @@
-﻿using System.Numerics;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using MathNet.Numerics;
 using System.Windows;
 using SLExtensions.Input;
 using Vts.Factories;
+using Vts.Gui.Silverlight.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
-using Vts.Gui.Silverlight.Extensions;
 
 #if WHITELIST
 using Vts.Gui.Silverlight.ViewModel.Application;
@@ -209,7 +209,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                     ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
-            double[] query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            double[] query = ComputationFactory.ComputeReflectance(
                 ForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisTypeOptionVM.SelectedValue,

@@ -12,8 +12,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="charting:AxisLabel">
-                    <TextBlock Text="{TemplateBinding FormattedContent}">
-                    </TextBlock>
+                    <TextBlock Text="{TemplateBinding FormattedContent}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -25,8 +24,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="charting:AxisLabel">
-                    <TextBlock Text="{TemplateBinding FormattedContent}">
-                    </TextBlock>
+                    <TextBlock Text="{TemplateBinding FormattedContent}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

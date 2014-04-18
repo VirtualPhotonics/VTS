@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-using Vts.Common;
+using MathNet.Numerics;
 using Vts.Extensions;
-using Vts.IO;
 
 namespace Vts.Modeling.ForwardSolvers
 {
@@ -256,7 +254,8 @@ namespace Vts.Modeling.ForwardSolvers
                 }
                 else
                 {
-                    var time = _rdGenerator.NativeTimes;
+                    //var time = _rdGenerator.NativeTimes;
+                    var time = _rdGenerator.NativeTimes.ToArray();
                     for (int i = 0; i < time.Length; i++)
                     {
                         time[i] = time[i] * _opReference.Musp / op.Musp;

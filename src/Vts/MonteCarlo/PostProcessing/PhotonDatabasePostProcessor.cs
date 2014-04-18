@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Controllers;
-using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Extensions;
+using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.PostProcessing
 {

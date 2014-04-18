@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Vts.MonteCarlo.Helpers
+﻿namespace Vts.MonteCarlo.Helpers
 {
     /// <summary>
     /// Implements SourceFlags class

@@ -5,7 +5,6 @@ using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PhaseFunctionInputs;
-using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.IO
 {

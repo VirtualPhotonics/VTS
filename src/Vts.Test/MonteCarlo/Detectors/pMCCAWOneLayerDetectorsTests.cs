@@ -1,14 +1,14 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhaseFunctionInputs;
-using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.PostProcessing;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {

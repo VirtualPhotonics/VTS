@@ -1,12 +1,11 @@
 ﻿using System;
+using System.IO;
 using NUnit.Framework;
 using Vts.Common;
-using System.IO;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Interfaces;
-using Vts.MonteCarlo.Helpers;
 
 namespace Vts.Test.MonteCarlo.Sources
 {

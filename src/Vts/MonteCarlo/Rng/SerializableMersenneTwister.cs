@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using MathNet.Numerics;
 using MathNet.Numerics.Random;
 using Vts.IO;

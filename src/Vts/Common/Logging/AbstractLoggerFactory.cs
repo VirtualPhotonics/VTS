@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.IO;
+
 namespace Vts.Common.Logging
 {
-    using System;
-    using System.IO;
-
 #if SILVERLIGHT
 	public abstract class AbstractLoggerFactory : ILoggerFactory
 #else

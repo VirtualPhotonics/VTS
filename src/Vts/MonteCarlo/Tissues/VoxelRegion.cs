@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.Serialization;
 using Vts.Common;
-using Vts.Extensions;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 
 namespace Vts.MonteCarlo.Tissues
@@ -30,6 +29,7 @@ namespace Vts.MonteCarlo.Tissues
             OpticalProperties op,
             string phaseFunctionKey)
         {
+            TissueRegionType = TissueRegionType.Voxel;
             X = x;
             Y = y;
             Z = z;
@@ -63,6 +63,11 @@ namespace Vts.MonteCarlo.Tissues
             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
             "HenyeyGreensteinKey1") { }  
 
+
+        /// <summary>
+        /// tissue region identifier
+        /// </summary>
+        public TissueRegionType TissueRegionType { get; set; }
 
         /// <summary>
         /// x range of voxel

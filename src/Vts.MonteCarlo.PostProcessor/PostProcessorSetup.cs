@@ -1,13 +1,13 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using Vts.MonteCarlo.PostProcessing;
-using Vts.MonteCarlo.Extensions;
-using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Extensions;
+using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.IO;
+using Vts.MonteCarlo.PostProcessing;
 
 namespace Vts.MonteCarlo.PostProcessor
 {
@@ -79,7 +79,7 @@ namespace Vts.MonteCarlo.PostProcessor
 
             SimulationOutput postProcessedOutput = null;
 
-            var databaseGenerationInputFile = SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"));
+            var databaseGenerationInputFile = SimulationInput.FromXMLFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"));
             // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
 
             // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
@@ -148,7 +148,7 @@ namespace Vts.MonteCarlo.PostProcessor
             input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
 
             // save database generation input file to output folder
-            databaseGenerationInputFile.ToFile(resultsFolder + "\\" + input.OutputName + "_database_infile.xml");
+            databaseGenerationInputFile.ToXMLFile(resultsFolder + "\\" + input.OutputName + "_database_infile.xml");
 
             if (postProcessedOutput != null)
             {

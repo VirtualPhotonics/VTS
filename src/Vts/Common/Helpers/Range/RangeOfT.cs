@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 //[assembly: InternalsVisibleTo("Vts.IO")]
 //[assembly: InternalsVisibleTo("Vts.Common.Test")] 
@@ -13,6 +11,8 @@ namespace Vts
     /// Immutable class that specifies a range of values and allows enumeration
     /// </summary>
     /// <typeparam name="T">The type of the values in the range</typeparam>
+    /// <remarks>Explicit data contract necessary for JSON.Net: http://stackoverflow.com/questions/19231367/serializing-poco-class-derived-from-baseclass-with-datacontract </remarks>
+    [DataContract]
     public abstract class Range<T> : BindableObject where T : struct
     {
         private T _Start;
@@ -46,6 +46,7 @@ namespace Vts
         /// <summary>
         /// The start of the range
         /// </summary>
+        [DataMember]
         public T Start
         {
             get { return _Start; }
@@ -61,6 +62,7 @@ namespace Vts
         /// <summary>
         /// The end of the range
         /// </summary>
+        [DataMember]
         public T Stop
         {
             get { return _Stop; }
@@ -89,6 +91,7 @@ namespace Vts
             }
         }
 
+        [DataMember]
         /// <summary>
         /// The number of values in the range, inclusive of the endpoints
         /// </summary>
@@ -114,11 +117,6 @@ namespace Vts
         /// </summary>
         /// <returns>A value of type Time</returns>
         protected abstract T GetDelta();
-        /// <summary>
-        /// An abstract method to get the count. To be defined by the subclass
-        /// </summary>
-        /// <returns>An integer representing the count</returns>
-        protected abstract int GetNewCount();
 
         /// <summary>
         /// Returns a string that represents the range

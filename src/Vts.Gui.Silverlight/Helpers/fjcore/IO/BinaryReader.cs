@@ -1,7 +1,6 @@
 ﻿/// Copyright (c) 2008 Jeffrey Powers for Fluxcapacity Open Source.
 /// Under the MIT License, details: License.txt.
 
-using System;
 using System.IO;
 
 namespace FluxJpeg.Core.IO

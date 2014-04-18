@@ -5,7 +5,6 @@
 // Implements Baseline JPEG Encoding http://www.opennet.ru/docs/formats/jpeg.txt
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace FluxJpeg.Core.Encoder

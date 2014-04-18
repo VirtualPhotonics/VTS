@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using MathNet.Numerics;
 using System.Runtime.Serialization;
-using System.Numerics;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;

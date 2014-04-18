@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Vts.MonteCarlo
+﻿namespace Vts.MonteCarlo
 {
     /// <summary>
     /// Defines a contract for TissueInput.

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
 {

@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using Vts.MonteCarlo.Interfaces;
+
 namespace Vts.MonteCarlo.Sources.SourceProfiles
 {
     /// <summary>

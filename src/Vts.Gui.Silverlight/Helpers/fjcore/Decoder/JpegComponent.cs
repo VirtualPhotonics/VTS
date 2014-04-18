@@ -3,10 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using FluxJpeg.Core.IO;
 using System.Reflection.Emit;
-using System.Diagnostics;
+using FluxJpeg.Core.IO;
 
 namespace FluxJpeg.Core.Decoder
 {

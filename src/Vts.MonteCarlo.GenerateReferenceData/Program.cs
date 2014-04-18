@@ -1,12 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Vts.Common;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.GenerateReferenceData
 {
@@ -71,7 +67,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                 input.TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinPhaseFunctionKey3", new HenyeyGreensteinPhaseFunctionInput());
 
             SimulationOutput output = new MonteCarloSimulation(input).Run();
-            input.ToFile("infile.xml");
+            input.ToXMLFile("infile.xml");
 
             // the following gets are R(rho,time) for scaled.
             //var rOfRhoAndTime = output.ResultsDictionary[TallyType.ROfRhoAndTime.ToString()];

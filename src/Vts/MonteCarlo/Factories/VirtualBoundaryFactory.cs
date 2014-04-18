@@ -1,10 +1,5 @@
-using System.Collections.Generic;
 using System;
-using System.Linq;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.VirtualBoundaries;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Factories
 {

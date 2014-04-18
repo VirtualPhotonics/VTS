@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows;
 using Vts.Common.Logging;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.View;
-using System.Reactive;
 
 namespace Vts.Gui.Silverlight
 {

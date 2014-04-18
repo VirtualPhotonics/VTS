@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace System.Windows
+﻿namespace System.Windows
 {
     public enum ResizeMode
     {

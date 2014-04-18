@@ -2,9 +2,6 @@
 /// Under the MIT License, details: License.txt.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FluxJpeg.Core.IO;
 
 namespace FluxJpeg.Core.Decoder

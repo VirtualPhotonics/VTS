@@ -1,6 +1,5 @@
 using System;
 using Vts.Common;
-using Vts.Extensions;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 
 namespace Vts.MonteCarlo.Tissues
@@ -30,6 +29,7 @@ namespace Vts.MonteCarlo.Tissues
         public EllipsoidRegion(Position center, double radiusX, double radiusY, double radiusZ,
             OpticalProperties op, string phaseFunctionKey)
         {
+            TissueRegionType = TissueRegionType.Ellipsoid;
             RegionOP = op;
             Center = center;
             Dx = radiusX;
@@ -60,6 +60,10 @@ namespace Vts.MonteCarlo.Tissues
             new Position(0, 0, 1), 0.5, 0.5, 0.5,
             new OpticalProperties(0.05, 1.0, 0.8, 1.4), 
             "HenyeyGreensteinKey1") {}
+        /// <summary>
+        /// tissue region identifier
+        /// </summary>
+        public TissueRegionType TissueRegionType { get; set; }
 
         /// <summary>
         /// optical properties of ellipsoid
