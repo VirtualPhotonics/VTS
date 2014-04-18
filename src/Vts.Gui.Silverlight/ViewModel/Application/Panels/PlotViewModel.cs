@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using GalaSoft.MvvmLight.Command;
+using SLExtensions.Input;
 using Vts.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
 using Vts.IO;
-using System.IO;
-using GalaSoft.MvvmLight.Command;
-using SLExtensions.Input;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {

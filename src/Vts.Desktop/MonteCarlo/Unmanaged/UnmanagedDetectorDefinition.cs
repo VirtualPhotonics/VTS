@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+
 namespace Vts.MonteCarlo
 {
 //    public unsafe static class UnmanagedDetectorDefinitionExtension

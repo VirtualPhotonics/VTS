@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.DataStructuresValidation;
 
 namespace Vts.MonteCarlo
 {

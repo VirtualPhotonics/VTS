@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
+using MathNet.Numerics;
 using Vts.Common;
 using Vts.Extensions;
 using Vts.Modeling;
@@ -10,10 +10,7 @@ using Vts.Modeling.ForwardSolvers.Extensions;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Helpers;
-
 #if DESKTOP
-using System.Runtime.InteropServices;
-using Vts.SpectralMapping;
 
 #endif
 

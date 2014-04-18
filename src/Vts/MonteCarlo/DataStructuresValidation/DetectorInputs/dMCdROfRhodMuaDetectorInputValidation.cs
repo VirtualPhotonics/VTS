@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using Vts.MonteCarlo.Extensions;
-using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.DataStructuresValidation;
 
 namespace Vts.MonteCarlo

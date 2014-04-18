@@ -3,11 +3,11 @@ using System.Linq;
 using System.Windows;
 using SLExtensions.Input;
 using Vts.Common;
-using Vts.Extensions;
 using Vts.Factories;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
 using Vts.SpectralMapping;
+
 #if WHITELIST
 using Vts.Gui.Silverlight.ViewModel.Application;
 #endif

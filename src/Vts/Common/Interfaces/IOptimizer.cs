@@ -1,5 +1,4 @@
 using System;
-using Vts.Modeling.Optimizers;
 
 namespace Vts
 {

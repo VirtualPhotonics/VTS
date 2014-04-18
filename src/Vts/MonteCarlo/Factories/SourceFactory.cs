@@ -1,5 +1,4 @@
 using System;
-using Vts.Common;
 using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.Factories

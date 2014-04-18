@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Vts.Common;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.GenerateReferenceData
 {

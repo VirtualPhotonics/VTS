@@ -1,9 +1,7 @@
 ﻿using System;
 using MathNet.Numerics;
 using NUnit.Framework;
-using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers;
-using System.Numerics;
 
 namespace Vts.Test.Modeling.ForwardSolvers
 {

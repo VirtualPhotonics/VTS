@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.Text;
+using System.Linq;
 using System.Text.RegularExpressions;
-using Vts.IO;
 using Vts.Common.Logging;
+using Vts.IO;
 using Vts.SpectralMapping;
 
 namespace Vts.ImportSpectralData.Desktop

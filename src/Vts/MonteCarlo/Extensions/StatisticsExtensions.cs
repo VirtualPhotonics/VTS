@@ -1,5 +1,4 @@
-﻿using Vts.MonteCarlo;
-using Vts.MonteCarlo.PhotonData;
+﻿using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Extensions
 {

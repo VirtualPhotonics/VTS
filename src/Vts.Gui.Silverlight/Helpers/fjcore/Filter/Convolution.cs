@@ -4,8 +4,6 @@
 using System;
 using System.Threading;
 
-using FluxJpeg.Core;
-
 namespace FluxJpeg.Core.Filtering
 {
     public class Convolution

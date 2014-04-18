@@ -1,9 +1,5 @@
-using System.IO;
-using System.Reflection;
 using Vts.IO;
 using Vts.Modeling.ForwardSolvers;
-using Vts.Extensions;
-using System;
 
 namespace Vts.WriteNurbsValues.Desktop
 {

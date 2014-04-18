@@ -1,6 +1,6 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using NUnit.Framework;
-using System.IO;
 using Vts.IO;
 
 namespace Vts.Test.IO

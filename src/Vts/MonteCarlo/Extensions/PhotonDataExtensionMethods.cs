@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.VirtualBoundaries;
 
 namespace Vts.MonteCarlo.Extensions
 {

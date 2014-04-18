@@ -3,22 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
-using Vts.Common;
 using Vts.Common.Logging;
-using Vts.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
 using Vts.Gui.Silverlight.View;
 using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.Tissues;
-using System.Security;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {

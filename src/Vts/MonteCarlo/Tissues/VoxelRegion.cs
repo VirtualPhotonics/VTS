@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.Serialization;
 using Vts.Common;
-using Vts.Extensions;
 
 namespace Vts.MonteCarlo.Tissues
 {

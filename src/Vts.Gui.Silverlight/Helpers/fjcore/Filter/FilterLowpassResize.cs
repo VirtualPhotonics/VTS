@@ -3,8 +3,6 @@
 
 namespace FluxJpeg.Core.Filtering
 {
-    using System;
-
     internal class LowpassResize : Filter
     {
         protected override void ApplyFilter()

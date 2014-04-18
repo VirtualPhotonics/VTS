@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Vts.Common;
 using Vts.Extensions;
 using Vts.MonteCarlo.Sources;

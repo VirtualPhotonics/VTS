@@ -1,6 +1,4 @@
 using NUnit.Framework;
-using Vts.Modeling.ForwardSolvers;
-using System;
 using Vts.Factories;
 
 namespace Vts.Test.Factories

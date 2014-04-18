@@ -12,16 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.IO;
+using NLog;
+using NLog.Config;
 using NLog.Targets;
 
 namespace Vts.Common.Logging.NLogIntegration
 {
-    using System;
-
-    using NLog;
-    using NLog.Config;
-
     /// <summary>
     ///   Implementation of <see cref = "ILoggerFactory" /> for NLog.
     /// </summary>

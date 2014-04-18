@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-using Vts.Common;
+using MathNet.Numerics;
 using Vts.Extensions;
-using Vts.IO;
 
 namespace Vts.Modeling.ForwardSolvers
 {

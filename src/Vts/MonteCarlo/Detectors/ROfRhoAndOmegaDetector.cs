@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
+using MathNet.Numerics;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
-using System.Numerics;
 
 namespace Vts.MonteCarlo.Detectors
 {

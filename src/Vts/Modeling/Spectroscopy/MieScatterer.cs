@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using Meta.Numerics;
-using Vts.Common.Math;
 
 namespace Vts.SpectralMapping
 {

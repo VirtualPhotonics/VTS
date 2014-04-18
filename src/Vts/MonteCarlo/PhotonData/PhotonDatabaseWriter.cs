@@ -1,5 +1,3 @@
-using System;
-using Vts.IO;
 using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.PhotonData

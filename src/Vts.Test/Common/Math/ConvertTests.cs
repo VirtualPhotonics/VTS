@@ -1,6 +1,4 @@
-using System;
 using NUnit.Framework;
-using Vts.Common.Math;
 
 namespace Vts.Test.Common.Math
 {
