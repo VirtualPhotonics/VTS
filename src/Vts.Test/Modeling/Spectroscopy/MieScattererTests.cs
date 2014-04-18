@@ -12,7 +12,8 @@ namespace Vts.Test.Modeling.Spectroscopy
             var mieScatterer = new MieScatterer(
                 0.5, // particle radius in um
                 1.1, // particle refractive index mismatch
-                1.4); // medium refractive index
+                1.4, // medium refractive index
+                0.1); // volume fraction
             Assert.AreEqual(mieScatterer.ParticleRadius, 0.5);
             Assert.AreEqual(mieScatterer.ParticleRefractiveIndexMismatch, 1.1);
             Assert.AreEqual(mieScatterer.MediumRefractiveIndexMismatch, 1.4);
@@ -21,7 +22,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         [Test]
         public void verify_BohrenHuffmanMie_method_produces_correct_S11()
         {
-            var mieScatterer = new MieScatterer(0.5, 1.1, 1.4);
+            var mieScatterer = new MieScatterer(0.5, 1.1, 1.4, 0.1);
             mieScatterer.GetMus(720); // wavelength 720
             // to add: check on correct S11 setting
         }

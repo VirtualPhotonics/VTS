@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.PhaseFunctionInputs;
