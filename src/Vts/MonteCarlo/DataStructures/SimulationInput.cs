@@ -79,6 +79,13 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(ReflectedMTOfRhoAndSubregionHistDetectorInput))]
     [KnownType(typeof(ReflectedTimeOfRhoAndSubregionHistDetectorInput))]
 
+    // phase function inputs
+    [KnownType(typeof(BidirectionalPhaseFunctionInput))]
+    [KnownType(typeof(HenyeyGreensteinPhaseFunctionInput))]
+    [KnownType(typeof(LookupTablePhaseFunctionInput))]
+    [KnownType(typeof(PolarAndAzimuthalLookupTablePhaseFunctionData))]
+    [KnownType(typeof(PolarLookupTablePhaseFunctionData))]
+
     // todo: add more types?
 
     public class SimulationInput
