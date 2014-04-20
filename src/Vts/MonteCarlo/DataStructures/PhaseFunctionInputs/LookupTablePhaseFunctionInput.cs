@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Vts.MonteCarlo.PhaseFunctions;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 
-namespace Vts.MonteCarlo.PhaseFunctionInputs
+namespace Vts.MonteCarlo
 {
     public class LookupTablePhaseFunctionInput : IPhaseFunctionInput
     {
@@ -39,7 +39,6 @@ namespace Vts.MonteCarlo.PhaseFunctionInputs
         /// <summary>
         /// Phase function type
         /// </summary>
-        [IgnoreDataMember]
         public PhaseFunctionType PhaseFunctionType { get; set; }
     }
 }

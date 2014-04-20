@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Vts.MonteCarlo.PhaseFunctionInputs
+namespace Vts.MonteCarlo
 {
     public class BidirectionalPhaseFunctionInput : IPhaseFunctionInput
     {
@@ -12,7 +12,6 @@ namespace Vts.MonteCarlo.PhaseFunctionInputs
         /// <summary>
         /// Phase function type
         /// </summary>
-        [IgnoreDataMember]
         public PhaseFunctionType PhaseFunctionType { get; set; }
     }
 }
