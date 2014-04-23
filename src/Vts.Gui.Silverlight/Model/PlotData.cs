@@ -27,6 +27,7 @@ namespace Vts.Gui.Silverlight.Model
             Points = points.ToList();
             Title = title;
             plotColor = c;
+            IsComplex = false;
         }
         // Complex Plot data is assumed to be real and imag 
         public PlotData(IEnumerable<ComplexPoint> points, string title)
@@ -38,12 +39,15 @@ namespace Vts.Gui.Silverlight.Model
             ComplexPoints = points.ToList();
             Title = title;
             plotColor = c;
+            IsComplex = true;
         }
 
         public IList<Point> Points { get; set; }
         public string Title { get; set; }
         public Color plotColor { get; set; }
         public IList<ComplexPoint> ComplexPoints { get; set; }
+        public bool IsComplex { get; set; }
+
 
     }
 }
