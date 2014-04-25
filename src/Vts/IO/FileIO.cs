@@ -259,7 +259,21 @@ namespace Vts.IO
             using (Stream stream = StreamFinder.GetFileStreamFromResources(fileName, projectName))
             {
                 return ReadFromStream<T>(stream);
-                //return (Time)new DataContractSerializer(typeof(Time)).ReadObject(stream);
+            }
+        }
+
+        /// <summary>
+        /// Reads data of a specified type from an JSON file in resources
+        /// </summary>
+        /// <typeparam name="T">Type of the data</typeparam>
+        /// <param name="fileName">Name of the JSON file to be read</param>
+        /// <param name="projectName">Project name for the location of resources</param>
+        /// <returns>The data as the specified type</returns>
+        public static T ReadFromJSONInResources<T>(string fileName, string projectName)
+        {
+            using (var stream = StreamFinder.GetFileStreamFromResources(fileName, projectName))
+            {
+                return ReadFromJsonStream<T>(stream);
             }
         }
 

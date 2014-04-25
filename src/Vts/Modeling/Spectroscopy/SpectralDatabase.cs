@@ -52,7 +52,7 @@ namespace Vts.SpectralMapping
         /// <returns>Dictionary of Chromophore spectra</returns>
         public static ChromophoreSpectrumDictionary GetDefaultDatabaseFromFileInResources()
         {
-            return FileIO.ReadFromXMLInResources<ChromophoreSpectrumDictionary>("Modeling/Spectroscopy/Resources/SpectralDictionary.xml", "Vts");
+            return FileIO.ReadFromJSONInResources<ChromophoreSpectrumDictionary>("Modeling/Spectroscopy/Resources/SpectralDictionary.json", "Vts");
         }
 
         /// <summary>
