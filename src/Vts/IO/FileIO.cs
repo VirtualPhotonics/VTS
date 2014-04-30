@@ -204,11 +204,11 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Writes data of a specified type to an XML file
+        /// Writes data of a specified type to an JSON file
         /// </summary>
         /// <typeparam name="T">Type of the data to be written</typeparam>
         /// <param name="myObject">Object to be written</param>
-        /// <param name="filename">Name of the XML file to write</param>
+        /// <param name="filename">Name of the JSON file to write</param>
         public static void WriteToJson<T>(this T myObject, string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
@@ -269,7 +269,7 @@ namespace Vts.IO
         /// <param name="fileName">Name of the JSON file to be read</param>
         /// <param name="projectName">Project name for the location of resources</param>
         /// <returns>The data as the specified type</returns>
-        public static T ReadFromJSONInResources<T>(string fileName, string projectName)
+        public static T ReadFromJsonInResources<T>(string fileName, string projectName)
         {
             using (var stream = StreamFinder.GetFileStreamFromResources(fileName, projectName))
             {
