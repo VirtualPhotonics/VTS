@@ -337,8 +337,19 @@ namespace Vts.Gui.Silverlight.ViewModel
                     {
                         file.Input.ToXMLFile(file.Name);
                     }
+                    var jsonFiles = SimulationInputProvider.GenerateAllSimulationInputs().Select(input =>
+                        new
+                        {
+                            Name = "infile_" + input.OutputName + ".json",
+                            Input = input
+                        });
 
-                    FileIO.ZipFiles(files.Select(file => file.Name), "", stream);
+                    foreach (var file in jsonFiles)
+                    {
+                        file.Input.ToXMLFile(file.Name);
+                    }
+                    var allFiles = files.Concat(jsonFiles);
+                    FileIO.ZipFiles(allFiles.Select(file => file.Name), "", stream);
                     logger.Info(() => "Template simulation input files exported to a zip file.\r");
                 }
             }
