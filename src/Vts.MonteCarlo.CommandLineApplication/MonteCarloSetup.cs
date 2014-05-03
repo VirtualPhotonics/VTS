@@ -161,7 +161,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             // write to xml and json check with DC if we should write to both, same question for MCSolverVM
             input.ToXMLFile(Path.Combine(resultsFolder, input.OutputName + ".xml"));
-            input.ToJsonFile(Path.Combine(resultsFolder, input.OutputName + ".json"));
+            input.ToJsonFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
 
             foreach (var result in detectorResults.ResultsDictionary.Values)
             {

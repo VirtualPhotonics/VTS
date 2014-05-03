@@ -340,7 +340,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var jsonFiles = SimulationInputProvider.GenerateAllSimulationInputs().Select(input =>
                         new
                         {
-                            Name = "infile_" + input.OutputName + ".json",
+                            Name = "infile_" + input.OutputName + ".txt",
                             Input = input
                         });
 
