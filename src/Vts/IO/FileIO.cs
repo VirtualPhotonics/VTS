@@ -329,6 +329,7 @@ namespace Vts.IO
             if (includeMetaData)
             {
                 new MetaData(dataIN).WriteToXML(filename + ".xml");
+                new MetaData(dataIN).WriteToJson(filename + ".txt");  // 
             }
             // Create a file to write binary data 
             using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
