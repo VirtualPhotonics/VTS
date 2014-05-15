@@ -263,9 +263,12 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var store = IsolatedStorageFile.GetUserStoreForApplication();
                     if (store.DirectoryExists(resultsFolder))
                     {
-                        var fileNames = store.GetFileNames(resultsFolder + @"\*");
-
+                        // add the MATLAB files to isolated storage so they can be included in the zip file
+                        FileIO.CopyFileFromResources("Resources/Matlab/load_results_script.m", Path.Combine(resultsFolder, "load_results_script.m"), "Vts.Gui.Silverlight");
+                        FileIO.CopyFileFromResources("Resources/Matlab/loadMCResults.m", Path.Combine(resultsFolder, "loadMCResults.m"), "Vts.Gui.Silverlight");
+                        FileIO.CopyFileFromResources("Resources/Matlab/readBinaryData.m", Path.Combine(resultsFolder, "readBinaryData.m"), "Vts.Gui.Silverlight");
                         // then, zip all these together and store *that* .zip to isolated storage as well
+                        var fileNames = store.GetFileNames(resultsFolder + @"\*");
                         try
                         {
                             FileIO.ZipFiles(fileNames, resultsFolder, resultsFolder + ".zip");

@@ -246,6 +246,20 @@ namespace Vts.IO
                 return ReadFromJsonStream<T>(stream);
             }
         }
+        /// <summary>
+        /// Copy a file from reaources to an external location (isolated storage in silverlight)
+        /// </summary>
+        /// <param name="sourceFileName">Path and filename of the file in resources</param>
+        /// <param name="destinationFileName">Path and filename of the destination location</param>
+        /// <param name="projectName">The name of the project where the file in resources id located</param>
+        public static void CopyFileFromResources(string sourceFileName, string destinationFileName, string projectName)
+        {
+            using (var stream = StreamFinder.GetFileStreamFromResources(sourceFileName, projectName))
+            {
+                var emptyStream = StreamFinder.GetFileStream(destinationFileName, FileMode.Create);
+                stream.CopyTo(emptyStream);
+            }
+        }
 
         /// <summary>
         /// Reads data of a specified type from an XML file in resources
