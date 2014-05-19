@@ -583,6 +583,7 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt" />
+    <Resource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.json" />
     <None Include="packages.config" />
     <None Include="Sources.cd" />
   </ItemGroup>

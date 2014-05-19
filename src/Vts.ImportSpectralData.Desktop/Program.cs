@@ -159,6 +159,7 @@ namespace Vts.ImportSpectralData.Desktop
             var chromophoreDictionary = SpectralImporter.ImportSpectraFromFile(filenames, path);
 
             chromophoreDictionary.WriteToXML(Path.Combine(outpath ?? "", outname ?? "SpectralDictionary.xml"));
+            chromophoreDictionary.WriteToJson(Path.Combine(outpath ?? "", outname ?? "SpectralDictionary.json"));
         }
         
         /// <summary>

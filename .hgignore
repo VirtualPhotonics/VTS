@@ -41,7 +41,6 @@ obj/
 [Rr]elease*/
 [Ll]ibraries/*.dll
 [Pp]ackages/*
-[Rr]esources/*
 [Tt]est[Rr]esult*
 [Bb]uild[Ll]og.*
 vts_libraries/

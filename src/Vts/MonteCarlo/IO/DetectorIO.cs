@@ -11,7 +11,7 @@ namespace Vts.MonteCarlo.IO
     public static class DetectorIO
     {
         /// <summary>
-        /// Writes Detector xml for scalar detectors, writes Detector xml and 
+        /// Writes Detector xml/txt for scalar detectors, writes Detector xml/txt and 
         /// binary for 1D and larger detectors.  Detector.Name is used for filename.
         /// </summary>
         /// <param name="detector">IDetector being written.</param>
@@ -119,111 +119,137 @@ namespace Vts.MonteCarlo.IO
 				switch (detector.TallyType) {
 					case TallyType.RDiffuse:					
 	                    FileIO.WriteToXML((RDiffuseDetector)detector, filePath + ".xml");
+                        FileIO.WriteToJson((RDiffuseDetector)detector, filePath + ".txt");
 						break;
 					case TallyType.TDiffuse:
 	                    FileIO.WriteToXML((TDiffuseDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((TDiffuseDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.ATotal:
 	                    FileIO.WriteToXML((ATotalDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((ATotalDetector)detector, filePath + ".txt");
 						break;
 
                     // "1D" detectors
                     case TallyType.ROfRho:
 	                    FileIO.WriteToXML((ROfRhoDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((ROfRhoDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.pMCROfRho:
 	                    FileIO.WriteToXML((pMCROfRhoDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((pMCROfRhoDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.dMCdROfRhodMua:
                         FileIO.WriteToXML((dMCdROfRhodMuaDetector)detector, filePath + ".xml");
+				        FileIO.WriteToJson((dMCdROfRhodMuaDetector) detector, filePath + ".txt");
                         break;
 
                     case TallyType.dMCdROfRhodMus:
                         FileIO.WriteToXML((dMCdROfRhodMusDetector)detector, filePath + ".xml");
+                        FileIO.WriteToJson((dMCdROfRhodMusDetector)detector, filePath + ".txt");
                         break;
 
                     case TallyType.TOfRho:
 	                    FileIO.WriteToXML((TOfRhoDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((TOfRhoDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.ROfAngle:
 	                    FileIO.WriteToXML((ROfAngleDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((ROfAngleDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.ROfFx:
 	                    FileIO.WriteToXML((ROfFxDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((ROfFxDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.pMCROfFx:
 	                    FileIO.WriteToXML((pMCROfFxDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((pMCROfFxDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.TOfAngle:
 	                    FileIO.WriteToXML((TOfAngleDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((TOfAngleDetector)detector, filePath + ".txt");
 						break;
 
                     // "2D" detectors
                     case TallyType.ROfRhoAndTime:
 	                    FileIO.WriteToXML((ROfRhoAndTimeDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((ROfRhoAndTimeDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.pMCROfRhoAndTime:
 	                    FileIO.WriteToXML((pMCROfRhoAndTimeDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((pMCROfRhoAndTimeDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.pMCROfFxAndTime:
 	                    FileIO.WriteToXML((pMCROfFxAndTimeDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((pMCROfFxAndTimeDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.ROfRhoAndAngle:
 	                    FileIO.WriteToXML((ROfRhoAndAngleDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((ROfRhoAndAngleDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.TOfRhoAndAngle:
 	                    FileIO.WriteToXML((TOfRhoAndAngleDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((TOfRhoAndAngleDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.ROfRhoAndOmega:
 	                    FileIO.WriteToXML((ROfRhoAndOmegaDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((ROfRhoAndOmegaDetector)detector, filePath + ".txt");
 						break;
 					
                     case TallyType.ROfFxAndTime:
 	                    FileIO.WriteToXML((ROfFxAndTimeDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((ROfFxAndTimeDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.ROfXAndY:
 	                    FileIO.WriteToXML((ROfXAndYDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((ROfXAndYDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.FluenceOfRhoAndZ:
 	                    FileIO.WriteToXML((FluenceOfRhoAndZDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((FluenceOfRhoAndZDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.FluenceOfXAndYAndZ:
 	                    FileIO.WriteToXML((FluenceOfXAndYAndZDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((FluenceOfXAndYAndZDetector)detector, filePath + ".txt");
 						break;
 
                     case TallyType.AOfRhoAndZ:
 	                    FileIO.WriteToXML((AOfRhoAndZDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((AOfRhoAndZDetector)detector, filePath + ".txt");
 						break;
 
 
                     // "3D" detectors
                     case TallyType.FluenceOfRhoAndZAndTime:
 	                    FileIO.WriteToXML((FluenceOfRhoAndZAndTimeDetector)detector, filePath + ".xml");
+				        FileIO.WriteToJson((FluenceOfRhoAndZAndTimeDetector) detector, filePath + ".txt");
 						break;
 
                     case TallyType.ReflectedMTOfRhoAndSubregionHist:
 	                    FileIO.WriteToXML((ReflectedMTOfRhoAndSubregionHistDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((ReflectedMTOfRhoAndSubregionHistDetector)detector, filePath + ".txt");
                         var dmt = detector as ReflectedMTOfRhoAndSubregionHistDetector;
                         FileIO.WriteArrayToBinary<double>(dmt.FractionalMT, filePath + "_FractionalMT", false);
 						break;
 
                     case TallyType.ReflectedTimeOfRhoAndSubregionHist:
 	                    FileIO.WriteToXML((ReflectedTimeOfRhoAndSubregionHistDetector)detector, filePath + ".xml");
+				        FileIO.WriteToJson((ReflectedTimeOfRhoAndSubregionHistDetector) detector, filePath + ".txt");
                         var d = detector as ReflectedTimeOfRhoAndSubregionHistDetector;
                         FileIO.WriteArrayToBinary<double>(d.FractionalTime, filePath + "_FractionalTime", false);
 						break;
@@ -231,9 +257,11 @@ namespace Vts.MonteCarlo.IO
                     // "5D" detectors
                     case TallyType.RadianceOfXAndYAndZAndThetaAndPhi:
 	                    FileIO.WriteToXML((RadianceOfXAndYAndZAndThetaAndPhiDetector)detector, filePath + ".xml");
+	                    FileIO.WriteToJson((RadianceOfXAndYAndZAndThetaAndPhiDetector)detector, filePath + ".txt");
 						break;
 					default:
 	                    FileIO.WriteToXML(detector, filePath + ".xml");
+	                    FileIO.WriteToJson(detector, filePath + ".txt");
 						break;
 					}
             }

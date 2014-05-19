@@ -514,6 +514,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\loadMCResults.m">
+      <Link>Resources\Matlab\loadMCResults.m</Link>
+    </Resource>
+    <Resource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\load_results_script.m">
+      <Link>Resources\Matlab\load_results_script.m</Link>
+    </Resource>
+    <Resource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\readBinaryData.m">
+      <Link>Resources\Matlab\readBinaryData.m</Link>
+    </Resource>
     <Content Include="Helpers\fjcore\FJCore.csproj" />
     <Content Include="Helpers\fjcore\FJCoreWin.csproj" />
     <Content Include="Helpers\fjcore\IJG.txt" />

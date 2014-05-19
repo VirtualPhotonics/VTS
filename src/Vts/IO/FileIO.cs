@@ -204,11 +204,11 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Writes data of a specified type to an XML file
+        /// Writes data of a specified type to an JSON file
         /// </summary>
         /// <typeparam name="T">Type of the data to be written</typeparam>
         /// <param name="myObject">Object to be written</param>
-        /// <param name="filename">Name of the XML file to write</param>
+        /// <param name="filename">Name of the JSON file to write</param>
         public static void WriteToJson<T>(this T myObject, string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
@@ -246,6 +246,20 @@ namespace Vts.IO
                 return ReadFromJsonStream<T>(stream);
             }
         }
+        /// <summary>
+        /// Copy a file from reaources to an external location (isolated storage in silverlight)
+        /// </summary>
+        /// <param name="sourceFileName">Path and filename of the file in resources</param>
+        /// <param name="destinationFileName">Path and filename of the destination location</param>
+        /// <param name="projectName">The name of the project where the file in resources id located</param>
+        public static void CopyFileFromResources(string sourceFileName, string destinationFileName, string projectName)
+        {
+            using (var stream = StreamFinder.GetFileStreamFromResources(sourceFileName, projectName))
+            {
+                var emptyStream = StreamFinder.GetFileStream(destinationFileName, FileMode.Create);
+                stream.CopyTo(emptyStream);
+            }
+        }
 
         /// <summary>
         /// Reads data of a specified type from an XML file in resources
@@ -259,7 +273,21 @@ namespace Vts.IO
             using (Stream stream = StreamFinder.GetFileStreamFromResources(fileName, projectName))
             {
                 return ReadFromStream<T>(stream);
-                //return (Time)new DataContractSerializer(typeof(Time)).ReadObject(stream);
+            }
+        }
+
+        /// <summary>
+        /// Reads data of a specified type from an JSON file in resources
+        /// </summary>
+        /// <typeparam name="T">Type of the data</typeparam>
+        /// <param name="fileName">Name of the JSON file to be read</param>
+        /// <param name="projectName">Project name for the location of resources</param>
+        /// <returns>The data as the specified type</returns>
+        public static T ReadFromJsonInResources<T>(string fileName, string projectName)
+        {
+            using (var stream = StreamFinder.GetFileStreamFromResources(fileName, projectName))
+            {
+                return ReadFromJsonStream<T>(stream);
             }
         }
 
@@ -315,6 +343,7 @@ namespace Vts.IO
             if (includeMetaData)
             {
                 new MetaData(dataIN).WriteToXML(filename + ".xml");
+                new MetaData(dataIN).WriteToJson(filename + ".txt");  // 
             }
             // Create a file to write binary data 
             using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
