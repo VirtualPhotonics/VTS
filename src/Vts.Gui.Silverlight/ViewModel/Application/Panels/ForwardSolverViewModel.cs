@@ -139,7 +139,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
             
             string plotLabel = GetLegendLabel();
-            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
+            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
                 var real = points[0];
                 var imag = points[1];
@@ -219,7 +219,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 constantValues);
 
             // if it's reporting Real + Imaginary, we need two vectors
-            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
+            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
                 var real = query.Take(independentValues.Length).ToArray();
                 var imag = query.Skip(independentValues.Length).Take(independentValues.Length).ToArray();

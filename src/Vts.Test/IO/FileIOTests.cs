@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using NUnit.Framework;
 using Vts.IO;
@@ -29,6 +30,14 @@ namespace Vts.Test.IO
             if (FileIO.FileExists("file4.txt"))
             {
                 FileIO.FileDelete("file4.txt");
+            }
+            if (FileIO.FileExists("array1")) // binary array
+            {
+                FileIO.FileDelete("array1");
+            }
+            if (FileIO.FileExists("array1.txt")) // metadata
+            {
+                FileIO.FileDelete("array1.txt");
             }
         }
 
@@ -64,6 +73,15 @@ namespace Vts.Test.IO
             Stream stream = StreamFinder.GetFileStream("file4.txt", FileMode.Create);
             FileIO.WriteTextToStream(myString.ToString(), stream);
             Assert.IsNotNull(stream);
+        }
+
+        [Test]
+        public void validate_write_array_to_binary()
+        {
+            double[] array = new double[3] {1, 2, 3};
+            FileIO.WriteArrayToBinary<double>(array, "array1", true);
+            Assert.IsTrue(FileIO.FileExists("array1"));
+            Assert.IsTrue(FileIO.FileExists("array1.txt"));
         }
     }
 }

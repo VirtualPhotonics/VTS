@@ -34,25 +34,22 @@ namespace Vts.SpectralMapping
         /// <returns>Value at the given wavelength</returns>
         public static double GetSpectrumValue(string name, double wavelength)
         {
-            ChromophoreSpectrum spectrum = null;
+            ChromophoreSpectrum spectrum;
             InternalDictionary.TryGetValue(name, out spectrum);
             if (spectrum != null)
             {
                 return spectrum.GetSpectralValue(wavelength);
             }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
 
         /// <summary>
-        /// Returns a dictionary of Chromophore spectra from the file SpectralDictionary.xml in resources
+        /// Returns a dictionary of Chromophore spectra from the file SpectralDictionary.json in resources
         /// </summary>
         /// <returns>Dictionary of Chromophore spectra</returns>
         public static ChromophoreSpectrumDictionary GetDefaultDatabaseFromFileInResources()
         {
-            return FileIO.ReadFromXMLInResources<ChromophoreSpectrumDictionary>("Modeling/Spectroscopy/Resources/SpectralDictionary.xml", "Vts");
+            return FileIO.ReadFromJsonInResources<ChromophoreSpectrumDictionary>("Modeling/Spectroscopy/Resources/SpectralDictionary.json", "Vts");
         }
 
         /// <summary>
@@ -61,17 +58,17 @@ namespace Vts.SpectralMapping
         /// <returns>Dictionary of Chromophore spectra</returns>
         public static ChromophoreSpectrumDictionary GetDatabaseFromFile(string fileName)
         {
-            return FileIO.ReadFromXML<ChromophoreSpectrumDictionary>(fileName);
+            return FileIO.ReadFromJson<ChromophoreSpectrumDictionary>(fileName);
         }
 
         /// <summary>
         /// Saves a given dictionary of Chromophore spectra to the specified file
         /// </summary>
-        /// <param name="dictionary"></param>
-        /// <param name="filename"></param>
+        /// <param name="dictionary">Name of the chromophore spectrum dictionary</param>
+        /// <param name="filename">Name of the file</param>
         public static void SaveDatabaseToFile(ChromophoreSpectrumDictionary dictionary, string filename)
         {
-            dictionary.WriteToXML(filename);
+            dictionary.WriteToJson(filename);
         }
 
         /// <summary>
@@ -87,7 +84,7 @@ namespace Vts.SpectralMapping
 
             foreach (var item in chromophoreSpectra)
             {
-                ChromophoreSpectrum spectrum = null;
+                ChromophoreSpectrum spectrum;
                 if(existingDictionary.TryGetValue(item.Name, out spectrum))
                 {
                     existingDictionary.Remove(item.Name);
@@ -115,31 +112,24 @@ namespace Vts.SpectralMapping
             }
             
             //create a list of ChromophoreSpectrum
-            List<ChromophoreSpectrum> ChromophoreList = new List<ChromophoreSpectrum>();
+            var chromophoreList = new List<ChromophoreSpectrum>();
 
             // create a list of wavelengths
-            List<double> wavelengths = new List<double>();
+            var wavelengths = new List<double>();
             // create a list of list of values
-            List<List<double>> valuesList = new List<List<double>>();
+            var valuesList = new List<List<double>>();
 
             try
             {
-                using (StreamReader readFile = new StreamReader(fileStream))
+                using (var readFile = new StreamReader(fileStream))
                 {
-                    string line;
-                    string[] headerrow;
-                    string[] row;
-                    string[] header;
-                    int hcolumns;
-                    int columns;
-
-                    line = readFile.ReadLine();
+                    var line = readFile.ReadLine();
                     //check for the comment line where the header data is located
                     if (line.StartsWith("%"))
                     {
                         line = line.Substring(1);
                     }
-                    headerrow = line.Split('\t'); //file is separated by tabs
+                    var headerrow = line.Split('\t');
 
                     //if the number of columns is not greater that 2
                     if (headerrow.Length < 2)
@@ -148,7 +138,7 @@ namespace Vts.SpectralMapping
                         throw new Exception("There are not enough columns in the header, header is wavelength wavelength_units chromophore_absorber_name units");
                     }
                     //get the number of columns in the first line of data
-                    hcolumns = headerrow.Length; //each column has a name and unit value
+                    int hcolumns = headerrow.Length;
 
                     //read the second line of data, check that the number of columns match
                     line = readFile.ReadLine();
@@ -157,8 +147,8 @@ namespace Vts.SpectralMapping
                     {
                         line = readFile.ReadLine();
                     }
-                    row = line.Split('\t'); //file is separated by tabs
-                    columns = row.Length;
+                    var row = line.Split('\t');
+                    var columns = row.Length;
 
                     //the number of columns of data is equal to the number of header columns
                     if (hcolumns == columns)
@@ -170,13 +160,11 @@ namespace Vts.SpectralMapping
                             throw new Exception("First column must be lambda");
                         }
                         //split the units from the name
-                        header = headerrow[0].Split(' ');
-                        WavelengthUnit wavelengthUnit = SpectralConverter.getWavelengthUnit(header[1]);
-                        AbsorptionCoefficientUnit absorptionCoefficientUnit;
-                        MolarUnit molarUnit;
+                        var header = headerrow[0].Split(' ');
+                        var wavelengthUnit = SpectralConverter.getWavelengthUnit(header[1]);
 
                         //loop through the remaining columns and write the header data
-                        for (int i = 1; i < hcolumns; i++)
+                        for (var i = 1; i < hcolumns; i++)
                         {
                             //split the units from the name
                             header = headerrow[i].Split(' ');
@@ -185,24 +173,24 @@ namespace Vts.SpectralMapping
                                 //error, there must be a name and unit value in the  header
                                 throw new Exception("The header columns must be name<space>units");
                             }
-                            string name = header[0]; //get the name of the chromophore absorber
-                            ChromophoreType chromophoreType = (ChromophoreType)Enum.Parse(typeof(ChromophoreType), name, true);
+                            var name = header[0]; //get the name of the chromophore absorber
+                            var chromophoreType = (ChromophoreType)Enum.Parse(typeof(ChromophoreType), name, true);
                             //get the chromophore coefficient type
-                            ChromophoreCoefficientType chromophoreCoefficientType = chromophoreType.GetCoefficientType();
+                            var chromophoreCoefficientType = chromophoreType.GetCoefficientType();
                             //get the absorption coefficient units and the molar units
                             //parse the value of header[1] - the units
-                            absorptionCoefficientUnit = SpectralConverter.getAbsorptionCoefficientUnit(header[1]);
-                            molarUnit = SpectralConverter.getMolarUnit(header[1]);
+                            var absorptionCoefficientUnit = SpectralConverter.getAbsorptionCoefficientUnit(header[1]);
+                            var molarUnit = SpectralConverter.getMolarUnit(header[1]);
                             //write the values to the dictionary
-                            ChromophoreSpectrum CS = new ChromophoreSpectrum(name, chromophoreCoefficientType, absorptionCoefficientUnit, molarUnit, wavelengthUnit);
-                            ChromophoreList.Add(CS);
+                            var cs = new ChromophoreSpectrum(name, chromophoreCoefficientType, absorptionCoefficientUnit, molarUnit, wavelengthUnit);
+                            chromophoreList.Add(cs);
                         }
 
                         //loop through the columns and create the lists (ignore the wavelength column)
-                        for (int i = 1; i < columns; i++)
+                        for (var i = 1; i < columns; i++)
                         {
                             //create a list of doubles in the value list
-                            List<double> values = new List<double>();
+                            var values = new List<double>();
                             valuesList.Add(values);
                         }
 
@@ -214,44 +202,44 @@ namespace Vts.SpectralMapping
 
                                 if (row.Length != columns)
                                 {
-                                    throw new Exception("Invalid data at line: " + (wavelengths.Count + 2).ToString());
+                                    throw new Exception("Invalid data at line: " + (wavelengths.Count + 2));
                                 }
                                 //write the wavelength value once
-                                double wlEntry = convert ? Convert.ToDouble(row[0]).ConvertWavelength(wavelengthUnit) : Convert.ToDouble(row[0]);
-                                wavelengths.Add((double)wlEntry);
+                                var wlEntry = convert ? Convert.ToDouble(row[0]).ConvertWavelength(wavelengthUnit) : Convert.ToDouble(row[0]);
+                                wavelengths.Add(wlEntry);
 
                                 //loop through the spectra and get the data
-                                for (int i = 0; i < columns - 1; i++)
+                                for (var i = 0; i < columns - 1; i++)
                                 {
-                                    double k = 1.0;
+                                    var k = 1.0;
                                     // dc: this would be only for MolarExtinctionCoefficient or FractionalExtinctionCoefficient, not MolarAbsorptionCoefficient or FractionalAbsorptionCoefficient
                                     //// need to multiply MolarAbsorptionCoefficients by ln(10)
                                     //if (ChromophoreList[i].ChromophoreCoefficientType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
                                     //{
                                     //    k = Math.Log(10);
                                     //}
-                                    double valEntry = convert ? Convert.ToDouble(row[i+1]).ConvertCoefficient(ChromophoreList[i].AbsorptionCoefficientUnit, ChromophoreList[i].MolarUnit) : Convert.ToDouble(row[i+1]);
-                                    valuesList[i].Add((double)valEntry * k);
+                                    var valEntry = convert ? Convert.ToDouble(row[i+1]).ConvertCoefficient(chromophoreList[i].AbsorptionCoefficientUnit, chromophoreList[i].MolarUnit) : Convert.ToDouble(row[i+1]);
+                                    valuesList[i].Add(valEntry * k);
 
                                 }
                             }
                         } while ((line = readFile.ReadLine()) != null);
 
                         //loop through the spectra and create the dictionary
-                        for (int i = 0; i < columns - 1; i++)
+                        for (var i = 0; i < columns - 1; i++)
                         {
-                            ChromophoreList[i].Wavelengths = wavelengths;
-                            ChromophoreList[i].Spectrum = valuesList[i];
+                            chromophoreList[i].Wavelengths = wavelengths;
+                            chromophoreList[i].Spectrum = valuesList[i];
                             //if the data was converted, rewrite the absorption coefficient units and the molar units
                             if (convert)
                             {
-                                ChromophoreList[i].AbsorptionCoefficientUnit = AbsorptionCoefficientUnit.InverseMillimeters;
+                                chromophoreList[i].AbsorptionCoefficientUnit = AbsorptionCoefficientUnit.InverseMillimeters;
                                 //only rewrite the molar units if it is not none
-                                if (ChromophoreList[i].MolarUnit != MolarUnit.None)
+                                if (chromophoreList[i].MolarUnit != MolarUnit.None)
                                 {
-                                    ChromophoreList[i].MolarUnit = MolarUnit.MicroMolar;
+                                    chromophoreList[i].MolarUnit = MolarUnit.MicroMolar;
                                 }
-                                ChromophoreList[i].WavelengthUnit = WavelengthUnit.Nanometers;
+                                chromophoreList[i].WavelengthUnit = WavelengthUnit.Nanometers;
                             }
                         }
                     }
@@ -268,41 +256,41 @@ namespace Vts.SpectralMapping
                 throw new Exception(e.Message);
             }
 
-            return ChromophoreList;
+            return chromophoreList;
         }
 
         /// <summary>
         /// Writes the Chromophore dictionary to separate text files
         /// </summary>
-        /// <param name="ChromophoreDictionary">The dictionary to write</param>
-        public static void WriteDatabaseToFiles(ChromophoreSpectrumDictionary ChromophoreDictionary)
+        /// <param name="chromophoreDictionary">The dictionary to write</param>
+        public static void WriteDatabaseToFiles(ChromophoreSpectrumDictionary chromophoreDictionary)
         {
             //loop through each of the ChromophoreSpectrum objects
-            foreach (var item in ChromophoreDictionary)
+            foreach (var item in chromophoreDictionary)
             {
-                ChromophoreSpectrum CS = item.Value;
-                StringBuilder cd = new StringBuilder();
+                var cs = item.Value;
+                var cd = new StringBuilder();
                 //Get the spectral units
-                string units = SpectralConverter.getSpectralUnit(CS.MolarUnit, CS.AbsorptionCoefficientUnit);
-                string wavelengthUnits = SpectralConverter.getWavelengthUnit(CS.WavelengthUnit);
+                var units = SpectralConverter.getSpectralUnit(cs.MolarUnit, cs.AbsorptionCoefficientUnit);
+                var wavelengthUnits = SpectralConverter.getWavelengthUnit(cs.WavelengthUnit);
 
                 //write the first line with the header - LAMBDA<space>units<tab>Name<space>units
-                cd.AppendLine("%LAMBDA " + wavelengthUnits + "\t" + CS.Name + " " + units);
-                int counter = 0;
-                foreach (var wavelength in CS.Wavelengths)
+                cd.AppendLine("%LAMBDA " + wavelengthUnits + "\t" + cs.Name + " " + units);
+                var counter = 0;
+                foreach (var wavelength in cs.Wavelengths)
                 {
                     //need to divide MolarAbsorptionCoefficients by ln(10)
-                    double k = 1.0;
-                    if (CS.ChromophoreCoefficientType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
+                    var k = 1.0;
+                    if (cs.ChromophoreCoefficientType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
                     {
                         k = Math.Log(10);
                     }
-                    var spectrum = CS.Spectrum[counter] / k;
+                    var spectrum = cs.Spectrum[counter] / k;
                     cd.AppendLine(wavelength + "\t" + spectrum);
                     counter++;
                 }
                 //write to text file
-                FileIO.WriteToTextFile(cd.ToString(), "absorber-" + CS.Name + ".txt");
+                FileIO.WriteToTextFile(cd.ToString(), "absorber-" + cs.Name + ".txt");
             }
         }
     }
