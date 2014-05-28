@@ -349,7 +349,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                     foreach (var file in jsonFiles)
                     {
-                        file.Input.ToXMLFile(file.Name);
+                        file.Input.ToJsonFile(file.Name);
                     }
                     var allFiles = files.Concat(jsonFiles);
                     FileIO.ZipFiles(allFiles.Select(file => file.Name), "", stream);
