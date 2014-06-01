@@ -84,8 +84,7 @@ namespace Vts.IO
             // save to IsolatedStorage with no user interaction
             var userstore = IsolatedStorageFile.GetUserStoreForApplication();
             var locations = userstore.GetDirectoryNames();
-            return new IsolatedStorageFileStream( filename, fileMode,
-                IsolatedStorageFile.GetUserStoreForApplication());
+            return new IsolatedStorageFileStream(filename, fileMode, IsolatedStorageFile.GetUserStoreForApplication());
 #else
             FileStream fs = null;
 

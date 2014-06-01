@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
+using System.Reflection;
 using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
@@ -263,15 +264,15 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var store = IsolatedStorageFile.GetUserStoreForApplication();
                     if (store.DirectoryExists(resultsFolder))
                     {
+                        var currentAssembly = Assembly.GetExecutingAssembly();
                         // add the MATLAB files to isolated storage so they can be included in the zip file
-                        FileIO.CopyFileFromResources("Resources/Matlab/load_results_script.m", Path.Combine(resultsFolder, "load_results_script.m"), "Vts.Gui.Silverlight");
-                        FileIO.CopyFileFromResources("Resources/Matlab/loadMCResults.m", Path.Combine(resultsFolder, "loadMCResults.m"), "Vts.Gui.Silverlight");
-                        FileIO.CopyFileFromResources("Resources/Matlab/readBinaryData.m", Path.Combine(resultsFolder, "readBinaryData.m"), "Vts.Gui.Silverlight");
+                        var fileList = FileIO.CopyFolderFromEmbeddedResources("Matlab", resultsFolder, currentAssembly.FullName);
                         // then, zip all these together and store *that* .zip to isolated storage as well
                         var fileNames = store.GetFileNames(resultsFolder + @"\*");
+                        fileList.AddRange(fileNames);
                         try
                         {
-                            FileIO.ZipFiles(fileNames, resultsFolder, resultsFolder + ".zip");
+                            FileIO.ZipFiles(fileList, resultsFolder, resultsFolder + ".zip");
                         }
                         catch (SecurityException)
                         {
