@@ -49,7 +49,7 @@ namespace Vts.IO
             return stream;
 #else
             string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string fullPath = Path.Combine(currentAssemblyDirectoryName,projectName);
+            string fullPath = Path.Combine(currentAssemblyDirectoryName, projectName);
 
             Assembly assembly = null;
 
@@ -60,6 +60,10 @@ namespace Vts.IO
             else if (File.Exists(fullPath + ".exe"))
             {
                 assembly = Assembly.LoadFrom(fullPath + ".exe");
+            }
+            else if (FileIO.FileExists(projectName + ".dll"))
+            {
+                assembly = Assembly.LoadFrom(projectName + ".dll");
             }
             else
             {

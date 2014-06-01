@@ -560,9 +560,9 @@
     <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\strsplit.m">
       <Link>Resources\Matlab\xml_toolbox\strsplit.m</Link>
     </EmbeddedResource>
-    <Content Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\tests\xml_tests.m">
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\tests\xml_tests.m">
       <Link>Resources\Matlab\xml_toolbox\tests\xml_tests.m</Link>
-    </Content>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\unblank.m">
       <Link>Resources\Matlab\xml_toolbox\unblank.m</Link>
     </EmbeddedResource>
