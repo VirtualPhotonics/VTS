@@ -22,6 +22,10 @@ namespace Vts.Test.MonteCarlo.Factories
 
             var input1 = new SampleDetectorInput { Name = "ROfQ", QRange = new DoubleRange(0, 1, 5)};
 
+            var simInput = new SimulationInput();
+
+            simInput.DetectorInputs.Add(input1);
+
             p.WriteInputToFile(input1, "sampleinput");
 
             var input2 = p.ReadInputFromFile("sampleinput");
