@@ -29,14 +29,6 @@ namespace Vts.Gui.Silverlight.ViewModel
         private bool _showOpticalProperties;
         private bool _useSpectralPanelData;
 
-        // todo: This should be handled by a Controller, not dealt with directly
-        // by the ViewModel. Job of ViewModel is just to "surface" Model information
-        // to the View - shouldn't have to do any appreciable work/thinking/analysis.
-        // Currently, the Factories class is serving this need, but I'm afraid it's 
-        // getting too big...
-        // public IForwardSolver ForwardSolver { get; set; }
-        //private IAnalyzer Analyzer { get; set; }
-
         public ForwardSolverViewModel()
         {
             _showOpticalProperties = true;
@@ -73,14 +65,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 if (args.PropertyName == "UseSpectralInputs")
                 {
-                    if (SolutionDomainTypeOptionVM.UseSpectralInputs)
-                    {
-                        UseSpectralPanelData = true;
-                    }
-                    else
-                    {
-                        UseSpectralPanelData = false;
-                    }
+                    UseSpectralPanelData = SolutionDomainTypeOptionVM.UseSpectralInputs;
                 }
                 if (args.PropertyName == "IndependentAxisType")
                 {
