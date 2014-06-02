@@ -6,7 +6,7 @@ namespace Vts.MonteCarlo
     /// Defines a contract for Monte Carlo tallies.
     /// </summary>
     /// <typeparam name="T">type of tally return (e.g. double[])</typeparam>
-    public interface IDetector<out T> : IDetector
+    public interface IDetectorOld<out T> : IDetectorOld
     {
         /// <summary>
         /// Mean of detector tally
@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Properties and methods that all IDetectors must implement
     /// </summary>
-    public interface IDetector
+    public interface IDetectorOld
     {
         /// <summary>
         /// TallyType enum specification

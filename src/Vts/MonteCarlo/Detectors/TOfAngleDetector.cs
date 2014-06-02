@@ -11,7 +11,7 @@ namespace Vts.MonteCarlo.Detectors
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(TOfAngleDetector))]
-    public class TOfAngleDetector : IDetector<double[]> 
+    public class TOfAngleDetector : IDetectorOld<double[]> 
     {
         private bool _tallySecondMoment;
         /// <summary>

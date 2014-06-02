@@ -305,6 +305,7 @@ namespace Vts.IO
             }
         }
 
+        // todo: delete if the one below it works ok
         /// <summary>
         /// Writes an array to a binary file and optionally accompanying .xml file 
         /// (to store array dimensions) if includeMetaData = true
@@ -325,7 +326,33 @@ namespace Vts.IO
             {
                 using (BinaryWriter bw = new BinaryWriter(s))
                 {
-                    new ArrayCustomBinaryWriter<T>().WriteToBinary(bw, dataIN);
+                    new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
+                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<Time>());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Writes an array to a binary file and optionally accompanying .xml file 
+        /// (to store array dimensions) if includeMetaData = true
+        /// </summary>
+        /// <typeparam name="T">Type of the array to be written</typeparam>
+        /// <param name="dataIN">Array to be written</param>
+        /// <param name="filename">Name of the file where the data is written</param>
+        /// <param name="includeMetaData">Boolean to determine whether to include meta data, if set to true, an accompanying XML file will be created with the same name</param>
+        public static void WriteArrayToBinary(Array dataIN, string filename, bool includeMetaData)
+        {
+            // Write XML file to describe the contents of the binary file
+            if (includeMetaData)
+            {
+                new MetaData(dataIN).WriteToXML(filename + ".xml");
+            }
+            // Create a file to write binary data 
+            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
+            {
+                using (BinaryWriter bw = new BinaryWriter(s))
+                {
+                    new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
                     //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<Time>());
                 }
             }
@@ -712,6 +739,5 @@ namespace Vts.IO
         }
 #endif
         #endregion
-
     }
 }

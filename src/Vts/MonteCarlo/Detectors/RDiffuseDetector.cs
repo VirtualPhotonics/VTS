@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo.Detectors
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
     [KnownType(typeof(RDiffuseDetector))]
-    public class RDiffuseDetector : IDetector<double> 
+    public class RDiffuseDetector : IDetectorOld<double> 
     {
         private bool _tallySecondMoment;
 

@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
 
             // not sure following is best design
             // todo: revisit design (dc 6/10/12)
-            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.IsDosimetryTally()).FirstOrDefault();
+            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyDetails.IsDosimetryTally).FirstOrDefault();
 
             if (dosimetryDetector != null)
             {

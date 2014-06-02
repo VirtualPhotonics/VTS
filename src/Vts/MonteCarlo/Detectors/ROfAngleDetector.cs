@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.Detectors
     /// This works for Analog, DAW and CAW.
     /// </summary>
     [KnownType(typeof(ROfAngleDetector))]
-    public class ROfAngleDetector : IDetector<double[]> 
+    public class ROfAngleDetector : IDetector//Old<double[]> 
     {
         private bool _tallySecondMoment;
         /// <summary>
@@ -31,6 +31,19 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = "ROfAngle";
             Name = name;
             TallyCount = 0;
+            TallyDetails = new TallyDetails()
+            {
+                IsReflectanceTally = true, // ours is a simple x-y reflectance tally
+                IsTransmittanceTally = false,
+                IsSpecularReflectanceTally = false,
+                IsInternalSurfaceTally = false,
+                IspMCReflectanceTally = false,
+                IsDosimetryTally = false,
+                IsVolumeTally = false,
+                IsCylindricalTally = false,
+                IsNotImplementedForCAW = false,
+                IsNotImplementedYet = false
+            };
         }
         
         /// <summary>
@@ -58,6 +71,9 @@ namespace Vts.MonteCarlo.Detectors
         /// detector name, default uses TallyType, but can be user specified
         /// </summary>
         public string Name { get; set; }
+
+        public TallyDetails TallyDetails { get; set; }
+
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>
@@ -83,6 +99,12 @@ namespace Vts.MonteCarlo.Detectors
             }
             TallyCount++;
         }
+
+        public BinaryArrayInfo[] GetAllBinaryArrayInfo()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// method to normalize detector results after numPhotons launched
         /// </summary>

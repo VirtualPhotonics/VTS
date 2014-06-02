@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
+using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Tissues;
 
 
@@ -188,6 +189,12 @@ namespace Vts.MonteCarlo
         {
             return FileIO.ReadFromXML<SimulationInput>(filename);
         }
+
+        public MonteCarloSimulation CreateSimulation()
+        {
+            return new MonteCarloSimulation(this);
+        }
+
         /// <summary>
         /// Method to write SimulationInput to file
         /// </summary>

@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Detectors
     /// handled by this class.
     /// </summary>
     [KnownType(typeof(pMCROfRhoAndTimeDetector))]
-    public class pMCROfRhoAndTimeDetector : IDetector<double[,]> 
+    public class pMCROfRhoAndTimeDetector : IDetectorOld<double[,]> 
     {
         private AbsorptionWeightingType _awt;
         private IList<OpticalProperties> _referenceOps;

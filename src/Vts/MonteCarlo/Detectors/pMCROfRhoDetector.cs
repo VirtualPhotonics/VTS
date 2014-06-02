@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Detectors
     /// as a function of Rho.
     /// </summary>
     [KnownType(typeof(pMCROfRhoDetector))]
-    public class pMCROfRhoDetector : IDetector<double[]> 
+    public class pMCROfRhoDetector : IDetectorOld<double[]> 
     {
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;

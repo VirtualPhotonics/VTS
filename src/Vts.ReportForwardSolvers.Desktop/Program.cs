@@ -172,7 +172,7 @@ namespace Vts.ReportForwardSolvers.Desktop
 
             reflectanceValues = ReflectanceFunction(op.AsEnumerable(), spatialVariable).ToArray();
 
-            LocalWriteArrayToBinary<double>(reflectanceValues,@"Output/" + sDT.ToString() +
+            LocalWriteArrayToBinary(reflectanceValues,@"Output/" + sDT.ToString() +
                                               "/SteadyState/" + fST.ToString() + "/" +
                                               "musp" + op.Musp.ToString() + "mua" + op.Mua.ToString(),FileMode.Create);
         }
@@ -194,7 +194,7 @@ namespace Vts.ReportForwardSolvers.Desktop
 
             reflectanceValues = ReflectanceFunction(op.AsEnumerable(), sV.AsEnumerable(), tV).ToArray();
 
-            LocalWriteArrayToBinary<double>(reflectanceValues, @"Output/" + sDT.ToString() +
+            LocalWriteArrayToBinary(reflectanceValues, @"Output/" + sDT.ToString() +
                                             "/" + tDT.ToString() + "/" + fST.ToString() + "/" +
                                             "musp" + op.Musp.ToString() + "mua" + op.Mua.ToString(),
                                             FileMode.Create);
@@ -206,7 +206,7 @@ namespace Vts.ReportForwardSolvers.Desktop
 
                 reflectanceValues = ReflectanceFunction(op.AsEnumerable(), sV.AsEnumerable(), tV).ToArray();
 
-                LocalWriteArrayToBinary<double>(reflectanceValues, @"Output/" + sDT.ToString() + "/" +
+                LocalWriteArrayToBinary(reflectanceValues, @"Output/" + sDT.ToString() + "/" +
                                                 tDT.ToString() + "/" + fST.ToString() + "/" +
                                                 "musp" + op.Musp.ToString() + "mua" + op.Mua.ToString(),
                                                 FileMode.Append);
@@ -331,14 +331,14 @@ namespace Vts.ReportForwardSolvers.Desktop
             return ReflectanceFunction;
         }
 
-        private static void LocalWriteArrayToBinary<T>(Array dataIN, string filename, FileMode mode) where T : struct
+        private static void LocalWriteArrayToBinary(Array dataIN, string filename, FileMode mode)// where T : struct
         {
             // Create a file to write binary data 
             using (Stream s = StreamFinder.GetFileStream(filename, mode))
             {
                 using (BinaryWriter bw = new BinaryWriter(s))
                 {
-                    new ArrayCustomBinaryWriter<T>().WriteToBinary(bw, dataIN);
+                    new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
                 }
             }
         }

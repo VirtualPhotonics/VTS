@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo.Detectors
     /// handled by this class.
     /// </summary>
     [KnownType(typeof(pMCROfFxAndTimeDetector))]
-    public class pMCROfFxAndTimeDetector : IDetector<Complex[,]>
+    public class pMCROfFxAndTimeDetector : IDetectorOld<Complex[,]>
     {
         private double[] _fxArray;
         private OpticalProperties[] _perturbedOps;

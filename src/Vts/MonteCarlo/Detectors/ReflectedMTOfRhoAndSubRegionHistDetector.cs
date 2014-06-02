@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Detectors
     /// in each subregiion.
     /// </summary>
     [KnownType(typeof(ReflectedMTOfRhoAndSubregionHistDetector))]
-    public class ReflectedMTOfRhoAndSubregionHistDetector : IDetector<double[,]> 
+    public class ReflectedMTOfRhoAndSubregionHistDetector : IDetectorOld<double[,]> 
     {
         private bool _tallySecondMoment;
         private ITissue _tissue;

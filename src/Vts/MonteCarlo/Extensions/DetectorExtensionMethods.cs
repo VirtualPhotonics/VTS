@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="detector">detector</param>
         /// <returns>boolean indicating whether reflectance tally or not</returns>
-        public static bool IsReflectanceTally(this IDetector detector)
+        public static bool IsReflectanceTally(this IDetectorOld detector)
         {
             return IsReflectanceTallyString(detector.TallyType);
         }
@@ -32,7 +32,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsTransmittanceTally(this IDetector detector)
+        public static bool IsTransmittanceTally(this IDetectorOld detector)
         {
             return IsTransmittanceTallyString(detector.TallyType);
         }
@@ -53,7 +53,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsSpecularReflectanceTally(this IDetector detector)
+        public static bool IsSpecularReflectanceTally(this IDetectorOld detector)
         {
             return IsSpecularReflectanceTallyString(detector.TallyType);
         }
@@ -73,7 +73,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsInternalSurfaceTally(this IDetector detector)
+        public static bool IsInternalSurfaceTally(this IDetectorOld detector)
         {
             return IsInternalSurfaceTallyString(detector.TallyType);
         }
@@ -93,7 +93,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsSurfaceTally(this IDetector detector)
+        public static bool IsSurfaceTally(this IDetectorOld detector)
         {
             return detector.IsTransmittanceTally() || detector.IsReflectanceTally() ||
                    detector.IsSpecularReflectanceTally() || detector.IsInternalSurfaceTally();
@@ -115,7 +115,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="detector">TallyType enum</param>
         /// <returns>boolean</returns>
-        public static bool IspMCReflectanceTally(this IDetector detector)
+        public static bool IspMCReflectanceTally(this IDetectorOld detector)
         {
             return IspMCReflectanceTallyString(detector.TallyType);
         }
@@ -135,7 +135,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="detector">TallyType enum</param>
         /// <returns>boolean</returns>
-        public static bool IsDosimetryTally(this IDetector detector)
+        public static bool IsDosimetryTally(this IDetectorOld detector)
         {
             return IsDosimetryTallyString(detector.TallyType);
         }
@@ -145,7 +145,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsVolumeTally(this IDetector detector)
+        public static bool IsVolumeTally(this IDetectorOld detector)
         {
             return IsVolumeTallyString(detector.TallyType);
         }
@@ -165,7 +165,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsCylindricalTally(this IDetector detector)
+        public static bool IsCylindricalTally(this IDetectorOld detector)
         {
             return IsCylindricalTallyString(detector.TallyType);
         }
@@ -186,7 +186,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsNotImplementedForCAW(this IDetector detector)
+        public static bool IsNotImplementedForCAW(this IDetectorOld detector)
         {
             return IsNotImplementedForCAWString(detector.TallyType);
         }
@@ -207,7 +207,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="detector">detector</param>
         /// <returns>boolean</returns>
-        public static bool IsNotImplementedYet(this IDetector detector)
+        public static bool IsNotImplementedYet(this IDetectorOld detector)
         {
             return IsNotImplementedYetString(detector.TallyType);
         }

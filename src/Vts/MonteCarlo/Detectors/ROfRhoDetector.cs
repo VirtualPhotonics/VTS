@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo.Detectors
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(ROfRhoDetector))]
-    public class ROfRhoDetector : IDetector<double[]> 
+    public class ROfRhoDetector : IDetector//Old<double[]> 
     {
         private bool _tallySecondMoment;
         //private double[,] _weightGrid;
@@ -38,6 +38,19 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = "ROfRho";
             Name = name;
             TallyCount = 0;
+            TallyDetails = new TallyDetails()
+            {
+                IsReflectanceTally = true, // ours is a simple x-y reflectance tally
+                IsTransmittanceTally = false,
+                IsSpecularReflectanceTally = false,
+                IsInternalSurfaceTally = false,
+                IspMCReflectanceTally = false,
+                IsDosimetryTally = false,
+                IsVolumeTally = false,
+                IsCylindricalTally = true,
+                IsNotImplementedForCAW = false,
+                IsNotImplementedYet = false
+            };
             //_xRange = new DoubleRange(-0.4975, 0.4975, 200); // 5um pixel
             //_zRange = new DoubleRange(0.0, 0.995, 200);
             //_weightGrid = new double[_xRange.Count - 1, _zRange.Count - 1];
@@ -69,6 +82,9 @@ namespace Vts.MonteCarlo.Detectors
         /// detector name, default uses TallyType, but can be user-specified
         /// </summary>
         public string Name { get; set; }
+
+        public TallyDetails TallyDetails { get; set; }
+
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>
@@ -208,6 +224,11 @@ namespace Vts.MonteCarlo.Detectors
             //    }
             //}
             // END of P(V&D) code addition
+        }
+
+        public BinaryArrayInfo[] GetAllBinaryArrayInfo()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

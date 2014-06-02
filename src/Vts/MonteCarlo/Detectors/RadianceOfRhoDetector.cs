@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo.Detectors
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     [KnownType(typeof(RadianceOfRhoDetector))]
-    public class RadianceOfRhoDetector : IDetector<double[]> 
+    public class RadianceOfRhoDetector : IDetectorOld<double[]> 
     {
         private bool _tallySecondMoment;
 

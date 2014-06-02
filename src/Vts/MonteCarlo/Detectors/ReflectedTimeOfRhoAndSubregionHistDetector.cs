@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Currently, the tally only works for Continuous Absorption Weighting (CAW)
     /// </summary>
     [KnownType(typeof(ReflectedTimeOfRhoAndSubregionHistDetector))]
-    public class ReflectedTimeOfRhoAndSubregionHistDetector : IDetector<double[,,]> 
+    public class ReflectedTimeOfRhoAndSubregionHistDetector : IDetectorOld<double[,,]> 
     {
         private bool _tallySecondMoment;
         private ITissue _tissue;
