@@ -44,16 +44,18 @@ namespace Vts.Test.MonteCarlo.Factories
         /// Simulate Usage Of DetectorProvider
         /// </summary>
         [Test]
-        public void simulate_usage_of_DetectorProvider()
+        public void demonstrate_FancyDetector_creation_via_DetectorFactory()
         {
             var input = new FancyDetectorInput
                 {
                     TallyType =  "ROfQ", 
                     Name = "My First Detector", 
+                    TallySecondMoment = false,
                     XRange = new DoubleRange(0, 1, 5),
                     YRange = new DoubleRange(0, 1, 5),
-                    TallySecondMoment = false
                 };
+
+            var detector = DetectorFactory.GetDetectors(new[] {input}, null, true);
 
             var simInput = new SimulationInput { DetectorInputs = new [] { input } };
 
@@ -69,6 +71,16 @@ namespace Vts.Test.MonteCarlo.Factories
             {
                 Console.WriteLine(rOfQ);
             }
+        }
+
+        [Test]
+        public void demonstrate_detector_creation_programmatically()
+        {
+            var input = new FancyDetectorInput();
+
+            var detector = input.CreateDetector();
+
+            Console.WriteLine(detector);
         }
     }
 }

@@ -107,7 +107,7 @@ namespace Vts.MonteCarlo.Factories
         //            return new TOfRhoAndAngleDetector(trainput.Rho, trainput.Angle, tallySecondMoment, trainput.Name);
         //        case "RadianceOfRho":
         //            var drinput = (RadianceOfRhoDetectorInput)detectorInput;
-        //            return new RadianceOfRhoDetector(drinput.ZDepth, drinput.Rho, tissue, tallySecondMoment, drinput.Name);
+        //            return new RadianceOfRhoDetector(drinput.ZDepth, drinput.Rho, tallySecondMoment, drinput.Name);
 
         //        // IHistoryDetector(s):
         //        case "FluenceOfRhoAndZ":

@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using Vts.Common;
-
 namespace Vts.MonteCarlo
 {
     /// <summary>
@@ -16,5 +13,7 @@ namespace Vts.MonteCarlo
         /// Name of detector.  User can define or default is TallyType.ToString().
         /// </summary>
        string Name { get; set; }
+
+       IDetector CreateDetector();
     }
 }

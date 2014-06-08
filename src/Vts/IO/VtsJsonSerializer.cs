@@ -140,7 +140,7 @@ namespace Vts.IO
             _classBasename = classBasename ?? _interfaceType.Name.Substring(1);
             _typeCategoryString = typeCategoryString;
 
-            var useSingleton = true;
+            var useSingleton = false;
             var useDefaultConstructor = true;
             
             var classList =

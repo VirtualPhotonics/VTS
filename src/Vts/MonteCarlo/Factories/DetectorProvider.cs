@@ -30,7 +30,7 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Properties and methods that all IDetectors must implement
     /// </summary>
-    public interface IDetector<in TDetectorInput> where TDetectorInput : IDetectorInput
+    public interface IDetector
     {
         /// <summary>
         /// TallyType enum specification
@@ -43,15 +43,20 @@ namespace Vts.MonteCarlo
         string Name { get; }
 
         /// <summary>
+        /// Indicates if 2nd moment is tallied
+        /// </summary>
+        bool TallySecondMoment { get; }
+
+        /// <summary>
         /// Details of the tally - booleans that specify when they should be tallied
         /// </summary>
         TallyDetails TallyDetails { get; set; }
-        
+
         /// <summary>
-        /// 
+        /// Initialize the detector, using tissue information if necessary
         /// </summary>
-        /// <param name="detectorInput"></param>
-        void Initialize(TDetectorInput detectorInput);
+        /// <param name="tissue"></param>
+        void Initialize(ITissue tissue = null);
 
         /// <summary>
         /// Method to tally to detector using information in Photon
@@ -78,114 +83,113 @@ namespace Vts.MonteCarlo
         void SetBinaryArrays(params BinaryArrayInfo[] arrays);
     }
 
-    interface IDetectorFactory<in TDetectorInput, out TDetector>
-        where TDetector : IDetector<TDetectorInput>, new()
-        where TDetectorInput : IDetectorInput
+    public abstract class DetectorInput
     {
-    }
-
-    public class DetectorFactory<TDetectorInput, TDetector> : IDetectorFactory<TDetectorInput, TDetector>
-        where TDetector : IDetector<TDetectorInput>, new()
-        where TDetectorInput : IDetectorInput
-    {
-        public static TDetector Create(TDetectorInput detectorInput)
-        {
-            var detector = new TDetector();
-            Mapper.Map(detectorInput, detector); // this could be a call to AbstractDetector<TDetector>.Initialize()
-            return detector;
-        }
-    }
-
-    public abstract class AbstractDetector2
-    {
-        protected AbstractDetector2()
-        {
-            TallyDetails = new TallyDetails();
-        }
-
-        /* ==== These public properties are required (IDetector contract), and will be saved in text (JSON) format ==== */
+        // mandatory user inputs (required for IDetetorInput contract)
         public string TallyType { get; set; }
         public string Name { get; set; }
+        public bool TallySecondMoment { get; set; }
+    }
+
+    public abstract class Detector
+    {
+        public Detector()
+        {
+            TallyDetails = new TallyDetails();
+            TallyType = "";
+            Name = "";
+            TallySecondMoment = false;
+        }
+
+        /* ==== These public properties are mandatory (required for the IDetector contract) ==== */
         public TallyDetails TallyDetails { get; set; }
+        public string TallyType { get; set; }
+        public string Name { get; set; }
+        public bool TallySecondMoment { get; set; }
     }
 
     // user code
-    public class FancyDetectorInput : IDetectorInput // marks that FancyDetector is associated with FancyDetectorInput
+    public class FancyDetectorInput : DetectorInput, IDetectorInput
     {
         public FancyDetectorInput()
         {
             // assign defaults for mandatory values
             TallyType = "Fancy";
             Name = "test";
+            TallySecondMoment = true;
 
             // assign defaults for optional values
             XRange = new DoubleRange(0, 1, 10);
             YRange = new DoubleRange(0, 1, 10);
-            TallySecondMoment = true;
         }
 
-        public string TallyType { get; set; } // required (IDetectorInput contract)
-        public string Name { get; set; } // required (IDetectorInput contract)
+        // optional/custom detector-specific user inputs necessary to specify detector
         public DoubleRange XRange { get; set; }
         public DoubleRange YRange { get; set; }
-        public bool TallySecondMoment { get; set; }
-    }
-    
-    public class FancyDetector : AbstractDetector2, IDetector<FancyDetectorInput>//<FancyDetector>, IDetector2<IDetectorInput<FancyDetector>> // marks that FancyDetectorInput is associated with FancyDetector
-    {
-        private int _nx;
-        private int _ny;
 
-        // class constructor, where properties and fields get initialized
-        public FancyDetector()
+        public IDetector CreateDetector()
         {
-            // can override base class info to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsReflectanceTally = true; // (ours is a simple x-y reflectance tally)
+            // create a detector with all the mandatory and optional input properties above
+            return new FancyDetector
+            {
+                // required properties (part of DetectorInput/Detector base classes)
+                TallyType = this.TallyType,
+                Name = this.Name,
+                TallySecondMoment = this.TallySecondMoment,
 
-            // assign any user-defined public properties (except arrays...we'll make those on-demand)
-            TallyCount = 0;
+                // optional/custom detector-specific properties
+                XRange = this.XRange,
+                YRange = this.YRange,
+            };
         }
+    }
 
-        /* ==== These public properties are optional/user-defined, and will be saved in text (JSON) format ==== */
-        public FancyDetectorInput DetectorInput { get; set; }
-        public long TallyCount { get; set; }
+    public class FancyDetector : Detector, IDetector
+    {
+        // Place any private class variables here, and initialize them in the "Initialize()" method
+        private Random _rng;
 
-        /* ==== These are user-defined data arrays and should be prepended with "[IgnoreDataMember]" attribute ==== */
-        /* ==== Then, GetAllBinaryArrayInfo() should be implemented to save them separately in binary format ==== */
+        /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
+        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
+        public DoubleRange XRange { get; set; }
+        public DoubleRange YRange { get; set; }
+
+        /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
+        /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
         [IgnoreDataMember] public double[,] Mean { get; set; }
         [IgnoreDataMember] public double[,] SecondMoment { get; set; }
 
-        public void Initialize(FancyDetectorInput detectorInput)
+        /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
+        public long TallyCount { get; set; }
+
+        /* ==== Public methods Initialize/Tally/Normalize/GetBinaryArays/SetBinaryArrays are required (IDetector contract) ==== */
+        public void Initialize(ITissue tissue)
         {
-            DetectorInput = (FancyDetectorInput)detectorInput;
+            // modfy base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsReflectanceTally = true; // (ours is a simple x-y reflectance tally)
 
-            Mapper.Map(detectorInput, this); // base.Initialize(detectorInput);
+            // assign any user-defined outputs (except arrays...we'll make those on-demand)
+            TallyCount = 0;
 
-            _nx = DetectorInput.XRange.Count;
-            _ny = DetectorInput.YRange.Count;
+            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
+            Mean = Mean ?? new double[XRange.Count, YRange.Count];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[XRange.Count, YRange.Count] : null);
+
+            // intialize any other necessary variables here
+            _rng = new Random();
         }
 
-        /* ==== These public methods (Tally/Normalize/GetAllBinaryArrayInfo) are required (IDetector contract) ==== */
         public void Tally(Photon photon)
         {
-            // if this is the first time calling this method, create the matrices
-            if (Mean == null) {
-                Mean = new double[_nx, _ny];
-            }
-            if (SecondMoment == null  && DetectorInput.TallySecondMoment) {
-                SecondMoment = new double[_nx, _ny];
-            }
-
             // for demonstration, we use a random number to figure out which index to bin the photon
-            var rng = new Random();
-            var xIndex = rng.Next(_nx);
-            var yIndex = rng.Next(_ny);
+            var xIndex = _rng.Next(XRange.Count);
+            var yIndex = _rng.Next(YRange.Count);
 
             // tally the first moment (mean) of the objective function in the appropriate bin
             Mean[xIndex, yIndex] += photon.DP.Weight;
 
             // tallying second moment will help later in determining standard deviation
-            if (DetectorInput.TallySecondMoment) {
+            if (TallySecondMoment) {
                 SecondMoment[xIndex, yIndex] += photon.DP.Weight * photon.DP.Weight;
             }
 
@@ -194,20 +198,15 @@ namespace Vts.MonteCarlo
 
         public void Normalize(long numPhotons)
         {
-            if (Mean == null)
-                return;
-
-            for (int i = 0; i < _nx; i++){
-                for (int j = 0; j < _ny; j++){
+            for (int i = 0; i < XRange.Count; i++){
+                for (int j = 0; j < YRange.Count; j++){
                     Mean[i, j] /= numPhotons;
                 }
             }
 
-            if (DetectorInput.TallySecondMoment){
-                if (SecondMoment == null)
-                    return;
-                for (int i = 0; i < _nx; i++){
-                    for (int j = 0; j < _ny; j++){
+            if (TallySecondMoment){
+                for (int i = 0; i < XRange.Count; i++){
+                    for (int j = 0; j < YRange.Count; j++){
                         SecondMoment[i, j] /= numPhotons;
                     }
                 }
@@ -222,13 +221,13 @@ namespace Vts.MonteCarlo
                     DataArray = Mean,
                     Name = "Mean",
                     FileTag = "",
-                    Dimensions = new[] {_nx, _ny}
+                    Dimensions = new[] {XRange.Count, YRange.Count}
                 },
                 new BinaryArrayInfo {
                     DataArray = SecondMoment,
                     Name = "SecondMoment",
                     FileTag = "_2",
-                    Dimensions = new[] {_nx, _ny}
+                    Dimensions = new[] {XRange.Count, YRange.Count}
                 },
             };
         }
