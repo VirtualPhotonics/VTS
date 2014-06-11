@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo
         public bool IsNotImplementedYet { get; set; }
     }
 
-    public class BinaryArraySerializataionInfo
+    public class BinaryArraySerializer
     {
         public Array DataArray { get; set; }
         public string Name { get; set; }
@@ -79,7 +79,7 @@ namespace Vts.MonteCarlo
         /// Method that returns info for each large binary data array
         /// </summary>
         /// <returns></returns>
-        BinaryArraySerializataionInfo[] GetBinaryArraySerializationInfo();
+        BinaryArraySerializer[] GetBinarySerializers();
     }
 
     public abstract class DetectorInput
@@ -221,10 +221,10 @@ namespace Vts.MonteCarlo
         }
 
         // this is to allow saving of large arrays separately as a binary file
-        public BinaryArraySerializataionInfo[] GetBinaryArraySerializationInfo()
+        public BinaryArraySerializer[] GetBinarySerializers()
         {
             return new[] {
-                new BinaryArraySerializataionInfo {
+                new BinaryArraySerializer {
                     DataArray = Mean,
                     Name = "Mean",
                     FileTag = "",
@@ -244,7 +244,7 @@ namespace Vts.MonteCarlo
                         }
                     }
                 },
-                new BinaryArraySerializataionInfo {
+                new BinaryArraySerializer {
                     DataArray = SecondMoment,
                     Name = "SecondMoment",
                     FileTag = "_2",

@@ -143,15 +143,15 @@ namespace Vts.MonteCarlo.IO
                 }
 
                 FileIO.WriteToXML(detector, filePath + ".xml");
-                var binaryArraySerializationInfos = detector.GetBinaryArraySerializationInfo();
-                foreach (var binaryArraySerializationInfo in binaryArraySerializationInfos)
+                var binaryArraySerializers = detector.GetBinarySerializers();
+                foreach (var binaryArraySerializer in binaryArraySerializers)
                 {
                     // Create a file to write binary data 
-                    using (Stream s = StreamFinder.GetFileStream(filePath + binaryArraySerializationInfo.FileTag, FileMode.OpenOrCreate))
+                    using (Stream s = StreamFinder.GetFileStream(filePath + binaryArraySerializer.FileTag, FileMode.OpenOrCreate))
                     {
                         using (BinaryWriter bw = new BinaryWriter(s))
                         {
-                            binaryArraySerializationInfo.WriteData(bw);
+                            binaryArraySerializer.WriteData(bw);
                         }
                     }
                 }
@@ -384,14 +384,14 @@ namespace Vts.MonteCarlo.IO
                 }
                 var detector = FileIO.ReadFromXML<IDetector>(filePath + ".xml");
 
-                var binaryArraySerializationInfos = detector.GetBinaryArraySerializationInfo();
-                foreach (var binaryArraySerializationInfo in binaryArraySerializationInfos)
+                var binaryArraySerializers = detector.GetBinarySerializers();
+                foreach (var binaryArraySerializer in binaryArraySerializers)
                 {
-                    using ( Stream s = StreamFinder.GetFileStream(filePath + binaryArraySerializationInfo.FileTag, FileMode.Open))
+                    using ( Stream s = StreamFinder.GetFileStream(filePath + binaryArraySerializer.FileTag, FileMode.Open))
                     {
                         using (BinaryReader br = new BinaryReader(s))
                         {
-                            binaryArraySerializationInfo.ReadData(br);
+                            binaryArraySerializer.ReadData(br);
                         }
                     }
                 }
