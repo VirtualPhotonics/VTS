@@ -86,6 +86,9 @@ namespace Vts.MonteCarlo
     {
         public DetectorInput()
         {
+            TallyType = "";
+            Name = "";
+            TallySecondMoment = false;
             TallyDetails = new TallyDetails();
         }
         // mandatory user inputs (required for IDetetorInput contract)
