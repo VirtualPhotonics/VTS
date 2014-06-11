@@ -100,7 +100,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount++;
         }
 
-        public BinaryArrayInfo[] GetAllBinaryArrayInfo()
+        public BinaryArraySerializataionInfo[] GetAllBinaryArrayInfo()
         {
             throw new NotImplementedException();
         }

@@ -20,6 +20,10 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = "ROfRho";
             Name = "ROfRho";
             Rho = new DoubleRange(0.0, 10, 101);
+
+            // modfy base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsReflectanceTally = true;
+            TallyDetails.IsCylindricalTally = true;
         }
 
         /// <summary>
@@ -35,6 +39,7 @@ namespace Vts.MonteCarlo.Detectors
                 TallyType = this.TallyType,
                 Name = this.Name,
                 TallySecondMoment = this.TallySecondMoment,
+                TallyDetails = this.TallyDetails,
 
                 // optional/custom detector-specific properties
                 Rho = this.Rho
@@ -75,10 +80,6 @@ namespace Vts.MonteCarlo.Detectors
 
         public void Initialize(ITissue tissue)
         {
-            // modfy base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsReflectanceTally = true;
-            TallyDetails.IsCylindricalTally = true;
-
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;
 
@@ -124,12 +125,12 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        public BinaryArrayInfo[] GetBinaryArrays()
+        public BinaryArraySerializataionInfo[] GetBinaryArraySerializationInfo()
         {
             throw new NotImplementedException();
         }
 
-        public void SetBinaryArrays(params BinaryArrayInfo[] arrays)
+        public void SetBinaryArrays(params BinaryArraySerializataionInfo[] arrays)
         {
             throw new NotImplementedException();
         }
