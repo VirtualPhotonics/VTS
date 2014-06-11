@@ -38,14 +38,36 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="tissue">ITissue</param>
         /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
         /// <returns>List of IDetector</returns>
-        public static IList<IDetector> GetDetectors(IEnumerable<IDetectorInput> detectorInputs, ITissue tissue, bool tallySecondMoment)
+        public static IList<IDetector> GetDetectors(IEnumerable<IDetectorInput> detectorInputs, ITissue tissue)
         {
             if (detectorInputs == null)
             {
                 return null;
             }
-            return detectorInputs.Select(detectorInput => ((IDetectorInput<IDetector>)detectorInput).CreateDetector()).ToList();
-            //return detectorInputs.Select(detectorInput => GetDetector(detectorInput, tissue, tallySecondMoment)).ToList();
+            
+            var detectors = detectorInputs.Select(detectorInput => GetDetector(detectorInput, tissue)).ToList();
+
+            return detectors;
+        }
+        
+        /// <summary>
+        /// Method to instantiate all detectors given list of IDetectorInputs.  This method calls
+        /// the method below that instantiates a single detector.
+        /// </summary>
+        /// <param name="detectorInputs">IEnumerable of IDetectorInput</param>
+        /// <param name="tissue">ITissue</param>
+        /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
+        /// <returns>List of IDetector</returns>
+        public static IDetector GetDetector(IDetectorInput detectorInput, ITissue tissue)
+        {
+            if (detectorInput == null)
+            {
+                return null;
+            }
+
+            var detector = detectorInput.CreateDetector();
+            detector.Initialize(tissue);
+            return detector;
         }
         ///// <summary>
         ///// Method that instantiates the correct detector class given a IDetectorInput

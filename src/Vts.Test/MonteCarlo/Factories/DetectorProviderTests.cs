@@ -55,7 +55,7 @@ namespace Vts.Test.MonteCarlo.Factories
                     YRange = new DoubleRange(0, 1, 5),
                 };
 
-            var detector = DetectorFactory.GetDetectors(new[] {input}, null, true);
+            var detectors = DetectorFactory.GetDetectors(new[] {input}, null);
 
             var simInput = new SimulationInput { DetectorInputs = new [] { input } };
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Vts.Common;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
@@ -49,7 +50,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
-                    true, // tally Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -74,53 +74,56 @@ namespace Vts.MonteCarlo
                 new List<IDetectorInput>()
                 {
                     // units space[mm], time[ns], temporal-freq[GHz], abs./scat. coeff[/mm]
-                    new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 5)),
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    new ROfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(Math.PI / 2 , Math.PI, 5)),
-                    new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
-                    new ROfXAndYDetectorInput(
-                        new DoubleRange(-100.0, 100.0, 21), // x
-                        new DoubleRange(-100.0, 100.0, 21)), // y,
-                    new ROfRhoAndOmegaDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 1, 21)), // GHz
-                    new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 5)),
-                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    new TOfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 5)),
-                    new ATotalDetectorInput(),
-                    new AOfRhoAndZDetectorInput(                            
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
-                    new FluenceOfRhoAndZDetectorInput(                            
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
-                    new FluenceOfRhoAndZAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101), 
-                        new DoubleRange(0.0, 10, 101)),
-                    new FluenceOfXAndYAndZDetectorInput(
-                        new DoubleRange(-10, 10, 201),
-                        new DoubleRange(-10, 10, 2),
-                        new DoubleRange(0, 10, 101)),
-                    new RadianceOfRhoAndZAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0, Math.PI, 3)),
-                    new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(
-                        new DoubleRange(-10.0, 10.0, 101),
-                        new DoubleRange(-10.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101), 
-                        new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
-                        new DoubleRange(-Math.PI, Math.PI, 5)), // phi (azimuthal angle)
-                    new RSpecularDetectorInput()
+                    //new RDiffuseDetectorInput(),
+                    //new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 5)),
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101)
+                    },
+                    //new ROfRhoAndAngleDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(Math.PI / 2 , Math.PI, 5)),
+                    //new ROfRhoAndTimeDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101)),
+                    //new ROfXAndYDetectorInput(
+                    //    new DoubleRange(-100.0, 100.0, 21), // x
+                    //    new DoubleRange(-100.0, 100.0, 21)), // y,
+                    //new ROfRhoAndOmegaDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 1, 21)), // GHz
+                    //new TDiffuseDetectorInput(),
+                    //new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 5)),
+                    //new TOfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
+                    //new TOfRhoAndAngleDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, Math.PI / 2, 5)),
+                    //new ATotalDetectorInput(),
+                    //new AOfRhoAndZDetectorInput(                            
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101)),
+                    //new FluenceOfRhoAndZDetectorInput(                            
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101)),
+                    //new FluenceOfRhoAndZAndTimeDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101), 
+                    //    new DoubleRange(0.0, 10, 101)),
+                    //new FluenceOfXAndYAndZDetectorInput(
+                    //    new DoubleRange(-10, 10, 201),
+                    //    new DoubleRange(-10, 10, 2),
+                    //    new DoubleRange(0, 10, 101)),
+                    //new RadianceOfRhoAndZAndAngleDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0, Math.PI, 3)),
+                    //new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(
+                    //    new DoubleRange(-10.0, 10.0, 101),
+                    //    new DoubleRange(-10.0, 10.0, 101),
+                    //    new DoubleRange(0.0, 10.0, 101), 
+                    //    new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
+                    //    new DoubleRange(-Math.PI, Math.PI, 5)), // phi (azimuthal angle)
+                    //new RSpecularDetectorInput()
                 }
                 );
         }
@@ -141,7 +144,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
-                    true, // tally Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -165,10 +167,13 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101)),
-                    new FluenceOfRhoAndZDetectorInput(                            
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101))
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101)
+                    },
+                    //new FluenceOfRhoAndZDetectorInput(                            
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101))
                 }
              );
         }
@@ -189,7 +194,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
-                    true, // tally Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -213,13 +217,13 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    new FluenceOfRhoAndZDetectorInput(                            
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101)),
-                    new RadianceOfRhoAndZAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0, Math.PI, 3))
+                    //new FluenceOfRhoAndZDetectorInput(                            
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101)),
+                    //new RadianceOfRhoAndZAndAngleDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0, Math.PI, 3))
                 }
              );
         }
@@ -240,7 +244,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
-                    true, // tally Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -267,7 +270,10 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101)
+                    },
                 }
             );
         }
@@ -288,7 +294,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new [] { DatabaseType.DiffuseReflectance }, // databases to be written
-                    true, // tally Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -315,7 +320,10 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101)
+                    },
                 }
             );
         }
@@ -336,7 +344,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
-                    true, // tally Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -367,9 +374,9 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    new FluenceOfRhoAndZDetectorInput(                            
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101))
+                    //new FluenceOfRhoAndZDetectorInput(                            
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101))
                 }
             );
         }
@@ -390,7 +397,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance }, // databases to be written
-                    true, // tally Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),
@@ -414,7 +420,10 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101)
+                    },
                 }
             );
         }
@@ -435,7 +444,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
-                    true, // tally Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),
@@ -465,7 +473,10 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101)
+                    },
                 }
              );
         }
@@ -486,7 +497,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
-                    true, // tally Second Moment
                     true, // track statistics
                     0.0001, // RR threshold -> no RR performed
                     0),
@@ -513,12 +523,14 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101)),
-                    new ReflectedMTOfRhoAndSubregionHistDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101), // rho bins
-                        new DoubleRange(0.0, 500.0, 51), // MT bins
-                        new DoubleRange(0.0, 1.0, 11)) // fractional MT bins
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101)
+                    },
+                    //new ReflectedMTOfRhoAndSubregionHistDetectorInput(
+                    //    new DoubleRange(0.0, 10.0, 101), // rho bins
+                    //    new DoubleRange(0.0, 500.0, 51), // MT bins
+                    //    new DoubleRange(0.0, 1.0, 11)) // fractional MT bins
                 }
             );
         }
@@ -540,7 +552,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
-                    true, // tally Second Moment
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -570,12 +581,12 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10.0, 21), // rho bins
-                        new DoubleRange(0.0, 1.0, 11)),  // time bins
-                    new ReflectedTimeOfRhoAndSubregionHistDetectorInput(
-                        new DoubleRange(0.0, 10.0, 21), // rho bins
-                        new DoubleRange(0.0, 1.0, 11)) // time bins
+                    //new ROfRhoAndTimeDetectorInput(
+                    //    new DoubleRange(0.0, 10.0, 21), // rho bins
+                    //    new DoubleRange(0.0, 1.0, 11)),  // time bins
+                    //new ReflectedTimeOfRhoAndSubregionHistDetectorInput(
+                    //    new DoubleRange(0.0, 10.0, 21), // rho bins
+                    //    new DoubleRange(0.0, 1.0, 11)) // time bins
                 }
             );
         }

@@ -3,41 +3,14 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo
 {
 #if !SILVERLIGHT
     [Serializable]
 #endif     
-    // the following list should be equivalent to detector list in SimulationInput
-    [KnownType(typeof(RDiffuseDetectorInput))]
-    [KnownType(typeof(ROfAngleDetectorInput))]
-    [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
-    [KnownType(typeof(ROfRhoAndOmegaDetectorInput))]
-    [KnownType(typeof(ROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(ROfRhoDetectorInput))]
-    [KnownType(typeof(ROfXAndYDetectorInput))]
-    [KnownType(typeof(ROfFxDetectorInput))]
-    [KnownType(typeof(ROfFxAndTimeDetectorInput))]
-    [KnownType(typeof(TDiffuseDetectorInput))]
-    [KnownType(typeof(TOfAngleDetectorInput))]
-    [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
-    [KnownType(typeof(TOfRhoDetectorInput))]
-    [KnownType(typeof(RSpecularDetectorInput))]
-    [KnownType(typeof(AOfRhoAndZDetectorInput))]
-    [KnownType(typeof(ATotalDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
-    [KnownType(typeof(FluenceOfXAndYAndZDetectorInput))]
-    [KnownType(typeof(RadianceOfRhoAndZAndAngleDetectorInput))]
-    [KnownType(typeof(RadianceOfXAndYAndZAndThetaAndPhiDetectorInput))]
-    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(pMCROfRhoDetectorInput))]
-    [KnownType(typeof(pMCROfFxDetectorInput))]
-    [KnownType(typeof(pMCROfFxAndTimeDetectorInput))]
-    [KnownType(typeof(ReflectedMTOfRhoAndSubregionHistDetectorInput))]
-    [KnownType(typeof(ReflectedTimeOfRhoAndSubregionHistDetectorInput))]
-    
+    // the following list should be equivalent to detector list in SimulationInput   
     public class PostProcessorInput
     {
         /// <summary>
@@ -91,7 +64,10 @@ namespace Vts.MonteCarlo
                 //VirtualBoundaryType.DiffuseReflectance,
                 new List<IDetectorInput>
                     {
-                        new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+                        new ROfRhoDetectorInput
+                        {
+                            Rho = new DoubleRange(0.0, 40.0, 201), // rho: nr=200 dr=0.2mm used for workshop)
+                        }
                     },
                 false, // tally second moment
                 "results",

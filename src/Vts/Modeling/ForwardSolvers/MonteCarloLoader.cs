@@ -87,7 +87,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         private void InitializeVectorsAndInterpolators()
         {
-            var rOfRhoAndTime = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFileInResources("ROfRhoAndTime", "Modeling/Resources/" + folder, "Vts");
+            var rOfRhoAndTime = (dynamic)DetectorIO.ReadDetectorFromFileInResources("ROfRhoAndTime", "Modeling/Resources/" + folder, "Vts");
 
             nrReference = rOfRhoAndTime.Rho.Count - 1;
             drReference = rOfRhoAndTime.Rho.Delta;

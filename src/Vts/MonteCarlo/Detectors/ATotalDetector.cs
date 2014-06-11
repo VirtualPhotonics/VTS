@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector&lt;double&gt;.  Tally for Total Absorption.
     /// </summary>
     [KnownType(typeof(ATotalDetector))]
-    public class ATotalDetector : IHistoryDetector<double>
+    public class ATotalDetector : IHistoryDetector
     {
         private ITissue _tissue;
         private bool _tallySecondMoment;

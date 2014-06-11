@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector&lt;double[,]&gt;.  Tally for Absorption(rho,z).
     /// </summary>
     [KnownType(typeof(AOfRhoAndZDetector))]
-    public class AOfRhoAndZDetector : IHistoryDetector<double[,]>
+    public class AOfRhoAndZDetector : IHistoryDetector
     {
         private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
 

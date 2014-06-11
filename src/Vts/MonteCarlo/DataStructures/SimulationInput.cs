@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Tissues;
 
@@ -49,39 +50,6 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(SingleEllipsoidTissueInput))]
 	[KnownType(typeof(MultiEllipsoidTissueInput))]
 	
-    // Detector inputs
-    [KnownType(typeof(RDiffuseDetectorInput))]
-    [KnownType(typeof(ROfAngleDetectorInput))]
-    [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
-    [KnownType(typeof(ROfRhoAndOmegaDetectorInput))]
-    [KnownType(typeof(ROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(ROfRhoDetectorInput))]
-    [KnownType(typeof(ROfXAndYDetectorInput))]
-    [KnownType(typeof(ROfFxDetectorInput))]
-    [KnownType(typeof(ROfFxAndTimeDetectorInput))]
-    [KnownType(typeof(TDiffuseDetectorInput))]
-    [KnownType(typeof(TOfAngleDetectorInput))]
-    [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
-    [KnownType(typeof(TOfRhoDetectorInput))]
-    [KnownType(typeof(RSpecularDetectorInput))]
-    [KnownType(typeof(AOfRhoAndZDetectorInput))]
-    [KnownType(typeof(ATotalDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
-    [KnownType(typeof(FluenceOfXAndYAndZDetectorInput))]
-    [KnownType(typeof(RadianceOfRhoAndZAndAngleDetectorInput))]
-    [KnownType(typeof(RadianceOfXAndYAndZAndThetaAndPhiDetectorInput))]
-    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(pMCROfRhoDetectorInput))]
-    [KnownType(typeof(pMCROfFxDetectorInput))]
-    [KnownType(typeof(dMCdROfRhodMuaDetectorInput))]
-    [KnownType(typeof(dMCdROfRhodMusDetectorInput))]
-    [KnownType(typeof(pMCROfFxAndTimeDetectorInput))]
-    [KnownType(typeof(ReflectedMTOfRhoAndSubregionHistDetectorInput))]
-    [KnownType(typeof(ReflectedTimeOfRhoAndSubregionHistDetectorInput))]
-
-    // todo: add more types?
-
     public class SimulationInput
     {
         // DC 3/9/2010 using public fields *specifically* for ease of use in input .xml classes
@@ -155,7 +123,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { },
-                    true, // compute Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -177,7 +144,10 @@ namespace Vts.MonteCarlo
 
                 new List<IDetectorInput>
                 {
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+                    new ROfRhoDetectorInput
+                    {
+                        Rho = new DoubleRange(0.0, 40.0, 201)
+                    }, // rho: nr=200 dr=0.2mm used for workshop)
                 }
                 ) { }
         /// <summary>

@@ -17,40 +17,7 @@ namespace Vts.IO
 
         static KnownTypes()
         {
-            var knownTypesArray = new[]
-                {
-					typeof (AOfRhoAndZDetector),
-					typeof (ATotalDetector),
-					typeof (FluenceOfRhoAndZDetector),
-					typeof (FluenceOfRhoAndZAndTimeDetector),
-                    typeof (FluenceOfXAndYAndZDetector),
-                    typeof (dMCdROfRhodMuaDetector),
-                    typeof (dMCdROfRhodMusDetector),
-					typeof (pMCROfRhoDetector),
-					typeof (pMCROfRhoAndTimeDetector),
-					typeof (RadianceOfRhoAndZAndAngleDetector),
-                    typeof (RadianceOfXAndYAndZAndThetaAndPhiDetector),
-                    typeof (RDiffuseDetector),
-					typeof (ROfAngleDetector),
-					typeof (ROfRhoDetector),
-					typeof (ROfRhoAndAngleDetector),
-					typeof (ROfRhoAndOmegaDetector),
-					typeof (ROfRhoAndTimeDetector),
-					typeof (ROfFxDetector),
-					typeof (ROfFxAndTimeDetector),
-					typeof (ReflectedMTOfRhoAndSubregionHistDetector),
-					typeof (ReflectedTimeOfRhoAndSubregionHistDetector),
-					typeof (pMCROfFxDetector),
-                    typeof (pMCROfFxAndTimeDetector),
-					typeof (ROfXAndYDetector),
-					typeof (RSpecularDetector),
-					typeof (TDiffuseDetector),
-					typeof (TOfAngleDetector),
-					typeof (TOfRhoAndAngleDetector),
-					typeof (TOfRhoDetector),
-                    
-					typeof (ROfFxDetectorInput),
-					typeof (ROfFxAndTimeDetectorInput),
+            var knownTypesArray = new [] {
 				
 				    // in order of files in folder Vts.MonteCarlo.DataStructures.SourceInput				
                     typeof (CustomLineSourceInput),

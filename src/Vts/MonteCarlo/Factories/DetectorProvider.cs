@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.Serialization;
 using Vts.Common;
 using AutoMapper;
@@ -15,6 +16,7 @@ namespace Vts.MonteCarlo
         public bool IsDosimetryTally { get; set; }
         public bool IsVolumeTally { get; set; }
         public bool IsCylindricalTally { get; set; }
+        public bool IsNotImplementedForDAW { get; set; }
         public bool IsNotImplementedForCAW { get; set; }
         public bool IsNotImplementedYet { get; set; }
     }
@@ -25,6 +27,9 @@ namespace Vts.MonteCarlo
         public string Name { get; set; }
         public string FileTag { get; set; }
         public int[] Dimensions { get; set; }
+
+        public Action<BinaryWriter> WriteData { get; set; }
+        public Action<BinaryReader> ReadData { get; set; }
     }
 
     /// <summary>
@@ -85,27 +90,32 @@ namespace Vts.MonteCarlo
 
     public abstract class DetectorInput
     {
+        public DetectorInput()
+        {
+            TallyDetails = new TallyDetails();
+        }
         // mandatory user inputs (required for IDetetorInput contract)
         public string TallyType { get; set; }
         public string Name { get; set; }
         public bool TallySecondMoment { get; set; }
+        public TallyDetails TallyDetails { get; set; }
     }
 
     public abstract class Detector
     {
         public Detector()
         {
-            TallyDetails = new TallyDetails();
             TallyType = "";
             Name = "";
             TallySecondMoment = false;
+            TallyDetails = new TallyDetails();
         }
 
         /* ==== These public properties are mandatory (required for the IDetector contract) ==== */
-        public TallyDetails TallyDetails { get; set; }
         public string TallyType { get; set; }
         public string Name { get; set; }
         public bool TallySecondMoment { get; set; }
+        public TallyDetails TallyDetails { get; set; }
     }
 
     // user code
@@ -116,8 +126,11 @@ namespace Vts.MonteCarlo
             // assign defaults for mandatory values
             TallyType = "Fancy";
             Name = "test";
-            TallySecondMoment = true;
+            TallySecondMoment = true;           
 
+            // modfy base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsReflectanceTally = true; // (ours is a simple x-y reflectance tally)
+            
             // assign defaults for optional values
             XRange = new DoubleRange(0, 1, 10);
             YRange = new DoubleRange(0, 1, 10);
@@ -135,7 +148,7 @@ namespace Vts.MonteCarlo
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
                 Name = this.Name,
-                TallySecondMoment = this.TallySecondMoment,
+                TallyDetails = this.TallyDetails,
 
                 // optional/custom detector-specific properties
                 XRange = this.XRange,
@@ -165,9 +178,6 @@ namespace Vts.MonteCarlo
         /* ==== Public methods Initialize/Tally/Normalize/GetBinaryArays/SetBinaryArrays are required (IDetector contract) ==== */
         public void Initialize(ITissue tissue)
         {
-            // modfy base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsReflectanceTally = true; // (ours is a simple x-y reflectance tally)
-
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;
 
@@ -221,13 +231,39 @@ namespace Vts.MonteCarlo
                     DataArray = Mean,
                     Name = "Mean",
                     FileTag = "",
-                    Dimensions = new[] {XRange.Count, YRange.Count}
+                    WriteData = (BinaryWriter bw) => {
+                        for (int i = 0; i < XRange.Count; i++) {
+                            for (int j = 0; j < YRange.Count; j++) {
+                                bw.Write(Mean[i, j]);
+			                }
+                        }
+                    },
+                    ReadData = (BinaryReader br) => {
+                        for (int i = 0; i < XRange.Count; i++) {
+                            for (int j = 0; j < YRange.Count; j++) {
+                                Mean[i, j] = br.ReadDouble();
+			                }
+                        }
+                    }
                 },
                 new BinaryArrayInfo {
                     DataArray = SecondMoment,
                     Name = "SecondMoment",
                     FileTag = "_2",
-                    Dimensions = new[] {XRange.Count, YRange.Count}
+                    ReadData = (BinaryReader br) => {
+                        for (int i = 0; i < XRange.Count; i++) {
+                            for (int j = 0; j < YRange.Count; j++) {
+                                SecondMoment[i, j] = br.ReadDouble();
+			                }
+                        }
+                    },
+                    WriteData = (BinaryWriter bw) => {
+                        for (int i = 0; i < XRange.Count; i++) {
+                            for (int j = 0; j < YRange.Count; j++) {
+                                bw.Write(SecondMoment[i, j]);
+			                }
+                        }
+                    }
                 },
             };
         }

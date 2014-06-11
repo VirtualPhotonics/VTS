@@ -10,6 +10,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.IO

@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
 
             if (dosimetryDetector != null)
             {
-                _zPlanePosition = ((RadianceOfRhoDetector) dosimetryDetector).ZDepth;
+                _zPlanePosition = ((dynamic) dosimetryDetector).ZDepth;
 
                 WillHitBoundary = dp =>
                                   dp.StateFlag.HasFlag(PhotonStateType.PseudoReflectedTissueBoundary) &&

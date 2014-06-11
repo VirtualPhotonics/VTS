@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo
         /// <param name="tissue"></param>
         /// <param name="detector"></param>
         /// <returns></returns>
-        public static Func<PhotonDataPoint, PhotonDataPoint, int, double> GetVolumeAbsorptionWeightingMethod(ITissue tissue, IDetectorOld detector)
+        public static Func<PhotonDataPoint, PhotonDataPoint, int, double> GetVolumeAbsorptionWeightingMethod(ITissue tissue, IDetector detector)
         {
             switch (tissue.AbsorptionWeightingType)
             {
@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo
         /// <param name="tissue"></param>
         /// <param name="detector"></param>
         /// <returns></returns>
-        public static Func<long[], double[], OpticalProperties[], OpticalProperties[], int[], double> GetpMCTerminationAbsorptionWeightingMethod(ITissue tissue, IDetectorOld detector)
+        public static Func<long[], double[], OpticalProperties[], OpticalProperties[], int[], double> GetpMCTerminationAbsorptionWeightingMethod(ITissue tissue, IDetector detector)
         {
             switch (tissue.AbsorptionWeightingType)
             {
@@ -96,7 +96,7 @@ namespace Vts.MonteCarlo
             return weight;
         }
 
-        private static double VolumeAbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType, ITissue tissue, IDetectorOld detector)
+        private static double VolumeAbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType, ITissue tissue, IDetector detector)
         {
             throw new NotImplementedException();
         }

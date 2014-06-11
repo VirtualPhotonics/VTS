@@ -42,7 +42,7 @@ namespace Vts.MonteCarlo.IO
                 }
 
                 FileIO.WriteToXML(output, filePath + ".xml");
-                var binaryArrayInfos = output.GetAllBinaryArrayInfo();
+                var binaryArrayInfos = output.GetBinaryArrays();
                 if (binaryArrayInfos != null)
                 {
                     foreach (var binaryArrayInfo in binaryArrayInfos)
@@ -184,7 +184,7 @@ namespace Vts.MonteCarlo.IO
                 }
 
                 FileIO.WriteToXML(detector, filePath + ".xml");
-                var binaryArrayInfos = detector.GetAllBinaryArrayInfo();
+                var binaryArrayInfos = detector.GetBinaryArrays();
                 foreach (var binaryArrayInfo in binaryArrayInfos)
                 {
                     FileIO.WriteArrayToBinary(binaryArrayInfo.DataArray, filePath + binaryArrayInfo.FileTag, false);

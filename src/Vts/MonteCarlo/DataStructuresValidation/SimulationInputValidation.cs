@@ -98,7 +98,7 @@ namespace Vts.MonteCarlo
             // black list of unimplemented detectors
             foreach (var detectorInput in si.DetectorInputs)
             {
-                if (detectorInput.IsNotImplementedYet())
+                if (detectorInput.TallyDetails.IsNotImplementedYet)
                 {
                     return new ValidationResult(
                         false,
@@ -137,7 +137,7 @@ namespace Vts.MonteCarlo
                 {
                     var ellipsoid = (EllipsoidRegion)((SingleEllipsoidTissueInput)input.TissueInput).
                         EllipsoidRegion;
-                    if (detectorInput.IsCylindricalTally() &&
+                    if (detectorInput.TallyDetails.IsCylindricalTally&&
                         (ellipsoid.Center.X != 0.0) && (ellipsoid.Center.Y != 0.0))
                     {
                         return new ValidationResult(
@@ -158,7 +158,7 @@ namespace Vts.MonteCarlo
                 {
                     foreach (var detectorInput in input.DetectorInputs)
                     {
-                        if (detectorInput.IsCylindricalTally())
+                        if (detectorInput.TallyDetails.IsCylindricalTally)
                         {
                             return new ValidationResult(
                                 false,
@@ -185,7 +185,7 @@ namespace Vts.MonteCarlo
             {
                 foreach (var detectorInput in input.DetectorInputs)
                 {
-                    if (detectorInput.IsNotImplementedForCAW())
+                    if (detectorInput.TallyDetails.IsNotImplementedForCAW)
                     {
                         return new ValidationResult(
                             false,
@@ -199,7 +199,7 @@ namespace Vts.MonteCarlo
             {
                 foreach (var detectorInput in input.DetectorInputs)
                 {
-                    if (detectorInput.TallyType.IsNotImplementedForDAW())
+                    if (detectorInput.TallyDetails.IsNotImplementedForDAW)
                     {
                         return new ValidationResult(
                             false,
@@ -211,11 +211,11 @@ namespace Vts.MonteCarlo
             // can only run dMC detectors with 1 perturbed region for the present
             foreach (var detectorInput in input.DetectorInputs)
             {
-                if (detectorInput is dMCdROfRhodMuaDetectorInput)
+                if (detectorInput.TallyType.Contains("dMCdROfRhodMuaDetectorInput"))
                 {
                     return dMCdROfRhodMuaDetectorInputValidation.ValidateInput(detectorInput);
                 }
-                if (detectorInput is dMCdROfRhodMusDetectorInput)
+                if (detectorInput.TallyType.Contains("dMCdROfRhodMusDetectorInput"))
                 {
                     return dMCdROfRhodMusDetectorInputValidation.ValidateInput(detectorInput);
                 }
