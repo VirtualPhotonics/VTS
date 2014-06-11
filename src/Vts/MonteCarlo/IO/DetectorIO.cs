@@ -17,47 +17,6 @@ namespace Vts.MonteCarlo.IO
     /// </summary>
     public static class DetectorIO
     {
-        /// <summary>
-        /// Writes Detector xml for scalar detectors, writes Detector xml and 
-        /// binary for 1D and larger detectors.  Detector.Name is used for filename.
-        /// </summary>
-        /// <param name="output">IDetector being written.</param>
-        /// <param name="folderPath">location of written file.</param>
-        public static void WriteDetector2ToFile(IDetector output, string folderPath)
-        {
-            try
-            {
-                // allow null folderPath in case writing to isolated storage
-                string filePath = folderPath;
-                if (folderPath == "")
-                {
-                    filePath = output.Name;
-                }
-                else
-                {
-                    filePath = folderPath + @"/" + output.Name;
-
-                    // uses isolated storage for Silverlight, desktop folder otherwise
-                    FileIO.CreateDirectory(folderPath);
-                }
-
-                FileIO.WriteToXML(output, filePath + ".xml");
-                var binaryArrayInfos = output.GetBinaryArraySerializationInfo();
-                if (binaryArrayInfos != null)
-                {
-                    foreach (var binaryArrayInfo in binaryArrayInfos)
-                    {
-                        FileIO.WriteArrayToBinary(binaryArrayInfo.DataArray, filePath, false);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Problem writing detector information to file.\n\nDetails:\n\n" + e + "\n");
-            }
-        }
-
-
         ///// <summary>
         ///// Reads Detector from File with given fileName.
         ///// </summary>
@@ -184,10 +143,17 @@ namespace Vts.MonteCarlo.IO
                 }
 
                 FileIO.WriteToXML(detector, filePath + ".xml");
-                var binaryArrayInfos = detector.GetBinaryArraySerializationInfo();
-                foreach (var binaryArrayInfo in binaryArrayInfos)
+                var binaryArraySerializationInfos = detector.GetBinaryArraySerializationInfo();
+                foreach (var binaryArraySerializationInfo in binaryArraySerializationInfos)
                 {
-                    FileIO.WriteArrayToBinary(binaryArrayInfo.DataArray, filePath + binaryArrayInfo.FileTag, false);
+                    // Create a file to write binary data 
+                    using (Stream s = StreamFinder.GetFileStream(filePath + binaryArraySerializationInfo.FileTag, FileMode.OpenOrCreate))
+                    {
+                        using (BinaryWriter bw = new BinaryWriter(s))
+                        {
+                            binaryArraySerializationInfo.WriteData(bw);
+                        }
+                    }
                 }
 
                 //if (detector is IDetectorOld<double>)
@@ -416,7 +382,19 @@ namespace Vts.MonteCarlo.IO
                 {
                     filePath = folderPath + @"/" + fileName;
                 }
-                return null; // todo: implement new way (shouldn't need any switching at all...)
+                var detector = FileIO.ReadFromXML<IDetector>(filePath + ".xml");
+
+                var binaryArraySerializationInfos = detector.GetBinaryArraySerializationInfo();
+                foreach (var binaryArraySerializationInfo in binaryArraySerializationInfos)
+                {
+                    using ( Stream s = StreamFinder.GetFileStream(filePath + binaryArraySerializationInfo.FileTag, FileMode.Open))
+                    {
+                        using (BinaryReader br = new BinaryReader(s))
+                        {
+                            binaryArraySerializationInfo.ReadData(br);
+                        }
+                    }
+                }
                 //switch (tallyType)
                 //{
                 //    // "0D" detectors

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Linq;
 using Vts.Common;
@@ -125,14 +126,46 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
+
+        // this is to allow saving of large arrays separately as a binary file
         public BinaryArraySerializataionInfo[] GetBinaryArraySerializationInfo()
         {
-            throw new NotImplementedException();
-        }
-
-        public void SetBinaryArrays(params BinaryArraySerializataionInfo[] arrays)
-        {
-            throw new NotImplementedException();
+            return new[] {
+                new BinaryArraySerializataionInfo {
+                    DataArray = Mean,
+                    Name = "Mean",
+                    FileTag = "",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            binaryWriter.Write(Mean[i]);
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        Mean = Mean ?? new double[ Rho.Count - 1];
+                        for (int i = 0; i <  Rho.Count - 1; i++) {
+                            Mean[i] = binaryReader.ReadDouble();
+                        }
+                    }
+                },
+                new BinaryArraySerializataionInfo {
+                    DataArray = SecondMoment,
+                    Name = "SecondMoment",
+                    FileTag = "_2",
+                    WriteData = binaryWriter => {
+                        if(!TallySecondMoment) return;
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            binaryWriter.Write(SecondMoment[i]);
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        if(!TallySecondMoment) return;
+                        SecondMoment = SecondMoment ?? new double[ Rho.Count - 1];
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            SecondMoment[i] = binaryReader.ReadDouble();
+			            }
+                    },
+                },
+            };
         }
 
         /// <summary>

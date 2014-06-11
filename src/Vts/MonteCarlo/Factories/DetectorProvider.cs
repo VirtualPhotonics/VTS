@@ -228,17 +228,18 @@ namespace Vts.MonteCarlo
                     DataArray = Mean,
                     Name = "Mean",
                     FileTag = "",
-                    WriteData = (BinaryWriter bw) => {
+                    WriteData = binaryWriter => {
                         for (int i = 0; i < XRange.Count; i++) {
                             for (int j = 0; j < YRange.Count; j++) {
-                                bw.Write(Mean[i, j]);
+                                binaryWriter.Write(Mean[i, j]);
 			                }
                         }
                     },
-                    ReadData = (BinaryReader br) => {
+                    ReadData = binaryReader => {
+                        Mean = Mean ?? new double[XRange.Count, YRange.Count];
                         for (int i = 0; i < XRange.Count; i++) {
                             for (int j = 0; j < YRange.Count; j++) {
-                                Mean[i, j] = br.ReadDouble();
+                                Mean[i, j] = binaryReader.ReadDouble();
 			                }
                         }
                     }
@@ -247,20 +248,23 @@ namespace Vts.MonteCarlo
                     DataArray = SecondMoment,
                     Name = "SecondMoment",
                     FileTag = "_2",
-                    ReadData = (BinaryReader br) => {
+                    WriteData = binaryWriter => {
+                        if(!TallySecondMoment) return;
                         for (int i = 0; i < XRange.Count; i++) {
                             for (int j = 0; j < YRange.Count; j++) {
-                                SecondMoment[i, j] = br.ReadDouble();
+                                binaryWriter.Write(SecondMoment[i, j]);
 			                }
                         }
                     },
-                    WriteData = (BinaryWriter bw) => {
+                    ReadData = binaryReader => {
+                        if(!TallySecondMoment) return;
+                        SecondMoment = SecondMoment ?? new double[XRange.Count, YRange.Count];
                         for (int i = 0; i < XRange.Count; i++) {
                             for (int j = 0; j < YRange.Count; j++) {
-                                bw.Write(SecondMoment[i, j]);
+                                SecondMoment[i, j] = binaryReader.ReadDouble();
 			                }
                         }
-                    }
+                    },
                 },
             };
         }
