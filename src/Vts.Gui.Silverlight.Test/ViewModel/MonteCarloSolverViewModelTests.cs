@@ -17,7 +17,7 @@ namespace Vts.Gui.Silverlight.Test.ViewModel
         [Test]
         public void download_prototype_infiles_works_correctly()
         {
-            //_vm.DownloadDefaultSimulationInputCommand.Execute(null);
+            _vm.DownloadDefaultSimulationInputCommand.Execute(null);
         }
 
     }
