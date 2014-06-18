@@ -153,10 +153,10 @@ namespace Vts.IO
         public static Stream GetLocalFilestreamFromOpenFileDialog(string defaultExtension)
         {
             var dialog = new OpenFileDialog();
-            dialog.Filter = defaultExtension + " files (*." + defaultExtension + ")|*." + defaultExtension + "|All files (*.*)|*.*";
+            dialog.Filter = defaultExtension + " files (*." + defaultExtension + ")|*." + defaultExtension + "|Text Files (*.txt)|*.txt|All files (*.*)|*.*";
             //dialog.Filter = defaultExtension + " File|*" + defaultExtension + "|All Files|*.*"; //"Text Files (.txt)|*.txt|All Files (*.*)|*.*";
 
-            dialog.FilterIndex = 1;
+            dialog.FilterIndex = 2;
             dialog.Multiselect = false;
 
             // Call the ShowDialog method to show the dialog box.

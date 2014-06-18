@@ -306,10 +306,31 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
             using (var stream = StreamFinder.GetLocalFilestreamFromOpenFileDialog("xml"))
             {
-                if (stream != null)
+                if (stream == null) return;
+                var errorText = "";
+                SimulationInput simulationInput = null;
+                try
                 {
-                    var simulationInput = FileIO.ReadFromStream<SimulationInput>(stream);
-
+                    simulationInput = FileIO.ReadFromStream<SimulationInput>(stream);
+                }
+                catch
+                {
+                    errorText = "XML ";
+                }
+                try
+                {
+                    if (errorText != "")
+                    {
+                        stream.Seek(0, SeekOrigin.Begin);
+                        simulationInput = FileIO.ReadFromJsonStream<SimulationInput>(stream);
+                    }
+                }
+                catch
+                {
+                    errorText = "JSON ";
+                }
+                if (simulationInput != null)
+                {
                     var validationResult = SimulationInputValidation.ValidateInput(simulationInput);
                     if (validationResult.IsValid)
                     {
@@ -318,8 +339,12 @@ namespace Vts.Gui.Silverlight.ViewModel
                     }
                     else
                     {
-                        logger.Info(() => "Simulation input not loaded - XML format not valid.\r");
+                        logger.Info(() => "Simulation input not loaded - File format not valid.\r");
                     }
+                }
+                else
+                {
+                    logger.Info(() => errorText + "File not loaded.\r");
                 }
             }
         }
