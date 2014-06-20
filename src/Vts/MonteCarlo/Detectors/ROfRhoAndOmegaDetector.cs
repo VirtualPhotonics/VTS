@@ -13,7 +13,6 @@ namespace Vts.MonteCarlo.Detectors
     /// of Rho and Omega.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
-    [KnownType(typeof(ROfRhoAndOmegaDetector))]
     public class ROfRhoAndOmegaDetector : IDetector<Complex[,]> 
     {
         private bool _tallySecondMoment;

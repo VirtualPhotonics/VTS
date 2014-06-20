@@ -9,7 +9,6 @@ namespace Vts.MonteCarlo.Detectors
     /// <summary>
     /// Implements IDetector&lt;double&gt;.  Tally for Total Absorption.
     /// </summary>
-    [KnownType(typeof(ATotalDetector))]
     public class ATotalDetector : IHistoryDetector<double>
     {
         private ITissue _tissue;

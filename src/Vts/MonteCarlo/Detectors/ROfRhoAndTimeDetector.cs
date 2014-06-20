@@ -11,7 +11,6 @@ namespace Vts.MonteCarlo.Detectors
     /// of Rho and Time.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    [KnownType(typeof(ROfRhoAndTimeDetector))]
     public class ROfRhoAndTimeDetector : IDetector<double[,]> 
     {
         private bool _tallySecondMoment;

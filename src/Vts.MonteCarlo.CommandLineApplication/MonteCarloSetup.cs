@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                    logger.Info(" *** No input file specified ***\n\t\tDefine an input file using mc.exe infile=infile_name.xml or mc.exe infile=infile_name.txt");
+                    logger.Info(" *** No input file specified ***\n\t\tDefine an input file using mc.exe infile=infile_name.txt");
                     return null;
                 }
 
@@ -35,17 +35,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
                 if (File.Exists(fullFilePath))
                 {
-                    if (extension == ".xml")
-                    {
-                        return SimulationInput.FromXMLFile(fullFilePath);
-                    }
                     return SimulationInput.FromJsonFile(fullFilePath);       
                 }
 
-                if (File.Exists(fullFilePath + ".xml"))
-                {
-                    return SimulationInput.FromXMLFile(fullFilePath + ".xml");
-                }
                 return SimulationInput.FromJsonFile(fullFilePath + ".txt");
          
                 //throw a file not found exception
@@ -159,8 +151,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             SimulationOutput detectorResults = mc.Run();
 
-            // write to xml and json check with DC if we should write to both, same question for MCSolverVM
-            input.ToXMLFile(Path.Combine(resultsFolder, input.OutputName + ".xml"));
+            // write to json check with DC if we should write to both, same question for MCSolverVM
             input.ToJsonFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
 
             foreach (var result in detectorResults.ResultsDictionary.Values)

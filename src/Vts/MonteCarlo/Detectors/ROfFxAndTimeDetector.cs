@@ -13,7 +13,6 @@ namespace Vts.MonteCarlo.Detectors
     /// of Fx and Time.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
-    [KnownType(typeof(ROfFxAndTimeDetector))]
     public class ROfFxAndTimeDetector : IDetector<Complex[,]>
     {
         private bool _tallySecondMoment;

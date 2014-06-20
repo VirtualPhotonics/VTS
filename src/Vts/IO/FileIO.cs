@@ -18,7 +18,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Vts.IO
 {
     /// <summary>
-    /// This class includes methods for saving and loading XML and binary data
+    /// This class includes methods for saving and loading JSON text and binary data
     /// It uses custom iterators for saving (unfortunately, nothing as useful for reading value types)
     /// Currently, float, double and ushort are supported (and they're processed in that order)
     /// </summary>
@@ -116,7 +116,7 @@ namespace Vts.IO
         /// <typeparam name="T">Type of the object to be written</typeparam>
         /// <param name="myObject">Object to be written</param>
         /// <param name="stream">Stream to which to write the object</param>
-        public static void WriteToStream<T>(this T myObject, Stream stream)
+        public static void WriteToXMLStream<T>(this T myObject, Stream stream)
         {
             var dcs = new DataContractSerializer(typeof(T), KnownTypes.CurrentKnownTypes.Values);
             dcs.WriteObject(stream, myObject);
@@ -200,7 +200,7 @@ namespace Vts.IO
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
             {
                 //new DataContractSerializer(typeof(Time)).WriteObject(stream, myObject);
-                myObject.WriteToStream(stream);
+                myObject.WriteToXMLStream(stream);
             }
         }
 
@@ -394,19 +394,18 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Writes an array to a binary file and optionally accompanying .xml file 
+        /// Writes an array to a binary file and optionally accompanying .txt (JSON) file 
         /// (to store array dimensions) if includeMetaData = true
         /// </summary>
         /// <typeparam name="T">Type of the array to be written</typeparam>
         /// <param name="dataIN">Array to be written</param>
         /// <param name="filename">Name of the file where the data is written</param>
-        /// <param name="includeMetaData">Boolean to determine whether to include meta data, if set to true, an accompanying XML file will be created with the same name</param>
+        /// <param name="includeMetaData">Boolean to determine whether to include meta data, if set to true, an accompanying JSON file will be created with the same name</param>
         public static void WriteArrayToBinary<T>(Array dataIN, string filename, bool includeMetaData) where T : struct
         {
-            // Write XML file to describe the contents of the binary file
+            // Write JSON file to describe the contents of the binary file
             if (includeMetaData)
             {
-                new MetaData(dataIN).WriteToXML(filename + ".xml");
                 new MetaData(dataIN).WriteToJson(filename + ".txt");  // 
             }
             // Create a file to write binary data 
@@ -421,7 +420,7 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Writes an array to a binary file, as well as an accompanying .xml file to store array dimensions
+        /// Writes an array to a binary file, as well as an accompanying .txt (JSON) file to store array dimensions
         /// </summary>
         /// <typeparam name="T">Type of the array to be written</typeparam>
         /// <param name="dataIN">Array to be written</param>
@@ -432,14 +431,14 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Reads array from a binary file, using the accompanying .xml file to specify dimensions
+        /// Reads array from a binary file, using the accompanying .txt file to specify dimensions
         /// </summary>
         /// <typeparam name="T">Type of the array being read</typeparam>
         /// <param name="filename">Name of the file from which to read the array</param>
         /// <returns>Array from the file</returns>
         public static Array ReadArrayFromBinary<T>(string filename) where T : struct
         {
-            MetaData dataInfo = ReadFromXML<MetaData>(filename + ".xml");
+            MetaData dataInfo = ReadFromJson<MetaData>(filename + ".txt");
 
             return ReadArrayFromBinary<T>(filename, dataInfo.dims);
         }
@@ -468,7 +467,7 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Reads array from a binary file in resources, using the accompanying .xml file to specify dimensions
+        /// Reads array from a binary file in resources, using the accompanying .txt (JSON) file to specify dimensions
         /// </summary>
         /// <typeparam name="T">Type of the array being read</typeparam>
         /// <param name="filename">Name of the XML file containing the meta data</param>
@@ -476,8 +475,8 @@ namespace Vts.IO
         /// <returns>Array from the file</returns>
         public static Array ReadArrayFromBinaryInResources<T>(string filename, string projectname) where T : struct
         {
-            // Read XML file that describes the contents of the binary file
-            MetaData dataInfo = ReadFromXMLInResources<MetaData>(filename + ".xml", projectname);
+            // Read JSON text file that describes the contents of the binary file
+            MetaData dataInfo = ReadFromJsonInResources<MetaData>(filename + ".txt", projectname);
 
             // call the overload (below) which explicitly specifies the array dimensions
             return ReadArrayFromBinaryInResources<T>(filename, projectname, dataInfo.dims);
@@ -487,7 +486,7 @@ namespace Vts.IO
         /// Reads array from a binary file in resources using explicitly-set dimensions
         /// </summary>
         /// <typeparam name="T">Type of the array being read</typeparam>
-        /// <param name="filename">Name of the XML file containing the meta data</param>
+        /// <param name="filename">Name of the JSON (text) file containing the meta data</param>
         /// <param name="projectname">Project name for the location of resources</param>
         /// <param name="dims">Dimensions of the array</param>
         /// <returns>Array from the file</returns>
@@ -685,8 +684,9 @@ namespace Vts.IO
                     zip.Save(zipFileStream);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 throw;
             }
             finally

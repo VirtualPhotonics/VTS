@@ -1249,15 +1249,15 @@
       <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.xml</Link>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.txt">
+      <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.txt</Link>
+    </EmbeddedResource>
     <Content Include="App_Readme\MathNet\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.copyright.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.readme.txt" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.json">
-      <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.json</Link>
-    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

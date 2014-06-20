@@ -10,7 +10,6 @@ namespace Vts.MonteCarlo.Detectors
     /// of Rho and Angle.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    [KnownType(typeof(TOfRhoAndAngleDetector))]
     public class TOfRhoAndAngleDetector : IDetector<double[,]> 
     {
         private bool _tallySecondMoment;

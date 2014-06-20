@@ -13,7 +13,6 @@ namespace Vts.MonteCarlo.Detectors
     /// Also tallies FractionalMT(rho,momentumtransfer,subregion), the average fractional MT each photon tallied
     /// in each subregiion.
     /// </summary>
-    [KnownType(typeof(ReflectedMTOfRhoAndSubregionHistDetector))]
     public class ReflectedMTOfRhoAndSubregionHistDetector : IDetector<double[,]> 
     {
         private bool _tallySecondMoment;

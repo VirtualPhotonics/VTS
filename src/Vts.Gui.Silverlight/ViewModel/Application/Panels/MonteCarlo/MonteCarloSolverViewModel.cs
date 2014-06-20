@@ -253,7 +253,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     logger.Info(() => "Saving simulation results to temporary directory...");
                     string resultsFolder = input.OutputName;
                     FileIO.CreateDirectory(resultsFolder);
-                    input.ToXMLFile(Path.Combine(resultsFolder, "infile_" + input.OutputName + ".xml"));
+                    input.ToJsonFile(Path.Combine(resultsFolder, "infile_" + input.OutputName + ".txt"));
 
                     foreach (var result in _output.ResultsDictionary.Values)
                     {
@@ -304,33 +304,12 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private void MC_LoadSimulationInput_Executed(object sender, ExecutedEventArgs e)
         {
-            using (var stream = StreamFinder.GetLocalFilestreamFromOpenFileDialog("xml"))
+            using (var stream = StreamFinder.GetLocalFilestreamFromOpenFileDialog("txt"))
             {
-                if (stream == null) return;
-                var errorText = "";
-                SimulationInput simulationInput = null;
-                try
+                if (stream != null)
                 {
-                    simulationInput = FileIO.ReadFromStream<SimulationInput>(stream);
-                }
-                catch
-                {
-                    errorText = "XML ";
-                }
-                try
-                {
-                    if (errorText != "")
-                    {
-                        stream.Seek(0, SeekOrigin.Begin);
-                        simulationInput = FileIO.ReadFromJsonStream<SimulationInput>(stream);
-                    }
-                }
-                catch
-                {
-                    errorText = "JSON ";
-                }
-                if (simulationInput != null)
-                {
+                    var simulationInput = FileIO.ReadFromStream<SimulationInput>(stream);
+
                     var validationResult = SimulationInputValidation.ValidateInput(simulationInput);
                     if (validationResult.IsValid)
                     {
@@ -339,7 +318,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     }
                     else
                     {
-                        logger.Info(() => "Simulation input not loaded - File format not valid.\r");
+                        logger.Info(() => "Simulation input not loaded - JSON format not valid.\r");
                     }
                 }
                 else
@@ -358,26 +337,15 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var files = SimulationInputProvider.GenerateAllSimulationInputs().Select(input =>
                         new
                         {
-                            Name = "infile_" + input.OutputName + ".xml",
+                            Name = "infile_" + input.OutputName + ".txt",
                             Input = input
                         });
 
                     foreach (var file in files)
                     {
-                        file.Input.ToXMLFile(file.Name);
-                    }
-                    var jsonFiles = SimulationInputProvider.GenerateAllSimulationInputs().Select(input =>
-                        new
-                        {
-                            Name = "infile_" + input.OutputName + ".txt",
-                            Input = input
-                        });
-
-                    foreach (var file in jsonFiles)
-                    {
                         file.Input.ToJsonFile(file.Name);
                     }
-                    var allFiles = files.Concat(jsonFiles);
+                    var allFiles = files.Concat(files);
                     FileIO.ZipFiles(allFiles.Select(file => file.Name), "", stream);
                     logger.Info(() => "Template simulation input files exported to a zip file.\r");
                 }

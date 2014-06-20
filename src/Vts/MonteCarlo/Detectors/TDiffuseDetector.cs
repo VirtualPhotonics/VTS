@@ -7,7 +7,6 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector&lt;double&gt;.  Tally for diffuse transmittance.
     /// This implemenation works for Analog, DAW and CAW processing.
     /// </summary>
-    [KnownType(typeof(TDiffuseDetector))]
     public class TDiffuseDetector : IDetector<double> 
     {
         private bool _tallySecondMoment;

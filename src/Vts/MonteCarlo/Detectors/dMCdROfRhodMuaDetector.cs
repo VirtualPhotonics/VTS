@@ -13,7 +13,6 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector&lt;double[]&gt;.  Tally for dMC estimation of d(reflectance)/dMua 
     /// as a function of Rho.
     /// </summary>
-    [KnownType(typeof(dMCdROfRhodMuaDetector))]
     public class dMCdROfRhodMuaDetector : IDetector<double[]> 
     {
         private IList<OpticalProperties> _referenceOps;

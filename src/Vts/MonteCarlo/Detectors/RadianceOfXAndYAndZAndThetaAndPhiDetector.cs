@@ -13,7 +13,6 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IHistoryDetector&lt;double[,,,,]&gt;.  Tally for Radiance(x,y,z,theta,phi).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
-    [KnownType(typeof(RadianceOfXAndYAndZAndThetaAndPhiDetector))]
     public class RadianceOfXAndYAndZAndThetaAndPhiDetector : IHistoryDetector<double[,,,,]>
     {
         private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;

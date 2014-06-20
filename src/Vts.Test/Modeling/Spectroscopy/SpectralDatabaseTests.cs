@@ -27,29 +27,29 @@ namespace Vts.Test.Modeling.Spectroscopy
         [TestFixtureSetUp]
         public void clear_folders_and_files()
         {
-            if (FileIO.FileExists("SpectralDictionary.json"))
+            if (FileIO.FileExists("SpectralDictionary.txt"))
             {
-                FileIO.FileDelete("SpectralDictionary.json");
+                FileIO.FileDelete("SpectralDictionary.txt");
             }
-            if (FileIO.FileExists("dictionary.json"))
+            if (FileIO.FileExists("dictionary.txt"))
             {
-                FileIO.FileDelete("dictionary.json");
+                FileIO.FileDelete("dictionary.txt");
             }
-            if (FileIO.FileExists("dictionary2.json"))
+            if (FileIO.FileExists("dictionary2.txt"))
             {
-                FileIO.FileDelete("dictionary2.json");
+                FileIO.FileDelete("dictionary2.txt");
             }
-            if (FileIO.FileExists("dictionary3.json"))
+            if (FileIO.FileExists("dictionary3.txt"))
             {
-                FileIO.FileDelete("dictionary3.json");
+                FileIO.FileDelete("dictionary3.txt");
             }
-            if (FileIO.FileExists("dictionary4.json"))
+            if (FileIO.FileExists("dictionary4.txt"))
             {
-                FileIO.FileDelete("dictionary4.json");
+                FileIO.FileDelete("dictionary4.txt");
             }
-            if (FileIO.FileExists("dictionary5.json"))
+            if (FileIO.FileExists("dictionary5.txt"))
             {
-                FileIO.FileDelete("dictionary5.json");
+                FileIO.FileDelete("dictionary5.txt");
             }
             if (FileIO.FileExists("absorber-Fat.txt"))
             {
@@ -94,8 +94,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void validate_serializing_spectral_database()
         {
             var testDictionary = CreateDictionary();
-            testDictionary.WriteToJson("SpectralDictionary.json");
-            Assert.IsTrue(FileIO.FileExists("SpectralDictionary.json"));
+            testDictionary.WriteToJson("SpectralDictionary.txt");
+            Assert.IsTrue(FileIO.FileExists("SpectralDictionary.txt"));
         }
 
         /// <summary>
@@ -105,8 +105,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void validate_deserializing_spectral_database()
         {
             var testDictionary = CreateDictionary();
-            testDictionary.WriteToJson("dictionary.json");
-            var Dvalues = FileIO.ReadFromJson<ChromophoreSpectrumDictionary>("dictionary.json");
+            testDictionary.WriteToJson("dictionary.txt");
+            var Dvalues = FileIO.ReadFromJson<ChromophoreSpectrumDictionary>("dictionary.txt");
             Assert.IsNotNull(Dvalues);
         }
 
@@ -117,8 +117,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void validate_serialized_data()
         {
             var testDictionary = CreateDictionary();
-            testDictionary.WriteToJson("dictionary2.json");
-            var Dvalues = FileIO.ReadFromJson<ChromophoreSpectrumDictionary>("dictionary2.json");
+            testDictionary.WriteToJson("dictionary2.txt");
+            var Dvalues = FileIO.ReadFromJson<ChromophoreSpectrumDictionary>("dictionary2.txt");
             Assert.AreEqual(Dvalues["HbO2"].Wavelengths[2], testDictionary["HbO2"].Wavelengths[2]);
         }
 
@@ -146,8 +146,8 @@ namespace Vts.Test.Modeling.Spectroscopy
             myChromophoreList.Add(c2);
             var testDictionary = myChromophoreList.ToDictionary();
             SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-            testDictionary.WriteToJson("dictionary3.json");
-            Assert.IsTrue(FileIO.FileExists("dictionary3.json"));
+            testDictionary.WriteToJson("dictionary3.txt");
+            Assert.IsTrue(FileIO.FileExists("dictionary3.txt"));
         }
 
         /// <summary>
@@ -160,8 +160,8 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             var testSpectra = SpectralDatabase.GetSpectraFromFile(stream, true);
             var testDictionary = testSpectra.ToDictionary();
-            testDictionary.WriteToJson("dictionary4.json");
-            Assert.IsTrue(FileIO.FileExists("dictionary4.json"));
+            testDictionary.WriteToJson("dictionary4.txt");
+            Assert.IsTrue(FileIO.FileExists("dictionary4.txt"));
         }
 
         /// <summary>
@@ -211,8 +211,8 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             var testSpectra = SpectralDatabase.GetSpectraFromFile(stream, false);
             var testDictionary = testSpectra.ToDictionary();
-            testDictionary.WriteToJson("dictionary5.json");
-            Assert.IsTrue(FileIO.FileExists("dictionary5.json"));
+            testDictionary.WriteToJson("dictionary5.txt");
+            Assert.IsTrue(FileIO.FileExists("dictionary5.txt"));
         }
 
         /// <summary>

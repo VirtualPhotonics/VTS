@@ -12,7 +12,6 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector&lt;double[,,]&gt;.  Tally for reflected Time(rho,subregion,time).
     /// Currently, the tally only works for Continuous Absorption Weighting (CAW)
     /// </summary>
-    [KnownType(typeof(ReflectedTimeOfRhoAndSubregionHistDetector))]
     public class ReflectedTimeOfRhoAndSubregionHistDetector : IDetector<double[,,]> 
     {
         private bool _tallySecondMoment;

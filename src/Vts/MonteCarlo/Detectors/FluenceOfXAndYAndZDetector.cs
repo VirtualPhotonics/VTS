@@ -13,7 +13,6 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IHistoryDetector&lt;double[,,]&gt;.  Tally for Fluence(x,y,z).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
-    [KnownType(typeof(FluenceOfXAndYAndZDetector))]
     public class FluenceOfXAndYAndZDetector : IHistoryDetector<double[, ,]>
     {
         private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;

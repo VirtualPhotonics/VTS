@@ -7,7 +7,6 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector&lt;double&gt;.  Tally for diffuse reflectance.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
-    [KnownType(typeof(RSpecularDetector))]
     public class RSpecularDetector : IDetector<double> 
     {
         private bool _tallySecondMoment;

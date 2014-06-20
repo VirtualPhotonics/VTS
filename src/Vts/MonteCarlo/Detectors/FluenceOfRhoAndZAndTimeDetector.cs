@@ -13,7 +13,6 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IHistoryDetector&lt;double[,,]&gt;.  Tally for Fluence(rho,z,t).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
-    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetector))]
     public class FluenceOfRhoAndZAndTimeDetector : IHistoryDetector<double[, ,]>
     {
         private ITissue _tissue;

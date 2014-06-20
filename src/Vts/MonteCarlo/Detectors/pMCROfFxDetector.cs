@@ -12,7 +12,6 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector&lt;Complex[]&gt;.  Tally for pMC estimation of reflectance 
     /// as a function of Fx.
     /// </summary>
-    [KnownType(typeof(pMCROfFxDetector))]
     public class pMCROfFxDetector : IDetector<Complex[]>
     {
         private double[] _fxArray;

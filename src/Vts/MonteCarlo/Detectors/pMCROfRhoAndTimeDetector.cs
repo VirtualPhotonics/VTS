@@ -14,7 +14,6 @@ namespace Vts.MonteCarlo.Detectors
     /// as a function of Rho and Time.  Perturbations of just mua or mus alone are also
     /// handled by this class.
     /// </summary>
-    [KnownType(typeof(pMCROfRhoAndTimeDetector))]
     public class pMCROfRhoAndTimeDetector : IDetector<double[,]> 
     {
         private AbsorptionWeightingType _awt;

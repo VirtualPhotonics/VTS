@@ -15,7 +15,6 @@ namespace Vts.MonteCarlo.Detectors
     /// as a function of Fx and Time. Perturbations of just mua or mus alone are also
     /// handled by this class.
     /// </summary>
-    [KnownType(typeof(pMCROfFxAndTimeDetector))]
     public class pMCROfFxAndTimeDetector : IDetector<Complex[,]>
     {
         private double[] _fxArray;

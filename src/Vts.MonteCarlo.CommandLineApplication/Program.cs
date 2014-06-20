@@ -244,17 +244,11 @@ namespace Vts.MonteCarlo.CommandLineApplication
             var infiles = SimulationInputProvider.GenerateAllSimulationInputs();
             for (int i = 0; i < infiles.Count; i++)
             {
-                infiles[i].ToXMLFile("infile_" + infiles[i].OutputName + ".xml"); 
                 infiles[i].ToJsonFile("infile_" + infiles[i].OutputName + ".txt"); // write json to .txt files
             }
             //var sources = SourceInputProvider.GenerateAllSourceInputs();
-            //sources.WriteToXML("infile_source_options_test.xml");
+            //sources.WriteToJson("infile_source_options_test.txt");
         }
-
-        //private static SimulationInput LoadDefaultInputFile()
-        //{
-        //    return SimulationInput.FromFileInResources("infile.xml", "mc");
-        //}
 
         /// <summary>
         /// Displays the help text for detailed usage of the application
@@ -271,7 +265,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             logger.Info("\t\tparamsweep=<SweepParameterType>,Start,Stop,Count");
             logger.Info("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
             logger.Info("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
-            logger.Info("\ngeninfiles\tgenerates example infiles and names them infile_XXX.xml and infile_XXX.txt");
+            logger.Info("\ngeninfiles\tgenerates example infiles and names them infile_XXX.txt");
             logger.Info("\t\twhere XXX describes the type of input specified");
             logger.Info("\nlist of sweep parameters (paramsweep):");
             logger.Info("\nmua1\t\tabsorption coefficient for tissue layer 1");
@@ -303,11 +297,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     logger.Info("This is the name of the input file, it can be a relative or absolute path.");
                     logger.Info("If the path name has any spaces enclose it in double quotes.");
                     logger.Info("For relative paths, omit the leading slash.");
-                    logger.Info("EXAMPLES for .xml files:");
-                    logger.Info("\tinfile=C:\\MonteCarlo\\InputFiles\\myinfile.xml");
-                    logger.Info("\tinfile=\"C:\\Monte Carlo\\InputFiles\\myinfile.xml\"");
-                    logger.Info("\tinfile=InputFiles\\myinfile.xml");
-                    logger.Info("\tinfile=myinfile.xml");
                     logger.Info("EXAMPLES for .txt (json) files:");
                     logger.Info("\tinfile=C:\\MonteCarlo\\InputFiles\\myinfile.txt");
                     logger.Info("\tinfile=\"C:\\Monte Carlo\\InputFiles\\myinfile.txt\"");

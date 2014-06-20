@@ -215,8 +215,7 @@ namespace Vts.MonteCarlo.Rng
         /// <returns></returns>
         public static SerializableMersenneTwister FromFile(string filename)
         {
-            //return FileIO.ReadFromXML<SerializableMersenneTwister>(filename);
-            var info = FileIO.ReadFromXML<MersenneTwisterSerializationInfo>(filename);
+            var info = FileIO.ReadFromJson<MersenneTwisterSerializationInfo>(filename);
 
             return SerializableMersenneTwister.Create(info);
         }
@@ -229,7 +228,7 @@ namespace Vts.MonteCarlo.Rng
                 MTI = smt.MTI
             };
 
-            FileIO.WriteToXML(info, filename);
+            FileIO.WriteToJson(info, filename);
         }
     }
 }

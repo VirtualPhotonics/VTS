@@ -27,7 +27,7 @@ namespace Vts.WriteNurbsValues.Desktop
         /// <param name="writePath"></param>
         /// <param name="domain"></param>
         /// <param name="folder"></param>
-        private static void ReadBinaryAndWriteXML(string readPath, string writePath, string domain, string folder)
+        private static void ReadBinaryAndWriteXML(string readPath, string writePath, string domain, string folder) // todo: convert to JSON serialization (DC: 2014/06/20)
         {
             ushort[] dims = (ushort[])FileIO.ReadArrayFromBinaryInResources<ushort>(readPath + domain + folder + "dims", "Vts", 2);
             ushort[] degrees = (ushort[])FileIO.ReadArrayFromBinaryInResources<ushort>(readPath + domain + folder + "degrees", "Vts", 2);

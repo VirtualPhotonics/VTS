@@ -8,27 +8,6 @@ using System.Text.RegularExpressions;
 
 namespace Vts.MonteCarlo.PostProcessor
 {
-    // Detector inputs
-    [KnownType(typeof(AOfRhoAndZDetectorInput))]
-    [KnownType(typeof(ATotalDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
-    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(pMCROfRhoDetectorInput))]
-    [KnownType(typeof(RDiffuseDetectorInput))]
-    [KnownType(typeof(ROfAngleDetectorInput))]
-    [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
-    [KnownType(typeof(ROfRhoAndOmegaDetectorInput))]
-    [KnownType(typeof(ROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(ROfRhoDetectorInput))]
-    [KnownType(typeof(ROfXAndYDetectorInput))]
-    [KnownType(typeof(ROfFxDetectorInput))]
-    [KnownType(typeof(ROfFxAndTimeDetectorInput))]
-    [KnownType(typeof(TDiffuseDetectorInput))]
-    [KnownType(typeof(TOfAngleDetectorInput))]
-    [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
-    [KnownType(typeof(TOfRhoDetectorInput))] 
-
     #region CommandLine Arguments Parser
 
     /* Simple commandline argument parser written by Ananth B. http://www.ananthonline.net */
