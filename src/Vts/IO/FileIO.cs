@@ -14,7 +14,7 @@ using Vts.Extensions;
 using System.Runtime.Serialization.Formatters.Binary;
 #endif
 
-
+ 
 namespace Vts.IO
 {
     /// <summary>
