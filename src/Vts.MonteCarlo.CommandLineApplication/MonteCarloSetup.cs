@@ -37,9 +37,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     return SimulationInput.FromFile(fullFilePath);
                 }
 
-                if (File.Exists(fullFilePath + ".xml"))
+                if (File.Exists(fullFilePath + ".txt"))
                 {
-                    return SimulationInput.FromFile(fullFilePath + ".xml");
+                    return SimulationInput.FromFile(fullFilePath + ".txt");
                 }
 
                 //throw a file not found exception
@@ -152,7 +152,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             SimulationOutput detectorResults = mc.Run();
 
-            input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".xml"));
+            input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
 
             foreach (var result in detectorResults.ResultsDictionary.Values)
             {

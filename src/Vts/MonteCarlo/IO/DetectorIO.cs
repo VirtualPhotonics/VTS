@@ -142,7 +142,7 @@ namespace Vts.MonteCarlo.IO
                     FileIO.CreateDirectory(folderPath);
                 }
 
-                FileIO.WriteToXML(detector, filePath + ".xml");
+                FileIO.WriteToJson(detector, filePath + ".txt");
                 var binaryArraySerializers = detector.GetBinarySerializers();
                 foreach (var binaryArraySerializer in binaryArraySerializers)
                 {
@@ -382,7 +382,7 @@ namespace Vts.MonteCarlo.IO
                 {
                     filePath = folderPath + @"/" + fileName;
                 }
-                var detector = FileIO.ReadFromXML<IDetector>(filePath + ".xml");
+                var detector = FileIO.ReadFromJson<IDetector>(filePath + ".txt");
 
                 var binaryArraySerializers = detector.GetBinarySerializers();
                 foreach (var binaryArraySerializer in binaryArraySerializers)

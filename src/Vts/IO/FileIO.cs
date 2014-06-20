@@ -319,7 +319,7 @@ namespace Vts.IO
             // Write XML file to describe the contents of the binary file
             if (includeMetaData)
             {
-                new MetaData(dataIN).WriteToXML(filename + ".xml");
+                new MetaData(dataIN).WriteToJson(filename + ".txt");
             }
             // Create a file to write binary data 
             using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
@@ -345,7 +345,7 @@ namespace Vts.IO
             // Write XML file to describe the contents of the binary file
             if (includeMetaData)
             {
-                new MetaData(dataIN).WriteToXML(filename + ".xml");
+                new MetaData(dataIN).WriteToJson(filename + ".txt");
             }
             // Create a file to write binary data 
             using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
@@ -377,7 +377,7 @@ namespace Vts.IO
         /// <returns>Array from the file</returns>
         public static Array ReadArrayFromBinary<T>(string filename) where T : struct
         {
-            MetaData dataInfo = ReadFromXML<MetaData>(filename + ".xml");
+            MetaData dataInfo = ReadFromJson<MetaData>(filename + ".txt");
 
             return ReadArrayFromBinary<T>(filename, dataInfo.dims);
         }

@@ -159,4 +159,17 @@ IF $(Configuration) == Release copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\matla
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(ProjectDir)..\..\lib\Vts.MonteCarlo.Unmanaged\Vts.MonteCarlo.Unmanaged.dll" "$(TargetDir)"
+
+IF NOT EXIST "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)" mkdir "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)"
+copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\build\apps\mc\$(ConfigurationName)" /y
+
+IF $(Configuration) == Release IF NOT EXIST "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" mkdir "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries"
+
+IF $(Configuration) == Release copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\matlab\vts_wrapper\vts_libraries" /y
+
+REM "$(TargetDir)mc.exe" geninfiles
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

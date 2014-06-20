@@ -157,7 +157,7 @@ namespace Vts.MonteCarlo
         /// <returns>SimulationInput</returns>
         public static SimulationInput FromFile(string filename)
         {
-            return FileIO.ReadFromXML<SimulationInput>(filename);
+            return FileIO.ReadFromJson<SimulationInput>(filename);
         }
 
         public MonteCarloSimulation CreateSimulation()
@@ -171,7 +171,7 @@ namespace Vts.MonteCarlo
         /// <param name="filename">string filename to write to</param>
         public void ToFile(string filename)
         {
-            FileIO.WriteToXML(this, filename);
+            FileIO.WriteToJson(this, filename);
         }
         /// <summary>
         /// Method to read SimulationInput xml from file in resources

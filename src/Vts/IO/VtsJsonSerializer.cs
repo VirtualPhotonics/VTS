@@ -24,7 +24,8 @@ namespace Vts.IO
         {
             var settings = new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.None, 
+                TypeNameHandling = TypeNameHandling.None,
+                ObjectCreationHandling = ObjectCreationHandling.Replace
             };
 #if DEBUG
             settings.TraceWriter = _traceWriter;
@@ -69,6 +70,7 @@ namespace Vts.IO
                 serializer.Converters.Add(jsonConverter);
             }
             serializer.NullValueHandling = NullValueHandling.Ignore;
+            serializer.ObjectCreationHandling = ObjectCreationHandling.Replace;
 #if DEBUG
             serializer.TraceWriter = _traceWriter;
 #endif
