@@ -308,7 +308,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 if (stream != null)
                 {
-                    var simulationInput = FileIO.ReadFromStream<SimulationInput>(stream);
+                    var simulationInput = FileIO.ReadFromJsonStream<SimulationInput>(stream);
 
                     var validationResult = SimulationInputValidation.ValidateInput(simulationInput);
                     if (validationResult.IsValid)

@@ -133,6 +133,7 @@
       <HintPath>..\packages\Rx-PlatformServices.2.2.3\lib\sl5\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Threading.Tasks">
       <HintPath>..\..\lib\TasksSL\System.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -603,6 +604,14 @@
     <Content Include="App_Readme\MathNet\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.copyright.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.readme.txt" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\controlPointsEXAMPLE.txt" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\templateNurbsValues.txt" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\testSpaceNurbsValues.txt" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\testTimeNurbsValues.txt" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.txt" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.txt" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.txt" />
+    <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.txt" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.txt" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.txt" />
   </ItemGroup>

@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
@@ -61,7 +61,7 @@ namespace Vts.Test.MonteCarlo
         {
             using (MemoryStream ms = new MemoryStream(1024))
             {
-                var dcs = new DataContractSerializer(typeof(T));
+                var dcs = new DataContractJsonSerializer(typeof(T));
                 dcs.WriteObject(ms, myObject);
                 ms.Seek(0, SeekOrigin.Begin);
                 return (T)dcs.ReadObject(ms);
