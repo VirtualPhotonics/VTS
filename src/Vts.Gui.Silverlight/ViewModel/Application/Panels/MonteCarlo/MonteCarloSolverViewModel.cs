@@ -323,7 +323,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
                 else
                 {
-                    logger.Info(() => errorText + "File not loaded.\r");
+                    logger.Info(() => "JSON File not loaded.\r");
                 }
             }
         }

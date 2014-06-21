@@ -173,9 +173,9 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         public void validate_database_input_with_no_detectors_specified_still_generates_database()
         {
             // make sure databases generated from previous tests are deleted
-            if (FileIO.FileExists("DiffuseReflectanceDatabase.xml"))
+            if (FileIO.FileExists("DiffuseReflectanceDatabase.txt"))
             {
-                FileIO.FileDelete("DiffuseReflectanceDatabase.xml");
+                FileIO.FileDelete("DiffuseReflectanceDatabase.txtl");
             }
             if (FileIO.FileExists("DiffuseReflectanceDatabase"))
             {

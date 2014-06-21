@@ -470,7 +470,7 @@ namespace Vts.IO
         /// Reads array from a binary file in resources, using the accompanying .txt (JSON) file to specify dimensions
         /// </summary>
         /// <typeparam name="T">Type of the array being read</typeparam>
-        /// <param name="filename">Name of the XML file containing the meta data</param>
+        /// <param name="filename">Name of the JSON file containing the meta data</param>
         /// <param name="projectname">Project name for the location of resources</param>
         /// <returns>Array from the file</returns>
         public static Array ReadArrayFromBinaryInResources<T>(string filename, string projectname) where T : struct

@@ -11,7 +11,7 @@ namespace Vts.MonteCarlo.IO
     public static class DetectorIO
     {
         /// <summary>
-        /// Writes Detector xml/txt for scalar detectors, writes Detector xml/txt and 
+        /// Writes Detector txt for scalar detectors, writes Detector txt and 
         /// binary for 1D and larger detectors.  Detector.Name is used for filename.
         /// </summary>
         /// <param name="detector">IDetector being written.</param>
@@ -36,13 +36,12 @@ namespace Vts.MonteCarlo.IO
 
                 if (detector is IDetector<double>)
                 {
-                    //var d = detector as IDetector<double>;
-                    //FileIO.WriteToXML((RDiffuseDetector)d, filePath + ".txt");
+                    var d = detector as IDetector<double>;
+                    FileIO.WriteToJson((RDiffuseDetector)d, filePath + ".txt");
                 }
                 if (detector is IDetector<double[]>)
                 {
                     var d = detector as IDetector<double[]>;
-                    //FileIO.WriteToXML(d, filePath + ".txt");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                     // output of 2nd moment 
                     FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
@@ -50,68 +49,64 @@ namespace Vts.MonteCarlo.IO
                 if (detector is IDetector<double[,]>)
                 {
                     var d = detector as IDetector<double[,]>;
-                    //FileIO.WriteToXML(d, filePath + ".txt");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<double[, ,]>)
                 {
                     var d = detector as IDetector<double[, ,]>;
-                    //FileIO.WriteToXML(d, filePath + ".txt");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<double[, , ,]>)
                 {
                     var d = detector as IDetector<double[, , ,]>;
-                    //FileIO.WriteToXML(d, filePath + ".txt");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<double[, , , ,]>)
                 {
                     var d = detector as IDetector<double[, , , ,]>;
-                    //FileIO.WriteToXML(d, filePath + ".txt");
                     FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex>)
                 {
                     //var d = detector as IDetector<Complex>;
-                    //FileIO.WriteToXML(d, filePath + ".txt");
+                    //FileIO.WriteToJson(d, filePath + ".txt");
                 }
                 if (detector is IDetector<Complex[]>)
                 {
                     var d = detector as IDetector<Complex[]>;
-                    //FileIO.WriteToXML(d, filePath + ".txt");
+                    //FileIO.WriteToJson(d, filePath + ".txt");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex[,]>)
                 {
                     var d = detector as IDetector<Complex[,]>;
-                    //FileIO.WriteToXML(d, filePath + ".txt");
+                    //FileIO.WriteToJson(d, filePath + ".txt");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex[, ,]>)
                 {
                     var d = detector as IDetector<Complex[, ,]>;
-                    //FileIO.WriteToXML(d, filePath + ".txt");
+                    //FileIO.WriteToJson(d, filePath + ".txt");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex[, , ,]>)
                 {
                     var d = detector as IDetector<Complex[, , ,]>;
-                    //FileIO.WriteToXML(d, filePath + ".txt");
+                    //FileIO.WriteToJson(d, filePath + ".txt");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
                 if (detector is IDetector<Complex[, , , ,]>)
                 {
                     var d = detector as IDetector<Complex[, , , ,]>;
-                    //FileIO.WriteToXML(d, filePath + ".txt");
+                    //FileIO.WriteToJson(d, filePath + ".txt");
                     FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
                     FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
                 }
@@ -388,7 +383,7 @@ namespace Vts.MonteCarlo.IO
                         return fluenceOfRhoAndZDetector;
 
                     case TallyType.FluenceOfXAndYAndZ:
-                        var fluenceOfXAndYAndZDetector = FileIO.ReadFromXML<FluenceOfXAndYAndZDetector>(filePath + ".txt");
+                        var fluenceOfXAndYAndZDetector = FileIO.ReadFromJson<FluenceOfXAndYAndZDetector>(filePath + ".txt");
                         var fluenceOfXAndYAndZDetectorDims = new int[] { fluenceOfXAndYAndZDetector.X.Count - 1, fluenceOfXAndYAndZDetector.Y.Count - 1, fluenceOfXAndYAndZDetector.Z.Count -1 };
                         fluenceOfXAndYAndZDetector.Mean = (double[,,])FileIO.ReadArrayFromBinary<double>(filePath, fluenceOfXAndYAndZDetectorDims);
                         return fluenceOfXAndYAndZDetector;

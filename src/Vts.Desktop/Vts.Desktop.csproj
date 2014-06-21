@@ -1174,12 +1174,6 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml">
       <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.xml">
-      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml">
-      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.xml</Link>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Vts\Common\Resources\Strings.resx">
@@ -1252,9 +1246,13 @@
     <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.txt">
       <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.txt</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.txt">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.txt</Link>
+    </EmbeddedResource>
     <Content Include="App_Readme\MathNet\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.copyright.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.readme.txt" />
+    <EmbeddedResource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.txt" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
