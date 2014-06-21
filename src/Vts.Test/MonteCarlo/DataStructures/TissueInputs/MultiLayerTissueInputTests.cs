@@ -49,8 +49,8 @@ namespace Vts.Test.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 );
-            i.WriteToXML("MultiLayerTissue.xml");
-            var iCloned = FileIO.ReadFromXML<MultiLayerTissueInput>("MultiLayerTissue.xml");
+            i.WriteToJson("MultiLayerTissue.txt");
+            var iCloned = FileIO.ReadFromJson<MultiLayerTissueInput>("MultiLayerTissue.txt");
 
             Assert.AreEqual(iCloned.Regions[1].RegionOP.Mus, i.Regions[1].RegionOP.Mus);
         }

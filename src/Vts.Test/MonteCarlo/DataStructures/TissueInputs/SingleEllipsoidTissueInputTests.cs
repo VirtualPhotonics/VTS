@@ -51,8 +51,8 @@ namespace Vts.Test.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 );
-            i.WriteToXML("SingleEllipsoidTissue.xml");
-            var iCloned = FileIO.ReadFromXML<SingleEllipsoidTissueInput>("SingleEllipsoidTissue.xml");
+            i.WriteToJson("SingleEllipsoidTissue.txt");
+            var iCloned = FileIO.ReadFromJson<SingleEllipsoidTissueInput>("SingleEllipsoidTissue.txt");
 
             Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
         }

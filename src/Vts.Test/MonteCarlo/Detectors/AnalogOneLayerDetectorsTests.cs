@@ -34,7 +34,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void execute_Monte_Carlo()
         {
             // make sure statistic file generated from previous tests are deleted
-            if (File.Exists("statistics.xml"))
+            if (File.Exists("statistics.txt"))
             {
                 File.Delete("statistics.xml");
             }

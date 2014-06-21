@@ -24,8 +24,8 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void validate_deserialized_class_is_correct_when_using_FileIO()
         {
-            new pMCROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToXML("test");
-            var iCloned = FileIO.ReadFromXML<pMCROfRhoDetectorInput>("test");
+            new pMCROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToJson("test");
+            var iCloned = FileIO.ReadFromJson<pMCROfRhoDetectorInput>("test");
 
             Assert.AreEqual(iCloned.Rho.Start, 10);
         }
