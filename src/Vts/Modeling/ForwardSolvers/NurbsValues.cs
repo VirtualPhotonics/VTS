@@ -52,7 +52,7 @@ namespace Vts.Modeling.ForwardSolvers
         #region constructor
 
         /// <summary>
-        /// Constructor to instantiate a class to write XML file.
+        /// Constructor to instantiate a class to write JSON file.
         /// </summary>
         /// <param name="valuesDimension">physical dimension, space or time</param>
         /// <param name="knots">knots vector</param>

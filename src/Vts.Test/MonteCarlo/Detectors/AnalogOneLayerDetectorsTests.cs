@@ -36,7 +36,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             // make sure statistic file generated from previous tests are deleted
             if (File.Exists("statistics.txt"))
             {
-                File.Delete("statistics.xml");
+                File.Delete("statistics.txt");
             }
            _input = new SimulationInput(
                 100,
@@ -109,7 +109,7 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             _output = new MonteCarloSimulation(_input).Run();
 
-            _simulationStatistics = SimulationStatistics.FromFile("statistics.xml");
+            _simulationStatistics = SimulationStatistics.FromFile("statistics.txt");
 
             _factor = 1.0 - Optics.Specular(
                             _input.TissueInput.Regions[0].RegionOP.N,

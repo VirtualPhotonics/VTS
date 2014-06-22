@@ -343,7 +343,7 @@ namespace Vts.MonteCarlo
 
             if (TrackStatistics)
             {             
-                _simulationStatistics.ToFile("statistics.xml");
+                _simulationStatistics.ToFile("statistics.txt");
             }
 
             stopwatch.Stop();

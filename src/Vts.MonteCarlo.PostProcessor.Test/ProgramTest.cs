@@ -12,13 +12,13 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         [TestFixtureSetUp]
         public void clear_folders_and_files()
         {
-            if (File.Exists("infile_PostProcessor_ROfRho.xml"))
+            if (File.Exists("infile_PostProcessor_ROfRho.txt"))
             {
-                File.Delete("infile_PostProcessor_ROfRho.xml");
+                File.Delete("infile_PostProcessor_ROfRho.txt");
             }
-            if (File.Exists("infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.xml"))
+            if (File.Exists("infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.txt"))
             {
-                File.Delete("infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.xml");
+                File.Delete("infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.txt");
             }
             if (Directory.Exists("PostProcessor_ROfRhoROfRho"))
             {
@@ -37,8 +37,8 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         {
             string[] arguments = new string[] {"geninfiles"};
             Program.Main(arguments);
-            Assert.IsTrue(File.Exists("infile_PostProcessor_ROfRho.xml"));
-            Assert.IsTrue(File.Exists("infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.xml"));
+            Assert.IsTrue(File.Exists("infile_PostProcessor_ROfRho.txt"));
+            Assert.IsTrue(File.Exists("infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.txt"));
         }        
         ///// <summary>
         ///// test to verify post-processor runs successfully.  NEED to determine way to
@@ -49,9 +49,9 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         //{
         //    var diffuseReflectanceDB = (PhotonDatabase)PhotonDatabase.FromFileInResources(
         //        "Vts.MonteCarlo.PostProcessor.Test/Resources/DiffuseReflectanceDatabase", "Vts.MonteCarlo.PostProcessor.Test");
-        //    string[] arguments = new string[] { "infile=infile_PostProcessor_ROfRho.xml" };
+        //    string[] arguments = new string[] { "infile=infile_PostProcessor_ROfRho.txt" };
         //    Program.Main(arguments);
-        //    Assert.IsTrue(File.Exists("infile_PostProcessor_ROfRho.xml"));
+        //    Assert.IsTrue(File.Exists("infile_PostProcessor_ROfRho.txt"));
         //}
     }
 }
