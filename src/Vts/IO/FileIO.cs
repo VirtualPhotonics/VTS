@@ -69,7 +69,7 @@ namespace Vts.IO
         {
             using (MemoryStream ms = new MemoryStream(1024))
             {
-                var dcs = new DataContractJsonSerializer(typeof(T));
+                var dcs = new DataContractSerializer(typeof(T));
                 dcs.WriteObject(ms, myObject);
                 ms.Seek(0, SeekOrigin.Begin);
                 return (T)dcs.ReadObject(ms);
