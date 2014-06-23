@@ -80,7 +80,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector.  Tally for Fluence(x,y,z).
     /// Note: this tally currently only works with discrete absorption weighting and analog
     /// </summary>
-    public class FluenceOfXAndYAndZDetector : Detector, IDetector
+    public class FluenceOfXAndYAndZDetector : Detector, IHistoryDetector
     {
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
