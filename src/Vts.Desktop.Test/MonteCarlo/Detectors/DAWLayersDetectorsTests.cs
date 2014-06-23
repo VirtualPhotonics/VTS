@@ -58,12 +58,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                      1); // start inside tissue
             var detectors =  new List<IDetectorInput>
                 {
-                    //new FluenceOfXAndYAndZDetectorInput()
-                    //{
-                    //    X = new DoubleRange(-10.0, 10.0, 101), 
-                    //    Y = new DoubleRange(-10.0, 10.0, 101),
-                    //    Z =  new DoubleRange(0.0, 10.0, 101)
-                    //},
+                    new FluenceOfXAndYAndZDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101), 
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        Z =  new DoubleRange(0.0, 10.0, 101)
+                    },
                     //new RDiffuseDetectorInput(),
                     //new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
                     new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true},
@@ -293,13 +293,13 @@ namespace Vts.Test.MonteCarlo.Detectors
         //    Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_rz[0, 0] * _factor - 39.4946472), 0.0000001);
         //    Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_rz[0, 0] * _factor - 39.4946472), 0.0000001);
         //}
-        //// Fluence Flu(x,y,z)
-        //[Test]
-        //public void validate_DAW_FluenceOfXAndYAndZ()
-        //{
-        //    Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyz[0, 0, 0] * _factor - 0.03656252), 0.0000001);
-        //    Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyz[0, 0, 0] * _factor - 0.03656252), 0.0000001);
-        //}
+        // Fluence Flu(x,y,z)
+        [Test]
+        public void validate_DAW_FluenceOfXAndYAndZ()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyz[0, 0, 0] * _factor - 0.03656252), 0.0000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyz[0, 0, 0] * _factor - 0.03656252), 0.0000001);
+        }
         //// Volume Radiance Rad(rho,z,angle)
         //// Verify integral over angle of Radiance equals Fluence
         //[Test]
