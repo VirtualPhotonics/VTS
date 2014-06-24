@@ -67,13 +67,8 @@ namespace Vts.IO
         /// <returns>A clone of the object</returns>
         public static T Clone<T>(this T myObject)
         {
-            using (MemoryStream ms = new MemoryStream(1024))
-            {
-                var dcs = new DataContractSerializer(typeof(T));
-                dcs.WriteObject(ms, myObject);
-                ms.Seek(0, SeekOrigin.Begin);
-                return (T)dcs.ReadObject(ms);
-            }
+            var serialized = VtsJsonSerializer.WriteToJson(myObject);
+            return VtsJsonSerializer.ReadFromJson<T>(serialized);
         }
 
         /// <summary>

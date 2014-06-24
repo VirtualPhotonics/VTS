@@ -29,7 +29,7 @@ namespace Vts.Test.MonteCarlo
                     }
                 );
 
-            var iCloned = Clone(i);
+            var iCloned = i.Clone();
 
             Assert.AreEqual(iCloned.Regions[1].RegionOP.Mus, i.Regions[1].RegionOP.Mus);
         }
@@ -55,17 +55,5 @@ namespace Vts.Test.MonteCarlo
 
             Assert.AreEqual(iCloned.Regions[1].RegionOP.Mus, i.Regions[1].RegionOP.Mus);
         }
-
-        private static T Clone<T>(T myObject)
-        {
-            using (MemoryStream ms = new MemoryStream(1024))
-            {
-                var dcs = new DataContractSerializer(typeof(T));
-                dcs.WriteObject(ms, myObject);
-                ms.Seek(0, SeekOrigin.Begin);
-                return (T)dcs.ReadObject(ms);
-            }
-        }
-
     }
 }

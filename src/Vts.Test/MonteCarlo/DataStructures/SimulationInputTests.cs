@@ -2,6 +2,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using NUnit.Framework;
+using Vts.IO;
 using Vts.MonteCarlo;
 
 namespace Vts.Test.MonteCarlo
@@ -14,7 +15,7 @@ namespace Vts.Test.MonteCarlo
         {
             var i = new SimulationInput { N = 10 };
 
-            var iCloned = Clone(i);
+            var iCloned = i.Clone();
 
             Assert.AreEqual(iCloned.N, 10);
         }
@@ -40,17 +41,6 @@ namespace Vts.Test.MonteCarlo
                 null
                 );
             Assert.IsTrue(si.DetectorInputs.Count == 0);
-        }
-
-        private static T Clone<T>(T myObject)
-        {
-            using (MemoryStream ms = new MemoryStream(1024))
-            {
-                var dcs = new DataContractSerializer(typeof(T));
-                dcs.WriteObject(ms, myObject);
-                ms.Seek(0, SeekOrigin.Begin);
-                return (T)dcs.ReadObject(ms);
-            }
         }
     }
 }

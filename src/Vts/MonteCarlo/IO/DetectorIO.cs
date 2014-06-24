@@ -34,11 +34,6 @@ namespace Vts.MonteCarlo.IO
                     FileIO.CreateDirectory(folderPath);
                 }
 
-                if (detector is IDetector<double>)
-                {
-                    var d = detector as IDetector<double>;
-                    FileIO.WriteToJson((RDiffuseDetector)d, filePath + ".txt");
-                }
                 if (detector is IDetector<double[]>)
                 {
                     var d = detector as IDetector<double[]>;
