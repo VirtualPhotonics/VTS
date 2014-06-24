@@ -672,8 +672,26 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
+      <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfAngleDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndTimeDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfRhoAndTimeDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Enums.cs">
       <Link>MonteCarlo\Enums.cs</Link>

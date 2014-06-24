@@ -1,7 +1,5 @@
 using System;
-using System.IO;
 using System.Runtime.Serialization;
-using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
@@ -22,7 +20,7 @@ namespace Vts.MonteCarlo.Detectors
             Name = "ROfRho";
             Rho = new DoubleRange(0.0, 10, 101);
 
-            // modfy base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsReflectanceTally = true;
             TallyDetails.IsCylindricalTally = true;
         }
@@ -49,8 +47,7 @@ namespace Vts.MonteCarlo.Detectors
     }
 
     /// <summary>
-    /// Implements IDetector.  Tally for reflectance as a function 
-    /// of Rho.
+    /// Implements IDetector.  Tally for reflectance as a function  of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     public class ROfRhoDetector : Detector, IDetector
@@ -125,7 +122,6 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
-
 
         // this is to allow saving of large arrays separately as a binary file
         public BinaryArraySerializer[] GetBinarySerializers()

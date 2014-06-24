@@ -237,6 +237,7 @@
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
+    <Compile Include="MonteCarlo\Detectors\CAWLayersDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\DAWLayersDetectorsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
