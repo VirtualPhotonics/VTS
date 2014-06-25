@@ -3,56 +3,74 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[]&gt;.  Tally for Surface Radiance as a function 
-    /// of Rho.
+    /// DetectorInput for Radiance(r) for internal surface detector
+    /// </summary>
+    public class RadianceOfRhoDetectorInput : DetectorInput, IDetectorInput
+    {
+        /// <summary>
+        /// constructor for radiance as a function of rho detector input
+        /// </summary>
+        public RadianceOfRhoDetectorInput()
+        {
+            TallyType = "RadianceOfRho";
+            Name = "RadianceOfRho";
+            Rho = new DoubleRange(0.0, 10, 101);
+            ZDepth = 3;
+
+            // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsInternalSurfaceTally = true;
+            TallyDetails.IsCylindricalTally = true;
+        }
+
+        /// <summary>
+        /// detector rho binning
+        /// </summary>
+        public DoubleRange Rho { get; set; }
+        /// <summary>
+        /// constant defining surface of tally
+        /// </summary>
+        public double ZDepth { get; set; }
+
+        public IDetector CreateDetector()
+        {
+            return new RadianceOfRhoDetector
+            {
+                // required properties (part of DetectorInput/Detector base classes)
+                TallyType = this.TallyType,
+                Name = this.Name,
+                TallySecondMoment = this.TallySecondMoment,
+                TallyDetails = this.TallyDetails,
+
+                // optional/custom detector-specific properties
+                Rho = this.Rho,
+                ZDepth = this.ZDepth
+            };
+        }
+    }
+
+    /// <summary>
+    /// Implements IDetector.  Tally for reflectance as a function  of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    [KnownType(typeof(RadianceOfRhoDetector))]
-    public class RadianceOfRhoDetector : IDetectorOld<double[]> 
+    public class RadianceOfRhoDetector : Detector, IDetector
     {
-        private bool _tallySecondMoment;
-
+        /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
+        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
-        /// constructor for surface radiance as a function of rho detector input
+        /// rho binning
         /// </summary>
-        /// <param name="zDepth">z constant defining surface of tally</param>
-        /// <param name="rho">rho binning</param>
-        /// <param name="tissue">tissue definition</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
-        /// <param name="name">detector name</param>
-        public RadianceOfRhoDetector(
-            double zDepth, 
-            DoubleRange rho, 
-            ITissue tissue,
-            bool tallySecondMoment, 
-            String name)
-        {
-            Rho = rho;
-            ZDepth = zDepth;
-            _tallySecondMoment = tallySecondMoment;
-            Mean = new double[Rho.Count - 1];
-            SecondMoment = null;
-            if (_tallySecondMoment)
-            {
-                SecondMoment = new double[Rho.Count - 1];
-            }
-            TallyType = "RadianceOfRho";
-            Name = name;
-            TallyCount = 0;
-        }
-
+        public DoubleRange Rho { get; set; }
         /// <summary>
-        ///  Returns a default instance of RadianceOfRhoDetector (for serialization purposes only)
+        /// constant defining surface of tally
         /// </summary>
-        public RadianceOfRhoDetector()
-            : this(10.0, new DoubleRange(), new MultiLayerTissue(), true, "RadianceOfRho")
-        {
-        }
+        public double ZDepth { get; set; }
+
+        /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
+        /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
         /// <summary>
         /// detector mean
         /// </summary>
@@ -64,26 +82,23 @@ namespace Vts.MonteCarlo.Detectors
         [IgnoreDataMember]
         public double[] SecondMoment { get; set; }
 
-        /// <summary>
-        /// detector identifier
-        /// </summary>
-        public string TallyType { get; set; }
-        /// <summary>
-        /// detector name, default uses TallyType, but can be user specified
-        /// </summary>
-        public String Name { get; set; }
+        /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
-        /// <summary>
-        /// rho binning
-        /// </summary>
-        public DoubleRange Rho { get; set; }
-        /// <summary>
-        /// z constant defining surface of tally
-        /// </summary>
-        public double ZDepth { get; set; }
+
+        public void Initialize(ITissue tissue)
+        {
+            // assign any user-defined outputs (except arrays...we'll make those on-demand)
+            TallyCount = 0;
+
+            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
+            Mean = Mean ?? new double[Rho.Count - 1];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1] : null);
+
+            // intialize any other necessary class fields here
+        }
 
         /// <summary>
         /// method to tally to detector
@@ -92,32 +107,73 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(Photon photon)
         {
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
-                
-            // update tally
+
             Mean[ir] += photon.DP.Weight / photon.DP.Direction.Uz;
-            if (_tallySecondMoment)
+            if (TallySecondMoment)
             {
                 SecondMoment[ir] += (photon.DP.Weight / photon.DP.Direction.Uz) * (photon.DP.Weight / photon.DP.Direction.Uz);
             }
             TallyCount++;
         }
-         
+
         /// <summary>
-        /// method to normalize detector results after numPhotons launched
+        /// method to normalize detector tally results
         /// </summary>
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
+            // normalization accounts for Rho.Start != 0
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
                 var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                 Mean[ir] /= areaNorm * numPhotons;
-                if (_tallySecondMoment)
+                if (TallySecondMoment)
                 {
                     SecondMoment[ir] /= areaNorm * areaNorm * numPhotons;
                 }
             }
+        }
+
+        // this is to allow saving of large arrays separately as a binary file
+        public BinaryArraySerializer[] GetBinarySerializers()
+        {
+            return new[] {
+                new BinaryArraySerializer {
+                    DataArray = Mean,
+                    Name = "Mean",
+                    FileTag = "",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            binaryWriter.Write(Mean[i]);
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        Mean = Mean ?? new double[ Rho.Count - 1];
+                        for (int i = 0; i <  Rho.Count - 1; i++) {
+                            Mean[i] = binaryReader.ReadDouble();
+                        }
+                    }
+                },
+                new BinaryArraySerializer {
+                    DataArray = SecondMoment,
+                    Name = "SecondMoment",
+                    FileTag = "_2",
+                    WriteData = binaryWriter => {
+                        if(!TallySecondMoment) return;
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            binaryWriter.Write(SecondMoment[i]);
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        if(!TallySecondMoment) return;
+                        SecondMoment = SecondMoment ?? new double[ Rho.Count - 1];
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            SecondMoment[i] = binaryReader.ReadDouble();
+			            }
+                    },
+                },
+            };
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// DetectorInput for R(r)
+    /// DetectorInput for reflectance as a function of angle
     /// </summary>
     public class ROfAngleDetectorInput : DetectorInput, IDetectorInput
     {

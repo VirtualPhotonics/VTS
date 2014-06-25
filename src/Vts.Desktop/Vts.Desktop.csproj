@@ -669,14 +669,35 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInput.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\AOfRhoAndZDetector.cs">
+      <Link>MonteCarlo\Detectors\AOfRhoAndZDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs">
+      <Link>MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoDetector.cs">
+      <Link>MonteCarlo\Detectors\RadianceOfRhoDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs">
+      <Link>MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfFxDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs</Link>
@@ -692,6 +713,15 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\ROfXAndYDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TOfAngleDetector.cs">
+      <Link>MonteCarlo\Detectors\TOfAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs">
+      <Link>MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TOfRhoDetector.cs">
+      <Link>MonteCarlo\Detectors\TOfRhoDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Enums.cs">
       <Link>MonteCarlo\Enums.cs</Link>

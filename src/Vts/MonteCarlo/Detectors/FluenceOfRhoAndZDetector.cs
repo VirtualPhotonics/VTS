@@ -1,75 +1,79 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Linq;
 using Vts.Common;
-using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IHistoryDetector&lt;double[,]&gt;.  Tally for Fluence(rho,z).
-    /// Note: this tally currently only works with discrete absorption weighting
+    /// Tally for fluence as a function of Rho and Z.
+    /// This works for Analog and DAW processing.
     /// </summary>
-    [KnownType(typeof(FluenceOfRhoAndZDetector))]
-    public class FluenceOfRhoAndZDetector : IHistoryDetector<double[,]>
+    public class FluenceOfRhoAndZDetectorInput : DetectorInput, IDetectorInput
     {
-        //private Func<double, double, double, double, PhotonStateType, double> _absorbAction;
-
-        private ITissue _tissue;
-        private bool _tallySecondMoment;
-        private IList<OpticalProperties> _ops;
-        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
-
         /// <summary>
-        /// Returns an instance of FluenceOfRhoAndZDetector
+        /// constructor for fluence as a function of rho and Z detector input
         /// </summary>
-        /// <param name="rho">rho binning</param>
-        /// <param name="z">z binning</param>
-        /// <param name="tissue">tissue</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
-        /// <param name="name">detector name</param>
-        public FluenceOfRhoAndZDetector(
-            DoubleRange rho,
-            DoubleRange z,
-            ITissue tissue,
-            bool tallySecondMoment,
-            String name
-            )
+        public FluenceOfRhoAndZDetectorInput()
         {
-            Rho = rho;
-            Z = z;
-            _tallySecondMoment = tallySecondMoment;
-            Mean = new double[Rho.Count - 1, Z.Count - 1];
-            SecondMoment = null;
-            if (_tallySecondMoment)
-            {
-                SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
-            }
             TallyType = "FluenceOfRhoAndZ";
-            Name = name;
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
+            Name = "FluenceOfRhoAndZ";
+            Rho = new DoubleRange(0.0, 10, 101);
+            Z = new DoubleRange(0.0, 10, 101);
 
-            TallyCount = 0;
-            _tissue = tissue;
-            _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
+            // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsVolumeTally = true;
+            TallyDetails.IsCylindricalTally = true;
+            TallyDetails.IsNotImplementedForCAW = true;
         }
 
         /// <summary>
-        /// Returns an instance of FluenceOfRhoAndZDetector (for serialization purposes only)
+        /// rho binning
         /// </summary>
-        public FluenceOfRhoAndZDetector()
-            : this(
-            new DoubleRange(),
-            new DoubleRange(),
-            new MultiLayerTissue(),
-            true, // tally SecondMoment
-            "FluenceOfRhoAndZ")
-        {
-        }
+        public DoubleRange Rho { get; set; }
+        /// <summary>
+        /// Z binning
+        /// </summary>
+        public DoubleRange Z { get; set; }
 
+        public IDetector CreateDetector()
+        {
+            return new FluenceOfRhoAndZDetector
+            {
+                // required properties (part of DetectorInput/Detector base classes)
+                TallyType = this.TallyType,
+                Name = this.Name,
+                TallySecondMoment = this.TallySecondMoment,
+                TallyDetails = this.TallyDetails,
+
+                // optional/custom detector-specific properties
+                Rho = this.Rho,
+                Z = this.Z
+            };
+        }
+    }
+    /// <summary>
+    /// Implements IDetector.  Tally for reflectance as a function  of Rho and Z.
+    /// This implementation works for Analog, DAW and CAW processing.
+    /// </summary>
+    public class FluenceOfRhoAndZDetector : Detector, IHistoryDetector
+    {
+        /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
+        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
+        /// <summary>
+        /// rho binning
+        /// </summary>
+        public DoubleRange Rho { get; set; }
+        /// <summary>
+        /// Z binning
+        /// </summary>
+        public DoubleRange Z { get; set; }
+
+        /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
+        /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
         /// <summary>
         /// detector mean
         /// </summary>
@@ -81,26 +85,30 @@ namespace Vts.MonteCarlo.Detectors
         [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
 
+        /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
-        /// detector identifier
-        /// </summary>
-        public string TallyType { get; set; }
-        /// <summary>
-        /// detector name
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// number of times detector gets tallied to
+        /// number of Zs detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
-        /// <summary>
-        /// rho binning
-        /// </summary>
-        public DoubleRange Rho { get; set; }
-        /// <summary>
-        /// z binning
-        /// </summary>
-        public DoubleRange Z { get; set; }
+
+        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
+        private ITissue _tissue;
+        private IList<OpticalProperties> _ops;
+
+        public void Initialize(ITissue tissue)
+        {
+            // assign any user-defined outputs (except arrays...we'll make those on-demand)
+            TallyCount = 0;
+
+            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
+            Mean = Mean ?? new double[Rho.Count - 1, Z.Count - 1];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, Z.Count - 1] : null);
+
+            // intialize any other necessary class fields here
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
+            _tissue = tissue;
+            _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
+        }
 
         /// <summary>
         /// method to tally given two consecutive photon data points
@@ -117,17 +125,16 @@ namespace Vts.MonteCarlo.Detectors
 
             var regionIndex = currentRegionIndex;
 
-            if (weight != 0.0) // if weight = 0.0, then pseudo-collision and no tally
+            if (weight != 0.0)
             {
                 Mean[ir, iz] += weight / _ops[regionIndex].Mua;
-                if (_tallySecondMoment)
+                if (TallySecondMoment)
                 {
                     SecondMoment[ir, iz] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
                 }
                 TallyCount++;
             }
         }
-
         /// <summary>
         /// method to tally to detector
         /// </summary>
@@ -143,9 +150,9 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         /// <summary>
-        /// Method to normalize the tally to get Mean and Second Moment estimates
+        /// method to normalize detector results after all photons launched
         /// </summary>
-        /// <param name="numPhotons">Number of photons launched</param>
+        /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Z.Delta;
@@ -155,14 +162,65 @@ namespace Vts.MonteCarlo.Detectors
                 {
                     var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                     Mean[ir, iz] /= areaNorm * numPhotons;
-                    if (_tallySecondMoment)
+                    if (TallySecondMoment)
                     {
                         SecondMoment[ir, iz] /= areaNorm * areaNorm * numPhotons;
                     }
                 }
             }
         }
-
+        // this is to allow saving of large arrays separately as a binary file
+        public BinaryArraySerializer[] GetBinarySerializers()
+        {
+            return new[] {
+                new BinaryArraySerializer {
+                    DataArray = Mean,
+                    Name = "Mean",
+                    FileTag = "",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            for (int j = 0; j < Z.Count - 1; j++)
+                            {                                
+                                binaryWriter.Write(Mean[i, j]);
+                            }
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        Mean = Mean ?? new double[ Rho.Count - 1, Z.Count - 1];
+                        for (int i = 0; i <  Rho.Count - 1; i++) {
+                            for (int j = 0; j < Z.Count - 1; j++)
+                            {
+                               Mean[i, j] = binaryReader.ReadDouble(); 
+                            }
+                        }
+                    }
+                },
+                new BinaryArraySerializer {
+                    DataArray = SecondMoment,
+                    Name = "SecondMoment",
+                    FileTag = "_2",
+                    WriteData = binaryWriter => {
+                        if(!TallySecondMoment) return;
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            for (int j = 0; j < Z.Count - 1; j++)
+                            {
+                                binaryWriter.Write(SecondMoment[i, j]);
+                            }                            
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        if(!TallySecondMoment) return;
+                        SecondMoment = SecondMoment ?? new double[ Rho.Count - 1, Z.Count - 1];
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            for (int j = 0; j < Z.Count - 1; j++)
+                            {
+                                SecondMoment[i, j] = binaryReader.ReadDouble();
+                            }                       
+			            }
+                    },
+                },
+            };
+        }
         /// <summary>
         /// Method to determine if photon is within detector
         /// </summary>
@@ -170,7 +228,9 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
-            return true;
+            return true; // or, possibly test for NA or confined position, etc
+            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
+
     }
 }

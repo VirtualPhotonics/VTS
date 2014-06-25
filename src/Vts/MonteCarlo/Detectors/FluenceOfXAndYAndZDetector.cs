@@ -5,7 +5,6 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -17,10 +16,6 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// constructor for fluence as a function of x, y and z detector input
         /// </summary>
-        /// <param name="x">x binning</param>
-        /// <param name="y">y binning</param>
-        /// <param name="z">z binning</param>
-        /// <param name="name">detector name</param>
         public FluenceOfXAndYAndZDetectorInput()
         {
             TallyType = "FluenceOfXAndYAndZ";
@@ -31,6 +26,7 @@ namespace Vts.MonteCarlo.Detectors
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsVolumeTally = true;
+            TallyDetails.IsNotImplementedForCAW = true;
         }
 
         /// <summary>
@@ -173,36 +169,6 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            if (photonStateType.HasFlag(PhotonStateType.Absorbed))
-            {
-                weight = previousWeight;
-            }
-            else
-            {
-                weight = 0.0;
-            }
-            return weight;
-        }
-
-        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            if (previousWeight == weight) // pseudo collision, so no tally
-            {
-                weight = 0.0;
-            }
-            else
-            {
-                weight = previousWeight * mua / (mua + mus);
-            }
-            return weight;
-        }
-
-        private double AbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            throw new NotImplementedException();
-        }
         /// <summary>
         /// method to normalize detector results after numPhotons launched
         /// </summary>
