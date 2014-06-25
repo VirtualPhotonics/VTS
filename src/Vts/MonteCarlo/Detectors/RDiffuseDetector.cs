@@ -118,7 +118,7 @@ namespace Vts.MonteCarlo.Detectors
                     WriteData = binaryWriter => { binaryWriter.Write(Mean);
                     },
                     ReadData = binaryReader => {
-                        //Mean = Mean ?? new double();
+                        //Mean = Mean ?? new double[1];
                         Mean = binaryReader.ReadDouble();
                     }
                 },

@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Detectors
     public class RadianceOfRhoAndZAndAngleDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
-        /// constructor for fluence as a function of rho and Z detector input
+        /// constructor for radiance as a function of rho, z and angle detector input
         /// </summary>
         public RadianceOfRhoAndZAndAngleDetectorInput()
         {
@@ -28,6 +28,7 @@ namespace Vts.MonteCarlo.Detectors
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsVolumeTally = true;
             TallyDetails.IsCylindricalTally = true;
+            TallyDetails.IsInternalSurfaceTally = true;
             TallyDetails.IsNotImplementedForCAW = true;
         }
 

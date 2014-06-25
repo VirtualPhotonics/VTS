@@ -237,6 +237,7 @@
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
+    <Compile Include="MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\CAWLayersDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\DAWLayersDetectorsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -277,7 +278,7 @@
     <Content Include="App_Readme\MathNet.Numerics.readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="MonteCarlo\Sources\packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

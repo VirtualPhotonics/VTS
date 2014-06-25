@@ -1,67 +1,110 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
-using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double&gt;.  Tally for Total Absorption.
+    /// Tally for total absorption.
+    /// This implementation works for Analog, DAW and CAW.
     /// </summary>
-    [KnownType(typeof(ATotalDetector))]
-    public class ATotalDetector : IHistoryDetector
+    public class ATotalDetectorInput : DetectorInput, IDetectorInput
     {
-        private ITissue _tissue;
-        private bool _tallySecondMoment;
-        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
-
         /// <summary>
         /// constructor for total absorption detector input
         /// </summary>
-        /// <param name="tissue">tissue definition</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
-        /// <param name="name">detector name</param>
-        public ATotalDetector(ITissue tissue, bool tallySecondMoment, String name)
+        public ATotalDetectorInput()
         {
             TallyType = "ATotal";
-            Name = name;
-            TallyCount = 0;
-            _tissue = tissue;
-            _tallySecondMoment = tallySecondMoment;
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
+            Name = "ATotal";
+
+            // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsVolumeTally = true;
         }
 
-        /// <summary>
-        /// Returns a default instance of ATotalDetector (for serialization purposes only)
-        /// </summary>
-        public ATotalDetector()
-            : this(new MultiLayerTissue(), true, "ATotal")
+        public IDetector CreateDetector()
         {
+            return new ROfRhoDetector
+            {
+                // required properties (part of DetectorInput/Detector base classes)
+                TallyType = this.TallyType,
+                Name = this.Name,
+                TallySecondMoment = this.TallySecondMoment,
+                TallyDetails = this.TallyDetails,
+
+                // optional/custom detector-specific properties
+            };
         }
+    }
+
+    /// <summary>
+    /// Implements IDetector.  Tally for diffuse reflectance.
+    /// This implementation works for Analog, DAW and CAW processing.
+    /// </summary>
+    public class ATotalDetector : Detector, IHistoryDetector
+    {
+        /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
+        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
+
+        /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
+        /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
         /// <summary>
         /// detector mean
         /// </summary>
+        [IgnoreDataMember]
         public double Mean { get; set; }
         /// <summary>
         /// detector second moment
         /// </summary>
+        [IgnoreDataMember]
         public double SecondMoment { get; set; }
-        /// <summary>
-        /// detector identifier
-        /// </summary>
-        public string TallyType { get; set; }
-        /// <summary>
-        /// detector name, default uses TallyType, but can be user specified
-        /// </summary>
-        public string Name { get; set; }
+
+        /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
+
+        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
+        private ITissue _tissue;
+        private IList<OpticalProperties> _ops;
+
+        public void Initialize(ITissue tissue)
+        {
+            // assign any user-defined outputs (except arrays...we'll make those on-demand)
+            TallyCount = 0;
+
+            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
+            //Mean = Mean ?? new double();
+            //SecondMoment = SecondMoment ?? (TallySecondMoment ? new double() : null);
+            Mean = new double();
+            if (TallySecondMoment)
+            {
+                SecondMoment = new double();
+            }
+
+            // intialize any other necessary class fields here
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
+            _tissue = tissue;
+            _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
+        }
+
+        public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
+        {
+            var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
+
+            if (weight != 0.0)
+            {
+                Mean += weight;
+                if (TallySecondMoment)
+                {
+                    SecondMoment += weight*weight;
+                }
+                TallyCount++;
+            }
+        }
 
         /// <summary>
         /// method to tally to detector
@@ -78,47 +121,56 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         /// <summary>
-        /// method to tally to detector given two consecutive photon data points
-        /// </summary>
-        /// <param name="previousDP">previous photon data point</param>
-        /// <param name="dp">current photon data point</param>
-        /// <param name="currentRegionIndex">index of region photon is currently in</param>
-        public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
-        {
-            var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
-
-            if (weight != 0.0)
-            {
-                Mean += weight;
-                if (_tallySecondMoment)
-                {
-                    SecondMoment += weight * weight;
-                }
-                TallyCount++;
-            }
-        }
-
-        /// <summary>
-        /// method to normalize detector tally results
+        /// method to normalize detector results after numPhotons are launched
         /// </summary>
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;
-            if (_tallySecondMoment)
+            if (TallySecondMoment)
             {
                 SecondMoment /= numPhotons;
             }
         }
 
+        // this is to allow saving of large arrays separately as a binary file
+        // NEED TO ASK DC if writing double to binary is to be done or rather write to json should be done
+        public BinaryArraySerializer[] GetBinarySerializers()
+        {
+            return new[] {
+                new BinaryArraySerializer {
+                    Name = "Mean",
+                    FileTag = "",
+                    WriteData = binaryWriter => { binaryWriter.Write(Mean);
+                    },
+                    ReadData = binaryReader => {
+                        //Mean = Mean ?? new double[1];
+                        Mean = binaryReader.ReadDouble();
+                    }
+                },
+                new BinaryArraySerializer {
+                    Name = "SecondMoment",
+                    FileTag = "_2",
+                    WriteData = binaryWriter => {
+                        if(!TallySecondMoment) return;
+                        binaryWriter.Write(SecondMoment);
+                    },
+                    ReadData = binaryReader => {
+                        if(!TallySecondMoment) return;
+                        //SecondMoment = SecondMoment ?? new double();
+                        SecondMoment = binaryReader.ReadDouble();
+                    },
+                },
+            };
+        }
         /// <summary>
-        /// method to determine if photon within detector
+        /// Method to determine if photon is within detector
         /// </summary>
         /// <param name="dp">photon data point</param>
-        /// <returns>this method always returns true</returns>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
-            return true;
+            return true; // or, possibly test for NA or confined position, etc
         }
     }
 }
