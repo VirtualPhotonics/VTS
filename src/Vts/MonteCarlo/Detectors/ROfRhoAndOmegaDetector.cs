@@ -159,8 +159,9 @@ namespace Vts.MonteCarlo.Detectors
                     WriteData = binaryWriter => {
                         for (int i = 0; i < Rho.Count - 1; i++) {
                             for (int j = 0; j < Omega.Count - 1; j++)
-                            {                                
-                                //binaryWriter.Write(Mean[i, j]);
+                            {
+                                binaryWriter.Write(Mean[i, j].Real);
+                                binaryWriter.Write(Mean[i, j].Imaginary);
                             }
                         }
                     },
@@ -169,7 +170,9 @@ namespace Vts.MonteCarlo.Detectors
                         for (int i = 0; i <  Rho.Count - 1; i++) {
                             for (int j = 0; j < Omega.Count - 1; j++)
                             {
-                               Mean[i, j] = binaryReader.ReadDouble(); 
+                                var real = binaryReader.ReadDouble();
+                                var imag = binaryReader.ReadDouble();
+                                Mean[i, j] = new Complex(real, imag);
                             }
                         }
                     }
@@ -183,7 +186,8 @@ namespace Vts.MonteCarlo.Detectors
                         for (int i = 0; i < Rho.Count - 1; i++) {
                             for (int j = 0; j < Omega.Count - 1; j++)
                             {
-                                //binaryWriter.Write(SecondMoment[i, j]);
+                                binaryWriter.Write(SecondMoment[i, j].Real);
+                                binaryWriter.Write(SecondMoment[i, j].Imaginary);
                             }                            
                         }
                     },
@@ -193,7 +197,9 @@ namespace Vts.MonteCarlo.Detectors
                         for (int i = 0; i < Rho.Count - 1; i++) {
                             for (int j = 0; j < Omega.Count - 1; j++)
                             {
-                                SecondMoment[i, j] = binaryReader.ReadDouble();
+                                var real = binaryReader.ReadDouble();
+                                var imag = binaryReader.ReadDouble();
+                                SecondMoment[i, j] = new Complex(real, imag);
                             }                       
 			            }
                     },

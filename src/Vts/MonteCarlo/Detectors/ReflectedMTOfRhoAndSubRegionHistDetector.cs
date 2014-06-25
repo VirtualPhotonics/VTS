@@ -26,8 +26,7 @@ namespace Vts.MonteCarlo.Detectors
             // NEED TO ASK DC: how do I get tissue in this default constructor?
             //SubregionIndices = new IntRange(0, _tissue.Regions.Count - 1, _tissue.Regions.Count); // needed for DetectorIO
             MTBins = new DoubleRange(0.0, 500.0, 51);
-            FractionalMT =
-                new double[Rho.Count - 1, MTBins.Count - 1, SubregionIndices.Count, FractionalMTBins.Count - 1];
+            //NumSubregions = 3;
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsVolumeTally = true;
@@ -39,10 +38,10 @@ namespace Vts.MonteCarlo.Detectors
         /// rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
-        /// <summary>
-        /// subregion index binning, needed by DetectorIO
-        /// </summary>
-        public IntRange SubregionIndices { get; set; }
+        ///// <summary>
+        ///// subregion index binning, needed by DetectorIO
+        ///// </summary>
+        //public int NumSubregions { get; set; }
         /// <summary>
         /// momentum transfer binning
         /// </summary>
@@ -52,12 +51,7 @@ namespace Vts.MonteCarlo.Detectors
         /// fractional momentum transfer binning
         /// </summary>
         public DoubleRange FractionalMTBins { get; set; }
-
-        /// <summary>
-        /// fraction of MT spent in each subregion
-        /// </summary>
-        public double[,,,] FractionalMT { get; set; }
-
+        
         public IDetector CreateDetector()
         {
             return new ReflectedMTOfRhoAndSubregionHistDetector
@@ -70,28 +64,29 @@ namespace Vts.MonteCarlo.Detectors
 
                 // optional/custom detector-specific properties
                 Rho = this.Rho,
-                SubregionIndices = this.SubregionIndices,
+                //NumSubregions = this.NumSubregions,
                 MTBins = this.MTBins,
                 FractionalMTBins = this.FractionalMTBins
             };
         }
     }
+
     /// <summary>
     /// Implements IDetector.  Tally for momentum transfer as a function  of Rho and tissue subregion.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     public class ReflectedMTOfRhoAndSubregionHistDetector : Detector, IDetector
     {
+        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
+        private ITissue _tissue;
+        private IList<OpticalProperties> _ops;
+
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
         /// rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
-        /// <summary>
-        /// Z binning
-        /// </summary>
-        public IntRange SubregionIndices { get; set; }
         /// <summary>
         /// momentum transfer binning
         /// </summary>
@@ -126,25 +121,26 @@ namespace Vts.MonteCarlo.Detectors
         /// number of Zs detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
-
-        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
-        private ITissue _tissue;
-        private IList<OpticalProperties> _ops;
+        /// <summary>
+        /// Z binning
+        /// </summary>
+        public int NumSubregions { get; set; }
 
         public void Initialize(ITissue tissue)
         {
+            // intialize any necessary class fields here
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
+            _tissue = tissue;
+            _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
+
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;
+            NumSubregions = _tissue.Regions.Count;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
             Mean = Mean ?? new double[Rho.Count - 1, MTBins.Count - 1];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, MTBins.Count - 1] : null);
-            FractionalMT = FractionalMT ?? new double[Rho.Count - 1, MTBins.Count - 1, SubregionIndices.Count -1, FractionalMTBins.Count - 1];
-
-            // intialize any other necessary class fields here
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
-            _tissue = tissue;
-            _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
+            FractionalMT = FractionalMT ?? new double[Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count - 1];
         }
 
         /// <summary>
@@ -155,7 +151,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             // calculate the radial bin to attribute the deposition
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
-            var subregionMT = new double[SubregionIndices.Count];
+            var subregionMT = new double[NumSubregions];
             bool talliedMT = false;
 
             // go through photon history and claculate momentum transfer
@@ -188,15 +184,13 @@ namespace Vts.MonteCarlo.Detectors
                 if (talliedMT) TallyCount++;
 
                 // tally fractional MT in each subregion
-                for (int isr = 0; isr < SubregionIndices.Count; isr++)
+                for (int isr = 0; isr < NumSubregions; isr++)
                 {
                     var ifrac = DetectorBinning.WhichBin(subregionMT[isr] / totalMT,
                                                          FractionalMTBins.Count - 1, FractionalMTBins.Delta, FractionalMTBins.Start);
                     FractionalMT[ir, imt, isr, ifrac] += photon.DP.Weight;
                 }
             }
-            
-
         }
 
         /// <summary>
@@ -217,7 +211,7 @@ namespace Vts.MonteCarlo.Detectors
                     {
                         SecondMoment[ir, imt] /= areaNorm * areaNorm * numPhotons;
                     }
-                    for (int isr = 0; isr < SubregionIndices.Count; isr++)
+                    for (int isr = 0; isr < NumSubregions; isr++)
                     {
                         for (int ifrac = 0; ifrac < FractionalMTBins.Count - 1; ifrac++)
                         {

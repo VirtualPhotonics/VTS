@@ -144,6 +144,11 @@ namespace Vts.MonteCarlo.IO
 
                 FileIO.WriteToJson(detector, filePath + ".txt");
                 var binaryArraySerializers = detector.GetBinarySerializers();
+                if (binaryArraySerializers == null)
+                {
+                    return;
+                }
+
                 foreach (var binaryArraySerializer in binaryArraySerializers)
                 {
                     // Create a file to write binary data 
@@ -385,6 +390,12 @@ namespace Vts.MonteCarlo.IO
                 var detector = FileIO.ReadFromJson<IDetector>(filePath + ".txt");
 
                 var binaryArraySerializers = detector.GetBinarySerializers();
+
+                if (binaryArraySerializers == null)
+                {
+                    return detector;
+                }
+
                 foreach (var binaryArraySerializer in binaryArraySerializers)
                 {
                     using ( Stream s = StreamFinder.GetFileStream(filePath + binaryArraySerializer.FileTag, FileMode.Open))
@@ -395,6 +406,8 @@ namespace Vts.MonteCarlo.IO
                         }
                     }
                 }
+
+                return detector;
                 //switch (tallyType)
                 //{
                 //    // "0D" detectors
