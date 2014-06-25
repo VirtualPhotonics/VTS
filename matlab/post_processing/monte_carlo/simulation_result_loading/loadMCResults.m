@@ -8,6 +8,8 @@ postProcessorResults = false;
 if (exist([datadir slash dataname '_database_infile.xml'],'file'))
     postProcessorResults = true;
     databaseInputXml = xml_load([datadir slash dataname '_database_infile.xml']);
+    vtsjson = textread([datadir slash dataname '_database_infile.txt'], '%s',  'whitespace', '');
+    databaseInputJson = vtsjson{1};
 end
 numDetectors = length(xml.DetectorInputs);
 for di = 1:numDetectors
