@@ -79,7 +79,7 @@ namespace Vts.MonteCarlo.PostProcessor
 
             SimulationOutput postProcessedOutput = null;
 
-            var databaseGenerationInputFile = SimulationInput.FromJsonFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".txt"));
+            var databaseGenerationInputFile = SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".txt"));
             // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
 
             // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
@@ -148,7 +148,7 @@ namespace Vts.MonteCarlo.PostProcessor
             input.ToFile(resultsFolder + "\\" + input.OutputName + ".txt");
 
             // save database generation input file to output folder
-            databaseGenerationInputFile.ToJsonFile(resultsFolder + "\\" + input.OutputName + "_database_infile.txt");
+            databaseGenerationInputFile.ToFile(resultsFolder + "\\" + input.OutputName + "_database_infile.txt");
 
             if (postProcessedOutput != null)
             {

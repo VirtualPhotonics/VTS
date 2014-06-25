@@ -23,8 +23,8 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void validate_deserialized_class_is_correct_when_using_FileIO()
         {
-            new SimulationInput { N = 10 }.ToJsonFile("test.txt");
-            var iCloned = SimulationInput.FromJsonFile("test.txt");
+            new SimulationInput { N = 10 }.ToFile("test.txt");
+            var iCloned = SimulationInput.FromFile("test.txt");
 
             Assert.AreEqual(iCloned.N, 10);
         }

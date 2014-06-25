@@ -35,10 +35,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
                 if (File.Exists(fullFilePath))
                 {
-                    return SimulationInput.FromJsonFile(fullFilePath);       
+                    return SimulationInput.FromFile(fullFilePath);       
                 }
 
-                return SimulationInput.FromJsonFile(fullFilePath + ".txt");
+                return SimulationInput.FromFile(fullFilePath + ".txt");
          
                 //throw a file not found exception
                 throw new FileNotFoundException("\nThe following input file could not be found: " + fullFilePath + " - type mc help=infile for correct syntax");
@@ -152,7 +152,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             SimulationOutput detectorResults = mc.Run();
 
             // write to json check with DC if we should write to both, same question for MCSolverVM
-            input.ToJsonFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
+            input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
 
             foreach (var result in detectorResults.ResultsDictionary.Values)
             {

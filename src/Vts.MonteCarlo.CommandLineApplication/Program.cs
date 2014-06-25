@@ -244,7 +244,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             var infiles = SimulationInputProvider.GenerateAllSimulationInputs();
             for (int i = 0; i < infiles.Count; i++)
             {
-                infiles[i].ToJsonFile("infile_" + infiles[i].OutputName + ".txt"); // write json to .txt files
+                infiles[i].ToFile("infile_" + infiles[i].OutputName + ".txt"); // write json to .txt files
             }
             //var sources = SourceInputProvider.GenerateAllSourceInputs();
             //sources.WriteToJson("infile_source_options_test.txt");

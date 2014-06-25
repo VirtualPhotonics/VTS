@@ -57,7 +57,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                 );
 
             SimulationOutput output = new MonteCarloSimulation(input).Run();
-            input.ToJsonFile("infile.txt");
+            input.ToFile("infile.txt");
 
             // the following gets are R(rho,time) for scaled.
             //var rOfRhoAndTime = output.ResultsDictionary[TallyType.ROfRhoAndTime.ToString()];

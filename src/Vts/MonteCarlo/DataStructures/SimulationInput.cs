@@ -112,7 +112,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="filename">string filename of file to be read</param>
         /// <returns>SimulationInput</returns>
-        public static SimulationInput FromJsonFile(string filename)
+        public static SimulationInput FromFile(string filename)
         {
             return VtsJsonSerializer.ReadFromJsonFile<SimulationInput>(filename);
         }
@@ -120,7 +120,7 @@ namespace Vts.MonteCarlo
         /// Method to write SimulationInput to file
         /// </summary>
         /// <param name="filename">string filename to write to</param>
-        public void ToJsonFile(string filename)
+        public void ToFile(string filename)
         {
             VtsJsonSerializer.WriteToJsonFile(this, filename);
         }
