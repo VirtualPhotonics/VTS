@@ -25,11 +25,11 @@ namespace Vts.MonteCarlo.Detectors
             Rho = new DoubleRange(0.0, 10, 101);
             // NEED TO ASK DC: how do I get tissue in this default constructor?
             //SubregionIndices = new IntRange(0, _tissue.Regions.Count - 1, _tissue.Regions.Count); // needed for DetectorIO
-            MTBins = new DoubleRange(0.0, 500.0, 51);
             //NumSubregions = 3;
+            MTBins = new DoubleRange(0.0, 500.0, 51);
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsVolumeTally = true;
+            TallyDetails.IsReflectanceTally = true;
             TallyDetails.IsCylindricalTally = true;
             TallyDetails.IsNotImplementedForCAW = true;
         }
@@ -179,7 +179,10 @@ namespace Vts.MonteCarlo.Detectors
             {
                 var imt = DetectorBinning.WhichBin(totalMT, MTBins.Count - 1, MTBins.Delta, MTBins.Start);
                 Mean[ir, imt] += photon.DP.Weight;
-                SecondMoment[ir, imt] += photon.DP.Weight * photon.DP.Weight;
+                if (TallySecondMoment)
+                {
+                    SecondMoment[ir, imt] += photon.DP.Weight * photon.DP.Weight;                    
+                }
 
                 if (talliedMT) TallyCount++;
 

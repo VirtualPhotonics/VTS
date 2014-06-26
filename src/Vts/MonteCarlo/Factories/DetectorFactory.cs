@@ -51,8 +51,8 @@ namespace Vts.MonteCarlo.Factories
         }
         
         /// <summary>
-        /// Method to instantiate all detectors given list of IDetectorInputs.  This method calls
-        /// the method below that instantiates a single detector.
+        /// Method to instantiate a single IDetectorInput.  This method is called by
+        /// the method below that instantiates a list of detectors.
         /// </summary>
         /// <param name="detectorInputs">IEnumerable of IDetectorInput</param>
         /// <param name="tissue">ITissue</param>

@@ -65,11 +65,15 @@ namespace Vts.MonteCarlo.Detectors
         }
     }
     /// <summary>
-    /// Implements IDetector.  Tally for reflectance as a function  of Rho and Z.
-    /// This implementation works for Analog, DAW and CAW processing.
+    /// Implements IDetector.  Tally for radiance as a function  of Rho and Z and Angle.
+    /// This implementation works for Analog, DAW processing.
     /// </summary>
     public class RadianceOfRhoAndZAndAngleDetector : Detector, IHistoryDetector
     {
+        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
+        private ITissue _tissue;
+        private IList<OpticalProperties> _ops;
+
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
@@ -103,10 +107,6 @@ namespace Vts.MonteCarlo.Detectors
         /// number of Zs detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
-
-        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
-        private ITissue _tissue;
-        private IList<OpticalProperties> _ops;
 
         public void Initialize(ITissue tissue)
         {

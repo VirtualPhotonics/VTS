@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public IDetector CreateDetector()
         {
-            return new ROfRhoDetector
+            return new ATotalDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -40,8 +40,8 @@ namespace Vts.MonteCarlo.Detectors
     }
 
     /// <summary>
-    /// Implements IDetector.  Tally for diffuse reflectance.
-    /// This implementation works for Analog, DAW and CAW processing.
+    /// Implements IDetector.  Tally for total absorbed energy.
+    /// This implementation works for Analog, DAW processing.
     /// </summary>
     public class ATotalDetector : Detector, IHistoryDetector
     {
@@ -53,12 +53,10 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector mean
         /// </summary>
-        [IgnoreDataMember]
         public double Mean { get; set; }
         /// <summary>
         /// detector second moment
         /// </summary>
-        [IgnoreDataMember]
         public double SecondMoment { get; set; }
 
         /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
@@ -133,35 +131,10 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        // this is to allow saving of large arrays separately as a binary file
-        // NEED TO ASK DC if writing double to binary is to be done or rather write to json should be done
+        // this scalar tally is saved to json
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new[] {
-                new BinaryArraySerializer {
-                    Name = "Mean",
-                    FileTag = "",
-                    WriteData = binaryWriter => { binaryWriter.Write(Mean);
-                    },
-                    ReadData = binaryReader => {
-                        //Mean = Mean ?? new double[1];
-                        Mean = binaryReader.ReadDouble();
-                    }
-                },
-                new BinaryArraySerializer {
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if(!TallySecondMoment) return;
-                        binaryWriter.Write(SecondMoment);
-                    },
-                    ReadData = binaryReader => {
-                        if(!TallySecondMoment) return;
-                        //SecondMoment = SecondMoment ?? new double();
-                        SecondMoment = binaryReader.ReadDouble();
-                    },
-                },
-            };
+            return null;
         }
         /// <summary>
         /// Method to determine if photon is within detector

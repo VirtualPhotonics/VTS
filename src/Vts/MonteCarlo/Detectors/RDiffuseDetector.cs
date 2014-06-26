@@ -24,7 +24,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public IDetector CreateDetector()
         {
-            return new ROfRhoDetector
+            return new RDiffuseDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -107,36 +107,10 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        // this is to allow saving of large arrays separately as a binary file
-        // NEED TO ASK DC if writing double to binary is to be done or rather write to json should be done
+        // this scalar tally is saved to json
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return null;
-            //return new[] {
-            //    new BinaryArraySerializer {
-            //        Name = "Mean",
-            //        FileTag = "",
-            //        WriteData = binaryWriter => { binaryWriter.Write(Mean);
-            //        },
-            //        ReadData = binaryReader => {
-            //            //Mean = Mean ?? new double[1];
-            //            Mean = binaryReader.ReadDouble();
-            //        }
-            //    },
-            //    new BinaryArraySerializer {
-            //        Name = "SecondMoment",
-            //        FileTag = "_2",
-            //        WriteData = binaryWriter => {
-            //            if(!TallySecondMoment) return;
-            //            binaryWriter.Write(SecondMoment);
-            //        },
-            //        ReadData = binaryReader => {
-            //            if(!TallySecondMoment) return;
-            //            //SecondMoment = SecondMoment ?? new double();
-            //            SecondMoment = binaryReader.ReadDouble();
-            //        },
-            //    },
-            //};
         }
         /// <summary>
         /// Method to determine if photon is within detector
