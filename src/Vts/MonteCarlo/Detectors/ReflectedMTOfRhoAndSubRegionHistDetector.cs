@@ -77,7 +77,6 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ReflectedMTOfRhoAndSubregionHistDetector : Detector, IDetector
     {
-        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
         private ITissue _tissue;
         private IList<OpticalProperties> _ops;
 
@@ -129,7 +128,6 @@ namespace Vts.MonteCarlo.Detectors
         public void Initialize(ITissue tissue)
         {
             // intialize any necessary class fields here
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
             _tissue = tissue;
             _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
 

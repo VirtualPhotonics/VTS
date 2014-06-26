@@ -675,6 +675,12 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ATotalDetector.cs">
       <Link>MonteCarlo\Detectors\ATotalDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\dMCdROfRhodMuaDetector.cs">
+      <Link>MonteCarlo\Detectors\dMCdROfRhodMuaDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs">
+      <Link>MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs</Link>
     </Compile>
@@ -683,6 +689,12 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfFxAndTimeDetector.cs">
+      <Link>MonteCarlo\Detectors\pMCROfFxAndTimeDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfFxDetector.cs">
+      <Link>MonteCarlo\Detectors\pMCROfFxDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs</Link>
@@ -705,8 +717,14 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs">
       <Link>MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxAndTimeDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfFxAndTimeDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxDetector.cs">
       <Link>MonteCarlo\Detectors\ROfFxDetector.cs</Link>

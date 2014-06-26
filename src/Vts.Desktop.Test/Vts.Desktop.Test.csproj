@@ -240,6 +240,7 @@
     <Compile Include="MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\CAWLayersDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\DAWLayersDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\DAWSphereDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCCAWOneLayerDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs" />

@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Detectors
     public class pMCROfRhoDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
-        /// constructor for reflectance as a function of rho detector input
+        /// constructor for pMC reflectance as a function of rho detector input
         /// </summary>
         public pMCROfRhoDetectorInput()
         {

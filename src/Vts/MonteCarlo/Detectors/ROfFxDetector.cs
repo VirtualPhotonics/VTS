@@ -136,7 +136,7 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         // this is to allow saving of large arrays separately as a binary file
-        public BinaryArraySerializer[] GetBinarySerializers()
+        public BinaryArraySerializer[] GetBinarySerializers() // NEED TO ASK DC: about complex array implementation
         {
             return new[] {
                 new BinaryArraySerializer {
@@ -144,14 +144,19 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Fx.Count - 1; i++) {
-                            //binaryWriter.Write(Mean[i]);
+                        for (int i = 0; i < Fx.Count - 1; i++) 
+                        {
+                            binaryWriter.Write(Mean[i].Real);
+                            binaryWriter.Write(Mean[i].Imaginary);
                         }
                     },
                     ReadData = binaryReader => {
                         Mean = Mean ?? new Complex[ Fx.Count - 1];
-                        for (int i = 0; i <  Fx.Count - 1; i++) {
-                            Mean[i] = binaryReader.ReadDouble();
+                        for (int i = 0; i <  Fx.Count - 1; i++) 
+                        {
+                            var real = binaryReader.ReadDouble();
+                            var imag = binaryReader.ReadDouble();
+                            Mean[i] = new Complex(real, imag);
                         }
                     }
                 },
@@ -161,16 +166,21 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if(!TallySecondMoment) return;
-                        for (int i = 0; i < Fx.Count - 1; i++) {
-                            //binaryWriter.Write(SecondMoment[i]);
-                        }
+                    for (int i = 0; i < Fx.Count - 1; i++)
+                        {
+                            binaryWriter.Write(SecondMoment[i].Real);
+                            binaryWriter.Write(SecondMoment[i].Imaginary);
+                        }          
                     },
                     ReadData = binaryReader => {
                         if(!TallySecondMoment) return;
                         SecondMoment = SecondMoment ?? new Complex[ Fx.Count - 1];
-                        for (int i = 0; i < Fx.Count - 1; i++) {
-                            SecondMoment[i] = binaryReader.ReadDouble();
-			            }
+                        for (int i = 0; i < Fx.Count - 1; i++) 
+                        {
+                            var real = binaryReader.ReadDouble();
+                            var imag = binaryReader.ReadDouble();
+                            SecondMoment[i] = new Complex(real, imag);
+                        }   
                     },
                 },
             };

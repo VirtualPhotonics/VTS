@@ -71,9 +71,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
                     new TOfRhoDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101)},
                     new TOfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
-                    //new ReflectedTimeOfRhoAndSubregionHistDetectorInput(
-                    //    new DoubleRange(0.0, 10.0, 101),
-                    //    new DoubleRange(0.0, 1.0, 101)),
+                    new ReflectedTimeOfRhoAndSubregionHistDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Time=new DoubleRange(0.0, 1.0, 101)},
                 };
             // one tissue layer
             var inputOneLayerTissue = new SimulationInput(
@@ -244,11 +242,11 @@ namespace Vts.Test.MonteCarlo.Detectors
         //    Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.00000000001);
         //}
 
-        //// ReflectedTimeOfRhoAndSubregionHist : this is validated using initial run results since no supporting linux code 
-        //[Test]
-        //public void validate_CAW_ReflectedTimeOfRhoAndSubregionHist()
-        //{
-        //    Assert.Less(Math.Abs(_outputOneLayerTissue.RefTime_rs_hist[0, 1, 0] - 0.9487656), 0.0000001);
-        //}
+        // ReflectedTimeOfRhoAndSubregionHist : this is validated using initial run results since no supporting linux code 
+        [Test]
+        public void validate_CAW_ReflectedTimeOfRhoAndSubregionHist()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefTime_rs_hist[0, 1, 0] - 0.9487656), 0.0000001);
+        }
     }
 }
