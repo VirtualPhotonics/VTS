@@ -342,6 +342,40 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\matlab.xsd">
+      <Link>Resources\Matlab\xml_toolbox\matlab.xsd</Link>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\strsplit.p">
+      <Link>Resources\Matlab\xml_toolbox\strsplit.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\unblank.p">
+      <Link>Resources\Matlab\xml_toolbox\unblank.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_format.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_format.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_formatany.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_formatany.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_help.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_help.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_load.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_load.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_parse.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_parse.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_parseany.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_parseany.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_save.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_save.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_toolbox.pdf">
+      <Link>Resources\Matlab\xml_toolbox\xml_toolbox.pdf</Link>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
@@ -508,30 +542,63 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\loadMCResults.m">
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\loadMCResults.m">
       <Link>Resources\Matlab\loadMCResults.m</Link>
-    </Resource>
-    <Resource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\load_results_script.m">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\load_results_script.m">
       <Link>Resources\Matlab\load_results_script.m</Link>
-    </Resource>
-    <Resource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\readBinaryData.m">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\readBinaryData.m">
       <Link>Resources\Matlab\readBinaryData.m</Link>
-    </Resource>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\INSTALL.TXT">
+      <Link>Resources\Matlab\xml_toolbox\INSTALL.TXT</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\LICENSE.TXT">
+      <Link>Resources\Matlab\xml_toolbox\LICENSE.TXT</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\strsplit.m">
+      <Link>Resources\Matlab\xml_toolbox\strsplit.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\tests\xml_tests.m">
+      <Link>Resources\Matlab\xml_toolbox\tests\xml_tests.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\unblank.m">
+      <Link>Resources\Matlab\xml_toolbox\unblank.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_format.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_format.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_formatany.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_formatany.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_help.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_help.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_load.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_load.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_parse.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_parse.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_parseany.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_parseany.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_save.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_save.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_toolbox-version.txt">
+      <Link>Resources\Matlab\xml_toolbox\xml_toolbox-version.txt</Link>
+    </EmbeddedResource>
     <Content Include="Helpers\fjcore\FJCore.csproj" />
     <Content Include="Helpers\fjcore\FJCoreWin.csproj" />
     <Content Include="Helpers\fjcore\IJG.txt" />
     <Content Include="Helpers\fjcore\JAI.txt" />
     <Content Include="Helpers\fjcore\License.txt" />
     <Content Include="Helpers\fjcore\README.txt" />
-    <Content Include="Resources\Images\xml_notepad.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="View\Controls\FloatableWindow\README.txt" />
     <None Include="Properties\OutOfBrowserSettings.xml" />
     <Resource Include="Resources\Images\logo-small.png" />
-    <Content Include="Resources\Images\vpbanner.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx" />

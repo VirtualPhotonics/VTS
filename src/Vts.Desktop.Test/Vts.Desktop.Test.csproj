@@ -134,6 +134,9 @@
     <Compile Include="..\Vts.Test\IO\FileIOTests.cs">
       <Link>IO\FileIOTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\IO\StreamFinderTests.cs">
+      <Link>IO\StreamFinderTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\IO\VtsJsonSerializerTests.cs">
       <Link>IO\VtsJsonSerializerTests.cs</Link>
     </Compile>
@@ -316,6 +319,17 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Vts.Test\Resources\embeddedresourcefile.txt">
+      <Link>Resources\embeddedresourcefile.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\folder\embeddedresourcefile.txt">
+      <Link>Resources\folder\embeddedresourcefile.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\resourcefile.txt">
+      <Link>Resources\resourcefile.txt</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

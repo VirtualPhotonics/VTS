@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using NUnit.Framework;
 using Vts.IO;
@@ -39,6 +40,32 @@ namespace Vts.Test.IO
             {
                 FileIO.FileDelete("array1.txt");
             }
+        }
+
+        [Test]
+        public void validate_copy_file_from_embedded_resources()
+        {
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            FileIO.CopyFileFromEmbeddedResources(assemblyName + ".Resources.embeddedresourcefile.txt", "embeddededresourcefile.txt", name);
+            Assert.IsTrue(FileIO.FileExists("embeddededresourcefile.txt"));
+        }
+
+        [Test]
+        public void validate_copy_file_from_resources()
+        {
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            FileIO.CopyFileFromResources("Resources/resourcefile.txt", "resourcefile.txt", assemblyName); 
+            Assert.IsTrue(FileIO.FileExists("resourcefile.txt"));
+        }
+
+        [Test]
+        public void validate_copy_folder_from_embedded_resources()
+        {
+            var folder = "folder";
+            FileIO.CopyFolderFromEmbeddedResources(folder, "", Assembly.GetExecutingAssembly().FullName, true);
+            Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "embeddedresourcefile.txt")));
         }
 
         [Test]

@@ -49,7 +49,7 @@ namespace Vts.IO
             return stream;
 #else
             string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string fullPath = Path.Combine(currentAssemblyDirectoryName,projectName);
+            string fullPath = Path.Combine(currentAssemblyDirectoryName, projectName);
 
             Assembly assembly = null;
 
@@ -60,6 +60,10 @@ namespace Vts.IO
             else if (File.Exists(fullPath + ".exe"))
             {
                 assembly = Assembly.LoadFrom(fullPath + ".exe");
+            }
+            else if (FileIO.FileExists(projectName + ".dll"))
+            {
+                assembly = Assembly.LoadFrom(projectName + ".dll");
             }
             else
             {
@@ -84,8 +88,7 @@ namespace Vts.IO
             // save to IsolatedStorage with no user interaction
             var userstore = IsolatedStorageFile.GetUserStoreForApplication();
             var locations = userstore.GetDirectoryNames();
-            return new IsolatedStorageFileStream( filename, fileMode,
-                IsolatedStorageFile.GetUserStoreForApplication());
+            return new IsolatedStorageFileStream(filename, fileMode, IsolatedStorageFile.GetUserStoreForApplication());
 #else
             FileStream fs = null;
 
@@ -150,10 +153,10 @@ namespace Vts.IO
         public static Stream GetLocalFilestreamFromOpenFileDialog(string defaultExtension)
         {
             var dialog = new OpenFileDialog();
-            dialog.Filter = defaultExtension + " files (*." + defaultExtension + ")|*." + defaultExtension + "|All files (*.*)|*.*";
+            dialog.Filter = defaultExtension + " files (*." + defaultExtension + ")|*." + defaultExtension + "|Text Files (*.txt)|*.txt|All files (*.*)|*.*";
             //dialog.Filter = defaultExtension + " File|*" + defaultExtension + "|All Files|*.*"; //"Text Files (.txt)|*.txt|All Files (*.*)|*.*";
 
-            dialog.FilterIndex = 1;
+            dialog.FilterIndex = 2;
             dialog.Multiselect = false;
 
             // Call the ShowDialog method to show the dialog box.
