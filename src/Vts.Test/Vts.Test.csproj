@@ -79,9 +79,8 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MathNet.Numerics, Version=2.6.1.30, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MathNet.Numerics.2.6.2\lib\portable-net40+windows8+wp8+sl5\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.3.0.2\lib\portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics.Silverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

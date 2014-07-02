@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using MathNet.Numerics;
 
 namespace Vts.Modeling.ForwardSolvers

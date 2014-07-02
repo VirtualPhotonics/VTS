@@ -71,12 +71,8 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=2.4.0.26, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MathNet.Numerics.2.4.0\lib\net40\MathNet.Numerics.dll</HintPath>
-    </Reference>
-    <Reference Include="MathNet.Numerics.IO">
-      <HintPath>..\packages\MathNet.Numerics.2.4.0\lib\net40\MathNet.Numerics.IO.dll</HintPath>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.3.0.2\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation">

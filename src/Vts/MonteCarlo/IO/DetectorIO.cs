@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Numerics;
-using Vts.Extensions;
 using Vts.IO;
-using Vts.MonteCarlo.Detectors;
-using System.Runtime.Serialization;
-using System.IO.IsolatedStorage;
-using Vts.MonteCarlo.Factories;
 
 namespace Vts.MonteCarlo.IO
 {

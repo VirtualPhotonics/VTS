@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
+using System.Numerics;
 using MathNet.Numerics;
 using System.Runtime.Serialization;
-using System.Numerics;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;

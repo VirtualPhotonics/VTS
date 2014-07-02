@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using MathNet.Numerics;
+using System.Numerics;
 using Vts.Extensions;
 
 namespace Vts.IO

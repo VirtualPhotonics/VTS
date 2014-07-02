@@ -95,9 +95,8 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\DotNetZip\Silverlight\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=2.6.1.30, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MathNet.Numerics.2.6.2\lib\portable-net40+windows8+wp8+sl5\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.3.0.2\lib\portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics.Silverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -123,6 +122,7 @@
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.1.0\lib\sl5\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="System.Numerics, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Reactive.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Rx-Core.2.2.2\lib\sl5\System.Reactive.Core.dll</HintPath>
