@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Vts.Common;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.GenerateReferenceData
@@ -19,7 +20,6 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                         AbsorptionWeightingType.Continuous,
                         PhaseFunctionType.HenyeyGreenstein,
                         new List<DatabaseType>() { }, // databases to be written
-                        true, // compute Second Moment
                         false, // track statistics
                         0.0, // RR threshold -> 0 = no RR performed
                         1),

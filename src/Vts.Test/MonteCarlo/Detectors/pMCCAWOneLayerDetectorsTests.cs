@@ -74,7 +74,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                 AbsorptionWeightingType.Continuous,
                 PhaseFunctionType.HenyeyGreenstein,
                 new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance },
-                true, // tally 2nd moment
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
@@ -137,7 +136,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
                         new List<int>() { 1 })
                 },
-                false,
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
@@ -164,7 +162,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
                         new List<int>() { 1 })
                 },
-                false, // tally second moment
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
@@ -199,7 +196,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                                 },
                             new List<int>() {1})
                     },
-                false, // tally 2nd moment
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();

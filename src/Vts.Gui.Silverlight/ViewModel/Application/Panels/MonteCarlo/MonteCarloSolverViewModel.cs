@@ -254,7 +254,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     logger.Info(() => "Saving simulation results to temporary directory...");
                     string resultsFolder = input.OutputName;
                     FileIO.CreateDirectory(resultsFolder);
-                    input.ToJsonFile(Path.Combine(resultsFolder, "infile_" + input.OutputName + ".txt"));
+                    input.ToFile(Path.Combine(resultsFolder, "infile_" + input.OutputName + ".txt"));
 
                     foreach (var result in _output.ResultsDictionary.Values)
                     {
@@ -344,7 +344,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                     foreach (var file in files)
                     {
-                        file.Input.ToJsonFile(file.Name);
+                        file.Input.ToFile(file.Name);
                     }
                     var allFiles = files.Concat(files);
                     FileIO.ZipFiles(allFiles.Select(file => file.Name), "", stream);

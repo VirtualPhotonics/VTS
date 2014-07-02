@@ -72,7 +72,6 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var DAWpostProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.DiffuseReflectance,
                 _detectorInputs,
-                false, // tally second moment
                 DAWdatabase,
                 onTheFlyDAWOutput.Input);
             var postProcessedDAWOutput = DAWpostProcessor.Run();
@@ -87,7 +86,6 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var CAWpostProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.DiffuseReflectance,
                 _detectorInputs,
-                false, // tally second moment
                 CAWdatabase,
                 onTheFlyCAWOutput.Input);
             var postProcessedCAWOutput = CAWpostProcessor.Run();
@@ -109,7 +107,6 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
-                    true, // compute Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     1),
@@ -133,7 +130,6 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
-                    true, // compute Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     1),
@@ -191,7 +187,6 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.DiffuseReflectance }, // SPECIFY DATABASE
-                    true, // compute Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     1),

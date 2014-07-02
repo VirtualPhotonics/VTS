@@ -790,14 +790,14 @@ namespace Vts.ReportInverseSolver.Desktop
             }
         }
 
-        private static void LocalWriteArrayToBinary<T>(Array dataIN, string filename, FileMode mode) where T : struct
+        private static void LocalWriteArrayToBinary(Array dataIN, string filename, FileMode mode)
         {
             // Create a file to write binary data 
             using (Stream s = StreamFinder.GetFileStream(filename, mode))
             {
                 using (BinaryWriter bw = new BinaryWriter(s))
                 {
-                    new ArrayCustomBinaryWriter<T>().WriteToBinary(bw, dataIN);
+                    new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
                 }
             }
         }

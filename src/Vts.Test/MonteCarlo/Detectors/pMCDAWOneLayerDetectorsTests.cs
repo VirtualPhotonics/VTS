@@ -4,6 +4,7 @@ using System.IO;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.PostProcessing;
@@ -74,7 +75,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
                 new List<DatabaseType>() {DatabaseType.pMCDiffuseReflectance},
-                true, // tally 2nd moment
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
@@ -141,7 +141,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                                 },
                             new List<int>() {1})
                     },
-                false, // tally 2nd moment
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
@@ -174,7 +173,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                                 },
                             new List<int>() {1})
                     },
-                false, // tally 2nd moment
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
@@ -209,7 +207,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                                 },
                             new List<int>() {1})
                     },
-                false, // tally 2nd moment
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();

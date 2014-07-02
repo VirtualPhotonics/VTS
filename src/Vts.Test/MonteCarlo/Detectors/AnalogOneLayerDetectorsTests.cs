@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using MathNet.Numerics;
 using NUnit.Framework;
 using Vts.Common;
@@ -48,7 +49,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                     AbsorptionWeightingType.Analog, 
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
-                    true, // tally SecondMoment
                     true, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),

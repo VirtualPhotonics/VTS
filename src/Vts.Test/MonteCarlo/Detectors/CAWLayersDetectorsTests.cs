@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using MathNet.Numerics;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Tissues;
 
@@ -47,7 +49,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                     AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
-                    true, // tally 2nd moment
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0);

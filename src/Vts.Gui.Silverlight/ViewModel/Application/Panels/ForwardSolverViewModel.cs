@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using MathNet.Numerics;
 using System.Windows;
 using SLExtensions.Input;
