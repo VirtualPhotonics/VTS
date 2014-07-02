@@ -2,10 +2,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NLog;
 using Vts.Common.Logging;
+using Vts.IO;
 
 namespace Vts.MonteCarlo.CommandLineApplication
 {
@@ -112,6 +114,13 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    GenerateDefaultInputFiles();
                    infoOnlyOption = true;
                    return;
+               }),
+               new CommandLine.Switch("convert", val =>
+               {
+                   var folder = val.First();
+                   logger.Info(() => "conversion folder or file specified as " + folder);
+                   ConvertInputFiles(folder);
+                   infoOnlyOption = true;
                }),
                new CommandLine.Switch("infile", val =>
                {
@@ -247,14 +256,44 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 infiles[i].ToXMLFile("infile_" + infiles[i].OutputName + ".xml"); 
                 infiles[i].ToJsonFile("infile_" + infiles[i].OutputName + ".txt"); // write json to .txt files
             }
-            //var sources = SourceInputProvider.GenerateAllSourceInputs();
-            //sources.WriteToXML("infile_source_options_test.xml");
         }
 
-        //private static SimulationInput LoadDefaultInputFile()
-        //{
-        //    return SimulationInput.FromFileInResources("infile.xml", "mc");
-        //}
+        private static void ConvertInputFiles(string fileorfolder)
+        {
+            if (string.IsNullOrEmpty(fileorfolder))
+            {
+                logger.Info("\n\t\t*** No convert file or folder specified ***\n\nConvert using mc.exe convert=infile_name.xml or mc.exe convert=<FolderName>");
+            }
+            else
+            {
+                try
+                {
+                    if (fileorfolder.IndexOf(".xml", StringComparison.CurrentCultureIgnoreCase) > -1)
+                    {
+                        //this is a single file
+                        var input = MonteCarloSetup.ReadSimulationInputFromFile(fileorfolder);
+                        //write out the JSON (txt) file
+                        input.WriteToJsonFile(fileorfolder.Replace("xml", "txt"));
+                    }
+                    else
+                    {
+                        //loop through the folder and read in each XML file
+                        var files = Directory.GetFiles(fileorfolder, "*.xml", SearchOption.TopDirectoryOnly);
+                        //create the SimulationInput
+                        foreach (var file in files)
+                        {
+                            var input = MonteCarloSetup.ReadSimulationInputFromFile(file);
+                            //write out the JSON (txt) file
+                            input.WriteToJsonFile(file.Replace("xml", "txt"));
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Info(e.Message);
+                }
+            }
+        }
 
         /// <summary>
         /// Displays the help text for detailed usage of the application
@@ -271,8 +310,11 @@ namespace Vts.MonteCarlo.CommandLineApplication
             logger.Info("\t\tparamsweep=<SweepParameterType>,Start,Stop,Count");
             logger.Info("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
             logger.Info("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
-            logger.Info("\ngeninfiles\tgenerates example infiles and names them infile_XXX.xml and infile_XXX.txt");
-            logger.Info("\t\twhere XXX describes the type of input specified");
+            logger.Info("\ngeninfiles\tgenerates example infiles and names them infile_XXX.xml and");
+            logger.Info("\t\tinfile_XXX.txt where XXX describes the type of input specified");
+            logger.Info("\nconvert\t\tconverts a single XML file or a folder containing XML files");
+            logger.Info("\t\tand converts them to JSON. Use the format:");
+            logger.Info("\t\tconvert=<FileOrFolderName>");
             logger.Info("\nlist of sweep parameters (paramsweep):");
             logger.Info("\nmua1\t\tabsorption coefficient for tissue layer 1");
             logger.Info("mus1\t\tscattering coefficient for tissue layer 1");
