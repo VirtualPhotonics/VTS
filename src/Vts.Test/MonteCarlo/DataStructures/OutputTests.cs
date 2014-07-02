@@ -1,11 +1,7 @@
 using System;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
-using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 

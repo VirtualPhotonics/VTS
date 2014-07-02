@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Reflection;
-using Meta.Numerics.Statistics;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
-using System.IO;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -18,7 +16,7 @@ namespace Vts.IO
     public static class VtsJsonSerializer
     {
 #if DEBUG
-        private static MemoryTraceWriter _traceWriter = new MemoryTraceWriter();
+        public static MemoryTraceWriter TraceWriter = new MemoryTraceWriter();
 #endif
         public static string WriteToJson<T>(this T myObject)
         {
@@ -28,7 +26,7 @@ namespace Vts.IO
                 ObjectCreationHandling = ObjectCreationHandling.Replace
             };
 #if DEBUG
-            settings.TraceWriter = _traceWriter;
+            settings.TraceWriter = TraceWriter;
 #endif
             settings.Converters.Add(new StringEnumConverter());
             string json = JsonConvert.SerializeObject(
@@ -36,7 +34,7 @@ namespace Vts.IO
                 Formatting.Indented,
                 settings);
 #if DEBUG
-            Console.WriteLine(_traceWriter);
+            Console.WriteLine(TraceWriter);
 #endif
             return json;
         }
@@ -72,7 +70,7 @@ namespace Vts.IO
             serializer.NullValueHandling = NullValueHandling.Ignore;
             serializer.ObjectCreationHandling = ObjectCreationHandling.Replace;
 #if DEBUG
-            serializer.TraceWriter = _traceWriter;
+            serializer.TraceWriter = TraceWriter;
 #endif
 
             T deserializedProduct = default(T);
@@ -82,7 +80,7 @@ namespace Vts.IO
                 deserializedProduct = serializer.Deserialize<T>(reader);
             }
 #if DEBUG
-            Console.WriteLine(_traceWriter);
+            Console.WriteLine(TraceWriter);
 #endif
             return deserializedProduct;
         }

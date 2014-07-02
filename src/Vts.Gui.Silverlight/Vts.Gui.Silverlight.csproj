@@ -103,45 +103,43 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GalaSoft.MvvmLight.Extras.SL5">
-      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\SL5\GalaSoft.MvvmLight.Extras.SL5.dll</HintPath>
-    </Reference>
     <Reference Include="GalaSoft.MvvmLight.SL5">
       <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\SL5\GalaSoft.MvvmLight.SL5.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\lib\DotNetZip\Silverlight\Ionic.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="MathNet.Numerics">
-      <HintPath>..\packages\MathNet.Numerics.2.4.0\lib\portable-net40+windows8+wp8+sl5\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=2.6.1.30, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MathNet.Numerics.2.6.2\lib\portable-net40+windows8+wp8+sl5\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\packages\CommonServiceLocator.1.0\lib\SL30\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity.Silverlight">
-      <HintPath>..\packages\Unity.2.1.505.2\lib\SL30\Microsoft.Practices.Unity.Silverlight.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.2.0.0.2000\lib\sl4\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=2.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.2.1.0\lib\sl5\NLog.dll</HintPath>
     </Reference>
     <Reference Include="SLExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\SilverlightExtensions\SLExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Core">
-      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\SL5\System.Reactive.Core.dll</HintPath>
+    <Reference Include="System.Numerics, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Reactive.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Core.2.2.2\lib\sl5\System.Reactive.Core.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\SL5\System.Reactive.Interfaces.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Interfaces.2.2.2\lib\sl5\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Linq">
-      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\SL5\System.Reactive.Linq.dll</HintPath>
+    <Reference Include="System.Reactive.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Linq.2.2.2\lib\sl5\System.Reactive.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\SL5\System.Reactive.PlatformServices.dll</HintPath>
+      <HintPath>..\packages\Rx-PlatformServices.2.2.3\lib\sl5\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Windows.Threading">
-      <HintPath>..\packages\Rx-Xaml.2.1.30214.0\lib\SL5\System.Reactive.Windows.Threading.dll</HintPath>
+    <Reference Include="System.Reactive.Windows.Threading, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-XAML.2.2.2\lib\sl5\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Controls, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -151,16 +149,9 @@
     <Reference Include="mscorlib" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
     <Reference Include="System.Windows.Controls.Data, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Controls.Data.DataForm.Toolkit">
-      <HintPath>..\packages\SilverlightToolkit-Data.4.2010.4\lib\sl4\System.Windows.Controls.Data.DataForm.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Controls.Data.Toolkit">
-      <HintPath>..\packages\SilverlightToolkit-Data.4.2010.4\lib\sl4\System.Windows.Controls.Data.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Controls.DataVisualization.Toolkit">
       <HintPath>..\packages\SilverlightToolkit-DataViz.4.2010.4\lib\sl4\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
@@ -168,18 +159,8 @@
     <Reference Include="System.Windows.Controls.Input.Toolkit">
       <HintPath>..\packages\SilverlightToolkit-Input.4.2010.4\lib\sl4\System.Windows.Controls.Input.Toolkit.dll</HintPath>
     </Reference>
-    <Reference Include="System.Windows.Controls.Layout.Toolkit">
-      <HintPath>..\packages\SilverlightToolkit-Layout.4.2010.4\lib\sl4\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Controls.Theming.Toolkit">
-      <HintPath>..\packages\SilverlightToolkit-Theming.4.2010.4\lib\sl4\System.Windows.Controls.Theming.Toolkit.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows.Controls.Toolkit">
       <HintPath>..\packages\SilverlightToolkit-Core.4.2010.4\lib\sl4\System.Windows.Controls.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Interactivity, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\SL5\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />
@@ -197,7 +178,6 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\LocalizedStrings.cs" />
-    <Compile Include="Extensions\OptionExtensions.cs" />
     <Compile Include="Extensions\StringLookup.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -362,6 +342,40 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\matlab.xsd">
+      <Link>Resources\Matlab\xml_toolbox\matlab.xsd</Link>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\strsplit.p">
+      <Link>Resources\Matlab\xml_toolbox\strsplit.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\unblank.p">
+      <Link>Resources\Matlab\xml_toolbox\unblank.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_format.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_format.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_formatany.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_formatany.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_help.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_help.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_load.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_load.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_parse.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_parse.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_parseany.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_parseany.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_save.p">
+      <Link>Resources\Matlab\xml_toolbox\xml_save.p</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_toolbox.pdf">
+      <Link>Resources\Matlab\xml_toolbox\xml_toolbox.pdf</Link>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
@@ -528,27 +542,68 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
-    <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />
-    <Content Include="App_Readme\MathNet.Numerics.readme.txt" />
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\loadMCResults.m">
+      <Link>Resources\Matlab\loadMCResults.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\load_results_script.m">
+      <Link>Resources\Matlab\load_results_script.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\readBinaryData.m">
+      <Link>Resources\Matlab\readBinaryData.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\INSTALL.TXT">
+      <Link>Resources\Matlab\xml_toolbox\INSTALL.TXT</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\LICENSE.TXT">
+      <Link>Resources\Matlab\xml_toolbox\LICENSE.TXT</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\strsplit.m">
+      <Link>Resources\Matlab\xml_toolbox\strsplit.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\tests\xml_tests.m">
+      <Link>Resources\Matlab\xml_toolbox\tests\xml_tests.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\unblank.m">
+      <Link>Resources\Matlab\xml_toolbox\unblank.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_format.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_format.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_formatany.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_formatany.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_help.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_help.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_load.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_load.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_parse.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_parse.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_parseany.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_parseany.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_save.m">
+      <Link>Resources\Matlab\xml_toolbox\xml_save.m</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_toolbox-version.txt">
+      <Link>Resources\Matlab\xml_toolbox\xml_toolbox-version.txt</Link>
+    </EmbeddedResource>
     <Content Include="Helpers\fjcore\FJCore.csproj" />
     <Content Include="Helpers\fjcore\FJCoreWin.csproj" />
     <Content Include="Helpers\fjcore\IJG.txt" />
     <Content Include="Helpers\fjcore\JAI.txt" />
     <Content Include="Helpers\fjcore\License.txt" />
     <Content Include="Helpers\fjcore\README.txt" />
-    <Content Include="Resources\Images\xml_notepad.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="View\Controls\FloatableWindow\README.txt" />
     <None Include="Properties\OutOfBrowserSettings.xml" />
     <Resource Include="Resources\Images\logo-small.png" />
-    <Content Include="Resources\Images\vpbanner.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>

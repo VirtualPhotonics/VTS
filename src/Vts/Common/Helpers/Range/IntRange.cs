@@ -42,26 +42,17 @@ namespace Vts.Common
         /// <returns>An integer representing delta</returns>
         protected override int GetDelta()
         {
-            if (Delta == 0d)
+            if (Count == 1)
             {
-                return 1;
+                if (Start != Stop)
+                {
+                    return Stop - Start;
+                }
+
+                return 0;
             }
 
             return (Stop - Start) / (Count - 1);
-        }
-
-        /// <summary>
-        /// Returns the count
-        /// </summary>
-        /// <returns>An integer representing the count</returns>
-        protected override int GetNewCount()
-        {
-            if (Delta == 0)
-            {
-                return 1;
-            }
-
-            return ((Stop - Start) / Delta + 1);
         }
 
         /// <summary>

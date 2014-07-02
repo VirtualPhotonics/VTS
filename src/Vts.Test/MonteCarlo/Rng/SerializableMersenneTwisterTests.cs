@@ -1,8 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
-using Vts.Extensions;
-using Vts.Common;
 using Vts.MonteCarlo.Rng;
 
 namespace Vts.Test.Common
@@ -20,8 +16,8 @@ namespace Vts.Test.Common
             var rng3 = rng.NextDouble();
             var rng4 = rng.NextDouble();
             // saved processing
-            rng.ToFile(rng, "savedRNG.xml");
-            var savedRNG = SerializableMersenneTwister.FromFile("savedRNG.xml");
+            rng.ToFile(rng, "savedRNG.txt");
+            var savedRNG = SerializableMersenneTwister.FromFile("savedRNG.txt");
             // saved processing next rng
             var savedRNG5 = savedRNG.NextDouble();
             // normal processing next rng

@@ -1,7 +1,6 @@
 //using SLExtensions.Input;
-using System.Reflection;
 
-using System;
+using System.Reflection;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {

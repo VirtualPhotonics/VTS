@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Vts.Common;
 using Vts.FemModeling.MGRTE._2D.DataStructures;
-using System.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 

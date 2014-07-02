@@ -1,12 +1,12 @@
-﻿using System.Numerics;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using MathNet.Numerics;
 using System.Windows;
 using SLExtensions.Input;
 using Vts.Factories;
+using Vts.Gui.Silverlight.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
-using Vts.Gui.Silverlight.Extensions;
 
 #if WHITELIST
 using Vts.Gui.Silverlight.ViewModel.Application;
@@ -139,7 +139,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
             
             string plotLabel = GetLegendLabel();
-            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
+            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
                 var real = points[0];
                 var imag = points[1];
@@ -209,7 +209,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                     ? new double[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0];
 
-            double[] query = ComputationFactory.GetVectorizedIndependentVariableQueryNew(
+            double[] query = ComputationFactory.ComputeReflectance(
                 ForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisTypeOptionVM.SelectedValue,
@@ -219,7 +219,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 constantValues);
 
             // if it's reporting Real + Imaginary, we need two vectors
-            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
+            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
                 var real = query.Take(independentValues.Length).ToArray();
                 var imag = query.Skip(independentValues.Length).Take(independentValues.Length).ToArray();

@@ -1,8 +1,7 @@
 ﻿using Vts.Common;
-using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
-using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo
 {

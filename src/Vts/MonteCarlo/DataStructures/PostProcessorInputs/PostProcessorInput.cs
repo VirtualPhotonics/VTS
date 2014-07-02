@@ -7,10 +7,6 @@ using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo
 {
-#if !SILVERLIGHT
-    [Serializable]
-#endif     
-    // the following list should be equivalent to detector list in SimulationInput   
     public class PostProcessorInput
     {
         /// <summary>
@@ -76,21 +72,21 @@ namespace Vts.MonteCarlo
                 ) {}
 
         /// <summary>
-        /// Method to read this class from xml file.
+        /// Method to read this class from JSON file.
         /// </summary>
         /// <param name="filename">string file name</param>
         /// <returns>PostProcessorInput</returns>
         public static PostProcessorInput FromFile(string filename)
         {
-            return FileIO.ReadFromXML<PostProcessorInput>(filename);
+            return FileIO.ReadFromJson<PostProcessorInput>(filename);
         }
         /// <summary>
-        /// Method to write this class to xml file.
+        /// Method to write this class to JSON file.
         /// </summary>
         /// <param name="filename">string file name</param>
         public void ToFile(string filename)
         {
-            FileIO.WriteToXML(this, filename);
+            FileIO.WriteToJson(this, filename);
         }
         /// <summary>
         /// Method to read this class from file in Resources
@@ -100,7 +96,7 @@ namespace Vts.MonteCarlo
         /// <returns>PostProcessorInput</returns>
         public static PostProcessorInput FromFileInResources(string filename, string project)
         {
-            return FileIO.ReadFromXMLInResources<PostProcessorInput>(filename, project);
+            return FileIO.ReadFromJsonInResources<PostProcessorInput>(filename, project);
         }
     }
 }

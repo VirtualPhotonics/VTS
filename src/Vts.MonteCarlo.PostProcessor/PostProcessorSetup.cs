@@ -1,13 +1,13 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using Vts.MonteCarlo.PostProcessing;
-using Vts.MonteCarlo.Extensions;
-using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Extensions;
+using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.IO;
+using Vts.MonteCarlo.PostProcessing;
 
 namespace Vts.MonteCarlo.PostProcessor
 {
@@ -23,8 +23,8 @@ namespace Vts.MonteCarlo.PostProcessor
                 // read input file then read in elements of input file
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                        Console.WriteLine("\nNo input file specified. Using infile.xml from root mc_post.exe folder... ");
-                        return ReadPostProcessorInputFromFile("infile.xml");
+                        Console.WriteLine("\nNo input file specified. Using infile.txt from root mc_post.exe folder... ");
+                        return ReadPostProcessorInputFromFile("infile.txt");
                 }
             
                 //get the full path for the input file
@@ -35,9 +35,9 @@ namespace Vts.MonteCarlo.PostProcessor
                     return PostProcessorInput.FromFile(fullFilePath);
                 }
 
-                if (File.Exists(fullFilePath + ".xml"))
+                if (File.Exists(fullFilePath + ".txt"))
                 {
-                    return PostProcessorInput.FromFile(fullFilePath + ".xml");
+                    return PostProcessorInput.FromFile(fullFilePath + ".txt");
                 }
 
                 //throw a file not found exception
@@ -79,7 +79,7 @@ namespace Vts.MonteCarlo.PostProcessor
 
             SimulationOutput postProcessedOutput = null;
 
-            var databaseGenerationInputFile = SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".xml"));
+            var databaseGenerationInputFile = SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".txt"));
             // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
 
             // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
@@ -141,10 +141,10 @@ namespace Vts.MonteCarlo.PostProcessor
                 Directory.CreateDirectory(folderPath);
 
             // save input file to output folder with results
-            input.ToFile(resultsFolder + "\\" + input.OutputName + ".xml");
+            input.ToFile(resultsFolder + "\\" + input.OutputName + ".txt");
 
             // save database generation input file to output folder
-            databaseGenerationInputFile.ToFile(resultsFolder + "\\" + input.OutputName + "_database_infile.xml");
+            databaseGenerationInputFile.ToFile(resultsFolder + "\\" + input.OutputName + "_database_infile.txt");
 
             if (postProcessedOutput != null)
             {

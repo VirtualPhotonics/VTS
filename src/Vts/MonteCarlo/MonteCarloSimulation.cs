@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Concurrent;
-using System.IO;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Vts.Common.Logging;
-using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
+using Vts.MonteCarlo.Factories;
 
 namespace Vts.MonteCarlo
 {
@@ -346,7 +344,7 @@ namespace Vts.MonteCarlo
 
             if (TrackStatistics)
             {             
-                _simulationStatistics.ToFile("statistics.xml");
+                _simulationStatistics.ToFile("statistics.txt");
             }
 
             stopwatch.Stop();

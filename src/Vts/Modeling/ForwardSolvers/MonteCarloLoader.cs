@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Vts.Extensions;
+using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
-using Vts.Common;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
 

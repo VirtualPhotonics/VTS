@@ -1,13 +1,8 @@
-using System.Linq;
-
-using Vts.Extensions;
-using Vts.Modeling;
+using System;
+using Microsoft.Practices.Unity;
 using Vts.Modeling.ForwardSolvers;
 using Vts.Modeling.Optimizers;
 using Vts.SpectralMapping;
-
-using Microsoft.Practices.Unity;
-using System;
 
 namespace Vts.Factories
 {

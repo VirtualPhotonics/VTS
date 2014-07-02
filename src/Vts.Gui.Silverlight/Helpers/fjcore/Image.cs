@@ -2,6 +2,7 @@
 /// Under the MIT License, details: License.txt.
 
 using System;
+
 #if SILVERLIGHT
 #else
 using System.Drawing;

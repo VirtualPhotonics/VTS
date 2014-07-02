@@ -1,6 +1,8 @@
-using System.IO;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
@@ -29,11 +31,11 @@ namespace Vts.Test.MonteCarlo
                     new MultiLayerTissueInput(),
                     new List<IDetectorInput>
                     {
-                        (ROfRhoDetectorInput)detectorInput 
+                        (ROfRhoDetectorInput) detectorInput
                     }
-                ).WriteToXML("test");
+                    ).WriteToJson("test.txt");
             }
-            catch(SerializationException se)
+            catch (Exception se)
             {
                 Assert.Fail("SimulationInput class could not be serialized.");
             }
@@ -56,8 +58,8 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void validate_deserialized_class_is_correct_when_using_FileIO()
         {
-            new ROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToXML("test");
-            var iCloned = FileIO.ReadFromXML<ROfRhoDetectorInput>("test");
+            new ROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToJson("test");
+            var iCloned = FileIO.ReadFromJson<ROfRhoDetectorInput>("test");
 
             Assert.AreEqual(iCloned.Rho.Start, 10);
         }

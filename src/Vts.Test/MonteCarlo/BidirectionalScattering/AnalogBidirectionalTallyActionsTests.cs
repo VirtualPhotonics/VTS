@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Vts;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
@@ -73,7 +72,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             );
             _output = new MonteCarloSimulation(_input).Run();
 
-            _simulationStatistics = SimulationStatistics.FromFile("statistics.xml");
+            _simulationStatistics = SimulationStatistics.FromFile("statistics.txt");
         }
 
         // todo: add analytic variance and use this for error bounds

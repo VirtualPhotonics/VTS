@@ -3,11 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using FluxJpeg.Core.IO;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
+using FluxJpeg.Core.IO;
 
 namespace FluxJpeg.Core.Decoder
 {

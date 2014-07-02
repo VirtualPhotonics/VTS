@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Vts.Common.Logging.NLogIntegration;
 
 namespace Vts.Common.Logging

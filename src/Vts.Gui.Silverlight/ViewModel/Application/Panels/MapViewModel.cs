@@ -4,13 +4,12 @@ using System.Linq;
 using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
+using Vts.Extensions;
 using Vts.Gui.Silverlight.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
 using Vts.Gui.Silverlight.View;
 using Vts.IO;
-using Vts.Extensions;
-using System.Collections.Generic;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {

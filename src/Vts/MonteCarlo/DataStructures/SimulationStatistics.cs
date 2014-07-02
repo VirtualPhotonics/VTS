@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Vts.IO;
 
 namespace Vts.MonteCarlo
@@ -79,7 +77,7 @@ namespace Vts.MonteCarlo
         /// <param name="filename"></param>
         public void ToFile(string filename)
         {
-            FileIO.WriteToXML(this, filename);
+            FileIO.WriteToJson(this, filename);
         }
         /// <summary>
         /// method to read results from file
@@ -88,7 +86,7 @@ namespace Vts.MonteCarlo
         /// <returns>instance of simulation statistics</returns>
         public static SimulationStatistics FromFile(string filename)
         {
-            return FileIO.ReadFromXML<SimulationStatistics>(filename);
+            return FileIO.ReadFromJson<SimulationStatistics>(filename);
         }
     }
 }

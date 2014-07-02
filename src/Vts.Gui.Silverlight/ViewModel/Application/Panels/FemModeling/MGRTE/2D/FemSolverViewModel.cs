@@ -1,9 +1,9 @@
-﻿using Vts.FemModeling.MGRTE._2D;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
+using Vts.Common.Logging;
+using Vts.FemModeling.MGRTE._2D;
 using Vts.FemModeling.MGRTE._2D.DataStructures;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
-using Vts.Common.Logging;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {

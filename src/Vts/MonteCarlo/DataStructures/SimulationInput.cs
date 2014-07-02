@@ -7,7 +7,6 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Tissues;
 
-
 namespace Vts.MonteCarlo
 {
     ///<summary>
@@ -15,47 +14,8 @@ namespace Vts.MonteCarlo
     /// file name, number of photons to execute (N), source, tissue and detector
     /// definitions.
     ///</summary>
-    #if !SILVERLIGHT
-        [Serializable]
-    #endif
-    
-    // todo: Can we do this programmatcially? DataContractResolver? Automatically via convention?
-	[KnownType(typeof(CustomLineSourceInput))]
-    [KnownType(typeof(DirectionalLineSourceInput))]
-	[KnownType(typeof(IsotropicLineSourceInput))]
-				
-    [KnownType(typeof(CustomPointSourceInput))]
-	[KnownType(typeof(DirectionalPointSourceInput))]
-    [KnownType(typeof(IsotropicPointSourceInput))]
-				
-	[KnownType(typeof(LambertianSurfaceEmittingCylindricalFiberSourceInput))]
-	[KnownType(typeof(CustomSurfaceEmittingSphericalSourceInput))]
-	[KnownType(typeof(LambertianSurfaceEmittingSphericalSourceInput))]
-	[KnownType(typeof(LambertianSurfaceEmittingTubularSourceInput))]
-				
-	[KnownType(typeof(CustomCircularSourceInput))]
-	[KnownType(typeof(DirectionalCircularSourceInput))]
-	[KnownType(typeof(CustomEllipticalSourceInput))]
-	[KnownType(typeof(DirectionalEllipticalSourceInput))]
-	[KnownType(typeof(CustomRectangularSourceInput))]
-	[KnownType(typeof(DirectionalRectangularSourceInput))]
-				
-	[KnownType(typeof(CustomVolumetricEllipsoidalSourceInput))]
-	[KnownType(typeof(IsotropicVolumetricEllipsoidalSourceInput))]
-	[KnownType(typeof(CustomVolumetricCuboidalSourceInput))]
-	[KnownType(typeof(IsotropicVolumetricCuboidalSourceInput))]
-    
-    // Tissue inputs
-    [KnownType(typeof(MultiLayerTissueInput))]
-    [KnownType(typeof(SingleEllipsoidTissueInput))]
-	[KnownType(typeof(MultiEllipsoidTissueInput))]
-	
     public class SimulationInput
     {
-        // DC 3/9/2010 using public fields *specifically* for ease of use in input .xml classes
-        // todo: replace DataContractSerializer loading this class with Linq to XML reading
-        // of a "pure" XML input class (and make all the fields properties again). This should
-        // make it much easier for users to define simulations without wading through XML namespaces, etc.
         /// <summary>
         /// string name of output file
         /// </summary>
@@ -150,8 +110,9 @@ namespace Vts.MonteCarlo
                     }, // rho: nr=200 dr=0.2mm used for workshop)
                 }
                 ) { }
+
         /// <summary>
-        /// Method to read SimulationInput from file
+        /// Method to read SimulationInput from JSON file
         /// </summary>
         /// <param name="filename">string filename of file to be read</param>
         /// <returns>SimulationInput</returns>
@@ -174,14 +135,14 @@ namespace Vts.MonteCarlo
             FileIO.WriteToJson(this, filename);
         }
         /// <summary>
-        /// Method to read SimulationInput xml from file in resources
+        /// Method to read SimulationInput json from file in resources
         /// </summary>
         /// <param name="filename">string filename</param>
         /// <param name="project">string project name</param>
         /// <returns>SimulationInput</returns>
         public static SimulationInput FromFileInResources(string filename, string project)
         {
-            return FileIO.ReadFromXMLInResources<SimulationInput>(filename, project);
+            return FileIO.ReadFromJsonInResources<SimulationInput>(filename, project);
         }
     }
 }

@@ -1,13 +1,13 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.PostProcessing;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -41,17 +41,17 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void execute_reference_Monte_Carlo()
         {
             // make sure databases generated from previous tests are deleted
-            if (File.Exists("DiffuseReflectanceDatabase.xml"))
+            if (File.Exists("DiffuseReflectanceDatabase.txt"))
             {
-                File.Delete("DiffuseReflectanceDatabase.xml");
+                File.Delete("DiffuseReflectanceDatabase.txt");
             }
             if (File.Exists("DiffuseReflectanceDatabase"))
             {
                 File.Delete("DiffuseReflectanceDatabase");
             }
-            if (File.Exists("CollisionInfoDatabase.xml"))
+            if (File.Exists("CollisionInfoDatabase.txt"))
             {
-                File.Delete("CollisionInfoDatabase.xml");
+                File.Delete("CollisionInfoDatabase.txt");
             }
             if (File.Exists("CollisionInfoDatabase"))
             {

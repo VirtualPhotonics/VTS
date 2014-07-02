@@ -1,8 +1,7 @@
 using System;
 using System.Linq;
-using System.Numerics;
-using Vts.Extensions;
 using MathNet.Numerics;
+using Vts.Extensions;
 
 namespace Vts.Modeling.ForwardSolvers
 {

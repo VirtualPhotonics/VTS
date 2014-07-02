@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Vts.MonteCarlo.Controllers;
-using System.Collections;
 using System.Linq;
+using Vts.MonteCarlo.Controllers;
 
 namespace Vts.MonteCarlo.Factories
 {

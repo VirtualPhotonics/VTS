@@ -1,8 +1,8 @@
 using System;
-using System.IO;
-using System.Numerics;
-using System.Linq;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using MathNet.Numerics;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -35,9 +35,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void execute_Monte_Carlo()
         {
             // make sure statistic file generated from previous tests are deleted
-            if (File.Exists("statistics.xml"))
+            if (File.Exists("statistics.txt"))
             {
-                File.Delete("statistics.xml");
+                File.Delete("statistics.txt");
             }
            _input = new SimulationInput(
                 100,
@@ -110,7 +110,7 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             _output = new MonteCarloSimulation(_input).Run();
 
-            _simulationStatistics = SimulationStatistics.FromFile("statistics.xml");
+            _simulationStatistics = SimulationStatistics.FromFile("statistics.txt");
 
             _factor = 1.0 - Optics.Specular(
                             _input.TissueInput.Regions[0].RegionOP.N,

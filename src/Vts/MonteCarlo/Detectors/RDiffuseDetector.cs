@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.Serialization;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors

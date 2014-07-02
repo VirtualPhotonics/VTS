@@ -1,9 +1,9 @@
-﻿using Vts.Common;
+﻿using System.Runtime.Serialization;
+using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
-using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Sources;
-using System.Runtime.Serialization;
+using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo
 {
@@ -12,8 +12,6 @@ namespace Vts.MonteCarlo
     /// including converging/diverging angle, inner and outer radius, source profile, direction,
     /// position, inward normal beam rotation and initial tissue region index.
     /// </summary>
-    [KnownType(typeof(FlatSourceProfile))]
-    [KnownType(typeof(GaussianSourceProfile))]
     public class DirectionalCircularSourceInput : ISourceInput
     {
         /// <summary>
