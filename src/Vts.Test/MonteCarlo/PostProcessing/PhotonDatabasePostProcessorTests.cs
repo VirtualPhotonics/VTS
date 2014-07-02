@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.Tissues;

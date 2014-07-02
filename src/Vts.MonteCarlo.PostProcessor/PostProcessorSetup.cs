@@ -83,14 +83,13 @@ namespace Vts.MonteCarlo.PostProcessor
             // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
 
             // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
-            if (input.DetectorInputs.Where(di => di.IspMCReflectanceTally()).Any())
+            if (input.DetectorInputs.Where(di => di.TallyDetails.IspMCReflectanceTally).Any())
             {
                 IList<IDetectorInput> pMCDetectorInputs;
                 pMCDetectorInputs = input.DetectorInputs;
                 var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.pMCDiffuseReflectance,
                     pMCDetectorInputs,
-                    input.TallySecondMoment,
                     PhotonDatabaseFactory.GetpMCDatabase( // database filenames are assumed to be convention
                         VirtualBoundaryType.pMCDiffuseReflectance,
                         input.InputFolder),
@@ -98,13 +97,12 @@ namespace Vts.MonteCarlo.PostProcessor
                     );
                 postProcessedOutput = postProcessor.Run();
             }
-            else if (input.DetectorInputs.Where(di => di.IsReflectanceTally()).Any())
+            else if (input.DetectorInputs.Where(di => di.TallyDetails.IsReflectanceTally).Any())
             {
               
                 var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.DiffuseReflectance,
                     input.DetectorInputs, 
-                    input.TallySecondMoment,
                     PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                         VirtualBoundaryType.DiffuseReflectance,
                         input.InputFolder),
@@ -112,12 +110,11 @@ namespace Vts.MonteCarlo.PostProcessor
                 );
                 postProcessedOutput = postProcessor.Run();
             }
-            else if (input.DetectorInputs.Where(di => di.IsTransmittanceTally()).Any())
+            else if (input.DetectorInputs.Where(di => di.TallyDetails.IsTransmittanceTally).Any())
             {
                 var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.DiffuseTransmittance,
                     input.DetectorInputs,
-                    input.TallySecondMoment,
                     PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                         VirtualBoundaryType.DiffuseTransmittance,
                         input.InputFolder),
@@ -125,12 +122,11 @@ namespace Vts.MonteCarlo.PostProcessor
                 );
                 postProcessedOutput = postProcessor.Run();
             }
-            else if (input.DetectorInputs.Where(di => di.IsSpecularReflectanceTally()).Any())
+            else if (input.DetectorInputs.Where(di => di.TallyDetails.IsSpecularReflectanceTally).Any())
             {
                 var postProcessor = new PhotonDatabasePostProcessor(
                     VirtualBoundaryType.SpecularReflectance,
                     input.DetectorInputs,
-                    input.TallySecondMoment,
                     PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                         VirtualBoundaryType.SpecularReflectance,
                         input.InputFolder),

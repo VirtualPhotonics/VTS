@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using Vts.IO;
 using Vts.Common;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.IO;
