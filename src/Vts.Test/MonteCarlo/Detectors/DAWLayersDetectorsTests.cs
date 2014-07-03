@@ -61,54 +61,44 @@ namespace Vts.Test.MonteCarlo.Detectors
                      1); // start inside tissue
             var detectors =  new List<IDetectorInput>
                 {
-                    new FluenceOfXAndYAndZDetectorInput(
-                        new DoubleRange(-10.0, 10.0, 101),
-                        new DoubleRange(-10.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101)),
                     new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                    new ROfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(Math.PI / 2, Math.PI, 2)),
-                    new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1.0, 101)),
-                    new ROfXAndYDetectorInput(
-                        new DoubleRange(-10.0, 10.0, 101), // x
-                        new DoubleRange(-10.0, 10.0, 101)), // y,
-                    new ROfRhoAndOmegaDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.05, 1.0, 20)), // new DoubleRange(0.0, 1.0, 21)) DJC - edited to reflect frequency sampling points (not bins)
+                    new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
+                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true},
+                    new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
+                    new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 101)},
+                    new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
+                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
                     new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                    new TOfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new AOfRhoAndZDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101)),
+                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
+                    new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 101), Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},
                     new ATotalDetectorInput(),
-                    new FluenceOfRhoAndZDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101)),                       
-                    new RadianceOfRhoDetectorInput(_dosimetryDepth, new DoubleRange(0.0, 10.0, 101)),
-                    new RadianceOfRhoAndZAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(-Math.PI / 2, Math.PI / 2, 5)),                       
-                    new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(
-                        new DoubleRange(-10.0, 10.0, 101),
-                        new DoubleRange(-10.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101), 
-                        new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
-                        new DoubleRange(-Math.PI, Math.PI, 5)), // phi (azimuthal angle)
-                    new ReflectedMTOfRhoAndSubregionHistDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
-                        new DoubleRange(0.0, 500.0, 51), // MT bins
-                        new DoubleRange(0.0, 1.0, 11))
+                    new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},   
+                    new FluenceOfXAndYAndZDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101), 
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        Z =  new DoubleRange(0.0, 10.0, 101)
+                    },
+                    new RadianceOfRhoDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 101)},
+                    new RadianceOfRhoAndZAndAngleDetectorInput(){Rho= new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(-Math.PI / 2, Math.PI / 2, 5)},
+                    new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput()
+                    {
+                        X=new DoubleRange(-10.0, 10.0, 101), 
+                        Y=new DoubleRange(-10.0, 10.0, 101),
+                        Z=new DoubleRange(0.0, 10.0, 101),
+                        Theta=new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
+                        Phi=new DoubleRange(-Math.PI, Math.PI, 5), // phi (azimuthal angle)
+                    },
+                    new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
+                    {
+                            Rho=new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
+                            MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                            FractionalMTBins = new DoubleRange(0.0, 1.0, 11)   
+                    }
                 };
+
             _inputOneLayerTissue = new SimulationInput(
                 100,
                 "",

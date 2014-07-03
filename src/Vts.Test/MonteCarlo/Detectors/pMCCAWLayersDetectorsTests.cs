@@ -83,10 +83,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     1);
             var detectorInputs = new List<IDetectorInput>()
             {
-                new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                new ROfRhoAndTimeDetectorInput(
-                    new DoubleRange(0.0, 10.0, 101),
-                    new DoubleRange(0.0, 1.0, 101)),
+                new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
+                new ROfRhoAndTimeDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101),Time = new DoubleRange(0.0, 1.0, 101)}          
             };
 
             _referenceInputTwoLayerTissue = new SimulationInput(
@@ -131,15 +129,17 @@ namespace Vts.Test.MonteCarlo.Detectors
                 VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                 {
-                    new pMCROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1.0, 101),
-                        new List<OpticalProperties>() { // perturbed ops
+                    new pMCROfRhoAndTimeDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        Time=new DoubleRange(0.0, 1.0, 101),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
                             _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
                             _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
                             _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
                             _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
-                        new List<int>() { 1 })
+                        PerturbedRegionsIndices=new List<int>() { 1 }
+                    }
                 },
                 _databaseTwoLayerTissue,
                 _referenceInputTwoLayerTissue);

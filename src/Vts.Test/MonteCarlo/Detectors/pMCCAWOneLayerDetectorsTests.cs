@@ -83,10 +83,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     1);
             var detectorInputs = new List<IDetectorInput>()
             {
-                new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                new ROfRhoAndTimeDetectorInput(
-                    new DoubleRange(0.0, 10.0, 101),
-                    new DoubleRange(0.0, 1.0, 101)),
+                new ROfRhoDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101)},
+                new ROfRhoAndTimeDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101), Time=new DoubleRange(0.0, 1.0, 101)}                              
             };
             _referenceInputOneLayerTissue = new SimulationInput(
                 100,
@@ -126,15 +124,17 @@ namespace Vts.Test.MonteCarlo.Detectors
                 VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                 {
-                    new pMCROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1.0, 101),
+                    new pMCROfRhoAndTimeDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        Time=new DoubleRange(0.0, 1.0, 101),
                         // set perturbed ops to reference ops
-                        new List<OpticalProperties>() { 
+                        PerturbedOps=new List<OpticalProperties>() { 
                             _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                             _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
                             _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
-                        new List<int>() { 1 })
+                        PerturbedRegionsIndices=new List<int>() { 1 }
+                    }
                 },
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
@@ -153,14 +153,16 @@ namespace Vts.Test.MonteCarlo.Detectors
                 VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                 {
-                    new pMCROfRhoDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        // set perturbed ops to reference ops
-                        new List<OpticalProperties>() { 
+                    new pMCROfRhoAndTimeDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        Time=new DoubleRange(0.0, 1.0, 101),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
                             _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                             _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
                             _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
-                        new List<int>() { 1 })
+                        PerturbedRegionsIndices=new List<int>() { 1 } 
+                    }
                 },
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
@@ -181,10 +183,11 @@ namespace Vts.Test.MonteCarlo.Detectors
                 VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                     {
-                        new pMCROfRhoDetectorInput(
-                            new DoubleRange(0.0, 10, 101),
+                        new pMCROfRhoDetectorInput()
+                        {
+                            Rho=new DoubleRange(0.0, 10, 101),
                             // set perturbed ops to reference ops
-                            new List<OpticalProperties>()
+                            PerturbedOps=new List<OpticalProperties>()
                                 {
                                     _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                                     new OpticalProperties(
@@ -194,7 +197,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                                         _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.N),
                                     _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
                                 },
-                            new List<int>() {1})
+                            PerturbedRegionsIndices=new List<int>() {1}
+                         } 
                     },
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);

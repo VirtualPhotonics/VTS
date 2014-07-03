@@ -103,7 +103,7 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             _output = new MonteCarloSimulation(_input).Run();
 
-            _simulationStatistics = SimulationStatistics.FromFile("statistics.xml");
+            _simulationStatistics = SimulationStatistics.FromFile("statistics.txt");
 
             _factor = 1.0 - Optics.Specular(
                             _input.TissueInput.Regions[0].RegionOP.N,

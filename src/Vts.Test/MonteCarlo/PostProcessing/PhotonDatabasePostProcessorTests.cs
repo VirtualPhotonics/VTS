@@ -29,9 +29,11 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         {
             _detectorInputs = new List<IDetectorInput>()
             {
-                new ROfRhoAndTimeDetectorInput(
-                    new DoubleRange(0.0, 10.0, 101),
-                    new DoubleRange(0.0, 1, 101))
+                new ROfRhoAndTimeDetectorInput()
+                {
+                    Rho = new DoubleRange(0.0, 10.0, 101),
+                    Time = new DoubleRange(0.0, 1, 101)
+                }
             };
             _sourceInput = new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
