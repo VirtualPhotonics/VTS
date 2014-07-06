@@ -56,7 +56,7 @@ namespace Vts.IO
             ConventionBasedConverter<ITissueInput>.CreateFromEnum<Vts.MonteCarlo.TissueType>(typeof(MultiLayerTissueInput)),
             ConventionBasedConverter<ITissueRegion>.CreateFromEnum<Vts.MonteCarlo.TissueRegionType>(typeof(VoxelRegion), "Region"),
             new ConventionBasedConverter<IDetectorInput>(typeof(ROfRhoDetectorInput), "TallyType", TallyType.BuiltInTypes),
-            //ConventionBasedConverter<IDetectorInput>.CreateFromEnum<Vts.MonteCarlo.TallyType>(typeof(ROfRhoDetectorInput)),
+            new ConventionBasedConverter<IDetector>(typeof(ROfRhoDetector), "TallyType", TallyType.BuiltInTypes),
         };
 
         public static T ReadFromJson<T>(this string myString)

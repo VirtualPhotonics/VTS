@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
@@ -139,7 +140,8 @@ namespace Vts.MonteCarlo.Detectors
         // this is to allow saving of large arrays separately as a binary file
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new[] {
+            var serializers = new List<BinaryArraySerializer>();
+            serializers.Add(
                 new BinaryArraySerializer {
                     DataArray = Mean,
                     Name = "Mean",
@@ -161,32 +163,40 @@ namespace Vts.MonteCarlo.Detectors
                             }
                         }
                     }
-                },
-                new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if(!TallySecondMoment) return;
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < Time.Count - 1; j++)
-                            {
-                                binaryWriter.Write(SecondMoment[i, j]);
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if(!TallySecondMoment) return;
-                        SecondMoment = SecondMoment ?? new double[ Rho.Count - 1, Time.Count - 1];
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < Time.Count - 1; j++)
-                            {
-                                SecondMoment[i, j] = binaryReader.ReadDouble();
-                            }                       
-			            }
-                    },
-                },
-            };
+                }
+            );
+
+            if (TallySecondMoment)
+            {
+                serializers.Add(
+                    new BinaryArraySerializer {
+                        DataArray = SecondMoment,
+                        Name = "SecondMoment",
+                        FileTag = "_2",
+                        WriteData = binaryWriter => {
+                            if(!TallySecondMoment) return;
+                            for (int i = 0; i < Rho.Count - 1; i++) {
+                                for (int j = 0; j < Time.Count - 1; j++)
+                                {
+                                    binaryWriter.Write(SecondMoment[i, j]);
+                                }                            
+                            }
+                        },
+                        ReadData = binaryReader => {
+                            if(!TallySecondMoment) return;
+                            SecondMoment = SecondMoment ?? new double[ Rho.Count - 1, Time.Count - 1];
+                            for (int i = 0; i < Rho.Count - 1; i++) {
+                                for (int j = 0; j < Time.Count - 1; j++)
+                                {
+                                    SecondMoment[i, j] = binaryReader.ReadDouble();
+                                }                       
+			                }
+                        },
+                    }
+                );
+            }
+
+            return serializers.ToArray();
         }
         /// <summary>
         /// Method to determine if photon is within detector
