@@ -50,9 +50,9 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     ),
                     new List<IDetectorInput>()
                     {
-                        new ROfRhoAndTimeDetectorInput(
-                            new DoubleRange(0.0, 40, 201), // numbers for scaled MC
-                            new DoubleRange(0.0, 4, 801)) // numbers for scaled MC
+                        new ROfRhoAndTimeDetectorInput{
+                            Rho = new DoubleRange(0.0, 40, 201), // numbers for scaled MC
+                            Time = new DoubleRange(0.0, 4, 801)} // numbers for scaled MC
                     }
                 );
 

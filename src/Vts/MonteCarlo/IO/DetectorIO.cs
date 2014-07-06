@@ -392,6 +392,9 @@ namespace Vts.MonteCarlo.IO
                 {
                     using ( Stream s = StreamFinder.GetFileStream(filePath + binaryArraySerializer.FileTag, FileMode.Open))
                     {
+                        if (s == null)
+                            continue;
+
                         using (BinaryReader br = new BinaryReader(s))
                         {
                             binaryArraySerializer.ReadData(br);
@@ -615,7 +618,42 @@ namespace Vts.MonteCarlo.IO
             try
             {
                 string filePath = folderPath + fileName;
-                return null; // todo: implement new way (shouldn't need any switching at all...)
+                // allow null filePaths in case writing to isolated storage
+                //string filePath;
+                //if (folderPath == "")
+                //{
+                //    filePath = fileName;
+                //}
+                //else
+                //{
+                //    filePath = folderPath + @"/" + fileName;
+                //}
+                var detector = FileIO.ReadFromJsonInResources<IDetector>(filePath + ".txt", projectName);
+
+                var binaryArraySerializers = detector.GetBinarySerializers();
+
+                if (binaryArraySerializers == null)
+                {
+                    return detector;
+                }
+
+                foreach (var binaryArraySerializer in binaryArraySerializers)
+                {
+                    using (Stream s = StreamFinder.GetFileStreamFromResources(filePath + binaryArraySerializer.FileTag, projectName))
+                    {
+                        if (s == null)
+                            continue;
+                        
+                        using (BinaryReader br = new BinaryReader(s))
+                        {
+                            binaryArraySerializer.ReadData(br);
+                        }
+                    }
+                }
+
+                return detector;
+
+
                 //switch (tallyType)
                 //{
                 //    // "0D" detectors

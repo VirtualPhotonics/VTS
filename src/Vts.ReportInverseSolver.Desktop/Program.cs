@@ -392,7 +392,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                                                          bestChiSquared, meanChiSquared,
                                                                                          elapsedSeconds, mR.Count());
                             // write array to binary
-                            LocalWriteArrayToBinary<double>(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
+                            LocalWriteArrayToBinary(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
                                                             timeDomainFolder + "/" + problemFolder + "/" + fST.ToString() + "/" +
                                                             oT.ToString() + "/" + IFT.ToString() + "/" + filename, FileMode.Create);
 
@@ -546,7 +546,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                                                          bestChiSquared, meanChiSquared,
                                                                                          elapsedSeconds, mR.Count());
                             // write array to binary
-                            LocalWriteArrayToBinary<double>(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
+                            LocalWriteArrayToBinary(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
                                                             timeDomainFolder + "/" + problemFolder + "/" + fST.ToString() + "/" +
                                                             oT.ToString() + "/" + IFT.ToString() + "/" + filename, FileMode.Create);
 
@@ -697,7 +697,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                                                              bestChiSquared, meanChiSquared,
                                                                                              elapsedSeconds, numberOfPoints);
                                 // write array to binary
-                                LocalWriteArrayToBinary<double>(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
+                                LocalWriteArrayToBinary(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
                                                                 timeDomainFolder + "/" + noiseFolder + "/" + problemFolder + "/" + fST.ToString() + "/" +
                                                                 oT.ToString() + "/" + IFT.ToString() + "/" + rhoFolder + "/" + filename, FileMode.Create);
 
