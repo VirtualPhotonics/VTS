@@ -42,21 +42,21 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void execute_reference_Monte_Carlo()
         {
             // make sure databases generated from previous tests are deleted
-            if (File.Exists("DiffuseReflectanceDatabase.xml"))
+            if (File.Exists("pMCCAWOneLayer_DiffuseReflectanceDatabase.txt"))
             {
-                File.Delete("DiffuseReflectanceDatabase.xml");
+                File.Delete("pMCCAWOneLayer_DiffuseReflectanceDatabase.txt");
             }
-            if (File.Exists("DiffuseReflectanceDatabase"))
+            if (File.Exists("pMCCAWOneLayer_DiffuseReflectanceDatabase"))
             {
-                File.Delete("DiffuseReflectanceDatabase");
+                File.Delete("pMCCAWOneLayer_DiffuseReflectanceDatabase");
             }
-            if (File.Exists("CollisionInfoDatabase.xml"))
+            if (File.Exists("pMCCAWOneLayer_CollisionInfoDatabase.txt"))
             {
-                File.Delete("CollisionInfoDatabase.xml");
+                File.Delete("pMCCAWOneLayer_CollisionInfoDatabase.txt");
             }
-            if (File.Exists("CollisionInfoDatabase"))
+            if (File.Exists("pMCCAWOneLayer_CollisionInfoDatabase"))
             {
-                File.Delete("CollisionInfoDatabase");
+                File.Delete("pMCCAWOneLayer_CollisionInfoDatabase");
             }
 
             // generate reference database for homogeneous tissue

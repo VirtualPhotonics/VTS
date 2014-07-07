@@ -196,7 +196,8 @@ namespace Vts.MonteCarlo.Detectors
                         }
                     }
                 },
-                new BinaryArraySerializer {
+                // return a null serializer, if we're not serializing the second moment
+                !TallySecondMoment ? null :  new BinaryArraySerializer {
                     DataArray = SecondMoment,
                     Name = "SecondMoment",
                     FileTag = "_2",

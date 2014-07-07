@@ -143,214 +143,21 @@ namespace Vts.MonteCarlo.IO
 
                 foreach (var binaryArraySerializer in binaryArraySerializers)
                 {
+                    if (binaryArraySerializer == null)
+                        continue;
+
                     // Create a file to write binary data 
                     using (Stream s = StreamFinder.GetFileStream(filePath + binaryArraySerializer.FileTag, FileMode.OpenOrCreate))
                     {
+                        if (s == null)
+                            continue;
+
                         using (BinaryWriter bw = new BinaryWriter(s))
                         {
                             binaryArraySerializer.WriteData(bw);
                         }
                     }
                 }
-
-                //if (detector is IDetectorOld<double>)
-                //{
-                //    //var d = detector as IDetector<double>;
-                //    //FileIO.WriteToXML((RDiffuseDetector)d, filePath + ".xml");
-                //}
-                //if (detector is IDetectorOld<double[]>)
-                //{
-                //    var d = detector as IDetectorOld<double[]>;
-                //    //FileIO.WriteToXML(d, filePath + ".xml");
-                //    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
-                //    // output of 2nd moment 
-                //    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
-                //}
-                //if (detector is IDetectorOld<double[,]>)
-                //{
-                //    var d = detector as IDetectorOld<double[,]>;
-                //    //FileIO.WriteToXML(d, filePath + ".xml");
-                //    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
-                //    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
-                //}
-                //if (detector is IDetectorOld<double[, ,]>)
-                //{
-                //    var d = detector as IDetectorOld<double[, ,]>;
-                //    //FileIO.WriteToXML(d, filePath + ".xml");
-                //    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
-                //    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
-                //}
-                //if (detector is IDetectorOld<double[, , ,]>)
-                //{
-                //    var d = detector as IDetectorOld<double[, , ,]>;
-                //    //FileIO.WriteToXML(d, filePath + ".xml");
-                //    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
-                //    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
-                //}
-                //if (detector is IDetectorOld<double[, , , ,]>)
-                //{
-                //    var d = detector as IDetectorOld<double[, , , ,]>;
-                //    //FileIO.WriteToXML(d, filePath + ".xml");
-                //    FileIO.WriteArrayToBinary<double>(d.Mean, filePath, false);
-                //    FileIO.WriteArrayToBinary<double>(d.SecondMoment, filePath + "_2", false);
-                //}
-                //if (detector is IDetectorOld<Complex>)
-                //{
-                //    //var d = detector as IDetector<Complex>;
-                //    //FileIO.WriteToXML(d, filePath + ".xml");
-                //}
-                //if (detector is IDetectorOld<Complex[]>)
-                //{
-                //    var d = detector as IDetectorOld<Complex[]>;
-                //    //FileIO.WriteToXML(d, filePath + ".xml");
-                //    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
-                //    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
-                //}
-                //if (detector is IDetectorOld<Complex[,]>)
-                //{
-                //    var d = detector as IDetectorOld<Complex[,]>;
-                //    //FileIO.WriteToXML(d, filePath + ".xml");
-                //    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
-                //    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
-                //}
-                //if (detector is IDetectorOld<Complex[, ,]>)
-                //{
-                //    var d = detector as IDetectorOld<Complex[, ,]>;
-                //    //FileIO.WriteToXML(d, filePath + ".xml");
-                //    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
-                //    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
-                //}
-                //if (detector is IDetectorOld<Complex[, , ,]>)
-                //{
-                //    var d = detector as IDetectorOld<Complex[, , ,]>;
-                //    //FileIO.WriteToXML(d, filePath + ".xml");
-                //    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
-                //    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
-                //}
-                //if (detector is IDetectorOld<Complex[, , , ,]>)
-                //{
-                //    var d = detector as IDetectorOld<Complex[, , , ,]>;
-                //    //FileIO.WriteToXML(d, filePath + ".xml");
-                //    FileIO.WriteArrayToBinary<Complex>(d.Mean, filePath, false);
-                //    FileIO.WriteArrayToBinary<Complex>(d.SecondMoment, filePath + "_2", false);
-                //}
-				
-                //switch (detector.TallyType) {
-                //    case "RDiffuse":					
-                //        FileIO.WriteToXML((RDiffuseDetector)detector, filePath + ".xml");
-                //        break;
-                //    case "TDiffuse":
-                //        FileIO.WriteToXML((TDiffuseDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "ATotal":
-                //        FileIO.WriteToXML((ATotalDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    // "1D" detectors
-                //    case "ROfRho":
-                //        FileIO.WriteToXML((ROfRhoDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "pMCROfRho":
-                //        FileIO.WriteToXML((pMCROfRhoDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "dMCdROfRhodMua":
-                //        FileIO.WriteToXML((dMCdROfRhodMuaDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "dMCdROfRhodMus":
-                //        FileIO.WriteToXML((dMCdROfRhodMusDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "ROfAngle":
-                //        FileIO.WriteToXML((ROfAngleDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "ROfFx":
-                //        FileIO.WriteToXML((ROfFxDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "pMCROfFx":
-                //        FileIO.WriteToXML((pMCROfFxDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "TOfAngle":
-                //        FileIO.WriteToXML((TOfAngleDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    // "2D" detectors
-                //    case "ROfRhoAndTime":
-                //        FileIO.WriteToXML((ROfRhoAndTimeDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "pMCROfRhoAndTime":
-                //        FileIO.WriteToXML((pMCROfRhoAndTimeDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "pMCROfFxAndTime":
-                //        FileIO.WriteToXML((pMCROfFxAndTimeDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "ROfRhoAndAngle":
-                //        FileIO.WriteToXML((ROfRhoAndAngleDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "TOfRhoAndAngle":
-                //        FileIO.WriteToXML((TOfRhoAndAngleDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "ROfRhoAndOmega":
-                //        FileIO.WriteToXML((ROfRhoAndOmegaDetector)detector, filePath + ".xml");
-                //        break;
-					
-                //    case "ROfFxAndTime":
-                //        FileIO.WriteToXML((ROfFxAndTimeDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "ROfXAndY":
-                //        FileIO.WriteToXML((ROfXAndYDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "FluenceOfRhoAndZ":
-                //        FileIO.WriteToXML((FluenceOfRhoAndZDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "FluenceOfXAndYAndZ":
-                //        FileIO.WriteToXML((FluenceOfXAndYAndZDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "AOfRhoAndZ":
-                //        FileIO.WriteToXML((AOfRhoAndZDetector)detector, filePath + ".xml");
-                //        break;
-
-
-                //    // "3D" detectors
-                //    case "FluenceOfRhoAndZAndTime":
-                //        FileIO.WriteToXML((FluenceOfRhoAndZAndTimeDetector)detector, filePath + ".xml");
-                //        break;
-
-                //    case "ReflectedMTOfRhoAndSubregionHist":
-                //        FileIO.WriteToXML((ReflectedMTOfRhoAndSubregionHistDetector)detector, filePath + ".xml");
-                //        var dmt = detector as ReflectedMTOfRhoAndSubregionHistDetector;
-                //        FileIO.WriteArrayToBinary<double>(dmt.FractionalMT, filePath + "_FractionalMT", false);
-                //        break;
-
-                //    case "ReflectedTimeOfRhoAndSubregionHist":
-                //        FileIO.WriteToXML((ReflectedTimeOfRhoAndSubregionHistDetector)detector, filePath + ".xml");
-                //        var d = detector as ReflectedTimeOfRhoAndSubregionHistDetector;
-                //        FileIO.WriteArrayToBinary<double>(d.FractionalTime, filePath + "_FractionalTime", false);
-                //        break;
-
-                //    // "5D" detectors
-                //    case "RadianceOfXAndYAndZAndThetaAndPhi":
-                //        FileIO.WriteToXML((RadianceOfXAndYAndZAndThetaAndPhiDetector)detector, filePath + ".xml");
-                //        break;
-                //    default:
-                //        FileIO.WriteToXML(detector, filePath + ".xml");
-                //        break;
-                //    }
             }
             catch (Exception e)
             {
@@ -390,6 +197,9 @@ namespace Vts.MonteCarlo.IO
 
                 foreach (var binaryArraySerializer in binaryArraySerializers)
                 {
+                    if (binaryArraySerializer == null)
+                        continue;
+
                     using ( Stream s = StreamFinder.GetFileStream(filePath + binaryArraySerializer.FileTag, FileMode.Open))
                     {
                         if (s == null)
@@ -639,6 +449,9 @@ namespace Vts.MonteCarlo.IO
 
                 foreach (var binaryArraySerializer in binaryArraySerializers)
                 {
+                    if (binaryArraySerializer == null)
+                        continue;
+
                     using (Stream s = StreamFinder.GetFileStreamFromResources(filePath + binaryArraySerializer.FileTag, projectName))
                     {
                         if (s == null)
