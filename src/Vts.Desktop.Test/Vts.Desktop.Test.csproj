@@ -285,9 +285,9 @@
     <EmbeddedResource Include="..\Vts.Test\Resources\folder\embeddedresourcefile.txt">
       <Link>Resources\folder\embeddedresourcefile.txt</Link>
     </EmbeddedResource>
-    <Resource Include="..\Vts.Test\Resources\resourcefile.txt">
+    <EmbeddedResource Include="..\Vts.Test\Resources\resourcefile.txt">
       <Link>Resources\resourcefile.txt</Link>
-    </Resource>
+    </EmbeddedResource>
     <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />
     <Content Include="App_Readme\MathNet.Numerics.readme.txt" />
