@@ -267,9 +267,18 @@ namespace Vts.Gui.Silverlight.ViewModel
                     {
                         var currentAssembly = Assembly.GetExecutingAssembly();
                         // add the MATLAB files to isolated storage so they can be included in the zip file
-                        var fileList = FileIO.CopyFolderFromEmbeddedResources("Matlab", resultsFolder, currentAssembly.FullName);
+                        var fileList = FileIO.CopyFolderFromEmbeddedResources("Matlab", resultsFolder, currentAssembly.FullName, false);
                         // then, zip all these together and store *that* .zip to isolated storage as well
                         var fileNames = store.GetFileNames(resultsFolder + @"\*");
+                        //make sure we don't add the root files twice
+                        foreach (var file in fileNames)
+                        {
+                            var index = fileList.IndexOf(file);
+                            if (index > -1)
+                            {
+                                fileList.RemoveAt(index);
+                            }
+                        }
                         fileList.AddRange(fileNames);
                         try
                         {

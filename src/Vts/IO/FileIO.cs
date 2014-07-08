@@ -271,9 +271,16 @@ namespace Vts.IO
         public static void CopyFileFromEmbeddedResources(string sourceFileName, string destinationFileName, string projectName)
         {
             var currentAssembly = Assembly.Load(projectName);
-            var stream = currentAssembly.GetManifestResourceStream(sourceFileName);
-            var emptyStream = StreamFinder.GetFileStream(destinationFileName, FileMode.Create);
-            stream.CopyTo(emptyStream);
+            Stream emptyStream;
+            Stream stream;
+            using (stream = currentAssembly.GetManifestResourceStream(sourceFileName))
+            {
+                emptyStream = StreamFinder.GetFileStream(destinationFileName, FileMode.Create);
+                if (stream != null)
+                {
+                    stream.CopyTo(emptyStream);
+                }
+            }
             emptyStream.Close();
         }
 
@@ -283,15 +290,16 @@ namespace Vts.IO
         /// <param name="folderName">Name of the folder to copy</param>
         /// <param name="projectName">The name of the project where the file is located</param>
         /// <param name="destinationFolder">The name of the folder to copy the folder</param>
+        /// <param name="includeFolder">Boolean value to determine whether for include the containing folder</param>
         /// <returns>Returns a list of the copied files</returns>
-        public static List<string> CopyFolderFromEmbeddedResources(string folderName, string destinationFolder, string projectName)
+        public static List<string> CopyFolderFromEmbeddedResources(string folderName, string destinationFolder, string projectName, bool includeFolder)
         {
             var fileList = new List<string>();
             var currentAssembly = Assembly.Load(projectName);
             var listAssemblies = currentAssembly.GetManifestResourceNames();
             foreach (var i in listAssemblies)
             {
-                // check to see if MATLAB is in the name
+                // check to see if folder name is in the name
                 if (!i.Contains(folderName)) continue;
                 //CreateDirectory(folderName);
                 // get the filename extension
@@ -299,12 +307,16 @@ namespace Vts.IO
                 var startOfFolderIndex = i.IndexOf(folderName, StringComparison.Ordinal) + folderName.Length + 1;
                 var lastDotIndex = (i.Length - startOfFolderIndex) - (i.Length - i.LastIndexOf(".", StringComparison.Ordinal));
                 var folderToLastDot = i.Substring(startOfFolderIndex, lastDotIndex);
-                var filename = folderToLastDot;
                 // get the filename if there are more folders
-                var destination = folderName;
+                var filename = folderToLastDot;
+                var destination = "";
+                if (includeFolder)
+                {
+                    destination = folderName;
+                }
                 if (folderToLastDot.Contains("."))
                 {
-                    filename = folderToLastDot.Substring(folderToLastDot.LastIndexOf(".", StringComparison.Ordinal));
+                    filename = folderToLastDot.Substring(folderToLastDot.LastIndexOf(".", StringComparison.Ordinal) + 1);
                     var folders = folderToLastDot.Substring(0, folderToLastDot.Length - (folderToLastDot.Length - folderToLastDot.LastIndexOf(".", StringComparison.Ordinal)));
                     var folderList = folders.Split('.');
                     foreach (var folder in folderList)
