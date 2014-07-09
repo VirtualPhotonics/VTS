@@ -161,7 +161,7 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Fx.Count - 1; i++) {
+                        for (int i = 0; i < Fx.Count; i++) {
                             for (int j = 0; j < Time.Count - 1; j++)
                             {
                                 binaryWriter.Write(Mean[i, j].Real);
@@ -170,8 +170,8 @@ namespace Vts.MonteCarlo.Detectors
                         }
                     },
                     ReadData = binaryReader => {
-                        Mean = Mean ?? new Complex[ Fx.Count - 1, Time.Count - 1];
-                        for (int i = 0; i <  Fx.Count - 1; i++) {
+                        Mean = Mean ?? new Complex[ Fx.Count, Time.Count - 1];
+                        for (int i = 0; i <  Fx.Count; i++) {
                             for (int j = 0; j < Time.Count - 1; j++)
                             {
                                 var real = binaryReader.ReadDouble();
@@ -188,7 +188,7 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if(!TallySecondMoment) return;
-                        for (int i = 0; i < Fx.Count - 1; i++) {
+                        for (int i = 0; i < Fx.Count; i++) {
                             for (int j = 0; j < Time.Count - 1; j++)
                             {
                                 binaryWriter.Write(SecondMoment[i, j].Real);
@@ -198,8 +198,8 @@ namespace Vts.MonteCarlo.Detectors
                     },
                     ReadData = binaryReader => {
                         if(!TallySecondMoment) return;
-                        SecondMoment = SecondMoment ?? new Complex[ Fx.Count - 1, Time.Count - 1];
-                        for (int i = 0; i < Fx.Count - 1; i++) {
+                        SecondMoment = SecondMoment ?? new Complex[ Fx.Count, Time.Count - 1];
+                        for (int i = 0; i < Fx.Count; i++) {
                             for (int j = 0; j < Time.Count - 1; j++)
                             {
                                 var real = binaryReader.ReadDouble();

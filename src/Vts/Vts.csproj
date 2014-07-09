@@ -556,9 +556,9 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt" />
     <Resource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.txt" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime" />
     <None Include="packages.config" />
     <None Include="Sources.cd" />
   </ItemGroup>
@@ -587,6 +587,7 @@
     <Content Include="App_Readme\MathNet\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.copyright.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.readme.txt" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime.txt" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\controlPointsEXAMPLE.txt" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\templateNurbsValues.txt" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\testSpaceNurbsValues.txt" />
@@ -596,7 +597,6 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.txt" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.txt" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.txt" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.txt" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

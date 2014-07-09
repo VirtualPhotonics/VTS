@@ -1153,14 +1153,8 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots">
       <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt">
-      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.txt">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.txt">
-      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.txt</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.txt">
       <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.txt</Link>
@@ -1170,6 +1164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.txt">
       <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime.txt">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime.txt</Link>
     </EmbeddedResource>
     <Content Include="App_Readme\MathNet\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.copyright.txt" />
@@ -1181,6 +1178,9 @@
     </Content>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime</Link>
     </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
