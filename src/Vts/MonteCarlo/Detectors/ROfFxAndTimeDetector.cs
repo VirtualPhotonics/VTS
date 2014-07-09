@@ -97,8 +97,8 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            Mean = Mean ?? new Complex[Fx.Count - 1, Time.Count - 1];
-            SecondMoment = SecondMoment ?? (TallySecondMoment ? new Complex[Fx.Count - 1, Time.Count - 1] : null);
+            Mean = Mean ?? new Complex[Fx.Count, Time.Count - 1];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new Complex[Fx.Count, Time.Count - 1] : null);
 
             // intialize any other necessary class fields here
         }
@@ -139,7 +139,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            for (int ifx = 0; ifx < Fx.Count - 1; ifx++)
+            for (int ifx = 0; ifx < Fx.Count; ifx++)
             {
                 for (int it = 0; it < Time.Count - 1; it++)
                 {

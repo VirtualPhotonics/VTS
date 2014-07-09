@@ -114,7 +114,7 @@ namespace Vts.Modeling.ForwardSolvers
             var rOfFxAndTime = (dynamic)DetectorIO.ReadDetectorFromFileInResources("ROfFxAndTime", "Modeling/Resources/" + folder, "Vts");
 
             nfxReference = rOfFxAndTime.Fx.Count;
-            dfxReference = rOfFxAndTime.Time.Count - 1;
+            dfxReference = 1.0/nfxReference;
 
             FxReference = new DoubleRange(dfxReference / 2, dfxReference * nfxReference - dfxReference / 2, nfxReference).AsEnumerable().ToArray();
 
@@ -122,7 +122,7 @@ namespace Vts.Modeling.ForwardSolvers
             for (int ifx = 0; ifx < nfxReference; ifx++)
             {
                 double sum = 0.0;
-                for (int it = 0; it < ntReference; it++)
+                for (int it = 0; it < ntReference; it++) // this only goes to 800 not 801 because ntReference determined from ROfRhoAndTime.txt
                 {
                     RReferenceOfFxAndTime[ifx, it] = rOfFxAndTime.Mean[ifx, it].Real;
                 }
