@@ -1153,9 +1153,6 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots">
       <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime">
-      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt</Link>
     </EmbeddedResource>
@@ -1182,6 +1179,9 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime</Link>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -65,9 +65,9 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 ),
                 new List<IDetectorInput>() 
                 { 
-                    new RDiffuseDetectorInput(),
-                    new ATotalDetectorInput(),
-                    new TDiffuseDetectorInput()
+                    new RDiffuseDetectorInput() { TallySecondMoment = true },
+                    new ATotalDetectorInput() { TallySecondMoment = true },
+                    new TDiffuseDetectorInput() { TallySecondMoment = true }
                 }
             );
             _output = new MonteCarloSimulation(_input).Run();
