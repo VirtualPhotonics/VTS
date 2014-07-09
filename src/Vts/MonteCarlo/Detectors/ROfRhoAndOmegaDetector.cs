@@ -159,7 +159,7 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "",
                     WriteData = binaryWriter => {
                         for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < Omega.Count - 1; j++)
+                            for (int j = 0; j < Omega.Count; j++)
                             {
                                 binaryWriter.Write(Mean[i, j].Real);
                                 binaryWriter.Write(Mean[i, j].Imaginary);
@@ -167,9 +167,9 @@ namespace Vts.MonteCarlo.Detectors
                         }
                     },
                     ReadData = binaryReader => {
-                        Mean = Mean ?? new Complex[ Rho.Count - 1, Omega.Count - 1];
+                        Mean = Mean ?? new Complex[ Rho.Count - 1, Omega.Count];
                         for (int i = 0; i <  Rho.Count - 1; i++) {
-                            for (int j = 0; j < Omega.Count - 1; j++)
+                            for (int j = 0; j < Omega.Count; j++)
                             {
                                 var real = binaryReader.ReadDouble();
                                 var imag = binaryReader.ReadDouble();
@@ -186,7 +186,7 @@ namespace Vts.MonteCarlo.Detectors
                     WriteData = binaryWriter => {
                         if(!TallySecondMoment) return;
                         for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < Omega.Count - 1; j++)
+                            for (int j = 0; j < Omega.Count; j++)
                             {
                                 binaryWriter.Write(SecondMoment[i, j].Real);
                                 binaryWriter.Write(SecondMoment[i, j].Imaginary);
@@ -195,9 +195,9 @@ namespace Vts.MonteCarlo.Detectors
                     },
                     ReadData = binaryReader => {
                         if(!TallySecondMoment) return;
-                        SecondMoment = SecondMoment ?? new Complex[ Rho.Count - 1, Omega.Count - 1];
+                        SecondMoment = SecondMoment ?? new Complex[ Rho.Count - 1, Omega.Count ];
                         for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < Omega.Count - 1; j++)
+                            for (int j = 0; j < Omega.Count; j++)
                             {
                                 var real = binaryReader.ReadDouble();
                                 var imag = binaryReader.ReadDouble();

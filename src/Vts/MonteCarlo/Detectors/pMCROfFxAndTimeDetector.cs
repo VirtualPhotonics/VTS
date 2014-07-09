@@ -119,8 +119,8 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            Mean = Mean ?? new Complex[Fx.Count - 1, Time.Count - 1];
-            SecondMoment = SecondMoment ?? (TallySecondMoment ? new Complex[Fx.Count - 1, Time.Count - 1] : null);
+            Mean = Mean ?? new Complex[Fx.Count, Time.Count - 1];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new Complex[Fx.Count, Time.Count - 1] : null);
 
             // intialize any other necessary class fields here
             _perturbedOps = PerturbedOps;
@@ -180,7 +180,7 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2*Math.PI*Fx.Delta*Time.Delta;
-            for (int ifx = 0; ifx < Fx.Count - 1; ifx++)
+            for (int ifx = 0; ifx < Fx.Count; ifx++)
             {
                 for (int it = 0; it < Time.Count - 1; it++)
                 {
@@ -204,7 +204,7 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Fx.Count - 1; i++) {
+                        for (int i = 0; i < Fx.Count; i++) {
                             for (int j = 0; j < Time.Count - 1; j++)
                             {
                                 binaryWriter.Write(Mean[i, j].Real);
@@ -213,7 +213,7 @@ namespace Vts.MonteCarlo.Detectors
                         }
                     },
                     ReadData = binaryReader => {
-                        Mean = Mean ?? new Complex[ Fx.Count - 1, Time.Count - 1];
+                        Mean = Mean ?? new Complex[ Fx.Count, Time.Count - 1];
                         for (int i = 0; i <  Fx.Count - 1; i++) {
                             for (int j = 0; j < Time.Count - 1; j++)
                             {
@@ -231,7 +231,7 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if(!TallySecondMoment) return;
-                        for (int i = 0; i < Fx.Count - 1; i++) {
+                        for (int i = 0; i < Fx.Count; i++) {
                             for (int j = 0; j < Time.Count - 1; j++)
                             {
                                 binaryWriter.Write(SecondMoment[i, j].Real);
@@ -241,7 +241,7 @@ namespace Vts.MonteCarlo.Detectors
                     },
                     ReadData = binaryReader => {
                         if(!TallySecondMoment) return;
-                        SecondMoment = SecondMoment ?? new Complex[ Fx.Count - 1, Time.Count - 1];
+                        SecondMoment = SecondMoment ?? new Complex[ Fx.Count, Time.Count - 1];
                         for (int i = 0; i < Fx.Count - 1; i++) {
                             for (int j = 0; j < Time.Count - 1; j++)
                             {
