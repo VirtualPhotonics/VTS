@@ -232,7 +232,7 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "",
                     WriteData = binaryWriter => {
                         for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < FractionalMTBins.Count - 1; j++)
+                            for (int j = 0; j < MTBins.Count - 1; j++)
                             {                                
                                 binaryWriter.Write(Mean[i, j]);
                             }
@@ -244,6 +244,36 @@ namespace Vts.MonteCarlo.Detectors
                             for (int j = 0; j < MTBins.Count - 1; j++)
                             {
                                Mean[i, j] = binaryReader.ReadDouble(); 
+                            }
+                        }
+                    }
+                },
+                new BinaryArraySerializer {
+                    DataArray = FractionalMT,
+                    Name = "FractionalMT",
+                    FileTag = "",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            for (int j = 0; j < MTBins.Count - 1; j++) {
+                                for (int k = 0; k < NumSubregions; k++) {
+                                    for (int l = 0; l < FractionalMTBins.Count - 1; l++)
+                                    {
+                                        binaryWriter.Write(FractionalMT[i, j, k, l]);
+                                    } 
+                                }                                                             
+                            }
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        FractionalMT = FractionalMT ?? new double[ Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count - 1];
+                        for (int i = 0; i <  Rho.Count - 1; i++) {
+                            for (int j = 0; j < MTBins.Count - 1; j++) {
+                                for (int k = 0; k < NumSubregions; k++) {
+                                    for (int l = 0; l < FractionalMTBins.Count - 1; l++)
+                                    {
+                                        FractionalMT[i, j, k, l] = binaryReader.ReadDouble(); 
+                                    }
+                                }                              
                             }
                         }
                     }

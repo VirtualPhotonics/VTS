@@ -210,11 +210,11 @@ namespace Vts.MonteCarlo
             // can only run dMC detectors with 1 perturbed region for the present
             foreach (var detectorInput in input.DetectorInputs)
             {
-                if (detectorInput.TallyType.Contains("dMCdROfRhodMuaDetectorInput"))
+                if (detectorInput.TallyType.Contains("dMCdROfRhodMua"))
                 {
                     return dMCdROfRhodMuaDetectorInputValidation.ValidateInput(detectorInput);
                 }
-                if (detectorInput.TallyType.Contains("dMCdROfRhodMusDetectorInput"))
+                if (detectorInput.TallyType.Contains("dMCdROfRhodMus"))
                 {
                     return dMCdROfRhodMusDetectorInputValidation.ValidateInput(detectorInput);
                 }

@@ -163,10 +163,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                 VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                 {
-                    new pMCROfRhoAndTimeDetectorInput()
+                    new pMCROfRhoDetectorInput()
                     {
                         Rho=new DoubleRange(0.0, 10.0, 101),
-                        Time=new DoubleRange(0.0, 1.0, 101),
                         PerturbedOps=new List<OpticalProperties>() { // perturbed ops
                             _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                             _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,

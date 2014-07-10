@@ -21,7 +21,9 @@ namespace Vts.Test.MonteCarlo
         public void validate_RDiffuseDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testrdiffuse";
-            IDetector detector = new RDiffuseDetector() {TallySecondMoment = true, Name=detectorName, Mean = 100};
+            IDetectorInput detectorInput = new RDiffuseDetectorInput() {TallySecondMoment = true, Name=detectorName};
+            var detector = (RDiffuseDetector) detectorInput.CreateDetector();
+            detector.Mean = 100;
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (RDiffuseDetector)DetectorIO.ReadDetectorFromFile("RDiffuse", detectorName, "");
 
@@ -32,7 +34,9 @@ namespace Vts.Test.MonteCarlo
         public void validate_TDiffuseDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testtdiffuse";
-            IDetector detector = new TDiffuseDetector() {TallySecondMoment = false, Name = detectorName, Mean = 100};
+            IDetectorInput detectorInput = new TDiffuseDetectorInput() {TallySecondMoment = false, Name = detectorName};
+            var detector = (TDiffuseDetector) detectorInput.CreateDetector();
+            detector.Mean = 100;
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (TDiffuseDetector)DetectorIO.ReadDetectorFromFile("TDiffuse", detectorName, "");
 
@@ -43,8 +47,9 @@ namespace Vts.Test.MonteCarlo
         public void validate_ATotalDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testatotal";
-            IDetector detector = new ATotalDetector() {TallySecondMoment = true, Name = detectorName, Mean = 100};
-            detector.Initialize(new MultiLayerTissue());
+            IDetectorInput detectorInput = new ATotalDetectorInput() {TallySecondMoment = true, Name = detectorName};
+            var detector = (ATotalDetector) detectorInput.CreateDetector();
+            detector.Mean = 100;
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ATotalDetector)DetectorIO.ReadDetectorFromFile("ATotal", detectorName, "");
 
@@ -59,10 +64,12 @@ namespace Vts.Test.MonteCarlo
         public void validate_ROfRhoDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testrofrho";
-            IDetector detector = new ROfRhoDetector()
+            IDetectorInput detectorInput = new ROfRhoDetectorInput()
             {
-                Rho=new DoubleRange(0, 10, 4), TallySecondMoment = false, Name = detectorName, Mean = new double[] {100, 200, 300}
+                Rho=new DoubleRange(0, 10, 4), TallySecondMoment = false, Name = detectorName
             };
+            var detector = (ROfRhoDetector) detectorInput.CreateDetector();
+            detector.Mean = new double[] {100, 200, 300};
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfRhoDetector)DetectorIO.ReadDetectorFromFile("ROfRho", detectorName, "");
 
@@ -75,13 +82,14 @@ namespace Vts.Test.MonteCarlo
         public void validate_ROfAngleDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testrofangle";
-            IDetector detector = new ROfAngleDetector()
+            IDetectorInput detectorInput = new ROfAngleDetectorInput()
             {
                 Angle = new DoubleRange(0, 10, 4),
                 TallySecondMoment = false,
                 Name = detectorName,
-                Mean = new double[] {100, 200, 300}
             };
+            var detector = (ROfAngleDetector) detectorInput.CreateDetector();
+            detector.Mean = new double[] {100, 200, 300};
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfAngleDetector)DetectorIO.ReadDetectorFromFile("ROfAngle", detectorName, "");
 
@@ -94,13 +102,14 @@ namespace Vts.Test.MonteCarlo
         public void validate_TOfAngleDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testtofangle";
-            IDetector detector = new TOfAngleDetector()
+            IDetectorInput detectorInput = new TOfAngleDetectorInput()
             {
                 Angle = new DoubleRange(0, 10, 4),
                 TallySecondMoment = false,
                 Name = detectorName,
-                Mean = new double[] {100, 200, 300}
             };
+            var detector = (TOfAngleDetector) detectorInput.CreateDetector();
+            detector.Mean = new double[] {100, 200, 300};
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (TOfAngleDetector)DetectorIO.ReadDetectorFromFile("TOfAngle", detectorName, "");
 
@@ -113,13 +122,14 @@ namespace Vts.Test.MonteCarlo
         public void validate_TOfRhoDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testtofrho";
-            IDetector detector = new TOfRhoDetector()
+            IDetectorInput detectorInput = new TOfRhoDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 4),
                 TallySecondMoment = false,
                 Name = detectorName,
-                Mean = new double[] {100, 200, 300}
             };
+            var detector = (TOfRhoDetector) detectorInput.CreateDetector();
+            detector.Mean = new double[] {100, 200, 300};
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (TOfRhoDetector)DetectorIO.ReadDetectorFromFile("TOfRho", detectorName, "");
 
@@ -129,19 +139,19 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(dcloned.Mean[2], 300);
         }
         [Test]
-        public void validate_pMCMuaMusROfRhoDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        public void validate_pMCROfRhoDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testpmcrofrho";
-            IDetector detector = new pMCROfRhoDetector()
+            IDetectorInput detectorInput = new pMCROfRhoDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 4),
                 PerturbedOps = new List<OpticalProperties>() {new OpticalProperties()},
                 PerturbedRegionsIndices = new List<int>() {1},
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[] {100, 200, 300}
             };
-            detector.Initialize(new MultiLayerTissue());
+            var detector = (pMCROfRhoDetector) detectorInput.CreateDetector();
+            detector.Mean = new double[] {100, 200, 300};
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (pMCROfRhoDetector)DetectorIO.ReadDetectorFromFile("pMCROfRho", detectorName, "");
 
@@ -158,14 +168,15 @@ namespace Vts.Test.MonteCarlo
         public void validate_ROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testrofrhoandtime";
-            IDetector detector = new ROfRhoAndTimeDetector()
+            IDetectorInput detectorInput = new ROfRhoAndTimeDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Time = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,] {{1, 2, 3}, {4, 5, 6}}
             };
+            var detector = (ROfRhoAndTimeDetector) detectorInput.CreateDetector();
+            detector.Mean = new double[,] {{1, 2, 3}, {4, 5, 6}};
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFile("ROfRhoAndTime", detectorName, "");
 
@@ -181,14 +192,15 @@ namespace Vts.Test.MonteCarlo
         public void validate_ROfRhoAndAngleDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testrofrhoandangle";
-            IDetector detector = new ROfRhoAndAngleDetector()
+            IDetectorInput detectorInput = new ROfRhoAndAngleDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Angle = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,] {{1, 2, 3}, {4, 5, 6}}
             };
+            var detector = (ROfRhoAndAngleDetector) detectorInput.CreateDetector();
+            detector.Mean = new double[,] {{1, 2, 3}, {4, 5, 6}};
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfRhoAndAngleDetector)DetectorIO.ReadDetectorFromFile("ROfRhoAndAngle", detectorName, "");
 
@@ -204,14 +216,15 @@ namespace Vts.Test.MonteCarlo
         public void validate_TOfRhoAndAngleDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testtofrhoandangle";
-            IDetector detector = new TOfRhoAndAngleDetector()
+            IDetectorInput detectorInput = new TOfRhoAndAngleDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Angle = new DoubleRange(0, 1, 4),
                 TallySecondMoment = false,
                 Name = detectorName,
-                Mean = new double[,] {{1, 2, 3}, {4, 5, 6}}
             };
+            var detector = (TOfRhoAndAngleDetector) detectorInput.CreateDetector();
+            detector.Mean = new double[,] {{1, 2, 3}, {4, 5, 6}};
 
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (TOfRhoAndAngleDetector)DetectorIO.ReadDetectorFromFile("TOfRhoAndAngle", detectorName, "");
@@ -228,15 +241,15 @@ namespace Vts.Test.MonteCarlo
         public void validate_AOfRhoAndZDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testaofrhoandz";
-            IDetector detector = new AOfRhoAndZDetector()
+            IDetectorInput detectorInput = new AOfRhoAndZDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Z = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true,
                 Name = detectorName,
-                Mean = new double[,] {{1, 2, 3}, {4, 5, 6}}
             };
-            detector.Initialize(new MultiLayerTissue());
+            var detector = (AOfRhoAndZDetector) detectorInput.CreateDetector();
+            detector.Mean = new double[,] {{1, 2, 3}, {4, 5, 6}};
 
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (AOfRhoAndZDetector)DetectorIO.ReadDetectorFromFile("AOfRhoAndZ", detectorName, "");
@@ -253,15 +266,15 @@ namespace Vts.Test.MonteCarlo
         public void validate_ROfXAndYDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testrofxandy";
-            IDetector detector = new ROfXAndYDetector()
+            IDetectorInput detectorInput = new ROfXAndYDetectorInput()
             {
                 X = new DoubleRange(0, 10, 3),
                 Y = new DoubleRange(0, 1, 4),
                 TallySecondMoment = false,
                 Name = detectorName,
-                Mean = new double[,] {{1, 2, 3}, {4, 5, 6}}
             };
-
+            var detector = (ROfXAndYDetector) detectorInput.CreateDetector();
+            detector.Mean = new double[,] {{1, 2, 3}, {4, 5, 6}};
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfXAndYDetector)DetectorIO.ReadDetectorFromFile("ROfXAndY", detectorName, "");
 
@@ -278,15 +291,15 @@ namespace Vts.Test.MonteCarlo
         {
             string detectorName = "testfluenceofrhoandz";
             var tissue = new MultiLayerTissue();
-            IDetector detector = new FluenceOfRhoAndZDetector()
+            IDetectorInput detectorInput = new FluenceOfRhoAndZDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Z = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,] {{1, 2, 3}, {4, 5, 6}}
             };
-            detector.Initialize(tissue);
+            var detector = (FluenceOfRhoAndZDetector)detectorInput.CreateDetector();
+            detector.Mean = new double[,] {{1, 2, 3}, {4, 5, 6}};
 
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (FluenceOfRhoAndZDetector)DetectorIO.ReadDetectorFromFile("FluenceOfRhoAndZ", detectorName, "");
@@ -303,15 +316,24 @@ namespace Vts.Test.MonteCarlo
         public void validate_ROfRhoAndOmegaDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testrofrhoandomega";
-            IDetector detector = new ROfRhoAndOmegaDetector()
+            IDetectorInput detectorInput = new ROfRhoAndOmegaDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Omega = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally Second Moment
-                Name = detectorName,
-                Mean = new Complex[,] { { 1 + Complex.ImaginaryOne * 1, 2 + Complex.ImaginaryOne * 2, 3 + Complex.ImaginaryOne * 3, 4 + Complex.ImaginaryOne * 4},
-                                        { 5 + Complex.ImaginaryOne * 5, 6 + Complex.ImaginaryOne * 6, 7 + Complex.ImaginaryOne * 7, 8 + Complex.ImaginaryOne * 8} }
-     
+                Name = detectorName,              
+            };
+            var detector = (ROfRhoAndOmegaDetector)detectorInput.CreateDetector();
+            detector.Mean = new Complex[,]
+            {
+                {
+                    1 + Complex.ImaginaryOne*1, 2 + Complex.ImaginaryOne*2, 3 + Complex.ImaginaryOne*3,
+                    4 + Complex.ImaginaryOne*4
+                },
+                {
+                    5 + Complex.ImaginaryOne*5, 6 + Complex.ImaginaryOne*6, 7 + Complex.ImaginaryOne*7,
+                    8 + Complex.ImaginaryOne*8
+                }
             };
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfRhoAndOmegaDetector)DetectorIO.ReadDetectorFromFile("ROfRhoAndOmega", detectorName, "");
@@ -330,16 +352,16 @@ namespace Vts.Test.MonteCarlo
         public void validate_ReflectedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testReflectedMTOfRhoAndSubregionHist";
-            IDetector detector = new ReflectedMTOfRhoAndSubregionHistDetector()
+            IDetectorInput detectorInput = new ReflectedMTOfRhoAndSubregionHistDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),
                 MTBins = new DoubleRange(0, 10, 3),
                 FractionalMTBins = new DoubleRange(0, 1, 11),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,] {{1, 2}, {3, 4}}
             };
-            detector.Initialize(new MultiLayerTissue());
+            var detector = (ReflectedMTOfRhoAndSubregionHistDetector)detectorInput.CreateDetector();
+            detector.Mean = new double[,] {{1, 2}, {3, 4}};
 
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ReflectedMTOfRhoAndSubregionHistDetector)DetectorIO.ReadDetectorFromFile("ReflectedMTOfRhoAndSubregionHist", detectorName, "");
@@ -352,20 +374,20 @@ namespace Vts.Test.MonteCarlo
 
         }
         [Test]
-        public void validate_pMCMuaMusROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
+        public void validate_pMCROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testpmcmuamusrofrhoandtime";
-            IDetector detector = new pMCROfRhoAndTimeDetector()
+            IDetectorInput detectorInput = new pMCROfRhoAndTimeDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Time = new DoubleRange(0, 1, 4),
                 PerturbedOps = new List<OpticalProperties>() {new OpticalProperties()},
                 PerturbedRegionsIndices = new List<int>() {1},
                 TallySecondMoment = true, // tally SecondMoment
-                Name = detectorName,
-                Mean = new double[,] {{1, 2, 3}, {4, 5, 6}}
+                Name = detectorName,               
             };
-            detector.Initialize(new MultiLayerTissue());
+            var detector = (pMCROfRhoAndTimeDetector)detectorInput.CreateDetector();
+            detector.Mean = new double[,] {{1, 2, 3}, {4, 5, 6}};
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (pMCROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFile("pMCROfRhoAndTime", detectorName, "");
 
@@ -386,16 +408,16 @@ namespace Vts.Test.MonteCarlo
         {
             string detectorName = "testfluenceofrhoandzandtime";
             var tissue = new MultiLayerTissue();
-            IDetector detector = new FluenceOfRhoAndZAndTimeDetector()
+            IDetectorInput detectorInput = new FluenceOfRhoAndZAndTimeDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Z = new DoubleRange(0, 10, 3),
                 Time = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true,
                 Name = detectorName,
-                Mean = new double[,,] {{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10, 11, 12}}}
             };
-            detector.Initialize(tissue);
+            var detector = (FluenceOfRhoAndZAndTimeDetector)detectorInput.CreateDetector();
+            detector.Mean = new double[,,] {{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10, 11, 12}}};
 
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (FluenceOfRhoAndZAndTimeDetector)DetectorIO.ReadDetectorFromFile("FluenceOfRhoAndZAndTime", detectorName, "");
