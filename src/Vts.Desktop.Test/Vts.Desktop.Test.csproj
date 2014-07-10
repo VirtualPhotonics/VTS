@@ -143,6 +143,9 @@
     <Compile Include="..\Vts.Test\IO\FileIOTests.cs">
       <Link>IO\FileIOTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\IO\StreamFinderTests.cs">
+      <Link>IO\StreamFinderTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\IO\VtsJsonSerializerTests.cs">
       <Link>IO\VtsJsonSerializerTests.cs</Link>
     </Compile>
@@ -179,14 +182,38 @@
     <Compile Include="..\Vts.Test\Modeling\ValidateInverseSolution.cs">
       <Link>Modeling\ValidateInverseSolution.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\BidirectionalScattering\AnalogBidirectionalTallyActionsTests.cs">
+      <Link>MonteCarlo\BidirectionalScattering\AnalogBidirectionalTallyActionsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
       <Link>MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidationTests.cs">
+      <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidationTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMusDetectorInputValidationTests.cs">
+      <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMusDetectorInputValidationTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs">
+      <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidationTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidationTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\DetectorInputs\pMCDetectorInputTests.cs">
+      <Link>MonteCarlo\DataStructures\DetectorInputs\pMCDetectorInputTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\OutputTests.cs">
+      <Link>MonteCarlo\DataStructures\OutputTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs">
+      <Link>MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputTests.cs">
       <Link>MonteCarlo\DataStructures\SimulationInputTests.cs</Link>
@@ -206,11 +233,41 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInputTests.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInputTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWLayersDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\CAWLayersDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWLayersDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWLayersDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWSphereDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWSphereDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCCAWOneLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCCAWOneLayerDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCDAWOneLayerDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\pMCDAWOneLayerDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
+      <Link>MonteCarlo\Detectors\SpecularLayerDetectorTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Factories\DetectorProviderTests.cs">
       <Link>MonteCarlo\Factories\DetectorProviderTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Helpers\SourceToolboxTests.cs">
       <Link>MonteCarlo\Helpers\SourceToolboxTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\IO\DetectorIOTests.cs">
+      <Link>MonteCarlo\IO\DetectorIOTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\MonteCarloSimulationTests.cs">
       <Link>MonteCarlo\MonteCarloSimulationTests.cs</Link>
@@ -223,6 +280,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\PhotonData\pMCDatabaseTests.cs">
       <Link>MonteCarlo\PhotonData\pMCDatabaseTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs">
+      <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
@@ -237,15 +297,6 @@
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
-    <Compile Include="MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\CAWLayersDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\DAWLayersDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\DAWSphereDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCCAWOneLayerDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCDAWOneLayerDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\SpecularLayerDetectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -256,10 +307,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modeling\Optimizers\" />
-    <Folder Include="MonteCarlo\DataStructuresValidation\DetectorInputs\" />
-    <Folder Include="MonteCarlo\DataStructures\DetectorInputs\" />
-    <Folder Include="MonteCarlo\IO\" />
-    <Folder Include="MonteCarlo\PostProcessing\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -293,7 +340,6 @@
     <Content Include="App_Readme\MathNet.Numerics.readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MonteCarlo\Sources\packages.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

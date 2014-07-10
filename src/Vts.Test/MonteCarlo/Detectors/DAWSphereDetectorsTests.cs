@@ -1,13 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
+using System.Linq;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {

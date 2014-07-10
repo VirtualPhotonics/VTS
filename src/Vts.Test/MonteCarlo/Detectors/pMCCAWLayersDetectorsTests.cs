@@ -1,14 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.PostProcessing;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -42,21 +42,21 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void execute_reference_Monte_Carlo()
         {
             // make sure databases generated from previous tests are deleted
-            if (File.Exists("DiffuseReflectanceDatabase.txt"))
+            if (File.Exists("pMCCAWLayers_DiffuseReflectanceDatabase.txt"))
             {
-                File.Delete("DiffuseReflectanceDatabase.txt");
+                File.Delete("pMCCAWLayers_DiffuseReflectanceDatabase.txt");
             }
-            if (File.Exists("DiffuseReflectanceDatabase"))
+            if (File.Exists("pMCCAWLayers_DiffuseReflectanceDatabase"))
             {
-                File.Delete("DiffuseReflectanceDatabase");
+                File.Delete("pMCCAWLayers_DiffuseReflectanceDatabase");
             }
-            if (File.Exists("CollisionInfoDatabase.txt"))
+            if (File.Exists("pMCCAWLayers_CollisionInfoDatabase.txt"))
             {
-                File.Delete("CollisionInfoDatabase.txt");
+                File.Delete("pMCCAWLayers_CollisionInfoDatabase.txt");
             }
-            if (File.Exists("CollisionInfoDatabase"))
+            if (File.Exists("pMCCAWLayers_CollisionInfoDatabase"))
             {
-                File.Delete("CollisionInfoDatabase");
+                File.Delete("pMCCAWLayers_CollisionInfoDatabase");
             }
 
             // generate reference database for two layer tissue
@@ -84,7 +84,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var detectorInputs = new List<IDetectorInput>()
             {
                 new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
-                new ROfRhoAndTimeDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101),Time = new DoubleRange(0.0, 1.0, 101)}          
+                new ROfRhoAndTimeDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Time=new DoubleRange(0.0, 1.0, 101)}                   
             };
 
             _referenceInputTwoLayerTissue = new SimulationInput(

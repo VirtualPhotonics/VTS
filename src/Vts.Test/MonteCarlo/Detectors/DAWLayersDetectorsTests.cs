@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using MathNet.Numerics;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -97,8 +96,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                             MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11)   
                     }
-                };
 
+                };
             _inputOneLayerTissue = new SimulationInput(
                 100,
                 "",
@@ -222,21 +221,21 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
         }
-        // Transmittance Time(angle)
+        // Transmittance T(angle)
         [Test]
         public void validate_DAW_TOfAngle()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
         }
-        // Transmittance Time(rho,angle)
+        // Transmittance T(rho,angle)
         [Test]
         public void validate_DAW_TOfRhoAndAngle()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
         }
-        // Verify integral over rho,angle of T(rho,angle) equals TDiffuse
+        //// Verify integral over rho,angle of T(rho,angle) equals TDiffuse
         [Test]
         public void validate_DAW_integral_of_TOfRhoAndAngle_equals_TDiffuse()
         {
@@ -321,7 +320,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var integral = 0.0;
             for (int it = 0; it < theta.Count - 1; it++)
             {
-                for (int ip = 0; ip < phi.Count - 1; ip++ )
+                for (int ip = 0; ip < phi.Count - 1; ip++)
                     integral += _outputOneLayerTissue.Rad_xyztp[0, 0, 0, it, ip] * Math.Sin((it + 0.5) * theta.Delta);
             }
             Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Flu_xyz[0, 0, 0]), 0.000000000001);
@@ -355,28 +354,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                 integral += _outputOneLayerTissue.RefMT_rs_hist[0, i];
             }
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] - integral), 0.000001);
-            // the following does not work with current algorithm
-            //// make sure FractionalMT integral over subregions and fractional MT bins equals mean results
-            //var fracbins = ((ReflectedMTOfRhoAndSubregionHistDetectorInput)_inputTwoLayerTissue.DetectorInputs.
-            //    Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First()).FractionalMTBins;
-            //var rhobins = ((ReflectedMTOfRhoAndSubregionHistDetectorInput)_inputTwoLayerTissue.DetectorInputs.
-            //    Where(d => d.TallyType == TallyType.ReflectedMTOfRhoAndSubregionHist).First()).Rho;
-            //var srcount = _inputTwoLayerTissue.TissueInput.Regions.Count();
-            //for (int i = 0; i < rhobins.Count - 1; i++)
-            //{
-            //    for (int j = 0; j < mtbins.Count - 1; j++)
-            //    {
-            //        integral = 0.0;
-            //        for (int k = 0; k < srcount; k++)
-            //        {
-            //            for (int l = 0; l < fracbins.Count - 1; l++)
-            //            {
-            //                integral += _outputTwoLayerTissue.RefMT_rs_frac[i, j, k, l];
-            //            }
-            //        }
-            //        Assert.AreEqual(integral, _outputTwoLayerTissue.RefMT_rs_hist[i, j]);
-            //    }
-            //}
         }
     }
 }

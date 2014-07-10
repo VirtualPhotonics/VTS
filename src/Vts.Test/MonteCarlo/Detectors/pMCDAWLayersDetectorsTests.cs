@@ -1,14 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.PostProcessing;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -42,21 +42,21 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void execute_reference_Monte_Carlo()
         {
             // make sure databases generated from previous tests are deleted
-            if (File.Exists("DiffuseReflectanceDatabase.txt"))
+            if (File.Exists("pMCDAWLayers_DiffuseReflectanceDatabase.txt"))
             {
-                File.Delete("DiffuseReflectanceDatabase.txt");
+                File.Delete("pMCDAWLayers_DiffuseReflectanceDatabase.txt");
             }
-            if (File.Exists("DiffuseReflectanceDatabase"))
+            if (File.Exists("pMCDAWLayers_DiffuseReflectanceDatabase"))
             {
-                File.Delete("DiffuseReflectanceDatabase");
+                File.Delete("pMCDAWLayers_DiffuseReflectanceDatabase");
             }
-            if (File.Exists("CollisionInfoDatabase.txt"))
+            if (File.Exists("pMCDAWLayers_CollisionInfoDatabase.txt"))
             {
-                File.Delete("CollisionInfoDatabase.txt");
+                File.Delete("pMCDAWLayers_CollisionInfoDatabase.txt");
             }
-            if (File.Exists("CollisionInfoDatabase"))
+            if (File.Exists("pMCDAWLayers_CollisionInfoDatabase"))
             {
-                File.Delete("CollisionInfoDatabase");
+                File.Delete("pMCDAWLayers_CollisionInfoDatabase");
             }
 
             // generate reference database for homogeneous and one layer tissue
@@ -84,7 +84,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var detectorInputs = new List<IDetectorInput>()
             {
                 new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
-                new ROfRhoAndTimeDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101),Time = new DoubleRange(0.0, 1.0, 101)}           
+                new ROfRhoAndTimeDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101),Time = new DoubleRange(0.0, 1.0, 101)}
             };
 
             _referenceInputTwoLayerTissue = new SimulationInput(
@@ -130,7 +130,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                 {
-                     new pMCROfRhoAndTimeDetectorInput()
+                    new pMCROfRhoAndTimeDetectorInput()
                     {
                         Rho=new DoubleRange(0.0, 10.0, 101),
                         Time=new DoubleRange(0.0, 1.0, 101),
@@ -140,7 +140,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
                             _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
                         PerturbedRegionsIndices=new List<int>() { 1 } 
-                    }  
+                    }    
                 },
                 _databaseTwoLayerTissue,
                 _referenceInputTwoLayerTissue);

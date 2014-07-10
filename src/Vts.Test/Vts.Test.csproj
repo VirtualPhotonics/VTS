@@ -228,25 +228,15 @@
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInputTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInputTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInputTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MonteCarlo\Detectors\CAWLayersDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MonteCarlo\Detectors\pMCCAWOneLayerDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCDAWOneLayerDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\DAWLayersDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\CAWLayersDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\DAWLayersDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\DAWSphereDetectorsTests.cs" />
-    <Compile Include="MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\pMCCAWOneLayerDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\pMCDAWOneLayerDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\SpecularLayerDetectorTests.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorProviderTests.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolboxTests.cs">
       <SubType>Code</SubType>

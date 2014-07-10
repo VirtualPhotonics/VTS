@@ -1,14 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.PostProcessing;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -42,21 +42,21 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void execute_reference_Monte_Carlo()
         {
             // make sure databases generated from previous tests are deleted
-            if (File.Exists("DiffuseReflectanceDatabase.txt"))
+            if (File.Exists("pMCCAWOneLayer_DiffuseReflectanceDatabase.txt"))
             {
-                File.Delete("DiffuseReflectanceDatabase.txt");
+                File.Delete("pMCCAWOneLayer_DiffuseReflectanceDatabase.txt");
             }
-            if (File.Exists("DiffuseReflectanceDatabase"))
+            if (File.Exists("pMCCAWOneLayer_DiffuseReflectanceDatabase"))
             {
-                File.Delete("DiffuseReflectanceDatabase");
+                File.Delete("pMCCAWOneLayer_DiffuseReflectanceDatabase");
             }
-            if (File.Exists("CollisionInfoDatabase.txt"))
+            if (File.Exists("pMCCAWOneLayer_CollisionInfoDatabase.txt"))
             {
-                File.Delete("CollisionInfoDatabase.txt");
+                File.Delete("pMCCAWOneLayer_CollisionInfoDatabase.txt");
             }
-            if (File.Exists("CollisionInfoDatabase"))
+            if (File.Exists("pMCCAWOneLayer_CollisionInfoDatabase"))
             {
-                File.Delete("CollisionInfoDatabase");
+                File.Delete("pMCCAWOneLayer_CollisionInfoDatabase");
             }
 
             // generate reference database for homogeneous tissue
@@ -84,7 +84,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var detectorInputs = new List<IDetectorInput>()
             {
                 new ROfRhoDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101)},
-                new ROfRhoAndTimeDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101), Time=new DoubleRange(0.0, 1.0, 101)}                              
+                new ROfRhoAndTimeDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101), Time=new DoubleRange(0.0, 1.0, 101)}                   
             };
             _referenceInputOneLayerTissue = new SimulationInput(
                 100,
@@ -155,12 +155,14 @@ namespace Vts.Test.MonteCarlo.Detectors
                 {
                     new pMCROfRhoDetectorInput()
                     {
-                        Rho=new DoubleRange(0.0, 10.0, 101),
-                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                        Rho=new DoubleRange(0.0, 10, 101),
+                        // set perturbed ops to reference ops
+                        PerturbedOps=new List<OpticalProperties>() { 
                             _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                             _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
-                            _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int>() { 1 } 
+                            _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
+                        },
+                        PerturbedRegionsIndices=new List<int>() { 1 }
                     }
                 },
                 _databaseOneLayerTissue,
@@ -196,8 +198,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                                         _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.N),
                                     _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
                                 },
-                            PerturbedRegionsIndices=new List<int>() {1}
-                         } 
+                            PerturbedRegionsIndices = new List<int>() {1}
+                         }
                     },
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);

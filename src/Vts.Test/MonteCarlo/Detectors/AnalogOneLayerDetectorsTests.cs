@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Numerics;
-using MathNet.Numerics;
+using System.Linq;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -36,9 +35,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void execute_Monte_Carlo()
         {
             // make sure statistic file generated from previous tests are deleted
-            if (File.Exists("statistics.txt"))
+            if (File.Exists("statistics.xml"))
             {
-                File.Delete("statistics.txt");
+                File.Delete("statistics.xml");
             }
            _input = new SimulationInput(
                 100,
@@ -113,11 +112,11 @@ namespace Vts.Test.MonteCarlo.Detectors
    
         // validation values obtained from linux run using above input and seeded 
         // the same for:
-        // Diffuse Reflectance
+        //// Diffuse Reflectance
         [Test]
         public void validate_Analog_RDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Rd * _factor - 0.670833333), 0.000000001); 
+            Assert.Less(Math.Abs(_output.Rd * _factor - 0.670833333), 0.000000001);
             //var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Rd, _output.Rd2);
             // for analog 1st and 2nd moment should be equal (since weight tallied is 1)
             Assert.AreEqual(_output.Rd, _output.Rd2);
@@ -219,11 +218,13 @@ namespace Vts.Test.MonteCarlo.Detectors
             }
             Assert.Less(Math.Abs(integral * norm - _output.Flu_rz[0, 6]), 0.000000000001);
         }
-        //[Test]
-        //public void validate_Analog_FluenceOfRhoAndZAndTime()
-        //{
-        //    Assert.Less(Math.Abs(_output.Flu_rzt[0, 6, 0] - 0.617700489), 0.000000001);
-        //}
+        // Fluence(rho,z,t)
+        [Test]
+        public void validate_Analog_FluenceOfRhoAndZAndTime()
+        {
+            Assert.Less(Math.Abs(_output.Flu_rzt[0, 6, 0]*_factor - 3094.67945), 0.00001);
+        }
+
         // Reflectance R(x,y)
         [Test]
         public void validate_Analog_ROfXAndY()

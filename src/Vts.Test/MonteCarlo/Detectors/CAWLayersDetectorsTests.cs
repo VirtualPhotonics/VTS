@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using MathNet.Numerics;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -181,12 +180,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_CAW_ROfRhoAndOmega()
         {
-           // todo: warning - this validation data from Linux is actually for Omega = 0.025GHz
-           // (see here: http://virtualphotonics.codeplex.com/discussions/278250)
-           Assert.Less(Complex.Abs(
-                _outputOneLayerTissue.R_rw[0, 0] * _factor - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.000001);
-           Assert.Less(Complex.Abs(
-                   _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.000001);
+            // todo: warning - this validation data from Linux is actually for Omega = 0.025GHz
+            // (see here: http://virtualphotonics.codeplex.com/discussions/278250)
+            Assert.Less(Complex.Abs(
+                 _outputOneLayerTissue.R_rw[0, 0] * _factor - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.000001);
+            Assert.Less(Complex.Abs(
+                    _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.000001);
         }
         // Total Absorption : wait on this test until CAW worked out for ATotal
         //[Test]
@@ -204,28 +203,28 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.Td * _factor - 0.0232993770), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Td * _factor - 0.0232993770), 0.000000001);
         }
-        // Transmittance Time(rho)
+        // Transmittance T(rho)
         [Test]
         public void validate_CAW_TOfRho()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_r[54] * _factor - 0.00167241353), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_r[54] * _factor - 0.00167241353), 0.00000000001);
         }
-        // Transmittance Time(angle)
+        // Transmittance T(angle)
         [Test]
         public void validate_CAW_TOfAngle()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_a[0] * _factor - 0.00333856288), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_a[0] * _factor - 0.00333856288), 0.00000000001);
         }
-        // Transmittance Time(rho,angle)
+        // Transmittance T(rho,angle)
         [Test]
         public void validate_CAW_TOfRhoAndAngle()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_ra[54, 0] * _factor - 0.000239639787), 0.000000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_ra[54, 0] * _factor - 0.000239639787), 0.000000000001);
         }
-        // Fluence Flu(rho,z) not coded yet for CAW
+        //// Fluence Flu(rho,z) not coded yet for CAW
 
         // Reflectance R(x,y)
         [Test]
