@@ -13,12 +13,12 @@ namespace Vts.MonteCarlo.Detectors
     /// <summary>
     /// Tally for pMC estimation of reflectance as a function of Fx.
     /// </summary>
-    public class pMCROfFxAndTimeAndTimeDetectorInput : DetectorInput, IDetectorInput
+    public class pMCROfFxAndTimeDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
         /// constructor for pMC reflectance as a function of Fx detector input
         /// </summary>
-        public pMCROfFxAndTimeAndTimeDetectorInput()
+        public pMCROfFxAndTimeDetectorInput()
         {
             TallyType = "pMCROfFxAndTime";
             Name = "pMCROfFxAndTime";
@@ -47,7 +47,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public IDetector CreateDetector()
         {
-            return new pMCROfFxAndTimeAndTimeDetector
+            return new pMCROfFxAndTimeDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -67,7 +67,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector.  Tally for pMC reflectance as a function  of Fx.
     /// This implementation works for DAW and CAW processing.
     /// </summary>
-    public class pMCROfFxAndTimeAndTimeDetector : Detector, IDetector
+    public class pMCROfFxAndTimeDetector : Detector, IDetector
     {
         private double[] _fxArray;
         private OpticalProperties[] _referenceOps;

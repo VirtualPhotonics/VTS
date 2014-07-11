@@ -3,7 +3,7 @@ function results = loadMCResults(outdir, dataname)
 slash = filesep;  % get correct path delimiter for platform
 datadir = [outdir slash dataname];
 
-json = readAndParseJson([datadir slash dataname '.txt']);
+json = readAndParseJson([datadir slash 'infile_' dataname '.txt']);
 postProcessorResults = false;
 if (exist([datadir slash dataname '_database_infile.txt'],'file'))
     postProcessorResults = true;
@@ -15,9 +15,8 @@ for di = 1:numDetectors
     switch(detector.TallyType)
         case 'RDiffuse'
             RDiffuse.Name = detector.Name;
-            RDiffuse_json = readAndParseJson([datadir slash detector.Name '.txt']);
-            RDiffuse.Mean = (RDiffuse_json.Mean);              
-            RDiffuse.SecondMoment = (RDiffuse_json.SecondMoment);
+            RDiffuse.Mean = detector.Mean;              
+            RDiffuse.SecondMoment = detector.SecondMoment;
             RDiffuse.Stdev = sqrt((RDiffuse.SecondMoment - (RDiffuse.Mean .* RDiffuse.Mean)) / (json.N)); 
             results{di}.RDiffuse = RDiffuse;
         case 'ROfRho'
@@ -26,7 +25,7 @@ for di = 1:numDetectors
             ROfRho.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
             ROfRho.Rho_Midpoints = (ROfRho.Rho(1:end-1) + ROfRho.Rho(2:end))/2;
             ROfRho.Mean = readBinaryData([datadir slash detector.Name],length(ROfRho.Rho)-1);              
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 ROfRho.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(ROfRho.Rho)-1);
                 ROfRho.Stdev = sqrt((ROfRho.SecondMoment - (ROfRho.Mean .* ROfRho.Mean)) / (json.N));
             end
@@ -37,7 +36,7 @@ for di = 1:numDetectors
             ROfAngle.Angle = linspace((tempAngle.Start), (tempAngle.Stop), (tempAngle.Count));
             ROfAngle.Angle_Midpoints = (ROfAngle.Angle(1:end-1) + ROfAngle.Angle(2:end))/2;
             ROfAngle.Mean = readBinaryData([datadir slash detector.Name],length(ROfAngle.Angle)-1);              
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 ROfAngle.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(ROfAngle.Angle)-1);
                 ROfAngle.Stdev = sqrt((ROfAngle.SecondMoment - (ROfAngle.Mean .* ROfAngle.Mean)) / (json.N));
             end
@@ -51,7 +50,7 @@ for di = 1:numDetectors
             ROfXAndY.X_Midpoints = (ROfXAndY.X(1:end-1) + ROfXAndY.X(2:end))/2;
             ROfXAndY.Y_Midpoints = (ROfXAndY.Y(1:end-1) + ROfXAndY.Y(2:end))/2;
             ROfXAndY.Mean = readBinaryData([datadir slash detector.Name],[length(ROfXAndY.X)-1,length(ROfXAndY.Y)-1]);    
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 ROfXAndY.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(ROfXAndY.X)-1,length(ROfXAndY.Y)-1]); 
                 ROfXAndY.Stdev = sqrt((ROfXAndY.SecondMoment - (ROfXAndY.Mean .* ROfXAndY.Mean)) / (json.N)); 
             end      
@@ -66,7 +65,7 @@ for di = 1:numDetectors
             ROfRhoAndTime.Rho_Midpoints = (ROfRhoAndTime.Rho(1:end-1) + ROfRhoAndTime.Rho(2:end))/2;
             ROfRhoAndTime.Time_Midpoints = (ROfRhoAndTime.Time(1:end-1) + ROfRhoAndTime.Time(2:end))/2;
             ROfRhoAndTime.Mean = readBinaryData([datadir slash detector.Name],[length(ROfRhoAndTime.Rho)-1,length(ROfRhoAndTime.Time)-1]);              
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 ROfRhoAndTime.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(ROfRhoAndTime.Rho)-1,length(ROfRhoAndTime.Time)-1]);
                 ROfRhoAndTime.Stdev = sqrt((ROfRhoAndTime.SecondMoment - (ROfRhoAndTime.Mean .* ROfRhoAndTime.Mean)) / (json.N));
             end
@@ -80,7 +79,7 @@ for di = 1:numDetectors
             ROfRhoAndAngle.Rho_Midpoints = (ROfRhoAndAngle.Rho(1:end-1) + ROfRhoAndAngle.Rho(2:end))/2;
             ROfRhoAndAngle.Angle_Midpoints = (ROfRhoAndAngle.Angle(1:end-1) + ROfRhoAndAngle.Angle(2:end))/2;
             ROfRhoAndAngle.Mean = readBinaryData([datadir slash detector.Name],[length(ROfRhoAndAngle.Rho)-1,length(ROfRhoAndAngle.Angle)-1]);
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 ROfRhoAndAngle.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(ROfRhoAndAngle.Rho)-1,length(ROfRhoAndAngle.Angle)-1]); 
                 ROfRhoAndAngle.Stdev = sqrt((ROfRhoAndAngle.SecondMoment - (ROfRhoAndAngle.Mean .* ROfRhoAndAngle.Mean)) / (json.N)); 
             end
@@ -97,7 +96,7 @@ for di = 1:numDetectors
             ROfRhoAndOmega.Mean = tempData(1:2:end,:) + 1i*tempData(2:2:end,:);
             ROfRhoAndOmega.Amplitude = abs(ROfRhoAndOmega.Mean);
             ROfRhoAndOmega.Phase = -angle(ROfRhoAndOmega.Mean);
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 tempData = readBinaryData([datadir slash detector.Name '_2'],[2*(length(ROfRhoAndOmega.Rho)-1),length(ROfRhoAndOmega.Omega)]);  
                 ROfRhoAndOmega.SecondMoment =  tempData(1:2:end,:) + 1i*tempData(2:2:end,:);
                 ROfRhoAndOmega.Stdev = sqrt((real(ROfRhoAndOmega.SecondMoment) - (real(ROfRhoAndOmega.Mean) .* real(ROfRhoAndOmega.Mean))) / (json.N)) + ...
@@ -107,9 +106,8 @@ for di = 1:numDetectors
 
         case 'TDiffuse'
             TDiffuse.Name = detector.Name;
-            TDiffuse_json = readAndParseJson([datadir slash detector.Name '.txt']);
-            TDiffuse.Mean = (TDiffuse_json.Mean);              
-            TDiffuse.SecondMoment = (TDiffuse_json.SecondMoment); 
+            TDiffuse.Mean = detector.Mean;              
+            TDiffuse.SecondMoment = detector.SecondMoment; 
             TDiffuse.Stdev = sqrt((TDiffuse.SecondMoment - (TDiffuse.Mean .* TDiffuse.Mean)) / (json.N));
             results{di}.TDiffuse = TDiffuse;
         case 'TOfRho'
@@ -118,7 +116,7 @@ for di = 1:numDetectors
             TOfRho.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
             TOfRho.Rho_Midpoints = (ROfRho.Rho(1:end-1) + TOfRho.Rho(2:end))/2;
             TOfRho.Mean = readBinaryData([datadir slash detector.Name],length(TOfRho.Rho)-1);              
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 TOfRho.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(TOfRho.Rho)-1);
                 TOfRho.Stdev = sqrt((TOfRho.SecondMoment - (TOfRho.Mean .* TOfRho.Mean)) / (json.N));
             end
@@ -129,7 +127,7 @@ for di = 1:numDetectors
             TOfAngle.Angle = linspace((tempAngle.Start), (tempAngle.Stop), (tempAngle.Count));
             TOfAngle.Angle_Midpoints = (TOfAngle.Angle(1:end-1) + TOfAngle.Angle(2:end))/2;
             TOfAngle.Mean = readBinaryData([datadir slash detector.Name],length(ROfAngle.Angle)-1);              
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 TOfAngle.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(TOfAngle.Angle)-1);
                 TOfAngle.Stdev = sqrt((TOfAngle.SecondMoment - (TOfAngle.Mean .* TOfAngle.Mean)) / (json.N));
             end
@@ -143,7 +141,7 @@ for di = 1:numDetectors
             TOfRhoAndAngle.Rho_Midpoints = (TOfRhoAndAngle.Rho(1:end-1) + TOfRhoAndAngle.Rho(2:end))/2;
             TOfRhoAndAngle.Angle_Midpoints = (TOfRhoAndAngle.Angle(1:end-1) + TOfRhoAndAngle.Angle(2:end))/2;
             TOfRhoAndAngle.Mean = readBinaryData([datadir slash detector.Name],[length(ROfRhoAndAngle.Rho)-1,length(TOfRhoAndAngle.Angle)-1]);
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 TOfRhoAndAngle.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(TOfRhoAndAngle.Rho)-1,length(TOfRhoAndAngle.Angle)-1]); 
                 TOfRhoAndAngle.Stdev = sqrt((TOfRhoAndAngle.SecondMoment - (TOfRhoAndAngle.Mean .* TOfRhoAndAngle.Mean)) / (json.N)); 
             end
@@ -151,9 +149,8 @@ for di = 1:numDetectors
 
         case 'ATotal'
             ATotal.Name = detector.Name;
-            ATotal_json = readAndParseJson([datadir slash detector.Name '.txt']);
-            ATotal.Mean = (ATotal_json.Mean);              
-            ATotal.SecondMoment = (ATotal_json.SecondMoment); 
+            ATotal.Mean = detector.Mean;              
+            ATotal.SecondMoment = detector.SecondMoment; 
             ATotal.Stdev = sqrt((ATotal.SecondMoment - (ATotal.Mean .* ATotal.Mean)) / (json.N));
             results{di}.ATotal = ATotal;
         case 'AOfRhoAndZ'
@@ -165,7 +162,7 @@ for di = 1:numDetectors
             AOfRhoAndZ.Rho_Midpoints = (AOfRhoAndZ.Rho(1:end-1) + AOfRhoAndZ.Rho(2:end))/2;
             AOfRhoAndZ.Z_Midpoints = (AOfRhoAndZ.Z(1:end-1) + AOfRhoAndZ.Z(2:end))/2;
             AOfRhoAndZ.Mean = readBinaryData([datadir slash detector.Name],[length(AOfRhoAndZ.Rho)-1,length(AOfRhoAndZ.Z)-1]);
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 AOfRhoAndZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(AOfRhoAndZ.Rho)-1,length(AOfRhoAndZ.Z)-1]); 
                 AOfRhoAndZ.Stdev = sqrt((AOfRhoAndZ.SecondMoment - (AOfRhoAndZ.Mean .* AOfRhoAndZ.Mean)) / (json.N)); 
             end
@@ -179,7 +176,7 @@ for di = 1:numDetectors
             FluenceOfRhoAndZ.Rho_Midpoints = (FluenceOfRhoAndZ.Rho(1:end-1) + FluenceOfRhoAndZ.Rho(2:end))/2;
             FluenceOfRhoAndZ.Z_Midpoints = (FluenceOfRhoAndZ.Z(1:end-1) + FluenceOfRhoAndZ.Z(2:end))/2;
             FluenceOfRhoAndZ.Mean = readBinaryData([datadir slash detector.Name],[length(FluenceOfRhoAndZ.Rho)-1,length(FluenceOfRhoAndZ.Z)-1]);
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 FluenceOfRhoAndZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(FluenceOfRhoAndZ.Rho)-1,length(FluenceOfRhoAndZ.Z)-1]);
                 FluenceOfRhoAndZ.Stdev = sqrt((FluenceOfRhoAndZ.SecondMoment - (FluenceOfRhoAndZ.Mean .* FluenceOfRhoAndZ.Mean)) / (json.N));  
             end
@@ -199,7 +196,7 @@ for di = 1:numDetectors
                 [(length(FluenceOfRhoAndZAndTime.Rho)-1)*(length(FluenceOfRhoAndZAndTime.Z)-1)*(length(FluenceOfRhoAndZAndTime.Time)-1)]);
             FluenceOfRhoAndZAndTime.Mean = reshape(FluenceOfRhoAndZAndTime.Mean, ...
                 [length(FluenceOfRhoAndZAndTime.Rho)-1,length(FluenceOfRhoAndZAndTime.Z)-1,length(FluenceOfRhoAndZAndTime.Time)-1]);
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 FluenceOfRhoAndZAndTime.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
                     [(length(FluenceOfRhoAndZAndTime.Rho)-1)*(length(FluenceOfRhoAndZAndTime.Z)-1)*(length(FluenceOfRhoAndZAndTime.Time)-1)]);
                 FluenceOfRhoAndZAndTime.SecondMoment = reshape(FluenceOfRhoAndZAndTime.Mean, ...
@@ -221,7 +218,7 @@ for di = 1:numDetectors
             FluenceOfXAndYAndZ.Mean = readBinaryData([datadir slash detector.Name],[(length(FluenceOfXAndYAndZ.X)-1) * (length(FluenceOfXAndYAndZ.Y)-1) * (length(FluenceOfXAndYAndZ.Z)-1)]);
             FluenceOfXAndYAndZ.Mean = reshape(FluenceOfXAndYAndZ.Mean, ...
                 [length(FluenceOfXAndYAndZ.X)-1,length(FluenceOfXAndYAndZ.Y)-1,length(FluenceOfXAndYAndZ.Z)-1]);
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 FluenceOfXAndAndZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
                     [(length(FluenceOfXAndYAndZ.X)-1) * (length(FluenceOfXAndYAndZ.Y)-1) * (length(FluenceOfXAndYAndZ.Z)-1)]);
                 FluenceOfXAndYAndZ.SecondMoment = reshape(FluenceOfXAndYAndZ.Mean, ...
@@ -245,7 +242,7 @@ for di = 1:numDetectors
                 %[length(RadianceOfRhoAndZAndAngle.Rho)-1,length(RadianceOfRhoAndZAndAngle.Z)-1,length(RadianceOfRhoAndZAndAngle.Angle)-1]);
             RadianceOfRhoAndZAndAngle.Mean = reshape(RadianceOfRhoAndZAndAngle.Mean, ...
                 [length(RadianceOfRhoAndZAndAngle.Rho)-1,length(RadianceOfRhoAndZAndAngle.Z)-1,length(RadianceOfRhoAndZAndAngle.Angle)-1]);
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 RadianceOfRhoAndZAndAngle.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ... 
                 [(length(RadianceOfRhoAndZAndAngle.Rho)-1) * (length(RadianceOfRhoAndZAndAngle.Z)-1) * (length(RadianceOfRhoAndZAndAngle.Angle)-1)]); 
                 RadianceOfRhoAndZAndAngle.SecondMoment = reshape(RadianceOfRhoAndZAndAngle.SecondMoment, ...
@@ -283,7 +280,7 @@ for di = 1:numDetectors
                 length(RadianceOfXAndYAndZAndThetaAndPhi.Z)-1, ...
                 length(RadianceOfXAndYAndZAndThetaAndPhi.Theta)-1, ...
                 length(RadianceOfXAndYAndZAndThetaAndPhi.Phi)-1]);
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 RadianceOfXAndYAndZAndThetaAndPhi.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ... 
                 (length(RadianceOfXAndYAndZAndThetaAndPhi.X)-1) * ...
                 (length(RadianceOfXAndYAndZAndThetaAndPhi.Y)-1) * ...
@@ -323,7 +320,7 @@ for di = 1:numDetectors
                 (length(ReflectedMTOfRhoAndSubregionHist.Rho)-1) * (length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1) * (length(tempSubregionIndices)) * 10);
             ReflectedMTOfRhoAndSubregionHist.FractionalMT = reshape(ReflectedMTOfRhoAndSubregionHist.FractionalMT, ...            
                 [length(ReflectedMTOfRhoAndSubregionHist.Rho)-1, length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1, length(tempSubregionIndices), 10]);
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 ReflectedMTOfRhoAndSubregionHist.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ... 
                 (length(ReflectedMTOfRhoAndSubregionHist.Rho)-1) * (length(ReflectedMTOfRhoAndSubregionHist.MTBins)-1)); 
                 ReflectedMTOfRhoAndSubregionHist.SecondMoment = reshape(ReflectedMTOfRhoAndSubregionHist.SecondMoment, ...
@@ -353,7 +350,7 @@ for di = 1:numDetectors
                 [length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1,length(tempSubregionIndices),length(ReflectedTimeOfRhoAndSubregionHist.Time)-1]);
             ReflectedTimeOfRhoAndSubregionHist.FractionalTime = readBinaryData([datadir slash detector.Name '_FractionalTime'], ... 
                 [length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1, length(tempSubregionIndices)]);
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 ReflectedTimeOfRhoAndSubregionHist.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ... 
                 [(length(ReflectedTimeOfRhoAndSubregionHist.Rho)-1) * (length(tempSubregionIndices)) * (length(ReflectedTimeOfRhoAndSubregionHist.Time)-1)]); 
                 ReflectedTimeOfRhoAndSubregionHist.SecondMoment = reshape(ReflectedTimeOfRhoAndSubregionHist.SecondMoment, ...
@@ -367,7 +364,7 @@ for di = 1:numDetectors
             pMCROfRho.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
             pMCROfRho.Rho_Midpoints = (pMCROfRho.Rho(1:end-1) + pMCROfRho.Rho(2:end))/2;
             pMCROfRho.Mean = readBinaryData([datadir slash detector.Name],length(pMCROfRho.Rho)-1);              
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 pMCROfRho.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(pMCROfRho.Rho)-1);
                 pMCROfRho.Stdev = sqrt((pMCROfRho.SecondMoment - (pMCROfRho.Mean .* pMCROfRho.Mean)) / (databaseInputJson.N));
             end
@@ -381,7 +378,7 @@ for di = 1:numDetectors
             pMCROfRhoAndTime.Rho_Midpoints = (pMCROfRhoAndTime.Rho(1:end-1) + pMCROfRhoAndTime.Rho(2:end))/2;
             pMCROfRhoAndTime.Time_Midpoints = (pMCROfRhoAndTime.Time(1:end-1) + pMCROfRhoAndTime.Time(2:end))/2;
             pMCROfRhoAndTime.Mean = readBinaryData([datadir slash detector.Name],[length(pMCROfRhoAndTime.Rho)-1,length(pMCROfRhoAndTime.Time)-1]);              
-            if(exist([datadir slash detector.Name '_2'],'file'))
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 pMCROfRhoAndTime.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(pMCROfRhoAndTime.Rho)-1,length(pMCROfRhoAndTime.Time)-1]);
                 pMCROfRhoAndTime.Stdev = sqrt((pMCROfRhoAndTime.SecondMoment - (pMCROfRhoAndTime.Mean .* pMCROfRhoAndTime.Mean)) / (databaseInputJson.N));
             end
