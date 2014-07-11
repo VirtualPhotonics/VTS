@@ -245,7 +245,7 @@ namespace Vts.Test.MonteCarlo
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Z = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true,
+                TallySecondMoment = false,
                 Name = detectorName,
             };
             var detector = (AOfRhoAndZDetector) detectorInput.CreateDetector();
@@ -295,7 +295,7 @@ namespace Vts.Test.MonteCarlo
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Z = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = false, // tally SecondMoment
                 Name = detectorName,
             };
             var detector = (FluenceOfRhoAndZDetector)detectorInput.CreateDetector();

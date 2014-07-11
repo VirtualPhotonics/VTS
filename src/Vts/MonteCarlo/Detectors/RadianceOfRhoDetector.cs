@@ -24,6 +24,7 @@ namespace Vts.MonteCarlo.Detectors
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsInternalSurfaceTally = true;
             TallyDetails.IsCylindricalTally = true;
+            TallyDetails.IsDosimetryTally = true;
         }
 
         /// <summary>
