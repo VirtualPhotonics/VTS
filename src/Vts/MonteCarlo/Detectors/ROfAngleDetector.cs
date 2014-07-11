@@ -151,14 +151,14 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "SecondMoment",
                     FileTag = "_2",
                     WriteData = binaryWriter => {
-                        if(!TallySecondMoment) return;
+                        if (!TallySecondMoment || SecondMoment == null) return;
                         for (int i = 0; i < Angle.Count - 1; i++) {
                             binaryWriter.Write(SecondMoment[i]);
                         }
                     },
                     ReadData = binaryReader => {
-                        if(!TallySecondMoment) return;
-                        SecondMoment = SecondMoment ?? new double[ Angle.Count - 1];
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        SecondMoment = new double[ Angle.Count - 1];
                         for (int i = 0; i < Angle.Count - 1; i++) {
                             SecondMoment[i] = binaryReader.ReadDouble();
 			            }

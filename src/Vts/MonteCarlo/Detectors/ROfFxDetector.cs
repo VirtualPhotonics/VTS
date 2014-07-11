@@ -167,7 +167,7 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "SecondMoment",
                     FileTag = "_2",
                     WriteData = binaryWriter => {
-                        if(!TallySecondMoment) return;
+                        if (!TallySecondMoment || SecondMoment == null) return;
                     for (int i = 0; i < Fx.Count; i++)
                         {
                             binaryWriter.Write(SecondMoment[i].Real);
@@ -175,8 +175,8 @@ namespace Vts.MonteCarlo.Detectors
                         }          
                     },
                     ReadData = binaryReader => {
-                        if(!TallySecondMoment) return;
-                        SecondMoment = SecondMoment ?? new Complex[ Fx.Count ];
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        SecondMoment = new Complex[ Fx.Count ];
                         for (int i = 0; i < Fx.Count; i++) 
                         {
                             var real = binaryReader.ReadDouble();

@@ -220,13 +220,33 @@ namespace Vts.MonteCarlo.Detectors
                         }
                     }
                 },
+                new BinaryArraySerializer {
+                    DataArray = FractionalTime,
+                    Name = "FractionalTime",
+                    FileTag = "",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            for (int k = 0; k < NumSubregions; k++) {
+                                    binaryWriter.Write(FractionalTime[i, k]);
+                            } 
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        FractionalTime = FractionalTime ?? new double[ Rho.Count - 1, NumSubregions];
+                        for (int i = 0; i <  Rho.Count - 1; i++) {
+                            for (int k = 0; k < NumSubregions; k++) {
+                                    FractionalTime[i, k] = binaryReader.ReadDouble(); 
+                            }
+                        }   
+                    }
+                },
                 // return a null serializer, if we're not serializing the second moment
                 !TallySecondMoment ? null :  new BinaryArraySerializer {
                     DataArray = SecondMoment,
                     Name = "SecondMoment",
                     FileTag = "_2",
                     WriteData = binaryWriter => {
-                        if(!TallySecondMoment) return;
+                        if (!TallySecondMoment || SecondMoment == null) return;
                         for (int i = 0; i < Rho.Count - 1; i++) {
                             for (int j = 0; j < NumSubregions; j++) {
                                 for (int k = 0; k < Time.Count - 1; k++)
@@ -237,8 +257,8 @@ namespace Vts.MonteCarlo.Detectors
                         }
                     },
                     ReadData = binaryReader => {
-                        if(!TallySecondMoment) return;
-                        SecondMoment = SecondMoment ?? new double[ Rho.Count - 1, NumSubregions, Time.Count - 1];
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        SecondMoment = new double[ Rho.Count - 1, NumSubregions, Time.Count - 1];
                         for (int i = 0; i < Rho.Count - 1; i++) {
                             for (int j = 0; j < NumSubregions; j++) {
                                 for (int k = 0; k < Time.Count - 1; k++)

@@ -226,7 +226,7 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "SecondMoment",
                     FileTag = "_2",
                     WriteData = binaryWriter => {
-                        if(!TallySecondMoment) return;
+                        if (!TallySecondMoment || SecondMoment == null) return;
                         for (int i = 0; i < X.Count - 1; i++) {
                             for (int j = 0; j < Y.Count - 1; j++) {
                                 for (int k = 0; k < Z.Count - 1; k++)
@@ -237,8 +237,8 @@ namespace Vts.MonteCarlo.Detectors
                         }
                     },
                     ReadData = binaryReader => {
-                        if(!TallySecondMoment) return;
-                        SecondMoment = SecondMoment ?? new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        SecondMoment = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
                         for (int i = 0; i < X.Count - 1; i++) {
                             for (int j = 0; j < Y.Count - 1; j++) {
                                 for (int k = 0; k < Z.Count - 1; k++)
