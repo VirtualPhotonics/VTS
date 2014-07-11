@@ -238,6 +238,17 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             LogManager.Configuration = null;
         }
+        
+        private static void GenerateDefaultInputFiles()
+        {
+            var infiles = SimulationInputProvider.GenerateAllSimulationInputs();
+            for (int i = 0; i < infiles.Count; i++)
+            {
+                infiles[i].ToFile("infile_" + infiles[i].OutputName + ".txt"); // write json to .txt files
+            }
+            //var sources = SourceInputProvider.GenerateAllSourceInputs();
+            //sources.WriteToJson("infile_source_options_test.txt");
+        }
 
         /// <summary>
         /// Displays the help text for detailed usage of the application
