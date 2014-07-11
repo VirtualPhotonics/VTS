@@ -239,17 +239,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
             LogManager.Configuration = null;
         }
 
-        private static void GenerateDefaultInputFiles()
-        {
-            var infiles = SimulationInputProvider.GenerateAllSimulationInputs();
-            for (int i = 0; i < infiles.Count; i++)
-            {
-                infiles[i].ToFile("infile_" + infiles[i].OutputName + ".txt"); // write json to .txt files
-            }
-            //var sources = SourceInputProvider.GenerateAllSourceInputs();
-            //sources.WriteToJson("infile_source_options_test.txt");
-        }
-
         /// <summary>
         /// Displays the help text for detailed usage of the application
         /// </summary>
@@ -266,7 +255,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             logger.Info("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
             logger.Info("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
             logger.Info("\ngeninfiles\tgenerates example infiles and names them infile_XXX.txt");
-            logger.Info("\t\twhere XXX describes the type of input specified");
+            logger.Info("\t\tinfile_XXX.txt where XXX describes the type of input specified");
             logger.Info("\nlist of sweep parameters (paramsweep):");
             logger.Info("\nmua1\t\tabsorption coefficient for tissue layer 1");
             logger.Info("mus1\t\tscattering coefficient for tissue layer 1");
