@@ -64,7 +64,7 @@ namespace Vts.Test.IO
         public void validate_copy_folder_from_embedded_resources()
         {
             var folder = "folder";
-            FileIO.CopyFolderFromEmbeddedResources(folder, "", Assembly.GetExecutingAssembly().FullName);
+            FileIO.CopyFolderFromEmbeddedResources(folder, "", Assembly.GetExecutingAssembly().FullName, true);
             Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "embeddedresourcefile.txt")));
         }
 

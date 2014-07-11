@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
+using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo
@@ -81,7 +83,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { },
-                    true, // compute Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -103,7 +104,10 @@ namespace Vts.MonteCarlo
 
                 new List<IDetectorInput>
                 {
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+                    new ROfRhoDetectorInput
+                    {
+                        Rho = new DoubleRange(0.0, 40.0, 201)
+                    }, // rho: nr=200 dr=0.2mm used for workshop)
                 }
                 ) { }
 
@@ -114,15 +118,21 @@ namespace Vts.MonteCarlo
         /// <returns>SimulationInput</returns>
         public static SimulationInput FromFile(string filename)
         {
-            return VtsJsonSerializer.ReadFromJsonFile<SimulationInput>(filename);
+            return FileIO.ReadFromJson<SimulationInput>(filename);
         }
+
+        public MonteCarloSimulation CreateSimulation()
+        {
+            return new MonteCarloSimulation(this);
+        }
+
         /// <summary>
         /// Method to write SimulationInput to file
         /// </summary>
         /// <param name="filename">string filename to write to</param>
         public void ToFile(string filename)
         {
-            VtsJsonSerializer.WriteToJsonFile(this, filename);
+            FileIO.WriteToJson(this, filename);
         }
         /// <summary>
         /// Method to read SimulationInput json from file in resources

@@ -61,53 +61,68 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip, Version=1.9.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="AutoMapper, Version=3.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotNetZip.1.9.2\lib\net20\Ionic.Zip.dll</HintPath>
+      <HintPath>..\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics">
-      <HintPath>..\packages\MathNet.Numerics.2.6.2\lib\portable-net40+windows8+wp8+sl5\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\packages\MathNet.Numerics.3.0.2\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="MPFitLib">
       <HintPath>..\packages\csmpfit.1.0.0\lib\net35\MPFitLib.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=2.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.2.1.0\lib\net40\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.3.1.0.0\lib\net40\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Reactive.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Core.2.2.2\lib\net40\System.Reactive.Core.dll</HintPath>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.4\lib\net40\System.Reactive.Core.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Interfaces.2.2.2\lib\net40\System.Reactive.Interfaces.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.4\lib\net40\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Linq.2.2.2\lib\net40\System.Reactive.Linq.dll</HintPath>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.2.4\lib\net40\System.Reactive.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.2.3\lib\net40\System.Reactive.PlatformServices.dll</HintPath>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-PlatformServices.2.2.4\lib\net40\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Meta.Numerics">
       <HintPath>..\..\lib\Meta.Numerics\build\Desktop\Meta.Numerics.dll</HintPath>
@@ -155,6 +170,9 @@
     </Compile>
     <Compile Include="..\Vts\Common\Extensions\RNGExtensions.cs">
       <Link>Common\Extensions\RNGExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\Extensions\TypeExtensions.cs">
+      <Link>Common\Extensions\TypeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Common\GlobalConstants.cs">
       <Link>Common\GlobalConstants.cs</Link>
@@ -552,93 +570,6 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\ValidationResult.cs">
       <Link>MonteCarlo\DataStructuresValidation\ValidationResult.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ATotalDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\ATotalDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\dMCdROfRhodMuaDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\dMCdROfRhodMuaDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\dMCdROfRhodMusDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\dMCdROfRhodMusDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZAndTimeDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZAndTimeDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\FluenceOfXAndYAndZDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\FluenceOfXAndYAndZDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\pMCROfFxAndTimeDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\pMCROfFxAndTimeDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\pMCROfFxDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\pMCROfFxDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\pMCRofRhoAndTimeDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\pMCRofRhoAndTimeDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\pMCRofRhoDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\pMCRofRhoDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoAndZAndAngleDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoAndZAndAngleDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RadianceOfXAndYAndZAndThetaAndPhiDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\RadianceOfXAndYAndZAndThetaAndPhiDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RDiffuseDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\RDiffuseDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ReflectedTimeOfRhoAndSubregionHistDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\ReflectedTimeOfRhoAndSubregionHistDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfFxAndTimeDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\ROfFxAndTimeDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfFxDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\ROfFxDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndAngleDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndAngleDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndOmegaDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndOmegaDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndTimeDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndTimeDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfRhoDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\ROfRhoDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ROfXAndYDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\ROfXAndYDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\TDiffuseDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\TDiffuseDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\TOfAngleDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\TOfAngleDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\TOfRhoAndAngleDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\TOfRhoAndAngleDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\TOfRhoDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\TOfRhoDetectorInput.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs">
       <Link>MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs</Link>
     </Compile>
@@ -780,6 +711,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs">
       <Link>MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs</Link>
     </Compile>
@@ -804,8 +738,8 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\RofXAndYDetector.cs">
-      <Link>MonteCarlo\Detectors\RofXAndYDetector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RSpecularDetector.cs">
       <Link>MonteCarlo\Detectors\RSpecularDetector.cs</Link>
@@ -827,9 +761,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Extensions\DatabaseExtensionMethods.cs">
       <Link>MonteCarlo\Extensions\DatabaseExtensionMethods.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Extensions\DetectorExtensionMethods.cs">
-      <Link>MonteCarlo\Extensions\DetectorExtensionMethods.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Extensions\ITissueRegionExtensions.cs">
       <Link>MonteCarlo\Extensions\ITissueRegionExtensions.cs</Link>
@@ -854,6 +785,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\DetectorFactory.cs">
       <Link>MonteCarlo\Factories\DetectorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Factories\DetectorProvider.cs">
+      <Link>MonteCarlo\Factories\DetectorProvider.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\PhotonDatabaseFactory.cs">
       <Link>MonteCarlo\Factories\PhotonDatabaseFactory.cs</Link>
@@ -1151,31 +1085,17 @@
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedSourceDefinition.cs" />
     <Compile Include="MonteCarlo\Unmanaged\UnmanagedTissue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\DetectorInputs\ReflectedMTOfRhoAndSubRegionHistDetectorInput.cs">
-      <Link>MonteCarlo\DataStructures\DetectorInputs\ReflectedMTOfRhoAndSubregionHistDetectorInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs">
-      <Link>MonteCarlo\Detectors\ReflectedMTOfRhoAndSubregionHistDetector.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\Spectra.txt">
       <Link>Modeling\Spectroscopy\Resources\Spectra.txt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml">
-      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml">
-      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml">
-      <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml</Link>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.Net4.dll">
+      <Link>AutoMapper.Net4.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="..\Vts\Common\Resources\Strings.resx">
       <Link>Common\Resources\Strings.resx</Link>
     </EmbeddedResource>
@@ -1233,22 +1153,6 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots">
       <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime">
-      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt">
-      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.xml">
-      <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.xml</Link>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.txt">
-      <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.txt">
-      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.txt</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.txt">
       <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.txt</Link>
     </EmbeddedResource>
@@ -1258,19 +1162,26 @@
     <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.txt">
       <Link>Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.txt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.txt">
-      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.txt</Link>
+    <EmbeddedResource Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.txt">
+      <Link>Modeling\Spectroscopy\Resources\SpectralDictionary.txt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.txt">
-      <Link>Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.txt</Link>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime.txt">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime.txt</Link>
     </EmbeddedResource>
     <Content Include="App_Readme\MathNet\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.copyright.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.readme.txt" />
+    <EmbeddedResource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.txt" />
+    <EmbeddedResource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.txt" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="app.config" />
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime">
+      <Link>Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime</Link>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -96,7 +96,10 @@ namespace Vts.IO
 #if SILVERLIGHT
             using (var store = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                store.CreateDirectory(folderPath);
+                if (!store.DirectoryExists(folderPath))
+                {
+                    store.CreateDirectory(folderPath);
+                }
             }
 #else
             if (!Directory.Exists(folderPath))
@@ -104,6 +107,45 @@ namespace Vts.IO
                 Directory.CreateDirectory(folderPath);
             }
 #endif
+        }        
+        
+        /// <summary>
+        /// Platform-agnostic directory (uses isolated storage for Silverlight)
+        /// </summary>
+        /// <param name="folderPath">Path for new directory</param>
+        public static void ClearDirectory(string folderPath)
+        {
+#if SILVERLIGHT
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (store.DirectoryExists(folderPath))
+                {
+                    //DeleteDirectoryRecursive(store, folderPath);
+                    foreach (var file in store.GetFileNames(folderPath + "\\"))
+                    {
+                        store.DeleteFile(Path.Combine(folderPath, file));
+                    }
+                }
+            }
+#else
+            if (Directory.Exists(folderPath))
+            {
+                foreach (var file in Directory.GetFiles(folderPath))
+                {
+                    File.Delete(Path.Combine(folderPath, file));
+                }
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Platform-agnostic call to create an empty directory (deleting files if they exist)
+        /// </summary>
+        /// <param name="folderPath">Path for new directory</param>
+        public static void CreateEmptyDirectory(string folderPath)
+        {
+            FileIO.ClearDirectory(folderPath);
+            FileIO.CreateDirectory(folderPath);
         }
 
         /// <summary>
@@ -271,9 +313,16 @@ namespace Vts.IO
         public static void CopyFileFromEmbeddedResources(string sourceFileName, string destinationFileName, string projectName)
         {
             var currentAssembly = Assembly.Load(projectName);
-            var stream = currentAssembly.GetManifestResourceStream(sourceFileName);
-            var emptyStream = StreamFinder.GetFileStream(destinationFileName, FileMode.Create);
-            stream.CopyTo(emptyStream);
+            Stream emptyStream;
+            Stream stream;
+            using (stream = currentAssembly.GetManifestResourceStream(sourceFileName))
+            {
+                emptyStream = StreamFinder.GetFileStream(destinationFileName, FileMode.Create);
+                if (stream != null)
+                {
+                    stream.CopyTo(emptyStream);
+                }
+            }
             emptyStream.Close();
         }
 
@@ -283,15 +332,16 @@ namespace Vts.IO
         /// <param name="folderName">Name of the folder to copy</param>
         /// <param name="projectName">The name of the project where the file is located</param>
         /// <param name="destinationFolder">The name of the folder to copy the folder</param>
+        /// <param name="includeFolder">Boolean value to determine whether for include the containing folder</param>
         /// <returns>Returns a list of the copied files</returns>
-        public static List<string> CopyFolderFromEmbeddedResources(string folderName, string destinationFolder, string projectName)
+        public static List<string> CopyFolderFromEmbeddedResources(string folderName, string destinationFolder, string projectName, bool includeFolder)
         {
             var fileList = new List<string>();
             var currentAssembly = Assembly.Load(projectName);
             var listAssemblies = currentAssembly.GetManifestResourceNames();
             foreach (var i in listAssemblies)
             {
-                // check to see if MATLAB is in the name
+                // check to see if folder name is in the name
                 if (!i.Contains(folderName)) continue;
                 //CreateDirectory(folderName);
                 // get the filename extension
@@ -299,12 +349,16 @@ namespace Vts.IO
                 var startOfFolderIndex = i.IndexOf(folderName, StringComparison.Ordinal) + folderName.Length + 1;
                 var lastDotIndex = (i.Length - startOfFolderIndex) - (i.Length - i.LastIndexOf(".", StringComparison.Ordinal));
                 var folderToLastDot = i.Substring(startOfFolderIndex, lastDotIndex);
-                var filename = folderToLastDot;
                 // get the filename if there are more folders
-                var destination = folderName;
+                var filename = folderToLastDot;
+                var destination = "";
+                if (includeFolder)
+                {
+                    destination = folderName;
+                }
                 if (folderToLastDot.Contains("."))
                 {
-                    filename = folderToLastDot.Substring(folderToLastDot.LastIndexOf(".", StringComparison.Ordinal));
+                    filename = folderToLastDot.Substring(folderToLastDot.LastIndexOf(".", StringComparison.Ordinal) + 1);
                     var folders = folderToLastDot.Substring(0, folderToLastDot.Length - (folderToLastDot.Length - folderToLastDot.LastIndexOf(".", StringComparison.Ordinal)));
                     var folderList = folders.Split('.');
                     foreach (var folder in folderList)
@@ -389,6 +443,7 @@ namespace Vts.IO
             }
         }
 
+        // todo: delete if the one below it works ok
         /// <summary>
         /// Writes an array to a binary file and optionally accompanying .txt (JSON) file 
         /// (to store array dimensions) if includeMetaData = true
@@ -402,14 +457,40 @@ namespace Vts.IO
             // Write JSON file to describe the contents of the binary file
             if (includeMetaData)
             {
-                new MetaData(dataIN).WriteToJson(filename + ".txt");  // 
+                new MetaData(dataIN).WriteToJson(filename + ".txt");
             }
             // Create a file to write binary data 
             using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
             {
                 using (BinaryWriter bw = new BinaryWriter(s))
                 {
-                    new ArrayCustomBinaryWriter<T>().WriteToBinary(bw, dataIN);
+                    new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
+                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<Time>());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Writes an array to a binary file and optionally accompanying .xml file 
+        /// (to store array dimensions) if includeMetaData = true
+        /// </summary>
+        /// <typeparam name="T">Type of the array to be written</typeparam>
+        /// <param name="dataIN">Array to be written</param>
+        /// <param name="filename">Name of the file where the data is written</param>
+        /// <param name="includeMetaData">Boolean to determine whether to include meta data, if set to true, an accompanying XML file will be created with the same name</param>
+        public static void WriteArrayToBinary(Array dataIN, string filename, bool includeMetaData)
+        {
+            // Write XML file to describe the contents of the binary file
+            if (includeMetaData)
+            {
+                new MetaData(dataIN).WriteToJson(filename + ".txt");
+            }
+            // Create a file to write binary data 
+            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
+            {
+                using (BinaryWriter bw = new BinaryWriter(s))
+                {
+                    new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
                     //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<Time>());
                 }
             }
@@ -797,6 +878,5 @@ namespace Vts.IO
         }
 #endif
         #endregion
-
     }
 }

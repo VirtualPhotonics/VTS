@@ -5,7 +5,7 @@ clear all
 clc
 dbstop if error;
 startup();
-runDemosToo = false;
+runDemosToo = true;
 
 mc_tests();
 structures_tests();

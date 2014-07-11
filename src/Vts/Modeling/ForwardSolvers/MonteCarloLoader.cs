@@ -75,8 +75,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         public MonteCarloLoader()
         {
-            nfxReference = 100;
-            dfxReference = 1.0 / nfxReference; 
+            //nfxReference = 100;
+            //dfxReference = 1.0 / nfxReference; 
             InitializeVectorsAndInterpolators();
         }
 
@@ -86,7 +86,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         private void InitializeVectorsAndInterpolators()
         {
-            var rOfRhoAndTime = (ROfRhoAndTimeDetector)DetectorIO.ReadDetectorFromFileInResources(TallyType.ROfRhoAndTime, "Modeling/Resources/" + folder, "Vts");
+            // load R(rho,time) reference data
+            var rOfRhoAndTime = (dynamic)DetectorIO.ReadDetectorFromFileInResources("ROfRhoAndTime", "Modeling/Resources/" + folder, "Vts");
 
             nrReference = rOfRhoAndTime.Rho.Count - 1;
             drReference = rOfRhoAndTime.Rho.Delta;
@@ -97,8 +98,7 @@ namespace Vts.Modeling.ForwardSolvers
 
             RhoReference = new DoubleRange(drReference / 2, drReference * nrReference - drReference / 2, nrReference).AsEnumerable().ToArray();
             TimeReference = new DoubleRange(dtReference / 2, dtReference * ntReference - dtReference / 2, ntReference).AsEnumerable().ToArray();
-            FxReference = new DoubleRange(dfxReference / 2, dfxReference * nfxReference - dfxReference / 2, nfxReference).AsEnumerable().ToArray();
-
+           
             RReferenceOfRhoAndTime = new double[nrReference, ntReference];
             for (int ir = 0; ir < nrReference; ir++)
             {
@@ -109,32 +109,48 @@ namespace Vts.Modeling.ForwardSolvers
                         sum += rOfRhoAndTime.Mean[ir, it];  // debug line
                 }
             }
+
+            // load R(fx,time) reference data
+            var rOfFxAndTime = (dynamic)DetectorIO.ReadDetectorFromFileInResources("ROfFxAndTime", "Modeling/Resources/" + folder, "Vts");
+
+            nfxReference = rOfFxAndTime.Fx.Count;
+            dfxReference = 1.0/nfxReference;
+
+            FxReference = new DoubleRange(dfxReference / 2, dfxReference * nfxReference - dfxReference / 2, nfxReference).AsEnumerable().ToArray();
+
             RReferenceOfFxAndTime = new double[nfxReference, ntReference];
-            // CKH TODO: automate this process somehow
-            //if (File.Exists("Resources/" + folder + @"R_fxt"))
-            if (true)
+            for (int ifx = 0; ifx < nfxReference; ifx++)
             {
-                RReferenceOfFxAndTime = (double[,])FileIO.ReadArrayFromBinaryInResources<double>("Modeling/Resources/" +
-                    folder + @"R_fxt", "Vts");
-            }
-            else
-            {
-                double[] RReferenceOfRhoAndTj = new double[nrReference];
-                double[] RReferenceOfFxAndTj = new double[nfxReference];
-                for (int j = 0; j < ntReference; j++)
+                double sum = 0.0;
+                for (int it = 0; it < ntReference; it++) // this only goes to 800 not 801 because ntReference determined from ROfRhoAndTime.txt
                 {
-                    for (int k = 0; k < nrReference; k++)
-                    {
-                        RReferenceOfRhoAndTj[k] = RReferenceOfRhoAndTime[k, j]; // get ROfRho at a particular Time Tj 
-                    }
-                    for (int i = 0; i < nfxReference; i++)
-                    {
-                        RReferenceOfFxAndTime[i, j] = LinearDiscreteHankelTransform.GetHankelTransform(RhoReference,
-                            RReferenceOfRhoAndTj, drReference, dfxReference * i);
-                    }
+                    RReferenceOfFxAndTime[ifx, it] = rOfFxAndTime.Mean[ifx, it].Real;
                 }
-                FileIO.WriteArrayToBinary<double>(RReferenceOfFxAndTime, @"/R_fxt");
             }
+            ////if (File.Exists("Resources/" + folder + @"R_fxt"))
+            //if (true)
+            //{
+            //    RReferenceOfFxAndTime = (double[,])FileIO.ReadArrayFromBinaryInResources<double>("Modeling/Resources/" +
+            //        folder + @"R_fxt", "Vts");
+            //}
+            //else
+            //{
+            //    double[] RReferenceOfRhoAndTj = new double[nrReference];
+            //    double[] RReferenceOfFxAndTj = new double[nfxReference];
+            //    for (int j = 0; j < ntReference; j++)
+            //    {
+            //        for (int k = 0; k < nrReference; k++)
+            //        {
+            //            RReferenceOfRhoAndTj[k] = RReferenceOfRhoAndTime[k, j]; // get ROfRho at a particular Time Tj 
+            //        }
+            //        for (int i = 0; i < nfxReference; i++)
+            //        {
+            //            RReferenceOfFxAndTime[i, j] = LinearDiscreteHankelTransform.GetHankelTransform(RhoReference,
+            //                RReferenceOfRhoAndTj, drReference, dfxReference * i);
+            //        }
+            //    }
+            //    FileIO.WriteArrayToBinary<double>(RReferenceOfFxAndTime, @"/R_fxt");
+            //}
         }
 
         public IEnumerable<double> GetAllScaledRhos(OpticalProperties op)

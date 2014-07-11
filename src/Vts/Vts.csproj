@@ -86,12 +86,17 @@
     <NoConfig>true</NoConfig>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.1.0\lib\sl5\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.SL5">
+      <HintPath>..\packages\AutoMapper.3.1.0\lib\sl5\AutoMapper.SL5.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\DotNetZip\Silverlight\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=2.6.1.30, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MathNet.Numerics.2.6.2\lib\portable-net40+windows8+wp8+sl5\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.3.0.2\lib\portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics.Silverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -114,23 +119,26 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\portable-net40+sl5+wp80+win8+monotouch+monoandroid\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.2.1.0\lib\sl5\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NLog.3.1.0.0\lib\sl5\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="System.Numerics, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Reactive.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Core.2.2.2\lib\sl5\System.Reactive.Core.dll</HintPath>
+      <HintPath>..\packages\Rx-Core.2.2.4\lib\sl5\System.Reactive.Core.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Interfaces.2.2.2\lib\sl5\System.Reactive.Interfaces.dll</HintPath>
+      <HintPath>..\packages\Rx-Interfaces.2.2.4\lib\sl5\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Reactive.Linq, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Linq.2.2.2\lib\sl5\System.Reactive.Linq.dll</HintPath>
+      <HintPath>..\packages\Rx-Linq.2.2.4\lib\sl5\System.Reactive.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.2.3\lib\sl5\System.Reactive.PlatformServices.dll</HintPath>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-PlatformServices.2.2.4\lib\sl5\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel.Web" />
@@ -158,6 +166,7 @@
     <Compile Include="Common\Extensions\EnumExtensions.cs" />
     <Compile Include="Common\Extensions\IEnumerableArrayExtensions.cs" />
     <Compile Include="Common\Extensions\OpticalPropertiesExtensions.cs" />
+    <Compile Include="Common\Extensions\TypeExtensions.cs" />
     <Compile Include="Common\GlobalConstants.cs" />
     <Compile Include="Common\Helpers\EnumHelper.cs" />
     <Compile Include="Common\Helpers\FuncOfT.cs" />
@@ -239,23 +248,10 @@
     <Compile Include="MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\dMCdROfRhodMusDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\dMCdROfRhodMuaDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ReflectedTimeOfRhoAndSubregionHistDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ReflectedMTOfRhoAndSubregionHistDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfXAndYAndZAndThetaAndPhiDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfFxAndTimeDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfFxDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\FluenceOfXAndYAndZDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfFxAndTimeDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfFxDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoAndZAndAngleDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RadianceOfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationStatistics.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RSpecularDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\CustomLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\DirectionalLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\IsotropicLineSourceInput.cs" />
@@ -278,6 +274,7 @@
     <Compile Include="MonteCarlo\Extensions\ITissueRegionExtensions.cs" />
     <Compile Include="MonteCarlo\Factories\DatabaseWriterFactory.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\DetectorProvider.cs" />
     <Compile Include="MonteCarlo\Factories\PhotonDatabaseFactory.cs" />
     <Compile Include="MonteCarlo\Factories\SourceFactory.cs">
       <SubType>Code</SubType>
@@ -361,21 +358,6 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationOptions.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\CustomPointSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\DirectionalPointSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\AOfRhoAndZDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ATotalDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfRhoAndTimeDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZAndTimeDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\TOfRhoAndAngleDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\TOfRhoDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\TOfAngleDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\TDiffuseDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndOmegaDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfXAndYDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndAngleDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfAngleDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\RDiffuseDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoAndTimeDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\FluenceOfRhoAndZDetectorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\IsotropicPointSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\CircularSourceInputs\CustomCircularSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\CircularSourceInputs\DirectionalCircularSourceInput.cs" />
@@ -393,8 +375,6 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidalSourceInputs\IsotropicVolumetricCuboidaldalSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\EllipsoidalSourceInputs\CustomVolumetricEllipsoidalSourceInput.cs" />
     <Compile Include="MonteCarlo\Helpers\DetectorBinning.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\ROfRhoDetectorInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\DetectorInputs\pMCROfRhoDetectorInput.cs" />
     <Compile Include="MonteCarlo\Enums.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorFactory.cs" />
     <Compile Include="MonteCarlo\Factories\RandomNumberGeneratorFactory.cs" />
@@ -488,7 +468,6 @@
     <Compile Include="MonteCarlo\Detectors\ROfRhoAndTimeDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ROfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ROfXAndYDetector.cs" />
-    <Compile Include="MonteCarlo\Extensions\DetectorExtensionMethods.cs" />
     <Compile Include="MonteCarlo\Detectors\TDiffuseDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs" />
@@ -577,9 +556,9 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt" />
     <Resource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.txt" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime" />
     <None Include="packages.config" />
     <None Include="Sources.cd" />
   </ItemGroup>
@@ -601,9 +580,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\packages\AutoMapper.3.1.0\lib\sl5\AutoMapper.SL5.dll">
+      <Link>AutoMapper.SL5.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Readme\MathNet\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.copyright.txt" />
     <Content Include="App_Readme\MathNet\MathNet.Numerics.readme.txt" />
+    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime.txt" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\controlPointsEXAMPLE.txt" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\templateNurbsValues.txt" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\TestAndExamples\testSpaceNurbsValues.txt" />
@@ -613,7 +597,6 @@
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.txt" />
     <Resource Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.txt" />
     <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.txt" />
-    <Resource Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\R_fxt.txt" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

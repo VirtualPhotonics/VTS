@@ -16,6 +16,7 @@ using Vts.Gui.Silverlight.Model;
 using Vts.Gui.Silverlight.View;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
 
 namespace Vts.Gui.Silverlight.ViewModel
@@ -25,6 +26,8 @@ namespace Vts.Gui.Silverlight.ViewModel
     /// </summary>
     public class MonteCarloSolverViewModel : BindableObject
     {
+        private const string TEMP_RESULTS_FOLDER = "mc_results_temp";
+
         private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSolverViewModel));
 
         private MonteCarloSimulation _simulation;
@@ -251,28 +254,34 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                     // save results to isolated storage
                     logger.Info(() => "Saving simulation results to temporary directory...");
-                    string resultsFolder = input.OutputName;
-                    FileIO.CreateDirectory(resultsFolder);
-                    input.ToJsonFile(Path.Combine(resultsFolder, "infile_" + input.OutputName + ".txt"));
+                    //var detectorFolder = Path.Combine(TEMP_RESULTS_FOLDER, input.OutputName);
 
+                    //// create the root directory
+                    //FileIO.CreateDirectory(TEMP_RESULTS_FOLDER);
+                    // create the detector directory, removing stale files first if they exist
+                    FileIO.CreateEmptyDirectory(TEMP_RESULTS_FOLDER);
+                    
+                    // write detector to file
+                    input.ToFile(Path.Combine(TEMP_RESULTS_FOLDER, "infile_" + input.OutputName + ".txt"));
                     foreach (var result in _output.ResultsDictionary.Values)
                     {
                         // save all detector data to the specified folder
-                        DetectorIO.WriteDetectorToFile(result, resultsFolder);
+                        DetectorIO.WriteDetectorToFile(result, TEMP_RESULTS_FOLDER);
                     }
 
                     var store = IsolatedStorageFile.GetUserStoreForApplication();
-                    if (store.DirectoryExists(resultsFolder))
+                    if (store.DirectoryExists(TEMP_RESULTS_FOLDER))
                     {
                         var currentAssembly = Assembly.GetExecutingAssembly();
-                        // add the MATLAB files to isolated storage so they can be included in the zip file
-                        var fileList = FileIO.CopyFolderFromEmbeddedResources("Matlab", resultsFolder, currentAssembly.FullName);
-                        // then, zip all these together and store *that* .zip to isolated storage as well
-                        var fileNames = store.GetFileNames(resultsFolder + @"\*");
-                        fileList.AddRange(fileNames);
+                        // get all the files we want to zip up
+                        var fileNames = store.GetFileNames(TEMP_RESULTS_FOLDER + @"\*");
+                        // copy the MATLAB files to isolated storage and get their names so they can be included in the zip file
+                        var matlabFiles = FileIO.CopyFolderFromEmbeddedResources("Matlab", TEMP_RESULTS_FOLDER, currentAssembly.FullName, false);
+                        // then, zip all the files together and store *that* .zip to isolated storage as well (can't automatically copy to user folder due to security restrictions)
+                        var allFiles = matlabFiles.Concat(fileNames).Distinct();
                         try
                         {
-                            FileIO.ZipFiles(fileList, resultsFolder, resultsFolder + ".zip");
+                            FileIO.ZipFiles(allFiles, TEMP_RESULTS_FOLDER, input.OutputName + ".zip");
                         }
                         catch (SecurityException)
                         {
@@ -343,7 +352,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                     foreach (var file in files)
                     {
-                        file.Input.ToJsonFile(file.Name);
+                        file.Input.ToFile(file.Name);
                     }
                     var allFiles = files.Concat(files);
                     FileIO.ZipFiles(allFiles.Select(file => file.Name), "", stream);
@@ -357,18 +366,16 @@ namespace Vts.Gui.Silverlight.ViewModel
             if (_output != null && _newResultsAvailable)
             {
                 var input = _simulationInputVM.SimulationInput;
-                string resultsFolder = input.OutputName;
-
                 var store = IsolatedStorageFile.GetUserStoreForApplication();
 
-                if (store.FileExists(resultsFolder + ".zip"))
+                if (store.FileExists(input.OutputName + ".zip"))
                 {
 
                     try
                     {
                         using (var zipStream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("zip"))
                         {
-                            using (var readStream = StreamFinder.GetFileStream(resultsFolder + ".zip", FileMode.Open))
+                            using (var readStream = StreamFinder.GetFileStream(input.OutputName + ".zip", FileMode.Open))
                             {
                                 FileIO.CopyStream(readStream, zipStream);
                             }

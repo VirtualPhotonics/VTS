@@ -28,7 +28,6 @@ namespace Vts.Test.MonteCarlo
                 PhaseFunctionType.Bidirectional,
                 null,
                 false,
-                false,
                 0.0,
                 0);
             Assert.IsTrue(so.Databases.Count == 0);

@@ -14,8 +14,6 @@ classdef SimulationOptions < handle % deriving from handle allows us to keep a s
     PhaseFunctionType  = 'HenyeyGreenstein';
     % list of databases to be written
     Databases = {};
-    % flag indicating whether to tally second moment information for error results
-    TallySecondMoment = 1;
     % flag indicating whether to track statistics about where photon ends up
     TrackStatistics = 0;
     % photon weight threshold to perform Russian Roulette.  Default = 0 means no RR performed.
@@ -38,7 +36,6 @@ classdef SimulationOptions < handle % deriving from handle allows us to keep a s
           for i=1:nDatabases
               options.Databases{i} = char(databasesNET(i));
           end
-          options.TallySecondMoment = optionsNET.TallySecondMoment;
           options.RussianRouletteWeightThreshold = optionsNET.RussianRouletteWeightThreshold;
           options.SimulationIndex = optionsNET.SimulationIndex;          
 %           input.Databases = NET.createArray('Vts.MonteCarlo.DatabaseType', 0);  
@@ -55,7 +52,6 @@ classdef SimulationOptions < handle % deriving from handle allows us to keep a s
               EnumHelper.GetValueNET('Vts.AbsorptionWeightingType', options.AbsorptionWeightingType), ...
               EnumHelper.GetValueNET('Vts.PhaseFunctionType', options.PhaseFunctionType), ...
               databasesNET, ...
-              logical(options.TallySecondMoment), ... % compute Second Moment
               logical(options.TrackStatistics), ... % track statistics
               options.RussianRouletteWeightThreshold, ... % RR threshold -> no RR performed
               options.SimulationIndex ...

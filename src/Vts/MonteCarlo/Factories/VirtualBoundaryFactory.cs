@@ -5,53 +5,53 @@ namespace Vts.MonteCarlo.Factories
 {
     public static class VirtualBoundaryExtensions
     {
-        /// <summary>
-        /// method to determine which tally type belongs to which virtual boundary
-        /// </summary>
-        /// <param name="tallyType">TallyType</param>
-        /// <param name="vbType">VirtualBoundaryTyp</param>
-        /// <returns>boolean indicating whether tally type belongs to VB</returns>
-        public static bool AppliesToBoundary(this TallyType tallyType, VirtualBoundaryType vbType)
-        {
-            switch (vbType)
-            {
-                case VirtualBoundaryType.DiffuseReflectance:
-                    return
-                        tallyType == TallyType.RDiffuse ||
-                        tallyType == TallyType.ROfRho ||
-                        tallyType == TallyType.ROfAngle ||
-                        tallyType == TallyType.ROfRhoAndTime ||
-                        tallyType == TallyType.ROfRhoAndAngle ||
-                        tallyType == TallyType.ROfXAndY ||
-                        tallyType == TallyType.ROfRhoAndOmega ||
-                        tallyType == TallyType.ReflectedMTOfRhoAndSubregionHist;
+        ///// <summary>
+        ///// method to determine which tally type belongs to which virtual boundary
+        ///// </summary>
+        ///// <param name="tallyType">TallyType</param>
+        ///// <param name="vbType">VirtualBoundaryTyp</param>
+        ///// <returns>boolean indicating whether tally type belongs to VB</returns>
+        //public static bool AppliesToBoundary(this TallyType tallyType, VirtualBoundaryType vbType)
+        //{
+        //    switch (vbType)
+        //    {
+        //        case VirtualBoundaryType.DiffuseReflectance:
+        //            return
+        //                tallyType == TallyType.RDiffuse ||
+        //                tallyType == TallyType.ROfRho ||
+        //                tallyType == TallyType.ROfAngle ||
+        //                tallyType == TallyType.ROfRhoAndTime ||
+        //                tallyType == TallyType.ROfRhoAndAngle ||
+        //                tallyType == TallyType.ROfXAndY ||
+        //                tallyType == TallyType.ROfRhoAndOmega ||
+        //                tallyType == TallyType.ReflectedMTOfRhoAndSubregionHist;
 
-                case VirtualBoundaryType.DiffuseTransmittance:
-                    return
-                        tallyType == TallyType.TDiffuse ||
-                        tallyType == TallyType.TOfAngle ||
-                        tallyType == TallyType.TOfRho ||
-                        tallyType == TallyType.TOfRhoAndAngle;
+        //        case VirtualBoundaryType.DiffuseTransmittance:
+        //            return
+        //                tallyType == TallyType.TDiffuse ||
+        //                tallyType == TallyType.TOfAngle ||
+        //                tallyType == TallyType.TOfRho ||
+        //                tallyType == TallyType.TOfRhoAndAngle;
 
-                case VirtualBoundaryType.SpecularReflectance:
-                    return tallyType == TallyType.RSpecular;
+        //        case VirtualBoundaryType.SpecularReflectance:
+        //            return tallyType == TallyType.RSpecular;
 
-                case VirtualBoundaryType.GenericVolumeBoundary:
-                    return
-                        tallyType == TallyType.FluenceOfRhoAndZ ||
-                        tallyType == TallyType.FluenceOfRhoAndZAndTime ||
-                        tallyType == TallyType.FluenceOfXAndYAndZ ||
-                        tallyType == TallyType.AOfRhoAndZ ||
-                        tallyType == TallyType.ATotal;
+        //        case VirtualBoundaryType.GenericVolumeBoundary:
+        //            return
+        //                tallyType == TallyType.FluenceOfRhoAndZ ||
+        //                tallyType == TallyType.FluenceOfRhoAndZAndTime ||
+        //                tallyType == TallyType.FluenceOfXAndYAndZ ||
+        //                tallyType == TallyType.AOfRhoAndZ ||
+        //                tallyType == TallyType.ATotal;
 
-                case VirtualBoundaryType.SurfaceRadiance:
-                    return
-                        tallyType == TallyType.RadianceOfRho;
+        //        case VirtualBoundaryType.SurfaceRadiance:
+        //            return
+        //                tallyType == TallyType.RadianceOfRho;
 
-                default:
-                    throw new ArgumentOutOfRangeException(tallyType.ToString());
-            }
-        }
+        //        default:
+        //            throw new ArgumentOutOfRangeException(tallyType.ToString());
+        //    }
+        //}
     }
 
     /// <summary>
