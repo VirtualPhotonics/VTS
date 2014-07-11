@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
+using System.Reflection;
 using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
@@ -263,15 +264,24 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var store = IsolatedStorageFile.GetUserStoreForApplication();
                     if (store.DirectoryExists(resultsFolder))
                     {
+                        var currentAssembly = Assembly.GetExecutingAssembly();
                         // add the MATLAB files to isolated storage so they can be included in the zip file
-                        FileIO.CopyFileFromResources("Resources/Matlab/load_results_script.m", Path.Combine(resultsFolder, "load_results_script.m"), "Vts.Gui.Silverlight");
-                        FileIO.CopyFileFromResources("Resources/Matlab/loadMCResults.m", Path.Combine(resultsFolder, "loadMCResults.m"), "Vts.Gui.Silverlight");
-                        FileIO.CopyFileFromResources("Resources/Matlab/readBinaryData.m", Path.Combine(resultsFolder, "readBinaryData.m"), "Vts.Gui.Silverlight");
+                        var fileList = FileIO.CopyFolderFromEmbeddedResources("Matlab", resultsFolder, currentAssembly.FullName, false);
                         // then, zip all these together and store *that* .zip to isolated storage as well
                         var fileNames = store.GetFileNames(resultsFolder + @"\*");
+                        //make sure we don't add the root files twice
+                        foreach (var file in fileNames)
+                        {
+                            var index = fileList.IndexOf(file);
+                            if (index > -1)
+                            {
+                                fileList.RemoveAt(index);
+                            }
+                        }
+                        fileList.AddRange(fileNames);
                         try
                         {
-                            FileIO.ZipFiles(fileNames, resultsFolder, resultsFolder + ".zip");
+                            FileIO.ZipFiles(fileList, resultsFolder, resultsFolder + ".zip");
                         }
                         catch (SecurityException)
                         {
@@ -305,10 +315,31 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
             using (var stream = StreamFinder.GetLocalFilestreamFromOpenFileDialog("xml"))
             {
-                if (stream != null)
+                if (stream == null) return;
+                var errorText = "";
+                SimulationInput simulationInput = null;
+                try
                 {
-                    var simulationInput = FileIO.ReadFromStream<SimulationInput>(stream);
-
+                    simulationInput = FileIO.ReadFromStream<SimulationInput>(stream);
+                }
+                catch
+                {
+                    errorText = "XML ";
+                }
+                try
+                {
+                    if (errorText != "")
+                    {
+                        stream.Seek(0, SeekOrigin.Begin);
+                        simulationInput = FileIO.ReadFromJsonStream<SimulationInput>(stream);
+                    }
+                }
+                catch
+                {
+                    errorText = "JSON ";
+                }
+                if (simulationInput != null)
+                {
                     var validationResult = SimulationInputValidation.ValidateInput(simulationInput);
                     if (validationResult.IsValid)
                     {
@@ -317,8 +348,12 @@ namespace Vts.Gui.Silverlight.ViewModel
                     }
                     else
                     {
-                        logger.Info(() => "Simulation input not loaded - XML format not valid.\r");
+                        logger.Info(() => "Simulation input not loaded - File format not valid.\r");
                     }
+                }
+                else
+                {
+                    logger.Info(() => errorText + "File not loaded.\r");
                 }
             }
         }
@@ -349,7 +384,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                     foreach (var file in jsonFiles)
                     {
-                        file.Input.ToXMLFile(file.Name);
+                        file.Input.ToJsonFile(file.Name);
                     }
                     var allFiles = files.Concat(jsonFiles);
                     FileIO.ZipFiles(allFiles.Select(file => file.Name), "", stream);

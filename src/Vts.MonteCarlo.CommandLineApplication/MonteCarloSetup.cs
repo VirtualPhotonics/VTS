@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                    logger.Info(" *** No input file specified ***\n\t\tDefine an input file using mc.exe infile=infile_name.xml or mc.exe infile=infile_name.txt");
+                    logger.Info("\n\t\t*** No input file specified ***\n\nDefine an input file using mc.exe infile=infile_name.xml or mc.exe infile=infile_name.txt");
                     return null;
                 }
 

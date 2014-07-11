@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using Ionic.Zip;
@@ -246,19 +247,94 @@ namespace Vts.IO
                 return ReadFromJsonStream<T>(stream);
             }
         }
+
         /// <summary>
-        /// Copy a file from reaources to an external location (isolated storage in silverlight)
+        /// Copy a file from resources to an external location (isolated storage in silverlight)
         /// </summary>
+        /// <example>FileIO.CopyFileFromResources("Resources/Matlab/load_results_script.m", Path.Combine(resultsFolder, "load_results_script.m"), "Vts.Gui.Silverlight");</example>
         /// <param name="sourceFileName">Path and filename of the file in resources</param>
         /// <param name="destinationFileName">Path and filename of the destination location</param>
-        /// <param name="projectName">The name of the project where the file in resources id located</param>
+        /// <param name="projectName">The name of the project where the file in resources is located</param>
         public static void CopyFileFromResources(string sourceFileName, string destinationFileName, string projectName)
         {
             using (var stream = StreamFinder.GetFileStreamFromResources(sourceFileName, projectName))
             {
                 var emptyStream = StreamFinder.GetFileStream(destinationFileName, FileMode.Create);
                 stream.CopyTo(emptyStream);
+                emptyStream.Close();
             }
+        }
+
+        /// <summary>
+        /// Copy a file from embedded resources in the project assembly and 
+        /// copies to an external location (isolated storage in silverlight)
+        /// </summary>
+        /// <param name="sourceFileName">Path and filename of the file in resources</param>
+        /// <param name="destinationFileName">Path and filename of the destination location</param>
+        /// <param name="projectName">The name of the project where the file is located</param>
+        public static void CopyFileFromEmbeddedResources(string sourceFileName, string destinationFileName, string projectName)
+        {
+            var currentAssembly = Assembly.Load(projectName);
+            Stream emptyStream;
+            Stream stream;
+            using (stream = currentAssembly.GetManifestResourceStream(sourceFileName))
+            {
+                emptyStream = StreamFinder.GetFileStream(destinationFileName, FileMode.Create);
+                if (stream != null)
+                {
+                    stream.CopyTo(emptyStream);
+                }
+            }
+            emptyStream.Close();
+        }
+
+        /// <summary>
+        /// Copy a folder and contents to an external location
+        /// </summary>
+        /// <param name="folderName">Name of the folder to copy</param>
+        /// <param name="projectName">The name of the project where the file is located</param>
+        /// <param name="destinationFolder">The name of the folder to copy the folder</param>
+        /// <param name="includeFolder">Boolean value to determine whether for include the containing folder</param>
+        /// <returns>Returns a list of the copied files</returns>
+        public static List<string> CopyFolderFromEmbeddedResources(string folderName, string destinationFolder, string projectName, bool includeFolder)
+        {
+            var fileList = new List<string>();
+            var currentAssembly = Assembly.Load(projectName);
+            var listAssemblies = currentAssembly.GetManifestResourceNames();
+            foreach (var i in listAssemblies)
+            {
+                // check to see if folder name is in the name
+                if (!i.Contains(folderName)) continue;
+                //CreateDirectory(folderName);
+                // get the filename extension
+                var ext = i.Substring(i.LastIndexOf(".", StringComparison.Ordinal));
+                var startOfFolderIndex = i.IndexOf(folderName, StringComparison.Ordinal) + folderName.Length + 1;
+                var lastDotIndex = (i.Length - startOfFolderIndex) - (i.Length - i.LastIndexOf(".", StringComparison.Ordinal));
+                var folderToLastDot = i.Substring(startOfFolderIndex, lastDotIndex);
+                // get the filename if there are more folders
+                var filename = folderToLastDot;
+                var destination = "";
+                if (includeFolder)
+                {
+                    destination = folderName;
+                }
+                if (folderToLastDot.Contains("."))
+                {
+                    filename = folderToLastDot.Substring(folderToLastDot.LastIndexOf(".", StringComparison.Ordinal) + 1);
+                    var folders = folderToLastDot.Substring(0, folderToLastDot.Length - (folderToLastDot.Length - folderToLastDot.LastIndexOf(".", StringComparison.Ordinal)));
+                    var folderList = folders.Split('.');
+                    foreach (var folder in folderList)
+                    {
+                        destination = Path.Combine(destination, folder);
+                    }
+                }
+                var destinationFileName = filename + ext;
+                var sourceFileName = i;
+                CreateDirectory(Path.Combine(destinationFolder, destination));
+                CopyFileFromEmbeddedResources(sourceFileName, Path.Combine(destinationFolder, destination, destinationFileName), projectName);
+                fileList.Add(Path.Combine(destination, destinationFileName));
+            }
+            return fileList;
         }
 
         /// <summary>
