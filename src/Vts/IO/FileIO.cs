@@ -96,7 +96,10 @@ namespace Vts.IO
 #if SILVERLIGHT
             using (var store = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                store.CreateDirectory(folderPath);
+                if (!store.DirectoryExists(folderPath))
+                {
+                    store.CreateDirectory(folderPath);
+                }
             }
 #else
             if (!Directory.Exists(folderPath))
@@ -104,6 +107,45 @@ namespace Vts.IO
                 Directory.CreateDirectory(folderPath);
             }
 #endif
+        }        
+        
+        /// <summary>
+        /// Platform-agnostic directory (uses isolated storage for Silverlight)
+        /// </summary>
+        /// <param name="folderPath">Path for new directory</param>
+        public static void ClearDirectory(string folderPath)
+        {
+#if SILVERLIGHT
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (store.DirectoryExists(folderPath))
+                {
+                    //DeleteDirectoryRecursive(store, folderPath);
+                    foreach (var file in store.GetFileNames(folderPath + "\\"))
+                    {
+                        store.DeleteFile(Path.Combine(folderPath, file));
+                    }
+                }
+            }
+#else
+            if (Directory.Exists(folderPath))
+            {
+                foreach (var file in Directory.GetFiles(folderPath))
+                {
+                    File.Delete(Path.Combine(folderPath, file));
+                }
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Platform-agnostic call to create an empty directory (deleting files if they exist)
+        /// </summary>
+        /// <param name="folderPath">Path for new directory</param>
+        public static void CreateEmptyDirectory(string folderPath)
+        {
+            FileIO.ClearDirectory(folderPath);
+            FileIO.CreateDirectory(folderPath);
         }
 
         /// <summary>
