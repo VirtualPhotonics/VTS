@@ -431,10 +431,11 @@ namespace Vts.Gui.Silverlight.ViewModel
                 double[] fluence;
                 if (IsMultiRegion)
                 {
-                    ITissueRegion[] regions = null;
+                    IOpticalPropertyRegion[] regions = null;
                     if (ForwardSolver is TwoLayerSDAForwardSolver)
                     {
-                        regions = ((MultiRegionTissueViewModel) TissueInputVM).GetTissueInput().Regions;
+                        regions = ((MultiRegionTissueViewModel) TissueInputVM).GetTissueInput().Regions
+                            .Select(region => (IOpticalPropertyRegion)region).ToArray();
                     }
 
                     if (regions == null)
@@ -469,19 +470,23 @@ namespace Vts.Gui.Silverlight.ViewModel
                         case MapType.AbsorbedEnergy:
                             if (IsMultiRegion)
                             {
-                                ITissueRegion[] regions = null;
                                 if (ForwardSolver is TwoLayerSDAForwardSolver)
                                 {
-                                    regions = ((MultiRegionTissueViewModel)TissueInputVM).GetTissueInput().Regions;
+                                    var regions = ((MultiRegionTissueViewModel)TissueInputVM).GetTissueInput().Regions
+                                        .Select(region => (ILayerOpticalPropertyRegion)region).ToArray();
+                                    var muas = ComputationFactory.getRhoZMuaArrayFromLayerRegions(regions, rhos, zs);
+                                    results = ComputationFactory.GetAbsorbedEnergy(fluence, muas).ToArray();
                                 }
-                                if (regions == null)
+                                else
                                 {
                                     return null;
                                 }
-                                var muas = ComputationFactory.getRhoZMuaArrayFromRegions(regions, rhos, zs);
-                                results = ComputationFactory.GetAbsorbedEnergy(fluence, muas).ToArray(); 
                             }
-                            results = ComputationFactory.GetAbsorbedEnergy(fluence, OpticalPropertyVM.GetOpticalProperties().Mua).ToArray();
+                            else
+                            {
+                                // Note: the line below was originally overwriting the multi-region results. I think this was a bug (DJC 7/11/14)
+                                results = ComputationFactory.GetAbsorbedEnergy(fluence, OpticalPropertyVM.GetOpticalProperties().Mua).ToArray(); 
+                            }
                             break;
                         case MapType.PhotonHittingDensity:
                             switch (PhotonHittingDensitySolutionDomainTypeOptionVM.SelectedValue)

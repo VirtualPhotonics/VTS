@@ -13,14 +13,14 @@ namespace Vts
         #region IMultiRegionForwardSolver // ?
 
         // prototype of new interface methods for multi-region capabilities
-        #region double ROfRho(ITissueRegion[] regions, double rho);
+        #region double ROfRho(IOpticalPropertyRegion[] regions, double rho);
         /// <summary>
         /// Determines reflectance at source-detector separation rho
         /// </summary>
         /// <param name="regions">optical and geometrical properties of the medium for each sub-region</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <returns>reflectance at source-detector separation rho</returns>
-        double ROfRho(ITissueRegion[] regions, double rho);
+        double ROfRho(IOpticalPropertyRegion[] regions, double rho);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances at tissue regions and source-detector separations 'rhos'
@@ -28,7 +28,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns></returns>
-        IEnumerable<double> ROfRho(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> rhos);
+        IEnumerable<double> ROfRho(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances given tissue regions and source-detector separations 'rhos'
@@ -36,7 +36,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns></returns>
-        double[] ROfRho(ITissueRegion[] regions, double[] rhos);
+        double[] ROfRho(IOpticalPropertyRegion[] regions, double[] rhos);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances given tissue regions and source-detector separations 'rhos'
@@ -44,10 +44,10 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns></returns>
-        double[] ROfRho(ITissueRegion[][] regions, double[] rhos);
+        double[] ROfRho(IOpticalPropertyRegion[][] regions, double[] rhos);
         #endregion
 
-        #region double ROfRhoAndTime(ITissueRegion[] regions, double rho, double time);
+        #region double ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double time);
         /// <summary>
         /// Determines reflectance at source-detector separation rho and time
         /// </summary>
@@ -55,7 +55,7 @@ namespace Vts
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="time">time (ns)</param>
         /// <returns>reflectance at source-detector separation rho</returns>
-        double ROfRhoAndTime(ITissueRegion[] regions, double rho, double time);
+        double ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double time);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances at tissue regions, source-detector 
@@ -65,7 +65,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="times">times (ns)</param>
         /// <returns></returns>
-        IEnumerable<double> ROfRhoAndTime(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> rhos, 
+        IEnumerable<double> ROfRhoAndTime(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, 
             IEnumerable<double> times);
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="times">times (ns)</param>
         /// <returns></returns>
-        double[] ROfRhoAndTime(ITissueRegion[] regions, double[] rhos, double[] times);
+        double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double[] rhos, double[] times);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances given tissue regions, source-detector 
@@ -86,7 +86,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="time">time (ns)</param>
         /// <returns></returns>
-        double[] ROfRhoAndTime(ITissueRegion[] regions, double[] rhos, double time);
+        double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double[] rhos, double time);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances given tissue regions, source-detector 
@@ -96,7 +96,7 @@ namespace Vts
         /// <param name="rho">source-detector separations (mm)</param>
         /// <param name="times">times (ns)</param>
         /// <returns></returns>
-        double[] ROfRhoAndTime(ITissueRegion[] regions, double rho, double[] times);
+        double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double[] times);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances given tissue regions, source-detector 
@@ -106,10 +106,10 @@ namespace Vts
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="times">times (ns)</param>
         /// <returns></returns>
-        double[] ROfRhoAndTime(ITissueRegion[][] regions, double[] rhos, double[] times);
+        double[] ROfRhoAndTime(IOpticalPropertyRegion[][] regions, double[] rhos, double[] times);
         #endregion
 
-        #region Complex ROfRhoAndFt(ITissueRegion[] regions, double rho, double ft);
+        #region Complex ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double ft);
         /// <summary>
         /// Determines reflectance at source-detector separation rho and temporal frequency ft
         /// </summary>
@@ -117,7 +117,7 @@ namespace Vts
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="ft">temporal frequency</param>
         /// <returns>reflectance at source-detector separation rho</returns>
-        Complex ROfRhoAndFt(ITissueRegion[] regions, double rho, double ft);
+        Complex ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double ft);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances at tissue regions, source-detector 
@@ -127,7 +127,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">temporal frequencies</param>
         /// <returns></returns>
-        IEnumerable<Complex> ROfRhoAndFt(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> fts);
+        IEnumerable<Complex> ROfRhoAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> fts);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances given tissue regions, source-detector 
@@ -137,7 +137,7 @@ namespace Vts
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="fts">temporal frequencies</param>
         /// <returns></returns>
-        Complex[] ROfRhoAndFt(ITissueRegion[] regions, double rho, double[] fts);
+        Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double[] fts);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances given tissue regions, source-detector 
@@ -147,7 +147,7 @@ namespace Vts
         /// <param name="rhos">source-detector separation (mm)</param>
         /// <param name="ft">temporal frequencies</param>
         /// <returns></returns>
-        Complex[] ROfRhoAndFt(ITissueRegion[] regions, double[] rhos, double ft);
+        Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double[] rhos, double ft);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances given tissue regions, source-detector 
@@ -157,7 +157,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">temporal frequencies</param>
         /// <returns></returns>
-        Complex[] ROfRhoAndFt(ITissueRegion[] regions, double[] rhos, double[] fts);
+        Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double[] rhos, double[] fts);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances given tissue regions, source-detector 
@@ -167,17 +167,17 @@ namespace Vts
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">temporal frequencies</param>
         /// <returns></returns>
-        Complex[] ROfRhoAndFt(ITissueRegion[][] regions, double[] rhos, double[] fts);
+        Complex[] ROfRhoAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] fts);
         #endregion
 
-        #region double ROFx(ITissueRegion[] regions, double fx);
+        #region double ROFx(IOpticalPropertyRegion[] regions, double fx);
         /// <summary>
         /// Determines reflectance at spatial frequency 
         /// </summary>
         /// <param name="regions">optical and geometrical properties of the medium for each sub-region</param>
         /// <param name="fx">spatial frequency</param>
         /// <returns>reflectance at spatial frequency fx</returns>
-        double ROfFx(ITissueRegion[] regions, double fx);
+        double ROfFx(IOpticalPropertyRegion[] regions, double fx);
 
         /// <summary>
         /// Overload of scalar ROfRho function. Determines reflectances at tissue regions and source-detector separations 'rhos'
@@ -185,7 +185,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <returns></returns>
-        IEnumerable<double> ROfFx(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> fxs);
+        IEnumerable<double> ROfFx(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs);
 
         /// <summary>
         /// Overload of scalar ROfFx function. Determines reflectances given tissue regions and spatia freqs 'fxs'
@@ -193,7 +193,7 @@ namespace Vts
         /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <returns>reflectance at sptail frequency</returns>
-        double[] ROfFx(ITissueRegion[] regions, double[] fxs);
+        double[] ROfFx(IOpticalPropertyRegion[] regions, double[] fxs);
 
         /// <summary>
         /// Overload of scalar ROfFx function. Determines reflectances given tissue regions and spatia freqs 'fxs'
@@ -201,10 +201,10 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <returns>reflectance at sptail frequency</returns>
-        double[] ROfFx(ITissueRegion[][] regions, double[] fxs);
+        double[] ROfFx(IOpticalPropertyRegion[][] regions, double[] fxs);
         #endregion
 
-        #region double ROfFxAndTime(ITissueRegion[] regions, double fx, double time);
+        #region double ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double time);
         /// <summary>
         /// Determines reflectance at spatial frequency and time
         /// </summary>
@@ -212,7 +212,7 @@ namespace Vts
         /// <param name="fx">spatial frequency</param>
         /// <param name="time">time (ns)</param>
         /// <returns>reflectance at spatial frequency fx</returns>
-        double ROfFxAndTime(ITissueRegion[] regions, double fx, double time);
+        double ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double time);
 
         /// <summary>
         /// Overload of scalar ROfFxAndTim function. Determines reflectances at tissue regions, spatial freqs 'fxs', 
@@ -222,7 +222,7 @@ namespace Vts
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="times">times (ns)</param>
         /// <returns>reflectance at spatial freq and time</returns>
-        IEnumerable<double> ROfFxAndTime(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> fxs,
+        IEnumerable<double> ROfFxAndTime(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs,
             IEnumerable<double> times);
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace Vts
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="times">times (ns)</param>
         /// <returns>reflectance at spatial freq. and time</returns>
-        double[] ROfFxAndTime(ITissueRegion[] regions, double[] fxs, double[] times);
+        double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double[] times);
 
         /// <summary>
         /// Overload of scalar ROfFxAndTime function. Determines reflectances given tissue regions, spatial freq 'fx',
@@ -243,7 +243,7 @@ namespace Vts
         /// <param name="fx">spatial frequency</param>
         /// <param name="times">times (ns)</param>
         /// <returns></returns>
-        double[] ROfFxAndTime(ITissueRegion[] regions, double fx, double[] times);
+        double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double[] times);
 
         /// <summary>
         /// Overload of scalar ROfFxAndTime function.  Determines reflectances given tissue regions, spatial freqs 'fxs',
@@ -253,7 +253,7 @@ namespace Vts
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="time">time (ns)</param>
         /// <returns></returns>
-        double[] ROfFxAndTime(ITissueRegion[] regions, double[] fxs, double time);
+        double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double time);
 
         /// <summary>
         /// Overload of scalar ROfFxAndTime function. Determines reflectances given tissue regions, spatial freqs 'fxs', 
@@ -263,10 +263,10 @@ namespace Vts
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="times">times (ns)</param>
         /// <returns>reflectance at spatial freq. and time</returns>
-        double[] ROfFxAndTime(ITissueRegion[][] regions, double[] fxs, double[] times);
+        double[] ROfFxAndTime(IOpticalPropertyRegion[][] regions, double[] fxs, double[] times);
         #endregion
 
-        #region Complex ROfFxAndFt(ITissueRegion[] regions, double fx, double ft);
+        #region Complex ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double ft);
         /// <summary>
         /// Determines reflectance at spatial frequnecy fx and temporal frequency ft
         /// </summary>
@@ -274,7 +274,7 @@ namespace Vts
         /// <param name="fx">spatial frequency</param>
         /// <param name="ft">temporal frequency</param>
         /// <returns>reflectance at spatial freq. and temporal freq.</returns>
-        Complex ROfFxAndFt(ITissueRegion[] regions, double fx, double ft);
+        Complex ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double ft);
 
         /// <summary>
         /// Overload of scalar ROfFxAndFt function. Determines reflectances at tissue regions, spatial freqs 'fxs' and 
@@ -284,7 +284,7 @@ namespace Vts
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="fts">temporal frequencies</param>
         /// <returns></returns>
-        IEnumerable<Complex> ROfFxAndFt(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> fts);
+        IEnumerable<Complex> ROfFxAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> fts);
 
         /// <summary>
         /// Overload of scalar ROfFxAndFt function. Determines reflectances given tissue regions, source-detector 
@@ -294,7 +294,7 @@ namespace Vts
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="fts">temporal frequencies</param>
         /// <returns></returns>
-        Complex[] ROfFxAndFt(ITissueRegion[] regions, double fx, double[] fts);
+        Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double[] fts);
 
         /// <summary>
         /// Overload of scalar ROfFxAndFt function. Determines reflectances given tissue regions, spatial freqs 
@@ -304,7 +304,7 @@ namespace Vts
         /// <param name="fxs">spatial freqs</param>
         /// <param name="ft">temporal frequencies</param>
         /// <returns></returns>
-        Complex[] ROfFxAndFt(ITissueRegion[] regions, double[] fxs, double ft);
+        Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double[] fxs, double ft);
 
         /// <summary>
         /// Overload of scalar ROfFxAndFt function. Determines reflectances given tissue regions, spatial 
@@ -314,7 +314,7 @@ namespace Vts
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="fts">temporal frequencies</param>
         /// <returns>reflectance at spatial freq. and temporal freq.</returns>
-        Complex[] ROfFxAndFt(ITissueRegion[] regions, double[] fxs, double[] fts);
+        Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double[] fxs, double[] fts);
 
         /// <summary>
         /// Overload of scalar ROfFxAndFt function. Determines reflectances given tissue regions, spatial 
@@ -324,10 +324,10 @@ namespace Vts
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="fts">temporal frequencies</param>
         /// <returns>reflectance at spatial freq. and temporal freq.</returns>
-        Complex[] ROfFxAndFt(ITissueRegion[][] regions, double[] fxs, double[] fts);
+        Complex[] ROfFxAndFt(IOpticalPropertyRegion[][] regions, double[] fxs, double[] fts);
         #endregion
 
-        #region double[] FluenceOfRhoAndZ(ITissueRegion[][] regions, double[] rhos, double[] zs);
+        #region double[] FluenceOfRhoAndZ(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs);
         /// <summary>
         ///  Overload of scalar FluenceOfRhoAndZ function. Determines fluence of tissue 'regions' and source-detector separations 'rhos' and 'zs'
         /// </summary>
@@ -335,7 +335,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations</param>
         /// <param name="zs">depth bins</param>
         /// <returns></returns>
-        double[] FluenceOfRhoAndZ(ITissueRegion[][] regions, double[] rhos, double[] zs);
+        double[] FluenceOfRhoAndZ(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs);
 
         /// <summary>
         ///  Overload of scalar FluenceOfRhoAndZ function. Determines fluence of tissue 'regions' and source-detector separations 'rhos' and 'zs'
@@ -344,7 +344,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations</param>
         /// <param name="zs">depth bins</param>
         /// <returns></returns>
-        IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> zs);
+        IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> zs);
         #endregion
 
         #endregion // IMultiRegionForwardSolver

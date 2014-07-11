@@ -76,7 +76,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">tissue regions of the medium</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <returns>reflectance at given tissue regions and single rho</returns>     
-        public virtual double ROfRho(ITissueRegion[] regions, double rho)
+        public virtual double ROfRho(IOpticalPropertyRegion[] regions, double rho)
         {
             throw new NotImplementedException();
         }
@@ -110,7 +110,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="t">time (ns)</param>
         /// <returns>reflectance at given single set of optical properties, single rho and single time</returns>
-        public virtual double ROfRhoAndTime(ITissueRegion[] regions, double rho, double t)
+        public virtual double ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double t)
         {
             throw new NotImplementedException();
         }
@@ -132,7 +132,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
         /// <returns>reflectance at given single set of optical properties, single rho and single modulation frequency ft</returns>
-        public virtual Complex ROfRhoAndFt(ITissueRegion[] regions, double rho, double ft)
+        public virtual Complex ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double ft)
         {
             throw new NotImplementedException();
         }
@@ -152,7 +152,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">regions of the medium</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <returns>reflectance at given tissue regions and single spatial frequency fx</returns>
-        public virtual double ROfFx(ITissueRegion[] regions, double fx)
+        public virtual double ROfFx(IOpticalPropertyRegion[] regions, double fx)
         {
             throw new NotImplementedException();
         }
@@ -174,7 +174,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="t">time (ns)</param>
         /// <returns>reflectance at given tissue regions, single spatial frequency fx and single time t</returns>
-        public virtual double ROfFxAndTime(ITissueRegion[] regions, double fx, double t)
+        public virtual double ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double t)
         {
             throw new NotImplementedException();
         }
@@ -196,7 +196,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
         /// <returns>reflectance at given tissue regions, single spatial frequency fx and single modulation frequency ft</returns>
-        public virtual Complex ROfFxAndFt(ITissueRegion[] regions, double fx, double ft)
+        public virtual Complex ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double ft)
         {
             throw new NotImplementedException();
         }
@@ -226,10 +226,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns>reflectance at given optical properties and rhos</returns>
         public virtual IEnumerable<double> ROfRho(
-            IEnumerable<ITissueRegion[]> regions,
+            IEnumerable<IOpticalPropertyRegion[]> regions,
             IEnumerable<double> rhos)
         {
-            return ((Func<ITissueRegion[], double, double>)ROfRho).LoopOverVariables(regions, rhos);
+            return ((Func<IOpticalPropertyRegion[], double, double>)ROfRho).LoopOverVariables(regions, rhos);
         }
 
         public virtual IEnumerable<double> ROfTheta(
@@ -263,11 +263,11 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ts">times (ns)</param>
         /// <returns>reflectance of tissue regions, rhos and times</returns>
         public virtual IEnumerable<double> ROfRhoAndTime(
-            IEnumerable<ITissueRegion[]> regions,
+            IEnumerable<IOpticalPropertyRegion[]> regions,
             IEnumerable<double> rhos,
             IEnumerable<double> ts)
         {
-            return ((Func<ITissueRegion[], double, double, double>)ROfRhoAndTime).LoopOverVariables(regions, rhos, ts);
+            return ((Func<IOpticalPropertyRegion[], double, double, double>)ROfRhoAndTime).LoopOverVariables(regions, rhos, ts);
         }
         /// <summary>
         /// Vector ROfRhoAndFt function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and time frequencies 'fts'
@@ -289,9 +289,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>reflectance at given optical properties, rhos and modulation frequencies</returns>
-        public virtual IEnumerable<Complex> ROfRhoAndFt(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> fts)
+        public virtual IEnumerable<Complex> ROfRhoAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> fts)
         {
-            return ((Func<ITissueRegion[], double, double, Complex>)ROfRhoAndFt).LoopOverVariables(regions, rhos, fts);
+            return ((Func<IOpticalPropertyRegion[], double, double, Complex>)ROfRhoAndFt).LoopOverVariables(regions, rhos, fts);
         }
         /// <summary>
         /// Vector ROfFx function. Determines reflectances at optical properties 'ops' and spatial frequencies 'fxs'
@@ -312,10 +312,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <returns>reflectance at given optical properties and spatial frequencies</returns>
         public virtual IEnumerable<double> ROfFx(
-            IEnumerable<ITissueRegion[]> regions,
+            IEnumerable<IOpticalPropertyRegion[]> regions,
             IEnumerable<double> fxs)
         {
-            return ((Func<ITissueRegion[], double, double>)ROfFx).LoopOverVariables(regions, fxs);
+            return ((Func<IOpticalPropertyRegion[], double, double>)ROfFx).LoopOverVariables(regions, fxs);
         }
         /// <summary>
         /// Vector ROfFxAndTime function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and times 'ts'
@@ -341,11 +341,11 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ts">times (ns)</param>
         /// <returns>reflectance of tissue regions, spatial frequencies and times</returns>
         public virtual IEnumerable<double> ROfFxAndTime(
-            IEnumerable<ITissueRegion[]> regions,
+            IEnumerable<IOpticalPropertyRegion[]> regions,
             IEnumerable<double> fxs,
             IEnumerable<double> ts)
         {
-            return ((Func<ITissueRegion[], double, double, double>)ROfFxAndTime).LoopOverVariables(regions, fxs, ts);
+            return ((Func<IOpticalPropertyRegion[], double, double, double>)ROfFxAndTime).LoopOverVariables(regions, fxs, ts);
         }
         /// <summary>
         /// Vector ROfFxAndFt function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and time frequencies 'fts'
@@ -367,9 +367,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>reflectance of given tissue regions, spatial frequencies and modulation frequencies</returns>
-        public virtual IEnumerable<Complex> ROfFxAndFt(IEnumerable<ITissueRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> fts)
+        public virtual IEnumerable<Complex> ROfFxAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> fts)
         {
-            return ((Func<ITissueRegion[], double, double, Complex>)ROfFxAndFt).LoopOverVariables(regions, fxs, fts);
+            return ((Func<IOpticalPropertyRegion[], double, double, Complex>)ROfFxAndFt).LoopOverVariables(regions, fxs, fts);
         }
         #endregion
 
@@ -394,10 +394,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">sets of medium optical and geometrical properties of each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns>Reflectance at given optical properties and rhos</returns>
-        public double[] ROfRho(ITissueRegion[][] regions, double[] rhos)
+        public double[] ROfRho(IOpticalPropertyRegion[][] regions, double[] rhos)
         {
             var output = new double[regions.Length * rhos.Length];
-            var query = ROfRho((IEnumerable<ITissueRegion[]>)regions, (IEnumerable<double>)rhos);
+            var query = ROfRho((IEnumerable<IOpticalPropertyRegion[]>)regions, (IEnumerable<double>)rhos);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
@@ -433,10 +433,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns>reflectance at given optical properties, rhos and times</returns>
-        public double[] ROfRhoAndTime(ITissueRegion[][] regions, double[] rhos, double[] ts)
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[][] regions, double[] rhos, double[] ts)
         {
             var output = new double[regions.Length * rhos.Length * ts.Length];
-            var query = ROfRhoAndTime((IEnumerable<ITissueRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)ts);
+            var query = ROfRhoAndTime((IEnumerable<IOpticalPropertyRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)ts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
@@ -461,10 +461,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">sets of medium optical and geometrical properties of each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns>Reflectance at given optical properties and rhos</returns>
-        public Complex[] ROfRhoAndFt(ITissueRegion[][] regions, double[] rhos, double[] fts)
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] fts)
         {
             var output = new Complex[regions.Length * rhos.Length * fts.Length];
-            var query = ROfRhoAndFt((IEnumerable<ITissueRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)fts);
+            var query = ROfRhoAndFt((IEnumerable<IOpticalPropertyRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)fts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
@@ -489,10 +489,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">sets of medium tissue regions</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <returns>reflectance of given tissue regions and spatial frequencies</returns>
-        public double[] ROfFx(ITissueRegion[][] regions, double[] fxs)
+        public double[] ROfFx(IOpticalPropertyRegion[][] regions, double[] fxs)
         {
             var output = new double[regions.Length * fxs.Length];
-            var query = ROfFx((IEnumerable<ITissueRegion[]>)regions, (IEnumerable<double>)fxs);
+            var query = ROfFx((IEnumerable<IOpticalPropertyRegion[]>)regions, (IEnumerable<double>)fxs);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
@@ -517,10 +517,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="ts">times (ns)</param>
         /// <returns>reflectance of given tissue region, spatial frequencies and times</returns>
-        public double[] ROfFxAndTime(ITissueRegion[][] regions, double[] fxs, double[] ts)
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[][] regions, double[] fxs, double[] ts)
         {
             var output = new double[regions.Length * fxs.Length * ts.Length];
-            var query = ROfFxAndTime((IEnumerable<ITissueRegion[]>)regions, (IEnumerable<double>)fxs, (IEnumerable<double>)ts);
+            var query = ROfFxAndTime((IEnumerable<IOpticalPropertyRegion[]>)regions, (IEnumerable<double>)fxs, (IEnumerable<double>)ts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
@@ -545,10 +545,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>reflectance of given tissue regions, spatial frequencies and modulation frequencies</returns>
-        public Complex[] ROfFxAndFt(ITissueRegion[][] regions, double[] fxs, double[] fts)
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[][] regions, double[] fxs, double[] fts)
         {
             var output = new Complex[regions.Length * fxs.Length * fts.Length];
-            var query = ROfFxAndFt((IEnumerable<ITissueRegion[]>)regions, (IEnumerable<double>)fxs, (IEnumerable<double>)fts);
+            var query = ROfFxAndFt((IEnumerable<IOpticalPropertyRegion[]>)regions, (IEnumerable<double>)fxs, (IEnumerable<double>)fts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
@@ -571,7 +571,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">medium optical and geometrical properties of each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <returns>reflectance at given optical properties and rhos</returns>
-        public double[] ROfRho(ITissueRegion[] regions, double[] rhos)
+        public double[] ROfRho(IOpticalPropertyRegion[] regions, double[] rhos)
         {
             return ROfRho(new[] { regions }, rhos);
         }
@@ -593,7 +593,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">sets of medium optical properties</param>
         /// <param name="rho">source-detector separations (mm)</param>
         /// <returns>reflectance at given optical properties and rhos</returns>
-        public double[] ROfRho(ITissueRegion[][] regions, double rho)
+        public double[] ROfRho(IOpticalPropertyRegion[][] regions, double rho)
         {
             return ROfRho(regions, new[] { rho });
         }
@@ -639,7 +639,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns>reflectance at given optical properties, rhos and times</returns>
-        public double[] ROfRhoAndTime(ITissueRegion[] regions, double[] rhos, double[] ts)
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double[] rhos, double[] ts)
         {
             return ROfRhoAndTime(new[] { regions }, rhos, ts);
         }
@@ -663,7 +663,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns>reflectance at given optical properties, rhos and times</returns>
-        public double[] ROfRhoAndTime(ITissueRegion[][] regions, double rho, double[] ts)
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[][] regions, double rho, double[] ts)
         {
             return ROfRhoAndTime(regions, new[] { rho }, ts);
         }
@@ -687,7 +687,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="t">time (ns)</param>
         /// <returns>reflectance at given optical properties, rhos and times </returns>
-        public double[] ROfRhoAndTime(ITissueRegion[][] regions, double[] rhos, double t)
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[][] regions, double[] rhos, double t)
         {
             return ROfRhoAndTime(regions, rhos, new[] { t });
         }
@@ -710,7 +710,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns>reflectance at given optical properties, rhos and times</returns>
-        public double[] ROfRhoAndTime(ITissueRegion[] regions, double rho, double[] ts)
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double[] ts)
         {
             return ROfRhoAndTime(new[] { regions }, new[] { rho }, ts);
         }
@@ -732,7 +732,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="t">time (ns)</param>
         /// <returns>reflectance at given optical properties, rhos and time</returns>
-        public double[] ROfRhoAndTime(ITissueRegion[] regions, double[] rhos, double t)
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double[] rhos, double t)
         {
             return ROfRhoAndTime(new[] { regions }, rhos, new[] { t });
         }
@@ -755,7 +755,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="t">time (ns)</param>
         /// <returns>reflectance at given optical properties, rho and time</returns>
-        public double[] ROfRhoAndTime(ITissueRegion[][] regions, double rho, double t)
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[][] regions, double rho, double t)
         {
             return ROfRhoAndTime(regions, new[] { rho }, new[] { t });
         }
@@ -780,7 +780,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>reflectance at given single set of optical properties, rhos and modulation frequencies </returns>
-        public Complex[] ROfRhoAndFt(ITissueRegion[] regions, double[] rhos, double[] fts)
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double[] rhos, double[] fts)
         {
             return ROfRhoAndFt(new[] { regions }, rhos, fts);
         }
@@ -802,7 +802,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>reflectance at given optical properties, single rho, and modulation frequencies</returns>
-        public Complex[] ROfRhoAndFt(ITissueRegion[][] regions, double rho, double[] fts)
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[][] regions, double rho, double[] fts)
         {
             return ROfRhoAndFt(regions, new[] { rho }, fts);
         }
@@ -824,7 +824,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
         /// <returns>reflectance of given tissue regions, rhos and single modulation frequencies</returns>
-        public Complex[] ROfRhoAndFt(ITissueRegion[][] regions, double[] rhos, double ft)
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double ft)
         {
             return ROfRhoAndFt(regions, rhos, new[] { ft });
         }
@@ -835,7 +835,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
         /// <returns>reflectance of given tissue regions, rhos and single modulation frequencies</returns>
-        public Complex[] ROfRhoAndFt(ITissueRegion[] regions, double[] rhos, double ft)
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double[] rhos, double ft)
         {
             return ROfRhoAndFt(regions, rhos, new[] { ft });
         }
@@ -857,7 +857,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>reflectance at given single set of optical properties, single rho and modulation frequencies</returns>
-        public Complex[] ROfRhoAndFt(ITissueRegion[] regions, double rho, double[] fts)
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double[] fts)
         {
             return ROfRhoAndFt(new[] { regions }, new[] { rho }, fts);
         }
@@ -902,7 +902,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">medium optical and geometric properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <returns>reflectance at given single set of optical properties and spatial frequencies</returns>
-        public double[] ROfFx(ITissueRegion[] regions, double[] fxs)
+        public double[] ROfFx(IOpticalPropertyRegion[] regions, double[] fxs)
         {
             return ROfFx(new[] { regions }, fxs);
         }
@@ -922,7 +922,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">sets of medium regions</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <returns>reflectance of given tissue regions and single spatial frequency</returns>
-        public double[] ROfFx(ITissueRegion[][] regions, double fx)
+        public double[] ROfFx(IOpticalPropertyRegion[][] regions, double fx)
         {
             return ROfFx(regions, new[] { fx });
         }
@@ -945,7 +945,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns>reflectance of given tissue regions, spatial frequencies and times</returns>
-        public double[] ROfFxAndTime(ITissueRegion[] regions, double[] fxs, double[] ts)
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double[] ts)
         {
             return ROfFxAndTime(new[] { regions }, fxs, ts);
         }
@@ -967,7 +967,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="ts">times (ns)</param>
         /// <returns>reflectance of given tissue regions, single spatial frequency and times</returns>
-        public double[] ROfFxAndTime(ITissueRegion[][] regions, double fx, double[] ts)
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[][] regions, double fx, double[] ts)
         {
             return ROfFxAndTime(regions, new[] { fx }, ts);
         }
@@ -995,7 +995,7 @@ namespace Vts.Modeling.ForwardSolvers
             return ROfFxAndTime(new[] { op }, new[] { fx }, ts);
         }
 
-        public double[] ROfFxAndTime(ITissueRegion[] regions, double fx, double[] ts)
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double[] ts)
         {
             return ROfFxAndTime(regions, new[] { fx }, ts);
         }
@@ -1042,7 +1042,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>reflectance at given single set of optical properties, spatial frequencies and modulation frequencies</returns>
-        public Complex[] ROfFxAndFt(ITissueRegion[] regions, double[] fxs, double[] fts)
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double[] fxs, double[] fts)
         {
             return ROfFxAndFt(new[] { regions }, fxs, fts);
         }
@@ -1064,7 +1064,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>reflectance of given tissue regions, single spatial frequency and modulation frequencies</returns>
-        public Complex[] ROfFxAndFt(ITissueRegion[] regions, double fx, double[] fts)
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double[] fts)
         {
             return ROfFxAndFt(regions, new[] { fx }, fts);
         }
@@ -1075,7 +1075,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fx">spatial frequencies (1/mm)</param>
         /// <param name="ts">time (ns)</param>
         /// <returns>reflectance of given tissue regions, single spatial frequencies and time</returns>
-        public double[] ROfFxAndTime(ITissueRegion[] regions, double[] fxs, double t)
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double t)
         {
             return ROfFxAndTime(regions, fxs, new[] {t} );
         }
@@ -1097,7 +1097,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
         /// <returns>reflectance of given tissue regions, single spatial frequency and modulation frequencies</returns>
-        public Complex[] ROfFxAndFt(ITissueRegion[][] regions, double[] fxs, double ft)
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[][] regions, double[] fxs, double ft)
         {
             return ROfFxAndFt(regions, fxs, new[] { ft });
         }
@@ -1119,7 +1119,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
         /// <returns>reflectance of given tissue regions, single spatial frequency and modulation frequencies</returns>
-        public Complex[] ROfFxAndFt(ITissueRegion[] regions, double[] fxs, double ft)
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double[] fxs, double ft)
         {
             return ROfFxAndFt(regions, fxs, new[] { ft });
         }
@@ -1178,7 +1178,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="zs">z values (mm)</param>
         /// <returns>reflectance of given tissue regions, rhos and depths (zs)</returns>
         public virtual IEnumerable<double> FluenceOfRhoAndZ(
-            IEnumerable<ITissueRegion[]> regions,
+            IEnumerable<IOpticalPropertyRegion[]> regions,
             IEnumerable<double> rhos,
             IEnumerable<double> zs)
         {
@@ -1295,10 +1295,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <returns>reflectance of given tissue regions, rhos and z values</returns>
-        public double[] FluenceOfRhoAndZ(ITissueRegion[][] regions, double[] rhos, double[] zs)
+        public double[] FluenceOfRhoAndZ(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs)
         {
             var output = new double[regions.Length * rhos.Length * zs.Length];
-            var query = FluenceOfRhoAndZ((IEnumerable<ITissueRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)zs);
+            var query = FluenceOfRhoAndZ((IEnumerable<IOpticalPropertyRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)zs);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }

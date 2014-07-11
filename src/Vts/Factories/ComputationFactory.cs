@@ -292,7 +292,7 @@ namespace Vts.Factories
             // keeping us from uniting the above. needs to be a single SolutionDomainType enum
             IndependentVariableAxis[] independentAxesTypes,
             double[][] independentValues,
-            ITissueRegion[] tissueRegions,
+            IOpticalPropertyRegion[] tissueRegions,
             params double[] constantValues)
         {
             // use factory method on each call, as opposed to injecting an instance from the outside
@@ -313,15 +313,15 @@ namespace Vts.Factories
             // keeping us from uniting the above. needs to be a single SolutionDomainType enum
             IndependentVariableAxis[] independentAxesTypes,
             double[][] independentValues,
-            ITissueRegion[] tissueRegions,
+            IOpticalPropertyRegion[] tissueRegions,
             params double[] constantValues)
         {
             var parameters = tissueRegions.SelectMany(region =>
             {
                 double[] regionParameters = null;
-                if (region is LayerRegion)
+                if (region is ILayerOpticalPropertyRegion)
                 {
-                    var layerRegion = (LayerRegion)region;
+                    var layerRegion = (ILayerOpticalPropertyRegion)region;
                     regionParameters = new[]
                         {
                             layerRegion.RegionOP.Mua,
@@ -626,32 +626,32 @@ namespace Vts.Factories
             return fit;
         }
 
-        private static Func<double[], ITissueRegion[]> getTissueRegionArray = layerProps =>
+        private static Func<double[], ILayerOpticalPropertyRegion[]> getLayerTissueRegionArray = layerProps =>
         {
             int numRegions = layerProps.Length / 5; // mua, musp, g, n, thickness (delta)
-            var regionArray = new ITissueRegion[numRegions];
-            regionArray[0] = new LayerRegion(
-                new DoubleRange(0, layerProps[4]),
-                new OpticalProperties(layerProps[0], layerProps[1], layerProps[2], layerProps[3]));
+            var regionArray = new ILayerOpticalPropertyRegion[numRegions];
+            regionArray[0] = new LayerOpticalPropertyRegion(
+                zRange: new DoubleRange(0, layerProps[4]),
+                regionOP: new OpticalProperties(layerProps[0], layerProps[1], layerProps[2], layerProps[3]));
             for (int i = 1; i < numRegions; i++)
             {
                 var currentLayerProps = layerProps.Skip(i * 5).Take(5).ToArray();
-                var previousStop = ((LayerRegion)regionArray[i - 1]).ZRange.Stop;
-                regionArray[i] = new LayerRegion(
-                    new DoubleRange(previousStop, previousStop + currentLayerProps[4]),
-                    new OpticalProperties(currentLayerProps[0], currentLayerProps[1], currentLayerProps[2], currentLayerProps[3]));
+                var previousStop = regionArray[i - 1].ZRange.Stop;
+                regionArray[i] = new LayerOpticalPropertyRegion(
+                    zRange: new DoubleRange(previousStop, previousStop + currentLayerProps[4]),
+                    regionOP: new OpticalProperties(currentLayerProps[0], currentLayerProps[1], currentLayerProps[2], currentLayerProps[3]));
             }
             return regionArray;
         };
 
         // the following function determines a flattened mua array for layered tissue
-        public static Func<ITissueRegion[],double[],double[],double[]> getRhoZMuaArrayFromRegions = (regions,rhos,zs) =>
+        public static Func<ILayerOpticalPropertyRegion[], double[], double[], double[]> getRhoZMuaArrayFromLayerRegions = (regions, rhos, zs) =>
         {
             int numBins = rhos.Length * zs.Length;
             var muaArray = new double[numBins];
             for (int i = 0; i < zs.Length; i++)
             {
-                var layerIndex = DetectorBinning.WhichBin(zs[i], regions.Select(r => ((LayerRegion)r).ZRange.Stop).ToArray());
+                var layerIndex = DetectorBinning.WhichBin(zs[i], regions.Select(r => r.ZRange.Stop).ToArray());
                 for (int j = 0; j < rhos.Length; j++)
                 {
                     muaArray[i * rhos.Length + j] = regions[layerIndex].RegionOP.Mua;
@@ -672,13 +672,13 @@ namespace Vts.Factories
                 case SolutionDomainType.ROfRho:
                     if (fs is TwoLayerSDAForwardSolver) // todo: future generalization to IMultiRegionForwardSolver?
                     {   
-                        return (fitData, otherData) => fs.ROfRho(getTissueRegionArray(fitData), (double[])otherData[0]);
+                        return (fitData, otherData) => fs.ROfRho(getLayerTissueRegionArray(fitData), (double[])otherData[0]);
                     }
                     return (fitData, otherData) => fs.ROfRho(getOP(fitData), (double[])otherData[0]);
                 case SolutionDomainType.ROfFx:
                     if (fs is TwoLayerSDAForwardSolver) 
                     {
-                        return (fitData, otherData) => fs.ROfFx(getTissueRegionArray(fitData), (double[])otherData[0]);
+                        return (fitData, otherData) => fs.ROfFx(getLayerTissueRegionArray(fitData), (double[])otherData[0]);
                     }
                     return (fitData, otherData) => fs.ROfFx(getOP(fitData), (double[])otherData[0]); 
                 case SolutionDomainType.ROfRhoAndTime:
@@ -687,13 +687,13 @@ namespace Vts.Factories
                         case IndependentVariableAxis.Rho:
                             if (fs is TwoLayerSDAForwardSolver)
                             {
-                                return (fitData, otherData) => fs.ROfRhoAndTime(getTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]);
+                                return (fitData, otherData) => fs.ROfRhoAndTime(getLayerTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]);
                             }
                             return (fitData, otherData) => fs.ROfRhoAndTime(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
                         case IndependentVariableAxis.Time:
                             if (fs is TwoLayerSDAForwardSolver)
                             {
-                                return (fitData, otherData) => fs.ROfRhoAndTime(getTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]);
+                                return (fitData, otherData) => fs.ROfRhoAndTime(getLayerTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]);
                             }
                             return (fitData, otherData) => fs.ROfRhoAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
                         case IndependentVariableAxis.Wavelength:
@@ -718,13 +718,13 @@ namespace Vts.Factories
                         case IndependentVariableAxis.Fx:
                             if (fs is TwoLayerSDAForwardSolver)
                             {
-                                return (fitData, otherData) => fs.ROfFxAndTime(getTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]);
+                                return (fitData, otherData) => fs.ROfFxAndTime(getLayerTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]);
                             }
                             return (fitData, otherData) => fs.ROfFxAndTime(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
                         case IndependentVariableAxis.Time:
                             if (fs is TwoLayerSDAForwardSolver)
                             {
-                                return (fitData, otherData) => fs.ROfFxAndTime(getTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]);
+                                return (fitData, otherData) => fs.ROfFxAndTime(getLayerTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]);
                             }
                             return (fitData, otherData) => fs.ROfFxAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
                         default:
@@ -737,14 +737,14 @@ namespace Vts.Factories
                             if (fs is TwoLayerSDAForwardSolver)
                             {
                                 return (fitData, otherData) =>
-                                    fs.ROfRhoAndFt(getTissueRegionArray(fitData), (double[]) otherData[0], (double) otherData[1]).FlattenRealAndImaginary();
+                                    fs.ROfRhoAndFt(getLayerTissueRegionArray(fitData), (double[]) otherData[0], (double) otherData[1]).FlattenRealAndImaginary();
                             }
                             return (fitData, otherData) => fs.ROfRhoAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
                         case IndependentVariableAxis.Ft:
                             if (fs is TwoLayerSDAForwardSolver)
                             {
                                 return (fitData, otherData) => 
-                                    fs.ROfRhoAndFt(getTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
+                                    fs.ROfRhoAndFt(getLayerTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
                             }
                             return (fitData, otherData) => fs.ROfRhoAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
                         default:
@@ -757,14 +757,14 @@ namespace Vts.Factories
                             if (fs is TwoLayerSDAForwardSolver)
                             {
                                 return (fitData, otherData) =>
-                                    fs.ROfFxAndFt(getTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
+                                    fs.ROfFxAndFt(getLayerTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
                             }
                             return (fitData, otherData) => fs.ROfFxAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
                         case IndependentVariableAxis.Ft:
                             if (fs is TwoLayerSDAForwardSolver)
                             {
                                 return (fitData, otherData) =>
-                                    fs.ROfFxAndFt(getTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
+                                    fs.ROfFxAndFt(getLayerTissueRegionArray(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
                             }
                             return (fitData, otherData) => fs.ROfFxAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
                         default:
@@ -788,7 +788,7 @@ namespace Vts.Factories
                 case FluenceSolutionDomainType.FluenceOfRhoAndZ:
                     if (fs is TwoLayerSDAForwardSolver) // todo: future generalization to IMultiRegionForwardSolver?
                     {
-                        return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[] { getTissueRegionArray(fitData) }, (double[])otherData[0], (double[])otherData[1]);
+                        return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[] { getLayerTissueRegionArray(fitData) }, (double[])otherData[0], (double[])otherData[1]);
                     }
                     return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
                 case FluenceSolutionDomainType.FluenceOfFxAndZ:

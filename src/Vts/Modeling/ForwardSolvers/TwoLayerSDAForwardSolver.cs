@@ -23,17 +23,6 @@ namespace Vts.Modeling.ForwardSolvers
     /// </summary>
     public class TwoLayerSDAForwardSolver : ForwardSolverBase
     {
-        public struct TissueRhoKey
-        {
-            private ITissueRegion[] _regions;
-            private double _rho;
-            public TissueRhoKey(ITissueRegion[] regions, double rho) // key as struct allows use of dictionary ContainsKey
-            {
-                _regions = regions;
-                _rho = rho;
-            }
-        }
-
         /// <summary>
         /// Returns an instance of TwoLayerSDAForwardSolver
         /// </summary>
@@ -44,7 +33,7 @@ namespace Vts.Modeling.ForwardSolvers
 
         // this assumes: first region in ITissueRegion[] is top layer of tissue because need to know what OPs 
         // to use for FresnelReflection and so I can define layer thicknesses
-        public override double ROfRho(ITissueRegion[] regions, double rho)
+        public override double ROfRho(IOpticalPropertyRegion[] regions, double rho)
         {
             // get ops of top tissue region
             var op0 = regions[0].RegionOP;
@@ -62,7 +51,7 @@ namespace Vts.Modeling.ForwardSolvers
 
             return StationaryReflectance(rho, diffusionParameters, layerThicknesses, fr1, fr2);
         }
-        public override double ROfRhoAndTime(ITissueRegion[] regions, double rho, double time)
+        public override double ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double time)
         {
             var diffusionParameters = GetDiffusionParameters(regions);
             var layerThicknesses = GetLayerThicknesses(regions);
@@ -82,7 +71,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">rhos</param>
         /// <param name="times">times</param>
         /// <returns>reflectance at specified optical properties, rhos and times</returns>
-        public override IEnumerable<double> ROfRhoAndTime(IEnumerable<ITissueRegion[]> setsOfRegions,
+        public override IEnumerable<double> ROfRhoAndTime(IEnumerable<IOpticalPropertyRegion[]> setsOfRegions,
             IEnumerable<double> rhos, IEnumerable<double> times)
         {
             double[] rOfTime = new double[times.Count()];
@@ -103,7 +92,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         // this method builds an R(rho, ft) array and then uses FFT to generate R(rho, t)
-        private double[] DetermineROfTimeFromROfFtForFixedRho(double rho, ITissueRegion[] regions, out double[] FFTTimeSequence)
+        private double[] DetermineROfTimeFromROfFtForFixedRho(double rho, IOpticalPropertyRegion[] regions, out double[] FFTTimeSequence)
         {
             // get ops of top tissue region
             var op0 = regions[0].RegionOP;
@@ -157,7 +146,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         // this method builds an R(fx, ft) array and then uses FFT to generate R(fx, t)
-        private double[] DetermineROfTimeFromROfFtForFixedFx(double fx, ITissueRegion[] regions, out double[] FFTTimeSequence)
+        private double[] DetermineROfTimeFromROfFtForFixedFx(double fx, IOpticalPropertyRegion[] regions, out double[] FFTTimeSequence)
         {
             // get ops of top tissue region
             var op0 = regions[0].RegionOP;
@@ -191,7 +180,7 @@ namespace Vts.Modeling.ForwardSolvers
             rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
         }
-        public override Complex ROfRhoAndFt(ITissueRegion[] regions, double rho, double ft)
+        public override Complex ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double ft)
         {
             // get ops of top tissue region
             var op0 = regions[0].RegionOP;
@@ -210,7 +199,7 @@ namespace Vts.Modeling.ForwardSolvers
             return TemporalFrequencyReflectance(rho, ft, diffusionParameters, layerThicknesses, fr1, fr2);
         }
 
-        public override double ROfFx(ITissueRegion[] regions, double fx)
+        public override double ROfFx(IOpticalPropertyRegion[] regions, double fx)
         {
             // get ops of top tissue region
             var op0 = regions[0].RegionOP;
@@ -228,7 +217,7 @@ namespace Vts.Modeling.ForwardSolvers
             return SpatialFrequencyReflectance(2*Math.PI*fx, diffusionParameters, layerThicknesses, fr1, fr2);
         }
 
-        public override double ROfFxAndTime(ITissueRegion[] regions, double fx, double time)
+        public override double ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double time)
         {
             var diffusionParameters = GetDiffusionParameters(regions);
             var layerThicknesses = GetLayerThicknesses(regions);
@@ -247,7 +236,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fx">spatial frequencies</param>
         /// <param name="times">times</param>
         /// <returns>reflectance at specified optical properties, rhos and times</returns>
-        public override IEnumerable<double> ROfFxAndTime(IEnumerable<ITissueRegion[]> setsOfRegions,
+        public override IEnumerable<double> ROfFxAndTime(IEnumerable<IOpticalPropertyRegion[]> setsOfRegions,
             IEnumerable<double> fxs, IEnumerable<double> times)
         {
             double[] rOfTime = new double[times.Count()];
@@ -264,7 +253,7 @@ namespace Vts.Modeling.ForwardSolvers
                 }
             }
         }
-        public override Complex ROfFxAndFt(ITissueRegion[] regions, double fx, double ft)
+        public override Complex ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double ft)
         {
             // get ops of top tissue region
             var op0 = regions[0].RegionOP;
@@ -284,7 +273,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         public override IEnumerable<double> FluenceOfRhoAndZ(
-            IEnumerable<ITissueRegion[]> regions,
+            IEnumerable<IOpticalPropertyRegion[]> regions,
             IEnumerable<double> rhos,
             IEnumerable<double> zs)
         {
@@ -303,7 +292,7 @@ namespace Vts.Modeling.ForwardSolvers
             }
         }
 
-        private static DiffusionParameters[] GetDiffusionParameters(ITissueRegion[] regions)
+        private static DiffusionParameters[] GetDiffusionParameters(IOpticalPropertyRegion[] regions)
         {
             var diffusionParameters = new DiffusionParameters[regions.Length];
             for (int i = 0; i < regions.Length; i++)
@@ -315,12 +304,12 @@ namespace Vts.Modeling.ForwardSolvers
             return diffusionParameters;
         }
 
-        private static double[] GetLayerThicknesses(ITissueRegion[] regions)
+        private static double[] GetLayerThicknesses(IOpticalPropertyRegion[] regions)
         {
             var layerThicknesses = new double[regions.Length];
             for (int i = 0; i < regions.Length; i++)
             {
-                layerThicknesses[i] = ((LayerRegion)regions[i]).ZRange.Stop;
+                layerThicknesses[i] = ((ILayerOpticalPropertyRegion)regions[i]).ZRange.Stop;
             }
             return layerThicknesses;
         }

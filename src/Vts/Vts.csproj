@@ -171,7 +171,10 @@
     <Compile Include="Common\Interfaces\IForwardSolver.cs" />
     <Compile Include="Common\Interfaces\INotifyPropertyChangedPlus.cs" />
     <Compile Include="Common\Interfaces\IOldForwardSolver.cs" />
+    <Compile Include="Common\Interfaces\ILayerOpticalPropertyRegion.cs" />
+    <Compile Include="Common\Interfaces\IOpticalPropertyRegion.cs" />
     <Compile Include="Common\Interfaces\IOptimizer.cs" />
+    <Compile Include="Common\LayerOpticalPropertyRegion.cs" />
     <Compile Include="Common\Logging\AbstractLoggerFactory.cs" />
     <Compile Include="Common\Logging\ILogger.cs" />
     <Compile Include="Common\Logging\ILoggerFactory.cs" />
@@ -227,7 +230,7 @@
     </Compile>
     <Compile Include="IO\KnownTypes.cs" />
     <Compile Include="Modeling\ForwardSolvers\TwoLayerSDAForwardSolver.cs" />
-     <Compile Include="IO\VtsJsonSerializer.cs" />
+    <Compile Include="IO\VtsJsonSerializer.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
     <Compile Include="MonteCarlo\AbsorptionWeightingMethods.cs" />
     <Compile Include="MonteCarlo\Controllers\HistoryDetectorController.cs" />
