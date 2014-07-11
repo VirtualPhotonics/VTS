@@ -16,15 +16,11 @@
         <TextBlock Text="Specify Inputs From File (recommended)." FontWeight="Bold"/>
 
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="(Check out these useful " VerticalAlignment="Center"/>
-            <HyperlinkButton NavigateUri="http://www.microsoft.com/download/en/details.aspx?id=7973" TargetName="_blank">
-                <TextBlock Text="XML" VerticalAlignment="Center" />
-            </HyperlinkButton>
-            <TextBlock Text=" or " VerticalAlignment="Center"/>
+            <TextBlock Text="(Check out this useful " VerticalAlignment="Center"/>
             <HyperlinkButton NavigateUri="http://www.jsoneditoronline.org/" TargetName="_blank">
                 <TextBlock Text="JSON" VerticalAlignment="Center" />
             </HyperlinkButton>
-            <TextBlock Text=" manipulation tools)" VerticalAlignment="Center"/>
+            <TextBlock Text=" manipulation tool)" VerticalAlignment="Center"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" >
