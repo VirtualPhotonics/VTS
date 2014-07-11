@@ -1,10 +1,7 @@
 classdef DoubleRange
     methods (Static)
-        function range = Default()        
-            range.Start = 0;            
-            range.Stop = 1;            
-            range.Count = 2;        
-            range.Delta = 1;
+        function range = Default()      
+            range = linspace(0, 1, 2);
         end
         function range = FromRangeNET(rangeNET)            
             range = linspace(rangeNET.Start, rangeNET.Stop, rangeNET.Count);
