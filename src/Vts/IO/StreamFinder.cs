@@ -136,7 +136,6 @@ namespace Vts.IO
         {
             var dialog = new SaveFileDialog();
             dialog.DefaultExt = defaultExtension;
-            //dialog.Filter = dialog.DefaultExt + " File|*" + dialog.DefaultExt + "|All Files|*.*";
             dialog.Filter = defaultExtension + " files (*." + defaultExtension + ")|*." + defaultExtension + "|All files (*.*)|*.*";
             if (dialog.ShowDialog() == true)
             {
@@ -153,8 +152,7 @@ namespace Vts.IO
         public static Stream GetLocalFilestreamFromOpenFileDialog(string defaultExtension)
         {
             var dialog = new OpenFileDialog();
-            dialog.Filter = defaultExtension + " files (*." + defaultExtension + ")|*." + defaultExtension + "|Text Files (*.txt)|*.txt|All files (*.*)|*.*";
-            //dialog.Filter = defaultExtension + " File|*" + defaultExtension + "|All Files|*.*"; //"Text Files (.txt)|*.txt|All Files (*.*)|*.*";
+            dialog.Filter = defaultExtension + " files (*." + defaultExtension + ")|*." + defaultExtension + "|All files (*.*)|*.*";
 
             dialog.FilterIndex = 2;
             dialog.Multiselect = false;
