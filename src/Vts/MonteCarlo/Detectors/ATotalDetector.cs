@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using Vts.IO;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors

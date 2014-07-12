@@ -258,6 +258,7 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
+    <Compile Include="MonteCarlo\Detectors\Detector.cs" />
     <Compile Include="MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCROfFxAndTimeDetector.cs" />
@@ -270,11 +271,11 @@
     <Compile Include="MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RSpecularDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\TallyDetails.cs" />
     <Compile Include="MonteCarlo\Extensions\DatabaseExtensionMethods.cs" />
     <Compile Include="MonteCarlo\Extensions\ITissueRegionExtensions.cs" />
     <Compile Include="MonteCarlo\Factories\DatabaseWriterFactory.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
-    <Compile Include="MonteCarlo\Factories\DetectorProvider.cs" />
     <Compile Include="MonteCarlo\Factories\PhotonDatabaseFactory.cs" />
     <Compile Include="MonteCarlo\Factories\SourceFactory.cs">
       <SubType>Code</SubType>
@@ -285,6 +286,7 @@
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\Extensions\PhotonDataExtensionMethods.cs" />
+    <Compile Include="IO\BinaryArraySerializer.cs" />
     <Compile Include="MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs" />
     <Compile Include="MonteCarlo\Rng\SerializableMersenneTwister.cs" />
     <Compile Include="Factories\ComputationFactory.cs" />

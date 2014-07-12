@@ -1,10 +1,7 @@
-﻿using System;
-using System.Runtime.Serialization;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Vts.Common;
-using Vts.IO;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.Test.MonteCarlo.Factories
 {
@@ -14,73 +11,57 @@ namespace Vts.Test.MonteCarlo.Factories
     [TestFixture]
     public class DetectorProviderTests
     {
-        ///// <summary>
-        ///// Simulate Usage Of DetectorProvider
-        ///// </summary>
-        //[Test]
-        //public void simulate_usage_of_DetectorProvider()
-        //{
-        //    var p = new DetectorProvider<SampleDetectorInput, SampleDetector, SampleDetectorOutput>();
-
-        //    var input1 = new SampleDetectorInput { Name = "ROfQ", QRange = new DoubleRange(0, 1, 5)};
-
-        //    var simInput = new SimulationInput();
-
-        //    simInput.DetectorInputs.Add(input1);
-
-        //    p.WriteInputToFile(input1, "sampleinput");
-
-        //    var input2 = p.ReadInputFromFile("sampleinput");
-
-        //    var detector = p.CreateDetector(input2);
-
-        //    var output = p.CreateOutput(detector);
-
-        //    p.WriteOutputToFile(output, "sampleoutput");
-
-        //    p.ReadOutputFromFile("ROfQ", "sampleoutput");
-        //}
         /// <summary>
         /// Simulate Usage Of DetectorProvider
         /// </summary>
         [Test]
-        public void demonstrate_FancyDetector_creation_via_DetectorFactory()
+        public void demonstrate_basic_mc_creation()
         {
-            var input = new FancyDetectorInput
+            var detectorInput = new ROfRhoDetectorInput
                 {
-                    TallyType =  "ROfQ", 
+                    TallyType =  "ROfRho", 
                     Name = "My First Detector", 
                     TallySecondMoment = false,
-                    XRange = new DoubleRange(0, 1, 5),
-                    YRange = new DoubleRange(0, 1, 5),
+                    Rho = new DoubleRange(0, 1, 5),
                 };
 
-            var detectors = DetectorFactory.GetDetectors(new[] {input}, null);
-
-            var simInput = new SimulationInput { DetectorInputs = new [] { input } };
+            var simInput = new SimulationInput { DetectorInputs = new[] { detectorInput } };
 
             var sim = simInput.CreateSimulation();
 
             var results = sim.Run();
 
-            IDetector detector = null;
+            IDetector detector;
 
-            var rOfQ = results.ResultsDictionary.TryGetValue(input.Name, out detector);
+            var rOfRhoDetector = results.ResultsDictionary.TryGetValue(detectorInput.Name, out detector);
 
-            if (rOfQ != null)
-            {
-                Console.WriteLine(rOfQ);
-            }
+            Assert.NotNull(rOfRhoDetector);
         }
 
+        /// <summary>
+        /// Simulate Usage Of DetectorProvider
+        /// </summary>
         [Test]
-        public void demonstrate_detector_creation_programmatically()
+        public void demonstrate_fluent_mc_creation()
         {
-            var input = new FancyDetectorInput();
+            var rOfRhoDetector = new SimulationInput
+                {
+                    DetectorInputs = new[]
+                    {
+                        new ROfRhoDetectorInput
+                        {
+                            TallyType = "ROfRho",
+                            Name = "My First Detector",
+                            TallySecondMoment = false,
+                            Rho = new DoubleRange(0, 1, 5),
+                        }
+                    }
+                }
+                .CreateSimulation()
+                .Run()
+                .GetDetector("My First Detector");
 
-            var detector = input.CreateDetector();
-
-            Console.WriteLine(detector);
+            Assert.NotNull(rOfRhoDetector);
         }
     }
 }

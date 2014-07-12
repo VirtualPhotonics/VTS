@@ -1,3 +1,5 @@
+using Vts.MonteCarlo.Detectors;
+
 namespace Vts.MonteCarlo
 {
     /// <summary>

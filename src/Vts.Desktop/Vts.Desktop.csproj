@@ -384,6 +384,9 @@
     <Compile Include="..\Vts\IO\ArrayCustomBinaryWriter.cs">
       <Link>IO\ArrayCustomBinaryWriter.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\IO\BinaryArraySerializer.cs">
+      <Link>IO\BinaryArraySerializer.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\IO\CustomBinaryStreamWriterOfT.cs">
       <Link>IO\CustomBinaryStreamWriterOfT.cs</Link>
     </Compile>
@@ -672,6 +675,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ATotalDetector.cs">
       <Link>MonteCarlo\Detectors\ATotalDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\Detector.cs">
+      <Link>MonteCarlo\Detectors\Detector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\dMCdROfRhodMuaDetector.cs">
       <Link>MonteCarlo\Detectors\dMCdROfRhodMuaDetector.cs</Link>
     </Compile>
@@ -744,6 +750,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\RSpecularDetector.cs">
       <Link>MonteCarlo\Detectors\RSpecularDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TallyDetails.cs">
+      <Link>MonteCarlo\Detectors\TallyDetails.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\TDiffuseDetector.cs</Link>
     </Compile>
@@ -785,9 +794,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\DetectorFactory.cs">
       <Link>MonteCarlo\Factories\DetectorFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Factories\DetectorProvider.cs">
-      <Link>MonteCarlo\Factories\DetectorProvider.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\PhotonDatabaseFactory.cs">
       <Link>MonteCarlo\Factories\PhotonDatabaseFactory.cs</Link>
