@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                    logger.Info(" *** No input file specified ***\n\t\tDefine an input file using mc.exe infile=infile_name.txt");
+                    logger.Info(" *** No input file specified ***\n\nDefine an input file using mc.exe infile=infile_name.txt");
                     return null;
                 }
 
@@ -41,7 +41,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 if (File.Exists(fullFilePath + ".txt"))
                 {
                     return SimulationInput.FromFile(fullFilePath + ".txt");
-         
                 }
 
                 //throw a file not found exception

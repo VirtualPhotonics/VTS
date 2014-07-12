@@ -17,6 +17,10 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             {
                 File.Delete("infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt");
             }
+            if (File.Exists("infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt"))
+            {
+                File.Delete("infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt");
+            }
             if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"))
             {
                 Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ", true); // delete recursively
@@ -76,6 +80,25 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         public void validate_generate_infile()
         {
             Assert.IsTrue(File.Exists("infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt"));
+        }
+        /// <summary>
+        /// test to verify the xml to json conversion
+        /// </summary>
+        [Test]
+        public void validate_convert_xml_to_json()
+        {
+            //remove the existing json file if it exists
+            if (File.Exists("infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt"))
+            {
+                File.Delete("infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt");
+            }
+            var arguments = new string[] { "convert=infile_one_layer_ROfRho_FluenceOfRhoAndZ.xml" };
+            Program.Main(arguments);
+            Assert.IsTrue(File.Exists("infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt"));
+            //get the full path for the input file
+            arguments = new string[] { "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt" };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"));
         }
         /// <summary>
         /// test to verify correct folder name created for output
