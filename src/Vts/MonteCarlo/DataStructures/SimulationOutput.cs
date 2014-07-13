@@ -274,5 +274,27 @@ namespace Vts.MonteCarlo
         /// </summary>
         public IDictionary<String, IDetector> ResultsDictionary { get; private set; }
 
+        public IEnumerable<IDetector> GetDetectors(IEnumerable<string> detectorNames)
+        {
+            foreach (var detectorName in detectorNames)
+            {
+                var detector = GetDetector(detectorName);
+
+                if (detector != null)
+                {
+                    yield return detector;
+                }
+            }
+        }
+
+        public IDetector GetDetector(string detectorName)
+        {
+            IDetector detector;
+
+            ResultsDictionary.TryGetValue(detectorName, out detector);
+
+            return detector;
+        }
+
     }
 }

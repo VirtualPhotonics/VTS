@@ -4,6 +4,7 @@ using System.Numerics;
 using MathNet.Numerics;
 using System.Runtime.Serialization;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
