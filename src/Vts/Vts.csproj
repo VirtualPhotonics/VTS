@@ -268,7 +268,7 @@
     <Compile Include="MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\dMCdROfRhodMuaDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs" />
-    <Compile Include="MonteCarlo\Detectors\RadianceOfRhoDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\RadianceOfRhoAtZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RSpecularDetector.cs" />
     <Compile Include="MonteCarlo\Extensions\DatabaseExtensionMethods.cs" />
     <Compile Include="MonteCarlo\Extensions\ITissueRegionExtensions.cs" />

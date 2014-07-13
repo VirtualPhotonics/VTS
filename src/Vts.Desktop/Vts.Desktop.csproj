@@ -702,8 +702,8 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs">
       <Link>MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoDetector.cs">
-      <Link>MonteCarlo\Detectors\RadianceOfRhoDetector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoAtZDetector.cs">
+      <Link>MonteCarlo\Detectors\RadianceOfRhoAtZDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs">
       <Link>MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs</Link>

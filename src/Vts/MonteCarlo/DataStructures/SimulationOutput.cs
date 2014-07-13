@@ -205,13 +205,13 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, ,] Flu_xyz2 { get { return ((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZ").First().Name]).SecondMoment; } }
         /// <summary>
-        /// Radiance as a function of rho (surface tally)
+        /// Radiance as a function of rho (surface tally) at depth Z
         /// </summary>
-        public double[] Rad_r { get { return ((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRho").First().Name]).Mean; } }
+        public double[] Rad_r { get { return ((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRhoAtZ").First().Name]).Mean; } }
         /// <summary>
-        /// Radiance as a function of rho (surface tally) 2nd moment
+        /// Radiance as a function of rho (surface tally) at depth Z 2nd moment
         /// </summary>
-        public double[] Rad_r2 { get { return ((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRho").First().Name]).SecondMoment; } }
+        public double[] Rad_r2 { get { return ((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRhoAtZ").First().Name]).SecondMoment; } }
         /// <summary>
         /// Radiance as a function of rho, z and angle (volume tally)
         /// </summary>

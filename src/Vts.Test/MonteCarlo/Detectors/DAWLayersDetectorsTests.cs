@@ -80,7 +80,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Y = new DoubleRange(-10.0, 10.0, 101),
                         Z =  new DoubleRange(0.0, 10.0, 101)
                     },
-                    new RadianceOfRhoDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 101)},
+                    new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 101)},
                     new RadianceOfRhoAndZAndAngleDetectorInput(){Rho= new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(-Math.PI / 2, Math.PI / 2, 5)},
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput()
                     {
@@ -325,9 +325,9 @@ namespace Vts.Test.MonteCarlo.Detectors
             }
             Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Flu_xyz[0, 0, 0]), 0.000000000001);
         }
-        // Radiance(rho) - not sure this detector is defined correctly yet
+        // Radiance(rho) at depth Z - not sure this detector is defined correctly yet
         [Test]
-        public void validate_DAW_RadianceOfRho()
+        public void validate_DAW_RadianceOfRhoAtZ()
         {
             //need radiance detector to compare results, for now make sure both simulations give same results
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[0] - _outputTwoLayerTissue.Rad_r[0]), 0.0000001);
