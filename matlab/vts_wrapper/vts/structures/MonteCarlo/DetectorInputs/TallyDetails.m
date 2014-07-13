@@ -27,7 +27,7 @@ classdef TallyDetails
             details.IsNotImplementedYet = detailsNET.IsNotImplementedYet;
         end        
         function detailsNET = ToDetailsNET(details)
-            detailsNET = Vts.MonteCarlo.TallyDetails;
+            detailsNET = Vts.MonteCarlo.Detectors.TallyDetails;
             detailsNET.IsReflectanceTally = details.IsReflectanceTally;
             detailsNET.IsTransmittanceTally = details.IsTransmittanceTally;
             detailsNET.IsSpecularReflectanceTally = details.IsSpecularReflectanceTally;
