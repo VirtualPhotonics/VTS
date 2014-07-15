@@ -78,5 +78,11 @@ namespace Vts.MonteCarlo
         /// tissue layer regions
         /// </summary>
         public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+
+
+        public ITissue CreateTissue()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

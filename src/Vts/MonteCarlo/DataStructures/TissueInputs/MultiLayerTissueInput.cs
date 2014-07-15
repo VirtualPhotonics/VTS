@@ -49,5 +49,10 @@ namespace Vts.MonteCarlo
         /// list of tissue regions comprising tissue
         /// </summary>
         public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
+
+        public ITissue CreateTissue()
+        {
+            return new MultiLayerTissue(Regions);
+        }
     }
 }

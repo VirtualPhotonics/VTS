@@ -71,5 +71,10 @@ namespace Vts.MonteCarlo
         /// tissue layer regions
         /// </summary>
         public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+
+        public ITissue CreateTissue()
+        {
+            return new SingleInclusionTissue(this.EllipsoidRegion, this.LayerRegions);
+        }
     }
 }

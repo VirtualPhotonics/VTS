@@ -284,6 +284,7 @@
     <Compile Include="MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs" />
     <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ITissueProvider.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\Extensions\PhotonDataExtensionMethods.cs" />
     <Compile Include="IO\BinaryArraySerializer.cs" />

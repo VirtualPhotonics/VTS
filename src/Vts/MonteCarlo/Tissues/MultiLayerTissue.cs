@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo.Tissues
     /// (including homogenous with air layers above and below).  Layers are infinite along
     /// x- and y- axes.
     /// </summary>
-    public class MultiLayerTissue : TissueBase
+    public class MultiLayerTissue : TissueBase, ITissue
     {
         private IList<LayerRegion> _layerRegions;
 
@@ -18,16 +18,10 @@ namespace Vts.MonteCarlo.Tissues
         /// Creates an instance of a MultiLayerTissue
         /// </summary>
         /// <param name="regions">list of tissue regions comprising tissue</param>
-        /// <param name="absorptionWeightingType">absorption weighting type</param>
-        /// <param name="phaseFunctionType">phase function type</param>
-        /// <param name="russianRouletteWeightThreshold">photon weight threshold to turn on Russian Roulette</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiLayerTissue(
-            IList<ITissueRegion> regions, 
-            AbsorptionWeightingType absorptionWeightingType, 
-            PhaseFunctionType phaseFunctionType,
-            double russianRouletteWeightThreshold)
-            : base(regions, absorptionWeightingType, phaseFunctionType,russianRouletteWeightThreshold)
+            IList<ITissueRegion> regions)
+            : base(regions)
         {
             _layerRegions = regions.Select(region => (LayerRegion) region).ToArray();
         }
@@ -36,16 +30,10 @@ namespace Vts.MonteCarlo.Tissues
         /// Creates an instance of a MultiLayerTissue based on an input data class 
         /// </summary>
         /// <param name="input">multi-layer tissue input</param>
-        /// <param name="absorptionWeightingType">absorption weighting type</param>
-        /// <param name="phaseFunctionType">phase function type</param>
-        /// <param name="russianRouletteWeightThreshold">russian roulette weight threshold</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiLayerTissue(
-            MultiLayerTissueInput input, 
-            AbsorptionWeightingType absorptionWeightingType, 
-            PhaseFunctionType phaseFunctionType,
-            double russianRouletteWeightThreshold)
-            : this(input.Regions, absorptionWeightingType, phaseFunctionType, russianRouletteWeightThreshold)
+            MultiLayerTissueInput input)
+            : this(input.Regions)
         {
         }
 
@@ -54,7 +42,7 @@ namespace Vts.MonteCarlo.Tissues
         /// and discrete absorption weighting
         /// </summary>
         public MultiLayerTissue() 
-            : this(new MultiLayerTissueInput().Regions, AbsorptionWeightingType.Discrete, PhaseFunctionType.HenyeyGreenstein, 0.0)
+            : this(new MultiLayerTissueInput().Regions)
         {
         }
 
@@ -63,7 +51,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public override int GetRegionIndex(Position position)
+        public int GetRegionIndex(Position position)
         {
             // use ITissueRegion interface method ContainsPosition for LayerRegion to determine
             // which region photon resides
@@ -83,7 +71,7 @@ namespace Vts.MonteCarlo.Tissues
         /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
         /// <param name="photon"></param>
-        public override double GetDistanceToBoundary(Photon photon)
+        public double GetDistanceToBoundary(Photon photon)
         {
             if (photon.DP.Direction.Uz == 0.0)
             {
@@ -116,7 +104,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns></returns>
-        public override bool OnDomainBoundary(Position position)
+        public bool OnDomainBoundary(Position position)
         {
             // this code assumes that the first and last layer is air
             return 
@@ -128,7 +116,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">photon info including position and direction</param>
         /// <returns>region index</returns>
-        public override int GetNeighborRegionIndex(Photon photon)
+        public int GetNeighborRegionIndex(Photon photon)
         {
             if (photon.DP.Direction.Uz == 0.0)
             {
@@ -147,7 +135,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public override PhotonStateType GetPhotonDataPointStateOnExit(Position position)
+        public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
             if (position.Z < 1e-10)
             {
@@ -162,7 +150,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="positionCurrent"></param>
         /// <param name="directionCurrent"></param>
         /// <returns></returns>
-        public override Direction GetReflectedDirection(
+        public Direction GetReflectedDirection(
             Position positionCurrent, 
             Direction directionCurrent)
         {
@@ -180,7 +168,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="nNext">refractive index of next region</param>
         /// <param name="cosThetaSnell">cos(theta) resulting from Snell's law</param>
         /// <returns>direction</returns>
-        public override Direction GetRefractedDirection(
+        public Direction GetRefractedDirection(
             Position positionCurrent, 
             Direction directionCurrent, 
             double nCurrent, 
@@ -203,7 +191,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon"></param>
         /// <returns></returns>
-        public override double GetAngleRelativeToBoundaryNormal(Photon photon)
+        public double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
             return Math.Abs(photon.DP.Direction.Uz); // abs will work for upward normal and downward normal
         }

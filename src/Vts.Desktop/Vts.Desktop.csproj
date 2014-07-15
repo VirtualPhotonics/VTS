@@ -873,6 +873,9 @@
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissueInput.cs">
       <Link>MonteCarlo\Interfaces\ITissueInput.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissueProvider.cs">
+      <Link>MonteCarlo\Interfaces\ITissueProvider.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissueRegion.cs">
       <Link>MonteCarlo\Interfaces\ITissueRegion.cs</Link>
     </Compile>

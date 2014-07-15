@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo.Tissues
     /// Implements ITissue.  Defines a tissue geometry comprised of an
     /// inclusion embedded within a layered slab.
     /// </summary>
-    public class SingleInclusionTissue : MultiLayerTissue
+    public class SingleInclusionTissue : MultiLayerTissue, ITissue
     {
         private ITissueRegion _inclusionRegion;
         private int _inclusionRegionIndex;
@@ -21,23 +21,13 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="inclusionRegion">The single inclusion (must be contained completely within a layer region)</param>
         /// <param name="layerRegions">The tissue layers</param>
-        /// <param name="absorptionWeightingType">The type of absorption weighting</param>
-        /// <param name="phaseFunctionType">The type of phase function</param>
-        /// <param name="russianRouletteWeightThreshold">russian roulette weight threshold</param>
         public SingleInclusionTissue(
             ITissueRegion inclusionRegion,
-            IList<ITissueRegion> layerRegions,
-            AbsorptionWeightingType absorptionWeightingType,
-            PhaseFunctionType phaseFunctionType,
-            double russianRouletteWeightThreshold)
-            : base(layerRegions, 
-                   absorptionWeightingType, 
-                   phaseFunctionType,
-                   russianRouletteWeightThreshold)
+            IList<ITissueRegion> layerRegions)
+            : base(layerRegions)
         {
             // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
             Regions = layerRegions.Concat(inclusionRegion).ToArray();
-            RegionScatterLengths = Regions.Select(region => region.RegionOP.GetScatterLength(absorptionWeightingType)).ToArray();
 
             _inclusionRegion = inclusionRegion;
             _inclusionRegionIndex = layerRegions.Count; // index is, by convention, after the layer region indices
@@ -51,16 +41,13 @@ namespace Vts.MonteCarlo.Tissues
         public SingleInclusionTissue()
             : this(
                 new EllipsoidRegion(),
-                new MultiLayerTissueInput().Regions,
-                AbsorptionWeightingType.Discrete,
-                PhaseFunctionType.HenyeyGreenstein,
-                0.0) { }
+                new MultiLayerTissueInput().Regions) { }
         /// <summary>
         /// method to get tissue region index of photon's current position
         /// </summary>
         /// <param name="position">photon Position</param>
         /// <returns>integer tissue region index</returns>
-        public override int GetRegionIndex(Position position)
+        public int GetRegionIndex(Position position)
         {
             // if it's in the inclusion, return "3", otherwise, call the layer method to determine
             return _inclusionRegion.ContainsPosition(position) ? _inclusionRegionIndex : base.GetRegionIndex(position);
@@ -73,7 +60,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <returns>index of neighbor index</returns>
-        public override int GetNeighborRegionIndex(Photon photon)
+        public int GetNeighborRegionIndex(Photon photon)
         {
             // first, check what region the photon is in
             int regionIndex = photon.CurrentRegionIndex;
@@ -119,7 +106,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <returns>distance to boundary</returns>
-        public override double GetDistanceToBoundary(Photon photon)
+        public double GetDistanceToBoundary(Photon photon)
         {
             // first, check what region the photon is in
             int regionIndex = photon.CurrentRegionIndex;
@@ -154,7 +141,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
         /// <returns>new Direction</returns>
-        public override Direction GetReflectedDirection(
+        public Direction GetReflectedDirection(
             Position currentPosition,
             Direction currentDirection)
         {
@@ -175,7 +162,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
         /// <returns>new Direction</returns>
-        public override Direction GetRefractedDirection(
+        public Direction GetRefractedDirection(
             Position currentPosition,
             Direction currentDirection,
             double nCurrent,
@@ -193,6 +180,5 @@ namespace Vts.MonteCarlo.Tissues
             }
             //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
         }
-
     }
 }

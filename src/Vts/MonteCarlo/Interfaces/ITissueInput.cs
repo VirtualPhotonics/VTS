@@ -14,5 +14,12 @@
         /// List of tissue regions comprising tissue.
         /// </summary>
         ITissueRegion[] Regions { get; }
+
+        /// <summary>
+        /// Required factory method to create the corresponding 
+        /// ITissue based on the ITissueInput data
+        /// </summary>
+        /// <returns></returns>
+        ITissue CreateTissue();  
     }
 }
