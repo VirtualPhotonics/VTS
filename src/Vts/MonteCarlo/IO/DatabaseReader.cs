@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo.IO
         /// <returns>a database of generic type Time</returns>
         public TDatabase FromFile(string fileName)
         {
-            var database = FileIO.ReadFromXML<TDatabase>(fileName + ".xml");
+            var database = FileIO.ReadFromJson<TDatabase>(fileName + ".txt");
 
             var binaryReader = _binaryReaderCreator(database);
 
@@ -57,7 +57,7 @@ namespace Vts.MonteCarlo.IO
         /// <returns>a database of generic type Time</returns>
         public TDatabase FromFileInResources(string fileName, string projectName)
         {
-            var database = FileIO.ReadFromXMLInResources<TDatabase>(fileName + ".xml", projectName);
+            var database = FileIO.ReadFromJsonInResources<TDatabase>(fileName + ".txt", projectName);
 
             var binaryReader = _binaryReaderCreator(database);
 

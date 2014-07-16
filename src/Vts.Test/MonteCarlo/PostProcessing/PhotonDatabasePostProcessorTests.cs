@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.Tissues;
@@ -28,9 +29,11 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         {
             _detectorInputs = new List<IDetectorInput>()
             {
-                new ROfRhoAndTimeDetectorInput(
-                    new DoubleRange(0.0, 10.0, 101),
-                    new DoubleRange(0.0, 1, 101))
+                new ROfRhoAndTimeDetectorInput()
+                {
+                    Rho = new DoubleRange(0.0, 10.0, 101),
+                    Time = new DoubleRange(0.0, 1, 101)
+                }
             };
             _sourceInput = new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -71,7 +74,6 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var DAWpostProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.DiffuseReflectance,
                 _detectorInputs,
-                false, // tally second moment
                 DAWdatabase,
                 onTheFlyDAWOutput.Input);
             var postProcessedDAWOutput = DAWpostProcessor.Run();
@@ -86,7 +88,6 @@ namespace Vts.Test.MonteCarlo.PostProcessing
             var CAWpostProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.DiffuseReflectance,
                 _detectorInputs,
-                false, // tally second moment
                 CAWdatabase,
                 onTheFlyCAWOutput.Input);
             var postProcessedCAWOutput = CAWpostProcessor.Run();
@@ -108,7 +109,6 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
-                    true, // compute Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     1),
@@ -132,7 +132,6 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
-                    true, // compute Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     1),
@@ -151,7 +150,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         private void ValidateROfRhoAndTime(SimulationOutput output1, SimulationOutput output2)
         {
             var detector = (ROfRhoAndTimeDetectorInput)_detectorInputs.
-                Where(d => d.TallyType == TallyType.ROfRhoAndTime).First(); 
+                Where(d => d.TallyType == "ROfRhoAndTime").First(); 
             // currently these are agreeing EXCEPT for last bin i=99, j=99
             var out1 = output1.R_rt[99, 99];
             var out2 = output2.R_rt[99, 99];
@@ -173,9 +172,9 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         public void validate_database_input_with_no_detectors_specified_still_generates_database()
         {
             // make sure databases generated from previous tests are deleted
-            if (FileIO.FileExists("DiffuseReflectanceDatabase.xml"))
+            if (FileIO.FileExists("DiffuseReflectanceDatabase.txt"))
             {
-                FileIO.FileDelete("DiffuseReflectanceDatabase.xml");
+                FileIO.FileDelete("DiffuseReflectanceDatabase.txtl");
             }
             if (FileIO.FileExists("DiffuseReflectanceDatabase"))
             {
@@ -190,7 +189,6 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.DiffuseReflectance }, // SPECIFY DATABASE
-                    true, // compute Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     1),

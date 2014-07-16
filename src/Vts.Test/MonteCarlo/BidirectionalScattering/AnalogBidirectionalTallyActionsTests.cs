@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Tissues;
 
@@ -40,7 +41,6 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     AbsorptionWeightingType.Analog, 
                     PhaseFunctionType.Bidirectional,
                     new List<DatabaseType>() { }, // databases to be written
-                    true, // tally 2nd moment
                     true, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),
@@ -65,14 +65,14 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 ),
                 new List<IDetectorInput>() 
                 { 
-                    new RDiffuseDetectorInput(),
-                    new ATotalDetectorInput(),
-                    new TDiffuseDetectorInput()
+                    new RDiffuseDetectorInput() { TallySecondMoment = true },
+                    new ATotalDetectorInput() { TallySecondMoment = true },
+                    new TDiffuseDetectorInput() { TallySecondMoment = true }
                 }
             );
             _output = new MonteCarloSimulation(_input).Run();
 
-            _simulationStatistics = SimulationStatistics.FromFile("statistics.xml");
+            _simulationStatistics = SimulationStatistics.FromFile("statistics.txt");
         }
 
         // todo: add analytic variance and use this for error bounds

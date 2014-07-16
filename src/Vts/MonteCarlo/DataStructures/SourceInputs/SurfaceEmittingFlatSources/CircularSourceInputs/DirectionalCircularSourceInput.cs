@@ -12,8 +12,6 @@ namespace Vts.MonteCarlo
     /// including converging/diverging angle, inner and outer radius, source profile, direction,
     /// position, inward normal beam rotation and initial tissue region index.
     /// </summary>
-    [KnownType(typeof(FlatSourceProfile))]
-    [KnownType(typeof(GaussianSourceProfile))]
     public class DirectionalCircularSourceInput : ISourceInput
     {
         /// <summary>

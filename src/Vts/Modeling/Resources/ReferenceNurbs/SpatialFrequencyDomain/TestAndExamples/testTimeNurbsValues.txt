@@ -1,0 +1,22 @@
+{
+  "ValuesDimensions": "time",
+  "KnotVector": [
+    0.0,
+    0.0,
+    0.0,
+    0.333333,
+    0.6666667,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "ControlPoints": [
+    0.0,
+    3.0,
+    5.0,
+    8.0,
+    10.0
+  ],
+  "MaxValue": 10.0,
+  "Degree": 2
+}

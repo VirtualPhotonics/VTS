@@ -3,97 +3,84 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
-using Vts.MonteCarlo.Helpers;
+using Vts.IO;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IHistoryDetector&lt;double[,,]&gt;.  Tally for Fluence(x,y,z).
-    /// Note: this tally currently only works with discrete absorption weighting and analog
+    /// DetectorInput for Fluence(x,y,z)
     /// </summary>
-    [KnownType(typeof(FluenceOfXAndYAndZDetector))]
-    public class FluenceOfXAndYAndZDetector : IHistoryDetector<double[, ,]>
+    public class FluenceOfXAndYAndZDetectorInput : DetectorInput, IDetectorInput
     {
-        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
-
-        private ITissue _tissue;
-        private bool _tallySecondMoment;
-        private IList<OpticalProperties> _ops;
         /// <summary>
         /// constructor for fluence as a function of x, y and z detector input
         /// </summary>
-        /// <param name="x">x binning</param>
-        /// <param name="y">y binning</param>
-        /// <param name="z">z binning</param>
-        /// <param name="tissue">tissue definition</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
-        /// <param name="name">detector name</param>
-        public FluenceOfXAndYAndZDetector(
-            DoubleRange x, 
-            DoubleRange y, 
-            DoubleRange z, 
-            ITissue tissue,
-            bool tallySecondMoment,
-            String name
-            )
+        public FluenceOfXAndYAndZDetectorInput()
         {
-            X = x;
-            Y = y;
-            Z = z;
-            Mean = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
-            _tallySecondMoment = tallySecondMoment;
-            SecondMoment = null;
-            if (_tallySecondMoment)
-            {
-                SecondMoment = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
-            }
-            TallyType = TallyType.FluenceOfXAndYAndZ;
-            Name = name;
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
+            TallyType = "FluenceOfXAndYAndZ";
+            Name = "FluenceOfXAndYAndZ";
+            X = new DoubleRange(-10.0, 10.0, 101);
+            Y = new DoubleRange(-10.0, 10.0, 101);
+            Z = new DoubleRange(0.0, 10.0, 101);
 
-            TallyCount = 0;
-            _tissue = tissue;
-            _ops = tissue.Regions.Select(r => r.RegionOP).ToArray();
+            // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsVolumeTally = true;
+            TallyDetails.IsNotImplementedForCAW = true;
         }
-
-        /// <summary>
-        /// Returns an instance of FluenceOfXAndYAndZDetector (for serialization purposes only)
-        /// </summary>
-        public FluenceOfXAndYAndZDetector()
-            : this(
-            new DoubleRange(), 
-            new DoubleRange(), 
-            new DoubleRange(), 
-            new MultiLayerTissue(), 
-            true,
-            TallyType.FluenceOfXAndYAndZ.ToString())
-        {
-        }
-        /// <summary>
-        /// detector mean
-        /// </summary>
-        [IgnoreDataMember]
-        public double[, ,] Mean { get; set; }
-        /// <summary>
-        /// detector second moment
-        /// </summary>
-        [IgnoreDataMember]
-        public double[, ,] SecondMoment { get; set; }
 
         /// <summary>
         /// detector identifier
         /// </summary>
-        public TallyType TallyType { get; set; }
+        public string TallyType { get; set; }
+
         /// <summary>
-        /// detector name, default uses TallyType, but can be user specified
+        /// detector name
         /// </summary>
-        public String Name { get; set; }
+        public string Name { get; set; }
+
         /// <summary>
-        /// number of zs detector gets tallied to
+        /// x binning
         /// </summary>
-        public long TallyCount { get; set; }
+        public DoubleRange X { get; set; }
+
+        /// <summary>
+        /// y binning
+        /// </summary>
+        public DoubleRange Y { get; set; }
+
+        /// <summary>
+        /// z binning
+        /// </summary>
+        public DoubleRange Z { get; set; }
+
+        public IDetector CreateDetector()
+        {
+            return new FluenceOfXAndYAndZDetector
+            {
+                // required properties (part of DetectorInput/Detector base classes)
+                TallyType = this.TallyType,
+                Name = this.Name,
+                TallySecondMoment = this.TallySecondMoment,
+                TallyDetails = this.TallyDetails,
+
+                // optional/custom detector-specific properties
+                X = this.X,
+                Y = this.Y,
+                Z = this.Z
+            };
+        }
+    }
+
+    /// <summary>
+    /// Implements IDetector.  Tally for Fluence(x,y,z).
+    /// Note: this tally currently only works with discrete absorption weighting and analog
+    /// </summary>
+    public class FluenceOfXAndYAndZDetector : Detector, IHistoryDetector
+    {
+        /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
+        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
         /// x binning
         /// </summary>
@@ -106,6 +93,42 @@ namespace Vts.MonteCarlo.Detectors
         /// z binning
         /// </summary>
         public DoubleRange Z { get; set; }
+
+        /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
+        /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
+        /// <summary>
+        /// detector mean
+        /// </summary>
+        [IgnoreDataMember] public double[, ,] Mean { get; set; }
+        /// <summary>
+        /// detector second moment
+        /// </summary>
+        [IgnoreDataMember] public double[, ,] SecondMoment { get; set; }
+
+        /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
+        /// <summary>
+        /// number of times detector gets tallied to
+        /// </summary>
+        public long TallyCount { get; set; }
+
+        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
+        private ITissue _tissue;
+        private IList<OpticalProperties> _ops;
+
+        public void Initialize(ITissue tissue)
+        {
+            // assign any user-defined outputs (except arrays...we'll make those on-demand)
+            TallyCount = 0;
+
+            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
+            Mean = Mean ?? new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[X.Count - 1, Y.Count - 1, Z.Count - 1] : null);
+
+            // intialize any other necessary class fields here
+            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
+            _tissue = tissue;
+            _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
+        }
 
         /// <summary>
         /// method to tally given two consecutive photon data points
@@ -126,7 +149,7 @@ namespace Vts.MonteCarlo.Detectors
             if (weight != 0.0)
             {
                 Mean[ix, iy, iz] += weight / _ops[regionIndex].Mua;
-                if (_tallySecondMoment)
+                if (TallySecondMoment)
                 {
                     SecondMoment[ix, iy, iz] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
                 }
@@ -147,36 +170,6 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        private double AbsorbAnalog(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            if (photonStateType.HasFlag(PhotonStateType.Absorbed))
-            {
-                weight = previousWeight; 
-            }
-            else
-            {
-                weight = 0.0;
-            }
-            return weight;
-        }
-
-        private double AbsorbDiscrete(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            if (previousWeight == weight) // pseudo collision, so no tally
-            {
-                weight = 0.0;
-            }
-            else
-            {
-                weight = previousWeight * mua / (mua + mus);
-            }
-            return weight;
-        }
-
-        private double AbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType)
-        {
-            throw new NotImplementedException();
-        }
         /// <summary>
         /// method to normalize detector results after numPhotons launched
         /// </summary>
@@ -191,15 +184,75 @@ namespace Vts.MonteCarlo.Detectors
                     for (int iz = 0; iz < Z.Count - 1; iz++)
                     {
                         Mean[ix, iy, iz] /= normalizationFactor * numPhotons;
-                        if (_tallySecondMoment)
+                        if (TallySecondMoment)
                         {
                             SecondMoment[ix, iy, iz] /= normalizationFactor * normalizationFactor * numPhotons;
                         }
                     }
                 }
             }
-
         }
+
+        // this is to allow saving of large arrays separately as a binary file
+        public BinaryArraySerializer[] GetBinarySerializers()
+        {
+            return new[] {
+                new BinaryArraySerializer {
+                    DataArray = Mean,
+                    Name = "Mean",
+                    FileTag = "",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++) {
+                                for (int k = 0; k < Z.Count - 1; k++) {
+                                    binaryWriter.Write(Mean[i, j, k]);
+                                }                               
+                            }
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        Mean = Mean ?? new double[X.Count - 1, Y.Count - 1, Z.Count -1];
+                        for (int i = 0; i <  X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++) {
+                                for (int k = 0; k < Z.Count - 1; k++) {
+                                    Mean[i, j, k] = binaryReader.ReadDouble();
+                                }                                
+                            }
+                        }
+                    }
+                },
+                // return a null serializer, if we're not serializing the second moment
+                !TallySecondMoment ? null :  new BinaryArraySerializer {
+                    DataArray = SecondMoment,
+                    Name = "SecondMoment",
+                    FileTag = "_2",
+                    WriteData = binaryWriter => {
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        for (int i = 0; i < X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++) {
+                                for (int k = 0; k < Z.Count - 1; k++)
+                                {
+                                    binaryWriter.Write(SecondMoment[i, j, k]);
+                                }                                
+                            }
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        SecondMoment = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
+                        for (int i = 0; i < X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++) {
+                                for (int k = 0; k < Z.Count - 1; k++)
+                                {
+                                    SecondMoment[i, j, k] = binaryReader.ReadDouble();
+                                }                                
+                            }
+			            }
+                    },
+                },
+            };
+        }
+
         /// <summary>
         /// method to determine if photon within detector, i.e. in NA, etc.
         /// </summary>

@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo
         public static ValidationResult ValidateInput(IDetectorInput input)
         {
             // test if perturbed region indices has only one index
-            if (((dMCdROfRhodMusDetectorInput)input).PerturbedRegionsIndices.Count > 1)
+            if (((dynamic)input).PerturbedRegionsIndices.Count > 1)
             {
                 return new ValidationResult(
                     false,

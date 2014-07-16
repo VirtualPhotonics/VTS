@@ -158,8 +158,7 @@ namespace Vts.ImportSpectralData.Desktop
 
             var chromophoreDictionary = SpectralImporter.ImportSpectraFromFile(filenames, path);
 
-            chromophoreDictionary.WriteToXML(Path.Combine(outpath ?? "", outname ?? "SpectralDictionary.xml"));
-            chromophoreDictionary.WriteToJson(Path.Combine(outpath ?? "", outname ?? "SpectralDictionary.json"));
+            chromophoreDictionary.WriteToJson(Path.Combine(outpath ?? "", outname ?? "SpectralDictionary.txt"));
         }
         
         /// <summary>
@@ -181,7 +180,7 @@ namespace Vts.ImportSpectralData.Desktop
                 logger.Info("\timport.exe path=myDirectory"); // imports all files matching "absorber-*.txt" in specified directory
                 logger.Info("\timport.exe filename=myChromophoreFile.txt"); // imports specified file in current directory
                 logger.Info("\timport.exe filenames=myChromophoreFile1.txt,myChromophoreFile2.txt,..."); // imports all specified files in current directory
-                logger.Info("\timport.exe outname=myChromophoreDictionary.xml"); // specifies the name of the resulting output xml spectral dictionary
+                logger.Info("\timport.exe outname=myChromophoreDictionary.txt"); // specifies the name of the resulting output JSON spectral dictionary
                 logger.Info("\timport.exe outpath=myDirectory"); // specifies the output directory of the generated xml dictionary
                 return;
             }
@@ -215,7 +214,7 @@ namespace Vts.ImportSpectralData.Desktop
                         logger.Info("\nOUTNAME");
                         logger.Info("specifies the output xml file to create.");
                         logger.Info("EXAMPLES:");
-                        logger.Info("\timport.exe outname=myChromophoreDictionary.xml");
+                        logger.Info("\timport.exe outname=myChromophoreDictionary.txt");
                         break;
                     case "outpath":
                         logger.Info("\nOUTPATH");

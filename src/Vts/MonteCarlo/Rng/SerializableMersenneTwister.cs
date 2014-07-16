@@ -1,6 +1,4 @@
 ﻿using System;
-using MathNet.Numerics;
-using MathNet.Numerics.Random;
 using Vts.IO;
 
 namespace Vts.MonteCarlo.Rng
@@ -9,7 +7,7 @@ namespace Vts.MonteCarlo.Rng
     /// This class creates a serializable representation of the Mersenne Twister class.
     /// Code from MathNet Numerics.
     /// </summary>
-    public class SerializableMersenneTwister : AbstractRandomNumberGenerator
+    public class SerializableMersenneTwister : MathNet.Numerics.Random.RandomSource
     {
         /// <summary>
         /// Mersenne twister constant.
@@ -93,10 +91,10 @@ namespace Vts.MonteCarlo.Rng
         /// Initializes a new instance of the <see cref="MersenneTwister"/> class.
         /// </summary>
         /// <param name="seed">The seed value.</param>
-        /// <remarks>Uses the value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
+        /// <remarks>Uses the value of <see cref="MathNet.Numerics.Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>        
         public SerializableMersenneTwister(int seed)
-            : this(seed, Control.ThreadSafeRandomNumberGenerators)
+            : this(seed, MathNet.Numerics.Control.ThreadSafeRandomNumberGenerators)
         {
         }
 
@@ -215,8 +213,7 @@ namespace Vts.MonteCarlo.Rng
         /// <returns></returns>
         public static SerializableMersenneTwister FromFile(string filename)
         {
-            //return FileIO.ReadFromXML<SerializableMersenneTwister>(filename);
-            var info = FileIO.ReadFromXML<MersenneTwisterSerializationInfo>(filename);
+            var info = FileIO.ReadFromJson<MersenneTwisterSerializationInfo>(filename);
 
             return SerializableMersenneTwister.Create(info);
         }
@@ -229,7 +226,7 @@ namespace Vts.MonteCarlo.Rng
                 MTI = smt.MTI
             };
 
-            FileIO.WriteToXML(info, filename);
+            FileIO.WriteToJson(info, filename);
         }
     }
 }

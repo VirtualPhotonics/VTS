@@ -10,7 +10,7 @@ namespace Vts.Test.MonteCarlo
     public class MonteCarloSimulationTests
     {
         /// <summary>
-        /// Validate General Constructor of Custom Flat Line Source
+        /// Validate RunAll Given Two Simulations Runs Without Crashing
         /// </summary>
         [Test]
         public void validate_RunAll_given_two_simulations_runs_without_crashing()
