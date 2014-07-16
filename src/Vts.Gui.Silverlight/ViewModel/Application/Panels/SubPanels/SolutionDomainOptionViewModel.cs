@@ -264,7 +264,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 _allowMultiAxis = value;
                 OnPropertyChanged("AllowMultiAxis");
-                OnPropertyChanged("AllowSingleAxis");
+                //OnPropertyChanged("AllowSingleAxis");
             }
         }
 
