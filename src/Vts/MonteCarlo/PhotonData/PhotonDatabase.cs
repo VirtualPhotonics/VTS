@@ -1,7 +1,4 @@
-using System;
-using System.Runtime.Serialization;
 using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.PhotonData
 {
@@ -34,7 +31,7 @@ namespace Vts.MonteCarlo.PhotonData
         /// <summary>
         /// Static helper method to simplify reading from file
         /// </summary>
-        /// <param name="fileName">The base filename for the database (no ".xml")</param>
+        /// <param name="fileName">The base filename for the database (no ".txt")</param>
         /// <returns>A new instance of PhotonDatabase</returns>
         public static PhotonDatabase FromFile(string fileName)
         {
@@ -47,7 +44,7 @@ namespace Vts.MonteCarlo.PhotonData
         /// <summary>
         /// Static helper method to simplify reading from file
         /// </summary>
-        /// <param name="fileName">The base filename for the database (no ".xml")</param>
+        /// <param name="fileName">The base filename for the database (no ".txt")</param>
         /// <param name="projectName">The project name containing the resource</param>
         /// <returns>A new instance of PhotonDatabase</returns>
         public static PhotonDatabase FromFileInResources(string fileName, string projectName)

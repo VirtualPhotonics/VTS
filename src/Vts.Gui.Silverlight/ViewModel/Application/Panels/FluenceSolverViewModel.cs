@@ -6,11 +6,10 @@ using System.Numerics;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
 using Vts.Common;
-using Vts.Extensions;
 using Vts.Factories;
+using Vts.Gui.Silverlight.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
-using Vts.Gui.Silverlight.Extensions;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {

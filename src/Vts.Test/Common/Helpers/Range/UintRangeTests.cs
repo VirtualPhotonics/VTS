@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using NUnit.Framework;
 using Vts.Common;
 

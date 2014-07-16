@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
+using System.Reflection;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
-using Vts.Common;
 using Vts.Common.Logging;
-using Vts.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
 using Vts.Gui.Silverlight.View;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.Tissues;
-using System.Security;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {
@@ -27,6 +26,8 @@ namespace Vts.Gui.Silverlight.ViewModel
     /// </summary>
     public class MonteCarloSolverViewModel : BindableObject
     {
+        private const string TEMP_RESULTS_FOLDER = "mc_results_temp";
+
         private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSolverViewModel));
 
         private MonteCarloSimulation _simulation;
@@ -199,25 +200,34 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                     // save results to isolated storage
                     logger.Info(() => "Saving simulation results to temporary directory...");
-                    string resultsFolder = input.OutputName;
-                    FileIO.CreateDirectory(resultsFolder);
-                    input.ToFile(Path.Combine(resultsFolder, "infile_" + input.OutputName + ".xml"));
+                    //var detectorFolder = Path.Combine(TEMP_RESULTS_FOLDER, input.OutputName);
 
+                    //// create the root directory
+                    //FileIO.CreateDirectory(TEMP_RESULTS_FOLDER);
+                    // create the detector directory, removing stale files first if they exist
+                    FileIO.CreateEmptyDirectory(TEMP_RESULTS_FOLDER);
+                    
+                    // write detector to file
+                    input.ToFile(Path.Combine(TEMP_RESULTS_FOLDER, "infile_" + input.OutputName + ".txt"));
                     foreach (var result in _output.ResultsDictionary.Values)
                     {
                         // save all detector data to the specified folder
-                        DetectorIO.WriteDetectorToFile(result, resultsFolder);
+                        DetectorIO.WriteDetectorToFile(result, TEMP_RESULTS_FOLDER);
                     }
 
                     var store = IsolatedStorageFile.GetUserStoreForApplication();
-                    if (store.DirectoryExists(resultsFolder))
+                    if (store.DirectoryExists(TEMP_RESULTS_FOLDER))
                     {
-                        var fileNames = store.GetFileNames(resultsFolder + @"\*");
-
-                        // then, zip all these together and store *that* .zip to isolated storage as well
+                        var currentAssembly = Assembly.GetExecutingAssembly();
+                        // get all the files we want to zip up
+                        var fileNames = store.GetFileNames(TEMP_RESULTS_FOLDER + @"\*");
+                        // copy the MATLAB files to isolated storage and get their names so they can be included in the zip file
+                        var matlabFiles = FileIO.CopyFolderFromEmbeddedResources("Matlab", TEMP_RESULTS_FOLDER, currentAssembly.FullName, false);
+                        // then, zip all the files together and store *that* .zip to isolated storage as well (can't automatically copy to user folder due to security restrictions)
+                        var allFiles = matlabFiles.Concat(fileNames).Distinct();
                         try
                         {
-                            FileIO.ZipFiles(fileNames, resultsFolder, resultsFolder + ".zip");
+                            FileIO.ZipFiles(allFiles, TEMP_RESULTS_FOLDER, input.OutputName + ".zip");
                         }
                         catch (SecurityException)
                         {
@@ -249,11 +259,11 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private void MC_LoadSimulationInput_Executed(object sender, ExecutedEventArgs e)
         {
-            using (var stream = StreamFinder.GetLocalFilestreamFromOpenFileDialog("xml"))
+            using (var stream = StreamFinder.GetLocalFilestreamFromOpenFileDialog("txt"))
             {
                 if (stream != null)
                 {
-                    var simulationInput = FileIO.ReadFromStream<SimulationInput>(stream);
+                    var simulationInput = FileIO.ReadFromJsonStream<SimulationInput>(stream);
 
                     var validationResult = SimulationInputValidation.ValidateInput(simulationInput);
                     if (validationResult.IsValid)
@@ -263,8 +273,12 @@ namespace Vts.Gui.Silverlight.ViewModel
                     }
                     else
                     {
-                        logger.Info(() => "Simulation input not loaded - XML format not valid.\r");
+                        logger.Info(() => "Simulation input not loaded - JSON format not valid.\r");
                     }
+                }
+                else
+                {
+                    logger.Info(() => "JSON File not loaded.\r");
                 }
             }
         }
@@ -278,7 +292,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var files = SimulationInputProvider.GenerateAllSimulationInputs().Select(input =>
                         new
                         {
-                            Name = "infile_" + input.OutputName + ".xml",
+                            Name = "infile_" + input.OutputName + ".txt",
                             Input = input
                         });
 
@@ -286,8 +300,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                     {
                         file.Input.ToFile(file.Name);
                     }
-
-                    FileIO.ZipFiles(files.Select(file => file.Name), "", stream);
+                    var allFiles = files.Concat(files);
+                    FileIO.ZipFiles(allFiles.Select(file => file.Name), "", stream);
                     logger.Info(() => "Template simulation input files exported to a zip file.\r");
                 }
             }
@@ -298,17 +312,15 @@ namespace Vts.Gui.Silverlight.ViewModel
             if (_output != null && _newResultsAvailable)
             {
                 var input = _simulationInputVM.SimulationInput;
-                string resultsFolder = input.OutputName;
-
                 var store = IsolatedStorageFile.GetUserStoreForApplication();
 
-                if (store.FileExists(resultsFolder + ".zip"))
+                if (store.FileExists(input.OutputName + ".zip"))
                 {
                     try
                     {
                         using (var zipStream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("zip"))
                         {
-                            using (var readStream = StreamFinder.GetFileStream(resultsFolder + ".zip", FileMode.Open))
+                            using (var readStream = StreamFinder.GetFileStream(input.OutputName + ".zip", FileMode.Open))
                             {
                                 FileIO.CopyStream(readStream, zipStream);
                             }

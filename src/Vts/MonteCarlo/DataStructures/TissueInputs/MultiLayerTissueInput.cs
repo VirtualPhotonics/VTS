@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.DataStructuresValidation;
 
 namespace Vts.MonteCarlo
 {
     /// <summary>
     /// Implements ITissueInput.  Defines input to MultiLayerTissue class.
     /// </summary>
-    [KnownType(typeof(LayerRegion))]
-    [KnownType(typeof(OpticalProperties))]
     public class MultiLayerTissueInput : ITissueInput
     {
         private ITissueRegion[] _regions;

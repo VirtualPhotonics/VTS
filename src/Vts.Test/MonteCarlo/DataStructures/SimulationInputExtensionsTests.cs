@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Extensions;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo
 {

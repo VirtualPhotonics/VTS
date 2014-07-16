@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using GalaSoft.MvvmLight.Command;
+using SLExtensions.Input;
 using Vts.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
 using Vts.IO;
-using System.IO;
-using GalaSoft.MvvmLight.Command;
-using SLExtensions.Input;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {
@@ -39,8 +39,8 @@ namespace Vts.Gui.Silverlight.ViewModel
         private double _MaxXValue;
         private bool _AutoScaleX;
         private bool _AutoScaleY;
-        private bool _IsFtPlot;
-        private IndependentVariableAxis _CurrentIndependentVariableAxis; 
+        private bool _IsComplexPlot;
+        private IndependentVariableAxis _CurrentIndependentVariableAxis;
 
         public PlotViewModel()
         {
@@ -59,7 +59,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             PlotTitles = new List<string>();
             DataSeriesCollection = new List<IList<Point>>();
             PlotSeriesCollection = new ObservableCollection<IList<Point>>();
-            IsFtPlot = false;
+            IsComplexPlot = false;
 
             PlotType = ReflectancePlotType.ForwardSolver;
             HoldOn = true;
@@ -131,7 +131,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._MaxXValue = plotToClone._MaxXValue;
             output._AutoScaleX = plotToClone._AutoScaleX;
             output._AutoScaleY = plotToClone._AutoScaleY;
-            output._IsFtPlot = plotToClone._IsFtPlot;
+            output._IsComplexPlot = plotToClone._IsComplexPlot;
             output._CurrentIndependentVariableAxis = plotToClone._CurrentIndependentVariableAxis;
             
             output.RealImagLabels = plotToClone.RealImagLabels;
@@ -247,13 +247,13 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("CurrentIndependentVariableAxis");
             }
         }
-        public bool IsFtPlot
+        public bool IsComplexPlot
         {
-            get { return _IsFtPlot; }
+            get { return _IsComplexPlot; }
             set
             {
-                _IsFtPlot = value;
-                this.OnPropertyChanged("IsFtPlot");
+                _IsComplexPlot = value;
+                this.OnPropertyChanged("IsComplexPlot");
             }
         }
         public OptionViewModel<PlotNormalizationType> PlotNormalizationTypeOptionVM
@@ -464,15 +464,15 @@ namespace Vts.Gui.Silverlight.ViewModel
             var data = e.Parameter as PlotData;
             if (data != null)
             {
-                if (CurrentIndependentVariableAxis == IndependentVariableAxis.Ft)
+                if (data.IsComplex) // AddValuesToPlotData relies on IsComplexPlot so set before call
                 {
+                    IsComplexPlot = true;
                     AddValuesToPlotData(data.ComplexPoints, data.Title);
-                    IsFtPlot = true;
                 }
-                else // non-Ft plot
+                else // non-complex plot
                 {
+                    IsComplexPlot = false;
                     AddValuesToPlotData(data.Points, data.Title);
-                    IsFtPlot = false;
                 }
             }
         }
@@ -560,7 +560,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 DataSeriesCollection.RemoveAt(DataSeriesCollection.Count - 1);
                 Labels.RemoveAt(Labels.Count - 1);
                 // if Ft plot, remove imag, phase and amplitude
-                if (CurrentIndependentVariableAxis == IndependentVariableAxis.Ft)
+                if (IsComplexPlot)
                 {
                     DataSeriesCollection.RemoveAt(DataSeriesCollection.Count - 1);
                     // remove phase and amplitude toggle data
@@ -585,7 +585,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             int normCurveNumber = 0;
 
             var tempDSC = DataSeriesCollection;
-            if (CurrentIndependentVariableAxis == IndependentVariableAxis.Ft)
+            if (IsComplexPlot)
             {
                 switch (PlotToggleTypeOptionVM.SelectedValue)
                 {

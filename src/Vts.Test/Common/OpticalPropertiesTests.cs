@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Vts.Common;
 
 namespace Vts.Test.Common
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Vts.FemModeling.MGRTE._2D.SourceInputs;
+﻿using Vts.FemModeling.MGRTE._2D.SourceInputs;
 using Vts.MonteCarlo;
 
 namespace Vts.FemModeling.MGRTE._2D

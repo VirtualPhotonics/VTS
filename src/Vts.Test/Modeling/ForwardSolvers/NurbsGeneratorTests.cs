@@ -1,6 +1,6 @@
+using System;
 using NUnit.Framework;
 using Vts.Modeling.ForwardSolvers;
-using System;
 
 namespace Vts.Test.Modeling.ForwardSolvers
 {

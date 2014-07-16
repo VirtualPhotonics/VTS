@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Vts.Extensions;
 using System.Numerics;
+using MathNet.Numerics;
+using Vts.Extensions;
 
 namespace Vts.IO
 {

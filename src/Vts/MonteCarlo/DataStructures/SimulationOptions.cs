@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Vts.MonteCarlo
@@ -19,7 +18,6 @@ namespace Vts.MonteCarlo
         /// <param name="absWeightingType">absorption weighting type</param>
         /// <param name="phaseFunctionType">phase function type</param>
         /// <param name="databases">list of DatabaseType indicating data to be written database for post-processing</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment information for error results</param>
         /// <param name="trackStatistics">flag indicating whether to track statistics about where photons end up</param>
         /// <param name="russianRouletteWeightThreshold">weight threshold to perform RR (default=0, no RR)</param>
         /// <param name="simulationIndex">index of simulation</param>
@@ -29,7 +27,6 @@ namespace Vts.MonteCarlo
             AbsorptionWeightingType absWeightingType,
             PhaseFunctionType phaseFunctionType,
             IList<DatabaseType> databases,
-            bool tallySecondMoment,
             bool trackStatistics,
             double russianRouletteWeightThreshold,
             int simulationIndex)
@@ -49,7 +46,6 @@ namespace Vts.MonteCarlo
             //    Seed = GetRandomSeed();
             //}
             SimulationIndex = simulationIndex;
-            TallySecondMoment = tallySecondMoment;
             TrackStatistics = trackStatistics;
             RussianRouletteWeightThreshold = russianRouletteWeightThreshold;
         }
@@ -69,7 +65,6 @@ namespace Vts.MonteCarlo
                 absWeightingType, 
                 PhaseFunctionType.HenyeyGreenstein,
                 new List<DatabaseType>() { }, // databases to be written
-                true, // tally 2nd moment
                 false, // track statistics
                 0.0, // Russian Roulette weight threshold: =0.0 -> no RR performed
                 0) { }
@@ -84,7 +79,6 @@ namespace Vts.MonteCarlo
                 AbsorptionWeightingType.Discrete, 
                 PhaseFunctionType.HenyeyGreenstein,
                 null,
-                true,
                 false,
                 0.0,
                 0) { }
@@ -98,7 +92,6 @@ namespace Vts.MonteCarlo
                 AbsorptionWeightingType.Discrete, 
                 PhaseFunctionType.HenyeyGreenstein,
                 null,
-                true,
                 false,
                 0.0,
                 0) { }

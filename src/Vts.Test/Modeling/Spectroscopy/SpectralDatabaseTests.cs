@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
-using Vts.SpectralMapping;
 using Vts.IO;
-using System.Runtime.Serialization;
+using Vts.SpectralMapping;
 
 namespace Vts.Test.Modeling.Spectroscopy
 {
@@ -28,29 +27,29 @@ namespace Vts.Test.Modeling.Spectroscopy
         [TestFixtureSetUp]
         public void clear_folders_and_files()
         {
-            if (FileIO.FileExists("SpectralDictionary.xml"))
+            if (FileIO.FileExists("SpectralDictionary.txt"))
             {
-                FileIO.FileDelete("SpectralDictionary.xml");
+                FileIO.FileDelete("SpectralDictionary.txt");
             }
-            if (FileIO.FileExists("dictionary.xml"))
+            if (FileIO.FileExists("dictionary.txt"))
             {
-                FileIO.FileDelete("dictionary.xml");
+                FileIO.FileDelete("dictionary.txt");
             }
-            if (FileIO.FileExists("dictionary2.xml"))
+            if (FileIO.FileExists("dictionary2.txt"))
             {
-                FileIO.FileDelete("dictionary2.xml");
+                FileIO.FileDelete("dictionary2.txt");
             }
-            if (FileIO.FileExists("dictionary3.xml"))
+            if (FileIO.FileExists("dictionary3.txt"))
             {
-                FileIO.FileDelete("dictionary3.xml");
+                FileIO.FileDelete("dictionary3.txt");
             }
-            if (FileIO.FileExists("dictionary4.xml"))
+            if (FileIO.FileExists("dictionary4.txt"))
             {
-                FileIO.FileDelete("dictionary4.xml");
+                FileIO.FileDelete("dictionary4.txt");
             }
-            if (FileIO.FileExists("dictionary5.xml"))
+            if (FileIO.FileExists("dictionary5.txt"))
             {
-                FileIO.FileDelete("dictionary5.xml");
+                FileIO.FileDelete("dictionary5.txt");
             }
             if (FileIO.FileExists("absorber-Fat.txt"))
             {
@@ -82,7 +81,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         /// validate loading the default spectral database
         /// </summary>
         [Test]
-        public void validate_loading_spectral_database_from_xml_in_resources()
+        public void validate_loading_spectral_database_from_file_in_resources()
         {
             var _testDictionary = SpectralDatabase.GetDefaultDatabaseFromFileInResources();
             Assert.IsNotNull(_testDictionary);
@@ -95,8 +94,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void validate_serializing_spectral_database()
         {
             var testDictionary = CreateDictionary();
-            testDictionary.WriteToXML("SpectralDictionary.xml");
-            Assert.IsTrue(FileIO.FileExists("SpectralDictionary.xml"));
+            testDictionary.WriteToJson("SpectralDictionary.txt");
+            Assert.IsTrue(FileIO.FileExists("SpectralDictionary.txt"));
         }
 
         /// <summary>
@@ -106,8 +105,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void validate_deserializing_spectral_database()
         {
             var testDictionary = CreateDictionary();
-            testDictionary.WriteToXML("dictionary.xml");
-            var Dvalues = FileIO.ReadFromXML<ChromophoreSpectrumDictionary>("dictionary.xml");
+            testDictionary.WriteToJson("dictionary.txt");
+            var Dvalues = FileIO.ReadFromJson<ChromophoreSpectrumDictionary>("dictionary.txt");
             Assert.IsNotNull(Dvalues);
         }
 
@@ -118,8 +117,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void validate_serialized_data()
         {
             var testDictionary = CreateDictionary();
-            testDictionary.WriteToXML("dictionary2.xml");
-            var Dvalues = FileIO.ReadFromXML<ChromophoreSpectrumDictionary>("dictionary2.xml");
+            testDictionary.WriteToJson("dictionary2.txt");
+            var Dvalues = FileIO.ReadFromJson<ChromophoreSpectrumDictionary>("dictionary2.txt");
             Assert.AreEqual(Dvalues["HbO2"].Wavelengths[2], testDictionary["HbO2"].Wavelengths[2]);
         }
 
@@ -147,8 +146,8 @@ namespace Vts.Test.Modeling.Spectroscopy
             myChromophoreList.Add(c2);
             var testDictionary = myChromophoreList.ToDictionary();
             SpectralDatabase.AppendDatabaseFromFile(testDictionary, stream);
-            testDictionary.WriteToXML("dictionary3.xml");
-            Assert.IsTrue(FileIO.FileExists("dictionary3.xml"));
+            testDictionary.WriteToJson("dictionary3.txt");
+            Assert.IsTrue(FileIO.FileExists("dictionary3.txt"));
         }
 
         /// <summary>
@@ -161,8 +160,8 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             var testSpectra = SpectralDatabase.GetSpectraFromFile(stream, true);
             var testDictionary = testSpectra.ToDictionary();
-            testDictionary.WriteToXML("dictionary4.xml");
-            Assert.IsTrue(FileIO.FileExists("dictionary4.xml"));
+            testDictionary.WriteToJson("dictionary4.txt");
+            Assert.IsTrue(FileIO.FileExists("dictionary4.txt"));
         }
 
         /// <summary>
@@ -212,15 +211,15 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             var testSpectra = SpectralDatabase.GetSpectraFromFile(stream, false);
             var testDictionary = testSpectra.ToDictionary();
-            testDictionary.WriteToXML("dictionary5.xml");
-            Assert.IsTrue(FileIO.FileExists("dictionary5.xml"));
+            testDictionary.WriteToJson("dictionary5.txt");
+            Assert.IsTrue(FileIO.FileExists("dictionary5.txt"));
         }
 
         /// <summary>
         /// validate writing the tab-delimited text files
         /// </summary>
         [Test]
-        public void validate_write_text_files_from_xml_in_resources()
+        public void validate_write_text_files_from_file_in_resources()
         {
             var testDictionary = SpectralDatabase.GetDefaultDatabaseFromFileInResources();
             SpectralDatabase.WriteDatabaseToFiles(testDictionary);

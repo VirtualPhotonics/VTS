@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using MathNet.Numerics;
 using Vts.Extensions;
 using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers.Extensions;
 #if DESKTOP
-using System.Runtime.InteropServices;
 #endif
 using Vts.SpectralMapping;
 

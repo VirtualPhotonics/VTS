@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Vts.Common;
-using Vts.Extensions;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Factories;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
 {

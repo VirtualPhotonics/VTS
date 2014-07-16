@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Vts.FemModeling.MGRTE._2D
+﻿namespace Vts.FemModeling.MGRTE._2D
 {
     /// <summary>
     /// Angular and spatial mesh data for a square mesh

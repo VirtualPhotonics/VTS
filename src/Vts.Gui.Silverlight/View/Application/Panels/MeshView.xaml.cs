@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using Vts.Gui.Silverlight.View.Helpers;
 
 namespace Vts.Gui.Silverlight.View

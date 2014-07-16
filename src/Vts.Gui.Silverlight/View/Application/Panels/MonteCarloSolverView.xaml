@@ -16,17 +16,11 @@
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
         <TextBlock Text="Specify Inputs From File (recommended)" FontWeight="Bold"/>
         <StackPanel Orientation="Horizontal" Margin="3,0,0,0">
-            <TextBlock Text="(see " VerticalAlignment="Center"/>
-            <HyperlinkButton NavigateUri="http://www.microsoft.com/download/en/details.aspx?id=7973" TargetName="_blank">
-                <TextBlock Text="here" VerticalAlignment="Center" />
-                <!--<Image 
-                        Source="/Vts.Gui.Silverlight;Component/Resources/Images/xml_notepad.png"
-                        Height="50" Width="100"
-                        Stretch="None"
-					    VerticalAlignment="Center"
-                        HorizontalAlignment="center"/>-->
+            <TextBlock Text="(Check out this useful " VerticalAlignment="Center"/>
+            <HyperlinkButton NavigateUri="http://www.jsoneditoronline.org/" TargetName="_blank">
+                <TextBlock Text="JSON" VerticalAlignment="Center" />
             </HyperlinkButton>
-            <TextBlock Text=" for a useful XML manipulation tool)" VerticalAlignment="Center"/>
+            <TextBlock Text=" manipulation tool)" VerticalAlignment="Center"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" >

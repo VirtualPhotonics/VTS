@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using Vts.MonteCarlo.Extensions;
-using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.DataStructuresValidation;
 
 namespace Vts.MonteCarlo
@@ -19,7 +15,7 @@ namespace Vts.MonteCarlo
         public static ValidationResult ValidateInput(IDetectorInput input)
         {
             // test if perturbed region indices has only one index
-            if (((dMCdROfRhodMuaDetectorInput)input).PerturbedRegionsIndices.Count > 1)
+            if (((dynamic)input).PerturbedRegionsIndices.Count > 1)
             {
                 return new ValidationResult(
                     false,

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Reflection;
-using Meta.Numerics.Statistics;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
-using System.IO;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.IO
@@ -17,16 +16,17 @@ namespace Vts.IO
     public static class VtsJsonSerializer
     {
 #if DEBUG
-        private static MemoryTraceWriter _traceWriter = new MemoryTraceWriter();
+        public static MemoryTraceWriter TraceWriter = new MemoryTraceWriter();
 #endif
         public static string WriteToJson<T>(this T myObject)
         {
             var settings = new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.None, 
+                TypeNameHandling = TypeNameHandling.None,
+                ObjectCreationHandling = ObjectCreationHandling.Replace
             };
 #if DEBUG
-            settings.TraceWriter = _traceWriter;
+            settings.TraceWriter = TraceWriter;
 #endif
             settings.Converters.Add(new StringEnumConverter());
             string json = JsonConvert.SerializeObject(
@@ -34,7 +34,7 @@ namespace Vts.IO
                 Formatting.Indented,
                 settings);
 #if DEBUG
-            Console.WriteLine(_traceWriter);
+            Console.WriteLine(TraceWriter);
 #endif
             return json;
         }
@@ -55,7 +55,8 @@ namespace Vts.IO
             ConventionBasedConverter<ISourceInput>.CreateFromEnum<Vts.MonteCarlo.SourceType>(typeof(IsotropicPointSourceInput)),
             ConventionBasedConverter<ITissueInput>.CreateFromEnum<Vts.MonteCarlo.TissueType>(typeof(MultiLayerTissueInput)),
             ConventionBasedConverter<ITissueRegion>.CreateFromEnum<Vts.MonteCarlo.TissueRegionType>(typeof(VoxelRegion), "Region"),
-            ConventionBasedConverter<IDetectorInput>.CreateFromEnum<Vts.MonteCarlo.TallyType>(typeof(ROfRhoDetectorInput)),
+            new ConventionBasedConverter<IDetectorInput>(typeof(ROfRhoDetectorInput), "TallyType", TallyType.BuiltInTypes),
+            new ConventionBasedConverter<IDetector>(typeof(ROfRhoDetector), "TallyType", TallyType.BuiltInTypes),
         };
 
         public static T ReadFromJson<T>(this string myString)
@@ -67,8 +68,9 @@ namespace Vts.IO
                 serializer.Converters.Add(jsonConverter);
             }
             serializer.NullValueHandling = NullValueHandling.Ignore;
+            serializer.ObjectCreationHandling = ObjectCreationHandling.Replace;
 #if DEBUG
-            serializer.TraceWriter = _traceWriter;
+            serializer.TraceWriter = TraceWriter;
 #endif
 
             T deserializedProduct = default(T);
@@ -78,7 +80,7 @@ namespace Vts.IO
                 deserializedProduct = serializer.Deserialize<T>(reader);
             }
 #if DEBUG
-            Console.WriteLine(_traceWriter);
+            Console.WriteLine(TraceWriter);
 #endif
             return deserializedProduct;
         }
@@ -139,7 +141,7 @@ namespace Vts.IO
             _classBasename = classBasename ?? _interfaceType.Name.Substring(1);
             _typeCategoryString = typeCategoryString;
 
-            var useSingleton = true;
+            var useSingleton = false;
             var useDefaultConstructor = true;
             
             var classList =

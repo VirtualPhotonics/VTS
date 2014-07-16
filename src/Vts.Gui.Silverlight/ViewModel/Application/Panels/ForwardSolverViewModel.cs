@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using MathNet.Numerics;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
 using Vts.Factories;
+using Vts.Gui.Silverlight.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
-using Vts.Gui.Silverlight.Extensions;
 #if WHITELIST
 using Vts.Gui.Silverlight.ViewModel.Application;
 #endif
@@ -207,7 +208,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
             
             string plotLabel = GetLegendLabel();
-            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
+            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
                 var real = points[0];
                 var imag = points[1];
@@ -286,20 +287,21 @@ namespace Vts.Gui.Silverlight.ViewModel
                     parameters);
 
             // this all needs to change if we add multi-axis ranges
-            var independentValues = RangeVM.Values.ToArray();
-            var numPoints = ((OpticalProperties[])parameters[0]).Length * 
-                (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength
-                    ? 1 : independentValues.Length);
-
             if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
-                var points = new[] { new Point[numPoints], new Point[numPoints] };
-                for (int i = 0; i < numPoints; i++)
-                {
-                    points[0][i] = new Point(independentValues[i], reflectance[i]);
-                    points[1][i] = new Point(independentValues[i], reflectance[numPoints + i]); // Imaginary is stored after Real
-                }
-                return points;
+                var real = query.Take(independentValues.Length).ToArray();
+                var imag = query.Skip(independentValues.Length).Take(independentValues.Length).ToArray();
+
+                return new[] {
+                    Enumerable.Zip(
+                        independentValues,
+                        real,
+                        (x, y) => new Point(x, y)).ToArray(),
+                    Enumerable.Zip(
+                        independentValues,
+                        imag, 
+                        (x, y) => new Point(x, y)).ToArray()
+                };
             }
             else
             {

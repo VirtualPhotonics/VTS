@@ -6,6 +6,10 @@ classdef DetectorInput
             input.TallyType = 'ROfRho';
             % detector name, defaults to 'ROfRho' but can be user specified
             input.Name = 'ROfRho';
+            % boolean to specify if second moment should also be calculated
+            input.TallySecondMoment = 0;
+            % boolean to specify if second moment should also be calculated
+            input.TallyDetails = TallyDetails.Default();
             % detector rho binning
             input.Rho = linspace(0, 10, 101);
         end
@@ -16,6 +20,8 @@ classdef DetectorInput
             end
             input.TallyType = 'AOfRhoAndZ';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Z = z;
         end 
@@ -26,6 +32,8 @@ classdef DetectorInput
             end
             input.TallyType = 'ATotal';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
         end
         % set default perturbed optical properties list to be consistent
         % with default infile which has air-tissue-air definition and
@@ -36,6 +44,8 @@ classdef DetectorInput
             end
             input.TallyType = 'dMCdROfRhodMua';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.PerturbedOps = ...
                 [...
@@ -51,6 +61,8 @@ classdef DetectorInput
             end
             input.TallyType = 'dMCdROfRhodMus';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.PerturbedOps = ...
                 [...
@@ -66,6 +78,8 @@ classdef DetectorInput
             end
             input.TallyType = 'FluenceOfRhoAndZ';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Z = z;
         end
@@ -76,6 +90,8 @@ classdef DetectorInput
             end
             input.TallyType = 'FluenceOfRhoAndZAndTime';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Z = z;
             input.Time = time;
@@ -87,6 +103,8 @@ classdef DetectorInput
             end
             input.TallyType = 'FluenceOfXAndYAndZ';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.X = x;
             input.Y = y;
             input.Z = z;
@@ -98,6 +116,8 @@ classdef DetectorInput
             end
             input.TallyType = 'RadianceOfRho';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
         end
         
@@ -107,6 +127,8 @@ classdef DetectorInput
             end
             input.TallyType = 'RadianceOfRhoAndZAndAngle';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Z = z;
             input.Angle = angle;
@@ -118,6 +140,8 @@ classdef DetectorInput
             end
             input.TallyType = 'RDiffuse';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
         end
         
         function input = ROfAngle(angle, name)
@@ -126,6 +150,8 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfAngle';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Angle = angle;
         end
         
@@ -135,6 +161,8 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfRho';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
         end
         
@@ -144,6 +172,8 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfRhoAndAngle';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Angle = angle;
         end
@@ -154,6 +184,8 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfRhoAndOmega';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Omega = omega;
         end
@@ -164,6 +196,8 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfRhoAndTime';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Time = t;
         end
@@ -174,6 +208,8 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfFx';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Fx = fx;
         end
         
@@ -183,6 +219,8 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfFxAndTime';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Fx = fx;
             input.Time = t;
         end
@@ -195,6 +233,8 @@ classdef DetectorInput
             end
             input.TallyType = 'pMCROfRho';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.PerturbedOps = ...
                 [...
@@ -211,6 +251,8 @@ classdef DetectorInput
             end
             input.TallyType = 'pMCROfRhoAndTime';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Time = t;
             input.PerturbedOps = ...
@@ -228,6 +270,8 @@ classdef DetectorInput
             end
             input.TallyType = 'pMCROfFx';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Fx = fx;
             input.PerturbedOps = ...
                 [...
@@ -244,6 +288,8 @@ classdef DetectorInput
             end
             input.TallyType = 'pMCROfFxAndTime';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Fx = fx;
             input.Time = t;
             input.PerturbedOps = ...
@@ -261,6 +307,8 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfXAndY';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.X = x;
             input.Y = y;
         end
@@ -271,6 +319,8 @@ classdef DetectorInput
             end
             input.TallyType = 'RSpecular';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
         end
         
         function input = TDiffuseDetectorInput(name)
@@ -279,6 +329,8 @@ classdef DetectorInput
             end
             input.TallyType = 'TDiffuse';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
         end
         
         function input = TOfAngleDetectorInput(angle, name)
@@ -287,6 +339,8 @@ classdef DetectorInput
             end
             input.TallyType = 'TOfAngle';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Angle = angle;
         end
         
@@ -296,6 +350,8 @@ classdef DetectorInput
             end
             input.TallyType = 'TOfRho';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
         end
         
@@ -305,6 +361,8 @@ classdef DetectorInput
             end
             input.TallyType = 'TOfRhoAndAngle';
             input.Name = name;
+            input.TallySecondMoment = 0;
+            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Angle = angle;
         end
@@ -312,6 +370,8 @@ classdef DetectorInput
         function input = FromInputNET(inputNET)
             input.TallyType = char(inputNET.TallyType);
             input.Name = char(inputNET.Name);
+            input.TallySecondMoment = inputNET.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(inputNET.TallyDetails);
             switch input.TallyType
                 case 'AOfRhoAndZ'
                     input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
@@ -525,15 +585,17 @@ classdef DetectorInput
         function inputNET = ToInputNET(input)
             switch input.TallyType
                 case 'AOfRhoAndZ'
-                    inputNET = Vts.MonteCarlo.AOfRhoAndZDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.AOfRhoAndZDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Z = Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'ATotal'
-                    inputNET = Vts.MonteCarlo.ATotalDetectorInput( ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.ATotalDetectorInput;
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'dMCdROfRhodMua'
                     perturbedOpsNET = NET.createArray('Vts.OpticalProperties', size(input.PerturbedOps,1));
                     perturbedRegionsIndicesNET = NET.createArray('System.Int32', length(input.PerturbedRegionsIndices));
@@ -548,12 +610,13 @@ classdef DetectorInput
                     for i=1:length(input.PerturbedRegionsIndices)
                         perturbedRegionsIndicesNET(i) = input.PerturbedRegionsIndices(i);
                     end
-                    inputNET = Vts.MonteCarlo.dMCdROfRhodMuaDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        perturbedOpsNET, ...
-                        perturbedRegionsIndicesNET, ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.dMCdROfRhodMuaDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.PerturbedOps = perturbedOpsNET;
+                    inputNET.PerturbedRegionsIndices = perturbedRegionsIndicesNET;
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'dMCdROfRhodMus'
                     perturbedOpsNET = NET.createArray('Vts.OpticalProperties', size(input.PerturbedOps,1));
                     perturbedRegionsIndicesNET = NET.createArray('System.Int32', length(input.PerturbedRegionsIndices));
@@ -568,87 +631,101 @@ classdef DetectorInput
                     for i=1:length(input.PerturbedRegionsIndices)
                         perturbedRegionsIndicesNET(i) = input.PerturbedRegionsIndices(i);
                     end
-                    inputNET = Vts.MonteCarlo.dMCdROfRhodMusDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        perturbedOpsNET, ...
-                        perturbedRegionsIndicesNET, ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.dMCdROfRhodMusDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.PerturbedOps = perturbedOpsNET;
+                    inputNET.PerturbedRegionsIndices = perturbedRegionsIndicesNET;
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'FluenceOfRhoAndZ'
-                    inputNET = Vts.MonteCarlo.FluenceOfRhoAndZDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.FluenceOfRhoAndZDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Z = Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'FluenceOfRhoAndZAndTime'
-                    inputNET = Vts.MonteCarlo.FluenceOfRhoAndZAndTimeDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z)), ...
-                        Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.FluenceOfRhoAndZAndTimeDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Z = Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z));
+                    inputNET.Time = Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'FluenceOfXAndYAndZ'
-                    inputNET = Vts.MonteCarloFluenceOfXAndYAndZDetectorInput( ...
-                        Vts.Common.DoubleRange(input.X(1), input.X(end), length(input.X)), ...
-                        Vts.Common.DoubleRange(input.Y(1), input.Y(end), length(input.Y)), ...
-                        Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZDetectorInput;
+                    inputNET.X = Vts.Common.DoubleRange(input.X(1), input.X(end), length(input.X));
+                    inputNET.Y = Vts.Common.DoubleRange(input.Y(1), input.Y(end), length(input.Y));
+                    inputNET.Z = Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'RadianceOfRho'
-                    inputNET = Vts.MonteCarlo.RadianceOfRhoDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.RadianceOfRhoDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'RadianceOfRhoAndZAndAngle'
-                    inputNET = Vts.MonteCarlo.RadianceOfRhoAndZAndAngleDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z)), ...
-                        Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.RadianceOfRhoAndZAndAngleDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Z = Vts.Common.DoubleRange(input.Z(1), input.Z(end), length(input.Z));
+                    inputNET.Angle = Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'RDiffuse'
-                    inputNET = Vts.MonteCarlo.RDiffuseDetectorInput( ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.RDiffuseDetectorInput;
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'ROfAngle'
-                    inputNET = Vts.MonteCarlo.ROfAngleDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.ROfAngleDetectorInput;
+                    inputNET.Angle = Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'ROfRho'
-                    inputNET = Vts.MonteCarlo.ROfRhoDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.ROfRhoDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'ROfRhoAndAngle'
-                    inputNET = Vts.MonteCarlo.ROfRhoAndAngleDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.ROfRhoAndAngleDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Angle = Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'ROfRhoAndOmega'
-                    inputNET = Vts.MonteCarlo.ROfRhoAndOmegaDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        Vts.Common.DoubleRange(input.Omega(1), input.Omega(end), length(input.Omega)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.ROfRhoAndOmegaDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Omega = Vts.Common.DoubleRange(input.Omega(1), input.Omega(end), length(input.Omega));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'ROfRhoAndTime'
-                    inputNET = Vts.MonteCarlo.ROfRhoAndTimeDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Time = Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'ROfFx'
-                    inputNET = Vts.MonteCarlo.ROfFxDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.ROfFxDetectorInput;
+                    inputNET.Fx = Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'ROfFxAndTime'
-                    inputNET = Vts.MonteCarlo.ROfFxAndTimeDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx)), ...
-                        Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.ROfFxAndTimeDetectorInput;
+                    inputNET.Fx = Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx));
+                    inputNET.Time = Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'pMCROfRho'
                     perturbedOpsNET = NET.createArray('Vts.OpticalProperties', size(input.PerturbedOps,1));
                     perturbedRegionsIndicesNET = NET.createArray('System.Int32', length(input.PerturbedRegionsIndices));
@@ -663,12 +740,13 @@ classdef DetectorInput
                     for i=1:length(input.PerturbedRegionsIndices)
                         perturbedRegionsIndicesNET(i) = input.PerturbedRegionsIndices(i);
                     end
-                    inputNET = Vts.MonteCarlo.pMCROfRhoDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        perturbedOpsNET, ...
-                        perturbedRegionsIndicesNET, ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.pMCROfRhoDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.PerturbedOps = perturbedOpsNET;
+                    inputNET.PerturbedRegionsIndices = perturbedRegionsIndicesNET;
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'pMCROfRhoAndTime'
                     perturbedOpsNET = NET.createArray('Vts.OpticalProperties', size(input.PerturbedOps,1));
                     perturbedRegionsIndicesNET = NET.createArray('System.Int32', length(input.PerturbedRegionsIndices));
@@ -683,13 +761,14 @@ classdef DetectorInput
                     for i=1:length(input.PerturbedRegionsIndices)
                         perturbedRegionsIndicesNET(i) = input.PerturbedRegionsIndices(i);
                     end
-                    inputNET = Vts.MonteCarlo.pMCROfRhoAndTimeDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time)), ...
-                        perturbedOpsNET, ...
-                        perturbedRegionsIndicesNET, ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.pMCROfRhoAndTimeDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Time = Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time));
+                    inputNET.PerturbedOps = perturbedOpsNET;
+                    inputNET.PerturbedRegionsIndices = perturbedRegionsIndicesNET;
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                     
                 case 'pMCROfFx'
                     perturbedOpsNET = NET.createArray('Vts.OpticalProperties', size(input.PerturbedOps,1));
@@ -705,12 +784,13 @@ classdef DetectorInput
                     for i=1:length(input.PerturbedRegionsIndices)
                         perturbedRegionsIndicesNET(i) = input.PerturbedRegionsIndices(i);
                     end
-                    inputNET = Vts.MonteCarlo.pMCROfFxDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx)), ...
-                        perturbedOpsNET, ...
-                        perturbedRegionsIndicesNET, ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.pMCROfFxDetectorInput;
+                    inputNET.Fx = Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx));
+                    inputNET.PerturbedOps = perturbedOpsNET;
+                    inputNET.PerturbedRegionsIndices = perturbedRegionsIndicesNET;
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'pMCROfFxAndTime'
                     perturbedOpsNET = NET.createArray('Vts.OpticalProperties', size(input.PerturbedOps,1));
                     perturbedRegionsIndicesNET = NET.createArray('System.Int32', length(input.PerturbedRegionsIndices));
@@ -725,43 +805,50 @@ classdef DetectorInput
                     for i=1:length(input.PerturbedRegionsIndices)
                         perturbedRegionsIndicesNET(i) = input.PerturbedRegionsIndices(i);
                     end
-                    inputNET = Vts.MonteCarlo.pMCROfFxAndTimeDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx)), ...
-                        Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time)), ...
-                        perturbedOpsNET, ...
-                        perturbedRegionsIndicesNET, ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.pMCROfFxAndTimeDetectorInput;
+                    inputNET.Fx = Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx));
+                    inputNET.Time = Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time));
+                    inputNET.PerturbedOps = perturbedOpsNET;
+                    inputNET.PerturbedRegionsIndices = perturbedRegionsIndicesNET;
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'ROfXAndY'
-                    inputNET = Vts.MonteCarlo.ROfXAndYDetectorInput( ...
-                        Vts.Common.DoubleRange(input.X(1), input.X(end), length(input.X)), ...
-                        Vts.Common.DoubleRange(input.Y(1), input.Y(end), length(input.Y)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.ROfXAndYDetectorInput;
+                    inputNET.X = Vts.Common.DoubleRange(input.X(1), input.X(end), length(input.X));
+                    inputNET.Y = Vts.Common.DoubleRange(input.Y(1), input.Y(end), length(input.Y));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'RSpecular'
-                    inputNET = Vts.MonteCarlo.RSpecularDetectorInput( ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.RSpecularDetectorInput;
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'TDiffuse'
-                    inputNET = Vts.MonteCarlo.TDiffuseDetectorInput( ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.TDiffuseDetectorInput;
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'TOfAngle'
-                    inputNET = Vts.MonteCarlo.TOfAngleDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.TOfAngleDetectorInput;
+                    inputNET.Angle = Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'TOfRho'
-                    inputNET = Vts.MonteCarlo.TOfRhoDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.TOfRhoDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 case 'TOfRhoAndAngle'
-                    inputNET = Vts.MonteCarlo.TOfRhoAndAngleDetectorInput( ...
-                        Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho)), ...
-                        Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle)), ...
-                        input.Name ...
-                        );
+                    inputNET = Vts.MonteCarlo.Detectors.TOfRhoAndAngleDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Angle = Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
                 otherwise
                     disp('Unknown DetectorInput type');
             end

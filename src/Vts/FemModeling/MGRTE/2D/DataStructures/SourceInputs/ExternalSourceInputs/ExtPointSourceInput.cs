@@ -1,7 +1,6 @@
 ﻿using System;
 using Vts.Common;
 
-
 namespace Vts.FemModeling.MGRTE._2D.SourceInputs
 {
     /// <summary>

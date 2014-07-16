@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using Vts.IO;
-using Vts.Factories;
-using Vts.Modeling.ForwardSolvers;
-using Vts.Modeling.Optimizers;
-using Vts.Extensions;
 using Vts.Common;
+using Vts.Extensions;
+using Vts.Factories;
+using Vts.IO;
 
 namespace Vts.ReportInverseSolver.Desktop
 {
@@ -395,7 +392,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                                                          bestChiSquared, meanChiSquared,
                                                                                          elapsedSeconds, mR.Count());
                             // write array to binary
-                            LocalWriteArrayToBinary<double>(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
+                            LocalWriteArrayToBinary(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
                                                             timeDomainFolder + "/" + problemFolder + "/" + fST.ToString() + "/" +
                                                             oT.ToString() + "/" + IFT.ToString() + "/" + filename, FileMode.Create);
 
@@ -549,7 +546,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                                                          bestChiSquared, meanChiSquared,
                                                                                          elapsedSeconds, mR.Count());
                             // write array to binary
-                            LocalWriteArrayToBinary<double>(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
+                            LocalWriteArrayToBinary(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
                                                             timeDomainFolder + "/" + problemFolder + "/" + fST.ToString() + "/" +
                                                             oT.ToString() + "/" + IFT.ToString() + "/" + filename, FileMode.Create);
 
@@ -700,7 +697,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                                                              bestChiSquared, meanChiSquared,
                                                                                              elapsedSeconds, numberOfPoints);
                                 // write array to binary
-                                LocalWriteArrayToBinary<double>(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
+                                LocalWriteArrayToBinary(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
                                                                 timeDomainFolder + "/" + noiseFolder + "/" + problemFolder + "/" + fST.ToString() + "/" +
                                                                 oT.ToString() + "/" + IFT.ToString() + "/" + rhoFolder + "/" + filename, FileMode.Create);
 
@@ -793,14 +790,14 @@ namespace Vts.ReportInverseSolver.Desktop
             }
         }
 
-        private static void LocalWriteArrayToBinary<T>(Array dataIN, string filename, FileMode mode) where T : struct
+        private static void LocalWriteArrayToBinary(Array dataIN, string filename, FileMode mode)
         {
             // Create a file to write binary data 
             using (Stream s = StreamFinder.GetFileStream(filename, mode))
             {
                 using (BinaryWriter bw = new BinaryWriter(s))
                 {
-                    new ArrayCustomBinaryWriter<T>().WriteToBinary(bw, dataIN);
+                    new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
                 }
             }
         }

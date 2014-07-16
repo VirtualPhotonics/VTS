@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Vts.Common;
 using Vts.Common.Logging;
 using Vts.Extensions;
-using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Extensions;
+using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.CommandLineApplication
 {
@@ -25,21 +25,22 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                    logger.Info(" *** No input file specified ***\n\t\tDefine an input file using mc.exe infile=infile_name.xml");
+                    logger.Info(" *** No input file specified ***\n\nDefine an input file using mc.exe infile=infile_name.txt");
                     return null;
                 }
 
                 //get the full path for the input file
                 var fullFilePath = Path.GetFullPath(inputFile);
+                string extension = Path.GetExtension(inputFile);
 
                 if (File.Exists(fullFilePath))
                 {
-                    return SimulationInput.FromFile(fullFilePath);
+                    return SimulationInput.FromFile(fullFilePath);       
                 }
 
-                if (File.Exists(fullFilePath + ".xml"))
+                if (File.Exists(fullFilePath + ".txt"))
                 {
-                    return SimulationInput.FromFile(fullFilePath + ".xml");
+                    return SimulationInput.FromFile(fullFilePath + ".txt");
                 }
 
                 //throw a file not found exception
@@ -48,6 +49,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                //Console.WriteLine(VtsJsonSerializer.TraceWriter.GetTraceMessages());
                 return null;
             }
         }
@@ -152,7 +154,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             SimulationOutput detectorResults = mc.Run();
 
-            input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".xml"));
+            input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
 
             foreach (var result in detectorResults.ResultsDictionary.Values)
             {

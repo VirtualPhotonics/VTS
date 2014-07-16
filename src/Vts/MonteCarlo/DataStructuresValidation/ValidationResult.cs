@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Vts.MonteCarlo.DataStructuresValidation
+﻿namespace Vts.MonteCarlo.DataStructuresValidation
 {
     /// <summary>
     /// Class that holds the result of validating the Monte Carlo inputs.

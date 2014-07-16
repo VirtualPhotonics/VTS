@@ -1,54 +1,78 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[,]&gt;.  Tally for reflectance as a function 
-    /// of Rho and Time.
-    /// This implementation works for Analog, DAW and CAW processing.
+    /// Tally for reflectance as a function of Rho and Time.
+    /// This works for Analog, DAW and CAW processing.
     /// </summary>
-    [KnownType(typeof(ROfRhoAndTimeDetector))]
-    public class ROfRhoAndTimeDetector : IDetector<double[,]> 
+    public class ROfRhoAndTimeDetectorInput : DetectorInput, IDetectorInput
     {
-        private bool _tallySecondMoment;
         /// <summary>
-        /// constructor for reflectance as a function of rho and time detector input
+        /// constructor for reflectance as a function of rho and Time detector input
         /// </summary>
-        /// <param name="rho">rho binning</param>
-        /// <param name="time">time binning</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
-        /// <param name="name">detector name</param>
-        public ROfRhoAndTimeDetector(DoubleRange rho, DoubleRange time, bool tallySecondMoment, String name)
+        public ROfRhoAndTimeDetectorInput()
         {
-            Rho = rho;
-            Time = time;
-            _tallySecondMoment = tallySecondMoment;
-            Mean = new double[Rho.Count - 1, Time.Count - 1];
-            SecondMoment = null;
-            if (_tallySecondMoment)
-            {
-                SecondMoment = new double[Rho.Count - 1, Time.Count - 1];
-            }
-            TallyType = TallyType.ROfRhoAndTime;
-            Name = name;
-            TallyCount = 0;
+            TallyType = "ROfRhoAndTime";
+            Name = "ROfRhoAndTime";
+            Rho = new DoubleRange(0.0, 10, 101);
+            Time = new DoubleRange(0.0, 1.0, 101);
+
+            // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsReflectanceTally = true;
+            TallyDetails.IsCylindricalTally = true;
         }
 
         /// <summary>
-        /// Returns a default instance of ROfRhoAndTimeDetector (for serialization purposes only)
+        /// rho binning
         /// </summary>
-        public ROfRhoAndTimeDetector()
-            : this(
-            new DoubleRange(),  
-            new DoubleRange(),
-            true,
-            TallyType.ROfRhoAndTime.ToString())
+        public DoubleRange Rho { get; set; }
+        /// <summary>
+        /// Time binning
+        /// </summary>
+        public DoubleRange Time { get; set; }
+
+        public IDetector CreateDetector()
         {
+            return new ROfRhoAndTimeDetector
+            {
+                // required properties (part of DetectorInput/Detector base classes)
+                TallyType = this.TallyType,
+                Name = this.Name,
+                TallySecondMoment = this.TallySecondMoment,
+                TallyDetails = this.TallyDetails,
+
+                // optional/custom detector-specific properties
+                Rho = this.Rho,
+                Time = this.Time
+            };
         }
+    }
+    /// <summary>
+    /// Implements IDetector.  Tally for reflectance as a function  of Rho and Time.
+    /// This implementation works for Analog, DAW and CAW processing.
+    /// </summary>
+    public class ROfRhoAndTimeDetector : Detector, IDetector
+    {
+        /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
+        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
+        /// <summary>
+        /// rho binning
+        /// </summary>
+        public DoubleRange Rho { get; set; }
+        /// <summary>
+        /// Time binning
+        /// </summary>
+        public DoubleRange Time { get; set; }
+
+        /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
+        /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
         /// <summary>
         /// detector mean
         /// </summary>
@@ -60,26 +84,23 @@ namespace Vts.MonteCarlo.Detectors
         [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
 
-        /// <summary>
-        /// detector identifier
-        /// </summary>
-        public TallyType TallyType { get; set; }
-        /// <summary>
-        /// detector name, default uses TallyType, but can be user specified
-        /// </summary>
-        public String Name { get; set; }
+        /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
-        /// <summary>
-        /// rho binning
-        /// </summary>
-        public DoubleRange Rho { get; set; }
-        /// <summary>
-        /// time binning
-        /// </summary>
-        public DoubleRange Time { get; set; }
+
+        public void Initialize(ITissue tissue)
+        {
+            // assign any user-defined outputs (except arrays...we'll make those on-demand)
+            TallyCount = 0;
+
+            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
+            Mean = Mean ?? new double[Rho.Count - 1, Time.Count - 1];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, Time.Count - 1] : null);
+
+            // intialize any other necessary class fields here
+        }
 
         /// <summary>
         /// method to tally to detector
@@ -87,19 +108,18 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            var it = DetectorBinning.WhichBin(photon.DP.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
-
+            var it = DetectorBinning.WhichBin(photon.DP.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
+            
             Mean[ir, it] += photon.DP.Weight;
-            if (_tallySecondMoment)
+            if (TallySecondMoment)
             {
                 SecondMoment[ir, it] += photon.DP.Weight * photon.DP.Weight;
             }
             TallyCount++;
         }
-
         /// <summary>
-        /// method to normalize detector results after numPhotons launched
+        /// method to normalize detector results after all photons launched
         /// </summary>
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
@@ -111,12 +131,66 @@ namespace Vts.MonteCarlo.Detectors
                 {
                     var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                     Mean[ir, it] /= areaNorm * numPhotons;
-                    if (_tallySecondMoment)
+                    if (TallySecondMoment)
                     {
                         SecondMoment[ir, it] /= areaNorm * areaNorm * numPhotons;
                     }
                 }
             }
+        }
+        // this is to allow saving of large arrays separately as a binary file
+        public BinaryArraySerializer[] GetBinarySerializers()
+        {
+            return new []
+            {
+                new BinaryArraySerializer {
+                    DataArray = Mean,
+                    Name = "Mean",
+                    FileTag = "",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            for (int j = 0; j < Time.Count - 1; j++)
+                            {                                
+                                binaryWriter.Write(Mean[i, j]);
+                            }
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        Mean = Mean ?? new double[ Rho.Count - 1, Time.Count - 1];
+                        for (int i = 0; i <  Rho.Count - 1; i++) {
+                            for (int j = 0; j < Time.Count - 1; j++)
+                            {
+                               Mean[i, j] = binaryReader.ReadDouble(); 
+                            }
+                        }
+                    }
+                },
+                // return a null serializer, if we're not serializing the second moment
+                !TallySecondMoment ? null :  new BinaryArraySerializer {
+                    DataArray = SecondMoment,
+                    Name = "SecondMoment",
+                    FileTag = "_2",
+                    WriteData = binaryWriter => {
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            for (int j = 0; j < Time.Count - 1; j++)
+                            {
+                                binaryWriter.Write(SecondMoment[i, j]);
+                            }                            
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        SecondMoment = new double[ Rho.Count - 1, Time.Count - 1];
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            for (int j = 0; j < Time.Count - 1; j++)
+                            {
+                                SecondMoment[i, j] = binaryReader.ReadDouble();
+                            }                       
+			            }
+                    },
+                }
+            };
         }
 
         /// <summary>

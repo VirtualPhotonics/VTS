@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Controllers;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
@@ -27,11 +24,12 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             _detectorController = detectorController;
 
             // not sure following is best design
-            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyType == TallyType.RadianceOfRho).FirstOrDefault();
+            // todo: revisit design (dc 6/10/12)
+            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyDetails.IsInternalSurfaceTally).FirstOrDefault();
 
             if (dosimetryDetector != null)
             {
-                _zPlanePosition = ((RadianceOfRhoDetector) dosimetryDetector).ZDepth;
+                _zPlanePosition = ((dynamic) dosimetryDetector).ZDepth;
 
                 WillHitBoundary = dp =>
                                   dp.StateFlag.HasFlag(PhotonStateType.PseudoReflectedTissueBoundary) &&

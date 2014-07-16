@@ -1,0 +1,16 @@
+{
+  "TallyType": "ROfRhoAndTime",
+  "Name": "ROfRhoAndTime",
+  "TallyCount": 93,
+  "TallySecondMoment": "false",
+  "Rho": {
+    "Start": 0.0,
+    "Stop": 40.0,
+    "Count": 201
+  },
+  "Time": {
+    "Start": 0.0,
+    "Stop": 4.0,
+    "Count": 801
+  }
+}

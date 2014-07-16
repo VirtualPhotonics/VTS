@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.MonteCarlo.Interfaces;
-using System.Collections.Generic;
 
 namespace Vts.MonteCarlo.Sources.SourceProfiles
 {

@@ -1,9 +1,5 @@
-﻿using System;
-using Vts.Common;
+﻿using Vts.Common;
 using Vts.MonteCarlo.Interfaces;
-using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {

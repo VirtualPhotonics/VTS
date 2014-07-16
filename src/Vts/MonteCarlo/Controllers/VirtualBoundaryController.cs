@@ -1,15 +1,5 @@
- using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using Vts.Common;
-using Vts.IO;
-using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.IO;
-using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.VirtualBoundaries;
+ using System.Collections.Generic;
+ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Controllers
 {

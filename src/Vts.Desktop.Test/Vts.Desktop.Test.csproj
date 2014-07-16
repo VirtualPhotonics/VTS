@@ -56,7 +56,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MathNet.Numerics">
-      <HintPath>..\packages\MathNet.Numerics.2.4.0\lib\net40\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\packages\MathNet.Numerics.3.0.2\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics.IO">
       <HintPath>..\packages\MathNet.Numerics.2.4.0\lib\net40\MathNet.Numerics.IO.dll</HintPath>
@@ -142,6 +142,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\IO\FileIOTests.cs">
       <Link>IO\FileIOTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\IO\StreamFinderTests.cs">
+      <Link>IO\StreamFinderTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\IO\VtsJsonSerializerTests.cs">
       <Link>IO\VtsJsonSerializerTests.cs</Link>
@@ -257,6 +260,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
       <Link>MonteCarlo\Detectors\SpecularLayerDetectorTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Factories\DetectorProviderTests.cs">
+      <Link>MonteCarlo\Factories\DetectorProviderTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Helpers\SourceToolboxTests.cs">
       <Link>MonteCarlo\Helpers\SourceToolboxTests.cs</Link>
     </Compile>
@@ -320,6 +326,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\Vts.Test\Resources\embeddedresourcefile.txt">
+      <Link>Resources\embeddedresourcefile.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\folder\embeddedresourcefile.txt">
+      <Link>Resources\folder\embeddedresourcefile.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\resourcefile.txt">
+      <Link>Resources\resourcefile.txt</Link>
+    </EmbeddedResource>
     <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />
     <Content Include="App_Readme\MathNet.Numerics.readme.txt" />

@@ -1,9 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
-using Vts.Common;
-using Vts.MonteCarlo;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Factories

@@ -46,7 +46,7 @@
                         <TextBlock Text="{Binding Path=MainResource.Label_YAxisSpacing, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
                         <v:RadioButtonOptionView DataContext="{Binding YAxisSpacingOptionVM}" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0" Visibility="{Binding IsFtPlot, Converter={StaticResource myBooleanToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" Margin="0" Visibility="{Binding IsComplexPlot, Converter={StaticResource myBooleanToVisibilityConverter}}">
                         <TextBlock Text="{Binding Path=MainResource.Label_PlotToggle, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
                         <v:RadioButtonOptionView DataContext="{Binding PlotToggleTypeOptionVM}" />
                     </StackPanel>

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Controls;
-using System.Windows.Media;
 using System.Collections;
-using System.Windows.Controls.DataVisualization.Charting;
 using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.DataVisualization.Charting;
+using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {

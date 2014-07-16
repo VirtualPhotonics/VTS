@@ -1,5 +1,4 @@
 using System.Runtime.Serialization;
-using Vts.IO;
 
 namespace Vts.Modeling.ForwardSolvers
 {
@@ -21,39 +20,31 @@ namespace Vts.Modeling.ForwardSolvers
     /// <summary>
     /// Class where the reference values read from binary files in resources are stored.
     /// </summary>
-    [DataContract]
     public class NurbsValues
     {
         /// <summary>
         /// Physical dimension, space or time
         /// </summary>
-        [DataMember]
         public NurbsValuesDimensions ValuesDimensions{ get; set;}
         /// <summary>
         /// Knots vector
         /// </summary>
-        [DataMember]
         public double[] KnotVector { get; set; }
         /// <summary>
         /// Control Points
         /// </summary>
-        [DataMember]
         public double[] ControlPoints { get; set; }//used only in tests
         /// <summary>
         /// Max value along the physical dimension
         /// </summary>
-        [DataMember]
         public double MaxValue { get; set; }
         /// <summary>
         /// Degree
         /// </summary>
-        [DataMember]
         public int Degree { get; set; }
 
-        #region constructor
-
         /// <summary>
-        /// Constructor to instantiate a class to write XML file.
+        /// Constructor to instantiate a class to write JSON file.
         /// </summary>
         /// <param name="valuesDimension">physical dimension, space or time</param>
         /// <param name="knots">knots vector</param>
@@ -101,6 +92,11 @@ namespace Vts.Modeling.ForwardSolvers
             ControlPoints = controlPoints;
         }
 
-        #endregion constructor
+        /// <summary>
+        /// Default constructor to permit serialization
+        /// </summary>
+        public NurbsValues()
+        {
+        }
     }
 }

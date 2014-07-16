@@ -1,5 +1,3 @@
-using System.IO;
-using System.Runtime.Serialization;
 using NUnit.Framework;
 using Vts.MonteCarlo;
 
@@ -29,7 +27,6 @@ namespace Vts.Test.MonteCarlo
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.Bidirectional,
                 null,
-                false,
                 false,
                 0.0,
                 0);

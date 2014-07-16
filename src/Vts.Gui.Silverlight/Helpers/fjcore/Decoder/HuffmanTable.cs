@@ -4,11 +4,9 @@
 // Partially derives from a Java encoder, JpegEncoder.java by James R Weeks.
 // Implements Baseline JPEG Encoding http://www.opennet.ru/docs/formats/jpeg.txt
 
-using System;
-
-using FluxJpeg.Core.IO;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
+using FluxJpeg.Core.IO;
 
 namespace FluxJpeg.Core
 {
