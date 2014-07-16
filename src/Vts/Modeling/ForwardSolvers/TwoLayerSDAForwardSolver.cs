@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics;
+using System.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 using Vts.Extensions;
 using Vts.MonteCarlo;
@@ -138,8 +138,9 @@ namespace Vts.Modeling.ForwardSolvers
             // end debug code
 
             // FFT R(ft) to R(t)
-            var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
-            dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
+            //var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();            
+            //dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
+            Fourier.Radix2Inverse(rOfFt, FourierOptions.NoScaling); 
             var rOfTime = new double[FFTTimeSequence.Length];
             rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
@@ -174,8 +175,9 @@ namespace Vts.Modeling.ForwardSolvers
             }
 
             // FFT R(ft) to R(t)
-            var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
-            dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
+            //var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
+            //dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
+            Fourier.Radix2Inverse(rOfFt, FourierOptions.NoScaling);
             var rOfTime = new double[FFTTimeSequence.Length];
             rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
