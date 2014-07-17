@@ -7,7 +7,7 @@ classdef DetectorInput
             % detector name, defaults to 'ROfRho' but can be user specified
             input.Name = 'ROfRho';
             % boolean to specify if second moment should also be calculated
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             % boolean to specify if second moment should also be calculated
             input.TallyDetails = TallyDetails.Default();
             % detector rho binning
@@ -20,7 +20,7 @@ classdef DetectorInput
             end
             input.TallyType = 'AOfRhoAndZ';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Z = z;
@@ -32,7 +32,7 @@ classdef DetectorInput
             end
             input.TallyType = 'ATotal';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
         end
         % set default perturbed optical properties list to be consistent
@@ -44,7 +44,7 @@ classdef DetectorInput
             end
             input.TallyType = 'dMCdROfRhodMua';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.PerturbedOps = ...
@@ -61,7 +61,7 @@ classdef DetectorInput
             end
             input.TallyType = 'dMCdROfRhodMus';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.PerturbedOps = ...
@@ -78,7 +78,7 @@ classdef DetectorInput
             end
             input.TallyType = 'FluenceOfRhoAndZ';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Z = z;
@@ -90,7 +90,7 @@ classdef DetectorInput
             end
             input.TallyType = 'FluenceOfRhoAndZAndTime';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Z = z;
@@ -103,7 +103,7 @@ classdef DetectorInput
             end
             input.TallyType = 'FluenceOfXAndYAndZ';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.X = x;
             input.Y = y;
@@ -116,7 +116,7 @@ classdef DetectorInput
             end
             input.TallyType = 'RadianceOfRho';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
         end
@@ -127,7 +127,7 @@ classdef DetectorInput
             end
             input.TallyType = 'RadianceOfRhoAndZAndAngle';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Z = z;
@@ -140,7 +140,7 @@ classdef DetectorInput
             end
             input.TallyType = 'RDiffuse';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
         end
         
@@ -150,7 +150,7 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfAngle';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Angle = angle;
         end
@@ -161,7 +161,7 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfRho';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
         end
@@ -172,7 +172,7 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfRhoAndAngle';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Angle = angle;
@@ -184,7 +184,7 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfRhoAndOmega';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Omega = omega;
@@ -196,7 +196,7 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfRhoAndTime';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Time = t;
@@ -208,7 +208,7 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfFx';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Fx = fx;
         end
@@ -219,7 +219,7 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfFxAndTime';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Fx = fx;
             input.Time = t;
@@ -233,7 +233,7 @@ classdef DetectorInput
             end
             input.TallyType = 'pMCROfRho';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.PerturbedOps = ...
@@ -251,7 +251,7 @@ classdef DetectorInput
             end
             input.TallyType = 'pMCROfRhoAndTime';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Time = t;
@@ -270,7 +270,7 @@ classdef DetectorInput
             end
             input.TallyType = 'pMCROfFx';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Fx = fx;
             input.PerturbedOps = ...
@@ -288,7 +288,7 @@ classdef DetectorInput
             end
             input.TallyType = 'pMCROfFxAndTime';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Fx = fx;
             input.Time = t;
@@ -307,7 +307,7 @@ classdef DetectorInput
             end
             input.TallyType = 'ROfXAndY';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.X = x;
             input.Y = y;
@@ -319,7 +319,7 @@ classdef DetectorInput
             end
             input.TallyType = 'RSpecular';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
         end
         
@@ -329,7 +329,7 @@ classdef DetectorInput
             end
             input.TallyType = 'TDiffuse';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
         end
         
@@ -339,7 +339,7 @@ classdef DetectorInput
             end
             input.TallyType = 'TOfAngle';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Angle = angle;
         end
@@ -350,7 +350,7 @@ classdef DetectorInput
             end
             input.TallyType = 'TOfRho';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
         end
@@ -361,7 +361,7 @@ classdef DetectorInput
             end
             input.TallyType = 'TOfRhoAndAngle';
             input.Name = name;
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Angle = angle;

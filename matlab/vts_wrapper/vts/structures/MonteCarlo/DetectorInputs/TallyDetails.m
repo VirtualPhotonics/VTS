@@ -1,17 +1,17 @@
 classdef TallyDetails
     methods (Static)
         function details = Default()
-            details.IsReflectanceTally = 0;
-            details.IsTransmittanceTally = 0;
-            details.IsSpecularReflectanceTally = 0;
-            details.IsInternalSurfaceTally = 0;
-            details.IspMCReflectanceTally = 0;
-            details.IsDosimetryTally = 0;
-            details.IsVolumeTally = 0;
-            details.IsCylindricalTally = 0;
-            details.IsNotImplementedForDAW = 0;
-            details.IsNotImplementedForCAW = 0;
-            details.IsNotImplementedYet = 0;
+            details.IsReflectanceTally = false;
+            details.IsTransmittanceTally = false;
+            details.IsSpecularReflectanceTally = false;
+            details.IsInternalSurfaceTally = false;
+            details.IspMCReflectanceTally = false;
+            details.IsDosimetryTally = false;
+            details.IsVolumeTally = false;
+            details.IsCylindricalTally = false;
+            details.IsNotImplementedForDAW = false;
+            details.IsNotImplementedForCAW = false;
+            details.IsNotImplementedYet = false;
         end
         function details = FromDetailsNET(detailsNET)            
             details.IsReflectanceTally = detailsNET.IsReflectanceTally;
