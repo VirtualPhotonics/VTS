@@ -8,6 +8,7 @@
     xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" 
     xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions"
     xmlns:toolkit1="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    xmlns:client="clr-namespace:Microsoft.Silverlight.Testing.Client;assembly=Microsoft.Silverlight.Testing"
     VerticalAlignment="Top">
 
     <UserControl.DataContext>
@@ -77,12 +78,12 @@
                         <DataTemplate>
                             <Border BorderBrush="Gray" BorderThickness="1">
                                 <StackPanel Orientation="Horizontal">
-                                    <toolkit1:LayoutTransformer Margin="2,2,4,2" UseLayoutRounding="True" VerticalAlignment="Center">
-                                        <toolkit1:LayoutTransformer.LayoutTransform>
+                                    <client:LayoutTransformer Margin="2,2,4,2" UseLayoutRounding="True" VerticalAlignment="Center">
+                                        <client:LayoutTransformer.LayoutTransform>
                                             <RotateTransform Angle="-90"/>
-                                        </toolkit1:LayoutTransformer.LayoutTransform>
+                                        </client:LayoutTransformer.LayoutTransform>
                                         <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
-                                    </toolkit1:LayoutTransformer>
+                                    </client:LayoutTransformer>
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel Orientation="Horizontal" Visibility="{Binding IsLayer, Converter={StaticResource myBooleanToVisibilityConverter}}" >
                                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
