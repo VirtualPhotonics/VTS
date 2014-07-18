@@ -286,11 +286,16 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ForwardAnalysisTypeOptionVM.SelectedValue,
                     parameters);
 
-            // this all needs to change if we add multi-axis ranges
+            // this all needs to change if we add multi-axis ranges           
+            var independentValues = RangeVM.Values.ToArray();
+            var numPoints = ((OpticalProperties[])parameters[0]).Length *
+                (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength
+                    ? 1 : independentValues.Length);
+
             if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
-                var real = query.Take(independentValues.Length).ToArray();
-                var imag = query.Skip(independentValues.Length).Take(independentValues.Length).ToArray();
+                var real = reflectance.Take(independentValues.Length).ToArray();
+                var imag = reflectance.Skip(independentValues.Length).Take(independentValues.Length).ToArray();
 
                 return new[] {
                     Enumerable.Zip(

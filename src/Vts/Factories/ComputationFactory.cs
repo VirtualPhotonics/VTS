@@ -445,7 +445,6 @@ namespace Vts.Factories
             ForwardSolverType forwardSolverType,
             OptimizerType optimizerType,
             SolutionDomainType solutionDomainType,
-            IndependentVariableAxis independentAxisType,
             double[] independentValues,
             double[] dependentValues,
             double[] standardDeviationValues,
@@ -460,7 +459,6 @@ namespace Vts.Factories
                 SolverFactory.GetForwardSolver(forwardSolverType), 
                 SolverFactory.GetOptimizer(optimizerType),
                 solutionDomainType,
-                independentAxisType,
                 independentValues,
                 dependentValues,
                 standardDeviationValues,
@@ -473,11 +471,10 @@ namespace Vts.Factories
             IForwardSolver forwardSolver,
             IOptimizer optimizer,
             SolutionDomainType solutionDomainType,
-            IndependentVariableAxis independentAxisType,
             double[] independentValues,
             double[] dependentValues,
             double[] standardDeviationValues,
-            OpticalProperties opticalPropertyGuess,
+            OpticalProperties opticalPropertyGuess, // todo: make this an array
             InverseFitType inverseFitType,
             params double[] constantValues)
         {
@@ -486,12 +483,7 @@ namespace Vts.Factories
 
             var parametersToFit = GetParametersToFit(inverseFitType);
 
-            Func<double[], object[], double[]> func = GetForwardReflectanceFuncForOptimization(forwardSolver, solutionDomainType, independentAxisType);
-
-            // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
-            //var inputValues = IsComplexSolver(solutionDomainType) ?
-            //    (independentValues.Concat(independentValues)).Select(iv => (object) iv).ToList() :
-            //    independentValues.Select(iv => (object) iv).ToList();
+            Func<double[], object[], double[]> func = GetForwardReflectanceFuncForOptimization(forwardSolver, solutionDomainType);
 
             List<object> inputValues = new List<object>();
             inputValues.Add(independentValues);
@@ -504,226 +496,47 @@ namespace Vts.Factories
         
         private static Func<object[], double[]> GetForwardReflectanceFunc(IForwardSolver fs, SolutionDomainType type)
         {
-            //Func<double[], OpticalProperties> getOP = op => new OpticalProperties(op[0], op[1], op[2], op[3]);
-
-            // note: the following uses the convention that the independent variable(s) is (are) first in the forward data object array
-            // note: secondly, if there are multiple independent axes, they will be assigned in order of appearance in the method signature
-            
             switch (type)
             {
                 case SolutionDomainType.ROfRho:
                     return forwardData => fs.ROfRho(ops: (OpticalProperties[])forwardData[0], rhos: (double[])forwardData[1]);
-                    //switch (axes[0])
-                    //{
-                    //    case IndependentVariableAxis.Rho:
-                    //        return forwardData => fs.ROfRho(ops: (OpticalProperties[])forwardData[0], rhos: (double[])forwardData[1]);
-                    //    case IndependentVariableAxis.Wavelength:
-                    //        return forwardData => fs.ROfRho(ops: (OpticalProperties[])forwardData[0], rhos: (double[])forwardData[1]);
-                    //    //case IndependentVariableAxis.Wavelength:
-                    //    //    return (fitData, otherData) =>
-                    //    //    {
-                    //    //        var wv = (double[])otherData[0];
-                    //    //        var rho = (double)otherData[1];
-                    //    //        var tissue = (Tissue)otherData[2];
-                    //    //        var numAbsorbers = tissue.Absorbers.Count;
-                    //    //        tissue.Absorbers.ForEach((absorber, i) => absorber.Concentration = fitData[i]);
-                    //    //        var A = fitData[numAbsorbers + 0];
-                    //    //        var b = fitData[numAbsorbers + 1];
-                    //    //        tissue.Scatterer = new PowerLawScatterer(A, b);
-                    //    //        var ops = wv.Select(tissue.GetOpticalProperties).ToArray();
-                    //    //        return ops.Select(opi => fs.ROfRho(opi, rho)).ToArray();
-                    //    //    };
-                    //    default:
-                    //        throw new ArgumentOutOfRangeException("axes");
-                    //}
                 case SolutionDomainType.ROfFx:
                     return forwardData => fs.ROfFx(ops: (OpticalProperties[])forwardData[0], fxs: (double[])forwardData[1]);
-                    //switch (axes)
-                    //{
-                    //    case IndependentVariableAxis.Fx:
-                    //        return (fitData, otherData) => fs.ROfFx(getOP(fitData), (double[])otherData[0]);
-                    //    case IndependentVariableAxis.Wavelength:
-                    //        return (fitData, otherData) => fs.ROfFx(new[] { getOP(fitData) }, (double)otherData[1]); // a little wasteful to have to create an array? will use later?
-                    //    default:
-                    //        throw new ArgumentOutOfRangeException("axes");
-                    //}
                 case SolutionDomainType.ROfRhoAndTime:
                     return forwardData => fs.ROfRhoAndTime(ops: (OpticalProperties[])forwardData[0], rhos: (double[])forwardData[1], ts: (double[])forwardData[2]);
-                    //switch (axes)
-                    //{
-                    //    case IndependentVariableAxis.Rho:
-                    //        return (fitData, otherData) => fs.ROfRhoAndTime(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
-                    //    case IndependentVariableAxis.Time:
-                    //        return (fitData, otherData) => fs.ROfRhoAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
-                    //    case IndependentVariableAxis.Wavelength:
-                    //        return (fitData, otherData) => fs.ROfRhoAndTime(new []{ getOP(fitData) }, (double)otherData[1], (double)otherData[2]);
-                    //        //return (chromPlusMusp, constantData) =>
-                    //        //           {
-                    //        //               var wv = (double[]) constantData[0];
-                    //        //               var tissue = (Tissue) constantData[1];
-                    //        //               int i = 0;
-                    //        //               tissue.Absorbers.ForEach(abs => abs.Concentration = chromPlusMusp[i++]);
-                    //        //               tissue.Scatterer = new PowerLawScatterer(chromPlusMusp[i], chromPlusMusp[i + 1]);
-                    //        //               var muas = wv.Select(w => tissue.GetMua(w)); 
-                    //        //               var musps = wv.Select(w => tissue.GetMusp(w));
-                    //        //               return EnumerableExtensions.Zip(muas,musps,(mua,musp)=>fs.ROfRhoAndTime())...
-                    //        //           }; 
-                    //        //return op => fs.ROfRhoAndTime(op, ((double)constantValues[0]).AsEnumerable(), ((double)constantValues[1]).AsEnumerable());
-                    //    default:
-                    //        throw new ArgumentOutOfRangeException("axes");
-                    //}
                 case SolutionDomainType.ROfFxAndTime:
                     return forwardData => fs.ROfFxAndTime(ops: (OpticalProperties[])forwardData[0], fxs: (double[])forwardData[1], ts: (double[])forwardData[2]);
-                    //switch (axes)
-                    //{
-                    //    case IndependentVariableAxis.Fx:
-                    //        return (fitData, otherData) => fs.ROfFxAndTime(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
-                    //    case IndependentVariableAxis.Time:
-                    //        return (fitData, otherData) => fs.ROfFxAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
-                    //    case IndependentVariableAxis.Wavelength:
-                    //        return (fitData, otherData) => fs.ROfFxAndTime(new[] { getOP(fitData) }, (double)otherData[1], (double)otherData[2]);
-                    //    default:
-                    //        throw new ArgumentOutOfRangeException("axes");
-                    //}
                 case SolutionDomainType.ROfRhoAndFt:
                     return forwardData => fs.ROfRhoAndFt(ops: (OpticalProperties[])forwardData[0], rhos: (double[])forwardData[1], fts: (double[])forwardData[2]).FlattenRealAndImaginary();
-
-                    //switch (axes)
-                    //{
-                    //    case IndependentVariableAxis.Rho:
-                    //        return (fitData, otherData) => fs.ROfRhoAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
-                    //    case IndependentVariableAxis.Ft:
-                    //        return (fitData, otherData) => fs.ROfRhoAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
-                    //    case IndependentVariableAxis.Wavelength:
-                    //        return (fitData, otherData) => fs.ROfRhoAndFt(new[] { getOP(fitData) }, (double)otherData[1], (double)otherData[2]).FlattenRealAndImaginary();
-                    //    default:
-                //        throw new ROfFxAndFt("axes");
-                    //}
                 case SolutionDomainType.ROfFxAndFt:
                     return forwardData => fs.ROfFxAndFt(ops: (OpticalProperties[])forwardData[0], fxs: (double[])forwardData[1], fts: (double[])forwardData[2]).FlattenRealAndImaginary();
-                    //switch (axes)
-                    //{
-                    //    case IndependentVariableAxis.Fx:
-                    //        return (fitData, otherData) => fs.ROfFxAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
-                    //    case IndependentVariableAxis.Ft:
-                    //        return (fitData, otherData) => fs.ROfFxAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
-                    //    case IndependentVariableAxis.Wavelength:
-                    //        return (fitData, otherData) => fs.ROfFxAndFt(new[] { getOP(fitData) }, (double)otherData[1], (double)otherData[2]).FlattenRealAndImaginary();
-                    //    default:
-                    //        throw new ArgumentOutOfRangeException("axes");
-                    //}
                 default:
                     throw new ArgumentOutOfRangeException("type");
             }
         }
 
         private static Func<double[], object[], double[]> GetForwardReflectanceFuncForOptimization(
-           IForwardSolver fs, SolutionDomainType type, IndependentVariableAxis axis)
+           IForwardSolver fs, SolutionDomainType type)
         {
-            Func<double[], OpticalProperties> getOP = op => new OpticalProperties(op[0], op[1], op[2], op[3]);
-
-            // note: the following uses the convention that the independent variable(s) is (are) first in the forward data object array
-            // note: secondly, if there are multiple independent axes, they will be assigned in order of appearance in the method signature
-
-            switch (type)
+            Func<double[], OpticalProperties[]> getOP = ops =>
             {
-                case SolutionDomainType.ROfRho:
-                    switch (axis)
-                    {
-                        case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.ROfRho(ops: new[] { getOP(fitData) }, rhos: (double[])otherData[0]);
-                        case IndependentVariableAxis.Wavelength:
-                            return (fitData, otherData) => fs.ROfRho(new[] { getOP(fitData) }, (double)otherData[1]); // a little wasteful to have to create an array? will use later?
-                        //case IndependentVariableAxis.Wavelength:
-                        //    return (fitData, otherData) =>
-                        //    {
-                        //        var wv = (double[])otherData[0];
-                        //        var rho = (double)otherData[1];
-                        //        var tissue = (Tissue)otherData[2];
-                        //        var numAbsorbers = tissue.Absorbers.Count;
-                        //        tissue.Absorbers.ForEach((absorber, i) => absorber.Concentration = fitData[i]);
-                        //        var A = fitData[numAbsorbers + 0];
-                        //        var b = fitData[numAbsorbers + 1];
-                        //        tissue.Scatterer = new PowerLawScatterer(A, b);
-                        //        var ops = wv.Select(tissue.GetOpticalProperties).ToArray();
-                        //        return ops.Select(opi => fs.ROfRho(opi, rho)).ToArray();
-                        //    };
-                        default:
-                            throw new ArgumentOutOfRangeException("axes");
-                    }
-                case SolutionDomainType.ROfFx:
-                    switch (axis)
-                    {
-                        case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.ROfFx(getOP(fitData), (double[])otherData[0]);
-                        case IndependentVariableAxis.Wavelength:
-                            return (fitData, otherData) => fs.ROfFx(new[] { getOP(fitData) }, (double)otherData[1]); // a little wasteful to have to create an array? will use later?
-                        default:
-                            throw new ArgumentOutOfRangeException("axis");
-                    }
-                case SolutionDomainType.ROfRhoAndTime:
-                    switch (axis)
-                    {
-                        case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.ROfRhoAndTime(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
-                        case IndependentVariableAxis.Time:
-                            return (fitData, otherData) => fs.ROfRhoAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
-                        case IndependentVariableAxis.Wavelength:
-                            return (fitData, otherData) => fs.ROfRhoAndTime(new[] { getOP(fitData) }, (double)otherData[1], (double)otherData[2]);
-                        //return (chromPlusMusp, constantData) =>
-                        //           {
-                        //               var wv = (double[]) constantData[0];
-                        //               var tissue = (Tissue) constantData[1];
-                        //               int i = 0;
-                        //               tissue.Absorbers.ForEach(abs => abs.Concentration = chromPlusMusp[i++]);
-                        //               tissue.Scatterer = new PowerLawScatterer(chromPlusMusp[i], chromPlusMusp[i + 1]);
-                        //               var muas = wv.Select(w => tissue.GetMua(w)); 
-                        //               var musps = wv.Select(w => tissue.GetMusp(w));
-                        //               return EnumerableExtensions.Zip(muas,musps,(mua,musp)=>fs.ROfRhoAndTime())...
-                        //           }; 
-                        //return op => fs.ROfRhoAndTime(op, ((double)constantValues[0]).AsEnumerable(), ((double)constantValues[1]).AsEnumerable());
-                        default:
-                            throw new ArgumentOutOfRangeException("axis");
-                    }
-                case SolutionDomainType.ROfFxAndTime:
-                    switch (axis)
-                    {
-                        case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.ROfFxAndTime(getOP(fitData), (double[])otherData[0], (double)otherData[1]);
-                        case IndependentVariableAxis.Time:
-                            return (fitData, otherData) => fs.ROfFxAndTime(getOP(fitData), (double)otherData[1], (double[])otherData[0]);
-                        case IndependentVariableAxis.Wavelength:
-                            return (fitData, otherData) => fs.ROfFxAndTime(new[] { getOP(fitData) }, (double)otherData[1], (double)otherData[2]);
-                        default:
-                            throw new ArgumentOutOfRangeException("axis");
-                    }
-                case SolutionDomainType.ROfRhoAndFt:
-                    switch (axis)
-                    {
-                        case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.ROfRhoAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
-                        case IndependentVariableAxis.Ft:
-                            return (fitData, otherData) => fs.ROfRhoAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
-                        case IndependentVariableAxis.Wavelength:
-                            return (fitData, otherData) => fs.ROfRhoAndFt(new[] { getOP(fitData) }, (double)otherData[1], (double)otherData[2]).FlattenRealAndImaginary();
-                        default:
-                            throw new ArgumentOutOfRangeException("axis");
-                    }
-                case SolutionDomainType.ROfFxAndFt:
-                    switch (axis)
-                    {
-                        case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.ROfFxAndFt(getOP(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
-                        case IndependentVariableAxis.Ft:
-                            return (fitData, otherData) => fs.ROfFxAndFt(getOP(fitData), (double)otherData[1], (double[])otherData[0]).FlattenRealAndImaginary();
-                        case IndependentVariableAxis.Wavelength:
-                            return (fitData, otherData) => fs.ROfFxAndFt(new[] { getOP(fitData) }, (double)otherData[1], (double)otherData[2]).FlattenRealAndImaginary();
-                        default:
-                            throw new ArgumentOutOfRangeException("axis");
-                    }
-                default:
-                    throw new ArgumentOutOfRangeException("type");
-            }
+                var nOp = ops.Length/4;
+                var opArray = new OpticalProperties[nOp];
+                for (int opi = 0; opi < nOp; opi++)
+                {
+                    opArray[opi] = new OpticalProperties(ops[opi * nOp], ops[opi * nOp + 1], ops[opi * nOp + 2], ops[opi * nOp + 3]);
+                }
+                return opArray;
+            };
+
+            Func<object[], double[]> forwardReflectanceFunc = GetForwardReflectanceFunc(fs, type);
+
+            return (fitData, otherData) =>
+            {
+                // place optical property array in the first position, and the rest following
+                var forwardData = ((object)getOP(fitData)).AsEnumerable().Concat(otherData).ToArray();
+                return forwardReflectanceFunc(forwardData);
+            };
         }
 
         // todo: array overloads for fluence forward solvers too

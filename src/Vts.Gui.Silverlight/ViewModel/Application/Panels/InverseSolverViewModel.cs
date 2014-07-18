@@ -618,7 +618,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                 InverseForwardSolverTypeOptionVM.SelectedValue,
                 OptimizerTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
-                SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
                 independentValues,
                 dependentValues,
                 dependentValues, // set standard deviation, sd, to measured (works w/ or w/o noise)
