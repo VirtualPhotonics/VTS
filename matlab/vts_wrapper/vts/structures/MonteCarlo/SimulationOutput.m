@@ -75,7 +75,7 @@ classdef SimulationOutput
                         end
                 end
 %                 detectorOutput.Mean = NET.convertArray(valuesNET(i).Mean, 'System.Double');
-                if(outputNET.Input.Options.TallySecondMoment && ~isempty(valuesNET(1).SecondMoment))
+                if(~isempty(valuesNET(1).SecondMoment))
 %                     detectorOutput.SecondMoment = zeros([nValues 1]);
 %                     for j=1:nValues
 %                         detectorOutput.SecondMoment(j) = valuesNET(i).SecondMoment(j);
