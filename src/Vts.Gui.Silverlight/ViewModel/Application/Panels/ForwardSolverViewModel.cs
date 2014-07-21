@@ -5,7 +5,9 @@ using System.Numerics;
 using MathNet.Numerics;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using SLExtensions;
 using SLExtensions.Input;
+using Vts.Extensions;
 using Vts.Factories;
 using Vts.Gui.Silverlight.Extensions;
 using Vts.Gui.Silverlight.Input;
@@ -367,120 +369,97 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
             var parameters = GetParametersInOrder();
 
-            //// test code
-            //var methodInfo = typeof(IForwardSolver).GetMethod("ROfRho");
-            //var result = methodInfo.Invoke(SolverFactory.GetForwardSolver(ForwardSolverType.PointSourceSDA), parameters.ToArray());
-            //Console.WriteLine(result);
-
             double[] reflectance = ComputationFactory.ComputeReflectance(
                     ForwardSolverTypeOptionVM.SelectedValue,
                     SolutionDomainTypeOptionVM.SelectedValue,
                     ForwardAnalysisTypeOptionVM.SelectedValue,
                     parameters);
+                    
+            var primaryIdependentValues = RangeVM.Values.ToArray();
+            var numPointsPerCurve = primaryIdependentValues.Length;
+            var numCurves =
+                (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue)
+                    ? reflectance.Length/2 : reflectance.Length)
+                / numPointsPerCurve;
 
-            // this all needs to change if we add multi-axis ranges           
-            var independentValues = RangeVM.Values.ToArray();
-            var numPoints = ((OpticalProperties[])parameters[0]).Length *
-                (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength
-                    ? 1 : independentValues.Length);
-
-            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
+            long globalIndex = 0;
+            var points = new Point[numCurves][];
+            for (int j = 0; j < numCurves; j++)
             {
-                var real = reflectance.Take(independentValues.Length).ToArray();
-                var imag = reflectance.Skip(independentValues.Length).Take(independentValues.Length).ToArray();
-
-                return new[] {
-                    Enumerable.Zip(
-                        independentValues,
-                        real,
-                        (x, y) => new Point(x, y)).ToArray(),
-                    Enumerable.Zip(
-                        independentValues,
-                        imag, 
-                        (x, y) => new Point(x, y)).ToArray()
-                };
-            }
-            else
-            {
-                var points = new[] { new Point[numPoints] };
-                for (int i = 0; i < numPoints; i++)
+                points[j] = new Point[numPointsPerCurve];
+                for (int i = 0; i < numPointsPerCurve; i++, globalIndex++)
                 {
-                    points[0][i] = new Point(independentValues[i], reflectance[i]);
+                    points[j][i] = new Point(primaryIdependentValues[i], reflectance[globalIndex]);
                 }
-                return points;
+            }
+            return points;
+        }
+
+        private int GetParameterOrder(IndependentVariableAxis axis)
+        {
+            switch (axis)
+            {
+                case IndependentVariableAxis.Wavelength:
+                    return 0;
+                case IndependentVariableAxis.Rho:
+                    return 1;
+                case IndependentVariableAxis.Fx:
+                    return 1;
+                case IndependentVariableAxis.Time:
+                    return 2;
+                case IndependentVariableAxis.Ft:
+                    return 2;
+                case IndependentVariableAxis.Z:
+                    return 3;
+                default:
+                    throw new ArgumentOutOfRangeException("axis");
             }
         }
 
         private object[] GetParametersInOrder()
         {
-            var opticalProperties = GetOpticalProperties();
-
-            var parameters = new List<object>
+            Func<IndependentVariableAxis, int, object> getIVParameter = (iv, idx) =>
             {
-                opticalProperties
+                switch (idx)
+                {
+                    case 0:
+                    default:
+                        return RangeVM.Values.ToArray();
+                    case 1:
+                        return RangeTwoVM.Values.ToArray();
+                    case 2:
+                        return RangeThreeVM.Values.ToArray();
+                }
             };
 
-            switch (SolutionDomainTypeOptionVM.SelectedValue)
+            Func<IndependentVariableAxis, int, object> getConstantParameter = (iv, idx) =>
             {
-                case SolutionDomainType.ROfRho:
-                case SolutionDomainType.ROfFx:
-                    switch (SolutionDomainTypeOptionVM.IndependentAxisType)
-                    {
-                        case IndependentVariableAxis.Rho:
-                        case IndependentVariableAxis.Fx:
-                            parameters.Add(RangeVM.Values.ToArray());
-                            break;
-                        case IndependentVariableAxis.Wavelength:
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                    if (SolutionDomainTypeOptionVM.AllowMultiAxis)
-                    {
-                        switch (SolutionDomainTypeOptionVM.IndependentAxisTwoType)
-                        {
-                            case IndependentVariableAxis.Rho:
-                            case IndependentVariableAxis.Fx:
-                                parameters.Add(RangeVM.Values.ToArray());
-                                break;
-                            case IndependentVariableAxis.Wavelength:
-                                parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                    }
-                    break;
-                case SolutionDomainType.ROfRhoAndTime:
-                case SolutionDomainType.ROfFxAndTime:
-                case SolutionDomainType.ROfRhoAndFt:
-                case SolutionDomainType.ROfFxAndFt:
-                    switch (SolutionDomainTypeOptionVM.IndependentAxisType)
-                    {
-                        case IndependentVariableAxis.Rho:
-                        case IndependentVariableAxis.Fx:
-                            parameters.Add(RangeVM.Values.ToArray());
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
-                            break;
-                        case IndependentVariableAxis.Time:
-                        case IndependentVariableAxis.Ft:
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
-                            parameters.Add(RangeVM.Values.ToArray());
-                            break;
-                        case IndependentVariableAxis.Wavelength:
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisTwoValue });
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                switch (idx)
+                {
+                    case 0:
+                    default:
+                        return new [] {SolutionDomainTypeOptionVM.ConstantAxisValue};
+                    case 1:
+                        return new[] { SolutionDomainTypeOptionVM.ConstantAxisTwoValue };
+                    //case 2:
+                    //    return new[] { SolutionDomainTypeOptionVM.ConstantAxisThreeValue };
+                }
+            };
+            
+            // get all parameters to get arrays of
+            // then, for each one, decide if it's an IV or a constant
+            // then, call the appropriate parameter generator, defined above
+            IEnumerable<object> allParameters = from iv in Enumerable.Concat(
+                SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues,
+                SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues)
+                where iv != IndependentVariableAxis.Wavelength
+                orderby GetParameterOrder(iv) descending 
+                let isConstant = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.Contains(iv)
+                select isConstant 
+                        ? getConstantParameter(iv, SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.IndexOf(iv))
+                        : getIVParameter(iv, SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.IndexOf(iv));
 
-            return parameters.ToArray();
+            return ((object)GetOpticalProperties()).AsEnumerable().Concat(allParameters).ToArray();
         }
 
         private OpticalProperties[] GetOpticalProperties()
@@ -491,7 +470,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 SolverDemoViewModel.Current.SpectralMappingVM != null)
             {
                 var tissue = SolverDemoViewModel.Current.SpectralMappingVM.SelectedTissue;
-                return tissue.GetOpticalProperties(RangeVM.Values.ToArray());
+                return tissue.GetOpticalProperties(RangeVM.Values.ToArray()); // this should really depend on the IVs, but in practice, it's always first
             }
 
             return new[] { OpticalPropertyVM.GetOpticalProperties() };
