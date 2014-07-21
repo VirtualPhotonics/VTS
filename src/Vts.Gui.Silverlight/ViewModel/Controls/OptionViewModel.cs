@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Vts.Gui.Silverlight.Model;
 
 namespace Vts.Gui.Silverlight.ViewModel
@@ -17,6 +18,10 @@ namespace Vts.Gui.Silverlight.ViewModel
         private bool _ShowTitle;
         private string _GroupName;
         private bool _enableMultiSelect;
+        private TValue[] _selectedValues;
+        private string[] _selectedDisplayNames;
+        private TValue[] _unSelectedValues;
+        private string[] _unSelectedDisplayNames;
         //private ReadOnlyCollection<OptionModel<TValue>> _Options;
         private Dictionary<TValue, OptionModel<TValue>> _Options;
         //private Dictionary<TValue, Dictionary<TValue, OptionModel<TValue>>> _SubOptions;
@@ -32,6 +37,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             Options = OptionModel<TValue>.CreateAvailableOptions(OnOptionPropertyChanged, groupName, initialValue, allValues, _enableMultiSelect);
 
             SelectedValue = initialValue;
+
+            UpdateOptionsNamesAndValues();
         }
 
         public OptionViewModel(string groupName, bool showTitle, TValue[] allValues)
@@ -73,6 +80,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 this.OnPropertyChanged("SelectedValue");
             }
         }
+
         public string SelectedDisplayName
         {
             get { return _SelectedDisplayName; }
@@ -113,6 +121,47 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
+        // todo: created this in parallel with SelectedValue, so as not to break other code. need to merge functionality across codebase to use this version
+        public TValue[] SelectedValues
+        {
+            get { return _selectedValues; }
+            set
+            {
+                _selectedValues = value;
+                this.OnPropertyChanged("SelectedValues");
+            }
+        }
+
+        public string[] SelectedDisplayNames
+        {
+            get { return _selectedDisplayNames; }
+            set
+            {
+                _selectedDisplayNames = value;
+                this.OnPropertyChanged("SelectedDisplayNames");
+            }
+        }
+
+        public TValue[] UnSelectedValues
+        {
+            get { return _unSelectedValues; }
+            set
+            {
+                _unSelectedValues = value;
+                this.OnPropertyChanged("UnSelectedValues");
+            }
+        }
+
+        public string[] UnSelectedDisplayNames
+        {
+            get { return _unSelectedDisplayNames; }
+            set
+            {
+                _unSelectedDisplayNames = value;
+                this.OnPropertyChanged("UnSelectedDisplayNames");
+            }
+        }
+
         //public ReadOnlyCollection<OptionViewModel<TValue>> Options
         public Dictionary<TValue, OptionModel<TValue>> Options
         {
@@ -132,6 +181,28 @@ namespace Vts.Gui.Silverlight.ViewModel
                 this.SelectedValue = option.Value;
                 this.SelectedDisplayName = option.DisplayName;
             }
+
+            UpdateOptionsNamesAndValues();
+        }
+
+        private void UpdateOptionsNamesAndValues()
+        {
+            if (_Options == null)
+                return;
+
+            // todo: created these in parallel with SelectedValue, so as not to break other code. need to merge functionality across codebase to use SelectedValues
+            var selectedOptions = (from o in _Options where o.Value.IsSelected select o.Value).ToArray();
+            var unSelectedOptions = (from o in _Options where !o.Value.IsSelected select o.Value).ToArray();
+
+            // update arrays and explicitly fire property changed, so we don't trip on intermediate changes 
+            _selectedValues = selectedOptions.Select(item => item.Value).ToArray();
+            _selectedDisplayNames = selectedOptions.Select(item => item.DisplayName).ToArray();
+            _unSelectedValues = unSelectedOptions.Select(item => item.Value).ToArray();
+            _unSelectedDisplayNames = unSelectedOptions.Select(item => item.DisplayName).ToArray();
+            this.OnPropertyChanged("SelectedValues");
+            this.OnPropertyChanged("SelectedDisplayNames");
+            this.OnPropertyChanged("UnSelectedValues");
+            this.OnPropertyChanged("UnSelectedDisplayNames");
         }
     }
 }

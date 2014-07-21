@@ -26,6 +26,12 @@
         <StackPanel Visibility="{Binding ShowIndependentVariable, Converter={StaticResource myBooleanToVisibilityConverter}}">
             <v:RangeView DataContext="{Binding RangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
         </StackPanel>
+        <StackPanel Visibility="{Binding ShowIndependentVariableTwo, Converter={StaticResource myBooleanToVisibilityConverter}}">
+            <v:RangeView DataContext="{Binding RangeTwoVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
+        </StackPanel>
+        <StackPanel Visibility="{Binding ShowIndependentVariableThree, Converter={StaticResource myBooleanToVisibilityConverter}}">
+            <v:RangeView DataContext="{Binding RangeThreeVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
+        </StackPanel>
         <!-- Optical Properties -->
         <StackPanel Visibility="{Binding ShowOpticalProperties, Converter={StaticResource myBooleanToVisibilityConverter}}">
             <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
