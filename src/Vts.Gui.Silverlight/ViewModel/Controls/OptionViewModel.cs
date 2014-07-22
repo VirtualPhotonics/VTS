@@ -191,14 +191,26 @@ namespace Vts.Gui.Silverlight.ViewModel
                 return;
 
             // todo: created these in parallel with SelectedValue, so as not to break other code. need to merge functionality across codebase to use SelectedValues
-            var selectedOptions = (from o in _Options where o.Value.IsSelected select o.Value).ToArray();
-            var unSelectedOptions = (from o in _Options where !o.Value.IsSelected select o.Value).ToArray();
+            var selectedOptions = (from o in _Options where o.Value.IsSelected select o).ToArray();
+            var unSelectedOptions = (from o in _Options where !o.Value.IsSelected select o).ToArray();
+
+            // commented code, not working (want to keep someone from unchecking the last box)
+            //// if there are no options selected, force the first unselected option to be selected
+            //if (EnableMultiSelect && selectedOptions.Length == 0)
+            //{
+            //    var defaultSelection = unSelectedOptions.First();
+            //    selectedOptions = new[] {defaultSelection};
+            //    unSelectedOptions = unSelectedOptions.Skip(1).ToArray();
+
+            //    // trigger the property changed event to update everything
+            //    defaultSelection.Value.IsSelected = true;
+            //}
 
             // update arrays and explicitly fire property changed, so we don't trip on intermediate changes 
-            _selectedValues = selectedOptions.Select(item => item.Value).ToArray();
-            _selectedDisplayNames = selectedOptions.Select(item => item.DisplayName).ToArray();
-            _unSelectedValues = unSelectedOptions.Select(item => item.Value).ToArray();
-            _unSelectedDisplayNames = unSelectedOptions.Select(item => item.DisplayName).ToArray();
+            _selectedValues = selectedOptions.Select(item => item.Value.Value).ToArray();
+            _selectedDisplayNames = selectedOptions.Select(item => item.Value.DisplayName).ToArray();
+            _unSelectedValues = unSelectedOptions.Select(item => item.Value.Value).ToArray();
+            _unSelectedDisplayNames = unSelectedOptions.Select(item => item.Value.DisplayName).ToArray();
             this.OnPropertyChanged("SelectedValues");
             this.OnPropertyChanged("SelectedDisplayNames");
             this.OnPropertyChanged("UnSelectedValues");

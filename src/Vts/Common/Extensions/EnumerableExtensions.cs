@@ -33,6 +33,18 @@ namespace Vts.Extensions
         }
 
         /// <summary>
+        /// Extension method to create a dictionary from key-value pairs
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="keyValuePairs"></param>
+        /// <returns></returns>
+        public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> keyValuePairs)
+        {
+            return keyValuePairs.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        }
+
+        /// <summary>
         /// 2D array overload of the LINQ Select operator with x and y indexers
         /// </summary>
         /// <typeparam name="T"></typeparam>

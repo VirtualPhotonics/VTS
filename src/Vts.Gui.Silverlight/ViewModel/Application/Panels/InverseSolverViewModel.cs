@@ -480,11 +480,11 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     complexPoints.Add(new ComplexPoint(real[i].X, new Complex(real[i].Y, imag[i].Y)));
                 }
-                Commands.Plot_PlotValues.Execute(new PlotData(complexPoints, plotLabel));
+                Commands.Plot_PlotValues.Execute(new PlotData(new []{ complexPoints.ToArray() }, plotLabel));
             }
             else
             {
-                Commands.Plot_PlotValues.Execute(new PlotData(points.First(), plotLabel));
+                Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
             }
         }
 

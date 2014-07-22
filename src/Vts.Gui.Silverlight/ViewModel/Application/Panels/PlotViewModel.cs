@@ -478,56 +478,65 @@ namespace Vts.Gui.Silverlight.ViewModel
         }
 
         //static int labelCounter = 0;
-        private void AddValuesToPlotData(IList<Point> points, string title)
+        private void AddValuesToPlotData(Point[][] curves, string title)
         {
             if (!_HoldOn)
             {
                 ClearPlot();
             }
 
-            DataSeriesCollection.Add(points);
-
-            var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
-            Labels.Add(title + customLabel); // has to happen before updating the bound collection
+            foreach (var points in curves)
+            {
+                DataSeriesCollection.Add(points);
+                var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
+                Labels.Add(title + customLabel); // has to happen before updating the bound collection
+            }
 
             PlotTitles.Add(Title);
 
             UpdatePlotSeries();
         }
-        private void AddValuesToPlotData(IList<ComplexPoint> points, string title)
+        private void AddValuesToPlotData(ComplexPoint[][] curves, string title)
         {
             if (!_HoldOn)
             {
                 ClearPlot();
             }
-            // default data stored in DataSeriesCollection is real/imag
-            var realPoints = new List<Point>();
-            var imagPoints = new List<Point>();
-            // store phase/amp values in DataSerieCollectionToggle
-            var phasePoints = new List<Point>();
-            var ampPoints = new List<Point>();
-            foreach (var point in points)
+
+            foreach (var points in curves)
             {
-                realPoints.Add(new Point(point.X, point.Y.Real));
-                imagPoints.Add(new Point(point.X, point.Y.Imaginary));
-                phasePoints.Add(new Point(point.X, -Math.Atan2(point.Y.Imaginary, point.Y.Real) * (180 / Math.PI)));
-                ampPoints.Add(new Point(point.X, Math.Sqrt(point.Y.Real * point.Y.Real + point.Y.Imaginary * point.Y.Imaginary)));
+                // default data stored in DataSeriesCollection is real/imag
+                var realPoints = new List<Point>();
+                var imagPoints = new List<Point>();
+                // store phase/amp values in DataSerieCollectionToggle
+                var phasePoints = new List<Point>();
+                var ampPoints = new List<Point>();
+                foreach (var point in points)
+                {
+                    realPoints.Add(new Point(point.X, point.Y.Real));
+                    imagPoints.Add(new Point(point.X, point.Y.Imaginary));
+                    phasePoints.Add(new Point(point.X, -Math.Atan2(point.Y.Imaginary, point.Y.Real)*(180/Math.PI)));
+                    ampPoints.Add(new Point(point.X,
+                        Math.Sqrt(point.Y.Real*point.Y.Real + point.Y.Imaginary*point.Y.Imaginary)));
+                }
+                // store real data
+                DataSeriesCollection.Add(realPoints);
+                var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
+                RealImagLabels.Add(title + "\r(real)" + customLabel);
+                    // has to happen before updating the bound collection
+                PlotTitles.Add(Title);
+                // store phase data prior to updating plot
+                DataSeriesCollectionToggle.Add(phasePoints);
+                PhaseLabels.Add(title + "\r(phase)" + customLabel);
+                //UpdatePlotSeries();
+                // store imag data
+                DataSeriesCollection.Add(imagPoints);
+                RealImagLabels.Add(title + "\r(imag)" + customLabel);
+                // store amplitude data prior to updating plot
+                DataSeriesCollectionToggle.Add(ampPoints);
+                AmplitudeLabels.Add(title + "\r(amp)" + customLabel);
             }
-            // store real data
-            DataSeriesCollection.Add(realPoints);
-            var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
-            RealImagLabels.Add(title + "\r(real)" + customLabel); // has to happen before updating the bound collection
-            PlotTitles.Add(Title); 
-            // store phase data prior to updating plot
-            DataSeriesCollectionToggle.Add(phasePoints);
-            PhaseLabels.Add(title + "\r(phase)" + customLabel);
-            UpdatePlotSeries();
-            // store imag data
-            DataSeriesCollection.Add(imagPoints);
-            RealImagLabels.Add(title + "\r(imag)" + customLabel);
-            // store amplitude data prior to updating plot
-            DataSeriesCollectionToggle.Add(ampPoints);
-            AmplitudeLabels.Add(title + "\r(amp)" + customLabel);
+
             UpdatePlotSeries();
         }
 
@@ -606,16 +615,17 @@ namespace Vts.Gui.Silverlight.ViewModel
                         break;
                 }
             }
+            var normToCurve =
+                PlotNormalizationTypeOptionVM.SelectedValue == PlotNormalizationType.RelativeToCurve
+                && DataSeriesCollection.Count > 1;
+            var normToMax =
+                PlotNormalizationTypeOptionVM.SelectedValue == PlotNormalizationType.RelativeToMax
+                && DataSeriesCollection.Count > 0;
 
             // now this computes O(M*N) regardless...yuck
             var normalizationPoints =
                 (from ds in tempDSC
-                 let normToCurve =
-                    PlotNormalizationTypeOptionVM.SelectedValue == PlotNormalizationType.RelativeToCurve
-                    && DataSeriesCollection.Count > 1
-                 let normToMax =
-                    PlotNormalizationTypeOptionVM.SelectedValue == PlotNormalizationType.RelativeToMax
-                    && DataSeriesCollection.Count > 0
+
                  let maxValue = ds.Select(p => p.Y).Max()
                  select tempDSC[normCurveNumber].Select(p =>
                         normToCurve ? p.Y : normToMax ? maxValue : 1.0)).ToList();

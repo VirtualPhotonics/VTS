@@ -96,13 +96,13 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                     if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length == 2)
                     {
-                        RangeVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[0] == IndependentVariableAxis.Wavelength
-                            ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
-                            : SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
-
-                        RangeTwoVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[1] == IndependentVariableAxis.Wavelength
+                        RangeVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[1] == IndependentVariableAxis.Wavelength
                             ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
                             : SolutionDomainTypeOptionVM.IndependentAxisTwoType.GetDefaultIndependentAxisRange();
+
+                        RangeTwoVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[0] == IndependentVariableAxis.Wavelength
+                            ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
+                            : SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
 
                         ShowIndependentVariable = true;
                         ShowIndependentVariableTwo = true;
@@ -111,17 +111,17 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                     if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length == 3)
                     {
-                        RangeVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[0] == IndependentVariableAxis.Wavelength
+                        RangeVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[2] == IndependentVariableAxis.Wavelength
                             ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
-                            : SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
+                            : SolutionDomainTypeOptionVM.IndependentAxisThreeType.GetDefaultIndependentAxisRange();
 
                         RangeTwoVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[1] == IndependentVariableAxis.Wavelength
                             ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
                             : SolutionDomainTypeOptionVM.IndependentAxisTwoType.GetDefaultIndependentAxisRange();
 
-                        RangeThreeVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[2] == IndependentVariableAxis.Wavelength
+                        RangeThreeVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[0] == IndependentVariableAxis.Wavelength
                             ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
-                            : SolutionDomainTypeOptionVM.IndependentAxisThreeType.GetDefaultIndependentAxisRange();
+                            : SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
 
                         ShowIndependentVariable = true;
                         ShowIndependentVariableTwo = true;
@@ -312,11 +312,11 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     complexPoints.Add(new ComplexPoint(real[i].X, new Complex(real[i].Y, imag[i].Y)));
                 }
-                Commands.Plot_PlotValues.Execute(new PlotData(complexPoints, plotLabel));
+                Commands.Plot_PlotValues.Execute(new PlotData(new [] { complexPoints.ToArray() }, plotLabel));
             }
             else
             {
-                Commands.Plot_PlotValues.Execute(new PlotData(points.First(), plotLabel));
+                Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
             }
 
             Commands.TextOutput_PostMessage.Execute("Forward Solver: " + OpticalPropertyVM + "\r");
@@ -373,8 +373,17 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ForwardSolverTypeOptionVM.SelectedValue,
                     SolutionDomainTypeOptionVM.SelectedValue,
                     ForwardAnalysisTypeOptionVM.SelectedValue,
-                    parameters);
-                    
+                    parameters.Values.ToArray());
+
+            var plotIsVsWavelength = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Any( value => value == IndependentVariableAxis.Wavelength) &&
+                                   ((OpticalProperties[]) parameters[IndependentVariableAxis.Wavelength]).Length > 1;
+
+            //var plotVsTime = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Any( value => value == IndependentVariableAxis.Time) &&
+            //                       ((OpticalProperties[]) parameters[IndependentVariableAxis.Time]).Length > 1 ||
+            //                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Any( value => value == IndependentVariableAxis.Ft) &&
+            //                       ((OpticalProperties[]) parameters[IndependentVariableAxis.Ft]).Length > 1;
+            //GetParameterValues( plotVsWavelength ? RangeVM
+
             var primaryIdependentValues = RangeVM.Values.ToArray();
             var numPointsPerCurve = primaryIdependentValues.Length;
             var numCurves =
@@ -382,19 +391,33 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ? reflectance.Length/2 : reflectance.Length)
                 / numPointsPerCurve;
 
-            long globalIndex = 0;
             var points = new Point[numCurves][];
             for (int j = 0; j < numCurves; j++)
             {
                 points[j] = new Point[numPointsPerCurve];
-                for (int i = 0; i < numPointsPerCurve; i++, globalIndex++)
+                if (plotIsVsWavelength) // man, this is getting hacky...
                 {
-                    points[j][i] = new Point(primaryIdependentValues[i], reflectance[globalIndex]);
+                    for (int i = 0; i < numPointsPerCurve; i++)
+                    {
+                        points[j][i] = new Point(primaryIdependentValues[i], reflectance[i*numCurves + j]);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < numPointsPerCurve; i++)
+                    {
+                        points[j][i] = new Point(primaryIdependentValues[i], reflectance[j * numPointsPerCurve + i]);
+                    }
                 }
             }
             return points;
         }
 
+        /// <summary>
+        /// Function to provide ordering information for assembling forward calls
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <returns></returns>
         private int GetParameterOrder(IndependentVariableAxis axis)
         {
             switch (axis)
@@ -416,61 +439,84 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        private object[] GetParametersInOrder()
+        private double[] GetParameterValues(IndependentVariableAxis axis)
         {
-            Func<IndependentVariableAxis, int, object> getIVParameter = (iv, idx) =>
+            var isConstant = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.Contains(axis);
+            if (isConstant)
             {
-                switch (idx)
+                var positionIndex =
+                    SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.IndexOf(axis);
+                switch (positionIndex)
                 {
                     case 0:
+                    default:
+                        return new[] {SolutionDomainTypeOptionVM.ConstantAxisValue};
+                    case 1:
+                        return new[] {SolutionDomainTypeOptionVM.ConstantAxisTwoValue};
+                        //case 2:
+                        //    return new[] { SolutionDomainTypeOptionVM.ConstantAxisThreeValue };
+                }
+            }
+            else
+            {
+                var numAxes = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length;
+                var positionIndex = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.IndexOf(axis);
+                switch (numAxes)
+                {
+                    case 1:
                     default:
                         return RangeVM.Values.ToArray();
-                    case 1:
-                        return RangeTwoVM.Values.ToArray();
                     case 2:
-                        return RangeThreeVM.Values.ToArray();
+                        switch (positionIndex)
+                        {
+                            case 0:
+                            default:
+                                return RangeTwoVM.Values.ToArray();
+                            case 1:
+                                return RangeVM.Values.ToArray();
+                        }
+                    case 3:
+                        switch (positionIndex)
+                        {
+                            case 0:
+                            default:
+                                return RangeThreeVM.Values.ToArray();
+                            case 1:
+                                return RangeTwoVM.Values.ToArray();
+                            case 2:
+                                return RangeVM.Values.ToArray();
+                        }
                 }
-            };
+            }
+        }
 
-            Func<IndependentVariableAxis, int, object> getConstantParameter = (iv, idx) =>
-            {
-                switch (idx)
-                {
-                    case 0:
-                    default:
-                        return new [] {SolutionDomainTypeOptionVM.ConstantAxisValue};
-                    case 1:
-                        return new[] { SolutionDomainTypeOptionVM.ConstantAxisTwoValue };
-                    //case 2:
-                    //    return new[] { SolutionDomainTypeOptionVM.ConstantAxisThreeValue };
-                }
-            };
-            
+        private IDictionary<IndependentVariableAxis, object> GetParametersInOrder()
+        {
             // get all parameters to get arrays of
             // then, for each one, decide if it's an IV or a constant
             // then, call the appropriate parameter generator, defined above
-            IEnumerable<object> allParameters = from iv in Enumerable.Concat(
+            var allParameters = from iv in Enumerable.Concat(
                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues,
                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues)
                 where iv != IndependentVariableAxis.Wavelength
-                orderby GetParameterOrder(iv) descending 
-                let isConstant = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.Contains(iv)
-                select isConstant 
-                        ? getConstantParameter(iv, SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.IndexOf(iv))
-                        : getIVParameter(iv, SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.IndexOf(iv));
+                orderby GetParameterOrder(iv) 
+                select new KeyValuePair<IndependentVariableAxis, object> (iv, GetParameterValues(iv));
 
-            return ((object)GetOpticalProperties()).AsEnumerable().Concat(allParameters).ToArray();
+            // OPs are always first in the list
+            return (new KeyValuePair<IndependentVariableAxis, object>(IndependentVariableAxis.Wavelength, GetOpticalProperties())).AsEnumerable()
+                .Concat(allParameters).ToDictionary();
         }
 
         private OpticalProperties[] GetOpticalProperties()
         {
-            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength &&
+            if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Contains(IndependentVariableAxis.Wavelength) &&
                 UseSpectralPanelData && 
                 SolverDemoViewModel.Current != null &&
                 SolverDemoViewModel.Current.SpectralMappingVM != null)
             {
                 var tissue = SolverDemoViewModel.Current.SpectralMappingVM.SelectedTissue;
-                return tissue.GetOpticalProperties(RangeVM.Values.ToArray()); // this should really depend on the IVs, but in practice, it's always first
+                var wavelengths = GetParameterValues(IndependentVariableAxis.Wavelength);
+                return tissue.GetOpticalProperties(wavelengths);
             }
 
             return new[] { OpticalPropertyVM.GetOpticalProperties() };

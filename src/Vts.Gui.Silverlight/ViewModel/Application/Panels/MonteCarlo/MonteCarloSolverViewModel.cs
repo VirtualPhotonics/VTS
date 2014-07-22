@@ -123,9 +123,9 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                         var detectorInput = (ROfRhoDetectorInput)rOfRhoDetectorInputs.First();
 
-                        IEnumerable<double> independentValues = detectorInput.Rho.AsEnumerable();
+                        double[] independentValues = detectorInput.Rho.AsEnumerable().ToArray();
 
-                        IEnumerable<Point> points = null;
+                        Point[] points = null;
 
                         //var showPlusMinusStdev = true;
                         //if(showPlusMinusStdev && _output.R_r2 != null)
@@ -143,14 +143,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                         points = Enumerable.Zip(
                             independentValues,
                             _output.R_r,
-                            (x, y) => new Point(x, y));
+                            (x, y) => new Point(x, y)).ToArray();
                         //}
 
                         PlotAxesLabels axesLabels = GetPlotLabels();
                         Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
                         string plotLabel = GetPlotLabel();
-                        Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
+                        Commands.Plot_PlotValues.Execute(new PlotData(new []{ points }, plotLabel));
                         logger.Info(() => "done.\r");
                     }
 

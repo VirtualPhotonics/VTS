@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
-using System.Windows.Media;
 
 namespace Vts.Gui.Silverlight.Model
 {
@@ -12,40 +9,23 @@ namespace Vts.Gui.Silverlight.Model
     /// </summary>
     public class PlotData
     {
-        public PlotData() 
-            : this(new List<Point>(){}, null)
+        public PlotData(Point[][] points, string title)
         {
-        }
-
-        public PlotData(IEnumerable<Point> points, string title)
-            : this(points, title, Colors.Blue)
-        {
-        }
-
-        public PlotData(IEnumerable<Point> points, string title, Color c)
-        {
-            Points = points.ToList();
+            Points = points;
             Title = title;
-            plotColor = c;
             IsComplex = false;
         }
-        // Complex Plot data is assumed to be real and imag 
-        public PlotData(IEnumerable<ComplexPoint> points, string title)
-            : this(points, title, Colors.Blue)
+
+        public PlotData(ComplexPoint[][] points, string title)
         {
-        }
-        public PlotData(IEnumerable<ComplexPoint> points, string title, Color c)
-        {
-            ComplexPoints = points.ToList();
+            ComplexPoints = points;
             Title = title;
-            plotColor = c;
             IsComplex = true;
         }
 
-        public IList<Point> Points { get; set; }
+        public Point[][] Points { get; set; }
         public string Title { get; set; }
-        public Color plotColor { get; set; }
-        public IList<ComplexPoint> ComplexPoints { get; set; }
+        public ComplexPoint[][] ComplexPoints { get; set; }
         public bool IsComplex { get; set; }
 
 
