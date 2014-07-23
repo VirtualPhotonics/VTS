@@ -103,10 +103,8 @@ options.AbsorptionWeightingType = 'Discrete';
 options.PhaseFunctionType  = 'HenyeyGreenstein';
 % list of databases to be written
 options.Databases = {};
-% flag indicating whether to tally second moment information for error results
-options.TallySecondMoment = 1;
 % flag indicating whether to track statistics about where photon ends up
-options.TrackStatistics = 0;
+options.TrackStatistics = true;
 % photon weight threshold to perform Russian Roulette.  Default = 0 means no RR performed.
 options.RussianRouletteWeightThreshold = 0;
 % simulation index 
