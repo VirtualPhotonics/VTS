@@ -9,22 +9,22 @@ namespace Vts.Gui.Silverlight.Model
     /// </summary>
     public class PlotData
     {
-        public PlotData(Point[][] points, string title)
+        public PlotData(Point[][] points, string[] titles)
         {
             Points = points;
-            Title = title;
+            Titles = titles;
             IsComplex = false;
         }
 
-        public PlotData(ComplexPoint[][] points, string title)
+        public PlotData(ComplexPoint[][] points, string[] titles)
         {
             ComplexPoints = points;
-            Title = title;
+            Titles = titles;
             IsComplex = true;
         }
 
         public Point[][] Points { get; set; }
-        public string Title { get; set; }
+        public string[] Titles { get; set; }
         public ComplexPoint[][] ComplexPoints { get; set; }
         public bool IsComplex { get; set; }
 

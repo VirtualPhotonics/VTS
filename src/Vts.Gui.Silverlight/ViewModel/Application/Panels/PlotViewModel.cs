@@ -467,36 +467,36 @@ namespace Vts.Gui.Silverlight.ViewModel
                 if (data.IsComplex) // AddValuesToPlotData relies on IsComplexPlot so set before call
                 {
                     IsComplexPlot = true;
-                    AddValuesToPlotData(data.ComplexPoints, data.Title);
+                    AddValuesToPlotData(data.ComplexPoints, data.Titles);
                 }
                 else // non-complex plot
                 {
                     IsComplexPlot = false;
-                    AddValuesToPlotData(data.Points, data.Title);
+                    AddValuesToPlotData(data.Points, data.Titles);
                 }
             }
         }
 
         //static int labelCounter = 0;
-        private void AddValuesToPlotData(Point[][] curves, string title)
+        private void AddValuesToPlotData(Point[][] curves, string[] titles)
         {
             if (!_HoldOn)
             {
                 ClearPlot();
             }
 
-            foreach (var points in curves)
+            for (int i = 0; i < curves.Length; i++)
             {
-                DataSeriesCollection.Add(points);
+                DataSeriesCollection.Add(curves[i]);
                 var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
-                Labels.Add(title + customLabel); // has to happen before updating the bound collection
+                Labels.Add(titles[i] + customLabel); // has to happen before updating the bound collection
             }
 
             PlotTitles.Add(Title);
 
             UpdatePlotSeries();
         }
-        private void AddValuesToPlotData(ComplexPoint[][] curves, string title)
+        private void AddValuesToPlotData(ComplexPoint[][] curves, string[] titles)
         {
             if (!_HoldOn)
             {
@@ -522,19 +522,19 @@ namespace Vts.Gui.Silverlight.ViewModel
                 // store real data
                 DataSeriesCollection.Add(realPoints);
                 var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
-                RealImagLabels.Add(title + "\r(real)" + customLabel);
+                RealImagLabels.Add(titles[0] + "\r(real)" + customLabel);
                     // has to happen before updating the bound collection
                 PlotTitles.Add(Title);
                 // store phase data prior to updating plot
                 DataSeriesCollectionToggle.Add(phasePoints);
-                PhaseLabels.Add(title + "\r(phase)" + customLabel);
+                PhaseLabels.Add(titles[0] + "\r(phase)" + customLabel);
                 //UpdatePlotSeries();
                 // store imag data
                 DataSeriesCollection.Add(imagPoints);
-                RealImagLabels.Add(title + "\r(imag)" + customLabel);
+                RealImagLabels.Add(titles[0] + "\r(imag)" + customLabel);
                 // store amplitude data prior to updating plot
                 DataSeriesCollectionToggle.Add(ampPoints);
-                AmplitudeLabels.Add(title + "\r(amp)" + customLabel);
+                AmplitudeLabels.Add(titles[0] + "\r(amp)" + customLabel);
             }
 
             UpdatePlotSeries();

@@ -29,6 +29,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private RangeViewModel _RangeVM;
         private RangeViewModel _RangeTwoVM;
         private RangeViewModel _RangeThreeVM;
+        private RangeViewModel[] _allRangeVMs;
         private OpticalPropertyViewModel _OpticalPropertyVM;
 
         private bool _showOpticalProperties;
@@ -46,8 +47,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             _showIndependentVariableThree = false;
 
             RangeVM = new RangeViewModel { Title = "Detection Parameters" };
-            RangeTwoVM = new RangeViewModel { Title = "Detection Parameters 2" };
-            RangeThreeVM = new RangeViewModel { Title = "Detection Parameters 3" };
+            _allRangeVMs = new[] {RangeVM};
             OpticalPropertyVM = new OpticalPropertyViewModel { Title = "Optical Properties" };
             // right now, we're doing manual databinding to the selected item. need to enable databinding 
             // confused, though - do we need to use strings? or, how to make generics work with dependency properties?
@@ -92,6 +92,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                         ShowIndependentVariable = true;
                         ShowIndependentVariableTwo = false;
                         ShowIndependentVariableThree = false;
+
+                        _allRangeVMs = new[] {RangeVM};
                     }
 
                     if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length == 2)
@@ -107,6 +109,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                         ShowIndependentVariable = true;
                         ShowIndependentVariableTwo = true;
                         ShowIndependentVariableThree = false;
+
+                        _allRangeVMs = new[] { RangeVM, RangeTwoVM };
                     }
 
                     if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length == 3)
@@ -126,6 +130,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                         ShowIndependentVariable = true;
                         ShowIndependentVariableTwo = true;
                         ShowIndependentVariableThree = true;
+
+                        _allRangeVMs = new[] { RangeVM, RangeTwoVM, RangeThreeVM };
                     }
 
                     // if the independent axis is wavelength, then hide optical properties (because they come from spectral panel)
@@ -301,7 +307,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             PlotAxesLabels axesLabels = GetPlotLabels();
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
             
-            string plotLabel = GetLegendLabel();
+            string[] plotLabels = GetLegendLabels();
             if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
                 var real = points[0];
@@ -312,11 +318,11 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     complexPoints.Add(new ComplexPoint(real[i].X, new Complex(real[i].Y, imag[i].Y)));
                 }
-                Commands.Plot_PlotValues.Execute(new PlotData(new [] { complexPoints.ToArray() }, plotLabel));
+                Commands.Plot_PlotValues.Execute(new PlotData(new [] { complexPoints.ToArray() }, plotLabels));
             }
             else
             {
-                Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
+                Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabels));
             }
 
             Commands.TextOutput_PostMessage.Execute("Forward Solver: " + OpticalPropertyVM + "\r");
@@ -343,7 +349,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         }
 
         // todo: rename? this was to get a concise name for the legend
-        private string GetLegendLabel()
+        private string[] GetLegendLabels()
         {
             string modelString = null;
             switch (ForwardSolverTypeOptionVM.SelectedValue)
@@ -360,9 +366,23 @@ namespace Vts.Gui.Silverlight.ViewModel
                     modelString = "Model - nurbs \r";
                     break;
             }
-            string opString = "μa=" + OpticalPropertyVM.Mua + " \rμs'=" + OpticalPropertyVM.Musp;
 
-            return modelString + opString;
+            if (_allRangeVMs.Length > 1)
+            {
+                var isWavelengthPlot = _allRangeVMs.Any(vm => vm.AxisType == IndependentVariableAxis.Wavelength);
+                var secondaryRangeVM = isWavelengthPlot
+                    ? _allRangeVMs.Where(vm => vm.AxisType != IndependentVariableAxis.Wavelength).First()
+                    : _allRangeVMs.Where(vm => vm.AxisType != IndependentVariableAxis.Time && vm.AxisType != IndependentVariableAxis.Ft).First();
+
+                string[] secondaryAxesStrings = secondaryRangeVM.Values.Select(value => secondaryRangeVM.AxisType.GetInternationalizedString() + " = " + value.ToString() + secondaryRangeVM.AxisType.GetUnits()).ToArray();
+                string opString = "μa=" + OpticalPropertyVM.Mua + " \rμs'=" + OpticalPropertyVM.Musp;
+                return secondaryAxesStrings.Select(sas => modelString + sas + (isWavelengthPlot ? "(spectral μa,μs')" : "\r" + opString) + "\r").ToArray();
+            }
+            else
+            {
+                string opString = "μa=" + OpticalPropertyVM.Mua + " \rμs'=" + OpticalPropertyVM.Musp + "\r";
+                return new []{ modelString + opString };
+            }
         }
 
         public Point[][] ExecuteForwardSolver()
@@ -375,8 +395,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ForwardAnalysisTypeOptionVM.SelectedValue,
                     parameters.Values.ToArray());
 
-            var plotIsVsWavelength = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Any( value => value == IndependentVariableAxis.Wavelength) &&
-                                   ((OpticalProperties[]) parameters[IndependentVariableAxis.Wavelength]).Length > 1;
+            var plotIsVsWavelength = _allRangeVMs.Any(vm => vm.AxisType == IndependentVariableAxis.Wavelength);
 
             //var plotVsTime = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Any( value => value == IndependentVariableAxis.Time) &&
             //                       ((OpticalProperties[]) parameters[IndependentVariableAxis.Time]).Length > 1 ||

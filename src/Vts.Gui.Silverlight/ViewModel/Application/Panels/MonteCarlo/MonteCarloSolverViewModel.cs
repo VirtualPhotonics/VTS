@@ -150,7 +150,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                         Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
                         string plotLabel = GetPlotLabel();
-                        Commands.Plot_PlotValues.Execute(new PlotData(new []{ points }, plotLabel));
+                        Commands.Plot_PlotValues.Execute(new PlotData(new []{ points }, new []{ plotLabel }));
                         logger.Info(() => "done.\r");
                     }
 

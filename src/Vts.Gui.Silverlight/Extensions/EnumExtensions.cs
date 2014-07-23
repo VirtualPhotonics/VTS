@@ -109,7 +109,7 @@ namespace Vts.Gui.Silverlight.Extensions
                     throw new NotImplementedException("Independent axis " + axis + " is not implemented for this software feature.");
             }
         }
-
+        
         public static string GetUnits(this IndependentVariableAxis axis)
         {
             switch (axis)
@@ -199,7 +199,7 @@ namespace Vts.Gui.Silverlight.Extensions
                 case IndependentVariableAxis.Ft:
                     return new DoubleRange(0D, 0.5D, 51); // units=GHz
                 case IndependentVariableAxis.Wavelength:
-                    return new DoubleRange(650D, 1000D, 176); //TODO: right units?
+                    return new DoubleRange(650D, 1000D, 36); //TODO: right units?
             }
         }
 
@@ -223,7 +223,7 @@ namespace Vts.Gui.Silverlight.Extensions
         
         public static RangeViewModel GetDefaultIndependentAxisRange(this IndependentVariableAxis independentAxisType)
         {
-            return new RangeViewModel(independentAxisType.GetDefaultRange(), independentAxisType.GetUnits(), independentAxisType.GetTitle());
+            return new RangeViewModel(independentAxisType.GetDefaultRange(), independentAxisType.GetUnits(), independentAxisType, independentAxisType.GetTitle());
         }
     }
 }

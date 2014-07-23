@@ -14,7 +14,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
             _region = region;
             _name = name ?? "";
-            _zRangeVM = new RangeViewModel(_region.ZRange, "mm", "", false);
+            _zRangeVM = new RangeViewModel(_region.ZRange, "mm", IndependentVariableAxis.Z, "", false);
             _opticalPropertyVM = new OpticalPropertyViewModel(_region.RegionOP, "mm-1", "", true, true, true, true);
             _opticalPropertyVM.PropertyChanged += (s, a) => OnPropertyChanged("Name");
         }

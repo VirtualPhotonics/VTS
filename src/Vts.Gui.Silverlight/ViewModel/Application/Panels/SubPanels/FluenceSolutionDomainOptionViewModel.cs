@@ -247,7 +247,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     range = new DoubleRange(650D, 1000D, 60); // units=nm
                     break;
             }
-            return new RangeViewModel(range, independentAxisType.GetUnits(), "");
+            return new RangeViewModel(range, independentAxisType.GetUnits(), independentAxisType, "");
         }
 
         private double GetDefaultConstantAxisValue(IndependentVariableAxis constantType)
