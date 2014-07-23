@@ -59,7 +59,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             
             RangeVM = new RangeViewModel { Title = "Detection Parameters" };
             _allRangeVMs = new[] {RangeVM};
-            OpticalPropertyVM = new OpticalPropertyViewModel { Title = "Optical Properties" };
+            //OpticalPropertyVM = new OpticalPropertyViewModel { Title = "Optical Properties" };
             // right now, we're doing manual databinding to the selected item. need to enable databinding 
             // confused, though - do we need to use strings? or, how to make generics work with dependency properties?
 #if WHITELIST 
@@ -174,7 +174,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             };
             Commands.Spec_UpdateOpticalProperties.Executed += (sender, args) =>
             {
-                if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
+                if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null && OpticalPropertyVM != null)
                 {
                     OpticalPropertyVM.SetOpticalProperties(SolverDemoViewModel.Current.SpectralMappingVM.OpticalProperties);
                 }
@@ -313,6 +313,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
+        private OpticalPropertyViewModel OpticalPropertyVM
+        {
+            get { return _tissueInputVM as OpticalPropertyViewModel; }
+        }
+
         public OptionViewModel<ForwardAnalysisType> ForwardAnalysisTypeOptionVM
         {
             get { return _ForwardAnalysisTypeOptionVM; }
@@ -437,8 +442,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                     modelString = "Model - 2 layer SDA \r";
                     break;
             }
-            string opString = null;
 
+            string opString = null;
             if (IsMultiRegion)
             {
                 ITissueRegion[] regions = null;
@@ -447,13 +452,13 @@ namespace Vts.Gui.Silverlight.ViewModel
                     regions = ((MultiRegionTissueViewModel)TissueInputVM).GetTissueInput().Regions;
                     opString =
                         "μa1=" + regions[0].RegionOP.Mua + " μs'1=" + regions[0].RegionOP.Musp + "\r" +
-                        "μa2=" + regions[1].RegionOP.Mua + " μs'2=" + regions[1].RegionOP.Musp; 
+                        "μa2=" + regions[1].RegionOP.Mua + " μs'2=" + regions[1].RegionOP.Musp + "\r"; 
                 }
             }
             else
             {
                 var opticalProperties = ((OpticalPropertyViewModel)TissueInputVM).GetOpticalProperties();
-                opString = "μa=" + opticalProperties.Mua + " \rμs'=" + opticalProperties.Musp;
+                opString = "μa=" + opticalProperties.Mua + " \rμs'=" + opticalProperties.Musp + "\r";
             }
 
             if (_allRangeVMs.Length > 1)
@@ -463,52 +468,22 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ? _allRangeVMs.Where(vm => vm.AxisType != IndependentVariableAxis.Wavelength).First()
                     : _allRangeVMs.Where(vm => vm.AxisType != IndependentVariableAxis.Time && vm.AxisType != IndependentVariableAxis.Ft).First();
 
-                string[] secondaryAxesStrings = secondaryRangeVM.Values.Select(value => secondaryRangeVM.AxisType.GetInternationalizedString() + " = " + value.ToString() + secondaryRangeVM.AxisType.GetUnits()).ToArray();
-                string opString = "μa=" + OpticalPropertyVM.Mua + " \rμs'=" + OpticalPropertyVM.Musp;
-                return secondaryAxesStrings.Select(sas => modelString + sas + (isWavelengthPlot ? "(spectral μa,μs')" : "\r" + opString) + "\r").ToArray();
+                string[] secondaryAxesStrings = secondaryRangeVM.Values.Select(value => secondaryRangeVM.AxisType.GetInternationalizedString() + " = " + value.ToString() + secondaryRangeVM.AxisType.GetUnits() + "\r").ToArray();
+                return secondaryAxesStrings.Select(sas => modelString + sas + (isWavelengthPlot ? "(spectral μa,μs')\r" : "\r" + opString) ).ToArray();
             }
-            else
-            {
-                string opString = "μa=" + OpticalPropertyVM.Mua + " \rμs'=" + OpticalPropertyVM.Musp + "\r";
-                return new []{ modelString + opString };
-            }
+
+            return new []{ modelString + opString };
         }
 
         public Point[][] ExecuteForwardSolver()
         {
             var parameters = GetParametersInOrder();
 
-            double[] reflectance = null;
-            if (IsMultiRegion)
-            {
-                ITissueRegion[] regions = null;
-                if (ForwardSolver is TwoLayerSDAForwardSolver)
-                {
-                    regions = ((MultiRegionTissueViewModel) TissueInputVM).GetTissueInput().Regions;
-                }
-
-                if (regions == null)
-                {
-                    return null;
-                }
-
-                reflectance = ComputationFactory.ComputeReflectance(
-                        ForwardSolverTypeOptionVM.SelectedValue,
-                        SolutionDomainTypeOptionVM.SelectedValue,
-                        ForwardAnalysisTypeOptionVM.SelectedValue,
-                        SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue,
-                        independentValues,
-                        regions,
-                        constantValues);
-            }
-            else
-            { 
-                reflectance = ComputationFactory.ComputeReflectance(                    
+            double[] reflectance = ComputationFactory.ComputeReflectance(                    
                     ForwardSolverTypeOptionVM.SelectedValue,
                     SolutionDomainTypeOptionVM.SelectedValue,
                     ForwardAnalysisTypeOptionVM.SelectedValue,
                     parameters.Values.ToArray());
-            }
 
             var plotIsVsWavelength = _allRangeVMs.Any(vm => vm.AxisType == IndependentVariableAxis.Wavelength);
 
@@ -641,8 +616,16 @@ namespace Vts.Gui.Silverlight.ViewModel
                 .Concat(allParameters).ToDictionary();
         }
 
-        private OpticalProperties[] GetOpticalProperties()
-        {
+        private object GetOpticalProperties()
+        {            
+            if (IsMultiRegion)
+            {
+                if (ForwardSolver is TwoLayerSDAForwardSolver)
+                {
+                    return new[] { ((MultiRegionTissueViewModel) TissueInputVM).GetTissueInput().Regions.Select(region => (IOpticalPropertyRegion)region).ToArray() };
+                }
+            }
+
             if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Contains(IndependentVariableAxis.Wavelength) &&
                 UseSpectralPanelData && 
                 SolverDemoViewModel.Current != null &&

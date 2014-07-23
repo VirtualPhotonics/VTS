@@ -9,6 +9,7 @@ using Vts.Common;
 using Vts.IO;
 using Vts.Modeling.ForwardSolvers;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Tissues;
 using Vts.Factories;
 using Vts.Gui.Silverlight.Extensions;
@@ -476,7 +477,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                                 {
                                     var regions = ((MultiRegionTissueViewModel)TissueInputVM).GetTissueInput().Regions
                                         .Select(region => (ILayerOpticalPropertyRegion)region).ToArray();
-                                    var muas = ComputationFactory.getRhoZMuaArrayFromLayerRegions(regions, rhos, zs);
+                                    var muas = getRhoZMuaArrayFromLayerRegions(regions, rhos, zs);
                                     results = ComputationFactory.GetAbsorbedEnergy(fluence, muas).ToArray();
                                 }
                                 else
@@ -537,6 +538,22 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             return new MapData(destinationArray, rhos, zs, dRhos, dZs);
         }
+        
+        // the following function determines a flattened mua array for layered tissue
+        private static Func<ILayerOpticalPropertyRegion[], double[], double[], double[]> getRhoZMuaArrayFromLayerRegions = (regions, rhos, zs) =>
+        {
+            int numBins = rhos.Length * zs.Length;
+            var muaArray = new double[numBins];
+            for (int i = 0; i < zs.Length; i++)
+            {
+                var layerIndex = DetectorBinning.WhichBin(zs[i], regions.Select(r => r.ZRange.Stop).ToArray());
+                for (int j = 0; j < rhos.Length; j++)
+                {
+                    muaArray[i * rhos.Length + j] = regions[layerIndex].RegionOP.Mua;
+                }
+            }
+            return muaArray;
+        };
 
         private static IndependentVariableAxis[] GetIndependentVariableAxesInOrder(params IndependentVariableAxis[] axes)
         {
