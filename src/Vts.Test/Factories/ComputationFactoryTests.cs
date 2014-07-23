@@ -35,7 +35,7 @@ namespace Vts.Test.Factories
                 ForwardSolverType.MonteCarlo,
                 SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
-                new object[]{ new OpticalProperties(0.01, 1, 0.8, 1.4), new double[] { 1, 2, 3 } });
+                new object[]{ new[]{ new OpticalProperties(0.01, 1, 0.8, 1.4) }, new double[] { 1, 2, 3 } });
         }
 
         [TearDown]
