@@ -4,12 +4,11 @@ using Vts.Common;
 
 namespace Vts.MonteCarlo.Tissues
 {
-
     /// <summary>
     /// Implements ITissueRegion.  Defines a layer infinite in extent along
     /// x,y-axes and with extent along z-axis given by ZRange.
     /// </summary>
-    public class LayerRegion : ITissueRegion
+    public class LayerRegion : ITissueRegion, ILayerOpticalPropertyRegion
     {
         /// <summary>
         /// constructor for layer region

@@ -349,6 +349,15 @@ namespace Vts.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Two Layer SDA - Beta version.
+        /// </summary>
+        public static string ForwardSolverType_TwoLayerSDA {
+            get {
+                return ResourceManager.GetString("ForwardSolverType_TwoLayerSDA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ft.
         /// </summary>
         public static string IndependentVariableAxis_Ft {

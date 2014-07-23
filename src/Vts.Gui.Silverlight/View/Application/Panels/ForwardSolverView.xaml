@@ -32,10 +32,18 @@
         <StackPanel Visibility="{Binding ShowIndependentVariableThree, Converter={StaticResource myBooleanToVisibilityConverter}}">
             <v:RangeView DataContext="{Binding RangeThreeVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
         </StackPanel>
-        <!-- Optical Properties -->
+        
+                
+        <!-- Optical Properties (single- or multi-region property editor shown, depending on forward model type -->
         <StackPanel Visibility="{Binding ShowOpticalProperties, Converter={StaticResource myBooleanToVisibilityConverter}}">
-            <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
-        </StackPanel>
+            <StackPanel Visibility="{Binding IsSemiInfinite, Converter={StaticResource myBooleanToVisibilityConverter}}">
+                <v:OpticalPropertyView Mua="1.0" DataContext="{Binding TissueInputVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
+            </StackPanel>
+            <StackPanel Visibility="{Binding IsMultiRegion, Converter={StaticResource myBooleanToVisibilityConverter}}">
+                <v:MultiRegionOpticalPropertyView DataContext="{Binding TissueInputVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
+            </StackPanel>
+         </StackPanel>
+                
         <Grid Margin="0,3,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>

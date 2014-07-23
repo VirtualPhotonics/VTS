@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using MathNet.Numerics;
+using Vts.Common;
 using Vts.Extensions;
 using Vts.Modeling;
+using Vts.Modeling.ForwardSolvers;
 using Vts.Modeling.ForwardSolvers.Extensions;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Helpers;
 #if DESKTOP
 #endif
 using Vts.SpectralMapping;
@@ -31,6 +36,14 @@ namespace Vts.Factories
             return
                 !(solutionDomainType == FluenceSolutionDomainType.FluenceOfRhoAndZ) &&
                 !(solutionDomainType == FluenceSolutionDomainType.FluenceOfFxAndZ);
+        }
+
+        // CH proposed new extension method prior version is not refined enough, need to 
+        // know independent axis variable to know whether solver is complex, e.g. ROfRhoAndFt
+        // with independent axis varaible = rho is not complex
+        public static bool IsComplexSolver(IndependentVariableAxis independentVariableAxis)
+        {
+            return (independentVariableAxis == IndependentVariableAxis.Ft);
         }
 
         public static bool IsComplexSolver(SolutionDomainType solutionDomainType)
@@ -109,25 +122,28 @@ namespace Vts.Factories
                 independentValues);
         }
 
-        //// overload that calls the above method with just one set of optical properties
-        //public static double[] ComputeReflectance(
-        //    ForwardSolverType forwardSolverType,
-        //    SolutionDomainType solutionDomainType,
-        //    ForwardAnalysisType forwardAnalysisType,
-        //    IndependentVariableAxis independentAxisType,
-        //    double[] independentValues,
-        //    OpticalProperties opticalProperties,
-        //    params double[] constantValues)
-        //{
-        //    return ComputeReflectance(
-        //        forwardSolverType,
-        //        solutionDomainType,
-        //        forwardAnalysisType,
-        //        new [] { independentAxisType },
-        //        new [] { independentValues },
-        //        new [] { opticalProperties },
-        //        constantValues);
-        //}
+        // overload for ITissueRegion forward solvers todo: merge with above?
+        public static double[] ComputeReflectance(
+            ForwardSolverType forwardSolverType,
+            SolutionDomainType solutionDomainType,
+            ForwardAnalysisType forwardAnalysisType,
+            IndependentVariableAxis independentAxisType,
+            IEnumerable<double> independentValues,
+            ITissueRegion[] tissueRegions,
+            params double[] constantValues)
+        {
+            // use factory method on each call, as opposed to injecting an instance from the outside
+            // -- still time-efficient if singletons are used
+            // -- potentially memory-inefficient if the user creates lots of large solver instances
+            return ComputeReflectance(
+                SolverFactory.GetForwardSolver(forwardSolverType),
+                solutionDomainType,
+                forwardAnalysisType,
+                independentAxisType,
+                independentValues,
+                tissueRegions,
+                constantValues);
+        }
 
         public static double[] ComputeReflectance(
             IForwardSolver forwardSolver,
@@ -165,7 +181,66 @@ namespace Vts.Factories
         //        ,
         //        new[] { opticalProperties },
         //        new object[]{new[] { opticalProperties }, independentValues, constantValues);
-        //}
+        //}  //
+        
+         // overload for ITissueRegion forward solvers todo: merge with above?
+        public static double[] ComputeReflectance(
+            IForwardSolver forwardSolver,
+            SolutionDomainType solutionDomainType,
+            ForwardAnalysisType forwardAnalysisType,
+            IndependentVariableAxis independentAxisType,
+            IEnumerable<double> independentValues,
+            ITissueRegion[] tissueRegions,
+            params double[] constantValues)
+        {
+            var parameters = tissueRegions.SelectMany(region =>
+                                                          {
+                                                              double[] regionParameters = null;
+                                                              if (region is LayerRegion)
+                                                              {
+                                                                  var layerRegion = (LayerRegion) region;
+                                                                  regionParameters = new[]
+                                                                                         {
+                                                                                             layerRegion.RegionOP.Mua,
+                                                                                             layerRegion.RegionOP.Musp,
+                                                                                             layerRegion.RegionOP.G,
+                                                                                             layerRegion.RegionOP.N,
+                                                                                             layerRegion.ZRange.Delta
+                                                                                         };
+                                                              }
+                                                                  //else if(region is EllipsoidRegion)
+                                                                  //{
+                                                                  //  
+                                                                  //}
+                                                              else
+                                                              {
+                                                                  throw new Exception("Forward model " +
+                                                                                      forwardSolver.ToString() +
+                                                                                      " is not supported.");
+                                                              }
+                                                              return regionParameters;
+                                                          }).ToArray();
+
+            //var parameters = new double[4] { opticalProperties.Mua, opticalProperties.Musp, opticalProperties.G, opticalProperties.N };
+
+            Func<double[], object[], double[]> func = GetForwardReflectanceFunc(forwardSolver, solutionDomainType,
+                                                                                independentAxisType);
+
+            // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
+            List<object> inputValues = new List<object>();
+            inputValues.Add(independentValues.ToArray());
+            constantValues.ForEach(cv => inputValues.Add(cv));
+
+            if (forwardAnalysisType == ForwardAnalysisType.R)
+            {
+                return func(parameters, inputValues.ToArray());
+            }
+            else
+            {
+                return func.GetDerivativeFunc(forwardAnalysisType)(parameters, inputValues.ToArray());
+            }
+        }
+
 
         public static double[] ComputeFluence(
             ForwardSolverType forwardSolverType,
@@ -205,6 +280,76 @@ namespace Vts.Factories
                 new [] { opticalProperties },
                 constantValues);
         }
+        
+        public static double[] ComputeFluence(
+            ForwardSolverType forwardSolverType,
+            FluenceSolutionDomainType solutionDomainType,
+            // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            IndependentVariableAxis[] independentAxesTypes,
+            double[][] independentValues,
+            IOpticalPropertyRegion[] tissueRegions,
+            params double[] constantValues)
+        {
+            // use factory method on each call, as opposed to injecting an instance from the outside
+            // -- still time-efficient if singletons are used
+            // -- potentially memory-inefficient if the user creates lots of large solver instances
+            return ComputeFluence(
+                SolverFactory.GetForwardSolver(forwardSolverType),
+                solutionDomainType,
+                independentAxesTypes,
+                independentValues,
+                tissueRegions,
+                constantValues);
+        }
+        // overload for ITissueRegion forward solvers todo: merge with above?
+        public static double[] ComputeFluence(
+            IForwardSolver forwardSolver,
+            FluenceSolutionDomainType solutionDomainType,
+            // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            IndependentVariableAxis[] independentAxesTypes,
+            double[][] independentValues,
+            IOpticalPropertyRegion[] tissueRegions,
+            params double[] constantValues)
+        {
+            var parameters = tissueRegions.SelectMany(region =>
+            {
+                double[] regionParameters = null;
+                if (region is ILayerOpticalPropertyRegion)
+                {
+                    var layerRegion = (ILayerOpticalPropertyRegion)region;
+                    regionParameters = new[]
+                        {
+                            layerRegion.RegionOP.Mua,
+                            layerRegion.RegionOP.Musp,
+                            layerRegion.RegionOP.G,
+                            layerRegion.RegionOP.N,
+                            layerRegion.ZRange.Delta
+                        };
+                }
+                //else if(region is EllipsoidRegion)
+                //{
+                //  
+                //}
+                else
+                {
+                    throw new Exception("Forward model " +
+                                        forwardSolver.ToString() +
+                                        " is not supported.");
+                }
+                return regionParameters;
+            }).ToArray();
+
+            // todo: current assumption below is that the second axis is z. need to generalize
+            var func = GetForwardFluenceFunc(forwardSolver, solutionDomainType, independentAxesTypes[0]);
+
+            // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
+            List<object> inputValues = new List<object>(independentValues);
+            constantValues.ForEach(cv => inputValues.Add(cv));
+
+            return func(parameters, inputValues.ToArray());
+        }
+
+
 
         public static double[] ComputeFluence(
             IForwardSolver forwardSolver,
@@ -266,7 +411,8 @@ namespace Vts.Factories
 
         public static Complex[] ComputeFluenceComplex(
             ForwardSolverType forwardSolverType,
-            FluenceSolutionDomainType solutionDomainType, // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            FluenceSolutionDomainType solutionDomainType,
+            // keeping us from uniting the above. needs to be a single SolutionDomainType enum
             IndependentVariableAxis[] independentAxesTypes,
             double[][] independentValues,
             OpticalProperties opticalProperties,
@@ -286,13 +432,18 @@ namespace Vts.Factories
 
         public static Complex[] ComputeFluenceComplex(
             IForwardSolver forwardSolver,
-            FluenceSolutionDomainType solutionDomainType, // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            FluenceSolutionDomainType solutionDomainType,
+            // keeping us from uniting the above. needs to be a single SolutionDomainType enum
             IndependentVariableAxis[] independentAxesTypes,
             double[][] independentValues,
             OpticalProperties opticalProperties,
             params double[] constantValues)
         {
-            var parameters = new double[4] { opticalProperties.Mua, opticalProperties.Musp, opticalProperties.G, opticalProperties.N };
+            var parameters = new double[4]
+                                 {
+                                     opticalProperties.Mua, opticalProperties.Musp, opticalProperties.G,
+                                     opticalProperties.N
+                                 };
 
             // todo: current assumption below is that the second axes is z. need to generalize
             var func = GetForwardFluenceFuncComplex(forwardSolver, solutionDomainType, independentAxesTypes[0]);
@@ -314,7 +465,8 @@ namespace Vts.Factories
         /// <param name="rhos">detector locations (in mm)</param>
         /// <param name="zs">z values (in mm)</param>
         /// <returns></returns>
-        public static double[] GetPHD(ForwardSolverType forwardSolverType, double[] fluence, double sdSeparation, OpticalProperties[] ops, double[] rhos, double[] zs)
+        public static double[] GetPHD(ForwardSolverType forwardSolverType, double[] fluence, double sdSeparation,
+                                      OpticalProperties[] ops, double[] rhos, double[] zs)
         {
             return GetPHD(SolverFactory.GetForwardSolver(forwardSolverType), fluence, sdSeparation, ops, rhos, zs);
         }
@@ -329,7 +481,8 @@ namespace Vts.Factories
         /// <param name="rhos">detector locations (in mm)</param>
         /// <param name="zs">z values (in mm)</param>
         /// <returns></returns>
-        public static double[] GetPHD(IForwardSolver forwardSolver, double[] fluence, double sdSeparation, OpticalProperties[] ops, double[] rhos, double[] zs)
+        public static double[] GetPHD(IForwardSolver forwardSolver, double[] fluence, double sdSeparation,
+                                      OpticalProperties[] ops, double[] rhos, double[] zs)
         {
             var rhoPrimes =
                 from r in rhos
@@ -339,7 +492,7 @@ namespace Vts.Factories
 
             var phd = new double[fluence.Length];
 
-            phd.PopulateFromEnumerable(Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green));
+            phd.PopulateFromEnumerable(Enumerable.Zip(fluence, greensFunction, (flu, green) => flu*green));
 
             return phd;
 
@@ -358,9 +511,12 @@ namespace Vts.Factories
         /// <param name="rhos">detector locations (in mm)</param>
         /// <param name="zs">z values (in mm)</param>
         /// <returns></returns>
-        public static double[] GetPHD(ForwardSolverType forwardSolverType, Complex[] fluence, double sdSeparation, double timeModulationFrequency, OpticalProperties[] ops, double[] rhos, double[] zs)
+        public static double[] GetPHD(ForwardSolverType forwardSolverType, Complex[] fluence, double sdSeparation,
+                                      double timeModulationFrequency, OpticalProperties[] ops, double[] rhos,
+                                      double[] zs)
         {
-            return GetPHD(SolverFactory.GetForwardSolver(forwardSolverType), fluence, sdSeparation, timeModulationFrequency, ops, rhos, zs);
+            return GetPHD(SolverFactory.GetForwardSolver(forwardSolverType), fluence, sdSeparation,
+                          timeModulationFrequency, ops, rhos, zs);
         }
 
 
@@ -374,23 +530,26 @@ namespace Vts.Factories
         /// <param name="rhos">detector locations (in mm)</param>
         /// <param name="zs">z values (in mm)</param>
         /// <returns></returns>
-        public static double[] GetPHD(IForwardSolver forwardSolver, Complex[] fluence, double sdSeparation, double modulationFrequency, OpticalProperties[] ops, double[] rhos, double[] zs)
+        public static double[] GetPHD(IForwardSolver forwardSolver, Complex[] fluence, double sdSeparation,
+                                      double modulationFrequency, OpticalProperties[] ops, double[] rhos, double[] zs)
         {
             var rhoPrimes =
                 from r in rhos
                 select r - sdSeparation;
 
-            var greensFunction = forwardSolver.TimeFrequencyDomainFluence2SurfacePointPHD(modulationFrequency, ops, rhoPrimes, zs);
+            var greensFunction = forwardSolver.TimeFrequencyDomainFluence2SurfacePointPHD(modulationFrequency, ops,
+                                                                                          rhoPrimes, zs);
 
             var phd = new double[fluence.Length];
 
-            phd.PopulateFromEnumerable(Enumerable.Zip(fluence, greensFunction, (flu, green) => (flu * green).Magnitude));
+            phd.PopulateFromEnumerable(Enumerable.Zip(fluence, greensFunction, (flu, green) => (flu*green).Magnitude));
 
             return phd;
 
             // replaced with pre-initialized array + "PopulateFromEnumerable" call instead of growing array dynamically 
             //System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green).ToArray();
         }
+
         ///// <summary>
         ///// Method to generate PHD 
         ///// </summary>
@@ -427,7 +586,7 @@ namespace Vts.Factories
         /// <returns>absorbed energy in a 1D IEnumerable of double</returns>
         public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, double mua)
         {
-            return fluence.Select(flu => flu * mua);
+            return fluence.Select(flu => flu*mua);
         }
 
         /// <summary>
@@ -438,7 +597,21 @@ namespace Vts.Factories
         /// <returns>absorbed energy in a 1D IEnumerable of double</returns>
         public static IEnumerable<Complex> GetAbsorbedEnergy(IEnumerable<Complex> fluence, double mua)
         {
-            return fluence.Select(flu => flu * mua); // todo: is this correct?? DC 12/08/12
+            return fluence.Select(flu => flu*mua); // todo: is this correct?? DC 12/08/12
+        }
+
+        /// <summary>
+        /// Method to generate absorbed energy given fluence and mua for heterogeneous tissue.
+        /// </summary>
+        /// <param name="fluence">fluence serialized to a 1D IEnumerable of double</param>
+        /// <param name="mua">absorption coefficient serialized to a 1D IEnumerable</param>
+        /// <returns>absorbed energy in a 1D IEnumerable of double</returns>
+        public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, IEnumerable<double> muas)
+        {
+            if (fluence.Count() != muas.Count())
+                throw new ArgumentException("fluence and muas must be same length");
+            IEnumerable<double> result = Enumerable.Zip(fluence, muas, (flu, mua) => flu*mua);
+            return result;
         }
 
         public static double[] SolveInverse(
@@ -456,7 +629,7 @@ namespace Vts.Factories
             // -- still time-efficient if singletons are used
             // -- potentially memory-inefficient if the user creates lots of large solver instances
             return SolveInverse(
-                SolverFactory.GetForwardSolver(forwardSolverType), 
+                SolverFactory.GetForwardSolver(forwardSolverType),
                 SolverFactory.GetOptimizer(optimizerType),
                 solutionDomainType,
                 independentValues,
@@ -489,27 +662,95 @@ namespace Vts.Factories
             inputValues.Add(independentValues);
             constantValues.ForEach(cv => inputValues.Add(cv));
 
-            var fit = optimizer.Solve(parameters, parametersToFit, dependentValues.ToArray(), standardDeviationValues.ToArray(), func, inputValues.ToArray());
+            var fit = optimizer.Solve(parameters, parametersToFit, dependentValues.ToArray(),
+                                      standardDeviationValues.ToArray(), func, inputValues.ToArray());
 
             return fit;
         }
         
+        private static Func<double[], ILayerOpticalPropertyRegion[]> getLayerTissueRegionArray = layerProps =>
+        {
+            int numRegions = layerProps.Length / 5; // mua, musp, g, n, thickness (delta)
+            var regionArray = new ILayerOpticalPropertyRegion[numRegions];
+            regionArray[0] = new LayerOpticalPropertyRegion(
+                zRange: new DoubleRange(0, layerProps[4]),
+                regionOP: new OpticalProperties(layerProps[0], layerProps[1], layerProps[2], layerProps[3]));
+            for (int i = 1; i < numRegions; i++)
+            {
+                var currentLayerProps = layerProps.Skip(i * 5).Take(5).ToArray();
+                var previousStop = regionArray[i - 1].ZRange.Stop;
+                regionArray[i] = new LayerOpticalPropertyRegion(
+                    zRange: new DoubleRange(previousStop, previousStop + currentLayerProps[4]),
+                    regionOP: new OpticalProperties(currentLayerProps[0], currentLayerProps[1], currentLayerProps[2], currentLayerProps[3]));
+            }
+            return regionArray;
+        };
+        
+        
+        // the following function determines a flattened mua array for layered tissue
+        public static Func<ILayerOpticalPropertyRegion[], double[], double[], double[]> getRhoZMuaArrayFromLayerRegions = (regions, rhos, zs) =>
+        {
+            int numBins = rhos.Length * zs.Length;
+            var muaArray = new double[numBins];
+            for (int i = 0; i < zs.Length; i++)
+            {
+                var layerIndex = DetectorBinning.WhichBin(zs[i], regions.Select(r => r.ZRange.Stop).ToArray());
+                for (int j = 0; j < rhos.Length; j++)
+                {
+                    muaArray[i * rhos.Length + j] = regions[layerIndex].RegionOP.Mua;
+                }
+            }
+            return muaArray;
+        };
+
+
         private static Func<object[], double[]> GetForwardReflectanceFunc(IForwardSolver fs, SolutionDomainType type)
         {
             switch (type)
             {
                 case SolutionDomainType.ROfRho:
+                    if (fs is TwoLayerSDAForwardSolver) // todo: future generalization to IMultiRegionForwardSolver?
+                    {   
+                        return (fitData, otherData) => fs.ROfRho(getLayerTissueRegionArray(fitData), (double[])otherData[0]);
+                    }
                     return forwardData => fs.ROfRho(ops: (OpticalProperties[])forwardData[0], rhos: (double[])forwardData[1]);
+
                 case SolutionDomainType.ROfFx:
+                    if (fs is TwoLayerSDAForwardSolver) 
+                    {
+                        return (fitData, otherData) => fs.ROfFx(getLayerTissueRegionArray(fitData), (double[])otherData[0]);
+                    }
                     return forwardData => fs.ROfFx(ops: (OpticalProperties[])forwardData[0], fxs: (double[])forwardData[1]);
+
                 case SolutionDomainType.ROfRhoAndTime:
+                             if (fs is TwoLayerSDAForwardSolver)
+                            {
+                                return (fitData, otherData) => fs.ROfRhoAndTime(getLayerTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]);
+                            }
+
                     return forwardData => fs.ROfRhoAndTime(ops: (OpticalProperties[])forwardData[0], rhos: (double[])forwardData[1], ts: (double[])forwardData[2]);
                 case SolutionDomainType.ROfFxAndTime:
+                    if (fs is TwoLayerSDAForwardSolver)
+                    {
+                        return (fitData, otherData) => fs.ROfFxAndTime(getLayerTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]);
+                    }
                     return forwardData => fs.ROfFxAndTime(ops: (OpticalProperties[])forwardData[0], fxs: (double[])forwardData[1], ts: (double[])forwardData[2]);
                 case SolutionDomainType.ROfRhoAndFt:
+                    if (fs is TwoLayerSDAForwardSolver)
+                    {
+                        return (fitData, otherData) =>
+                                    fs.ROfRhoAndFt(getLayerTissueRegionArray(fitData), (double[]) otherData[0], (double) otherData[1]).FlattenRealAndImaginary();
+                    }
                     return forwardData => fs.ROfRhoAndFt(ops: (OpticalProperties[])forwardData[0], rhos: (double[])forwardData[1], fts: (double[])forwardData[2]).FlattenRealAndImaginary();
                 case SolutionDomainType.ROfFxAndFt:
+                            if (fs is TwoLayerSDAForwardSolver)
+                            {
+                                return (fitData, otherData) =>
+                                    fs.ROfFxAndFt(getLayerTissueRegionArray(fitData), (double[])otherData[0], (double)otherData[1]).FlattenRealAndImaginary();
+                            }
+
                     return forwardData => fs.ROfFxAndFt(ops: (OpticalProperties[])forwardData[0], fxs: (double[])forwardData[1], fts: (double[])forwardData[2]).FlattenRealAndImaginary();
+
                 default:
                     throw new ArgumentOutOfRangeException("type");
             }
@@ -550,16 +791,20 @@ namespace Vts.Factories
             switch (type)
             {
                 case FluenceSolutionDomainType.FluenceOfRhoAndZ:
-                    return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
+                    if (fs is TwoLayerSDAForwardSolver) // todo: future generalization to IMultiRegionForwardSolver?
+                    {
+                        return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[] { getLayerTissueRegionArray(fitData) }, (double[])otherData[0], (double[])otherData[1]);
+                    }
+                    return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
                 case FluenceSolutionDomainType.FluenceOfFxAndZ:
-                    return (fitData, otherData) => fs.FluenceOfFxAndZ(new[]{ getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
+                    return (fitData, otherData) => fs.FluenceOfFxAndZ(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1]);
                 case FluenceSolutionDomainType.FluenceOfRhoAndZAndTime:
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndTime(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
+                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndTime(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1], new[] { (double)otherData[2] });
                         case IndependentVariableAxis.Time:
-                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndTime(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
+                            return (fitData, otherData) => fs.FluenceOfRhoAndZAndTime(new[] { getOP(fitData) }, new[] { (double)otherData[2] }, (double[])otherData[1], (double[])otherData[0]);
                         //case IndependentVariableAxis.Wavelength:
                         //    return (chromPlusMusp, constantData) =>
                         //               {
@@ -580,9 +825,9 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Fx:
-                            return (fitData, otherData) => fs.FluenceOfFxAndZAndTime(new[]{getOP(fitData)}, (double[])otherData[0], (double[])otherData[1], new[]{(double)otherData[2]});
+                            return (fitData, otherData) => fs.FluenceOfFxAndZAndTime(new[] { getOP(fitData) }, (double[])otherData[0], (double[])otherData[1], new[] { (double)otherData[2] });
                         case IndependentVariableAxis.Time:
-                            return (fitData, otherData) => fs.FluenceOfFxAndZAndTime(new[]{getOP(fitData)}, new[]{(double)otherData[2]}, (double[])otherData[1], (double[])otherData[0]);
+                            return (fitData, otherData) => fs.FluenceOfFxAndZAndTime(new[] { getOP(fitData) }, new[] { (double)otherData[2] }, (double[])otherData[1], (double[])otherData[0]);
                         default:
                             throw new ArgumentOutOfRangeException("axis");
                     }

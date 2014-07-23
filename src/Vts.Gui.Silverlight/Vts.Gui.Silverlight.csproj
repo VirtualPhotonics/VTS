@@ -246,6 +246,9 @@
     <Compile Include="View\Application\Panels\SubPanels\BloodConcentrationView.xaml.cs">
       <DependentUpon>BloodConcentrationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\MultiRegionOpticalPropertyView.xaml.cs">
+      <DependentUpon>MultiRegionOpticalPropertyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\FloatableWindow\FloatableWindow.cs" />
     <Compile Include="View\Controls\FloatableWindow\FloatableWindowAutomationPeer.cs" />
     <Compile Include="View\Controls\FloatableWindow\ResizeMode.cs" />
@@ -376,6 +379,10 @@
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Controls\MultiRegionOpticalPropertyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\ComboBoxOptionView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>

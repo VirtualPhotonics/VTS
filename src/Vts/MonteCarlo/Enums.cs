@@ -345,6 +345,10 @@ namespace Vts.MonteCarlo
     public enum TissueType
     {
         /// <summary>
+        /// SemiInfinite tissue type.  Includes homogeneous tissues.
+        /// </summary>
+        SemiInfinite,  
+        /// <summary>
         /// Multilayer tissue type.  Includes homogeneous tissues.
         /// </summary>
         MultiLayer,
