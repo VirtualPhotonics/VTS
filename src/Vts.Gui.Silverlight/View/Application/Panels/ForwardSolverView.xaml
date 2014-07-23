@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:v="clr-namespace:Vts.Gui.Silverlight.View"
-    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
+    VerticalAlignment="Top">
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
         <!-- Solver Engine -->
         <Grid>
@@ -37,7 +37,7 @@
         <!-- Optical Properties (single- or multi-region property editor shown, depending on forward model type -->
         <StackPanel Visibility="{Binding ShowOpticalProperties, Converter={StaticResource myBooleanToVisibilityConverter}}">
             <StackPanel Visibility="{Binding IsSemiInfinite, Converter={StaticResource myBooleanToVisibilityConverter}}">
-                <v:OpticalPropertyView Mua="1.0" DataContext="{Binding TissueInputVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
+                <v:OpticalPropertyView DataContext="{Binding TissueInputVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
             </StackPanel>
             <StackPanel Visibility="{Binding IsMultiRegion, Converter={StaticResource myBooleanToVisibilityConverter}}">
                 <v:MultiRegionOpticalPropertyView DataContext="{Binding TissueInputVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
