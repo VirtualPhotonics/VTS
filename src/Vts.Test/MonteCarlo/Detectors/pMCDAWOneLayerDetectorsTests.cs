@@ -211,6 +211,57 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 0.7226588), 0.0000001);
         }
+
+        /// <summary>
+        /// Test to validate that calling dMC results in not a NaN
+        /// </summary>
+        [Test]
+        public void validate_dMC_DAW_dROfRhodMua_produces_not_NaN_results()
+        {
+            var postProcessor = new PhotonDatabasePostProcessor(
+                VirtualBoundaryType.pMCDiffuseReflectance,
+                new List<IDetectorInput>()
+                {
+                    new dMCdROfRhodMuaDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10, 101),
+                        // set perturbed ops to reference ops
+                        PerturbedOps = new List<OpticalProperties>()
+                        {
+                            _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                            new OpticalProperties(
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.Mua,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.Musp,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.G,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.N),
+                            _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
+                        },
+                        PerturbedRegionsIndices = new List<int>() {1}
+                    },
+                    new dMCdROfRhodMusDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10, 101),
+                        // set perturbed ops to reference ops
+                        PerturbedOps = new List<OpticalProperties>()
+                        {
+                            _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                            new OpticalProperties(
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.Mua,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.Musp,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.G,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.N),
+                            _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
+                        },
+                        PerturbedRegionsIndices = new List<int>() {1}
+                    }
+                },
+                _databaseOneLayerTissue,
+                _referenceInputOneLayerTissue);
+            var postProcessedOutput = postProcessor.Run();
+            // validation value obtained from linux run using above input and seeded the same
+            Assert.AreNotEqual(Math.Abs(postProcessedOutput.dMCdMua_R_r[0]), double.NaN);
+            Assert.AreNotEqual(Math.Abs(postProcessedOutput.dMCdMus_R_r[0]), double.NaN);
+        }
     }
 }
 
