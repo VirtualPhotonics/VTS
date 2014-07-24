@@ -255,6 +255,7 @@ legend('baseline','0.5x mua','2x mua');
 si = SimulationInput();
 si.N = 1000; % need to run 1e5 or greater to get decent results
 simOptions = SimulationOptions();
+simOptions.Seed = 0;
 simOptions.AbsorptionWeightingType = 'Discrete';
 % modify database generation to specifying creating pMC reflectance database
 simOptions.Databases = { Vts.MonteCarlo.DatabaseType.pMCDiffuseReflectance };

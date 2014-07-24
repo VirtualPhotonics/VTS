@@ -598,7 +598,7 @@ subplot(3,1,1);
 plot(ft, [real(squeeze(test(1,:,:))) -imag(squeeze(test(1,:,:)))],...
      ft, [real(squeeze(test(2,:,:))) -imag(squeeze(test(2,:,:)))],...
      ft, [real(squeeze(test(3,:,:))) -imag(squeeze(test(3,:,:)))]);
-title('Reflectance vs f_t'); 
+title('2-Layer Reflectance vs f_t'); 
 ylabel('R(f_t)');
 xlabel('f_t');
 lgnd = legend('Real','Imaginary');
@@ -616,7 +616,7 @@ subplot(3,1,3);
 plot(ft, -angle(squeeze(test(1,:,:))),...
      ft, -angle(squeeze(test(2,:,:))),...
      ft, -angle(squeeze(test(3,:,:))));
-title('Reflectance phase vs f_t'); 
+title('2-Layer Reflectance phase vs f_t'); 
 ylabel('R(f_t) Phase');
 xlabel('f_t');
 set(f,'Name','Frequency-domain reflectance');
