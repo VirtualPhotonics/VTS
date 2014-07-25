@@ -139,7 +139,7 @@
     <value>Standard Diffusion (Analytic: Isotropic Point Source)</value>
   </data>
   <data name="ForwardSolverType_TwoLayerSDA" xml:space="preserve">
-    <value>Two Layer SDA - Beta version</value>
+    <value>Two Layer SDA</value>
   </data>
   <data name="IndependentVariableAxis_Rho" xml:space="preserve">
     <value>ρ</value>
