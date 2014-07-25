@@ -560,7 +560,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                         break;
                     case PlotToggleType.Phase:
                         // get even elements of toggle list that contain phase data
-                        tempPSC = DataSeriesCollection.Select(dsci => dsci.Select(dp => new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Phase)).ToArray()).ToArray();
+                        tempPSC = DataSeriesCollection.Select(dsci => dsci.Select(dp => new Point(((ComplexDataPoint)dp).X, -((ComplexDataPoint)dp).Y.Phase)).ToArray()).ToArray();
                         Labels = PhaseLabels;
                         break;
                     case PlotToggleType.Amp:

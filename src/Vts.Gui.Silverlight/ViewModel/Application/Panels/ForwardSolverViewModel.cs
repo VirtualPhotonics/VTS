@@ -495,7 +495,8 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             var primaryIdependentValues = RangeVM.Values.ToArray();
             var numPointsPerCurve = primaryIdependentValues.Length;
-            var numCurves = ( isComplexPlot ? reflectance.Length/2 : reflectance.Length) / numPointsPerCurve;
+            var numForwardValues =  isComplexPlot ? reflectance.Length/2 : reflectance.Length; // complex reported as all reals, then all imaginaries
+            var numCurves = numForwardValues / numPointsPerCurve;
 
             var points = new IDataPoint[numCurves][];
             Func<int, int, IDataPoint> getReflectanceAtIndex = (i, j) =>
@@ -505,7 +506,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ? i*numCurves + j
                     : j*numPointsPerCurve + i;
                 return isComplexPlot
-                    ? (IDataPoint)new ComplexDataPoint(primaryIdependentValues[i], new Complex(reflectance[index], reflectance[2 * index]))
+                    ? (IDataPoint)new ComplexDataPoint(primaryIdependentValues[i], new Complex(reflectance[index], reflectance[index + numForwardValues]))
                     : (IDataPoint)new DoubleDataPoint(primaryIdependentValues[i], reflectance[index]);
             };
             for (int j = 0; j < numCurves; j++)
