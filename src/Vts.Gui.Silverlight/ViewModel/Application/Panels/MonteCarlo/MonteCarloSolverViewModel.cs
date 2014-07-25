@@ -77,60 +77,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        //private SimulationInput GetDefaultSimulationInput()
-        //{
-        //    var simulationInput = new SimulationInput
-        //    {
-        //        TissueInput = new MultiLayerTissueInput(
-        //            new List<ITissueRegion> 
-        //            { 
-        //                new LayerRegion(
-        //                    new DoubleRange(double.NegativeInfinity, 0.0),
-        //                    new OpticalProperties( 0.0, 1e-10, 0.0, 1.0)),
-        //                new LayerRegion(
-        //                    new DoubleRange(0.0, 1.0),
-        //                    new OpticalProperties(0.1, 1.0, 0.8, 1.4)),
-        //                new LayerRegion(
-        //                    new DoubleRange(1.0, 100.0),
-        //                    new OpticalProperties(0.01, 2.0, 0.8, 1.4)),
-        //                new LayerRegion(
-        //                    new DoubleRange(100.0, double.PositiveInfinity),
-        //                    new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
-        //            }
-        //        ),
-        //        OutputName = "MonteCarloOutput",
-        //        N = 100,
-        //        Options = new SimulationOptions(
-        //            0, // Note seed = 0 is -1 in linux
-        //            RandomNumberGeneratorType.MersenneTwister,
-        //            AbsorptionWeightingType.Discrete),
-        //        SourceInput = new DirectionalPointSourceInput(),
-        //        VirtualBoundaryInputs = new List<IVirtualBoundaryInput>
-        //        {
-        //            new SurfaceVirtualBoundaryInput(
-        //                VirtualBoundaryType.DiffuseReflectance,
-        //                new List<IDetectorInput>
-        //                {
-        //                    new ROfRhoDetectorInput(new DoubleRange(0.0, 20.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
-        //                },
-        //                false, // write database
-        //                VirtualBoundaryType.DiffuseReflectance.ToString()
-        //            ),
-        //            new SurfaceVirtualBoundaryInput(
-        //                VirtualBoundaryType.DiffuseTransmittance,
-        //                new List<IDetectorInput>
-        //                {
-        //                    //new TOfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
-        //                },
-        //                false, // write database
-        //                VirtualBoundaryType.DiffuseTransmittance.ToString()
-        //            )
-        //        }
-        //    };
-
-        //    return simulationInput;
-        //}
-
         private void MC_ExecuteMonteCarloSolver_Executed(object sender, ExecutedEventArgs e)
         {
             if (!EnoughRoomInIsolatedStorage(50))
@@ -177,9 +123,9 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                         var detectorInput = (ROfRhoDetectorInput)rOfRhoDetectorInputs.First();
 
-                        IEnumerable<double> independentValues = detectorInput.Rho.AsEnumerable();
+                        double[] independentValues = detectorInput.Rho.AsEnumerable().ToArray();
 
-                        IEnumerable<Point> points = null;
+                        DoubleDataPoint[] points = null;
 
                         //var showPlusMinusStdev = true;
                         //if(showPlusMinusStdev && _output.R_r2 != null)
@@ -197,14 +143,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                         points = Enumerable.Zip(
                             independentValues,
                             _output.R_r,
-                            (x, y) => new Point(x, y));
+                            (x, y) => new DoubleDataPoint(x, y)).ToArray();
                         //}
 
                         PlotAxesLabels axesLabels = GetPlotLabels();
                         Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
                         string plotLabel = GetPlotLabel();
-                        Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
+                        Commands.Plot_PlotValues.Execute(new PlotData(new []{ points }, new []{ plotLabel }));
                         logger.Info(() => "done.\r");
                     }
 
@@ -370,7 +316,6 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                 if (store.FileExists(input.OutputName + ".zip"))
                 {
-
                     try
                     {
                         using (var zipStream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("zip"))

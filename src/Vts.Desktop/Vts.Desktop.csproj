@@ -210,6 +210,9 @@
     <Compile Include="..\Vts\Common\Interfaces\IForwardSolver.cs">
       <Link>Common\Interfaces\IForwardSolver.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Common\Interfaces\ILayerOpticalPropertyRegion.cs">
+      <Link>Common\Interfaces\ILayerOpticalPropertyRegion.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Common\Interfaces\INotifyPropertyChangedPlus.cs">
       <Link>Common\Interfaces\INotifyPropertyChangedPlus.cs</Link>
     </Compile>
@@ -219,8 +222,14 @@
     <Compile Include="..\Vts\Common\Interfaces\IOldOptimizer.cs">
       <Link>Common\Interfaces\IOldOptimizer.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Common\Interfaces\IOpticalPropertyRegion.cs">
+      <Link>Common\Interfaces\IOpticalPropertyRegion.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Common\Interfaces\IOptimizer.cs">
       <Link>Common\Interfaces\IOptimizer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Common\LayerOpticalPropertyRegion.cs">
+      <Link>Common\LayerOpticalPropertyRegion.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Common\Logging\AbstractLoggerFactory.cs">
       <Link>Common\Logging\AbstractLoggerFactory.cs</Link>
@@ -482,6 +491,9 @@
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\StubNurbsGenerator.cs">
       <Link>Modeling\ForwardSolvers\StubNurbsGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\TwoLayerSDAForwardSolver.cs">
+      <Link>Modeling\ForwardSolvers\TwoLayerSDAForwardSolver.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs">
       <Link>Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs</Link>

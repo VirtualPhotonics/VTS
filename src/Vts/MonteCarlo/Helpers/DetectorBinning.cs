@@ -68,6 +68,24 @@ namespace Vts.MonteCarlo.Helpers
             return -1; // for now
         }
         /// <summary>
+        /// WhichBin determines which bin "value" is in given a list of bin stops.
+        /// If value not in any bin, -1 returned.
+        /// This allows for nonuniformly spaced bins within assumed contiguous span starting from 0.
+        /// </summary>
+        /// <param name="value">value to be binned</param>
+        /// <param name="binStops">list of bin stops</param>
+        public static int WhichBin(double value, double[] binStops)
+        {
+            if ((value >= 0.0) && (value < binStops[0]))
+                return 0;
+            for (int i = 1; i < binStops.Count(); i++)
+            {
+                if ((value >= binStops[i-1]) && (value < binStops[i]))
+                    return i;
+            }
+            return -1; // for now
+        }
+        /// <summary>
         /// Method to determine time delay of photon given its pathlength and refractive index
         /// of medium where pathlength is determined
         /// </summary>

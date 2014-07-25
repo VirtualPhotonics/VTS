@@ -266,6 +266,15 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[] pMC_R_r2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRho").First().Name]).SecondMoment); } }
         /// <summary>
+        /// differential MC Reflectance as a function of rho wrt to mua
+        /// </summary>
+        public double[] dMCdMua_R_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "dMCdROfRhodMua").First().Name]).Mean); } }
+        /// <summary>
+        /// differential MC Reflectance as a function of rho wrt to mus
+        /// </summary>
+        public double[] dMCdMus_R_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "dMCdROfRhodMus").First().Name]).Mean); } }
+       
+        /// <summary>
         /// Simulation Input that generated this SimulationOutput
         /// </summary>
         public SimulationInput Input { get; private set; }

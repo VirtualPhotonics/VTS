@@ -109,6 +109,9 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
             switch (tissueType)
             {
+                case MonteCarlo.TissueType.SemiInfinite:
+                    _simulationInput.TissueInput = new SemiInfiniteTissueInput();
+                    break;
                 case MonteCarlo.TissueType.MultiLayer:
                     _simulationInput.TissueInput = new MultiLayerTissueInput();
                     break;
@@ -120,7 +123,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
 
             TissueTypeVM.Options[tissueType].IsSelected = true;
-
         }
 
         private void UpdateTissueInputVM(ITissueInput tissueInput)
@@ -129,11 +131,9 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 case MonteCarlo.TissueType.MultiLayer:
                     TissueInputVM = new MultiRegionTissueViewModel((MultiLayerTissueInput)tissueInput);
-                    //TissueInputVM = new MultiLayerTissueViewModel((MultiLayerTissueInput)tissueInput);
                     break;
                 case MonteCarlo.TissueType.SingleEllipsoid:
                     TissueInputVM = new MultiRegionTissueViewModel((SingleEllipsoidTissueInput)tissueInput);
-                    //TissueInputVM = new SingleEllipsoidTissueViewModel((SingleEllipsoidTissueInput)tissueInput);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

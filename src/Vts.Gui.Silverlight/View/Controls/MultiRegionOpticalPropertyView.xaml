@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="Vts.Gui.Silverlight.View.MultiRegionOpticalPropertyView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:v="clr-namespace:Vts.Gui.Silverlight.View"
+             xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+             xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions"
+             mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+
+    <StackPanel Orientation="Vertical">
+        <TextBlock Text="Tissue Input" FontWeight="Bold"/>
+        <StackPanel Orientation="Horizontal" >
+            <TextBlock Text="Currently selected region:" VerticalAlignment="Center"/>
+            <toolkit:NumericUpDown Name="nudRegionIndex"  Value="{Binding CurrentRegionIndex, Mode=TwoWay}" Minimum="{Binding MinimumRegionIndex}"  Maximum="{Binding MaximumRegionIndex}" Width="35" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding RegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">
+            <!-- <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">-->
+            <!-- <ListBox SelectedIndex="{Binding CurrentRegionIndex, Mode=TwoWay}" ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">-->
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Gray" BorderThickness="1.5">
+                        <StackPanel Orientation="Vertical">
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding IsLayer, Converter={StaticResource myBooleanToVisibilityConverter}}" >
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock Text="Layer Height" />
+                                    <TextBlock Text="Start/Stop:" />
+                                </StackPanel>
+                                <StackPanel >
+                                    <v:RangeView DataContext="{Binding ZRangeVM}" Margin="1" />
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Visibility="{Binding IsEllipsoid, Converter={StaticResource myBooleanToVisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                                    <StackPanel Orientation="Vertical" Margin="5,0,5,0" >
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="X ["/>
+                                            <TextBlock Text="{Binding Units}" />
+                                            <TextBlock Text="]"/>
+                                        </StackPanel>
+                                        <TextBox Width="40" Text="{Binding X, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Vertical" Margin="5,0,5,0">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="Y ["/>
+                                            <TextBlock Text="{Binding Units}" />
+                                            <TextBlock Text="]"/>
+                                        </StackPanel>
+                                        <TextBox Width="40" Text="{Binding Y, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Vertical"  Margin="5,0,5,0" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="Z ["/>
+                                            <TextBlock Text="{Binding Units}" />
+                                            <TextBlock Text="]"/>
+                                        </StackPanel>
+                                        <TextBox Width="40" Text="{Binding Z, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Vertical" Margin="5,0,5,0" >
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="Dx ["/>
+                                            <TextBlock Text="{Binding Units}" />
+                                            <TextBlock Text="]"/>
+                                        </StackPanel>
+                                        <TextBox Width="40" Text="{Binding Dx, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Vertical" Margin="5,0,5,0">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="Dy ["/>
+                                            <TextBlock Text="{Binding Units}" />
+                                            <TextBlock Text="]"/>
+                                        </StackPanel>
+                                        <TextBox Width="40" Text="{Binding Dy, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Vertical"  Margin="5,0,5,0" HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="Dz ["/>
+                                            <TextBlock Text="{Binding Units}" />
+                                            <TextBlock Text="]"/>
+                                        </StackPanel>
+                                        <TextBox Width="40" Text="{Binding Dz, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock Text="Layer " />
+                                    <TextBlock Text="Opt. Prop." />
+                                </StackPanel>
+                                <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" Margin="1" VerticalAlignment="Top"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </StackPanel>
+</UserControl>

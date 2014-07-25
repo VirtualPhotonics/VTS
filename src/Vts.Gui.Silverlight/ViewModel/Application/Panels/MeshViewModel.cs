@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
+using GalaSoft.MvvmLight.Command;
 using Vts.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
@@ -39,10 +40,12 @@ namespace Vts.Gui.Silverlight.ViewModel
                 UpdateImages();
             };
 
-            Commands.Mesh_PlotMap.Executed += Mesh_PlotMap_Executed;
+            ExportDataCommand = new RelayCommand(() => ExportData_Executed(null, null));
 
-            Commands.Mesh_ExportDataToText.Executed += Mesh_ExportDataToText_Executed;
+            Commands.Mesh_PlotMap.Executed += Mesh_PlotMap_Executed;
         }
+
+        public RelayCommand ExportDataCommand { get; set; }
 
         public WriteableBitmap Bitmap { get; private set; }
         public WriteableBitmap ColorBar { get; private set; }
@@ -112,20 +115,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        //// todo: this should be updated to use reflection, and not rely on strings
-        //void MapViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    if (e.PropertyName == "MinValue" || e.PropertyName == "MaxValue" )
-        //    {
-        //        UpdateImages();
-        //    }
-        //    else if (e.PropertyName == "AutoScale")
-        //    {
-        //        UpdateStats();
-        //        UpdateImages();
-        //    }
-        //}
-
         void Mesh_PlotMap_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
         {
             var mapData = e.Parameter as MapData;
@@ -136,7 +125,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        private void Mesh_ExportDataToText_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
+        private void ExportData_Executed(object sender, SLExtensions.Input.ExecutedEventArgs e)
         {
             if (_mapData != null && _mapData.RawData != null && _mapData.XValues != null && _mapData.YValues != null)
             {
@@ -171,8 +160,8 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
             if (AutoScale)
             {
-                MinValue = _mapData.Min; // this is slow, i know. will fix later. -dc
-                MaxValue = _mapData.Max; // this is slow, i know. will fix later. -dc
+                MinValue = _mapData.Min;
+                MaxValue = _mapData.Max;
             }
         }
 

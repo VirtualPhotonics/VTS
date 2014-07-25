@@ -112,6 +112,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Silverlight.Testing">
+      <HintPath>..\..\tools\nunit\Silverlight\Microsoft.Silverlight.Testing.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NLog.3.1.0.0\lib\sl5\NLog.dll</HintPath>
@@ -201,7 +204,6 @@
     <Compile Include="Helpers\fjcore\Resize\ImageResizer.cs" />
     <Compile Include="Helpers\fjcore\YCbCr.cs" />
     <Compile Include="Helpers\fjcore\ZigZag.cs" />
-    <Compile Include="Model\ComplexPoint.cs" />
     <Compile Include="Model\MapData.cs" />
     <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
@@ -217,7 +219,6 @@
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SingleEllipsoidTissueViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\EllipsoidRegionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SimulationOptionsViewModel.cs" />
-    <Compile Include="ViewModel\Application\Panels\MonteCarlo\MultiLayerTissueViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\LayerRegionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SimulationInputViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\BloodConcentrationViewModel.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="ViewModel\Application\Panels\MapViewModel.cs" />
     <Compile Include="ViewModel\Application\WhiteList.cs" />
     <Compile Include="ViewModel\Controls\PositionViewModel.cs" />
+    <Compile Include="Model\DataPoint.cs" />
     <Compile Include="ViewModel\Helpers\PlotAxesLabels.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\SolutionDomainOptionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SpectralMappingViewModel.cs" />
@@ -243,6 +245,9 @@
     </Compile>
     <Compile Include="View\Application\Panels\SubPanels\BloodConcentrationView.xaml.cs">
       <DependentUpon>BloodConcentrationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\MultiRegionOpticalPropertyView.xaml.cs">
+      <DependentUpon>MultiRegionOpticalPropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\FloatableWindow\FloatableWindow.cs" />
     <Compile Include="View\Controls\FloatableWindow\FloatableWindowAutomationPeer.cs" />
@@ -274,14 +279,15 @@
     <Compile Include="View\Controls\ListBoxOptionView.xaml.cs">
       <DependentUpon>ListBoxOptionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Helpers\DataTemplateSelector.cs" />
     <Compile Include="View\Helpers\ImageTools.cs" />
+    <Compile Include="View\Helpers\OptionTemplateSelector.cs" />
     <Compile Include="View\Templates\MieScatteringView.xaml.cs">
       <DependentUpon>MieScatteringView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Application\Panels\MonteCarloSolverView.xaml.cs">
       <DependentUpon>MonteCarloSolverView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Helpers\PlotExtensions.cs" />
     <Compile Include="View\Templates\PowerLawScatteringView.xaml.cs">
       <DependentUpon>PowerLawScatteringView.xaml</DependentUpon>
     </Compile>
@@ -373,6 +379,10 @@
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Controls\MultiRegionOpticalPropertyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\ComboBoxOptionView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>

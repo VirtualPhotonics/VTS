@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Vts.Common;
 using Vts.Gui.Silverlight.Extensions;
@@ -157,7 +158,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             switch (SelectedValue)
             {
                 case FluenceSolutionDomainType.FluenceOfRhoAndZ:
-                default:
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             new[] { IndependentVariableAxis.Rho});
@@ -193,6 +193,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                             new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Ft });
                     ConstantLabelVisible = true;
                     break;
+                default:
+                    throw new NotImplementedException("SelectedValue");
             }
             // create a new callback based on the new viewmodel
             IndependentVariableAxisOptionVM.PropertyChanged += (s, a) => UpdateAxes();
@@ -205,8 +207,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             IndependentAxisType = IndependentVariableAxisOptionVM.SelectedValue;
             IndependentAxisLabel = IndependentVariableAxisOptionVM.SelectedDisplayName;
             IndependentAxisUnits = IndependentAxisType.GetUnits();
-
-            Commands.FluenceSolver_SetIndependentVariableRange.Execute(GetDefaultIndependentAxisRange(IndependentAxisType));
 
             if (IndependentVariableAxisOptionVM.Options.Count > 1)
             {
@@ -247,7 +247,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     range = new DoubleRange(650D, 1000D, 60); // units=nm
                     break;
             }
-            return new RangeViewModel(range, independentAxisType.GetUnits(), "");
+            return new RangeViewModel(range, independentAxisType.GetUnits(), independentAxisType, "");
         }
 
         private double GetDefaultConstantAxisValue(IndependentVariableAxis constantType)

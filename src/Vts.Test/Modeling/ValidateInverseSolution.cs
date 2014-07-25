@@ -23,9 +23,7 @@ namespace Vts.Test.Modeling
                 ForwardSolverType.DistributedPointSourceSDA,
                 SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
-                IndependentVariableAxis.Rho,
-                independentValues,
-                actualProperties).ToArray();
+                new object[] {new[] {actualProperties}, independentValues});
 
             var standardDeviation = simulatedMeasured;
 
@@ -33,7 +31,6 @@ namespace Vts.Test.Modeling
                 ForwardSolverType.DistributedPointSourceSDA,
                 OptimizerType.MPFitLevenbergMarquardt,
                 SolutionDomainType.ROfRho,
-                IndependentVariableAxis.Rho,
                 independentValues,
                 simulatedMeasured,
                 standardDeviation,
@@ -62,9 +59,7 @@ namespace Vts.Test.Modeling
                 ForwardSolverType.MonteCarlo,
                 SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
-                IndependentVariableAxis.Rho,
-                independentValues,
-                actualProperties).ToArray();
+                new object[] { new[] { actualProperties }, independentValues });
 
             var standardDeviation = simulatedMeasured;
 
@@ -72,7 +67,6 @@ namespace Vts.Test.Modeling
                 ForwardSolverType.DistributedPointSourceSDA,
                 OptimizerType.MPFitLevenbergMarquardt,
                 SolutionDomainType.ROfRho,
-                IndependentVariableAxis.Rho,
                 independentValues,
                 simulatedMeasured,
                 standardDeviation,
@@ -101,9 +95,7 @@ namespace Vts.Test.Modeling
                 ForwardSolverType.MonteCarlo,
                 SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
-                IndependentVariableAxis.Rho,
-                independentValues,
-                actualProperties).ToArray();
+                new object[] { new[] { actualProperties }, independentValues });
             
             var standardDeviation = simulatedMeasured;
 
@@ -111,7 +103,6 @@ namespace Vts.Test.Modeling
                 ForwardSolverType.MonteCarlo,
                 OptimizerType.MPFitLevenbergMarquardt,
                 SolutionDomainType.ROfRho,
-                IndependentVariableAxis.Rho,
                 independentValues,
                 simulatedMeasured,
                 standardDeviation,

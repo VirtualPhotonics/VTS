@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using NUnit.Framework;
+using Vts.Gui.Silverlight.Model;
 using Vts.Gui.Silverlight.ViewModel;
 
 namespace Vts.Gui.Silverlight.Test.ViewModel
@@ -58,7 +59,7 @@ namespace Vts.Gui.Silverlight.Test.ViewModel
         /// <param name="solutionDomainType"></param>
         /// <param name="independentVariableAxis"></param>
         /// <returns></returns>
-        private IEnumerable<Point> ExecuteForwardSolver(
+        private IDataPoint[] ExecuteForwardSolver(
             ForwardSolverType forwardSolverType, 
             ForwardAnalysisType forwardAnalysisType, 
             SolutionDomainType solutionDomainType,

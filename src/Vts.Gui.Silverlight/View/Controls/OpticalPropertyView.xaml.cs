@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Vts.Gui.Silverlight.View
 {
@@ -9,23 +9,16 @@ namespace Vts.Gui.Silverlight.View
     // of course, that doesn't solve the scalability problem...
     public partial class OpticalPropertyView : UserControl
     {
-        public double Mua
-        {
-            get { return (double)GetValue(MuaProperty); }
-            set { SetValue(MuaProperty, value); }
-        }
-        public static readonly DependencyProperty MuaProperty =
-            DependencyProperty.Register("Mua", typeof(double), typeof(OpticalPropertyView),
-            new PropertyMetadata(0.01, new PropertyChangedCallback(OpticalPropertyView.OnMuaPropertyChanged)));
-
-        private static void OnMuaPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-
-        }
-
         public OpticalPropertyView()
         {
             InitializeComponent();
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            var tbx = sender as TextBox;
+            if (tbx != null && e.Key == Key.Enter)
+                tbx.GetBindingExpression(TextBox.TextProperty).UpdateSource();
         }
     }
 }

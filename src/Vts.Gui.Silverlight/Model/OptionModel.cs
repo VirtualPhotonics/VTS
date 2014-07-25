@@ -2,51 +2,31 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Vts.Gui.Silverlight.ViewModel;
 
 namespace Vts.Gui.Silverlight.Model
 {
-    /// <summary>
-    /// Represents a value with a user-friendly name that can be selected by the user.
-    /// From Josh Smith &amp; Karl Schifflett's Code Project article on localization:
-    /// <see cref="http://www.codeproject.com/KB/WPF/InternationalizedWizard.aspx">"http://www.codeproject.com/KB/WPF/InternationalizedWizard.aspx"</see>
-    /// </summary>
-    /// <typeparam name="TValue">The type of value represented by the option.</typeparam>
-    public class OptionModel<TValue> :
-        BindableObject,
-        IComparable<OptionModel<TValue>> // where TValue : struct 
+
+    public abstract class OptionModel : BindableObject
     {
-        #region Fields
 
-        const int UNSET_SORT_VALUE = Int32.MinValue;
+        protected const int UNSET_SORT_VALUE = Int32.MinValue;
+
+        protected readonly string _displayName;
+        protected readonly string _groupName;
+        protected bool _isSelected;
+        protected readonly int _sortValue;
+        protected readonly int _ID;
+        protected readonly bool _multiSelectEnabled;
         
-        readonly string _displayName;
-        readonly string _groupName;
-        bool _isSelected;
-        readonly int _sortValue;
-        readonly int _ID;
-        readonly TValue _value;
-
-        #endregion // Fields
-
-        #region Constructor
-
-        public OptionModel(string displayName, TValue value, int id, string groupName)
-            : this(displayName, value, id, groupName, UNSET_SORT_VALUE)
-        {
-        }
-
-        public OptionModel(string displayName, TValue value, int id, string groupName, int sortValue)
+        public OptionModel(string displayName, int id, string groupName, bool enableMultiSelect, int sortValue)
         {
             _displayName = displayName;
             _groupName = groupName;
-            _value = value;
             _ID = id;
             _sortValue = sortValue;
+            _multiSelectEnabled = enableMultiSelect;
         }
-
-        #endregion // Constructor
-
-        #region Properties
 
         /// <summary>
         /// Returns the user-friendly name of this option.
@@ -62,14 +42,6 @@ namespace Vts.Gui.Silverlight.Model
         public string GroupName
         {
             get { return _groupName; }
-        }
-
-        /// <summary>
-        /// Returns the user-friendly name of this option.
-        /// </summary>
-        public TValue Value
-        {
-            get { return _value; }
         }
 
         /// <summary>
@@ -107,10 +79,46 @@ namespace Vts.Gui.Silverlight.Model
             get { return _ID; }
         }
 
-        #endregion // Properties
+        /// <summary>
+        /// multi-select
+        /// </summary>
+        public bool MultiSelectEnabled
+        {
+            get { return _multiSelectEnabled; }
+        }
+    }
 
-        #region Methods
+    /// <summary>
+    /// Represents a value with a user-friendly name that can be selected by the user.
+    /// From Josh Smith &amp; Karl Schifflett's Code Project article on localization:
+    /// <see cref="http://www.codeproject.com/KB/WPF/InternationalizedWizard.aspx">"http://www.codeproject.com/KB/WPF/InternationalizedWizard.aspx"</see>
+    /// </summary>
+    /// <typeparam name="TValue">The type of value represented by the option.</typeparam>
+    public class OptionModel<TValue> :
+        OptionModel,
+        IComparable<OptionModel<TValue>> // where TValue : struct 
+    {
+        protected readonly TValue _value;
 
+        public OptionModel(string displayName, TValue value, int id, string groupName, bool enableMultiSelect)
+            : this(displayName, value, id, groupName, enableMultiSelect, UNSET_SORT_VALUE)
+        {
+        }
+
+        public OptionModel(string displayName, TValue value, int id, string groupName, bool enableMultiSelect, int sortValue)
+            : base(displayName, id, groupName, enableMultiSelect, sortValue)
+        {
+            _value = value;
+        }
+
+        /// <summary>
+        /// Returns the user-friendly name of this option.
+        /// </summary>
+        public TValue Value
+        {
+            get { return _value; }
+        }
+        
         //public static ReadOnlyCollection<OptionViewModel<TValue>> CreateAvailableOptions(PropertyChangedEventHandler handler)
         /// <summary>
         /// Creates a Dictionary of options. If no options (params TValue[] values) are specified, it will use all of the available choices
@@ -119,7 +127,7 @@ namespace Vts.Gui.Silverlight.Model
         /// <param name="allValues"></param>
         /// <returns></returns>
         /// 
-        public static Dictionary<TValue, OptionModel<TValue>> CreateAvailableOptions(PropertyChangedEventHandler handler, string groupName, TValue initialValue, TValue[] allValues)
+        public static Dictionary<TValue, OptionModel<TValue>> CreateAvailableOptions(PropertyChangedEventHandler handler, string groupName, TValue initialValue, TValue[] allValues, bool enableMultiSelect)
         {
             Type enumType = typeof(TValue);
             if (!enumType.IsEnum)
@@ -137,7 +145,7 @@ namespace Vts.Gui.Silverlight.Model
             for (int i = 0; i < allValues.Length; i++)
             {
                 string name = names[i].Length > 0 ? names[i] : allValues[i].ToString();
-                OptionModel<TValue> option = new OptionModel<TValue>(name, allValues[i], i, groupName);
+                OptionModel<TValue> option = new OptionModel<TValue>(name, allValues[i], i, groupName, enableMultiSelect);
                 option.PropertyChanged += handler;
                 list.Add(option);
             }
@@ -155,10 +163,6 @@ namespace Vts.Gui.Silverlight.Model
             return list.ToDictionary(item => item.Value);
             //return new ReadOnlyCollection<OptionViewModel<TValue>>(list);
         }
-
-        #endregion // Methods
-
-        #region IComparable<OptionViewModel<TValue>> Members
 
         public int CompareTo(OptionModel<TValue> other)
         {
@@ -182,7 +186,5 @@ namespace Vts.Gui.Silverlight.Model
                 return +1;
             }
         }
-
-        #endregion // IComparable<OptionViewModel<TValue>> Members
     }
 }

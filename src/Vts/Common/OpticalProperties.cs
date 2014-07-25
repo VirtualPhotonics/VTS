@@ -46,6 +46,15 @@ namespace Vts
         {
         }
 
+        /// <summary>
+        /// Creates a new instance based on values in an array [mua, musp, g, n]
+        /// </summary>
+        /// <param name="op">optical properties of the medium</param>
+        public OpticalProperties(double[] op)
+            : this(op[0], op[1], op[2], op[3])
+        {
+        }
+
 
         /// <summary>
         /// absorption coefficient = probability of absorption per unit distance traveled

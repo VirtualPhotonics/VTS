@@ -5,42 +5,19 @@
     xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit"
     xmlns:v="clr-namespace:Vts.Gui.Silverlight.View">
 
-    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
         <TextBlock
             x:Name="Header" Text="{Binding GroupName}" 
             Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}" 
-            FontSize="16" 
-            TextDecorations="Underline"
-            Margin="0,0,10,0"
+            FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,2,0"
             />
         <v:ComboBox
             ItemsSource="{Binding Options.Values}"
             SelectedValue="{Binding SelectedValue, Mode=TwoWay}"
             ValueMemberPath="Value"
             DisplayMemberPath="DisplayName"
-            Height="25">
-            
-            <!--<ComboBox.ItemTemplate>-->
-                <!--<DataTemplate>
-                    <ComboBoxItem IsSelected="{Binding IsSelected, Mode=TwoWay}">
-                        <TextBlock Text="{Binding DisplayName}"/>
-                    </ComboBoxItem>
-                </DataTemplate>-->
-                <!--<DataTemplate>
-                    <RadioButton VerticalAlignment="Top"
-                        Tag="{Binding ID}"
-                        Content="{Binding DisplayName}"
-                        IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                        GroupName="{Binding GroupName}"
-                        Margin="2,3.5" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>-->
+            Height="22"
+            FontSize="11">
         </v:ComboBox>
-
-        <!--<this:ComboBox Name="ProductCategoryComboBox"
-               ItemsSource="{Binding Source={StaticResource ProductCategories},Path=Data}"
-               SelectedValue="{Binding Path=CategoryId, Mode=TwoWay}"
-               ValueMemberPath="Key"
-               DisplayMemberPath="Value"/>-->
     </StackPanel>
 </UserControl>

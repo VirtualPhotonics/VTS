@@ -204,19 +204,41 @@ namespace Vts.MonteCarlo.Detectors
             // NOTE: following code only works for single perturbed region
             foreach (var i in _perturbedRegionsIndices)
             {
-                weightFactor *=
-                    (numberOfCollisions[i] * (1.0 / _referenceOps[i].Mus) * // dMus* 1st factor
-                    Math.Pow(
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
-                            Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mus - _referenceOps[i].Mus - _referenceOps[i].Mus) *
-                            pathLength[i] / (numberOfCollisions[i] - 1)),
-                        numberOfCollisions[i] - 1)  // minus one here
-                    - pathLength[i] * // dMus* 2nd factor
-                    Math.Pow(
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
-                            Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mus - _referenceOps[i].Mus - _referenceOps[i].Mus) *
-                            pathLength[i] / numberOfCollisions[i]),
-                        numberOfCollisions[i])); // one here
+                if (numberOfCollisions[i] - 1 > 0)
+                {
+                    weightFactor *=
+                        (numberOfCollisions[i]*(1.0/_referenceOps[i].Mus)* // dMus* 1st factor
+                         Math.Pow(
+                             (_perturbedOps[i].Mus/_referenceOps[i].Mus)*
+                             Math.Exp(
+                                 -(_perturbedOps[i].Mus + _perturbedOps[i].Mus - _referenceOps[i].Mus -
+                                   _referenceOps[i].Mus)*
+                                 pathLength[i]/(numberOfCollisions[i] - 1)),
+                             numberOfCollisions[i] - 1) // minus one here
+                         - pathLength[i]* // dMus* 2nd factor
+                         Math.Pow(
+                             (_perturbedOps[i].Mus/_referenceOps[i].Mus)*
+                             Math.Exp(
+                                 -(_perturbedOps[i].Mus + _perturbedOps[i].Mus - _referenceOps[i].Mus -
+                                   _referenceOps[i].Mus)*
+                                 pathLength[i]/numberOfCollisions[i]),
+                             numberOfCollisions[i])); // one here
+                }
+                else // number of collisions in pert region is 1
+                {
+                    weightFactor *=
+                        (numberOfCollisions[i] * (1.0 / _referenceOps[i].Mus) * // dMus* 1st factor
+                             Math.Exp(
+                                 -(_perturbedOps[i].Mus + _perturbedOps[i].Mus - _referenceOps[i].Mus -
+                                   _referenceOps[i].Mus) *
+                                 pathLength[i])
+                         - pathLength[i] * // dMus* 2nd factor
+                             (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
+                             Math.Exp(
+                                 -(_perturbedOps[i].Mus + _perturbedOps[i].Mus - _referenceOps[i].Mus -
+                                   _referenceOps[i].Mus) *
+                                 pathLength[i])); 
+                }
             }
             return weightFactor;
         }
