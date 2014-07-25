@@ -330,27 +330,27 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         void ExecuteForwardSolver_Executed(object sender, ExecutedEventArgs e)
         {
-            Point[][] points = ExecuteForwardSolver();
+            IDataPoint[][] points = ExecuteForwardSolver();
             PlotAxesLabels axesLabels = GetPlotLabels();
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
             string[] plotLabels = GetLegendLabels();
-            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
-            {
-                var real = points[0];
-                var imag = points[1];
-                // convert Point to ComplexPoint
-                var complexPoints = new List<ComplexPoint>();
-                for (int i = 0; i < real.Length; i++)
-                {
-                    complexPoints.Add(new ComplexPoint(real[i].X, new Complex(real[i].Y, imag[i].Y)));
-                }
-                Commands.Plot_PlotValues.Execute(new PlotData(new [] { complexPoints.ToArray() }, plotLabels));
-            }
-            else
-            {
+            //if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
+            //{
+            //    var real = points[0];
+            //    var imag = points[1];
+            //    // convert Point to ComplexPoint
+            //    var complexPoints = new List<ComplexPoint>();
+            //    for (int i = 0; i < real.Length; i++)
+            //    {
+            //        complexPoints.Add(new ComplexPoint(real[i].X, new Complex(real[i].Y, imag[i].Y)));
+            //    }
+            //    Commands.Plot_PlotValues.Execute(new PlotData(new [] { complexPoints.ToArray() }, plotLabels));
+            //}
+            //else
+            //{
                 Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabels));
-            }
+            //}
 
             Commands.TextOutput_PostMessage.Execute("Forward Solver: " + TissueInputVM + "\r"); // todo: override ToString() for MultiRegionTissueViewModel
         }
@@ -430,16 +430,16 @@ namespace Vts.Gui.Silverlight.ViewModel
                 case ForwardSolverType.DistributedGaussianSourceSDA:
                 case ForwardSolverType.DistributedPointSourceSDA:
                 case ForwardSolverType.PointSourceSDA:
-                    modelString = "Model - SDA \r";
+                    modelString = "Model - SDA\r";
                     break;
                 case ForwardSolverType.MonteCarlo:
-                    modelString = "Model - scaled MC \r";
+                    modelString = "Model - scaled MC\r";
                     break;
                 case ForwardSolverType.Nurbs:
-                    modelString = "Model - nurbs \r";
+                    modelString = "Model - nurbs\r";
                     break;
                 case ForwardSolverType.TwoLayerSDA:
-                    modelString = "Model - 2 layer SDA \r";
+                    modelString = "Model - 2 layer SDA\r";
                     break;
             }
 
@@ -451,14 +451,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     regions = ((MultiRegionTissueViewModel)TissueInputVM).GetTissueInput().Regions;
                     opString =
-                        "μa1=" + regions[0].RegionOP.Mua + " μs'1=" + regions[0].RegionOP.Musp + "\r" +
-                        "μa2=" + regions[1].RegionOP.Mua + " μs'2=" + regions[1].RegionOP.Musp + "\r"; 
+                        "μa1=" + regions[0].RegionOP.Mua + "\rμs'1=" + regions[0].RegionOP.Musp +
+                        "μa2=" + regions[1].RegionOP.Mua + "\rμs'2=" + regions[1].RegionOP.Musp; 
                 }
             }
             else
             {
                 var opticalProperties = ((OpticalPropertyViewModel)TissueInputVM).GetOpticalProperties();
-                opString = "μa=" + opticalProperties.Mua + " \rμs'=" + opticalProperties.Musp + "\r";
+                opString = "μa=" + opticalProperties.Mua + " \rμs'=" + opticalProperties.Musp ;
             }
 
             if (_allRangeVMs.Length > 1)
@@ -475,7 +475,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             return new []{ modelString + opString };
         }
 
-        public Point[][] ExecuteForwardSolver()
+        public IDataPoint[][] ExecuteForwardSolver()
         {
             var parameters = GetParametersInOrder();
 
@@ -486,7 +486,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     parameters.Values.ToArray());
 
             var plotIsVsWavelength = _allRangeVMs.Any(vm => vm.AxisType == IndependentVariableAxis.Wavelength);
-
+            var isComplexPlot = ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue);
             //var plotVsTime = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Any( value => value == IndependentVariableAxis.Time) &&
             //                       ((OpticalProperties[]) parameters[IndependentVariableAxis.Time]).Length > 1 ||
             //                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Any( value => value == IndependentVariableAxis.Ft) &&
@@ -495,28 +495,25 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             var primaryIdependentValues = RangeVM.Values.ToArray();
             var numPointsPerCurve = primaryIdependentValues.Length;
-            var numCurves =
-                (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue)
-                    ? reflectance.Length/2 : reflectance.Length)
-                / numPointsPerCurve;
+            var numCurves = ( isComplexPlot ? reflectance.Length/2 : reflectance.Length) / numPointsPerCurve;
 
-            var points = new Point[numCurves][];
+            var points = new IDataPoint[numCurves][];
+            Func<int, int, IDataPoint> getReflectanceAtIndex = (i, j) =>
+            {
+                // man, this is getting hacky...
+                var index = plotIsVsWavelength
+                    ? i*numCurves + j
+                    : j*numPointsPerCurve + i;
+                return isComplexPlot
+                    ? (IDataPoint)new ComplexDataPoint(primaryIdependentValues[i], new Complex(reflectance[index], reflectance[2 * index]))
+                    : (IDataPoint)new DoubleDataPoint(primaryIdependentValues[i], reflectance[index]);
+            };
             for (int j = 0; j < numCurves; j++)
             {
-                points[j] = new Point[numPointsPerCurve];
-                if (plotIsVsWavelength) // man, this is getting hacky...
+                points[j] = new IDataPoint[numPointsPerCurve];
+                for (int i = 0; i < numPointsPerCurve; i++)
                 {
-                    for (int i = 0; i < numPointsPerCurve; i++)
-                    {
-                        points[j][i] = new Point(primaryIdependentValues[i], reflectance[i*numCurves + j]);
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < numPointsPerCurve; i++)
-                    {
-                        points[j][i] = new Point(primaryIdependentValues[i], reflectance[j * numPointsPerCurve + i]);
-                    }
+                    points[j][i] = getReflectanceAtIndex(i, j);
                 }
             }
             return points;

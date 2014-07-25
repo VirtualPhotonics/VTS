@@ -125,7 +125,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                         double[] independentValues = detectorInput.Rho.AsEnumerable().ToArray();
 
-                        Point[] points = null;
+                        DoubleDataPoint[] points = null;
 
                         //var showPlusMinusStdev = true;
                         //if(showPlusMinusStdev && _output.R_r2 != null)
@@ -143,7 +143,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                         points = Enumerable.Zip(
                             independentValues,
                             _output.R_r,
-                            (x, y) => new Point(x, y)).ToArray();
+                            (x, y) => new DoubleDataPoint(x, y)).ToArray();
                         //}
 
                         PlotAxesLabels axesLabels = GetPlotLabels();

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Windows;
 
 namespace Vts.Gui.Silverlight.Model
@@ -9,25 +10,20 @@ namespace Vts.Gui.Silverlight.Model
     /// </summary>
     public class PlotData
     {
-        public PlotData(Point[][] points, string[] titles)
+        public PlotData(IDataPoint[][] points, string[] titles)
         {
             Points = points;
             Titles = titles;
-            IsComplex = false;
         }
 
-        public PlotData(ComplexPoint[][] points, string[] titles)
+        // todo: temp to get things working...want to eveutally remove
+        public PlotData(Point[][] points, string[] titles)
+            : this(points.Select(pArray => pArray.Select(point => new DoubleDataPoint(point.X, point.Y)).ToArray()).ToArray(), titles)
         {
-            ComplexPoints = points;
-            Titles = titles;
-            IsComplex = true;
         }
 
-        public Point[][] Points { get; set; }
+        public IDataPoint[][] Points { get; set; }
         public string[] Titles { get; set; }
-        public ComplexPoint[][] ComplexPoints { get; set; }
-        public bool IsComplex { get; set; }
-
 
     }
 }

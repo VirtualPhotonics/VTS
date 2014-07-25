@@ -475,10 +475,10 @@ namespace Vts.Gui.Silverlight.ViewModel
                 var real = points[0];
                 var imag = points[1];
                 // convert Point to ComplexPoint
-                var complexPoints = new List<ComplexPoint>();
+                var complexPoints = new ComplexDataPoint[real.Length];
                 for (int i = 0; i < real.Length; i++)
                 {
-                    complexPoints.Add(new ComplexPoint(real[i].X, new Complex(real[i].Y, imag[i].Y)));
+                    complexPoints[i] = new ComplexDataPoint(real[i].X, new Complex(real[i].Y, imag[i].Y));
                 }
                 Commands.Plot_PlotValues.Execute(new PlotData(new []{ complexPoints.ToArray() }, new []{ plotLabel }));
             }

@@ -204,7 +204,6 @@
     <Compile Include="Helpers\fjcore\Resize\ImageResizer.cs" />
     <Compile Include="Helpers\fjcore\YCbCr.cs" />
     <Compile Include="Helpers\fjcore\ZigZag.cs" />
-    <Compile Include="Model\ComplexPoint.cs" />
     <Compile Include="Model\MapData.cs" />
     <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
@@ -231,6 +230,7 @@
     <Compile Include="ViewModel\Application\Panels\MapViewModel.cs" />
     <Compile Include="ViewModel\Application\WhiteList.cs" />
     <Compile Include="ViewModel\Controls\PositionViewModel.cs" />
+    <Compile Include="Model\DataPoint.cs" />
     <Compile Include="ViewModel\Helpers\PlotAxesLabels.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\SolutionDomainOptionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SpectralMappingViewModel.cs" />
