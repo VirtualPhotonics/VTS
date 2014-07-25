@@ -529,7 +529,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 Labels.RemoveAt(Labels.Count - 1);
 
                 // if it's comp
-                if (DataSeriesCollection.Count > 0 && DataSeriesCollection.First().First() is ComplexDataPoint &&
+                if (DataSeriesCollection.Count > 0 && DataSeriesCollection.Last().First() is ComplexDataPoint &&
                     PlotToggleTypeOptionVM.SelectedValue == PlotToggleType.Complex)
                 {
                     Labels.RemoveAt(Labels.Count - 1);
