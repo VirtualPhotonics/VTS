@@ -175,6 +175,7 @@ namespace Vts.Gui.Silverlight.Model
             {
                 var option = list.FirstOrDefault(optionModel => EqualityComparer<TValue>.Default.Equals(optionModel.Value, initialValue));
                 option.IsSelected = true;
+                option.IsEnabled = !enableMultiSelect;
                 //list[0].IsSelected = true;
             }
             return list.ToDictionary(item => item.Value);
