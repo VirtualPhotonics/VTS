@@ -24,6 +24,7 @@
                                  Tag="{Binding ID, Mode=TwoWay}"
                                  Content="{Binding DisplayName, Mode=TwoWay}"
                                  IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                 IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                                  Margin="1.5,3"/>
                         </DataTemplate>
                     </helpers:OptionTemplateSelector.MultiSelectTemplate>
