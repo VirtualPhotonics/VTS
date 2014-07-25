@@ -24,7 +24,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private IList<string> _PlotTitles;
         private ReflectancePlotType _PlotType;
         private bool _HoldOn;
-        private ObservableCollection<IList<Point>> _PlotSeriesCollection;
+        private ObservableCollection<Point[]> _PlotSeriesCollection;
         private IList<string> _Labels;
         private OptionViewModel<ScalingType> _XAxisSpacingOptionVM;
         private OptionViewModel<ScalingType> _YAxisSpacingOptionVM;
@@ -57,7 +57,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             Labels = new List<string>();
             PlotTitles = new List<string>();
             DataSeriesCollection = new List<IDataPoint[]>();
-            PlotSeriesCollection = new ObservableCollection<IList<Point>>();
+            PlotSeriesCollection = new ObservableCollection<Point[]>();
             //IsComplexPlot = false;
 
             PlotType = ReflectancePlotType.ForwardSolver;
@@ -119,7 +119,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._PlotTitles = plotToClone._PlotTitles.ToList();
             output._PlotType = plotToClone._PlotType;
             output._HoldOn = plotToClone._HoldOn;
-            output._PlotSeriesCollection = new ObservableCollection<IList<Point>>(
+            output._PlotSeriesCollection = new ObservableCollection<Point[]>(
                 plotToClone._PlotSeriesCollection.Select(ps => ps.Select(val => val).ToArray()).ToArray());
             output._Labels = plotToClone._Labels.ToList();
             output._CustomPlotLabel = plotToClone._CustomPlotLabel;
@@ -150,7 +150,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             return output;
         }
 
-        public ObservableCollection<IList<Point>> PlotSeriesCollection
+        public ObservableCollection<Point[]> PlotSeriesCollection
         {
             get
             {
@@ -432,7 +432,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                             sw.Write("%");
                             _Labels.ForEach(label => sw.Write(label + " (X)" + "\t" + label + " (Y)" + "\t"));
                             sw.WriteLine();
-                            for (int i = 0; i < _PlotSeriesCollection[0].Count; i++)
+                            for (int i = 0; i < _PlotSeriesCollection[0].Length; i++)
                             {
                                 sw.WriteLine();
                                 for (int j = 0; j < _PlotSeriesCollection.Count; j++)
@@ -582,16 +582,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                 PlotNormalizationTypeOptionVM.SelectedValue == PlotNormalizationType.RelativeToMax
                 && DataSeriesCollection.Count > 0;
 
-            // now this computes O(M*N) regardless...yuck
-            var normalizationPoints =
-                (from ds in tempPSC
-
-                 let maxValue = ds.Select(p => p.Y).Max()
-                 select tempPSC[normCurveNumber].Select(p =>
-                        normToCurve ? p.Y : normToMax ? maxValue : 1.0)).ToList();
-
-            var newCollection = new ObservableCollection<IList<Point>>();
-           
             // filter the results if we're not auto-scaling
             Func<Point, bool> isWithinAxes = p =>
                     (_AutoScaleX ? true : (p.X <= MaxXValue && p.X >= MinXValue)) &&
@@ -600,20 +590,31 @@ namespace Vts.Gui.Silverlight.ViewModel
             Func<Point, bool> isValidDataPoint = p =>
                 !double.IsInfinity(Math.Abs(p.X)) && !double.IsNaN(p.X) &&
                 !double.IsInfinity(Math.Abs(p.Y)) && !double.IsNaN(p.Y);
+            
+            var pointsToPlot2 = new Point[tempPSC.Length][];
+            for (int j = 0; j < pointsToPlot2.Length; j++)
+            {
+                var points = tempPSC[j];
+                var max = normToMax ? points.Select(p => p.Y).Max() : 0.0;
+                for (int i = 0; i < points.Length; i++)
+                {
+                    if (normToMax)
+                    {
+                        points[i].Y /= max;
+                    }
+                    else if (normToCurve)
+                    {
+                        points[i].Y /= tempPSC[normCurveNumber][i].Y;
+                    }
 
-            var pointsToPlot =
-                from ds in Enumerable.Zip(
-                    tempPSC,
-                    normalizationPoints, (p, n) => new {DataPoints = p, NormValues = n})
-                let xValues = ds.DataPoints.Select(dp => dp.X)
-                let yValues = Enumerable.Zip(ds.DataPoints, ds.NormValues, (dp, nv) => dp.Y/nv)
-                let useLogX = XAxisSpacingOptionVM.SelectedValue == ScalingType.Log
-                let useLogY = YAxisSpacingOptionVM.SelectedValue == ScalingType.Log
-                select  Enumerable.Zip(xValues, yValues, (x, y) =>
-                    new Point(
-                        useLogX ? Math.Log10(x) : x,
-                        useLogY ? Math.Log10(y) : y))
-                    .Where(p => isValidDataPoint(p) && isWithinAxes(p));
+                    if (XAxisSpacingOptionVM.SelectedValue == ScalingType.Log)
+                        points[i].X = Math.Log10(points[i].X);
+
+                    if (YAxisSpacingOptionVM.SelectedValue == ScalingType.Log)
+                        points[i].Y = Math.Log10(points[i].Y);
+                }
+                pointsToPlot2[j] = points.Where(p => isValidDataPoint(p) && isWithinAxes(p)).ToArray();
+            }
 
             // get stats for reference - do this better/faster in the future...
             if (AutoScaleX || AutoScaleY)
@@ -622,28 +623,32 @@ namespace Vts.Gui.Silverlight.ViewModel
                 double maxX = double.NegativeInfinity;
                 double minY = double.PositiveInfinity;
                 double maxY = double.NegativeInfinity;
-                foreach (var point in pointsToPlot.SelectMany(points => points))
+                for (int j = 0; j < pointsToPlot2.Length; j++)
                 {
-                    if (AutoScaleX)
+                    for (int i = 0; i < pointsToPlot2[j].Length; i++)
                     {
-                        if (point.X > maxX)
+                        var point = pointsToPlot2[j][i];
+                        if (AutoScaleX)
                         {
-                            maxX = point.X;
+                            if (point.X > maxX)
+                            {
+                                maxX = point.X;
+                            }
+                            if (point.X < minX)
+                            {
+                                minX = point.X;
+                            }
                         }
-                        if (point.X < minX)
+                        if (AutoScaleY)
                         {
-                            minX = point.X;
-                        }
-                    }
-                    if (AutoScaleY)
-                    {
-                        if (point.Y > maxY)
-                        {
-                            maxY = point.Y;
-                        }
-                        if (point.Y < minY)
-                        {
-                            minY = point.Y;
+                            if (point.Y > maxY)
+                            {
+                                maxY = point.Y;
+                            }
+                            if (point.Y < minY)
+                            {
+                                minY = point.Y;
+                            }
                         }
                     }
                 }
@@ -659,12 +664,18 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
             }
 
-            foreach (var curve in pointsToPlot.ToList())
+            var newCollection = new ObservableCollection<Point[]>();
+            foreach (var curve in pointsToPlot2)
             {
-                newCollection.Add(curve.ToList());
+                newCollection.Add(curve);
             }
-
             PlotSeriesCollection = newCollection;
+
+            //foreach (var curve in pointsToPlot.ToList())
+            //{
+            //    PlotSeriesCollection.Add(curve.ToList());
+            //}
+            //OnPropertyChanged("PlotSeriesCollection");
 
             //Only display the x and y axes if there is a plot to display
             if (DataSeriesCollection.Count > 0)
