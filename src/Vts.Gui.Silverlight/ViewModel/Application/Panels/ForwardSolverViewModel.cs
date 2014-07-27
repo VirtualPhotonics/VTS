@@ -455,7 +455,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         // todo: rename? this was to get a concise name for the legend
         private string[] GetLegendLabels()
         {
-            string modelString = null;
+            string modelString = null; // todo: these should be in an extension method, and specified for each model
             switch (ForwardSolverTypeOptionVM.SelectedValue)
             {
                 case ForwardSolverType.DistributedGaussianSourceSDA:
@@ -475,21 +475,17 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
 
             string opString = null;
-            if (IsMultiRegion)
+            if (IsMultiRegion && MultiRegionTissueVM != null)
             {
-                ITissueRegion[] regions = null;
-                if (ForwardSolver is TwoLayerSDAForwardSolver)
-                {
-                    regions = ((MultiRegionTissueViewModel)TissueInputVM).GetTissueInput().Regions;
-                    opString =
-                        "\rμa1=" + regions[0].RegionOP.Mua + "\rμs'1=" + regions[0].RegionOP.Musp +
-                        "\rμa2=" + regions[1].RegionOP.Mua + "\rμs'2=" + regions[1].RegionOP.Musp; 
-                }
+                var regions = MultiRegionTissueVM.GetTissueInput().Regions;
+                opString =
+                    "\rμa1=" + regions[0].RegionOP.Mua.ToString("F4") + "\rμs'1=" + regions[0].RegionOP.Musp.ToString("F4") +
+                    "\rμa2=" + regions[1].RegionOP.Mua.ToString("F4") + "\rμs'2=" + regions[1].RegionOP.Musp.ToString("F4"); 
             }
             else
             {
-                var opticalProperties = ((OpticalPropertyViewModel)TissueInputVM).GetOpticalProperties();
-                opString = "\rμa=" + opticalProperties.Mua + " \rμs'=" + opticalProperties.Musp;
+                var opticalProperties = OpticalPropertyVM.GetOpticalProperties();
+                opString = "\rμa=" + opticalProperties.Mua.ToString("F4") + " \rμs'=" + opticalProperties.Musp.ToString("F4");
             }
 
             if (_allRangeVMs.Length > 1)
@@ -499,7 +495,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ? _allRangeVMs.Where(vm => vm.AxisType != IndependentVariableAxis.Wavelength).First()
                     : _allRangeVMs.Where(vm => vm.AxisType != IndependentVariableAxis.Time && vm.AxisType != IndependentVariableAxis.Ft).First();
 
-                string[] secondaryAxesStrings = secondaryRangeVM.Values.Select(value => "\r" + secondaryRangeVM.AxisType.GetInternationalizedString() + " = " + value.ToString() + secondaryRangeVM.AxisType.GetUnits()).ToArray();
+                string[] secondaryAxesStrings = secondaryRangeVM.Values.Select(value => "\r" + secondaryRangeVM.AxisType.GetInternationalizedString() + " = " + value.ToString() + " " + secondaryRangeVM.AxisType.GetUnits()).ToArray();
                 return secondaryAxesStrings.Select(sas => modelString + sas + (isWavelengthPlot ? "\r(spectral μa,μs')" : opString)).ToArray();
             }
 
