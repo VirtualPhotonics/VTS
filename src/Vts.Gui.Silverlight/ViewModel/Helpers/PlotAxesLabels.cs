@@ -20,10 +20,20 @@ namespace Vts.Gui.Silverlight.ViewModel
             ConstantAxisName = constantAxisName;
             ConstantAxisUnits = constantAxisUnits;
             ConstantAxisValue = constantAxisValue;
-            ConstantAxisName = constantAxisTwoName;
-            ConstantAxisUnits = constantAxisTwoUnits;
-            ConstantAxisValue = constantAxisTwoValue;
+            ConstantAxisTwoName = constantAxisTwoName;
+            ConstantAxisTwoUnits = constantAxisTwoUnits;
+            ConstantAxisTwoValue = constantAxisTwoValue;
         }
+
+        public PlotAxesLabels(
+            string independentAxisName, string independentAxisUnits,
+            IndependentVariableAxis independentAxisType,
+            string dependentAxisName, string dependentAxisUnits,
+            string constantAxisName, string constantAxisUnits, double constantAxisValue)
+            : this(independentAxisName, independentAxisUnits, independentAxisType,
+                   dependentAxisName, dependentAxisUnits, 
+                   constantAxisName, constantAxisUnits, constantAxisValue, 
+                   "", "", 0) { }
 
         public PlotAxesLabels(
             string independentAxisName, string independentAxisUnits, IndependentVariableAxis independentAxisType,

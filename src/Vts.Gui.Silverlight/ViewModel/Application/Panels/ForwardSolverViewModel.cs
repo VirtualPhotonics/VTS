@@ -174,9 +174,18 @@ namespace Vts.Gui.Silverlight.ViewModel
             };
             Commands.Spec_UpdateOpticalProperties.Executed += (sender, args) =>
             {
-                if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null && OpticalPropertyVM != null)
+                if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
                 {
-                    OpticalPropertyVM.SetOpticalProperties(SolverDemoViewModel.Current.SpectralMappingVM.OpticalProperties);
+                    if (IsMultiRegion && MultiRegionTissueVM != null)
+                    {
+                        MultiRegionTissueVM.RegionsVM.ForEach(region =>
+                            ((dynamic)region).OpticalPropertyVM.SetOpticalProperties(
+                                SolverDemoViewModel.Current.SpectralMappingVM.OpticalProperties));
+                    }
+                    else if ( OpticalPropertyVM != null)
+                    {
+                        OpticalPropertyVM.SetOpticalProperties(SolverDemoViewModel.Current.SpectralMappingVM.OpticalProperties);
+                    }
                 }
             };
         }
@@ -318,6 +327,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             get { return _tissueInputVM as OpticalPropertyViewModel; }
         }
 
+        private MultiRegionTissueViewModel MultiRegionTissueVM
+        {
+            get { return _tissueInputVM as MultiRegionTissueViewModel; }
+        }
+
         public OptionViewModel<ForwardAnalysisType> ForwardAnalysisTypeOptionVM
         {
             get { return _ForwardAnalysisTypeOptionVM; }
@@ -362,11 +376,22 @@ namespace Vts.Gui.Silverlight.ViewModel
             if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
             {
                 var axisType = RangeVM.AxisType;
-                axesLabels = new PlotAxesLabels(
-                    axisType.GetInternationalizedString(), axisType.GetUnits(), axisType,
-                    sd.SelectedDisplayName, sd.SelectedValue.GetUnits(),
-                    sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue,
-                    sd.ConstantAxisTwoLabel, sd.ConstantAxisTwoUnits, sd.ConstantAxisTwoValue);
+
+                if (sd.IndependentVariableAxisOptionVM.UnSelectedValues.Length > 1)
+                {
+                    axesLabels = new PlotAxesLabels(
+                        axisType.GetInternationalizedString(), axisType.GetUnits(), axisType,
+                        sd.SelectedDisplayName, sd.SelectedValue.GetUnits(),
+                        sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue,
+                        sd.ConstantAxisTwoLabel, sd.ConstantAxisTwoUnits, sd.ConstantAxisTwoValue);
+                }
+                else
+                {
+                    axesLabels = new PlotAxesLabels(
+                        axisType.GetInternationalizedString(), axisType.GetUnits(), axisType,
+                        sd.SelectedDisplayName, sd.SelectedValue.GetUnits(),
+                        sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue);
+                }
                 //axesLabels = new PlotAxesLabels(
                 //    sd.IndependentAxisLabel, sd.IndependentAxisUnits, axisType,
                 //    axisType.GetInternationalizedString(), axisType.GetUnits(),
@@ -436,16 +461,16 @@ namespace Vts.Gui.Silverlight.ViewModel
                 case ForwardSolverType.DistributedGaussianSourceSDA:
                 case ForwardSolverType.DistributedPointSourceSDA:
                 case ForwardSolverType.PointSourceSDA:
-                    modelString = "Model - SDA\r";
+                    modelString = "\rModel - SDA";
                     break;
                 case ForwardSolverType.MonteCarlo:
-                    modelString = "Model - scaled MC\r";
+                    modelString = "\rModel - scaled MC";
                     break;
                 case ForwardSolverType.Nurbs:
-                    modelString = "Model - nurbs\r";
+                    modelString = "\rModel - nurbs";
                     break;
                 case ForwardSolverType.TwoLayerSDA:
-                    modelString = "Model - 2 layer SDA\r";
+                    modelString = "\rModel - 2 layer SDA";
                     break;
             }
 
@@ -457,14 +482,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     regions = ((MultiRegionTissueViewModel)TissueInputVM).GetTissueInput().Regions;
                     opString =
-                        "μa1=" + regions[0].RegionOP.Mua + "\rμs'1=" + regions[0].RegionOP.Musp +
-                        "μa2=" + regions[1].RegionOP.Mua + "\rμs'2=" + regions[1].RegionOP.Musp; 
+                        "\rμa1=" + regions[0].RegionOP.Mua + "\rμs'1=" + regions[0].RegionOP.Musp +
+                        "\rμa2=" + regions[1].RegionOP.Mua + "\rμs'2=" + regions[1].RegionOP.Musp; 
                 }
             }
             else
             {
                 var opticalProperties = ((OpticalPropertyViewModel)TissueInputVM).GetOpticalProperties();
-                opString = "μa=" + opticalProperties.Mua + " \rμs'=" + opticalProperties.Musp ;
+                opString = "\rμa=" + opticalProperties.Mua + " \rμs'=" + opticalProperties.Musp;
             }
 
             if (_allRangeVMs.Length > 1)
@@ -474,8 +499,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ? _allRangeVMs.Where(vm => vm.AxisType != IndependentVariableAxis.Wavelength).First()
                     : _allRangeVMs.Where(vm => vm.AxisType != IndependentVariableAxis.Time && vm.AxisType != IndependentVariableAxis.Ft).First();
 
-                string[] secondaryAxesStrings = secondaryRangeVM.Values.Select(value => secondaryRangeVM.AxisType.GetInternationalizedString() + " = " + value.ToString() + secondaryRangeVM.AxisType.GetUnits()).ToArray();
-                return secondaryAxesStrings.Select(sas => modelString + sas + (isWavelengthPlot ? "(spectral μa,μs')\r" : "\r" + opString) ).ToArray();
+                string[] secondaryAxesStrings = secondaryRangeVM.Values.Select(value => "\r" + secondaryRangeVM.AxisType.GetInternationalizedString() + " = " + value.ToString() + secondaryRangeVM.AxisType.GetUnits()).ToArray();
+                return secondaryAxesStrings.Select(sas => modelString + sas + (isWavelengthPlot ? "\r(spectral μa,μs')" : opString)).ToArray();
             }
 
             return new []{ modelString + opString };

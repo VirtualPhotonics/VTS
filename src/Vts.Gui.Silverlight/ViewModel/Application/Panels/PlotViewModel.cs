@@ -407,12 +407,20 @@ namespace Vts.Gui.Silverlight.ViewModel
                         labels.DependentAxisName + " [" + labels.DependentAxisUnits + "] versus " +
                         labels.IndependentAxisName + " [" + labels.IndependentAxisUnits + "]";
                 }
-                else
+                else if (labels.ConstantAxisTwoName == null || labels.ConstantAxisTwoName.Length == 0)
                 {
                     Title =
                         labels.DependentAxisName + " [" + labels.DependentAxisUnits + "]  versus " +
                         labels.IndependentAxisName + " [" + labels.IndependentAxisUnits + "]" +
                         " at " + labels.ConstantAxisName + " = " + labels.ConstantAxisValue + " " + labels.ConstantAxisUnits;
+                }
+                else
+                {
+                    Title =
+                        labels.DependentAxisName + " [" + labels.DependentAxisUnits + "]  versus " +
+                        labels.IndependentAxisName + " [" + labels.IndependentAxisUnits + "]" +
+                        " at " + labels.ConstantAxisName + " = " + labels.ConstantAxisValue + " " + labels.ConstantAxisUnits +
+                        " and " + labels.ConstantAxisTwoName + " = " + labels.ConstantAxisTwoValue + " " + labels.ConstantAxisTwoUnits;
                 }
             }
         }
@@ -484,14 +492,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                 DataSeriesCollection.Add(curves[i]);
                 if (DataSeriesCollection.Count > 0 && curves[i].First() is ComplexDataPoint)
                 {
-                    RealImagLabels.Add(titles[i] + "\r(real)" + customLabel + "\r");
-                    PhaseLabels.Add(titles[i] + "\r(phase)" + customLabel + "\r");
-                    RealImagLabels.Add(titles[i] + "\r(imag)" + customLabel + "\r");
-                    AmplitudeLabels.Add(titles[i] + "\r(amp)" + customLabel + "\r");
+                    RealImagLabels.Add(titles[i] + "\r(real)" + customLabel);
+                    PhaseLabels.Add(titles[i] + "\r(phase)" + customLabel);
+                    RealImagLabels.Add(titles[i] + "\r(imag)" + customLabel);
+                    AmplitudeLabels.Add(titles[i] + "\r(amp)" + customLabel);
                 }
                 else
                 {
-                    Labels.Add(titles[i] + customLabel + "\r"); // has to happen before updating the bound collection
+                    Labels.Add(titles[i] + customLabel); // has to happen before updating the bound collection
                 }
             }
 
