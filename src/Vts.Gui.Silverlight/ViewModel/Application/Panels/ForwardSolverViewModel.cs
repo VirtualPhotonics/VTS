@@ -647,15 +647,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         }
 
         private object GetOpticalProperties()
-        {            
-            if (IsMultiRegion)
-            {
-                if (ForwardSolver is TwoLayerSDAForwardSolver)
-                {
-                    return new[] { ((MultiRegionTissueViewModel) TissueInputVM).GetTissueInput().Regions.Select(region => (IOpticalPropertyRegion)region).ToArray() };
-                }
-            }
-
+        {     
             if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Contains(IndependentVariableAxis.Wavelength) &&
                 UseSpectralPanelData && 
                 SolverDemoViewModel.Current != null &&
@@ -663,7 +655,30 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 var tissue = SolverDemoViewModel.Current.SpectralMappingVM.SelectedTissue;
                 var wavelengths = GetParameterValues(IndependentVariableAxis.Wavelength);
-                return tissue.GetOpticalProperties(wavelengths);
+                var ops = tissue.GetOpticalProperties(wavelengths);
+
+                if(IsMultiRegion && MultiRegionTissueVM != null)
+                {
+                    return ops.Select(op =>
+                        {
+                            var regions = MultiRegionTissueVM.GetTissueInput().Regions.Select(region => (IOpticalPropertyRegion)region).ToArray();
+                            regions.ForEach(region =>
+                                {
+                                    region.RegionOP.Mua = op.Mua;
+                                    region.RegionOP.Musp = op.Musp;
+                                    region.RegionOP.G = op.G;
+                                    region.RegionOP.N = op.N;
+                                });
+                            return regions.ToArray();
+                        });
+                }
+
+                return ops;
+            }
+
+            if (IsMultiRegion && MultiRegionTissueVM != null)
+            {
+                return new[] { MultiRegionTissueVM.GetTissueInput().Regions.Select(region => (IOpticalPropertyRegion)region).ToArray() };
             }
 
             return new[] { OpticalPropertyVM.GetOpticalProperties() };
