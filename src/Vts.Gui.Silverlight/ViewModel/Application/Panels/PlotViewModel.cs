@@ -491,7 +491,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
                 else
                 {
-                    Labels.Add(titles[i] + customLabel); // has to happen before updating the bound collection
+                    Labels.Add(titles[i] + customLabel + "\r"); // has to happen before updating the bound collection
                 }
             }
 
@@ -560,7 +560,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                         tempPSC = DataSeriesCollection.Select(dsci => dsci.FirstOrDefault() is ComplexDataPoint
                             ? dsci.Select(dp => new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Real)).ToArray()
                             : dsci.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray())
-                            .Concat(DataSeriesCollection.Select(dsci => dsci is ComplexDataPoint[] 
+                            .Concat(DataSeriesCollection.Select(dsci => dsci.FirstOrDefault() is ComplexDataPoint
                             ? dsci.Select(dp => dp is ComplexDataPoint ? new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Imaginary) :  new Point(0,0)).ToArray()
                             : dsci.Select(dp => new Point(0,0)).ToArray())).ToArray();
                         Labels = RealImagLabels;
@@ -568,7 +568,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     case PlotToggleType.Phase:
                         // get even elements of toggle list that contain phase data
                         tempPSC = DataSeriesCollection.Select(dsci => dsci.FirstOrDefault() is ComplexDataPoint
-                            ? dsci.Select(dp => new Point(((ComplexDataPoint)dp).X, -((ComplexDataPoint)dp).Y.Phase)).ToArray()
+                            ? dsci.Select(dp => new Point(((ComplexDataPoint)dp).X, -((ComplexDataPoint)dp).Y.Phase * (180/Math.PI))).ToArray()
                             : dsci.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray()).ToArray();
                         Labels = PhaseLabels;
                         break;

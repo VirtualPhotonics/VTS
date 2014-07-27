@@ -361,11 +361,17 @@ namespace Vts.Gui.Silverlight.ViewModel
             PlotAxesLabels axesLabels = null;
             if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
             {
+                var axisType = RangeVM.AxisType;
                 axesLabels = new PlotAxesLabels(
-                    sd.IndependentAxisLabel, sd.IndependentAxisUnits, sd.IndependentAxisType,
+                    axisType.GetInternationalizedString(), axisType.GetUnits(), axisType,
                     sd.SelectedDisplayName, sd.SelectedValue.GetUnits(),
                     sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue,
                     sd.ConstantAxisTwoLabel, sd.ConstantAxisTwoUnits, sd.ConstantAxisTwoValue);
+                //axesLabels = new PlotAxesLabels(
+                //    sd.IndependentAxisLabel, sd.IndependentAxisUnits, axisType,
+                //    axisType.GetInternationalizedString(), axisType.GetUnits(),
+                //    sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue,
+                //    sd.ConstantAxisTwoLabel, sd.ConstantAxisTwoUnits, sd.ConstantAxisTwoValue);
             }
             else
             {
@@ -468,7 +474,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ? _allRangeVMs.Where(vm => vm.AxisType != IndependentVariableAxis.Wavelength).First()
                     : _allRangeVMs.Where(vm => vm.AxisType != IndependentVariableAxis.Time && vm.AxisType != IndependentVariableAxis.Ft).First();
 
-                string[] secondaryAxesStrings = secondaryRangeVM.Values.Select(value => secondaryRangeVM.AxisType.GetInternationalizedString() + " = " + value.ToString() + secondaryRangeVM.AxisType.GetUnits() + "\r").ToArray();
+                string[] secondaryAxesStrings = secondaryRangeVM.Values.Select(value => secondaryRangeVM.AxisType.GetInternationalizedString() + " = " + value.ToString() + secondaryRangeVM.AxisType.GetUnits()).ToArray();
                 return secondaryAxesStrings.Select(sas => modelString + sas + (isWavelengthPlot ? "(spectral μa,μs')\r" : "\r" + opString) ).ToArray();
             }
 
