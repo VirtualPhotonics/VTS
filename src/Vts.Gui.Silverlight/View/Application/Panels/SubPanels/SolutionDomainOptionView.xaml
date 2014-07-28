@@ -75,7 +75,7 @@
         </controls:HeaderedContentControl>
         <!-- Independent Axis -->
         <!-- Choice for independent axis label, if necessary (invisible otherwise) -->
-        <StackPanel Visibility="{Binding ConstantLabelVisible, Converter={StaticResource myBooleanToVisibilityConverter}}"
+        <StackPanel Visibility="{Binding ShowIndependentAxisChoice, Converter={StaticResource myBooleanToVisibilityConverter}}"
                     Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" 
                     LayoutUpdated="StackPanel_LayoutUpdated" Margin="0,1,0,0">
             <StackPanel Orientation="Horizontal">
@@ -93,6 +93,11 @@
                     VerticalContentAlignment="Center"
                     VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <ItemsControl ItemsSource="{Binding ConstantAxesVMs, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

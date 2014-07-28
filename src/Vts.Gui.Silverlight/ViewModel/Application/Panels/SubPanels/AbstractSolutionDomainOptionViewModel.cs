@@ -20,11 +20,14 @@ namespace Vts.Gui.Silverlight.ViewModel
         private bool _useSpectralInputs;
         private bool _allowMultiAxis;
 
+        private bool _showIndependentAxisChoice;
+
         public AbstractSolutionDomainOptionViewModel(string groupName, TDomainType defaultType)
             : base(groupName)
         {
             _useSpectralInputs = false;
             _allowMultiAxis = false;
+            _showIndependentAxisChoice = false;
         }
 
         public AbstractSolutionDomainOptionViewModel()
@@ -102,12 +105,22 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
+        public bool ShowIndependentAxisChoice
+        {
+            get { return _showIndependentAxisChoice; }
+            set
+            {
+                _showIndependentAxisChoice = value;
+                OnPropertyChanged("ShowIndependentAxisChoice");
+            }
+        }
+
         protected void UpdateAxes()
         {
             var numAxes = IndependentVariableAxisOptionVM.SelectedValues.Length;
             var numConstants = IndependentVariableAxisOptionVM.UnSelectedValues.Length;
 
-            _independentAxesVMs = Enumerable.Range(0, numAxes).Select(i =>
+            IndependentAxesVMs = Enumerable.Range(0, numAxes).Select(i =>
                 new IndependentAxisViewModel
                 {
                     AxisType = IndependentVariableAxisOptionVM.SelectedValues[i],
@@ -120,7 +133,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                         IndependentVariableAxisOptionVM.SelectedValues[i].GetTitle())
                 }).ToArray();
 
-            _constantAxesVMs = Enumerable.Range(0, numConstants).Select(i =>
+            ConstantAxesVMs = Enumerable.Range(0, numConstants).Select(i =>
                 new ConstantAxisViewModel
                 {
                     AxisType = IndependentVariableAxisOptionVM.UnSelectedValues[i],
@@ -128,6 +141,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                     AxisUnits = IndependentVariableAxisOptionVM.UnSelectedValues[i].GetUnits(),
                     AxisValue = IndependentVariableAxisOptionVM.UnSelectedValues[i].GetDefaultConstantAxisValue(),
                 }).ToArray();
+
+            ShowIndependentAxisChoice = numAxes + numConstants > 1;
         }
     }
 }
