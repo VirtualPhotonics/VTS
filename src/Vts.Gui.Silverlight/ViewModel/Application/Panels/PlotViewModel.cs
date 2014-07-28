@@ -400,27 +400,18 @@ namespace Vts.Gui.Silverlight.ViewModel
                 var labels = e.Parameter as PlotAxesLabels;
                 // set CurrentIndependtVariableAxis prior to setting Title because property
                 // might ClearPlot including Title
-                CurrentIndependentVariableAxis = labels.IndependentAxisType;
-                if (labels.ConstantAxisName == null || labels.ConstantAxisName.Length == 0)
-                {
-                    Title =
+                CurrentIndependentVariableAxis = labels.IndependentAxis.AxisType;
+                Title =
                         labels.DependentAxisName + " [" + labels.DependentAxisUnits + "] versus " +
-                        labels.IndependentAxisName + " [" + labels.IndependentAxisUnits + "]";
-                }
-                else if (labels.ConstantAxisTwoName == null || labels.ConstantAxisTwoName.Length == 0)
+                        labels.IndependentAxis.AxisLabel + " [" + labels.IndependentAxis.AxisUnits + "]";
+
+                if (labels.ConstantAxes.Length > 0)
                 {
-                    Title =
-                        labels.DependentAxisName + " [" + labels.DependentAxisUnits + "]  versus " +
-                        labels.IndependentAxisName + " [" + labels.IndependentAxisUnits + "]" +
-                        " at " + labels.ConstantAxisName + " = " + labels.ConstantAxisValue + " " + labels.ConstantAxisUnits;
+                    Title += " at " + labels.ConstantAxes[0].AxisLabel + " = " + labels.ConstantAxes[0].AxisValue + " " + labels.ConstantAxes[0].AxisUnits;
                 }
-                else
+                if (labels.ConstantAxes.Length > 1)
                 {
-                    Title =
-                        labels.DependentAxisName + " [" + labels.DependentAxisUnits + "]  versus " +
-                        labels.IndependentAxisName + " [" + labels.IndependentAxisUnits + "]" +
-                        " at " + labels.ConstantAxisName + " = " + labels.ConstantAxisValue + " " + labels.ConstantAxisUnits +
-                        " and " + labels.ConstantAxisTwoName + " = " + labels.ConstantAxisTwoValue + " " + labels.ConstantAxisTwoUnits;
+                    Title += " and " + labels.ConstantAxes[1].AxisLabel + " = " + labels.ConstantAxes[1].AxisValue + " " + labels.ConstantAxes[1].AxisUnits;
                 }
             }
         }

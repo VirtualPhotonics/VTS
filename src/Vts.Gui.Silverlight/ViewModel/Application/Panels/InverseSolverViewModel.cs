@@ -49,13 +49,13 @@ namespace Vts.Gui.Silverlight.ViewModel
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
             Action<double> updateSolutionDomainWithWavelength = wv =>
             {
-                if (SolutionDomainTypeOptionVM.ConstantAxisType == IndependentVariableAxis.Wavelength)
+                if (SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisType == IndependentVariableAxis.Wavelength)
                 {
-                    SolutionDomainTypeOptionVM.ConstantAxisValue = wv;
+                    SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue = wv;
                 }
-                else if (SolutionDomainTypeOptionVM.ConstantAxisTwoType == IndependentVariableAxis.Wavelength)
+                else if (SolutionDomainTypeOptionVM.ConstantAxesVMs[1].AxisType == IndependentVariableAxis.Wavelength)
                 {
-                    SolutionDomainTypeOptionVM.ConstantAxisTwoValue = wv;
+                    SolutionDomainTypeOptionVM.ConstantAxesVMs[1].AxisValue = wv;
                 }
             };
             SolutionDomainTypeOptionVM.PropertyChanged += (sender, args) =>
@@ -77,7 +77,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
                     {
                         //// if the independent axis is wavelength, then hide optical properties (because they come from spectral panel)
-                        if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength)
+                        if (SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisType == IndependentVariableAxis.Wavelength)
                         {
                             ShowOpticalProperties = false; // don't show optical properties at all
                             RangeVM = SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM; // bind to same instance, not a copy
@@ -85,7 +85,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                         else // still show optical properties and wavelength, but link them to spectral panel and pull wavelength
                         {
                             ShowOpticalProperties = true;
-                            RangeVM = SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
+                            RangeVM = SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisRangeVM;
                             updateSolutionDomainWithWavelength(SolverDemoViewModel.Current.SpectralMappingVM.Wavelength);
                         }
                         //_spectralPanelTissue = SolverDemoViewModel.Current.SpectralMappingVM.SelectedTissue; ... (or, do this at execution time?)s
@@ -93,7 +93,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     else
                     {
                         ShowOpticalProperties = true;
-                        RangeVM = SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
+                        RangeVM = SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisRangeVM;
                     }
                 }
             };
@@ -425,20 +425,10 @@ namespace Vts.Gui.Silverlight.ViewModel
         private PlotAxesLabels GetPlotLabels()
         {
             var sd = this.SolutionDomainTypeOptionVM;
-            PlotAxesLabels axesLabels = null;
-            if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
-            {
-                axesLabels = new PlotAxesLabels(
-                    sd.IndependentAxisLabel, sd.IndependentAxisUnits, sd.IndependentAxisType,
-                    sd.SelectedDisplayName, sd.SelectedValue.GetUnits(), 
-                    sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue,
-                    sd.ConstantAxisTwoLabel, sd.ConstantAxisTwoUnits, sd.ConstantAxisTwoValue);
-            }
-            else
-            {
-                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel, sd.IndependentAxisUnits, 
-                    sd.IndependentAxisType, sd.SelectedDisplayName, sd.SelectedValue.GetUnits());
-            }
+            PlotAxesLabels axesLabels = new PlotAxesLabels(
+                sd.SelectedDisplayName, sd.SelectedValue.GetUnits(), 
+                sd.IndependentAxesVMs.First(),
+                sd.ConstantAxesVMs);
             return axesLabels;
         }
 
@@ -470,7 +460,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         void PlotValues(Point[][] points, PlotDataType dataType)
         {
             string plotLabel = GetLegendLabel(dataType);
-            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Ft)
+            if (SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisType == IndependentVariableAxis.Ft)
             {
                 var real = points[0];
                 var imag = points[1];
@@ -529,14 +519,14 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 case SolutionDomainType.ROfRho:
                 case SolutionDomainType.ROfFx:
-                    switch (SolutionDomainTypeOptionVM.IndependentAxisType)
+                    switch (SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisType)
                     {
                         case IndependentVariableAxis.Rho:
                         case IndependentVariableAxis.Fx:
                             parameters.Add(RangeVM.Values.ToArray());
                             break;
                         case IndependentVariableAxis.Wavelength:
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
+                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue });
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -546,21 +536,21 @@ namespace Vts.Gui.Silverlight.ViewModel
                 case SolutionDomainType.ROfFxAndTime:
                 case SolutionDomainType.ROfRhoAndFt:
                 case SolutionDomainType.ROfFxAndFt:
-                    switch (SolutionDomainTypeOptionVM.IndependentAxisType)
+                    switch (SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisType)
                     {
                         case IndependentVariableAxis.Rho:
                         case IndependentVariableAxis.Fx:
                             parameters.Add(RangeVM.Values.ToArray());
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
+                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue });
                             break;
                         case IndependentVariableAxis.Time:
                         case IndependentVariableAxis.Ft:
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
+                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue });
                             parameters.Add(RangeVM.Values.ToArray());
                             break;
                         case IndependentVariableAxis.Wavelength:
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisTwoValue });
+                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue });
+                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[1].AxisValue });
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -575,7 +565,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private OpticalProperties[] GetOpticalProperties()
         {
-            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength &&
+            if (SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisType == IndependentVariableAxis.Wavelength &&
                 UseSpectralPanelData &&
                 SolverDemoViewModel.Current != null &&
                 SolverDemoViewModel.Current.SpectralMappingVM != null)
@@ -611,8 +601,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             var dependentValues = MeasuredDataValues.ToArray();
             
             double[] constantValues = ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
-                ? (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxisValue, SolutionDomainTypeOptionVM.ConstantAxisTwoValue } : new[] { SolutionDomainTypeOptionVM.ConstantAxisValue })
-                : (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxisValue } : new double[0]);
+                ? (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue, SolutionDomainTypeOptionVM.ConstantAxesVMs[1].AxisValue } : new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue })
+                : (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue } : new double[0]);
 
             double[] fit = ComputationFactory.SolveInverse(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
@@ -633,18 +623,18 @@ namespace Vts.Gui.Silverlight.ViewModel
             var opticalProperties = ResultOpticalPropertyVM;
             // todo: refactor and re-use this code via method-call
             var parameters = ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
-                             && SolutionDomainTypeOptionVM.IndependentAxisType.IsTemporalAxis()
+                             && SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisType.IsTemporalAxis()
                 ? new object[]
                   {
                       ResultOpticalPropertyVM,
-                      new [] { SolutionDomainTypeOptionVM.ConstantAxisValue },
+                      new [] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue },
                       independentValues,
                   }
                 : new object[]
                   {
                       opticalProperties,
                       independentValues,
-                      new [] { SolutionDomainTypeOptionVM.ConstantAxisValue },
+                      new [] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue },
                   };
 
             ResultDataValues = ComputationFactory.ComputeReflectance(

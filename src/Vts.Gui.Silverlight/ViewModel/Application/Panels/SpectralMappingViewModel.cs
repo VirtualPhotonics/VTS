@@ -294,7 +294,19 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private void PlotMuaSpectrum_Executed()
         {
-            PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μa", "mm-1");
+            var axisType = IndependentVariableAxis.Wavelength;
+            var axisUnits = IndependentVariableAxisUnits.NM;
+            PlotAxesLabels axesLabels = new PlotAxesLabels(
+                "μa",
+                "mm-1",
+                new IndependentAxisViewModel
+                {
+                    AxisType = axisType,
+                    AxisLabel = axisType.GetInternationalizedString(),
+                    AxisUnits = axisUnits.GetInternationalizedString(),
+                    AxisRangeVM = WavelengthRangeVM
+                });
+
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
             var tissue = SelectedTissue;
@@ -314,7 +326,18 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private void PlotMuspSpectrum_Executed()
         {
-            PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μs'", "mm-1");
+            var axisType = IndependentVariableAxis.Wavelength;
+            var axisUnits = IndependentVariableAxisUnits.NM;
+            PlotAxesLabels axesLabels = new PlotAxesLabels(
+                "μa",
+                "mm-1",
+                new IndependentAxisViewModel
+                {
+                    AxisType = axisType,
+                    AxisLabel = axisType.GetInternationalizedString(),
+                    AxisUnits = axisUnits.GetInternationalizedString(),
+                    AxisRangeVM = WavelengthRangeVM
+                });
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
             var tissue = SelectedTissue;
