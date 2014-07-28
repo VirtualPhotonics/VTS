@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Vts.Extensions;
 using Vts.Gui.Silverlight.Extensions;
 
 namespace Vts.Gui.Silverlight.ViewModel
@@ -141,6 +142,9 @@ namespace Vts.Gui.Silverlight.ViewModel
                     AxisUnits = IndependentVariableAxisOptionVM.UnSelectedValues[i].GetUnits(),
                     AxisValue = IndependentVariableAxisOptionVM.UnSelectedValues[i].GetDefaultConstantAxisValue(),
                 }).ToArray();
+
+            IndependentAxesVMs.ForEach(vm => vm.PropertyChanged += (s, a) => OnPropertyChanged("IndependentAxesVMs"));
+            ConstantAxesVMs.ForEach(vm => vm.PropertyChanged += (s, a) => OnPropertyChanged("ConstantAxesVMs"));
 
             ShowIndependentAxisChoice = numAxes + numConstants > 1;
         }

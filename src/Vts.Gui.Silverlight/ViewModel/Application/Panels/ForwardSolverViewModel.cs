@@ -84,7 +84,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     UseSpectralPanelData = SolutionDomainTypeOptionVM.UseSpectralInputs;
                 }
-                if (args.PropertyName == "IndependentAxisType" || args.PropertyName == "AllowMultiAxis" || args.PropertyName == "IndependentAxisTwoVisible" || args.PropertyName == "IndependentAxisThreeVisible")
+                if (args.PropertyName == "IndependentAxesVMs")
                 {
                     var useSpectralPanelDataAndNotNull = UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null;
 
@@ -95,10 +95,10 @@ namespace Vts.Gui.Silverlight.ViewModel
                                              : SolutionDomainTypeOptionVM.IndependentAxesVMs[i].AxisRangeVM).ToArray();
 
                     // if the independent axis is wavelength, then hide optical properties (because they come from spectral panel)
-                    ShowOpticalProperties = !SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Any(value => value == IndependentVariableAxis.Wavelength);
+                    ShowOpticalProperties = !_allRangeVMs.Any(value => value.AxisType == IndependentVariableAxis.Wavelength);
 
                     // update solution domain wavelength constant if applicable
-                    if (useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.Contains(IndependentVariableAxis.Wavelength))
+                    if (useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.ConstantAxesVMs.Any(axis => axis.AxisType == IndependentVariableAxis.Wavelength))
                     {
                         updateSolutionDomainWithWavelength(SolverDemoViewModel.Current.SpectralMappingVM.Wavelength);
                     }
