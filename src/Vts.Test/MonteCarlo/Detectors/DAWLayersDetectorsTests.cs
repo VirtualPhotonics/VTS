@@ -330,7 +330,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_RadianceOfRhoAtZ()
         {
             //need radiance detector to compare results, for now make sure both simulations give same results
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[0] - _outputTwoLayerTissue.Rad_r[0]), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[1] - _outputTwoLayerTissue.Rad_r[1]), 0.0000001);
         }
         // sanity checks
         [Test]

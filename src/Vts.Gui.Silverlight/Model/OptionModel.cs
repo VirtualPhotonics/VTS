@@ -15,6 +15,7 @@ namespace Vts.Gui.Silverlight.Model
         protected readonly string _displayName;
         protected readonly string _groupName;
         protected bool _isSelected;
+        protected bool _isEnabled;
         protected readonly int _sortValue;
         protected readonly int _ID;
         protected readonly bool _multiSelectEnabled;
@@ -26,6 +27,7 @@ namespace Vts.Gui.Silverlight.Model
             _ID = id;
             _sortValue = sortValue;
             _multiSelectEnabled = enableMultiSelect;
+            _isEnabled = true;
         }
 
         /// <summary>
@@ -59,6 +61,21 @@ namespace Vts.Gui.Silverlight.Model
 
                 _isSelected = value;
                 this.OnPropertyChanged("IsSelected");
+            }
+        }
+
+        /// <summary>
+        /// Gets/sets whether this option is in the enabled state.
+        /// When this property is set to a new value, this object's
+        /// PropertyChanged event is raised.
+        /// </summary>
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                this.OnPropertyChanged("IsEnabled");
             }
         }
 
@@ -158,6 +175,7 @@ namespace Vts.Gui.Silverlight.Model
             {
                 var option = list.FirstOrDefault(optionModel => EqualityComparer<TValue>.Default.Equals(optionModel.Value, initialValue));
                 option.IsSelected = true;
+                option.IsEnabled = !enableMultiSelect;
                 //list[0].IsSelected = true;
             }
             return list.ToDictionary(item => item.Value);

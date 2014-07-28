@@ -9,7 +9,7 @@
     HorizontalAlignment="Left" VerticalAlignment="Top">
     <StackPanel Background="White">
         <!-- Chart control for the plot -->
-        <charting:Chart x:Name="myChart" Width="515"  Height="400" Background="White"
+        <charting:Chart x:Name="myChart" Width="515"  Height="400" Background="White" FontSize="12"
                 vm:ChartHelper.DependentValueBinding="Y"
                 vm:ChartHelper.IndependentValueBinding="X"
                 vm:ChartHelper.Title="TitlePropertyOnCollection"
@@ -46,7 +46,7 @@
                         <TextBlock Text="{Binding Path=MainResource.Label_YAxisSpacing, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
                         <v:RadioButtonOptionView DataContext="{Binding YAxisSpacingOptionVM}" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0" Visibility="{Binding IsComplexPlot, Converter={StaticResource myBooleanToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" Margin="0" Visibility="{Binding ShowComplexPlotToggle, Converter={StaticResource myBooleanToVisibilityConverter}}">
                         <TextBlock Text="{Binding Path=MainResource.Label_PlotToggle, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
                         <v:RadioButtonOptionView DataContext="{Binding PlotToggleTypeOptionVM}" />
                     </StackPanel>
