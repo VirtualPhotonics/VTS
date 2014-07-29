@@ -72,7 +72,7 @@ for mci = 1:length(datanames)
         rhodelta = results{di}.ROfRhoAndTime.Rho(2)-results{di}.ROfRhoAndTime.Rho(1);
         timedelta = results{di}.ROfRhoAndTime.Time(2)-results{di}.ROfRhoAndTime.Time(1);
         rhonorm = 2 * pi * results{di}.ROfRhoAndTime.Rho_Midpoints * rhodelta;
-        disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(sum(timedelta*results{di}.ROfRhoAndTime.Mean.*repmat(rhonorm',1,numtimes))))]);
+        disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(sum(timedelta*results{di}.ROfRhoAndTime.Mean.*repmat(rhonorm,[numtimes,1]))))]);
     end
 
     if isfield(results{di}, 'ROfRhoAndAngle') && show.ROfRhoAndAngle        
@@ -81,15 +81,15 @@ for mci = 1:length(datanames)
         angledelta = results{di}.ROfRhoAndAngle.Angle(2)-results{di}.ROfRhoAndAngle.Angle(1);
         rhonorm = 2 * pi * results{di}.ROfRhoAndAngle.Rho_Midpoints * rhodelta;
         anglenorm = 2 * pi * sin(results{di}.ROfRhoAndAngle.Angle_Midpoints * angledelta) * angledelta;
-        disp(['Total reflectance captured by ROfRhoAndAngle detector: ' num2str(sum(sum(results{di}.ROfRhoAndAngle.Mean.*repmat(rhonorm',[1,size(anglenorm,2)]).*repmat(anglenorm,[size(rhonorm,2),1]))))]);
+        disp(['Total reflectance captured by ROfRhoAndAngle detector: ' num2str(sum(sum(results{di}.ROfRhoAndAngle.Mean.*repmat(anglenorm',[1,size(rhonorm,2)]).*repmat(rhonorm,[size(anglenorm,2),1]))))]);
     end
 
     if isfield(results{di}, 'ROfRhoAndOmega') && show.ROfRhoAndOmega
-        figname = sprintf('%s - log(Amplitude)',results{di}.ROfRhoAndOmega.Name); figure; imagesc(results{di}.ROfRhoAndOmega.Rho_Midpoints, results{di}.ROfRhoAndOmega.Omega_Midpoints, log(results{di}.ROfRhoAndOmega.Amplitude')); colorbar; title(figname); set(gcf,'Name', figname); ylabel('\omega [GHz]'); xlabel('\rho [mm]');
-        figname = sprintf('%s - Phase',results{di}.ROfRhoAndOmega.Name); figure; imagesc(results{di}.ROfRhoAndOmega.Rho_Midpoints, results{di}.ROfRhoAndOmega.Omega_Midpoints, results{di}.ROfRhoAndOmega.Phase'); colorbar; title(figname); set(gcf,'Name', figname); ylabel('\omega [GHz]'); xlabel('\rho [mm]');
+        figname = sprintf('%s - log(Amplitude)',results{di}.ROfRhoAndOmega.Name); figure; imagesc(results{di}.ROfRhoAndOmega.Rho_Midpoints, results{di}.ROfRhoAndOmega.Omega_Midpoints, log(results{di}.ROfRhoAndOmega.Amplitude)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('\omega [GHz]'); xlabel('\rho [mm]');
+        figname = sprintf('%s - Phase',results{di}.ROfRhoAndOmega.Name); figure; imagesc(results{di}.ROfRhoAndOmega.Rho_Midpoints, results{di}.ROfRhoAndOmega.Omega_Midpoints, results{di}.ROfRhoAndOmega.Phase); colorbar; title(figname); set(gcf,'Name', figname); ylabel('\omega [GHz]'); xlabel('\rho [mm]');
         rhodelta = results{di}.ROfRhoAndOmega.Rho(2)-results{di}.ROfRhoAndOmega.Rho(1);
         rhonorm = 2 * pi * (results{di}.ROfRhoAndOmega.Rho_Midpoints * rhodelta);
-        disp(['Total reflectance captured by ROfRhoAndOmega detector: ' num2str(sum(results{di}.ROfRhoAndOmega.Amplitude(:,1).*rhonorm'))]);
+        disp(['Total reflectance captured by ROfRhoAndOmega detector: ' num2str(sum(results{di}.ROfRhoAndOmega.Amplitude(1,:).*rhonorm))]);
     end
 
     if isfield(results{di}, 'TDiffuse') && show.TDiffuse
@@ -113,7 +113,7 @@ for mci = 1:length(datanames)
         angledelta = results{di}.TOfRhoAndAngle.Angle(2)-results{di}.TOfRhoAndAngle.Angle(1);
         rhonorm = 2 * pi * results{di}.TOfRhoAndAngle.Rho_Midpoints * rhodelta;
         anglenorm = 2 * pi * sin(results{di}.TOfRhoAndAngle.Angle_Midpoints * angledelta) * angledelta;
-        disp(['Total transmittance captured by TOfRhoAndAngle detector: ' num2str(sum(sum(results{di}.TOfRhoAndAngle.Mean.*repmat(rhonorm',[1,size(anglenorm,2)]).*repmat(anglenorm,[size(rhonorm,2),1]))))]);
+        disp(['Total transmittance captured by TOfRhoAndAngle detector: ' num2str(sum(sum(results{di}.TOfRhoAndAngle.Mean.*repmat(anglenorm',[1,size(rhonorm,2)]).*repmat(rhonorm,[size(anglenorm,2),1]))))]);
     end
     if isfield(results{di}, 'ATotal') && show.ATotal
         disp(['Total absorption captured by ATotal detector: ' num2str(results{di}.ATotal.Mean)]);
@@ -124,33 +124,34 @@ for mci = 1:length(datanames)
         rhodelta = results{di}.AOfRhoAndZ.Rho(2)-results{di}.AOfRhoAndZ.Rho(1);
         zdelta = results{di}.AOfRhoAndZ.Z(2)-results{di}.AOfRhoAndZ.Z(1);
         rhonorm = 2 * pi * results{di}.AOfRhoAndZ.Rho_Midpoints * rhodelta;
-        disp(['Absorbed energy captured by AOfRhoAndZ detector: ' num2str(sum(sum(zdelta*results{di}.AOfRhoAndZ.Mean.*repmat(rhonorm',[1,numzs]))))]);
+        disp(['Absorbed energy captured by AOfRhoAndZ detector: ' num2str(sum(sum(zdelta*results{di}.AOfRhoAndZ.Mean.*repmat(rhonorm,[numzs,1]))))]);
     end
     if isfield(results{di}, 'FluenceOfRhoAndZ') && show.FluenceOfRhoAndZ
         numzs = length(results{di}.FluenceOfRhoAndZ.Z)-1;
         figname = sprintf('log(%s)',results{di}.FluenceOfRhoAndZ.Name); figure; imagesc(results{di}.FluenceOfRhoAndZ.Rho_Midpoints, results{di}.FluenceOfRhoAndZ.Z_Midpoints, log(results{di}.FluenceOfRhoAndZ.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
         rhodelta = results{di}.FluenceOfRhoAndZ.Rho(2)-results{di}.FluenceOfRhoAndZ.Rho(1);
         zdelta = results{di}.FluenceOfRhoAndZ.Z(2)-results{di}.FluenceOfRhoAndZ.Z(1);
-        normrho = 2 * pi * results{di}.FluenceOfRhoAndZ.Rho_Midpoints * rhodelta;
-        disp(['Fluence captured by FluenceOfRhoAndZ detector: ' num2str(sum(sum(zdelta*results{di}.FluenceOfRhoAndZ.Mean.*repmat(normrho',[1,numzs]))))]);
+        rhonorm = 2 * pi * results{di}.FluenceOfRhoAndZ.Rho_Midpoints * rhodelta;
+        disp(['Fluence captured by FluenceOfRhoAndZ detector: ' num2str(sum(sum(zdelta*results{di}.FluenceOfRhoAndZ.Mean.*repmat(rhonorm,[numzs,1]))))]);
     end
     if isfield(results{di}, 'FluenceOfRhoAndZAndTime') && show.FluenceOfRhoAndZAndTime
         numtimes = length(results{di}.FluenceOfRhoAndZAndTime.Time)-1;
         numzs = length(results{di}.FluenceOfRhoAndZAndTime.Z)-1;
         for i=1:10:numtimes % do every 10 time bins
-            figname = sprintf('log(%s) time=%5.3f ns',results{di}.FluenceOfRhoAndZAndTime.Name,results{di}.FluenceOfRhoAndZAndTime.Time_Midpoints(i)); figure; imagesc(results{di}.FluenceOfRhoAndZAndTime.Rho_Midpoints, results{di}.FluenceOfRhoAndZAndTime.Z_Midpoints, log(squeeze(results{di}.FluenceOfRhoAndZAndTime.Mean(:,:,i)'))); 
+            figname = sprintf('log(%s) time=%5.3f ns',results{di}.FluenceOfRhoAndZAndTime.Name,results{di}.FluenceOfRhoAndZAndTime.Time_Midpoints(i)); figure; imagesc(results{di}.FluenceOfRhoAndZAndTime.Rho_Midpoints, results{di}.FluenceOfRhoAndZAndTime.Z_Midpoints, log(squeeze(results{di}.FluenceOfRhoAndZAndTime.Mean(i,:,:)))); 
             colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]'); 
         end
         rhodelta = results{di}.FluenceOfRhoAndZAndTime.Rho(2)-results{di}.FluenceOfRhoAndZAndTime.Rho(1);
         timedelta = results{di}.FluenceOfRhoAndZAndTime.Time(2)-results{di}.FluenceOfRhoAndZAndTime.Time(1);
         zdelta = results{di}.FluenceOfRhoAndZAndTime.Z(2)-results{di}.FluenceOfRhoAndZAndTime.Z(1);
         rhonorm = 2 * pi * results{di}.FluenceOfRhoAndZAndTime.Rho_Midpoints * rhodelta;
-        disp(['Fluence captured by FluenceOfRhoAndZAndTime detector: ' num2str(sum(sum(sum(timedelta*zdelta*results{di}.FluenceOfRhoAndZAndTime.Mean.*repmat(rhonorm',[1,numzs,numtimes])))))]);
+        rhomatrix = repmat(rhonorm',[1,numzs,numtimes]);
+        disp(['Fluence captured by FluenceOfRhoAndZAndTime detector: ' num2str(sum(sum(sum(timedelta*zdelta*results{di}.FluenceOfRhoAndZAndTime.Mean.*permute(rhomatrix,[3,2,1])))))]);
     end
     if isfield(results{di}, 'FluenceOfXAndYAndZ') && show.FluenceOfXAndYAndZ
         numY = length(results{di}.FluenceOfXAndYAndZ.Y) - 1;
         for i=1:numY
-            figname = sprintf('log(%s) y=%5.3f',results{di}.FluenceOfXAndYAndZ.Name,results{di}.FluenceOfXAndYAndZ.Y_Midpoints(i)); figure; imagesc(results{di}.FluenceOfXAndYAndZ.X_Midpoints, results{di}.FluenceOfXAndYAndZ.Z_Midpoints, log(squeeze(results{di}.FluenceOfXAndYAndZ.Mean(:,i,:)'))); 
+            figname = sprintf('log(%s) y=%5.3f',results{di}.FluenceOfXAndYAndZ.Name,results{di}.FluenceOfXAndYAndZ.Y_Midpoints(i)); figure; imagesc(results{di}.FluenceOfXAndYAndZ.X_Midpoints, results{di}.FluenceOfXAndYAndZ.Z_Midpoints, log(squeeze(results{di}.FluenceOfXAndYAndZ.Mean(:,i,:)))); 
             colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');
             xyznorm = (results{di}.FluenceOfXAndYAndZ.X(2)-results{di}.FluenceOfXAndYAndZ.X(1))*(results{di}.FluenceOfXAndYAndZ.Y(2)-results{di}.FluenceOfXAndYAndZ.Y(1))*(results{di}.FluenceOfXAndYAndZ.Z(2)-results{di}.FluenceOfXAndYAndZ.Z(1));
             disp(['Fluence captured by FluenceOfXAndYAndZ detector: ' num2str(sum(results{di}.FluenceOfXAndYAndZ.Mean(:)*xyznorm))]);
@@ -162,22 +163,22 @@ for mci = 1:length(datanames)
         numzs = length(results{di}.RadianceOfRhoAndZAndAngle.Z) - 1;
         for i=1:numangles
             figname = sprintf('log(%s) %5.3f<angle<%5.3f',results{di}.RadianceOfRhoAndZAndAngle.Name,(i-1)*pi/numangles,i*pi/numangles); 
-            figure; imagesc(results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints, results{di}.RadianceOfRhoAndZAndAngle.Z_Midpoints, log(results{di}.RadianceOfRhoAndZAndAngle.Mean(:,:,i))); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
+            figure; imagesc(results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints, results{di}.RadianceOfRhoAndZAndAngle.Z_Midpoints, log(squeeze(results{di}.RadianceOfRhoAndZAndAngle.Mean(i,:,:)))); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
         end
         rhodelta = results{di}.RadianceOfRhoAndZAndAngle.Rho(2)-results{di}.RadianceOfRhoAndZAndAngle.Rho(1);
         zdelta = results{di}.RadianceOfRhoAndZAndAngle.Z(2)-results{di}.RadianceOfRhoAndZAndAngle.Z(1);
         angledelta = results{di}.RadianceOfRhoAndZAndAngle.Angle(2)-results{di}.RadianceOfRhoAndZAndAngle.Angle(1);
         rhonorm = 2 * pi * results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints * rhodelta;
         anglenorm = 2 * pi * sin(results{di}.RadianceOfRhoAndZAndAngle.Angle_Midpoints * angledelta) * angledelta;
-        anglematrix = repmat(anglenorm',[1,numrhos,numzs]);
-        disp(['Radiance captured by RadianceOfRhoAndZAndAngle detector: ' num2str(sum(sum(sum(zdelta*results{di}.RadianceOfRhoAndZAndAngle.Mean.*repmat(rhonorm',[1,numzs,numangles]).*permute(anglematrix,[2,3,1])))))]);
+        rhomatrix = repmat(rhonorm',[1,numzs,numangles]);
+        disp(['Radiance captured by RadianceOfRhoAndZAndAngle detector: ' num2str(sum(sum(sum(zdelta*results{di}.RadianceOfRhoAndZAndAngle.Mean.*repmat(anglenorm',[1,numzs,numrhos]).*permute(rhomatrix,[3,2,1])))))]);
     end
     if isfield(results{di}, 'RadianceOfXAndYAndZAndThetaAndPhi') && show.RadianceOfXAndYAndZAndThetaAndPhi
         numTheta = length(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta) - 1;      
         % plot radiance vs x and z for each theta (polar angle from Uz=[-1:1]
         for i=1:numTheta
             figname = sprintf('log(%s) %5.3f<Theta<%5.3f',results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Name,(i-1)*pi/numTheta,i*pi/numTheta); 
-            figure; imagesc(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X_Midpoints, results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Z_Midpoints, log(squeeze(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean(:,1,:,i,1)')), [-20 -5]); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');
+            figure; imagesc(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X_Midpoints, results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Z_Midpoints, log(squeeze(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean(1,i,:,1,:))), [-20 -5]); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');
         end
         xyzthetaphinorm = (results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X(1))...
                          *(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Y(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Y(1))...
