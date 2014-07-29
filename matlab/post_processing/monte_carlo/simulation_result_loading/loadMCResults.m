@@ -3,7 +3,8 @@ function results = loadMCResults(outdir, dataname)
 slash = filesep;  % get correct path delimiter for platform
 datadir = [outdir slash dataname];
 
-json = readAndParseJson([datadir slash 'infile_' dataname '.txt']);
+%json = readAndParseJson([datadir slash 'infile_' dataname '.txt']);
+json = readAndParseJson([datadir slash dataname '.txt'])
 postProcessorResults = false;
 if (exist([datadir slash dataname '_database_infile.txt'],'file'))
     postProcessorResults = true;
@@ -15,8 +16,9 @@ for di = 1:numDetectors
     switch(detector.TallyType)
         case 'RDiffuse'
             RDiffuse.Name = detector.Name;
-            RDiffuse.Mean = detector.Mean;              
-            RDiffuse.SecondMoment = detector.SecondMoment;
+            RDiffuse_txt = readAndParseJson([datadir slash detector.Name '.txt']);
+            RDiffuse.Mean = RDiffuse_txt.Mean;              
+            RDiffuse.SecondMoment = RDiffuse_txt.SecondMoment;
             RDiffuse.Stdev = sqrt((RDiffuse.SecondMoment - (RDiffuse.Mean .* RDiffuse.Mean)) / (json.N)); 
             results{di}.RDiffuse = RDiffuse;
         case 'ROfRho'
@@ -106,8 +108,9 @@ for di = 1:numDetectors
 
         case 'TDiffuse'
             TDiffuse.Name = detector.Name;
-            TDiffuse.Mean = detector.Mean;              
-            TDiffuse.SecondMoment = detector.SecondMoment; 
+            TDiffuse_txt = readAndParseJson([datadir slash detector.Name '.txt']);
+            TDiffuse.Mean = TDiffuse_txt.Mean;              
+            TDiffuse.SecondMoment = TDiffuse_txt.SecondMoment; 
             TDiffuse.Stdev = sqrt((TDiffuse.SecondMoment - (TDiffuse.Mean .* TDiffuse.Mean)) / (json.N));
             results{di}.TDiffuse = TDiffuse;
         case 'TOfRho'
@@ -149,8 +152,9 @@ for di = 1:numDetectors
 
         case 'ATotal'
             ATotal.Name = detector.Name;
-            ATotal.Mean = detector.Mean;              
-            ATotal.SecondMoment = detector.SecondMoment; 
+            ATotal_txt = readAndParseJson([datadir slash detector.Name '.txt']);
+            ATotal.Mean = ATotal_txt.Mean;              
+            ATotal.SecondMoment = ATotal_txt.SecondMoment; 
             ATotal.Stdev = sqrt((ATotal.SecondMoment - (ATotal.Mean .* ATotal.Mean)) / (json.N));
             results{di}.ATotal = ATotal;
         case 'AOfRhoAndZ'
