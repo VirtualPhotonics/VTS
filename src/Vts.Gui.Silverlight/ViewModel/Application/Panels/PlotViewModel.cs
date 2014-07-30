@@ -52,7 +52,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             _AutoScaleX = true;
             _AutoScaleY = true;
 
-            RealImagLabels = new List<string>();
+            RealLabels = new List<string>();
+            ImagLabels = new List<string>();
             PhaseLabels = new List<string>();
             AmplitudeLabels = new List<string>();;
             Labels = new List<string>();
@@ -102,7 +103,8 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private List<IDataPoint[]> DataSeriesCollection { get; set; }
         //private IList<IList<IDataPoint>> DataSeriesCollectionToggle { get; set; }
-        private IList<string> RealImagLabels { get; set; }
+        private IList<string> RealLabels { get; set; }
+        private IList<string> ImagLabels { get; set; }
         private IList<string> PhaseLabels { get; set; }
         private IList<string> AmplitudeLabels { get; set; }
 
@@ -134,8 +136,9 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._AutoScaleY = plotToClone._AutoScaleY;
             output._IsComplexPlot = plotToClone._IsComplexPlot;
             output._CurrentIndependentVariableAxis = plotToClone._CurrentIndependentVariableAxis;
-            
-            output.RealImagLabels = plotToClone.RealImagLabels;
+
+            output.RealLabels = plotToClone.RealLabels;
+            output.ImagLabels = plotToClone.ImagLabels;
             output.PhaseLabels = plotToClone.PhaseLabels; 
             output.AmplitudeLabels = plotToClone.AmplitudeLabels;
             
@@ -492,9 +495,9 @@ namespace Vts.Gui.Silverlight.ViewModel
                 DataSeriesCollection.Add(curves[i]);
                 if (DataSeriesCollection.Count > 0 && curves[i].First() is ComplexDataPoint)
                 {
-                    RealImagLabels.Add(titles[i] + "\r(real)" + customLabel);
+                    RealLabels.Add(titles[i] + "\r(real)" + customLabel);
                     PhaseLabels.Add(titles[i] + "\r(phase)" + customLabel);
-                    RealImagLabels.Add(titles[i] + "\r(imag)" + customLabel);
+                    ImagLabels.Add(titles[i] + "\r(imag)" + customLabel);
                     AmplitudeLabels.Add(titles[i] + "\r(amp)" + customLabel);
                 }
                 else
@@ -515,7 +518,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             DataSeriesCollection.Clear();
             PlotSeriesCollection.Clear();
             Labels.Clear();
-            RealImagLabels.Clear();
+            RealLabels.Clear();
+            ImagLabels.Clear();
             PhaseLabels.Clear();
             AmplitudeLabels.Clear();
         }
@@ -571,7 +575,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                             .Concat(DataSeriesCollection.Select(dsci => dsci.FirstOrDefault() is ComplexDataPoint
                             ? dsci.Select(dp => dp is ComplexDataPoint ? new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Imaginary) :  new Point(0,0)).ToArray()
                             : dsci.Select(dp => new Point(0,0)).ToArray())).ToArray();
-                        Labels = RealImagLabels;
+                        Labels = RealLabels.Concat(ImagLabels).ToList();
                         break;
                     case PlotToggleType.Phase:
                         // get even elements of toggle list that contain phase data
