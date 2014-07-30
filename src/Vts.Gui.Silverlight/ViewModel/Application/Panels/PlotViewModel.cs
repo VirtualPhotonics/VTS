@@ -617,10 +617,11 @@ namespace Vts.Gui.Silverlight.ViewModel
                 !double.IsInfinity(Math.Abs(p.Y)) && !double.IsNaN(p.Y);
             
             var pointsToPlot2 = new Point[tempPSC.Length][];
+            var normCurve = normToCurve ? tempPSC[normCurveNumber].Select(point => point.Y).ToArray() : null;
             for (int j = 0; j < pointsToPlot2.Length; j++)
             {
                 var points = tempPSC[j];
-                var max = normToMax ? points.Select(p => p.Y).Max() : 0.0;
+                var max = normToMax ? points.Select(p => p.Y).Max() : 1.0;
                 for (int i = 0; i < points.Length; i++)
                 {
                     if (normToMax)
@@ -629,7 +630,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     }
                     else if (normToCurve)
                     {
-                        points[i].Y /= tempPSC[normCurveNumber][i].Y;
+                        points[i].Y /= normCurve[i];
                     }
 
                     if (XAxisSpacingOptionVM.SelectedValue == ScalingType.Log)
