@@ -107,10 +107,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             MeasuredDataTypeOptionVM.PropertyChanged += (sender, args) =>
                 OnPropertyChanged("MeasuredForwardSolver");
 
-            // todo: white-list solvers as in ForwardSolverViewModel
-            InverseForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
-                "Inverse Model Engine",
-                false);
+#if WHITELIST 
+            InverseForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Inverse Model Engine",false, WhiteList.InverseForwardSolverTypes);
+#else
+            InverseForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Inverse Model Engine", false);
+#endif
             InverseForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
                 OnPropertyChanged("InverseForwardSolver");
 
