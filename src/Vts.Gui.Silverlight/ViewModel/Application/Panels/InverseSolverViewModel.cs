@@ -12,6 +12,9 @@ using Vts.Factories;
 using Vts.Gui.Silverlight.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
+#if WHITELIST
+using Vts.Gui.Silverlight.ViewModel.Application;
+#endif
 
 namespace Vts.Gui.Silverlight.ViewModel
 {
