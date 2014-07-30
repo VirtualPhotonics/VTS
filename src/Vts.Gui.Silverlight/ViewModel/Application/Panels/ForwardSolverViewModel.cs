@@ -499,7 +499,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ? _allRangeVMs.Where(vm => vm.AxisType != IndependentVariableAxis.Wavelength).First()
                     : _allRangeVMs.Where(vm => vm.AxisType != IndependentVariableAxis.Time && vm.AxisType != IndependentVariableAxis.Ft).First();
 
-                //string[] secondaryAxesStrings = secondaryRangeVM.Values.Select(value => "\r" + secondaryRangeVM.AxisType.GetInternationalizedString() + " = " + value.ToString() + " " + secondaryRangeVM.AxisType.GetUnits()).ToArray();
                 string[] secondaryAxesStrings = secondaryRangeVM.Values.Select(value => "\r" + secondaryRangeVM.AxisType.GetInternationalizedString() + " = " + value.ToString()).ToArray();
                 return secondaryAxesStrings.Select(sas => modelString + sas + (isWavelengthPlot ? "\r(spectral μa,μs')" : opString)).ToArray();
             }
@@ -509,7 +508,9 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public IDataPoint[][] ExecuteForwardSolver()
         {
-            var parameters = GetParametersInOrder();
+            var opticalProperties = GetOpticalProperties();
+
+            var parameters = GetParametersInOrder(opticalProperties);
 
             double[] reflectance = ComputationFactory.ComputeReflectance(                    
                     ForwardSolverTypeOptionVM.SelectedValue,
@@ -519,12 +520,6 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             var plotIsVsWavelength = _allRangeVMs.Any(vm => vm.AxisType == IndependentVariableAxis.Wavelength);
             var isComplexPlot = ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue);
-            //var plotVsTime = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Any( value => value == IndependentVariableAxis.Time) &&
-            //                       ((OpticalProperties[]) parameters[IndependentVariableAxis.Time]).Length > 1 ||
-            //                 SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Any( value => value == IndependentVariableAxis.Ft) &&
-            //                       ((OpticalProperties[]) parameters[IndependentVariableAxis.Ft]).Length > 1;
-            //GetParameterValues( plotVsWavelength ? RangeVM
-
             var primaryIdependentValues = RangeVM.Values.ToArray();
             var numPointsPerCurve = primaryIdependentValues.Length;
             var numForwardValues =  isComplexPlot ? reflectance.Length/2 : reflectance.Length; // complex reported as all reals, then all imaginaries
@@ -629,7 +624,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        private IDictionary<IndependentVariableAxis, object> GetParametersInOrder()
+        private IDictionary<IndependentVariableAxis, object> GetParametersInOrder(object opticalProperties)
         {
             // get all parameters to get arrays of
             // then, for each one, decide if it's an IV or a constant
@@ -642,7 +637,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 select new KeyValuePair<IndependentVariableAxis, object> (iv, GetParameterValues(iv));
 
             // OPs are always first in the list
-            return (new KeyValuePair<IndependentVariableAxis, object>(IndependentVariableAxis.Wavelength, GetOpticalProperties())).AsEnumerable()
+            return (new KeyValuePair<IndependentVariableAxis, object>(IndependentVariableAxis.Wavelength, opticalProperties)).AsEnumerable()
                 .Concat(allParameters).ToDictionary();
         }
 

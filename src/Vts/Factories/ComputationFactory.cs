@@ -520,7 +520,7 @@ namespace Vts.Factories
 
             List<object> inputValues = new List<object>();
             inputValues.Add(independentValues);
-            constantValues.ForEach(cv => inputValues.Add(cv));
+            constantValues.ForEach(cv => inputValues.Add(new[]{ cv }));
 
             var fit = optimizer.Solve(parameters, parametersToFit, dependentValues.ToArray(),
                                       standardDeviationValues.ToArray(), func, inputValues.ToArray());
