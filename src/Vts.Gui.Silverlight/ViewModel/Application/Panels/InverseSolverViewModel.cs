@@ -46,7 +46,11 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             RangeVM = new RangeViewModel { Title = "" };
 
-            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
+            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho)
+            {
+                EnableMultiAxis = false,
+            };
+
             Action<double> updateSolutionDomainWithWavelength = wv =>
             {
                 if (SolutionDomainTypeOptionVM.ConstantAxisType == IndependentVariableAxis.Wavelength)

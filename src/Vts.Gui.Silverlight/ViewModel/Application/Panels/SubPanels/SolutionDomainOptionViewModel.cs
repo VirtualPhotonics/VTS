@@ -47,12 +47,14 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private bool _useSpectralInputs;
         private bool _allowMultiAxis;
+        private bool _enableMultiAxis;
 
         public SolutionDomainOptionViewModel(string groupName, SolutionDomainType defaultType)
             : base(groupName)
         {
             _useSpectralInputs = false;
             _allowMultiAxis = false;
+            _enableMultiAxis = true;
 
             ROfRhoOption = Options[SolutionDomainType.ROfRho];
             ROfFxOption = Options[SolutionDomainType.ROfFx];
@@ -354,6 +356,16 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 _allowMultiAxis = value;
                 OnPropertyChanged("AllowMultiAxis");
+            }
+        }
+
+        public bool EnableMultiAxis
+        {
+            get { return _enableMultiAxis; }
+            set
+            {
+                _enableMultiAxis = value;
+                OnPropertyChanged("EnableMultiAxis");
             }
         }
 
