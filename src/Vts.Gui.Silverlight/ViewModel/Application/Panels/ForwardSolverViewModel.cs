@@ -475,21 +475,16 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
 
             string opString = null;
-            if (IsMultiRegion)
+            if (IsMultiRegion && MultiRegionTissueVM != null)
             {
-                ITissueRegion[] regions = null;
-                if (ForwardSolver is TwoLayerSDAForwardSolver)
-                {
-                    regions = ((MultiRegionTissueViewModel)TissueInputVM).GetTissueInput().Regions;
-                    opString =
-                        "\rμa1=" + String.Format("{0:0.00}",regions[0].RegionOP.Mua) + "\rμs'1=" + String.Format("{0:0.00}", regions[0].RegionOP.Musp) +
-                        "\rμa2=" + String.Format("{0:0.00}",regions[1].RegionOP.Mua) + "\rμs'2=" + String.Format("{0:0.00}", regions[1].RegionOP.Musp); 
-                }
+                var regions = MultiRegionTissueVM.GetTissueInput().Regions;
+                opString = "\rμa1=" + regions[0].RegionOP.Mua.ToString("F4") + "\rμs'1=" + regions[0].RegionOP.Musp.ToString("F4") +
+                           "\rμa2=" + regions[1].RegionOP.Mua.ToString("F4") + "\rμs'2=" + regions[1].RegionOP.Musp.ToString("F4"); 
             }
             else
             {
-                var opticalProperties = ((OpticalPropertyViewModel)TissueInputVM).GetOpticalProperties();
-                opString = "\rμa=" + String.Format("{0:0.00}",opticalProperties.Mua) + " \rμs'=" + String.Format("{0:0.00}", opticalProperties.Musp);
+                var opticalProperties = OpticalPropertyVM.GetOpticalProperties();
+                opString = "\rμa=" + opticalProperties.Mua.ToString("F4") + " \rμs'=" + opticalProperties.Musp.ToString("F4");
             }
 
             if (_allRangeVMs.Length > 1)
