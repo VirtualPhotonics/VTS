@@ -630,7 +630,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             ResultOpticalPropertyVM.G = fit[2];
             ResultOpticalPropertyVM.N = fit[3];
 
-            var opticalProperties = ResultOpticalPropertyVM;
+            var opticalProperties = new[] {new OpticalProperties {Mua = fit[0], Musp = fit[1], G = fit[2], N = fit[3]}};
             // todo: refactor and re-use this code via method-call
             var parameters = ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
                              && SolutionDomainTypeOptionVM.IndependentAxisType.IsTemporalAxis()
