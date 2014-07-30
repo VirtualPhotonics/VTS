@@ -31,11 +31,10 @@ namespace Vts.Test.Modeling
                 ForwardSolverType.DistributedPointSourceSDA,
                 OptimizerType.MPFitLevenbergMarquardt,
                 SolutionDomainType.ROfRho,
-                independentValues,
                 simulatedMeasured,
                 standardDeviation,
-                initialGuess,
-                InverseFitType.MuaMusp);
+                InverseFitType.MuaMusp,
+                new object[] { new[]{ initialGuess}, independentValues });
 
             var convergedMua = fit[0];
             var convergedMusp = fit[1];
@@ -67,11 +66,10 @@ namespace Vts.Test.Modeling
                 ForwardSolverType.DistributedPointSourceSDA,
                 OptimizerType.MPFitLevenbergMarquardt,
                 SolutionDomainType.ROfRho,
-                independentValues,
                 simulatedMeasured,
                 standardDeviation,
-                initialGuess,
-                InverseFitType.MuaMusp);
+                InverseFitType.MuaMusp,
+                new object[] { new[]{ initialGuess}, independentValues });
 
             var convergedMua = fit[0];
             var convergedMusp = fit[1];
@@ -103,11 +101,10 @@ namespace Vts.Test.Modeling
                 ForwardSolverType.MonteCarlo,
                 OptimizerType.MPFitLevenbergMarquardt,
                 SolutionDomainType.ROfRho,
-                independentValues,
                 simulatedMeasured,
                 standardDeviation,
-                initialGuess,
-                InverseFitType.MuaMusp);
+                InverseFitType.MuaMusp,
+                new object[] { new[]{ initialGuess}, independentValues });
 
             var convergedMua = fit[0];
             var convergedMusp = fit[1];
