@@ -296,11 +296,11 @@ namespace Vts.Gui.Silverlight.ViewModel
                             Input = input
                         });
 
-                    //foreach (var file in files)
-                    //{
-                    //    file.Input.ToFile(file.Name);
-                    //}
-                    //var allFiles = files.Concat(files);
+                    foreach (var file in files)
+                    {
+                        file.Input.ToFile(file.Name);
+                    }
+                    var allFiles = files.Concat(files);
                     FileIO.ZipFiles(files.Select(file => file.Name), "", stream);
                     logger.Info(() => "Template simulation input files exported to a zip file.\r");
                 }
