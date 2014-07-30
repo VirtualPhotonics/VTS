@@ -106,10 +106,13 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
             };
 
-            // todo: white-list solvers as in ForwardSolverViewModel
+#if WHITELIST
             MeasuredForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
-                "Forward Model Engine",
-                false);
+                "Forward Model Engine",false, WhiteList.InverseForwardSolverTypes);
+#else
+             MeasuredForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
+                "Forward Model Engine",false);
+#endif
 
             MeasuredDataTypeOptionVM = new OptionViewModel<MeasuredDataType>("Measured Data Type");
             MeasuredDataTypeOptionVM.PropertyChanged += (sender, args) =>
