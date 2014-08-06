@@ -611,7 +611,9 @@ classdef DetectorInput
         end
         
         function inputNET = ToInputNET(input)
-            switch input.TallyType
+            % convert to string with char fix for certain matlab versions
+            tallyType = char(input.TallyType);
+            switch tallyType
                 case 'AOfRhoAndZ'
                     inputNET = Vts.MonteCarlo.Detectors.AOfRhoAndZDetectorInput;
                     inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
