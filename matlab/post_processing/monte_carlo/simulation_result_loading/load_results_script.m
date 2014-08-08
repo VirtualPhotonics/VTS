@@ -9,7 +9,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'one_layer_all_detectors' };
+datanames = { 'angledsource_temp' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -22,6 +22,7 @@ show.ROfXAndY =                 1;
 show.ROfRhoAndTime =            1;
 show.ROfRhoAndAngle =           1;
 show.ROfRhoAndOmega =           1;
+show.RSpecular =                1;
 show.TDiffuse =                 1;
 show.TOfRho =                   1;
 show.TOfRhoAndAngle =           1;
@@ -45,7 +46,11 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'RDiffuse') && show.RDiffuse
         disp(['Total reflectance captured by RDiffuse detector: ' num2str(results{di}.RDiffuse.Mean)]);
     end
-
+    
+    if isfield(results{di}, 'RSpecular') && show.RSpecular
+        disp(['Total reflectance captured by RSpecular detector: ' num2str(results{di}.RSpecular.Mean)]);
+    end
+    
     if isfield(results{di}, 'ROfRho') && show.ROfRho
         figname = sprintf('log(%s)',results{di}.ROfRho.Name); figure; plot(results{di}.ROfRho.Rho_Midpoints, log10(results{di}.ROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) [mm^-^2]');
         rhodelta = results{di}.ROfRho.Rho(2)-results{di}.ROfRho.Rho(1);

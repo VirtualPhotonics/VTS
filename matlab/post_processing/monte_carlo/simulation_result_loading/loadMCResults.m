@@ -21,6 +21,13 @@ for di = 1:numDetectors
             RDiffuse.SecondMoment = RDiffuse_txt.SecondMoment;
             RDiffuse.Stdev = sqrt((RDiffuse.SecondMoment - (RDiffuse.Mean .* RDiffuse.Mean)) / (json.N)); 
             results{di}.RDiffuse = RDiffuse;
+        case 'RSpecular'
+            RSpecular.Name = detector.Name;
+            RSpecular_txt = readAndParseJson([datadir slash detector.Name '.txt']);
+            RSpecular.Mean = RSpecular_txt.Mean;              
+            RSpecular.SecondMoment = RSpecular_txt.SecondMoment;
+            RSpecular.Stdev = sqrt((RSpecular.SecondMoment - (RSpecular.Mean .* RSpecular.Mean)) / (json.N)); 
+            results{di}.RSpecular = RSpecular;
         case 'ROfRho'
             ROfRho.Name = detector.Name;
             tempRho = detector.Rho;
